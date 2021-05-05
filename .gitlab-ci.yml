@@ -1,0 +1,19 @@
+# taken from https://gitlab.com/forrestab/dotnet-gitlab-ci/blob/master/.gitlab-ci.yml
+image: microsoft/dotnet:latest
+
+stages:
+  - build
+
+variables:
+  project: "NadekoBot"
+
+before_script:
+  - "dotnet restore"
+
+build:
+  stage: build
+  variables:
+    build_path: "src/$project"
+  script:
+    - "cd $build_path"
+    - "dotnet build -c Release"
