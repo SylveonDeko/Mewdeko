@@ -1,6 +1,6 @@
 # Permissions Overview
 
-Have you ever felt confused or even overwhelmed when trying to set Nadeko's permissions? In this guide we will be explaining **how to use the permission commands correctly** and even **cover a few common questions**! Every command we discuss here can be found in the [Commands List].
+Have you ever felt confused or even overwhelmed when trying to set Mewdeko's permissions? In this guide we will be explaining **how to use the permission commands correctly** and even **cover a few common questions**! Every command we discuss here can be found in the [Commands List].
 
 ## Why do we use the Permissions Commands?
 
@@ -8,7 +8,7 @@ Permissions are very handy at setting who can use what commands in a server. All
 
 Several commands still require that you have the correct permissions on Discord to be able to use them, so for users to be able to use commands like `.kick` and `.voicemute`, they need **Kick** and **Mute Members** server permissions, respectively.
 
-With the permissions system it possible to restrict who can skip the current song, pick NadekoFlowers or use the NSFW module.
+With the permissions system it possible to restrict who can skip the current song, pick MewdekoFlowers or use the NSFW module.
 
 ## First Time Setup
 
@@ -29,7 +29,7 @@ To view this permissions chain, do `.lp`. The rule at the top of the chain takes
 
 If you want to remove a permission from the chain of permissions, do `.rp X` to remove rule number X and similarly, do `.mp X Y` to move rule number X to number Y (moving, not swapping!).
 
-If you want the bot to notify users why they can't use a command or module, use `.verbose true` and Nadeko will tell you what rule is preventing the command from being used.
+If you want the bot to notify users why they can't use a command or module, use `.verbose true` and Mewdeko will tell you what rule is preventing the command from being used.
 
 ## Commonly Asked Questions
 
@@ -91,4 +91,4 @@ Yes, there is a way, in one easy command!
 
 *-- Thanks to @applemac for providing the template for this guide*
 
-[Commands List]: https://nadeko.bot/commands
+[Commands List]: https://Mewdeko.bot/commands
