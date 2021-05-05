@@ -4,15 +4,15 @@ patreon_rewards.json
 command_errors*.txt
 _output/
 
-src/NadekoBot/Command Errors*.txt
+src/Mewdeko/Command Errors*.txt
 
-src/NadekoBot/credentials.json
+src/Mewdeko/credentials.json
 # these 2 are used for migrations
-NadekoBot.Core/credentials.json
-NadekoBot.Core/credentials_example.json
+Mewdeko.Core/credentials.json
+Mewdeko.Core/credentials_example.json
 
-src/NadekoBot/data/NadekoBot.db
-src/NadekoBot/data/musicdata
+src/Mewdeko/data/Mewdeko.db
+src/Mewdeko/data/musicdata
 
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode,windows,linux,macos
 

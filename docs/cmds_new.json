@@ -452,7 +452,7 @@
       "Aliases": [
         ".setmuterole"
       ],
-      "Description": "Sets a name of the role which will be assigned to people who should be muted. Default is nadeko-mute.",
+      "Description": "Sets a name of the role which will be assigned to people who should be muted. Default is Mewdeko-mute.",
       "Usage": [
         ".setmuterole Silenced"
       ],
@@ -721,7 +721,7 @@
         ".prune",
         ".clear"
       ],
-      "Description": "`.prune` removes all Nadeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned.",
+      "Description": "`.prune` removes all Mewdeko's messages in the last 100 messages. `.prune X` removes last `X` number of messages from the channel (up to 100). `.prune @Someone` removes all Someone's messages in the last 100 messages. `.prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned.",
       "Usage": [
         ".prune",
         ".prune -s",
@@ -1259,7 +1259,7 @@
       "Aliases": [
         ".leave"
       ],
-      "Description": "Makes Nadeko leave the server. Either server name or server ID is required.",
+      "Description": "Makes Mewdeko leave the server. Either server name or server ID is required.",
       "Usage": [
         ".leave 123123123331"
       ],
@@ -1352,7 +1352,7 @@
         ".setavatar",
         ".setav"
       ],
-      "Description": "Sets a new avatar image for the NadekoBot. Parameter is a direct link to an image.",
+      "Description": "Sets a new avatar image for the Mewdeko. Parameter is a direct link to an image.",
       "Usage": [
         ".setav http://i.imgur.com/xTG3a1I.jpg"
       ],
@@ -1477,7 +1477,7 @@
       "Aliases": [
         ".greetmsg"
       ],
-      "Description": "Sets a new join announcement message which will be shown in the server's channel. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://eb.nadeko.bot/> instead of a regular text, if you want the message to be embedded.",
+      "Description": "Sets a new join announcement message which will be shown in the server's channel. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded.",
       "Usage": [
         ".greetmsg Welcome, %user.mention%."
       ],
@@ -1507,7 +1507,7 @@
       "Aliases": [
         ".greetdmmsg"
       ],
-      "Description": "Sets a new join announcement message which will be sent to the user who joined. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://eb.nadeko.bot> instead of a regular text, if you want the message to be embedded.",
+      "Description": "Sets a new join announcement message which will be sent to the user who joined. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://eb.Mewdeko.bot> instead of a regular text, if you want the message to be embedded.",
       "Usage": [
         ".greetdmmsg Welcome to the server, %user.mention%"
       ],
@@ -1537,7 +1537,7 @@
       "Aliases": [
         ".byemsg"
       ],
-      "Description": "Sets a new leave announcement message. Type `%user.mention%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://eb.nadeko.bot/> instead of a regular text, if you want the message to be embedded.",
+      "Description": "Sets a new leave announcement message. Type `%user.mention%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded.",
       "Usage": [
         ".byemsg %user.mention% has left."
       ],
@@ -1839,7 +1839,7 @@
         ".addcustreact",
         ".acr"
       ],
-      "Description": "Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/latest/custom-reactions/>",
+      "Description": "Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://Mewdeko.readthedocs.io/en/latest/custom-reactions/>",
       "Usage": [
         ".acr \"hello\" Hi there %user.mention%"
       ],
@@ -2217,7 +2217,7 @@
       "Aliases": [
         ".rps"
       ],
-      "Description": "Play a game of Rocket-Paperclip-Scissors with Nadeko. You can bet on it. Multiplier is the same as on betflip.",
+      "Description": "Play a game of Rocket-Paperclip-Scissors with Mewdeko. You can bet on it. Multiplier is the same as on betflip.",
       "Usage": [
         ".rps r 100",
         ".rps scissors"
@@ -2331,7 +2331,7 @@
       "Aliases": [
         ".eventstart"
       ],
-      "Description": "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`",
+      "Description": "Starts one of the events seen on public Mewdeko. Events: `reaction`, `gamestatus`",
       "Usage": [
         ".eventstart reaction",
         ".eventstart reaction -d 1 -a 50 --pot-size 1500"
@@ -2585,7 +2585,7 @@
         ".slot",
         ".slots"
       ],
-      "Description": "Play Nadeko slots. 1 second cooldown per user.",
+      "Description": "Play Mewdeko slots. 1 second cooldown per user.",
       "Usage": [
         ".slot 5"
       ],
@@ -5542,7 +5542,7 @@
       "Aliases": [
         ".stats"
       ],
-      "Description": "Shows some basic stats for Nadeko.",
+      "Description": "Shows some basic stats for Mewdeko.",
       "Usage": [
         ".stats"
       ],
@@ -5673,7 +5673,7 @@
         ".alias",
         ".cmdmap"
       ],
-      "Description": "Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one.",
+      "Description": "Create a custom alias for a certain Mewdeko command. Provide no alias to remove the existing one.",
       "Usage": [
         ".alias allin .bf all h",
         ".alias \"linux thingy\" >loonix Spyware Windows"

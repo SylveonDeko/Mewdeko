@@ -1,6 +1,6 @@
-site_name: 'NadekoBot'
-site_url: 'https://nadeko.bot'
-repo_url: 'https://gitlab.com/kwoth/nadekobot'
+site_name: 'Mewdeko'
+site_url: 'https://Mewdeko.bot'
+repo_url: 'https://gitlab.com/kwoth/Mewdeko'
 site_author: 'Kwoth'
 
 theme:
@@ -50,7 +50,7 @@ nav:
         - Docker Guide (unsupported): guides/docker-guide.md
     - Commands:
         - Readme: commands-readme.md
-        - Commands List: https://nadeko.bot/commands
+        - Commands List: https://Mewdeko.bot/commands
     - Features Explained:
         - Creating and inviting the bot: create-invite.md
         - JSON Explanations: jsons-explained.md

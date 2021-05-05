@@ -24,18 +24,18 @@ function Get-Changelog($lastTag)
 
 function Build-Installer($versionNumber)
 {
-    $env:NADEKOBOT_INSTALL_VERSION = $versionNumber
+    $env:Mewdeko_INSTALL_VERSION = $versionNumber
 
 	dotnet clean
-    # rm -r -fo "src\NadekoBot\bin"
+    # rm -r -fo "src\Mewdeko\bin"
     dotnet publish -c Release --runtime win7-x64 /p:Version=$versionNumber
-    .\rcedit-x64.exe "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadekobot.exe" --set-icon "src\NadekoBot\bin\Release\netcoreapp2.1\win7-x64\nadeko_icon.ico"
+    .\rcedit-x64.exe "src\Mewdeko\bin\Release\netcoreapp2.1\win7-x64\Mewdeko.exe" --set-icon "src\Mewdeko\bin\Release\netcoreapp2.1\win7-x64\Mewdeko_icon.ico"
 
     & "iscc.exe" "/O+" ".\exe_builder.iss"
 
     Write-ReleaseFile($versionNumber)
     # $path = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\new_installer\$versionNumber\";
-    # $binPath = $path + "nadeko-setup-$versionNumber.exe";
+    # $binPath = $path + "Mewdeko-setup-$versionNumber.exe";
     # Copy-Item -Path $path -Destination $dest -Force -ErrorAction Stop
 
 	# return $path
@@ -56,8 +56,8 @@ function Write-ReleaseFile($versionNumber) {
 	# print out the changelog to the console
     # Write-Host $changelog
 
-	$jsonReleaseFile = "[{""VersionName"": ""$versionNumber"", ""DownloadLink"": ""https://cdn.nadeko.bot/dl/bot/nadeko-setup-$versionNumber.exe"", ""Changelog"": """"}]"
+	$jsonReleaseFile = "[{""VersionName"": ""$versionNumber"", ""DownloadLink"": ""https://cdn.Mewdeko.bot/dl/bot/Mewdeko-setup-$versionNumber.exe"", ""Changelog"": """"}]"
 
-	$releaseJsonOutPath = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\nadeko-installers\$versionNumber\"
+	$releaseJsonOutPath = [Environment]::GetFolderPath('MyDocuments') + "\_projekti\Mewdeko-installers\$versionNumber\"
 	New-Item -Path $releaseJsonOutPath -Value $jsonReleaseFile -Name "releases.json" -Force
 }

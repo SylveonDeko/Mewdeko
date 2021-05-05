@@ -5,7 +5,7 @@ stages:
   - build
 
 variables:
-  project: "NadekoBot"
+  project: "Mewdeko"
 
 before_script:
   - "dotnet restore"
