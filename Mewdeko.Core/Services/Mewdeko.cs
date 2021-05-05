@@ -280,12 +280,39 @@ namespace Mewdeko
         private Task Client_LeftGuild(SocketGuild arg)
         {
             _log.Info("Left server: {0} [{1}]", arg?.Name, arg?.Id);
+            var chn = Client.GetChannel(832989481837395968) as ITextChannel;
+            var eb = new EmbedBuilder()
+            {
+                Title = $"Left Server {arg.Name}",
+                Description =
+                    $"Owner: {arg.Owner}\n\nOwner ID: {arg.OwnerId}\n\nChannel Count: {arg.TextChannels.Count()} Text Channels {arg.VoiceChannels.Count()} Voice Channels\n\nBoosts: {arg.PremiumSubscriptionCount}\n\nServer ID {arg.Id}\n\nMember Count: {arg.MemberCount}",
+                Color = Mewdeko.ErrorColor,
+                ThumbnailUrl = arg.IconUrl,
+                Footer = new EmbedFooterBuilder()
+                {
+                    Text = Client.Guilds.Count().ToString()
+                }
+            };
+            chn.EmbedAsync(embed: eb);
             return Task.CompletedTask;
         }
 
         private Task Client_JoinedGuild(SocketGuild arg)
         {
-            _log.Info($"Joined server: {0} [{1}]", arg?.Name, arg?.Id);
+            _log.Info("Joined server: {0} [{1}]", arg?.Name, arg?.Id);
+            var chn = Client.GetChannel(832989481837395968) as ITextChannel;
+            var eb = new EmbedBuilder()
+            {
+                Title = $"Joined Server {arg.Name}",
+                Description =
+                    $"Owner: {arg.Owner}\n\nOwner ID: {arg.OwnerId}\n\nChannel Count: {arg.TextChannels.Count()} Text Channels {arg.VoiceChannels.Count()} Voice Channels\n\nBoosts: {arg.PremiumSubscriptionCount}\n\nServer ID {arg.Id}\n\nMember Count: {arg.MemberCount}",
+                Color = Mewdeko.OkColor,
+                ThumbnailUrl = arg.IconUrl,
+                Footer = new EmbedFooterBuilder()
+                {
+                    Text = Client.Guilds.Count().ToString()
+                }
+            };
             var _ = Task.Run(async () =>
             {
                 GuildConfig gc;
