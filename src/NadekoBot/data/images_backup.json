@@ -1,0 +1,62 @@
+{
+  "Version": 1,
+  "Coins": {
+    "Heads": [
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/heads.png"
+    ],
+    "Tails": [
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/tails.png"
+    ]
+  },
+  "Currency": [
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/currency/0.jpg",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/currency/1.jpg",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/currency/2.jpg"
+  ],
+  "Dice": [
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/0.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/1.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/2.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/3.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/4.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/5.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/6.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/7.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/8.png",
+    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/dice/9.png"
+  ],
+  "Rategirl": {
+    "Matrix": "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/matrix.png",
+    "Dot": "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/dot.png"
+  },
+  "Xp": {
+    "Bg": "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/xp/bg.png"
+  },
+  "Rip": {
+    "Bg": "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rip/rip.png",
+    "Overlay": "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rip/overlay.png"
+  },
+  "Slots": {
+    "Emojis": [
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/emojis/0.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/emojis/1.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/emojis/2.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/emojis/3.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/emojis/4.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/emojis/5.png"
+    ],
+    "Numbers": [
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/0.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/1.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/2.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/3.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/4.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/5.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/6.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/7.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/8.png",
+      "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/numbers/9.png"
+    ],
+    "Bg": "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/slots/bg.png"
+  }
+}

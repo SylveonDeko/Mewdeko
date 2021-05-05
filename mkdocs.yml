@@ -1,0 +1,63 @@
+site_name: 'NadekoBot'
+site_url: 'https://nadeko.bot'
+repo_url: 'https://gitlab.com/kwoth/nadekobot'
+site_author: 'Kwoth'
+
+theme:
+    name: 'material'
+    palette:
+        scheme: preference
+        primary: indigo
+        accent: indigo
+    features:
+        - navigation.instant
+        - navigation.tabs
+    icon:
+        repo: fontawesome/brands/gitlab
+    font: false
+
+plugins:
+    - minify:
+        minify_html: true
+    - git-revision-date-localized:
+        type: date
+    - search
+
+markdown_extensions:
+    - codehilite:
+        guess_lang: false
+    - toc:
+        permalink: true
+    - pymdownx.tasklist:
+        custom_checkbox: true
+    - pymdownx.betterem:
+        smart_enable: all
+    - admonition
+    - meta
+    - footnotes
+    - pymdownx.details
+    - pymdownx.inlinehilite
+    - pymdownx.superfences
+    - pymdownx.tabbed
+
+nav:
+    - Home: index.md
+    - Guides:
+        - Windows Guide: guides/windows-guide.md
+        - Linux Guide: guides/linux-guide.md
+        - OSX Guide: guides/osx-guide.md
+        - From Source: guides/from-source.md
+        - Docker Guide (unsupported): guides/docker-guide.md
+    - Commands:
+        - Readme: commands-readme.md
+        - Commands List: https://nadeko.bot/commands
+    - Features Explained:
+        - Creating and inviting the bot: create-invite.md
+        - JSON Explanations: jsons-explained.md
+        - Permissions System: permissions-system.md
+        - Custom Reactions: custom-reactions.md
+        - Placeholders: placeholders.md
+        - Bot Config: bce-guide.md
+    - Contribution Guide: contribution-guide.md
+    - ❤ Donate ❤: donate.md
+    - License: license.md
