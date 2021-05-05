@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,10 +22,11 @@ namespace Mewdeko.Core.Services.Impl
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly DateTime _started;
+        private readonly Mewdeko _bot;
 
-        public const string BotVersion = "2.39.1";
-        public string Author => "Kwoth#2452";
-        public string Library => "Discord.Net";
+        public const string BotVersion = "3.9.2";
+
+        public string Library => "Discord.Net 2.3.0";
 
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
             .ToString(CultureInfo.InvariantCulture);
@@ -38,17 +42,19 @@ namespace Mewdeko.Core.Services.Impl
         public long CommandsRan => Interlocked.Read(ref _commandsRan);
 
         private readonly Timer _botlistTimer;
+        private readonly Timer _botlistTimer2;
         private readonly ConnectionMultiplexer _redis;
         private readonly IHttpClientFactory _httpFactory;
 
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-            IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory)
+            IBotCredentials creds, Mewdeko nadeko, IDataCache cache, IHttpClientFactory factory)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
             _httpFactory = factory;
+            _bot = nadeko;
 
             _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -130,26 +136,54 @@ namespace Mewdeko.Core.Services.Impl
                 return Task.CompletedTask;
             };
 
-            _botlistTimer = new Timer(async (state) =>
+            if (_client.ShardId == 0)
+
+                _botlistTimer = new Timer(async (state) =>
+                {
+                    try
+                    {
+                        using (var http = _httpFactory.CreateClient())
+                        {
+                            using (var content = new FormUrlEncodedContent(
+                                new Dictionary<string, string> {
+                                    { "shard_count",  _creds.TotalShards.ToString()},
+                                    { "shard_id", client.ShardId.ToString() },
+                                    { "server_count", _bot.GuildCount.ToString() }
+                                }))
+                            {
+                                content.Headers.Clear();
+                                content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                                http.DefaultRequestHeaders.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
+
+                                using (await http.PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"), content).ConfigureAwait(false)) { }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Error(ex);
+                        // ignored
+                    }
+                }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+
+            _botlistTimer2 = new Timer(async (state) =>
             {
-                if (string.IsNullOrWhiteSpace(_creds.BotListToken))
-                    return;
                 try
                 {
                     using (var http = _httpFactory.CreateClient())
                     {
                         using (var content = new FormUrlEncodedContent(
                             new Dictionary<string, string> {
-                                    { "shard_count",  _creds.TotalShards.ToString()},
-                                    { "shard_id", client.ShardId.ToString() },
-                                    { "server_count", client.Guilds.Count().ToString() }
+                                    { "guilds", client.Guilds.Count().ToString() },
+                                    { "users", client.Guilds.Sum(x => x.MemberCount).ToString()}
+
                             }))
                         {
                             content.Headers.Clear();
                             content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                            http.DefaultRequestHeaders.Add("Authorization", _creds.BotListToken);
+                            http.DefaultRequestHeaders.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
 
-                            using (await http.PostAsync(new Uri($"https://discordbots.org/api/bots/{client.CurrentUser.Id}/stats"), content).ConfigureAwait(false)) { }
+                            using (await http.PostAsync(new Uri($"https://discordbotlist.com/api/v1/{client.CurrentUser.Id}/stats"), content).ConfigureAwait(false)) { }
                         }
                     }
                 }
@@ -158,7 +192,7 @@ namespace Mewdeko.Core.Services.Impl
                     _log.Error(ex);
                     // ignored
                 }
-            }, null, TimeSpan.FromMinutes(5), TimeSpan.FromHours(1));
+            }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
         public void Initialize()
