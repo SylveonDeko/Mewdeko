@@ -42,22 +42,22 @@ namespace Mewdeko.Modules.Administration
                 var results = input
                     .GroupBy(x => grp++ / 2)
                     .Select(async x =>
-                    {
-                        var inputRoleStr = x.First();
-                        var roleReader = new RoleTypeReader<SocketRole>();
-                        var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services);
-                        if (!roleResult.IsSuccess)
-                        {
-                            await ctx.Channel.SendErrorAsync($"Role {Format.Bold(inputRoleStr)} not found.");
-                            return null;
-                        }
-                        var role = (IRole)roleResult.BestMatch;
-                        if (role.Position > ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()
-                            && ctx.User.Id != ctx.Guild.OwnerId)
-                            return null;
-                        var emote = x.Last().ToIEmote();
-                        return new { role, emote };
-                    })
+                   {
+                       var inputRoleStr = x.First();
+                       var roleReader = new RoleTypeReader<SocketRole>();
+                       var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services);
+                       if (!roleResult.IsSuccess)
+                       {
+                           _log.Warn("Role {0} not found.", inputRoleStr);
+                           return null;
+                       }
+                       var role = (IRole)roleResult.BestMatch;
+                       if (role.Position > ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()
+                           && ctx.User.Id != ctx.Guild.OwnerId)
+                           return null;
+                       var emote = x.Last().ToIEmote();
+                       return new { role, emote };
+                   })
                     .Where(x => x != null);
 
                 var all = await Task.WhenAll(results);
@@ -89,15 +89,14 @@ namespace Mewdeko.Modules.Administration
                     }).ToList(),
                 }))
                 {
-                    var msg = await ctx.Channel.SendConfirmAsync("Reaction Roles Enabled!").ConfigureAwait(false);
-                    msg.DeleteAfter(5);
-                    ctx.Message.DeleteAfter(5);
+                    await ctx.OkAsync();
                 }
                 else
                 {
                     await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
                 }
             }
+
 
             [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
