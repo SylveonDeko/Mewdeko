@@ -17,7 +17,7 @@
     <PackageReference Include="AWSSDK.S3" Version="3.7.0.14" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="Discord.Net" Version="2.3.0" />
+    <PackageReference Include="Discord.Net" Version="2.3.1" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.80" />
     <PackageReference Include="GiphyDotNet" Version="2.0.0" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
