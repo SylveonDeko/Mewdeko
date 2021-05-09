@@ -9,6 +9,12 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.ServerManagement.Services;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using Discord.Webhook;
+using Google.Apis.YouTube.v3.Data;
+using Mewdeko.Common;
 
 namespace Mewdeko.Modules.ServerManagement
 {
@@ -17,6 +23,13 @@ namespace Mewdeko.Modules.ServerManagement
         [Group]
         public class ChannelCommands : MewdekoSubmodule<ServerManagementService>
         {
+            private readonly IHttpClientFactory _httpFactory;
+
+            public ChannelCommands(IHttpClientFactory httpfact)
+            {
+                _httpFactory = httpfact;
+            }
+
             [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageChannels)]
@@ -260,13 +273,15 @@ namespace Mewdeko.Modules.ServerManagement
                                                        channel.Mention);
                 }
             }
+
             [MewdekoCommand, Usage, Description, Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatAndTxtChannels(string CatName, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
-                eb.WithDescription($"<a:loading:834915210967253013> Creating the Category {CatName} with {Channels.Count()} Text Channels!");
+                eb.WithDescription(
+                    $"<a:loading:834915210967253013> Creating the Category {CatName} with {Channels.Count()} Text Channels!");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 ICategoryChannel cat = await ctx.Guild.CreateCategoryAsync(CatName);
                 foreach (var i in Channels)
@@ -283,15 +298,18 @@ namespace Mewdeko.Modules.ServerManagement
             [MewdekoCommand, Usage, Description, Aliases]
             public async Task CatId(ICategoryChannel chan)
             {
-                await ctx.Channel.SendConfirmAsync($"The ID of {Format.Bold(chan.Name)} is {Format.Code(chan.Id.ToString())}");
+                await ctx.Channel.SendConfirmAsync(
+                    $"The ID of {Format.Bold(chan.Name)} is {Format.Code(chan.Id.ToString())}");
             }
+
             [MewdekoCommand, Usage, Description, Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatAndVcChannels(string CatName, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
-                eb.WithDescription($"<a:loading:834915210967253013> Creating the Category {CatName} with {Channels.Count()} Voice Channels");
+                eb.WithDescription(
+                    $"<a:loading:834915210967253013> Creating the Category {CatName} with {Channels.Count()} Voice Channels");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 ICategoryChannel cat = await ctx.Guild.CreateCategoryAsync(CatName);
                 foreach (var i in Channels)
@@ -304,13 +322,15 @@ namespace Mewdeko.Modules.ServerManagement
                 eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
+
             [MewdekoCommand, Usage, Description, Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatVcChans(ICategoryChannel chan, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
-                eb.WithDescription($"<a:loading:834915210967253013> Adding {Channels.Length} Voice Channels to {chan.Name}");
+                eb.WithDescription(
+                    $"<a:loading:834915210967253013> Adding {Channels.Length} Voice Channels to {chan.Name}");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 foreach (var i in Channels)
                 {
@@ -322,13 +342,15 @@ namespace Mewdeko.Modules.ServerManagement
                 eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
+
             [MewdekoCommand, Usage, Description, Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
-                eb.WithDescription($"<a:loading:834915210967253013> Adding {Channels.Length} Text Channels to {chan.Name}");
+                eb.WithDescription(
+                    $"<a:loading:834915210967253013> Adding {Channels.Length} Text Channels to {chan.Name}");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 foreach (var i in Channels)
                 {
@@ -340,6 +362,7 @@ namespace Mewdeko.Modules.ServerManagement
                 eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
+
             [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
@@ -407,6 +430,87 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task Slowmode()
                 => await Slowmode((ITextChannel) ctx.Channel);
 
+            [MewdekoCommand, Usage, Description, Aliases]
+            [UserPerm(GuildPerm.Administrator)]
+            [Priority(0)]
+            public async Task Webhook(ITextChannel Channel, string name, string imageurl)
+            {
+                var embeds = new List<Embed>();
+                var attachment = ctx.Message.Attachments;
+                foreach (var i in attachment)
+                {
+                    var client = new WebClient();
+                    var stream = client.OpenRead(i.Url);
+                    var reader = new StreamReader(stream);
+                    var content = reader.ReadToEnd();
+                    CREmbed.TryParse(content, out var embedData);
+                    embeds.Add(embedData.ToEmbed().Build());
+                }
+
+                using var http = _httpFactory.CreateClient();
+                var uri = new Uri(imageurl);
+                using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false))
+                {
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    using (var imgStream = imgData.ToStream())
+                    {
+                        var webhooks = await Channel.GetWebhooksAsync();
+                        DiscordWebhookClient web = null;
+                        if (webhooks.FirstOrDefault(x => x.Name == name) is null)
+                        {
+                            web = new DiscordWebhookClient(await Channel.CreateWebhookAsync(name, imgStream));
+                        }
+                        else
+                        {
+                            web = new DiscordWebhookClient(webhooks.FirstOrDefault(x => x.Name == name));
+                        }
+
+                        await web.SendMessageAsync(embeds: embeds);
+                    }
+                }
+            }
+
+            [MewdekoCommand, Usage, Description, Aliases]
+            [UserPerm(GuildPerm.Administrator)]
+            [Priority(1)]
+            public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
+            {
+                var embeds = new List<Embed>();
+                var splits = urls.Split(new[] {'\n', '\r', ' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var i in splits)
+                {
+                    var ur = new Uri(i);
+                    var e = ur.Segments;
+                    WebClient wb = new WebClient();
+                    var Download = wb.DownloadString($"https://pastebin.com/raw/{e[1]}");
+                    CREmbed.TryParse(Download, out var embedData);
+                    embeds.Add(embedData.ToEmbed().Build());
+                }
+
+                using var http = _httpFactory.CreateClient();
+                var uri = new Uri(imageurl);
+                using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false))
+                {
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    using (var imgStream = imgData.ToStream())
+                    {
+                        var webhooks = await Channel.GetWebhooksAsync();
+                        DiscordWebhookClient web = null;
+                        if (webhooks.FirstOrDefault(x => x.Name == name) is null)
+                        {
+                            web = new DiscordWebhookClient(await Channel.CreateWebhookAsync(name, imgStream));
+                        }
+                        else
+                        {
+                            web = new DiscordWebhookClient(webhooks.FirstOrDefault(x => x.Name == name));
+                        }
+
+                        await web.SendMessageAsync(embeds: embeds);
+                    }
+                }
+            }
         }
     }
 }
