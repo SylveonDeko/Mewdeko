@@ -11,6 +11,11 @@ mwarn:
   desc: "Gives a user a Minor Warn " 
   args: 
   - "@user"
+webhook:
+  desc: "sends a webhook to the channel you select with the name and image you set. You can send multiple embeds at once using multiple files or pastebin links." 
+  args: 
+  - "#channel name image pastebinlinks"
+  - "#channel name image file(s)"
 mwarnlog:
   desc: "Shows the minor warnlog for a user or yourself if you dont mention a user. " 
   args: 

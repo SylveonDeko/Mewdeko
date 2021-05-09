@@ -18,6 +18,14 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong snipeset { get; set; }
         public ulong SuggestRole { get; set; }
         public ulong Stars { get; set; }
+        //public int TLogType { get; set; }
+        //public ulong TLogChan { get; set; }
+        //public ulong TPingRole { get; set; }
+        //public string TText { get; set; }
+
+        //public string TEmote { get; set; }
+        //public ulong TCreatChan { get; set; }
+        //public ulong TCreatMsgId { get; set; }
         public string Star { get; set; }
         public ulong StarboardChannel { get; set; }
         public int PreviewLinks { get; set; }
