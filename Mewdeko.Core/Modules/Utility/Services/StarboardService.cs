@@ -85,10 +85,10 @@ namespace Mewdeko.Modules.Utility.Services
         }
         public string GetStar(ulong? id)
         {
-            if (id == null || !_starboardstar.TryGetValue(id.Value, out string invw))
+            if (id == null || !_starboardstar.TryGetValue(id.Value, out string star))
                 return null;
 
-            return invw;
+            return star;
         }
         public ulong GetStarboardChannel(ulong? id)
         {
