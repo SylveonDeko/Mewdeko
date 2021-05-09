@@ -84,11 +84,11 @@ namespace Mewdeko
 #else
                 MessageCacheSize = 50,
 #endif
-                LogLevel = LogSeverity.Warning,
+                LogLevel = LogSeverity.Info,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
-                AlwaysDownloadUsers = false,
+                AlwaysDownloadUsers = true,
             });
 
             CommandService = new CommandService(new CommandServiceConfig()

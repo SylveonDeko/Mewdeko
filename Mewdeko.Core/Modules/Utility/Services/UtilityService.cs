@@ -178,6 +178,7 @@ namespace Mewdeko.Modules.Utility.Services
         public async Task MsgReciev2(SocketMessage msg)
         {
             if (msg.Author.IsBot) return;
+            if (msg.Channel is SocketDMChannel) return;
             var guild = ((SocketGuildChannel) msg.Channel).Guild.Id;
             var id = GetReactChans(guild);
             if (msg.Channel.Id == id)
@@ -193,7 +194,7 @@ namespace Mewdeko.Modules.Utility.Services
         }
         public async Task MsgReciev(SocketMessage msg)
         {
-            var gid = ((IGuildChannel)msg.Channel).Guild;
+            var gid = ((IGuildChannel)msg.Channel).Guild;fixed 
             if (GetPLinks(gid.Id) == 1)
             { 
             var linkParser = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
