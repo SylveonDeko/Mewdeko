@@ -47,14 +47,14 @@ namespace Mewdeko.Core.Services.Impl
         private readonly IHttpClientFactory _httpFactory;
 
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-            IBotCredentials creds, Mewdeko nadeko, IDataCache cache, IHttpClientFactory factory)
+            IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory)
         {
             _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
             _httpFactory = factory;
-            _bot = nadeko;
+            _bot = Mewdeko;
 
             _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));

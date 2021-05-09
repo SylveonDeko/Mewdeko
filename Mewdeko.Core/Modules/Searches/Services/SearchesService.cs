@@ -140,7 +140,7 @@ namespace Mewdeko.Modules.Searches.Services
 
         public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
         {
-            byte[] data = await _cache.GetOrAddCachedDataAsync($"nadeko_rip_{text}_{imgUrl}",
+            byte[] data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
                 GetRipPictureFactory,
                 (text, imgUrl),
                 TimeSpan.FromDays(1)).ConfigureAwait(false);
@@ -209,7 +209,7 @@ namespace Mewdeko.Modules.Searches.Services
         {
             query = query.Trim().ToLowerInvariant();
 
-            return _cache.GetOrAddCachedDataAsync($"nadeko_weather_{query}",
+            return _cache.GetOrAddCachedDataAsync($"Mewdeko_weather_{query}",
                 GetWeatherDataFactory,
                 query,
                 expiry: TimeSpan.FromHours(3));
@@ -242,7 +242,7 @@ namespace Mewdeko.Modules.Searches.Services
         public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg)
         {
             return GetTimeDataFactory(arg);
-            //return _cache.GetOrAddCachedDataAsync($"nadeko_time_{arg}",
+            //return _cache.GetOrAddCachedDataAsync($"Mewdeko_time_{arg}",
             //    GetTimeDataFactory,
             //    arg,
             //    TimeSpan.FromMinutes(1));
@@ -347,7 +347,7 @@ namespace Mewdeko.Modules.Searches.Services
                     break;
             }
 
-            return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
+            return $"https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
                 _rng.Next(1, max).ToString("000") + ".png";
         }
 
@@ -503,7 +503,7 @@ namespace Mewdeko.Modules.Searches.Services
         public async Task<MtgData> GetMtgCardAsync(string search)
         {
             search = search.Trim().ToLowerInvariant();
-            var data = await _cache.GetOrAddCachedDataAsync($"nadeko_mtg_{search}",
+            var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_mtg_{search}",
                 GetMtgCardFactory,
                 search,
                 TimeSpan.FromDays(1)).ConfigureAwait(false);
@@ -569,7 +569,7 @@ namespace Mewdeko.Modules.Searches.Services
         public Task<HearthstoneCardData> GetHearthstoneCardDataAsync(string name)
         {
             name = name.ToLowerInvariant();
-            return _cache.GetOrAddCachedDataAsync($"nadeko_hearthstone_{name}",
+            return _cache.GetOrAddCachedDataAsync($"Mewdeko_hearthstone_{name}",
                 HearthstoneCardDataFactory,
                 name,
                 TimeSpan.FromDays(1));
@@ -615,7 +615,7 @@ namespace Mewdeko.Modules.Searches.Services
         public Task<OmdbMovie> GetMovieDataAsync(string name)
         {
             name = name.Trim().ToLowerInvariant();
-            return _cache.GetOrAddCachedDataAsync($"nadeko_movie_{name}",
+            return _cache.GetOrAddCachedDataAsync($"Mewdeko_movie_{name}",
                 GetMovieDataFactory,
                 name,
                 TimeSpan.FromDays(1));
@@ -625,7 +625,7 @@ namespace Mewdeko.Modules.Searches.Services
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var res = await http.GetStringAsync(string.Format("https://omdbapi.nadeko.bot/?t={0}&y=&plot=full&r=json",
+                var res = await http.GetStringAsync(string.Format("https://omdbapi.Mewdeko.bot/?t={0}&y=&plot=full&r=json",
                     name.Trim().Replace(' ', '+'))).ConfigureAwait(false);
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
                 if (movie?.Title == null)

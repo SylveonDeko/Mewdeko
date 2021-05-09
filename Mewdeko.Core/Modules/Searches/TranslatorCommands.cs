@@ -38,7 +38,7 @@ namespace Mewdeko.Modules.Searches
                 }
             }
 
-            //[NadekoCommand, Usage, Description, Aliases]
+            //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
             //public async Task Obfuscate([Remainder] string txt)
             //{

@@ -66,7 +66,7 @@ namespace Mewdeko.Modules.Searches
                     fs.Type).ConfigureAwait(false);
             }
 
-            // [NadekoCommand, Usage, Description, Aliases]
+            // [MewdekoCommand, Usage, Description, Aliases]
             // [RequireContext(ContextType.Guild)]
             // [UserPerm(GuildPerm.Administrator)]
             // public async Task StreamsClear()

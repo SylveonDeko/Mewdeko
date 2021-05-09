@@ -20,12 +20,6 @@ namespace Mewdeko.Modules.Xp
         private readonly DbService _db;
         private readonly DownloadTracker _tracker;
 
-        public DiscordSocketClient Client => _client;
-
-        public DbService Db => _db;
-
-        public DownloadTracker Tracker => _tracker;
-
         public Xp(DiscordSocketClient client, DbService db, DownloadTracker tracker)
         {
             _client = client;
@@ -35,7 +29,7 @@ namespace Mewdeko.Modules.Xp
 
         [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Experience([Remainder] IUser user = null)
+        public async Task Experience([Leftover] IUser user = null)
         {
             user = user ?? ctx.User;
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -88,7 +82,7 @@ namespace Mewdeko.Modules.Xp
         [MewdekoCommand, Usage, Description, Aliases]
         [UserPerm(GuildPerm.ManageRoles)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpRoleReward(int level, [Remainder] IRole role = null)
+        public async Task XpRoleReward(int level, [Leftover] IRole role = null)
         {
             if (level < 1)
                 return;
@@ -124,15 +118,46 @@ namespace Mewdeko.Modules.Xp
             Global = 1,
         }
 
+        private string GetNotifLocationString(XpNotificationLocation loc)
+        {
+            if (loc == XpNotificationLocation.Channel)
+            {
+                return GetText("xpn_notif_channel");
+            }
+
+            if (loc == XpNotificationLocation.Dm)
+            {
+                return GetText("xpn_notif_dm");
+            }
+
+            return GetText("xpn_notif_disabled");
+        }
+
         [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task XpNotify(NotifyPlace place = NotifyPlace.Guild, XpNotificationLocation type = XpNotificationLocation.Channel)
+        public async Task XpNotify()
+        {
+            var globalSetting = _service.GetNotificationType(ctx.User);
+            var serverSetting = _service.GetNotificationType(ctx.User.Id, ctx.Guild.Id);
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .AddField(GetText("xpn_setting_global"), GetNotifLocationString(globalSetting))
+                .AddField(GetText("xpn_setting_server"), GetNotifLocationString(serverSetting));
+
+            await Context.Channel.EmbedAsync(embed);
+        }
+
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task XpNotify(NotifyPlace place, XpNotificationLocation type)
         {
             if (place == NotifyPlace.Guild)
                 await _service.ChangeNotificationType(ctx.User.Id, ctx.Guild.Id, type).ConfigureAwait(false);
             else
                 await _service.ChangeNotificationType(ctx.User, type).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync("👌").ConfigureAwait(false);
+
+            await ctx.OkAsync().ConfigureAwait(false);
         }
 
         public enum Server { Server };
@@ -152,7 +177,7 @@ namespace Mewdeko.Modules.Xp
         [MewdekoCommand, Usage, Description, Aliases]
         [UserPerm(GuildPerm.ManageRoles)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpExclude(Role _, [Remainder] IRole role)
+        public async Task XpExclude(Role _, [Leftover] IRole role)
         {
             var ex = _service.ToggleExcludeRole(ctx.Guild.Id, role.Id);
 
@@ -164,7 +189,7 @@ namespace Mewdeko.Modules.Xp
         [MewdekoCommand, Usage, Description, Aliases]
         [UserPerm(GuildPerm.ManageChannels)]
         [RequireContext(ContextType.Guild)]
-        public async Task XpExclude(Channel _, [Remainder] IChannel channel = null)
+        public async Task XpExclude(Channel _, [Leftover] IChannel channel = null)
         {
             if (channel == null)
                 channel = ctx.Channel;
@@ -180,23 +205,36 @@ namespace Mewdeko.Modules.Xp
         {
             var serverExcluded = _service.IsServerExcluded(ctx.Guild.Id);
             var roles = _service.GetExcludedRoles(ctx.Guild.Id)
-                .Select(x => ctx.Guild.GetRole(x)?.Name)
-                .Where(x => x != null);
+                .Select(x => ctx.Guild.GetRole(x))
+                .Where(x => x != null)
+                .Select(x => $"`role`   {x.Mention}")
+                .ToList();
 
             var chans = (await Task.WhenAll(_service.GetExcludedChannels(ctx.Guild.Id)
                 .Select(x => ctx.Guild.GetChannelAsync(x)))
                 .ConfigureAwait(false))
                     .Where(x => x != null)
-                    .Select(x => x.Name);
+                    .Select(x => $"`channel` <#{x.Id}>")
+                    .ToList();
 
-            var embed = new EmbedBuilder()
-                .WithTitle(GetText("exclusion_list"))
-                .WithDescription((serverExcluded ? GetText("server_is_excluded") : GetText("server_is_not_excluded")))
-                .AddField(GetText("excluded_roles"), roles.Any() ? string.Join("\n", roles) : "-", false)
-                .AddField(GetText("excluded_channels"), chans.Any() ? string.Join("\n", chans) : "-", false)
-                .WithOkColor();
+            var rolesStr = roles.Any() ? string.Join("\n", roles) + "\n" : string.Empty;
+            var chansStr = chans.Count > 0 ? string.Join("\n", chans) + "\n" : string.Empty;
+            var desc = Format.Code(serverExcluded
+                ? GetText("server_is_excluded")
+                : GetText("server_is_not_excluded"));
 
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            desc += "\n\n" + rolesStr + chansStr;
+
+            var lines = desc.Split('\n');
+            await ctx.SendPaginatedConfirmAsync(0, curpage =>
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle(GetText("exclusion_list"))
+                    .WithDescription(string.Join('\n', lines.Skip(15 * curpage).Take(15)))
+                    .WithOkColor();
+
+                return embed;
+            }, lines.Length, 15);
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
@@ -224,7 +262,7 @@ namespace Mewdeko.Modules.Xp
             if (opts.Clean)
             {
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                await Tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
+                await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
                 allUsers = _service.GetTopUserXps(ctx.Guild.Id, 1000)
                     .Where(user => !(socketGuild.GetUser(user.UserId) is null))
@@ -277,7 +315,7 @@ namespace Mewdeko.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task XpGlobalLeaderboard(int page = 1)
         {
-            if (--page < 0 || page > 100)
+            if (--page < 0 || page > 99)
                 return;
             var users = _service.GetUserXps(page);
 
@@ -318,7 +356,7 @@ namespace Mewdeko.Modules.Xp
         [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
-        public Task XpAdd(int amount, [Remainder] IGuildUser user)
+        public Task XpAdd(int amount, [Leftover] IGuildUser user)
             => XpAdd(amount, user.Id);
 
         [MewdekoCommand, Usage, Description, Aliases]

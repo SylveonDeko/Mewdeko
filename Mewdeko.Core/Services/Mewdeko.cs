@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord.Net;
+using Discord.Webhook;
 using KSoftNet;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Common.Configs;

@@ -1,4 +1,4 @@
-﻿#if !GLOBAL_NADEKO
+﻿#if !GLOBAL_Mewdeko
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -101,7 +101,7 @@ namespace Mewdeko.Modules.Administration.Services
             _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
             _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated_TTS;
             _client.GuildMemberUpdated += _client_GuildUserUpdated;
-#if !GLOBAL_NADEKO
+#if !GLOBAL_Mewdeko
             _client.UserUpdated += _client_UserUpdated;
 #endif
             _client.ChannelCreated += _client_ChannelCreated;

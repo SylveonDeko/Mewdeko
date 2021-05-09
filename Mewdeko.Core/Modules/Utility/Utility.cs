@@ -31,14 +31,14 @@ namespace Mewdeko.Modules.Utility
         private readonly IHttpClientFactory _httpFactory;
         private readonly DownloadTracker _tracker;
 
-        public Utility(Mewdeko nadeko, DiscordSocketClient client,
+        public Utility(Mewdeko Mewdeko, DiscordSocketClient client,
             IStatsService stats, IBotCredentials creds,
             DbService db, IHttpClientFactory factory, DownloadTracker tracker)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
-            _bot = nadeko;
+            _bot = Mewdeko;
             _db = db;
             _httpFactory = factory;
             _tracker = tracker;
@@ -509,7 +509,7 @@ namespace Mewdeko.Modules.Utility
         private static readonly SemaphoreSlim sem = new SemaphoreSlim(1, 1);
 
         [MewdekoCommand, Usage, Description, Aliases]
-#if GLOBAL_NADEKO
+#if GLOBAL_Mewdeko
         [Ratelimit(30)]
 #endif
         public async Task Ping()

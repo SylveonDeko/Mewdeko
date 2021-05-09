@@ -11,7 +11,7 @@ namespace Mewdeko.Core.Modules.Searches
         [Group]
         public class YtTrackCommands : MewdekoSubmodule<YtTrackService>
         {
-            // [NadekoCommand, Usage, Description, Aliases]
+            // [MewdekoCommand, Usage, Description, Aliases]
             // [RequireContext(ContextType.Guild)]
             // public async Task YtFollow(string ytChannelId, [Remainder] string uploadMessage = null)
             // {
@@ -26,7 +26,7 @@ namespace Mewdeko.Core.Modules.Searches
             //     }
             // }
             //
-            // [NadekoCommand, Usage, Description, Aliases]
+            // [MewdekoCommand, Usage, Description, Aliases]
             // [RequireContext(ContextType.Guild)]
             // public async Task YtTrackRm(int index)
             // {
@@ -41,7 +41,7 @@ namespace Mewdeko.Core.Modules.Searches
             //     //}
             // }
             //
-            // [NadekoCommand, Usage, Description, Aliases]
+            // [MewdekoCommand, Usage, Description, Aliases]
             // [RequireContext(ContextType.Guild)]
             // public async Task YtTrackList()
             // {

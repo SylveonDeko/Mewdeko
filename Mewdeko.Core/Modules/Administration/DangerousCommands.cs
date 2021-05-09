@@ -15,7 +15,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
-#if !GLOBAL_NADEKO
+#if !GLOBAL_Mewdeko
 namespace Mewdeko.Modules.Administration
 {
     public partial class Administration
@@ -301,7 +301,7 @@ namespace Mewdeko.Modules.Administration
             
 
 
-            //[NadekoCommand, Usage, Description, Aliases]
+            //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
             //public Task DeleteUnusedCrnQ() =>
             //    SqlExec(DangerousCommandsService.DeleteUnusedCustomReactionsAndQuotes);

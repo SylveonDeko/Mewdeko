@@ -37,7 +37,6 @@ namespace Mewdeko.Modules.Xp.Services
         } // is it a server level-up or global level-up notification
 
         private readonly DbService _db;
-        public DiscordUser user2;
         private readonly CommandHandler _cmd;
         private readonly IBotConfigProvider _bc;
         private readonly IImageCache _images;
@@ -96,7 +95,7 @@ namespace Mewdeko.Modules.Xp.Services
             var allGuildConfigs = bot.AllGuildConfigs
                 .Where(x => x.XpSettings != null)
                 .ToList();
-            
+
             _excludedChannels = allGuildConfigs
                 .ToDictionary(
                     x => x.GuildId,
@@ -122,10 +121,10 @@ namespace Mewdeko.Modules.Xp.Services
                     .Select(x => x.GuildId));
 
             _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
-            
-#if !GLOBAL_NADEKO
+
+#if !GLOBAL_Mewdeko
             _client.UserVoiceStateUpdated += _client_OnUserVoiceStateUpdated;
-            
+
             // Scan guilds on startup.
             _client.GuildAvailable += _client_OnGuildAvailable;
             foreach (var guild in _client.Guilds)
@@ -229,7 +228,7 @@ namespace Mewdeko.Modules.Xp.Services
                             }
                         }
 
-                        await uow.SaveChangesAsync();
+                        uow.SaveChanges();
                     }
 
                     await Task.WhenAll(toNotify.Select(async x =>
@@ -242,7 +241,6 @@ namespace Mewdeko.Modules.Xp.Services
                                 if (chan != null)
                                     await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
                                         x.Guild.Id,
-                                        "xp",
                                         x.User.Mention, Format.Bold(x.Level.ToString()),
                                         Format.Bold(x.Guild.ToString() ?? "-")));
                             }
@@ -250,7 +248,6 @@ namespace Mewdeko.Modules.Xp.Services
                             {
                                 await x.MessageChannel.SendConfirmAsync(_strings.GetText("level_up_channel",
                                     x.Guild.Id,
-                                    "xp",
                                     x.User.Mention, Format.Bold(x.Level.ToString())));
                             }
                         }
@@ -268,7 +265,6 @@ namespace Mewdeko.Modules.Xp.Services
 
                             await chan.SendConfirmAsync(_strings.GetText("level_up_global",
                                 x.Guild.Id,
-                                "xp",
                                 x.User.Mention, Format.Bold(x.Level.ToString())));
                         }
                     }));
@@ -279,7 +275,7 @@ namespace Mewdeko.Modules.Xp.Services
                 }
             }
         }
-        
+
 
         private void InternalReloadXpTemplate()
         {
@@ -428,6 +424,23 @@ namespace Mewdeko.Modules.Xp.Services
             }
         }
 
+        public XpNotificationLocation GetNotificationType(ulong userId, ulong guildId)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var user = uow.Xp.GetOrCreateUser(guildId, userId);
+                return user.NotifyOnLevelUp;
+            }
+        }
+
+        public XpNotificationLocation GetNotificationType(IUser user)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                return uow.DiscordUsers.GetOrCreate(user).NotifyOnLevelUp;
+            }
+        }
+
         public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
         {
             using (var uow = _db.GetDbContext())
@@ -447,10 +460,10 @@ namespace Mewdeko.Modules.Xp.Services
                     ScanChannelForVoiceXp(channel);
                 }
             });
-            
+
             return Task.CompletedTask;
         }
-        
+
         private Task _client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before, SocketVoiceState after)
         {
             if (!(socketUser is SocketGuildUser user) || user.IsBot)
@@ -474,7 +487,7 @@ namespace Mewdeko.Modules.Xp.Services
                     UserLeftVoiceChannel(user, before.VoiceChannel);
                 }
             });
-            
+
             return Task.CompletedTask;
         }
 
@@ -536,18 +549,18 @@ namespace Mewdeko.Modules.Xp.Services
             var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
             var value = _cache.Redis.GetDatabase().StringGet(key);
             _cache.Redis.GetDatabase().KeyDelete(key);
-            
+
             // Allow for if this function gets called multiple times when a user leaves a channel.
             if (value.IsNull) return;
-            
+
             if (!value.TryParse(out long startUnixTime))
                 return;
-            
+
             var dateStart = DateTimeOffset.FromUnixTimeSeconds(startUnixTime);
             var dateEnd = DateTimeOffset.UtcNow;
             var minutes = (dateEnd - dateStart).TotalMinutes;
             var xp = _bc.BotConfig.VoiceXpPerMinute * minutes;
-            var actualXp = (int) Math.Floor(xp);
+            var actualXp = (int)Math.Floor(xp);
 
             if (actualXp > 0)
             {
@@ -564,16 +577,16 @@ namespace Mewdeko.Modules.Xp.Services
         {
             if (_excludedChannels.TryGetValue(user.Guild.Id, out var chans) &&
                 chans.Contains(channelId)) return false;
-            
+
             if (_excludedServers.Contains(user.Guild.Id)) return false;
-            
+
             if (_excludedRoles.TryGetValue(user.Guild.Id, out var roles) &&
                 user.Roles.Any(x => roles.Contains(x.Id)))
                 return false;
 
             return true;
         }
-        
+
         private Task _cmd_OnMessageNoTrigger(IUserMessage arg)
         {
             if (!(arg.Author is SocketGuildUser user) || user.IsBot)
@@ -604,7 +617,7 @@ namespace Mewdeko.Modules.Xp.Services
         public void AddXpDirectly(IGuildUser user, IMessageChannel channel, int amount)
         {
             if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount));
-            
+
             _addMessageXp.Enqueue(new UserCacheItem
             {
                 Guild = user.Guild,
@@ -613,7 +626,7 @@ namespace Mewdeko.Modules.Xp.Services
                 XpAmount = amount
             });
         }
-        
+
         public void AddXp(ulong userId, ulong guildId, int amount)
         {
             using (var uow = _db.GetDbContext())
@@ -692,7 +705,7 @@ namespace Mewdeko.Modules.Xp.Services
             var lvl = 1;
             while (true)
             {
-                required = (int) (baseXp + baseXp / 4.0 * (lvl - 1));
+                required = (int)(baseXp + baseXp / 4.0 * (lvl - 1));
 
                 if (required + totalXp > stats.Xp)
                     break;
@@ -813,7 +826,7 @@ namespace Mewdeko.Modules.Xp.Services
                         VerticalAlignment = VerticalAlignment.Center,
                     }
                 }.WithFallbackFonts(_fonts.FallBackFonts);
-                
+
                 var clubTextOptions = new TextGraphicsOptions()
                 {
                     TextOptions = new TextOptions()
@@ -822,7 +835,7 @@ namespace Mewdeko.Modules.Xp.Services
                         VerticalAlignment = VerticalAlignment.Top,
                     }
                 }.WithFallbackFonts(_fonts.FallBackFonts);
-                
+
                 using (var img = Image.Load<Rgba32>(_images.XpBackground, out var imageFormat))
                 {
                     if (_template.User.Name.Show)
@@ -858,7 +871,7 @@ namespace Mewdeko.Modules.Xp.Services
 
                         var clubFont = _fonts.NotoSans
                             .CreateFont(_template.Club.Name.FontSize, FontStyle.Regular);
-                        
+
                         img.Mutate(x => x.DrawText(clubTextOptions,
                             clubName,
                             clubFont,
@@ -902,9 +915,9 @@ namespace Mewdeko.Modules.Xp.Services
                     //xp bar
                     if (_template.User.Xp.Bar.Show)
                     {
-                        var xpPercent = (global.LevelXp / (float) global.RequiredXp);
+                        var xpPercent = (global.LevelXp / (float)global.RequiredXp);
                         DrawXpBar(xpPercent, _template.User.Xp.Bar.Global, img);
-                        xpPercent = (guild.LevelXp / (float) guild.RequiredXp);
+                        xpPercent = (guild.LevelXp / (float)guild.RequiredXp);
                         DrawXpBar(xpPercent, _template.User.Xp.Bar.Guild, img);
                     }
 
@@ -992,9 +1005,7 @@ namespace Mewdeko.Modules.Xp.Services
                     {
                         try
                         {
-                            var avatarUrl = stats.User.RealAvatarUrl() == null
-                                ? (new Uri(_client.Rest.GetUserAsync(stats.User.UserId).Result.GetAvatarUrl()))
-                                : stats.User.RealAvatarUrl();
+                            var avatarUrl = stats.User.RealAvatarUrl();
 
                             var (succ, data) = await _cache.TryGetImageDataAsync(avatarUrl);
                             if (!succ)
@@ -1043,7 +1054,7 @@ namespace Mewdeko.Modules.Xp.Services
                     }
 
                     img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
-                    return ((Stream) img.ToStream(imageFormat), imageFormat);
+                    return ((Stream)img.ToStream(imageFormat), imageFormat);
                 }
             });
 
@@ -1120,6 +1131,7 @@ namespace Mewdeko.Modules.Xp.Services
                                     .Resize(_template.Club.Icon.Size.X, _template.Club.Icon.Size.Y)
                                     .ApplyRoundedCorners(
                                         Math.Max(_template.Club.Icon.Size.X, _template.Club.Icon.Size.Y) / 2.0f));
+                                ;
                                 using (var tds = tempDraw.ToStream())
                                 {
                                     data = tds.ToArray();

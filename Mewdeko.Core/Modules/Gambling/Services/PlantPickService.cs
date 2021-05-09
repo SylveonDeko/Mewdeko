@@ -67,14 +67,14 @@ namespace Mewdeko.Modules.Gambling.Services
                     .Include(x => x.GenerateCurrencyChannelIds)
                     .Where(x => guildIds.Contains(x.GuildId))
                     .ToList();
-                
+
                 _generationChannels = new ConcurrentHashSet<ulong>(configs
                     .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
             }
         }
 
         private string GetText(ulong gid, string key, params object[] rep)
-            => _strings.GetText(key, gid, "Games".ToLowerInvariant(), rep);
+            => _strings.GetText(key, gid, rep);
 
         public bool ToggleCurrencyGeneration(ulong gid, ulong cid)
         {
@@ -277,7 +277,7 @@ namespace Mewdeko.Modules.Gambling.Services
                         // give the picked currency to the user
                         await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
                     }
-                    await uow.SaveChangesAsync();
+                    uow.SaveChanges();
                 }
 
                 try

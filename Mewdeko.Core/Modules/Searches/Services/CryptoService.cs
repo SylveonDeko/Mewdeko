@@ -67,7 +67,7 @@ namespace Mewdeko.Core.Modules.Searches.Services
             await getCryptoLock.WaitAsync();
             try
             {
-                var fullStrData = await _cache.GetOrAddCachedDataAsync("nadeko:crypto_data", async _ =>
+                var fullStrData = await _cache.GetOrAddCachedDataAsync("Mewdeko:crypto_data", async _ =>
                 {
                     try
                     {
