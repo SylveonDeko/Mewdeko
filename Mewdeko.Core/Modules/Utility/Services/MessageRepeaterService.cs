@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Utility.Services
         private async Task LoadRepeaters()
         {
             await _bot.Ready.Task.ConfigureAwait(false);
-#if GLOBAL_NADEKO
+#if GLOBAL_Mewdeko
             await Task.Delay(30000);
 #endif
             _log.Info("Loading message repeaters on shard {ShardId}.", _client.ShardId);

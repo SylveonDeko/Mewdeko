@@ -661,7 +661,7 @@
   },
   "repeatredundant": {
     "Cmd": "repeatredun repred",
-    "Desc": "Specify repeater's index (use `{0}repli` to find it) to toggle whether that repeater's message should be reposted if the last message in the channel is the same repeater's message. This is useful if you want to remind everyone to be nice in the channel every so often, but don't want to have the bot spam the channel. This is NOT useful if you want to periodically ping someone.",
+    "Desc": "Specify repeater's index (use `{0}repli` to find it) to toggle whether that repeater's message should be reposted if the last message in the channel is the same repeater's message. This is useful if you want to remind everyone to be nice in the channel every so often, but don't want to have the bot spam the channel. This != useful if you want to periodically ping someone.",
     "Usage": [
       "{0}repred 1"
     ]
@@ -1115,7 +1115,7 @@
   },
   "mentionrole": {
     "Cmd": "mentionrole menro",
-    "Desc": "Mentions a role. If the role is not mentionable, bot will make it mentionable for a moment.",
+    "Desc": "Mentions a role. If the role != mentionable, bot will make it mentionable for a moment.",
     "Usage": [
       "{0}menro RoleName"
     ]
@@ -2604,7 +2604,7 @@
   },
   "importcrs": {
     "cmd": "importcrs",
-    "desc": "Imports custom reactions gotten from the text file mewdeko/nadeko sends you when you run .lcr all ",
+    "desc": "Imports custom reactions gotten from the text file mewdeko/Mewdeko sends you when you run .lcr all ",
     "usage": [
       "{0}importcrs"
     ]
@@ -2619,7 +2619,7 @@
   },
   "banmessagetest": {
     "Cmd": "banmsgtest",
-    "Desc": "If ban message is not disabled, bot will send you the message as if you were banned by yourself. Used for testing the ban message.",
+    "Desc": "If ban message != disabled, bot will send you the message as if you were banned by yourself. Used for testing the ban message.",
     "Usage": [
       "{0}banmsgtest No reason",
       "{0}banmsgtest 1h Test 1 hour ban message"

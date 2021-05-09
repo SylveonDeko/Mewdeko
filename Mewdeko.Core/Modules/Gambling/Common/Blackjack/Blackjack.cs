@@ -102,7 +102,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
             }
             catch (Exception ex)
             {
-                _log.Error("REPORT THE MESSAGE BELOW IN #NadekoLog SERVER PLEASE");
+                _log.Error("REPORT THE MESSAGE BELOW IN #MewdekoLog SERVER PLEASE");
                 _log.Warn(ex);
                 State = GameState.Ended;
                 var _ = GameEnded?.Invoke(this);

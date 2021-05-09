@@ -681,7 +681,7 @@ namespace Mewdeko.Modules.Gambling
             }
             var embed = new EmbedBuilder();
 
-            var nadekoPick = (RpsPick)new MewdekoRandom().Next(0, 3);
+            var MewdekoPick = (RpsPick)new MewdekoRandom().Next(0, 3);
 
             if (amount > 0)
             {
@@ -694,16 +694,16 @@ namespace Mewdeko.Modules.Gambling
             }
 
             string msg;
-            if (pick == nadekoPick)
+            if (pick == MewdekoPick)
             {
                 await _cs.AddAsync(ctx.User.Id,
                     "Rps-draw", amount, gamble: true).ConfigureAwait(false);
                 embed.WithOkColor();
                 msg = GetText("rps_draw", getRpsPick(pick));
             }
-            else if ((pick == RpsPick.Paper && nadekoPick == RpsPick.Rock) ||
-                     (pick == RpsPick.Rock && nadekoPick == RpsPick.Scissors) ||
-                     (pick == RpsPick.Scissors && nadekoPick == RpsPick.Paper))
+            else if ((pick == RpsPick.Paper && MewdekoPick == RpsPick.Rock) ||
+                     (pick == RpsPick.Rock && MewdekoPick == RpsPick.Scissors) ||
+                     (pick == RpsPick.Scissors && MewdekoPick == RpsPick.Paper))
             {
                 amount = (long)(amount * Bc.BotConfig.BetflipMultiplier);
                 await _cs.AddAsync(ctx.User.Id,
@@ -711,13 +711,13 @@ namespace Mewdeko.Modules.Gambling
                 embed.WithOkColor();
                 embed.AddField(GetText("won"), n(amount));
                 msg = GetText("rps_win", ctx.User.Mention,
-                    getRpsPick(pick), getRpsPick(nadekoPick));
+                    getRpsPick(pick), getRpsPick(MewdekoPick));
             }
             else
             {
                 embed.WithErrorColor();
                 amount = 0;
-                msg = GetText("rps_win", ctx.Client.CurrentUser.Mention, getRpsPick(nadekoPick),
+                msg = GetText("rps_win", ctx.Client.CurrentUser.Mention, getRpsPick(MewdekoPick),
                     getRpsPick(pick));
             }
 

@@ -15,8 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord.Webhook;
 using Mewdeko.Core.Common.Configs;
-using Mewdeko.Core.Services.Impl;
 
 namespace Mewdeko.Core.Services
 {
@@ -410,6 +410,25 @@ namespace Mewdeko.Core.Services
                         (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
                         usrMsg.Content // {3}
                         );
+                var var1 = usrMsg.Author + " [" + usrMsg.Author.Id + "]";
+                var var2 = (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]");
+                var var3 = (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]");
+                var var4 = usrMsg.Content;
+                var eb = new EmbedBuilder();
+                var em = new List<Embed>();
+                eb.Description = ($"Command Executed after " +
+                                  string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
+                                  "s\n\t" +
+                                  $"User: {var1}\n\t" +
+                                  $"Server: {var2}\n\t" +
+                                  $"Channel: {var3}\n\t" +
+                                  $"Message: {var4}\n\t"
+                    );
+                eb.Color = Mewdeko.OkColor;
+                em.Add(eb.Build());
+                var web = new DiscordWebhookClient(
+                    "https://discord.com/api/webhooks/840925374992482334/rJJLCgIYCchbn4q4H3BuhqGA1pS-R_zTOnFpd3CfCQbb9fScRMW61-phkL8Skfi5cr9p");
+                web.SendMessageAsync(embeds: em);
             }
             else
             {
@@ -427,6 +446,7 @@ namespace Mewdeko.Core.Services
             var bss = _services.GetService<BotSettingsService>();
             if (bss.Data.ConsoleOutputType == ConsoleOutputType.Normal)
             {
+                List<Embed> em = new List<Embed>();
                 _log.Warn($"Command Errored after " + string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) + "s\n\t" +
                             "User: {0}\n\t" +
                             "Server: {1}\n\t" +
@@ -440,6 +460,27 @@ namespace Mewdeko.Core.Services
                             errorMessage
                             //exec.Result.ErrorReason // {4}
                             );
+                var eb = new EmbedBuilder();
+                var var1 = usrMsg.Author + " [" + usrMsg.Author.Id + "]";
+                var var2 = (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]");
+                var var3 = channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]";
+                var var4 = usrMsg.Content;
+                var var5 = errorMessage;
+                eb.Description = ($"Command Errored after " +
+                                  string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
+                                  "s\n\t" +
+                                  $"User: {var1}\n\t" +
+                                  $"Server: {var2}\n\t" +
+                                  $"Channel: {var3}\n\t" +
+                                  $"Message: {var4}\n\t" +
+                                  $"Error: {var5}"
+                        //exec.Result.ErrorReason // {4}
+                    );
+                eb.Color = Mewdeko.ErrorColor;
+                em.Add(eb.Build());
+                var web = new DiscordWebhookClient(
+                    "https://discord.com/api/webhooks/840925374992482334/rJJLCgIYCchbn4q4H3BuhqGA1pS-R_zTOnFpd3CfCQbb9fScRMW61-phkL8Skfi5cr9p");
+                web.SendMessageAsync(embeds: em);
             }
             else
             {
@@ -497,11 +538,28 @@ namespace Mewdeko.Core.Services
                     if (beh.BehaviorType == ModuleBehaviorType.Blocker)
                     {
                         _log.Info("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author, usrMsg.Content, beh.GetType().Name);
+                        List<Embed> em = new List<Embed>();
+                        var web = new DiscordWebhookClient(
+                            "https://discord.com/api/webhooks/840925374992482334/rJJLCgIYCchbn4q4H3BuhqGA1pS-R_zTOnFpd3CfCQbb9fScRMW61-phkL8Skfi5cr9p");
+                        var embed = new EmbedBuilder();
+                        embed.Description = ("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
+                            usrMsg.Content, beh.GetType().Name).ToString();
+                        embed.Color = Mewdeko.ErrorColor;
+                        em.Add(embed.Build());
+                        await web.SendMessageAsync(embeds: em);
                     }
                     else if (beh.BehaviorType == ModuleBehaviorType.Executor)
                     {
                         _log.Info("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content, beh.GetType().Name);
-
+                        List<Embed> em = new List<Embed>();
+                        var embed = new EmbedBuilder();
+                        embed.Description =
+                            $"User [{usrMsg.Author}] executed [{usrMsg.Content}] in [{beh.GetType().Name}]";
+                        embed.Color = Mewdeko.ErrorColor;
+                        em.Add(embed.Build());
+                        var web = new DiscordWebhookClient(
+                            "https://discord.com/api/webhooks/840925374992482334/rJJLCgIYCchbn4q4H3BuhqGA1pS-R_zTOnFpd3CfCQbb9fScRMW61-phkL8Skfi5cr9p");
+                        await web.SendMessageAsync(embeds: em);
                     }
                     return;
                 }
@@ -651,6 +709,14 @@ namespace Mewdeko.Core.Services
                 if (await exec.TryBlockLate(_client, context, cmd.Module.GetTopLevelModule().Name, cmd).ConfigureAwait(false))
                 {
                     _log.Info("Late blocking User [{0}] Command: [{1}] in [{2}]", context.User, commandName, exec.GetType().Name);
+                    var eb = new EmbedBuilder();
+                    eb.Description = ($"Late blocking User [{context.User}] Command: [{commandName}] in [{exec.GetType().Name}]");
+                    eb.Color = Mewdeko.OkColor;
+                    var web = new DiscordWebhookClient(
+                        "https://discord.com/api/webhooks/840925374992482334/rJJLCgIYCchbn4q4H3BuhqGA1pS-R_zTOnFpd3CfCQbb9fScRMW61-phkL8Skfi5cr9p");
+                    List<Embed> em = new List<Embed>();
+                    em.Add(eb.Build());
+                    await web.SendMessageAsync(embeds: em);
                     return (false, null, cmd);
                 }
             }

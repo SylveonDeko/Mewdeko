@@ -77,7 +77,7 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
                 .Build();
 
             str = rep.Replace(str);
-#if !GLOBAL_NADEKO
+#if !GLOBAL_Mewdeko
             foreach (var ph in regexPlaceholders)
             {
                 str = await ph.Key.ReplaceAsync(str, ph.Value).ConfigureAwait(false);

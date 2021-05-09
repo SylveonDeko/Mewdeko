@@ -730,7 +730,7 @@ namespace Mewdeko.Modules.Music
 
             using (var http = new HttpClient())
             {
-                var scvids = JObject.Parse(await http.GetStringAsync($"https://scapi.nadeko.bot/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
+                var scvids = JObject.Parse(await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={pl}").ConfigureAwait(false))["tracks"].ToObject<SoundCloudVideo[]>();
                 IUserMessage msg = null;
                 try { msg = await ctx.Channel.SendMessageAsync(GetText("attempting_to_queue", Format.Bold(scvids.Length.ToString()))).ConfigureAwait(false); } catch { }
                 foreach (var svideo in scvids)

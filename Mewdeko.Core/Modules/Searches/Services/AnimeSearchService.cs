@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Searches.Services
             try
             {
 
-                var link = "https://aniapi.nadeko.bot/anime/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
+                var link = "https://aniapi.Mewdeko.bot/anime/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)
@@ -137,7 +137,7 @@ namespace Mewdeko.Modules.Searches.Services
             try
             {
 
-                var link = "https://aniapi.nadeko.bot/manga/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
+                var link = "https://aniapi.Mewdeko.bot/manga/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)

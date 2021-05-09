@@ -118,7 +118,7 @@ namespace Mewdeko.Modules.NSFW
             await ctx.Channel.SendMessageAsync("", embed:eb.Build());
         }
 
-#if !GLOBAL_NADEKO
+#if !GLOBAL_Mewdeko
         [MewdekoCommand, Usage, Description, Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]

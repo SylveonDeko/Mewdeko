@@ -43,7 +43,7 @@ namespace Mewdeko.Modules.ServerManagement.Services
             if (guild == null)
                 throw new ArgumentNullException(nameof(guild));
 
-            const string defaultMuteRoleName = "nadeko-mute";
+            const string defaultMuteRoleName = "Mewdeko-mute";
 
             var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
 

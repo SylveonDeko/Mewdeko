@@ -1,4 +1,4 @@
-﻿#if !GLOBAL_NADEKO
+﻿#if !GLOBAL_Mewdeko
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common;

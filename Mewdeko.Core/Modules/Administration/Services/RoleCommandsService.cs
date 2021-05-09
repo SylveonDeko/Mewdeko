@@ -25,7 +25,7 @@ namespace Mewdeko.Modules.Administration.Services
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
-#if !GLOBAL_NADEKO
+#if !GLOBAL_Mewdeko
             _models = bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
                 .ToConcurrent();

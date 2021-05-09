@@ -227,7 +227,7 @@ namespace Mewdeko.Modules.Permissions.Services
                     {
                         await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser, "Warned for Posting Invite");
                         var user = await usrMsg.Author.GetOrCreateDMChannelAsync();
-                        await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!");
+                        await user.SendErrorAsync("You have been warned for sending an invite, this != allowed!");
                     }
                     return true;
                 }
