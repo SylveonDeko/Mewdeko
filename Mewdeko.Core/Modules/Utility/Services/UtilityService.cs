@@ -194,7 +194,7 @@ namespace Mewdeko.Modules.Utility.Services
         }
         public async Task MsgReciev(SocketMessage msg)
         {
-            var gid = ((IGuildChannel)msg.Channel).Guild;fixed 
+            var gid = ((IGuildChannel) msg.Channel).Guild; 
             if (GetPLinks(gid.Id) == 1)
             { 
             var linkParser = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
