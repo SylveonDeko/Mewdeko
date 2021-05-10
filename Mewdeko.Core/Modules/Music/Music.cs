@@ -172,13 +172,12 @@ namespace Mewdeko.Modules.Music
                         if (mp.Exited)
                             return;
 
-                        await Task.WhenAll(Task.Delay(150),
-                                InternalQueue(mp,
-                                    await _service
-                                        .ResolveSong(
-                                            $"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
-                                            ctx.User.ToString(), MusicType.Spotify).ConfigureAwait(false), true))
-                            .ConfigureAwait(false);
+                        await
+                            InternalQueue(mp,
+                                await _service
+                                    .ResolveSong(
+                                        $"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
+                                        ctx.User.ToString(), MusicType.Spotify).ConfigureAwait(false), true);
                     }
                 }
                 catch (SongNotFoundException)
@@ -874,7 +873,9 @@ namespace Mewdeko.Modules.Music
                     if (mp.Exited)
                         return;
 
-                    await Task.WhenAll(Task.Delay(150), InternalQueue(mp, await _service.ResolveSong(song, ctx.User.ToString(), MusicType.YouTube).ConfigureAwait(false), true)).ConfigureAwait(false);
+                    await InternalQueue(mp,
+                        await _service.ResolveSong(song, ctx.User.ToString(), MusicType.YouTube).ConfigureAwait(false),
+                        true);
                 }
                 catch (SongNotFoundException) { }
                 catch { break; }
