@@ -427,6 +427,7 @@ next:
 play:
 - play
 - start
+- p
 stop:
 - stop
 - s
@@ -435,7 +436,6 @@ destroy:
 - d
 pause:
 - pause
-- p
 queue:
 - queue
 - q
