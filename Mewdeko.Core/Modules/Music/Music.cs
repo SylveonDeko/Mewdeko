@@ -145,6 +145,51 @@ namespace Mewdeko.Modules.Music
                 }
             }
         }
+
+        public async Task SpotifyPlaylist(string url = null)
+        {
+            var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
+            var spotify = new SpotifyClient(token: MusicService.token);
+            var e = new Uri(url);
+            if (!e.Host.Contains("open.spotify.com"))
+            {
+                await ctx.Channel.SendErrorAsync("This is not a valid spotify link!");
+                return;
+            }
+
+            var t = e.Segments;
+            var playlist = await spotify.Playlists.Get(t[2]);
+            var count = playlist.Tracks.Total;
+            var msg = await ctx.Channel.SendMessageAsync("🎵 " + GetText("attempting_to_queue",
+                Format.Bold(count.ToString()))).ConfigureAwait(false);
+
+            foreach (PlaylistTrack<IPlayableItem> item in playlist.Tracks.Items)
+            {
+                try
+                {
+                    if (item.Track is FullTrack track)
+                    {
+                        if (mp.Exited)
+                            return;
+
+                        await Task.WhenAll(Task.Delay(150),
+                                InternalQueue(mp,
+                                    await _service
+                                        .ResolveSong(
+                                            $"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
+                                            ctx.User.ToString(), MusicType.Spotify).ConfigureAwait(false), true))
+                            .ConfigureAwait(false);
+                    }
+                }
+                catch (SongNotFoundException)
+                {
+                }
+                catch
+                {
+                    break;
+                }
+            }
+        }
         public async Task Spotify(string url = null)
         { 
         var spotify = new SpotifyClient(token: MusicService.token);
@@ -172,9 +217,14 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Play([Remainder] string query = null)
         {
-            if (query.StartsWith("https://open"))
+            if (query.StartsWith("https://open.spotify.com/track"))
             {
                 await Spotify(query);
+                return;
+            }
+            if (query.StartsWith("https://open.spotify.com/playlist"))
+            {
+                await SpotifyPlaylist(query);
                 return;
             }
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
@@ -807,7 +857,7 @@ namespace Mewdeko.Modules.Music
                 await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
                 return;
             }
-            var ids = await _google.GetPlaylistTracksAsync(plId, 500).ConfigureAwait(false);
+            var ids = await _google.GetPlaylistTracksAsync(plId, 1000).ConfigureAwait(false);
             if (!ids.Any())
             {
                 await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
