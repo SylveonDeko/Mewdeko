@@ -160,8 +160,7 @@ namespace Mewdeko.Modules.Music
             var t = e.Segments;
             var playlist = await spotify.Playlists.Get(t[2]);
             var count = playlist.Tracks.Total;
-            var msg = await ctx.Channel.SendMessageAsync("🎵 " + GetText("attempting_to_queue",
-                Format.Bold(count.ToString()))).ConfigureAwait(false);
+            var msg = await ctx.Channel.SendMessageAsync($"<a:loading:834915210967253013> Queueing {count.ToString()} Spotify Songs...").ConfigureAwait(false);
 
             foreach (PlaylistTrack<IPlayableItem> item in playlist.Tracks.Items)
             {
@@ -187,6 +186,7 @@ namespace Mewdeko.Modules.Music
                 {
                     break;
                 }
+                await msg.ModifyAsync(m => m.Content = $"<a:check_animated:780103746432139274> Successfully queued {count.ToString()} Songs!").ConfigureAwait(false);
             }
         }
         public async Task Spotify(string url = null)
