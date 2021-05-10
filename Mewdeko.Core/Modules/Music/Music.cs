@@ -145,7 +145,6 @@ namespace Mewdeko.Modules.Music
                 }
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Spotify(string url = null)
         { 
         var spotify = new SpotifyClient(token: MusicService.token);
@@ -161,7 +160,7 @@ namespace Mewdeko.Modules.Music
             try
             {
                 var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
-                var song = await _service.ResolveSong($"{track.Name} {track.Artists.FirstOrDefault().Name}", ctx.User.ToString(), MusicType.Spotify).ConfigureAwait(false);
+                var song = await _service.ResolveSong($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio", ctx.User.ToString(), MusicType.Spotify).ConfigureAwait(false);
                 await InternalQueue(mp, song, false).ConfigureAwait(false);
             }
             catch (Exception ex)
