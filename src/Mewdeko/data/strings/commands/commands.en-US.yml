@@ -11,6 +11,20 @@ mwarn:
   desc: "Gives a user a Minor Warn " 
   args: 
   - "@user"
+snipe:
+ desc: "Allows you to see the last deleted message in the current or specified channel, will tell you how to enable sniping if its disabled when running the command."
+ args:
+ - ""
+ - "#channel"
+ - "@user"
+ - "#channel @user"
+editsnipe:
+ desc: "Allows you to see the last edited message in the current or specified channel, will tell you how to enable sniping if its disabled when running the command."
+ args:
+ - ""
+ - "#channel"
+ - "@user"
+ - "#channel @user"
 webhook:
   desc: "sends a webhook to the channel you select with the name and image you set. You can send multiple embeds at once using multiple files or pastebin links." 
   args: 

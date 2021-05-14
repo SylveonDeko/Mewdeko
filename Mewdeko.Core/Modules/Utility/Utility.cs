@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Modules.Utility.Services;
@@ -119,7 +120,7 @@ namespace Mewdeko.Modules.Utility
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -147,6 +148,128 @@ namespace Mewdeko.Modules.Utility
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
                         Text = $"Snipe requested by {ctx.User}"
+                    },
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+        }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public async Task Snipe(IUser user1)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+
+            var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
+            {
+                if (!msgs.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for this user!");
+                    return;
+                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var user = await ctx.Channel.GetUserAsync(userid);
+
+                var em = new EmbedBuilder
+                {
+                    Author = new EmbedAuthorBuilder
+                    {
+                        IconUrl = user.GetAvatarUrl(),
+                        Name = $"{user} said:"
+
+                    },
+                    Description = msg,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        IconUrl = ctx.User.GetAvatarUrl(),
+                        Text = $"User specific snipe requested by {ctx.User}"
+                    },
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+        }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(2)]
+        public async Task Snipe(ITextChannel chan)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+
+            var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
+            {
+                if (!msgs.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
+                    return;
+                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId).First();
+                var user = await ctx.Channel.GetUserAsync(userid);
+
+                var em = new EmbedBuilder
+                {
+                    Author = new EmbedAuthorBuilder
+                    {
+                        IconUrl = user.GetAvatarUrl(),
+                        Name = $"{user} said:"
+
+                    },
+                    Description = msg,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        IconUrl = ctx.User.GetAvatarUrl(),
+                        Text = $"User specific snipe requested by {ctx.User}"
+                    },
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+        }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(2)]
+        public async Task Snipe(ITextChannel chan, IUser user1)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+
+            var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
+            {
+                if (!msgs.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!");
+                    return;
+                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var user = await ctx.Channel.GetUserAsync(userid);
+
+                var em = new EmbedBuilder
+                {
+                    Author = new EmbedAuthorBuilder
+                    {
+                        IconUrl = user.GetAvatarUrl(),
+                        Name = $"{user} said:"
+                    },
+                    Description = msg,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        IconUrl = ctx.User.GetAvatarUrl(),
+                        Text = $"User specific snipe requested by {ctx.User}"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -196,20 +319,135 @@ namespace Mewdeko.Modules.Utility
                     {
                         IconUrl = user.GetAvatarUrl(),
                         Name = $"{user} originally said:"
-
                     },
                     Description = msg,
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Snipe requested by {ctx.User}"
+                        Text = $"Edit snipe requested by {ctx.User}"
                     },
                     Color = Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public async Task EditSnipe(IUser user1)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+            {
+                var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
+                if (!msgs.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
+                    return;
+                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var user = await ctx.Channel.GetUserAsync(userid);
 
+                var em = new EmbedBuilder
+                {
+                    Author = new EmbedAuthorBuilder
+                    {
+                        IconUrl = user.GetAvatarUrl(),
+                        Name = $"{user} originally said:"
+                    },
+                    Description = msg,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        IconUrl = ctx.User.GetAvatarUrl(),
+                        Text = $"Edit snipe requested by {ctx.User}"
+                    },
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+        }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public async Task EditSnipe(ITextChannel chan)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+            {
+                var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
+                if (!msgs.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
+                    return;
+                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId).First();
+                var user = await ctx.Channel.GetUserAsync(userid);
+
+                var em = new EmbedBuilder
+                {
+                    Author = new EmbedAuthorBuilder
+                    {
+                        IconUrl = user.GetAvatarUrl(),
+                        Name = $"{user} originally said:"
+                    },
+                    Description = msg,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        IconUrl = ctx.User.GetAvatarUrl(),
+                        Text = $"Edit snipe requested by {ctx.User}"
+                    },
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+        }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public async Task EditSnipe(ITextChannel chan, IUser user1)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+            {
+                var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id).Where(x => x.UserId == user1.Id);
+                if (!msgs.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user or channel!");
+                    return;
+                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var user = await ctx.Channel.GetUserAsync(userid);
+
+                var em = new EmbedBuilder
+                {
+                    Author = new EmbedAuthorBuilder
+                    {
+                        IconUrl = user.GetAvatarUrl(),
+                        Name = $"{user} originally said:"
+                    },
+                    Description = msg,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        IconUrl = ctx.User.GetAvatarUrl(),
+                        Text = $"Edit snipe requested by {ctx.User}"
+                    },
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+        }
         [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task WhosPlaying([Remainder] string game)

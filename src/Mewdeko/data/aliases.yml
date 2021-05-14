@@ -1025,6 +1025,8 @@ xpexclude:
 xpnotify:
 - xpnotify
 - xpn
+stealemotes:
+- steal
 xpleveluprewards:
 - xplvluprewards
 - xprews
