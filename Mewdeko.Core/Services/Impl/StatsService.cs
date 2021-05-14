@@ -8,9 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,9 +21,9 @@ namespace Mewdeko.Core.Services.Impl
         private readonly DateTime _started;
         private readonly Mewdeko _bot;
 
-        public const string BotVersion = "3.9.2";
+        public const string BotVersion = "3.9.4";
 
-        public string Library => "Discord.Net 2.3.0";
+        public string Library => "Discord.Net 2.4.0-20210508.2";
 
         public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
             .ToString(CultureInfo.InvariantCulture);
