@@ -229,7 +229,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"User specific snipe requested by {ctx.User}"
+                        Text = $"Channel specific snipe requested by {ctx.User}"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -269,7 +269,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"User specific snipe requested by {ctx.User}"
+                        Text = $"Channel and user specific snipe requested by {ctx.User}"
                     },
                     Color = Mewdeko.OkColor
                 };
