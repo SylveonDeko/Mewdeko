@@ -6,9 +6,6 @@ using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Utility.Services;
 using System.Linq;
-using AngleSharp.Dom;
-using Mewdeko.Common;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Mewdeko.Modules.Utility
 {

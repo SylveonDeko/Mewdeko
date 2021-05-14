@@ -59,8 +59,9 @@ namespace Mewdeko.Modules.Xp
                 .Select(x =>
                 {
                     var str = ctx.Guild.GetRole(x.RoleId)?.ToString();
+                    var str2 = ctx.Guild.GetRole(x.RoleId);
                     if (str != null)
-                        str = GetText("role_reward", Format.Bold(str));
+                        str = str2.Mention;
                     return (x.Level, RoleStr: str);
                 })
                 .Where(x => x.RoleStr != null)
