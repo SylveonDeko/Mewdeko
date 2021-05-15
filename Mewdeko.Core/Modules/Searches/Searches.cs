@@ -34,6 +34,7 @@ using GiphyDotNet;
 using GiphyDotNet.Manager;
 using GiphyDotNet.Model.Parameters;
 using DeepAI;
+using SixLabors.Fonts;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -46,22 +47,25 @@ namespace Mewdeko.Modules.Searches
         private readonly IHttpClientFactory _httpFactory;
         private readonly IMemoryCache _cache;
         private static readonly MewdekoRandom _rng = new MewdekoRandom();
-        public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache, KSoftAPI kSoftAPI)
+
+        public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
+            KSoftAPI kSoftAPI)
         {
             _creds = creds;
             _google = google;
             _httpFactory = factory;
             _cache = cache;
             _kSoftAPI = kSoftAPI;
-           
+
         }
-        
+
         [MewdekoCommand, Usage, Description]
-        
+
         public async Task Hug(IUser user)
         {
             string[] gifs =
-            {"http://media.tumblr.com/tumblr_m68m3wjllW1qewqw2.gif",
+            {
+                "http://media.tumblr.com/tumblr_m68m3wjllW1qewqw2.gif",
                 "http://33.media.tumblr.com/e9fae5fd165029c63c6963f855238c1b/tumblr_ncq9kwWdjW1sy4pr2o1_500.gif",
                 "http://38.media.tumblr.com/b22e5793e257faf94cec24ba034d46cd/tumblr_nldku9v7ar1ttpgxko1_500.gif",
                 "http://25.media.tumblr.com/tumblr_mad9v0FbLA1r6bk7qo2_500.gif",
@@ -119,6 +123,46 @@ namespace Mewdeko.Modules.Searches
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
+        }
+
+        [MewdekoCommand, Usage, Description, Aliases]
+        public async Task Colorize(string url = null)
+        {
+            var e = string.Empty;
+            if (url is null)
+            {
+                e = ctx.Message.Attachments.FirstOrDefault().Url;
+            }
+            else
+            {
+                e = url;
+            }
+
+            if (e is null)
+            {
+                await ctx.Channel.SendErrorAsync("Please supply an image to process!");
+            }
+            var msg = await ctx.Channel.SendConfirmAsync("<a:loading:834915210967253013> Processing file...");
+            DeepAI_API api = new DeepAI_API(apiKey: "507ceac5-763f-4430-be44-5b1a81462409");
+
+            StandardApiResponse resp = api.callStandardApi("colorizer", new
+            {
+                image = e,
+            });
+            if (resp.output_url != null)
+            {
+                await msg.ModifyAsync(x =>
+                {
+                    x.Content = resp.output_url; x.Embed = null;
+                });
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.Color = Mewdeko.ErrorColor;
+                embed.WithDescription("The AI returned no results!");
+                await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
+            }
         }
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Kiss(IUser user)
