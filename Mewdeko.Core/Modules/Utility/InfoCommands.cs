@@ -8,13 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
 {
     public partial class Utility
     {
         [Group]
-        public class InfoCommands : MewdekoSubmodule
+        public class InfoCommands : MewdekoSubmodule <UtilityService>
         {
             private readonly DiscordSocketClient _client;
             private readonly IStatsService _stats;
@@ -56,11 +57,13 @@ namespace Mewdeko.Modules.Utility
                     .AddField(fb => fb.WithName(GetText("members")).WithValue(guild.MemberCount.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("text_channels")).WithValue(textchn.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("voice_channels")).WithValue(voicechn.ToString()).WithIsInline(true))
+                    .AddField(fb => fb.WithName("Joins").WithValue(_service.GetJoined(ctx.Guild.Id)).WithIsInline(true))
+                    .AddField(fb => fb.WithName("Leaves").WithValue(_service.GetLeft(ctx.Guild.Id)).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}").WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("region")).WithValue(guild.VoiceRegionId.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("features")).WithValue(features).WithIsInline(true))
-                    .WithImageUrl("https://cdn.discordapp.com/splashes/" + guild.Id + "/" + guild.SplashId + ".png?size=4096")
+                    .WithImageUrl($"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=4096")
                     .WithColor(Mewdeko.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                     embed.WithThumbnailUrl(guild.IconUrl);

@@ -238,11 +238,11 @@ namespace Mewdeko.Modules.Administration.Services
                             .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
 
-                        var bav = before.RealAvatarUrl();
+                        var bav = before.RealAvatarUrl(2048);
                         if (bav != null && bav.IsAbsoluteUri)
                             embed.WithThumbnailUrl(bav.ToString());
 
-                        var aav = after.RealAvatarUrl();
+                        var aav = after.RealAvatarUrl(2048);
                         if (aav != null && aav.IsAbsoluteUri)
                             embed.WithImageUrl(aav.ToString());
                     }
@@ -576,7 +576,7 @@ namespace Mewdeko.Modules.Administration.Services
                             {
                                 var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
                                 embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
-                                    .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                                    .WithDescription(string.Join(", ", diffRoles));
 
                                 await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                             }
@@ -592,7 +592,7 @@ namespace Mewdeko.Modules.Administration.Services
                                 {
                                     embed.WithAuthor(eab =>
                                             eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
-                                        .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                                        .WithDescription(string.Join(", ", diffRoles));
 
                                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                                 }
@@ -943,7 +943,7 @@ namespace Mewdeko.Modules.Administration.Services
                         .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
 
                     if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
-                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
+                        embed.WithImageUrl(usr.GetAvatarUrl(size: 2048));
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
@@ -1055,8 +1055,8 @@ namespace Mewdeko.Modules.Administration.Services
                     var resolvedMessage = msg.Resolve(userHandling: TagHandling.FullName);
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel).Name))
-                        .WithDescription(msg.Author.ToString())
+                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel)))
+                        .WithDescription(msg.Author.Mention)
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "content"))
                                 .WithValue(string.IsNullOrWhiteSpace(resolvedMessage) ? "-" : resolvedMessage)
@@ -1114,8 +1114,8 @@ namespace Mewdeko.Modules.Administration.Services
 
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel).Name))
-                        .WithDescription(after.Author.ToString())
+                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel)))
+                        .WithDescription(after.Author.Mention)
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "old_msg"))
                                 .WithValue(string.IsNullOrWhiteSpace(before.Content)

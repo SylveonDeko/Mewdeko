@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Discord.Net.Queue;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -19,6 +20,8 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _snipeset { get; } = new ConcurrentDictionary<ulong, ulong>();
         private ConcurrentDictionary<ulong, int> _plinks { get; } = new ConcurrentDictionary<ulong, int>();
         private ConcurrentDictionary<ulong, ulong> _reactchans { get; } = new ConcurrentDictionary<ulong, ulong>();
+        private ConcurrentDictionary<ulong, ulong> _joined { get; } = new ConcurrentDictionary<ulong, ulong>();
+        private ConcurrentDictionary<ulong, ulong> _left { get; } = new ConcurrentDictionary<ulong, ulong>();
         public UtilityService(DiscordSocketClient client, DbService db, Mewdeko _bot)
         {
             bot = _bot;
@@ -27,6 +30,14 @@ namespace Mewdeko.Modules.Utility.Services
             client.MessageUpdated += MsgStore2;
             client.MessageReceived += MsgReciev;
             client.MessageReceived += MsgReciev2;
+            client.UserJoined += CountUpdate;
+            client.UserLeft += CountUpdate2;
+            _joined = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.Joins)
+                .ToConcurrent();
+            _left = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.Leaves)
+                .ToConcurrent();
             //client.ReactionAdded += ReactionAdded;
             //client.ReactionRemoved += ReactionAdded;
             _db = db;
@@ -39,6 +50,46 @@ namespace Mewdeko.Modules.Utility.Services
             _reactchans = bot.AllGuildConfigs
               .ToDictionary(x => x.GuildId, x => x.ReactChannel)
               .ToConcurrent();
+        }
+        public async Task JoinedSet(IGuild guild, ulong num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.Joins = num;
+                await uow.SaveChangesAsync();
+            }
+            _joined.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
+        public ulong GetJoined(ulong? id)
+        {
+            _joined.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public async Task CountUpdate(SocketGuildUser user)
+        {
+            var e = GetJoined(user.Guild.Id);
+            await JoinedSet(user.Guild, e + 1);
+        }
+        public async Task LeftSet(IGuild guild, ulong num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.Leaves = num;
+                await uow.SaveChangesAsync();
+            }
+            _left.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
+        public ulong GetLeft(ulong? id)
+        {
+            _left.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public async Task CountUpdate2(SocketGuildUser user)
+        {
+            var e = GetJoined(user.Guild.Id);
+            await LeftSet(user.Guild, e + 1);
         }
 
         public int GetPLinks(ulong? id)
