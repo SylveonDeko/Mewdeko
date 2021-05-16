@@ -43,7 +43,7 @@ namespace Mewdeko.Extensions
             await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
 
         // This method is used by everything that fetches the avatar from a user
-        public static Uri RealAvatarUrl(this IUser usr, ushort size = 128)
+        public static Uri RealAvatarUrl(this IUser usr, ushort size = 2048)
         {
             return usr.AvatarId == null
                 ? new Uri(usr.GetDefaultAvatarUrl())

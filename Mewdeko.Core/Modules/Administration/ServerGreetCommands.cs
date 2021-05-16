@@ -19,6 +19,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetDel(int timer = 30)
             {
+
                 if (timer < 0 || timer > 600)
                     return;
 
