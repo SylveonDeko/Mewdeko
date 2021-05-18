@@ -33,14 +33,13 @@ namespace Mewdeko.Modules.Searches.Services
                     .AsQueryable()
                     .Where(x => guildConfigIds.Contains(x.Id))
                     .Include(x => x.FeedSubs)
-                    .ThenInclude(x => x.GuildConfig)
+                        .ThenInclude(x => x.GuildConfig)
                     .ToList()
                     .SelectMany(x => x.FeedSubs)
                     .GroupBy(x => x.Url.ToLower())
                     .ToDictionary(x => x.Key, x => x.ToHashSet())
                     .ToConcurrent();
             }
-
 
             _client = client;
 
@@ -68,7 +67,7 @@ namespace Mewdeko.Modules.Searches.Services
                                                                      ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate
                                                                      ?.ToUniversalTime()))
                             .Where(data => !(data.LastUpdate is null))
-                            .Select(data => (data.Item, LastUpdate: (DateTime) data.LastUpdate))
+                            .Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate))
                             .OrderByDescending(data => data.LastUpdate)
                             .Reverse() // start from the oldest
                             .ToList();
@@ -84,7 +83,7 @@ namespace Mewdeko.Modules.Searches.Services
                             if (itemUpdateDate <= lastFeedUpdate)
                             {
                                 continue;
-                            }                            
+                            }
 
                             var embed = new EmbedBuilder()
                                 .WithFooter(rssUrl);
@@ -111,7 +110,7 @@ namespace Mewdeko.Modules.Searches.Services
                                     gotImage = true;
                                 }
                             }
-                            
+
                             if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
                             {
                                 var previewElement = afi.Element.Elements()
@@ -122,7 +121,7 @@ namespace Mewdeko.Modules.Searches.Services
                                     previewElement = afi.Element.Elements()
                                         .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
                                 }
-                                
+
                                 if (previewElement != null)
                                 {
                                     var urlAttribute = previewElement.Attribute("url");
@@ -169,7 +168,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 return uow.GuildConfigs.ForId(guildId,
                         set => set.Include(x => x.FeedSubs)
-                            .ThenInclude(x => x.GuildConfig))
+                                        .ThenInclude(x => x.GuildConfig))
                     .FeedSubs
                     .OrderBy(x => x.Id)
                     .ToList();
@@ -190,8 +189,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 var gc = uow.GuildConfigs.ForId(guildId,
                     set => set.Include(x => x.FeedSubs)
-                        .ThenInclude(x => x.GuildConfig));
-
+                                    .ThenInclude(x => x.GuildConfig));
 
                 if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
                 {
@@ -207,7 +205,7 @@ namespace Mewdeko.Modules.Searches.Services
                 //adding all, in case bot wasn't on this guild when it started
                 foreach (var feed in gc.FeedSubs)
                 {
-                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub>() {feed}, (k, old) =>
+                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub>() { feed }, (k, old) =>
                     {
                         old.Add(feed);
                         return old;

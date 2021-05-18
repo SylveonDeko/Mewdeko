@@ -76,12 +76,76 @@ namespace Mewdeko.Modules.Help
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Modules()
+        public async Task Modules(int page = 1)
         {
-            var embed = new EmbedBuilder().WithOkColor()
-                .WithImageUrl("https://cdn.discordapp.com/attachments/774304724870103040/823113597562781736/Modules.png");
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            if (--page < 0)
+                return;
+
+            var topLevelModules = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
+                .Where(m => !_perms.BlockedModules.Contains(m.Key.Name.ToLowerInvariant()))
+                .Select(x => x.Key)
+                .ToList();
+
+            await ctx.SendPaginatedConfirmAsync(page, cur =>
+            {
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithTitle(GetText("list_of_modules"));
+
+                var localModules = topLevelModules.Skip(12 * cur)
+                    .Take(12)
+                    .ToList();
+
+                if (!localModules.Any())
+                {
+                    embed = embed.WithOkColor()
+                        .WithDescription(GetText("module_page_empty"));
+                    return embed;
+                }
+
+                localModules
+                    .OrderBy(module => module.Name)
+                    .ForEach(module => embed.AddField($"{GetModuleEmoji(module.Name)} {module.Name}",
+                        GetText($"module_description_{module.Name.ToLowerInvariant()}") + "\n" +
+                        Format.Code(GetText("module_footer", Prefix, module.Name.ToLowerInvariant())),
+                        true));
+
+                return embed;
+            }, topLevelModules.Count(), 12, false);
         }
+
+        private string GetModuleEmoji(string moduleName)
+        {
+            moduleName = moduleName.ToLowerInvariant();
+            switch (moduleName)
+            {
+                case "help":
+                    return "❓";
+                case "administration":
+                    return "🛠️";
+                case "customreactions":
+                    return "🗣️";
+                case "searches":
+                    return "🔍";
+                case "utility":
+                    return "🔧";
+                case "games":
+                    return "🎲";
+                case "gambling":
+                    return "💰";
+                case "music":
+                    return "🎶";
+                case "nsfw":
+                    return "😳";
+                case "permissions":
+                    return "🚓";
+                case "xp":
+                    return "📝";
+                default:
+                    return "📖";
+
+            }
+        }
+
 
         [MewdekoCommand, Usage, Description, Aliases]
         [MewdekoOptions(typeof(CommandsOptions))]
@@ -197,26 +261,14 @@ namespace Mewdeko.Modules.Help
 
             if (com == null)
             {
-                IMessageChannel ch = channel is ITextChannel
-                    ? await ((IGuildUser)ctx.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
-                    : channel;
-                try
-                {
-                    var data = await GetHelpStringEmbed();
-                    if (data == default)
-                        return;
-                    var (plainText, helpEmbed) = data;
-                    await ch.EmbedAsync(helpEmbed, msg: plainText ?? "").ConfigureAwait(false);
-                }
-                catch (Exception)
-                {
-                    await ReplyErrorLocalizedAsync("cant_dm").ConfigureAwait(false);
-                }
-                return;
+                await Modules();
             }
-
-            var embed = _service.GetCommandHelp(com, ctx.Guild);
-            await channel.EmbedAsync(embed).ConfigureAwait(false);
+            else
+            {
+                var embed = _service.GetCommandHelp(com, ctx.Guild);
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+            
         }
 
         [MewdekoCommand, Usage, Description, Aliases]

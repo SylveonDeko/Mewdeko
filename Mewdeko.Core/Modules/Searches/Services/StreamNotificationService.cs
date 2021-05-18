@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common;
@@ -9,15 +10,14 @@ using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Core.Modules.Searches.Common.StreamNotifications;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
+using NLog;
 
-#nullable enable
 namespace Mewdeko.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
@@ -38,11 +38,14 @@ namespace Mewdeko.Modules.Searches.Services
 
         private readonly ConnectionMultiplexer _multi;
         private readonly IBotCredentials _creds;
+        private readonly Logger _log;
+        private readonly Timer _notifCleanupTimer;
 
         public StreamNotificationService(DbService db, DiscordSocketClient client,
             IBotStrings strings, IDataCache cache, IBotCredentials creds, IHttpClientFactory httpFactory,
             Mewdeko bot)
         {
+            _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
             _strings = strings;
@@ -69,7 +72,7 @@ namespace Mewdeko.Modules.Searches.Services
                     .ToList();
 
                 _shardTrackedStreams = followedStreams
-                    .GroupBy(x => new {Type = x.Type, Name = x.Username.ToLower()})
+                    .GroupBy(x => new { Type = x.Type, Name = x.Username.ToLower() })
                     .ToList()
                     .ToDictionary(
                         x => new StreamDataKey(x.Key.Type, x.Key.Name.ToLower()),
@@ -89,7 +92,7 @@ namespace Mewdeko.Modules.Searches.Services
                     }
 
                     _trackCounter = allFollowedStreams
-                        .GroupBy(x => new {Type = x.Type, Name = x.Username.ToLower()})
+                        .GroupBy(x => new { Type = x.Type, Name = x.Username.ToLower() })
                         .ToDictionary(
                             x => new StreamDataKey(x.Key.Type, x.Key.Name),
                             x => x.Select(fs => fs.GuildId).ToHashSet());
@@ -107,6 +110,46 @@ namespace Mewdeko.Modules.Searches.Services
                 _streamTracker.OnStreamsOffline += OnStreamsOffline;
                 _streamTracker.OnStreamsOnline += OnStreamsOnline;
                 _ = _streamTracker.RunAsync();
+                _notifCleanupTimer = new Timer(_ =>
+                {
+                    try
+                    {
+                        var errorLimit = TimeSpan.FromHours(12);
+                        var failingStreams = _streamTracker.GetFailingStreams(errorLimit, true)
+                            .ToList();
+
+                        if (!failingStreams.Any())
+                            return;
+
+                        var deleteGroups = failingStreams.GroupBy(x => x.Type)
+                            .ToDictionary(x => x.Key, x => x.Select(x => x.Name).ToList());
+
+                        using (var uow = _db.GetDbContext())
+                        {
+                            foreach (var kvp in deleteGroups)
+                            {
+                                _log.Info($"Deleting {kvp.Value.Count} {kvp.Key} streams because " +
+                                          $"they've been erroring for more than {errorLimit}: {string.Join(", ", kvp.Value)}");
+
+                                var toDelete = uow._context.Set<FollowedStream>()
+                                    .AsQueryable()
+                                    .Where(x => x.Type == kvp.Key && kvp.Value.Contains(x.Username))
+                                    .ToList();
+
+                                uow._context.RemoveRange(toDelete);
+                                uow.SaveChanges();
+
+                                foreach (var loginToDelete in kvp.Value)
+                                    _streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Error("Error cleaning up FollowedStreams");
+                        _log.Error(ex.ToString());
+                    }
+                }, null, TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
 
                 sub.Subscribe($"{_creds.RedisKey()}_follow_stream", HandleFollowStream);
                 sub.Subscribe($"{_creds.RedisKey()}_unfollow_stream", HandleUnfollowStream);
@@ -126,11 +169,9 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 var info = JsonConvert.DeserializeAnonymousType(
                     val.ToString(),
-                    new {Key = default(StreamDataKey), GuildId = 0ul});
+                    new { Key = default(StreamDataKey), GuildId = 0ul });
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                _ = _streamTracker.CacheAddData(info.Key, null, replace: false);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                _streamTracker.CacheAddData(info.Key, null, replace: false);
                 lock (_shardLock)
                 {
                     var key = info.Key;
@@ -157,13 +198,11 @@ namespace Mewdeko.Modules.Searches.Services
             => Task.Run(() =>
             {
                 var info = JsonConvert.DeserializeAnonymousType(val.ToString(),
-                    new {Key = default(StreamDataKey), GuildId = 0ul});
+                    new { Key = default(StreamDataKey), GuildId = 0ul });
 
                 lock (_shardLock)
                 {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     var key = info.Key;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
                     if (!_trackCounter.TryGetValue(key, out var set))
                     {
                         // it should've been removed already?
@@ -195,8 +234,8 @@ namespace Mewdeko.Modules.Searches.Services
                         .SelectMany(x => x.Value)
                         .Where(x => _offlineNotificationServers.Contains(x.GuildId))
                         .Select(fs => _client.GetGuild(fs.GuildId)
-                            .GetTextChannel(fs.ChannelId)
-                            .EmbedAsync(GetEmbed(fs.GuildId, stream)));
+                            ?.GetTextChannel(fs.ChannelId)
+                            ?.EmbedAsync(GetEmbed(fs.GuildId, stream)));
 
                     await Task.WhenAll(sendTasks);
                 }
@@ -251,7 +290,7 @@ namespace Mewdeko.Modules.Searches.Services
 
                 if (gc is null)
                     return Task.CompletedTask;
-                
+
                 if (gc.NotifyStreamOffline)
                     _offlineNotificationServers.Add(gc.GuildId);
 
@@ -302,7 +341,7 @@ namespace Mewdeko.Modules.Searches.Services
             return count;
         }
 
-        public async Task<FollowedStream?> UnfollowStreamAsync(ulong guildId, int index)
+        public async Task<FollowedStream> UnfollowStreamAsync(ulong guildId, int index)
         {
             FollowedStream fs;
             using (var uow = _db.GetDbContext())
@@ -340,18 +379,18 @@ namespace Mewdeko.Modules.Searches.Services
         {
             var sub = _multi.GetSubscriber();
             sub.Publish($"{_creds.RedisKey()}_unfollow_stream",
-                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), GuildId = fs.GuildId}));
+                JsonConvert.SerializeObject(new { Key = fs.CreateKey(), GuildId = fs.GuildId }));
         }
 
         private void PublishFollowStream(FollowedStream fs)
         {
             var sub = _multi.GetSubscriber();
             sub.Publish($"{_creds.RedisKey()}_follow_stream",
-                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), GuildId = fs.GuildId}),
+                JsonConvert.SerializeObject(new { Key = fs.CreateKey(), GuildId = fs.GuildId }),
                 CommandFlags.FireAndForget);
         }
 
-        public async Task<StreamData?> FollowStream(ulong guildId, ulong channelId, string url)
+        public async Task<StreamData> FollowStream(ulong guildId, ulong channelId, string url)
         {
             // this will 
             var data = await _streamTracker.GetStreamDataByUrlAsync(url);
@@ -373,8 +412,9 @@ namespace Mewdeko.Modules.Searches.Services
                     GuildId = guildId,
                 };
 
+                if (gc.FollowedStreams.Count >= 10)
+                    return null;
 
-                
                 gc.FollowedStreams.Add(fs);
                 await uow.SaveChangesAsync();
 
@@ -423,11 +463,8 @@ namespace Mewdeko.Modules.Searches.Services
             return embed;
         }
 
-        private string GetText(ulong guildId, string key, params object[] replacements) =>
-            _strings.GetText(key,
-                guildId,
-                "Searches".ToLowerInvariant(),
-                replacements);
+        private string GetText(ulong guildId, string key, params object[] replacements)
+            => _strings.GetText(key, guildId, replacements);
 
         public bool ToggleStreamOffline(ulong guildId)
         {
@@ -451,7 +488,7 @@ namespace Mewdeko.Modules.Searches.Services
             return newValue;
         }
 
-        public Task<StreamData?> GetStreamDataAsync(string url)
+        public Task<StreamData> GetStreamDataAsync(string url)
         {
             return _streamTracker.GetStreamDataByUrlAsync(url);
         }
@@ -479,7 +516,7 @@ namespace Mewdeko.Modules.Searches.Services
             }
         }
 
-        public bool SetStreamMessage(ulong guildId, int index, string message, out FollowedStream? fs)
+        public bool SetStreamMessage(ulong guildId, int index, string message, out FollowedStream fs)
         {
             using (var uow = _db.GetDbContext())
             {

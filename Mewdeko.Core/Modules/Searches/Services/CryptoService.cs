@@ -1,5 +1,4 @@
-﻿using Discord;
-using Mewdeko.Core.Modules.Searches.Common;
+﻿using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Newtonsoft.Json;
@@ -67,7 +66,7 @@ namespace Mewdeko.Core.Modules.Searches.Services
             await getCryptoLock.WaitAsync();
             try
             {
-                var fullStrData = await _cache.GetOrAddCachedDataAsync("Mewdeko:crypto_data", async _ =>
+                var fullStrData = await _cache.GetOrAddCachedDataAsync("nadeko:crypto_data", async _ =>
                 {
                     try
                     {

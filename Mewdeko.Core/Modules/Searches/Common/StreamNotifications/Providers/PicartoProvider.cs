@@ -52,7 +52,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         public override async Task<StreamData?> GetStreamDataAsync(string id)
         {
-            var data = await GetStreamDataAsync(new List<string> {id});
+            var data = await GetStreamDataAsync(new List<string> { id });
 
             return data.FirstOrDefault();
         }
@@ -72,38 +72,41 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         // get id based on the username
                         var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
-                        
+
                         if (!res.IsSuccessStatusCode)
                             continue;
-                        
+
                         var userData = JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync());
 
-                        toReturn.Add(new StreamData()
-            {
-                StreamType = FollowedStream.FType.Picarto,
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                            Name = userData.Name,
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-                            UniqueName = userData.Name,
-                Viewers = userData.Viewers,
-                Title = userData.Title,
-                IsLive = userData.Online,
-                Preview = userData.Thumbnails.Web,
-                Game = userData.Category,
-                StreamUrl = $"https://picarto.tv/{userData.Name}",
-                AvatarUrl = userData.Avatar
-            });
+                        toReturn.Add(ToStreamData(userData));
+                        _failingStreams.TryRemove(login, out _);
                     }
                     catch (Exception ex)
                     {
-                        _log.Warn($"Something went wrong retreiving {Platform} streams.");
-                        _log.Warn(ex.ToString());
-                        return new List<StreamData>();
+                        _log.Warn($"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                        _failingStreams.TryAdd(login, DateTime.UtcNow);
                     }
                 }
 
                 return toReturn;
             }
+        }
+
+        private StreamData ToStreamData(PicartoChannelResponse stream)
+        {
+            return new StreamData()
+            {
+                StreamType = FollowedStream.FType.Picarto,
+                Name = stream.Name,
+                UniqueName = stream.Name,
+                Viewers = stream.Viewers,
+                Title = stream.Title,
+                IsLive = stream.Online,
+                Preview = stream.Thumbnails.Web,
+                Game = stream.Category,
+                StreamUrl = $"https://picarto.tv/{stream.Name}",
+                AvatarUrl = stream.Avatar
+            };
         }
     }
 }

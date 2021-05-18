@@ -51,7 +51,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         public override async Task<StreamData?> GetStreamDataAsync(string id)
         {
-            var data = await GetStreamDataAsync(new List<string> {id});
+            var data = await GetStreamDataAsync(new List<string> { id });
 
             return data.FirstOrDefault();
         }
@@ -74,7 +74,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         // get id based on the username
                         var idsStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/users?login={login}");
                         var userData = JsonConvert.DeserializeObject<TwitchUsersResponseV5>(idsStr);
-                        var user = userData.Users.FirstOrDefault();
+                        var user = userData?.Users.FirstOrDefault();
 
                         // if user can't be found, skip, it means there is no such user
                         if (user is null)
@@ -83,36 +83,37 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         // get stream data
                         var str = await http.GetStringAsync($"https://api.twitch.tv/kraken/streams/{user.Id}");
                         var resObj =
-                            JsonConvert.DeserializeAnonymousType(str, new {Stream = new TwitchResponseV5.Stream()});
+                            JsonConvert.DeserializeAnonymousType(str, new { Stream = new TwitchResponseV5.Stream() });
 
-                        // if stream is null, user != streaming
-                        if (resObj.Stream is null)
+                        // if stream is null, user is not streaming
+                        if (resObj?.Stream is null)
                         {
-                            // if user != streaming, get his offline banner
+                            // if user is not streaming, get his offline banner
                             var chStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/channels/{user.Id}");
                             var ch = JsonConvert.DeserializeObject<TwitchResponseV5.Channel>(chStr);
-                            
-                            toReturn.Add(new StreamData
-                            {
-                                StreamType = FollowedStream.FType.Twitch,
-                                Name = ch.DisplayName,
-                                UniqueName = ch.Name,
-                                Title = ch.Status,
-                                IsLive = false,
-                                AvatarUrl = ch.Logo,
-                                StreamUrl = $"https://twitch.tv/{ch.Name}",
-                                Preview = ch.VideoBanner // set video banner as the preview,
-                            });
+
+                            if (ch != null)
+                                toReturn.Add(new StreamData
+                                {
+                                    StreamType = FollowedStream.FType.Twitch,
+                                    Name = ch.DisplayName,
+                                    UniqueName = ch.Name,
+                                    Title = ch.Status,
+                                    IsLive = false,
+                                    AvatarUrl = ch.Logo,
+                                    StreamUrl = $"https://twitch.tv/{ch.Name}",
+                                    Preview = ch.VideoBanner // set video banner as the preview,
+                                });
                             continue; // move on
                         }
 
                         toReturn.Add(ToStreamData(resObj.Stream));
+                        _failingStreams.TryRemove(login, out _);
                     }
                     catch (Exception ex)
                     {
-                        _log.Warn($"Something went wrong retreiving {Platform} streams.");
-                        _log.Warn(ex.ToString());
-                        return new List<StreamData>();
+                        _log.Warn($"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                        _failingStreams.TryAdd(login, DateTime.UtcNow);
                     }
                 }
 

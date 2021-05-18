@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Mewdeko.Core.Services.Database.Models;
 
@@ -21,14 +24,14 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
         /// <param name="url">Url to check</param>
         /// <returns>True if valid, otherwise false</returns>
         public abstract Task<bool> IsValidUrl(string url);
-        
+
         /// <summary>
         /// Gets stream data of the stream on the specified url on this <see cref="Platform"/>
         /// </summary>
         /// <param name="url">Url of the stream</param>
         /// <returns><see cref="StreamData"/> of the specified stream. Null if none found</returns>
         public abstract Task<StreamData?> GetStreamDataByUrlAsync(string url);
-            
+
         /// <summary>
         /// Gets stream data of the specified id/username on this <see cref="Platform"/>
         /// </summary>
@@ -42,5 +45,21 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
         /// <param name="usernames">List of ids/usernames</param>
         /// <returns><see cref="StreamData"/> of all users, in the same order. Null for every id/user not found.</returns>
         public abstract Task<List<StreamData>> GetStreamDataAsync(List<string> usernames);
+
+        /// <summary>
+        /// Gets the stream usernames which fail to execute due to an error, and when they started throwing errors.
+        /// This can happen if stream name is invalid, or if the stream doesn't exist anymore.
+        /// </summary>
+        public IEnumerable<(string Login, DateTime ErroringSince)> FailingStreams =>
+            _failingStreams.Select(entry => (entry.Key, entry.Value)).ToList();
+
+        /// <summary>
+        /// When was the first time the stream continually had errors while being retrieved 
+        /// </summary>
+        protected readonly ConcurrentDictionary<string, DateTime> _failingStreams =
+            new ConcurrentDictionary<string, DateTime>();
+
+        public void ClearErrorsFor(string login)
+            => _failingStreams.TryRemove(login, out _);
     }
 }
