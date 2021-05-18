@@ -11,7 +11,7 @@ color:
   error: ee281f
   pending: faa61a
 # Default bot language. It has to be in the list of supported languages (.langli)
-defaultLocale: en-US
+defaultLocale: ts-TS
 # Style in which executed commands will show up in the console.
 # Allowed values: Simple, Normal, None
 consoleOutputType: Normal

@@ -1,10 +1,10 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace Mewdeko.Modules.Administration.Services
             _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
-#if !GLOBAL_Mewdeko
+#if !GLOBAL_NADEKO
             _models = bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
                 .ToConcurrent();

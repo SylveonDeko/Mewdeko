@@ -32,7 +32,7 @@ namespace Mewdeko.Modules.Utility.Services
             _CmdHandler = cmdhandler;
             _db = db;
             _client.ReactionAdded += OnReactionAddedAsync;
-           // _client.MessageDeleted += OnMessageDeletedAsync;
+            // _client.MessageDeleted += OnMessageDeletedAsync;
             _client.ReactionRemoved += OnReactionRemoveAsync;
             _starboardchannels = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.StarboardChannel)
@@ -113,22 +113,20 @@ namespace Mewdeko.Modules.Utility.Services
         // all code here was used by Builderb's old Starboat source code (pls give him love <3)
         private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            
+            if (reaction.User.Value.IsBot) return;
             var msg = await message.GetOrDownloadAsync();
             var e = StarboardIds(message.Id);
             var guild = ((SocketGuildChannel)channel).Guild;
             Emoji star1 = null;
             Emote star = null;
-            if (GetStar(guild.Id) =="none")
-            {
-                star1 = new Emoji("⭐");
-            }
-            else
+            var te = GetStar(guild.Id);
+            if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
             {
                 star = Emote.Parse(GetStar(guild.Id));
             }
+            else
+                star1 = new Emoji("⭐");
 
-            if (star is null && star1 is null) return;
             if (star != null)
             {
                 if (reaction.Emote.Name != star.Name) return;
@@ -140,10 +138,10 @@ namespace Mewdeko.Modules.Utility.Services
             }
 
             int reactions = 0;
-            if(star != null)
-            {reactions = ((IUserMessage)msg).Reactions[star].ReactionCount;}
+            if (star != null)
+            { reactions = msg.Reactions[star].ReactionCount; }
             if (star1 != null)
-            { reactions = ((IUserMessage)msg).Reactions[star1].ReactionCount; }
+            { reactions = msg.Reactions[star1].ReactionCount; }
             var chanID = GetStarboardChannel(guild.Id);
             if (chanID == 0) return;
             var chan = guild.GetTextChannel(chanID);
@@ -211,12 +209,12 @@ namespace Mewdeko.Modules.Utility.Services
                 }
                 else
                 {
-                    
+
                     var msg2 = await chan.SendMessageAsync($"{reactions} {star} {star1}", embed: em.WithTimestamp(msg.Timestamp).Build());
                     await Starboard(msg.Id, msg2.Id);
                 }
             }
-            // do some epic jeff
+           // do some epic jeff
         }
         private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
@@ -224,14 +222,12 @@ namespace Mewdeko.Modules.Utility.Services
             var guild = ((SocketGuildChannel)channel).Guild;
             Emoji star1 = null;
             Emote star = null;
-            if (GetStar(guild.Id) == "none")
-            {
-                star1 = new Emoji("⭐");
-            }
-            else
+            if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
             {
                 star = Emote.Parse(GetStar(guild.Id));
             }
+            else
+                star1 = new Emoji("⭐");
 
             if (star is null && star1 is null) return;
             if (star != null)
@@ -243,7 +239,6 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 if (reaction.Emote.Name != star1.Name) return;
             }
-            if (star is null && star1 is null) return;
             if (star != null)
             {
                 if (reaction.Emote.Name != star.Name) return;
@@ -265,7 +260,7 @@ namespace Mewdeko.Modules.Utility.Services
             else { reactions = 0; };
             var e = StarboardIds(message.Id);
             var stars = GetStarSetting(guild.Id);
-            // get the values before doing anything
+            //get the values before doing anything
             var chanID = GetStarboardChannel(guild.Id);
             var chan = guild.GetTextChannel(chanID);
             if (Convert.ToUInt64(reactions) < stars)
@@ -322,7 +317,7 @@ namespace Mewdeko.Modules.Utility.Services
                     });
                 }
             }
-            // do some epic jeff
+            //do some epic jeff
         }
         public Starboard[] StarboardIds(ulong msgid)
         {

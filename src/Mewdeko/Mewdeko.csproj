@@ -58,7 +58,7 @@
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
 		<DefineConstants>$(DefineConstants);GLOBAL_Mewdeko</DefineConstants>
-		<NoWarn>$(NoWarn);CS1573;CS1591;CS8032</NoWarn>
+		<NoWarn>$(NoWarn);CS1573;CS1591;CS8032;NU1701</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Mewdeko.Core\Mewdeko.Core.csproj" />

@@ -16,7 +16,7 @@ using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Help.Services
 {
-    public class HelpService : INService
+    public class HelpService : ILateExecutor, INService
     {
         private readonly IBotConfigProvider _bc;
         private readonly CommandHandler _ch;
@@ -35,6 +35,29 @@ namespace Mewdeko.Modules.Help.Services
             _bss = bss;
             _log = LogManager.GetCurrentClassLogger();
         }
+        public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        {
+            try
+            {
+                var settings = _bss.Data;
+                if (guild == null)
+                {
+                    if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
+                        return Task.CompletedTask;
+
+                    if (CREmbed.TryParse(settings.DmHelpText, out var embed))
+                        return msg.Channel.EmbedAsync(embed);
+
+                    return msg.Channel.SendMessageAsync(settings.DmHelpText);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex);
+            }
+            return Task.CompletedTask;
+        }
+
         public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
         {
             var prefix = _ch.GetPrefix(guild);
