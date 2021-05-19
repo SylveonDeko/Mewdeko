@@ -113,71 +113,213 @@ namespace Mewdeko.Modules.Utility.Services
         // all code here was used by Builderb's old Starboat source code (pls give him love <3)
         private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            if (reaction.User.Value.IsBot) return;
-            var msg = await message.GetOrDownloadAsync();
-            var e = StarboardIds(message.Id);
-            var guild = ((SocketGuildChannel)channel).Guild;
-            Emoji star1 = null;
-            Emote star = null;
-            var te = GetStar(guild.Id);
-            if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
+            try
             {
-                try
+                if (reaction.User.Value.IsBot) return;
+                var msg = await message.GetOrDownloadAsync();
+                var e = StarboardIds(message.Id);
+                var guild = ((SocketGuildChannel) channel).Guild;
+                Emoji star1 = null;
+                Emote star = null;
+                var te = GetStar(guild.Id);
+                if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
+                {
+                    star = Emote.Parse(GetStar(guild.Id));
+
+                }
+                else
+                    star1 = new Emoji("⭐");
+
+                if (star != null)
+                {
+                    if (reaction.Emote.Name != star.Name) return;
+                }
+
+                if (star1 != null)
+                {
+                    if (reaction.Emote.Name != star1.Name) return;
+                }
+
+                int reactions = 0;
+                if (star != null)
+                {
+                    reactions = msg.Reactions[star].ReactionCount;
+                }
+
+                if (star1 != null)
+                {
+                    reactions = msg.Reactions[star1].ReactionCount;
+                }
+
+                var chanID = GetStarboardChannel(guild.Id);
+                if (chanID == 0) return;
+                var chan = guild.GetTextChannel(chanID);
+                var stars = GetStarSetting(guild.Id);
+                if (Convert.ToUInt64(reactions) >= stars)
+                {
+                    IUserMessage message2 = null;
+                    if (e.Length == 0)
+                    {
+                        message2 = null;
+                    }
+                    else
+                    {
+                        message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault()
+                            .PostId) as IUserMessage;
+                    }
+
+                    if (message2 != null)
+                    {
+                        if (message2.Id == message.Id) return;
+                    }
+
+                    var em = new EmbedBuilder
+                    {
+                        Author =
+                            new EmbedAuthorBuilder
+                            {
+                                Name = msg.Author.ToString(),
+                                IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
+                            },
+                        Description = $"[Jump to message]({msg.GetJumpUrl()})",
+                        Color = Mewdeko.OkColor,
+                        Footer = new EmbedFooterBuilder
+                        {
+                            Text = "Message Posted Date"
+                        }
+                    };
+                    if (msg.Author.IsBot is true && msg.Embeds.Any())
+                    {
+                        if (msg.Embeds.FirstOrDefault().Fields.Any())
+                            foreach (var i in msg.Embeds.FirstOrDefault().Fields)
+                                em.AddField(i.Name, i.Value);
+
+                        if (msg.Embeds.FirstOrDefault().Description.Any())
+                            em.Description = msg.Embeds.FirstOrDefault().Description;
+
+                        if (msg.Embeds.FirstOrDefault().Footer.HasValue)
+                            em.AddField("Footer Text", msg.Embeds.FirstOrDefault().Footer.Value);
+                    }
+
+                    if (msg.Content.Any())
+                    {
+                        em.Description = $"{msg.Content}\n\n{em.Description}";
+                    }
+
+                    if (msg.Attachments.Any())
+                    {
+                        em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
+                    }
+
+                    if (e.Any() && message2 != null)
+                    {
+                        await message2.ModifyAsync(x =>
+                        {
+                            x.Embed = em.WithTimestamp(msg.Timestamp).Build();
+                            x.Content = $"{reactions} {star}";
+                        });
+                    }
+                    else
+                    {
+
+                        var msg2 = await chan.SendMessageAsync($"{reactions} {star} {star1}",
+                            embed: em.WithTimestamp(msg.Timestamp).Build());
+                        await Starboard(msg.Id, msg2.Id);
+                    }
+                }
+            }
+            catch
+            {}
+            // do some epic jeff
+        }
+        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
+        {
+            try
+            {
+
+                var msg = await message.GetOrDownloadAsync();
+                var guild = ((SocketGuildChannel) channel).Guild;
+                Emoji star1 = null;
+                Emote star = null;
+                if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
                 {
                     star = Emote.Parse(GetStar(guild.Id));
                 }
-                catch (Exception exception)
+                else
+                    star1 = new Emoji("⭐");
+
+                if (star is null && star1 is null) return;
+                if (star != null)
                 {
+                    if (reaction.Emote.Name != star.Name) return;
                 }
-                
-            }
-            else
-                star1 = new Emoji("⭐");
 
-            if (star != null)
-            {
-                if (reaction.Emote.Name != star.Name) return;
-            }
-
-            if (star1 != null)
-            {
-                if (reaction.Emote.Name != star1.Name) return;
-            }
-
-            int reactions = 0;
-            if (star != null)
-            { reactions = msg.Reactions[star].ReactionCount; }
-            if (star1 != null)
-            { reactions = msg.Reactions[star1].ReactionCount; }
-            var chanID = GetStarboardChannel(guild.Id);
-            if (chanID == 0) return;
-            var chan = guild.GetTextChannel(chanID);
-            var stars = GetStarSetting(guild.Id);
-            if (Convert.ToUInt64(reactions) >= stars)
-            {
-                IUserMessage message2 = null;
-                if (e.Length == 0)
+                if (star1 != null)
                 {
-                    message2 = null;
+                    if (reaction.Emote.Name != star1.Name) return;
+                }
+
+                if (star != null)
+                {
+                    if (reaction.Emote.Name != star.Name) return;
+                }
+
+                if (star1 != null)
+                {
+                    if (reaction.Emote.Name != star1.Name) return;
+                }
+
+                int reactions;
+                if (star != null && ((IUserMessage) msg).Reactions.ContainsKey(star))
+                {
+                    reactions = ((IUserMessage) msg).Reactions[star].ReactionCount;
+                }
+
+                if (star1 != null && ((IUserMessage) msg).Reactions.ContainsKey(star1))
+                {
+                    reactions = ((IUserMessage) msg).Reactions[star1].ReactionCount;
                 }
                 else
                 {
-                    message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as IUserMessage;
+                    reactions = 0;
                 }
 
-                if (message2 != null)
+                ;
+                var e = StarboardIds(message.Id);
+                var stars = GetStarSetting(guild.Id);
+                //get the values before doing anything
+                var chanID = GetStarboardChannel(guild.Id);
+                var chan = guild.GetTextChannel(chanID);
+                if (Convert.ToUInt64(reactions) < stars)
                 {
-                    if (message2.Id == message.Id) return;
+                    IUserMessage message2 = null;
+                    if (e.Length == 0)
+                    {
+                        message2 = null;
+                    }
+                    else
+                    {
+                        message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault()
+                            .PostId) as IUserMessage;
+                    }
+
+                    if (message2 != null)
+                    {
+                        if (message2.Id == message.Id) return;
+                    }
+
+                    if (message2 != null) await message2.DeleteAsync();
+                    return;
                 }
 
                 var em = new EmbedBuilder
                 {
                     Author =
-                    new EmbedAuthorBuilder
-                    {
-                        Name = msg.Author.ToString(),
-                        IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
-                    },
+                        new EmbedAuthorBuilder
+                        {
+                            Name = msg.Author.ToString(),
+                            IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
+                        },
                     Description = $"[Jump to message]({msg.GetJumpUrl()})",
                     Color = Mewdeko.OkColor,
                     Footer = new EmbedFooterBuilder
@@ -185,144 +327,33 @@ namespace Mewdeko.Modules.Utility.Services
                         Text = "Message Posted Date"
                     }
                 };
-                if (msg.Author.IsBot is true && msg.Embeds.Any())
-                {
-                    if (msg.Embeds.FirstOrDefault().Fields.Any())
-                        foreach (var i in msg.Embeds.FirstOrDefault().Fields)
-                            em.AddField(i.Name, i.Value);
-
-                    if (msg.Embeds.FirstOrDefault().Description.Any())
-                        em.Description = msg.Embeds.FirstOrDefault().Description;
-
-                    if (msg.Embeds.FirstOrDefault().Footer.HasValue)
-                        em.AddField("Footer Text", msg.Embeds.FirstOrDefault().Footer.Value);
-                }
-
                 if (msg.Content.Any())
                 {
                     em.Description = $"{msg.Content}\n\n{em.Description}";
                 }
+
                 if (msg.Attachments.Any())
                 {
                     em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
                 }
-                if (e.Any() && message2 != null)
+
+                if (e.Any())
                 {
-                    await message2.ModifyAsync(x =>
+                    var message2 =
+                        await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
+                            IUserMessage;
+                    if (message2 != null)
                     {
-                        x.Embed = em.WithTimestamp(msg.Timestamp).Build();
-                        x.Content = $"{reactions} {star}";
-                    });
-                }
-                else
-                {
-
-                    var msg2 = await chan.SendMessageAsync($"{reactions} {star} {star1}", embed: em.WithTimestamp(msg.Timestamp).Build());
-                    await Starboard(msg.Id, msg2.Id);
+                        await message2.ModifyAsync(x =>
+                        {
+                            x.Embed = em.WithTimestamp(msg.Timestamp).Build();
+                            x.Content = $"{reactions} {star}{star1}";
+                        });
+                    }
                 }
             }
-           // do some epic jeff
-        }
-        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
-        {
-            var msg = await message.GetOrDownloadAsync();
-            var guild = ((SocketGuildChannel)channel).Guild;
-            Emoji star1 = null;
-            Emote star = null;
-           if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
+            catch
             {
-                star = Emote.Parse(GetStar(guild.Id));
-            }
-            else
-                star1 = new Emoji("⭐");
-
-            if (star is null && star1 is null) return;
-            if (star != null)
-            {
-                if (reaction.Emote.Name != star.Name) return;
-            }
-
-            if (star1 != null)
-            {
-                if (reaction.Emote.Name != star1.Name) return;
-            }
-            if (star != null)
-            {
-                if (reaction.Emote.Name != star.Name) return;
-            }
-
-            if (star1 != null)
-            {
-                if (reaction.Emote.Name != star1.Name) return;
-            }
-            int reactions;
-            if (star != null && ((IUserMessage)msg).Reactions.ContainsKey(star))
-            {
-                reactions = ((IUserMessage)msg).Reactions[star].ReactionCount;
-            }
-            if (star1 != null && ((IUserMessage)msg).Reactions.ContainsKey(star1))
-            {
-                reactions = ((IUserMessage)msg).Reactions[star1].ReactionCount;
-            }
-            else { reactions = 0; };
-            var e = StarboardIds(message.Id);
-            var stars = GetStarSetting(guild.Id);
-            //get the values before doing anything
-            var chanID = GetStarboardChannel(guild.Id);
-            var chan = guild.GetTextChannel(chanID);
-            if (Convert.ToUInt64(reactions) < stars)
-            {
-                IUserMessage message2 = null;
-                if (e.Length == 0)
-                {
-                    message2 = null;
-                }
-                else
-                {
-                    message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as IUserMessage;
-                }
-                if (message2 != null)
-                {
-                    if (message2.Id == message.Id) return;
-                }
-                if (message2 != null) await message2.DeleteAsync();
-                return;
-            }
-
-            var em = new EmbedBuilder
-            {
-                Author =
-                new EmbedAuthorBuilder
-                {
-                    Name = msg.Author.ToString(),
-                    IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
-                },
-                Description = $"[Jump to message]({msg.GetJumpUrl()})",
-                Color = Mewdeko.OkColor,
-                Footer = new EmbedFooterBuilder
-                {
-                    Text = "Message Posted Date"
-                }
-            };
-            if (msg.Content.Any())
-            {
-                em.Description = $"{msg.Content}\n\n{em.Description}";
-            }
-            if (msg.Attachments.Any())
-            {
-                em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
-            }
-            if (e.Any())
-            {
-                var message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as IUserMessage;
-                if (message2 != null)
-                {
-                    await message2.ModifyAsync(x =>
-                    {
-                        x.Embed = em.WithTimestamp(msg.Timestamp).Build();
-                        x.Content = $"{reactions} {star}{star1}";
-                    });
-                }
             }
             //do some epic jeff
         }
