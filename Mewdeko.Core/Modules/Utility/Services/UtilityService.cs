@@ -22,6 +22,7 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _reactchans { get; } = new ConcurrentDictionary<ulong, ulong>();
         private ConcurrentDictionary<ulong, ulong> _joined { get; } = new ConcurrentDictionary<ulong, ulong>();
         private ConcurrentDictionary<ulong, ulong> _left { get; } = new ConcurrentDictionary<ulong, ulong>();
+
         public UtilityService(DiscordSocketClient client, DbService db, Mewdeko _bot)
         {
             bot = _bot;
@@ -42,15 +43,16 @@ namespace Mewdeko.Modules.Utility.Services
             //client.ReactionRemoved += ReactionAdded;
             _db = db;
             _snipeset = bot.AllGuildConfigs
-               .ToDictionary(x => x.GuildId, x => x.snipeset)
-               .ToConcurrent();
+                .ToDictionary(x => x.GuildId, x => x.snipeset)
+                .ToConcurrent();
             _plinks = bot.AllGuildConfigs
-              .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
-              .ToConcurrent();
+                .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
+                .ToConcurrent();
             _reactchans = bot.AllGuildConfigs
-              .ToDictionary(x => x.GuildId, x => x.ReactChannel)
-              .ToConcurrent();
+                .ToDictionary(x => x.GuildId, x => x.ReactChannel)
+                .ToConcurrent();
         }
+
         public async Task JoinedSet(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
@@ -59,18 +61,22 @@ namespace Mewdeko.Modules.Utility.Services
                 gc.Joins = num;
                 await uow.SaveChangesAsync();
             }
+
             _joined.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public ulong GetJoined(ulong? id)
         {
             _joined.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         public async Task CountUpdate(SocketGuildUser user)
         {
             var e = GetJoined(user.Guild.Id);
             await JoinedSet(user.Guild, e + 1);
         }
+
         public async Task LeftSet(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
@@ -79,13 +85,16 @@ namespace Mewdeko.Modules.Utility.Services
                 gc.Leaves = num;
                 await uow.SaveChangesAsync();
             }
+
             _left.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public ulong GetLeft(ulong? id)
         {
             _left.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         public async Task CountUpdate2(SocketGuildUser user)
         {
             var e = GetJoined(user.Guild.Id);
@@ -99,6 +108,7 @@ namespace Mewdeko.Modules.Utility.Services
 
             return invw;
         }
+
         public ulong GetReactChans(ulong? id)
         {
             if (id == null || !_reactchans.TryGetValue(id.Value, out var invw))
@@ -106,6 +116,7 @@ namespace Mewdeko.Modules.Utility.Services
 
             return invw;
         }
+
         public async Task SetReactChan(IGuild guild, ulong yesnt)
         {
 
@@ -115,8 +126,10 @@ namespace Mewdeko.Modules.Utility.Services
                 gc.ReactChannel = yesnt;
                 await uow.SaveChangesAsync();
             }
+
             _reactchans.AddOrUpdate(guild.Id, yesnt, (key, old) => yesnt);
         }
+
         public async Task PreviewLinks(IGuild guild, string yesnt)
         {
             int yesno = -1;
@@ -133,30 +146,36 @@ namespace Mewdeko.Modules.Utility.Services
                         break;
                 }
             }
+
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
                 gc.PreviewLinks = yesno;
                 await uow.SaveChangesAsync();
             }
+
             _plinks.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
         }
+
         public ulong GetSnipeSet(ulong? id)
         {
             _snipeset.TryGetValue(id.Value, out var snipeset);
             return snipeset;
         }
+
         public async Task SnipeSet(IGuild guild, string endis)
         {
-            ulong yesno = (ulong)((endis == "enable") ? 1 : 0);
+            ulong yesno = (ulong) ((endis == "enable") ? 1 : 0);
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
                 gc.snipeset = yesno;
                 await uow.SaveChangesAsync();
             }
+
             _snipeset.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
         }
+
         private Task MsgStore(Cacheable<IMessage, ulong> optMsg, ISocketMessageChannel ch)
         {
             _ = Task.Run(async () =>
@@ -165,7 +184,7 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     return;
                 }
-                
+
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                 if (msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
@@ -219,13 +238,16 @@ namespace Mewdeko.Modules.Utility.Services
 
                     _ = await uow.SaveChangesAsync();
                 }
-            }); return Task.CompletedTask;
+            });
+            return Task.CompletedTask;
         }
+
         public SnipeStore[] Snipemsg(ulong gid, ulong chanid)
         {
             using var uow = _db.GetDbContext();
             return uow.SnipeStore.ForChannel(gid, chanid);
         }
+
         public async Task MsgReciev2(SocketMessage msg)
         {
             if (msg.Author.IsBot) return;
@@ -243,71 +265,86 @@ namespace Mewdeko.Modules.Utility.Services
                 }
             }
         }
+
         public async Task MsgReciev(SocketMessage msg)
         {
-            var gid = ((IGuildChannel) msg.Channel).Guild; 
-            if (GetPLinks(gid.Id) == 1)
-            { 
-            var linkParser = new Regex(@"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                foreach (Match m in linkParser.Matches(msg.Content))
+            if (msg.Channel is SocketTextChannel t)
+            {
+                SocketGuild gid;
+                gid = t.Guild;
+                if (GetPLinks(gid.Id) == 1)
                 {
-
-                    var e = new Uri(m.Value);
-                    var en = e.Host.Split(".");
-                    if (en.Contains("discord"))
+                    var linkParser =
+                        new Regex(
+                            @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
+                            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    foreach (Match m in linkParser.Matches(msg.Content))
                     {
-                        var eb = String.Join("", e.Segments).Split("/");
-                        if (eb.Contains("channels"))
+
+                        var e = new Uri(m.Value);
+                        var en = e.Host.Split(".");
+                        if (en.Contains("discord"))
                         {
-                            SocketGuild guild;
-                            if (gid.Id != Convert.ToUInt64(eb[2]))
+                            var eb = String.Join("", e.Segments).Split("/");
+                            if (eb.Contains("channels"))
                             {
-                                guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
-                                if (guild is null) return;
-                            }
-                            else
-                            {
-                                guild = gid as SocketGuild;
-                            }
-                            var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
-                            if (em == null) return;
-                            var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
-                            if (msg2 is null) return;
-                            var en2 = new EmbedBuilder
-                            {
-                                Color = Mewdeko.OkColor,
-                                Author = new EmbedAuthorBuilder
+                                SocketGuild guild;
+                                if (gid.Id != Convert.ToUInt64(eb[2]))
                                 {
-                                    Name = msg2.Author.Username,
-                                    IconUrl = msg2.Author.GetAvatarUrl(size: 2048)
-                                },
-                                Footer = new EmbedFooterBuilder
-                                {
-                                    IconUrl = ((IGuild)guild).IconUrl,
-                                    Text = $"{((IGuild)guild).Name}: {em.Name}"
+                                    guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
+                                    if (guild is null) return;
                                 }
-                            };
-                            if (msg2.Embeds.Any())
-                            {
-                                en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault().Description);
-                                if (msg2.Embeds.FirstOrDefault().Image != null)
+                                else
                                 {
-                                    en2.ImageUrl = msg2.Embeds.FirstOrDefault().Image.Value.Url;
+                                    guild = gid as SocketGuild;
                                 }
+
+                                var em = await ((IGuild) guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
+                                if (em == null) return;
+                                var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
+                                if (msg2 is null) return;
+                                var en2 = new EmbedBuilder
+                                {
+                                    Color = Mewdeko.OkColor,
+                                    Author = new EmbedAuthorBuilder
+                                    {
+                                        Name = msg2.Author.Username,
+                                        IconUrl = msg2.Author.GetAvatarUrl(size: 2048)
+                                    },
+                                    Footer = new EmbedFooterBuilder
+                                    {
+                                        IconUrl = ((IGuild) guild).IconUrl,
+                                        Text = $"{((IGuild) guild).Name}: {em.Name}"
+                                    }
+                                };
+                                if (msg2.Embeds.Any())
+                                {
+                                    en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault().Description);
+                                    if (msg2.Embeds.FirstOrDefault().Image != null)
+                                    {
+                                        en2.ImageUrl = msg2.Embeds.FirstOrDefault().Image.Value.Url;
+                                    }
+                                }
+
+                                if (msg2.Content.Any())
+                                {
+                                    en2.Description = msg2.Content;
+                                }
+
+                                if (msg2.Attachments.Any())
+                                {
+                                    en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
+                                }
+
+                                await msg.Channel.SendMessageAsync("",
+                                    embed: en2.WithTimestamp(msg2.Timestamp).Build());
                             }
-                            if (msg2.Content.Any())
-                            {
-                                en2.Description = msg2.Content;
-                            }
-                            if (msg2.Attachments.Any())
-                            {
-                                en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
-                            }
-                            await msg.Channel.SendMessageAsync("", embed: en2.WithTimestamp(msg2.Timestamp).Build());
                         }
                     }
+
                 }
             }
         }
     }
 }
+        
