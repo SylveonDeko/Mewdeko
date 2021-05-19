@@ -23,7 +23,7 @@ namespace Mewdeko.Modules.Utility.Services
         public Mewdeko _bot;
         private ConcurrentDictionary<ulong, ulong> _starcount { get; } = new ConcurrentDictionary<ulong, ulong>();
         private ConcurrentDictionary<ulong, ulong> _starboardchannels { get; } = new ConcurrentDictionary<ulong, ulong>();
-        private ConcurrentDictionary<ulong, string> _starboardstar { get; } = new ConcurrentDictionary<ulong, string>();
+        private ConcurrentDictionary<ulong, ulong> _starboardstar { get; } = new ConcurrentDictionary<ulong, ulong>();
 
         public StarboardService(DiscordSocketClient client, CommandHandler cmdhandler, DbService db, Mewdeko bot)
         {
@@ -73,7 +73,7 @@ namespace Mewdeko.Modules.Utility.Services
 
             return invw;
         }
-        public async Task SetStar(IGuild guild, string emote)
+        public async Task SetStar(IGuild guild, ulong emote)
         {
             using (var uow = _db.GetDbContext())
             {
@@ -83,10 +83,10 @@ namespace Mewdeko.Modules.Utility.Services
             }
             _starboardstar.AddOrUpdate(guild.Id, emote, (key, old) => emote);
         }
-        public string GetStar(ulong? id)
+        public ulong GetStar(ulong? id)
         {
-            if (id == null || !_starboardstar.TryGetValue(id.Value, out string star))
-                return null;
+            if (id == null || !_starboardstar.TryGetValue(id.Value, out ulong star))
+                return 0;
 
             return star;
         }
@@ -111,24 +111,42 @@ namespace Mewdeko.Modules.Utility.Services
         }
 
         // all code here was used by Builderb's old Starboat source code (pls give him love <3)
-        private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
+        private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel,
+            SocketReaction reaction)
         {
-            try
+            if (channel is IGuildChannel chane)
             {
+                var guild = (SocketGuild)chane.Guild;
                 if (reaction.User.Value.IsBot) return;
-                var msg = await message.GetOrDownloadAsync();
-                var e = StarboardIds(message.Id);
-                var guild = ((SocketGuildChannel) channel).Guild;
                 Emoji star1 = null;
                 Emote star = null;
-                var te = GetStar(guild.Id);
-                if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
+                if (reaction.Emote is Emote emote1)
                 {
-                    star = Emote.Parse(GetStar(guild.Id));
+                    if (GetStar(guild.Id) != 0)
+                    {
+                        try
+                        {
+                            star = guild.GetEmoteAsync(GetStar(guild.Id)).Result;
+                        }
+                        catch
+                        {
+                            return;
 
+                        }
+                        if (emote1.Id != star.Id) return;
+                    }
+                    else
+                        return;
                 }
-                else
+
+                if (reaction.Emote is Emoji eee)
+                {
                     star1 = new Emoji("⭐");
+                    if (eee.Name != star1.Name) return;
+                }
+
+                var msg = await message.GetOrDownloadAsync();
+                var e = StarboardIds(message.Id);
 
                 if (star != null)
                 {
@@ -164,8 +182,9 @@ namespace Mewdeko.Modules.Utility.Services
                     }
                     else
                     {
-                        message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault()
-                            .PostId) as IUserMessage;
+                        message2 =
+                            await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
+                                IUserMessage;
                     }
 
                     if (message2 != null)
@@ -175,18 +194,14 @@ namespace Mewdeko.Modules.Utility.Services
 
                     var em = new EmbedBuilder
                     {
-                        Author =
-                            new EmbedAuthorBuilder
-                            {
-                                Name = msg.Author.ToString(),
-                                IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
-                            },
+                        Author = new EmbedAuthorBuilder
+                        {
+                            Name = msg.Author.ToString(),
+                            IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
+                        },
                         Description = $"[Jump to message]({msg.GetJumpUrl()})",
                         Color = Mewdeko.OkColor,
-                        Footer = new EmbedFooterBuilder
-                        {
-                            Text = "Message Posted Date"
-                        }
+                        Footer = new EmbedFooterBuilder {Text = "Message Posted Date"}
                     };
                     if (msg.Author.IsBot is true && msg.Embeds.Any())
                     {
@@ -221,33 +236,49 @@ namespace Mewdeko.Modules.Utility.Services
                     }
                     else
                     {
-
                         var msg2 = await chan.SendMessageAsync($"{reactions} {star} {star1}",
                             embed: em.WithTimestamp(msg.Timestamp).Build());
                         await Starboard(msg.Id, msg2.Id);
                     }
                 }
             }
-            catch
-            {}
             // do some epic jeff
         }
-        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
-        {
-            try
-            {
 
-                var msg = await message.GetOrDownloadAsync();
-                var guild = ((SocketGuildChannel) channel).Guild;
+        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel,
+            SocketReaction reaction)
+        {
+            if (channel is IGuildChannel chane)
+            {
+                var guild = (SocketGuild) chane.Guild;
+                if (reaction.User.Value.IsBot) return;
                 Emoji star1 = null;
                 Emote star = null;
-                if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
+                if (reaction.Emote is Emote emote1)
                 {
-                    star = Emote.Parse(GetStar(guild.Id));
+                    if (GetStar(guild.Id) != 0)
+                    {
+                        try
+                        {
+                            star = guild.GetEmoteAsync(GetStar(guild.Id)).Result;
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                        if (emote1.Id != star.Id) return;
+                    }
+                    else
+                        return;
                 }
-                else
-                    star1 = new Emoji("⭐");
 
+                if (reaction.Emote is Emoji eee)
+                {
+                    star1 = new Emoji("⭐");
+                    if (eee.Name != star1.Name) return;
+                }
+
+                var msg = await message.GetOrDownloadAsync();
                 if (star is null && star1 is null) return;
                 if (star != null)
                 {
@@ -351,12 +382,11 @@ namespace Mewdeko.Modules.Utility.Services
                         });
                     }
                 }
+
+                //do some epic jeff
             }
-            catch
-            {
-            }
-            //do some epic jeff
         }
+
         public Starboard[] StarboardIds(ulong msgid)
         {
             using var uow = _db.GetDbContext();

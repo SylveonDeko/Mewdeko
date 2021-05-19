@@ -28,7 +28,7 @@ namespace Mewdeko.Core.Services.Database.Models
         //public ulong TCreatMsgId { get; set; }
         public ulong Joins { get; set; }
         public ulong Leaves { get; set; }
-        public string Star { get; set; }
+        public ulong Star { get; set; }
         public ulong StarboardChannel { get; set; }
         public int PreviewLinks { get; set; }
         public ulong ReactChannel { get; set; }
