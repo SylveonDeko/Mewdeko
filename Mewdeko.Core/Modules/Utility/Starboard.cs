@@ -43,34 +43,46 @@ namespace Mewdeko.Modules.Utility
             public async Task SetStar(string num = null)
             {
                 var emote = ctx.Message.Tags.Where(x => x.Type == TagType.Emoji).Select(t => (Emote)t.Value);
+                try
+                {
+                    if (num is not null)
+                    {
+                        await ctx.Guild.GetEmoteAsync(emote.FirstOrDefault().Id);
+                    }
+                }
+                catch (Exception e)
+                {
+                    await ctx.Channel.SendErrorAsync("You may only use an emote in this server!");
+                    return;
+                }
 
-                if (num != null && _service.GetStar(ctx.Guild.Id) == emote.FirstOrDefault().ToString())
+                if (num != null && _service.GetStar(ctx.Guild.Id) == emote.FirstOrDefault().Id)
                 {
                     await ctx.Channel.SendErrorAsync("This is already your starboard emote!");
                     return;
                 }
-                
-                if (num is null && _service.GetStar(ctx.Guild.Id) != "none")
+
+                if (num is null && _service.GetStar(ctx.Guild.Id) != 0)
                 {
-                    await _service.SetStar(ctx.Guild, "none");
+                    await _service.SetStar(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync($"Your starboard emote has been set back to a star!");
                     return;
                 }
 
-                if (_service.GetStar(ctx.Guild.Id) != "none")
+                if (_service.GetStar(ctx.Guild.Id) != 0)
                 {
-                    var emote1 = Emote.Parse(_service.GetStar(ctx.Guild.Id));
-                    await _service.SetStar(ctx.Guild, emote.FirstOrDefault().ToString());
-                    var emote2 = Emote.Parse(_service.GetStar(ctx.Guild.Id));
+                    var emote1 = await ctx.Guild.GetEmoteAsync(_service.GetStar(ctx.Guild.Id));
+                    await _service.SetStar(ctx.Guild, emote.FirstOrDefault().Id);
+                    var emote2 = await ctx.Guild.GetEmoteAsync(_service.GetStar(ctx.Guild.Id));
                     await ctx.Channel.SendConfirmAsync(
                         $"Your starboard emote has been changed from {emote1} to {emote2}");
                 }
 
-                if (_service.GetStar(ctx.Guild.Id) == "none" && emote.Count() == 1)
+                if (_service.GetStar(ctx.Guild.Id) == 0 && emote.Count() == 1)
                 {
-                    await _service.SetStar(ctx.Guild, emote.FirstOrDefault().ToString());
+                    await _service.SetStar(ctx.Guild, emote.FirstOrDefault().Id);
                     await ctx.Channel.SendConfirmAsync(
-                        $"Your starboard emote has been changed to {emote.FirstOrDefault().ToString()}");
+                        $"Your starboard emote has been changed to {emote.FirstOrDefault()}");
                 }
             }
         }
