@@ -273,7 +273,6 @@ namespace Mewdeko.Modules.CustomReactions.Services
                     if (cr.AutoDeleteTrigger)
                     {
                         await Task.Delay(10000);
-                        try { await sentMsg.DeleteAsync().ConfigureAwait(false); } catch { }
                         try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }  
                     }
                     return true;

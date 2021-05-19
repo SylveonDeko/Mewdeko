@@ -113,13 +113,13 @@ namespace Mewdeko.Modules.Utility.Services
         // all code here was used by Builderb's old Starboat source code (pls give him love <3)
         private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction)
         {
+            
             if (reaction.User.Value.IsBot) return;
             var msg = await message.GetOrDownloadAsync();
             var e = StarboardIds(message.Id);
             var guild = ((SocketGuildChannel)channel).Guild;
             Emoji star1 = null;
             Emote star = null;
-            var te = GetStar(guild.Id);
             if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
             {
                 star = Emote.Parse(GetStar(guild.Id));
