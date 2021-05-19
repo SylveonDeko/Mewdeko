@@ -35,6 +35,14 @@ namespace Mewdeko.Modules.ServerManagement
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task Nuke(ITextChannel chan3 = null)
             {
+                var embed = new EmbedBuilder();
+                embed.Color = Mewdeko.ErrorColor;
+                embed.Description =
+                    "Are you sure you want to nuke this channel? This will delete the entire channel and remake it.";
+                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
+                {
+                    return;
+                }
                 ITextChannel chan;
                 if (chan3 is null)
                 {

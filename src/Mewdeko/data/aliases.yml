@@ -20,6 +20,14 @@ greetmsg:
 - greetmsg
 bye:
 - bye
+createcatvcchans:
+- ccvc
+createcatandvcchannels:
+- ccavc
+createcattxtchans:
+- cctc
+createcatandtxtchannels:
+- ccatc
 byemsg:
 - byemsg
 byedel:
