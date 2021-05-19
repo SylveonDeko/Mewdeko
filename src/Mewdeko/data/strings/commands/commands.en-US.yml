@@ -30,6 +30,26 @@ webhook:
   args: 
   - "#channel name image pastebinlinks"
   - "#channel name image file(s)"
+createcatvcchans:
+  desc: "Creates vc channels under the category you specify."
+  args:
+  - "category name1 name2"
+  - "category \"name 1\" name2"
+createcattxtchans:
+  desc: "Creates txt channels under the category you specify."
+  args:
+  - "category name1 name2"
+  - "category \"name 1\" name2"
+createcatandvcchannels:
+  desc: "Creates the category you specify with the voice channels you want"
+  args:
+  - "category name1 name2"
+  - "category \"name 1\" name2"
+createcatandtxtchannels:
+  desc: "Creates the category you specify with the text channels you want"
+  args:
+  - "category name1 name2"
+  - "category \"name 1\" name2"
 mwarnlog:
   desc: "Shows the minor warnlog for a user or yourself if you dont mention a user. " 
   args: 
