@@ -122,7 +122,14 @@ namespace Mewdeko.Modules.Utility.Services
             var te = GetStar(guild.Id);
             if (GetStar(guild.Id) != null && GetStar(guild.Id) != "none")
             {
-                star = Emote.Parse(GetStar(guild.Id));
+                try
+                {
+                    star = Emote.Parse(GetStar(guild.Id));
+                }
+                catch (Exception exception)
+                {
+                }
+                
             }
             else
                 star1 = new Emoji("⭐");
