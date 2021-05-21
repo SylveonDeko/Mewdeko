@@ -105,6 +105,7 @@ namespace Mewdeko.Modules.NSFW
         }
 
         [MewdekoCommand, Usage, Description, Alias]
+        [RequireContext(ContextType.Guild)]
         [RequireNsfw]
         public async Task RedditNSFW(string subreddit)
         {
@@ -250,12 +251,14 @@ namespace Mewdeko.Modules.NSFW
 #endif
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Hentai([Remainder] string tag = null) =>
             InternalHentai(ctx.Channel, tag);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public async Task HentaiBomb([Remainder] string tag = null)
         {
             if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
@@ -283,42 +286,50 @@ namespace Mewdeko.Modules.NSFW
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Yandere([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Konachan([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task E621([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.E621, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Rule34([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Danbooru([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Gelbooru([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public Task Derpibooru([Remainder] string tag = null)
             => InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public async Task Boobs()
         {
             try
@@ -337,7 +348,8 @@ namespace Mewdeko.Modules.NSFW
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+        [RequireNsfw]
+        [RequireContext(ContextType.Guild)]
         public async Task Butts()
         {
             try
