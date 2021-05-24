@@ -4,12 +4,17 @@ using Discord.Commands;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mewdeko.Common.Attributes;
 using AngleSharp.Html.Dom;
 using System.Net.Http;
 using System.IO;
+using Anilist4Net;
+using Anilist4Net.Connections;
+using Anilist4Net.Enums;
+using Microsoft.EntityFrameworkCore.Update;
 using Newtonsoft.Json;
 
 
@@ -236,26 +241,45 @@ namespace Mewdeko.Modules.Searches
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
-
-                var animeData = await _service.GetAnimeData(query).ConfigureAwait(false);
-
-                if (animeData == null)
+                var c2 = new Client();
+                Media result = null;
+                try
                 {
-                    await ReplyErrorLocalizedAsync("failed_finding_anime").ConfigureAwait(false);
+                    result = await c2.GetMediaBySearch(query, MediaTypes.ANIME);
+                }
+                catch
+                {
+                    await ctx.Channel.SendErrorAsync(
+                        "THe anime you searched for wasn't found! Please try a different query!");
                     return;
                 }
-
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithDescription(animeData.Synopsis.Replace("<br>", Environment.NewLine, StringComparison.InvariantCulture))
-                    .WithTitle(animeData.TitleEnglish)
-                    .WithUrl(animeData.Link)
-                    .WithImageUrl(animeData.ImageUrlLarge)
-                    .AddField(efb => efb.WithName(GetText("episodes")).WithValue(animeData.TotalEpisodes.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("status")).WithValue(animeData.AiringStatus.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("genres")).WithValue(string.Join(",\n", animeData.Genres.Any() ? animeData.Genres : new[] { "none" })).WithIsInline(true))
-                    .WithFooter(efb => efb.WithText(GetText("score") + " " + animeData.AverageScore + " / 100"));
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                var eb = new EmbedBuilder();
+                eb.ImageUrl = result.CoverImageLarge;
+                var list = new List<string>();
+                if (result.Recommendations.Nodes.Any())
+                {
+                    foreach (var i in result.Recommendations.Nodes)
+                    {
+                        var t = await c2.GetMediaById(i.Id);
+                        if(t is not null) list.Add(t.EnglishTitle);
+                    }
+                }
+                if (result.DescriptionMd != null) eb.AddField("Description", result.DescriptionMd.TrimTo(1024), true);
+                if (result.Genres.Any()) eb.AddField("Genres", string.Join("\n", result.Genres), true);
+                if (result.CountryOfOrigin is not null) eb.AddField("Country of Origin", result.CountryOfOrigin, true);
+                if (!list.Contains(null) && list.Any())
+                    eb.AddField("Recommendations based on this search", string.Join("\n",list.Where(x => !string.IsNullOrWhiteSpace(x)).Take(10)), true);
+                eb.AddField("Episodes", result.Episodes, true);
+                eb.AddField("Seasons", result.SeasonInt.ToString()[2..], true);
+                eb.AddField("Air Start Date", result.AiringStartDate, true);
+                eb.AddField("Air End Date", result.AiringEndDate, true);
+                eb.AddField("Average Score", result.AverageScore, true);
+                eb.AddField("Mean Score", result.MeanScore, true);
+                eb.AddField("Is this NSFW?", result.IsAdult, true);
+                eb.Title = $"{result.EnglishTitle}";
+                eb.Color = Mewdeko.OkColor;
+                eb.WithUrl(result.SiteUrl);
+                await ctx.Channel.SendMessageAsync(embed:eb.Build());
             }
 
             [MewdekoCommand, Usage, Description, Aliases]
