@@ -44,6 +44,12 @@ namespace Mewdeko.Modules.Utility
             _httpFactory = factory;
             _tracker = tracker;
         }
+
+        [MewdekoCommand, Usage, Description, Aliases]
+        public async Task Invite()
+        {
+            await ctx.Channel.SendConfirmAsync("Invite me using this link:\nhttps://mewdeko.tech/invite");
+        }
         [MewdekoCommand, Usage, Description, Aliases]
         [UserPerm(GuildPerm.ManageChannels)]
         public async Task ReactChannel(ITextChannel chan = null)
@@ -484,7 +490,7 @@ namespace Mewdeko.Modules.Utility
         public async Task Vote()
         {
            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-            .WithDescription("Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://discord.gg/FeXHsR3FYZ)"));
+            .WithDescription("Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
