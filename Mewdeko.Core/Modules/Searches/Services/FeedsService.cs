@@ -1,26 +1,28 @@
-﻿using CodeHollow.FeedReader.Feeds;
-using Discord;
-using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodeHollow.FeedReader;
+using CodeHollow.FeedReader.Feeds;
+using Discord;
+using Discord.WebSocket;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Searches.Services
 {
     public class FeedsService : INService
     {
-        private readonly DbService _db;
-        private readonly ConcurrentDictionary<string, HashSet<FeedSub>> _subs;
         private readonly DiscordSocketClient _client;
+        private readonly DbService _db;
 
         private readonly ConcurrentDictionary<string, DateTime> _lastPosts =
-            new ConcurrentDictionary<string, DateTime>();
+            new();
+
+        private readonly ConcurrentDictionary<string, HashSet<FeedSub>> _subs;
 
         public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
         {
@@ -33,7 +35,7 @@ namespace Mewdeko.Modules.Searches.Services
                     .AsQueryable()
                     .Where(x => guildConfigIds.Contains(x.Id))
                     .Include(x => x.FeedSubs)
-                        .ThenInclude(x => x.GuildConfig)
+                    .ThenInclude<GuildConfig, FeedSub, GuildConfig>(x => x.GuildConfig)
                     .ToList()
                     .SelectMany(x => x.FeedSubs)
                     .GroupBy(x => x.Url.ToLower())
@@ -59,7 +61,7 @@ namespace Mewdeko.Modules.Searches.Services
                     var rssUrl = kvp.Key;
                     try
                     {
-                        var feed = await CodeHollow.FeedReader.FeedReader.ReadAsync(rssUrl).ConfigureAwait(false);
+                        var feed = await FeedReader.ReadAsync(rssUrl).ConfigureAwait(false);
 
                         var items = feed
                             .Items
@@ -67,23 +69,18 @@ namespace Mewdeko.Modules.Searches.Services
                                                                      ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate
                                                                      ?.ToUniversalTime()))
                             .Where(data => !(data.LastUpdate is null))
-                            .Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate))
+                            .Select(data => (data.Item, LastUpdate: (DateTime) data.LastUpdate))
                             .OrderByDescending(data => data.LastUpdate)
                             .Reverse() // start from the oldest
                             .ToList();
 
-                        if (!_lastPosts.TryGetValue(kvp.Key, out DateTime lastFeedUpdate))
-                        {
+                        if (!_lastPosts.TryGetValue(kvp.Key, out var lastFeedUpdate))
                             lastFeedUpdate = _lastPosts[kvp.Key] =
                                 items.Any() ? items[items.Count - 1].LastUpdate : DateTime.UtcNow;
-                        }
 
                         foreach (var (feedItem, itemUpdateDate) in items)
                         {
-                            if (itemUpdateDate <= lastFeedUpdate)
-                            {
-                                continue;
-                            }
+                            if (itemUpdateDate <= lastFeedUpdate) continue;
 
                             var embed = new EmbedBuilder()
                                 .WithFooter(rssUrl);
@@ -117,10 +114,8 @@ namespace Mewdeko.Modules.Searches.Services
                                     .FirstOrDefault(x => x.Name.LocalName == "preview");
 
                                 if (previewElement == null)
-                                {
                                     previewElement = afi.Element.Elements()
                                         .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
-                                }
 
                                 if (previewElement != null)
                                 {
@@ -168,7 +163,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 return uow.GuildConfigs.ForId(guildId,
                         set => set.Include(x => x.FeedSubs)
-                                        .ThenInclude(x => x.GuildConfig))
+                            .ThenInclude<GuildConfig, FeedSub, GuildConfig>(x => x.GuildConfig))
                     .FeedSubs
                     .OrderBy(x => x.Id)
                     .ToList();
@@ -179,38 +174,31 @@ namespace Mewdeko.Modules.Searches.Services
         {
             rssFeed.ThrowIfNull(nameof(rssFeed));
 
-            var fs = new FeedSub()
+            var fs = new FeedSub
             {
                 ChannelId = channelId,
-                Url = rssFeed.Trim(),
+                Url = rssFeed.Trim()
             };
 
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId,
                     set => set.Include(x => x.FeedSubs)
-                                    .ThenInclude(x => x.GuildConfig));
+                        .ThenInclude<GuildConfig, FeedSub, GuildConfig>(x => x.GuildConfig));
 
                 if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
-                {
                     return false;
-                }
-                else if (gc.FeedSubs.Count >= 10)
-                {
-                    return false;
-                }
+                if (gc.FeedSubs.Count >= 10) return false;
 
                 gc.FeedSubs.Add(fs);
                 uow.SaveChanges();
                 //adding all, in case bot wasn't on this guild when it started
                 foreach (var feed in gc.FeedSubs)
-                {
-                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub>() { feed }, (k, old) =>
+                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (k, old) =>
                     {
                         old.Add(feed);
                         return old;
                     });
-                }
             }
 
             return true;

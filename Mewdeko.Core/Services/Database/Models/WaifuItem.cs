@@ -4,11 +4,6 @@ namespace Mewdeko.Core.Services.Database.Models
 {
     public class WaifuItem : DbEntity
     {
-        public int? WaifuInfoId { get; set; }
-        public string ItemEmoji { get; set; }
-        public int Price { get; set; }
-        public ItemName Item { get; set; }
-
         public enum ItemName
         {
             Cookie,
@@ -45,13 +40,12 @@ namespace Mewdeko.Core.Services.Database.Models
             Moon, //100k
             Panda, //5k
             Cake, //2000
-            Watermelon,//1000
-            Dress, //4000
+            Watermelon, //1000
+            Dress //4000
         }
 
         public WaifuItem()
         {
-
         }
 
         public WaifuItem(string itemEmoji, int price, ItemName item)
@@ -60,6 +54,11 @@ namespace Mewdeko.Core.Services.Database.Models
             Price = price;
             Item = item;
         }
+
+        public int? WaifuInfoId { get; set; }
+        public string ItemEmoji { get; set; }
+        public int Price { get; set; }
+        public ItemName Item { get; set; }
 
         public static WaifuItem GetItemObject(ItemName itemName, int mult)
         {
@@ -177,6 +176,7 @@ namespace Mewdeko.Core.Services.Database.Models
                 default:
                     throw new ArgumentException("Item != implemented", nameof(itemName));
             }
+
             wi.Price = wi.Price * mult;
             return wi;
         }

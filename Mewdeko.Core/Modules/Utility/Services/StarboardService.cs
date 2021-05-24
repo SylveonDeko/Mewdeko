@@ -1,29 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Core.Services.Database.Models;
-using System.Collections.Concurrent;
-using Microsoft.EntityFrameworkCore.Migrations;
-using NLog.LayoutRenderers.Wrappers;
-
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class StarboardService : INService
     {
-        private DiscordSocketClient _client;
-        public CommandHandler _CmdHandler;
         private readonly DbService _db;
         public Mewdeko _bot;
-        private ConcurrentDictionary<ulong, ulong> _starcount { get; } = new ConcurrentDictionary<ulong, ulong>();
-        private ConcurrentDictionary<ulong, ulong> _starboardchannels { get; } = new ConcurrentDictionary<ulong, ulong>();
-        private ConcurrentDictionary<ulong, ulong> _starboardstar { get; } = new ConcurrentDictionary<ulong, ulong>();
+        private readonly DiscordSocketClient _client;
+        public CommandHandler _CmdHandler;
 
         public StarboardService(DiscordSocketClient client, CommandHandler cmdhandler, DbService db, Mewdeko bot)
         {
@@ -45,17 +37,23 @@ namespace Mewdeko.Modules.Utility.Services
                 .ToConcurrent();
             //_client.ReactionsCleared += OnAllReactionsClearedAsync;
         }
+
+        private ConcurrentDictionary<ulong, ulong> _starcount { get; } = new();
+        private ConcurrentDictionary<ulong, ulong> _starboardchannels { get; } = new();
+        private ConcurrentDictionary<ulong, ulong> _starboardstar { get; } = new();
+
         public async Task SetStarboardChannel(IGuild guild, ITextChannel channel)
         {
-
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
                 gc.StarboardChannel = channel.Id;
                 await uow.SaveChangesAsync();
             }
+
             _starboardchannels.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
         }
+
         public async Task SetStarCount(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
@@ -64,8 +62,10 @@ namespace Mewdeko.Modules.Utility.Services
                 gc.Stars = num;
                 await uow.SaveChangesAsync();
             }
+
             _starcount.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public ulong GetStarSetting(ulong? id)
         {
             if (id == null || !_starcount.TryGetValue(id.Value, out var invw))
@@ -73,6 +73,7 @@ namespace Mewdeko.Modules.Utility.Services
 
             return invw;
         }
+
         public async Task SetStar(IGuild guild, ulong emote)
         {
             using (var uow = _db.GetDbContext())
@@ -81,15 +82,18 @@ namespace Mewdeko.Modules.Utility.Services
                 gc.Star = emote;
                 await uow.SaveChangesAsync();
             }
+
             _starboardstar.AddOrUpdate(guild.Id, emote, (key, old) => emote);
         }
+
         public ulong GetStar(ulong? id)
         {
-            if (id == null || !_starboardstar.TryGetValue(id.Value, out ulong star))
+            if (id == null || !_starboardstar.TryGetValue(id.Value, out var star))
                 return 0;
 
             return star;
         }
+
         public ulong GetStarboardChannel(ulong? id)
         {
             if (id == null || !_starboardchannels.TryGetValue(id.Value, out var invw))
@@ -97,9 +101,10 @@ namespace Mewdeko.Modules.Utility.Services
 
             return invw;
         }
+
         private async Task Starboard(ulong msg2, ulong msg)
         {
-            var starboard = new Starboard()
+            var starboard = new Starboard
             {
                 PostId = msg,
                 MessageId = msg2
@@ -116,7 +121,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             if (channel is IGuildChannel chane)
             {
-                var guild = (SocketGuild)chane.Guild;
+                var guild = (SocketGuild) chane.Guild;
                 if (reaction.User.Value.IsBot) return;
                 Emoji star1 = null;
                 Emote star = null;
@@ -131,12 +136,14 @@ namespace Mewdeko.Modules.Utility.Services
                         catch
                         {
                             return;
-
                         }
+
                         if (emote1.Id != star.Id) return;
                     }
                     else
+                    {
                         return;
+                    }
                 }
 
                 if (reaction.Emote is Emoji eee)
@@ -149,25 +156,17 @@ namespace Mewdeko.Modules.Utility.Services
                 var e = StarboardIds(message.Id);
 
                 if (star != null)
-                {
-                    if (reaction.Emote.Name != star.Name) return;
-                }
+                    if (reaction.Emote.Name != star.Name)
+                        return;
 
                 if (star1 != null)
-                {
-                    if (reaction.Emote.Name != star1.Name) return;
-                }
+                    if (reaction.Emote.Name != star1.Name)
+                        return;
 
-                int reactions = 0;
-                if (star != null)
-                {
-                    reactions = msg.Reactions[star].ReactionCount;
-                }
+                var reactions = 0;
+                if (star != null) reactions = msg.Reactions[star].ReactionCount;
 
-                if (star1 != null)
-                {
-                    reactions = msg.Reactions[star1].ReactionCount;
-                }
+                if (star1 != null) reactions = msg.Reactions[star1].ReactionCount;
 
                 var chanID = GetStarboardChannel(guild.Id);
                 if (chanID == 0) return;
@@ -177,27 +176,22 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     IUserMessage message2 = null;
                     if (e.Length == 0)
-                    {
                         message2 = null;
-                    }
                     else
-                    {
                         message2 =
                             await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
                                 IUserMessage;
-                    }
 
                     if (message2 != null)
-                    {
-                        if (message2.Id == message.Id) return;
-                    }
+                        if (message2.Id == message.Id)
+                            return;
 
                     var em = new EmbedBuilder
                     {
                         Author = new EmbedAuthorBuilder
                         {
                             Name = msg.Author.ToString(),
-                            IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
+                            IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, 2048)
                         },
                         Description = $"[Jump to message]({msg.GetJumpUrl()})",
                         Color = Mewdeko.OkColor,
@@ -216,15 +210,9 @@ namespace Mewdeko.Modules.Utility.Services
                             em.AddField("Footer Text", msg.Embeds.FirstOrDefault().Footer.Value);
                     }
 
-                    if (msg.Content.Any())
-                    {
-                        em.Description = $"{msg.Content}\n\n{em.Description}";
-                    }
+                    if (msg.Content.Any()) em.Description = $"{msg.Content}\n\n{em.Description}";
 
-                    if (msg.Attachments.Any())
-                    {
-                        em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
-                    }
+                    if (msg.Attachments.Any()) em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
 
                     if (e.Any() && message2 != null)
                     {
@@ -266,10 +254,13 @@ namespace Mewdeko.Modules.Utility.Services
                         {
                             return;
                         }
+
                         if (emote1.Id != star.Id) return;
                     }
                     else
+                    {
                         return;
+                    }
                 }
 
                 if (reaction.Emote is Emoji eee)
@@ -281,39 +272,28 @@ namespace Mewdeko.Modules.Utility.Services
                 var msg = await message.GetOrDownloadAsync();
                 if (star is null && star1 is null) return;
                 if (star != null)
-                {
-                    if (reaction.Emote.Name != star.Name) return;
-                }
+                    if (reaction.Emote.Name != star.Name)
+                        return;
 
                 if (star1 != null)
-                {
-                    if (reaction.Emote.Name != star1.Name) return;
-                }
+                    if (reaction.Emote.Name != star1.Name)
+                        return;
 
                 if (star != null)
-                {
-                    if (reaction.Emote.Name != star.Name) return;
-                }
+                    if (reaction.Emote.Name != star.Name)
+                        return;
 
                 if (star1 != null)
-                {
-                    if (reaction.Emote.Name != star1.Name) return;
-                }
+                    if (reaction.Emote.Name != star1.Name)
+                        return;
 
                 int reactions;
-                if (star != null && ((IUserMessage) msg).Reactions.ContainsKey(star))
-                {
-                    reactions = ((IUserMessage) msg).Reactions[star].ReactionCount;
-                }
+                if (star != null && msg.Reactions.ContainsKey(star)) reactions = msg.Reactions[star].ReactionCount;
 
-                if (star1 != null && ((IUserMessage) msg).Reactions.ContainsKey(star1))
-                {
-                    reactions = ((IUserMessage) msg).Reactions[star1].ReactionCount;
-                }
+                if (star1 != null && msg.Reactions.ContainsKey(star1))
+                    reactions = msg.Reactions[star1].ReactionCount;
                 else
-                {
                     reactions = 0;
-                }
 
                 ;
                 var e = StarboardIds(message.Id);
@@ -325,19 +305,14 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     IUserMessage message2 = null;
                     if (e.Length == 0)
-                    {
                         message2 = null;
-                    }
                     else
-                    {
                         message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault()
                             .PostId) as IUserMessage;
-                    }
 
                     if (message2 != null)
-                    {
-                        if (message2.Id == message.Id) return;
-                    }
+                        if (message2.Id == message.Id)
+                            return;
 
                     if (message2 != null) await message2.DeleteAsync();
                     return;
@@ -349,7 +324,7 @@ namespace Mewdeko.Modules.Utility.Services
                         new EmbedAuthorBuilder
                         {
                             Name = msg.Author.ToString(),
-                            IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, size: 2048),
+                            IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, 2048)
                         },
                     Description = $"[Jump to message]({msg.GetJumpUrl()})",
                     Color = Mewdeko.OkColor,
@@ -358,15 +333,9 @@ namespace Mewdeko.Modules.Utility.Services
                         Text = "Message Posted Date"
                     }
                 };
-                if (msg.Content.Any())
-                {
-                    em.Description = $"{msg.Content}\n\n{em.Description}";
-                }
+                if (msg.Content.Any()) em.Description = $"{msg.Content}\n\n{em.Description}";
 
-                if (msg.Attachments.Any())
-                {
-                    em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
-                }
+                if (msg.Attachments.Any()) em.ImageUrl = msg.Attachments.FirstOrDefault().Url;
 
                 if (e.Any())
                 {
@@ -374,13 +343,11 @@ namespace Mewdeko.Modules.Utility.Services
                         await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
                             IUserMessage;
                     if (message2 != null)
-                    {
                         await message2.ModifyAsync(x =>
                         {
                             x.Embed = em.WithTimestamp(msg.Timestamp).Build();
                             x.Content = $"{reactions} {star}{star1}";
                         });
-                    }
                 }
 
                 //do some epic jeff

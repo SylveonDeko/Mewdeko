@@ -1,15 +1,15 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Searches.Common;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches
@@ -28,7 +28,10 @@ namespace Mewdeko.Modules.Searches
                 _httpFactory = factory;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Osu(string user, [Remainder] string mode = null)
             {
                 if (string.IsNullOrWhiteSpace(user))
@@ -88,7 +91,10 @@ namespace Mewdeko.Modules.Searches
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Gatari(string user, [Remainder] string mode = null)
             {
                 using (var http = _httpFactory.CreateClient())
@@ -131,7 +137,10 @@ namespace Mewdeko.Modules.Searches
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Osu5(string user, [Remainder] string mode = null)
             {
                 var channel = (ITextChannel) ctx.Channel;
@@ -150,16 +159,13 @@ namespace Mewdeko.Modules.Searches
                 using (var http = _httpFactory.CreateClient())
                 {
                     var m = 0;
-                    if (!string.IsNullOrWhiteSpace(mode))
-                    {
-                        m = ResolveGameMode(mode);
-                    }
+                    if (!string.IsNullOrWhiteSpace(mode)) m = ResolveGameMode(mode);
 
-                    var reqString = $"https://osu.ppy.sh/api/get_user_best" +
+                    var reqString = "https://osu.ppy.sh/api/get_user_best" +
                                     $"?k={_creds.OsuApiKey}" +
                                     $"&u={Uri.EscapeDataString(user)}" +
-                                    $"&type=string" +
-                                    $"&limit=5" +
+                                    "&type=string" +
+                                    "&limit=5" +
                                     $"&m={m}";
 
                     var resString = await http.GetStringAsync(reqString).ConfigureAwait(false);
@@ -167,7 +173,7 @@ namespace Mewdeko.Modules.Searches
 
                     var mapTasks = obj.Select(async item =>
                     {
-                        var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps" +
+                        var mapReqString = "https://osu.ppy.sh/api/get_beatmaps" +
                                            $"?k={_creds.OsuApiKey}" +
                                            $"&b={item.BeatmapId}";
 
@@ -183,23 +189,17 @@ namespace Mewdeko.Modules.Searches
                         var desc = $@"[/b/{item.BeatmapId}](https://osu.ppy.sh/b/{item.BeatmapId})
 {pp + "pp",-7} | {acc + "%",-7}
 ";
-                        if (mods != "+")
-                        {
-                            desc += Format.Bold(mods);
-                        }
+                        if (mods != "+") desc += Format.Bold(mods);
 
                         return (title, desc);
                     });
-                    
+
                     var eb = new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle($"Top 5 plays for {user}");
-                    
+
                     var mapData = await Task.WhenAll(mapTasks);
-                    foreach (var (title, desc) in mapData.Where(x => x != default))
-                    {
-                        eb.AddField(title, desc, inline: false);
-                    }
+                    foreach (var (title, desc) in mapData.Where(x => x != default)) eb.AddField(title, desc, false);
 
                     await channel.EmbedAsync(eb).ConfigureAwait(false);
                 }
@@ -238,7 +238,7 @@ namespace Mewdeko.Modules.Searches
                                 play.Countkatu * 200 +
                                 (play.Count300 + play.Countgeki) * 300;
 
-                    totalHits = (play.Countmiss + play.Count50 + play.Count100 + 
+                    totalHits = (play.Countmiss + play.Count50 + play.Count100 +
                                  play.Countkatu + play.Count300 + play.Countgeki) * 300;
                 }
 
@@ -286,7 +286,7 @@ namespace Mewdeko.Modules.Searches
             //https://github.com/ppy/osu-api/wiki#mods
             private static string ResolveMods(int mods)
             {
-                var modString = $"+";
+                var modString = "+";
 
                 if (IsBitSet(mods, 0))
                     modString += "NF";
@@ -320,8 +320,10 @@ namespace Mewdeko.Modules.Searches
                 return modString;
             }
 
-            private static bool IsBitSet(int mods, int pos) =>
-                (mods & (1 << pos)) != 0;
+            private static bool IsBitSet(int mods, int pos)
+            {
+                return (mods & (1 << pos)) != 0;
+            }
         }
     }
 }

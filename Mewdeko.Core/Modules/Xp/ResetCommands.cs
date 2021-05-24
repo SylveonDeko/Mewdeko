@@ -1,9 +1,8 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Services;
 using Mewdeko.Modules.Xp.Services;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Xp
 {
@@ -11,14 +10,21 @@ namespace Mewdeko.Modules.Xp
     {
         public class ResetCommands : MewdekoSubmodule<XpService>
         {
-
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public Task XpReset(IGuildUser user)
-                => XpReset(user.Id);
+            {
+                return XpReset(user.Id);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task XpReset(ulong userId)
@@ -35,14 +41,17 @@ namespace Mewdeko.Modules.Xp
                 await ReplyConfirmLocalizedAsync("reset_user", userId).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task XpReset()
             {
                 var embed = new EmbedBuilder()
-                       .WithTitle(GetText("reset"))
-                       .WithDescription(GetText("reset_server_confirm"));
+                    .WithTitle(GetText("reset"))
+                    .WithDescription(GetText("reset_server_confirm"));
 
                 if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
                     return;

@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -5,8 +7,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Gambling.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games
 {
@@ -22,62 +22,66 @@ namespace Mewdeko.Modules.Games
                 this.logService = logService;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Pick(string pass = null)
             {
-                if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
-                {
-                    return;
-                }
+                if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
-                var picked = await _service.PickAsync(ctx.Guild.Id, (ITextChannel)ctx.Channel, ctx.User.Id, pass);
+                var picked = await _service.PickAsync(ctx.Guild.Id, (ITextChannel) ctx.Channel, ctx.User.Id, pass);
 
                 if (picked > 0)
                 {
                     var msg = await ReplyConfirmLocalizedAsync("picked", picked + Bc.BotConfig.CurrencySign)
-                       .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                     msg.DeleteAfter(10);
                 }
 
-                if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
-                {
+                if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                     try
                     {
                         logService.AddDeleteIgnore(ctx.Message.Id);
                         await ctx.Message.DeleteAsync().ConfigureAwait(false);
                     }
-                    catch { }
-                }
+                    catch
+                    {
+                    }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Plant(int amount = 1, string pass = null)
             {
                 if (amount < 1)
                     return;
 
-                if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
-                {
-                    return;
-                }
+                if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
-                var success = await _service.PlantAsync(ctx.Guild.Id, ctx.Channel, ctx.User.Id, ctx.User.ToString(), amount, pass);
+                var success = await _service.PlantAsync(ctx.Guild.Id, ctx.Channel, ctx.User.Id, ctx.User.ToString(),
+                    amount, pass);
                 if (!success)
                 {
                     await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
                 }
 
-                if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                 {
                     logService.AddDeleteIgnore(ctx.Message.Id);
                     await ctx.Message.DeleteAsync().ConfigureAwait(false);
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
 #if GLOBAL_Mewdeko
@@ -85,18 +89,17 @@ namespace Mewdeko.Modules.Games
 #endif
             public async Task GenCurrency()
             {
-                bool enabled = _service.ToggleCurrencyGeneration(ctx.Guild.Id, ctx.Channel.Id);
+                var enabled = _service.ToggleCurrencyGeneration(ctx.Guild.Id, ctx.Channel.Id);
                 if (enabled)
-                {
                     await ReplyConfirmLocalizedAsync("curgen_enabled").ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("curgen_disabled").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [OwnerOnly]
@@ -106,15 +109,13 @@ namespace Mewdeko.Modules.Games
                     return Task.CompletedTask;
                 var enabledIn = _service.GetAllGeneratingChannels();
 
-                return ctx.SendPaginatedConfirmAsync(page, (cur) =>
+                return ctx.SendPaginatedConfirmAsync(page, cur =>
                 {
                     var items = enabledIn.Skip(page * 9).Take(9);
 
                     if (!items.Any())
-                    {
                         return new EmbedBuilder().WithErrorColor()
                             .WithDescription("-");
-                    }
 
                     return items.Aggregate(new EmbedBuilder().WithOkColor(),
                         (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));

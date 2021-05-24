@@ -1,55 +1,36 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
+using Discord;
+using Discord.WebSocket;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Games.Common
 {
     public class TicTacToe
     {
-        public class Options : IMewdekoCommandOptions
-        {
-            public void NormalizeOptions()
-            {
-                if (TurnTimer < 5 || TurnTimer > 60)
-                    TurnTimer = 15;
-            }
-
-            [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. Default 15.")]
-            public int TurnTimer { get; set; } = 15;
-        }
-
-        enum Phase
-        {
-            Starting,
-            Started,
-            Ended
-        }
-
         private readonly ITextChannel _channel;
-        private readonly IGuildUser[] _users;
-        private readonly int?[,] _state;
-        private Phase _phase;
-        private int _curUserIndex;
+        private readonly DiscordSocketClient _client;
         private readonly SemaphoreSlim _moveLock;
 
-        private IGuildUser _winner;
+        private readonly string[] _numbers =
+            {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:"};
 
-        private readonly string[] _numbers = { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:" };
-
-        public event Action<TicTacToe> OnEnded;
+        private readonly Options _options;
+        private readonly int?[,] _state;
+        private readonly IBotStrings _strings;
+        private readonly IGuildUser[] _users;
+        private int _curUserIndex;
+        private Phase _phase;
 
         private IUserMessage _previousMessage;
         private Timer _timeoutTimer;
-        private readonly IBotStrings _strings;
-        private readonly DiscordSocketClient _client;
-        private readonly Options _options;
+
+        private IGuildUser _winner;
 
         public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel,
             IGuildUser firstUser, Options options)
@@ -59,19 +40,24 @@ namespace Mewdeko.Modules.Games.Common
             _client = client;
             _options = options;
 
-            _users = new[] { firstUser, null };
-            _state = new int?[,] {
-                    { null, null, null },
-                    { null, null, null },
-                    { null, null, null },
-                };
+            _users = new[] {firstUser, null};
+            _state = new int?[,]
+            {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            };
 
             _phase = Phase.Starting;
             _moveLock = new SemaphoreSlim(1, 1);
         }
 
+        public event Action<TicTacToe> OnEnded;
+
         private string GetText(string key, params object[] replacements)
-            => _strings.GetText(key, _channel.GuildId, replacements);
+        {
+            return _strings.GetText(key, _channel.GuildId, replacements);
+        }
 
         public string GetState()
         {
@@ -84,6 +70,7 @@ namespace Mewdeko.Modules.Games.Common
                     if (j < _state.GetLength(1) - 1)
                         sb.Append("┃");
                 }
+
                 if (i < _state.GetLength(0) - 1)
                     sb.AppendLine("\n──────────");
             }
@@ -109,7 +96,9 @@ namespace Mewdeko.Modules.Games.Common
                     embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", _users[_curUserIndex])));
             }
             else
+            {
                 embed.WithFooter(efb => efb.WithText(GetText("ttt_has_won", _winner)));
+            }
 
             return embed;
         }
@@ -138,7 +127,8 @@ namespace Mewdeko.Modules.Games.Common
                 await _channel.SendErrorAsync(user.Mention + GetText("ttt_already_running")).ConfigureAwait(false);
                 return;
             }
-            else if (_users[0] == user)
+
+            if (_users[0] == user)
             {
                 await _channel.SendErrorAsync(user.Mention + GetText("ttt_against_yourself")).ConfigureAwait(false);
                 return;
@@ -148,7 +138,7 @@ namespace Mewdeko.Modules.Games.Common
 
             _phase = Phase.Started;
 
-            _timeoutTimer = new Timer(async (_) =>
+            _timeoutTimer = new Timer(async _ =>
             {
                 await _moveLock.WaitAsync().ConfigureAwait(false);
                 try
@@ -167,12 +157,16 @@ namespace Mewdeko.Modules.Games.Common
                             if (del != null)
                                 await del.ConfigureAwait(false);
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
 
                     OnEnded?.Invoke(this);
                 }
-                catch { }
+                catch
+                {
+                }
                 finally
                 {
                     _moveLock.Release();
@@ -188,13 +182,9 @@ namespace Mewdeko.Modules.Games.Common
         private bool IsDraw()
         {
             for (var i = 0; i < 3; i++)
-            {
-                for (var j = 0; j < 3; j++)
-                {
-                    if (_state[i, j] == null)
-                        return false;
-                }
-            }
+            for (var j = 0; j < 3; j++)
+                if (_state[i, j] == null)
+                    return false;
             return true;
         }
 
@@ -217,7 +207,8 @@ namespace Mewdeko.Modules.Games.Common
                         _state[index / 3, index % 3] = _curUserIndex;
 
                         // i'm lazy
-                        if (_state[index / 3, 0] == _state[index / 3, 1] && _state[index / 3, 1] == _state[index / 3, 2])
+                        if (_state[index / 3, 0] == _state[index / 3, 1] &&
+                            _state[index / 3, 1] == _state[index / 3, 2])
                         {
                             _state[index / 3, 0] = _curUserIndex + 2;
                             _state[index / 3, 1] = _curUserIndex + 2;
@@ -225,7 +216,8 @@ namespace Mewdeko.Modules.Games.Common
 
                             _phase = Phase.Ended;
                         }
-                        else if (_state[0, index % 3] == _state[1, index % 3] && _state[1, index % 3] == _state[2, index % 3])
+                        else if (_state[0, index % 3] == _state[1, index % 3] &&
+                                 _state[1, index % 3] == _state[2, index % 3])
                         {
                             _state[0, index % 3] = _curUserIndex + 2;
                             _state[1, index % 3] = _curUserIndex + 2;
@@ -233,7 +225,8 @@ namespace Mewdeko.Modules.Games.Common
 
                             _phase = Phase.Ended;
                         }
-                        else if (_curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] && _state[1, 1] == _state[2, 2])
+                        else if (_curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] &&
+                                 _state[1, 1] == _state[2, 2])
                         {
                             _state[0, 0] = _curUserIndex + 2;
                             _state[1, 1] = _curUserIndex + 2;
@@ -241,7 +234,8 @@ namespace Mewdeko.Modules.Games.Common
 
                             _phase = Phase.Ended;
                         }
-                        else if (_curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] && _state[1, 1] == _state[2, 0])
+                        else if (_curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] &&
+                                 _state[1, 1] == _state[2, 0])
                         {
                             _state[0, 2] = _curUserIndex + 2;
                             _state[1, 1] = _curUserIndex + 2;
@@ -249,6 +243,7 @@ namespace Mewdeko.Modules.Games.Common
 
                             _phase = Phase.Ended;
                         }
+
                         var reason = "";
 
                         if (_phase == Phase.Ended) // if user won, stop receiving moves
@@ -270,9 +265,29 @@ namespace Mewdeko.Modules.Games.Common
                         {
                             var del1 = msg.DeleteAsync();
                             var del2 = _previousMessage?.DeleteAsync();
-                            try { _previousMessage = await _channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false); } catch { }
-                            try { await del1.ConfigureAwait(false); } catch { }
-                            try { if (del2 != null) await del2.ConfigureAwait(false); } catch { }
+                            try
+                            {
+                                _previousMessage = await _channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                            }
+
+                            try
+                            {
+                                await del1.ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                            }
+
+                            try
+                            {
+                                if (del2 != null) await del2.ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                            }
                         });
                         _curUserIndex ^= 1;
 
@@ -286,6 +301,25 @@ namespace Mewdeko.Modules.Games.Common
             });
 
             return Task.CompletedTask;
+        }
+
+        public class Options : IMewdekoCommandOptions
+        {
+            [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. Default 15.")]
+            public int TurnTimer { get; set; } = 15;
+
+            public void NormalizeOptions()
+            {
+                if (TurnTimer < 5 || TurnTimer > 60)
+                    TurnTimer = 15;
+            }
+        }
+
+        private enum Phase
+        {
+            Starting,
+            Started,
+            Ended
         }
     }
 }

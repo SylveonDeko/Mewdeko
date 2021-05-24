@@ -1,7 +1,8 @@
 {
   "all_stats_cleared": "Tüm özel reaksiyon istatistikleri temizlendi.",
   "deleted": "Özel reaksiyon silindi",
-  "insuff_perms": "Yetersiz yetki.Global özel reaksiyonlar için bot sahibi yetkisi gerkirken, server tabanlı özel reaksiyonlar için Administrator yetkisi gerekir.",
+  "insuff_perms":
+    "Yetersiz yetki.Global özel reaksiyonlar için bot sahibi yetkisi gerkirken, server tabanlı özel reaksiyonlar için Administrator yetkisi gerekir.",
   "list_all": "Tüm özel reaksiyonların listesi",
   "new_cust_react": "Yeni özel reaksiyon",
   "no_found": "Hiç özel reaksiyon bulunamadı.",
@@ -59,7 +60,8 @@
   "greetmsg_new": "Yeni karşılama mesajı tanımlandı.",
   "greet_off": "Karşılama duyuruları devre dışı.",
   "greet_on": "Karşılama duyuruları bu kanalda aktif edildi.",
-  "hierarchy": "Bu komutu, rol hiyerarşisinde sizinle aynı veya daha yüksek bir rolü olan kullanıcılar üzerinde kullanamazsınız.",
+  "hierarchy":
+    "Bu komutu, rol hiyerarşisinde sizinle aynı veya daha yüksek bir rolü olan kullanıcılar üzerinde kullanamazsınız.",
   "invalid_format": "Geçersiz giriş biçimi.",
   "invalid_params": "Geçersiz parametreler.",
   "kickdm": "{0} sunucusundan atıldınız.\nSebep: {1}",
@@ -131,7 +133,8 @@
   "self_assign_not": "Bu rol otomatik atanabilir değil.",
   "self_assign_not_have": "{0} rolünüz yok.",
   "self_assign_no_excl": "Otomatik atanabilir roller artık özel değil!",
-  "self_assign_perms": "Bu rolü ekleyemem. \u0060Rol hiyerarşisinde rolümden daha yüksek olan sahiplere veya diğer rollere rol ekleyemem. \u0027",
+  "self_assign_perms":
+    "Bu rolü ekleyemem. \u0060Rol hiyerarşisinde rolümden daha yüksek olan sahiplere veya diğer rollere rol ekleyemem. \u0027",
   "self_assign_rem": "{0}, otomatik atanabilir roller listesinden kaldırıldı.",
   "self_assign_remove": "Artık {0} rolü yok.",
   "self_assign_success": "Şimdi {0} rolünüz var.",
@@ -151,7 +154,8 @@
   "soft_banned_pl": "Hafif bir şekilde yasaklandılar (atıldılar)",
   "spam_ignore": "{0} bu kanalı yoksayacak.",
   "spam_not_ignore": "{0} artık bu kanalı yoksaymayacak.",
-  "spam_stats": "Bir kullanıcı {0} aynı mesajı aynı sırada gönderirse, bunları {1} yapacağım.\n__Yok Sayılan Kanallar__:  {2}",
+  "spam_stats":
+    "Bir kullanıcı {0} aynı mesajı aynı sırada gönderirse, bunları {1} yapacağım.\n__Yok Sayılan Kanallar__:  {2}",
   "text_chan_created": "Metin kanalı oluşturuldu.",
   "text_chan_destroyed": "Metin kanalı yok edildi.",
   "undeafen": "Sağırlaştırmayı kaldırma başarılı.",
@@ -177,9 +181,12 @@
   "voice_chan_destroyed": "Ses kanalı yok edildi",
   "vt_disabled": "Ses \u002B metin özelliği devre dışı.",
   "vt_enabled": "Ses \u002B metin özelliği etkin.",
-  "vt_exit": "**Rolleri yönetme** ve/veya **Kanalları yönetme** iznim yok, Bu yüzden {0} sunucusunda \u0027ses \u002B metin\u0027 çalıştıramıyorum.",
-  "vt_no_admin": "Bu özelliği etkinleştiriyorsun/devre dışı bırakıyorsun ve **YÖNETİCİ izinlerine sahip değilim**. Bu bazı sorunlara neden olabilir ve daha sonra kendiniz metin kanallarını temizlemeklisiniz.",
-  "vt_perms": "Bu özelliği etkinleştirmek için en azından **rolleri yönetmek** ve **kanal izinlerini yönetmek** zorundayım.(Tercih edilen Yönetim izni)",
+  "vt_exit":
+    "**Rolleri yönetme** ve/veya **Kanalları yönetme** iznim yok, Bu yüzden {0} sunucusunda \u0027ses \u002B metin\u0027 çalıştıramıyorum.",
+  "vt_no_admin":
+    "Bu özelliği etkinleştiriyorsun/devre dışı bırakıyorsun ve **YÖNETİCİ izinlerine sahip değilim**. Bu bazı sorunlara neden olabilir ve daha sonra kendiniz metin kanallarını temizlemeklisiniz.",
+  "vt_perms":
+    "Bu özelliği etkinleştirmek için en azından **rolleri yönetmek** ve **kanal izinlerini yönetmek** zorundayım.(Tercih edilen Yönetim izni)",
   "xmuted_text": "Metin sohbetinde {0} kullanıcı",
   "xmuted_text_and_voice": "Metin ve sesli sohbetinde {0} kullanıcı",
   "xmuted_voice": "Sesli sohbetten {0} kullanıcı",
@@ -218,19 +225,24 @@
   "cmdlist_donate": "Projeyi patreonda destekleyebilirsin:\u003C{0}\u003E ya da paypalde:\u003C{1}\u003E",
   "cmd_and_alias": "Komutlar ve takma adlar",
   "commandlist_regen": "Komut listesi yeniden oluşturuldu.",
-  "commands_instr": "Belirli bir komut hakkinda yardim icin, {0}h \u0022Komut Adı\u0022 bu şekilde kullanınız. (Örneğin: {0}h \u003E8ball).",
+  "commands_instr":
+    "Belirli bir komut hakkinda yardim icin, {0}h \u0022Komut Adı\u0022 bu şekilde kullanınız. (Örneğin: {0}h \u003E8ball).",
   "command_not_found": "Bu komutu bulamıyorum. Lütfen tekrar denemeden önce komutun var olduğunu doğrulayın.",
   "desc": "Tanıtım",
-  "donate": "Mewdeko projesini destekleyebilirsiniz \n Patreon \u003C{0}\u003E yada\n Paypal \u003C{1}\u003E\n Mesajda discord adınızı veya kimliğini bırakmayı unutma.\n \n**Teşekkür ederim** ♥️",
-  "guide": "**Komutların listesi**: \u003C{0}\u003E\n**Rehber ve dokümanlar barındırma sayfasında bulunabilir**: \u003C{1}\u003E",
+  "donate":
+    "Mewdeko projesini destekleyebilirsiniz \n Patreon \u003C{0}\u003E yada\n Paypal \u003C{1}\u003E\n Mesajda discord adınızı veya kimliğini bırakmayı unutma.\n \n**Teşekkür ederim** ♥️",
+  "guide":
+    "**Komutların listesi**: \u003C{0}\u003E\n**Rehber ve dokümanlar barındırma sayfasında bulunabilir**: \u003C{1}\u003E",
   "list_of_commands": "Komutların listesi",
   "list_of_modules": "Modüllerin listesi",
-  "modules_footer": "Modül komutlarının bir listesini görmek için \u0022{0}cmds Modül İsmi\u0022 (Örneğin: {0}cmds Administration) şeklinde kullanmalısınız.",
+  "modules_footer":
+    "Modül komutlarının bir listesini görmek için \u0022{0}cmds Modül İsmi\u0022 (Örneğin: {0}cmds Administration) şeklinde kullanmalısınız.",
   "module_not_found": "Bu modül mevcut değil.",
   "server_permission": "{0} sunucu izni gerektirir.",
   "table_of_contents": "İçindekiler",
   "usage": "Kullanım",
-  "autohentai_started": "Otomatik hentai başladı. Her {0} saniyede bir aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:\n{1}",
+  "autohentai_started":
+    "Otomatik hentai başladı. Her {0} saniyede bir aşağıdaki etiketlerden biriyle yeniden yayınlanıyor:\n{1}",
   "tag": "Etiket",
   "animal_race": "Hayvan yarışı",
   "animal_race_failed": "Yeterli katılımcı olmadığından başlatılamadı.",
@@ -254,8 +266,10 @@
   "likes": "Beğendi",
   "waifus_none": "Henüz hiçbir talep de bulunulmadı.",
   "waifus_top_waifus": "En İyi Talipler",
-  "waifu_affinity_already": "Çekiminiz zaten o talip ayarlıyken veya çekim yapmadığınız halde çekimliliğinizi kaldırmaya çalışıyorsunuz.",
-  "waifu_affinity_changed": "Bağlılıkları {0}\u0027dan {1}\u0027e değiştirildi.\n\n*Bu ahlaki açıdan sorgulanabilir.*\uD83E\uDD14",
+  "waifu_affinity_already":
+    "Çekiminiz zaten o talip ayarlıyken veya çekim yapmadığınız halde çekimliliğinizi kaldırmaya çalışıyorsunuz.",
+  "waifu_affinity_changed":
+    "Bağlılıkları {0}\u0027dan {1}\u0027e değiştirildi.\n\n*Bu ahlaki açıdan sorgulanabilir.*\uD83E\uDD14",
   "waifu_affinity_cooldown": "Benzeşimini tekrar değiştirmek için {0} saat ve {1} dakika beklemelisiniz.",
   "waifu_affinity_reset": "Benzeşim sıfırlandı. Artık sevdiğin bir insana sahip değilsin.",
   "waifu_affinity_set": "{0} \u0027ın talip olmasını istiyor. Aww \u003C3 ",
@@ -263,7 +277,8 @@
   "waifu_divorced_like": "Seni seven bir talipden boşandın. Seni kalpsiz canavar.\n{0} tazminat olarak {1} aldı.",
   "waifu_egomaniac": "Kendinize yakınlık kuramazsınız, sizi egomanyak.",
   "waifu_fulfilled": "\uD83C\uDF89 Aşkları yerine getirildi! \uD83C\uDF89\n{0}\u0027un yeni durumu {1}!",
-  "waifu_isnt_cheap": "Hiçbir talip bu kadar ucuz değil. Gerçek değeriniz düşük olsa dahi, en azından {0} ödemek zorundasınız.",
+  "waifu_isnt_cheap":
+    "Hiçbir talip bu kadar ucuz değil. Gerçek değeriniz düşük olsa dahi, en azından {0} ödemek zorundasınız.",
   "waifu_not_enough": "Talip talebinde bulunmak için {0} veya daha fazla ödeme yapmalısınız!",
   "waifu_not_yours": "Bu talip senin değil.",
   "waifu_not_yourself": "Kendinize talip edemezsiniz.",
@@ -419,7 +434,8 @@
   "word_filter_server_on": "Bu sunucuda kelime filtreleme özelliği etkin.",
   "abilities": "Yetenekler",
   "anime_no_fav": "Henüz favori anime yok",
-  "atl_ad_started": "Bu kanaldaki mesajların otomatik çevirisi başlatıldı. Kullanıcı mesajları otomatik olarak silinecek.",
+  "atl_ad_started":
+    "Bu kanaldaki mesajların otomatik çevirisi başlatıldı. Kullanıcı mesajları otomatik olarak silinecek.",
   "atl_removed": "Otomatik-çeviri diliniz kaldırıldı.",
   "atl_set": "Otomatik çevir diliniz {0}\u003E{1} olarak ayarlandı.",
   "atl_started": "Bu kanaldaki mesajların otomatik çevirisi başlatıldı.",
@@ -527,7 +543,8 @@
   "features": "Özellikler",
   "index_out_of_range": "Dizin aralık dışında.",
   "inrole_list": "{0} rolüne sahip kullanıcı listesi",
-  "inrole_not_allowed": "Kötüye kullanımını önlemek için bu komutlar, çok sayıda kullanıcısı olan rollerde kullanmanıza izin verilmez.",
+  "inrole_not_allowed":
+    "Kötüye kullanımını önlemek için bu komutlar, çok sayıda kullanıcısı olan rollerde kullanmanıza izin verilmez.",
   "invalid_value": "Geçersiz {0} değer.",
   "listservers": "Kimlik: {0}\nÜyeler: {1}\nKurucu Kimliği: {2}",
   "listservers_none": "Bu sayfada hiçbir sunucu bulunamadı.",
@@ -638,13 +655,17 @@
   "slowmodewl_user_start": "Yavaş mod, artık {0} kullanıcısını yoksayacak.",
   "slowmodewl_user_stop": "Yavaş mod, {0} kullanıcısını artık görmezden gelmeyecek.",
   "clpa_fail": "Aşağıdaki nedenlerden biriyle ödül talebinde bulunamadı:",
-  "clpa_fail_already": "Belki de bu ay için ödülünüzü zaten almışsınızdır. Bağış miktarınızı artırmadıkça, yalnızca ayda bir kez ödül alabilirsiniz.",
+  "clpa_fail_already":
+    "Belki de bu ay için ödülünüzü zaten almışsınızdır. Bağış miktarınızı artırmadıkça, yalnızca ayda bir kez ödül alabilirsiniz.",
   "clpa_fail_already_title": "Zaten ödüllendirildi",
-  "clpa_fail_conn": "Discord hesabınız Patreon\u0027a bağlı olmayabilir. Bunun ne anlama geldiğinden emin değilseniz veya nasıl bağlanacağınızı bilmiyorsanız - [Patreon hesap ayarları sayfasına] (https://patreon.com/settings/account) adresine gidin ve \u0027Bağlantı\u0027 butonuna tıklayın.",
+  "clpa_fail_conn":
+    "Discord hesabınız Patreon\u0027a bağlı olmayabilir. Bunun ne anlama geldiğinden emin değilseniz veya nasıl bağlanacağınızı bilmiyorsanız - [Patreon hesap ayarları sayfasına] (https://patreon.com/settings/account) adresine gidin ve \u0027Bağlantı\u0027 butonuna tıklayın.",
   "clpa_fail_conn_title": "Discord hesabı bağlı değil",
-  "clpa_fail_sup": "Ödül için uygun olabilmeniz için, projeyi patreon\u0027da bağış yapmanız gerek. Bağlantıyı almak için {0} komutunu kullanabilirsiniz.",
+  "clpa_fail_sup":
+    "Ödül için uygun olabilmeniz için, projeyi patreon\u0027da bağış yapmanız gerek. Bağlantıyı almak için {0} komutunu kullanabilirsiniz.",
   "clpa_fail_sup_title": "Desteklemiyor",
-  "clpa_fail_wait": "Bağış yaptıktan sonra birkaç saat beklemek zorundasınız, yapmadıysanız, daha sonra tekrar deneyin.",
+  "clpa_fail_wait":
+    "Bağış yaptıktan sonra birkaç saat beklemek zorundasınız, yapmadıysanız, daha sonra tekrar deneyin.",
   "clpa_fail_wait_title": "Biraz bekleyin",
   "clpa_success": "{0} Projeyi desteklediğiniz için teşekkürlerimizi aldınız!",
   "clpa_too_early": "Ödüller, her ayın 5\u0027inde veya sonrasında talep edilebilir.",
@@ -691,7 +712,8 @@
   "bot_nick": "Bot\u0027un takma adı {0} olarak değiştirildi",
   "user_nick": "{0} kullanıcısının kullanıcı adı {1} olarak değiştirildi",
   "timezone_guild": "Bu lonca için saat dilimi \u0060{0}\u0060",
-  "timezone_not_found": "Saat dilimi bulunamadı. Kullanılabilen saat dilimlerinin listesini görmek için \u0022timezones\u0022 komutunu kullanın",
+  "timezone_not_found":
+    "Saat dilimi bulunamadı. Kullanılabilen saat dilimlerinin listesini görmek için \u0022timezones\u0022 komutunu kullanın",
   "timezones_available": "Kullanılabilir Saat Dilimleri",
   "song_not_found": "Hiç şarkı bulunamadı.",
   "define_unknown": "Bu terim için tanım bulamıyor.",
@@ -725,7 +747,8 @@
   "nunchi_ended_no_winner": "Nunchi oyunu kazanan olmaksızın bitti.",
   "nunchi_started": "Nunchi oyunu {0} katılımcılarla başladı.",
   "nunchi_round_ended": "Nunchi turu sona erdi. {0} oyun dışı.",
-  "nunchi_round_ended_boot": "Bazı kullanıcıların zaman aşımı nedeniyle Nunchi turu sona erdi. Bu kadar kullanıcı hala oyunda: {0}",
+  "nunchi_round_ended_boot":
+    "Bazı kullanıcıların zaman aşımı nedeniyle Nunchi turu sona erdi. Bu kadar kullanıcı hala oyunda: {0}",
   "nunchi_round_started": "Nunchi turu {0} kullanıcılarıyla başladı. {1} numarasından saymaya başlayın.",
   "nunchi_next_number": "Numara kaydedildi. Son sayı {0} idi.",
   "nunchi_failed_to_start": "Nunchi başlayamadı, çünkü yeterli katılımcı yoktu.",
@@ -746,7 +769,8 @@
   "stream_role_wl_rem_fail": "{0} kullanıcısı beyaz listeye alınmadı.",
   "bot_config_edit_fail": "{0} değerini {1} değerine ayarlama başarısız oldu",
   "bot_config_edit_success": "{0} değeri {1} olarak ayarlandı.",
-  "crca_disabled": "{0} kimlikli özel reaksiyon, tetikleyici kelime cümlenin başında olmadığı sürece tetiklenmeyecektir.",
+  "crca_disabled":
+    "{0} kimlikli özel reaksiyon, tetikleyici kelime cümlenin başında olmadığı sürece tetiklenmeyecektir.",
   "crca_enabled": "{0} kimlikli özel reaksiyon, cümledeki herhangi bir yerde bulunursa tetiklenecektir.",
   "server_level": "Sunucu Seviyesi",
   "club": "Kulüp",
@@ -767,11 +791,13 @@
   "server_leaderboard": "Sunucu XP Lider Tablosu",
   "global_leaderboard": "Genel XP Lider Tablosu",
   "modified": "{0} kullanıcısının {1} tarafından değiştirilen sunucu XP\u0027si",
-  "club_create_error": "Kulüp oluşturulamadı. Halihazırda bir kulübün üyesi olmadığınızdan ve 5. seviyenin üstünde olduğunuzdan emin olun.",
+  "club_create_error":
+    "Kulüp oluşturulamadı. Halihazırda bir kulübün üyesi olmadığınızdan ve 5. seviyenin üstünde olduğunuzdan emin olun.",
   "club_created": "Kulüp {0} başarıyla oluşturuldu!",
   "club_not_exists": "Bu kulüp yok.",
   "club_applied": "{0} kulübüne üyelik başvurusunda bulundunuz.",
-  "club_apply_error": "Başvurularda hata oluştu. Siz zaten ya bir kulübün üyesiydiniz ya da minimum seviye gereksinimini karşılamıyorsunuz ya da bu kulüpten yasaklandınız.",
+  "club_apply_error":
+    "Başvurularda hata oluştu. Siz zaten ya bir kulübün üyesiydiniz ya da minimum seviye gereksinimini karşılamıyorsunuz ya da bu kulüpten yasaklandınız.",
   "club_accepted": "{0} kullanıcısı kulübe kabul edildi.",
   "club_accept_error": "Kullanıcı bulunamadı.",
   "club_left": "Kulübü terk ettin.",
@@ -779,9 +805,11 @@
   "club_user_kick": "{0} kullanıcısı {1} kulübünden atıldı.",
   "club_user_kick_fail": "Atma hatası. Siz ya kulüp sahibi değilsiniz ya da o kullanıcı kulübünüzde değil.",
   "club_user_banned": "{0} kullanıcısı {1} kulübünden yasaklandı.",
-  "club_user_ban_fail": "Yasaklama hatası. Siz ya kulüp sahibi değilsiniz ya da o kullanıcı kulübünüzde değil ya da kulübe başvurmuş.",
+  "club_user_ban_fail":
+    "Yasaklama hatası. Siz ya kulüp sahibi değilsiniz ya da o kullanıcı kulübünüzde değil ya da kulübe başvurmuş.",
   "club_user_unbanned": "{0} kullanıcısı {1} kulübündeki yasak kaldırıldı.",
-  "club_user_unban_fail": "Yasak kaldırmada hata. Siz ya kulüp sahibi değilsiniz ya da o kullanıcı kulübünüzde değil ya da kulübe başvurmuş.",
+  "club_user_unban_fail":
+    "Yasak kaldırmada hata. Siz ya kulüp sahibi değilsiniz ya da o kullanıcı kulübünüzde değil ya da kulübe başvurmuş.",
   "club_level_req_changed": "Kulübün seviye gereksinimini {0} olarak değiştirildi",
   "club_level_req_change_error": "Gerekli seviye değişimi başarısız.",
   "club_disbanded": "{0} kulübü dağıtıldı",
@@ -803,7 +831,8 @@
   "started": "Başlatıldı. Her {0} sn\u0027de tekrar yayınlanıcak.",
   "stopped": "Tekrar yayınlama durduruldu.",
   "feed_added": "Besleme eklendi.",
-  "feed_not_valid": "Geçersiz bağlantı var veya bu sunucudaki feed\u0027i zaten izliyorsunuz veya izin verilen maksimum sayıda yayına ulaştınız.",
+  "feed_not_valid":
+    "Geçersiz bağlantı var veya bu sunucudaki feed\u0027i zaten izliyorsunuz veya izin verilen maksimum sayıda yayına ulaştınız.",
   "feed_out_of_range": "Dizin aralık dışı.",
   "feed_removed": "Besleme kaldırıldı.",
   "feed_no_feed": "Bu sunucudaki herhangi bir yayına abone değilsiniz.",
@@ -824,7 +853,8 @@
   "timely_set": "Kullanıcılar her {1} saatte {0} talep edebilecek",
   "timely_set_none": "Kullanıcılar zamanında para talebinde bulunamayacaklardır.",
   "timely_reset": "Tüm kullanıcılar tekrar zamanında para talebinde bulunabilecektir.",
-  "waifu_transfer_fail": "Siz o waifu\u0027nun sahibi değilsiniz, ve ya bunu göze alamazsınız. Alternatif olarak girişiniz geçersiz.",
+  "waifu_transfer_fail":
+    "Siz o waifu\u0027nun sahibi değilsiniz, ve ya bunu göze alamazsınız. Alternatif olarak girişiniz geçersiz.",
   "waifu_transfer_success": "{0} üzerindeki hak talebi {1} ile {2} arasında aktarıldı",
   "authors": "Yazarlar",
   "sql_confirm_exec": "Aşağıdaki SQL komutunun yürütülmesini onaylayın",
@@ -843,18 +873,22 @@
   "level_up_rewards": "Seviye Atlama Ödülleri",
   "role_reward": "{0} rol",
   "no_level_up_rewards": "Bu sayfada seviye atlama ödülü yok.",
-  "failed_finding_novel": "O romanı bulamıyorum. Tam adını yazdığınızdan ve novelupdates.com\u0027da var olduğundan emin olun.",
+  "failed_finding_novel":
+    "O romanı bulamıyorum. Tam adını yazdığınızdan ve novelupdates.com\u0027da var olduğundan emin olun.",
   "remove_roles": "rollerini kaldırdılar",
   "delmsg_channel_off": "Bu kanalda başarıyla uygulanan komutları otomatik olarak silinmeyecektir.",
-  "delmsg_channel_on": "Sunucu ayarından bağımsız olarak, bu kanaldaki komutları başarıyla yürüten mesajları otomatik silinecektir.",
-  "delmsg_channel_inherit": "Bu kanala komutları başarıyla yürüten iletileri yalnızca sunucuda bu özellik etkinleştirildiyse otomatik olarak silinecektir.",
+  "delmsg_channel_on":
+    "Sunucu ayarından bağımsız olarak, bu kanaldaki komutları başarıyla yürüten mesajları otomatik silinecektir.",
+  "delmsg_channel_inherit":
+    "Bu kanala komutları başarıyla yürüten iletileri yalnızca sunucuda bu özellik etkinleştirildiyse otomatik olarak silinecektir.",
   "server_delmsgoncmd": "Sunucu Ayarları",
   "channel_delmsgoncmd": "Kanala Özgü Ayarlar",
   "options": "Ayarlar",
   "waifu_reset": "Senin eş istatistiklerin sıfırlandı.",
   "waifu_reset_fail": "Eş istatistiklerin sıfırlanamadı. Yeterli para birimine sahip olduğunuzdan emin olun.",
   "waifu_reset_confirm": "Bu, eş istatistiklerinizi sıfırlayacak",
-  "unset_music_channel": "Şimdi kanalda müzik başlatıldığı zaman oynatma, bitirme, durdurma ve silme işlemlerinin çıktılarını yapacağım.",
+  "unset_music_channel":
+    "Şimdi kanalda müzik başlatıldığı zaman oynatma, bitirme, durdurma ve silme işlemlerinin çıktılarını yapacağım.",
   "city_not_found": "Şehir bulunamadı.",
   "bot_config_reloaded": "Bot yapılandırması yeniden yüklendi.",
   "club_transfered": "{0} kulübünün mülkiyeti {1} \u0027e devredildi.",
@@ -903,7 +937,8 @@
   "anti_spam_not_running": "Anti-Spam özelliği aktif değil.",
   "adsarm_enable": "Otomatik olarak \u0060{0}iam\u0060 ve \u0060{0}iamn\u0060 cevaplarının silinmesi aktif edildi.",
   "adsarm_disable": "Bot daha fazla \u0060{0}iam\u0060 ve \u0060{0}iamn\u0060 cevaplarını silmeyecek.",
-  "module_not_found_or_cant_exec": "Ya belirttiğiniz modül yok, ya da bu modüle ait herhangi bir komutu kullanamazsınız.",
+  "module_not_found_or_cant_exec":
+    "Ya belirttiğiniz modül yok, ya da bu modüle ait herhangi bir komutu kullanamazsınız.",
   "requires": "Gerekiyor",
   "permrole_not_set": "Yetki rolü ayarlanmadı.",
   "permrole_reset": "Yetki rolü sıfırlandı.",

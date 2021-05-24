@@ -1,17 +1,17 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
-using Mewdeko.Core.Services;
 using Mewdeko.Core.Common.TypeReaders.Models;
+using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -20,64 +20,82 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class UserPunishCommands2 : MewdekoSubmodule<UserPunishService2>
         {
-            private readonly MuteService _mute;
+            public enum AddRole
+            {
+                AddRole
+            }
+
             private readonly DbService _db;
+            private readonly MuteService _mute;
 
             public UserPunishCommands2(MuteService mute, DbService db)
             {
                 _mute = mute;
                 _db = db;
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-            public async Task SetMWarnChannel([Remainder]ITextChannel channel)
+            public async Task SetMWarnChannel([Remainder] ITextChannel channel)
             {
                 if (string.IsNullOrWhiteSpace(channel.Name))
                     return;
 
-                if (base.MWarnlogChannel == channel.Id)
+                if (MWarnlogChannel == channel.Id)
                 {
                     await ctx.Channel.SendErrorAsync("This is already your mini warnlog channel!");
-                return;
-                }
-                if(base.MWarnlogChannel == 0)
-                {
-                    await CmdHandler.SetMWarnlogChannelId(ctx.Guild, channel);
-                    var WarnChannel = await ctx.Guild.GetTextChannelAsync(base.MWarnlogChannel);
-                    await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been set to " + WarnChannel.Mention);
                     return;
                 }
-                var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(base.MWarnlogChannel);
-                await CmdHandler.SetMWarnlogChannelId(ctx.Guild, channel);
-                var newWarnChannel = await ctx.Guild.GetTextChannelAsync(base.MWarnlogChannel);
-                await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been changed from " + oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
+
+                if (MWarnlogChannel == 0)
+                {
+                    await _service.SetMWarnlogChannelId(ctx.Guild, channel);
+                    var WarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+                    await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been set to " +
+                                                       WarnChannel.Mention);
+                    return;
+                }
+
+                var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+                await _service.SetMWarnlogChannelId(ctx.Guild, channel);
+                var newWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+                await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been changed from " +
+                                                   oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             public async Task MWarn(IGuildUser user, [Remainder] string reason = null)
             {
                 if (ctx.User.Id != user.Guild.OwnerId
-                    && (user.GetRoles().Select(r => r.Position).Max() >= ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()))
+                    && user.GetRoles().Select(r => r.Position).Max() >=
+                    ((IGuildUser) ctx.User).GetRoles().Select(r => r.Position).Max())
                 {
                     await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
                     return;
                 }
-                                try
+
+                try
                 {
-                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder().WithErrorColor()
-                                     .WithDescription("Warned in " + ctx.Guild.ToString())
-                                     .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
-                                     .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                            .WithErrorColor()
+                            .WithDescription("Warned in " + ctx.Guild)
+                            .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
+                            .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
                         .ConfigureAwait(false);
                 }
                 catch
                 {
-
-                }                                     
+                }
 
                 WarningPunishment2 punishment;
                 try
@@ -92,41 +110,37 @@ namespace Mewdeko.Modules.Administration
                 }
 
                 if (punishment == null)
-                {
                     await ReplyConfirmLocalizedAsync("user_warned", Format.Bold(user.ToString())).ConfigureAwait(false);
-                }
                 else
-                {
-                    await ReplyConfirmLocalizedAsync("user_warned_and_punished", Format.Bold(user.ToString()), Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
-                }
-                if(base.MWarnlogChannel != 0)
+                    await ReplyConfirmLocalizedAsync("user_warned_and_punished", Format.Bold(user.ToString()),
+                        Format.Bold(punishment.Punishment.ToString())).ConfigureAwait(false);
+                if (MWarnlogChannel != 0)
                 {
                     var uow = _db.GetDbContext();
                     var warnings = uow.Warnings2
-                    .ForId(ctx.Guild.Id, user.Id)
-                    .Count(w => !w.Forgiven && w.UserId == user.Id);
+                        .ForId(ctx.Guild.Id, user.Id)
+                        .Count(w => !w.Forgiven && w.UserId == user.Id);
                     var condition = punishment != null;
                     var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
                     var punishaction = condition ? punishment.Punishment.ToString() : "None";
-                    var channel = await ctx.Guild.GetTextChannelAsync(base.MWarnlogChannel);
+                    var channel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
                     await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                                        .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                                        .WithTitle("Mini Warned by: " + ctx.User.ToString())
-                                        .WithCurrentTimestamp()
-                                        .WithDescription("Username: " + user.Username + "#" + user.Discriminator + "\n" + "ID of Warned User: " + user.Id + "\n" + "Warn Number: " + warnings + "\n" + "Punishment: " + punishaction + " " + punishtime + "\n\n" + "Reason: " + reason + "\n\n" + "[Click Here For Context]" + "(https://discord.com/channels/" + ctx.Guild.Id + "/" + ctx.Channel.Id + "/" + ctx.Message.Id + ")"));
-                }
-            }
-            public class WarnExpireOptions : IMewdekoCommandOptions
-            {
-                [Option('d', "delete", Default = false, HelpText = "Delete warnings instead of clearing them.")]
-                public bool Delete { get; set; } = false;
-                public void NormalizeOptions()
-                {
-
+                        .WithThumbnailUrl(user.RealAvatarUrl().ToString())
+                        .WithTitle("Mini Warned by: " + ctx.User)
+                        .WithCurrentTimestamp()
+                        .WithDescription("Username: " + user.Username + "#" + user.Discriminator + "\n" +
+                                         "ID of Warned User: " + user.Id + "\n" + "Warn Number: " + warnings + "\n" +
+                                         "Punishment: " + punishaction + " " + punishtime + "\n\n" + "Reason: " +
+                                         reason + "\n\n" + "[Click Here For Context]" +
+                                         "(https://discord.com/channels/" + ctx.Guild.Id + "/" + ctx.Channel.Id + "/" +
+                                         ctx.Message.Id + ")"));
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [MewdekoOptions(typeof(WarnExpireOptions))]
@@ -141,52 +155,70 @@ namespace Mewdeko.Modules.Administration
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
                 await _service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
-                if(days == 0)
+                if (days == 0)
                 {
                     await ReplyConfirmLocalizedAsync("warn_expire_reset").ConfigureAwait(false);
                     return;
                 }
 
                 if (opts.Delete)
-                {
-                    await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString())).ConfigureAwait(false);
-                }
+                    await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString()))
+                        .ConfigureAwait(false);
                 else
-                {
-                    await ReplyConfirmLocalizedAsync("warn_expire_set_clear", Format.Bold(days.ToString())).ConfigureAwait(false);
-                }
+                    await ReplyConfirmLocalizedAsync("warn_expire_set_clear", Format.Bold(days.ToString()))
+                        .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             [Priority(2)]
             public Task MWarnlog(int page, IGuildUser user)
-                => MWarnlog(page, user.Id);
+            {
+                return MWarnlog(page, user.Id);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(3)]
             public Task MWarnlog(IGuildUser user = null)
             {
                 if (user == null)
-                    user = (IGuildUser)ctx.User;
-                return ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.MuteMembers ? MWarnlog(user.Id) : Task.CompletedTask;
+                    user = (IGuildUser) ctx.User;
+                return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.MuteMembers
+                    ? MWarnlog(user.Id)
+                    : Task.CompletedTask;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             [Priority(0)]
             public Task MWarnlog(int page, ulong userId)
-                => InternalWarnlog(userId, page - 1);
+            {
+                return InternalWarnlog(userId, page - 1);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             [Priority(1)]
             public Task MWarnlog(ulong userId)
-                => InternalWarnlog(userId, 0);
+            {
+                return InternalWarnlog(userId, 0);
+            }
 
             private async Task InternalWarnlog(ulong userId, int page)
             {
@@ -199,7 +231,8 @@ namespace Mewdeko.Modules.Administration
                     .ToArray();
 
                 var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("warnlog_for", (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
+                    .WithTitle(GetText("warnlog_for",
+                        (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
                     .WithFooter(efb => efb.WithText(GetText("page", page + 1)));
 
                 if (!warnings.Any())
@@ -212,7 +245,8 @@ namespace Mewdeko.Modules.Administration
                     foreach (var w in warnings)
                     {
                         i++;
-                        var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"), w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
+                        var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"),
+                            w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
                         if (w.Forgiven)
                             name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
@@ -225,7 +259,10 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             public async Task MWarnlogAll(int page = 1)
@@ -234,7 +271,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 var warnings = _service.WarnlogAll(ctx.Guild.Id);
 
-                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
+                await ctx.SendPaginatedConfirmAsync(page, curPage =>
                 {
                     var ws = warnings.Skip(curPage * 15)
                         .Take(15)
@@ -244,7 +281,7 @@ namespace Mewdeko.Modules.Administration
                             var all = x.Count();
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
-                            var usr = ((SocketGuild)ctx.Guild).GetUser(x.Key);
+                            var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
                             return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
                         });
 
@@ -254,13 +291,21 @@ namespace Mewdeko.Modules.Administration
                 }, warnings.Length, 15).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public Task MWarnclear(IGuildUser user, int index = 0)
-                => MWarnclear(user.Id   , index);
+            {
+                return MWarnclear(user.Id, index);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task MWarnclear(ulong userId, int index = 0)
@@ -276,23 +321,17 @@ namespace Mewdeko.Modules.Administration
                 else
                 {
                     if (success)
-                    {
                         await ReplyConfirmLocalizedAsync("warning_cleared", Format.Bold(index.ToString()), userStr)
                             .ConfigureAwait(false);
-                    }
                     else
-                    {
                         await ReplyErrorLocalizedAsync("warning_clear_fail").ConfigureAwait(false);
-                    }
                 }
             }
 
-            public enum AddRole
-            {
-                AddRole
-            }
-
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
@@ -305,21 +344,20 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 if (time is null)
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString())).ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString()),
                         Format.Bold(time.Input)).ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task MWarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
@@ -334,35 +372,34 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 if (time is null)
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString())).ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString()),
                         Format.Bold(time.Input)).ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task MWarnPunish(int number)
             {
-                if (!_service.WarnPunishRemove(ctx.Guild.Id, number))
-                {
-                    return;
-                }
+                if (!_service.WarnPunishRemove(ctx.Guild.Id, number)) return;
 
                 await ReplyConfirmLocalizedAsync("warn_punish_rem",
                     Format.Bold(number.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task MWarnPunishList()
             {
@@ -370,17 +407,24 @@ namespace Mewdeko.Modules.Administration
 
                 string list;
                 if (ps.Any())
-                {
-
-                    list = string.Join("\n", ps.Select(x => $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : x.Time.ToString() + "m")} "));
-                }
+                    list = string.Join("\n",
+                        ps.Select(x =>
+                            $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : x.Time + "m")} "));
                 else
-                {
                     list = GetText("warnpl_none");
-                }
                 await ctx.Channel.SendConfirmAsync(
                     GetText("warn_punish_list"),
                     list).ConfigureAwait(false);
+            }
+
+            public class WarnExpireOptions : IMewdekoCommandOptions
+            {
+                [Option('d', "delete", Default = false, HelpText = "Delete warnings instead of clearing them.")]
+                public bool Delete { get; set; } = false;
+
+                public void NormalizeOptions()
+                {
+                }
             }
         }
     }

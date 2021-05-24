@@ -1,16 +1,16 @@
-﻿using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Mewdeko.Core.Services.Database;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using Mewdeko.Core.Services.Database;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services
 {
     public class DbService
     {
-        private readonly DbContextOptions<MewdekoContext> options;
         private readonly DbContextOptions<MewdekoContext> migrateOptions;
+        private readonly DbContextOptions<MewdekoContext> options;
 
         public DbService(IBotCredentials creds)
         {
@@ -37,6 +37,7 @@ namespace Mewdeko.Core.Services
                     mContext.SaveChanges();
                     mContext.Dispose();
                 }
+
                 context.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL");
                 context.EnsureSeedData();
                 context.SaveChanges();
@@ -54,9 +55,13 @@ namespace Mewdeko.Core.Services
                 com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
                 com.ExecuteNonQuery();
             }
+
             return context;
         }
 
-        public IUnitOfWork GetDbContext() => new UnitOfWork(GetDbContextInternal());
+        public IUnitOfWork GetDbContext()
+        {
+            return new UnitOfWork(GetDbContextInternal());
+        }
     }
 }

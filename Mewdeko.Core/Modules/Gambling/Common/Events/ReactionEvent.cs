@@ -1,4 +1,10 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
@@ -6,41 +12,33 @@ using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using NLog;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Core.Modules.Gambling.Common.Events
 {
     public class ReactionEvent : ICurrencyEvent
     {
-        private readonly Logger _log;
-        private readonly DiscordSocketClient _client;
-        private readonly IGuild _guild;
-        private IUserMessage _msg;
-        private IEmote _emote;
-        private readonly ICurrencyService _cs;
         private readonly long _amount;
-
-        private long PotSize { get; set; }
-        public bool Stopped { get; private set; }
-        public bool PotEmptied { get; private set; } = false;
+        private readonly ConcurrentHashSet<ulong> _awardedUsers = new();
+        private readonly IBotConfigProvider _bc;
+        private readonly ITextChannel _channel;
+        private readonly DiscordSocketClient _client;
+        private readonly ICurrencyService _cs;
 
         private readonly Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> _embedFunc;
+        private readonly IGuild _guild;
         private readonly bool _isPotLimited;
-        private readonly ITextChannel _channel;
-        private readonly ConcurrentHashSet<ulong> _awardedUsers = new ConcurrentHashSet<ulong>();
-        private readonly ConcurrentQueue<ulong> _toAward = new ConcurrentQueue<ulong>();
-        private readonly Timer _t;
-        private readonly Timer _timeout = null;
+        private readonly Logger _log;
         private readonly bool _noRecentlyJoinedServer;
-        private readonly IBotConfigProvider _bc;
         private readonly EventOptions _opts;
+        private readonly Timer _t;
+        private readonly Timer _timeout;
+        private readonly ConcurrentQueue<ulong> _toAward = new();
 
-        public event Func<ulong, Task> OnEnded;
+        private readonly object potLock = new();
+
+        private readonly object stopLock = new();
+        private IEmote _emote;
+        private IUserMessage _msg;
 
         public ReactionEvent(DiscordSocketClient client, ICurrencyService cs,
             IBotConfigProvider bc, SocketGuild g, ITextChannel ch,
@@ -62,70 +60,21 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
 
             _t = new Timer(OnTimerTick, null, Timeout.InfiniteTimeSpan, TimeSpan.FromSeconds(2));
             if (_opts.Hours > 0)
-            {
                 _timeout = new Timer(EventTimeout, null, TimeSpan.FromHours(_opts.Hours), Timeout.InfiniteTimeSpan);
-            }
         }
 
-        private void EventTimeout(object state)
-        {
-            var _ = StopEvent();
-        }
+        private long PotSize { get; set; }
+        public bool Stopped { get; private set; }
+        public bool PotEmptied { get; private set; }
 
-        private async void OnTimerTick(object state)
-        {
-            var potEmpty = PotEmptied;
-            List<ulong> toAward = new List<ulong>();
-            while (_toAward.TryDequeue(out var x))
-            {
-                toAward.Add(x);
-            }
-
-            if (!toAward.Any())
-                return;
-
-            try
-            {
-                await _cs.AddBulkAsync(toAward,
-                    toAward.Select(x => "Reaction Event"),
-                    toAward.Select(x => _amount),
-                    gamble: true).ConfigureAwait(false);
-
-                if (_isPotLimited)
-                {
-                    await _msg.ModifyAsync(m =>
-                    {
-                        m.Embed = GetEmbed(PotSize).Build();
-                    }, new RequestOptions() { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
-                }
-
-                _log.Info("Awarded {0} users {1} currency.{2}",
-                    toAward.Count,
-                    _amount,
-                    _isPotLimited ? $" {PotSize} left." : "");
-
-                if (potEmpty)
-                {
-                    var _ = StopEvent();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                _log.Warn(ex);
-            }
-        }
+        public event Func<ulong, Task> OnEnded;
 
         public async Task StartEvent()
         {
             if (Emote.TryParse(_bc.BotConfig.CurrencySign, out var emote))
-            {
                 _emote = emote;
-            }
             else
-            {
                 _emote = new Emoji(_bc.BotConfig.CurrencySign);
-            }
             _msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
             await _msg.AddReactionAsync(_emote).ConfigureAwait(false);
             _client.MessageDeleted += OnMessageDeleted;
@@ -133,20 +82,6 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
             _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
         }
 
-        private EmbedBuilder GetEmbed(long pot)
-        {
-            return _embedFunc(CurrencyEvent.Type.Reaction, _opts, pot);
-        }
-
-        private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, ISocketMessageChannel _)
-        {
-            if (msg.Id == _msg.Id)
-            {
-                await StopEvent().ConfigureAwait(false);
-            }
-        }
-
-        private readonly object stopLock = new object();
         public async Task StopEvent()
         {
             await Task.Yield();
@@ -159,9 +94,67 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
                 _client.ReactionAdded -= HandleReaction;
                 _t.Change(Timeout.Infinite, Timeout.Infinite);
                 _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
-                try { var _ = _msg.DeleteAsync(); } catch { }
+                try
+                {
+                    var _ = _msg.DeleteAsync();
+                }
+                catch
+                {
+                }
+
                 var os = OnEnded(_guild.Id);
             }
+        }
+
+        private void EventTimeout(object state)
+        {
+            var _ = StopEvent();
+        }
+
+        private async void OnTimerTick(object state)
+        {
+            var potEmpty = PotEmptied;
+            var toAward = new List<ulong>();
+            while (_toAward.TryDequeue(out var x)) toAward.Add(x);
+
+            if (!toAward.Any())
+                return;
+
+            try
+            {
+                await _cs.AddBulkAsync(toAward,
+                    toAward.Select(x => "Reaction Event"),
+                    toAward.Select(x => _amount),
+                    true).ConfigureAwait(false);
+
+                if (_isPotLimited)
+                    await _msg.ModifyAsync(m => { m.Embed = GetEmbed(PotSize).Build(); },
+                        new RequestOptions {RetryMode = RetryMode.AlwaysRetry}).ConfigureAwait(false);
+
+                _log.Info("Awarded {0} users {1} currency.{2}",
+                    toAward.Count,
+                    _amount,
+                    _isPotLimited ? $" {PotSize} left." : "");
+
+                if (potEmpty)
+                {
+                    var _ = StopEvent();
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Warn(ex);
+            }
+        }
+
+        private EmbedBuilder GetEmbed(long pot)
+        {
+            return _embedFunc(CurrencyEvent.Type.Reaction, _opts, pot);
+        }
+
+        private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, ISocketMessageChannel _)
+        {
+            if (msg.Id == _msg.Id) await StopEvent().ConfigureAwait(false);
         }
 
         private Task HandleReaction(Cacheable<IUserMessage, ulong> msg,
@@ -176,11 +169,11 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
                     || msg.Id != _msg.Id // same message
                     || gu.IsBot // no bots
                     || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5 // no recently created accounts
-                    || (_noRecentlyJoinedServer && // if specified, no users who joined the server in the last 24h
-                        (gu.JoinedAt == null || (DateTime.UtcNow - gu.JoinedAt.Value).TotalDays < 1)))  // and no users for who we don't know when they joined
-                {
+                    || _noRecentlyJoinedServer && // if specified, no users who joined the server in the last 24h
+                    (gu.JoinedAt == null ||
+                     (DateTime.UtcNow - gu.JoinedAt.Value).TotalDays <
+                     1)) // and no users for who we don't know when they joined
                     return;
-                }
                 // there has to be money left in the pot
                 // and the user wasn't rewarded
                 if (_awardedUsers.Add(r.UserId) && TryTakeFromPot())
@@ -193,11 +186,9 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
             return Task.CompletedTask;
         }
 
-        private readonly object potLock = new object();
         private bool TryTakeFromPot()
         {
             if (_isPotLimited)
-            {
                 lock (potLock)
                 {
                     if (PotSize < _amount)
@@ -206,7 +197,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
                     PotSize -= _amount;
                     return true;
                 }
-            }
+
             return true;
         }
     }

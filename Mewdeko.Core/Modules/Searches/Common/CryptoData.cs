@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Core.Modules.Searches.Common
 {
@@ -15,8 +15,8 @@ namespace Mewdeko.Core.Modules.Searches.Common
         public string Symbol { get; set; }
         public string Slug { get; set; }
 
-        [JsonProperty("cmc_rank")]
-        public int Rank { get; set; }
+        [JsonProperty("cmc_rank")] public int Rank { get; set; }
+
         public CurrencyQuotes Quote { get; set; }
     }
 

@@ -1,14 +1,14 @@
-﻿using Discord;
-using Mewdeko.Modules.Gambling.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Discord;
+using Mewdeko.Modules.Gambling.Common;
 
 namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
 {
     public abstract class Player
     {
-        public List<Deck.Card> Cards { get; } = new List<Deck.Card>();
+        public List<Deck.Card> Cards { get; } = new();
 
         public int GetHandValue()
         {
@@ -18,10 +18,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
             // reduce the value by 10 until it drops below 22
             // (emulating the fact that ace is either a 1 or a 11)
             var i = Cards.Count(x => x.Number == 1);
-            while (val > 21 && i-- > 0)
-            {
-                val -= 10;
-            }
+            while (val > 21 && i-- > 0) val -= 10;
             return val;
         }
 
@@ -33,7 +30,6 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
 
     public class Dealer : Player
     {
-
     }
 
     public class User : Player
@@ -53,8 +49,8 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
             if (bet <= 0)
                 throw new ArgumentOutOfRangeException(nameof(bet));
 
-            this.Bet = bet;
-            this.DiscordUser = user;
+            Bet = bet;
+            DiscordUser = user;
         }
 
         public UserState State { get; set; } = UserState.Waiting;

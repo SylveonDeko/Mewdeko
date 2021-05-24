@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class MemegenCommands : MewdekoSubmodule
         {
-            private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>()
+            private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>
             {
                 {'?', "~q"},
                 {'%', "~p"},
@@ -28,8 +28,8 @@ namespace Mewdeko.Modules.Searches
                 {'-', "--"},
                 {'_', "__"},
                 {'"', "''"}
-
             }.ToImmutableDictionary();
+
             private readonly IHttpClientFactory _httpFactory;
 
             public MemegenCommands(IHttpClientFactory factory)
@@ -37,7 +37,10 @@ namespace Mewdeko.Modules.Searches
                 _httpFactory = factory;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Memelist(int page = 1)
             {
                 if (--page < 0)
@@ -49,7 +52,7 @@ namespace Mewdeko.Modules.Searches
                         .ConfigureAwait(false);
 
                     var rawJson = await res.Content.ReadAsStringAsync();
-                    
+
                     var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
                         .Select(kvp => Path.GetFileName(kvp.Value))
                         .ToList();
@@ -66,7 +69,10 @@ namespace Mewdeko.Modules.Searches
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Memegen(string meme, string topText, string botText)
             {
                 var top = Replace(topText);
@@ -80,12 +86,10 @@ namespace Mewdeko.Modules.Searches
                 var sb = new StringBuilder();
 
                 foreach (var c in input)
-                {
                     if (_map.TryGetValue(c, out var tmp))
                         sb.Append(tmp);
                     else
                         sb.Append(c);
-                }
 
                 return sb.ToString();
             }

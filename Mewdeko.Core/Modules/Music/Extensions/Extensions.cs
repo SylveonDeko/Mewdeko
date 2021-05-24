@@ -1,15 +1,16 @@
-﻿using Mewdeko.Modules.Music.Common;
+﻿using System;
+using System.Threading.Tasks;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Impl;
-using System;
-using System.Threading.Tasks;
+using Mewdeko.Modules.Music.Common;
 
 namespace Mewdeko.Modules.Music.Extensions
 {
     public static class Extensions
     {
-        public static Task<SongInfo> GetSongInfo(this SoundCloudVideo svideo) =>
-            Task.FromResult(new SongInfo
+        public static Task<SongInfo> GetSongInfo(this SoundCloudVideo svideo)
+        {
+            return Task.FromResult(new SongInfo
             {
                 Title = svideo.FullName,
                 Provider = "SoundCloud",
@@ -19,5 +20,6 @@ namespace Mewdeko.Modules.Music.Extensions
                 Thumbnail = svideo.ArtworkUrl,
                 TotalTime = TimeSpan.FromMilliseconds(svideo.Duration)
             });
+        }
     }
 }

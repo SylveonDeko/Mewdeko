@@ -1,28 +1,25 @@
-﻿﻿using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Utility.Common;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord.WebSocket;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Utility.Common;
+using Microsoft.EntityFrameworkCore;
+using NLog;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class MessageRepeaterService : INService
     {
-        private readonly DbService _db;
-        private readonly IBotCredentials _creds;
-        private readonly Logger _log;
         private readonly Mewdeko _bot;
         private readonly DiscordSocketClient _client;
-
-        public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
-        public bool RepeaterReady { get; private set; }
+        private readonly IBotCredentials _creds;
+        private readonly DbService _db;
+        private readonly Logger _log;
 
         public MessageRepeaterService(Mewdeko bot, DiscordSocketClient client, DbService db, IBotCredentials creds)
         {
@@ -33,6 +30,9 @@ namespace Mewdeko.Modules.Utility.Services
             _client = client;
             var _ = LoadRepeaters();
         }
+
+        public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
+        public bool RepeaterReady { get; private set; }
 
         private async Task LoadRepeaters()
         {
@@ -46,9 +46,9 @@ namespace Mewdeko.Modules.Utility.Services
             foreach (var gc in _bot.AllGuildConfigs)
             {
                 // don't load repeaters which don't belong on this shard
-                if((gc.GuildId >> 22) % (ulong)_creds.TotalShards != (ulong)_client.ShardId)
+                if ((gc.GuildId >> 22) % (ulong) _creds.TotalShards != (ulong) _client.ShardId)
                     continue;
-                
+
                 try
                 {
                     var guild = _client.GetGuild(gc.GuildId);
@@ -60,7 +60,8 @@ namespace Mewdeko.Modules.Utility.Services
 
                     var idToRepeater = gc.GuildRepeaters
                         .Where(gr => !(gr.DateAdded is null))
-                        .Select(gr => new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
+                        .Select(gr =>
+                            new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
                         .ToDictionary(x => x.Key, y => y.Value)
                         .ToConcurrent();
 

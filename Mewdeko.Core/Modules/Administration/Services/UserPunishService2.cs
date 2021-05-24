@@ -1,37 +1,64 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
 using NLog;
-using NLog.Fluent;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class UserPunishService2 : INService
     {
-        private readonly MuteService _mute;
         private readonly DbService _db;
         private readonly Logger _log;
+        private readonly MuteService _mute;
         private readonly Timer _warnExpiryTimer;
+        private Mewdeko _bot;
 
-        public UserPunishService2(MuteService mute, DbService db)
+
+        public UserPunishService2(MuteService mute, DbService db, Mewdeko bot)
         {
             _mute = mute;
             _db = db;
             _log = LogManager.GetCurrentClassLogger();
+            _bot = bot;
+            _miniwarnlogchannelids = bot.AllGuildConfigs
+                .Where(x => x.MiniWarnlogChannelId != 0)
+                .ToDictionary(x => x.GuildId, x => x.MiniWarnlogChannelId)
+                .ToConcurrent();
 
-            _warnExpiryTimer = new Timer(async _ =>
+
+            _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
+                TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
+        }
+
+        private ConcurrentDictionary<ulong, ulong> _miniwarnlogchannelids { get; } = new();
+
+        public ulong GetMWarnlogChannel(ulong? id)
+        {
+            if (id == null || !_miniwarnlogchannelids.TryGetValue(id.Value, out var mwarnlogchannel))
+                return 0;
+
+            return mwarnlogchannel;
+        }
+
+        public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
+        {
+            using (var uow = _db.GetDbContext())
             {
-                await CheckAllWarnExpiresAsync();
-            }, null, TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.MiniWarnlogChannelId = channel.Id;
+                await uow.SaveChangesAsync();
+            }
+
+            _miniwarnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
         }
 
         public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)
@@ -43,16 +70,16 @@ namespace Mewdeko.Modules.Administration.Services
 
             var guildId = guild.Id;
 
-            var warn2 = new Warning2()
+            var warn2 = new Warning2
             {
                 UserId = userId,
                 GuildId = guildId,
                 Forgiven = false,
                 Reason = reason,
-                Moderator = modName,
+                Moderator = modName
             };
 
-            int warnings = 1;
+            var warnings = 1;
             List<WarningPunishment2> ps;
             using (var uow = _db.GetDbContext())
             {
@@ -87,13 +114,15 @@ namespace Mewdeko.Modules.Administration.Services
                         if (p.Time == 0)
                             await _mute.MuteUser(user, mod, MuteType.Voice).ConfigureAwait(false);
                         else
-                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Voice).ConfigureAwait(false);
+                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Voice)
+                                .ConfigureAwait(false);
                         break;
                     case PunishmentAction.ChatMute:
                         if (p.Time == 0)
                             await _mute.MuteUser(user, mod, MuteType.Chat).ConfigureAwait(false);
                         else
-                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Chat).ConfigureAwait(false);
+                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Chat)
+                                .ConfigureAwait(false);
                         break;
                     case PunishmentAction.Kick:
                         await user.KickAsync("Warned too many times.").ConfigureAwait(false);
@@ -102,10 +131,11 @@ namespace Mewdeko.Modules.Administration.Services
                         if (p.Time == 0)
                             await guild.AddBanAsync(user, reason: "Warned too many times.").ConfigureAwait(false);
                         else
-                            await _mute.TimedBan(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.").ConfigureAwait(false);
+                            await _mute.TimedBan(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
+                                .ConfigureAwait(false);
                         break;
                     case PunishmentAction.Softban:
-                        await guild.AddBanAsync(user, 7, reason: "Warned too many times").ConfigureAwait(false);
+                        await guild.AddBanAsync(user, 7, "Warned too many times").ConfigureAwait(false);
                         try
                         {
                             await guild.RemoveBanAsync(user).ConfigureAwait(false);
@@ -114,32 +144,36 @@ namespace Mewdeko.Modules.Administration.Services
                         {
                             await guild.RemoveBanAsync(user).ConfigureAwait(false);
                         }
+
                         break;
                     case PunishmentAction.RemoveRoles:
-                        await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id)).ConfigureAwait(false);
+                        await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id))
+                            .ConfigureAwait(false);
                         break;
                     case PunishmentAction.AddRole:
                         var role = guild.GetRole(p.RoleId.Value);
                         if (!(role is null))
                         {
-                            if(p.Time == 0)
+                            if (p.Time == 0)
                                 await user.AddRoleAsync(role).ConfigureAwait(false);
                             else
-                                await _mute.TimedRole(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.", role).ConfigureAwait(false);
+                                await _mute.TimedRole(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.",
+                                    role).ConfigureAwait(false);
                         }
                         else
                         {
                             _log.Warn($"Warnpunish can't find role {p.RoleId.Value} on server {guild.Id}");
                         }
-                        break;
-                    default:
+
                         break;
                 }
+
                 return p;
             }
 
             return null;
         }
+
         public int GetWarnings(IGuild guild, ulong userId)
         {
             int warnings;
@@ -149,6 +183,7 @@ namespace Mewdeko.Modules.Administration.Services
                     .ForId(guild.Id, userId)
                     .Count(w => !w.Forgiven && w.UserId == userId);
             }
+
             return warnings;
         }
 
@@ -156,21 +191,19 @@ namespace Mewdeko.Modules.Administration.Services
         {
             using (var uow = _db.GetDbContext())
             {
-                var cleared = await uow._context.Database.ExecuteSqlRawAsync($@"UPDATE Warnings2
+                var cleared = await uow._context.Database.ExecuteSqlRawAsync(@"UPDATE Warnings2
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 0)
 	AND Forgiven = 0
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
 
-                var deleted = await uow._context.Database.ExecuteSqlRawAsync($@"DELETE FROM Warnings2
+                var deleted = await uow._context.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings2
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 1)
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
 
-                if(cleared > 0 || deleted > 0)
-                {
+                if (cleared > 0 || deleted > 0)
                     _log.Info($"Cleared {cleared} warnings and deleted {deleted} warnings due to expiry.");
-                }
             }
         }
 
@@ -185,20 +218,16 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
 
                 var hours = $"{-config.WarnExpireHours} hours";
                 if (config.WarnExpireAction == WarnExpireAction.Clear)
-                {
                     await uow._context.Database.ExecuteSqlInterpolatedAsync($@"UPDATE warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId={guildId}
     AND Forgiven = 0
     AND DateAdded < datetime('now', {hours})");
-                }
                 else if (config.WarnExpireAction == WarnExpireAction.Delete)
-                {
                     await uow._context.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings
 WHERE GuildId={guildId}
     AND DateAdded < datetime('now', {hours})");
-                }
 
                 await uow.SaveChangesAsync();
             }
@@ -240,28 +269,26 @@ WHERE GuildId={guildId}
 
         public async Task<bool> WarnClearAsync(ulong guildId, ulong userId, int index, string moderator)
         {
-            bool toReturn = true;
+            var toReturn = true;
             using (var uow = _db.GetDbContext())
             {
                 if (index == 0)
-                {
                     await uow.Warnings2.ForgiveAll(guildId, userId, moderator);
-                }
                 else
-                {
                     toReturn = uow.Warnings2.Forgive(guildId, userId, moderator, index - 1);
-                }
                 await uow.SaveChangesAsync();
             }
+
             return toReturn;
         }
 
         public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime time, IRole role = null)
         {
             // these 3 don't make sense with time
-            if ((punish == PunishmentAction.Softban || punish == PunishmentAction.Kick || punish == PunishmentAction.RemoveRoles) && time != null)
+            if ((punish == PunishmentAction.Softban || punish == PunishmentAction.Kick ||
+                 punish == PunishmentAction.RemoveRoles) && time != null)
                 return false;
-            if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
+            if (number <= 0 || time != null && time.Time > TimeSpan.FromDays(49))
                 return false;
 
             using (var uow = _db.GetDbContext())
@@ -271,15 +298,16 @@ WHERE GuildId={guildId}
 
                 uow._context.RemoveRange(toDelete);
 
-                ps.Add(new WarningPunishment2()
+                ps.Add(new WarningPunishment2
                 {
                     Count = number,
                     Punishment = punish,
-                    Time = (int?)(time?.Time.TotalMinutes) ?? 0,
-                    RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?),
+                    Time = (int?) time?.Time.TotalMinutes ?? 0,
+                    RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
                 });
                 uow.SaveChanges();
             }
+
             return true;
         }
 
@@ -299,6 +327,7 @@ WHERE GuildId={guildId}
                     uow.SaveChanges();
                 }
             }
+
             return true;
         }
 

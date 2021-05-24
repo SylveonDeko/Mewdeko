@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using NLog;
-using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class AutoAssignRoleService : INService
     {
-        private readonly Logger _log;
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-
-        //guildid/roleid
-        public ConcurrentDictionary<ulong, string> AutoAssignedRoles { get; }
-        public ConcurrentDictionary<ulong, ConcurrentQueue<(SocketGuildUser, string)>> AssignQueue { get; }
-            = new ConcurrentDictionary<ulong, ConcurrentQueue<(SocketGuildUser, string)>>();
+        private readonly Logger _log;
 
         public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
         {
@@ -46,6 +43,7 @@ namespace Mewdeko.Modules.Administration.Services
                                     l.Add(x);
                                 return l;
                             }
+
                             return Enumerable.Empty<(SocketGuildUser, string)>();
                         });
 
@@ -57,8 +55,6 @@ namespace Mewdeko.Modules.Administration.Services
                             var (user, roleId) = item;
                             try
                             {
-                                
-
                                 if (user.Guild != null)
                                 {
                                     foreach (var i in roleId.Split())
@@ -70,14 +66,16 @@ namespace Mewdeko.Modules.Administration.Services
                                 }
                                 else
                                 {
-                                    _log.Warn($"Disabled 'Auto assign role' feature on {0} server the role doesn't exist.",
-                                       roleId);
+                                    _log.Warn(
+                                        $"Disabled 'Auto assign role' feature on {0} server the role doesn't exist.",
+                                        roleId);
                                     DisableAar(user.Guild.Id);
                                 }
                             }
-                            catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                            catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
                             {
-                                _log.Warn($"Disabled 'Auto assign role' feature on {0} server because I don't have role management permissions.",
+                                _log.Warn(
+                                    $"Disabled 'Auto assign role' feature on {0} server because I don't have role management permissions.",
                                     roleId);
                                 DisableAar(user.Guild.Id);
                             }
@@ -90,23 +88,30 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             });
 
-            _client.UserJoined += (user) =>
+            _client.UserJoined += user =>
             {
-                if (AutoAssignedRoles.TryGetValue(user.Guild.Id, out string roleId)
+                if (AutoAssignedRoles.TryGetValue(user.Guild.Id, out var roleId)
                     && roleId != 0.ToString())
                 {
                     var pair = (user, roleId);
                     AssignQueue.AddOrUpdate(user.Guild.Id,
-                        new ConcurrentQueue<(SocketGuildUser, string)>(new[] { pair }),
+                        new ConcurrentQueue<(SocketGuildUser, string)>(new[] {pair}),
                         (key, old) =>
                         {
                             old.Enqueue(pair);
                             return old;
                         });
                 }
+
                 return Task.CompletedTask;
             };
         }
+
+        //guildid/roleid
+        public ConcurrentDictionary<ulong, string> AutoAssignedRoles { get; }
+
+        public ConcurrentDictionary<ulong, ConcurrentQueue<(SocketGuildUser, string)>> AssignQueue { get; }
+            = new();
 
         public void EnableAar(ulong guildId, string roleId)
         {
@@ -116,6 +121,7 @@ namespace Mewdeko.Modules.Administration.Services
                 gc.AutoAssignRoleId = roleId;
                 uow.SaveChanges();
             }
+
             AutoAssignedRoles.AddOrUpdate(guildId,
                 roleId,
                 delegate { return roleId; });
@@ -129,6 +135,7 @@ namespace Mewdeko.Modules.Administration.Services
                 gc.AutoAssignRoleId = 0.ToString();
                 uow.SaveChanges();
             }
+
             AutoAssignedRoles.TryRemove(guildId, out _);
         }
     }

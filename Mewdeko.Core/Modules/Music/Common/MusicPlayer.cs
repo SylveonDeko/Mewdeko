@@ -1,16 +1,16 @@
-﻿﻿using Discord;
-using Discord.Audio;
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using NLog;
-using System.Linq;
-using Mewdeko.Extensions;
+using Discord;
+using Discord.Audio;
+using Discord.WebSocket;
 using Mewdeko.Common.Collections;
-using Mewdeko.Modules.Music.Services;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using Discord.WebSocket;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Music.Services;
+using NLog;
 
 namespace Mewdeko.Modules.Music.Common
 {
@@ -21,39 +21,82 @@ namespace Mewdeko.Modules.Music.Common
         Playing,
         Completed
     }
+
     public class MusicPlayer
     {
+        private const int _frameBytes = 3840;
+        private const float _miliseconds = 20.0f;
+        private readonly IGoogleApiService _google;
+        private readonly Logger _log;
         private readonly Thread _player;
+        private readonly object locker = new();
+
+        private IAudioClient _audioClient;
+
+        private int _bytesSent;
+        private bool _fairPlay;
+        private readonly MusicService _musicService;
+
+        private bool cancel;
+        private bool manualIndex;
+
+        private bool manualSkip;
+        private bool newVoiceChannel;
+
+        public MusicPlayer(MusicService musicService, MusicSettings ms, IGoogleApiService google,
+            IVoiceChannel vch, ITextChannel original, float volume)
+        {
+            _log = LogManager.GetCurrentClassLogger();
+            Volume = volume;
+            VoiceChannel = vch;
+            OriginalTextChannel = original;
+            SongCancelSource = new CancellationTokenSource();
+            if (ms.MusicChannelId is ulong cid)
+                OutputTextChannel = ((SocketGuild) original.Guild).GetTextChannel(cid) ?? original;
+            else
+                OutputTextChannel = original;
+            _musicService = musicService;
+            AutoDelete = ms.SongAutoDelete;
+            _google = google;
+
+            _player = new Thread(PlayerLoop)
+            {
+                Priority = ThreadPriority.Highest
+            };
+            _player.Start();
+        }
+
         public IVoiceChannel VoiceChannel { get; private set; }
 
         public ITextChannel OriginalTextChannel { get; set; }
-        private readonly Logger _log;
 
-        private MusicQueue Queue { get; } = new MusicQueue();
+        private MusicQueue Queue { get; } = new();
 
-        public bool Exited { get; set; } = false;
-        public bool Stopped { get; private set; } = false;
+        public bool Exited { get; set; }
+        public bool Stopped { get; private set; }
         public float Volume { get; private set; } = 1.0f;
         public bool Paused => PauseTaskSource != null;
-        private TaskCompletionSource<bool> PauseTaskSource { get; set; } = null;
+        private TaskCompletionSource<bool> PauseTaskSource { get; set; }
 
-        public string PrettyVolume => $"🔉 {(int)(Volume * 100)}%";
+        public string PrettyVolume => $"🔉 {(int) (Volume * 100)}%";
+
         public string PrettyCurrentTime
         {
             get
             {
                 var time = CurrentTime.ToString(@"mm\:ss");
-                var hrs = (int)CurrentTime.TotalHours;
+                var hrs = (int) CurrentTime.TotalHours;
 
                 if (hrs > 0)
                     return hrs + ":" + time;
-                else
-                    return time;
+                return time;
             }
         }
+
         public string PrettyFullTime => PrettyCurrentTime + " / " + (Queue.Current.Song?.PrettyTotalTime ?? "?");
         private CancellationTokenSource SongCancelSource { get; set; }
         public ITextChannel OutputTextChannel { get; set; }
+
         public (int Index, SongInfo Current) Current
         {
             get
@@ -67,13 +110,20 @@ namespace Mewdeko.Modules.Music.Common
         public bool RepeatCurrentSong { get; private set; }
         public bool Shuffle { get; private set; }
         public bool Autoplay { get; private set; }
-        public bool RepeatPlaylist { get; private set; } = false;
+        public bool RepeatPlaylist { get; private set; }
+
         public uint MaxQueueSize
         {
             get => Queue.MaxQueueSize;
-            set { lock (locker) Queue.MaxQueueSize = value; }
+            set
+            {
+                lock (locker)
+                {
+                    Queue.MaxQueueSize = value;
+                }
+            }
         }
-        private bool _fairPlay;
+
         public bool FairPlay
         {
             get => _fairPlay;
@@ -93,34 +143,13 @@ namespace Mewdeko.Modules.Music.Common
                 _fairPlay = value;
             }
         }
+
         public bool AutoDelete { get; set; }
         public uint MaxPlaytimeSeconds { get; set; }
+        public TimeSpan CurrentTime => TimeSpan.FromSeconds(_bytesSent / (float) _frameBytes / (1000 / _miliseconds));
 
+        private ConcurrentHashSet<string> RecentlyPlayedUsers { get; } = new();
 
-        const int _frameBytes = 3840;
-        const float _miliseconds = 20.0f;
-        public TimeSpan CurrentTime => TimeSpan.FromSeconds(_bytesSent / (float)_frameBytes / (1000 / _miliseconds));
-
-        private int _bytesSent = 0;
-
-        private IAudioClient _audioClient;
-        private readonly object locker = new object();
-        private MusicService _musicService;
-
-        #region events
-        public event Action<MusicPlayer, (int Index, SongInfo Song)> OnStarted;
-        public event Action<MusicPlayer, SongInfo> OnCompleted;
-        public event Action<MusicPlayer, bool> OnPauseChanged;
-        #endregion
-
-        private bool manualSkip = false;
-        private bool manualIndex = false;
-        private bool newVoiceChannel = false;
-        private readonly IGoogleApiService _google;
-
-        private bool cancel = false;
-
-        private ConcurrentHashSet<string> RecentlyPlayedUsers { get; } = new ConcurrentHashSet<string>();
         public TimeSpan TotalPlaytime
         {
             get
@@ -130,33 +159,6 @@ namespace Mewdeko.Modules.Music.Common
                     ? TimeSpan.MaxValue
                     : new TimeSpan(songs.Sum(s => s.TotalTime.Ticks));
             }
-        }
-
-        public MusicPlayer(MusicService musicService, MusicSettings ms, IGoogleApiService google,
-            IVoiceChannel vch, ITextChannel original, float volume)
-        {
-            _log = LogManager.GetCurrentClassLogger();
-            this.Volume = volume;
-            this.VoiceChannel = vch;
-            this.OriginalTextChannel = original;
-            this.SongCancelSource = new CancellationTokenSource();
-            if (ms.MusicChannelId is ulong cid)
-            {
-                this.OutputTextChannel = ((SocketGuild)original.Guild).GetTextChannel(cid) ?? original;
-            }
-            else
-            {
-                this.OutputTextChannel = original;
-            }
-            this._musicService = musicService;
-            this.AutoDelete = ms.SongAutoDelete;
-            this._google = google;
-
-            _player = new Thread(new ThreadStart(PlayerLoop))
-            {
-                Priority = ThreadPriority.Highest
-            };
-            _player.Start();
         }
 
         private async void PlayerLoop()
@@ -174,6 +176,7 @@ namespace Mewdeko.Modules.Music.Common
                     manualSkip = false;
                     manualIndex = false;
                 }
+
                 if (data.Song != null)
                 {
                     _log.Info("Starting");
@@ -208,6 +211,7 @@ namespace Mewdeko.Modules.Music.Common
                             // i don't want to spam connection attempts
                             continue;
                         }
+
                         b.StartBuffering();
                         await Task.WhenAny(Task.Delay(1000), b.PrebufferingCompleted.Task).ConfigureAwait(false);
                         pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1, packetLoss: 5);
@@ -221,9 +225,12 @@ namespace Mewdeko.Modules.Music.Common
                                 break;
                             AdjustVolume(buffer, Volume);
                             await pcm.WriteAsync(buffer, 0, buffer.Length, cancelToken).ConfigureAwait(false);
-                            unchecked { _bytesSent += buffer.Length; }
+                            unchecked
+                            {
+                                _bytesSent += buffer.Length;
+                            }
 
-                            await ((PauseTaskSource?.Task ?? Task.CompletedTask).ConfigureAwait(false));
+                            await (PauseTaskSource?.Task ?? Task.CompletedTask).ConfigureAwait(false);
                         }
                     }
                     catch (OperationCanceledException)
@@ -257,10 +264,14 @@ namespace Mewdeko.Modules.Music.Common
                         if (_bytesSent == 0 && !cancel)
                         {
                             lock (locker)
+                            {
                                 Queue.RemoveSong(data.Song);
+                            }
+
                             _log.Info("Song removed because it can't play");
                         }
                     }
+
                     try
                     {
                         //if repeating current song, just ignore other settings,
@@ -278,9 +289,7 @@ namespace Mewdeko.Modules.Music.Common
                         }
 
                         if (AutoDelete && !RepeatCurrentSong && !RepeatPlaylist && data.Song != null)
-                        {
                             Queue.RemoveSong(data.Song);
-                        }
 
                         if (!manualIndex && (!RepeatCurrentSong || manualSkip))
                         {
@@ -293,12 +302,15 @@ namespace Mewdeko.Modules.Music.Common
                             {
                                 //if last song, and autoplay is enabled, and if it's a youtube song
                                 // do autplay magix
-                                if (queueCount - 1 == data.Index && Autoplay && data.Song?.ProviderType == MusicType.YouTube)
+                                if (queueCount - 1 == data.Index && Autoplay &&
+                                    data.Song?.ProviderType == MusicType.YouTube)
                                 {
                                     try
                                     {
                                         _log.Info("Loading related song");
-                                        await _musicService.TryQueueRelatedSongAsync(data.Song, OutputTextChannel, VoiceChannel).ConfigureAwait(false);
+                                        await _musicService
+                                            .TryQueueRelatedSongAsync(data.Song, OutputTextChannel, VoiceChannel)
+                                            .ConfigureAwait(false);
                                         if (!AutoDelete)
                                             Queue.Next();
                                     }
@@ -315,23 +327,30 @@ namespace Mewdeko.Modules.Music.Common
                                         var queueList = Queue.ToList();
                                         var q = queueList.Shuffle().ToArray();
 
-                                        bool found = false;
-                                        for (var i = 0; i < q.Length; i++) //first try to find a queuer who didn't have their song played recently
+                                        var found = false;
+                                        for (var i = 0;
+                                            i < q.Length;
+                                            i++) //first try to find a queuer who didn't have their song played recently
                                         {
                                             var item = q[i];
-                                            if (RecentlyPlayedUsers.Add(item.QueuerName)) // if it's found, set current song to that index
+                                            if (RecentlyPlayedUsers.Add(item
+                                                .QueuerName)) // if it's found, set current song to that index
                                             {
                                                 Queue.CurrentIndex = queueList.IndexOf(q[i]);
                                                 found = true;
                                                 break;
                                             }
                                         }
+
                                         if (!found) //if it's not
                                         {
-                                            RecentlyPlayedUsers.Clear(); //clear all recently played users (that means everyone from the playlist has had their song played)
-                                            Queue.Random(); //go to a random song (to prevent looping on the first few songs)
+                                            RecentlyPlayedUsers
+                                                .Clear(); //clear all recently played users (that means everyone from the playlist has had their song played)
+                                            Queue
+                                                .Random(); //go to a random song (to prevent looping on the first few songs)
                                             var cur = Current;
-                                            if (cur.Current != null) // add newely scheduled song's queuer to the recently played list
+                                            if (cur.Current !=
+                                                null) // add newely scheduled song's queuer to the recently played list
                                                 RecentlyPlayedUsers.Add(cur.Current.QueuerName);
                                         }
                                     }
@@ -362,11 +381,11 @@ namespace Mewdeko.Modules.Music.Common
                         _log.Error(ex);
                     }
                 }
+
                 do
                 {
                     await Task.Delay(500).ConfigureAwait(false);
-                }
-                while ((Queue.Count == 0 || Stopped) && !Exited);
+                } while ((Queue.Count == 0 || Stopped) && !Exited);
             }
         }
 
@@ -383,7 +402,6 @@ namespace Mewdeko.Modules.Music.Common
                         var t = _audioClient?.StopAsync();
                         if (t != null)
                         {
-
                             _log.Info("Stopping audio client");
                             await t.ConfigureAwait(false);
 
@@ -394,6 +412,7 @@ namespace Mewdeko.Modules.Music.Common
                     catch
                     {
                     }
+
                     newVoiceChannel = false;
 
                     var curUser = await VoiceChannel.Guild.GetCurrentUserAsync().ConfigureAwait(false);
@@ -406,6 +425,7 @@ namespace Mewdeko.Modules.Music.Common
                         _log.Info("Disconnected");
                         await Task.Delay(1000).ConfigureAwait(false);
                     }
+
                     _log.Info("Connecting");
                     _audioClient = await VoiceChannel.ConnectAsync().ConfigureAwait(false);
                 }
@@ -413,6 +433,7 @@ namespace Mewdeko.Modules.Music.Common
                 {
                     return null;
                 }
+
             return _audioClient;
         }
 
@@ -432,8 +453,10 @@ namespace Mewdeko.Modules.Music.Common
                         Stopped = false;
                         SetIndex(result);
                     }
+
                     Unpause();
                 }
+
                 return result;
             }
         }
@@ -448,11 +471,9 @@ namespace Mewdeko.Modules.Music.Common
                 if (forcePlay)
                 {
                     Unpause();
-                    if (Stopped)
-                    {
-                        SetIndex(toReturn);
-                    }
+                    if (Stopped) SetIndex(toReturn);
                 }
+
                 return toReturn;
             }
         }
@@ -484,15 +505,20 @@ namespace Mewdeko.Modules.Music.Common
                 // if player is stopped, and user uses .n, it should play current song.
                 // It's a bit weird, but that's the least annoying solution
                 if (!Stopped)
-                    if (!RepeatPlaylist && Queue.IsLast() && !Autoplay) // if it's the last song in the queue, and repeat playlist is disabled
-                    { //stop the queue
+                    if (!RepeatPlaylist && Queue.IsLast() &&
+                        !Autoplay) // if it's the last song in the queue, and repeat playlist is disabled
+                    {
+                        //stop the queue
                         Stop();
                         return;
                     }
                     else
+                    {
                         Queue.Next(skipCount - 1);
+                    }
                 else
                     Queue.CurrentIndex = 0;
+
                 Stopped = false;
                 CancelCurrentSong();
                 Unpause();
@@ -532,10 +558,9 @@ namespace Mewdeko.Modules.Music.Common
                 if (PauseTaskSource == null)
                     PauseTaskSource = new TaskCompletionSource<bool>();
                 else
-                {
                     Unpause();
-                }
             }
+
             OnPauseChanged?.Invoke(this, PauseTaskSource != null);
         }
 
@@ -545,7 +570,7 @@ namespace Mewdeko.Modules.Music.Common
                 throw new ArgumentOutOfRangeException(nameof(volume));
             lock (locker)
             {
-                Volume = ((float)volume) / 100;
+                Volume = (float) volume / 100;
             }
         }
 
@@ -582,7 +607,9 @@ namespace Mewdeko.Modules.Music.Common
         public (int CurrentIndex, SongInfo[] Songs) QueueArray()
         {
             lock (locker)
+            {
                 return Queue.ToArray();
+            }
         }
 
         //aidiakapi ftw
@@ -591,16 +618,16 @@ namespace Mewdeko.Modules.Music.Common
             if (Math.Abs(volume - 1f) < 0.0001f) return audioSamples;
 
             // 16-bit precision for the multiplication
-            var volumeFixed = (int)Math.Round(volume * 65536d);
+            var volumeFixed = (int) Math.Round(volume * 65536d);
 
             var count = audioSamples.Length / 2;
 
             fixed (byte* srcBytes = audioSamples)
             {
-                var src = (short*)srcBytes;
+                var src = (short*) srcBytes;
 
                 for (var i = count; i != 0; i--, src++)
-                    *src = (short)(((*src) * volumeFixed) >> 16);
+                    *src = (short) ((*src * volumeFixed) >> 16);
             }
 
             return audioSamples;
@@ -627,6 +654,7 @@ namespace Mewdeko.Modules.Music.Common
                 OnPauseChanged = null;
                 OnStarted = null;
             }
+
             var ac = _audioClient;
             if (ac != null)
                 await ac.StopAsync().ConfigureAwait(false);
@@ -664,6 +692,7 @@ namespace Mewdeko.Modules.Music.Common
                     return;
                 VoiceChannel = vch;
             }
+
             _audioClient = await vch.ConnectAsync().ConfigureAwait(false);
         }
 
@@ -672,7 +701,7 @@ namespace Mewdeko.Modules.Music.Common
             var (_, songs) = Queue.ToArray();
             var toUpdate = songs
                 .Where(x => x.ProviderType == MusicType.YouTube
-                    && x.TotalTime == TimeSpan.Zero);
+                            && x.TotalTime == TimeSpan.Zero);
 
             var vIds = toUpdate.Select(x => x.VideoId);
             if (!vIds.Any())
@@ -681,19 +710,27 @@ namespace Mewdeko.Modules.Music.Common
             var durations = await _google.GetVideoDurationsAsync(vIds).ConfigureAwait(false);
 
             foreach (var x in toUpdate)
-            {
                 if (durations.TryGetValue(x.VideoId, out var dur))
                     x.TotalTime = dur;
-            }
         }
 
         public SongInfo MoveSong(int n1, int n2)
-            => Queue.MoveSong(n1, n2);
+        {
+            return Queue.MoveSong(n1, n2);
+        }
 
         public void SetMusicChannelToOriginal()
         {
-            this.OutputTextChannel = OriginalTextChannel;
+            OutputTextChannel = OriginalTextChannel;
         }
+
+        #region events
+
+        public event Action<MusicPlayer, (int Index, SongInfo Song)> OnStarted;
+        public event Action<MusicPlayer, SongInfo> OnCompleted;
+        public event Action<MusicPlayer, bool> OnPauseChanged;
+
+        #endregion
 
         //// this should be written better
         //public TimeSpan TotalPlaytime =>

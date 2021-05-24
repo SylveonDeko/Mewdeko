@@ -1,5 +1,4 @@
-﻿
-public class Pokemon
+﻿public class Pokemon
 {
     public Ability[] abilities { get; set; }
     public int base_experience { get; set; }

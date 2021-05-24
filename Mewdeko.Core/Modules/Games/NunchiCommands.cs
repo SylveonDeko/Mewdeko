@@ -1,11 +1,11 @@
-﻿using Discord;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games
 {
@@ -21,7 +21,10 @@ namespace Mewdeko.Modules.Games
                 _client = client;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Nunchi()
             {
@@ -33,18 +36,22 @@ namespace Mewdeko.Modules.Games
                 {
                     // join it
                     if (!await nunchi.Join(ctx.User.Id, ctx.User.ToString()).ConfigureAwait(false))
-                    {
                         // if you failed joining, that means game is running or just ended
                         // await ReplyErrorLocalized("nunchi_already_started").ConfigureAwait(false);
                         return;
-                    }
 
                     await ReplyConfirmLocalizedAsync("nunchi_joined", nunchi.ParticipantCount).ConfigureAwait(false);
                     return;
                 }
 
 
-                try { await ConfirmLocalizedAsync("nunchi_created").ConfigureAwait(false); } catch { }
+                try
+                {
+                    await ConfirmLocalizedAsync("nunchi_created").ConfigureAwait(false);
+                }
+                catch
+                {
+                }
 
                 nunchi.OnGameEnded += Nunchi_OnGameEnded;
                 //nunchi.OnGameStarted += Nunchi_OnGameStarted;
@@ -52,7 +59,7 @@ namespace Mewdeko.Modules.Games
                 nunchi.OnUserGuessed += Nunchi_OnUserGuessed;
                 nunchi.OnRoundStarted += Nunchi_OnRoundStarted;
                 _client.MessageReceived += _client_MessageReceived;
-                
+
                 var success = await nunchi.Initialize().ConfigureAwait(false);
                 if (!success)
                 {
@@ -91,15 +98,14 @@ namespace Mewdeko.Modules.Games
 
                     if (arg2 == null)
                         return ConfirmLocalizedAsync("nunchi_ended_no_winner", Format.Bold(arg2));
-                    else
-                        return ConfirmLocalizedAsync("nunchi_ended", Format.Bold(arg2));
+                    return ConfirmLocalizedAsync("nunchi_ended", Format.Bold(arg2));
                 }
             }
 
             private Task Nunchi_OnRoundStarted(NunchiGame arg, int cur)
             {
-                return ConfirmLocalizedAsync("nunchi_round_started", 
-                    Format.Bold(arg.ParticipantCount.ToString()), 
+                return ConfirmLocalizedAsync("nunchi_round_started",
+                    Format.Bold(arg.ParticipantCount.ToString()),
                     Format.Bold(cur.ToString()));
             }
 
@@ -110,11 +116,11 @@ namespace Mewdeko.Modules.Games
 
             private Task Nunchi_OnRoundEnded(NunchiGame arg1, (ulong Id, string Name)? arg2)
             {
-                if(arg2.HasValue)
+                if (arg2.HasValue)
                     return ConfirmLocalizedAsync("nunchi_round_ended", Format.Bold(arg2.Value.Name));
-                else
-                    return ConfirmLocalizedAsync("nunchi_round_ended_boot",
-                        Format.Bold("\n" + string.Join("\n, ", arg1.Participants.Select(x => x.Name)))); // this won't work if there are too many users
+                return ConfirmLocalizedAsync("nunchi_round_ended_boot",
+                    Format.Bold("\n" + string.Join("\n, ",
+                        arg1.Participants.Select(x => x.Name)))); // this won't work if there are too many users
             }
 
             private Task Nunchi_OnGameStarted(NunchiGame arg)

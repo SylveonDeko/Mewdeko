@@ -1,54 +1,42 @@
-﻿using Mewdeko.Common;
-using Mewdeko.Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Mewdeko.Common;
+using Mewdeko.Core.Services;
 
 namespace Mewdeko.Core.Modules.Gambling.Common
 {
     public class RollDuelGame
     {
-        public ulong P1 { get; }
-        public ulong P2 { get; }
-
-        private readonly ulong _botId;
-
-        public long Amount { get; }
-
-        private readonly ICurrencyService _cs;
+        public enum Reason
+        {
+            Normal,
+            NoFunds,
+            Timeout
+        }
 
         public enum State
         {
             Waiting,
             Running,
-            Ended,
+            Ended
         }
 
-        public enum Reason
-        {
-            Normal,
-            NoFunds,
-            Timeout,
-        }
-        
+        private readonly ulong _botId;
+
+        private readonly ICurrencyService _cs;
+        private readonly SemaphoreSlim _locker = new(1, 1);
+        private readonly MewdekoRandom _rng = new();
+
         private readonly Timer _timeoutTimer;
-        private readonly MewdekoRandom _rng = new MewdekoRandom();
-        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
-        
-        public event Func<RollDuelGame, Task> OnGameTick;
-        public event Func<RollDuelGame, Reason, Task> OnEnded;
-
-        public List<(int, int)> Rolls { get; } = new List<(int, int)>();
-        public State CurrentState { get; private set; }
-        public ulong Winner { get; private set; }
 
         public RollDuelGame(ICurrencyService cs, ulong botId, ulong p1, ulong p2, long amount)
         {
-            this.P1 = p1;
-            this.P2 = p2;
-            this._botId = botId;
-            this.Amount = amount;
+            P1 = p1;
+            P2 = p2;
+            _botId = botId;
+            Amount = amount;
             _cs = cs;
 
             _timeoutTimer = new Timer(async delegate
@@ -61,13 +49,27 @@ namespace Mewdeko.Core.Modules.Gambling.Common
                     CurrentState = State.Ended;
                     await (OnEnded?.Invoke(this, Reason.Timeout)).ConfigureAwait(false);
                 }
-                catch { }
+                catch
+                {
+                }
                 finally
                 {
                     _locker.Release();
                 }
             }, null, TimeSpan.FromSeconds(15), TimeSpan.FromMilliseconds(-1));
         }
+
+        public ulong P1 { get; }
+        public ulong P2 { get; }
+
+        public long Amount { get; }
+
+        public List<(int, int)> Rolls { get; } = new();
+        public State CurrentState { get; private set; }
+        public ulong Winner { get; private set; }
+
+        public event Func<RollDuelGame, Task> OnGameTick;
+        public event Func<RollDuelGame, Reason, Task> OnEnded;
 
         public async Task StartGame()
         {
@@ -84,13 +86,14 @@ namespace Mewdeko.Core.Modules.Gambling.Common
                 _locker.Release();
             }
 
-            if(!await _cs.RemoveAsync(P1, "Roll Duel", Amount).ConfigureAwait(false))
+            if (!await _cs.RemoveAsync(P1, "Roll Duel", Amount).ConfigureAwait(false))
             {
                 await (OnEnded?.Invoke(this, Reason.NoFunds)).ConfigureAwait(false);
                 CurrentState = State.Ended;
                 return;
             }
-            if(!await _cs.RemoveAsync(P2, "Roll Duel", Amount).ConfigureAwait(false))
+
+            if (!await _cs.RemoveAsync(P2, "Roll Duel", Amount).ConfigureAwait(false))
             {
                 await _cs.AddAsync(P1, "Roll Duel - refund", Amount).ConfigureAwait(false);
                 await (OnEnded?.Invoke(this, Reason.NoFunds)).ConfigureAwait(false);
@@ -106,26 +109,30 @@ namespace Mewdeko.Core.Modules.Gambling.Common
                 if (n1 != n2)
                 {
                     if (n1 > n2)
-                    {
-                        Winner = P1;                                                                                                                                                                                                                                                                                                
-                    }
+                        Winner = P1;
                     else
-                    {
                         Winner = P2;
-                    }
-                    var won = (long)(Amount * 2 * 0.98f);
+                    var won = (long) (Amount * 2 * 0.98f);
                     await _cs.AddAsync(Winner, "Roll Duel win", won)
                         .ConfigureAwait(false);
 
                     await _cs.AddAsync(_botId, "Roll Duel fee", Amount * 2 - won)
                         .ConfigureAwait(false);
                 }
-                try { await (OnGameTick?.Invoke(this)).ConfigureAwait(false); } catch { }
+
+                try
+                {
+                    await (OnGameTick?.Invoke(this)).ConfigureAwait(false);
+                }
+                catch
+                {
+                }
+
                 await Task.Delay(2500).ConfigureAwait(false);
                 if (n1 != n2)
                     break;
-            }
-            while (true);
+            } while (true);
+
             CurrentState = State.Ended;
             await (OnEnded?.Invoke(this, Reason.Normal)).ConfigureAwait(false);
         }

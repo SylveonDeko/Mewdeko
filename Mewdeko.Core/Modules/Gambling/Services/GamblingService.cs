@@ -1,31 +1,28 @@
-﻿using Discord.WebSocket;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord.WebSocket;
 using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Modules.Gambling.Common.Connect4;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
 using Newtonsoft.Json;
 using NLog;
-using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services
 {
     public class GamblingService : INService
     {
-        private readonly DbService _db;
-        private readonly ICurrencyService _cs;
         private readonly IBotConfigProvider _bc;
         private readonly Mewdeko _bot;
-        private readonly Logger _log;
-        private readonly DiscordSocketClient _client;
         private readonly IDataCache _cache;
-
-        public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new ConcurrentDictionary<(ulong, ulong), RollDuelGame>();
-        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new ConcurrentDictionary<ulong, Connect4Game>();
+        private readonly DiscordSocketClient _client;
+        private readonly ICurrencyService _cs;
+        private readonly DbService _db;
 
         private readonly Timer _decayTimer;
+        private readonly Logger _log;
 
         public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs, IBotConfigProvider bc,
             DiscordSocketClient client, IDataCache cache)
@@ -39,7 +36,6 @@ namespace Mewdeko.Modules.Gambling.Services
             _cache = cache;
 
             if (_bot.Client.ShardId == 0)
-            {
                 _decayTimer = new Timer(_ =>
                 {
                     var decay = _bc.BotConfig.DailyCurrencyDecay;
@@ -60,7 +56,6 @@ namespace Mewdeko.Modules.Gambling.Services
                         uow.SaveChanges();
                     }
                 }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
-            }
 
             //using (var uow = _db.UnitOfWork)
             //{
@@ -89,25 +84,19 @@ namespace Mewdeko.Modules.Gambling.Services
             //}
         }
 
-        public struct EconomyResult
-        {
-            public decimal Cash { get; set; }
-            public decimal Planted { get; set; }
-            public decimal Waifus { get; set; }
-            public decimal OnePercent { get; set; }
-            public long Bot { get; set; }
-        }
+        public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
+        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
 
         public EconomyResult GetEconomy()
         {
             if (_cache.TryGetEconomy(out var data))
-            {
                 try
                 {
                     return JsonConvert.DeserializeObject<EconomyResult>(data);
                 }
-                catch { }
-            }
+                catch
+                {
+                }
 
             decimal cash;
             decimal onePercent;
@@ -130,7 +119,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 Planted = planted,
                 Bot = bot,
                 Waifus = waifus,
-                OnePercent = onePercent,
+                OnePercent = onePercent
             };
 
             _cache.SetEconomy(JsonConvert.SerializeObject(result));
@@ -140,6 +129,15 @@ namespace Mewdeko.Modules.Gambling.Services
         public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet)
         {
             return new WheelOfFortuneGame(userId, bet, _cs).SpinAsync();
+        }
+
+        public struct EconomyResult
+        {
+            public decimal Cash { get; set; }
+            public decimal Planted { get; set; }
+            public decimal Waifus { get; set; }
+            public decimal OnePercent { get; set; }
+            public long Bot { get; set; }
         }
     }
 }

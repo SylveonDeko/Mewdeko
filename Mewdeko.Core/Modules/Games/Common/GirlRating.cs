@@ -4,7 +4,6 @@ using System.Net.Http;
 using Mewdeko.Common;
 using Mewdeko.Core.Services;
 using NLog;
-using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -13,18 +12,12 @@ namespace Mewdeko.Modules.Games.Common
     public class GirlRating
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly IImageCache _images;
-
-        public double Crazy { get; }
-        public double Hot { get; }
-        public int Roll { get; }
-        public string Advice { get; }
 
         private readonly IHttpClientFactory _httpFactory;
+        private readonly IImageCache _images;
 
-        public AsyncLazy<Stream> Stream { get; }
-
-        public GirlRating(IImageCache images, IHttpClientFactory factory, double crazy, double hot, int roll, string advice)
+        public GirlRating(IImageCache images, IHttpClientFactory factory, double crazy, double hot, int roll,
+            string advice)
         {
             _images = images;
             Crazy = crazy;
@@ -43,26 +36,27 @@ namespace Mewdeko.Modules.Games.Common
                         const int miny = 385;
                         const int length = 345;
 
-                        var pointx = (int)(minx + length * (Hot / 10));
-                        var pointy = (int)(miny - length * ((Crazy - 4) / 6));
+                        var pointx = (int) (minx + length * (Hot / 10));
+                        var pointy = (int) (miny - length * ((Crazy - 4) / 6));
 
                         using (var pointImg = Image.Load(_images.RategirlDot))
                         {
-                            img.Mutate(x => x.DrawImage(pointImg, new Point(pointx - 10, pointy - 10), new GraphicsOptions()));
+                            img.Mutate(x =>
+                                x.DrawImage(pointImg, new Point(pointx - 10, pointy - 10), new GraphicsOptions()));
                         }
 
                         var imgStream = new MemoryStream();
                         img.SaveAsPng(imgStream);
                         return imgStream;
-                            //using (var byteContent = new ByteArrayContent(imgStream.ToArray()))
-                            //{
-                            //    http.AddFakeHeaders();
+                        //using (var byteContent = new ByteArrayContent(imgStream.ToArray()))
+                        //{
+                        //    http.AddFakeHeaders();
 
-                            //    using (var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false))
-                            //    {
-                            //        url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            //    }
-                            //}
+                        //    using (var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false))
+                        //    {
+                        //        url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        //    }
+                        //}
                     }
                 }
                 catch (Exception ex)
@@ -72,5 +66,12 @@ namespace Mewdeko.Modules.Games.Common
                 }
             });
         }
+
+        public double Crazy { get; }
+        public double Hot { get; }
+        public int Roll { get; }
+        public string Advice { get; }
+
+        public AsyncLazy<Stream> Stream { get; }
     }
 }

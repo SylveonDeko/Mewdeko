@@ -16,16 +16,16 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Logger _log;
 
-        private static Regex Regex { get; } = new Regex(@"twitch.tv/(?<name>.+[^/])/?",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        public override FollowedStream.FType Platform => FollowedStream.FType.Twitch;
-
         public TwitchProvider(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
             _log = LogManager.GetCurrentClassLogger();
         }
+
+        private static Regex Regex { get; } = new(@"twitch.tv/(?<name>.+[^/])/?",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        public override FollowedStream.FType Platform => FollowedStream.FType.Twitch;
 
         public override Task<bool> IsValidUrl(string url)
         {
@@ -51,7 +51,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         public override async Task<StreamData?> GetStreamDataAsync(string id)
         {
-            var data = await GetStreamDataAsync(new List<string> { id });
+            var data = await GetStreamDataAsync(new List<string> {id});
 
             return data.FirstOrDefault();
         }
@@ -68,7 +68,6 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
                 var toReturn = new List<StreamData>();
                 foreach (var login in logins)
-                {
                     try
                     {
                         // get id based on the username
@@ -83,7 +82,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         // get stream data
                         var str = await http.GetStringAsync($"https://api.twitch.tv/kraken/streams/{user.Id}");
                         var resObj =
-                            JsonConvert.DeserializeAnonymousType(str, new { Stream = new TwitchResponseV5.Stream() });
+                            JsonConvert.DeserializeAnonymousType(str, new {Stream = new TwitchResponseV5.Stream()});
 
                         // if stream is null, user is not streaming
                         if (resObj?.Stream is null)
@@ -115,7 +114,6 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         _log.Warn($"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
                         _failingStreams.TryAdd(login, DateTime.UtcNow);
                     }
-                }
 
                 return toReturn;
             }
@@ -123,7 +121,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         private StreamData ToStreamData(TwitchResponseV5.Stream stream)
         {
-            return new StreamData()
+            return new()
             {
                 StreamType = FollowedStream.FType.Twitch,
                 Name = stream.Channel.DisplayName,

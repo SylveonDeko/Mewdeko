@@ -1,11 +1,11 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Core.Services;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Modules.Games.Services;
+using Mewdeko.Core.Services;
 using Mewdeko.Modules.Games.Common.ChatterBot;
+using Mewdeko.Modules.Games.Services;
 
 namespace Mewdeko.Modules.Games
 {
@@ -21,12 +21,15 @@ namespace Mewdeko.Modules.Games
                 _db = db;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task Cleverbot()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
                 {
@@ -35,11 +38,13 @@ namespace Mewdeko.Modules.Games
                         uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, false);
                         await uow.SaveChangesAsync();
                     }
+
                     await ReplyConfirmLocalizedAsync("cleverbot_disabled").ConfigureAwait(false);
                     return;
                 }
 
-                _service.ChatterBotGuilds.TryAdd(channel.Guild.Id, new Lazy<IChatterBotSession>(() => _service.CreateSession(), true));
+                _service.ChatterBotGuilds.TryAdd(channel.Guild.Id,
+                    new Lazy<IChatterBotSession>(() => _service.CreateSession(), true));
 
                 using (var uow = _db.GetDbContext())
                 {
@@ -50,7 +55,5 @@ namespace Mewdeko.Modules.Games
                 await ReplyConfirmLocalizedAsync("cleverbot_enabled").ConfigureAwait(false);
             }
         }
-
-       
     }
 }

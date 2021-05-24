@@ -1,37 +1,37 @@
-﻿using Mewdeko.Core.Modules.Music.Common;
-using NLog;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Mewdeko.Core.Modules.Music.Common;
+using NLog;
 
 namespace Mewdeko.Modules.Music.Common
 {
     public sealed class SongBuffer : IDisposable
     {
-        private readonly Process _p;
         private readonly PoopyBufferReborn _buffer;
-        private readonly Stream _outStream;
+
+        private readonly bool _isLocal;
 
         private readonly Logger _log;
-
-        public string SongUri { get; }
-        public TaskCompletionSource<bool> PrebufferingCompleted { get; }
+        private readonly Stream _outStream;
+        private readonly Process _p;
 
         public SongBuffer(string songUri, bool isLocal)
         {
             _log = LogManager.GetCurrentClassLogger();
-            this.SongUri = songUri;
-            this._isLocal = isLocal;
-            this.PrebufferingCompleted = new TaskCompletionSource<bool>();
+            SongUri = songUri;
+            _isLocal = isLocal;
+            PrebufferingCompleted = new TaskCompletionSource<bool>();
 
             try
             {
-                this._p = StartFFmpegProcess(SongUri);
-                this._outStream = this._p.StandardOutput.BaseStream;
-                this._buffer = new PoopyBufferReborn(this._outStream);
+                _p = StartFFmpegProcess(SongUri);
+                _outStream = _p.StandardOutput.BaseStream;
+                _buffer = new PoopyBufferReborn(_outStream);
             }
-            catch (System.ComponentModel.Win32Exception)
+            catch (Win32Exception)
             {
                 _log.Error(@"You have not properly installed or configured FFMPEG. 
 Please install and configure FFMPEG to play music. 
@@ -39,12 +39,45 @@ Check the guides for your platform on how to setup ffmpeg correctly:
     Windows Guide: https://goo.gl/OjKk8F
     Linux Guide:  https://goo.gl/ShjCUo");
             }
-            catch (OperationCanceledException) { }
-            catch (InvalidOperationException) { } // when ffmpeg is disposed
+            catch (OperationCanceledException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
+            } // when ffmpeg is disposed
             catch (Exception ex)
             {
                 _log.Info(ex);
             }
+        }
+
+        public string SongUri { get; }
+        public TaskCompletionSource<bool> PrebufferingCompleted { get; }
+
+        public void Dispose()
+        {
+            try
+            {
+                _p.StandardOutput.Dispose();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+            }
+
+            try
+            {
+                if (!_p.HasExited)
+                    _p.Kill();
+            }
+            catch
+            {
+            }
+
+            _buffer.Stop();
+            _outStream.Dispose();
+            _p.Dispose();
+            _buffer.PrebufferingCompleted -= OnPrebufferingCompleted;
         }
 
         private Process StartFFmpegProcess(string songUri)
@@ -60,45 +93,19 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = false,
-                CreateNoWindow = true,
+                CreateNoWindow = true
             });
         }
 
-        private readonly bool _isLocal;
-
         public byte[] Read(int toRead)
         {
-            return this._buffer.Read(toRead).ToArray();
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                this._p.StandardOutput.Dispose();
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex);
-            }
-            try
-            {
-                if (!this._p.HasExited)
-                    this._p.Kill();
-            }
-            catch
-            {
-            }
-            _buffer.Stop();
-            _outStream.Dispose();
-            this._p.Dispose();
-            this._buffer.PrebufferingCompleted -= OnPrebufferingCompleted;
+            return _buffer.Read(toRead).ToArray();
         }
 
         public void StartBuffering()
         {
-            this._buffer.StartBuffering();
-            this._buffer.PrebufferingCompleted += OnPrebufferingCompleted;
+            _buffer.StartBuffering();
+            _buffer.PrebufferingCompleted += OnPrebufferingCompleted;
         }
 
         private void OnPrebufferingCompleted()

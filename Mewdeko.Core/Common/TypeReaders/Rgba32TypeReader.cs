@@ -12,7 +12,8 @@ namespace Mewdeko.Core.Common.TypeReaders
         {
         }
 
-        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
+            IServiceProvider services)
         {
             await Task.Yield();
 

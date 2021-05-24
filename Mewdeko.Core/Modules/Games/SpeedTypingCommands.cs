@@ -1,15 +1,15 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Extensions;
-using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
-using Mewdeko.Core.Common;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Games
 {
@@ -18,8 +18,8 @@ namespace Mewdeko.Modules.Games
         [Group]
         public class SpeedTypingCommands : MewdekoSubmodule<GamesService>
         {
-            private readonly GamesService _games;
             private readonly DiscordSocketClient _client;
+            private readonly GamesService _games;
 
             public SpeedTypingCommands(DiscordSocketClient client, GamesService games)
             {
@@ -27,62 +27,72 @@ namespace Mewdeko.Modules.Games
                 _client = client;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [MewdekoOptionsAttribute(typeof(TypingGame.Options))]
             public async Task TypeStart(params string[] args)
             {
                 var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
-                var game = _service.RunningContests.GetOrAdd(channel.Guild.Id, id => new TypingGame(_games, _client, channel, Prefix, options));
+                var game = _service.RunningContests.GetOrAdd(channel.Guild.Id,
+                    id => new TypingGame(_games, _client, channel, Prefix, options));
 
                 if (game.IsActive)
-                {
                     await channel.SendErrorAsync(
-                            $"Contest already running in " +
+                            "Contest already running in " +
                             $"{game.Channel.Mention} channel.")
-                                .ConfigureAwait(false);
-                }
+                        .ConfigureAwait(false);
                 else
-                {
                     await game.Start().ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task TypeStop()
             {
-                var channel = (ITextChannel)ctx.Channel;
-                if (_service.RunningContests.TryRemove(channel.Guild.Id, out TypingGame game))
+                var channel = (ITextChannel) ctx.Channel;
+                if (_service.RunningContests.TryRemove(channel.Guild.Id, out var game))
                 {
                     await game.Stop().ConfigureAwait(false);
                     return;
                 }
+
                 await channel.SendErrorAsync("No contest to stop on this channel.").ConfigureAwait(false);
             }
 
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task Typeadd([Leftover] string text)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
                 if (string.IsNullOrWhiteSpace(text))
                     return;
 
-                _games.AddTypingArticle(ctx.User, text);                
+                _games.AddTypingArticle(ctx.User, text);
 
                 await channel.SendConfirmAsync("Added new article for typing game.").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Typelist(int page = 1)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 if (page < 1)
                     return;
@@ -91,20 +101,26 @@ namespace Mewdeko.Modules.Games
 
                 if (!articles.Any())
                 {
-                    await channel.SendErrorAsync($"{ctx.User.Mention} `No articles found on that page.`").ConfigureAwait(false);
+                    await channel.SendErrorAsync($"{ctx.User.Mention} `No articles found on that page.`")
+                        .ConfigureAwait(false);
                     return;
                 }
+
                 var i = (page - 1) * 15;
-                await channel.SendConfirmAsync("List of articles for Type Race", string.Join("\n", articles.Select(a => $"`#{++i}` - {a.Text.TrimTo(50)}")))
-                             .ConfigureAwait(false);
+                await channel.SendConfirmAsync("List of articles for Type Race",
+                        string.Join("\n", articles.Select(a => $"`#{++i}` - {a.Text.TrimTo(50)}")))
+                    .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task Typedel(int index)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 index -= 1;
                 if (index < 0 || index >= _games.TypingArticles.Count)
@@ -112,11 +128,11 @@ namespace Mewdeko.Modules.Games
 
                 var removed = _games.TypingArticles[index];
                 _games.TypingArticles.RemoveAt(index);
-                
+
                 File.WriteAllText(_games.TypingArticlesPath, JsonConvert.SerializeObject(_games.TypingArticles));
 
                 await channel.SendConfirmAsync($"`Removed typing article:` #{index + 1} - {removed.Text.TrimTo(50)}")
-                             .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
         }
     }

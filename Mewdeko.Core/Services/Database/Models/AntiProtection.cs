@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace Mewdeko.Core.Services.Database.Models
 {
     public class AntiRaidSetting : DbEntity
@@ -9,10 +10,10 @@ namespace Mewdeko.Core.Services.Database.Models
         public int UserThreshold { get; set; }
         public int Seconds { get; set; }
         public PunishmentAction Action { get; set; }
-        
+
         /// <summary>
-        /// Duration of the punishment, in minutes. This works only for supported Actions, like:
-        /// Mute, Chatmute, Voicemute, etc...
+        ///     Duration of the punishment, in minutes. This works only for supported Actions, like:
+        ///     Mute, Chatmute, Voicemute, etc...
         /// </summary>
         public int PunishDuration { get; set; }
     }
@@ -26,7 +27,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public int MessageThreshold { get; set; } = 3;
         public int MuteTime { get; set; } = 0;
         public ulong? RoleId { get; set; }
-        public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new HashSet<AntiSpamIgnore>();
+        public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
     }
 
     public enum PunishmentAction
@@ -45,7 +46,10 @@ namespace Mewdeko.Core.Services.Database.Models
     {
         public ulong ChannelId { get; set; }
 
-        public override int GetHashCode() => ChannelId.GetHashCode();
+        public override int GetHashCode()
+        {
+            return ChannelId.GetHashCode();
+        }
 
         public override bool Equals(object obj)
         {

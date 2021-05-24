@@ -11,21 +11,24 @@ using Mewdeko.Core.Common.Configs;
 namespace Mewdeko.Core.Services
 {
     /// <summary>
-    /// Base service for all settings services
+    ///     Base service for all settings services
     /// </summary>
     /// <typeparam name="TSettings">Type of the settings</typeparam>
     public abstract class SettingsServiceBase<TSettings> where TSettings : new()
     {
-        protected readonly string _filePath;
-        protected readonly ISettingsSeria _serializer;
-        protected readonly IPubSub _pubSub;
         private readonly TypedKey<TSettings> _changeKey;
+        protected readonly string _filePath;
+        private readonly Dictionary<string, Func<object, string>> _propPrinters = new();
+        private readonly Dictionary<string, Func<object>> _propSelectors = new();
+
+        private readonly Dictionary<string, Func<TSettings, string, bool>> _propSetters = new();
+        protected readonly IPubSub _pubSub;
+        protected readonly ISettingsSeria _serializer;
 
         protected TSettings _data;
-        public TSettings Data => CreateCopy();
 
         /// <summary>
-        /// Initialized an instance of <see cref="SettingsServiceBase{TSettings}"/>
+        ///     Initialized an instance of <see cref="SettingsServiceBase{TSettings}" />
         /// </summary>
         /// <param name="filePath">Path to the file where the settings are serialized/deserialized to and from</param>
         /// <param name="serializer">Serializer which will be used</param>
@@ -44,11 +47,13 @@ namespace Mewdeko.Core.Services
             Load();
         }
 
+        public TSettings Data => CreateCopy();
+
         private void PublishChange()
         {
             _pubSub.Pub(_changeKey, _data);
         }
-        
+
         private Task OnChangePublished(TSettings newData)
         {
             _data = newData;
@@ -63,7 +68,7 @@ namespace Mewdeko.Core.Services
         }
 
         /// <summary>
-        /// Loads data from disk. If file doesn't exist, it will be created with default values
+        ///     Loads data from disk. If file doesn't exist, it will be created with default values
         /// </summary>
         private void Load()
         {
@@ -76,9 +81,9 @@ namespace Mewdeko.Core.Services
 
             _data = _serializer.Deserialize<TSettings>(File.ReadAllText(_filePath));
         }
-        
+
         /// <summary>
-        /// Loads new data and publishes the new state
+        ///     Loads new data and publishes the new state
         /// </summary>
         public void Reload()
         {
@@ -87,15 +92,14 @@ namespace Mewdeko.Core.Services
         }
 
         /// <summary>
-        /// Doesn't do anything by default. This method will be executed after
-        /// <see cref="_data"/> is reloaded from <see cref="_filePath"/> or new data is recieved
-        /// from the publish event
+        ///     Doesn't do anything by default. This method will be executed after
+        ///     <see cref="_data" /> is reloaded from <see cref="_filePath" /> or new data is recieved
+        ///     from the publish event
         /// </summary>
         protected virtual void OnStateUpdate()
         {
-            
         }
-        
+
         public void ModifyConfig(Action<TSettings> action)
         {
             var copy = CreateCopy();
@@ -110,11 +114,7 @@ namespace Mewdeko.Core.Services
             var strData = _serializer.Serialize(_data);
             File.WriteAllText(_filePath, strData);
         }
-        
-        private readonly Dictionary<string, Func<TSettings, string, bool>> _propSetters = new Dictionary<string, Func<TSettings, string, bool>>();
-        private readonly Dictionary<string, Func<object>> _propSelectors = new Dictionary<string, Func<object>>();
-        private readonly Dictionary<string, Func<object, string>> _propPrinters = new Dictionary<string, Func<object, string>>();
-        
+
         protected void AddParsedProp<TProp>(
             string key,
             Expression<Func<TSettings, TProp>> selector,
@@ -122,19 +122,20 @@ namespace Mewdeko.Core.Services
             Func<TProp, string> printer)
         {
             key = key.ToLowerInvariant();
-            _propPrinters[key] = obj => printer((TProp)obj); 
+            _propPrinters[key] = obj => printer((TProp) obj);
             _propSelectors[key] = () => selector.Compile()(_data);
             _propSetters[key] = Magic(selector, parser);
         }
 
         private Func<TSettings, string, bool> Magic<TProp>(Expression<Func<TSettings, TProp>> selector,
             SettingParser<TProp> parser)
-            => (target, key) =>
+        {
+            return (target, key) =>
             {
                 if (!parser(key, out var value))
                     return false;
 
-                var expr = (MemberExpression)selector.Body;
+                var expr = (MemberExpression) selector.Body;
                 var prop = (PropertyInfo) expr.Member;
                 object targetObject = target;
 
@@ -147,13 +148,16 @@ namespace Mewdeko.Core.Services
                     var localProp = (PropertyInfo) expr.Member;
                     targetObject = localProp.GetValue(targetObject, null);
                 }
-                
+
                 prop.SetValue(targetObject, value, null);
                 return true;
             };
+        }
 
         public IReadOnlyList<string> GetSettableProps()
-            => _propSetters.Keys.ToList();
+        {
+            return _propSetters.Keys.ToList();
+        }
 
         public string GetSetting(string key)
         {
@@ -164,19 +168,18 @@ namespace Mewdeko.Core.Services
 
             return printer(selector());
         }
-        
+
         private bool SetProperty(TSettings target, string key, string value)
-            => _propSetters.TryGetValue(key.ToLowerInvariant(), out var magic) && magic(target, value);
+        {
+            return _propSetters.TryGetValue(key.ToLowerInvariant(), out var magic) && magic(target, value);
+        }
 
         public bool SetSetting(string key, string newValue)
         {
             var success = true;
-            ModifyConfig(bs =>
-            {
-                success = SetProperty(bs, key, newValue);
-            });
-            
-            if(success)
+            ModifyConfig(bs => { success = SetProperty(bs, key, newValue); });
+
+            if (success)
                 PublishChange();
 
             return success;

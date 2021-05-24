@@ -7,7 +7,8 @@ namespace Mewdeko.Common
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class NoPublicBotAttribute : PreconditionAttribute
     {
-        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
+        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
+            IServiceProvider services)
         {
 #if GLOBAL_Mewdeko
             return Task.FromResult(PreconditionResult.FromError("Not available on the public bot"));

@@ -8,9 +8,9 @@
 
         public GoogleSearchResult(string title, string link, string text)
         {
-            this.Title = title;
-            this.Link = link;
-            this.Text = text;
+            Title = title;
+            Link = link;
+            Text = text;
         }
     }
 }

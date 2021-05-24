@@ -1,6 +1,12 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
@@ -8,40 +14,32 @@ using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Database.Repositories;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Image = SixLabors.ImageSharp.Image;
 using Color = SixLabors.ImageSharp.Color;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling.Services
 {
     public class PlantPickService : INService
     {
-        private readonly DbService _db;
-        private readonly IBotStrings _strings;
-        private readonly IImageCache _images;
-        private readonly FontProvider _fonts;
         private readonly IBotConfigProvider _bc;
-        private readonly Logger _log;
-        private readonly ICurrencyService _cs;
-        private readonly CommandHandler _cmdHandler;
-        private readonly MewdekoRandom _rng;
         private readonly DiscordSocketClient _client;
-        public readonly ConcurrentHashSet<ulong> _generationChannels = new ConcurrentHashSet<ulong>();
-        //channelId/last generation
-        public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new ConcurrentDictionary<ulong, DateTime>();
-        private readonly SemaphoreSlim pickLock = new SemaphoreSlim(1, 1);
+        private readonly CommandHandler _cmdHandler;
+        private readonly ICurrencyService _cs;
+        private readonly DbService _db;
+        private readonly FontProvider _fonts;
+        public readonly ConcurrentHashSet<ulong> _generationChannels = new();
+        private readonly IImageCache _images;
+        private readonly Logger _log;
+        private readonly MewdekoRandom _rng;
+        private readonly IBotStrings _strings;
+        private readonly SemaphoreSlim pickLock = new(1, 1);
 
         public PlantPickService(DbService db, CommandHandler cmd, Mewdeko bot, IBotStrings strings,
             IDataCache cache, FontProvider fonts, IBotConfigProvider bc, ICurrencyService cs,
@@ -73,8 +71,13 @@ namespace Mewdeko.Modules.Gambling.Services
             }
         }
 
+        //channelId/last generation
+        public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new();
+
         private string GetText(ulong gid, string key, params object[] rep)
-            => _strings.GetText(key, gid, rep);
+        {
+            return _strings.GetText(key, gid, rep);
+        }
 
         public bool ToggleCurrencyGeneration(ulong gid, ulong cid)
         {
@@ -83,7 +86,7 @@ namespace Mewdeko.Modules.Gambling.Services
             {
                 var guildConfig = uow.GuildConfigs.ForId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
-                var toAdd = new GCChannelId() { ChannelId = cid };
+                var toAdd = new GCChannelId {ChannelId = cid};
                 if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
                 {
                     guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
@@ -93,15 +96,14 @@ namespace Mewdeko.Modules.Gambling.Services
                 else
                 {
                     var toDelete = guildConfig.GenerateCurrencyChannelIds.FirstOrDefault(x => x.Equals(toAdd));
-                    if (toDelete != null)
-                    {
-                        uow._context.Remove(toDelete);
-                    }
+                    if (toDelete != null) uow._context.Remove(toDelete);
                     _generationChannels.TryRemove(cid);
                     enabled = false;
                 }
+
                 uow.SaveChanges();
             }
+
             return enabled;
         }
 
@@ -115,7 +117,7 @@ namespace Mewdeko.Modules.Gambling.Services
         }
 
         /// <summary>
-        /// Get a random currency image stream, with an optional password sticked onto it.
+        ///     Get a random currency image stream, with an optional password sticked onto it.
         /// </summary>
         /// <param name="pass">Optional password to add to top left corner.</param>
         /// <returns>Stream of the currency image</returns>
@@ -132,6 +134,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 {
                     extension = format.FileExtensions.FirstOrDefault() ?? "png";
                 }
+
                 // return the image
                 return curImg.ToStream();
             }
@@ -145,7 +148,7 @@ namespace Mewdeko.Modules.Gambling.Services
         }
 
         /// <summary>
-        /// Add a password to the image.
+        ///     Add a password to the image.
         /// </summary>
         /// <param name="curImg">Image to add password to.</param>
         /// <param name="pass">Password to add to top left corner.</param>
@@ -173,7 +176,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     // draw the password over the background
                     x.DrawText(pass,
                         font,
-                        SixLabors.ImageSharp.Color.White,
+                        Color.White,
                         new PointF(0, 0));
                 });
                 // return image as a stream for easy sending
@@ -200,7 +203,8 @@ namespace Mewdeko.Modules.Gambling.Services
                     var lastGeneration = LastGenerations.GetOrAdd(channel.Id, DateTime.MinValue);
                     var rng = new MewdekoRandom();
 
-                    if (DateTime.UtcNow - TimeSpan.FromSeconds(_bc.BotConfig.CurrencyGenerationCooldown) < lastGeneration) //recently generated in this channel, don't generate again
+                    if (DateTime.UtcNow - TimeSpan.FromSeconds(_bc.BotConfig.CurrencyGenerationCooldown) <
+                        lastGeneration) //recently generated in this channel, don't generate again
                         return;
 
                     var num = rng.Next(1, 101) + _bc.BotConfig.CurrencyGenerationChance * 100;
@@ -217,16 +221,19 @@ namespace Mewdeko.Modules.Gambling.Services
                             var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
                             var toSend = dropAmount == 1
                                 ? GetText(channel.GuildId, "curgen_sn", _bc.BotConfig.CurrencySign)
-                                    + " " + GetText(channel.GuildId, "pick_sn", prefix)
+                                  + " " + GetText(channel.GuildId, "pick_sn", prefix)
                                 : GetText(channel.GuildId, "curgen_pl", dropAmount, _bc.BotConfig.CurrencySign)
-                                    + " " + GetText(channel.GuildId, "pick_pl", prefix);
+                                  + " " + GetText(channel.GuildId, "pick_pl", prefix);
 
-                            var pw = _bc.BotConfig.CurrencyGenerationPassword ? GenerateCurrencyPassword().ToUpperInvariant() : null;
+                            var pw = _bc.BotConfig.CurrencyGenerationPassword
+                                ? GenerateCurrencyPassword().ToUpperInvariant()
+                                : null;
 
                             IUserMessage sent;
                             using (var stream = GetRandomCurrencyImage(pw, out var ext))
                             {
-                                sent = await channel.SendFileAsync(stream, $"currency_image.{ext}", toSend).ConfigureAwait(false);
+                                sent = await channel.SendFileAsync(stream, $"currency_image.{ext}", toSend)
+                                    .ConfigureAwait(false);
                             }
 
                             await AddPlantToDatabase(channel.GuildId,
@@ -246,7 +253,7 @@ namespace Mewdeko.Modules.Gambling.Services
         }
 
         /// <summary>
-        /// Generate a hexadecimal string from 1000 to ffff.
+        ///     Generate a hexadecimal string from 1000 to ffff.
         /// </summary>
         /// <returns>A hexadecimal string from 1000 to ffff</returns>
         private string GenerateCurrencyPassword()
@@ -273,10 +280,8 @@ namespace Mewdeko.Modules.Gambling.Services
 
 
                     if (amount > 0)
-                    {
                         // give the picked currency to the user
-                        await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
-                    }
+                        await _cs.AddAsync(uid, "Picked currency", amount, false);
                     uow.SaveChanges();
                 }
 
@@ -285,7 +290,9 @@ namespace Mewdeko.Modules.Gambling.Services
                     // delete all of the plant messages which have just been picked
                     var _ = ch.DeleteMessagesAsync(ids);
                 }
-                catch { }
+                catch
+                {
+                }
 
                 // return the amount of currency the user picked
                 return amount;
@@ -296,7 +303,8 @@ namespace Mewdeko.Modules.Gambling.Services
             }
         }
 
-        public async Task<ulong?> SendPlantMessageAsync(ulong gid, IMessageChannel ch, string user, long amount, string pass)
+        public async Task<ulong?> SendPlantMessageAsync(ulong gid, IMessageChannel ch, string user, long amount,
+            string pass)
         {
             try
             {
@@ -329,29 +337,32 @@ namespace Mewdeko.Modules.Gambling.Services
             }
         }
 
-        public async Task<bool> PlantAsync(ulong gid, IMessageChannel ch, ulong uid, string user, long amount, string pass)
+        public async Task<bool> PlantAsync(ulong gid, IMessageChannel ch, ulong uid, string user, long amount,
+            string pass)
         {
             // normalize it - no more than 10 chars, uppercase
-            pass = pass?.Trim().TrimTo(10, hideDots: true).ToUpperInvariant();
+            pass = pass?.Trim().TrimTo(10, true).ToUpperInvariant();
             // has to be either null or alphanumeric
             if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric())
                 return false;
 
             // remove currency from the user who's planting
-            if (await _cs.RemoveAsync(uid, "Planted currency", amount, gamble: false))
+            if (await _cs.RemoveAsync(uid, "Planted currency", amount, false))
             {
                 // try to send the message with the currency image
                 var msgId = await SendPlantMessageAsync(gid, ch, user, amount, pass).ConfigureAwait(false);
                 if (msgId == null)
                 {
                     // if it fails it will return null, if it returns null, refund
-                    await _cs.AddAsync(uid, "Planted currency refund", amount, gamble: false);
+                    await _cs.AddAsync(uid, "Planted currency refund", amount, false);
                     return false;
                 }
+
                 // if it doesn't fail, put the plant in the database for other people to pick
                 await AddPlantToDatabase(gid, ch.Id, uid, msgId.Value, amount, pass).ConfigureAwait(false);
                 return true;
             }
+
             // if user doesn't have enough currency, fail
             return false;
         }
@@ -367,7 +378,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     ChannelId = cid,
                     Password = pass,
                     UserId = uid,
-                    MessageId = mid,
+                    MessageId = mid
                 });
                 await uow.SaveChangesAsync();
             }

@@ -3,7 +3,7 @@
     public class MutedUserId : DbEntity
     {
         public ulong UserId { get; set; }
-        public string roles { get; set;}
+        public string roles { get; set; }
 
         public override int GetHashCode()
         {

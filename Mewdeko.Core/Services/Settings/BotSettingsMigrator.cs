@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Common.Configs;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Fluent;
 using SixLabors.ImageSharp.PixelFormats;
@@ -11,9 +11,9 @@ namespace Mewdeko.Core.Services
 {
     public class BotSettingsMigrator
     {
-        private readonly Logger _log;
-        private readonly DbService _db;
         private readonly BotSettingsService _bss;
+        private readonly DbService _db;
+        private readonly Logger _log;
 
         public BotSettingsMigrator(DbService dbService, BotSettingsService bss)
         {
@@ -34,7 +34,7 @@ namespace Mewdeko.Core.Services
         private void MigrateBotConfig(DbConnection conn)
         {
             using var checkTableCommand = conn.CreateCommand();
-            
+
             // make sure table still exists
             checkTableCommand.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name='BotConfig';";
             var checkReader = checkTableCommand.ExecuteReader();
@@ -42,8 +42,9 @@ namespace Mewdeko.Core.Services
                 return;
 
             using var checkMigratedCommand = conn.CreateCommand();
-            checkMigratedCommand.CommandText = "UPDATE BotConfig SET HasMigratedBotSettings = 1 WHERE HasMigratedBotSettings = 0;";
-            var changedRows = (int) checkMigratedCommand.ExecuteNonQuery();
+            checkMigratedCommand.CommandText =
+                "UPDATE BotConfig SET HasMigratedBotSettings = 1 WHERE HasMigratedBotSettings = 0;";
+            var changedRows = checkMigratedCommand.ExecuteNonQuery();
             if (changedRows == 0)
                 return;
 
@@ -51,20 +52,20 @@ namespace Mewdeko.Core.Services
 
             var blockedCommands = new HashSet<string>();
             using var cmdCom = conn.CreateCommand();
-            cmdCom.CommandText = $"SELECT Name from BlockedCmdOrMdl WHERE BotConfigId != NULL";
+            cmdCom.CommandText = "SELECT Name from BlockedCmdOrMdl WHERE BotConfigId != NULL";
             var cmdReader = cmdCom.ExecuteReader();
             while (cmdReader.Read())
                 blockedCommands.Add(cmdReader.GetString(0));
-            
+
             var blockedModules = new HashSet<string>();
             using var mdlCom = conn.CreateCommand();
-            mdlCom.CommandText = $"SELECT Name from BlockedCmdOrMdl WHERE BotConfigId is NULL";
+            mdlCom.CommandText = "SELECT Name from BlockedCmdOrMdl WHERE BotConfigId is NULL";
             var mdlReader = mdlCom.ExecuteReader();
             while (mdlReader.Read())
                 blockedModules.Add(mdlReader.GetString(0));
-            
+
             using var com = conn.CreateCommand();
-            com.CommandText = $@"SELECT DefaultPrefix, ForwardMessages, ForwardToAllOwners,
+            com.CommandText = @"SELECT DefaultPrefix, ForwardMessages, ForwardToAllOwners,
 OkColor, ErrorColor, ConsoleOutputType, DMHelpString, HelpString, RotatingStatuses, Locale, GroupGreets
 FROM BotConfig";
 
@@ -72,19 +73,19 @@ FROM BotConfig";
             if (!reader.Read())
                 return;
 
-            _bss.ModifyConfig((x) =>
+            _bss.ModifyConfig(x =>
             {
                 x.Prefix = reader.GetString(0);
                 x.ForwardMessages = reader.GetBoolean(1);
                 x.ForwardToAllOwners = reader.GetBoolean(2);
-                x.Color = new ColorConfig()
+                x.Color = new ColorConfig
                 {
                     Ok = Rgba32.TryParseHex(reader.GetString(3), out var okColor)
                         ? okColor
                         : Rgba32.ParseHex("00e584"),
                     Error = Rgba32.TryParseHex(reader.GetString(4), out var errorColor)
                         ? errorColor
-                        : Rgba32.ParseHex("ee281f"),
+                        : Rgba32.ParseHex("ee281f")
                 };
                 x.ConsoleOutputType = (ConsoleOutputType) reader.GetInt32(5);
                 x.DmHelpText = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Impl;
 using NLog;
-using YoutubeExplode;
-using YoutubeExplode.Common;
 
 namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
 {
@@ -39,11 +36,11 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
                 }
 
                 if (!TimeSpan.TryParseExact(data[4],
-                    new[] { "ss", "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss" },
+                    new[] {"ss", "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss"},
                     CultureInfo.InvariantCulture, out var time))
                     time = TimeSpan.FromHours(24);
 
-                return new SongInfo()
+                return new SongInfo
                 {
                     Title = data[0],
                     VideoId = data[1],
@@ -63,7 +60,7 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
                     TotalTime = time,
                     Provider = "Spotify",
                     ProviderType = MusicType.Spotify,
-                    Query = "https://youtube.com/watch?v=" + data[1],
+                    Query = "https://youtube.com/watch?v=" + data[1]
                 };
             }
             catch (Exception ex)

@@ -1,6 +1,6 @@
-using NLog;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using NLog;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -20,17 +20,18 @@ namespace Mewdeko.Core.Services.Impl
             if (url != null && url.StartsWith("-"))
                 url = '\\' + url;
 
-            using (Process process = new Process()
+            using (var process = new Process
             {
-                StartInfo = new ProcessStartInfo()
+                StartInfo = new ProcessStartInfo
                 {
                     FileName = "youtube-dl",
-                    Arguments = $"-4 --geo-bypass -f bestaudio -e --get-url --get-id --get-thumbnail --verbose --get-duration --cookies /home/rootish/cookies.txt --no-check-certificate --default-search \"ytsearch:\" \"{url}\"",
+                    Arguments =
+                        $"-4 --geo-bypass -f bestaudio -e --get-url --get-id --get-thumbnail --verbose --get-duration --cookies /home/rootish/cookies.txt --no-check-certificate --default-search \"ytsearch:\" \"{url}\"",
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,
-                    CreateNoWindow = true,
-                },
+                    CreateNoWindow = true
+                }
             })
             {
                 _log.Debug($"Executing {process.StartInfo.FileName} {process.StartInfo.Arguments}");

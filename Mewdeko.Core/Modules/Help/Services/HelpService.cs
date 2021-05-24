@@ -1,29 +1,29 @@
-﻿using System.Threading.Tasks;
-using Discord;
-using Discord.WebSocket;
-using System;
-using Discord.Commands;
-using Mewdeko.Extensions;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using CommandLine;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Core.Services;
-using Mewdeko.Common;
-using NLog;
-using CommandLine;
-using System.Collections.Generic;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using NLog;
 
 namespace Mewdeko.Modules.Help.Services
 {
     public class HelpService : ILateExecutor, INService
     {
         private readonly IBotConfigProvider _bc;
-        private readonly CommandHandler _ch;
-        private readonly IBotStrings _strings;
-        private readonly Logger _log;
-        private readonly DiscordPermOverrideService _dpos;
         private readonly BotSettingsService _bss;
+        private readonly CommandHandler _ch;
+        private readonly DiscordPermOverrideService _dpos;
+        private readonly Logger _log;
+        private readonly IBotStrings _strings;
 
         public HelpService(IBotConfigProvider bc, CommandHandler ch, IBotStrings strings,
             DiscordPermOverrideService dpos, BotSettingsService bss)
@@ -35,6 +35,7 @@ namespace Mewdeko.Modules.Help.Services
             _bss = bss;
             _log = LogManager.GetCurrentClassLogger();
         }
+
         public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
             try
@@ -55,6 +56,7 @@ namespace Mewdeko.Modules.Help.Services
             {
                 _log.Warn(ex);
             }
+
             return Task.CompletedTask;
         }
 
@@ -70,15 +72,14 @@ namespace Mewdeko.Modules.Help.Services
                 .AddField(fb => fb.WithName(str)
                     .WithValue($"{com.RealSummary(_strings, prefix)}")
                     .WithIsInline(true))
-                .WithThumbnailUrl("https://cdn.discordapp.com/attachments/802687899350990919/822503142549225553/nayofinalihope.png");
+                .WithThumbnailUrl(
+                    "https://cdn.discordapp.com/attachments/802687899350990919/822503142549225553/nayofinalihope.png");
 
             _dpos.TryGetOverrides(guild?.Id ?? 0, com.Name, out var overrides);
             var reqs = GetCommandRequirements(com, overrides);
             if (reqs.Any())
-            {
                 em.AddField(GetText("requires", guild),
                     string.Join("\n", reqs));
-            }
 
             em
                 .AddField(fb => fb.WithName(GetText("usage", guild))
@@ -88,12 +89,13 @@ namespace Mewdeko.Modules.Help.Services
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithColor(Mewdeko.OkColor);
 
-            var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))?.OptionType;
+            var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
+                ?.OptionType;
             if (opt != null)
             {
                 var hs = GetCommandOptionHelp(opt);
                 if (!string.IsNullOrWhiteSpace(hs))
-                    em.AddField(GetText("options", guild), hs, false);
+                    em.AddField(GetText("options", guild), hs);
             }
 
             return em;
@@ -109,20 +111,20 @@ namespace Mewdeko.Modules.Help.Services
         public static List<string> GetCommandOptionHelpList(Type opt)
         {
             var strs = opt.GetProperties()
-                   .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
-                   .Where(x => x != null)
-                   .Cast<OptionAttribute>()
-                   .Select(x =>
-                   {
-                       var toReturn = $"`--{x.LongName}`";
+                .Select(x => x.GetCustomAttributes(true).FirstOrDefault(a => a is OptionAttribute))
+                .Where(x => x != null)
+                .Cast<OptionAttribute>()
+                .Select(x =>
+                {
+                    var toReturn = $"`--{x.LongName}`";
 
-                       if (!string.IsNullOrWhiteSpace(x.ShortName))
-                           toReturn += $" (`-{x.ShortName}`)";
+                    if (!string.IsNullOrWhiteSpace(x.ShortName))
+                        toReturn += $" (`-{x.ShortName}`)";
 
-                       toReturn += $"   {x.HelpText}  ";
-                       return toReturn;
-                   })
-                   .ToList();
+                    toReturn += $"   {x.HelpText}  ";
+                    return toReturn;
+                })
+                .ToList();
 
             return strs;
         }
@@ -135,16 +137,16 @@ namespace Mewdeko.Modules.Help.Services
             if (cmd.Preconditions.Any(x => x is OwnerOnlyAttribute))
                 toReturn.Add("Bot Owner Only");
 
-            var userPerm = (UserPermAttribute)cmd.Preconditions
+            var userPerm = (UserPermAttribute) cmd.Preconditions
                 .FirstOrDefault(ca => ca is UserPermAttribute);
 
-            string userPermString = string.Empty;
+            var userPermString = string.Empty;
             if (!(userPerm is null))
             {
                 if (userPerm.UserPermissionAttribute.ChannelPermission is ChannelPermission cPerm)
-                    userPermString = GetPreconditionString((ChannelPerm)cPerm);
+                    userPermString = GetPreconditionString((ChannelPerm) cPerm);
                 if (userPerm.UserPermissionAttribute.GuildPermission is GuildPermission gPerm)
-                    userPermString = GetPreconditionString((GuildPerm)gPerm);
+                    userPermString = GetPreconditionString((GuildPerm) gPerm);
             }
 
             if (overrides is null)
@@ -165,17 +167,19 @@ namespace Mewdeko.Modules.Help.Services
 
         public static string GetPreconditionString(ChannelPerm perm)
         {
-            return (perm.ToString() + " Channel Permission")
+            return (perm + " Channel Permission")
                 .Replace("Guild", "Server", StringComparison.InvariantCulture);
         }
 
         public static string GetPreconditionString(GuildPerm perm)
         {
-            return (perm.ToString() + " Server Permission")
+            return (perm + " Server Permission")
                 .Replace("Guild", "Server", StringComparison.InvariantCulture);
         }
 
-        private string GetText(string text, IGuild guild, params object[] replacements) =>
-            _strings.GetText(text, guild?.Id, replacements);
+        private string GetText(string text, IGuild guild, params object[] replacements)
+        {
+            return _strings.GetText(text, guild?.Id, replacements);
+        }
     }
 }

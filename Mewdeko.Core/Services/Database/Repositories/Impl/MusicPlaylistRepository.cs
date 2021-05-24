@@ -1,7 +1,7 @@
-﻿using Mewdeko.Core.Services.Database.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
@@ -24,8 +24,10 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                 .ToList();
         }
 
-        public MusicPlaylist GetWithSongs(int id) => 
-            _set.Include(mpl => mpl.Songs)
+        public MusicPlaylist GetWithSongs(int id)
+        {
+            return _set.Include(mpl => mpl.Songs)
                 .FirstOrDefault(mpl => mpl.Id == id);
+        }
     }
 }

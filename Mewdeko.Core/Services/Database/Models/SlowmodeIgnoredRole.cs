@@ -7,12 +7,9 @@
         // override object.Equals
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
+            if (obj == null || GetType() != obj.GetType()) return false;
 
-            return ((SlowmodeIgnoredRole)obj).RoleId == RoleId;
+            return ((SlowmodeIgnoredRole) obj).RoleId == RoleId;
         }
 
         // override object.GetHashCode

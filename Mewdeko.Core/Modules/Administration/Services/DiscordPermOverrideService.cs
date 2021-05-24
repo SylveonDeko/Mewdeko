@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services
 {
@@ -17,14 +17,28 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly DbService _db;
         private readonly IServiceProvider _services;
 
-        public int Priority { get; } = int.MaxValue;
-
         public DiscordPermOverrideService(DbService db, IServiceProvider services)
         {
             _db = db;
             _services = services;
         }
-        
+
+        public int Priority { get; } = int.MaxValue;
+
+        public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context, string moduleName,
+            CommandInfo command)
+        {
+            if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm))
+            {
+                var result = await new RequireUserPermissionAttribute((GuildPermission) perm)
+                    .CheckPermissionsAsync(context, command, _services);
+
+                return !result.IsSuccess;
+            }
+
+            return false;
+        }
+
         public bool TryGetOverrides(ulong guildId, string commandName, out GuildPerm? perm)
         {
             commandName = commandName.ToLowerInvariant();
@@ -62,19 +76,15 @@ namespace Mewdeko.Modules.Administration.Services
                     .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command);
 
                 if (over is null)
-                {
                     uow._context.Set<DiscordPermOverride>()
-                        .Add(new DiscordPermOverride()
+                        .Add(new DiscordPermOverride
                         {
                             Command = commandName,
                             Perm = perm,
-                            GuildId = guildId,
+                            GuildId = guildId
                         });
-                }
                 else
-                {
                     over.Perm = perm;
-                }
 
                 await uow.SaveChangesAsync();
             }
@@ -90,16 +100,16 @@ namespace Mewdeko.Modules.Administration.Services
                     .AsNoTracking()
                     .Where(x => x.GuildId == guildId)
                     .ToListAsync();
-                
+
                 uow._context.RemoveRange(over);
                 await uow.SaveChangesAsync();
             }
         }
-        
+
         public async Task RemoveOverride(ulong guildId, string commandName)
         {
             commandName = commandName.ToLowerInvariant();
-            
+
             using (var uow = _db.GetDbContext())
             {
                 var over = await uow._context
@@ -126,20 +136,6 @@ namespace Mewdeko.Modules.Administration.Services
                     .Where(x => x.GuildId == guildId)
                     .ToListAsync();
             }
-        }
-
-        public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context, string moduleName,
-            CommandInfo command)
-        {
-            if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm))
-            {
-                var result = await new RequireUserPermissionAttribute((GuildPermission) perm)
-                    .CheckPermissionsAsync(context, command, _services);
-
-                return !result.IsSuccess;
-            }
-
-            return false;
         }
     }
 }

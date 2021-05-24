@@ -1,25 +1,16 @@
-﻿using Discord;
-using Mewdeko.Extensions;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-
-namespace Mewdeko.Modules.Searches
+﻿namespace Mewdeko.Modules.Searches
 {
     public partial class Searches
     {
-        private static readonly string[] trashTalk = { "Better ban your counters. You are going to carry the game anyway.",
-                                                "Go with the flow. Don't think. Just ban one of these.",
-                                                "DONT READ BELOW! Ban Urgot mid OP 100%. Im smurf Diamond 1.",
-                                                "Ask your teammates what would they like to play, and ban that.",
-                                                "If you consider playing teemo, do it. If you consider teemo, you deserve him.",
-                                                "Doesn't matter what you ban really. Enemy will ban your main and you will lose." };
+        private static readonly string[] trashTalk =
+        {
+            "Better ban your counters. You are going to carry the game anyway.",
+            "Go with the flow. Don't think. Just ban one of these.",
+            "DONT READ BELOW! Ban Urgot mid OP 100%. Im smurf Diamond 1.",
+            "Ask your teammates what would they like to play, and ban that.",
+            "If you consider playing teemo, do it. If you consider teemo, you deserve him.",
+            "Doesn't matter what you ban really. Enemy will ban your main and you will lose."
+        };
 
         //private static readonly Lazy<Dictionary<int, string>> champData = new Lazy<Dictionary<int, string>>(() =>
         //    ((IDictionary<string, JToken>)JObject.Parse(File.ReadAllText("data/lolchamps.json")))

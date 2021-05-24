@@ -10,20 +10,38 @@
         }
 
         public static implicit operator TypedKey<TData>(in string input)
-            => new TypedKey<TData>(input);
+        {
+            return new(input);
+        }
+
         public static implicit operator string(in TypedKey<TData> input)
-            => input.Key;
+        {
+            return input.Key;
+        }
 
         public static bool operator ==(in TypedKey<TData> left, in TypedKey<TData> right)
-            => left.Key == right.Key;
+        {
+            return left.Key == right.Key;
+        }
+
         public static bool operator !=(in TypedKey<TData> left, in TypedKey<TData> right)
-            => !(left == right);
+        {
+            return !(left == right);
+        }
 
         public override bool Equals(object obj)
-            => obj is TypedKey<TData> o && o == this;
+        {
+            return obj is TypedKey<TData> o && o == this;
+        }
 
-        public override int GetHashCode() => Key?.GetHashCode() ?? 0;
+        public override int GetHashCode()
+        {
+            return Key?.GetHashCode() ?? 0;
+        }
 
-        public override string ToString() => Key;
+        public override string ToString()
+        {
+            return Key;
+        }
     }
 }

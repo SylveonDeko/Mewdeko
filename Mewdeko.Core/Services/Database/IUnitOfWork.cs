@@ -1,6 +1,6 @@
-﻿using Mewdeko.Core.Services.Database.Repositories;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Mewdeko.Core.Services.Database.Repositories;
 
 namespace Mewdeko.Core.Services.Database
 {

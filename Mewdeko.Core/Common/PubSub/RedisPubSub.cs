@@ -7,9 +7,9 @@ namespace Mewdeko.Core.Common
 {
     public class RedisPubSub : IPubSub
     {
+        private readonly Logger _log;
         private readonly ConnectionMultiplexer _multi;
         private readonly ISeria _serializer;
-        private readonly Logger _log;
 
         public RedisPubSub(ConnectionMultiplexer multi, ISeria serializer)
         {

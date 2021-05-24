@@ -4,11 +4,6 @@ namespace Mewdeko.Modules.Xp.Common
 {
     public class LevelStats
     {
-        public int Level { get; }
-        public int LevelXp { get; }
-        public int RequiredXp { get; }
-        public int TotalXp { get; }
-
         public LevelStats(int xp)
         {
             if (xp < 0)
@@ -23,7 +18,7 @@ namespace Mewdeko.Modules.Xp.Common
             var lvl = 1;
             while (true)
             {
-                required = (int)(baseXp + baseXp / 4.0 * (lvl - 1));
+                required = (int) (baseXp + baseXp / 4.0 * (lvl - 1));
 
                 if (required + totalXp > xp)
                     break;
@@ -36,5 +31,10 @@ namespace Mewdeko.Modules.Xp.Common
             LevelXp = xp - totalXp;
             RequiredXp = required;
         }
+
+        public int Level { get; }
+        public int LevelXp { get; }
+        public int RequiredXp { get; }
+        public int TotalXp { get; }
     }
 }

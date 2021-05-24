@@ -9,7 +9,7 @@ namespace Mewdeko.Core.Services
         public static void SetupLogger(int shardId)
         {
             var logConfig = new LoggingConfiguration();
-            var consoleTarget = new ColoredConsoleTarget()
+            var consoleTarget = new ColoredConsoleTarget
             {
                 Layout = shardId + @" ${date:format=HH\:mm\:ss} ${logger:shortName=True} | ${message}"
             };

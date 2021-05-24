@@ -4,7 +4,8 @@ using System.Diagnostics;
 
 namespace Mewdeko.Core.Services.Database.Models
 {
-    [DebuggerDisplay("{global::Mewdeko.Modules.Permissions.PermissionExtensions.GetCommand(this)}", Target = typeof(Permission))]
+    [DebuggerDisplay("{global::Mewdeko.Modules.Permissions.PermissionExtensions.GetCommand(this)}",
+        Target = typeof(Permission))]
     public class Permission : DbEntity
     {
         public Permission Previous { get; set; } = null;
@@ -18,15 +19,17 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public bool State { get; set; }
 
-        public Permissionv2 Tov2() =>
-            new Permissionv2()
+        public Permissionv2 Tov2()
+        {
+            return new()
             {
                 PrimaryTarget = PrimaryTarget,
                 PrimaryTargetId = PrimaryTargetId,
                 SecondaryTarget = SecondaryTarget,
                 SecondaryTargetName = SecondaryTargetName,
-                State = State,
+                State = State
             };
+        }
     }
 
     public interface IIndexed
@@ -38,7 +41,6 @@ namespace Mewdeko.Core.Services.Database.Models
     public class Permissionv2 : DbEntity, IIndexed
     {
         public int? GuildConfigId { get; set; }
-        public int Index { get; set; }
 
         public PrimaryPermissionType PrimaryTarget { get; set; }
         public ulong PrimaryTargetId { get; set; }
@@ -51,21 +53,23 @@ namespace Mewdeko.Core.Services.Database.Models
         public bool State { get; set; }
 
         [NotMapped]
-        public static Permissionv2 AllowAllPerm => new Permissionv2()
+        public static Permissionv2 AllowAllPerm => new()
         {
             PrimaryTarget = PrimaryPermissionType.Server,
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
             State = true,
-            Index = 0,
+            Index = 0
         };
 
         public static List<Permissionv2> GetDefaultPermlist =>
-            new List<Permissionv2>
+            new()
             {
                 AllowAllPerm
             };
+
+        public int Index { get; set; }
     }
 
     public enum PrimaryPermissionType

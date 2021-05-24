@@ -1,7 +1,7 @@
-﻿using Mewdeko.Core.Services.Database.Models;
+﻿using System;
 using System.Linq;
+using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -15,7 +15,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
             BotConfig config;
 
-            
+
             if (includes == null)
             {
                 config = _set.Include(bc => bc.RotatingStatusMessages)
@@ -38,6 +38,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                 _set.Add(config = new BotConfig());
                 _context.SaveChanges();
             }
+
             return config;
         }
     }

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches.Common
 {
@@ -22,10 +22,10 @@ namespace Mewdeko.Modules.Searches.Common
         public double Temp { get; set; }
         public float Pressure { get; set; }
         public float Humidity { get; set; }
-        [JsonProperty("temp_min")]
-        public double TempMin { get; set; }
-        [JsonProperty("temp_max")]
-        public double TempMax { get; set; }
+
+        [JsonProperty("temp_min")] public double TempMin { get; set; }
+
+        [JsonProperty("temp_max")] public double TempMax { get; set; }
     }
 
     public class Wind

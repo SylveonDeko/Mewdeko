@@ -1,9 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Mewdeko.Core.Services.Database.Models;
-using NLog;
-
-namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
+﻿namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 {
     // public class TwitchProvider : IProvider
     // {

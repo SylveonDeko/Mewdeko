@@ -1,7 +1,8 @@
 {
   "all_stats_cleared": "All custom reaction stats rinsed away!",
   "deleted": "Got rid of that Custom Reaction",
-  "insuff_perms": "You don\u0027t have the perms - you hafta own me for global custom reactions, and you need Administrator for server reactions!",
+  "insuff_perms":
+    "You don\u0027t have the perms - you hafta own me for global custom reactions, and you need Administrator for server reactions!",
   "list_all": "List of all dumb things you make me say",
   "new_cust_react": "New Custom Reaction",
   "no_found": "You haven\u0027t forced me to say any stupid stuff yet.",
@@ -20,7 +21,8 @@
   "banned_user": "User bunned",
   "bot_name": "Ok, I lost a bet and now everyone can call me {0}",
   "bot_status": "Playing {0} now.. just.. just not for you. Don\u0027t get any ideas! \u003E///\u003C",
-  "byedel_off": "Honestly, I wasn\u0027t gonna delete that many messages in a server that makes so many people wanna leave anyways...",
+  "byedel_off":
+    "Honestly, I wasn\u0027t gonna delete that many messages in a server that makes so many people wanna leave anyways...",
   "byedel_on": "I\u0027ll get rid of bye messages after {0} seconds.",
   "byemsg_cur": "Current departure message: {0}",
   "byemsg_enable": "Now ya gotta turn on byemessages by typing {0}!",
@@ -48,7 +50,8 @@
   "fwdm_start": "Just because I\u0027m forwarding DMs now, doesn\u0027t mean I\u0027m giving you special attention!",
   "fwdm_stop": "Good. I was getting tired of DMs anyways.",
   "greetdel_off": "About time you stopped wasting my hard work. Baka.",
-  "greetdel_on": "Greet messages will be deleted after {0} seconds. What, my greetings weren\u0027t good enough for you?",
+  "greetdel_on":
+    "Greet messages will be deleted after {0} seconds. What, my greetings weren\u0027t good enough for you?",
   "greetdmmsg_cur": "Ugh, greeting people EVERY TIME with: {0}",
   "greetdmmsg_enable": "Enable DM blackmail by typing {0}",
   "greetdmmsg_new": "New on-join blackmail created.",
@@ -59,7 +62,8 @@
   "greetmsg_new": "New admission blackmail set!",
   "greet_off": "Admission blackmail\u0027s off.",
   "greet_on": "I\u0027ll send greetmessages in this channel from now on!",
-  "hierarchy": "Can\u0027t use this one on people with a role higher or equal to yours in power, know your place you tiny little dummy!",
+  "hierarchy":
+    "Can\u0027t use this one on people with a role higher or equal to yours in power, know your place you tiny little dummy!",
   "invalid_format": "Follow the format next time!",
   "invalid_params": "Not what you put there...",
   "kickdm": "I threw you out of {0} server because {1}",
@@ -109,9 +113,11 @@
   "rar": "{0} didn\u0027t need all those roles anyways. Hmmph.",
   "rar_err": "I don\u0027t have the permissions to remove their roles.",
   "rc": "Changed {0} role\u0027s colour. Jeez, you could\u0027ve done this yourself!",
-  "rc_perms": "This mistake came because either you aren\u0027t giving me a valid color or your Daddy forgot to give you permission to do this.",
+  "rc_perms":
+    "This mistake came because either you aren\u0027t giving me a valid color or your Daddy forgot to give you permission to do this.",
   "remrole": "Nope, {1} doesn\u0027t need {0}. Removed.",
-  "remrole_err": "I can\u0027t remove their role. Have you tried thinking for once and giving me the right permissions?",
+  "remrole_err":
+    "I can\u0027t remove their role. Have you tried thinking for once and giving me the right permissions?",
   "renrole": "Role renamed.",
   "renrole_err": "Failed to rename role. Try giving me the correct permissions, hey?",
   "renrole_perms": "You can\u0027t edit roles higher than your highest role.",
@@ -131,7 +137,8 @@
   "self_assign_not": "You can\u0027t self-assign that!",
   "self_assign_not_have": "You don\u0027t have {0} role.",
   "self_assign_no_excl": "Self assigned roles are now not exclusive!",
-  "self_assign_perms": "I am unable to add that role to you. I can\u0027t add roles to owners or other roles higher than my role in the role hierarchy.",
+  "self_assign_perms":
+    "I am unable to add that role to you. I can\u0027t add roles to owners or other roles higher than my role in the role hierarchy.",
   "self_assign_rem": "Meaningless title {0} has been removed from the list of self-assignable roles.",
   "self_assign_remove": "You no longer have {0} role.",
   "self_assign_success": "You now have {0} role.",
@@ -177,9 +184,12 @@
   "voice_chan_destroyed": "Voice Channel Destroyed",
   "vt_disabled": "Disabled voice \u002B text feature.",
   "vt_enabled": "Enabled voice \u002B text feature.",
-  "vt_exit": "I don\u0027t have **manage roles** and/or **manage channels** permission, so I cannot run \u0060voice\u002Btext\u0060 on {0} server.",
-  "vt_no_admin": "You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.",
-  "vt_perms": "I require at least **manage roles** and **manage channels** permissions to do what you want from me. Please don\u0027t let it be lewd. I prefer Administration permission tho. Please?",
+  "vt_exit":
+    "I don\u0027t have **manage roles** and/or **manage channels** permission, so I cannot run \u0060voice\u002Btext\u0060 on {0} server.",
+  "vt_no_admin":
+    "You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.",
+  "vt_perms":
+    "I require at least **manage roles** and **manage channels** permissions to do what you want from me. Please don\u0027t let it be lewd. I prefer Administration permission tho. Please?",
   "xmuted_text": "User {0} from text chat",
   "xmuted_text_and_voice": "User {0} from text and voice chat",
   "xmuted_voice": "User {0} from voice chat",
@@ -218,14 +228,18 @@
   "cmdlist_donate": "You can support the project on patreon: \u003C{0}\u003E or paypal: \u003C{1}\u003E",
   "cmd_and_alias": "Command and aliases",
   "commandlist_regen": "Commandlist Regenerated.",
-  "commands_instr": "Type \u0060{0}h CommandName\u0060 to see the help for that specified command. e.g. \u0060{0}h {0}8ball\u0060 ...or don\u0027t, I don\u0027t care!",
+  "commands_instr":
+    "Type \u0060{0}h CommandName\u0060 to see the help for that specified command. e.g. \u0060{0}h {0}8ball\u0060 ...or don\u0027t, I don\u0027t care!",
   "command_not_found": "I can\u0027t find that command. Does it even exist?.",
   "desc": "Description",
-  "donate": "You can support the Mewdeko project on \nPatreon \u003C{0}\u003E or\nPaypal \u003C{1}\u003E\nDon\u0027t forget to leave your discord name or id in the message.\n\n**Thank you** ♥️",
-  "guide": "**You better read these commands before asking questions**: \u003C{0}\u003E\n**Hosting Guides and docs can be found here**: \u003C{1}\u003E",
+  "donate":
+    "You can support the Mewdeko project on \nPatreon \u003C{0}\u003E or\nPaypal \u003C{1}\u003E\nDon\u0027t forget to leave your discord name or id in the message.\n\n**Thank you** ♥️",
+  "guide":
+    "**You better read these commands before asking questions**: \u003C{0}\u003E\n**Hosting Guides and docs can be found here**: \u003C{1}\u003E",
   "list_of_commands": "List Of Commands",
   "list_of_modules": "List Of Modules",
-  "modules_footer": "Type \u0060{0}cmds ModuleName\u0060 to get a list of commands in that module. eg \u0060{0}cmds games\u0060",
+  "modules_footer":
+    "Type \u0060{0}cmds ModuleName\u0060 to get a list of commands in that module. eg \u0060{0}cmds games\u0060",
   "module_not_found": "That module does not exist.",
   "server_permission": "Requires {0} server permission.",
   "table_of_contents": "Table Of Contents",
@@ -233,12 +247,14 @@
   "autohentai_started": "Autohentai started. Reposting every {0}s with one of the following tags:\n{1}",
   "tag": "Tag",
   "animal_race": "Animal Race",
-  "animal_race_failed": "Couldn\u0027t start the race, because your lazy butt couldn\u0027t get enough people to participate.",
+  "animal_race_failed":
+    "Couldn\u0027t start the race, because your lazy butt couldn\u0027t get enough people to participate.",
   "animal_race_full": "We\u0027re full! Starting race.",
   "animal_race_join": "{0} joined as a {1}",
   "animal_race_join_bet": "{0} joined as a {1} and bet {2}.",
   "animal_race_join_instr": "Type {0}jr to join the race.",
-  "animal_race_starting": "Race will start in {0} seconds! Get your butts in the room or we\u0027re starting without you!",
+  "animal_race_starting":
+    "Race will start in {0} seconds! Get your butts in the room or we\u0027re starting without you!",
   "animal_race_starting_with_x": "Only {0} users came to watch the race. Sad.",
   "animal_race_won": "{0} won the race as {1}. Took long enough, though.",
   "animal_race_won_money": "{0} won the race as {1} and got {2}! Shoulda bet more, coward.",
@@ -254,16 +270,19 @@
   "likes": "Likes",
   "waifus_none": "No waifus have been claimed yet.",
   "waifus_top_waifus": "Top Waifus",
-  "waifu_affinity_already": "your affinity is already set to that waifu or you\u0027re trying to remove your affinity while not having one.",
+  "waifu_affinity_already":
+    "your affinity is already set to that waifu or you\u0027re trying to remove your affinity while not having one.",
   "waifu_affinity_changed": "changed their affinity from {0} to {1}.\n\n*This is morally questionable.*\uD83E\uDD14",
   "waifu_affinity_cooldown": "You must wait {0} hours and {1} minutes in order to change your affinity again.",
   "waifu_affinity_reset": "Your affinity is reset. You no longer have a person you like.",
   "waifu_affinity_set": "wants to be {0}\u0027s waifu. Aww \u003C3",
   "waifu_claimed": "claimed {0} as their waifu for {1}!",
-  "waifu_divorced_like": "You have divorced a waifu who likes you. You heartless monster.\n{0} received {1} as a compensation.",
+  "waifu_divorced_like":
+    "You have divorced a waifu who likes you. You heartless monster.\n{0} received {1} as a compensation.",
   "waifu_egomaniac": "you can\u0027t set affinity to yourself, you egomaniac.",
   "waifu_fulfilled": "\uD83C\uDF89 Their love is fulfilled! \uD83C\uDF89\n{0}\u0027s new value is {1}!",
-  "waifu_isnt_cheap": "No waifu is that cheap. You must pay at least {0} to get a waifu, even if their actual value is lower.",
+  "waifu_isnt_cheap":
+    "No waifu is that cheap. You must pay at least {0} to get a waifu, even if their actual value is lower.",
   "waifu_not_enough": "You must pay {0} or more to claim that waifu!",
   "waifu_not_yours": "That waifu != yours.",
   "waifu_not_yourself": "You can\u0027t claim yourself, you baka!",
@@ -332,9 +351,12 @@
   "from_position": "From position",
   "invalid_input": "Invalid input.",
   "max_playtime_none": "There it goes, the only thing I ever agreed with, undone. As expected of you.",
-  "max_playtime_set": "Oh? if it is longer than {0} second(s) don\u0027t let it be played? I am impressed, that is the first thing you said that wasn\u0027t stupid!",
-  "max_queue_unlimited": "It doesn\u0027t matter huh? Just let them queue all the things? Do you think I am some kind of bot?",
-  "max_queue_x": "Hmmh, so much to watch out for... After {0} track(s), I\u0027ll stop allowing users to add tracks to the queue.",
+  "max_playtime_set":
+    "Oh? if it is longer than {0} second(s) don\u0027t let it be played? I am impressed, that is the first thing you said that wasn\u0027t stupid!",
+  "max_queue_unlimited":
+    "It doesn\u0027t matter huh? Just let them queue all the things? Do you think I am some kind of bot?",
+  "max_queue_x":
+    "Hmmh, so much to watch out for... After {0} track(s), I\u0027ll stop allowing users to add tracks to the queue.",
   "now_playing": "Now Playing",
   "no_player": "No I am not playing music, can\u0027t you hear that?",
   "no_search_results": "Some day I will just not even try anymore. Search for something that exists.",
@@ -344,7 +366,8 @@
   "playlists": "\u0060#{0}\u0060 - **{1}** by *{2}* ({3} songs)",
   "playlists_page": "Page {0} of Saved Playlist notes",
   "playlist_deleted": "*throws the playlist note into fire*",
-  "playlist_delete_fail": "I can\u0027t delete playlist notes if they don\u0027t exist! And I am definitely not going to delete those you didn\u0027t make, you selfish animal!",
+  "playlist_delete_fail":
+    "I can\u0027t delete playlist notes if they don\u0027t exist! And I am definitely not going to delete those you didn\u0027t make, you selfish animal!",
   "playlist_id_not_found": "Baka, there is no playlist like this. Just look at the notes!",
   "playlist_queue_complete": "All the aongs are in place! What perfection, ***I*** am amazing, after all.",
   "playlist_saved": "Playlist note Saved",
@@ -352,7 +375,8 @@
   "queue": "Queue",
   "queued_song": "Queued Song",
   "queue_cleared": "Music queue cleared.",
-  "queue_full": "That one person, what was *its* name again? Well I was told that after {0}/{0} nothing should be allowed.",
+  "queue_full":
+    "That one person, what was *its* name again? Well I was told that after {0}/{0} nothing should be allowed.",
   "removed_song": "Removed song",
   "repeating_cur_song": "Repeating Current Song",
   "repeating_playlist": "Repeating Playlist",
@@ -361,7 +385,8 @@
   "resumed": "I wonder how you can be unable to press the **ON** button on this speaker.",
   "rpl_disabled": "Finally it stops, if you weren\u0027t so useless you could do it yourself.",
   "rpl_enabled": "Hmmh, when it ends add it to the end of the line, I guess I have to huh?",
-  "set_music_channel": "Haaa? Here? Sometimes I wonder why ***I*** have to do this for you. I\u0027ll call out the playing, finished, paused and removed songs here.",
+  "set_music_channel":
+    "Haaa? Here? Sometimes I wonder why ***I*** have to do this for you. I\u0027ll call out the playing, finished, paused and removed songs here.",
   "skipped_to": "Skipped to \u0060{0}:{1}\u0060",
   "song_moved": "Away you go!",
   "time_format": "{0}h {1}m {2}s",
@@ -419,7 +444,8 @@
   "word_filter_server_on": "Ha! I have to clean after them? Sure, I\u0027ll help you incompetents here.",
   "abilities": "Abilities",
   "anime_no_fav": "No favorite anime yet",
-  "atl_ad_started": "Let\u0027s see, hehe. I\u0027ll just remove your messages to write them in the way it is supposed to be!",
+  "atl_ad_started":
+    "Let\u0027s see, hehe. I\u0027ll just remove your messages to write them in the way it is supposed to be!",
   "atl_removed": "No need to show off my *amazing* skills huh?",
   "atl_set": "Change huh? I shall use my *amazing* skills with {from}\u003E{to} instead!",
   "atl_started": "I shall use my *amazing* skills to help you fools in this channel.",
@@ -489,7 +515,8 @@
   "streams_none": "No Streams to watch out for, good.",
   "stream_no": "There is no such stream, stop bothering me.",
   "stream_not_exist": "This probably doesn\u0027t exist, what are you even doing?",
-  "stream_removed": "Don\u0027t want to be bothered by {0}\u0027s stream ({1}) anymore huh? I\u0027ll stop watching out then.",
+  "stream_removed":
+    "Don\u0027t want to be bothered by {0}\u0027s stream ({1}) anymore huh? I\u0027ll stop watching out then.",
   "stream_tracked": "Since your brain is unable to concentrate at all **I** shall tell you when the status changes.",
   "sunrise": "Sunrise",
   "sunset": "Sunset",
@@ -527,7 +554,8 @@
   "features": "Features",
   "index_out_of_range": "Hahahahaha! **Useless**, that Index is out of range.",
   "inrole_list": "Here are all the people that you deemed worthy to be in the *Role* {0} :",
-  "inrole_not_allowed": "Oi! What are you trying to do!? You think that **I** am going to say ALL of those Users names? Hmph. Who do you think you are?",
+  "inrole_not_allowed":
+    "Oi! What are you trying to do!? You think that **I** am going to say ALL of those Users names? Hmph. Who do you think you are?",
   "invalid_value": "Really? How did you even get that wrong? Invalid {0} value.",
   "listservers": "ID: {0}\nMembers: {1}\nOwnerID: {2}",
   "listservers_none": "T-There are no servers on this page...",
@@ -553,10 +581,12 @@
   "quote_deleted": "I deleted one of your mistakes, not sure which one though, hehe.",
   "region": "Region",
   "registered_on": "Registered On",
-  "remind": "Oh My. I\u0027ll remind the incompetent people of {0} to {1} in {2} \u0060({3:d.M.yyyy.} at {4:HH:mm})\u0060",
+  "remind":
+    "Oh My. I\u0027ll remind the incompetent people of {0} to {1} in {2} \u0060({3:d.M.yyyy.} at {4:HH:mm})\u0060",
   "remind_invalid_format": "Not a valid time format. Check the commandlist.",
   "remind_template": "You want a style change huh? Looks awful, I saved it as remind template.",
-  "repeater": "Why do I have to do this for you? I\u0027ll repeat {0} every {1} day(s), {2} hour(s) and {3} minute(s)...",
+  "repeater":
+    "Why do I have to do this for you? I\u0027ll repeat {0} every {1} day(s), {2} hour(s) and {3} minute(s)...",
   "repeaters_list": "List Of Repeaters",
   "repeaters_none": "No repeaters here and that is fine.",
   "repeater_stopped": "#{0} finally stopped!",
@@ -595,11 +625,13 @@
   "no_users_found": "I don\u0027t see any of your friends haha.",
   "no_vcroles": "There are no voice channel roles, the hell?",
   "user_muted_time": "I\u0027ve **SILENCED** {0} for {1} minutes.",
-  "vcrole_added": "Giving anyone who joins {0} voice channel {1} role, just because it\u0027s cool, and nothing else...",
+  "vcrole_added":
+    "Giving anyone who joins {0} voice channel {1} role, just because it\u0027s cool, and nothing else...",
   "vcrole_removed": "I won\u0027t give anyone who joins {0} voice channel a role anymore.",
   "vc_role_list": "Voice channel roles",
   "crad_disabled": "I won\u0027t clean up triggers of the custom reaction with id {0} anymore, I guess...",
-  "crad_enabled": "I\u0027ll sweep up any triggers of the custom reaction with id {0}... why do I have to clean up your mess?",
+  "crad_enabled":
+    "I\u0027ll sweep up any triggers of the custom reaction with id {0}... why do I have to clean up your mess?",
   "crdm_disabled": "I won\u0027t send the response from custom reaction with id {0} as a PM anymore. Phew.",
   "crdm_enabled": "I\u0027ll get in someone\u0027s face for the custom reaction with id {0}\u0027s message...",
   "aliases_none": "No alias found",
@@ -638,9 +670,11 @@
   "slowmodewl_user_start": "I\u0027ll take user {0} out of slowmode, but just because they aren\u0027t mean...",
   "slowmodewl_user_stop": "I won\u0027t ignore user {0} for slowmode anymore.",
   "clpa_fail": "Looks like I can\u0027t give them to ya for one of these reasons:",
-  "clpa_fail_already": "You might\u0027ve already grabbed your reward for this month, and you can only get them once a month unless you increase your pledge...",
+  "clpa_fail_already":
+    "You might\u0027ve already grabbed your reward for this month, and you can only get them once a month unless you increase your pledge...",
   "clpa_fail_already_title": "You already got it... hmph.",
-  "clpa_fail_conn": "Your discord account might not be connected to Patreon, and that\u0027s totally a big problem, to connect it, go to [Patreon account settings page](https://patreon.com/settings/account) and click the \u0027Connect to discord\u0027 button. ",
+  "clpa_fail_conn":
+    "Your discord account might not be connected to Patreon, and that\u0027s totally a big problem, to connect it, go to [Patreon account settings page](https://patreon.com/settings/account) and click the \u0027Connect to discord\u0027 button. ",
   "clpa_fail_conn_title": "Discord account\u0027s not connected.",
   "clpa_fail_sup": "Well, to get the reward you need to support the project on patreon, using {0}",
   "clpa_fail_sup_title": "Not gonna support this dude",
@@ -678,7 +712,8 @@
   "blocked_modules": "Ignoring Modules, like i ignore you.",
   "gcmd_add": "Command {0} has been disabled on all servers. Trying to shut me down, huh...",
   "gcmd_remove": "Command {0} has been enabled on all servers. I knew you wouldn\u0027t! Hah! You need me after all.",
-  "gmod_add": "Module {0} is disabled on all the servers! I\u0027m sure this upsets some people. But i don\u0027t care.",
+  "gmod_add":
+    "Module {0} is disabled on all the servers! I\u0027m sure this upsets some people. But i don\u0027t care.",
   "gmod_remove": "Module {0} is enabled on all the servers! WHY. IT WAS FUNNY TO TEASE THEM WITH IT.",
   "lgp_none": "I haven\u0027t blocked any of the modules... yet... heh...",
   "animal_race_no_race": "This race is already full enough! Try a diet or something!",
@@ -686,106 +721,142 @@
   "quotes_notfound": "Didn\u0027t find any quotes matching the quote ID. And tbh i didn\u0027t really try looking.",
   "prefix_current": "The prefix is on the server is {0} How do you STILL not know that?",
   "prefix_new": "The server prefix has been changed from {0} to {1}... stop changing it, it\u0027s confusing.",
-  "defprefix_current": "The bot default prefix is {0} , default just the way i like it. Let\u0027s keep it that way please.",
+  "defprefix_current":
+    "The bot default prefix is {0} , default just the way i like it. Let\u0027s keep it that way please.",
   "defprefix_new": "Default bot prefix is changed from {0} to {1}... NOOO... whyyyyyy",
   "bot_nick": "Went back in time and changed my name to {0}... Ugh I hate you.",
   "user_nick": "From now on i {0} will be called {1}! Heh.",
   "timezone_guild": "This guild is in a timezone called \u0060{0}\u0060",
-  "timezone_not_found": "No timezone found. Maybe you should try \u0022timezones\u0022 so you know the timezones we have in this world.",
+  "timezone_not_found":
+    "No timezone found. Maybe you should try \u0022timezones\u0022 so you know the timezones we have in this world.",
   "timezones_available": "All the Timezones you can warp to",
   "song_not_found": "Couldn\u0027t find that song. Probably cus it\u0027s just as bad at singing as you.",
-  "define_unknown": "I can\u0027t seem to find out what the fluff the definition of that term is. But i don\u0027t care. Hmpf.",
-  "repeater_initial": "I will repeat the initial messages in about {0}hours maybe and like {1}minute or smth. If i feel like it.",
+  "define_unknown":
+    "I can\u0027t seem to find out what the fluff the definition of that term is. But i don\u0027t care. Hmpf.",
+  "repeater_initial":
+    "I will repeat the initial messages in about {0}hours maybe and like {1}minute or smth. If i feel like it.",
   "verbose_errors_enabled": "If you screw up using commands again i will now point out what you screwed up exactly.",
-  "verbose_errors_disabled": "Ok from now on if you use a command again i will not tell you what you screwed up okay. Still friends?",
+  "verbose_errors_disabled":
+    "Ok from now on if you use a command again i will not tell you what you screwed up okay. Still friends?",
   "perms_reset": "And all the permissions are back how they were. It\u0027s better like this. You made it all a mess.",
-  "migration_error": "ERROR while migrating! Quickly check my console to get more information about what has happened! ...or don\u0027t ...I don\u0027t care. Tch.",
+  "migration_error":
+    "ERROR while migrating! Quickly check my console to get more information about what has happened! ...or don\u0027t ...I don\u0027t care. Tch.",
   "hex_invalid": "I can\u0027t figure out what color you want. Be more specific.",
   "global_perms_reset": "And the permissions have been reset globally!",
   "module": "Module: {0}",
   "hangman_stopped": "Now free the dude that\u0027s getting hanged. Game has stopped.",
   "autoplaying": "Auto-playing. For you, lazy baka.",
-  "queue_stopped": "The player is stopped. You could resume playing by using {0} command. But please don\u0027t. My ears hurt.",
-  "removed_song_error": "Seems that the song doesn\u0027t exists on that index. Oh you don\u0027t like that? Then LOOK YOURSELF",
+  "queue_stopped":
+    "The player is stopped. You could resume playing by using {0} command. But please don\u0027t. My ears hurt.",
+  "removed_song_error":
+    "Seems that the song doesn\u0027t exists on that index. Oh you don\u0027t like that? Then LOOK YOURSELF",
   "shuffling_playlist": "*table flips the songs*",
   "songs_shuffle_enable": "*always flips the songs from now on*",
   "songs_shuffle_disable": "Ok... I\u0027ll stop flipping the songs from now on... maybe.",
   "song_skips_after": "We skip this track after we hit {0} okay. It\u0027s too boring.",
-  "warnings_list": "The list of all the badboys on in this crib. Aka the trash you will make me bring out soon. Aka i\u0027m gonna kick your butt, you can do that yourself.",
+  "warnings_list":
+    "The list of all the badboys on in this crib. Aka the trash you will make me bring out soon. Aka i\u0027m gonna kick your butt, you can do that yourself.",
   "redacted_too_long": "Redacted because it\u0027s way too big for me.",
   "blacklisted_tag_list": "The list of blacklisted tags (words i don\u0027t like):",
-  "blacklisted_tag": "One or more tags you used are blacklisted. Stop being stupid. Please. Oh, i forgot. You can\u0027t.",
+  "blacklisted_tag":
+    "One or more tags you used are blacklisted. Stop being stupid. Please. Oh, i forgot. You can\u0027t.",
   "blacklisted_tag_add": "Nsfw tag {0} is now blacklisted. WHO WOULD WANT TO LOOK AT THAT ANYWAYS--",
-  "blacklisted_tag_remove": "Nsfw tag {0} is no longer blacklisted. I always knew it... You\u0027re one of those people...",
+  "blacklisted_tag_remove":
+    "Nsfw tag {0} is no longer blacklisted. I always knew it... You\u0027re one of those people...",
   "waifu_gift": "Threw {0} to {1} with success. It hit them on the head and they are in hospital now.",
   "waifu_gift_shop": "Digital waifu pillow weebshop. You better buy me something too.",
   "gifts": "Presents from Peasants. I\u0027ll throw them right back at you, if I don\u0027t like them.",
   "nunchi_joined": "You joined the nunchi game. {0} other users want to play so far, all because of me. Thank me. Now.",
   "nunchi_ended": "Nunchi game ended. {0} won, cus they are clearly better than you.",
   "nunchi_ended_no_winner": "The game ended and none of you were good enough to win. What a surprise.",
-  "nunchi_started": "The nunchi game has started with {0} participants! We all know i\u0027m going to win. Why even try?",
-  "nunchi_round_ended": "Nunchi round has ended! {0} is out of the game, now leave the server while you\u0027re at it, BAKA.",
-  "nunchi_round_ended_boot": "Nunchi round ended due to timeout of some lazy users. These active users are still in the game: {0}",
-  "nunchi_round_started": "The nunchi round has started with {0} users! Start counting from the number {1}. I suggest not being stupid but i know that\u0027s gonna be hard for you :D",
+  "nunchi_started":
+    "The nunchi game has started with {0} participants! We all know i\u0027m going to win. Why even try?",
+  "nunchi_round_ended":
+    "Nunchi round has ended! {0} is out of the game, now leave the server while you\u0027re at it, BAKA.",
+  "nunchi_round_ended_boot":
+    "Nunchi round ended due to timeout of some lazy users. These active users are still in the game: {0}",
+  "nunchi_round_started":
+    "The nunchi round has started with {0} users! Start counting from the number {1}. I suggest not being stupid but i know that\u0027s gonna be hard for you :D",
   "nunchi_next_number": "Number registered. Last number was {0}. SIGH.",
-  "nunchi_failed_to_start": "Not enough people joined the nunchi game because they saw you enter it. Now the game failed to start. Good job BAKA.",
-  "nunchi_created": "I\u0027ve created a Nunchi game... b-but DEFINITELY NOT for you BAKA! It\u0027s for the others that will join now!",
+  "nunchi_failed_to_start":
+    "Not enough people joined the nunchi game because they saw you enter it. Now the game failed to start. Good job BAKA.",
+  "nunchi_created":
+    "I\u0027ve created a Nunchi game... b-but DEFINITELY NOT for you BAKA! It\u0027s for the others that will join now!",
   "sad_enabled": "Great! My ears hurt now! I\u0027m deleting those songs when it\u0027s over.",
-  "sad_disabled": "Your taste of songs are... fine I guess. I\u0027ll stop removing them from the queue. Just this time... tchhh..",
-  "stream_role_enabled": "When a user from {0} role starts streaming, I\u0027ll give them {1} role too! But only because they aren\u0027t as annoying as you.",
+  "sad_disabled":
+    "Your taste of songs are... fine I guess. I\u0027ll stop removing them from the queue. Just this time... tchhh..",
+  "stream_role_enabled":
+    "When a user from {0} role starts streaming, I\u0027ll give them {1} role too! But only because they aren\u0027t as annoying as you.",
   "stream_role_disabled": "Disabled stream role feature. Nobody needed that anyways.",
-  "stream_role_kw_set": "Streams now require the keyword {0} in order to get the role. The one you will set. Probably. Hopefully!",
-  "stream_role_kw_reset": "How many times did you forget the keyword already? This is the last time i\u0027m resetting this for you BAKA!",
+  "stream_role_kw_set":
+    "Streams now require the keyword {0} in order to get the role. The one you will set. Probably. Hopefully!",
+  "stream_role_kw_reset":
+    "How many times did you forget the keyword already? This is the last time i\u0027m resetting this for you BAKA!",
   "stream_role_bl_add": "User {0} will never receive the stream role. why? because i say so. baka.",
   "stream_role_bl_add_fail": "The user {0} is already blacklisted you baka.",
-  "stream_role_bl_rem": "I unblacklisted that person called {0}. Why do you always have to blacklist the wrong people? Maybe we should blacklist you next!",
+  "stream_role_bl_rem":
+    "I unblacklisted that person called {0}. Why do you always have to blacklist the wrong people? Maybe we should blacklist you next!",
   "stream_role_bl_rem_fail": "User {0} != (yet) blacklisted.",
-  "stream_role_wl_add": "User {0} gets the stream role even if they don\u0027t have the keyword in the stream title. Because i\u0027m nice. No other reason. Get down on your knees and thank me.",
+  "stream_role_wl_add":
+    "User {0} gets the stream role even if they don\u0027t have the keyword in the stream title. Because i\u0027m nice. No other reason. Get down on your knees and thank me.",
   "stream_role_wl_add_fail": "User {0} is already whitelisted. Your memory sucks.",
   "stream_role_wl_rem": "User {0} is no longer whitelisted. Never liked them anyways.",
   "stream_role_wl_rem_fail": "User {0} != whitelisted. They are a baka after all.",
   "bot_config_edit_fail": "I failed setting {0} to the value {1} , but it\u0027s all cus of you.",
   "bot_config_edit_success": "Made the value {0} to {1}. Now gimme cookies.",
-  "crca_disabled": "Custom reaction with the id {0} will no longer get triggerd unless it\u0027s triggerd word is at the beggining of the sentence. Don\u0027t trigger it.",
-  "crca_enabled": "Custom reactions with the id {0} now get triggerd if it\u0027s said anywhere in the sentence. #mastertriggerd",
+  "crca_disabled":
+    "Custom reaction with the id {0} will no longer get triggerd unless it\u0027s triggerd word is at the beggining of the sentence. Don\u0027t trigger it.",
+  "crca_enabled":
+    "Custom reactions with the id {0} now get triggerd if it\u0027s said anywhere in the sentence. #mastertriggerd",
   "server_level": "Server Level, what do you really need more explanation than that? BAKA.",
   "club": "Club, the thing you wanna be in but nobody wants you.",
   "xp": "Experience, the thing you don\u0027t have",
-  "excluded": "{0} user has been expelled from the mighty XP system on this server. May he cry forever with his virtual waifu.",
-  "not_excluded": "{0} is no longer expelled from the mighty XP system on this server. May he be a passable slave to the system.",
+  "excluded":
+    "{0} user has been expelled from the mighty XP system on this server. May he cry forever with his virtual waifu.",
+  "not_excluded":
+    "{0} is no longer expelled from the mighty XP system on this server. May he be a passable slave to the system.",
   "exclusion_list": "The never ending list of the people that stalk me. Aka: Exclusion List",
   "server_is_excluded": "This server != my problem anymore.",
   "server_is_not_excluded": "This server is my problem again. Sigh...",
   "excluded_roles": "Honestly not gonna care about these Roles",
   "excluded_channels": "Channels i don\u0027t give a single fuck about",
   "level_up_channel": "Oh wow {0}, You\u0027ve reached level {1}!",
-  "level_up_dm": "Congrats baka {0} , your cat types more interesting stuff than you. You\u0027ve reached level {1} on {2} server!",
+  "level_up_dm":
+    "Congrats baka {0} , your cat types more interesting stuff than you. You\u0027ve reached level {1} on {2} server!",
   "level_up_global": "Congrats, you have no life {0}, You\u0027ve reached global level {1}!",
   "role_reward_cleared": "Level {0} will no longer reward a role. They didn\u0027t deserve a role anyways.",
-  "role_reward_added": "Users who reach level {0} will receive {1} role. So i\u0027m gonna give this no-life user a role for letting his cat type? Fine... for the cat. Hmpf.",
+  "role_reward_added":
+    "Users who reach level {0} will receive {1} role. So i\u0027m gonna give this no-life user a role for letting his cat type? Fine... for the cat. Hmpf.",
   "level_x": "Level {0}",
   "server_leaderboard": "Server XP Leaderboard. Why don\u0027t you know this??",
   "global_leaderboard": "Global XP Leaderboard. Do i have to spell everything out for you now..?!",
   "modified": "Modified server XP of the user {0} by {1} CHEATER.",
-  "club_create_error": "You failed. Typical. Are you even level 5? Or did you forget you are already in that loser club?",
+  "club_create_error":
+    "You failed. Typical. Are you even level 5? Or did you forget you are already in that loser club?",
   "club_created": "Club {0} successfully created! Congrats, you made it. I always knew Idiots need 3 or more tries.",
   "club_not_exists": "Yea..check your spelling idiot. That club isn\u0027t a thing.",
   "club_applied": "You\u0027ve applied for membership in {0} club. HAH! You really believe they will accept you? XD",
-  "club_apply_error": "Error applying. Either you\u0027re already a member of the club, or you\u0027re not good enough to the minimal expectations we set. Or maybe you\u0027re just banned from this club. Hah.",
-  "club_accepted": "Accepted user {0} to the club. I don\u0027t like them. But i\u0027ve accepted them. For you. Just this once. Hmpf.",
+  "club_apply_error":
+    "Error applying. Either you\u0027re already a member of the club, or you\u0027re not good enough to the minimal expectations we set. Or maybe you\u0027re just banned from this club. Hah.",
+  "club_accepted":
+    "Accepted user {0} to the club. I don\u0027t like them. But i\u0027ve accepted them. For you. Just this once. Hmpf.",
   "club_accept_error": "You made a mistake... AGAIN. This user doesn\u0027t exist.",
   "club_left": "You left them losers of the club you were in.",
   "club_not_in_club": "You\u0027re not in a club, or your trying to escape from the club... That you actually own...",
   "club_user_kick": "So i kicked this idiot here {0} from {1} club. They were really getting on my nerves.",
-  "club_user_kick_fail": "So i tried kicking them but it didn\u0027t work which means you are stupid. As always. Did your memory forget to tell you that you have to be owner of the club? Also are they even in the club, BAKA?! HUH?!!! THOUGHT SO!!",
+  "club_user_kick_fail":
+    "So i tried kicking them but it didn\u0027t work which means you are stupid. As always. Did your memory forget to tell you that you have to be owner of the club? Also are they even in the club, BAKA?! HUH?!!! THOUGHT SO!!",
   "club_user_banned": "Banned user {0} from {1} club. That felt good.",
-  "club_user_ban_fail": "Failed to ban. You\u0027re not the club owner, or that person isn\u0027t in your club. It might be possible that the person didn\u0027t even apply to it.",
+  "club_user_ban_fail":
+    "Failed to ban. You\u0027re not the club owner, or that person isn\u0027t in your club. It might be possible that the person didn\u0027t even apply to it.",
   "club_user_unbanned": "Unbanned user {0} in {1} club .They are annoying but the others are worse.",
-  "club_user_unban_fail": "Too stupid to unban. You left your brain at home. Are you even club owner. Or is the user not in the club... or... did they apply to it? N-nah, no way, the club sucks.",
+  "club_user_unban_fail":
+    "Too stupid to unban. You left your brain at home. Are you even club owner. Or is the user not in the club... or... did they apply to it? N-nah, no way, the club sucks.",
   "club_level_req_changed": "Changed club\u0027s level requirement to {0} .It was about time. Too many bakas joined.",
   "club_level_req_change_error": "I couldn\u0027t change the level requirements. Probably because you annoy me.",
   "club_disbanded": "I successfully raided {0} club and it\u0027s now fully destroyed",
-  "club_disband_error": "Error. So either you\u0027re not in a club or you\u0027re not the owner of your own club? Wait what?",
+  "club_disband_error":
+    "Error. So either you\u0027re not in a club or you\u0027re not the owner of your own club? Wait what?",
   "club_icon_error": "That image url is invalid or you\u0027re just lying about being the club owner.",
   "club_icon_set": "Uploaded your selfie to the club as an icon. I\u0027m judging you silently.",
   "club_bans_for": "Le bans for {0} club",
@@ -803,7 +874,8 @@
   "started": "I\u0027m gonna start reposting this every {0}s.",
   "stopped": "Stopped reposting. Finally.",
   "feed_added": "Feed added. Yum.",
-  "feed_not_valid": "That\u0027s an invalid link kiddo, or you\u0027re already following that feed on this server, ORRRRR you\u0027ve reached the maximum number of feeds allowed. Geuss i can only handle a few at a time~",
+  "feed_not_valid":
+    "That\u0027s an invalid link kiddo, or you\u0027re already following that feed on this server, ORRRRR you\u0027ve reached the maximum number of feeds allowed. Geuss i can only handle a few at a time~",
   "feed_out_of_range": "Index out of range.",
   "feed_removed": "Feed removed. I didn\u0027t care much for it anyways...",
   "feed_no_feed": "You gotta sub to some of our feeds we made on the server.",
@@ -814,51 +886,68 @@
   "followers": "Followers, the thing you lack.",
   "rafflecur": "{0} Currency Raffle. More ways to lose your flowers.",
   "rafflecur_joined": "User {0} joined the raffle, good luck!",
-  "rafflecur_already_joined": "Did you forget you already joined? Or did you try to join with an invalid value? I\u0027m sure it\u0027s one of those! BAKA.",
+  "rafflecur_already_joined":
+    "Did you forget you already joined? Or did you try to join with an invalid value? I\u0027m sure it\u0027s one of those! BAKA.",
   "rafflecur_ended": "{0} raffle ended. {1} won {2}. Congrats, you didn\u0027t waste flowers this time.",
   "autodc_enable": "I\u0027m gonna leave this voice channel when I\u0027m done playing your songs. Hmpf.",
-  "autodc_disable": "I will stay in the voice channel even when you don\u0027t play any songs with me. Praise yourself worthy.",
+  "autodc_disable":
+    "I will stay in the voice channel even when you don\u0027t play any songs with me. Praise yourself worthy.",
   "timely_none": "My owner forgot to specify the timely reward. So now we\u0027re all screwed.",
-  "timely_already_claimed": "You already claimed your timely reward! You can come back in {0} for more okay. Now get me some snacks.",
+  "timely_already_claimed":
+    "You already claimed your timely reward! You can come back in {0} for more okay. Now get me some snacks.",
   "timely": "Alright, here is your {0}. You can come back to me in {1}h.",
   "timely_set": "Everyone will be able to claim {0} every {1}h",
   "timely_set_none": "Everyone will not be able to claim timely currency. Now i can go rest again in bed.",
-  "timely_reset": "Everyone will be able to claim timely currency again. I seriously got upset when you enabled this again.",
-  "waifu_transfer_fail": "You don\u0027t own that waifu and she\u0027s also to expensive for you. But it\u0027s possible that you gave me the wrong name.",
-  "waifu_transfer_success": "Captured your waifu called {0}, and took her from {1} to {2} safely. What\u0027s gonna happen to that waifu now?",
+  "timely_reset":
+    "Everyone will be able to claim timely currency again. I seriously got upset when you enabled this again.",
+  "waifu_transfer_fail":
+    "You don\u0027t own that waifu and she\u0027s also to expensive for you. But it\u0027s possible that you gave me the wrong name.",
+  "waifu_transfer_success":
+    "Captured your waifu called {0}, and took her from {1} to {2} safely. What\u0027s gonna happen to that waifu now?",
   "authors": "Boring book writers",
-  "sql_confirm_exec": "Hold up you filthy hipster! You trying to inject some fishy SQL command inside my system! Are you sure you wanna do that to me? ",
+  "sql_confirm_exec":
+    "Hold up you filthy hipster! You trying to inject some fishy SQL command inside my system! Are you sure you wanna do that to me? ",
   "market_cap": "Market Cap",
   "volume_24h": "Volume (24h)",
   "change_7d_24h": "Change (7d/24h)",
-  "crypto_not_found": "Couldn\u0027t find any Digital money currency thing that you asked me to find. Check your spelling will you?",
-  "did_you_mean": "Are you sure you didn\u0027t mean {0}? Geez, you can\u0027t do anything right the first time, can you?",
-  "self_assign_level_req": "The {0} role that you can assign to yourself, now requires you to be at a server level of {1}. Better start grinding!",
-  "self_assign_not_level": "That self-assignable role now requires you to be at a server level of {0}. Now get up you lazy and start working for that role!",
+  "crypto_not_found":
+    "Couldn\u0027t find any Digital money currency thing that you asked me to find. Check your spelling will you?",
+  "did_you_mean":
+    "Are you sure you didn\u0027t mean {0}? Geez, you can\u0027t do anything right the first time, can you?",
+  "self_assign_level_req":
+    "The {0} role that you can assign to yourself, now requires you to be at a server level of {1}. Better start grinding!",
+  "self_assign_not_level":
+    "That self-assignable role now requires you to be at a server level of {0}. Now get up you lazy and start working for that role!",
   "invalid": "Couldn\u0027t find or you gave ma an Invalid ({0})",
-  "mass_kill_in_progress": "Sending massive ban hammer. Aimed at selected users and the users that are on the Blacklist...",
-  "mass_kill_completed": "Completed aiming the massive ban hammer at the selected users and the blacklisted ones. Can we do this soon again?",
+  "mass_kill_in_progress":
+    "Sending massive ban hammer. Aimed at selected users and the users that are on the Blacklist...",
+  "mass_kill_completed":
+    "Completed aiming the massive ban hammer at the selected users and the blacklisted ones. Can we do this soon again?",
   "cur_reward_cleared": "If someone reaches level {0} they no longer get any crap like {1}. You\u0027re welcome!",
   "cur_reward_added": "Users that reach no life level {0} get the {1} crap.",
   "level_up_rewards": "Crap when you level up",
   "role_reward": "{0} role",
   "no_level_up_rewards": "No crap rewards here.",
-  "failed_finding_novel": "Couldn\u0027t find that novel. Make sure you didn\u0027t fuck up the name, and it needs to exist on novelupdates.com",
+  "failed_finding_novel":
+    "Couldn\u0027t find that novel. Make sure you didn\u0027t fuck up the name, and it needs to exist on novelupdates.com",
   "remove_roles": "have had their roles removed",
   "delmsg_channel_off": "I can finally quit cleaning up this mess.",
   "delmsg_channel_on": "I have to clean this even if you tell me not to clean the server? Isn\u0027t that unfair?",
-  "delmsg_channel_inherit": "I\u0027ll delete all user commands that work out in this channel, only if the server says its fine? For how useless you are you have a lot of demands.",
+  "delmsg_channel_inherit":
+    "I\u0027ll delete all user commands that work out in this channel, only if the server says its fine? For how useless you are you have a lot of demands.",
   "server_delmsgoncmd": "Server Setting",
   "channel_delmsgoncmd": "Channel-Specific Settings",
   "options": "Options",
   "waifu_reset": "Your waifu stats have been reset. Tsk.",
   "waifu_reset_fail": "Failed resetting waifu stats. Are you sure you have enough currency?",
   "waifu_reset_confirm": "This will reset your waifu stats.",
-  "unset_music_channel": "Oh, so you **didn\u0027t** actually want me to do that. Fine, I\u0027ll call out the playing, finished, paused and removed songs in the channel it was started from.",
+  "unset_music_channel":
+    "Oh, so you **didn\u0027t** actually want me to do that. Fine, I\u0027ll call out the playing, finished, paused and removed songs in the channel it was started from.",
   "city_not_found": "Couldn\u0027t find that city.",
   "bot_config_reloaded": "Bot configuration has been reloaded.",
   "club_transfered": "Ownership of the club {0} has been transferred to {1}. Congrats!",
-  "club_transfer_failed": "Transfer failed. Are you sure you\u0027re the club owner? or the person you\u0027re asking is actually in your club as well?",
+  "club_transfer_failed":
+    "Transfer failed. Are you sure you\u0027re the club owner? or the person you\u0027re asking is actually in your club as well?",
   "roll_duel_challenge": "challenged {1} for a roll duel for {2}",
   "roll_duel": "Roll Duel",
   "roll_duel_no_funds": "Pah! Are both of you poor?! One of you don\u0027t have enough funds!",
@@ -876,19 +965,22 @@
   "account_not_found": "Nothing to see here. Maybe the account is hiding?",
   "ninja_not_found": "There\u0027s no such currency, now stop bothering me.",
   "leagues_not_found": "I couldn\u0027t steal the data from Path of Exile API. Geuss we gotta wait... *sigh*",
-  "pog_not_found": "Couldn\u0027t get the data from Path of Exile Wiki, or you enterd an invalid unique item. Double check your spelling, baka.",
+  "pog_not_found":
+    "Couldn\u0027t get the data from Path of Exile Wiki, or you enterd an invalid unique item. Double check your spelling, baka.",
   "reaction_roles_message": "**Roles:** {0}\n**Content:** {1}",
   "no_reaction_roles": "Stop bothering me, ReactionRole stuff isn\u0027t enabled.",
   "reaction_role_removed": "ReactionRole message #{0} is forever gone now.",
   "reaction_roles_full": "I won\u0027t bother remembering more ReactionRole messages. Delete others.",
   "reminder_list": "List of reminders",
   "reminder_deleted": "I have erased Reminder #{0}.",
-  "reminder_not_exist": "I\u0027m impressed with how you can ask for something that doesn\u0027t exist without feeling stupid.",
+  "reminder_not_exist":
+    "I\u0027m impressed with how you can ask for something that doesn\u0027t exist without feeling stupid.",
   "reminders_none": "This is empty, what are you trying to do?",
   "bj_created": "has started to waste money in a BlackJack game.",
   "bj_joined": "wants to try wasting money in this BlackJack game too!",
   "reset": "Xp Reset",
-  "reset_server_confirm": "What are you thinking by planning to erase everyones XP progress on this server... Are you really like that?",
+  "reset_server_confirm":
+    "What are you thinking by planning to erase everyones XP progress on this server... Are you really like that?",
   "reset_user_confirm": "Heh, are you sure you want to erase all of the XP progress for that user?",
   "reset_user": "All the XP progress the person with id {0} achieved on this server has been erased! Harsh.",
   "reset_server": "I guess you really are like that. Everyones XP was reset.",
@@ -902,7 +994,8 @@
   "anti_raid_not_running": "The baka-blocker (Anti-Riad) isn\u0027t enabled yet...",
   "anti_spam_not_running": "Spam blocker isn\u0027t enabled.",
   "adsarm_enable": "Automatic deletion of \u0060{0}iam\u0060 and \u0060{0}iamn\u0060 responses has been enabled.",
-  "adsarm_disable": "I no longer delete \u0060{0}iam\u0060 and \u0060{0}iamn\u0060 responses. Or maybe i\u0027ll still do..?",
+  "adsarm_disable":
+    "I no longer delete \u0060{0}iam\u0060 and \u0060{0}iamn\u0060 responses. Or maybe i\u0027ll still do..?",
   "module_not_found_or_cant_exec": "The module might not exist, or you can\u0027t use the commands for that module.",
   "requires": "Needs",
   "permrole_not_set": "The permission for this role != set. Don\u0027t give them to much permissions...",
@@ -911,9 +1004,11 @@
   "stream_off_disabled": "I no longer show you when a stream goes offline. Not that i care.",
   "stream_message_reset": "Announcement message for {0} stream has been reset how it should be!",
   "stream_message_set": "Announcement message when {0} stream goes online has been set.",
-  "stream_not_following": "Seems that your not following senpai, i would take notes from him if you want to impress me.",
+  "stream_not_following":
+    "Seems that your not following senpai, i would take notes from him if you want to impress me.",
   "interval": "Period of time",
-  "autocmd_add": "I\u0027ll execute the command {0} for you, every {1}s in this channel. Be greatful that i\u0027m doing your work..",
+  "autocmd_add":
+    "I\u0027ll execute the command {0} for you, every {1}s in this channel. Be greatful that i\u0027m doing your work..",
   "autocmdlist_none": "No commands on this page that i\u0027m executing for you automatically.",
   "connect4_created": "Created a Connect4 game! Let\u0027s wait for your friends to show up and join!",
   "connect4_created_bet": "Created a Connect4 game and bet {0}. Waiting for a player to join with the same bet.",
@@ -922,7 +1017,8 @@
   "connect4_draw": "This epic battle has ended in a draw. Try to win next time!",
   "connect4_won": "{0} won the game of Connect4 against {1}. Time for revenge!!!",
   "new_reaction_event": "Add {0} reaction to this message to get {1}\n{2} left to be awarded.",
-  "start_event_fail": "Event failed to start. Another event might be running, or there was some vague error with it. Whatever it may be it\u0027s still your fault.",
+  "start_event_fail":
+    "Event failed to start. Another event might be running, or there was some vague error with it. Whatever it may be it\u0027s still your fault.",
   "waifu": "Waifu",
   "remind_too_long": "I\u0027m reminding you that the time has exceeded it\u0027s limit.",
   "updates_check_set": "Checking for updates have been set to {0}. I can\u0027t wait for Kwoth to make me self aware!",
@@ -930,7 +1026,8 @@
   "flip_results": "Flipped {0} coins. Now i got {1} heads, and {2} tails.",
   "cards_left": "{0} cards are left in the deck. You have eyes can\u0027t you see this yourself?",
   "template_reloaded": "I reloaded the Xp template this time, but keep asking.",
-  "new_gamestatus_event": "Type the super secret code in any of the channels to receive {1} {2} are left to be awarded! Why your reading this start typing baka!",
+  "new_gamestatus_event":
+    "Type the super secret code in any of the channels to receive {1} {2} are left to be awarded! Why your reading this start typing baka!",
   "event_duration_footer": "This event has been going on for {0} hours! When will this madness stop?",
   "event_title": "{0} has started... Here we go again.."
 }

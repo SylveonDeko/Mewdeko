@@ -4,12 +4,12 @@ using SixLabors.ImageSharp.PixelFormats;
 namespace Mewdeko.Core.Services
 {
     /// <summary>
-    /// Custom setting value parsers for types which don't have them by default
+    ///     Custom setting value parsers for types which don't have them by default
     /// </summary>
     public static class SettingParsers
     {
         /// <summary>
-        /// Default string parser. Passes input to output and returns true.
+        ///     Default string parser. Passes input to output and returns true.
         /// </summary>
         public static bool String(string input, out string output)
         {
@@ -35,12 +35,18 @@ namespace Mewdeko.Core.Services
     public static class SettingPrinters
     {
         public static string ToString<TAny>(TAny input)
-            => input.ToString();
+        {
+            return input.ToString();
+        }
 
         public static string Culture(CultureInfo culture)
-            => culture.Name;
+        {
+            return culture.Name;
+        }
 
         public static string Color(Rgba32 color)
-            => ((uint) (color.B << 0 | color.G << 8 | color.R << 16)).ToString("X6");
+        {
+            return ((uint) ((color.B << 0) | (color.G << 8) | (color.R << 16))).ToString("X6");
+        }
     }
 }
