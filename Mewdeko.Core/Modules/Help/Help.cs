@@ -89,7 +89,8 @@ namespace Mewdeko.Modules.Help
             await ctx.SendPaginatedConfirmAsync(page, cur =>
             {
                 var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("list_of_modules"));
+                    .WithTitle(GetText("list_of_modules"))
+                    .WithDescription("Invite me using this link:\nhttps://mewdeko.tech/invite\nIf you need help setting up the bot join the support server:\nhttps://mewdeko.tech/support");
 
                 var localModules = topLevelModules.Skip(12 * cur)
                     .Take(12)
