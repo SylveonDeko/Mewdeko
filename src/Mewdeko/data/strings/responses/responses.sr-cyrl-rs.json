@@ -1,7 +1,8 @@
 {
   "all_stats_cleared": "Сва статистика Реакција по  Избору је обрисана.",
   "deleted": "Реакција по Избору обрисана",
-  "insuff_perms": "Немате дозволу. Потребно је поседовати бота за глобалне Реакције по Избору, а Администратор за серверске Реакције по Избору.",
+  "insuff_perms":
+    "Немате дозволу. Потребно је поседовати бота за глобалне Реакције по Избору, а Администратор за серверске Реакције по Избору.",
   "list_all": "Листа свих реакција по избору",
   "new_cust_react": "Нова Реакција по Избору",
   "no_found": "Реакција по избору није нађена.",
@@ -131,7 +132,8 @@
   "self_assign_not": "That role != self-assignable.",
   "self_assign_not_have": "You don\u0027t have {0} role.",
   "self_assign_no_excl": "Self assigned roles are now not exclusive!",
-  "self_assign_perms": "I am unable to add that role to you. \u0060I can\u0027t add roles to owners or other roles higher than my role in the role hierarchy.\u0060",
+  "self_assign_perms":
+    "I am unable to add that role to you. \u0060I can\u0027t add roles to owners or other roles higher than my role in the role hierarchy.\u0060",
   "self_assign_rem": "{0} has been removed from the list of self-assignable roles.",
   "self_assign_remove": "You no longer have {0} role.",
   "self_assign_success": "You now have {0} role.",
@@ -177,9 +179,12 @@
   "voice_chan_destroyed": "Voice Channel Destroyed",
   "vt_disabled": "Disabled voice \u002B text feature.",
   "vt_enabled": "Enabled voice \u002B text feature.",
-  "vt_exit": "I don\u0027t have **manage roles** and/or **manage channels** permission, so I cannot run \u0060voice\u002Btext\u0060 on {0} server.",
-  "vt_no_admin": "You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.",
-  "vt_perms": "I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)",
+  "vt_exit":
+    "I don\u0027t have **manage roles** and/or **manage channels** permission, so I cannot run \u0060voice\u002Btext\u0060 on {0} server.",
+  "vt_no_admin":
+    "You are enabling/disabling this feature and **I do not have ADMINISTRATOR permissions**. This may cause some issues, and you will have to clean up text channels yourself afterwards.",
+  "vt_perms":
+    "I require atleast **manage roles** and **manage channels** permissions to enable this feature. (preffered Administration permission)",
   "xmuted_text": "User {0} from text chat",
   "xmuted_text_and_voice": "User {0} from text and voice chat",
   "xmuted_voice": "User {0} from voice chat",
@@ -218,14 +223,17 @@
   "cmdlist_donate": "Можете подржати пројекат на Пејтриону: \u003C{0}\u003E или Пејпалу: \u003C{1}\u003E",
   "cmd_and_alias": "Команде и псеудоними",
   "commandlist_regen": "Листа команди је обновљена.",
-  "commands_instr": "Укуцај \u0060{0}h ИмеКоманде\u0060 да видиш помоћ за ту команду. нпр. \u0060{0}h \u003E8ball\u0060",
+  "commands_instr":
+    "Укуцај \u0060{0}h ИмеКоманде\u0060 да видиш помоћ за ту команду. нпр. \u0060{0}h \u003E8ball\u0060",
   "command_not_found": "Не могу да нађем ту команду. Проверите да ли команда постоји, па покушајте поново.",
   "desc": "Опис",
-  "donate": "Можете подржати НадекоБот пројекат на \nПејтриону \u003C{0}\u003E или\nПејпалу \u003C{1}\u003E\nНе заборавите да оставите своје корисничко име или ИД.\n\n**Хвала** ♥️",
+  "donate":
+    "Можете подржати НадекоБот пројекат на \nПејтриону \u003C{0}\u003E или\nПејпалу \u003C{1}\u003E\nНе заборавите да оставите своје корисничко име или ИД.\n\n**Хвала** ♥️",
   "guide": "**List of Commands**: \u003C{0}\u003E\n**Hosting Guides and docs can be found here**: \u003C{1}\u003E",
   "list_of_commands": "Листа Команди",
   "list_of_modules": "Листа Модула",
-  "modules_footer": "Укуцај \u0060{0}cmds ИмеМодула\u0060 да видиш листу свих команди у том модулу. нпр \u0060{0}cmds games\u0060",
+  "modules_footer":
+    "Укуцај \u0060{0}cmds ИмеМодула\u0060 да видиш листу свих команди у том модулу. нпр \u0060{0}cmds games\u0060",
   "module_not_found": "Тај модул не постоји.",
   "server_permission": "Захтева {0} дозволу на серверу.",
   "table_of_contents": "Садржај",
@@ -254,7 +262,8 @@
   "likes": "Свиђа јој се",
   "waifus_none": "Ниједна waifu још није присвојена.",
   "waifus_top_waifus": "Најбоље Waifu",
-  "waifu_affinity_already": "твој афинитет је већ постављен на ту waifu или покушаваш да обришеш афинитет који не постоји.",
+  "waifu_affinity_already":
+    "твој афинитет је већ постављен на ту waifu или покушаваш да обришеш афинитет који не постоји.",
   "waifu_affinity_changed": "променили су афинитет са {0} на {1}.",
   "waifu_affinity_cooldown": "Морате сачекати {0} сати и {1} минута да поново промените афинитет.",
   "waifu_affinity_reset": "Твој афинитет је ресетован, Више немаш особу која ти се свиђа.",
@@ -263,7 +272,8 @@
   "waifu_divorced_like": "Развео си waifu којој се свиђаш. Душмане! {0} је добио {1} као компензацију.",
   "waifu_egomaniac": "не можеш ставити афинитет на себе, егоманијаче.",
   "waifu_fulfilled": "\uD83C\uDF89 Њихова љубав је испуњена! \uD83C\uDF89\nНова вредност за {0} је {1}!",
-  "waifu_isnt_cheap": "Ни једна waifu није тако јефтина. Мораш да платиш бар {0} да би имао waifu, чак иако је њена вредност мања.",
+  "waifu_isnt_cheap":
+    "Ни једна waifu није тако јефтина. Мораш да платиш бар {0} да би имао waifu, чак иако је њена вредност мања.",
   "waifu_not_enough": "Мораш да платиш {0} или више да би присвојио ту waifu.",
   "waifu_not_yours": "Та waifu није твоја.",
   "waifu_not_yourself": "Не можеш присвојити себе.",
@@ -527,7 +537,8 @@
   "features": "Додатак",
   "index_out_of_range": "Индекс је ван опсега.",
   "inrole_list": "Листа корисника у роли {0}.",
-  "inrole_not_allowed": "није ти дозвољено да користиш ову команду на ролама са пуно корисника да би се спречила злоупотреба.",
+  "inrole_not_allowed":
+    "није ти дозвољено да користиш ову команду на ролама са пуно корисника да би се спречила злоупотреба.",
   "invalid_value": "Нетачна вредност {0}.",
   "listservers": "ИД: {0}\nЧланова; {1}\nИд Власника; {2}",
   "listservers_none": "Нема сервера на овој страници.",
@@ -638,11 +649,14 @@
   "slowmodewl_user_start": "Споро режим неће игнорисати корисника {0}.",
   "slowmodewl_user_stop": "Споро режим више неће игнорисати корисника {0}.",
   "clpa_fail": "Фаилед тврдећи награде због једног од следећих разлога:",
-  "clpa_fail_already": "Можда сте већ добили награду за овај месец. Можете примати награде само једном месечно ако не повећате заклетву.",
+  "clpa_fail_already":
+    "Можда сте већ добили награду за овај месец. Можете примати награде само једном месечно ако не повећате заклетву.",
   "clpa_fail_already_title": "već награђени",
-  "clpa_fail_conn": "Ваш неслога рачун не може бити прикључен на Патреон. Ако нисте сигурни шта то значи, или не знају како да се повеже - морате да идете у [Патреон Подешавања налога] (https://patreon.com/settings/account) и кликните на \u0022Цоннецт то неслогу \u0027дугме .",
+  "clpa_fail_conn":
+    "Ваш неслога рачун не може бити прикључен на Патреон. Ако нисте сигурни шта то значи, или не знају како да се повеже - морате да идете у [Патреон Подешавања налога] (https://patreon.com/settings/account) и кликните на \u0022Цоннецт то неслогу \u0027дугме .",
   "clpa_fail_conn_title": "Неслога рачун није повезан",
-  "clpa_fail_sup": "Да би се остварило право на награду, морате подржати пројекат на патреон. Можете да користите {0} наредбу да добије везу.",
+  "clpa_fail_sup":
+    "Да би се остварило право на награду, морате подржати пројекат на патреон. Можете да користите {0} наредбу да добије везу.",
   "clpa_fail_sup_title": "не подржава",
   "clpa_fail_wait": "Мораћете да сачекате неколико сати након што своју заклетву, ако нисте, покушајте поново касније.",
   "clpa_fail_wait_title": "Сачекајте мало времена",
@@ -691,7 +705,8 @@
   "bot_nick": "Надимак бота је промењен у {0}",
   "user_nick": "Надимак корисника {0} је промењен у {1}",
   "timezone_guild": "Временска зона на овом серверу је \u0060{0}\u0060",
-  "timezone_not_found": "Временска зона није нађена. Употребите  \u0022timezones\u0022 команду да би сте видели листу доступних зона.",
+  "timezone_not_found":
+    "Временска зона није нађена. Употребите  \u0022timezones\u0022 команду да би сте видели листу доступних зона.",
   "timezones_available": "Доступне Временске зоне",
   "song_not_found": "Песма није нађена.",
   "define_unknown": "Није нађена дефиниција за ту реч.",
@@ -771,7 +786,8 @@
   "club_created": "Клуб {0} је успешно направљен.",
   "club_not_exists": "Тај клуб не постоји.",
   "club_applied": "Пријавили сте се за чланство у {0} клубу.",
-  "club_apply_error": "Неуспешна пријава. Или сте члан клуба, или нисте испунили минимални захтев за ниво, или сте бановани.",
+  "club_apply_error":
+    "Неуспешна пријава. Или сте члан клуба, или нисте испунили минимални захтев за ниво, или сте бановани.",
   "club_accepted": "Корисник {0} је прихваћен у клуб.",
   "club_accept_error": "Корисник није нађен.",
   "club_left": "Напустили сте клуб.",
@@ -779,7 +795,8 @@
   "club_user_kick": "Корисник {0} је избачен из клуба {1}.",
   "club_user_kick_fail": "Грешка приликом избацивања. Нисте власник клуба, или тај корисник није у вашем клубу.",
   "club_user_banned": "Корисник {0} је банован из клуба {1}.",
-  "club_user_ban_fail": "Неуспешно бановање. Нисте власник клуба, или тај корисник није члан нити пријављен у ваш клуб.",
+  "club_user_ban_fail":
+    "Неуспешно бановање. Нисте власник клуба, или тај корисник није члан нити пријављен у ваш клуб.",
   "club_user_unbanned": "",
   "club_user_unban_fail": "",
   "club_level_req_changed": "Тражени ниво за клуб је промењен на {0}",

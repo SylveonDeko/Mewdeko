@@ -1,20 +1,19 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Common.Attributes;
-using System.Threading.Tasks;
-using System;
-using Newtonsoft.Json;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.ServerManagement.Services;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Discord.Webhook;
-using Google.Apis.YouTube.v3.Data;
+using Discord.WebSocket;
 using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.ServerManagement.Services;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.ServerManagement
 {
@@ -30,7 +29,10 @@ namespace Mewdeko.Modules.ServerManagement
                 _httpFactory = httpfact;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task Nuke(ITextChannel chan3 = null)
@@ -39,15 +41,10 @@ namespace Mewdeko.Modules.ServerManagement
                 embed.Color = Mewdeko.ErrorColor;
                 embed.Description =
                     "Are you sure you want to nuke this channel? This will delete the entire channel and remake it.";
-                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
-                {
-                    return;
-                }
+                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
                 ITextChannel chan;
                 if (chan3 is null)
-                {
                     chan = ctx.Channel as ITextChannel;
-                }
                 else
                     chan = chan3;
 
@@ -65,11 +62,14 @@ namespace Mewdeko.Modules.ServerManagement
                     "https://pa1.narvii.com/6463/6494fab512c8f2ac0d652c44dae78be4cb644569_hq.gif");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Ticket()
             {
-                ulong TickChat = base.TTicketCategory;
+                var TickChat = TTicketCategory;
                 var chnls = await ctx.Guild.GetChannelsAsync();
                 if (chnls.Select(c => c.Name).Contains($"{ctx.User.Username.ToLower().Replace(" ", "-")}s-ticket"))
                 {
@@ -79,14 +79,10 @@ namespace Mewdeko.Modules.ServerManagement
 
                 ITextChannel idfk = null;
                 if (TickChat == 0)
-                {
                     idfk = await ctx.Guild.CreateTextChannelAsync($"{ctx.User.Username}s-ticket");
-                }
                 else
-                {
                     idfk = await ctx.Guild.CreateTextChannelAsync($"{ctx.User.Username}s-ticket",
                         T => { T.CategoryId = TickChat; });
-                }
 
                 await idfk.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     new OverwritePermissions(viewChannel: PermValue.Deny));
@@ -94,9 +90,7 @@ namespace Mewdeko.Modules.ServerManagement
                     new OverwritePermissions(viewChannel: PermValue.Allow));
                 var roles = ctx.Guild.Roles.Where(x => x.Permissions.ManageMessages).Where(x => x.Tags == null);
                 foreach (var i in roles)
-                {
                     await idfk.AddPermissionOverwriteAsync(i, new OverwritePermissions(viewChannel: PermValue.Allow));
-                }
 
                 var msg = await ctx.Channel.SendConfirmAsync(":tickets: Ticket created in " + idfk.Mention);
                 await ctx.Message.DeleteAsync();
@@ -106,7 +100,10 @@ namespace Mewdeko.Modules.ServerManagement
                     .WithDescription("A Moderator will be with you shortly!"));
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
@@ -115,28 +112,31 @@ namespace Mewdeko.Modules.ServerManagement
                 if (string.IsNullOrWhiteSpace(channel.Name))
                     return;
 
-                if (base.TTicketCategory == channel.Id)
+                if (TTicketCategory == channel.Id)
                 {
                     await ctx.Channel.SendErrorAsync("This is already your ticket category!");
                     return;
                 }
 
-                if (base.TTicketCategory == 0)
+                if (TTicketCategory == 0)
                 {
-                    await CmdHandler.SetTicketCategoryId(ctx.Guild, channel);
-                    var TicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(base.TTicketCategory);
+                    await _service.SetTicketCategoryId(ctx.Guild, channel);
+                    var TicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
                     await ctx.Channel.SendConfirmAsync("Your ticket category has been set to " + TicketCategory);
                     return;
                 }
 
-                var oldTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(base.TTicketCategory);
-                await CmdHandler.SetTicketCategoryId(ctx.Guild, channel);
-                var newTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(base.TTicketCategory);
+                var oldTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                await _service.SetTicketCategoryId(ctx.Guild, channel);
+                var newTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await ctx.Channel.SendConfirmAsync("Your ticket category has been changed from " + oldTicketCategory +
                                                    " to " + newTicketCategory);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
@@ -161,14 +161,10 @@ namespace Mewdeko.Modules.ServerManagement
                                 if (string.IsNullOrWhiteSpace(s.ToString()))
                                 {
                                     if (s.Attachments.Any())
-                                    {
                                         msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
-                                    }
                                     else if (s.Embeds.Any())
-                                    {
                                         msg += "EMBEDS: " + string.Join("\n--------\n",
                                             s.Embeds.Select(x => $"Description: {x.Description}"));
-                                    }
                                 }
                                 else
                                 {
@@ -185,12 +181,14 @@ namespace Mewdeko.Modules.ServerManagement
                     }
 
                     await (chn as ITextChannel).DeleteAsync();
-                    return;
                 }
             }
 
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(1)]
@@ -213,14 +211,10 @@ namespace Mewdeko.Modules.ServerManagement
                                 if (string.IsNullOrWhiteSpace(s.ToString()))
                                 {
                                     if (s.Attachments.Any())
-                                    {
                                         msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
-                                    }
                                     else if (s.Embeds.Any())
-                                    {
                                         msg += "EMBEDS: " + string.Join("\n--------\n",
                                             s.Embeds.Select(x => $"Description: {x.Description}"));
-                                    }
                                 }
                                 else
                                 {
@@ -242,11 +236,9 @@ namespace Mewdeko.Modules.ServerManagement
                             await ctx.Channel.SendErrorAsync(
                                 "It looks like your DMs are closed so I could not send the ticket log to you!");
                         }
-
                     }
 
                     await chn.DeleteAsync();
-                    return;
                 }
                 else
                 {
@@ -255,7 +247,10 @@ namespace Mewdeko.Modules.ServerManagement
             }
 
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [BotPerm(GuildPerm.ManageMessages)]
@@ -264,17 +259,16 @@ namespace Mewdeko.Modules.ServerManagement
                 if (channel == null)
                 {
                     var tch = ctx.Channel as SocketTextChannel;
-                    OverwritePermissions currentPerms = tch.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
-                                                        new OverwritePermissions();
+                    var currentPerms = tch.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
+                                       new OverwritePermissions();
                     await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                         currentPerms.Modify(sendMessages: PermValue.Deny));
                     await ctx.Channel.SendMessageAsync("<:greentick:784535639717707776> Locked down " + tch.Mention);
-
                 }
                 else
                 {
-                    OverwritePermissions currentPerms = channel.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
-                                                        new OverwritePermissions();
+                    var currentPerms = channel.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
+                                       new OverwritePermissions();
                     await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                         currentPerms.Modify(sendMessages: PermValue.Deny));
                     await ctx.Channel.SendMessageAsync("<:greentick:784535639717707776> Locked down " +
@@ -282,7 +276,10 @@ namespace Mewdeko.Modules.ServerManagement
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatAndTxtChannels(string CatName, params string[] Channels)
             {
@@ -291,11 +288,8 @@ namespace Mewdeko.Modules.ServerManagement
                 eb.WithDescription(
                     $"<a:loading:834915210967253013> Creating the Category {CatName} with {Channels.Count()} Text Channels!");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                ICategoryChannel cat = await ctx.Guild.CreateCategoryAsync(CatName);
-                foreach (var i in Channels)
-                {
-                    await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = cat.Id; });
-                }
+                var cat = await ctx.Guild.CreateCategoryAsync(CatName);
+                foreach (var i in Channels) await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = cat.Id; });
 
                 var eb2 = new EmbedBuilder();
                 eb2.WithDescription($"Created the category {CatName} with {Channels.Count()} Text Channels!");
@@ -303,14 +297,20 @@ namespace Mewdeko.Modules.ServerManagement
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task CatId(ICategoryChannel chan)
             {
                 await ctx.Channel.SendConfirmAsync(
                     $"The ID of {Format.Bold(chan.Name)} is {Format.Code(chan.Id.ToString())}");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatAndVcChannels(string CatName, params string[] Channels)
             {
@@ -319,11 +319,8 @@ namespace Mewdeko.Modules.ServerManagement
                 eb.WithDescription(
                     $"<a:loading:834915210967253013> Creating the Category {CatName} with {Channels.Count()} Voice Channels");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                ICategoryChannel cat = await ctx.Guild.CreateCategoryAsync(CatName);
-                foreach (var i in Channels)
-                {
-                    await ctx.Guild.CreateVoiceChannelAsync(i, x => { x.CategoryId = cat.Id; });
-                }
+                var cat = await ctx.Guild.CreateCategoryAsync(CatName);
+                foreach (var i in Channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => { x.CategoryId = cat.Id; });
 
                 var eb2 = new EmbedBuilder();
                 eb2.WithDescription($"Created the category {CatName} with {Channels.Count()} Voice Channels!");
@@ -331,7 +328,10 @@ namespace Mewdeko.Modules.ServerManagement
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatVcChans(ICategoryChannel chan, params string[] Channels)
             {
@@ -341,9 +341,7 @@ namespace Mewdeko.Modules.ServerManagement
                     $"<a:loading:834915210967253013> Adding {Channels.Length} Voice Channels to {chan.Name}");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 foreach (var i in Channels)
-                {
                     await ctx.Guild.CreateVoiceChannelAsync(i, x => { x.CategoryId = chan.Id; });
-                }
 
                 var eb2 = new EmbedBuilder();
                 eb2.WithDescription($"Added {Channels.Length} Voice Channels to {chan.Name}!");
@@ -351,7 +349,10 @@ namespace Mewdeko.Modules.ServerManagement
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] Channels)
             {
@@ -360,10 +361,7 @@ namespace Mewdeko.Modules.ServerManagement
                 eb.WithDescription(
                     $"<a:loading:834915210967253013> Adding {Channels.Length} Text Channels to {chan.Name}");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                foreach (var i in Channels)
-                {
-                    await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = chan.Id; });
-                }
+                foreach (var i in Channels) await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = chan.Id; });
 
                 var eb2 = new EmbedBuilder();
                 eb2.WithDescription($"Added {Channels.Length} Text Channels to {chan.Name}!");
@@ -371,7 +369,10 @@ namespace Mewdeko.Modules.ServerManagement
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [BotPerm(GuildPerm.ManageMessages)]
@@ -380,23 +381,26 @@ namespace Mewdeko.Modules.ServerManagement
                 if (channel == null)
                 {
                     var tch = ctx.Channel as SocketTextChannel;
-                    OverwritePermissions currentPerms = tch.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
-                                                        new OverwritePermissions();
+                    var currentPerms = tch.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
+                                       new OverwritePermissions();
                     await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                         currentPerms.Modify(sendMessages: PermValue.Inherit));
                     await ctx.Channel.SendMessageAsync("<:greentick:784535639717707776> Unlocked " + tch.Mention);
                 }
                 else
                 {
-                    OverwritePermissions currentPerms = channel.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
-                                                        new OverwritePermissions();
+                    var currentPerms = channel.GetPermissionOverwrite(ctx.Guild.EveryoneRole) ??
+                                       new OverwritePermissions();
                     await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                         currentPerms.Modify(sendMessages: PermValue.Inherit));
                     await ctx.Channel.SendMessageAsync("<:greentick:784535639717707776> Unlocked " + channel.Mention);
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageChannels)]
             [Priority(0)]
@@ -412,14 +416,22 @@ namespace Mewdeko.Modules.ServerManagement
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageChannels)]
             [Priority(1)]
             public async Task Slowmode(int interval)
-                => await Slowmode(interval, (ITextChannel) ctx.Channel);
+            {
+                await Slowmode(interval, (ITextChannel) ctx.Channel);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageChannels)]
             [Priority(2)]
@@ -431,14 +443,22 @@ namespace Mewdeko.Modules.ServerManagement
                     await Slowmode(60, channel);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageChannels)]
             [Priority(4)]
             public async Task Slowmode()
-                => await Slowmode((ITextChannel) ctx.Channel);
+            {
+                await Slowmode((ITextChannel) ctx.Channel);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
             public async Task Webhook(ITextChannel Channel, string name, string imageurl)
@@ -466,20 +486,19 @@ namespace Mewdeko.Modules.ServerManagement
                         var webhooks = await Channel.GetWebhooksAsync();
                         DiscordWebhookClient web = null;
                         if (webhooks.FirstOrDefault(x => x.Name == name) is null)
-                        {
                             web = new DiscordWebhookClient(await Channel.CreateWebhookAsync(name, imgStream));
-                        }
                         else
-                        {
                             web = new DiscordWebhookClient(webhooks.FirstOrDefault(x => x.Name == name));
-                        }
 
                         await web.SendMessageAsync(embeds: embeds);
                     }
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
             public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
@@ -490,7 +509,7 @@ namespace Mewdeko.Modules.ServerManagement
                 {
                     var ur = new Uri(i);
                     var e = ur.Segments;
-                    WebClient wb = new WebClient();
+                    var wb = new WebClient();
                     var Download = wb.DownloadString($"https://pastebin.com/raw/{e[1]}");
                     CREmbed.TryParse(Download, out var embedData);
                     embeds.Add(embedData.ToEmbed().Build());
@@ -507,13 +526,9 @@ namespace Mewdeko.Modules.ServerManagement
                         var webhooks = await Channel.GetWebhooksAsync();
                         DiscordWebhookClient web = null;
                         if (webhooks.FirstOrDefault(x => x.Name == name) is null)
-                        {
                             web = new DiscordWebhookClient(await Channel.CreateWebhookAsync(name, imgStream));
-                        }
                         else
-                        {
                             web = new DiscordWebhookClient(webhooks.FirstOrDefault(x => x.Name == name));
-                        }
 
                         await web.SendMessageAsync(embeds: embeds);
                     }

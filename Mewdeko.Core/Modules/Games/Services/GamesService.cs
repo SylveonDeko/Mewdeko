@@ -1,4 +1,13 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord;
 using Mewdeko.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Impl;
@@ -10,64 +19,23 @@ using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
 using NLog;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games.Services
 {
     public class GamesService : INService, IUnloadableService
     {
         private readonly IBotConfigProvider _bc;
-
-        public ConcurrentDictionary<ulong, GirlRating> GirlRatings { get; } = new ConcurrentDictionary<ulong, GirlRating>();
-
-        public ImmutableArray<string> EightBallResponses { get; }
-
-        private readonly Timer _t;
         private readonly CommandHandler _cmd;
-        private readonly IBotStrings _strings;
-        private readonly IImageCache _images;
-        private readonly Logger _log;
-        private readonly MewdekoRandom _rng;
+        private readonly CommandHandler _cmdHandler;
         private readonly ICurrencyService _cs;
         private readonly FontProvider _fonts;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly IImageCache _images;
+        private readonly Logger _log;
+        private readonly MewdekoRandom _rng;
+        private readonly IBotStrings _strings;
 
-        public string TypingArticlesPath { get; } = "data/typing_articles3.json";
-        private readonly CommandHandler _cmdHandler;
-
-        public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
-
-        //channelId, game
-        public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, AcrophobiaGame>();
-
-        public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
-        public TermPool TermPool { get; } = new TermPool();
-
-        public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
-        public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new Dictionary<ulong, TicTacToe>();
-        public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new ConcurrentDictionary<ulong, TypingGame>();
-        public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new ConcurrentDictionary<ulong, NunchiGame>();
-
-        public AsyncLazy<RatingTexts> Ratings { get; }
-
-        public class RatingTexts
-        {
-            public string Nog { get; set; }
-            public string Tra { get; set; }
-            public string Fun { get; set; }
-            public string Uni { get; set; }
-            public string Wif { get; set; }
-            public string Dat { get; set; }
-            public string Dan { get; set; }
-        }
+        private readonly Timer _t;
 
         public GamesService(CommandHandler cmd, IBotConfigProvider bc, Mewdeko bot,
             IBotStrings strings, IDataCache data, CommandHandler cmdHandler,
@@ -90,15 +58,12 @@ namespace Mewdeko.Modules.Games.Services
             EightBallResponses = _bc.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
 
             //girl ratings
-            _t = new Timer((_) =>
-            {
-                GirlRatings.Clear();
-
-            }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
+            _t = new Timer(_ => { GirlRatings.Clear(); }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
 
             try
             {
-                TypingArticles = JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TypingArticlesPath));
+                TypingArticles =
+                    JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TypingArticlesPath));
             }
             catch (Exception ex)
             {
@@ -107,14 +72,27 @@ namespace Mewdeko.Modules.Games.Services
             }
         }
 
-        private async Task<RatingTexts> GetRatingTexts()
-        {
-            using (var http = _httpFactory.CreateClient())
-            {
-                var text = await http.GetStringAsync("https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
-                return JsonConvert.DeserializeObject<RatingTexts>(text);
-            }
-        }
+        public ConcurrentDictionary<ulong, GirlRating> GirlRatings { get; } = new();
+
+        public ImmutableArray<string> EightBallResponses { get; }
+
+        public string TypingArticlesPath { get; } = "data/typing_articles3.json";
+
+        public List<TypingArticle> TypingArticles { get; } = new();
+
+        //channelId, game
+        public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new();
+
+        public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new();
+        public TermPool TermPool { get; } = new();
+
+        public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new();
+        public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new();
+        public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new();
+        public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new();
+
+        public AsyncLazy<RatingTexts> Ratings { get; }
+        private ConcurrentDictionary<ulong, object> _locks { get; } = new();
 
         public async Task Unload()
         {
@@ -136,6 +114,16 @@ namespace Mewdeko.Modules.Games.Services
             NunchiGames.Clear();
         }
 
+        private async Task<RatingTexts> GetRatingTexts()
+        {
+            using (var http = _httpFactory.CreateClient())
+            {
+                var text = await http.GetStringAsync(
+                    "https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
+                return JsonConvert.DeserializeObject<RatingTexts>(text);
+            }
+        }
+
         private void DisposeElems(IEnumerable<IDisposable> xs)
         {
             xs.ForEach(x => x.Dispose());
@@ -147,14 +135,26 @@ namespace Mewdeko.Modules.Games.Services
             {
                 Source = user.ToString(),
                 Extra = $"Text added on {DateTime.UtcNow} by {user}.",
-                Text = text.SanitizeMentions(true),
+                Text = text.SanitizeMentions(true)
             });
 
             File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
         }
-        private ConcurrentDictionary<ulong, object> _locks { get; } = new ConcurrentDictionary<ulong, object>();
 
         private string GetText(ITextChannel ch, string key, params object[] rep)
-            => _strings.GetText(key, ch.GuildId, rep);
+        {
+            return _strings.GetText(key, ch.GuildId, rep);
+        }
+
+        public class RatingTexts
+        {
+            public string Nog { get; set; }
+            public string Tra { get; set; }
+            public string Fun { get; set; }
+            public string Uni { get; set; }
+            public string Wif { get; set; }
+            public string Dat { get; set; }
+            public string Dan { get; set; }
+        }
     }
 }

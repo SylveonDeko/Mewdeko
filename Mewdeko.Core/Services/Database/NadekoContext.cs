@@ -1,14 +1,13 @@
-﻿using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Core.Services.Impl;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Core.Services.Impl;
+using Mewdeko.Extensions;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Mewdeko.Core.Services.Database
 {
@@ -30,6 +29,10 @@ namespace Mewdeko.Core.Services.Database
 
     public class MewdekoContext : DbContext
     {
+        public MewdekoContext(DbContextOptions<MewdekoContext> options) : base(options)
+        {
+        }
+
         public DbSet<BotConfig> BotConfig { get; set; }
         public DbSet<GuildConfig> GuildConfigs { get; set; }
         public DbSet<Suggestions> Suggestions { get; set; }
@@ -62,10 +65,6 @@ namespace Mewdeko.Core.Services.Database
         public DbSet<BanTemplate> BanTemplates { get; set; }
         public DbSet<DiscordPermOverride> DiscordPermOverrides { get; set; }
 
-        public MewdekoContext(DbContextOptions<MewdekoContext> options) : base(options)
-        {
-        }
-
         public void EnsureSeedData()
         {
             if (!BotConfig.Any())
@@ -74,45 +73,45 @@ namespace Mewdeko.Core.Services.Database
 
                 bc.RaceAnimals.AddRange(new HashSet<RaceAnimal>
                 {
-                    new RaceAnimal { Icon = "🐼", Name = "Panda" },
-                    new RaceAnimal { Icon = "🐻", Name = "Bear" },
-                    new RaceAnimal { Icon = "🐧", Name = "Pengu" },
-                    new RaceAnimal { Icon = "🐨", Name = "Koala" },
-                    new RaceAnimal { Icon = "🐬", Name = "Dolphin" },
-                    new RaceAnimal { Icon = "🐞", Name = "Ladybird" },
-                    new RaceAnimal { Icon = "🦀", Name = "Crab" },
-                    new RaceAnimal { Icon = "🦄", Name = "Unicorn" }
+                    new() {Icon = "🐼", Name = "Panda"},
+                    new() {Icon = "🐻", Name = "Bear"},
+                    new() {Icon = "🐧", Name = "Pengu"},
+                    new() {Icon = "🐨", Name = "Koala"},
+                    new() {Icon = "🐬", Name = "Dolphin"},
+                    new() {Icon = "🐞", Name = "Ladybird"},
+                    new() {Icon = "🦀", Name = "Crab"},
+                    new() {Icon = "🦄", Name = "Unicorn"}
                 });
                 bc.EightBallResponses.AddRange(new HashSet<EightBallResponse>
                 {
-                    new EightBallResponse() { Text = "Most definitely yes" },
-                    new EightBallResponse() { Text = "For sure" },
-                    new EightBallResponse() { Text = "Totally!" },
-                    new EightBallResponse() { Text = "Of course!" },
-                    new EightBallResponse() { Text = "As I see it, yes" },
-                    new EightBallResponse() { Text = "My sources say yes" },
-                    new EightBallResponse() { Text = "Yes" },
-                    new EightBallResponse() { Text = "Most likely" },
-                    new EightBallResponse() { Text = "Perhaps" },
-                    new EightBallResponse() { Text = "Maybe" },
-                    new EightBallResponse() { Text = "Not sure" },
-                    new EightBallResponse() { Text = "It is uncertain" },
-                    new EightBallResponse() { Text = "Ask me again later" },
-                    new EightBallResponse() { Text = "Don't count on it" },
-                    new EightBallResponse() { Text = "Probably not" },
-                    new EightBallResponse() { Text = "Very doubtful" },
-                    new EightBallResponse() { Text = "Most likely no" },
-                    new EightBallResponse() { Text = "Nope" },
-                    new EightBallResponse() { Text = "No" },
-                    new EightBallResponse() { Text = "My sources say no" },
-                    new EightBallResponse() { Text = "Dont even think about it" },
-                    new EightBallResponse() { Text = "Definitely no" },
-                    new EightBallResponse() { Text = "NO - It may cause disease contraction" }
+                    new() {Text = "Most definitely yes"},
+                    new() {Text = "For sure"},
+                    new() {Text = "Totally!"},
+                    new() {Text = "Of course!"},
+                    new() {Text = "As I see it, yes"},
+                    new() {Text = "My sources say yes"},
+                    new() {Text = "Yes"},
+                    new() {Text = "Most likely"},
+                    new() {Text = "Perhaps"},
+                    new() {Text = "Maybe"},
+                    new() {Text = "Not sure"},
+                    new() {Text = "It is uncertain"},
+                    new() {Text = "Ask me again later"},
+                    new() {Text = "Don't count on it"},
+                    new() {Text = "Probably not"},
+                    new() {Text = "Very doubtful"},
+                    new() {Text = "Most likely no"},
+                    new() {Text = "Nope"},
+                    new() {Text = "No"},
+                    new() {Text = "My sources say no"},
+                    new() {Text = "Dont even think about it"},
+                    new() {Text = "Definitely no"},
+                    new() {Text = "NO - It may cause disease contraction"}
                 });
 
                 BotConfig.Add(bc);
 
-                this.SaveChanges();
+                SaveChanges();
             }
         }
 
@@ -142,7 +141,7 @@ namespace Mewdeko.Core.Services.Database
                 .WithOne(x => x.AntiRaidSetting);
 
             modelBuilder.Entity<FeedSub>()
-                .HasAlternateKey(x => new { x.GuildConfigId, x.Url });
+                .HasAlternateKey(x => new {x.GuildConfigId, x.Url});
 
             modelBuilder.Entity<PlantedCurrency>()
                 .HasIndex(x => x.MessageId)
@@ -157,12 +156,15 @@ namespace Mewdeko.Core.Services.Database
             #endregion
 
             #region streamrole
+
             modelBuilder.Entity<StreamRoleSettings>()
                 .HasOne(x => x.GuildConfig)
                 .WithOne(x => x.StreamRole);
+
             #endregion
 
             #region BotConfig
+
             var botConfigEntity = modelBuilder.Entity<BotConfig>();
 
             botConfigEntity.Property(x => x.XpMinutesTimeout)
@@ -199,7 +201,7 @@ namespace Mewdeko.Core.Services.Database
             var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
 
             selfassignableRolesEntity
-                .HasIndex(s => new { s.GuildId, s.RoleId })
+                .HasIndex(s => new {s.GuildId, s.RoleId})
                 .IsUnique();
 
             selfassignableRolesEntity
@@ -209,21 +211,23 @@ namespace Mewdeko.Core.Services.Database
             #endregion
 
             #region Permission
+
             var permissionEntity = modelBuilder.Entity<Permission>();
             permissionEntity
                 .HasOne(p => p.Next)
                 .WithOne(p => p.Previous)
                 .IsRequired(false);
+
             #endregion
 
             #region MusicPlaylists
+
             var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
 
             musicPlaylistEntity
                 .HasMany(p => p.Songs)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
-
 
             #endregion
 
@@ -237,6 +241,7 @@ namespace Mewdeko.Core.Services.Database
             wi.HasIndex(x => x.ClaimerId);
 
             var wu = modelBuilder.Entity<WaifuUpdate>();
+
             #endregion
 
             #region DiscordUser
@@ -244,8 +249,8 @@ namespace Mewdeko.Core.Services.Database
             var du = modelBuilder.Entity<DiscordUser>();
             du.HasAlternateKey(w => w.UserId);
             du.HasOne(x => x.Club)
-               .WithMany(x => x.Users)
-               .IsRequired(false);
+                .WithMany(x => x.Users)
+                .IsRequired(false);
 
             du.Property(x => x.LastLevelUp)
                 .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 305, DateTimeKind.Local));
@@ -254,26 +259,30 @@ namespace Mewdeko.Core.Services.Database
             du.HasIndex(x => x.CurrencyAmount);
             du.HasIndex(x => x.UserId);
 
-
             #endregion
 
             #region Warnings
+
             var warn = modelBuilder.Entity<Warning>();
             warn.HasIndex(x => x.GuildId);
             warn.HasIndex(x => x.UserId);
             warn.HasIndex(x => x.DateAdded);
+
             #endregion
 
             #region PatreonRewards
+
             var pr = modelBuilder.Entity<RewardedUser>();
             pr.HasIndex(x => x.PatreonUserId)
                 .IsUnique();
+
             #endregion
 
             #region XpStats
+
             var xps = modelBuilder.Entity<UserXpStats>();
             xps
-                .HasIndex(x => new { x.UserId, x.GuildId })
+                .HasIndex(x => new {x.UserId, x.GuildId})
                 .IsUnique();
 
             xps
@@ -288,31 +297,37 @@ namespace Mewdeko.Core.Services.Database
             #endregion
 
             #region XpSettings
+
             modelBuilder.Entity<XpSettings>()
                 .HasOne(x => x.GuildConfig)
                 .WithOne(x => x.XpSettings);
+
             #endregion
 
             #region XpRoleReward
+
             modelBuilder.Entity<XpRoleReward>()
-                .HasIndex(x => new { x.XpSettingsId, x.Level })
+                .HasIndex(x => new {x.XpSettingsId, x.Level})
                 .IsUnique();
+
             #endregion
 
             #region Club
+
             var ci = modelBuilder.Entity<ClubInfo>();
             ci.HasOne(x => x.Owner)
-              .WithOne()
-              .HasForeignKey<ClubInfo>(x => x.OwnerId);
+                .WithOne()
+                .HasForeignKey<ClubInfo>(x => x.OwnerId);
 
 
-            ci.HasAlternateKey(x => new { x.Name, x.Discrim });
+            ci.HasAlternateKey(x => new {x.Name, x.Discrim});
+
             #endregion
 
             #region ClubManytoMany
 
             modelBuilder.Entity<ClubApplicants>()
-                .HasKey(t => new { t.ClubId, t.UserId });
+                .HasKey(t => new {t.ClubId, t.UserId});
 
             modelBuilder.Entity<ClubApplicants>()
                 .HasOne(pt => pt.User)
@@ -323,7 +338,7 @@ namespace Mewdeko.Core.Services.Database
                 .WithMany(x => x.Applicants);
 
             modelBuilder.Entity<ClubBans>()
-                .HasKey(t => new { t.ClubId, t.UserId });
+                .HasKey(t => new {t.ClubId, t.UserId});
 
             modelBuilder.Entity<ClubBans>()
                 .HasOne(pt => pt.User)
@@ -336,33 +351,41 @@ namespace Mewdeko.Core.Services.Database
             #endregion
 
             #region Polls
+
             modelBuilder.Entity<Poll>()
                 .HasIndex(x => x.GuildId)
                 .IsUnique();
+
             #endregion
 
             #region CurrencyTransactions
+
             modelBuilder.Entity<CurrencyTransaction>()
                 .HasIndex(x => x.UserId)
                 .IsUnique(false);
+
             #endregion
 
             #region Reminders
+
             modelBuilder.Entity<Reminder>()
                 .HasIndex(x => x.When);
+
             #endregion
 
-            #region  GroupName
+            #region GroupName
+
             modelBuilder.Entity<GroupName>()
-                .HasIndex(x => new { x.GuildConfigId, x.Number })
+                .HasIndex(x => new {x.GuildConfigId, x.Number})
                 .IsUnique();
 
             modelBuilder.Entity<GroupName>()
                 .HasOne(x => x.GuildConfig)
                 .WithMany(x => x.SelfAssignableRoleGroupNames)
                 .IsRequired();
+
             #endregion
-            
+
             #region BanTemplate
 
             modelBuilder.Entity<BanTemplate>()
@@ -370,7 +393,7 @@ namespace Mewdeko.Core.Services.Database
                 .IsUnique();
 
             #endregion
-            
+
             #region Perm Override
 
             modelBuilder.Entity<DiscordPermOverride>()
@@ -378,7 +401,7 @@ namespace Mewdeko.Core.Services.Database
                 .IsUnique();
 
             #endregion
-            
+
             #region BotConfigMigrations
 
             var bcEntity = modelBuilder.Entity<BotConfig>();

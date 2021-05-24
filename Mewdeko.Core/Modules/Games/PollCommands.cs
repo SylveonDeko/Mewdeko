@@ -1,13 +1,13 @@
-﻿using Discord;
+﻿using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
-using System.Threading.Tasks;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Modules.Games.Services;
 using Mewdeko.Core.Services.Database.Models;
-using System.Text;
-using System.Linq;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Games.Services;
 
 namespace Mewdeko.Modules.Games
 {
@@ -23,7 +23,10 @@ namespace Mewdeko.Modules.Games
                 _client = client;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Poll([Leftover] string arg)
@@ -33,30 +36,30 @@ namespace Mewdeko.Modules.Games
 
                 var poll = _service.CreatePoll(ctx.Guild.Id,
                     ctx.Channel.Id, arg);
-                if(poll == null)
+                if (poll == null)
                 {
                     await ReplyErrorLocalizedAsync("poll_invalid_input").ConfigureAwait(false);
                     return;
                 }
+
                 if (_service.StartPoll(poll))
-                {
                     await ctx.Channel
                         .EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
                             .WithTitle(GetText("poll_created", ctx.User.ToString()))
                             .WithDescription(
                                 Format.Bold(poll.Question) + "\n\n" +
-                            string.Join("\n", poll.Answers
-                                .Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))))
+                                string.Join("\n", poll.Answers
+                                    .Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))))
                         .ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyErrorLocalizedAsync("poll_already_running").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task PollStats()
@@ -67,12 +70,15 @@ namespace Mewdeko.Modules.Games
                 await ctx.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results"))).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [UserPerm(GuildPerm.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Pollend()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 Poll p;
                 if ((p = _service.StopPoll(ctx.Guild.Id)) == null)
@@ -86,7 +92,7 @@ namespace Mewdeko.Modules.Games
             public EmbedBuilder GetStats(Poll poll, string title)
             {
                 var results = poll.Votes.GroupBy(kvp => kvp.VoteIndex)
-                                    .ToDictionary(x => x.Key, x => x.Sum(kvp => 1));
+                    .ToDictionary(x => x.Key, x => x.Sum(kvp => 1));
 
                 var totalVotesCast = results.Sum(x => x.Value);
 
@@ -106,7 +112,7 @@ namespace Mewdeko.Modules.Games
                     .OrderByDescending(x => x.votes)
                     .ToArray();
 
-                for (int i = 0; i < stats.Length; i++)
+                for (var i = 0; i < stats.Length; i++)
                 {
                     var (Index, votes, Text) = stats[i];
                     sb.AppendLine(GetText("poll_result",

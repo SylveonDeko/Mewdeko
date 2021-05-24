@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -20,11 +21,12 @@ namespace Mewdeko.Core.Services.Impl
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
 
-            string response = "";
+            var response = "";
 
             using (var http = _httpFactory.CreateClient())
             {
-                response = await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={url}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={url}")
+                    .ConfigureAwait(false);
             }
 
 
@@ -35,8 +37,10 @@ namespace Mewdeko.Core.Services.Impl
             return responseObj;
         }
 
-        public bool IsSoundCloudLink(string url) =>
-            System.Text.RegularExpressions.Regex.IsMatch(url, "(.*)(soundcloud.com|snd.sc)(.*)");
+        public bool IsSoundCloudLink(string url)
+        {
+            return Regex.IsMatch(url, "(.*)(soundcloud.com|snd.sc)(.*)");
+        }
 
         public async Task<SoundCloudVideo> GetVideoByQueryAsync(string query)
         {
@@ -46,10 +50,13 @@ namespace Mewdeko.Core.Services.Impl
             var response = "";
             using (var http = _httpFactory.CreateClient())
             {
-                response = await http.GetStringAsync(new Uri($"https://scapi.Mewdeko.bot/tracks?q={Uri.EscapeDataString(query)}")).ConfigureAwait(false);
+                response = await http
+                    .GetStringAsync(new Uri($"https://scapi.Mewdeko.bot/tracks?q={Uri.EscapeDataString(query)}"))
+                    .ConfigureAwait(false);
             }
 
-            var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response).Where(s => s.Streamable is true).FirstOrDefault();
+            var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response)
+                .Where(s => s.Streamable is true).FirstOrDefault();
             if (responseObj?.Kind != "track")
                 throw new InvalidOperationException("Query yielded no results.");
 
@@ -61,16 +68,18 @@ namespace Mewdeko.Core.Services.Impl
     {
         public string Kind { get; set; } = "";
         public long Id { get; set; } = 0;
-        public SoundCloudUser User { get; set; } = new SoundCloudUser();
+        public SoundCloudUser User { get; set; } = new();
         public string Title { get; set; } = "";
-        [JsonIgnore]
-        public string FullName => User.Name + " - " + Title;
+
+        [JsonIgnore] public string FullName => User.Name + " - " + Title;
+
         public bool? Streamable { get; set; } = false;
         public int Duration { get; set; }
-        [JsonProperty("permalink_url")]
-        public string TrackLink { get; set; } = "";
-        [JsonProperty("artwork_url")]
-        public string ArtworkUrl { get; set; } = "";
+
+        [JsonProperty("permalink_url")] public string TrackLink { get; set; } = "";
+
+        [JsonProperty("artwork_url")] public string ArtworkUrl { get; set; } = "";
+
         public async Task<string> StreamLink()
         {
             using (var http = new HttpClient())
@@ -80,10 +89,10 @@ namespace Mewdeko.Core.Services.Impl
             }
         }
     }
+
     public class SoundCloudUser
     {
-        [JsonProperty("username")]
-        public string Name { get; set; }
+        [JsonProperty("username")] public string Name { get; set; }
     }
     /*
     {"kind":"track",
@@ -141,5 +150,4 @@ namespace Mewdeko.Core.Services.Impl
     "attachments_uri":"https://api.soundcloud.com/tracks/238888167/attachments"}
 
     */
-
 }

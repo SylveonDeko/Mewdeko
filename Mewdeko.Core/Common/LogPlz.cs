@@ -1,6 +1,6 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Diagnostics;
+using NLog;
 
 namespace Mewdeko.Core.Common
 {
@@ -9,7 +9,7 @@ namespace Mewdeko.Core.Common
         private readonly Logger _log;
         private readonly Stopwatch _sw;
         private TimeSpan _lastLap;
-        private int count = 0;
+        private int count;
 
         private LogPlz()
         {
@@ -18,7 +18,11 @@ namespace Mewdeko.Core.Common
             _lastLap = TimeSpan.Zero;
         }
 
-        public static LogPlz Go() => new LogPlz();
+        public static LogPlz Go()
+        {
+            return new();
+        }
+
         public void Lap()
         {
             var cur = _sw.Elapsed;
@@ -27,6 +31,7 @@ namespace Mewdeko.Core.Common
 
             Print((++count).ToString(), sinceLast);
         }
+
         public void End()
         {
             _sw.Stop();

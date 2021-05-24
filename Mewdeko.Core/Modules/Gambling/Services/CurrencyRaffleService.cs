@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Modules.Gambling.Common;
-using System.Threading;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Discord;
-using System;
+using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Services;
 
 namespace Mewdeko.Core.Modules.Gambling.Services
 {
@@ -16,11 +16,10 @@ namespace Mewdeko.Core.Modules.Gambling.Services
             NotEnoughCurrency,
             AlreadyJoinedOrInvalidAmount
         }
-        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
-        private readonly DbService _db;
-        private readonly ICurrencyService _cs;
 
-        public Dictionary<ulong, CurrencyRaffleGame> Games { get; } = new Dictionary<ulong, CurrencyRaffleGame>();
+        private readonly ICurrencyService _cs;
+        private readonly DbService _db;
+        private readonly SemaphoreSlim _locker = new(1, 1);
 
         public CurrencyRaffleService(DbService db, ICurrencyService cs)
         {
@@ -28,7 +27,10 @@ namespace Mewdeko.Core.Modules.Gambling.Services
             _cs = cs;
         }
 
-        public async Task<(CurrencyRaffleGame, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user, long amount, bool mixed, Func<IUser, long, Task> onEnded)
+        public Dictionary<ulong, CurrencyRaffleGame> Games { get; } = new();
+
+        public async Task<(CurrencyRaffleGame, JoinErrorType?)> JoinOrCreateGame(ulong channelId, IUser user,
+            long amount, bool mixed, Func<IUser, long, Task> onEnded)
         {
             await _locker.WaitAsync().ConfigureAwait(false);
             try
@@ -57,6 +59,7 @@ namespace Mewdeko.Core.Modules.Gambling.Services
                     await _cs.AddAsync(user.Id, "Curency Raffle Refund", amount).ConfigureAwait(false);
                     return (null, JoinErrorType.AlreadyJoinedOrInvalidAmount);
                 }
+
                 if (newGame)
                 {
                     var _t = Task.Run(async () =>
@@ -73,10 +76,16 @@ namespace Mewdeko.Core.Modules.Gambling.Services
                             Games.Remove(channelId, out _);
                             var oe = onEnded(winner.DiscordUser, won);
                         }
-                        catch { }
-                        finally { _locker.Release(); }
+                        catch
+                        {
+                        }
+                        finally
+                        {
+                            _locker.Release();
+                        }
                     });
                 }
+
                 return (crg, null);
             }
             finally

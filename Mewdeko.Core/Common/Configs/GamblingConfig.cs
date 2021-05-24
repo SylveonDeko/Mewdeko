@@ -6,6 +6,85 @@ namespace Mewdeko.Core.Common.Configs
 {
     public class GamblingConfig
     {
+        public GamblingConfig()
+        {
+            BetRoll = new BetRollConfig
+            {
+                Pairs = new[]
+                {
+                    new(99, 10),
+                    new BetRollConfig.Pair(90, 4),
+                    new BetRollConfig.Pair(66, 2)
+                }
+            };
+
+            WheelOfFortune = new WheelOfFortuneSettings
+            {
+                Multipliers = new[]
+                {
+                    1.7f,
+                    1.5f,
+                    0.2f,
+                    0.1f,
+                    0.3f,
+                    0.5f,
+                    1.2f,
+                    2.4f
+                }
+            };
+
+            Waifu = new WaifuConfig
+            {
+                Items = new List<WaifuItem>
+                {
+                    new("🥔", 5, "Potato"),
+                    new("🍪", 10, "Cookie"),
+                    new("🥖", 20, "Bread"),
+                    new("🍭", 30, "Lollipop"),
+                    new("🌹", 50, "Rose"),
+                    new("🍺", 70, "Beer"),
+                    new("🌮", 85, "Taco"),
+                    new("💌", 100, "LoveLetter"),
+                    new("🥛", 125, "Milk"),
+                    new("🍕", 150, "Pizza"),
+                    new("🍫", 200, "Chocolate"),
+                    new("🍦", 250, "Icecream"),
+                    new("🍣", 300, "Sushi"),
+                    new("🍚", 400, "Rice"),
+                    new("🍉", 500, "Watermelon"),
+                    new("🍱", 600, "Bento"),
+                    new("🎟", 800, "MovieTicket"),
+                    new("🍰", 1000, "Cake"),
+                    new("📔", 1500, "Book"),
+                    new("🐱", 2000, "Cat"),
+                    new("🐶", 2001, "Dog"),
+                    new("🐼", 2500, "Panda"),
+                    new("💄", 3000, "Lipstick"),
+                    new("👛", 3500, "Purse"),
+                    new("📱", 4000, "iPhone"),
+                    new("👗", 4500, "Dress"),
+                    new("💻", 5000, "Laptop"),
+                    new("🎻", 7500, "Violin"),
+                    new("🎹", 8000, "Piano"),
+                    new("🚗", 9000, "Car"),
+                    new("💍", 10000, "Ring"),
+                    new("🛳", 12000, "Ship"),
+                    new("🏠", 15000, "House"),
+                    new("🚁", 20000, "Helicopter"),
+                    new("🚀", 30000, "Spaceship"),
+                    new("🌕", 50000, "Moon")
+                }
+            };
+
+            Currency = new CurrencyConfig();
+            MinBet = 0;
+            MaxBet = 0;
+            Multipliers = new MultiplierConfig();
+            Generation = new GenerationConfig();
+            Timely = new TimelyConfig();
+            // Decay = new DecayConfig();
+        }
+
         [YamlMember(Description = @"Currency settings")]
         public CurrencyConfig Currency { get; set; }
 
@@ -21,7 +100,8 @@ namespace Mewdeko.Core.Common.Configs
         [YamlMember(Description = @"Automatic currency generation settings.")]
         public GenerationConfig Generation { get; set; }
 
-        [YamlMember(Description = @"Settings for timely command. (letting people claim X amount of currency every Y hours)")]
+        [YamlMember(Description =
+            @"Settings for timely command. (letting people claim X amount of currency every Y hours)")]
         public TimelyConfig Timely { get; set; }
 
         // // todo FUTURE decay
@@ -36,86 +116,6 @@ namespace Mewdeko.Core.Common.Configs
 
         [YamlMember(Description = @"Settings related to waifus")]
         public WaifuConfig Waifu { get; set; }
-        
-        
-        public GamblingConfig()
-        {
-            this.BetRoll = new BetRollConfig()
-            {
-                Pairs = new BetRollConfig.Pair[]
-                {
-                    new BetRollConfig.Pair(99, 10),
-                    new BetRollConfig.Pair(90, 4),
-                    new BetRollConfig.Pair(66, 2)
-                }
-            };
-
-            this.WheelOfFortune = new WheelOfFortuneSettings
-            {
-                Multipliers = new float[]
-                {
-                    1.7f,
-                    1.5f,
-                    0.2f,
-                    0.1f,
-                    0.3f,
-                    0.5f,
-                    1.2f,
-                    2.4f,
-                }
-            };
-
-            this.Waifu = new WaifuConfig
-            {
-                Items = new List<WaifuItem>()
-                {
-                    new WaifuItem("🥔", 5, "Potato"),
-                    new WaifuItem("🍪", 10, "Cookie"),
-                    new WaifuItem("🥖", 20, "Bread"),
-                    new WaifuItem("🍭", 30, "Lollipop"),
-                    new WaifuItem("🌹", 50, "Rose"),
-                    new WaifuItem("🍺", 70, "Beer"),
-                    new WaifuItem("🌮", 85, "Taco"),
-                    new WaifuItem("💌", 100, "LoveLetter"),
-                    new WaifuItem("🥛", 125, "Milk"),
-                    new WaifuItem("🍕", 150, "Pizza"),
-                    new WaifuItem("🍫", 200, "Chocolate"),
-                    new WaifuItem("🍦", 250, "Icecream"),
-                    new WaifuItem("🍣", 300, "Sushi"),
-                    new WaifuItem("🍚", 400, "Rice"),
-                    new WaifuItem("🍉", 500, "Watermelon"),
-                    new WaifuItem("🍱", 600, "Bento"),
-                    new WaifuItem("🎟", 800, "MovieTicket"),
-                    new WaifuItem("🍰", 1000, "Cake"),
-                    new WaifuItem("📔", 1500, "Book"),
-                    new WaifuItem("🐱", 2000, "Cat"),
-                    new WaifuItem("🐶", 2001, "Dog"),
-                    new WaifuItem("🐼", 2500, "Panda"),
-                    new WaifuItem("💄", 3000, "Lipstick"),
-                    new WaifuItem("👛", 3500, "Purse"),
-                    new WaifuItem("📱", 4000, "iPhone"),
-                    new WaifuItem("👗", 4500, "Dress"),
-                    new WaifuItem("💻", 5000, "Laptop"),
-                    new WaifuItem("🎻", 7500, "Violin"),
-                    new WaifuItem("🎹", 8000, "Piano"),
-                    new WaifuItem("🚗", 9000, "Car"),
-                    new WaifuItem("💍", 10000, "Ring"),
-                    new WaifuItem("🛳", 12000, "Ship"),
-                    new WaifuItem("🏠", 15000, "House"),
-                    new WaifuItem("🚁", 20000, "Helicopter"),
-                    new WaifuItem("🚀", 30000, "Spaceship"),
-                    new WaifuItem("🌕", 50000, "Moon")
-                }
-            };
-
-            Currency = new CurrencyConfig();
-            MinBet = 0;
-            MaxBet = 0;
-            Multipliers = new MultiplierConfig();
-            Generation = new GenerationConfig();
-            Timely = new TimelyConfig();
-            // Decay = new DecayConfig();
-        }
 
 
         public class CurrencyConfig
@@ -156,9 +156,6 @@ Doesn't have to be ordered.")]
 
             public class Pair
             {
-                public int WhenAbove { get; set; }
-                public float MultiplyBy { get; set; }
-
                 public Pair()
                 {
                 }
@@ -168,6 +165,9 @@ Doesn't have to be ordered.")]
                     WhenAbove = threshold;
                     MultiplyBy = multiplier;
                 }
+
+                public int WhenAbove { get; set; }
+                public float MultiplyBy { get; set; }
             }
         }
 
@@ -216,29 +216,29 @@ Set them to the same number to always generate a constant number")]
             [YamlMember(Description = @"Self-Explanatory. Has to have 8 values, otherwise the command won't work.")]
             public float[] Multipliers { get; set; } = Array.Empty<float>();
         }
-        
+
         public class WaifuItem
         {
-            public string ItemEmoji { get; set; }
-            public int Price { get; set; }
-            public string Name { get; set; }
-
             public WaifuItem(string itemEmoji, int price, string item)
             {
                 ItemEmoji = itemEmoji;
                 Price = price;
                 Name = item;
             }
+
+            public string ItemEmoji { get; set; }
+            public int Price { get; set; }
+            public string Name { get; set; }
         }
 
         public class WaifuConfig
         {
-            public MultipliersData Multipliers { get; set; } = new MultipliersData();
+            public MultipliersData Multipliers { get; set; } = new();
 
             [YamlMember(Description = @"List of items available for gifting.")]
-            public List<WaifuItem> Items { get; set; } = new List<WaifuItem>();
-            
-           public class MultipliersData
+            public List<WaifuItem> Items { get; set; } = new();
+
+            public class MultipliersData
             {
                 [YamlMember(Description = @"Multiplier for waifureset. Default 150.
 Formula (at the time of writing this): 

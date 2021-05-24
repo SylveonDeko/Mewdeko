@@ -1,21 +1,21 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Core.Common;
-using Image = SixLabors.ImageSharp.Image;
-using SixLabors.ImageSharp.Processing;
+using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Gambling.Services;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -27,14 +27,14 @@ namespace Mewdeko.Modules.Gambling
             private static long _totalBet;
             private static long _totalPaidOut;
 
-            private static readonly HashSet<ulong> _runningUsers = new HashSet<ulong>();
+            private static readonly HashSet<ulong> _runningUsers = new();
+            private readonly ICurrencyService _cs;
 
             //here is a payout chart
             //https://lh6.googleusercontent.com/-i1hjAJy_kN4/UswKxmhrbPI/AAAAAAAAB1U/82wq_4ZZc-Y/DE6B0895-6FC1-48BE-AC4F-14D1B91AB75B.jpg
             //thanks to judge for helping me with this
 
             private readonly IImageCache _images;
-            private readonly ICurrencyService _cs;
 
             public SlotCommands(IDataCache data, ICurrencyService cs)
             {
@@ -42,53 +42,10 @@ namespace Mewdeko.Modules.Gambling
                 _cs = cs;
             }
 
-            public sealed class SlotMachine
-            {
-                public const int MaxValue = 5;
-
-                static readonly List<Func<int[], int>> _winningCombos = new List<Func<int[], int>>()
-                {
-                    //three flowers
-                    (arr) => arr.All(a=>a==MaxValue) ? 30 : 0,
-                    //three of the same
-                    (arr) => arr.Any(a => a != arr[0]) ? 0 : 10,
-                    //two flowers
-                    (arr) => arr.Count(a => a == MaxValue) == 2 ? 4 : 0,
-                    //one flower
-                    (arr) => arr.Any(a => a == MaxValue) ? 1 : 0,
-                };
-
-                public static SlotResult Pull()
-                {
-                    var numbers = new int[3];
-                    for (var i = 0; i < numbers.Length; i++)
-                    {
-                        numbers[i] = new MewdekoRandom().Next(0, MaxValue + 1);
-                    }
-                    var multi = 0;
-                    foreach (var t in _winningCombos)
-                    {
-                        multi = t(numbers);
-                        if (multi != 0)
-                            break;
-                    }
-
-                    return new SlotResult(numbers, multi);
-                }
-
-                public readonly struct SlotResult
-                {
-                    public int[] Numbers { get; }
-                    public int Multiplier { get; }
-                    public SlotResult(int[] nums, int multi)
-                    {
-                        Numbers = nums;
-                        Multiplier = multi;
-                    }
-                }
-            }
-
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task SlotStats()
             {
@@ -109,7 +66,10 @@ namespace Mewdeko.Modules.Gambling
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task SlotTest(int tests = 1000)
             {
@@ -117,7 +77,7 @@ namespace Mewdeko.Modules.Gambling
                     return;
                 //multi vs how many times it occured
                 var dict = new Dictionary<int, int>();
-                for (int i = 0; i < tests; i++)
+                for (var i = 0; i < tests; i++)
                 {
                     var res = SlotMachine.Pull();
                     if (dict.ContainsKey(res.Multiplier))
@@ -128,17 +88,22 @@ namespace Mewdeko.Modules.Gambling
 
                 var sb = new StringBuilder();
                 const int bet = 1;
-                int payout = 0;
+                var payout = 0;
                 foreach (var key in dict.Keys.OrderByDescending(x => x))
                 {
                     sb.AppendLine($"x{key} occured {dict[key]} times. {dict[key] * 1.0f / tests * 100}%");
                     payout += key * dict[key];
                 }
+
                 await ctx.Channel.SendConfirmAsync("Slot Test Results", sb.ToString(),
-                    footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%").ConfigureAwait(false);
+                        footer: $"Total Bet: {tests * bet} | Payout: {payout * bet} | {payout * 1.0f / tests * 100}%")
+                    .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Slot(ShmartNumber amount)
             {
                 if (!_runningUsers.Add(ctx.User.Id))
@@ -150,39 +115,42 @@ namespace Mewdeko.Modules.Gambling
                     const int maxAmount = 9999;
                     if (amount > maxAmount)
                     {
-                        await ReplyErrorLocalizedAsync("max_bet_limit", maxAmount + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("max_bet_limit", maxAmount + Bc.BotConfig.CurrencySign)
+                            .ConfigureAwait(false);
                         return;
                     }
 
-                    if (!await _cs.RemoveAsync(ctx.User, "Slot Machine", amount, false, gamble: true).ConfigureAwait(false))
+                    if (!await _cs.RemoveAsync(ctx.User, "Slot Machine", amount, false, true).ConfigureAwait(false))
                     {
                         await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                         return;
                     }
+
                     Interlocked.Add(ref _totalBet, amount.Value);
                     using (var bgImage = Image.Load(_images.SlotBackground))
                     {
                         var result = SlotMachine.Pull();
-                        int[] numbers = result.Numbers;
+                        var numbers = result.Numbers;
 
-                        for (int i = 0; i < 3; i++)
-                        {
+                        for (var i = 0; i < 3; i++)
                             using (var randomImage = Image.Load(_images.SlotEmojis[numbers[i]]))
                             {
-                                bgImage.Mutate(x => x.DrawImage(randomImage, new Point(95 + 142 * i, 330), new GraphicsOptions()));
+                                bgImage.Mutate(x =>
+                                    x.DrawImage(randomImage, new Point(95 + 142 * i, 330), new GraphicsOptions()));
                             }
-                        }
 
                         var won = amount * result.Multiplier;
                         var printWon = won;
                         var n = 0;
                         do
                         {
-                            var digit = (int)(printWon % 10);
+                            var digit = (int) (printWon % 10);
                             using (var img = Image.Load(_images.SlotNumbers[digit]))
                             {
-                                bgImage.Mutate(x => x.DrawImage(img, new Point(230 - n * 16, 462), new GraphicsOptions()));
+                                bgImage.Mutate(x =>
+                                    x.DrawImage(img, new Point(230 - n * 16, 462), new GraphicsOptions()));
                             }
+
                             n++;
                         } while ((printWon /= 10) != 0);
 
@@ -190,18 +158,21 @@ namespace Mewdeko.Modules.Gambling
                         n = 0;
                         do
                         {
-                            var digit = (int)(printAmount % 10);
+                            var digit = (int) (printAmount % 10);
                             using (var img = Image.Load(_images.SlotNumbers[digit]))
                             {
-                                bgImage.Mutate(x => x.DrawImage(img, new Point(395 - n * 16, 462), new GraphicsOptions()));
+                                bgImage.Mutate(x =>
+                                    x.DrawImage(img, new Point(395 - n * 16, 462), new GraphicsOptions()));
                             }
+
                             n++;
                         } while ((printAmount /= 10) != 0);
 
                         var msg = GetText("better_luck");
                         if (result.Multiplier != 0)
                         {
-                            await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}", amount * result.Multiplier, false, gamble: true).ConfigureAwait(false);
+                            await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
+                                amount * result.Multiplier, false, true).ConfigureAwait(false);
                             Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
                             if (result.Multiplier == 1)
                                 msg = GetText("slot_single", Bc.BotConfig.CurrencySign, 1);
@@ -215,7 +186,10 @@ namespace Mewdeko.Modules.Gambling
 
                         using (var imgStream = bgImage.ToStream())
                         {
-                            await ctx.Channel.SendFileAsync(imgStream, "result.png", ctx.User.Mention + " " + msg + $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}").ConfigureAwait(false);
+                            await ctx.Channel.SendFileAsync(imgStream, "result.png",
+                                    ctx.User.Mention + " " + msg +
+                                    $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{Bc.BotConfig.CurrencySign}")
+                                .ConfigureAwait(false);
                         }
                     }
                 }
@@ -226,6 +200,50 @@ namespace Mewdeko.Modules.Gambling
                         await Task.Delay(1000).ConfigureAwait(false);
                         _runningUsers.Remove(ctx.User.Id);
                     });
+                }
+            }
+
+            public sealed class SlotMachine
+            {
+                public const int MaxValue = 5;
+
+                private static readonly List<Func<int[], int>> _winningCombos = new()
+                {
+                    //three flowers
+                    arr => arr.All(a => a == MaxValue) ? 30 : 0,
+                    //three of the same
+                    arr => arr.Any(a => a != arr[0]) ? 0 : 10,
+                    //two flowers
+                    arr => arr.Count(a => a == MaxValue) == 2 ? 4 : 0,
+                    //one flower
+                    arr => arr.Any(a => a == MaxValue) ? 1 : 0
+                };
+
+                public static SlotResult Pull()
+                {
+                    var numbers = new int[3];
+                    for (var i = 0; i < numbers.Length; i++) numbers[i] = new MewdekoRandom().Next(0, MaxValue + 1);
+                    var multi = 0;
+                    foreach (var t in _winningCombos)
+                    {
+                        multi = t(numbers);
+                        if (multi != 0)
+                            break;
+                    }
+
+                    return new SlotResult(numbers, multi);
+                }
+
+                public readonly struct SlotResult
+                {
+                    public int[] Numbers { get; }
+                    public int Multiplier { get; }
+
+                    public SlotResult(int[] nums, int multi)
+                    {
+                        Numbers = nums;
+                        Multiplier = multi;
+                    }
                 }
             }
         }

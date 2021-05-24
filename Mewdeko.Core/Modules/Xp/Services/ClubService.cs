@@ -1,12 +1,12 @@
-﻿using Mewdeko.Core.Services;
-using System;
-using Mewdeko.Core.Services.Database.Models;
-using Discord;
-using Mewdeko.Modules.Xp.Common;
+﻿using System;
 using System.Linq;
-using Mewdeko.Extensions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Discord;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Xp.Common;
 
 namespace Mewdeko.Modules.Xp.Services
 {
@@ -35,17 +35,19 @@ namespace Mewdeko.Modules.Xp.Services
                 if (xp.Level >= 5 && du.Club == null)
                 {
                     du.IsClubAdmin = true;
-                    du.Club = new ClubInfo()
+                    du.Club = new ClubInfo
                     {
                         Name = clubName,
                         Discrim = uow.Clubs.GetNextDiscrim(clubName),
-                        Owner = du,
+                        Owner = du
                     };
                     uow.Clubs.Add(du.Club);
                     uow._context.SaveChanges();
                 }
                 else
+                {
                     return false;
+                }
 
                 uow._context.Set<ClubApplicants>()
                     .RemoveRange(uow._context.Set<ClubApplicants>()
@@ -76,6 +78,7 @@ namespace Mewdeko.Modules.Xp.Services
                 club.Owner = newOwnerUser;
                 uow.SaveChanges();
             }
+
             return club;
         }
 
@@ -97,6 +100,7 @@ namespace Mewdeko.Modules.Xp.Services
                 newState = adminUser.IsClubAdmin = !adminUser.IsClubAdmin;
                 uow.SaveChanges();
             }
+
             return newState;
         }
 
@@ -111,14 +115,13 @@ namespace Mewdeko.Modules.Xp.Services
         public async Task<bool> SetClubIcon(ulong ownerUserId, Uri url)
         {
             if (url != null)
-            {
                 using (var http = _httpFactory.CreateClient())
-                using (var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                using (var temp = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false))
                 {
                     if (!temp.IsImage() || temp.GetImageSize() > 11)
                         return false;
                 }
-            }
 
             using (var uow = _db.GetDbContext())
             {
@@ -142,7 +145,7 @@ namespace Mewdeko.Modules.Xp.Services
                 return false;
 
             //incase club has # in it
-            var name = string.Concat(arr.Except(new[] { arr[arr.Length - 1] }));
+            var name = string.Concat(arr.Except(new[] {arr[arr.Length - 1]}));
 
             if (string.IsNullOrWhiteSpace(name))
                 return false;
@@ -152,8 +155,7 @@ namespace Mewdeko.Modules.Xp.Services
                 club = uow.Clubs.GetByName(name, discrim);
                 if (club == null)
                     return false;
-                else
-                    return true;
+                return true;
             }
         }
 
@@ -168,22 +170,21 @@ namespace Mewdeko.Modules.Xp.Services
                     || new LevelStats(du.TotalXp).Level < club.MinimumLevelReq
                     || club.Bans.Any(x => x.UserId == du.Id)
                     || club.Applicants.Any(x => x.UserId == du.Id))
-                {
                     //user banned or a member of a club, or already applied,
                     // or doesn't min minumum level requirement, can't apply
                     return false;
-                }
 
                 var app = new ClubApplicants
                 {
                     ClubId = club.Id,
-                    UserId = du.Id,
+                    UserId = du.Id
                 };
 
                 uow._context.Set<ClubApplicants>().Add(app);
 
                 uow.SaveChanges();
             }
+
             return true;
         }
 
@@ -196,7 +197,8 @@ namespace Mewdeko.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var applicant = club.Applicants.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
+                var applicant = club.Applicants.FirstOrDefault(x =>
+                    x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (applicant == null)
                     return false;
 
@@ -213,6 +215,7 @@ namespace Mewdeko.Modules.Xp.Services
                 discordUser = applicant.User;
                 uow.SaveChanges();
             }
+
             return true;
         }
 
@@ -236,6 +239,7 @@ namespace Mewdeko.Modules.Xp.Services
                 du.IsClubAdmin = false;
                 uow.SaveChanges();
             }
+
             return true;
         }
 
@@ -283,6 +287,7 @@ namespace Mewdeko.Modules.Xp.Services
                 uow.Clubs.Remove(club);
                 uow.SaveChanges();
             }
+
             return true;
         }
 
@@ -295,17 +300,19 @@ namespace Mewdeko.Modules.Xp.Services
                     return false;
 
                 var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant())
-                    ?? club.Applicants.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant())?.User;
+                          ?? club.Applicants.FirstOrDefault(x =>
+                              x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant())?.User;
                 if (usr == null)
                     return false;
 
-                if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
+                if (club.OwnerId == usr.Id ||
+                    usr.IsClubAdmin && club.Owner.UserId != bannerId) // can't ban the owner kek, whew
                     return false;
 
                 club.Bans.Add(new ClubBans
                 {
                     Club = club,
-                    User = usr,
+                    User = usr
                 });
                 club.Users.Remove(usr);
 
@@ -327,7 +334,8 @@ namespace Mewdeko.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var ban = club.Bans.FirstOrDefault(x => x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
+                var ban = club.Bans.FirstOrDefault(x =>
+                    x.User.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (ban == null)
                     return false;
 
@@ -346,11 +354,12 @@ namespace Mewdeko.Modules.Xp.Services
                 if (club == null)
                     return false;
 
-                var usr = club.Users.FirstOrDefault(x => x.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
+                var usr = club.Users.FirstOrDefault(x =>
+                    x.ToString().ToUpperInvariant() == userName.ToUpperInvariant());
                 if (usr == null)
                     return false;
 
-                if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != kickerId))
+                if (club.OwnerId == usr.Id || usr.IsClubAdmin && club.Owner.UserId != kickerId)
                     return false;
 
                 club.Users.Remove(usr);

@@ -1,9 +1,9 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions.Services
 {
@@ -11,15 +11,15 @@ namespace Mewdeko.Modules.Permissions.Services
     {
         private readonly IBotConfigProvider _bc;
 
-        public int Priority => -100;
-
-        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
-
         public BlacklistService(IBotConfigProvider bc)
         {
             _bc = bc;
             var blacklist = bc.BotConfig.Blacklist;
         }
+
+        public int Priority => -100;
+
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
         public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
         {

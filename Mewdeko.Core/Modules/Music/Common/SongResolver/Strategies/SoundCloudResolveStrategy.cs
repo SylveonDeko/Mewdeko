@@ -1,6 +1,6 @@
-﻿using Mewdeko.Modules.Music.Extensions;
+﻿using System.Threading.Tasks;
 using Mewdeko.Core.Services.Impl;
-using System.Threading.Tasks;
+using Mewdeko.Modules.Music.Extensions;
 
 namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
 {
@@ -15,9 +15,9 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
 
         public async Task<SongInfo> ResolveSong(string query)
         {
-            var svideo = !_sc.IsSoundCloudLink(query) ?
-                await _sc.GetVideoByQueryAsync(query).ConfigureAwait(false) :
-                await _sc.ResolveVideoAsync(query).ConfigureAwait(false);
+            var svideo = !_sc.IsSoundCloudLink(query)
+                ? await _sc.GetVideoByQueryAsync(query).ConfigureAwait(false)
+                : await _sc.ResolveVideoAsync(query).ConfigureAwait(false);
 
             if (svideo == null)
                 return null;

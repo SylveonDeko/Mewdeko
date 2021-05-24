@@ -1,7 +1,7 @@
-﻿using Mewdeko.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Mewdeko.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -20,6 +20,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                 .Take(15)
                 .ToList();
         }
+
         public List<CurrencyTransaction> GetAllFor(ulong userId)
         {
             return _set.AsQueryable()

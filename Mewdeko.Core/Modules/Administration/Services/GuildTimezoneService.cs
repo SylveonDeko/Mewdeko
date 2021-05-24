@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading.Tasks;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using System.Threading.Tasks;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class GuildTimezoneService : INService
     {
-        public static ConcurrentDictionary<ulong, GuildTimezoneService> AllServices { get; } = new ConcurrentDictionary<ulong, GuildTimezoneService>();
-        private readonly ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
         private readonly DbService _db;
+        private readonly ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
 
         public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
         {
@@ -30,6 +29,8 @@ namespace Mewdeko.Modules.Administration.Services
 
             bot.JoinedGuild += Bot_JoinedGuild;
         }
+
+        public static ConcurrentDictionary<ulong, GuildTimezoneService> AllServices { get; } = new();
 
         private Task Bot_JoinedGuild(GuildConfig arg)
         {
@@ -53,6 +54,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 tz = null;
             }
+
             return (x.GuildId, Timezone: tz);
         }
 
@@ -80,6 +82,8 @@ namespace Mewdeko.Modules.Administration.Services
         }
 
         public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId)
-            => GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;
+        {
+            return GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;
+        }
     }
 }

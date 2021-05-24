@@ -23,7 +23,8 @@
   },
   "findanime": {
     "Cmd": "findanime",
-    "Desc": "Uses the trace.moe api to find anime shows! Either use a link or attach a file and see if it can find the anime! Do keep in mind not all links work",
+    "Desc":
+      "Uses the trace.moe api to find anime shows! Either use a link or attach a file and see if it can find the anime! Do keep in mind not all links work",
     "Usage": [
       "{0}findanime",
       "{0}findanime link"
@@ -130,7 +131,8 @@
   },
   "setstar": {
     "Cmd": "setstar",
-    "Desc": "Allows you to set a different emote for starboard. Provide no emote to set back to a star. ***MUST BE A CUSTOM EMOTE***",
+    "Desc":
+      "Allows you to set a different emote for starboard. Provide no emote to set back to a star. ***MUST BE A CUSTOM EMOTE***",
     "Usage": [
       "{0}setstar emote"
     ]
@@ -344,7 +346,6 @@
       "{0}allowperm channel perm role",
       "{0}allowperm category perm user",
       "{0}allowperm category perm role"
-
     ]
   },
   "denyperm": {
@@ -384,7 +385,6 @@
     "Desc": "Use this to claim your vote reward every 12 hours. Make sure to vote with `.vote` first.",
     "Usage": [
       "{0}voteclaim"
-
     ]
   },
   "neutralperm": {
@@ -395,7 +395,6 @@
       "{0}neutralperm channel perm role",
       "{0}neutralperm category perm user",
       "{0}neutralperm category perm role"
-
     ]
   },
   "setafkchannel": {
@@ -403,7 +402,6 @@
     "Desc": "Sets the guilds AFK channel",
     "Usage": [
       "{0}setafkchannel channel"
-
     ]
   },
   "setafktimeout": {
@@ -425,7 +423,6 @@
     "Desc": "Sets the guilds Server Icon",
     "Usage": [
       "{0}seticon url"
-
     ]
   },
   "setservername": {
@@ -440,7 +437,6 @@
     "Desc": "Sets the guilds Splash Image(can only be used if you have enough boosts)",
     "Usage": [
       "{0}setsplash url"
-
     ]
   },
   "mutechannel": {
@@ -448,7 +444,6 @@
     "Desc": "Sets up the channel for use with the mute role(use after someone gets muted)",
     "Usage": [
       "{0}mutechannel channel"
-
     ]
   },
   "setmultipleroles": {
@@ -457,7 +452,6 @@
     "Usage": [
       "{0}setmultipleroles User @role @role @role",
       "{0}setmultipleroles UserID RoleID RoleID RoleID"
-
     ]
   },
   "mwarnlogall": {
@@ -532,7 +526,8 @@
   },
   "commands": {
     "Cmd": "commands cmds",
-    "Desc": "List all of the bot's commands from a certain module. You can either specify the full name or only the first few letters of the module name.",
+    "Desc":
+      "List all of the bot's commands from a certain module. You can either specify the full name or only the first few letters of the module name.",
     "Usage": [
       "{0}cmds Admin",
       "{0}cmds Admin --view 1"
@@ -540,7 +535,8 @@
   },
   "greetdel": {
     "Cmd": "greetdel grdel",
-    "Desc": "Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set it to 0 to disable automatic deletion.",
+    "Desc":
+      "Sets the time it takes (in seconds) for greet messages to be auto-deleted. Set it to 0 to disable automatic deletion.",
     "Usage": [
       "{0}greetdel 0",
       "{0}greetdel 30"
@@ -556,14 +552,16 @@
   },
   "greetmsg": {
     "Cmd": "greetmsg",
-    "Desc": "Sets a new join announcement message which will be shown in the server's channel. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded.",
+    "Desc":
+      "Sets a new join announcement message which will be shown in the server's channel. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
       "{0}greetmsg Welcome, %user.mention%."
     ]
   },
   "bye": {
     "Cmd": "bye leave leavechannel goodbye",
-    "Desc": "Toggles anouncements on the current channel when someone leaves the server. Provide no channel to turn this off",
+    "Desc":
+      "Toggles anouncements on the current channel when someone leaves the server. Provide no channel to turn this off",
     "Usage": [
       "{0}bye",
       "{0}bye #channel"
@@ -579,14 +577,16 @@
   },
   "byemsg": {
     "Cmd": "byemsg",
-    "Desc": "Sets a new leave announcement message. Type `%user.mention%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded.",
+    "Desc":
+      "Sets a new leave announcement message. Type `%user.mention%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
       "{0}byemsg %user.mention% has left."
     ]
   },
   "byedel": {
     "Cmd": "byedel",
-    "Desc": "Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set it to `0` to disable automatic deletion.",
+    "Desc":
+      "Sets the time it takes (in seconds) for bye messages to be auto-deleted. Set it to `0` to disable automatic deletion.",
     "Usage": [
       "{0}byedel 0",
       "{0}byedel 30"
@@ -594,7 +594,8 @@
   },
   "greetdm": {
     "Cmd": "greetdm",
-    "Desc": "Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled).",
+    "Desc":
+      "Toggles whether the greet messages will be sent in a DM (This is separate from greet - you can have both, any or neither enabled).",
     "Usage": [
       "{0}greetdm"
     ]
@@ -609,7 +610,8 @@
   },
   "logignore": {
     "Cmd": "logignore",
-    "Desc": "Toggles whether the `{0}logserver` command ignores this channel. Useful if you have hidden admin channel and public log channel.",
+    "Desc":
+      "Toggles whether the `{0}logserver` command ignores this channel. Useful if you have hidden admin channel and public log channel.",
     "Usage": [
       "{0}logignore"
     ]
@@ -651,7 +653,8 @@
   },
   "repeat": {
     "Cmd": "repeat",
-    "Desc": "Repeat a message once every specified amount of time in the current channel. You can instead specify time of day for the message to be repeated daily (make sure you've set your server's timezone). If you've specified time of day, you can still override the default daily interval with your own interval. You can have up to 5 repeating messages on the server in total.",
+    "Desc":
+      "Repeat a message once every specified amount of time in the current channel. You can instead specify time of day for the message to be repeated daily (make sure you've set your server's timezone). If you've specified time of day, you can still override the default daily interval with your own interval. You can have up to 5 repeating messages on the server in total.",
     "Usage": [
       "{0}repeat Hello there",
       "{0}repeat 1h5m Hello @erryone",
@@ -661,7 +664,8 @@
   },
   "repeatredundant": {
     "Cmd": "repeatredun repred",
-    "Desc": "Specify repeater's index (use `{0}repli` to find it) to toggle whether that repeater's message should be reposted if the last message in the channel is the same repeater's message. This is useful if you want to remind everyone to be nice in the channel every so often, but don't want to have the bot spam the channel. This != useful if you want to periodically ping someone.",
+    "Desc":
+      "Specify repeater's index (use `{0}repli` to find it) to toggle whether that repeater's message should be reposted if the last message in the channel is the same repeater's message. This is useful if you want to remind everyone to be nice in the channel every so often, but don't want to have the bot spam the channel. This != useful if you want to periodically ping someone.",
     "Usage": [
       "{0}repred 1"
     ]
@@ -669,7 +673,8 @@
 
   "addplaying": {
     "Cmd": "addplaying adpl",
-    "Desc": "Adds a specified string to the list of playing strings to rotate. You have to pick either 'Playing', 'Watching' or 'Listening' as the first parameter.",
+    "Desc":
+      "Adds a specified string to the list of playing strings to rotate. You have to pick either 'Playing', 'Watching' or 'Listening' as the first parameter.",
     "Usage": [
       "{0}adpl Playing with you",
       "{0}adpl Watching you sleep"
@@ -698,7 +703,8 @@
   },
   "vcrole": {
     "Cmd": "vcrole",
-    "Desc": "Sets or resets a role which will be given to users who join the voice channel you're in when you run this command. Provide no role name to disable. You must be in a voice channel to run this command.",
+    "Desc":
+      "Sets or resets a role which will be given to users who join the voice channel you're in when you run this command. Provide no role name to disable. You must be in a voice channel to run this command.",
     "Usage": [
       "{0}vcrole SomeRole",
       "{0}vcrole"
@@ -706,7 +712,8 @@
   },
   "scsc": {
     "Cmd": "scsc",
-    "Desc": "Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance.",
+    "Desc":
+      "Starts an instance of cross server channel. You will get a token as a DM that other people will use to tune in to the same instance.",
     "Usage": [
       "{0}scsc"
     ]
@@ -727,7 +734,8 @@
   },
   "asar": {
     "Cmd": "asar",
-    "Desc": "Adds a role to the list of self-assignable roles. You can also specify a group. If 'Exclusive self-assignable roles' feature is enabled, users will be able to pick one role per group.",
+    "Desc":
+      "Adds a role to the list of self-assignable roles. You can also specify a group. If 'Exclusive self-assignable roles' feature is enabled, users will be able to pick one role per group.",
     "Usage": [
       "{0}asar Gamer",
       "{0}asar 1 Alliance",
@@ -759,7 +767,8 @@
   },
   "tesar": {
     "Cmd": "togglexclsar tesar",
-    "Desc": "Toggles whether the self-assigned roles are exclusive. While enabled, users can only have one self-assignable role per group.",
+    "Desc":
+      "Toggles whether the self-assigned roles are exclusive. While enabled, users can only have one self-assignable role per group.",
     "Usage": [
       "{0}tesar"
     ]
@@ -780,14 +789,16 @@
   },
   "addcustreact": {
     "Cmd": "addcustreact acr",
-    "Desc": "Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://Mewdeko.readthedocs.io/en/latest/custom-reactions/>",
+    "Desc":
+      "Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://Mewdeko.readthedocs.io/en/latest/custom-reactions/>",
     "Usage": [
       "{0}acr \"hello\" Hi there %user.mention%"
     ]
   },
   "listcustreact": {
     "Cmd": "listcustreact lcr",
-    "Desc": "Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` parameter instead of the number will DM you a text file with a list of all custom reactions.",
+    "Desc":
+      "Lists global or server custom reactions (20 commands per page). Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions. Specifying `all` parameter instead of the number will DM you a text file with a list of all custom reactions.",
     "Usage": [
       "{0}lcr 1",
       "{0}lcr all"
@@ -795,7 +806,8 @@
   },
   "listcustreactg": {
     "Cmd": "listcustreactg lcrg",
-    "Desc": "Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.",
+    "Desc":
+      "Lists global or server custom reactions (20 commands per page) grouped by trigger, and show a number of responses for each. Running the command in DM will list global custom reactions, while running it in server will list that server's custom reactions.",
     "Usage": [
       "{0}lcrg 1"
     ]
@@ -809,7 +821,8 @@
   },
   "delcustreact": {
     "Cmd": "delcustreact dcr",
-    "Desc": "Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration privileges and removes server custom reaction.",
+    "Desc":
+      "Deletes a custom reaction on a specific index. If ran in DM, it is bot owner only and deletes a global custom reaction. If ran in a server, it requires Administration privileges and removes server custom reaction.",
     "Usage": [
       "{0}dcr 5"
     ]
@@ -860,7 +873,8 @@
   },
   "delmsgoncmd": {
     "Cmd": "delmsgoncmd",
-    "Desc": "Toggles the automatic deletion of the user's successful command message to prevent chat flood. You can use it either as a server toggle, channel whitelist, or channel blacklist, as channel option has 3 settings: Enable (always do it on this channel), Disable (never do it on this channel), and Inherit (respect server setting). Use `list` parameter to see the current states.",
+    "Desc":
+      "Toggles the automatic deletion of the user's successful command message to prevent chat flood. You can use it either as a server toggle, channel whitelist, or channel blacklist, as channel option has 3 settings: Enable (always do it on this channel), Disable (never do it on this channel), and Inherit (respect server setting). Use `list` parameter to see the current states.",
     "Usage": [
       "{0}delmsgoncmd",
       "{0}delmsgoncmd channel enable",
@@ -877,14 +891,16 @@
   },
   "setrole": {
     "Cmd": "setrole sr giverole",
-    "Desc": "Gives a role to a user. The role you specify has to be lower in the role hierarchy than your highest role.",
+    "Desc":
+      "Gives a role to a user. The role you specify has to be lower in the role hierarchy than your highest role.",
     "Usage": [
       "{0}sr Role User"
     ]
   },
   "removerole": {
     "Cmd": "removerole rr",
-    "Desc": "Removes a role from a user. The role you specify has to be lower in the role hierarchy than your highest role.",
+    "Desc":
+      "Removes a role from a user. The role you specify has to be lower in the role hierarchy than your highest role.",
     "Usage": [
       "{0}rr Role User"
     ]
@@ -905,7 +921,8 @@
   },
   "rolehoist": {
     "Cmd": "rolehoist rh",
-    "Desc": "Toggles whether this role is displayed in the sidebar or not. The role you specify has to be lower in the role hierarchy than your highest role.",
+    "Desc":
+      "Toggles whether this role is displayed in the sidebar or not. The role you specify has to be lower in the role hierarchy than your highest role.",
     "Usage": [
       "{0}rh Guests",
       "{0}rh \"Space Wizards\""
@@ -927,7 +944,8 @@
   },
   "rolecolor": {
     "Cmd": "rolecolor roleclr",
-    "Desc": "Set a role's color using its hex value. Provide no color in order to see the hex value of the color of the specified role. The role you specify has to be lower in the role hierarchy than your highest role.",
+    "Desc":
+      "Set a role's color using its hex value. Provide no color in order to see the hex value of the color of the specified role. The role you specify has to be lower in the role hierarchy than your highest role.",
     "Usage": [
       "{0}roleclr Admin",
       "{0}roleclr Admin ffba55"
@@ -935,7 +953,8 @@
   },
   "ban": {
     "Cmd": "ban b",
-    "Desc": "Bans a user by ID or name with an optional message. You can specify a time string before the user name to ban the user temporarily.",
+    "Desc":
+      "Bans a user by ID or name with an optional message. You can specify a time string before the user name to ban the user temporarily.",
     "Usage": [
       "{0}b \"@some Guy\" Your behaviour is toxic.",
       "{0}b 1d12h @b1nzy Come back when u chill"
@@ -957,7 +976,8 @@
   },
   "mute": {
     "Cmd": "mute",
-    "Desc": "Mutes a mentioned user both from speaking and chatting. You can also specify time string for how long the user should be muted. You can optionally specify a reason.",
+    "Desc":
+      "Mutes a mentioned user both from speaking and chatting. You can also specify time string for how long the user should be muted. You can optionally specify a reason.",
     "Usage": [
       "{0}mute @Someone",
       "{0}mute @Someone too noisy",
@@ -1055,7 +1075,8 @@
   },
   "prune": {
     "Cmd": "prune clear",
-    "Desc": "`{0}prune` removes all Mewdeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned.",
+    "Desc":
+      "`{0}prune` removes all Mewdeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned.",
     "Usage": [
       "{0}prune",
       "{0}prune -s",
@@ -1107,7 +1128,8 @@
   },
   "send": {
     "Cmd": "send",
-    "Desc": "Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prefix the channel id with `c:` and the user id with `u:`.",
+    "Desc":
+      "Sends a message to someone on a different server through the bot.  Separate server and channel/user ids with `|` and prefix the channel id with `c:` and the user id with `u:`.",
     "Usage": [
       "{0}send serverid|c:channelid message",
       "{0}send serverid|u:userid message"
@@ -1150,7 +1172,8 @@
   },
   "remind": {
     "Cmd": "remind",
-    "Desc": "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
+    "Desc":
+      "Sends a message to you or a channel after certain amount of time (max 2 months). First parameter is `me`/`here`/'channelname'. Second parameter is time in a descending order (mo>w>d>h>m) example: 1w5d3h10m. Third parameter is a (multiword) message.",
     "Usage": [
       "{0}remind me 1d5h Do something",
       "{0}remind #general 1m Start now!"
@@ -1273,49 +1296,56 @@
   },
   "chnlfilterinv": {
     "Cmd": "chnlfilterinv cfi",
-    "Desc": "Toggles automatic deletion of invites posted in the channel. Does not negate the `{0}srvrfilterinv` enabled setting. Does not affect users with the Administrator permission.",
+    "Desc":
+      "Toggles automatic deletion of invites posted in the channel. Does not negate the `{0}srvrfilterinv` enabled setting. Does not affect users with the Administrator permission.",
     "Usage": [
       "{0}cfi"
     ]
   },
   "srvrfilterinv": {
     "Cmd": "srvrfilterinv sfi",
-    "Desc": "Toggles automatic deletion of invites posted in the server. Does not affect users with the Administrator permission.",
+    "Desc":
+      "Toggles automatic deletion of invites posted in the server. Does not affect users with the Administrator permission.",
     "Usage": [
       "{0}sfi"
     ]
   },
   "chnlfilterlin": {
     "Cmd": "chnlfilterlin cfl",
-    "Desc": "Toggles automatic deletion of links posted in the channel. Does not negate the `{0}srvrfilterlin` enabled setting. Does not affect users with the Administrator permission.",
+    "Desc":
+      "Toggles automatic deletion of links posted in the channel. Does not negate the `{0}srvrfilterlin` enabled setting. Does not affect users with the Administrator permission.",
     "Usage": [
       "{0}cfl"
     ]
   },
   "srvrfilterlin": {
     "Cmd": "srvrfilterlin sfl",
-    "Desc": "Toggles automatic deletion of links posted in the server. Does not affect users with the Administrator permission.",
+    "Desc":
+      "Toggles automatic deletion of links posted in the server. Does not affect users with the Administrator permission.",
     "Usage": [
       "{0}sfl"
     ]
   },
   "chnlfilterwords": {
     "Cmd": "chnlfilterwords cfw",
-    "Desc": "Toggles automatic deletion of messages containing filtered words on the channel. Does not negate the `{0}srvrfilterwords` enabled setting. Does not affect users with the Administrator permission.",
+    "Desc":
+      "Toggles automatic deletion of messages containing filtered words on the channel. Does not negate the `{0}srvrfilterwords` enabled setting. Does not affect users with the Administrator permission.",
     "Usage": [
       "{0}cfw"
     ]
   },
   "filterword": {
     "Cmd": "fw",
-    "Desc": "Adds or removes (if it exists) a word from the list of filtered words. Use`{0}sfw` or `{0}cfw` to toggle filtering.",
+    "Desc":
+      "Adds or removes (if it exists) a word from the list of filtered words. Use`{0}sfw` or `{0}cfw` to toggle filtering.",
     "Usage": [
       "{0}fw poop"
     ]
   },
   "srvrfilterwords": {
     "Cmd": "srvrfilterwords sfw",
-    "Desc": "Toggles automatic deletion of messages containing filtered words on the server. Does not affect users with the Administrator permission.",
+    "Desc":
+      "Toggles automatic deletion of messages containing filtered words on the server. Does not affect users with the Administrator permission.",
     "Usage": [
       "{0}sfw"
     ]
@@ -1329,7 +1359,8 @@
   },
   "permrole": {
     "Cmd": "permrole pr",
-    "Desc": "Sets a role which can change permissions. Supply no parameters to see the current one. Type 'reset' instead of the role name to reset the currently set permission role. Users with the Administrator server permissions can use permission commands regardless of whether they have the specified role. There is no default permission role.",
+    "Desc":
+      "Sets a role which can change permissions. Supply no parameters to see the current one. Type 'reset' instead of the role name to reset the currently set permission role. Users with the Administrator server permissions can use permission commands regardless of whether they have the specified role. There is no default permission role.",
     "Usage": [
       "{0}pr Some Role",
       "{0}pr reset"
@@ -1479,14 +1510,16 @@
   },
   "quoteid": {
     "Cmd": "quoteid qid",
-    "Desc": "Displays the quote with the specified ID number. Quote ID numbers can be found by typing `{0}liqu [num]` where `[num]` is a number of a page which contains 15 quotes.",
+    "Desc":
+      "Displays the quote with the specified ID number. Quote ID numbers can be found by typing `{0}liqu [num]` where `[num]` is a number of a page which contains 15 quotes.",
     "Usage": [
       "{0}qid 123456"
     ]
   },
   "quotedelete": {
     "Cmd": "quotedel qdel",
-    "Desc": "Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.",
+    "Desc":
+      "Deletes a quote with the specified ID. You have to be either server Administrator or the creator of the quote to delete it.",
     "Usage": [
       "{0}qdel 123456"
     ]
@@ -1501,7 +1534,8 @@
   },
   "drawnew": {
     "Cmd": "drawnew",
-    "Desc": "Draws a card from the NEW deck of cards. You can draw up to 10 cards by supplying a number of cards to draw.",
+    "Desc":
+      "Draws a card from the NEW deck of cards. You can draw up to 10 cards by supplying a number of cards to draw.",
     "Usage": [
       "{0}drawnew",
       "{0}drawnew 5"
@@ -1524,7 +1558,8 @@
   },
   "betflip": {
     "Cmd": "betflip bf",
-    "Desc": "Bet to guess will the result be heads or tails. Guessing awards you 1.95x the currency you've bet (rounded up). Multiplier can be changed by the bot owner.",
+    "Desc":
+      "Bet to guess will the result be heads or tails. Guessing awards you 1.95x the currency you've bet (rounded up). Multiplier can be changed by the bot owner.",
     "Usage": [
       "{0}bf 5 heads",
       "{0}bf 3 t"
@@ -1532,7 +1567,8 @@
   },
   "roll": {
     "Cmd": "roll",
-    "Desc": "Rolls 0-100. If you supply a number `X` it rolls up to 30 normal dice. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`. `Y` can be a letter 'F' if you want to roll fate dice instead of dnd.",
+    "Desc":
+      "Rolls 0-100. If you supply a number `X` it rolls up to 30 normal dice. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`. `Y` can be a letter 'F' if you want to roll fate dice instead of dnd.",
     "Usage": [
       "{0}roll",
       "{0}roll 7",
@@ -1542,7 +1578,8 @@
   },
   "rolluo": {
     "Cmd": "rolluo",
-    "Desc": "Rolls `X` normal dice (up to 30) unordered. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`.",
+    "Desc":
+      "Rolls `X` normal dice (up to 30) unordered. If you split 2 numbers with letter `d` (`xdy`) it will roll `X` dice from 1 to `y`.",
     "Usage": [
       "{0}rolluo",
       "{0}rolluo 7",
@@ -1551,7 +1588,8 @@
   },
   "nroll": {
     "Cmd": "nroll",
-    "Desc": "Rolls in a given range. If you specify just one number instead of the range, it will role from 0 to that number.",
+    "Desc":
+      "Rolls in a given range. If you specify just one number instead of the range, it will role from 0 to that number.",
     "Usage": [
       "{0}nroll 5",
       "{0}nroll 5-15"
@@ -1566,7 +1604,8 @@
   },
   "joinrace": {
     "Cmd": "joinrace jr",
-    "Desc": "Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.",
+    "Desc":
+      "Joins a new race. You can specify an amount of currency for betting (optional). You will get YourBet*(participants-1) back if you win.",
     "Usage": [
       "{0}jr",
       "{0}jr 5"
@@ -1574,21 +1613,24 @@
   },
   "nunchi": {
     "Cmd": "nunchi",
-    "Desc": "Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrect number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.",
+    "Desc":
+      "Creates or joins an existing nunchi game. Users have to count up by 1 from the starting number shown by the bot. If someone makes a mistake (types an incorrect number, or repeats the same number) they are out of the game and a new round starts without them.  Minimum 3 users required.",
     "Usage": [
       "{0}nunchi"
     ]
   },
   "connect4": {
     "Cmd": "connect4 con4",
-    "Desc": "Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line. You can specify a bet when you create a game and only users who bet the same amount will be able to join your game.",
+    "Desc":
+      "Creates or joins an existing connect4 game. 2 players are required for the game. Objective of the game is to get 4 of your pieces next to each other in a vertical, horizontal or diagonal line. You can specify a bet when you create a game and only users who bet the same amount will be able to join your game.",
     "Usage": [
       "{0}connect4"
     ]
   },
   "raffle": {
     "Cmd": "raffle",
-    "Desc": "Prints a name and ID of a random online user from the server, or from the online user in the specified role.",
+    "Desc":
+      "Prints a name and ID of a random online user from the server, or from the online user in the specified role.",
     "Usage": [
       "{0}raffle",
       "{0}raffle RoleName"
@@ -1612,7 +1654,8 @@
   },
   "award": {
     "Cmd": "award",
-    "Desc": "Awards someone a certain amount of currency. You can specify the reason after the Username. You can also specify a role name to award currency to all users in a role.",
+    "Desc":
+      "Awards someone a certain amount of currency. You can specify the reason after the Username. You can also specify a role name to award currency to all users in a role.",
     "Usage": [
       "{0}award 100 @person",
       "{0}award 5 Role Of Gamblers"
@@ -1627,14 +1670,16 @@
   },
   "betroll": {
     "Cmd": "betroll br",
-    "Desc": "Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x4 and 100 x10.",
+    "Desc":
+      "Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x4 and 100 x10.",
     "Usage": [
       "{0}br 5"
     ]
   },
   "wheeloffortune": {
     "Cmd": "wheeloffortune wheel",
-    "Desc": "Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.",
+    "Desc":
+      "Bets a certain amount of currency on the wheel of fortune. Wheel can stop on one of many different multipliers. Won amount is rounded down to the nearest whole number.",
     "Usage": [
       "{0}wheel 10"
     ]
@@ -1648,7 +1693,8 @@
   },
   "trivia": {
     "Cmd": "trivia t",
-    "Desc": "Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.",
+    "Desc":
+      "Starts a game of trivia. You can add `nohint` to prevent hints. First player to get to 10 points wins by default. You can specify a different number. 30 seconds per question.",
     "Usage": [
       "{0}t",
       "{0}t --timeout 5 -p -w 3 -q 10"
@@ -1706,7 +1752,8 @@
   },
   "plant": {
     "Cmd": "plant",
-    "Desc": "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
+    "Desc":
+      "Spend an amount of currency to plant it in this channel. Default is 1. You can specify the password after the amount. Password has to be alphanumeric and it will be trimmed down to 10 characters if it's longer.",
     "Usage": [
       "{0}plant 5",
       "{0}plant 10 meow"
@@ -1714,7 +1761,8 @@
   },
   "gencurrency": {
     "Cmd": "gencurrency gc",
-    "Desc": "Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%)",
+    "Desc":
+      "Toggles currency generation on this channel. Every posted message will have chance to spawn currency. Chance is specified by the Bot Owner. (default is 2%)",
     "Usage": [
       "{0}gc"
     ]
@@ -1742,7 +1790,8 @@
   },
   "rps": {
     "Cmd": "rps",
-    "Desc": "Play a game of Rocket-Paperclip-Scissors with Mewdeko. You can bet on it. Multiplier is the same as on betflip.",
+    "Desc":
+      "Play a game of Rocket-Paperclip-Scissors with Mewdeko. You can bet on it. Multiplier is the same as on betflip.",
     "Usage": [
       "{0}rps r 100",
       "{0}rps scissors"
@@ -1757,7 +1806,8 @@
   },
   "next": {
     "Cmd": "next n",
-    "Desc": "Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled.",
+    "Desc":
+      "Goes to the next song in the queue. You have to be in the same voice channel as the bot. You can skip multiple songs, but in that case songs will not be requeued if {0}rcs or {0}rpl is enabled.",
     "Usage": [
       "{0}n",
       "{0}n 5"
@@ -1765,7 +1815,8 @@
   },
   "play": {
     "Cmd": "play start",
-    "Desc": "If no parameters are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command",
+    "Desc":
+      "If no parameters are specified, acts as `{0}next 1` command. If you specify a song number, it will jump to that song. If you specify a search query, acts as a `{0}q` command",
     "Usage": [
       "{0}play",
       "{0}play 5",
@@ -1795,28 +1846,32 @@
   },
   "queue": {
     "Cmd": "queue q yq",
-    "Desc": "Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.",
+    "Desc":
+      "Queue a song using keywords or a link. Bot will join your voice channel. **You must be in a voice channel**.",
     "Usage": [
       "{0}q Dream Of Venice"
     ]
   },
   "queuenext": {
     "Cmd": "queuenext qn",
-    "Desc": "Works the same as `{0}queue` command, except it enqueues the new song after the current one. **You must be in a voice channel**.",
+    "Desc":
+      "Works the same as `{0}queue` command, except it enqueues the new song after the current one. **You must be in a voice channel**.",
     "Usage": [
       "{0}qn Dream Of Venice"
     ]
   },
   "queuesearch": {
     "Cmd": "queuesearch qs yqs",
-    "Desc": "Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.",
+    "Desc":
+      "Search for top 5 youtube song result using keywords, and type the index of the song to play that song. Bot will join your voice channel. **You must be in a voice channel**.",
     "Usage": [
       "{0}qs Dream Of Venice"
     ]
   },
   "soundcloudqueue": {
     "Cmd": "soundcloudqueue sq",
-    "Desc": "Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.",
+    "Desc":
+      "Queue a soundcloud song using keywords. Bot will join your voice channel. **You must be in a voice channel**.",
     "Usage": [
       "{0}sq Dream Of Venice"
     ]
@@ -1887,7 +1942,8 @@
   },
   "radio": {
     "Cmd": "radio ra",
-    "Desc": "Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>)",
+    "Desc":
+      "Queues a radio stream from a link. It can be a direct mp3 radio stream, .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>)",
     "Usage": [
       "{0}ra radio link here"
     ]
@@ -1908,7 +1964,8 @@
   },
   "songremove": {
     "Cmd": "songremove srm",
-    "Desc": "Remove a song by its # in the queue, or 'all' to remove all songs from the queue and reset the song index.",
+    "Desc":
+      "Remove a song by its # in the queue, or 'all' to remove all songs from the queue and reset the song index.",
     "Usage": [
       "{0}srm 5"
     ]
@@ -1951,21 +2008,24 @@
   },
   "save": {
     "Cmd": "save",
-    "Desc": "Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.",
+    "Desc":
+      "Saves a playlist under a certain name. Playlist name must be no longer than 20 characters and must not contain dashes.",
     "Usage": [
       "{0}save classical1"
     ]
   },
   "streamrole": {
     "Cmd": "streamrole",
-    "Desc": "Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no parameters to disable",
+    "Desc":
+      "Sets a role which is monitored for streamers (FromRole), and a role to add if a user from 'FromRole' is streaming (AddRole). When a user from 'FromRole' starts streaming, they will receive an 'AddRole'. Provide no parameters to disable",
     "Usage": [
       "{0}streamrole \"Eligible Streamers\" \"Featured Streams\""
     ]
   },
   "load": {
     "Cmd": "load",
-    "Desc": "Loads a saved playlist using its ID. Use `{0}pls` to list all saved playlists and `{0}save` to save new ones.",
+    "Desc":
+      "Loads a saved playlist using its ID. Use `{0}pls` to list all saved playlists and `{0}save` to save new ones.",
     "Usage": [
       "{0}load 5"
     ]
@@ -2000,14 +2060,16 @@
   },
   "autoplay": {
     "Cmd": "autoplay ap",
-    "Desc": "Toggles autoplay - When the song is finished, automatically queue a related Youtube song. (Works only for Youtube songs and when queue is empty)",
+    "Desc":
+      "Toggles autoplay - When the song is finished, automatically queue a related Youtube song. (Works only for Youtube songs and when queue is empty)",
     "Usage": [
       "{0}ap"
     ]
   },
   "lolchamp": {
     "Cmd": "lolchamp",
-    "Desc": "Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.",
+    "Desc":
+      "Shows League Of Legends champion statistics. If there are spaces/apostrophes or in the name - omit them. Optional second parameter is a role.",
     "Usage": [
       "{0}lolchamp Riven",
       "{0}lolchamp Annie sup"
@@ -2050,7 +2112,8 @@
   },
   "streamremove": {
     "Cmd": "streamremove strm",
-    "Desc": "Removes notifications of a specified stream on the specified platform on this channel. You can also just specify an url.",
+    "Desc":
+      "Removes notifications of a specified stream on the specified platform on this channel. You can also just specify an url.",
     "Usage": [
       "{0}strm Twitch SomeGuy",
       "{0}strm twitch.tv/someguy"
@@ -2311,7 +2374,8 @@
   },
   "safebooru": {
     "Cmd": "safebooru",
-    "Desc": "Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
+    "Desc":
+      "Shows a random image from safebooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
       "{0}safebooru yuri+kissing"
     ]
@@ -2333,7 +2397,8 @@
   },
   "videocall": {
     "Cmd": "videocall",
-    "Desc": "Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.",
+    "Desc":
+      "Creates a private <http://www.appear.in> video call link for you and other mentioned people. The link is sent to mentioned people via a private message.",
     "Usage": [
       "{0}videocall \"@the First\" \"@Xyz\""
     ]
@@ -2347,14 +2412,16 @@
   },
   "hentai": {
     "Cmd": "hentai",
-    "Desc": "Shows a hentai image from a random website (gelbooru, danbooru, konachan or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.",
+    "Desc":
+      "Shows a hentai image from a random website (gelbooru, danbooru, konachan or yandere) with a given tag. Tag is optional but preferred. Only 1 tag allowed.",
     "Usage": [
       "{0}hentai yuri"
     ]
   },
   "danbooru": {
     "Cmd": "danbooru",
-    "Desc": "Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
+    "Desc":
+      "Shows a random hentai image from danbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
       "{0}danbooru yuri+kissing"
     ]
@@ -2368,21 +2435,24 @@
   },
   "gelbooru": {
     "Cmd": "gelbooru",
-    "Desc": "Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
+    "Desc":
+      "Shows a random hentai image from gelbooru with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
       "{0}gelbooru yuri+kissing"
     ]
   },
   "rule34": {
     "Cmd": "rule34",
-    "Desc": "Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
+    "Desc":
+      "Shows a random image from rule34.xx with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
       "{0}rule34 yuri+kissing"
     ]
   },
   "e621": {
     "Cmd": "e621",
-    "Desc": "Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
+    "Desc":
+      "Shows a random hentai image from e621.net with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
       "{0}e621 yuri+kissing"
     ]
@@ -2440,7 +2510,8 @@
   },
   "greetdmmsg": {
     "Cmd": "greetdmmsg",
-    "Desc": "Sets a new join announcement message which will be sent to the user who joined. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://eb.Mewdeko.bot> instead of a regular text, if you want the message to be embedded.",
+    "Desc":
+      "Sets a new join announcement message which will be sent to the user who joined. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://eb.Mewdeko.bot> instead of a regular text, if you want the message to be embedded.",
     "Usage": [
       "{0}greetdmmsg Welcome to the server, %user.mention%"
     ]
@@ -2455,7 +2526,8 @@
   },
   "currencytransactions": {
     "Cmd": "curtrs",
-    "Desc": "Shows your currency transactions on the specified page. Bot owner can see other people's transactions too.",
+    "Desc":
+      "Shows your currency transactions on the specified page. Bot owner can see other people's transactions too.",
     "Usage": [
       "{0}curtrs 2",
       "{0}curtrs @SomeUser 2"
@@ -2463,7 +2535,8 @@
   },
   "listperms": {
     "Cmd": "listperms lp",
-    "Desc": "Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions.",
+    "Desc":
+      "Lists whole permission chain with their indexes. You can specify an optional page number if there are a lot of permissions.",
     "Usage": [
       "{0}lp",
       "{0}lp 3"
@@ -2527,7 +2600,8 @@
   },
   "forwardtoall": {
     "Cmd": "fwtoall",
-    "Desc": "Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json file",
+    "Desc":
+      "Toggles whether messages will be forwarded to all bot owners or only to the first one specified in the credentials.json file",
     "Usage": [
       "{0}fwtoall"
     ]
@@ -2541,7 +2615,8 @@
   },
   "antiraid": {
     "Cmd": "antiraid",
-    "Desc": "Sets an anti-raid protection on the server. Provide no parameters to disable. First parameter is number of people which will trigger the protection. Second parameter is a time interval in which that number of people needs to join in order to trigger the protection, and third parameter is punishment for those people (Kick, Ban, Mute)",
+    "Desc":
+      "Sets an anti-raid protection on the server. Provide no parameters to disable. First parameter is number of people which will trigger the protection. Second parameter is a time interval in which that number of people needs to join in order to trigger the protection, and third parameter is punishment for those people (Kick, Ban, Mute)",
     "Usage": [
       "{0}antiraid 5 20 Kick",
       "{0}antiraid"
@@ -2549,7 +2624,8 @@
   },
   "antispam": {
     "Cmd": "antispam",
-    "Desc": "Stops people from repeating same message X times in a row. Provide no parameters to disable. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
+    "Desc":
+      "Stops people from repeating same message X times in a row. Provide no parameters to disable. You can specify to either mute, kick or ban the offenders. If you're using mute, you can add a number of seconds at the end to use a timed mute. Max message count is 10.",
     "Usage": [
       "{0}antispam 3 Mute",
       "{0}antispam 4 Kick",
@@ -2565,7 +2641,8 @@
   },
   "voicemute": {
     "Cmd": "voicemute",
-    "Desc": "Prevents a mentioned user from speaking in voice channels. User has to be in a voice channel in order for the command to have an effect. You can optionally specify a reason.",
+    "Desc":
+      "Prevents a mentioned user from speaking in voice channels. User has to be in a voice channel in order for the command to have an effect. You can optionally specify a reason.",
     "Usage": [
       "{0}voicemute @Someone",
       "{0}voicemute @Someone stop talking"
@@ -2573,7 +2650,8 @@
   },
   "discordpermoverride": {
     "cmd": "dpo",
-    "desc": "Overrides required user permissions that the command has with the specified ones. You can only use channel permissions. This action will make the bot ignore permission requirements which command has by default. Provide no permissions to reset to default.",
+    "desc":
+      "Overrides required user permissions that the command has with the specified ones. You can only use channel permissions. This action will make the bot ignore permission requirements which command has by default. Provide no permissions to reset to default.",
     "usage": [
       "{0}dpo .prune ManageMessages ManageChannel",
       "{0}dpo .prune"
@@ -2595,7 +2673,8 @@
   },
   "delete": {
     "cmd": "delete del",
-    "desc": "Deletes a single message given the channel and message ID. If channel is ommited, message will be searched for in the current channel. You can also specify time parameter after which the message will be deleted (up to 7 days). This timer won't persist through bot restarts.",
+    "desc":
+      "Deletes a single message given the channel and message ID. If channel is ommited, message will be searched for in the current channel. You can also specify time parameter after which the message will be deleted (up to 7 days). This timer won't persist through bot restarts.",
     "usage": [
       "{0}del #chat 771562360594628608",
       "{0}del 771562360594628608",
@@ -2611,7 +2690,8 @@
   },
   "banmessage": {
     "Cmd": "banmessage banmsg bantemplate bantemp",
-    "Desc": "Sets a ban message template which will be used when a user is banned from this server. You can use embed strings and ban-specific placeholders: %ban.mod%, %ban.user%, %ban.duration% and %ban.reason%. You can disable ban message with `{0}banmsg -`",
+    "Desc":
+      "Sets a ban message template which will be used when a user is banned from this server. You can use embed strings and ban-specific placeholders: %ban.mod%, %ban.user%, %ban.duration% and %ban.reason%. You can disable ban message with `{0}banmsg -`",
     "Usage": [
       "{0}banmsg %ban.user%, you've been banned from %server.name%. Reason: %ban.reason%",
       "{0}banmsg {{ \"description\": \"%ban.user% you have been banned from %server.name% by %ban.mod%\" }}"
@@ -2619,7 +2699,8 @@
   },
   "banmessagetest": {
     "Cmd": "banmsgtest",
-    "Desc": "If ban message != disabled, bot will send you the message as if you were banned by yourself. Used for testing the ban message.",
+    "Desc":
+      "If ban message != disabled, bot will send you the message as if you were banned by yourself. Used for testing the ban message.",
     "Usage": [
       "{0}banmsgtest No reason",
       "{0}banmsgtest 1h Test 1 hour ban message"
@@ -2662,7 +2743,8 @@
   },
   "chatunmute": {
     "Cmd": "chatunmute",
-    "Desc": "Removes a mute role previously set on a mentioned user with `{0}chatmute` which prevented him from chatting in text channels.",
+    "Desc":
+      "Removes a mute role previously set on a mentioned user with `{0}chatmute` which prevented him from chatting in text channels.",
     "Usage": [
       "{0}chatunmute @Someone"
     ]
@@ -2676,7 +2758,8 @@
   },
   "xkcd": {
     "Cmd": "xkcd",
-    "Desc": "Shows a XKCD comic. Specify no parameters to retrieve a random one. Number parameter will retrieve a specific comic, and \"latest\" will get the latest one.",
+    "Desc":
+      "Shows a XKCD comic. Specify no parameters to retrieve a random one. Number parameter will retrieve a specific comic, and \"latest\" will get the latest one.",
     "Usage": [
       "{0}xkcd",
       "{0}xkcd 1400",
@@ -2692,7 +2775,8 @@
   },
   "place": {
     "Cmd": "place",
-    "Desc": "Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional parameters.",
+    "Desc":
+      "Shows a placeholder image of a given tag. Use `{0}placelist` to see all available tags. You can specify the width and height of the image as the last two optional parameters.",
     "Usage": [
       "{0}place Cage",
       "{0}place steven 500 400"
@@ -2707,21 +2791,24 @@
   },
   "poll": {
     "Cmd": "poll ppoll",
-    "Desc": "Creates a public poll which requires users to type a number of the voting option in the channel command is ran in.",
+    "Desc":
+      "Creates a public poll which requires users to type a number of the voting option in the channel command is ran in.",
     "Usage": [
       "{0}ppoll Question?;Answer1;Answ 2;A_3"
     ]
   },
   "autotranslang": {
     "Cmd": "autotranslang atl",
-    "Desc": "Sets your source and target language to be used with `{0}at`. Specify no parameters to remove previously set value.",
+    "Desc":
+      "Sets your source and target language to be used with `{0}at`. Specify no parameters to remove previously set value.",
     "Usage": [
       "{0}atl en>fr"
     ]
   },
   "autotranslate": {
     "Cmd": "autotrans at",
-    "Desc": "Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set \"del\" parameter to automatically delete all translated user messages.",
+    "Desc":
+      "Starts automatic translation of all messages by users who set their `{0}atl` in this channel. You can set \"del\" parameter to automatically delete all translated user messages.",
     "Usage": [
       "{0}at",
       "{0}at del"
@@ -2759,14 +2846,16 @@
   },
   "hentaibomb": {
     "Cmd": "hentaibomb",
-    "Desc": "Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.",
+    "Desc":
+      "Shows a total 5 images (from gelbooru, danbooru, konachan, yandere and atfbooru). Tag is optional but preferred.",
     "Usage": [
       "{0}hentaibomb yuri"
     ]
   },
   "cleverbot": {
     "Cmd": "cleverbot",
-    "Desc": "Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled.",
+    "Desc":
+      "Toggles cleverbot session. When enabled, the bot will reply to messages starting with bot mention in the server. Custom reactions starting with %mention% won't work if cleverbot is enabled.",
     "Usage": [
       "{0}cleverbot"
     ]
@@ -2802,7 +2891,8 @@
   },
   "yandere": {
     "Cmd": "yandere",
-    "Desc": "Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
+    "Desc":
+      "Shows a random image from yandere with a given tag. Tag is optional but preferred. (multiple tags are appended with +)",
     "Usage": [
       "{0}yandere tag1+tag2"
     ]
@@ -2860,7 +2950,8 @@
   },
   "hangman": {
     "Cmd": "hangman",
-    "Desc": "Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list of available term types. Defaults to 'all'.",
+    "Desc":
+      "Starts a game of hangman in the channel. Use `{0}hangmanlist` to see a list of available term types. Defaults to 'all'.",
     "Usage": [
       "{0}hangman",
       "{0}hangman movies"
@@ -2890,7 +2981,8 @@
   },
   "log": {
     "Cmd": "log",
-    "Desc": "Toggles logging event. Disables it if it is active anywhere on the server. Enables if it isn't active. Use `{0}logevents` to see a list of all events you can subscribe to.",
+    "Desc":
+      "Toggles logging event. Disables it if it is active anywhere on the server. Enables if it isn't active. Use `{0}logevents` to see a list of all events you can subscribe to.",
     "Usage": [
       "{0}log userpresence",
       "{0}log userbanned"
@@ -2898,7 +2990,8 @@
   },
   "fairplay": {
     "Cmd": "fairplay fp",
-    "Desc": "Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.",
+    "Desc":
+      "Toggles fairplay. While enabled, the bot will prioritize songs from users who didn't have their song recently played instead of the song's position in the queue.",
     "Usage": [
       "{0}fp"
     ]
@@ -2919,7 +3012,8 @@
   },
   "setmaxplaytime": {
     "Cmd": "setmaxplaytime smp",
-    "Desc": "Sets a maximum number of seconds (>14) a song can run before being skipped automatically. Set 0 to have no limit.",
+    "Desc":
+      "Sets a maximum number of seconds (>14) a song can run before being skipped automatically. Set 0 to have no limit.",
     "Usage": [
       "{0}smp 0",
       "{0}smp 270"
@@ -2934,7 +3028,8 @@
   },
   "autohentai": {
     "Cmd": "autohentai",
-    "Desc": "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tag groups. Random group will be chosen every time the image is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum. Provide no parameters to disable.",
+    "Desc":
+      "Posts a hentai every X seconds with a random tag from the provided tags. Use `|` to separate tag groups. Random group will be chosen every time the image is sent. Use `+` for multiple tags (max 2 per group). 20 seconds minimum. Provide no parameters to disable.",
     "Usage": [
       "{0}autohentai 30 yuri+kissing|tail+long_hair",
       "{0}autohentai"
@@ -2949,7 +3044,8 @@
   },
   "rotaterolecolor": {
     "Cmd": "rotaterolecolor rrc",
-    "Desc": "Rotates a roles color on an interval with a list of supplied colors. First parameter is interval in seconds (Minimum 60). Second parameter is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.",
+    "Desc":
+      "Rotates a roles color on an interval with a list of supplied colors. First parameter is interval in seconds (Minimum 60). Second parameter is a role, followed by a space-separated list of colors in hex. Provide a rolename with a 0 interval to disable.",
     "Usage": [
       "{0}rrc 60 MyLsdRole #ff0000 #00ff00 #0000ff",
       "{0}rrc 0 MyLsdRole"
@@ -3015,7 +3111,8 @@
   },
   "commandcost": {
     "Cmd": "commandcost cmdcost",
-    "Desc": "Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.",
+    "Desc":
+      "Sets a price for a command. Running that command will take currency from users. Set 0 to remove the price.",
     "Usage": [
       "{0}cmdcost 0 !!q",
       "{0}cmdcost 1 {0}8ball"
@@ -3052,7 +3149,8 @@
   },
   "waifuclaimeraffinity": {
     "Cmd": "affinity",
-    "Desc": "Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. Provide no parameters to clear your affinity. 30 minutes cooldown.",
+    "Desc":
+      "Sets your affinity towards someone you want to be claimed by. Setting affinity will reduce their `{0}claim` on you by 20%. Provide no parameters to clear your affinity. 30 minutes cooldown.",
     "Usage": [
       "{0}affinity @MyHusband",
       "{0}affinity"
@@ -3060,7 +3158,8 @@
   },
   "waifuclaim": {
     "Cmd": "claimwaifu claim",
-    "Desc": "Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `{0}affinity` towards you.",
+    "Desc":
+      "Claim a waifu for yourself by spending currency.  You must spend at least 10% more than her current value unless she set `{0}affinity` towards you.",
     "Usage": [
       "{0}claim 50 @Himesama"
     ]
@@ -3081,7 +3180,8 @@
   },
   "waifugift": {
     "Cmd": "waifugift gift gifts",
-    "Desc": "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if you are not their waifu, or 95% if you are. Provide no parameters to see a list of items that you can gift.",
+    "Desc":
+      "Gift an item to someone. This will increase their waifu value by 50% of the gifted item's value if you are not their waifu, or 95% if you are. Provide no parameters to see a list of items that you can gift.",
     "Usage": [
       "{0}gifts",
       "{0}gift Rose @Himesama"
@@ -3097,7 +3197,8 @@
   },
   "divorce": {
     "Cmd": "divorce",
-    "Desc": "Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.",
+    "Desc":
+      "Releases your claim on a specific waifu. You will get some of the money you've spent back unless that waifu has an affinity towards you. 6 hours cooldown.",
     "Usage": [
       "{0}divorce @CheatingSloot"
     ]
@@ -3119,14 +3220,16 @@
   },
   "setmusicchannel": {
     "Cmd": "setmusicchannel smch",
-    "Desc": "Sets the current channel as the default music output channel. This will output playing, finished, paused and removed songs to that channel instead of the channel where the first song was queued in.",
+    "Desc":
+      "Sets the current channel as the default music output channel. This will output playing, finished, paused and removed songs to that channel instead of the channel where the first song was queued in.",
     "Usage": [
       "{0}smch"
     ]
   },
   "unsetmusicchannel": {
     "Cmd": "unsetmusicchannel usmch",
-    "Desc": "Bot will output playing, finished, paused and removed songs to the channel where the first song was queued in.",
+    "Desc":
+      "Bot will output playing, finished, paused and removed songs to the channel where the first song was queued in.",
     "Usage": [
       "{0}smch"
     ]
@@ -3140,7 +3243,8 @@
   },
   "botconfigreload": {
     "Cmd": "botconfigreload",
-    "Desc": "Reloads bot configuration in case you made changes to the BotConfig table either with .sqlexec or manually in the .db file.",
+    "Desc":
+      "Reloads bot configuration in case you made changes to the BotConfig table either with .sqlexec or manually in the .db file.",
     "Usage": [
       "{0}botconfigreload"
     ]
@@ -3155,7 +3259,8 @@
   },
   "restartshard": {
     "Cmd": "restartshard",
-    "Desc": "Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors.",
+    "Desc":
+      "Try (re)connecting a shard with a certain shardid when it dies. No one knows will it work. Keep an eye on the console for errors.",
     "Usage": [
       "{0}restartshard 2"
     ]
@@ -3169,7 +3274,8 @@
   },
   "tictactoe": {
     "Cmd": "tictactoe ttt",
-    "Desc": "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play.",
+    "Desc":
+      "Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play.",
     "Usage": [
       "{0}ttt"
     ]
@@ -3191,7 +3297,8 @@
   },
   "languagesetdefault": {
     "Cmd": "langsetdefault langsetd",
-    "Desc": "Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no parameters to see currently set language.",
+    "Desc":
+      "Sets the bot's default response language. All servers which use a default locale will use this one. Setting to `default` will use the host's current culture. Provide no parameters to see currently set language.",
     "Usage": [
       "{0}langsetd en-US",
       "{0}langsetd default"
@@ -3199,7 +3306,8 @@
   },
   "languageset": {
     "Cmd": "languageset langset",
-    "Desc": "Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no parameters to see currently set language.",
+    "Desc":
+      "Sets this server's response language. If bot's response strings have been translated to that language, bot will use that language in this server. Reset by using `default` as the locale name. Provide no parameters to see currently set language.",
     "Usage": [
       "{0}langset de-DE ",
       "{0}langset default"
@@ -3214,7 +3322,8 @@
   },
   "rategirl": {
     "Cmd": "rategirl",
-    "Desc": "Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.",
+    "Desc":
+      "Use the universal hot-crazy wife zone matrix to determine the girl's worth. It is everything young men need to know about women. At any moment in time, any woman you have previously located on this chart can vanish from that location and appear anywhere else on the chart.",
     "Usage": [
       "{0}rategirl @SomeGurl"
     ]
@@ -3228,7 +3337,8 @@
   },
   "lucky7": {
     "Cmd": "lucky7 l7",
-    "Desc": "Bet currency on the game and start rolling 3 sided dice. At any point you can choose to [m]ove (roll again) or [s]tay (get the amount bet times the current multiplier).",
+    "Desc":
+      "Bet currency on the game and start rolling 3 sided dice. At any point you can choose to [m]ove (roll again) or [s]tay (get the amount bet times the current multiplier).",
     "Usage": [
       "{0}l7 10",
       "{0}l7 move",
@@ -3237,7 +3347,8 @@
   },
   "crreact": {
     "Cmd": "crreact crr",
-    "Desc": "Sets or resets reactions (up to 3) which will be added to the response message of the CustomReaction with the specified ID. Provide no emojis to reset.",
+    "Desc":
+      "Sets or resets reactions (up to 3) which will be added to the response message of the CustomReaction with the specified ID. Provide no emojis to reset.",
     "Usage": [
       "{0}crr 59 👍 👎 ",
       "{0}crr 59 <a:nFlower:408963839191941120>",
@@ -3260,14 +3371,16 @@
   },
   "crca": {
     "Cmd": "crca",
-    "Desc": "Toggles whether the custom reaction will trigger if the triggering message contains the keyword (instead of only starting with it).",
+    "Desc":
+      "Toggles whether the custom reaction will trigger if the triggering message contains the keyword (instead of only starting with it).",
     "Usage": [
       "{0}crca 44"
     ]
   },
   "crsreload": {
     "Cmd": "crsreload",
-    "Desc": "Reloads all custom reactions on all shards. Use this if you've made changes to the database while the bot is running, or used `{0}deleteunusedcrnq`",
+    "Desc":
+      "Reloads all custom reactions on all shards. Use this if you've made changes to the database while the bot is running, or used `{0}deleteunusedcrnq`",
     "Usage": [
       "{0}crsreload"
     ]
@@ -3312,7 +3425,8 @@
   },
   "startupcommandadd": {
     "Cmd": "scadd",
-    "Desc": "Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up.",
+    "Desc":
+      "Adds a command to the list of commands which will be executed automatically in the current channel, in the order they were added in, by the bot when it startups up.",
     "Usage": [
       "{0}scadd {0}stats"
     ]
@@ -3362,14 +3476,16 @@
   },
   "wait": {
     "Cmd": "wait",
-    "Desc": "Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands.",
+    "Desc":
+      "Used only as a startup command. Waits a certain number of miliseconds before continuing the execution of the following startup commands.",
     "Usage": [
       "{0}wait 3000"
     ]
   },
   "warnexpire": {
     "Cmd": "warnexpire warne",
-    "Desc": "Sets the number of days after which the warnings will be cleared automatically. This setting works retroactively. If you want to delete the warnings instead of clearing them, you can set the `--delete` optional parameter.",
+    "Desc":
+      "Sets the number of days after which the warnings will be cleared automatically. This setting works retroactively. If you want to delete the warnings instead of clearing them, you can set the `--delete` optional parameter.",
     "Usage": [
       "{0}warne 3",
       "{0}warne 6 --delete"
@@ -3392,7 +3508,8 @@
   },
   "warnpunish": {
     "Cmd": "warnpunish warnp",
-    "Desc": "Sets a punishment for a certain number of warnings. You can specify a time string after 'Ban' or *'Mute' punishments to make it a temporary mute/ban. Provide no punishment to remove. Available punishments: Ban, Kick, Softban, Mute, VoiceMute, ChatMute, AddRole, RemoveRoles",
+    "Desc":
+      "Sets a punishment for a certain number of warnings. You can specify a time string after 'Ban' or *'Mute' punishments to make it a temporary mute/ban. Provide no punishment to remove. Available punishments: Ban, Kick, Softban, Mute, VoiceMute, ChatMute, AddRole, RemoveRoles",
     "Usage": [
       "{0}warnp 3",
       "{0}warnp 5 Ban",
@@ -3402,7 +3519,8 @@
   },
   "claimpatreonrewards": {
     "Cmd": "clparew claparew",
-    "Desc": "Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.",
+    "Desc":
+      "Claim patreon rewards. If you're subscribed to bot owner's patreon you can use this command to claim your rewards - assuming bot owner did setup has their patreon key.",
     "Usage": [
       "{0}clparew"
     ]
@@ -3430,7 +3548,8 @@
   },
   "shopadd": {
     "Cmd": "shopadd",
-    "Desc": "Adds an item to the shop by specifying type price and name. Available types are role and list. 90% of currency from each purchase will be received by the user who added the item to the shop.",
+    "Desc":
+      "Adds an item to the shop by specifying type price and name. Available types are role and list. 90% of currency from each purchase will be received by the user who added the item to the shop.",
     "Usage": [
       "{0}shopadd role 1000 Rich"
     ]
@@ -3459,14 +3578,16 @@
   },
   "gamevoicechannel": {
     "Cmd": "gvc",
-    "Desc": "Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game, if it exists. Can't move users to channels that the bot has no connect permission for. One per server.",
+    "Desc":
+      "Toggles game voice channel feature in the voice channel you're currently in. Users who join the game voice channel will get automatically redirected to the voice channel with the name of their current game, if it exists. Can't move users to channels that the bot has no connect permission for. One per server.",
     "Usage": [
       "{0}gvc"
     ]
   },
   "shoplistadd": {
     "Cmd": "shoplistadd",
-    "Desc": "Adds an item to the list of items for sale in the shop entry given the index. You usually want to run this command in the secret channel, so that the unique items are not leaked.",
+    "Desc":
+      "Adds an item to the list of items for sale in the shop entry given the index. You usually want to run this command in the secret channel, so that the unique items are not leaked.",
     "Usage": [
       "{0}shoplistadd 1 Uni-que-Steam-Key"
     ]
@@ -3535,7 +3656,8 @@
   },
   "prefix": {
     "Cmd": "prefix",
-    "Desc": "Sets this server's prefix for all bot commands. Provide no parameters to see the current server prefix. **Setting prefix requires Administrator server permission.**",
+    "Desc":
+      "Sets this server's prefix for all bot commands. Provide no parameters to see the current server prefix. **Setting prefix requires Administrator server permission.**",
     "Usage": [
       "{0}prefix +"
     ]
@@ -3549,7 +3671,8 @@
   },
   "defprefix": {
     "Cmd": "defprefix",
-    "Desc": "Sets bot's default prefix for all bot commands. Provide no parameters to see the current default prefix. This will not change this server's current prefix.",
+    "Desc":
+      "Sets bot's default prefix for all bot commands. Provide no parameters to see the current default prefix. This will not change this server's current prefix.",
     "Usage": [
       "{0}defprefix +"
     ]
@@ -3563,7 +3686,8 @@
   },
   "streamrolekeyword": {
     "Cmd": "streamrolekw srkw",
-    "Desc": "Sets keyword which is required in the stream's title in order for the streamrole to apply. Provide no keyword in order to reset.",
+    "Desc":
+      "Sets keyword which is required in the stream's title in order for the streamrole to apply. Provide no keyword in order to reset.",
     "Usage": [
       "{0}srkw",
       "{0}srkw PUBG"
@@ -3579,7 +3703,8 @@
   },
   "streamrolewhitelist": {
     "Cmd": "streamrolewl srwl",
-    "Desc": "Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title.",
+    "Desc":
+      "Adds or removes a whitelisted user. Whitelisted users will receive the stream role even if they don't have the specified keyword in their stream title.",
     "Usage": [
       "{0}srwl add @b1nzy#1234",
       "{0}srwl rem @b1nzy#1234"
@@ -3587,7 +3712,8 @@
   },
   "botconfigedit": {
     "Cmd": "botconfigedit bce",
-    "Desc": "Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings.",
+    "Desc":
+      "Sets one of available bot config settings to a specified value. Use the command without any parameters to get a list of available settings.",
     "Usage": [
       "{0}bce CurrencyName b1nzy",
       "{0}bce"
@@ -3595,7 +3721,8 @@
   },
   "nsfwtagblacklist": {
     "Cmd": "nsfwtagbl nsfwtbl",
-    "Desc": "Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.",
+    "Desc":
+      "Toggles whether the tag is blacklisted or not in nsfw searches. Provide no parameters to see the list of blacklisted tags.",
     "Usage": [
       "{0}nsfwtbl poop"
     ]
@@ -3617,14 +3744,16 @@
   },
   "xptemplatereload": {
     "cmd": "xptempreload xptr",
-    "desc": "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `{0}xp` card.",
+    "desc":
+      "Reloads the xp template file. Xp template file allows you to customize the position and color of elements on the `{0}xp` card.",
     "usage": [
       "{0}xptr"
     ]
   },
   "xpexclusionlist": {
     "Cmd": "xpexclusionlist xpexl",
-    "Desc": "Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.",
+    "Desc":
+      "Shows the roles and channels excluded from the XP system on this server, as well as whether the whole server is excluded.",
     "Usage": [
       "{0}xpexl"
     ]
@@ -3639,7 +3768,8 @@
   },
   "xpnotify": {
     "Cmd": "xpnotify xpn",
-    "Desc": "Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.",
+    "Desc":
+      "Sets how the bot should notify you when you get a `server` or `global` level. You can set `dm` (for the bot to send a direct message), `channel` (to get notified in the channel you sent the last message in) or `none` to disable.",
     "Usage": [
       "{0}xpn global dm",
       "{0}xpn server channel"
@@ -3759,7 +3889,8 @@
   },
   "clublevelreq": {
     "Cmd": "clublevelreq",
-    "Desc": "Sets the club required level to apply to join the club. You must be club owner. You can't set this number below 5.",
+    "Desc":
+      "Sets the club required level to apply to join the club. You must be club owner. You can't set this number below 5.",
     "Usage": [
       "{0}clublevelreq 7"
     ]
@@ -3780,14 +3911,16 @@
   },
   "clubapps": {
     "Cmd": "clubapps",
-    "Desc": "Shows the list of users who have applied to your club. Paginated. You must be club owner to use this command.",
+    "Desc":
+      "Shows the list of users who have applied to your club. Paginated. You must be club owner to use this command.",
     "Usage": [
       "{0}clubapps 2"
     ]
   },
   "clubbans": {
     "Cmd": "clubbans",
-    "Desc": "Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.",
+    "Desc":
+      "Shows the list of users who have banned from your club. Paginated. You must be club owner to use this command.",
     "Usage": [
       "{0}clubbans 2"
     ]
@@ -3808,7 +3941,8 @@
   },
   "clubadmin": {
     "Cmd": "clubadmin",
-    "Desc": "Assigns (or unassigns) staff role to the member of the club. Admins can ban, kick and accept applications.",
+    "Desc":
+      "Assigns (or unassigns) staff role to the member of the club. Admins can ban, kick and accept applications.",
     "Usage": [
       "{0}clubadmin"
     ]
@@ -3838,14 +3972,16 @@
   },
   "feed": {
     "cmd": "feed feedadd",
-    "desc": "Subscribes to a feed. Bot will post an update up to once every 10 seconds. You can have up to 10 feeds on one server. All feeds must have unique URLs.",
+    "desc":
+      "Subscribes to a feed. Bot will post an update up to once every 10 seconds. You can have up to 10 feeds on one server. All feeds must have unique URLs.",
     "usage": [
       "{0}feed https://www.rt.com/rss/"
     ]
   },
   "feedremove": {
     "cmd": "feedremove feedrm feeddel",
-    "desc": "Stops tracking a feed on the given index. Use `{0}feeds` command to see a list of feeds and their indexes.",
+    "desc":
+      "Stops tracking a feed on the given index. Use `{0}feeds` command to see a list of feeds and their indexes.",
     "usage": [
       "{0}feedremove 3"
     ]
@@ -3866,7 +4002,8 @@
   },
   "say": {
     "cmd": "say",
-    "desc": "Bot will send the message you typed in the specified channel. If you omit the channel name, it will send the message in the current channel. Supports embeds.",
+    "desc":
+      "Bot will send the message you typed in the specified channel. If you omit the channel name, it will send the message in the current channel. Supports embeds.",
     "usage": [
       "{0}say hi",
       "{0}say #chat hi"
@@ -3895,7 +4032,8 @@
   },
   "deletewaifu": {
     "cmd": "deletewaifu",
-    "desc": "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
+    "desc":
+      "Deletes everything from WaifuUpdates, WaifuItem and WaifuInfo tables for the specified user. Also makes specified user's waifus free.",
     "usage": [
       "{0}deletewaifus"
     ]
@@ -3923,7 +4061,8 @@
   },
   "rafflecur": {
     "cmd": "rafflecur",
-    "desc": "Starts or joins a currency raffle with a specified amount. Users who join the raffle will lose the amount of currency specified and add it to the pot. After 30 seconds, random winner will be selected who will receive the whole pot. There is also a `mixed` mode in which the users will be able to join the game with any amount of currency, and have their chances be proportional to the amount they've bet.",
+    "desc":
+      "Starts or joins a currency raffle with a specified amount. Users who join the raffle will lose the amount of currency specified and add it to the pot. After 30 seconds, random winner will be selected who will receive the whole pot. There is also a `mixed` mode in which the users will be able to join the game with any amount of currency, and have their chances be proportional to the amount they've bet.",
     "usage": [
       "{0}rafflecur 20",
       "{0}rafflecur mixed 15"
@@ -3938,7 +4077,8 @@
   },
   "timelyset": {
     "cmd": "timelyset",
-    "desc": "Sets the 'timely' currency allowance amount for users. Second parameter is period in hours, default is 24 hours.",
+    "desc":
+      "Sets the 'timely' currency allowance amount for users. Second parameter is period in hours, default is 24 hours.",
     "usage": [
       "{0}timelyset 100",
       "{0}timelyset 50 12"
@@ -3946,7 +4086,8 @@
   },
   "timely": {
     "cmd": "timely",
-    "desc": "Use to claim your 'timely' currency. Bot owner has to specify the amount and the period on how often you can claim your currency.",
+    "desc":
+      "Use to claim your 'timely' currency. Bot owner has to specify the amount and the period on how often you can claim your currency.",
     "usage": [
       "{0}timely"
     ]
@@ -3967,7 +4108,8 @@
   },
   "crypto": {
     "cmd": "crypto",
-    "desc": "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
+    "desc":
+      "Shows basic stats about a cryptocurrency from coinmarketcap.com. You can use either a name or an abbreviation of the currency.",
     "usage": [
       "{0}crypto btc",
       "{0}crypto bitcoin"
@@ -3982,7 +4124,8 @@
   },
   "masskill": {
     "cmd": "masskill",
-    "desc": "Specify a new-line separated list of `userid reason`. You can use Username#discrim instead of UserId. Specified users will be banned from the current server, blacklisted from the bot, and have all of their flowers taken away.",
+    "desc":
+      "Specify a new-line separated list of `userid reason`. You can use Username#discrim instead of UserId. Specified users will be banned from the current server, blacklisted from the bot, and have all of their flowers taken away.",
     "usage": [
       "{0}masskill BadPerson#1234 Toxic person"
     ]
@@ -4010,7 +4153,8 @@
   },
   "rollduel": {
     "cmd": "rollduel",
-    "desc": "Challenge someone to a roll duel by specifying the amount and the user you wish to challenge as the parameters. To accept the challenge, just specify the name of the user who challenged you, without the amount.",
+    "desc":
+      "Challenge someone to a roll duel by specifying the amount and the user you wish to challenge as the parameters. To accept the challenge, just specify the name of the user who challenged you, without the amount.",
     "usage": [
       "{0}rollduel 50 @SomeGuy",
       "{0}rollduel @Challenger"
@@ -4018,7 +4162,8 @@
   },
   "reactionroles": {
     "cmd": "reactionroles rero",
-    "desc": "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first parameter to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
+    "desc":
+      "Specify role names and server emojis with which they're represented, the bot will then add those emojis to the previous message in the channel, and users will be able to get the roles by clicking on the emoji. You can set 'excl' as the first parameter to make them exclusive. You can have up to 5 of these enabled on one server at a time.",
     "usage": [
       "{0}reactionroles Gamer :SomeServerEmoji: Streamer :Other: Watcher :Other2:",
       "{0}reactionroles excl Horde :Horde: Alliance :Alliance:"
@@ -4040,7 +4185,8 @@
   },
   "blackjack": {
     "cmd": "blackjack bj",
-    "desc": "Start or join a blackjack game. You must specify the amount you're betting. Use `{0}hit`, `{0}stand` and `{0}double` commands to play. Game is played with 4 decks. Dealer hits on soft 17 and wins draws.",
+    "desc":
+      "Start or join a blackjack game. You must specify the amount you're betting. Use `{0}hit`, `{0}stand` and `{0}double` commands to play. Game is played with 4 decks. Dealer hits on soft 17 and wins draws.",
     "usage": [
       "{0}bj 50"
     ]
@@ -4083,7 +4229,8 @@
   },
   "edit": {
     "cmd": "edit",
-    "desc": "Edits bot's message, you have to specify message ID and new text. You can optionally specify target channel. Supports embeds.",
+    "desc":
+      "Edits bot's message, you have to specify message ID and new text. You can optionally specify target channel. Supports embeds.",
     "usage": [
       "{0}edit 7479498384 Hi :^)",
       "{0}edit #other-channel 771562360594628608 New message!",
@@ -4106,14 +4253,16 @@
   },
   "streammessage": {
     "cmd": "streammsg",
-    "desc": "Specify an url of a stream you're already following, and a message in order to set a stream notification message which will show up every time stream comes online.",
+    "desc":
+      "Specify an url of a stream you're already following, and a message in order to set a stream notification message which will show up every time stream comes online.",
     "usage": [
       "{0}streammsg https://www.twitch.tv/trolhamonas/ Hello world"
     ]
   },
   "updatescheck": {
     "cmd": "updatescheck",
-    "desc": "Select which kind of updates you want to be notified of every 8 hours. You can specify 'release' to check only for new windows releases, 'commit' to be notified of new commits, or 'none' to not get notified.",
+    "desc":
+      "Select which kind of updates you want to be notified of every 8 hours. You can specify 'release' to check only for new windows releases, 'commit' to be notified of new commits, or 'none' to not get notified.",
     "usage": [
       "{0}updatescheck commit",
       "{0}updatescheck release"

@@ -1,6 +1,6 @@
-﻿using Mewdeko.Core.Services.Database.Models;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using Mewdeko.Core.Services.Database.Models;
 
 namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
 {
@@ -15,7 +15,8 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Strategies
                 Provider = "Local File",
                 ProviderType = MusicType.Local,
                 Query = query,
-                Thumbnail = "https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png",
+                Thumbnail =
+                    "https://cdn.discordapp.com/attachments/155726317222887425/261850914783100928/1482522077_music.png"
             });
         }
     }

@@ -6,9 +6,9 @@ namespace Mewdeko.Modules.Permissions.Services
 {
     public class ResetPermissionsService : INService
     {
-        private readonly PermissionService _perms;
-        private readonly GlobalPermissionService _globalPerms;
         private readonly DbService _db;
+        private readonly GlobalPermissionService _globalPerms;
+        private readonly PermissionService _perms;
 
         public ResetPermissionsService(PermissionService perms, GlobalPermissionService globalPerms, DbService db)
         {

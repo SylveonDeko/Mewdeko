@@ -1,23 +1,24 @@
-﻿using Mewdeko.Extensions;
-using Mewdeko.Modules.Music.Common.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mewdeko.Common;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Music.Common.Exceptions;
 
 namespace Mewdeko.Modules.Music.Common
 {
     public sealed class MusicQueue : IDisposable
     {
-        private LinkedList<SongInfo> Songs { get; set; } = new LinkedList<SongInfo>();
-        private int _currentIndex = 0;
+        private readonly object locker = new();
+        private int _currentIndex;
+
+        private uint _maxQueueSize;
+        private LinkedList<SongInfo> Songs { get; set; } = new();
+
         public int CurrentIndex
         {
-            get
-            {
-                return _currentIndex;
-            }
+            get => _currentIndex;
             set
             {
                 lock (locker)
@@ -29,6 +30,7 @@ namespace Mewdeko.Modules.Music.Common
                 }
             }
         }
+
         public (int Index, SongInfo Song) Current
         {
             get
@@ -38,8 +40,8 @@ namespace Mewdeko.Modules.Music.Common
             }
         }
 
-        private readonly object locker = new object();
-        private TaskCompletionSource<bool> nextSource { get; } = new TaskCompletionSource<bool>();
+        private TaskCompletionSource<bool> nextSource { get; } = new();
+
         public int Count
         {
             get
@@ -51,7 +53,6 @@ namespace Mewdeko.Modules.Music.Common
             }
         }
 
-        private uint _maxQueueSize;
         public uint MaxQueueSize
         {
             get => _maxQueueSize;
@@ -67,12 +68,17 @@ namespace Mewdeko.Modules.Music.Common
             }
         }
 
+        public void Dispose()
+        {
+            Clear();
+        }
+
         public void Add(SongInfo song)
         {
             song.ThrowIfNull(nameof(song));
             lock (locker)
             {
-                if(MaxQueueSize != 0 && Songs.Count >= MaxQueueSize)
+                if (MaxQueueSize != 0 && Songs.Count >= MaxQueueSize)
                     throw new QueueFullException();
                 Songs.AddLast(song);
             }
@@ -101,13 +107,10 @@ namespace Mewdeko.Modules.Music.Common
 
         public void Next(int skipCount = 1)
         {
-            lock(locker)
+            lock (locker)
+            {
                 CurrentIndex += skipCount;
-        }
-
-        public void Dispose()
-        {
-            Clear();
+            }
         }
 
         public SongInfo RemoveAt(int index)
@@ -118,22 +121,17 @@ namespace Mewdeko.Modules.Music.Common
                     throw new ArgumentOutOfRangeException(nameof(index));
 
                 var current = Songs.First.Value;
-                for (int i = 0; i < Songs.Count; i++)
-                {
+                for (var i = 0; i < Songs.Count; i++)
                     if (i == index)
                     {
                         current = Songs.ElementAt(index);
                         Songs.Remove(current);
                         if (CurrentIndex != 0)
-                        {
                             if (CurrentIndex >= index)
-                            {
                                 --CurrentIndex;
-                            }
-                        }
                         break;
                     }
-                }
+
                 return current;
             }
         }
@@ -214,7 +212,9 @@ namespace Mewdeko.Modules.Music.Common
         public bool IsLast()
         {
             lock (locker)
+            {
                 return CurrentIndex == Songs.Count - 1;
+            }
         }
     }
 }

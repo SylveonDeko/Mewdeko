@@ -7,36 +7,35 @@ namespace Mewdeko.Common.Collections
 {
     public class IndexedCollection<T> : IList<T> where T : class, IIndexed
     {
-        public List<T> Source { get; }
-        private readonly object _locker = new object();
+        private readonly object _locker = new();
 
         public IndexedCollection()
         {
             Source = new List<T>();
         }
+
         public IndexedCollection(IEnumerable<T> source)
         {
             lock (_locker)
             {
                 Source = source.OrderBy(x => x.Index).ToList();
                 for (var i = 0; i < Source.Count; i++)
-                {
                     if (Source[i].Index != i)
                         Source[i].Index = i;
-                }
             }
         }
 
-        public static implicit operator List<T>(IndexedCollection<T> x) =>
-            x.Source;
+        public List<T> Source { get; }
 
-        public List<T> ToList() => Source.ToList();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Source.GetEnumerator();
+        }
 
-        public IEnumerator<T> GetEnumerator() =>
-            Source.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() =>
-            Source.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Source.GetEnumerator();
+        }
 
         public void Add(T item)
         {
@@ -77,33 +76,31 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 if (removed = Source.Remove(item))
-                {
-                    for (int i = 0; i < Source.Count; i++)
-                    {
+                    for (var i = 0; i < Source.Count; i++)
                         // hm, no idea how ef works, so I don't want to set if it's not changed, 
                         // maybe it will try to update db? 
                         // But most likely it just compares old to new values, meh.
                         if (Source[i].Index != i)
                             Source[i].Index = i;
-                    }
-                }
             }
+
             return removed;
         }
 
         public int Count => Source.Count;
         public bool IsReadOnly => false;
-        public int IndexOf(T item) => item.Index;
+
+        public int IndexOf(T item)
+        {
+            return item.Index;
+        }
 
         public virtual void Insert(int index, T item)
         {
             lock (_locker)
             {
                 Source.Insert(index, item);
-                for (int i = index; i < Source.Count; i++)
-                {
-                    Source[i].Index = i;
-                }
+                for (var i = index; i < Source.Count; i++) Source[i].Index = i;
             }
         }
 
@@ -112,16 +109,13 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 Source.RemoveAt(index);
-                for (int i = index; i < Source.Count; i++)
-                {
-                    Source[i].Index = i;
-                }
+                for (var i = index; i < Source.Count; i++) Source[i].Index = i;
             }
         }
 
         public virtual T this[int index]
         {
-            get { return Source[index]; }
+            get => Source[index];
             set
             {
                 lock (_locker)
@@ -131,6 +125,15 @@ namespace Mewdeko.Common.Collections
                 }
             }
         }
-    }
 
+        public static implicit operator List<T>(IndexedCollection<T> x)
+        {
+            return x.Source;
+        }
+
+        public List<T> ToList()
+        {
+            return Source.ToList();
+        }
+    }
 }

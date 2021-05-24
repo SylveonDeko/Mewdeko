@@ -11,14 +11,14 @@ namespace Mewdeko.Common.Yml
         public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
         {
             this.innerDescriptor = innerDescriptor;
-            this.Comment = comment;
+            Comment = comment;
         }
 
-        public string Comment { get; private set; }
+        public string Comment { get; }
 
-        public object Value { get { return innerDescriptor.Value; } }
-        public Type Type { get { return innerDescriptor.Type; } }
-        public Type StaticType { get { return innerDescriptor.StaticType; } }
-        public ScalarStyle ScalarStyle { get { return innerDescriptor.ScalarStyle; } }
+        public object Value => innerDescriptor.Value;
+        public Type Type => innerDescriptor.Type;
+        public Type StaticType => innerDescriptor.StaticType;
+        public ScalarStyle ScalarStyle => innerDescriptor.ScalarStyle;
     }
 }

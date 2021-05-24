@@ -1,15 +1,13 @@
-﻿using Mewdeko.Common;
+﻿using System.Reflection;
+using Mewdeko.Common;
 using Mewdeko.Core.Services.Database.Models;
-using System.Reflection;
 
 namespace Mewdeko.Core.Services.Impl
 {
     public class BotConfigProvider : IBotConfigProvider
     {
-        private readonly DbService _db;
         private readonly IDataCache _cache;
-
-        public BotConfig BotConfig { get; private set; }
+        private readonly DbService _db;
 
         public BotConfigProvider(DbService db, IDataCache cache)
         {
@@ -17,6 +15,8 @@ namespace Mewdeko.Core.Services.Impl
             _cache = cache;
             Reload();
         }
+
+        public BotConfig BotConfig { get; private set; }
 
         public void Reload()
         {
@@ -49,23 +49,15 @@ namespace Mewdeko.Core.Services.Impl
                         if (float.TryParse(newValue, out var chance)
                             && chance >= 0
                             && chance <= 1)
-                        {
                             bc.CurrencyGenerationChance = chance;
-                        }
                         else
-                        {
                             return false;
-                        }
                         break;
                     case BotConfigEditType.CurrencyGenerationCooldown:
                         if (int.TryParse(newValue, out var cd) && cd >= 1)
-                        {
                             bc.CurrencyGenerationCooldown = cd;
-                        }
                         else
-                        {
                             return false;
-                        }
                         break;
                     case BotConfigEditType.CurrencyDropAmount:
                         if (int.TryParse(newValue, out var amount) && amount > 0)
@@ -183,13 +175,14 @@ namespace Mewdeko.Core.Services.Impl
                 BotConfig = bc;
                 uow.SaveChanges();
             }
+
             return true;
         }
 
         public string GetValue(string name)
         {
             var value = typeof(BotConfig)
-                .GetProperty(name, BindingFlags.IgnoreCase| BindingFlags.Public | BindingFlags.Instance)
+                .GetProperty(name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
                 ?.GetValue(BotConfig);
             return value?.ToString() ?? "-";
         }

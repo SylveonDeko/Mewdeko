@@ -1,4 +1,7 @@
 ﻿#if !GLOBAL_Mewdeko
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common;
@@ -7,9 +10,6 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using static Mewdeko.Modules.Administration.Services.LogCommandService;
 
 namespace Mewdeko.Modules.Administration
@@ -26,11 +26,13 @@ namespace Mewdeko.Modules.Administration
                 Disable
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-
             public async Task LogServer(PermissionAction action)
             {
                 await _service.LogServer(ctx.Guild.Id, ctx.Channel.Id, action.Value).ConfigureAwait(false);
@@ -40,11 +42,13 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
-
             public async Task LogServer(ITextChannel channel, PermissionAction action)
             {
                 await _service.LogServer(ctx.Guild.Id, channel.Id, action.Value).ConfigureAwait(false);
@@ -54,58 +58,74 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-
             public async Task LogIgnore()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 var removed = _service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
 
                 if (!removed)
-                    await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("log_ignore",
+                        Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("log_not_ignore",
+                        Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
-
             public async Task LogIgnore(ITextChannel channel)
             {
                 var removed = _service.LogIgnore(ctx.Guild.Id, channel.Id);
 
                 if (!removed)
-                    await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("log_ignore",
+                        Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("log_not_ignore",
+                        Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(2)]
-
             public async Task LogIgnore(IVoiceChannel channel)
             {
                 var removed = _service.LogIgnore(ctx.Guild.Id, channel.Id);
 
                 if (!removed)
-                    await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold(channel.Name + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold(channel.Name + "(" + channel.Id + ")"))
+                        .ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalizedAsync("log_not_ignore", Format.Bold(channel.Name + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("log_not_ignore",
+                        Format.Bold(channel.Name + "(" + channel.Id + ")")).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-
             public async Task LogEvents()
             {
-                _service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out LogSetting l);
+                _service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
                 var str = string.Join("\n", Enum.GetNames(typeof(LogType))
                     .Select(x =>
                     {
@@ -116,7 +136,7 @@ namespace Mewdeko.Modules.Administration
                     }));
 
                 await ctx.Channel.SendConfirmAsync(Format.Bold(GetText("log_events")) + "\n" +
-                    str)
+                                                   str)
                     .ConfigureAwait(false);
             }
 
@@ -159,11 +179,13 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-
             public async Task Log(LogType type)
             {
                 var val = _service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
@@ -174,20 +196,24 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("log_stop", Format.Bold(type.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
-
             public async Task Log(LogType type, ITextChannel channel)
             {
                 var val = _service.Log(ctx.Guild.Id, channel.Id, type);
 
                 if (val)
-                    await ctx.Channel.SendConfirmAsync("Logging has been enabled for the event " + Format.Bold(type.ToString()) + " in " + channel.Mention);
+                    await ctx.Channel.SendConfirmAsync("Logging has been enabled for the event " +
+                                                       Format.Bold(type.ToString()) + " in " + channel.Mention);
                 else
                     _service.Log(ctx.Guild.Id, channel.Id, type);
-                await ctx.Channel.SendConfirmAsync("Event Logging for " + Format.Bold(type.ToString()) + " has been switched to " + channel.Mention);
+                await ctx.Channel.SendConfirmAsync("Event Logging for " + Format.Bold(type.ToString()) +
+                                                   " has been switched to " + channel.Mention);
             }
         }
     }

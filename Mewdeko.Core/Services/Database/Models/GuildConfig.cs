@@ -1,5 +1,5 @@
-﻿using Mewdeko.Common.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Mewdeko.Common.Collections;
 
 namespace Mewdeko.Core.Services.Database.Models
 {
@@ -10,13 +10,14 @@ namespace Mewdeko.Core.Services.Database.Models
         public string Prefix { get; set; } = null;
 
         public bool DeleteMessageOnCommand { get; set; }
-        public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new HashSet<DelMsgOnCmdChannel>();
+        public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
         public string AutoAssignRoleId { get; set; } = 0.ToString();
         public ulong WarnlogChannelId { get; set; } = 0;
         public ulong MiniWarnlogChannelId { get; set; } = 0;
         public ulong TicketCategory { get; set; } = 0;
         public ulong snipeset { get; set; }
         public ulong SuggestRole { get; set; }
+
         public ulong Stars { get; set; }
         //public int TLogType { get; set; }
         //public ulong TLogChan { get; set; }
@@ -37,7 +38,9 @@ namespace Mewdeko.Core.Services.Database.Models
         public int fwarn { get; set; }
         public int invwarn { get; set; }
         public int removeroles { get; set; }
-        public List<WarningPunishment2> WarnPunishments2 { get; set; } = new List<WarningPunishment2>();
+
+        public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
+
         //greet stuff
         public bool AutoDeleteGreetMessages { get; set; } //unused
         public bool AutoDeleteByeMessages { get; set; } // unused
@@ -56,7 +59,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public bool SendChannelByeMessage { get; set; }
         public string ChannelByeMessageText { get; set; } = "%user% has left!";
 
-        public LogSetting LogSetting { get; set; } = new LogSetting();
+        public LogSetting LogSetting { get; set; } = new();
 
         //self assignable roles
         public bool ExclusiveSelfAssignedRoles { get; set; }
@@ -65,10 +68,10 @@ namespace Mewdeko.Core.Services.Database.Models
         public bool VoicePlusTextEnabled { get; set; }
 
         //stream notifications
-        public HashSet<FollowedStream> FollowedStreams { get; set; } = new HashSet<FollowedStream>();
+        public HashSet<FollowedStream> FollowedStreams { get; set; } = new();
 
         //currencyGeneration
-        public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new HashSet<GCChannelId>();
+        public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new();
 
         //permissions
         public Permission RootPermission { get; set; } = null;
@@ -76,26 +79,26 @@ namespace Mewdeko.Core.Services.Database.Models
         public bool VerbosePermissions { get; set; } = true;
         public string PermissionRole { get; set; } = null;
 
-        public HashSet<CommandCooldown> CommandCooldowns { get; set; } = new HashSet<CommandCooldown>();
+        public HashSet<CommandCooldown> CommandCooldowns { get; set; } = new();
 
         //filtering
         public bool FilterInvites { get; set; }
         public bool FilterLinks { get; set; }
-        public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; } = new HashSet<FilterChannelId>();
-        public HashSet<FilterLinksChannelId> FilterLinksChannelIds { get; set; } = new HashSet<FilterLinksChannelId>();
+        public HashSet<FilterChannelId> FilterInvitesChannelIds { get; set; } = new();
+        public HashSet<FilterLinksChannelId> FilterLinksChannelIds { get; set; } = new();
 
         //public bool FilterLinks { get; set; }
         //public HashSet<FilterLinksChannelId> FilterLinksChannels { get; set; } = new HashSet<FilterLinksChannelId>();
 
         public bool FilterWords { get; set; }
-        public HashSet<FilteredWord> FilteredWords { get; set; } = new HashSet<FilteredWord>();
-        public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; } = new HashSet<FilterChannelId>();
+        public HashSet<FilteredWord> FilteredWords { get; set; } = new();
+        public HashSet<FilterChannelId> FilterWordsChannelIds { get; set; } = new();
 
-        public HashSet<MutedUserId> MutedUsers { get; set; } = new HashSet<MutedUserId>();
+        public HashSet<MutedUserId> MutedUsers { get; set; } = new();
 
         public string MuteRoleName { get; set; }
         public bool CleverbotEnabled { get; set; }
-        public List<Repeater> GuildRepeaters { get; set; } = new List<Repeater>();
+        public List<Repeater> GuildRepeaters { get; set; } = new();
 
         public AntiRaidSetting AntiRaidSetting { get; set; }
         public AntiSpamSetting AntiSpamSetting { get; set; }
@@ -103,16 +106,16 @@ namespace Mewdeko.Core.Services.Database.Models
         public string Locale { get; set; } = null;
         public string TimeZoneId { get; set; } = null;
 
-        public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new HashSet<UnmuteTimer>();
-        public HashSet<UnbanTimer> UnbanTimer { get; set; } = new HashSet<UnbanTimer>();
-        public HashSet<UnroleTimer> UnroleTimer { get; set; } = new HashSet<UnroleTimer>();
+        public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new();
+        public HashSet<UnbanTimer> UnbanTimer { get; set; } = new();
+        public HashSet<UnroleTimer> UnroleTimer { get; set; } = new();
         public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
-        public HashSet<CommandAlias> CommandAliases { get; set; } = new HashSet<CommandAlias>();
-        public List<WarningPunishment> WarnPunishments { get; set; } = new List<WarningPunishment>();
+        public HashSet<CommandAlias> CommandAliases { get; set; } = new();
+        public List<WarningPunishment> WarnPunishments { get; set; } = new();
         public bool WarningsInitialized { get; set; }
         public HashSet<SlowmodeIgnoredUser> SlowmodeIgnoredUsers { get; set; }
         public HashSet<SlowmodeIgnoredRole> SlowmodeIgnoredRoles { get; set; }
-        public HashSet<NsfwBlacklitedTag> NsfwBlacklistedTags { get; set; } = new HashSet<NsfwBlacklitedTag>();
+        public HashSet<NsfwBlacklitedTag> NsfwBlacklistedTags { get; set; } = new();
 
         public List<ShopEntry> ShopEntries { get; set; }
         public ulong? GameVoiceChannel { get; set; } = null;
@@ -121,10 +124,10 @@ namespace Mewdeko.Core.Services.Database.Models
         public StreamRoleSettings StreamRole { get; set; }
 
         public XpSettings XpSettings { get; set; }
-        public List<FeedSub> FeedSubs { get; set; } = new List<FeedSub>();
+        public List<FeedSub> FeedSubs { get; set; } = new();
         public bool AutoDcFromVc { get; set; }
-        public MusicSettings MusicSettings { get; set; } = new MusicSettings();
-        public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new IndexedCollection<ReactionRoleMessage>();
+        public MusicSettings MusicSettings { get; set; } = new();
+        public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new();
         public bool NotifyStreamOffline { get; set; }
         public List<GroupName> SelfAssignableRoleGroupNames { get; set; }
         public int WarnExpireHours { get; set; } = 0;

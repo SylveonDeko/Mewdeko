@@ -18,8 +18,8 @@ namespace Mewdeko.Core.Services.Database.Models
         public override bool Equals(object obj)
         {
             return obj is FeedSub s
-                && s.Url.ToLower() == Url.ToLower()
-                && s.GuildConfigId == GuildConfigId;
+                   && s.Url.ToLower() == Url.ToLower()
+                   && s.GuildConfigId == GuildConfigId;
         }
     }
 }

@@ -3,6 +3,6 @@
     public enum Phase
     {
         Active,
-        Ended,
+        Ended
     }
 }

@@ -1,13 +1,13 @@
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
 using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -15,12 +15,12 @@ namespace Mewdeko.Modules.Utility
     public partial class Utility
     {
         [Group]
-        public class InfoCommands : MewdekoSubmodule <UtilityService>
+        public class InfoCommands : MewdekoSubmodule<UtilityService>
         {
             private readonly DiscordSocketClient _client;
             private readonly IStatsService _stats;
             public IDiscordClient Client;
-            
+
 
             public InfoCommands(DiscordSocketClient client, IStatsService stats)
             {
@@ -28,17 +28,21 @@ namespace Mewdeko.Modules.Utility
                 _stats = stats;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ServerInfo(string guildName = null)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
                 guildName = guildName?.ToUpperInvariant();
                 SocketGuild guild;
                 if (string.IsNullOrWhiteSpace(guildName))
-                    guild = (SocketGuild)channel.Guild;
+                    guild = (SocketGuild) channel.Guild;
                 else
-                    guild = _client.Guilds.FirstOrDefault(g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
+                    guild = _client.Guilds.FirstOrDefault(
+                        g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
                 if (guild == null)
                     return;
                 var ownername = guild.GetUser(guild.OwnerId);
@@ -54,37 +58,44 @@ namespace Mewdeko.Modules.Utility
                     .WithTitle(guild.Name)
                     .AddField(fb => fb.WithName(GetText("id")).WithValue(guild.Id.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("owner")).WithValue(ownername.Mention).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("members")).WithValue(guild.MemberCount.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("text_channels")).WithValue(textchn.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("voice_channels")).WithValue(voicechn.ToString()).WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("members")).WithValue(guild.MemberCount.ToString()).WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("text_channels")).WithValue(textchn.ToString()).WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("voice_channels")).WithValue(voicechn.ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName("Joins").WithValue(_service.GetJoined(ctx.Guild.Id)).WithIsInline(true))
                     .AddField(fb => fb.WithName("Leaves").WithValue(_service.GetLeft(ctx.Guild.Id)).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}").WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("region")).WithValue(guild.VoiceRegionId.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}")
+                            .WithIsInline(true))
+                    .AddField(fb => fb.WithName(GetText("region")).WithValue(guild.VoiceRegionId).WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("features")).WithValue(features).WithIsInline(true))
                     .WithImageUrl($"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=4096")
                     .WithColor(Mewdeko.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                     embed.WithThumbnailUrl(guild.IconUrl);
                 if (guild.Emotes.Any())
-                {
-                    embed.AddField(fb => 
+                    embed.AddField(fb =>
                         fb.WithName(GetText("custom_emojis") + $"({guild.Emotes.Count})")
-                        .WithValue(string.Join(" ", guild.Emotes
-                            .Shuffle()
-                            .Take(30)
-                            .Select(e => $"{e.ToString()}"))
-                            .TrimTo(1024)));
-                }
+                            .WithValue(string.Join(" ", guild.Emotes
+                                    .Shuffle()
+                                    .Take(30)
+                                    .Select(e => $"{e}"))
+                                .TrimTo(1024)));
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChannelInfo(ITextChannel channel = null)
             {
-                var ch = channel ?? (ITextChannel)ctx.Channel;
+                var ch = channel ?? (ITextChannel) ctx.Channel;
                 if (ch == null)
                     return;
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
@@ -93,26 +104,36 @@ namespace Mewdeko.Modules.Utility
                     .WithTitle(ch.Name)
                     .WithDescription(ch.Topic?.SanitizeMentions())
                     .AddField(fb => fb.WithName(GetText("id")).WithValue(ch.Id.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}").WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}")
+                            .WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("users")).WithValue(usercount.ToString()).WithIsInline(true))
                     .WithColor(Mewdeko.OkColor);
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Fetch(ulong id)
             {
                 var usr = await _client.Rest.GetUserAsync(id);
                 var embed = new EmbedBuilder()
                     .WithTitle("info for fetched user")
-                    .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " + usr.CreatedAt.ToString())
-                    .WithImageUrl(usr.RealAvatarUrl(2048).ToString())
+                    .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " +
+                                     usr.CreatedAt)
+                    .WithImageUrl(usr.RealAvatarUrl().ToString())
                     .WithOkColor();
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task UserInfo(IGuildUser usr = null)
             {
@@ -122,37 +143,42 @@ namespace Mewdeko.Modules.Utility
                     return;
 
                 var embed = new EmbedBuilder()
-                    .AddField(fb => fb.WithName(GetText("name")).WithValue($"**{user.Username}**#{user.Discriminator}").WithIsInline(true));
+                    .AddField(fb =>
+                        fb.WithName(GetText("name")).WithValue($"**{user.Username}**#{user.Discriminator}")
+                            .WithIsInline(true));
                 if (!string.IsNullOrWhiteSpace(user.Nickname))
-                {
                     embed.AddField(fb => fb.WithName(GetText("nickname")).WithValue(user.Nickname).WithIsInline(true));
-                }
                 embed.AddField(fb => fb.WithName(GetText("id")).WithValue(user.Id.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("joined_server")).WithValue($"{user.JoinedAt?.ToString("MM/dd/yyyy HH:mm") ?? "?"}").WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("joined_discord")).WithValue($"{user.CreatedAt:MM/dd/yyyy HH:mm}").WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("joined_server"))
+                            .WithValue($"{user.JoinedAt?.ToString("MM/dd/yyyy HH:mm") ?? "?"}").WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("joined_discord")).WithValue($"{user.CreatedAt:MM/dd/yyyy HH:mm}")
+                            .WithIsInline(true))
                     .WithColor(Mewdeko.OkColor);
                 if (!user.GetRoles().Any())
-                {
                     embed.AddField(fb => fb.WithName(GetText("roles")).WithValue("None"));
-                }
                 else
-                {
-                    embed.AddField(fb => fb.WithName(GetText("roles")).WithValue($"{string.Join(" ", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).OrderByDescending(r => r.Position).Select(r => r.Mention).Take(30))}").WithIsInline(false));
-                } 
+                    embed.AddField(fb =>
+                        fb.WithName(GetText("roles"))
+                            .WithValue(
+                                $"{string.Join(" ", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).OrderByDescending(r => r.Position).Select(r => r.Mention).Take(30))}")
+                            .WithIsInline(false));
                 if (user.Activity?.Name != null)
-                {
-                    embed.AddField(fb => fb.WithName("User Activity").WithValue(user.Activity.Type + ": " + user.Activity));
-                }
+                    embed.AddField(fb =>
+                        fb.WithName("User Activity").WithValue(user.Activity.Type + ": " + user.Activity));
                 else
-                {   
                     embed.AddField(fb => fb.WithName("User Activity").WithValue("None"));
-                }
-                var av = user.RealAvatarUrl(2048);
+                var av = user.RealAvatarUrl();
                 if (av != null && av.IsAbsoluteUri)
                     embed.WithImageUrl(av.ToString());
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task SUInfo(IGuildUser usr = null)
             {
@@ -162,16 +188,20 @@ namespace Mewdeko.Modules.Utility
                     return;
 
                 var embed = new EmbedBuilder()
-                    .AddField(fb => fb.WithName(GetText("name")).WithValue($"**{user.Username}**#{user.Discriminator}").WithIsInline(false));
+                    .AddField(fb =>
+                        fb.WithName(GetText("name")).WithValue($"**{user.Username}**#{user.Discriminator}")
+                            .WithIsInline(false));
                 if (!string.IsNullOrWhiteSpace(user.Nickname))
-                {
                     embed.AddField(fb => fb.WithName(GetText("nickname")).WithValue(user.Nickname).WithIsInline(false));
-                }
                 embed.AddField(fb => fb.WithName(GetText("id")).WithValue(user.Id.ToString()).WithIsInline(false))
                     .WithColor(Mewdeko.OkColor);
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task URoles(IGuildUser usr = null)
             {
@@ -181,7 +211,11 @@ namespace Mewdeko.Modules.Utility
                     return;
 
                 var embed = new EmbedBuilder();
-                    embed.AddField(fb => fb.WithName(GetText("roles")).WithValue($"**({user.RoleIds.Count - 1})** - {string.Join("\n", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).Select(r => r.Name)).SanitizeMentions()}").WithIsInline(true))
+                embed.AddField(fb =>
+                        fb.WithName(GetText("roles"))
+                            .WithValue(
+                                $"**({user.RoleIds.Count - 1})** - {string.Join("\n", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).Select(r => r.Name)).SanitizeMentions()}")
+                            .WithIsInline(true))
                     .WithColor(Mewdeko.OkColor);
 
                 var av = user.RealAvatarUrl();
@@ -190,7 +224,10 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task Activity(int page = 1)
@@ -201,16 +238,15 @@ namespace Mewdeko.Modules.Utility
                 if (page < 0)
                     return;
 
-                int startCount = page * activityPerPage;
+                var startCount = page * activityPerPage;
 
-                StringBuilder str = new StringBuilder();
-                foreach (var kvp in CmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
-                {
+                var str = new StringBuilder();
+                foreach (var kvp in CmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value)
+                    .Skip(page * activityPerPage).Take(activityPerPage))
                     str.AppendLine(GetText("activity_line",
                         ++startCount,
                         Format.Bold(kvp.Key.ToString()),
                         kvp.Value / _stats.GetUptime().TotalSeconds, kvp.Value));
-                }
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder()
                     .WithTitle(GetText("activity_page", page + 1))

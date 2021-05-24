@@ -19,6 +19,12 @@ namespace Mewdeko.Modules.Utility
         [Group]
         public class RemindCommands : MewdekoSubmodule<RemindService>
         {
+            public enum MeOrHere
+            {
+                Me,
+                Here
+            }
+
             private readonly DbService _db;
             private readonly GuildTimezoneService _tz;
 
@@ -28,45 +34,44 @@ namespace Mewdeko.Modules.Utility
                 _tz = tz;
             }
 
-            public enum MeOrHere
-            {
-                Me, Here
-            }
-
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(1)]
             public async Task Remind(MeOrHere meorhere, StoopidTime time, [Remainder] string message)
             {
                 ulong target;
                 target = meorhere == MeOrHere.Me ? ctx.User.Id : ctx.Channel.Id;
-                if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, time.Time, message).ConfigureAwait(false))
-                {
-                    await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
-                }
+                if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, time.Time, message)
+                    .ConfigureAwait(false)) await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
             public async Task Remind(ITextChannel channel, StoopidTime time, [Remainder] string message)
             {
-                var perms = ((IGuildUser)ctx.User).GetPermissions((ITextChannel)channel);
+                var perms = ((IGuildUser) ctx.User).GetPermissions(channel);
                 if (!perms.SendMessages || !perms.ViewChannel)
                 {
                     await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
-                    return;
                 }
                 else
                 {
                     if (!await RemindInternal(channel.Id, false, time.Time, message).ConfigureAwait(false))
-                    {
                         await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
-                    }
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task RemindList(int page = 1)
             {
                 if (--page < 0)
@@ -90,9 +95,11 @@ namespace Mewdeko.Modules.Utility
                     {
                         var when = rem.When;
                         var diff = when - DateTime.UtcNow;
-                        embed.AddField($"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {(int)diff.Minutes}m)", $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
+                        embed.AddField(
+                            $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int) diff.TotalHours}h {diff.Minutes}m)",
+                            $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
 `TargetId:` {rem.ChannelId}
-`Message:` {rem.Message?.TrimTo(50)}", false);
+`Message:` {rem.Message?.TrimTo(50)}");
                     }
                 }
                 else
@@ -104,7 +111,10 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task RemindDelete(int index)
             {
                 if (--index < 0)
@@ -137,7 +147,8 @@ namespace Mewdeko.Modules.Utility
                 }
             }
 
-            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, [Remainder] string message)
+            public async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts,
+                [Remainder] string message)
             {
                 var time = DateTime.UtcNow + ts;
 
@@ -146,11 +157,8 @@ namespace Mewdeko.Modules.Utility
 
                 if (ctx.Guild != null)
                 {
-                    var perms = ((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel);
-                    if (!perms.MentionEveryone)
-                    {
-                        message = message.SanitizeAllMentions();
-                    }
+                    var perms = ((IGuildUser) ctx.User).GetPermissions((IGuildChannel) ctx.Channel);
+                    if (!perms.MentionEveryone) message = message.SanitizeAllMentions();
                 }
 
                 var rem = new Reminder
@@ -169,9 +177,9 @@ namespace Mewdeko.Modules.Utility
                     await uow.SaveChangesAsync();
                 }
 
-                var gTime = ctx.Guild == null ?
-                    time :
-                    TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
+                var gTime = ctx.Guild == null
+                    ? time
+                    : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
                 try
                 {
                     await ctx.Channel.SendConfirmAsync(
@@ -183,13 +191,16 @@ namespace Mewdeko.Modules.Utility
                 }
                 catch
                 {
-
                 }
+
                 _service.StartReminder(rem);
                 return true;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task RemindTemplate([Remainder] string arg)
             {

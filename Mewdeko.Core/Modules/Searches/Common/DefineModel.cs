@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches.Common
 {
@@ -23,14 +23,14 @@ namespace Mewdeko.Modules.Searches.Common
     {
         public object Definition { get; set; }
         public List<Example> Examples { get; set; }
-        [JsonProperty("gramatical_info")]
-        public GramaticalInfo GramaticalInfo { get; set; }
+
+        [JsonProperty("gramatical_info")] public GramaticalInfo GramaticalInfo { get; set; }
     }
 
     public class Result
     {
-        [JsonProperty("part_of_speech")]
-        public string PartOfSpeech { get; set; }
+        [JsonProperty("part_of_speech")] public string PartOfSpeech { get; set; }
+
         public List<Sens> Senses { get; set; }
         public string Url { get; set; }
     }

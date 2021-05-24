@@ -1,28 +1,15 @@
-﻿using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Core.Modules.Music.Common
 {
     public class PoopyBufferReborn
     {
-        private readonly Stream _inStream;
-        public event Action PrebufferingCompleted;
-        private bool prebuffered = false;
-
         private readonly byte[] _buffer;
-
-        public int ReadPosition { get; private set; }
-        public int WritePosition { get; private set; }
-
-        public int ContentLength => WritePosition >= ReadPosition
-            ? WritePosition - ReadPosition
-            : (_buffer.Length - ReadPosition) + WritePosition;
-
-        public int FreeSpace => _buffer.Length - ContentLength;
-
-        public bool Stopped { get; private set; } = false;
+        private readonly Stream _inStream;
+        private bool prebuffered;
 
         public PoopyBufferReborn(Stream inStream, int bufferSize = 0)
         {
@@ -37,23 +24,39 @@ namespace Mewdeko.Core.Modules.Music.Common
             _inStream = inStream;
         }
 
-        public void Stop() => Stopped = true;
+        public int ReadPosition { get; private set; }
+        public int WritePosition { get; private set; }
+
+        public int ContentLength => WritePosition >= ReadPosition
+            ? WritePosition - ReadPosition
+            : _buffer.Length - ReadPosition + WritePosition;
+
+        public int FreeSpace => _buffer.Length - ContentLength;
+
+        public bool Stopped { get; private set; }
+        public event Action PrebufferingCompleted;
+
+        public void Stop()
+        {
+            Stopped = true;
+        }
 
         public void StartBuffering()
         {
             Task.Run(async () =>
             {
                 var output = new byte[38400];
-                int read = 0;
+                var read = 0;
                 while (!Stopped && (read = await _inStream.ReadAsync(output, 0, 38400).ConfigureAwait(false)) > 0)
                 {
                     while (_buffer.Length - ContentLength <= read)
                     {
-                        if(!prebuffered)
+                        if (!prebuffered)
                         {
                             prebuffered = true;
                             PrebufferingCompleted();
                         }
+
                         await Task.Delay(100).ConfigureAwait(false);
                     }
 
@@ -88,7 +91,7 @@ namespace Mewdeko.Core.Modules.Music.Common
 
             if (wp > ReadPosition || ReadPosition + toRead <= _buffer.Length)
             {
-                var toReturn = ((Span<byte>)_buffer).Slice(ReadPosition, toRead);
+                var toReturn = ((Span<byte>) _buffer).Slice(ReadPosition, toRead);
                 ReadPosition += toRead;
                 return toReturn;
             }

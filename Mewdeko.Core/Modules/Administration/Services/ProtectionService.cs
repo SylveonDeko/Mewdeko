@@ -4,29 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using NLog;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Administration.Common;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class ProtectionService : INService
     {
         private readonly ConcurrentDictionary<ulong, AntiRaidStats> _antiRaidGuilds =
-                new ConcurrentDictionary<ulong, AntiRaidStats>();
+            new();
 
         private readonly ConcurrentDictionary<ulong, AntiSpamStats> _antiSpamGuilds =
-                new ConcurrentDictionary<ulong, AntiSpamStats>();
+            new();
 
-        public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered = delegate { return Task.CompletedTask; };
+        private readonly DiscordSocketClient _client;
+        private readonly DbService _db;
 
         private readonly Logger _log;
-        private readonly DiscordSocketClient _client;
         private readonly MuteService _mute;
-        private readonly DbService _db;
 
         public ProtectionService(DiscordSocketClient client, Mewdeko bot, MuteService mute, DbService db)
         {
@@ -45,11 +44,8 @@ namespace Mewdeko.Modules.Administration.Services
                     .ThenInclude(x => x.IgnoredChannels)
                     .Where(x => ids.Contains(x.GuildId))
                     .ToList();
-                
-                foreach (var gc in configs)
-                {
-                    Initialize(gc);
-                }
+
+                foreach (var gc in configs) Initialize(gc);
             }
 
             _client.MessageReceived += HandleAntiSpam;
@@ -58,6 +54,11 @@ namespace Mewdeko.Modules.Administration.Services
             bot.JoinedGuild += _bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;
         }
+
+        public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered = delegate
+        {
+            return Task.CompletedTask;
+        };
 
         private Task _client_LeftGuild(SocketGuild arg)
         {
@@ -73,14 +74,15 @@ namespace Mewdeko.Modules.Administration.Services
         {
             using (var uow = _db.GetDbContext())
             {
-                var gcWithData = uow.GuildConfigs.ForId(gc.GuildId, 
+                var gcWithData = uow.GuildConfigs.ForId(gc.GuildId,
                     x => x
                         .Include(x => x.AntiRaidSetting)
                         .Include(x => x.AntiSpamSetting)
                         .ThenInclude(x => x.IgnoredChannels));
-                
+
                 Initialize(gcWithData);
             }
+
             return Task.CompletedTask;
         }
 
@@ -91,12 +93,12 @@ namespace Mewdeko.Modules.Administration.Services
 
             if (raid != null)
             {
-                var raidStats = new AntiRaidStats() { AntiRaidSettings = raid };
+                var raidStats = new AntiRaidStats {AntiRaidSettings = raid};
                 _antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
             }
 
             if (spam != null)
-                _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
+                _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats {AntiSpamSettings = spam});
         }
 
         private Task HandleAntiRaid(SocketGuildUser usr)
@@ -119,13 +121,14 @@ namespace Mewdeko.Modules.Administration.Services
                         var users = settings.RaidUsers.ToArray();
                         settings.RaidUsers.Clear();
 
-                        await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, 0, users).ConfigureAwait(false);
+                        await PunishUsers(settings.AntiRaidSettings.Action, ProtectionType.Raiding, 0, users)
+                            .ConfigureAwait(false);
                     }
+
                     await Task.Delay(1000 * settings.AntiRaidSettings.Seconds).ConfigureAwait(false);
 
                     settings.RaidUsers.TryRemove(usr);
                     --settings.UsersCount;
-
                 }
                 catch
                 {
@@ -149,27 +152,27 @@ namespace Mewdeko.Modules.Administration.Services
                 try
                 {
                     if (!_antiSpamGuilds.TryGetValue(channel.Guild.Id, out var spamSettings) ||
-                        spamSettings.AntiSpamSettings.IgnoredChannels.Contains(new AntiSpamIgnore()
+                        spamSettings.AntiSpamSettings.IgnoredChannels.Contains(new AntiSpamIgnore
                         {
                             ChannelId = channel.Id
                         }))
                         return;
 
-                    var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, (id) => new UserSpamStats(msg),
+                    var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, id => new UserSpamStats(msg),
                         (id, old) =>
                         {
-                            old.ApplyNextMessage(msg); return old;
+                            old.ApplyNextMessage(msg);
+                            return old;
                         });
 
                     if (stats.Count >= spamSettings.AntiSpamSettings.MessageThreshold)
-                    {
                         if (spamSettings.UserStats.TryRemove(msg.Author.Id, out stats))
                         {
                             stats.Dispose();
-                            await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming, spamSettings.AntiSpamSettings.MuteTime, (IGuildUser)msg.Author)
+                            await PunishUsers(spamSettings.AntiSpamSettings.Action, ProtectionType.Spamming,
+                                    spamSettings.AntiSpamSettings.MuteTime, (IGuildUser) msg.Author)
                                 .ConfigureAwait(false);
                         }
-                    }
                 }
                 catch
                 {
@@ -179,11 +182,11 @@ namespace Mewdeko.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        private async Task PunishUsers(PunishmentAction action, ProtectionType pt, int muteTime, params IGuildUser[] gus)
+        private async Task PunishUsers(PunishmentAction action, ProtectionType pt, int muteTime,
+            params IGuildUser[] gus)
         {
             _log.Info($"[{pt}] - Punishing [{gus.Length}] users with [{action}] in {gus[0].Guild.Name} guild");
             foreach (var gu in gus)
-            {
                 switch (action)
                 {
                     case PunishmentAction.Mute:
@@ -193,16 +196,25 @@ namespace Mewdeko.Modules.Administration.Services
                             if (muteTime <= 0)
                                 await _mute.MuteUser(gu, _client.CurrentUser, reason: muteReason).ConfigureAwait(false);
                             else
-                                await _mute.TimedMute(gu, _client.CurrentUser, TimeSpan.FromSeconds(muteTime), reason: muteReason).ConfigureAwait(false);
+                                await _mute.TimedMute(gu, _client.CurrentUser, TimeSpan.FromSeconds(muteTime),
+                                    reason: muteReason).ConfigureAwait(false);
                         }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
+                        catch (Exception ex)
+                        {
+                            _log.Warn(ex, "I can't apply punishement");
+                        }
+
                         break;
                     case PunishmentAction.Kick:
                         try
                         {
                             await gu.KickAsync().ConfigureAwait(false);
                         }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishement"); }
+                        catch (Exception ex)
+                        {
+                            _log.Warn(ex, "I can't apply punishement");
+                        }
+
                         break;
                     case PunishmentAction.Softban:
                         try
@@ -219,36 +231,45 @@ namespace Mewdeko.Modules.Administration.Services
                                 // only kick has been specified as the punishement
                             }
                         }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
+                        catch (Exception ex)
+                        {
+                            _log.Warn(ex, "I can't apply punishment");
+                        }
+
                         break;
                     case PunishmentAction.Ban:
                         try
                         {
                             await gu.Guild.AddBanAsync(gu, 7, "Applying Anti-Raid Punishment.").ConfigureAwait(false);
                         }
-                        catch (Exception ex) { _log.Warn(ex, "I can't apply punishment"); }
+                        catch (Exception ex)
+                        {
+                            _log.Warn(ex, "I can't apply punishment");
+                        }
+
                         break;
                     case PunishmentAction.RemoveRoles:
-                        await gu.RemoveRolesAsync(gu.GetRoles().Where(x => x.Id != gu.Guild.EveryoneRole.Id)).ConfigureAwait(false);
+                        await gu.RemoveRolesAsync(gu.GetRoles().Where(x => x.Id != gu.Guild.EveryoneRole.Id))
+                            .ConfigureAwait(false);
                         break;
                 }
-            }
+
             await OnAntiProtectionTriggered(action, pt, gus).ConfigureAwait(false);
         }
 
-        public async Task<AntiRaidStats> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds, PunishmentAction action)
+        public async Task<AntiRaidStats> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds,
+            PunishmentAction action)
         {
-
             var g = _client.GetGuild(guildId);
             await _mute.GetMuteRole(g).ConfigureAwait(false);
 
-            var stats = new AntiRaidStats()
+            var stats = new AntiRaidStats
             {
-                AntiRaidSettings = new AntiRaidSetting()
+                AntiRaidSettings = new AntiRaidSetting
                 {
                     Action = action,
                     Seconds = seconds,
-                    UserThreshold = userThreshold,
+                    UserThreshold = userThreshold
                 }
             };
 
@@ -276,8 +297,10 @@ namespace Mewdeko.Modules.Administration.Services
                     gc.AntiRaidSetting = null;
                     uow.SaveChanges();
                 }
+
                 return true;
             }
+
             return false;
         }
 
@@ -294,23 +317,26 @@ namespace Mewdeko.Modules.Administration.Services
                     gc.AntiSpamSetting = null;
                     uow.SaveChanges();
                 }
+
                 return true;
             }
+
             return false;
         }
 
-        public async Task<AntiSpamStats> StartAntiSpamAsync(ulong guildId, int messageCount, int time, PunishmentAction action)
+        public async Task<AntiSpamStats> StartAntiSpamAsync(ulong guildId, int messageCount, int time,
+            PunishmentAction action)
         {
             var g = _client.GetGuild(guildId);
             await _mute.GetMuteRole(g).ConfigureAwait(false);
 
             var stats = new AntiSpamStats
             {
-                AntiSpamSettings = new AntiSpamSetting()
+                AntiSpamSettings = new AntiSpamSetting
                 {
                     Action = action,
                     MessageThreshold = messageCount,
-                    MuteTime = time,
+                    MuteTime = time
                 }
             };
 
@@ -334,26 +360,26 @@ namespace Mewdeko.Modules.Administration.Services
                 {
                     gc.AntiSpamSetting = stats.AntiSpamSettings;
                 }
+
                 await uow.SaveChangesAsync();
             }
+
             return stats;
         }
 
         public async Task<bool?> AntiSpamIgnoreAsync(ulong guildId, ulong channelId)
         {
-            var obj = new AntiSpamIgnore()
+            var obj = new AntiSpamIgnore
             {
                 ChannelId = channelId
             };
             bool added;
             using (var uow = _db.GetDbContext())
             {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
+                var gc = uow.GuildConfigs.ForId(guildId,
+                    set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
                 var spam = gc.AntiSpamSetting;
-                if (spam is null)
-                {
-                    return null;
-                }
+                if (spam is null) return null;
 
                 if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
                 {
@@ -366,14 +392,13 @@ namespace Mewdeko.Modules.Administration.Services
                     var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
                     uow._context.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
                     if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                    {
                         temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
-                    }
                     added = false;
                 }
 
                 await uow.SaveChangesAsync();
             }
+
             return added;
         }
 

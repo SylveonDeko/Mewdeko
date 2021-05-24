@@ -1,6 +1,6 @@
-﻿using Mewdeko.Core.Services.Database.Models;
+﻿using System.Linq;
+using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {

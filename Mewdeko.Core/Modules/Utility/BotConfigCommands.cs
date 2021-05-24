@@ -1,12 +1,11 @@
-﻿using Discord;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using System;
 using Mewdeko.Extensions;
-using System.Threading.Tasks;
-using System.Text;
-using Discord.Commands;
-
 
 namespace Mewdeko.Modules.Utility
 {
@@ -14,20 +13,23 @@ namespace Mewdeko.Modules.Utility
     {
         public class BotConfigCommands : MewdekoSubmodule
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task BotConfigEdit()
             {
                 var names = Enum.GetNames(typeof(BotConfigEditType));
                 var valuesSb = new StringBuilder();
-                foreach(var name in names)
+                foreach (var name in names)
                 {
                     var value = Bc.GetValue(name);
-                    if(name != "CurrencySign")
+                    if (name != "CurrencySign")
                         value = value.TrimTo(30);
                     valuesSb.AppendLine(value.Replace("\n", ""));
                 }
-                
+
                 var embed = new EmbedBuilder()
                     .WithTitle("Bot Config")
                     .WithOkColor()
@@ -36,9 +38,12 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public async Task BotConfigEdit(BotConfigEditType type, [Remainder]string newValue = null)
+            public async Task BotConfigEdit(BotConfigEditType type, [Remainder] string newValue = null)
             {
                 if (string.IsNullOrWhiteSpace(newValue))
                     newValue = null;
@@ -46,9 +51,11 @@ namespace Mewdeko.Modules.Utility
                 var success = Bc.Edit(type, newValue);
 
                 if (!success)
-                    await ReplyErrorLocalizedAsync("bot_config_edit_fail", Format.Bold(type.ToString()), Format.Bold(newValue ?? "NULL")).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("bot_config_edit_fail", Format.Bold(type.ToString()),
+                        Format.Bold(newValue ?? "NULL")).ConfigureAwait(false);
                 else
-                    await ReplyConfirmLocalizedAsync("bot_config_edit_success", Format.Bold(type.ToString()), Format.Bold(newValue ?? "NULL")).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("bot_config_edit_success", Format.Bold(type.ToString()),
+                        Format.Bold(newValue ?? "NULL")).ConfigureAwait(false);
             }
         }
     }

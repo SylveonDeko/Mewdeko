@@ -1,13 +1,13 @@
-﻿using Discord;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
+﻿using System.Collections.Immutable;
 using System.Threading.Tasks;
-using Wof = Mewdeko.Modules.Gambling.Common.WheelOfFortune.WheelOfFortuneGame;
-using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Core.Modules.Gambling.Common;
+using Discord;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
-using System.Collections.Immutable;
+using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Gambling.Services;
+using Wof = Mewdeko.Modules.Gambling.Common.WheelOfFortune.WheelOfFortuneGame;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -15,15 +15,17 @@ namespace Mewdeko.Modules.Gambling
     {
         public class WheelOfFortuneCommands : GamblingSubmodule<GamblingService>
         {
-            private static readonly ImmutableArray<string> _emojis = new string[] {
-            "⬆",
-            "↖",
-            "⬅",
-            "↙",
-            "⬇",
-            "↘",
-            "➡",
-            "↗" }.ToImmutableArray();
+            private static readonly ImmutableArray<string> _emojis = new[]
+            {
+                "⬆",
+                "↖",
+                "⬅",
+                "↙",
+                "⬇",
+                "↘",
+                "➡",
+                "↗"
+            }.ToImmutableArray();
 
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
@@ -34,13 +36,16 @@ namespace Mewdeko.Modules.Gambling
                 _db = db;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task WheelOfFortune(ShmartNumber amount)
             {
                 if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                     return;
 
-                if (!await _cs.RemoveAsync(ctx.User.Id, "Wheel Of Fortune - bet", amount, gamble: true).ConfigureAwait(false))
+                if (!await _cs.RemoveAsync(ctx.User.Id, "Wheel Of Fortune - bet", amount, true).ConfigureAwait(false))
                 {
                     await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                     return;
@@ -49,7 +54,7 @@ namespace Mewdeko.Modules.Gambling
                 var result = await _service.WheelOfFortuneSpinAsync(ctx.User.Id, amount).ConfigureAwait(false);
 
                 await ctx.Channel.SendConfirmAsync(
-Format.Bold($@"{ctx.User.ToString()} won: {result.Amount + Bc.BotConfig.CurrencySign}
+                    Format.Bold($@"{ctx.User} won: {result.Amount + Bc.BotConfig.CurrencySign}
 
    『{Wof.Multipliers[1]}』   『{Wof.Multipliers[0]}』   『{Wof.Multipliers[7]}』
 

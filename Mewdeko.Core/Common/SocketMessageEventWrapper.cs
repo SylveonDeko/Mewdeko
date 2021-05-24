@@ -1,16 +1,15 @@
-﻿using Discord;
-using Discord.WebSocket;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Discord;
+using Discord.WebSocket;
 
 namespace Mewdeko.Common
 {
     public sealed class ReactionEventWrapper : IDisposable
     {
-        public IUserMessage Message { get; }
-        public event Action<SocketReaction> OnReactionAdded = delegate { };
-        public event Action<SocketReaction> OnReactionRemoved = delegate { };
-        public event Action OnReactionsCleared = delegate { };
+        private readonly DiscordSocketClient _client;
+
+        private bool disposing;
 
         public ReactionEventWrapper(DiscordSocketClient client, IUserMessage msg)
         {
@@ -22,6 +21,20 @@ namespace Mewdeko.Common
             _client.ReactionsCleared += Discord_ReactionsCleared;
         }
 
+        public IUserMessage Message { get; }
+
+        public void Dispose()
+        {
+            if (disposing)
+                return;
+            disposing = true;
+            UnsubAll();
+        }
+
+        public event Action<SocketReaction> OnReactionAdded = delegate { };
+        public event Action<SocketReaction> OnReactionRemoved = delegate { };
+        public event Action OnReactionsCleared = delegate { };
+
         private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel)
         {
             Task.Run(() =>
@@ -31,13 +44,16 @@ namespace Mewdeko.Common
                     if (msg.Id == Message.Id)
                         OnReactionsCleared?.Invoke();
                 }
-                catch { }
+                catch
+                {
+                }
             });
 
             return Task.CompletedTask;
         }
 
-        private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
+        private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel,
+            SocketReaction reaction)
         {
             Task.Run(() =>
             {
@@ -46,13 +62,16 @@ namespace Mewdeko.Common
                     if (msg.Id == Message.Id)
                         OnReactionRemoved?.Invoke(reaction);
                 }
-                catch { }
+                catch
+                {
+                }
             });
 
             return Task.CompletedTask;
         }
 
-        private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel, SocketReaction reaction)
+        private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel,
+            SocketReaction reaction)
         {
             Task.Run(() =>
             {
@@ -61,7 +80,9 @@ namespace Mewdeko.Common
                     if (msg.Id == Message.Id)
                         OnReactionAdded?.Invoke(reaction);
                 }
-                catch { }
+                catch
+                {
+                }
             });
 
             return Task.CompletedTask;
@@ -75,17 +96,6 @@ namespace Mewdeko.Common
             OnReactionAdded = null;
             OnReactionRemoved = null;
             OnReactionsCleared = null;
-        }
-
-        private bool disposing = false;
-        private readonly DiscordSocketClient _client;
-
-        public void Dispose()
-        {
-            if (disposing)
-                return;
-            disposing = true;
-            UnsubAll();
         }
     }
 }

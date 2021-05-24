@@ -1,7 +1,7 @@
-﻿using Mewdeko.Core.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Mewdeko.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -31,7 +31,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         }
 
         /// <summary>
-        /// Gets all global custom reactions and custom reactions only for the specified guild ids
+        ///     Gets all global custom reactions and custom reactions only for the specified guild ids
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

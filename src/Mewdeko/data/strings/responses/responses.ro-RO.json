@@ -1,7 +1,8 @@
 {
   "all_stats_cleared": "Toate reacțiile personalizate au fost șterse.",
   "deleted": "Reacție Personalizată ștearsă",
-  "insuff_perms": "Permisiuni insuficiente. Necesită deținerea bot-ului pentru reacții personalizate globale și administrator pentru reacții personalizate locale.",
+  "insuff_perms":
+    "Permisiuni insuficiente. Necesită deținerea bot-ului pentru reacții personalizate globale și administrator pentru reacții personalizate locale.",
   "list_all": "Lista tuturor reacțiilor personalizate\n",
   "new_cust_react": "Reacție Personalizată Nouă",
   "no_found": "Nici o reacție personalizată găsită.",
@@ -59,7 +60,8 @@
   "greetmsg_new": "Setat mesaj nou de bun venit.",
   "greet_off": "Anunțuri de bun venit dezactivate.",
   "greet_on": "Anunțuri de bun venit sunt activate în canalul acesta. ",
-  "hierarchy": "Nu poți folosi această comandă pe alți utilizatori cu un grad mai mare sau egal ca al tău in ierarhia de roluri.",
+  "hierarchy":
+    "Nu poți folosi această comandă pe alți utilizatori cu un grad mai mare sau egal ca al tău in ierarhia de roluri.",
   "invalid_format": "Formatul de intrare este invalid.",
   "invalid_params": "Parametrii invalizi",
   "kickdm": "Ai fost dat afară din {0} server.\nDin cauză că: {1}",
@@ -131,7 +133,8 @@
   "self_assign_not": "Nu îți poți atribui acel rol.",
   "self_assign_not_have": "Nu ai rolul {0}.",
   "self_assign_no_excl": "Rolurile auto atribuite nu mai sunt exclusive!",
-  "self_assign_perms": "Nu pot să îți adaug acest rol. \u0027 Nu pot adăuga roluri deținătorilor sau alte roluri mai sus decât rolul meu în ierarhia rolurilor.\u0027",
+  "self_assign_perms":
+    "Nu pot să îți adaug acest rol. \u0027 Nu pot adăuga roluri deținătorilor sau alte roluri mai sus decât rolul meu în ierarhia rolurilor.\u0027",
   "self_assign_rem": "{0} a fost eliminat din lista rolurilor auto atribuibile.",
   "self_assign_remove": "Nu mai ai rolul {0}.",
   "self_assign_success": "Ai rolul {0} acum.",
@@ -177,9 +180,12 @@
   "voice_chan_destroyed": "Canal de voce distrus",
   "vt_disabled": "Dezactivată caracteristica vocal \u002B text",
   "vt_enabled": "Activată caracteristica vocal \u002B text",
-  "vt_exit": "Nu am permisiunea **Manage Roles** și/sau **Manage Channels**, deci nu pot rula voce \u002B text pe serverul {0}.",
-  "vt_no_admin": "Activezi/dezactivezi această caracteristică si **Nu am permisiuni de ADMINISTRATOR**. Asta poate cauza probleme, si va trebui sa cureți după canalele de text singur.",
-  "vt_perms": "Am nevoie de cel putin permisiunile de **gestionare roluri** si **gestionare canale** pentru a activa aceasta caracteristică. (preferabil permisie Administrator)",
+  "vt_exit":
+    "Nu am permisiunea **Manage Roles** și/sau **Manage Channels**, deci nu pot rula voce \u002B text pe serverul {0}.",
+  "vt_no_admin":
+    "Activezi/dezactivezi această caracteristică si **Nu am permisiuni de ADMINISTRATOR**. Asta poate cauza probleme, si va trebui sa cureți după canalele de text singur.",
+  "vt_perms":
+    "Am nevoie de cel putin permisiunile de **gestionare roluri** si **gestionare canale** pentru a activa aceasta caracteristică. (preferabil permisie Administrator)",
   "xmuted_text": "Utilizatorul {0} de la chatul de text.",
   "xmuted_text_and_voice": "Utilizatorul {0} de la chatul vocal și de text.",
   "xmuted_voice": "Utilizatorul {0} de la chatul vocal.",
@@ -218,14 +224,18 @@
   "cmdlist_donate": "Poti susține proiectul pe patreon: \u003C{0}\u003E sau paypal: \u003C{1}\u003E",
   "cmd_and_alias": "Comenzi si abrevieri",
   "commandlist_regen": "Lista de comenzi generata.",
-  "commands_instr": "Tastează \u0060{0}h NumeleComenzii\u0060 pentru a vedea informații legate de acea comandă. ex. \u0060{0}h {0}8ball\u0060",
+  "commands_instr":
+    "Tastează \u0060{0}h NumeleComenzii\u0060 pentru a vedea informații legate de acea comandă. ex. \u0060{0}h {0}8ball\u0060",
   "command_not_found": "Nu gasesc acea comanda. Te rog asigura-te ca exista comanda inainte de a incerca din nou.",
   "desc": "Descriere",
-  "donate": "Poți susține proiectul Mewdeko pe\nPatreon \u003C{0}\u003E sau\nPaypal \u003C{1}\u003E\nNu uita să iți lași numele de Discord sau ID-ul în mesaj.\n\n**Mulțumesc** ♥️",
-  "guide": "** Listă de comenzi **: \u003C{0}\u003E\n** Ghiduri și documente de găzduire pot fi găsite aici **: \u003C{1}\u003E",
+  "donate":
+    "Poți susține proiectul Mewdeko pe\nPatreon \u003C{0}\u003E sau\nPaypal \u003C{1}\u003E\nNu uita să iți lași numele de Discord sau ID-ul în mesaj.\n\n**Mulțumesc** ♥️",
+  "guide":
+    "** Listă de comenzi **: \u003C{0}\u003E\n** Ghiduri și documente de găzduire pot fi găsite aici **: \u003C{1}\u003E",
   "list_of_commands": "Lista comenzilor",
   "list_of_modules": "Lista modulelor",
-  "modules_footer": "Scrie \u0060{0}cmds NumeleModulului\u0060 pentru a primii o listă cu comenzi în acest modul. ex \u0060{0}cmds games\u0060",
+  "modules_footer":
+    "Scrie \u0060{0}cmds NumeleModulului\u0060 pentru a primii o listă cu comenzi în acest modul. ex \u0060{0}cmds games\u0060",
   "module_not_found": "Modulul acela nu există.",
   "server_permission": "Necesită {0} permisiunea serverului.",
   "table_of_contents": "Cuprins",
@@ -254,16 +264,20 @@
   "likes": "Aprecieri",
   "waifus_none": "Nicio waifu nu a fost revendicat încă.",
   "waifus_top_waifus": "Topul waifurilor",
-  "waifu_affinity_already": "Afinitatea ta este deja setată pe acea waifu sau încerci să iți elimini afinitatea în moment ce tu nu ai una.",
-  "waifu_affinity_changed": "Afinitatea a fost schimbată de la {0} la {1}.\n*Acest lucru este dubios din punct de vedere moral.* \uD83E\uDD14",
+  "waifu_affinity_already":
+    "Afinitatea ta este deja setată pe acea waifu sau încerci să iți elimini afinitatea în moment ce tu nu ai una.",
+  "waifu_affinity_changed":
+    "Afinitatea a fost schimbată de la {0} la {1}.\n*Acest lucru este dubios din punct de vedere moral.* \uD83E\uDD14",
   "waifu_affinity_cooldown": "Trebuie să aștepți {0} ore și {1} minute pentru a-ți schimba afinitatea din nou.",
   "waifu_affinity_reset": "Afinitatea ta a fost resetată. Nu mai ai o persoană de care îți place.",
   "waifu_affinity_set": "vrea să fie waiful lui {0}. Aww \u003C3",
   "waifu_claimed": "a revendicat pe {0} ca și waifu pentru {1}!",
-  "waifu_divorced_like": "Ai divorțat o waifu căreia îi place de tine. Ești un monstru fără inimă.\n{0} a primit {1} drept compensație.",
+  "waifu_divorced_like":
+    "Ai divorțat o waifu căreia îi place de tine. Ești un monstru fără inimă.\n{0} a primit {1} drept compensație.",
   "waifu_egomaniac": "Nu poți să iți setezi afinitatea pe tine, egocentristule.",
   "waifu_fulfilled": "\uD83C\uDF89 Iubirea lor este împlinită! \uD83C\uDF89\nNoua valoare a lui {0} este acum {1}!",
-  "waifu_isnt_cheap": "Nicio waifu nu este atât de ieftină. Trebuie să plătești cel puțin {0} pentru a lua o waifu, chiar dacă valoarea ei adevărată este mai mică.",
+  "waifu_isnt_cheap":
+    "Nicio waifu nu este atât de ieftină. Trebuie să plătești cel puțin {0} pentru a lua o waifu, chiar dacă valoarea ei adevărată este mai mică.",
   "waifu_not_enough": "Trebuie să plătești {0} sau mai mult pentru a revendica acea waifu!",
   "waifu_not_yours": "Acea waifu nu este a ta.",
   "waifu_not_yourself": "Nu poți să te revendici pe tine.",
@@ -419,7 +433,8 @@
   "word_filter_server_on": "Filtrarea cuvintelor activată pe acest server.",
   "abilities": "Abilități",
   "anime_no_fav": "Niciun anime favorit încă",
-  "atl_ad_started": "Am început traducerea automată a mesajelor din acest canal. Mesajele utilizatorului vor fi șterse automat.",
+  "atl_ad_started":
+    "Am început traducerea automată a mesajelor din acest canal. Mesajele utilizatorului vor fi șterse automat.",
   "atl_removed": "Traducerea automată a fost scoasă.",
   "atl_set": "Auto-traducerea limbii a fost setată {0}\u003E{1}",
   "atl_started": "Am început traducerea automata a mesajelor pe acest canal.",
@@ -527,7 +542,8 @@
   "features": "Caracteristici",
   "index_out_of_range": "Indexul este în afara intervalului.",
   "inrole_list": "Lista utilizatorilor în rolul {0}",
-  "inrole_not_allowed": "Nu ai voie să folosești această comandă pe roluri cu mulți utilizatori în ele pentru a prevenii abuzul.",
+  "inrole_not_allowed":
+    "Nu ai voie să folosești această comandă pe roluri cu mulți utilizatori în ele pentru a prevenii abuzul.",
   "invalid_value": "Valoare invalidă {0}.",
   "listservers": "Id: {0}\nMembrii: {1}\nID-ul Deținătorului: {2}",
   "listservers_none": "Nici un server nu a fost găsit pe pagina aia.",
@@ -638,13 +654,17 @@
   "slowmodewl_user_start": "Modul Încetinire o să ignore utilizatorul {0}.",
   "slowmodewl_user_stop": "Modul Încetinire nu o să îl ignore pe utilizatorul {0}.",
   "clpa_fail": "Nu ai primit premiul din cauza următoarelor motive:",
-  "clpa_fail_already": "Poate că v-ați primit deja recompensa pentru această lună. Puteți primi recompense numai o dată pe lună dacă nu vă măriți angajamentul.",
+  "clpa_fail_already":
+    "Poate că v-ați primit deja recompensa pentru această lună. Puteți primi recompense numai o dată pe lună dacă nu vă măriți angajamentul.",
   "clpa_fail_already_title": "Deja recompensat",
-  "clpa_fail_conn": "Contul tău de discord s-ar putea să nu fie conectat la Patreon. Daca nu ești sigur ce înseamnă asta, sau nu știi cum să te conectezi - trebuie să mergi în [Pagina de setări cont patreon]\n(https://patreon.com/settings/account) și să dai click pe butonul \u0027Connect to discord\u0027.",
+  "clpa_fail_conn":
+    "Contul tău de discord s-ar putea să nu fie conectat la Patreon. Daca nu ești sigur ce înseamnă asta, sau nu știi cum să te conectezi - trebuie să mergi în [Pagina de setări cont patreon]\n(https://patreon.com/settings/account) și să dai click pe butonul \u0027Connect to discord\u0027.",
   "clpa_fail_conn_title": "Contul discord nu este conectat",
-  "clpa_fail_sup": "Pentru a fi eligibil pentru recompensa, trebuie să sprijiniți proiectul pe patreon. Puteți utiliza comanda {0} pentru a obține linkul.",
+  "clpa_fail_sup":
+    "Pentru a fi eligibil pentru recompensa, trebuie să sprijiniți proiectul pe patreon. Puteți utiliza comanda {0} pentru a obține linkul.",
   "clpa_fail_sup_title": "Nu suportă",
-  "clpa_fail_wait": "Trebuie să așteptați câteva ore după ce ați făcut angajamentul, dacă nu ați făcut-o, încercați din nou mai târziu.",
+  "clpa_fail_wait":
+    "Trebuie să așteptați câteva ore după ce ați făcut angajamentul, dacă nu ați făcut-o, încercați din nou mai târziu.",
   "clpa_fail_wait_title": "Așteaptă puțin timp",
   "clpa_success": "Ai primit {0} Mulțumesc pentru susținerea proiectului!",
   "clpa_too_early": "Premiile se pot revendica pana în sau după data de 5 a fiecărei luni.",
@@ -691,7 +711,8 @@
   "bot_nick": "Porecla Bot-ului a fost schimbată la {0}",
   "user_nick": "Porecla utilizatorului {0} a fost schimbată în {1}",
   "timezone_guild": "Fusul orar pentru acest grup este \u0060{0}",
-  "timezone_not_found": "Fus orar negăsit. Folosiţi comanda \u0022timezones\u0022 pentru a vedea lista fusurilor orare disponibile.",
+  "timezone_not_found":
+    "Fus orar negăsit. Folosiţi comanda \u0022timezones\u0022 pentru a vedea lista fusurilor orare disponibile.",
   "timezones_available": "Fusuri orare disponibile",
   "song_not_found": "Nici o melodie găsită.",
   "define_unknown": "Nu pot găsi definiția pentru acel termen.",
@@ -725,7 +746,8 @@
   "nunchi_ended_no_winner": "Jocul de nunchi s-a terminat fără vreun câștigător.",
   "nunchi_started": "Jocul de nunchi a început cu {0} participanți.",
   "nunchi_round_ended": "Runda Nunchi s-a incheiat. {0} a fost eliminat.",
-  "nunchi_round_ended_boot": "Runda de Nunchi terminată din cauza trecerii unor utilizatori peste timpul permis. Acești utilizatori incă sunt în joc: {0}",
+  "nunchi_round_ended_boot":
+    "Runda de Nunchi terminată din cauza trecerii unor utilizatori peste timpul permis. Acești utilizatori incă sunt în joc: {0}",
   "nunchi_round_started": "Runda Nunchi a început cu {0} jucatori. Începeți numărătoarea de la numarul {1}",
   "nunchi_next_number": "Numar înregistrat. Ultimul număr a fost {0}.",
   "nunchi_failed_to_start": "Runda de Nunchi nu a început pentru că nu au fost destui participanți.",
@@ -740,13 +762,15 @@
   "stream_role_bl_add_fail": "Utilizatorul {0} este deja pe lista neagră.",
   "stream_role_bl_rem": "Utilizatorul {0} nu mai este pe lista neagră.",
   "stream_role_bl_rem_fail": "Utilizatorul {0} nu este pe lista neagră.",
-  "stream_role_wl_add": "Utilizatorul {0} va primi rolul de transmițător de flux chiar dacă nu au cuvântul cheie in fluxul lor.",
+  "stream_role_wl_add":
+    "Utilizatorul {0} va primi rolul de transmițător de flux chiar dacă nu au cuvântul cheie in fluxul lor.",
   "stream_role_wl_add_fail": "Utilizatorul {0} este deja pe lista albă.",
   "stream_role_wl_rem": "Utilizatorul {0} nu mai este pe lista albă.",
   "stream_role_wl_rem_fail": "Utilizatorul {0} nu este pe lista albă.",
   "bot_config_edit_fail": "Am eșuat schimbarea {0} la valoarea {1}",
   "bot_config_edit_success": "Valoarea lui {0} a fost setată la {1}",
-  "crca_disabled": "Reacția personalizată cu ID-ul {0} nu se va mai declanșa decât daca cuvantul declanșator va fi la inceputul propoziției.",
+  "crca_disabled":
+    "Reacția personalizată cu ID-ul {0} nu se va mai declanșa decât daca cuvantul declanșator va fi la inceputul propoziției.",
   "crca_enabled": "Reacție personalizată cu ID-ul {0} va fi declanșata daca este oriunde in propoziție",
   "server_level": "Nivel pe Server",
   "club": "Club",
@@ -767,21 +791,26 @@
   "server_leaderboard": "Clasament XP pe Server",
   "global_leaderboard": "Clasament XP Global",
   "modified": "XP-ul pe Server a fost modificat pentru {0} cu {1}",
-  "club_create_error": "Eșuat la creerea clubului. Asigură-te ca ești peste nivelul 5 și nu ești deja un membru al unui club.",
+  "club_create_error":
+    "Eșuat la creerea clubului. Asigură-te ca ești peste nivelul 5 și nu ești deja un membru al unui club.",
   "club_created": "Clubul {0} a fost creat!",
   "club_not_exists": "Acel club nu există.",
   "club_applied": "Ai aplicat in clubul {0}.",
-  "club_apply_error": "Eroare la aplicație. Ești deja membrul unui club, sau nu întâlnești nivelul minim necesar, sau ai accesul interzis în acesta.",
+  "club_apply_error":
+    "Eroare la aplicație. Ești deja membrul unui club, sau nu întâlnești nivelul minim necesar, sau ai accesul interzis în acesta.",
   "club_accepted": "Utilizatorul {0} a fost acceptat in club.",
   "club_accept_error": "Utilizatorul nu a fost gasit.",
   "club_left": "Ai ieșit din club.",
   "club_not_in_club": "Nu ești într-un club sau încerci sa ieși dintr-un grup pe care îl deții.",
   "club_user_kick": "Utilizatorul {0} a fost dat afara din clubul {1}.",
-  "club_user_kick_fail": "A fost o eroare la dat afară. Nu ești proprietarul clubului, sau acel utilizator nu aparține clubului tău.",
+  "club_user_kick_fail":
+    "A fost o eroare la dat afară. Nu ești proprietarul clubului, sau acel utilizator nu aparține clubului tău.",
   "club_user_banned": "Am interzis intrarea utilizatorului {0} din clubul {1}.",
-  "club_user_ban_fail": "Eroare la interdicția accesului. Nu ești proprietarul clubului, sau acel utilizator nu aparține clubului tău sau nu a făcut o aplicație pentru acesta.",
+  "club_user_ban_fail":
+    "Eroare la interdicția accesului. Nu ești proprietarul clubului, sau acel utilizator nu aparține clubului tău sau nu a făcut o aplicație pentru acesta.",
   "club_user_unbanned": "Interdicția utilizatorului {0} a fost ridicata din clubul {1}.",
-  "club_user_unban_fail": "Eșuare la ridicarea interdicției. Nu ești deținătorul grupului sau acel utilizator nu este in club sau nu a aplicat.",
+  "club_user_unban_fail":
+    "Eșuare la ridicarea interdicției. Nu ești deținătorul grupului sau acel utilizator nu este in club sau nu a aplicat.",
   "club_level_req_changed": "S-a schimbat nivelul necesar pentru intrarea in club la {0}",
   "club_level_req_change_error": "Am eșuat la schimbarea nivelului necesar.",
   "club_disbanded": "Clubul {0} a fost destrămat",
@@ -803,7 +832,8 @@
   "started": "Început. Repostând la fiecare {0} secunde.",
   "stopped": "Oprit repostarea.",
   "feed_added": "Feed adăugat.",
-  "feed_not_valid": "Link invalid, sau deja urmărești acel feed pe acest server sau ai ajuns la capacitatea maximă de urmarire.",
+  "feed_not_valid":
+    "Link invalid, sau deja urmărești acel feed pe acest server sau ai ajuns la capacitatea maximă de urmarire.",
   "feed_out_of_range": "Index negăsit.",
   "feed_removed": "Feed eliminat.",
   "feed_no_feed": "Nu te-ai abonat la niciun feed pe acest server.",
@@ -824,7 +854,8 @@
   "timely_set": "Utilizatorii vor putea sa revendice {0} la fiecare {1}h",
   "timely_set_none": "Utilizatorii nu pot revendica nicio valută timpurie.",
   "timely_reset": "Toți utilizatorii vor putea revendica valuta timpurie din nou.",
-  "waifu_transfer_fail": "Nu sunteți nici proprietarul acelei waifu, nici n-o poți permite. În mod alternativ intrarea ta este invalidă.",
+  "waifu_transfer_fail":
+    "Nu sunteți nici proprietarul acelei waifu, nici n-o poți permite. În mod alternativ intrarea ta este invalidă.",
   "waifu_transfer_success": "Revendicarea pentru {0} a fost transferată de la {1} la {2",
   "authors": "Autori",
   "sql_confirm_exec": "Confirmă execuția urmatoarei comenzi SQL",
@@ -843,22 +874,27 @@
   "level_up_rewards": "Recompense pentru creșterea nivelului",
   "role_reward": "Rol {0}",
   "no_level_up_rewards": "Nicio recompensă de creștere a nivelului pe pagina aceasta.",
-  "failed_finding_novel": "Nu pot găsi acea nuvelă. Asigură-te că i-ai scris numele întreg exact, și că există pe novelupdates.com",
+  "failed_finding_novel":
+    "Nu pot găsi acea nuvelă. Asigură-te că i-ai scris numele întreg exact, și că există pe novelupdates.com",
   "remove_roles": "au avut rolul eliminat",
   "delmsg_channel_off": "Nu voi auto-șterge niciodată mesaje care execută corect comenzi în acest canal.",
-  "delmsg_channel_on": "Voi auto-șterge mereu mesaje care execută corect comenzi în acest canal, ignorând setările serverului.",
-  "delmsg_channel_inherit": "Voi auto-șterge mesaje care execută corect comenzi în acest canal doar dacă această setare este pornită pe server.",
+  "delmsg_channel_on":
+    "Voi auto-șterge mereu mesaje care execută corect comenzi în acest canal, ignorând setările serverului.",
+  "delmsg_channel_inherit":
+    "Voi auto-șterge mesaje care execută corect comenzi în acest canal doar dacă această setare este pornită pe server.",
   "server_delmsgoncmd": "Setare a serverului",
   "channel_delmsgoncmd": "Setări care depind de canale",
   "options": "Opțiuni",
   "waifu_reset": "Statisticile tale de waifu au fost resetate.",
   "waifu_reset_fail": "Am eșuat la resetarea statisticilor de waifu. Asigură-te că ai destule resurse.",
   "waifu_reset_confirm": "Asta îți va reseta statisticile de waifu.",
-  "unset_music_channel": "De acum voi trimite mesaje în legătură cu melodiile care rulează, s-au terminat, sunt pe pauză sau au fost eliminate în canalul din care muzica a fost începută.",
+  "unset_music_channel":
+    "De acum voi trimite mesaje în legătură cu melodiile care rulează, s-au terminat, sunt pe pauză sau au fost eliminate în canalul din care muzica a fost începută.",
   "city_not_found": "Nu am putut găsi orașul.",
   "bot_config_reloaded": "Configurația botului a fost reîncărcată.",
   "club_transfered": "Proprietatea clubui {0} a fost transferată către {1}",
-  "club_transfer_failed": "Transfer eșuat. Trebuie să fii proprietarul clubului. Ținta trebuie să fie un membru al clubui tău.",
+  "club_transfer_failed":
+    "Transfer eșuat. Trebuie să fii proprietarul clubului. Ținta trebuie să fie un membru al clubui tău.",
   "roll_duel_challenge": "provocat pe {1} la un duel de zaruri pentru {2}",
   "roll_duel": "Duel de zaruri",
   "roll_duel_no_funds": "Tu sau oponentul tău nu aveți destule resurse.",

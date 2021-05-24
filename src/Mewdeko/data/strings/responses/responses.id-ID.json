@@ -1,7 +1,8 @@
 {
   "all_stats_cleared": "Semua reaksi kustom telah dibersihkan.",
   "deleted": "Reaksi kustom telah dihapus.",
-  "insuff_perms": "Izin anda kurang. Dibutuhkan kepemilikan Bot untuk reaksi kostum global, dan Administrator untuk reaksi kustom server.",
+  "insuff_perms":
+    "Izin anda kurang. Dibutuhkan kepemilikan Bot untuk reaksi kostum global, dan Administrator untuk reaksi kustom server.",
   "list_all": "Daftar dari semua reaksi kustom.",
   "new_cust_react": "Reaksi kustom baru",
   "no_found": "Tidak ada reaksi kustom yang ditemukan.",
@@ -59,7 +60,8 @@
   "greetmsg_new": "Pesan sapa baru telah diset.",
   "greet_off": "Pengumuman sapa dinonaktifkan.",
   "greet_on": "Pengumuman sapa diaktifkan di channel ini.",
-  "hierarchy": "Anda tidak bisa menggunakkan perintah ini pada pengguna dengan peran yang lebih tinggi atau setara dengan anda di dalam hierarki peran.",
+  "hierarchy":
+    "Anda tidak bisa menggunakkan perintah ini pada pengguna dengan peran yang lebih tinggi atau setara dengan anda di dalam hierarki peran.",
   "invalid_format": "Format input tidak valid.",
   "invalid_params": "Parameter tidak valid.",
   "kickdm": "Anda telah dikeluarkan dari server {0}.\nAlasan: {1}",
@@ -131,7 +133,8 @@
   "self_assign_not": "Peran itu tidak dapat ditetapkan sendiri.",
   "self_assign_not_have": "Anda tidak memiliki {0} peran.",
   "self_assign_no_excl": "Peran yang ditetapkan sendiri sekarang tidak eksklusif!",
-  "self_assign_perms": "Saya tidak dapat menambahkan peran itu pada anda. \u0027Saya tidak dapat menambahkan peran kepada pemilik atau peran lain yang lebih tinggi daripada peran saya di dalam hierarki peran.\u0027",
+  "self_assign_perms":
+    "Saya tidak dapat menambahkan peran itu pada anda. \u0027Saya tidak dapat menambahkan peran kepada pemilik atau peran lain yang lebih tinggi daripada peran saya di dalam hierarki peran.\u0027",
   "self_assign_rem": "{0} telah dihapus dari daftar peran yang dapat ditetapkan sendiri.",
   "self_assign_remove": "Anda tidak lagi memiliki peran {0}.",
   "self_assign_success": "Anda sekarang memiliki peran {0}.",
@@ -151,7 +154,8 @@
   "soft_banned_pl": "Ban halus (Dikeluarkan)",
   "spam_ignore": "{0} akan mengabaikan channel ini.",
   "spam_not_ignore": "{0} tidak lagi akan mengabaikan channel ini.",
-  "spam_stats": "Jika user memposting {0} pesan yang sama secara berurutan, Saya akan {1} mereka.\n    __IgnoredChannels__: {2} ",
+  "spam_stats":
+    "Jika user memposting {0} pesan yang sama secara berurutan, Saya akan {1} mereka.\n    __IgnoredChannels__: {2} ",
   "text_chan_created": "Channel teks telah dibuat.",
   "text_chan_destroyed": "Channel teks telah dihancurkan.",
   "undeafen": "penulian nonaktif.",
@@ -177,9 +181,12 @@
   "voice_chan_destroyed": "Channel suara telah dihancurkan",
   "vt_disabled": "Fitur suara \u002B teks dinonaktifkan.",
   "vt_enabled": "Fitur suara \u002B teks diaktfikan.",
-  "vt_exit": "Saya tidak memiliki izin **mengatur peran** dan/atau **mengatur channel**, jadi saya tidak dapat menjalankan \u0027suara\u002Bteks\u0027 di server {0}.",
-  "vt_no_admin": "Anda mengaktifkan/menonaktifkan fitur ini dan **Saya tidak punya izin administrator**. Ini dapat menyebabkan beberapa isu, dan anda harus membersihkan sendiri channel-channel teks setelahnya.",
-  "vt_perms": "Saya membutuhkan setidaknya izin **mengatur peran** dan **mengatur channel** untuk mengaktifkan fitur ini. (lebih memilih izin administrasi)",
+  "vt_exit":
+    "Saya tidak memiliki izin **mengatur peran** dan/atau **mengatur channel**, jadi saya tidak dapat menjalankan \u0027suara\u002Bteks\u0027 di server {0}.",
+  "vt_no_admin":
+    "Anda mengaktifkan/menonaktifkan fitur ini dan **Saya tidak punya izin administrator**. Ini dapat menyebabkan beberapa isu, dan anda harus membersihkan sendiri channel-channel teks setelahnya.",
+  "vt_perms":
+    "Saya membutuhkan setidaknya izin **mengatur peran** dan **mengatur channel** untuk mengaktifkan fitur ini. (lebih memilih izin administrasi)",
   "xmuted_text": "User {0} dari chat teks",
   "xmuted_text_and_voice": "User {0} dari chat teks dan suara",
   "xmuted_voice": "Pengguna {0} dari chat suara",
@@ -218,14 +225,19 @@
   "cmdlist_donate": "Anda dapat mendukung project ini di patreon: \u003C{0}\u003E atau paypal: \u003C{1}\u003E",
   "cmd_and_alias": "Daftar perintah dan alias",
   "commandlist_regen": "Daftar perintah telah dibuat ulang.",
-  "commands_instr": "Ketik \u0027{0}h CommandName\u0027 untuk melihat bantuan untuk perintah tersebut. Contoh \u0027{0}h \u003E8ball\u0027",
-  "command_not_found": "Saya tidak dapat menemukan perintah itu. Tolong verifikasi perintah itu ada sebelum mencoba lagi.",
+  "commands_instr":
+    "Ketik \u0027{0}h CommandName\u0027 untuk melihat bantuan untuk perintah tersebut. Contoh \u0027{0}h \u003E8ball\u0027",
+  "command_not_found":
+    "Saya tidak dapat menemukan perintah itu. Tolong verifikasi perintah itu ada sebelum mencoba lagi.",
   "desc": "Deskripsi",
-  "donate": "Anda dapat mendukung projek Mewdeko di\nPatreon \u003C{0}\u003E atau\nPaypal \u003C{1}\u003E\nJangan lupa untuk meninggalkan nama atau ID Discord anda di dalam pesan.\n\n**Terima kasih**♥️ ",
-  "guide": "**Daftar perintah**: \u003C{0}\u003E\n**Panduan dan dokumentasi hosting dapat ditemukan disini**: \u003C{1}\u003E",
+  "donate":
+    "Anda dapat mendukung projek Mewdeko di\nPatreon \u003C{0}\u003E atau\nPaypal \u003C{1}\u003E\nJangan lupa untuk meninggalkan nama atau ID Discord anda di dalam pesan.\n\n**Terima kasih**♥️ ",
+  "guide":
+    "**Daftar perintah**: \u003C{0}\u003E\n**Panduan dan dokumentasi hosting dapat ditemukan disini**: \u003C{1}\u003E",
   "list_of_commands": "Daftar perintah",
   "list_of_modules": "Daftar modul",
-  "modules_footer": "Ketik \u0027{0}cmds ModuleName\u0027 untuk mendapatkan daftar perintah di dalam modul tersebut. Contoh \u0027{0}cmds games\u0027",
+  "modules_footer":
+    "Ketik \u0027{0}cmds ModuleName\u0027 untuk mendapatkan daftar perintah di dalam modul tersebut. Contoh \u0027{0}cmds games\u0027",
   "module_not_found": "Modul tersebut tidak ada.",
   "server_permission": "Memerlukan izin {0} server.",
   "table_of_contents": "Daftar isi",
@@ -254,16 +266,20 @@
   "likes": "Suka",
   "waifus_none": "Tidak ada waifu yang belum diklaim.",
   "waifus_top_waifus": "Top Waifu",
-  "waifu_affinity_already": "Afinitas anda sudah ditetapkan ke waifu tersebut atau anda sedang mencoba menghilangkan afinitas tanpa mempunyainya.",
-  "waifu_affinity_changed": "Mengubah afinitas mereka dari {0} ke {1}\n\n*Ini dapat ditanyakan moralitasnya.* \uD83E\uDD14",
+  "waifu_affinity_already":
+    "Afinitas anda sudah ditetapkan ke waifu tersebut atau anda sedang mencoba menghilangkan afinitas tanpa mempunyainya.",
+  "waifu_affinity_changed":
+    "Mengubah afinitas mereka dari {0} ke {1}\n\n*Ini dapat ditanyakan moralitasnya.* \uD83E\uDD14",
   "waifu_affinity_cooldown": "Anda harus menunggu {0} jam dan {1} menit untuk mengubah afinitas anda lagi.",
   "waifu_affinity_reset": "Afinitas anda telah diulang. Anda tidak lagi memiliki seseorang yang anda sukai.",
   "waifu_affinity_set": "ingin menjadi waifu si {0}. Aww \u003C3",
   "waifu_claimed": "mengklaim {0} sebagai waifu dia seharga {1}!",
-  "waifu_divorced_like": "Kamu telah menceraikan waifu yang menyukaimu. Kamu monster tanpa hati.\n{0} menerima {1} sebagai kompensasi.",
+  "waifu_divorced_like":
+    "Kamu telah menceraikan waifu yang menyukaimu. Kamu monster tanpa hati.\n{0} menerima {1} sebagai kompensasi.",
   "waifu_egomaniac": "Anda tidak bisa merubah afinitas ke diri sendiri, anda egois.",
   "waifu_fulfilled": "\uD83C\uDF89 Cinta mereka dipenuhi! \uD83C\uDF89\nNilai {0} sekarang adalah {1}!",
-  "waifu_isnt_cheap": "Tidak ada waifu semurah itu. Anda harus membayar setidaknya {0} untuk mendapatkan waifu, meskipun harga mereka lebih rendah.",
+  "waifu_isnt_cheap":
+    "Tidak ada waifu semurah itu. Anda harus membayar setidaknya {0} untuk mendapatkan waifu, meskipun harga mereka lebih rendah.",
   "waifu_not_enough": "Anda harus membayar {0} atau lebih untuk mengklaim waifu tersebut!",
   "waifu_not_yours": "Waifu itu bukan milikmu.",
   "waifu_not_yourself": "Anda tidak bisa mengklaim diri sendiri.",
@@ -344,7 +360,8 @@
   "playlists": "\u0060#{0}\u0060 - **{1}** oleh *{2}* ({3} lagu)",
   "playlists_page": "Halaman {0} playlist yang tersimpan",
   "playlist_deleted": "Playlist dihapus",
-  "playlist_delete_fail": "Gagal untuk menghapus playlist. Playlist tidak ditemukan, atau anda bukan pemilik playlist tersebut.",
+  "playlist_delete_fail":
+    "Gagal untuk menghapus playlist. Playlist tidak ditemukan, atau anda bukan pemilik playlist tersebut.",
   "playlist_id_not_found": "Playlist dengan ID tersebut tidak ditemukan.",
   "playlist_queue_complete": "Antrian playlist selesai.",
   "playlist_saved": "Playlist disimpan",
@@ -361,7 +378,8 @@
   "resumed": "Pemutaran kembali lagu dilanjutkan.",
   "rpl_disabled": "Pengulangan playlist dibatalkan.",
   "rpl_enabled": "Pengulangan playlist diaktifkan",
-  "set_music_channel": "Sekarang saya akan mengeluarkan lagu yang sedang diputar, yang telah diputar, yang dihentikan dan menghapus lagu-lagu di channel ini.",
+  "set_music_channel":
+    "Sekarang saya akan mengeluarkan lagu yang sedang diputar, yang telah diputar, yang dihentikan dan menghapus lagu-lagu di channel ini.",
   "skipped_to": "Lewat ke \u0060{0}:{1}\u0060",
   "song_moved": "Lagu dipindahkan",
   "time_format": "{0}jam {1}menit {2}detik",
@@ -527,7 +545,8 @@
   "features": "Ciri - ciri",
   "index_out_of_range": "Indeks di luar jarak.",
   "inrole_list": "Daftar pengguna pada peran {0}",
-  "inrole_not_allowed": "Anda tidak diizinkan untuk menggunakan perintah ini pada peran dengan banyak pengguna di dalamnya untuk mencegah penyalahgunaan.",
+  "inrole_not_allowed":
+    "Anda tidak diizinkan untuk menggunakan perintah ini pada peran dengan banyak pengguna di dalamnya untuk mencegah penyalahgunaan.",
   "invalid_value": "Nilai {0} salah.",
   "listservers": "ID: {0}\nAnggota: {1}\nID Pemilik: {2}",
   "listservers_none": "Server tidak ditemukan di halaman tersebut.",
@@ -638,11 +657,14 @@
   "slowmodewl_user_start": "Slowmode akan mengabaikan pengguna {0}",
   "slowmodewl_user_stop": "Slowmode tidak akan lagi mengabaikan pengguna {0}.",
   "clpa_fail": "Gagal untuk mengambil hadiah karena salah satu dari alasan ini:",
-  "clpa_fail_already": "Mungkin anda telah mendapatkan hadiah anda untuk bulan ini. Anda hanya bisa mendapatkan hadiah sekali sebulan kecuali anda menambahkan jumlah janji anda.",
+  "clpa_fail_already":
+    "Mungkin anda telah mendapatkan hadiah anda untuk bulan ini. Anda hanya bisa mendapatkan hadiah sekali sebulan kecuali anda menambahkan jumlah janji anda.",
   "clpa_fail_already_title": "Telah dihadiahkan",
-  "clpa_fail_conn": "Akun DIscord anda mungkin tidak terkoneksi ke Patreon. Jika anda tidak yakin artinya, atau tidak tahu cara menghubungkannya \u0060 anda harus pergi ke [Halaman pengaturan akun Patreon] (https://patreon.com/settings/account) dan menekan tombol \u0027Connect to Discord\u0027.",
+  "clpa_fail_conn":
+    "Akun DIscord anda mungkin tidak terkoneksi ke Patreon. Jika anda tidak yakin artinya, atau tidak tahu cara menghubungkannya \u0060 anda harus pergi ke [Halaman pengaturan akun Patreon] (https://patreon.com/settings/account) dan menekan tombol \u0027Connect to Discord\u0027.",
   "clpa_fail_conn_title": "Akun Discord tidak terhubung",
-  "clpa_fail_sup": "Untuk berhak mendapatkan hadiah, anda harus mendukung  proyek di Patreon. Anda dapat menggunakan perintah {0} untuk mendapatkan link nya.",
+  "clpa_fail_sup":
+    "Untuk berhak mendapatkan hadiah, anda harus mendukung  proyek di Patreon. Anda dapat menggunakan perintah {0} untuk mendapatkan link nya.",
   "clpa_fail_sup_title": "Tidak mendukung.",
   "clpa_fail_wait": "Anda harus menunggu beberapa jam setelah memohon, jika anda tidak, cobalah nanti lagi.",
   "clpa_fail_wait_title": "Tunggulah sebentar.",
@@ -691,7 +713,8 @@
   "bot_nick": "Nama panggilan bot diubah menjadi {0}",
   "user_nick": "Nama panggilan pengguna diubah dari {0} menjadi {1}.",
   "timezone_guild": "Timezone untuk kelompok ini adalah \u0027{0}\u0027",
-  "timezone_not_found": "Timezone tidak ditemukan. Gunakan perintah \u0022timezones\u0022 untuk melihat daftar timezone yang tersedia.",
+  "timezone_not_found":
+    "Timezone tidak ditemukan. Gunakan perintah \u0022timezones\u0022 untuk melihat daftar timezone yang tersedia.",
   "timezones_available": "Timezone yang tersedia",
   "song_not_found": "Lagu tidak ditemukan.",
   "define_unknown": "Tidak dapat menemukan definisi dari istilah itu.",
@@ -740,7 +763,8 @@
   "stream_role_bl_add_fail": "Pengguna {0} sudah dimasukkan blacklist.",
   "stream_role_bl_rem": "Pengguna {0} sudah tidak di blacklist.",
   "stream_role_bl_rem_fail": "Pengguna {0} tidak di blacklist.",
-  "stream_role_wl_add": "Pengguna {0} akan mendapatkan peran stream bahkan jika mereka tidak memiliki kata kunci di judul stream.",
+  "stream_role_wl_add":
+    "Pengguna {0} akan mendapatkan peran stream bahkan jika mereka tidak memiliki kata kunci di judul stream.",
   "stream_role_wl_add_fail": "Pengguna {0} sudah di whitelist.",
   "stream_role_wl_rem": "Pengguna {0} sudah tidak di whitelist.",
   "stream_role_wl_rem_fail": "Pengguna {0} tidak di whitelist.",
@@ -767,21 +791,27 @@
   "server_leaderboard": "Peringkat XP Server",
   "global_leaderboard": "Peringkat XP Global",
   "modified": "XP Server dari user {0} telah dimodifikasi oleh {1}",
-  "club_create_error": "Gagal membuat klub. Pastikan level anda berada di atas level 5 dan belum menjadi member dari klub apapun.",
+  "club_create_error":
+    "Gagal membuat klub. Pastikan level anda berada di atas level 5 dan belum menjadi member dari klub apapun.",
   "club_created": "klub {0} berhasil terbuat",
   "club_not_exists": "klub tersebut tidak ada",
   "club_applied": "Anda telah melamar untuk menjadi member di klub {0}.",
-  "club_apply_error": "Galat ketika melamar. Antara anda sudah menjadi member dari sebuah klub, atau anda tidak memenuhi syarat level minimum, atau anda telah diblokir dari klub ini.",
+  "club_apply_error":
+    "Galat ketika melamar. Antara anda sudah menjadi member dari sebuah klub, atau anda tidak memenuhi syarat level minimum, atau anda telah diblokir dari klub ini.",
   "club_accepted": "Pengguna {0} telah diterima ke dalam klub.",
   "club_accept_error": "Pengguna tidak ditemukan",
   "club_left": "Anda telah meninggalkan klub",
-  "club_not_in_club": "Anda tidak berada di dalam sebuah klub, atau anda mencoba untuk keluar dari klub yang anda miliki.",
+  "club_not_in_club":
+    "Anda tidak berada di dalam sebuah klub, atau anda mencoba untuk keluar dari klub yang anda miliki.",
   "club_user_kick": "Pengguna {0} telah ditendang dari klub {1}.",
-  "club_user_kick_fail": "Galat ketika menendang. Antara anda bukan pemilik klub, atau pengguna tersebut tidak termasuk ke dalam klub anda.",
+  "club_user_kick_fail":
+    "Galat ketika menendang. Antara anda bukan pemilik klub, atau pengguna tersebut tidak termasuk ke dalam klub anda.",
   "club_user_banned": "Pengguna {0} dilarang dari klub {1}.",
-  "club_user_ban_fail": "Gagal untuk melarang. Anda antara bukan pemilik klub, atau pengguna itu tidak di klub anda atau mengaplikasikan diri ke itu.",
+  "club_user_ban_fail":
+    "Gagal untuk melarang. Anda antara bukan pemilik klub, atau pengguna itu tidak di klub anda atau mengaplikasikan diri ke itu.",
   "club_user_unbanned": "Sudah tidak melarang pengguna {0} di klub {1}.",
-  "club_user_unban_fail": "Gagal untuk tidak melarang. Anda antara bukan pemilik klub, atau pengguna itu tidak di klub anda atau mengaplikasikan diri ke itu.",
+  "club_user_unban_fail":
+    "Gagal untuk tidak melarang. Anda antara bukan pemilik klub, atau pengguna itu tidak di klub anda atau mengaplikasikan diri ke itu.",
   "club_level_req_changed": "Syarat level klub telah diubah ke {0}",
   "club_level_req_change_error": "Gagal mengubah syarat level.",
   "club_disbanded": "Klub {0} telah dibubarkan",
@@ -803,7 +833,8 @@
   "started": "Dimulai. Repost setiap {0}dtk.",
   "stopped": "Repost dihentikan.",
   "feed_added": "Feed ditambahkan.",
-  "feed_not_valid": "Link invalid, atau anda sudah mengikuti feed tersebut di server ini, atau anda sudah mencapai jumlah feed maksimum yang dibolehkan.",
+  "feed_not_valid":
+    "Link invalid, atau anda sudah mengikuti feed tersebut di server ini, atau anda sudah mencapai jumlah feed maksimum yang dibolehkan.",
   "feed_out_of_range": "Index di luar batas.",
   "feed_removed": "Feed dibuang",
   "feed_no_feed": "Anda belum melanggani feed apapun di server ini.",
@@ -824,7 +855,8 @@
   "timely_set": "Pengguna bisa mengklaim {0} setiap {1}j",
   "timely_set_none": "Pengguna tidak akan bisa mengklaim kurs berwaktu apapun.",
   "timely_reset": "Semua pengguna bisa mengklaim kurs berwaktu lagi.",
-  "waifu_transfer_fail": "Antara anda bukan pemilik waifu tersebut, atau anda tidak bisa membelinya. Bisa juga masukan anda tidak benar.",
+  "waifu_transfer_fail":
+    "Antara anda bukan pemilik waifu tersebut, atau anda tidak bisa membelinya. Bisa juga masukan anda tidak benar.",
   "waifu_transfer_success": "Klaim dari {0} telah dipindahkan dari {1} ke {2}",
   "authors": "Pembuat",
   "sql_confirm_exec": "Konfirmasi eksekusi dari perintah SQL berikut",
@@ -843,22 +875,27 @@
   "level_up_rewards": "Hadiah naik level",
   "role_reward": "Peran {0}",
   "no_level_up_rewards": "TIdak ada hadiah naik level di halaman ini.",
-  "failed_finding_novel": "Tidak dapat menemukan nove itu. Psatikan anda telah menulis nama lengkap yang sama, dan ada di novelupdates.com",
+  "failed_finding_novel":
+    "Tidak dapat menemukan nove itu. Psatikan anda telah menulis nama lengkap yang sama, dan ada di novelupdates.com",
   "remove_roles": "telah mengapus peran mereka",
   "delmsg_channel_off": "Saya tidak akan menghapus pesan yang mengeksekusi perintah di channel ini.",
-  "delmsg_channel_on": "Saya akan selalu menghapus pesan yang mengeksekusi perintah di channel ini, tidak peduli tentang setting server",
-  "delmsg_channel_inherit": "saya akan secara otomatis menghapus pesan yang berhasil menjalankan perintah dalam channel ini hanya jika fitur ini dinyalakan dalam server",
+  "delmsg_channel_on":
+    "Saya akan selalu menghapus pesan yang mengeksekusi perintah di channel ini, tidak peduli tentang setting server",
+  "delmsg_channel_inherit":
+    "saya akan secara otomatis menghapus pesan yang berhasil menjalankan perintah dalam channel ini hanya jika fitur ini dinyalakan dalam server",
   "server_delmsgoncmd": "pengaturan server",
   "channel_delmsgoncmd": "settingan spesifik channel",
   "options": "Opsi",
   "waifu_reset": "status waifumu telah direset.",
   "waifu_reset_fail": "gagal mereset status waifu. pastikan anda mempunyai uang yang cukup.",
   "waifu_reset_confirm": "Ini akan mereset status waifumu",
-  "unset_music_channel": "Saya akan mengeluarkan lagu - lagu playing,finished, paused dan removed di channel musik dimulai.",
+  "unset_music_channel":
+    "Saya akan mengeluarkan lagu - lagu playing,finished, paused dan removed di channel musik dimulai.",
   "city_not_found": "kota tidak ditemukan",
   "bot_config_reloaded": "konfigurasi bot sudah baru.",
   "club_transfered": "Kepemilikan klub {0} telah ditransfer kepada {1}",
-  "club_transfer_failed": "Transfer gagal. anda harus harus menjadi pemilik klub. Target harus menjadi anggota dari klub mu",
+  "club_transfer_failed":
+    "Transfer gagal. anda harus harus menjadi pemilik klub. Target harus menjadi anggota dari klub mu",
   "roll_duel_challenge": "telah menantang {1} untuk tanding roll untuk {2}",
   "roll_duel": "Tanding Roll",
   "roll_duel_no_funds": "diantara anda atau musuh anda tidak memiliki dana yang cukup",
@@ -869,7 +906,8 @@
   "rps_draw": "Seri! ",
   "rps_win": "{0} menang! {1} mengalahkan {2}",
   "roleid": "{0} dari peran {1} adalah {2}",
-  "warning_clear_fail": "Peringaatn tidak dibersihkan. Antara peringatan dari indeks itu tidak ada, atau sudah dibersihkan.",
+  "warning_clear_fail":
+    "Peringaatn tidak dibersihkan. Antara peringatan dari indeks itu tidak ada, atau sudah dibersihkan.",
   "warning_cleared": "Peringatan {0} sudah dibersihkan untuk {1}.",
   "club_desc_updated": "deskripsi klub dirubah menjadi {0}",
   "club_desc_update_failed": "Gagal mengubah deskripsi klub",
@@ -903,7 +941,8 @@
   "anti_spam_not_running": "Fitur Anti-Spam belum diaktifkan.",
   "adsarm_enable": "Penghapusan otomatis dari \u0027{0}iam\u0027 dan \u0027{0}iamn\u0027 telah diaktifkan",
   "adsarm_disable": "Bot tidak akan menghapus respon dari \u0060{0}iam\u0060 dan \u0060{0}iamn\u0060.",
-  "module_not_found_or_cant_exec": "Antara modul tidak ada, atau anda tidak bisa menjalankan perintah di modul yang dipilih.",
+  "module_not_found_or_cant_exec":
+    "Antara modul tidak ada, atau anda tidak bisa menjalankan perintah di modul yang dipilih.",
   "requires": "Membutuhkan",
   "permrole_not_set": "Izin peran belum di setting.",
   "permrole_reset": "Izin peran telah di hapus.",
@@ -916,13 +955,15 @@
   "autocmd_add": "Perintah {0} anda dijalankan setiap {1} detik di saluran ini.",
   "autocmdlist_none": "Tidak ada perintah otomatis di halaman ini.",
   "connect4_created": "Dibuat sebuah permainan Connect4. menunggu untuk sebuah pemain untuk masuk.",
-  "connect4_created_bet": "Dibuat sebuah permainan Connect4 dengan taruhan {0}. Menunggu untuk sebuah pemain untuk masuk dengan taruhan yang sama.",
+  "connect4_created_bet":
+    "Dibuat sebuah permainan Connect4 dengan taruhan {0}. Menunggu untuk sebuah pemain untuk masuk dengan taruhan yang sama.",
   "connect4_player_to_move": "Pemain yang jalan: {0}",
   "connect4_failed_to_start": "Permainan Connect4 gagal dimulai karena tidak ada yang masuk.",
   "connect4_draw": "Permainan Connect4 berakhir seri.",
   "connect4_won": "{0} menang permain Connect4 melawan {1}",
   "new_reaction_event": "Ditambahkan reaksi {0} ke pesan ini untuk mendapatkan {1}\n{2} yang tersisa untuk diberikan.",
-  "start_event_fail": "Peristiwa gagal untuk mulai. Antara peristiwa lain sedang berjalan, atau ada error saat memulai peristiwa.",
+  "start_event_fail":
+    "Peristiwa gagal untuk mulai. Antara peristiwa lain sedang berjalan, atau ada error saat memulai peristiwa.",
   "waifu": "Waifu",
   "remind_too_long": "Waktu mengingatkan telah melewati maksimum.",
   "updates_check_set": "Cek pembaruan telah di set ke {0}.",

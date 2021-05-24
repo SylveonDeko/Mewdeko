@@ -5,30 +5,37 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.ServerManagement.Services
 {
     public class ServerManagementService : INService
     {
-        public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
-        public DiscordSocketClient _client;
-        private readonly DbService _db;
         private static readonly OverwritePermissions denyOverwrite =
-            new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
+            new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
                 attachFiles: PermValue.Deny, viewChannel: PermValue.Deny);
-                public CommandContext ctx;
-        public ServerManagementService(DiscordSocketClient client, DbService db)
+
+        private readonly Mewdeko _bot;
+        private readonly DbService _db;
+        public DiscordSocketClient _client;
+
+        public CommandContext ctx;
+
+        public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko bot)
         {
             _client = client;
             _db = db;
+            _bot = bot;
+            _ticketchannelids = bot.AllGuildConfigs
+                .Where(x => x.TicketCategory != 0)
+                .ToDictionary(x => x.GuildId, x => x.TicketCategory)
+                .ToConcurrent();
 
-            using (var uow = db.GetDbContext())
-        {
+            using var uow = db.GetDbContext();
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
-             var configs = uow._context.Set<GuildConfig>().AsQueryable()
+            var configs = uow._context.Set<GuildConfig>().AsQueryable()
                 .Where(x => guildIds.Contains(x.GuildId))
                 .ToList();
 
@@ -37,7 +44,30 @@ namespace Mewdeko.Modules.ServerManagement.Services
                 .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
                 .ToConcurrent();
         }
-    }
+
+        public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+        private ConcurrentDictionary<ulong, ulong> _ticketchannelids { get; } = new();
+
+        public ulong GetTicketCategory(ulong? id)
+        {
+            if (id == null || !_ticketchannelids.TryGetValue(id.Value, out var ticketcat))
+                return 0;
+
+            return ticketcat;
+        }
+
+        public async Task SetTicketCategoryId(IGuild guild, ICategoryChannel channel)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.TicketCategory = channel.Id;
+                await uow.SaveChangesAsync();
+            }
+
+            _ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+        }
+
         public async Task<IRole> GetMuteRole(IGuild guild)
         {
             if (guild == null)
@@ -49,18 +79,20 @@ namespace Mewdeko.Modules.ServerManagement.Services
 
             var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
             if (muteRole == null)
-            {
-
                 //if it doesn't exist, create it
-                try { muteRole = await guild.CreateRoleAsync(muteRoleName, isMentionable: false).ConfigureAwait(false); }
+                try
+                {
+                    muteRole = await guild.CreateRoleAsync(muteRoleName, isMentionable: false).ConfigureAwait(false);
+                }
                 catch
                 {
                     //if creations fails,  maybe the name != correct, find default one, if doesn't work, create default one
                     muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName) ??
-                        await guild.CreateRoleAsync(defaultMuteRoleName, isMentionable: false).ConfigureAwait(false);
+                               await guild.CreateRoleAsync(defaultMuteRoleName, isMentionable: false)
+                                   .ConfigureAwait(false);
                 }
-            }
-             return muteRole;
+
+            return muteRole;
         }
     }
 }

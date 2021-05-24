@@ -1,30 +1,24 @@
-﻿using Discord;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Mewdeko.Core.Modules.Gambling.Common.Waifu;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Database.Repositories;
+using Microsoft.EntityFrameworkCore;
 using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Gambling.Services
 {
     public class WaifuService : INService
     {
-        public class FullWaifuInfo
-        {
-            public WaifuInfo Waifu { get; set; }
-            public IEnumerable<string> Claims { get; set; }
-            public int Divorces { get; set; }
-        }
-
-        private readonly DbService _db;
-        private readonly ICurrencyService _cs;
         private readonly IBotConfigProvider _bc;
         private readonly IDataCache _cache;
+        private readonly ICurrencyService _cs;
+
+        private readonly DbService _db;
         private readonly Logger _log;
 
         public WaifuService(DbService db, ICurrencyService cs, IBotConfigProvider bc, IDataCache cache)
@@ -50,10 +44,8 @@ namespace Mewdeko.Modules.Gambling.Services
                     return false;
 
                 if (!await _cs.RemoveAsync(owner.Id, "Waifu Transfer",
-                    waifu.Price / 10, gamble: true))
-                {
+                    waifu.Price / 10, true))
                     return false;
-                }
 
                 //new claimerId is the id of the new owner
                 var newOwnerUser = uow.DiscordUsers.GetOrCreate(newOwner);
@@ -75,17 +67,19 @@ namespace Mewdeko.Modules.Gambling.Services
                     return _bc.BotConfig.MinWaifuPrice;
 
                 var divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
-                        x.Old.UserId == user.Id &&
-                        x.UpdateType == WaifuUpdateType.Claimed &&
-                        x.New == null);
+                                                                    x.Old.UserId == user.Id &&
+                                                                    x.UpdateType == WaifuUpdateType.Claimed &&
+                                                                    x.New == null);
                 var affs = uow._context.WaifuUpdates
-                        .AsQueryable()
-                        .Where(w => w.User.UserId == user.Id && w.UpdateType == WaifuUpdateType.AffinityChanged && w.New != null)
-                        .ToList()
-                        .GroupBy(x => x.New)
-                        .Count();
+                    .AsQueryable()
+                    .Where(w => w.User.UserId == user.Id && w.UpdateType == WaifuUpdateType.AffinityChanged &&
+                                w.New != null)
+                    .ToList()
+                    .GroupBy(x => x.New)
+                    .Count();
 
-                return (int)Math.Ceiling(waifu.Price * 1.25f) + ((divorces + affs + 2) * _bc.BotConfig.DivorcePriceMultiplier);
+                return (int) Math.Ceiling(waifu.Price * 1.25f) +
+                       (divorces + affs + 2) * _bc.BotConfig.DivorcePriceMultiplier;
             }
         }
 
@@ -94,21 +88,21 @@ namespace Mewdeko.Modules.Gambling.Services
             using (var uow = _db.GetDbContext())
             {
                 var price = GetResetPrice(user);
-                if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price, gamble: true))
+                if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price, true))
                     return false;
 
                 var affs = uow._context.WaifuUpdates
                     .AsQueryable()
                     .Where(w => w.User.UserId == user.Id
-                        && w.UpdateType == WaifuUpdateType.AffinityChanged
-                        && w.New != null);
+                                && w.UpdateType == WaifuUpdateType.AffinityChanged
+                                && w.New != null);
 
                 var divorces = uow._context.WaifuUpdates
                     .AsQueryable()
                     .Where(x => x.Old != null &&
-                        x.Old.UserId == user.Id &&
-                        x.UpdateType == WaifuUpdateType.Claimed &&
-                        x.New == null);
+                                x.Old.UserId == user.Id &&
+                                x.UpdateType == WaifuUpdateType.Claimed &&
+                                x.New == null);
 
                 //reset changes of heart to 0
                 uow._context.WaifuUpdates.RemoveRange(affs);
@@ -126,6 +120,7 @@ namespace Mewdeko.Modules.Gambling.Services
 
                 await uow.SaveChangesAsync();
             }
+
             return true;
         }
 
@@ -137,25 +132,25 @@ namespace Mewdeko.Modules.Gambling.Services
             using (var uow = _db.GetDbContext())
             {
                 w = uow.Waifus.ByWaifuUserId(target.Id);
-                isAffinity = (w?.Affinity?.UserId == user.Id);
+                isAffinity = w?.Affinity?.UserId == user.Id;
                 if (w == null)
                 {
                     var claimer = uow.DiscordUsers.GetOrCreate(user);
                     var waifu = uow.DiscordUsers.GetOrCreate(target);
-                    if (!await _cs.RemoveAsync(user.Id, "Claimed Waifu", amount, gamble: true))
+                    if (!await _cs.RemoveAsync(user.Id, "Claimed Waifu", amount, true))
                     {
                         result = WaifuClaimResult.NotEnoughFunds;
                     }
                     else
                     {
-                        uow.Waifus.Add(w = new WaifuInfo()
+                        uow.Waifus.Add(w = new WaifuInfo
                         {
                             Waifu = waifu,
                             Claimer = claimer,
                             Affinity = null,
                             Price = amount
                         });
-                        await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate()
+                        await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate
                         {
                             User = waifu,
                             Old = null,
@@ -167,7 +162,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 }
                 else if (isAffinity && amount > w.Price * 0.88f)
                 {
-                    if (!await _cs.RemoveAsync(user.Id, "Claimed Waifu", amount, gamble: true))
+                    if (!await _cs.RemoveAsync(user.Id, "Claimed Waifu", amount, true))
                     {
                         result = WaifuClaimResult.NotEnoughFunds;
                     }
@@ -175,10 +170,10 @@ namespace Mewdeko.Modules.Gambling.Services
                     {
                         var oldClaimer = w.Claimer;
                         w.Claimer = uow.DiscordUsers.GetOrCreate(user);
-                        w.Price = amount + (amount / 4);
+                        w.Price = amount + amount / 4;
                         result = WaifuClaimResult.Success;
 
-                        await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate()
+                        await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate
                         {
                             User = w.Waifu,
                             Old = oldClaimer,
@@ -189,7 +184,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 }
                 else if (amount >= w.Price * 1.1f) // if no affinity
                 {
-                    if (!await _cs.RemoveAsync(user.Id, "Claimed Waifu", amount, gamble: true))
+                    if (!await _cs.RemoveAsync(user.Id, "Claimed Waifu", amount, true))
                     {
                         result = WaifuClaimResult.NotEnoughFunds;
                     }
@@ -200,7 +195,7 @@ namespace Mewdeko.Modules.Gambling.Services
                         w.Price = amount;
                         result = WaifuClaimResult.Success;
 
-                        await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate()
+                        await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate
                         {
                             User = w.Waifu,
                             Old = oldClaimer,
@@ -210,7 +205,9 @@ namespace Mewdeko.Modules.Gambling.Services
                     }
                 }
                 else
+                {
                     result = WaifuClaimResult.InsufficientAmount;
+                }
 
 
                 await uow.SaveChangesAsync();
@@ -231,7 +228,6 @@ namespace Mewdeko.Modules.Gambling.Services
                 var now = DateTime.UtcNow;
                 if (w?.Affinity?.UserId == target?.Id)
                 {
-
                 }
                 else if (!_cache.TryAddAffinityCooldown(user.Id, out remaining))
                 {
@@ -239,7 +235,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 else if (w == null)
                 {
                     var thisUser = uow.DiscordUsers.GetOrCreate(user);
-                    uow.Waifus.Add(new WaifuInfo()
+                    uow.Waifus.Add(new WaifuInfo
                     {
                         Affinity = newAff,
                         Waifu = thisUser,
@@ -248,7 +244,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     });
                     success = true;
 
-                    await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate()
+                    await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate
                     {
                         User = thisUser,
                         Old = null,
@@ -263,7 +259,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     w.Affinity = newAff;
                     success = true;
 
-                    await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate()
+                    await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate
                     {
                         User = w.Waifu,
                         Old = oldAff,
@@ -297,7 +293,9 @@ namespace Mewdeko.Modules.Gambling.Services
                 w = uow.Waifus.ByWaifuUserId(targetId);
                 var now = DateTime.UtcNow;
                 if (w?.Claimer == null || w.Claimer.UserId != user.Id)
+                {
                     result = DivorceResult.NotYourWife;
+                }
                 else if (!_cache.TryAddDivorceCooldown(user.Id, out remaining))
                 {
                     result = DivorceResult.Cooldown;
@@ -308,20 +306,21 @@ namespace Mewdeko.Modules.Gambling.Services
 
                     if (w.Affinity?.UserId == user.Id)
                     {
-                        await _cs.AddAsync(w.Waifu.UserId, "Waifu Compensation", amount, gamble: true);
-                        w.Price = (int)Math.Floor(w.Price * 0.75f);
+                        await _cs.AddAsync(w.Waifu.UserId, "Waifu Compensation", amount, true);
+                        w.Price = (int) Math.Floor(w.Price * 0.75f);
                         result = DivorceResult.SucessWithPenalty;
                     }
                     else
                     {
-                        await _cs.AddAsync(user.Id, "Waifu Refund", amount, gamble: true);
+                        await _cs.AddAsync(user.Id, "Waifu Refund", amount, true);
 
                         result = DivorceResult.Success;
                     }
+
                     var oldClaimer = w.Claimer;
                     w.Claimer = null;
 
-                    await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate()
+                    await uow._context.WaifuUpdates.AddAsync(new WaifuUpdate
                     {
                         User = w.Waifu,
                         Old = oldClaimer,
@@ -338,35 +337,29 @@ namespace Mewdeko.Modules.Gambling.Services
 
         public async Task<bool> GiftWaifuAsync(ulong from, IUser giftedWaifu, WaifuItem itemObj)
         {
-            if (!await _cs.RemoveAsync(from, "Bought waifu item", itemObj.Price, gamble: true))
-            {
-                return false;
-            }
+            if (!await _cs.RemoveAsync(from, "Bought waifu item", itemObj.Price, true)) return false;
 
             using (var uow = _db.GetDbContext())
             {
                 var w = uow.Waifus.ByWaifuUserId(giftedWaifu.Id, set => set.Include(x => x.Items)
                     .Include(x => x.Claimer));
                 if (w == null)
-                {
-                    uow.Waifus.Add(w = new WaifuInfo()
+                    uow.Waifus.Add(w = new WaifuInfo
                     {
                         Affinity = null,
                         Claimer = null,
                         Price = 1,
-                        Waifu = uow.DiscordUsers.GetOrCreate(giftedWaifu),
+                        Waifu = uow.DiscordUsers.GetOrCreate(giftedWaifu)
                     });
-                }
                 w.Items.Add(itemObj);
                 if (w.Claimer?.UserId == from)
-                {
-                    w.Price += (int)(itemObj.Price * 0.95);
-                }
+                    w.Price += (int) (itemObj.Price * 0.95);
                 else
                     w.Price += itemObj.Price / 2;
 
                 await uow.SaveChangesAsync();
             }
+
             return true;
         }
 
@@ -377,7 +370,6 @@ namespace Mewdeko.Modules.Gambling.Services
                 var du = uow.DiscordUsers.GetOrCreate(target);
                 var wi = uow.Waifus.GetWaifuInfo(target.Id);
                 if (wi == null)
-                {
                     wi = new WaifuInfoStats
                     {
                         AffinityCount = 0,
@@ -390,7 +382,6 @@ namespace Mewdeko.Modules.Gambling.Services
                         Items = new List<WaifuItem>(),
                         Price = 1
                     };
-                }
 
                 return wi;
             }
@@ -452,6 +443,13 @@ namespace Mewdeko.Modules.Gambling.Services
                 title = AffinityTitle.Harlot;
 
             return title.ToString().Replace('_', ' ');
+        }
+
+        public class FullWaifuInfo
+        {
+            public WaifuInfo Waifu { get; set; }
+            public IEnumerable<string> Claims { get; set; }
+            public int Divorces { get; set; }
         }
     }
 }

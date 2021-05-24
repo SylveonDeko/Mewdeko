@@ -7,13 +7,8 @@ namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune
 {
     public class WheelOfFortuneGame
     {
-        public class Result
+        public static readonly ImmutableArray<float> Multipliers = new[]
         {
-            public int Index { get; set; }
-            public long Amount { get; set; }
-        }
-
-        public static readonly ImmutableArray<float> Multipliers = new float[] {
             1.7f,
             1.5f,
             0.2f,
@@ -21,12 +16,13 @@ namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune
             0.3f,
             0.5f,
             1.2f,
-            2.4f,
+            2.4f
         }.ToImmutableArray();
 
-        private readonly MewdekoRandom _rng;
-        private readonly ICurrencyService _cs;
         private readonly long _bet;
+        private readonly ICurrencyService _cs;
+
+        private readonly MewdekoRandom _rng;
         private readonly ulong _userId;
 
         public WheelOfFortuneGame(ulong userId, long bet, ICurrencyService cs)
@@ -41,16 +37,22 @@ namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune
         {
             var result = _rng.Next(0, Multipliers.Length);
 
-            var amount = (long)(_bet * Multipliers[result]);
+            var amount = (long) (_bet * Multipliers[result]);
 
             if (amount > 0)
-                await _cs.AddAsync(_userId, "Wheel Of Fortune - won", amount, gamble: true).ConfigureAwait(false);
+                await _cs.AddAsync(_userId, "Wheel Of Fortune - won", amount, true).ConfigureAwait(false);
 
             return new Result
             {
                 Index = result,
-                Amount = amount,
+                Amount = amount
             };
+        }
+
+        public class Result
+        {
+            public int Index { get; set; }
+            public long Amount { get; set; }
         }
     }
 }

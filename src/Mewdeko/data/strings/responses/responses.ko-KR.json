@@ -221,7 +221,8 @@
   "commands_instr": "\u0060{0}h 명령어이름\u0060을 입력해서 특정 명령어에 대한 도움말을 볼 수 있습니다.\n예시 : \u0060{0}h {0}8ball\u0060",
   "command_not_found": "입력하신 명령어를 찾을 수 없습니다. 입력하시기 전에 유효한 명령어인지 확인해주세요.",
   "desc": "설명",
-  "donate": "Patreon \u003C{0}\u003E이나\nPaypal \u003C{1}\u003E에서\nMewdeko 프로젝트를 지원할 수 있습니다.\nDiscord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요.\n\n**감사합니다** ♥️",
+  "donate":
+    "Patreon \u003C{0}\u003E이나\nPaypal \u003C{1}\u003E에서\nMewdeko 프로젝트를 지원할 수 있습니다.\nDiscord 닉네임이나 ID를 메시지에 남겨 두는 것을 잊지 마세요.\n\n**감사합니다** ♥️",
   "guide": "**명령어 목록**: \u003C{0}\u003E\n**호스팅 가이드와 문서는 여기서 찾을 수 있습니다**: \u003C{1}\u003E",
   "list_of_commands": "명령어 목록",
   "list_of_modules": "모듈 목록",
@@ -640,7 +641,8 @@
   "clpa_fail": "다음과 같은 이유로 인해서 보상을 요청하지 못했습니다.",
   "clpa_fail_already": "당신은 이미 이번달의 보상을 받은 것 같습니다. 당신의 후원금을 올리지 않는 이상 한 달에 한 번만 보상을 받을 수 있습니다. ",
   "clpa_fail_already_title": "이미 지급되었습니다",
-  "clpa_fail_conn": "당신의 디스코드 계정이 Patreon에 연결되지 않았습니다. 이것이 무슨 뜻인지 모르거나, 어떻게 연결하는지 모른다면,\n[Patreon 계정 설정 페이지] (https://patreon.com/settings/account)에 접속해서 \u0027Connect to discord\u0027 버튼을 클릭하세요.",
+  "clpa_fail_conn":
+    "당신의 디스코드 계정이 Patreon에 연결되지 않았습니다. 이것이 무슨 뜻인지 모르거나, 어떻게 연결하는지 모른다면,\n[Patreon 계정 설정 페이지] (https://patreon.com/settings/account)에 접속해서 \u0027Connect to discord\u0027 버튼을 클릭하세요.",
   "clpa_fail_conn_title": "디스코드 계정이 연결되지 않았습니다",
   "clpa_fail_sup": "보상을 받을 수 있는 자격을 얻기 위해서는 Patreon에서 프로젝트를 후원해야 합니다. {0} 명령어를 이용해서 링크를 얻을 수 있습니다.",
   "clpa_fail_sup_title": "후원 중이지 않습니다",

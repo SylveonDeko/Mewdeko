@@ -1,28 +1,30 @@
-﻿using Mewdeko.Extensions;
-using Newtonsoft.Json;
-using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using Mewdeko.Extensions;
+using Newtonsoft.Json;
+using NLog;
 
 namespace Mewdeko.Modules.Searches.Common
 {
     public class SearchImageCacher
     {
-        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly Random _rng;
-        private readonly SortedSet<ImageCacherObject> _cache;
-        private readonly Logger _log;
-        private static readonly List<string> defaultTagBlacklist = new List<string>() {
+        private static readonly List<string> defaultTagBlacklist = new()
+        {
             "loli",
             "lolicon",
             "shota"
         };
+
+        private readonly SortedSet<ImageCacherObject> _cache;
+        private readonly IHttpClientFactory _httpFactory;
+        private readonly SemaphoreSlim _lock = new(1, 1);
+        private readonly Logger _log;
+        private readonly Random _rng;
 
         public SearchImageCacher(IHttpClientFactory http)
         {
@@ -39,17 +41,12 @@ namespace Mewdeko.Modules.Searches.Common
 
             blacklistedTags = blacklistedTags ?? new HashSet<string>();
 
-            foreach (var item in defaultTagBlacklist)
-            {
-                blacklistedTags.Add(item);
-            }
+            foreach (var item in defaultTagBlacklist) blacklistedTags.Add(item);
 
             blacklistedTags = blacklistedTags.Select(t => t.ToLowerInvariant()).ToHashSet();
 
             if (tags.Any(x => blacklistedTags.Contains(x)))
-            {
                 throw new Exception("One of the specified tags is blacklisted");
-            }
 
             if (type == DapiSearchType.E621)
                 tags = tags.Select(tag => tag?.Replace("yuri", "female/female", StringComparison.InvariantCulture))
@@ -60,13 +57,11 @@ namespace Mewdeko.Modules.Searches.Common
             {
                 ImageCacherObject[] imgs;
                 if (tags.Any())
-                {
-                    imgs = _cache.Where(x => x.Tags.IsSupersetOf(tags) && x.SearchType == type && (!forceExplicit || x.Rating == "e")).ToArray();
-                }
+                    imgs = _cache.Where(x =>
+                            x.Tags.IsSupersetOf(tags) && x.SearchType == type && (!forceExplicit || x.Rating == "e"))
+                        .ToArray();
                 else
-                {
                     imgs = _cache.Where(x => x.SearchType == type).ToArray();
-                }
                 imgs = imgs.Where(x => x.Tags.All(t => !blacklistedTags.Contains(t.ToLowerInvariant()))).ToArray();
                 ImageCacherObject img;
                 if (imgs.Length == 0)
@@ -89,10 +84,8 @@ namespace Mewdeko.Modules.Searches.Common
                         return null;
                     var toReturn = images[_rng.Next(images.Length)];
                     foreach (var dledImg in images)
-                    {
                         if (dledImg != toReturn)
                             _cache.Add(dledImg);
-                    }
                     return toReturn;
                 }
             }
@@ -106,7 +99,8 @@ namespace Mewdeko.Modules.Searches.Common
         {
             isExplicit = type != DapiSearchType.Safebooru && isExplicit;
             var tag = "";
-            tag += string.Join('+', tags.Select(x => x.Replace(" ", "_", StringComparison.InvariantCulture).ToLowerInvariant()));
+            tag += string.Join('+',
+                tags.Select(x => x.Replace(" ", "_", StringComparison.InvariantCulture).ToLowerInvariant()));
             if (isExplicit)
                 tag = "rating%3Aexplicit+" + tag;
             var website = "";
@@ -135,7 +129,8 @@ namespace Mewdeko.Modules.Searches.Common
                     break;
                 case DapiSearchType.Derpibooru:
                     tag = string.IsNullOrWhiteSpace(tag) ? "safe" : tag;
-                    website = $"https://www.derpibooru.org/api/v1/json/search/images?q={tag?.Replace('+', ',')}&per_page=49";
+                    website =
+                        $"https://www.derpibooru.org/api/v1/json/search/images?q={tag?.Replace('+', ',')}&per_page=49";
                     break;
             }
 
@@ -144,7 +139,8 @@ namespace Mewdeko.Modules.Searches.Common
                 using (var _http = _httpFactory.CreateClient())
                 {
                     _http.AddFakeHeaders();
-                    if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere || type == DapiSearchType.Danbooru)
+                    if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
+                        type == DapiSearchType.Danbooru)
                     {
                         var data = await _http.GetStringAsync(website).ConfigureAwait(false);
                         return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
@@ -156,7 +152,7 @@ namespace Mewdeko.Modules.Searches.Common
                     if (type == DapiSearchType.E621)
                     {
                         var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeAnonymousType(data, new { posts = new List<E621Object>() })
+                        return JsonConvert.DeserializeAnonymousType(data, new {posts = new List<E621Object>()})
                             .posts
                             .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
                             .Select(x => new ImageCacherObject(x.File.Url,
@@ -199,26 +195,22 @@ namespace Mewdeko.Modules.Searches.Common
             var list = new List<ImageCacherObject>();
             using (var http = _httpFactory.CreateClient())
             using (var stream = await http.GetStreamAsync(website).ConfigureAwait(false))
-            using (var reader = XmlReader.Create(stream, new XmlReaderSettings()
+            using (var reader = XmlReader.Create(stream, new XmlReaderSettings
             {
-                Async = true,
+                Async = true
             }))
             {
                 while (await reader.ReadAsync().ConfigureAwait(false))
-                {
                     if (reader.NodeType == XmlNodeType.Element &&
                         reader.Name == "post")
-                    {
-                        list.Add(new ImageCacherObject(new DapiImageObject()
+                        list.Add(new ImageCacherObject(new DapiImageObject
                         {
                             FileUrl = reader["file_url"],
                             Tags = reader["tags"],
                             Rating = reader["rating"] ?? "e"
-
                         }, type));
-                    }
-                }
             }
+
             return list.ToArray();
         }
 
@@ -231,11 +223,12 @@ namespace Mewdeko.Modules.Searches.Common
 
     public class DapiImageObject
     {
-        [JsonProperty("File_Url")]
-        public string FileUrl { get; set; }
+        [JsonProperty("File_Url")] public string FileUrl { get; set; }
+
         public string Tags { get; set; }
-        [JsonProperty("Tag_String")]
-        public string TagString { get; set; }
+
+        [JsonProperty("Tag_String")] public string TagString { get; set; }
+
         public string Rating { get; set; }
     }
 
@@ -246,8 +239,8 @@ namespace Mewdeko.Modules.Searches.Common
 
     public class DerpiImageObject
     {
-        [JsonProperty("view_url")]
-        public string ViewUrl { get; set; }
+        [JsonProperty("view_url")] public string ViewUrl { get; set; }
+
         public string[] Tags { get; set; }
         public string Score { get; set; }
     }
@@ -261,8 +254,9 @@ namespace Mewdeko.Modules.Searches.Common
         Konachan,
         Rule34,
         Yandere,
-        Danbooru,
+        Danbooru
     }
+
     public class SafebooruElement
     {
         public string Directory { get; set; }

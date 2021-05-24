@@ -1,38 +1,45 @@
-﻿using Discord;
+﻿using System.Globalization;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.ServerManagement.Services;
+using Mewdeko.Modules.Utility.Services;
 using NLog;
-using System.Globalization;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules
 {
     public abstract class MewdekoTopLevelModule : ModuleBase
     {
-        protected Logger _log { get; }
-        protected CultureInfo _cultureInfo { get; set; }
-        public IBotStrings Strings { get; set; }
-        public IBotConfigProvider Bc { get; set; }
-        public CommandHandler CmdHandler { get; set; }
-        public ILocalization Localization { get; set; }
-
-        public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
-        public ulong WarnlogChannel => CmdHandler.GetWarnlogChannel(ctx.Guild.Id);
-        public ulong TTicketCategory => CmdHandler.GetTicketCategory(ctx.Guild.Id);
-        public ulong MWarnlogChannel => CmdHandler.GetMWarnlogChannel(ctx.Guild.Id);
-        public ulong SuggestChannel => CmdHandler.GetSuggestionChannel(ctx.Guild.Id);
-        public ulong sugnum => CmdHandler.GetSNum(ctx.Guild.Id);
-
-
-        protected ICommandContext ctx => Context;
-
         protected MewdekoTopLevelModule(bool isTopLevelModule = true)
         {
             //if it's top level module
             _log = LogManager.GetCurrentClassLogger();
         }
+
+        protected Logger _log { get; }
+        protected CultureInfo _cultureInfo { get; set; }
+        public IBotStrings Strings { get; set; }
+        public IBotConfigProvider Bc { get; set; }
+        public CommandHandler CmdHandler { get; set; }
+        public SuggestService SugServ { get; set; }
+        public ILocalization Localization { get; set; }
+        public UserPunishService UPun { get; set; }
+        public ServerManagementService SMS { get; set; }
+        public UserPunishService2 UPun2 { get; set; }
+
+        public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
+        public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
+        public ulong TTicketCategory => SMS.GetTicketCategory(ctx.Guild.Id);
+        public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
+        public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
+        public ulong sugnum => SugServ.GetSNum(ctx.Guild.Id);
+
+
+        protected ICommandContext ctx => Context;
 
         protected override void BeforeExecute(CommandInfo cmd)
         {
@@ -59,11 +66,15 @@ namespace Mewdeko.Modules
         //    return ctx.Channel.SendErrorAsync(title, text, url, footer);
         //}
 
-        protected string GetText(string key) =>
-            Strings.GetText(key, _cultureInfo);
+        protected string GetText(string key)
+        {
+            return Strings.GetText(key, _cultureInfo);
+        }
 
-        protected string GetText(string key, params object[] replacements) =>
-            Strings.GetText(key, _cultureInfo, replacements);
+        protected string GetText(string key, params object[] replacements)
+        {
+            return Strings.GetText(key, _cultureInfo, replacements);
+        }
 
         public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] replacements)
         {
@@ -100,10 +111,7 @@ namespace Mewdeko.Modules
                 var input = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id).ConfigureAwait(false);
                 input = input?.ToUpperInvariant();
 
-                if (input != "YES" && input != "Y")
-                {
-                    return false;
-                }
+                if (input != "YES" && input != "Y") return false;
 
                 return true;
             }
@@ -117,15 +125,13 @@ namespace Mewdeko.Modules
         public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
         {
             var userInputTask = new TaskCompletionSource<string>();
-            var dsc = (DiscordSocketClient)ctx.Client;
+            var dsc = (DiscordSocketClient) ctx.Client;
             try
             {
                 dsc.MessageReceived += MessageReceived;
 
-                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false)) != userInputTask.Task)
-                {
-                    return null;
-                }
+                if (await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false) !=
+                    userInputTask.Task) return null;
 
                 return await userInputTask.Task.ConfigureAwait(false);
             }
@@ -142,14 +148,9 @@ namespace Mewdeko.Modules
                         !(userMsg.Channel is ITextChannel chan) ||
                         userMsg.Author.Id != userId ||
                         userMsg.Channel.Id != channelId)
-                    {
                         return Task.CompletedTask;
-                    }
 
-                    if (userInputTask.TrySetResult(arg.Content))
-                    {
-                        userMsg.DeleteAfter(1);
-                    }
+                    if (userInputTask.TrySetResult(arg.Content)) userMsg.DeleteAfter(1);
                     return Task.CompletedTask;
                 });
                 return Task.CompletedTask;
@@ -159,16 +160,18 @@ namespace Mewdeko.Modules
 
     public abstract class MewdekoTopLevelModule<TService> : MewdekoTopLevelModule where TService : INService
     {
-        public TService _service { get; set; }
-
         protected MewdekoTopLevelModule(bool isTopLevel = true) : base(isTopLevel)
         {
         }
+
+        public TService _service { get; set; }
     }
 
     public abstract class MewdekoSubmodule : MewdekoTopLevelModule
     {
-        protected MewdekoSubmodule() : base(false) { }
+        protected MewdekoSubmodule() : base(false)
+        {
+        }
     }
 
     public abstract class MewdekoSubmodule<TService> : MewdekoTopLevelModule<TService> where TService : INService

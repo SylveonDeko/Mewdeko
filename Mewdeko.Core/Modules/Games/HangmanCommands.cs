@@ -1,13 +1,13 @@
-using Discord.Commands;
-using Mewdeko.Extensions;
 using System;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common.Hangman;
-using Mewdeko.Modules.Games.Services;
 using Mewdeko.Modules.Games.Common.Hangman.Exceptions;
+using Mewdeko.Modules.Games.Services;
 
 namespace Mewdeko.Modules.Games
 {
@@ -23,16 +23,24 @@ namespace Mewdeko.Modules.Games
                 _client = client;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Hangmanlist()
             {
-                await ctx.Channel.SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" + string.Join("\n", _service.TermPool.Data.Keys)).ConfigureAwait(false);
+                await ctx.Channel
+                    .SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" +
+                                      string.Join("\n", _service.TermPool.Data.Keys)).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Hangman([Leftover]string type = "random")
+            public async Task Hangman([Leftover] string type = "random")
             {
                 Hangman hm;
                 try
@@ -50,6 +58,7 @@ namespace Mewdeko.Modules.Games
                     await ReplyErrorLocalizedAsync("hangman_running").ConfigureAwait(false);
                     return;
                 }
+
                 hm.OnGameEnded += Hm_OnGameEnded;
                 hm.OnGuessFailed += Hm_OnGuessFailed;
                 hm.OnGuessSucceeded += Hm_OnGuessSucceeded;
@@ -59,10 +68,12 @@ namespace Mewdeko.Modules.Games
                 try
                 {
                     await ctx.Channel.SendConfirmAsync(GetText("hangman_game_started") + $" ({hm.TermType})",
-                        hm.ScrambledWord + "\n" + hm.GetHangman())
+                            hm.ScrambledWord + "\n" + hm.GetHangman())
                         .ConfigureAwait(false);
                 }
-                catch { }
+                catch
+                {
+                }
 
                 await hm.EndedTask.ConfigureAwait(false);
 
@@ -76,22 +87,21 @@ namespace Mewdeko.Modules.Games
                     {
                         if (ctx.Channel.Id == msg.Channel.Id && !msg.Author.IsBot)
                             return hm.Input(msg.Author.Id, msg.Author.ToString(), msg.Content);
-                        else
-                            return Task.CompletedTask;
+                        return Task.CompletedTask;
                     });
                     return Task.CompletedTask;
                 }
             }
 
-            Task Hm_OnGameEnded(Hangman game, string winner)
+            private Task Hm_OnGameEnded(Hangman game, string winner)
             {
                 if (winner == null)
                 {
                     var loseEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
-                                             .WithDescription(Format.Bold("You lose."))
-                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.GetWord()))
-                                             .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
-                                             .WithErrorColor();
+                        .WithDescription(Format.Bold("You lose."))
+                        .AddField(efb => efb.WithName("It was").WithValue(game.Term.GetWord()))
+                        .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
+                        .WithErrorColor();
 
                     if (Uri.IsWellFormedUriString(game.Term.ImageUrl, UriKind.Absolute))
                         loseEmbed.WithImageUrl(game.Term.ImageUrl);
@@ -100,10 +110,10 @@ namespace Mewdeko.Modules.Games
                 }
 
                 var winEmbed = new EmbedBuilder().WithTitle($"Hangman Game ({game.TermType}) - Ended")
-                                             .WithDescription(Format.Bold($"{winner} Won."))
-                                             .AddField(efb => efb.WithName("It was").WithValue(game.Term.GetWord()))
-                                             .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
-                                             .WithOkColor();
+                    .WithDescription(Format.Bold($"{winner} Won."))
+                    .AddField(efb => efb.WithName("It was").WithValue(game.Term.GetWord()))
+                    .WithFooter(efb => efb.WithText(string.Join(" ", game.PreviousGuesses)))
+                    .WithOkColor();
 
                 if (Uri.IsWellFormedUriString(game.Term.ImageUrl, UriKind.Absolute))
                     winEmbed.WithImageUrl(game.Term.ImageUrl);
@@ -113,23 +123,31 @@ namespace Mewdeko.Modules.Games
 
             private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess)
             {
-                return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})", $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n" + game.ScrambledWord + "\n" + game.GetHangman(),
-                                    footer: string.Join(" ", game.PreviousGuesses));
+                return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
+                    $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n" +
+                    game.ScrambledWord + "\n" + game.GetHangman(),
+                    footer: string.Join(" ", game.PreviousGuesses));
             }
 
             private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess)
             {
-                return ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})", $"{user} guessed a letter `{guess}`!\n" + game.ScrambledWord + "\n" + game.GetHangman(),
+                return ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})",
+                    $"{user} guessed a letter `{guess}`!\n" + game.ScrambledWord + "\n" + game.GetHangman(),
                     footer: string.Join(" ", game.PreviousGuesses));
             }
 
             private Task Hm_OnGuessFailed(Hangman game, string user, char guess)
             {
-                return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})", $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n" + game.ScrambledWord + "\n" + game.GetHangman(),
-                                    footer: string.Join(" ", game.PreviousGuesses));
+                return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
+                    $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n" +
+                    game.ScrambledWord + "\n" + game.GetHangman(),
+                    footer: string.Join(" ", game.PreviousGuesses));
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task HangmanStop()
             {

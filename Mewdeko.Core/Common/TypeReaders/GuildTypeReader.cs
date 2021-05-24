@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Common.TypeReaders;
-using Discord;
 
 namespace Mewdeko.Common.TypeReaders
 {
@@ -27,7 +27,8 @@ namespace Mewdeko.Common.TypeReaders
             if (guild != null)
                 return Task.FromResult(TypeReaderResult.FromSuccess(guild));
 
-            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No guild by that name or Id found"));
+            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed,
+                "No guild by that name or Id found"));
         }
     }
 }

@@ -1,48 +1,47 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Extensions;
+using Mewdeko.Common.ShardCom;
 using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Impl;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NLog;
 using StackExchange.Redis;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using Mewdeko.Common.ShardCom;
-using Microsoft.EntityFrameworkCore;
-using Mewdeko.Core.Services.Database.Models;
-using System.Threading;
-using System.Collections.Concurrent;
-using System;
-using System.Net.Http;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class SelfService : ILateExecutor, INService
     {
-        public bool ForwardDMs => _bc.BotConfig.ForwardMessages;
-        public bool ForwardDMsToAllOwners => _bc.BotConfig.ForwardToAllOwners;
-
-        private readonly ConnectionMultiplexer _redis;
+        private readonly IBotConfigProvider _bc;
         private readonly Mewdeko _bot;
-        private readonly CommandHandler _cmdHandler;
-        private readonly DbService _db;
-        private readonly Logger _log;
-        private readonly ILocalization _localization;
-        private readonly IBotStrings _strings;
+        private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
+        private readonly CommandHandler _cmdHandler;
 
         private readonly IBotCredentials _creds;
-        private ImmutableDictionary<ulong, IDMChannel> ownerChannels = new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
-        private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands = new ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>>();
-        private readonly IBotConfigProvider _bc;
-        private readonly IDataCache _cache;
-        private readonly IImageCache _imgs;
+        private readonly DbService _db;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly IImageCache _imgs;
+        private readonly ILocalization _localization;
+        private readonly Logger _log;
+
+        private readonly ConnectionMultiplexer _redis;
+        private readonly IBotStrings _strings;
+        private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands = new();
+
+        private ImmutableDictionary<ulong, IDMChannel> ownerChannels =
+            new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
         //private readonly Timer _updateTimer;
 
         public SelfService(DiscordSocketClient client, Mewdeko bot, CommandHandler cmdHandler, DbService db,
@@ -64,36 +63,34 @@ namespace Mewdeko.Modules.Administration.Services
             _httpFactory = factory;
             var sub = _redis.GetSubscriber();
             if (_client.ShardId == 0)
-            {
                 sub.Subscribe(_creds.RedisKey() + "_reload_images",
                     delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
 
-                //_updateTimer = new Timer(async _ =>
-                //{
-                //    try
-                //    {
-                //        var ch = ownerChannels?.Values.FirstOrDefault();
+            //_updateTimer = new Timer(async _ =>
+            //{
+            //    try
+            //    {
+            //        var ch = ownerChannels?.Values.FirstOrDefault();
 
-                //        if (ch == null) // no owner channels
-                //            return;
+            //        if (ch == null) // no owner channels
+            //            return;
 
-                //        var cfo = _bc.BotConfig.CheckForUpdates;
-                //        if (cfo == UpdateCheckType.None)
-                //            return;
+            //        var cfo = _bc.BotConfig.CheckForUpdates;
+            //        if (cfo == UpdateCheckType.None)
+            //            return;
 
-                //        string data;
-                //        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit().ConfigureAwait(false)) != null)
-                //            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease().ConfigureAwait(false)) != null))
-                //        {
-                //            await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        _log.Warn(ex);
-                //    }
-                //}, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
-            }
+            //        string data;
+            //        if ((cfo == UpdateCheckType.Commit && (data = await GetNewCommit().ConfigureAwait(false)) != null)
+            //            || (cfo == UpdateCheckType.Release && (data = await GetNewRelease().ConfigureAwait(false)) != null))
+            //        {
+            //            await ch.SendConfirmAsync("New Bot Update", data).ConfigureAwait(false);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _log.Warn(ex);
+            //    }
+            //}, null, TimeSpan.FromHours(8), TimeSpan.FromHours(8));
             sub.Subscribe(_creds.RedisKey() + "_reload_bot_config",
                 delegate { _bc.Reload(); }, CommandFlags.FireAndForget);
             sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (ch, v) =>
@@ -104,12 +101,9 @@ namespace Mewdeko.Modules.Administration.Services
                     if (string.IsNullOrWhiteSpace(guildStr))
                         return;
                     var server = _client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
-                        _client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
+                                 _client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
 
-                    if (server == null)
-                    {
-                        return;
-                    }
+                    if (server == null) return;
                     if (server.OwnerId != _client.CurrentUser.Id)
                     {
                         await server.LeaveAsync().ConfigureAwait(false);
@@ -121,7 +115,9 @@ namespace Mewdeko.Modules.Administration.Services
                         _log.Info($"Deleted server {server.Name} [{server.Id}]");
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }, CommandFlags.FireAndForget);
 
             Task.Run(async () =>
@@ -135,14 +131,18 @@ namespace Mewdeko.Modules.Administration.Services
                     .ToDictionary(
                         x => x.Key,
                         y => y.ToDictionary(x => x.Id,
-                            x => TimerFromStartupCommand((StartupCommand)x))
-                    .ToConcurrent())
+                                x => TimerFromStartupCommand(x))
+                            .ToConcurrent())
                     .ToConcurrent();
 
                 foreach (var cmd in bc.BotConfig.StartupCommands.Where(x => x.Interval <= 0))
-                {
-                    try { await ExecuteCommand(cmd).ConfigureAwait(false); } catch { }
-                }
+                    try
+                    {
+                        await ExecuteCommand(cmd).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
             });
 
             Task.Run(async () =>
@@ -154,8 +154,59 @@ namespace Mewdeko.Modules.Administration.Services
                 if (client.ShardId == 0)
                     await LoadOwnerChannels().ConfigureAwait(false);
             });
+        }
 
+        public bool ForwardDMs => _bc.BotConfig.ForwardMessages;
+        public bool ForwardDMsToAllOwners => _bc.BotConfig.ForwardToAllOwners;
 
+        // forwards dms
+        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        {
+            if (msg.Channel is IDMChannel && ForwardDMs && ownerChannels.Any())
+            {
+                var title = _strings.GetText("dm_from",
+                                _localization.DefaultCultureInfo,
+                                "Administration".ToLowerInvariant()) +
+                            $" [{msg.Author}]({msg.Author.Id})";
+
+                var attachamentsTxt = _strings.GetText("attachments",
+                    _localization.DefaultCultureInfo,
+                    "Administration".ToLowerInvariant());
+
+                var toSend = msg.Content;
+
+                if (msg.Attachments.Count > 0)
+                    toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
+                              string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
+
+                if (ForwardDMsToAllOwners)
+                {
+                    var allOwnerChannels = ownerChannels.Values;
+
+                    foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
+                        try
+                        {
+                            await ownerCh.SendConfirmAsync(title, toSend).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            _log.Warn("Can't contact owner with id {0}", ownerCh.Recipient.Id);
+                        }
+                }
+                else
+                {
+                    var firstOwnerChannel = ownerChannels.Values.First();
+                    if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
+                        try
+                        {
+                            await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                }
+            }
         }
 
         //private async Task<string> GetNewCommit()
@@ -225,7 +276,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         private Timer TimerFromStartupCommand(StartupCommand x)
         {
-            return new Timer(async (obj) => await ExecuteCommand((StartupCommand)obj).ConfigureAwait(false),
+            return new(async obj => await ExecuteCommand((StartupCommand) obj).ConfigureAwait(false),
                 x,
                 x.Interval * 1000,
                 x.Interval * 1000);
@@ -253,9 +304,9 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 uow.BotConfig
-                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                   .StartupCommands
-                   .Add(cmd);
+                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                    .StartupCommands
+                    .Add(cmd);
                 uow.SaveChanges();
             }
 
@@ -272,10 +323,10 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 return uow.BotConfig
-                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                   .StartupCommands
-                   .OrderBy(x => x.Id)
-                   .ToArray();
+                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                    .StartupCommands
+                    .OrderBy(x => x.Id)
+                    .ToArray();
             }
         }
 
@@ -295,7 +346,8 @@ namespace Mewdeko.Modules.Administration.Services
                 .ToImmutableDictionary();
 
             if (!ownerChannels.Any())
-                _log.Warn("No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
+                _log.Warn(
+                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
             else
                 _log.Info($"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
         }
@@ -306,69 +358,10 @@ namespace Mewdeko.Modules.Administration.Services
             return sub.PublishAsync(_creds.RedisKey() + "_leave_guild", guildStr);
         }
 
-        // forwards dms
-        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
-        {
-            if (msg.Channel is IDMChannel && ForwardDMs && ownerChannels.Any())
-            {
-                var title = _strings.GetText("dm_from",
-                                _localization.DefaultCultureInfo,
-                                "Administration".ToLowerInvariant()) +
-                            $" [{msg.Author}]({msg.Author.Id})";
-
-                var attachamentsTxt = _strings.GetText("attachments",
-                    _localization.DefaultCultureInfo,
-                    "Administration".ToLowerInvariant());
-
-                var toSend = msg.Content;
-
-                if (msg.Attachments.Count > 0)
-                {
-                    toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
-                              string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
-                }
-
-                if (ForwardDMsToAllOwners)
-                {
-                    var allOwnerChannels = ownerChannels.Values;
-
-                    foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
-                    {
-                        try
-                        {
-                            await ownerCh.SendConfirmAsync(title, toSend).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            _log.Warn("Can't contact owner with id {0}", ownerCh.Recipient.Id);
-                        }
-                    }
-                }
-                else
-                {
-                    var firstOwnerChannel = ownerChannels.Values.First();
-                    if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
-                    {
-                        try
-                        {
-                            await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
-                }
-            }
-        }
-
         public bool RestartBot()
         {
             var cmd = _creds.RestartCommand;
-            if (string.IsNullOrWhiteSpace(cmd?.Cmd))
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(cmd?.Cmd)) return false;
 
             Restart();
             return true;
@@ -379,10 +372,10 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 var cmds = uow.BotConfig
-                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                   .StartupCommands;
+                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                    .StartupCommands;
                 cmd = cmds
-                   .FirstOrDefault(x => x.Index == index);
+                    .FirstOrDefault(x => x.Index == index);
 
                 if (cmd != null)
                 {
@@ -395,6 +388,7 @@ namespace Mewdeko.Modules.Administration.Services
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -421,6 +415,7 @@ namespace Mewdeko.Modules.Administration.Services
                     await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
                 }
             }
+
             return true;
         }
 
@@ -429,9 +424,9 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 uow.BotConfig
-                   .GetOrCreate(set => set.Include(x => x.StartupCommands))
-                   .StartupCommands
-                   .Clear();
+                    .GetOrCreate(set => set.Include(x => x.StartupCommands))
+                    .StartupCommands
+                    .Clear();
                 uow.SaveChanges();
             }
         }

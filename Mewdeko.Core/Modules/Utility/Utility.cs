@@ -1,35 +1,39 @@
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Impl;
-using Mewdeko.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AngleSharp.Dom;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
-using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Impl;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Utility
 {
     public partial class Utility : MewdekoTopLevelModule<UtilityService>
     {
-        private readonly DiscordSocketClient _client;
-        private readonly IStatsService _stats;
-        private readonly IBotCredentials _creds;
+        public enum MeOrBot
+        {
+            Me,
+            Bot
+        }
+
+        private static readonly SemaphoreSlim sem = new(1, 1);
         private readonly Mewdeko _bot;
+        private readonly DiscordSocketClient _client;
+        private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly IStatsService _stats;
         private readonly DownloadTracker _tracker;
 
         public Utility(Mewdeko Mewdeko, DiscordSocketClient client,
@@ -45,12 +49,19 @@ namespace Mewdeko.Modules.Utility
             _tracker = tracker;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Invite()
         {
             await ctx.Channel.SendConfirmAsync("Invite me using this link:\nhttps://mewdeko.tech/invite");
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [UserPerm(GuildPerm.ManageChannels)]
         public async Task ReactChannel(ITextChannel chan = null)
         {
@@ -58,9 +69,9 @@ namespace Mewdeko.Modules.Utility
             if (chan == null)
             {
                 if (e == 0) return;
-                else { await _service.SetReactChan(ctx.Guild, 0); };
+                await _service.SetReactChan(ctx.Guild, 0);
+                ;
                 await ctx.Channel.SendConfirmAsync("React Channel Disabled!");
-
             }
             else
             {
@@ -75,17 +86,21 @@ namespace Mewdeko.Modules.Utility
                     if (e == chan.Id)
                     {
                         await ctx.Channel.SendErrorAsync("This is already your React Channel!");
-                        return;
                     }
                     else
                     {
                         await _service.SetReactChan(ctx.Guild, chan.Id);
-                        await ctx.Channel.SendConfirmAsync($"Your React Channel has been switched from {chan2.Mention} to {chan.Mention}!");
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Your React Channel has been switched from {chan2.Mention} to {chan.Mention}!");
                     }
                 }
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task TogetherTube()
         {
             Uri target;
@@ -96,12 +111,17 @@ namespace Mewdeko.Modules.Utility
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
-                .WithName("Together Tube")
-                .WithUrl("https://togethertube.com/"))
-                .WithDescription(ctx.User.Mention + " " + GetText("togtub_room_link") + "\n" + target)).ConfigureAwait(false);
+                    .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
+                        .WithName("Together Tube")
+                        .WithUrl("https://togethertube.com/"))
+                    .WithDescription(ctx.User.Mention + " " + GetText("togtub_room_link") + "\n" + target))
+                .ConfigureAwait(false);
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [UserPerm(GuildPerm.Administrator)]
         [RequireContext(ContextType.Guild)]
         public async Task SnipeSet(string yesnt)
@@ -116,17 +136,20 @@ namespace Mewdeko.Modules.Utility
                 case 0:
                     await ctx.Channel.SendConfirmAsync("Sniping Disabled!");
                     break;
-
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Snipe()
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -137,8 +160,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message)
+                    .First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId)
+                    .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -147,7 +173,6 @@ namespace Mewdeko.Modules.Utility
                     {
                         IconUrl = user.GetAvatarUrl(),
                         Name = $"{user} said:"
-
                     },
                     Description = msg,
                     Footer = new EmbedFooterBuilder
@@ -160,14 +185,19 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public async Task Snipe(IUser user1)
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -178,8 +208,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for this user!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -188,7 +221,6 @@ namespace Mewdeko.Modules.Utility
                     {
                         IconUrl = user.GetAvatarUrl(),
                         Name = $"{user} said:"
-
                     },
                     Description = msg,
                     Footer = new EmbedFooterBuilder
@@ -201,14 +233,19 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(2)]
         public async Task Snipe(ITextChannel chan)
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -219,8 +256,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message)
+                    .First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId)
+                    .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -229,7 +269,6 @@ namespace Mewdeko.Modules.Utility
                     {
                         IconUrl = user.GetAvatarUrl(),
                         Name = $"{user} said:"
-
                     },
                     Description = msg,
                     Footer = new EmbedFooterBuilder
@@ -242,14 +281,19 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(2)]
         public async Task Snipe(ITextChannel chan, IUser user1)
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -260,8 +304,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -282,7 +329,11 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [UserPerm(GuildPerm.Administrator)]
         [RequireContext(ContextType.Guild)]
         public async Task PreviewLinks(string yesnt)
@@ -299,24 +350,33 @@ namespace Mewdeko.Modules.Utility
                     break;
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task EditSnipe()
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
+
             {
-                 var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
+                var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
                 if (!msgs.Any())
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.Message)
+                    .First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId)
+                    .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -337,16 +397,22 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public async Task EditSnipe(IUser user1)
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
+
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
                 if (!msgs.Any())
@@ -354,8 +420,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -376,16 +445,22 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public async Task EditSnipe(ITextChannel chan)
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
+
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
                 if (!msgs.Any())
@@ -393,8 +468,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.Message)
+                    .First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId)
+                    .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -415,16 +493,22 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public async Task EditSnipe(ITextChannel chan, IUser user1)
         {
             if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
-                await ctx.Channel.SendErrorAsync($"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
+
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id).Where(x => x.UserId == user1.Id);
                 if (!msgs.Any())
@@ -432,8 +516,11 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user or channel!");
                     return;
                 }
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
-                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
+                var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -454,7 +541,11 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task WhosPlaying([Remainder] string game)
         {
@@ -467,33 +558,40 @@ namespace Mewdeko.Modules.Utility
                 _log.Warn("Can't cast guild to socket guild.");
                 return;
             }
+
             var rng = new MewdekoRandom();
             var arr = await Task.Run(() => socketGuild.Users
-                    .Where(u => u.Activity?.Name?.ToUpperInvariant() == game)
-                    .Select(u => u.Username)
-                    .OrderBy(x => rng.Next())
-                    .Take(60)
-                    .ToArray()).ConfigureAwait(false);
+                .Where(u => u.Activity?.Name?.ToUpperInvariant() == game)
+                .Select(u => u.Username)
+                .OrderBy(x => rng.Next())
+                .Take(60)
+                .ToArray()).ConfigureAwait(false);
 
-            int i = 0;
+            var i = 0;
             if (arr.Length == 0)
                 await ReplyErrorLocalizedAsync("nobody_playing_game").ConfigureAwait(false);
             else
-            {
-                await ctx.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 2)
-                                                                                 .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
-                                                                                 .ConfigureAwait(false);
-            }
+                await ctx.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(item => i++ / 2)
+                        .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
+                    .ConfigureAwait(false);
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Vote()
         {
-           await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-            .WithDescription("Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
+            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                .WithDescription(
+                    "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task InRole([Remainder] IRole role)
         {
@@ -506,14 +604,18 @@ namespace Mewdeko.Modules.Utility
                 .Select(u => u.ToString())
                 .ToArray();
 
-            await ctx.SendPaginatedConfirmAsync(0, (cur) =>
+            await ctx.SendPaginatedConfirmAsync(0, cur =>
             {
                 return new EmbedBuilder().WithOkColor()
                     .WithTitle(Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
                     .WithDescription(string.Join("\n", roleUsers.Skip(cur * 20).Take(20)));
             }, roleUsers.Length, 20).ConfigureAwait(false);
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task InRoles(IRole role, IRole role2)
         {
@@ -526,7 +628,7 @@ namespace Mewdeko.Modules.Utility
                 .Select(u => u.ToString())
                 .ToArray();
 
-            await ctx.SendPaginatedConfirmAsync(0, (cur) =>
+            await ctx.SendPaginatedConfirmAsync(0, cur =>
             {
                 return new EmbedBuilder().WithOkColor()
                     .WithTitle(Format.Bold($"Users in the roles: {role.Name} | {role2.Name} - {roleUsers.Count()}"))
@@ -534,25 +636,27 @@ namespace Mewdeko.Modules.Utility
             }, roleUsers.Length, 20).ConfigureAwait(false);
         }
 
-        public enum MeOrBot { Me, Bot }
-
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task CheckPerms(MeOrBot who = MeOrBot.Me)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             var user = who == MeOrBot.Me
-                ? (IGuildUser)ctx.User
-                : ((SocketGuild)ctx.Guild).CurrentUser;
-            var perms = user.GetPermissions((ITextChannel)ctx.Channel);
+                ? (IGuildUser) ctx.User
+                : ((SocketGuild) ctx.Guild).CurrentUser;
+            var perms = user.GetPermissions((ITextChannel) ctx.Channel);
             foreach (var p in perms.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
-            {
                 builder.AppendLine($"{p.Name} : {p.GetValue(perms, null)}");
-            }
             await ctx.Channel.SendConfirmAsync(builder.ToString()).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task UserId([Remainder] IGuildUser target = null)
         {
@@ -561,7 +665,10 @@ namespace Mewdeko.Modules.Utility
                 Format.Code(usr.Id.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RoleId([Remainder] IRole role)
         {
@@ -569,14 +676,20 @@ namespace Mewdeko.Modules.Utility
                 Format.Code(role.Id.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task ChannelId()
         {
             await ReplyConfirmLocalizedAsync("channelid", "🆔", Format.Code(ctx.Channel.Id.ToString()))
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ServerId()
         {
@@ -584,11 +697,14 @@ namespace Mewdeko.Modules.Utility
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Roles(IGuildUser target, int page = 1)
         {
-            var channel = (ITextChannel)ctx.Channel;
+            var channel = (ITextChannel) ctx.Channel;
             var guild = channel.Guild;
 
             const int rolesPerPage = 20;
@@ -598,44 +714,46 @@ namespace Mewdeko.Modules.Utility
 
             if (target != null)
             {
-                var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
+                var roles = target.GetRoles().Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+                    .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
                 if (!roles.Any())
-                {
                     await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
-                }
                 else
-                {
-
                     await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
-                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles)).ConfigureAwait(false);
-                }
+                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles)).ConfigureAwait(false);
             }
             else
             {
-                var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position).Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
+                var roles = guild.Roles.Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+                    .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
                 if (!roles.Any())
-                {
                     await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
-                }
                 else
-                {
                     await channel.SendConfirmAsync(GetText("roles_all_page", page),
-                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions()).ConfigureAwait(false);
-                }
+                            "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles).SanitizeMentions())
+                        .ConfigureAwait(false);
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Roles(int page = 1) =>
-            Roles(null, page);
+        public Task Roles(int page = 1)
+        {
+            return Roles(null, page);
+        }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChannelTopic([Remainder]ITextChannel channel = null)
+        public async Task ChannelTopic([Remainder] ITextChannel channel = null)
         {
             if (channel == null)
-                channel = (ITextChannel)ctx.Channel;
+                channel = (ITextChannel) ctx.Channel;
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
@@ -644,7 +762,10 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendConfirmAsync(GetText("channel_topic"), topic).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Stats()
         {
             var user = await _client.Rest.GetUserAsync(280835732728184843);
@@ -656,25 +777,41 @@ namespace Mewdeko.Modules.Utility
             await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BotVersion}")
-                                          .WithUrl("https://discord.gg/UTStayT6tp")
-                                          .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
-                                          .WithThumbnailUrl("https://cdn.discordapp.com/attachments/802687899350990919/822503142549225553/nayofinalihope.png")
-                    .AddField(efb => efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}").WithIsInline(false))
+                        .WithUrl("https://discord.gg/UTStayT6tp")
+                        .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
+                    .WithThumbnailUrl(
+                        "https://cdn.discordapp.com/attachments/802687899350990919/822503142549225553/nayofinalihope.png")
+                    .AddField(efb =>
+                        efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}")
+                            .WithIsInline(false))
                     .AddField(efb => efb.WithName("Library").WithValue(_stats.Library).WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}").WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString()).WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("messages")).WithValue($"{_stats.MessageCounter} ({_stats.MessagesPerSecond:F2}/sec)").WithIsInline(false))
+                    .AddField(efb =>
+                        efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}")
+                            .WithIsInline(false))
+                    .AddField(efb =>
+                        efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString())
+                            .WithIsInline(false))
+                    .AddField(efb =>
+                        efb.WithName(GetText("messages"))
+                            .WithValue($"{_stats.MessageCounter} ({_stats.MessagesPerSecond:F2}/sec)")
+                            .WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
+                    .AddField(efb =>
+                        efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _bot.GuildCount, _stats.TextChannels, _stats.VoiceChannels) + "\n" +  guilds.Sum(x => x.MemberCount) + " Total Members").WithIsInline(false))).ConfigureAwait(false);
+                            _bot.GuildCount, _stats.TextChannels, _stats.VoiceChannels) + "\n" +
+                        guilds.Sum(x => x.MemberCount) + " Total Members").WithIsInline(false))).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Showemojis([Remainder] string _) // need to have the parameter so that the message.tags gets populated
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task
+            Showemojis([Remainder] string _) // need to have the parameter so that the message.tags gets populated
         {
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote) t.Value);
 
             var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 
@@ -684,7 +821,10 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync(result.TrimTo(2000)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [OwnerOnly]
         public async Task ListServers(int page = 1)
         {
@@ -693,7 +833,8 @@ namespace Mewdeko.Modules.Utility
             if (page < 0)
                 return;
 
-            var guilds = await Task.Run(() => _client.Guilds.OrderBy(g => g.Name).Skip((page) * 15).Take(15)).ConfigureAwait(false);
+            var guilds = await Task.Run(() => _client.Guilds.OrderBy(g => g.Name).Skip(page * 15).Take(15))
+                .ConfigureAwait(false);
 
             if (!guilds.Any())
             {
@@ -702,16 +843,19 @@ namespace Mewdeko.Modules.Utility
             }
 
             await ctx.Channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
-                                     (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
-                                                                           .WithValue(
-                                             GetText("listservers", g.Id, g.MemberCount,
-                                                 g.OwnerId))
-                                                                           .WithIsInline(false))))
-                         .ConfigureAwait(false);
+                    (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
+                        .WithValue(
+                            GetText("listservers", g.Id, g.MemberCount,
+                                g.OwnerId))
+                        .WithIsInline(false))))
+                .ConfigureAwait(false);
         }
 
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         public async Task SaveChat(int cnt)
@@ -730,35 +874,36 @@ namespace Mewdeko.Modules.Utility
                         if (string.IsNullOrWhiteSpace(s.ToString()))
                         {
                             if (s.Attachments.Any())
-                            {
                                 msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
-                            }
                             else if (s.Embeds.Any())
-                            {
-                                msg += "EMBEDS: " + string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"));
-                            }
+                                msg += "EMBEDS: " + string.Join("\n--------\n",
+                                    s.Embeds.Select(x => $"Description: {x.Description}"));
                         }
                         else
                         {
                             msg += s.ToString();
                         }
+
                         return msg;
                     })
                 });
-            using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream().ConfigureAwait(false))
+            using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
+                .ConfigureAwait(false))
             {
                 await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
             }
         }
-        private static readonly SemaphoreSlim sem = new SemaphoreSlim(1, 1);
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
 #if GLOBAL_Mewdeko
         [Ratelimit(30)]
 #endif
         public async Task Ping()
         {
-            int lat = _client.Latency;
+            var lat = _client.Latency;
             await ctx.Channel.SendConfirmAsync($"Pong! {lat}ms!");
         }
     }

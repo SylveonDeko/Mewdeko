@@ -1,7 +1,8 @@
 {
   "all_stats_cleared": "Alle tilpassede reaksjons-statistikker fjernet.",
   "deleted": "Tilpasset reaksjon fjernet",
-  "insuff_perms": "Utilstrekkelig tilgang. Krever Bot-eierskap for globale tilpassede reaksjoner, og Administrator for server reaksjoner.",
+  "insuff_perms":
+    "Utilstrekkelig tilgang. Krever Bot-eierskap for globale tilpassede reaksjoner, og Administrator for server reaksjoner.",
   "list_all": "Liste av alle tilpassede reaksjoner.",
   "new_cust_react": "Ny tilpasset reaksjon",
   "no_found": "Ingen tilpasset reaksjon funnet.",
@@ -59,7 +60,8 @@
   "greetmsg_new": "Ny velkomstmelding satt.",
   "greet_off": "Velkomst-kunngjøring deaktivert.",
   "greet_on": "Velkomst-kunngjøring aktivert i denne kanalen.",
-  "hierarchy": "Du kan ikke bruke denne kommandoen på brukere som har en rolle høyere eller på samme nivå som deg i hierarkiet.",
+  "hierarchy":
+    "Du kan ikke bruke denne kommandoen på brukere som har en rolle høyere eller på samme nivå som deg i hierarkiet.",
   "invalid_format": "Ugyldig tilførings format.",
   "invalid_params": "Ugyldige parametere",
   "kickdm": "Du har blitt sparket fra {0} \nGrunn: {1}",
@@ -131,7 +133,8 @@
   "self_assign_not": "Den rollen er ikke selvsettende.",
   "self_assign_not_have": "Du har ikke rollen {0}.",
   "self_assign_no_excl": "Selvsettende roller er nå ikke eksklusive!",
-  "self_assign_perms": "Jeg kan ikke gi deg den rollen.\n\u0060Jeg kan ikke gi roller til eiere eller brukere som har en rolle høyere enn min egen i hierarkiet\u0060",
+  "self_assign_perms":
+    "Jeg kan ikke gi deg den rollen.\n\u0060Jeg kan ikke gi roller til eiere eller brukere som har en rolle høyere enn min egen i hierarkiet\u0060",
   "self_assign_rem": "{0} ble fjernet fra listen over selvsettende roller.",
   "self_assign_remove": "Du har ikke lenger rollen {0}",
   "self_assign_success": "Du har nå rollen {0}",
@@ -177,9 +180,12 @@
   "voice_chan_destroyed": "Talekanal fjernet",
   "vt_disabled": "Deaktivert tale \u002B tekst funksjon.",
   "vt_enabled": "Aktivert lyd \u002B tekst funksjon.",
-  "vt_exit": "Jeg har ikke **behandle roller** og/eller **behandle kanaler** tillatelser, så jeg kan ikke bruke \u0027stemme\u002Btekst\u0027 på server {0}",
-  "vt_no_admin": "Du aktiverer/deaktiverer denne funksjonen og **jeg ikke har administratorrettigheter**. Dette kan føre til noen problemer, og du blir nødt til å rydde opp i tekst kanaler selv etterpå.",
-  "vt_perms": "Jeg trenger **Behandle roller** og **Administrer kanaler** tillatelser for å aktivere denne funksjonen. (Administrator er foretrukket)",
+  "vt_exit":
+    "Jeg har ikke **behandle roller** og/eller **behandle kanaler** tillatelser, så jeg kan ikke bruke \u0027stemme\u002Btekst\u0027 på server {0}",
+  "vt_no_admin":
+    "Du aktiverer/deaktiverer denne funksjonen og **jeg ikke har administratorrettigheter**. Dette kan føre til noen problemer, og du blir nødt til å rydde opp i tekst kanaler selv etterpå.",
+  "vt_perms":
+    "Jeg trenger **Behandle roller** og **Administrer kanaler** tillatelser for å aktivere denne funksjonen. (Administrator er foretrukket)",
   "xmuted_text": "Bruker {0} fra tekst-chat",
   "xmuted_text_and_voice": "Bruker {0} fra tekst og tale chat",
   "xmuted_voice": "Bruker {0} fra stemmechat",
@@ -218,14 +224,18 @@
   "cmdlist_donate": "Du kan støtte prosjektet på Patreon: \u003C{0}\u003E eller paypal: \u003C{1}\u003E",
   "cmd_and_alias": "Kommandoer og aliaser",
   "commandlist_regen": "Kommandoliste regenerert.",
-  "commands_instr": "Skriv \u0060{0}h Kommandonavn\u0060 å se hjelpen for den oppgitte kommandoen. f.eks \u0060{0}h {0}8ball\u0060",
+  "commands_instr":
+    "Skriv \u0060{0}h Kommandonavn\u0060 å se hjelpen for den oppgitte kommandoen. f.eks \u0060{0}h {0}8ball\u0060",
   "command_not_found": "Jeg kan ikke finne den kommandoen. Kontroller at kommandoen finnes før du prøver igjen.",
   "desc": "Beskrivelse",
-  "donate": "Du kan støtte Mewdeko prosjektet på\nPatreon \u003C{0}\u003E eller\nPaypal \u003C{1}\u003E\nIkke glem å skrive Discord navnet eller ID i meldingen.\n\n** Takk ** ♥ ️",
-  "guide": "** Liste over kommandoer **: \u003C{0}\u003E\n** Hosting guider og dokumenter finner du her **: \u003C{1}\u003E",
+  "donate":
+    "Du kan støtte Mewdeko prosjektet på\nPatreon \u003C{0}\u003E eller\nPaypal \u003C{1}\u003E\nIkke glem å skrive Discord navnet eller ID i meldingen.\n\n** Takk ** ♥ ️",
+  "guide":
+    "** Liste over kommandoer **: \u003C{0}\u003E\n** Hosting guider og dokumenter finner du her **: \u003C{1}\u003E",
   "list_of_commands": "Liste av kommandoer",
   "list_of_modules": "Liste av moduler",
-  "modules_footer": "Skriv \u0027{0}cmds ModulNavn\u0027 for og få en liste av kommandoer i den modulen. f.eks \u0027{0}cmds spill\u0027",
+  "modules_footer":
+    "Skriv \u0027{0}cmds ModulNavn\u0027 for og få en liste av kommandoer i den modulen. f.eks \u0027{0}cmds spill\u0027",
   "module_not_found": "Den modulen finnes ikke.",
   "server_permission": "Krever {0} servertillatelse.",
   "table_of_contents": "Innholdsfortegnelse",
@@ -254,16 +264,19 @@
   "likes": "Liker",
   "waifus_none": "Ingen waifus har blitt hevdet enda.",
   "waifus_top_waifus": "Topp Waifus",
-  "waifu_affinity_already": "Din affinitet er allerede satt til den waifuen eller så prøver du å fjerne din egen affinitet uten å ha en.",
+  "waifu_affinity_already":
+    "Din affinitet er allerede satt til den waifuen eller så prøver du å fjerne din egen affinitet uten å ha en.",
   "waifu_affinity_changed": "byttet affinitet fra {0} til {1}.\n\n*Dette er moralsk tvilsomt.*",
   "waifu_affinity_cooldown": "Du må vente {0} timer og {1} minutt for å bytte affinitet igjen.",
   "waifu_affinity_reset": "Affiniteten din er tilbakestillt. Du liker ingen.",
   "waifu_affinity_set": "ønsker å bli {0} sin waifu. Aww \u003C3",
   "waifu_claimed": "hevdet {0} som sin waifu for {1}!",
-  "waifu_divorced_like": "Du har skillt deg fra en waifu som liker deg, ditt hjerteløse monster!\n{0} fikk {1} som kompensation.",
+  "waifu_divorced_like":
+    "Du har skillt deg fra en waifu som liker deg, ditt hjerteløse monster!\n{0} fikk {1} som kompensation.",
   "waifu_egomaniac": "du kan ikke sette affiniteten din til deg selv, ditt egoistiske monster!",
   "waifu_fulfilled": "\uD83C\uDF89 Deres kjærlighet er oppfylt \uD83C\uDF89\n{0} sin nye verdi er {1}!",
-  "waifu_isnt_cheap": "Ingen waifu er så billig. Du må betale minst {0} for å få en waifu, selv om deres verdi egentlig er lavere.",
+  "waifu_isnt_cheap":
+    "Ingen waifu er så billig. Du må betale minst {0} for å få en waifu, selv om deres verdi egentlig er lavere.",
   "waifu_not_enough": "Du må betale {0} eller mer for å hevde den waifuen!",
   "waifu_not_yours": "Den waifuen er ikke din.",
   "waifu_not_yourself": "Du kan ikke hevde deg selv.",
@@ -344,7 +357,8 @@
   "playlists": "#{0}\u0060 - **{1}** av *{2}* ({3} sanger)",
   "playlists_page": "Side {0} av lagrede spillelister",
   "playlist_deleted": "Spilleliste slettet.",
-  "playlist_delete_fail": "Klarte ikke å slette spillelisten. Enten eksisterer den ikke, eller så var det ikke du som lagde den.",
+  "playlist_delete_fail":
+    "Klarte ikke å slette spillelisten. Enten eksisterer den ikke, eller så var det ikke du som lagde den.",
   "playlist_id_not_found": "Spilleliste med den IDen eksisterer ikke.",
   "playlist_queue_complete": "Spilleliste-kø komplett.",
   "playlist_saved": "Spilleliste lagret",
@@ -361,7 +375,8 @@
   "resumed": "Musikk-avspilling gjenopptatt.",
   "rpl_disabled": "Repetisjon av spilleliste stoppet.",
   "rpl_enabled": "Repetisjon av spilleliste startet.",
-  "set_music_channel": "Meldinger om sanger som spilles av, er ferdige, pauset og fjernet vil bli vist i denne kanalen.",
+  "set_music_channel":
+    "Meldinger om sanger som spilles av, er ferdige, pauset og fjernet vil bli vist i denne kanalen.",
   "skipped_to": "Skippet til \u0027{0}:{1}\u0027",
   "song_moved": "Sang flyttet",
   "time_format": "{0}t {1}m {2}s",
@@ -419,7 +434,8 @@
   "word_filter_server_on": "Ord filtrering aktivert på denne serveren.",
   "abilities": "Ferdigheter",
   "anime_no_fav": "Ingen favoritt anime",
-  "atl_ad_started": "Startet automatisk oversettelse av meldinger i denne kanalen. Bruker-meldinger vil bli slettet automatisk.",
+  "atl_ad_started":
+    "Startet automatisk oversettelse av meldinger i denne kanalen. Bruker-meldinger vil bli slettet automatisk.",
   "atl_removed": "Ditt automatisk oversatte språk er fjernet",
   "atl_set": "Ditt automatisk oversatte språk er satt til {0}\u003E{1}",
   "atl_started": "Startet automatisk oversettelse av meldinger i denne kanalen.",
@@ -527,7 +543,8 @@
   "features": "Egenskaper",
   "index_out_of_range": "Indeks utenfor rekkevidde.",
   "inrole_list": "Liste over brukere i rollen {0}:",
-  "inrole_not_allowed": "Du har ikke lov til å bruke denne kommandoen på roller med mange brukere i dem for å hindre misbruk.",
+  "inrole_not_allowed":
+    "Du har ikke lov til å bruke denne kommandoen på roller med mange brukere i dem for å hindre misbruk.",
   "invalid_value": "Ugyldig {0} verdi.",
   "listservers": "ID: {0}\nMedlemmer: {1}\nEier ID: {2}",
   "listservers_none": "Ingen servere funnet på denne siden.",
@@ -638,11 +655,14 @@
   "slowmodewl_user_start": "Slowmode vil nå ignorere brukeren {0}.",
   "slowmodewl_user_stop": "Slowmode vil ikke lenger ignorere brukeren {0}",
   "clpa_fail": "Kunne ikke hevde premie p.g.a. én av følgende grunner:",
-  "clpa_fail_already": "Det er mulig du allerede har mottatt premien din for denne måneden. Du kan bare hevde premien én gang i måneden med mindre du øker summen.",
+  "clpa_fail_already":
+    "Det er mulig du allerede har mottatt premien din for denne måneden. Du kan bare hevde premien én gang i måneden med mindre du øker summen.",
   "clpa_fail_already_title": "Allerede belønnet.",
-  "clpa_fail_conn": "Din Discord konto er ikke tilkoblet Patreon. Om du er usikker på hva dette betyr, eller ikke er sikker på hvordan du gjør det, kan du gå til [Patreon kontoinnstillinger](https://patreon.com/settings/account) og klikk på \u0027Connect to Discord\u0027-knappen.",
+  "clpa_fail_conn":
+    "Din Discord konto er ikke tilkoblet Patreon. Om du er usikker på hva dette betyr, eller ikke er sikker på hvordan du gjør det, kan du gå til [Patreon kontoinnstillinger](https://patreon.com/settings/account) og klikk på \u0027Connect to Discord\u0027-knappen.",
   "clpa_fail_conn_title": "Discord kontoen er ikke tilknyttet.",
-  "clpa_fail_sup": "For å være kvalifisert for belønning, må du støtte prosjektet på Patreon. Du kan bruke {0} kommandoen for å få link.",
+  "clpa_fail_sup":
+    "For å være kvalifisert for belønning, må du støtte prosjektet på Patreon. Du kan bruke {0} kommandoen for å få link.",
   "clpa_fail_sup_title": "Støttes ikke",
   "clpa_fail_wait": "Du må vente noen timer etter du har gitt ditt løfte. Prøv igjen om litt.",
   "clpa_fail_wait_title": "Vent litt.",
@@ -691,7 +711,8 @@
   "bot_nick": "Bot\u0027ens kallenavn er nå {0}",
   "user_nick": "{0} sitt kallenavn er nå {1}",
   "timezone_guild": "Denne guilden sin tidssone er {0}",
-  "timezone_not_found": "Kunne ikke finne tidssone. Bruk \u0022timezone\u0022-kommandoen for å se en liste over tilgjengelige tidssoner.",
+  "timezone_not_found":
+    "Kunne ikke finne tidssone. Bruk \u0022timezone\u0022-kommandoen for å se en liste over tilgjengelige tidssoner.",
   "timezones_available": "Tilgjengelige tidssoner",
   "song_not_found": "Kunne ikke finne sang",
   "define_unknown": "Kunne ikke finne definisjonen for det ordet",
@@ -725,7 +746,8 @@
   "nunchi_ended_no_winner": "Nunchi avsluttet uten en vinner.",
   "nunchi_started": "Nunchi startet med {0} deltakere.",
   "nunchi_round_ended": "Nunchi runde avsluttet. {0} er ute av spillet.",
-  "nunchi_round_ended_boot": "Nunchi runded avsluttet fordi én eller flere spillere ikke reagerte i tide. Disse er fremdeles med i spillet: {0}",
+  "nunchi_round_ended_boot":
+    "Nunchi runded avsluttet fordi én eller flere spillere ikke reagerte i tide. Disse er fremdeles med i spillet: {0}",
   "nunchi_round_started": "Nunchi startet med {0} spillere. Start med å telle fra {1}",
   "nunchi_next_number": "Tall registrert. Siste nummer var {0}.",
   "nunchi_failed_to_start": "Nunchi kunne ikke starte fordi det ikke var nok deltakere.",
@@ -746,7 +768,8 @@
   "stream_role_wl_rem_fail": "Bruker {0} er ikke hvitelistet.",
   "bot_config_edit_fail": "Kunne ikke sette verdien {0} til {1}",
   "bot_config_edit_success": "Verdien {0} er satt til {1}",
-  "crca_disabled": "Tilpasset reaksjon med ID {0} vil ikke lenger trigges med mindre triggerordet er i begynnelsen av en setning.",
+  "crca_disabled":
+    "Tilpasset reaksjon med ID {0} vil ikke lenger trigges med mindre triggerordet er i begynnelsen av en setning.",
   "crca_enabled": "Tilpasset reaksjon med ID {0} vil nå trigges uansett hvor i setningen triggerordet er.",
   "server_level": "Nivå i serveren.",
   "club": "Klubb",
@@ -771,17 +794,21 @@
   "club_created": "Klubben {0} ble suksessfult opprettet.",
   "club_not_exists": "Den klubben eksisterer ikke.",
   "club_applied": "Du har søkt om medlemskap i klubben {0}.",
-  "club_apply_error": "Kunne ikke søke. Du er enten medlem i en annen klubb, møter ikke minimum nivå-krav, eller du er utestengt fra denne klubben.",
+  "club_apply_error":
+    "Kunne ikke søke. Du er enten medlem i en annen klubb, møter ikke minimum nivå-krav, eller du er utestengt fra denne klubben.",
   "club_accepted": "Aksepterte {0} inn i klubben.",
   "club_accept_error": "Fant ikke bruker.",
   "club_left": "Du forlot klubben.",
   "club_not_in_club": "Du er ikke i en klubb",
   "club_user_kick": "{0} sparket deg fra klubben {1}",
-  "club_user_kick_fail": "Kunne ikke sparke brukeren. Enten er du ikke klubbeieren, eller brukeren er ikke med i klubben.",
+  "club_user_kick_fail":
+    "Kunne ikke sparke brukeren. Enten er du ikke klubbeieren, eller brukeren er ikke med i klubben.",
   "club_user_banned": "Utestengte {0} fra {1}",
-  "club_user_ban_fail": "Kunne ikke utestenge. Enten er du ikke eier av klubben, eller den brukeren er ikke medlem av klubben.",
+  "club_user_ban_fail":
+    "Kunne ikke utestenge. Enten er du ikke eier av klubben, eller den brukeren er ikke medlem av klubben.",
   "club_user_unbanned": "{0} er ikke lenger utestengt fra {1}",
-  "club_user_unban_fail": "Kunne ikke fjerne utestenging. Enten er du ikke klubbeieren, eller brukeren har ikke søkt om medlemskap.",
+  "club_user_unban_fail":
+    "Kunne ikke fjerne utestenging. Enten er du ikke klubbeieren, eller brukeren har ikke søkt om medlemskap.",
   "club_level_req_changed": "Endret klubbens nivå-krav til {0}",
   "club_level_req_change_error": "Kunne ikke endre nivå-krav\n",
   "club_disbanded": "Klubben {0} er nå oppløst.\n",
@@ -803,7 +830,8 @@
   "started": "Startet. Reposter hvert {0}s",
   "stopped": "Stoppet reposting.",
   "feed_added": "Feed lagt til.",
-  "feed_not_valid": "Feil. Lenken er enten ugyldig, du følger den allerede eller du har nådd maks antall feeds som kan følges.",
+  "feed_not_valid":
+    "Feil. Lenken er enten ugyldig, du følger den allerede eller du har nådd maks antall feeds som kan følges.",
   "feed_out_of_range": "Indeks utenfor rekkevidde.",
   "feed_removed": "Feed fjernet.",
   "feed_no_feed": "Du følger ingen feeds på denne serveren.",
@@ -824,7 +852,8 @@
   "timely_set": "Brukere kan få {0} hver {1}",
   "timely_set_none": "Brukere får ikke tidsbestemt valuta.",
   "timely_reset": "Alle brukere kan hevde tidsangitt valuta igjen.",
-  "waifu_transfer_fail": "Enten er ikke det din waifu eller du har ikke råd til waifuen. Eller du har skrevet inn kommandoen feil.",
+  "waifu_transfer_fail":
+    "Enten er ikke det din waifu eller du har ikke råd til waifuen. Eller du har skrevet inn kommandoen feil.",
   "waifu_transfer_success": "Eier av {0} er ført over fra {1} til {2}",
   "authors": "Forfatter",
   "sql_confirm_exec": "Bekreft kjøring av følgende SQL kommando",
@@ -843,11 +872,14 @@
   "level_up_rewards": "Level-opp premier",
   "role_reward": "Rolle {0}",
   "no_level_up_rewards": "Ingen belønninger på denne siden.",
-  "failed_finding_novel": "Kunne ikke finne novelle. Novellen må eksistere på novelupdates.com og må være skrevet inn helt korrekt.",
+  "failed_finding_novel":
+    "Kunne ikke finne novelle. Novellen må eksistere på novelupdates.com og må være skrevet inn helt korrekt.",
   "remove_roles": "har ikke lenger noen roller",
   "delmsg_channel_off": "Meldinger blir ikke automatisk slettet når kommandoer er utført i denne kanalen.",
-  "delmsg_channel_on": "Meldinger for fullførte kommandoer i denne kanalen vil bli automatisk fjernet, uavhengig av server-instillinger.",
-  "delmsg_channel_inherit": "Meldinger for fullførte kommandoer i denne kanalen vil bli automatisk fjernet, om denne funksjonen er slått på i serveren.",
+  "delmsg_channel_on":
+    "Meldinger for fullførte kommandoer i denne kanalen vil bli automatisk fjernet, uavhengig av server-instillinger.",
+  "delmsg_channel_inherit":
+    "Meldinger for fullførte kommandoer i denne kanalen vil bli automatisk fjernet, om denne funksjonen er slått på i serveren.",
   "server_delmsgoncmd": "Server instillinger",
   "channel_delmsgoncmd": "Kanal-spesifikke instillinger",
   "options": "Valg",

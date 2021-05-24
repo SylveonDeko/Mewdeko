@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Core.Services.Database.Models
 {
@@ -9,9 +9,8 @@ namespace Mewdeko.Core.Services.Database.Models
     {
         public ulong? GuildId { get; set; }
 
-        [NotMapped]
-        [JsonIgnore]
-        public Regex Regex { get; set; }
+        [NotMapped] [JsonIgnore] public Regex Regex { get; set; }
+
         public string Response { get; set; }
         public string Trigger { get; set; }
 
@@ -20,17 +19,18 @@ namespace Mewdeko.Core.Services.Database.Models
         public bool AutoDeleteTrigger { get; set; }
         public bool DmResponse { get; set; }
 
-        [JsonIgnore]
-        public bool IsGlobal => !GuildId.HasValue;
+        [JsonIgnore] public bool IsGlobal => !GuildId.HasValue;
 
         public bool ContainsAnywhere { get; set; }
         public ulong UseCount { get; set; }
         public string Reactions { get; set; }
 
-        public string[] GetReactions() =>
-            string.IsNullOrWhiteSpace(Reactions)
+        public string[] GetReactions()
+        {
+            return string.IsNullOrWhiteSpace(Reactions)
                 ? Array.Empty<string>()
                 : Reactions.Split("@@@");
+        }
     }
 
     public class ReactionResponse : DbEntity

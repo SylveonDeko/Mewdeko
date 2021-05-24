@@ -12,7 +12,9 @@
                 : false;
         }
 
-        public override int GetHashCode() =>
-            this.ChannelId.GetHashCode();
+        public override int GetHashCode()
+        {
+            return ChannelId.GetHashCode();
+        }
     }
 }

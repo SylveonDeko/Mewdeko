@@ -1,10 +1,23 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Core.Common.Pokemon
 {
     public class SearchPokemon
     {
+        [JsonProperty("num")] public int Id { get; set; }
+
+        public string Species { get; set; }
+        public string[] Types { get; set; }
+        public GenderRatioClass GenderRatio { get; set; }
+        public BaseStatsClass BaseStats { get; set; }
+        public Dictionary<string, string> Abilities { get; set; }
+        public float HeightM { get; set; }
+        public float WeightKg { get; set; }
+        public string Color { get; set; }
+        public string[] Evos { get; set; }
+        public string[] EggGroups { get; set; }
+
         public class GenderRatioClass
         {
             public float M { get; set; }
@@ -20,21 +33,11 @@ namespace Mewdeko.Core.Common.Pokemon
             public int SPD { get; set; }
             public int SPE { get; set; }
 
-            public override string ToString() => $@"💚**HP:**  {HP,-4} ⚔**ATK:** {ATK,-4} 🛡**DEF:** {DEF,-4}
+            public override string ToString()
+            {
+                return $@"💚**HP:**  {HP,-4} ⚔**ATK:** {ATK,-4} 🛡**DEF:** {DEF,-4}
 ✨**SPA:** {SPA,-4} 🎇**SPD:** {SPD,-4} 💨**SPE:** {SPE,-4}";
+            }
         }
-
-        [JsonProperty("num")]
-        public int Id { get; set; }
-        public string Species { get; set; }
-        public string[] Types { get; set; }
-        public GenderRatioClass GenderRatio { get; set; }
-        public BaseStatsClass BaseStats { get; set; }
-        public Dictionary<string, string> Abilities { get; set; }
-        public float HeightM { get; set; }
-        public float WeightKg { get; set; }
-        public string Color { get; set; }
-        public string[] Evos { get; set; }
-        public string[] EggGroups { get; set; }
     }
 }

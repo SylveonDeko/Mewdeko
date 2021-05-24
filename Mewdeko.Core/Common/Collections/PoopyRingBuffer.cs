@@ -8,24 +8,27 @@ namespace Mewdeko.Common.Collections
         // writepos == readpos - 1 means full 
 
         private byte[] _buffer;
+
+        public PoopyRingBuffer(int capacity = 81920 * 100)
+        {
+            Capacity = capacity + 1;
+            _buffer = new byte[Capacity];
+        }
+
         public int Capacity { get; }
 
-        private int ReadPos { get; set; } = 0;
-        private int WritePos { get; set; } = 0;
+        private int ReadPos { get; set; }
+        private int WritePos { get; set; }
 
         public int Length => ReadPos <= WritePos
             ? WritePos - ReadPos
             : Capacity - (ReadPos - WritePos);
 
-        public int RemainingCapacity
-        {
-            get => Capacity - Length - 1;
-        }
+        public int RemainingCapacity => Capacity - Length - 1;
 
-        public PoopyRingBuffer(int capacity = 81920 * 100)
+        public void Dispose()
         {
-            this.Capacity = capacity + 1;
-            this._buffer = new byte[this.Capacity];
+            _buffer = null;
         }
 
         public int Read(byte[] b, int offset, int toRead)
@@ -44,9 +47,7 @@ namespace Mewdeko.Common.Collections
             else
             {
                 var toEnd = Capacity - ReadPos;
-                var firstRead = toRead > toEnd ?
-                    toEnd :
-                    toRead;
+                var firstRead = toRead > toEnd ? toEnd : toRead;
                 Array.Copy(_buffer, ReadPos, b, offset, firstRead);
                 ReadPos += firstRead;
                 var secondRead = toRead - firstRead;
@@ -56,6 +57,7 @@ namespace Mewdeko.Common.Collections
                     ReadPos = secondRead;
                 }
             }
+
             return toRead;
         }
 
@@ -75,9 +77,7 @@ namespace Mewdeko.Common.Collections
             else
             {
                 var toEnd = Capacity - WritePos;
-                var firstWrite = toWrite > toEnd ?
-                    toEnd :
-                    toWrite;
+                var firstWrite = toWrite > toEnd ? toEnd : toWrite;
                 Array.Copy(b, offset, _buffer, WritePos, firstWrite);
                 var secondWrite = toWrite - firstWrite;
                 if (secondWrite > 0)
@@ -92,12 +92,8 @@ namespace Mewdeko.Common.Collections
                         WritePos = 0;
                 }
             }
-            return true;
-        }
 
-        public void Dispose()
-        {
-            _buffer = null;
+            return true;
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Mewdeko.Modules.Xp.Services;
-using Mewdeko.Core.Services.Database.Models;
+﻿using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp.Extensions
 {
@@ -8,13 +8,13 @@ namespace Mewdeko.Modules.Xp.Extensions
         public static (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(this UserXpStats stats)
         {
             var baseXp = XpService.XP_REQUIRED_LVL_1;
-            
+
             var required = baseXp;
             var totalXp = 0;
             var lvl = 1;
             while (true)
             {
-                required = (int)(baseXp + baseXp / 4.0 * (lvl - 1));
+                required = (int) (baseXp + baseXp / 4.0 * (lvl - 1));
 
                 if (required + totalXp > stats.Xp)
                     break;

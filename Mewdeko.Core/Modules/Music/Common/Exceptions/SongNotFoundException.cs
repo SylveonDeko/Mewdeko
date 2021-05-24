@@ -7,7 +7,10 @@ namespace Mewdeko.Modules.Music.Common.Exceptions
         public SongNotFoundException(string message) : base(message)
         {
         }
-        public SongNotFoundException() : base("Song != found.") { }
+
+        public SongNotFoundException() : base("Song != found.")
+        {
+        }
 
         public SongNotFoundException(string message, Exception innerException) : base(message, innerException)
         {

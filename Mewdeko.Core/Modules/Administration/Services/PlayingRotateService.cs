@@ -1,36 +1,28 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using NLog;
 using Mewdeko.Modules.Music.Services;
-using Discord;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Mewdeko.Common;
+using NLog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class PlayingRotateService : INService
     {
-        private readonly Timer _t;
-        private readonly DiscordSocketClient _client;
-        private readonly Logger _log;
-        private readonly IDataCache _cache;
-        private readonly SelfService _selfService;
-        private readonly Replacer _rep;
-        private readonly DbService _db;
         private readonly IBotConfigProvider _bcp;
-
-        public BotConfig BotConfig => _bcp.BotConfig;
-
-        private class TimerState
-        {
-            public int Index { get; set; }
-        }
+        private readonly IDataCache _cache;
+        private readonly DiscordSocketClient _client;
+        private readonly DbService _db;
+        private readonly Logger _log;
+        private readonly Replacer _rep;
+        private readonly SelfService _selfService;
+        private readonly Timer _t;
 
         public PlayingRotateService(DiscordSocketClient client, IBotConfigProvider bcp,
             DbService db, IDataCache cache, Mewdeko bot, MusicService music, SelfService selfService)
@@ -44,21 +36,20 @@ namespace Mewdeko.Modules.Administration.Services
 
             if (client.ShardId == 0)
             {
-
                 _rep = new ReplacementBuilder()
                     .WithClient(client)
                     .WithMusic(music)
                     .Build();
 
-                _t = new Timer(async (objState) =>
+                _t = new Timer(async objState =>
                 {
                     try
                     {
-                        var state = (TimerState)objState;
-                        
+                        var state = (TimerState) objState;
+
                         if (!BotConfig.RotatingStatuses)
                             return;
-                        
+
                         if (state.Index >= BotConfig.RotatingStatusMessages.Count)
                             state.Index = 0;
 
@@ -88,6 +79,8 @@ namespace Mewdeko.Modules.Administration.Services
             }
         }
 
+        public BotConfig BotConfig => _bcp.BotConfig;
+
         public async Task<string> RemovePlayingAsync(int index)
         {
             if (index < 0)
@@ -115,7 +108,7 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 var config = uow.BotConfig.GetOrCreate(set => set.Include(x => x.RotatingStatusMessages));
-                var toAdd = new PlayingStatus { Status = status, Type = t };
+                var toAdd = new PlayingStatus {Status = status, Type = t};
                 config.RotatingStatusMessages.Add(toAdd);
                 _bcp.BotConfig.RotatingStatusMessages = config.RotatingStatusMessages;
                 await uow.SaveChangesAsync();
@@ -132,8 +125,14 @@ namespace Mewdeko.Modules.Administration.Services
                 enabled = config.RotatingStatuses = !config.RotatingStatuses;
                 uow.SaveChanges();
             }
+
             _selfService.ReloadBotConfig();
             return enabled;
+        }
+
+        private class TimerState
+        {
+            public int Index { get; set; }
         }
     }
 }

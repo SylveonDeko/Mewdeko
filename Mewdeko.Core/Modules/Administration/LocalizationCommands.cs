@@ -1,13 +1,13 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -16,47 +16,55 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class LocalizationCommands : MewdekoSubmodule
         {
-            private static readonly ImmutableDictionary<string, string> supportedLocales = new Dictionary<string, string>()
-            {
-                {"ar", "العربية" },
-                {"zh-TW", "繁體中文, 台灣" },
-                {"zh-CN", "简体中文, 中华人民共和国"},
-                {"nl-NL", "Nederlands, Nederland"},
-                {"en-US", "English, United States"},
-                {"fr-FR", "Français, France"},
-                {"cs-CZ", "Čeština, Česká republika" },
-                {"da-DK", "Dansk, Danmark" },
-                {"de-DE", "Deutsch, Deutschland"},
-                {"he-IL", "עברית, ישראל"},
-                {"hu-HU", "Magyar, Magyarország" },
-                {"id-ID", "Bahasa Indonesia, Indonesia" },
-                {"it-IT", "Italiano, Italia" },
-                {"ja-JP", "日本語, 日本"},
-                {"ko-KR", "한국어, 대한민국" },
-                {"nb-NO", "Norsk, Norge"},
-                {"pl-PL", "Polski, Polska" },
-                {"pt-BR", "Português Brasileiro, Brasil"},
-                {"ro-RO", "Română, România" },
-                {"ru-RU", "Русский, Россия"},
-                {"sr-Cyrl-RS", "Српски, Србија"},
-                {"es-ES", "Español, España"},
-                {"sv-SE", "Svenska, Sverige"},
-                {"tr-TR", "Türkçe, Türkiye"},
-                {"ts-TS", "Tsundere, You Baka"},
-                {"uk-UA", "Українська, Україна" }
-            }.ToImmutableDictionary();
+            private static readonly ImmutableDictionary<string, string> supportedLocales =
+                new Dictionary<string, string>
+                {
+                    {"ar", "العربية"},
+                    {"zh-TW", "繁體中文, 台灣"},
+                    {"zh-CN", "简体中文, 中华人民共和国"},
+                    {"nl-NL", "Nederlands, Nederland"},
+                    {"en-US", "English, United States"},
+                    {"fr-FR", "Français, France"},
+                    {"cs-CZ", "Čeština, Česká republika"},
+                    {"da-DK", "Dansk, Danmark"},
+                    {"de-DE", "Deutsch, Deutschland"},
+                    {"he-IL", "עברית, ישראל"},
+                    {"hu-HU", "Magyar, Magyarország"},
+                    {"id-ID", "Bahasa Indonesia, Indonesia"},
+                    {"it-IT", "Italiano, Italia"},
+                    {"ja-JP", "日本語, 日本"},
+                    {"ko-KR", "한국어, 대한민국"},
+                    {"nb-NO", "Norsk, Norge"},
+                    {"pl-PL", "Polski, Polska"},
+                    {"pt-BR", "Português Brasileiro, Brasil"},
+                    {"ro-RO", "Română, România"},
+                    {"ru-RU", "Русский, Россия"},
+                    {"sr-Cyrl-RS", "Српски, Србија"},
+                    {"es-ES", "Español, España"},
+                    {"sv-SE", "Svenska, Sverige"},
+                    {"tr-TR", "Türkçe, Türkiye"},
+                    {"ts-TS", "Tsundere, You Baka"},
+                    {"uk-UA", "Українська, Україна"}
+                }.ToImmutableDictionary();
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
             public async Task LanguageSet()
             {
                 var cul = Localization.GetCultureInfo(ctx.Guild);
-                await ReplyConfirmLocalizedAsync("lang_set_show", Format.Bold(cul.ToString()), Format.Bold(cul.NativeName))
+                await ReplyConfirmLocalizedAsync("lang_set_show", Format.Bold(cul.ToString()),
+                        Format.Bold(cul.NativeName))
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
@@ -76,22 +84,29 @@ namespace Mewdeko.Modules.Administration
                         Localization.SetGuildCulture(ctx.Guild, ci);
                     }
 
-                    await ReplyConfirmLocalizedAsync("lang_set", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("lang_set", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName))
+                        .ConfigureAwait(false);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     await ReplyErrorLocalizedAsync("lang_set_fail").ConfigureAwait(false);
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task LanguageSetDefault()
             {
                 var cul = Localization.DefaultCultureInfo;
                 await ReplyConfirmLocalizedAsync("lang_set_bot_show", cul, cul.NativeName).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task LanguageSetDefault(string name)
             {
@@ -108,7 +123,9 @@ namespace Mewdeko.Modules.Administration
                         ci = new CultureInfo(name);
                         Localization.SetDefaultCulture(ci);
                     }
-                    await ReplyConfirmLocalizedAsync("lang_set_bot", Format.Bold(ci.ToString()), Format.Bold(ci.NativeName)).ConfigureAwait(false);
+
+                    await ReplyConfirmLocalizedAsync("lang_set_bot", Format.Bold(ci.ToString()),
+                        Format.Bold(ci.NativeName)).ConfigureAwait(false);
                 }
                 catch (Exception)
                 {
@@ -116,13 +133,16 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task LanguagesList()
             {
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("lang_list"))
                     .WithDescription(string.Join("\n",
-                        supportedLocales.Select(x => $"{Format.Code(x.Key), -10} => {x.Value}")))).ConfigureAwait(false);
+                        supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
             }
         }
     }

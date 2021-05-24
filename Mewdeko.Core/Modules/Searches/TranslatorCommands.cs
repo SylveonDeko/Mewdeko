@@ -1,10 +1,10 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Linq;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
 
 namespace Mewdeko.Modules.Searches
@@ -14,30 +14,6 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class TranslateCommands : MewdekoSubmodule
         {
-            private readonly SearchesService _searches;
-            private readonly IGoogleApiService _google;
-
-            public TranslateCommands(SearchesService searches, IGoogleApiService google)
-            {
-                _searches = searches;
-                _google = google;
-            }
-
-            [MewdekoCommand, Usage, Description, Aliases]
-            public async Task Translate(string langs, [Remainder] string text = null)
-            {
-                try
-                {
-                    await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-                    var translation = await _searches.Translate(langs, text).ConfigureAwait(false);
-                    await ctx.Channel.SendConfirmAsync(GetText("translation") + " " + langs, translation).ConfigureAwait(false);
-                }
-                catch
-                {
-                    await ReplyErrorLocalizedAsync("bad_input_format").ConfigureAwait(false);
-                }
-            }
-
             //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
             //public async Task Obfuscate([Remainder] string txt)
@@ -65,12 +41,43 @@ namespace Mewdeko.Modules.Searches
                 Nodel
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            private readonly IGoogleApiService _google;
+            private readonly SearchesService _searches;
+
+            public TranslateCommands(SearchesService searches, IGoogleApiService google)
+            {
+                _searches = searches;
+                _google = google;
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Translate(string langs, [Remainder] string text = null)
+            {
+                try
+                {
+                    await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
+                    var translation = await _searches.Translate(langs, text).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("translation") + " " + langs, translation)
+                        .ConfigureAwait(false);
+                }
+                catch
+                {
+                    await ReplyErrorLocalizedAsync("bad_input_format").ConfigureAwait(false);
+                }
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task AutoTranslate(AutoDeleteAutoTranslate autoDelete = AutoDeleteAutoTranslate.Nodel)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 if (autoDelete == AutoDeleteAutoTranslate.Del)
                 {
@@ -78,19 +85,21 @@ namespace Mewdeko.Modules.Searches
                     await ReplyConfirmLocalizedAsync("atl_ad_started").ConfigureAwait(false);
                     return;
                 }
-                
+
                 if (_searches.TranslatedChannels.TryRemove(channel.Id, out _))
                 {
                     await ReplyConfirmLocalizedAsync("atl_stopped").ConfigureAwait(false);
                     return;
                 }
+
                 if (_searches.TranslatedChannels.TryAdd(channel.Id, autoDelete == AutoDeleteAutoTranslate.Del))
-                {
                     await ReplyConfirmLocalizedAsync("atl_started").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task AutoTransLang([Remainder] string langs = null)
             {
@@ -120,13 +129,15 @@ namespace Mewdeko.Modules.Searches
                 await ReplyConfirmLocalizedAsync("atl_set", from, to).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Translangs()
             {
-                await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}", 3).ConfigureAwait(false);
+                await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
             }
-
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 
 namespace Mewdeko.Core.Services
 {
@@ -24,6 +24,7 @@ namespace Mewdeko.Core.Services
         bool TryGetEconomy(out string data);
         void SetEconomy(string data);
 
-        Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry) where TOut : class;
+        Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param,
+            TimeSpan expiry) where TOut : class;
     }
 }
