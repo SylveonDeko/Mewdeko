@@ -19,13 +19,14 @@
 		<PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
 		<PackageReference Include="CommandLineParser" Version="2.8.0" />
 		<PackageReference Include="DeepAI.Client" Version="1.3.0" />
-		<PackageReference Include="Discord.Net" Version="2.3.1" />
+		<PackageReference Include="Discord.Net" Version="2.4.0" />
 		<PackageReference Include="CoreCLR-NCalc" Version="2.2.80" />
+		<PackageReference Include="Freezer" Version="1.0.1.5" />
 		<PackageReference Include="GiphyDotNet" Version="2.0.0" />
 		<PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
 		<PackageReference Include="Google.Apis.YouTube.v3" Version="1.47.0.2008" />
 		<PackageReference Include="Google.Apis.Customsearch.v1" Version="1.48.0.2014" />
-		<PackageReference Include="Html2Markdown" Version="3.3.1.407" />
+		<PackageReference Include="Html2Markdown" Version="4.0.0.427" />
 		<PackageReference Include="KSoftNet" Version="3.0.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
@@ -47,11 +48,11 @@
 		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0010" />
 		<PackageReference Include="SpotifyAPI.Web" Version="6.2.0" />
 		<PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.0" />
-		<PackageReference Include="StackExchange.Redis" Version="1.2.7-alpha-00002" />
+		<PackageReference Include="StackExchange.Redis" Version="2.2.4" />
 		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 		<PackageReference Include="VideoLibrary" Version="3.0.7" />
 		<PackageReference Include="YamlDotNet" Version="11.1.1" />
-		<PackageReference Include="YoutubeExplode" Version="5.1.8" />
+		<PackageReference Include="YoutubeExplode" Version="6.0.1" />
 	</ItemGroup>
 
   <ItemGroup>

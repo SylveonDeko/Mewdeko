@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -6,6 +7,7 @@ using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
+using Swan;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -31,6 +33,196 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
             }
 
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task AfkDisabledList()
+            {
+                var mentions = new List<string>();
+                var chans = _service.GetDisabledAfkChannels(ctx.Guild.Id);
+                var e = chans.Split(",");
+                if (e.Length == 1 && e.Contains("0"))
+                {
+                    await ctx.Channel.SendErrorAsync("You don't have any disabled Afk channels.");
+                    return;
+                }
+                foreach (var i in e)
+                {
+                    var role = await ctx.Guild.GetTextChannelAsync(Convert.ToUInt64(i));
+                    mentions.Add(role.Mention);
+                }
+                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                {
+                    return new EmbedBuilder().WithOkColor()
+                        .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
+                        .WithDescription(string.Join("\n", mentions.ToArray().Skip(cur * 20).Take(20)));
+                }, mentions.ToArray().Length, 20).ConfigureAwait(false);
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task AfkType(string ehm)
+            {
+                switch (ehm.ToLower())
+                {
+                    case "onmessage":
+                    {
+                        await _service.AfkTypeSet(ctx.Guild, 3);
+                        await ctx.Channel.SendConfirmAsync("Afk will be disabled when a user sends a message.");
+                    }
+                        break;
+                    case "ontype":
+                    {
+                        await _service.AfkTypeSet(ctx.Guild, 2);
+                        await ctx.Channel.SendConfirmAsync("Afk messages will be disabled when a user starts typing.");
+                    }
+                        break;
+                    case "selfdisable":
+                    {
+                        await _service.AfkTypeSet(ctx.Guild, 1);
+                        await ctx.Channel.SendConfirmAsync(
+                            "Afk will only be disableable by the user themselves (unless an admin uses the afkrm command)");
+                    }
+                        break;
+
+                }
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(1)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task AfkType(int ehm)
+            {
+                switch (ehm)
+                {
+                    case 3:
+                        await AfkType("onmessage"); 
+                        break;
+                    case 2:
+                        await AfkType("ontype");
+                        break;
+                    case 1:
+                        await AfkType("selfdisable");
+                        break;
+                }
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task AfkTimeout(int num)
+            {
+                if (num > 60)
+                {
+                    await ctx.Channel.SendErrorAsync("The maximum Afk timeout is 60 minutes!");
+                    return;
+                }
+
+                await _service.AfkTimeoutSet(ctx.Guild, num);
+                await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {num} minutes!");
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireUserPermission(GuildPermission.ManageChannels)]
+            public async Task AfkUndisable(params ITextChannel[] chan)
+            {
+                var list = new List<string>();
+                var mentions = new List<string>();
+                var toremove = new List<string>();
+                var chans = _service.GetDisabledAfkChannels(ctx.Guild.Id);
+                var e = chans.Split(",");
+                foreach (var i in e)
+                {
+                    list.Add(i);
+                }
+                foreach (var i in chan)
+                {
+                    if (e.Contains(i.Id.ToString()))
+                    {
+                        toremove.Add(i.Id.ToString());
+                        mentions.Add(i.Mention);
+                    }
+                }
+
+                if (!mentions.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("The channels you have specifed are not set to ignore Afk!");
+                    return;
+                }
+
+                if (!list.Except(toremove).Any())
+                {
+                    await _service.AfkDisabledSet(ctx.Guild, "0");
+                    await ctx.Channel.SendConfirmAsync("Mewdeko will no longer ignore afk in any channel.");
+                    return;
+                }
+                await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list.Except(toremove)));
+                await ctx.Channel.SendConfirmAsync($"Succesfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireUserPermission(GuildPermission.ManageChannels)]
+            public async Task AfkDisable(params ITextChannel[] chan)
+            {
+                var list = new HashSet<string>();
+                var newchans = new HashSet<string>();
+                var mentions = new HashSet<string>();
+                if (_service.GetDisabledAfkChannels(ctx.Guild.Id) == "0")
+                {
+                    foreach (var i in chan)
+                    {
+                        list.Add(i.Id.ToString());
+                        mentions.Add(i.Mention);
+                    }
+
+                    await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
+                    await ctx.Channel.SendConfirmAsync(
+                        $"Afk has been disabled in the channels {string.Join(",", mentions)}");
+                }
+                else
+                {
+                    var e = _service.GetDisabledAfkChannels(ctx.Guild.Id);
+                    var w = e.Split(",");
+                    foreach (var i in w)
+                    {
+                        list.Add(i);
+                    }
+
+                    foreach (var i in chan)
+                    {
+                        if (!w.Contains(i.Id.ToString()))
+                        {
+                            list.Add(i.Id.ToString());
+                            mentions.Add(i.Mention);
+                        }
+
+                        newchans.Add(i.Id.ToString());
+                    }
+                    if (mentions.Count() == 0)
+                    {
+                        await ctx.Channel.SendErrorAsync(
+                            "No channels were added because the channels you specified are already in the list.");
+                        return;
+                    }
+                    await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
+                    await ctx.Channel.SendConfirmAsync(
+                        $"Added {string.Join(",", mentions)} to the list of channels AFK ignores.");
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]

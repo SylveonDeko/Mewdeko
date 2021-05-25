@@ -42,16 +42,16 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _starboardchannels { get; } = new();
         private ConcurrentDictionary<ulong, ulong> _starboardstar { get; } = new();
 
-        public async Task SetStarboardChannel(IGuild guild, ITextChannel channel)
+        public async Task SetStarboardChannel(IGuild guild, ulong channel)
         {
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.StarboardChannel = channel.Id;
+                gc.StarboardChannel = channel;
                 await uow.SaveChangesAsync();
             }
 
-            _starboardchannels.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+            _starboardchannels.AddOrUpdate(guild.Id, channel, (key, old) => channel);
         }
 
         public async Task SetStarCount(IGuild guild, ulong num)

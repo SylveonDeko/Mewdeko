@@ -19,17 +19,16 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [UserPerm(GuildPerm.ManageChannels)]
-            public async Task SetStarboard(ITextChannel chn)
+            public async Task SetStarboard(ITextChannel chn = null)
             {
-                try
+                if (chn is null)
                 {
-                    await _service.SetStarboardChannel(ctx.Guild, chn);
-                    await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}");
+                    await _service.SetStarboardChannel(ctx.Guild, 0);
+                    await ctx.Channel.SendMessageAsync("Starboard has been disabled.");
+                    return;
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                await _service.SetStarboardChannel(ctx.Guild, chn.Id);
+                await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}");
             }
 
             [MewdekoCommand]

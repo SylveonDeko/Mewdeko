@@ -3,6 +3,8 @@ h:
 - h
 gencmdlist:
 - gencmdlist
+afkremove:
+- afkrm
 donate:
 - donate
 modules:

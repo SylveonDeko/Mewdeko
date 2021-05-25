@@ -98,7 +98,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
             {
                 StreamType = FollowedStream.FType.Picarto,
                 Name = stream?.Name,
-                UniqueName = stream.Name,
+                UniqueName = stream?.Name,
                 Viewers = stream.Viewers,
                 Title = stream.Title,
                 IsLive = stream.Online,
