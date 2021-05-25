@@ -61,13 +61,15 @@ namespace Mewdeko.Modules.Searches
                         ImageUrl = image.CoverImageLarge,
                         Color = Mewdeko.OkColor
                     };
-
+                    var te = string.Empty;
+                    if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
+                    else te = image.SeasonInt.ToString()[2..];
                     eb.AddField("English Title", ert.TitleEnglish);
                     eb.AddField("Japanese Title", ert.TitleNative);
                     eb.AddField("Romanji Title", ert.TitleRomaji);
                     eb.AddField("Air Start Date", image.AiringStartDate);
                     eb.AddField("Air End Date", image.AiringEndDate);
-                    eb.AddField("Season Number", image.SeasonInt.ToString()[2..]);
+                    eb.AddField("Season Number", te);
                     eb.AddField("Episode", ert.Episode);
                     eb.AddField("AniList Link", image.SiteUrl);
                     eb.AddField("MAL Link", $"https://myanimelist.net/anime/{ert.MalId}");
