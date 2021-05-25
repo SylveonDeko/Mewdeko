@@ -44,7 +44,7 @@ afktimeout:
 afktype:
  desc: "Sets the type of Afk used in the server.Default is type 3.\n\nType 1: Is only able to be disabled by the user who set it or by an admin using the afkrm command.\nType 2: Is disabled when a user types after having their afk enabled for a time you set.\nType 3: Is disabled when a user sends a message after having their afk enabled for the time you set."
  args:
- - "ondisable"
+ - "onmessage"
  - "ontype"
  - "sefdisable"
  - "3"
