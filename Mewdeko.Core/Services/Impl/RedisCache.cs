@@ -26,7 +26,9 @@ namespace Mewdeko.Core.Services.Impl
 
             Redis = ConnectionMultiplexer.Connect(conf);
             _redisEndpoint = Redis.GetEndPoints().First();
+#pragma warning disable 618
             Redis.PreserveAsyncOrder = false;
+#pragma warning restore 618
             LocalImages = new RedisImagesCache(Redis, creds);
             LocalData = new RedisLocalDataCache(Redis, creds, shardId);
             _redisKey = creds.RedisKey();

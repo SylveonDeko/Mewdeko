@@ -19,6 +19,9 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong SuggestRole { get; set; }
 
         public ulong Stars { get; set; }
+        public int AfkType { get; set; }
+        public string AfkDisabledChannels { get; set; }
+        public int AfkTimeout { get; set; }
         //public int TLogType { get; set; }
         //public ulong TLogChan { get; set; }
         //public ulong TPingRole { get; set; }

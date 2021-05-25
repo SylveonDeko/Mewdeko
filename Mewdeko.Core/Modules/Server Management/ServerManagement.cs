@@ -101,33 +101,6 @@ namespace Mewdeko.Modules.ServerManagement
             await guild.ModifyAsync(x => { x.Name = name; });
             await ctx.Channel.SendMessageAsync("Succesfuly set server name to" + name);
         }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        public async Task SetAfkChannel([Remainder] IVoiceChannel channel)
-        {
-            var guild = ctx.Guild;
-            await guild.ModifyAsync(x => { x.AfkChannel = new Discord.Optional<IVoiceChannel>(channel); });
-            await ctx.Channel.SendMessageAsync("Succesfuly set afk channel to " + channel.Name);
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        public async Task SetAfkTimeout(int time)
-        {
-            var guild = ctx.Guild;
-            await guild.ModifyAsync(x => { x.AfkTimeout = time; });
-            await ctx.Channel.SendMessageAsync("Succesfuly set AFK Timeout to " + TimeSpan.FromSeconds(time));
-        }
-
         [MewdekoCommand]
         [Usage]
         [Description]

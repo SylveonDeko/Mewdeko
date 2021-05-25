@@ -16,7 +16,6 @@ using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 using Newtonsoft.Json;
-
 namespace Mewdeko.Modules.Utility
 {
     public partial class Utility : MewdekoTopLevelModule<UtilityService>
@@ -587,7 +586,6 @@ namespace Mewdeko.Modules.Utility
                 .WithDescription(
                     "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
         }
-
         [MewdekoCommand]
         [Usage]
         [Description]

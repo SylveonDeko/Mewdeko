@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0169: The field 'SuggestService._bot' is never used
+dotnet_diagnostic.CS0169.severity = none

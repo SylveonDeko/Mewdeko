@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{04929013-5BA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B2F1537-4BF0-422B-A0DD-8F9CCEFB340F}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		license.md = license.md
 		Mewdeko.iss = Mewdeko.iss
 		mkdocs.yml = mkdocs.yml
