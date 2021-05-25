@@ -289,6 +289,9 @@ namespace Mewdeko.Modules.Searches
                         if (t is not null) list.Add(t.EnglishTitle);
                     }
 
+                var te = string.Empty;
+                if (result.SeasonInt.ToString()[2..] is "") te = result.SeasonInt.ToString()[1..];
+                else te = result.SeasonInt.ToString()[2..];
                 if (result.DescriptionMd != null) eb.AddField("Description", result.DescriptionMd.TrimTo(1024), true);
                 if (result.Genres.Any()) eb.AddField("Genres", string.Join("\n", result.Genres), true);
                 if (result.CountryOfOrigin is not null) eb.AddField("Country of Origin", result.CountryOfOrigin, true);
@@ -296,7 +299,7 @@ namespace Mewdeko.Modules.Searches
                     eb.AddField("Recommendations based on this search",
                         string.Join("\n", list.Where(x => !string.IsNullOrWhiteSpace(x)).Take(10)), true);
                 eb.AddField("Episodes", result.Episodes, true);
-                eb.AddField("Seasons", result.SeasonInt.ToString()[2..], true);
+                if( result.SeasonInt is not null) eb.AddField("Seasons", te, true);
                 eb.AddField("Air Start Date", result.AiringStartDate, true);
                 eb.AddField("Air End Date", result.AiringEndDate, true);
                 eb.AddField("Average Score", result.AverageScore, true);
