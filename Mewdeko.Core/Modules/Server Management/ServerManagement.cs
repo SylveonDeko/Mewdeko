@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -178,6 +179,7 @@ namespace Mewdeko.Modules.ServerManagement
         [Aliases]
         [UserPerm(GuildPerm.ManageEmojis)]
         [RequireContext(ContextType.Guild)]
+        
         public async Task RenameEmote(string emote, string name)
         {
             if (name.StartsWith("<"))
@@ -210,6 +212,7 @@ namespace Mewdeko.Modules.ServerManagement
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageEmojis)]
         [BotPerm(GuildPerm.ManageEmojis)]
+        [Priority(1)]
         public async Task StealEmotes([Remainder] string e)
         {
             var eb = new EmbedBuilder
@@ -250,6 +253,59 @@ namespace Mewdeko.Modules.ServerManagement
             b.Color = Mewdeko.OkColor;
             if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
             if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
+            await msg.ModifyAsync(x => { x.Embed = b.Build(); });
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.ManageEmojis)]
+        [BotPerm(GuildPerm.ManageEmojis)]
+        [Priority(0)]
+        public async Task StealForRole(IRole role,[Remainder] string e)
+        {
+            
+            var eb = new EmbedBuilder
+            {
+                Description = $"<a:loading:834915210967253013> Adding Emotes to {role.Mention}...",
+                Color = Mewdeko.OkColor
+            };
+            var list = new Discord.Optional<IEnumerable<IRole>>(new[] {role});
+            var errored = new List<string>();
+            var emotes = new List<string>();
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value);
+            if (!tags.Any()) return;
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+           
+            foreach (var i in tags)
+            {
+                using var http = _httpFactory.CreateClient();
+                using (var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false))
+                {
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    using (var imgStream = imgData.ToStream())
+                    {
+                        {
+                            try
+                            {
+                                var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list);
+                                emotes.Add($"{emote} {Format.Code(emote.Name)}");
+                            }
+                            catch (Exception)
+                            {
+                                errored.Add($"{i.Name}\n{i.Url}");
+                            }
+                        }
+                    }
+                }
+            }
+
+            var b = new EmbedBuilder();
+            b.Color = Mewdeko.OkColor;
+            if (emotes.Any()) b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
+            if (errored.Any()) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
             await msg.ModifyAsync(x => { x.Embed = b.Build(); });
         }
 

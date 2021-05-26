@@ -37,6 +37,11 @@ afkdisabledlist:
   desc: "Lists disabled afk channels"
   args:
   - ""
+stealforrole:
+ desc: "Lets you steal emotes for specific roles"
+ args:
+ - "role emote emote"
+ - "roleid emote emote"
 afktimeout:
  desc: "Sets the timeout of after how long it disables your afk in minutes if you have type 2 or 3 selected. Default is 5. Max is 60."
  args:
