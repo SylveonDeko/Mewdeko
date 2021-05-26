@@ -24,6 +24,8 @@ bye:
 - bye
 createcatvcchans:
 - ccvc
+stealforrole:
+ - sfr
 createcatandvcchannels:
 - ccavc
 createcattxtchans:
