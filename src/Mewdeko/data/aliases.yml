@@ -27,6 +27,7 @@ createcatvcchans:
 stealforrole:
 - sfr
 nhentaisearch:
+- nhentaisearch
 - nhsearch
 - nhs
 nhentai:
