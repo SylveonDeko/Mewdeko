@@ -26,13 +26,14 @@ createcatvcchans:
 - ccvc
 stealforrole:
 - sfr
+- stealforrole
 nhentaisearch:
 - nhentaisearch
 - nhsearch
 - nhs
 nhentai:
-- nh
 - nhentai
+- nh
 createcatandvcchannels:
 - ccavc
 createcattxtchans:
