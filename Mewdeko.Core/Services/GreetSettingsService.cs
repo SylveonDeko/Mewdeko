@@ -290,7 +290,7 @@ namespace Mewdeko.Core.Services
 
                     if (conf.SendDmGreetMessage)
                     {
-                        var channel = await user.GetOrCreateDMChannelAsync().ConfigureAwait(false);
+                        var channel = await user.CreateDMChannelAsync().ConfigureAwait(false);
 
                         if (channel != null) await GreetDmUser(conf, channel, user);
                     }

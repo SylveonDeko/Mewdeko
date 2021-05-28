@@ -45,11 +45,11 @@ namespace Mewdeko.Modules.Administration.Services
                         return;
 
                     //if the activity has changed, and is a playing activity
-                    if (before.Activity != after.Activity
-                        && after.Activity != null
-                        && after.Activity.Type == ActivityType.Playing)
+                    if (before.Activities != after.Activities
+                        && after.Activities != null
+                        && after.Activities?.FirstOrDefault()?.Type == ActivityType.Playing)
                         //trigger gvc
-                        await TriggerGvc(after, after.Activity.Name);
+                        await TriggerGvc(after, after.Activities.FirstOrDefault().Name);
                 }
                 catch (Exception ex)
                 {
@@ -94,7 +94,7 @@ namespace Mewdeko.Modules.Administration.Services
                     if (!(usr is SocketGuildUser gUser))
                         return;
 
-                    var game = gUser.Activity?.Name;
+                    var game = gUser.Activities?.FirstOrDefault()?.Name;
 
                     if (oldState.VoiceChannel == newState.VoiceChannel ||
                         newState.VoiceChannel == null)

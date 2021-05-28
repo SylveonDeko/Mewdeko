@@ -164,9 +164,9 @@ namespace Mewdeko.Modules.Utility
                             .WithValue(
                                 $"{string.Join(" ", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).OrderByDescending(r => r.Position).Select(r => r.Mention).Take(30))}")
                             .WithIsInline(false));
-                if (user.Activity?.Name != null)
+                if (user.Activities?.FirstOrDefault()?.Name != null)
                     embed.AddField(fb =>
-                        fb.WithName("User Activity").WithValue(user.Activity.Type + ": " + user.Activity));
+                        fb.WithName("User Activity").WithValue(user.Activities?.FirstOrDefault()?.Type + ": " + user.Activities.FirstOrDefault().Name));
                 else
                     embed.AddField(fb => fb.WithName("User Activity").WithValue("None"));
                 var av = user.RealAvatarUrl();

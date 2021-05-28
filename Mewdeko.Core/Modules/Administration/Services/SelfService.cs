@@ -131,7 +131,7 @@ namespace Mewdeko.Modules.Administration.Services
                     .ToDictionary(
                         x => x.Key,
                         y => y.ToDictionary(x => x.Id,
-                                x => TimerFromStartupCommand(x))
+                                TimerFromStartupCommand)
                             .ToConcurrent())
                     .ToConcurrent();
 
@@ -149,10 +149,6 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 await bot.Ready.Task.ConfigureAwait(false);
 
-                await Task.Delay(5000).ConfigureAwait(false);
-
-                if (client.ShardId == 0)
-                    await LoadOwnerChannels().ConfigureAwait(false);
             });
         }
 
@@ -328,28 +324,6 @@ namespace Mewdeko.Modules.Administration.Services
                     .OrderBy(x => x.Id)
                     .ToArray();
             }
-        }
-
-        private async Task LoadOwnerChannels()
-        {
-            var channels = await Task.WhenAll(_creds.OwnerIds.Select(id =>
-            {
-                var user = _client.GetUser(id);
-                if (user == null)
-                    return Task.FromResult<IDMChannel>(null);
-
-                return user.GetOrCreateDMChannelAsync();
-            })).ConfigureAwait(false);
-
-            ownerChannels = channels.Where(x => x != null)
-                .ToDictionary(x => x.Recipient.Id, x => x)
-                .ToImmutableDictionary();
-
-            if (!ownerChannels.Any())
-                _log.Warn(
-                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
-            else
-                _log.Info($"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
         }
 
         public Task LeaveGuild(string guildStr)

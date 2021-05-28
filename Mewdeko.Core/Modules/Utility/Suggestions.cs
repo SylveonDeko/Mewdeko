@@ -196,7 +196,7 @@ namespace Mewdeko.Modules.Utility
                     var message = await chn.GetMessageAsync(mid) as IUserMessage;
                     var eb = message.Embeds.First().ToEmbedBuilder();
                     var user = await ctx.Guild.GetUserAsync(i.UserID);
-                    var chan = await user.GetOrCreateDMChannelAsync();
+                    var chan = await user.CreateDMChannelAsync();
                     await chan.EmbedAsync(new EmbedBuilder()
                         .WithTitle(Format.Bold($" Your Suggestion #{sid} has been Denied."))
                         .AddField(Format.Bold("Suggestion"), eb.Description)
@@ -277,7 +277,7 @@ namespace Mewdeko.Modules.Utility
                     var message = await chn.GetMessageAsync(mid) as IUserMessage;
                     var eb = message.Embeds.First().ToEmbedBuilder();
                     var user = await ctx.Guild.GetUserAsync(i.UserID);
-                    var chan = await user.GetOrCreateDMChannelAsync();
+                    var chan = await user.CreateDMChannelAsync();
                     await chan.EmbedAsync(new EmbedBuilder()
                         .WithTitle(Format.Bold($" Your Suggestion #{sid} has been Accepted."))
                         .AddField(Format.Bold("Suggestion"), eb.Description)
@@ -359,7 +359,7 @@ namespace Mewdeko.Modules.Utility
                     var message = await chn.GetMessageAsync(mid) as IUserMessage;
                     var eb = message.Embeds.First().ToEmbedBuilder();
                     var user = await ctx.Guild.GetUserAsync(i.UserID);
-                    var chan = await user.GetOrCreateDMChannelAsync();
+                    var chan = await user.CreateDMChannelAsync();
                     await chan.EmbedAsync(new EmbedBuilder()
                         .WithTitle(Format.Bold($" Your Suggestion #{sid} has been Implemented."))
                         .AddField(Format.Bold("Suggestion"), eb.Description)
@@ -441,7 +441,7 @@ namespace Mewdeko.Modules.Utility
                     var message = await chn.GetMessageAsync(mid) as IUserMessage;
                     var eb = message.Embeds.First().ToEmbedBuilder();
                     var user = await ctx.Guild.GetUserAsync(i.UserID);
-                    var chan = await user.GetOrCreateDMChannelAsync();
+                    var chan = await user.CreateDMChannelAsync();
                     await chan.EmbedAsync(new EmbedBuilder()
                         .WithTitle(Format.Bold($" Your Suggestion #{sid} is being considered."))
                         .AddField(Format.Bold("Suggestion"), eb.Description)

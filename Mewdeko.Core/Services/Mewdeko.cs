@@ -60,7 +60,8 @@ namespace Mewdeko
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
-                AlwaysDownloadUsers = true
+                AlwaysDownloadUsers = true,
+                GatewayIntents = GatewayIntents.All
             });
 
             CommandService = new CommandService(new CommandServiceConfig

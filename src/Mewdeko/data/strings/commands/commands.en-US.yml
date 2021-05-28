@@ -37,6 +37,17 @@ afkdisabledlist:
   desc: "Lists disabled afk channels"
   args:
   - ""
+nhentaisearch:
+ desc: "Lets you search nhentai for doujins using keywords. You can also specify blacklisted words by putting a - in froint of the word. If the first set doesnt have the results you wanted, you can also specify page number."
+ args:
+ - "futa"
+ - "cumdump -futa"
+ - "cumdump 3"
+ - "cumdump -futa 3"
+nhentai:
+ desc: "Let's you read any doujin using the magic number."
+ args:
+ - "209519"
 stealforrole:
  desc: "Lets you steal emotes for specific roles"
  args:

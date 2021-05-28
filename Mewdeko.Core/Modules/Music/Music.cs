@@ -319,47 +319,31 @@ namespace Mewdeko.Modules.Music
         public async Task Lyrics([Remainder] string songname = null)
         {
             string name;
-            var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
+            MusicPlayer mp = null;
+            if(ctx.User.)
+            mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
             var (_, currentSong) = mp.Current;
-            if (songname is null)
+            switch (songname)
             {
-                var e = currentSong.PrettyName.Split("https");
-                name = e[0].Replace("*", "").Replace("\"", "").Replace("(", "").Replace("[", "").Replace("]", "");
-            }
-            else
-            {
-                name = songname;
+                case null:
+                {
+                    var e = currentSong.PrettyName.Split("https");
+                    name = e[0].Replace("*", "").Replace("\"", "").Replace("(", "").Replace("[", "").Replace("]", "");
+                    break;
+                }
+                default:
+                    name = songname;
+                    break;
             }
 
-            ;
-            var lyrics = await _kSoftAPI.musicAPI.SearchLyrics(name, true, 1);
-            var em = new EmbedBuilder
+            var lyrics = await _kSoftAPI.musicAPI.SearchLyrics(name, true, 30);
+            await ctx.SendPaginatedConfirmAsync(0, cur =>
             {
-                Title =
-                    $"{string.Join("", lyrics.Data.Select(x => x.Artist))} - {string.Join("", lyrics.Data.Select(x => x.Name))}",
-                Description = $"{string.Join("", lyrics.Data.Select(x => x.Lyrics))}",
-                Color = Mewdeko.OkColor
-            };
-            //if (em.Description.Length > 2000)
-            //{
-            /*var pages = new PageBuilder[] { };
-            
-            
-            pages = new PageBuilder[]
-            {
-                new PageBuilder().WithDescription(String.Join("", lyrics.Data.Select(x => x.Lyrics)))
-                .WithTitle(String.Join("", lyrics.Data.Select(x => x.Artist)))
-            };
-            
-            var paginator = new StaticPaginatorBuilder()
-            .WithUsers((SocketUser)ctx.User)
-            .WithPages(pages)
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithDefaultEmotes()
-            .Build();
-            await Interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(3));*/
-            //}
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+                return new EmbedBuilder().WithOkColor()
+                    .WithTitle(Format.Bold(
+                        $"{lyrics.Data.Skip(cur).FirstOrDefault().Artist} - {lyrics.Data.Skip(cur).FirstOrDefault().Name}"))
+                    .WithDescription(lyrics.Data.Skip(cur).FirstOrDefault().Lyrics);
+            }, lyrics.Data.ToArray().Length, 1).ConfigureAwait(false);
         }
 
         [MewdekoCommand]

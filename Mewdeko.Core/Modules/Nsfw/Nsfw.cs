@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -12,7 +13,13 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
+using Microsoft.EntityFrameworkCore.Update;
 using Newtonsoft.Json.Linq;
+using NHentai.NET;
+using NHentai.NET.Client;
+using NHentai.NET.Models.Books;
+using NHentai.NET.Models.Searches;
+using SearchResult = Discord.Commands.SearchResult;
 
 namespace Mewdeko.Modules.NSFW
 {
@@ -28,6 +35,7 @@ namespace Mewdeko.Modules.NSFW
             _httpFactory = factory;
             ksoftapi = kSoftApi;
         }
+        
 
         private async Task InternalHentai(IMessageChannel channel, string tag)
         {
@@ -110,6 +118,102 @@ namespace Mewdeko.Modules.NSFW
             }
         }
 
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task NHentai(int num, int page = 0)
+        {
+            var client = new HentaiClient();
+            Book book = await client.SearchBookAsync(num);
+            string title = book.Titles.English;
+            IEnumerable<string> pages = book.GetPages();
+            await ctx.SendPaginatedConfirmAsync(page, cur =>
+            {
+                var enumerable = pages as string[] ?? pages.ToArray();
+                return new EmbedBuilder().WithOkColor()
+                    .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
+                    .WithImageUrl(pages.Skip(cur).FirstOrDefault());
+            }, pages.ToArray().Length, 1).ConfigureAwait(false);
+        }
+
+        public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular", string exclude = null)
+        {
+            var client = new HentaiClient();
+            Sort e = Sort.Date;
+            switch (type.ToLower())
+            {
+                case "date":
+                    e = Sort.Date;
+                    break;
+                case "popular":
+                    e = Sort.Popular;
+                    break;
+            }
+            NHentai.NET.Models.Searches.SearchResult result = await client.SearchQueryAsync(page, e, search, exclude + " -lolicon");
+            if (!result.Books.Any())
+            {
+                await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
+                return;
+            }
+            await ctx.SendPaginatedConfirmAsync(0, cur =>
+            {
+                var list = new List<string>();
+                foreach (var i in result.Books.Skip(cur).FirstOrDefault().Tags)
+                {
+                    list.Add($"[{i.Name}](https://nhentai.net{i.Url})");
+                }
+                return new EmbedBuilder().WithOkColor()
+                    .WithTitle(result.Books.Skip(cur).FirstOrDefault().Titles.English)
+                    .WithDescription(string.Join("|", list.Take(20)))
+                    .AddField("Nhentai Magic Number", result.Books.Skip(cur).FirstOrDefault().Id)
+                    .AddField("Nhentai Magic URL", $"https://nhentai.net/g/{result.Books.Skip(cur).FirstOrDefault().Id}")
+                    .WithImageUrl(result.Books.Skip(cur).FirstOrDefault().GetCover());
+            }, result.Books.ToArray().Length, 1).ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task NHentaiSearch([Remainder] string search)
+            => await InternalNHentaiSearch(search);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task NHentaiSearch([Remainder] string search, string blacklist)
+            => await InternalNHentaiSearch(search, 1, blacklist);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task NHentaiSearch(string search, int page)
+            => await InternalNHentaiSearch(search, page);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task NHentaiSearch(string search, int page, string type)
+            => await InternalNHentaiSearch(search, page, type);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task NHentaiSearch(string search, int page, string type, [Remainder]string blacklist)
+            => await InternalNHentaiSearch(search, page, type, blacklist);
         [MewdekoCommand]
         [Usage]
         [Description]

@@ -206,15 +206,15 @@ namespace Mewdeko.Modules.Music.Common
                         if (ac == null)
                         {
                             _log.Info("Can't join");
-                            await Task.Delay(900, cancelToken).ConfigureAwait(false);
+                            await Task.Delay(200, cancelToken).ConfigureAwait(false);
                             // just wait some time, maybe bot doesn't even have perms to join that voice channel,
                             // i don't want to spam connection attempts
                             continue;
                         }
 
                         b.StartBuffering();
-                        await Task.WhenAny(Task.Delay(1000), b.PrebufferingCompleted.Task).ConfigureAwait(false);
-                        pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1, packetLoss: 5);
+                        await Task.WhenAny(Task.Delay(200), b.PrebufferingCompleted.Task).ConfigureAwait(false);
+                        pcm = ac.CreatePCMStream(AudioApplication.Music, bufferMillis: 1, packetLoss: 0);
                         _log.Info("Created pcm stream");
                         OnStarted?.Invoke(this, data);
 

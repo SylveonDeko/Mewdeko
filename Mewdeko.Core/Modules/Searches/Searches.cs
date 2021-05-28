@@ -297,9 +297,8 @@ namespace Mewdeko.Modules.Searches
         public async Task RandomReddit(string subreddit)
         {
             var chan = ctx.Channel as ITextChannel;
-            var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, null);
+            var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "20");
             var api = new DeepAI_API("507ceac5-763f-4430-be44-5b1a81462409");
-
             var resp = api.callStandardApi("nsfw-detector", new
             {
                 image = image.ImageUrl

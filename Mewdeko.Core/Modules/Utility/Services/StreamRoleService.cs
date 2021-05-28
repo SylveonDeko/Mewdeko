@@ -235,12 +235,12 @@ namespace Mewdeko.Modules.Utility.Services
 
         private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
         {
-            if (user.Activity is StreamingGame g
-                && g != null
+            if (user.Activities.FirstOrDefault()?.Type is ActivityType.Streaming 
+                && user.Activities.FirstOrDefault() != null
                 && setting.Enabled
                 && setting.Blacklist.All(x => x.UserId != user.Id) && user.RoleIds.Contains(setting.FromRoleId)
                 && (string.IsNullOrWhiteSpace(setting.Keyword)
-                    || g.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
+                    || user.Activities.FirstOrDefault().Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
                     || setting.Whitelist.Any(x => x.UserId == user.Id)))
             {
                 try
