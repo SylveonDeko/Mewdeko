@@ -25,7 +25,13 @@ bye:
 createcatvcchans:
 - ccvc
 stealforrole:
- - sfr
+- sfr
+nhentaisearch:
+- nhsearch
+- nhs
+nhentai:
+- nh
+- nhentai
 createcatandvcchannels:
 - ccavc
 createcattxtchans:

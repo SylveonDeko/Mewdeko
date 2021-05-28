@@ -181,7 +181,7 @@ namespace Mewdeko.Modules.Utility.Services
                 if (GetSnipeSet(((SocketTextChannel) ch).Guild.Id) == 0) return;
 
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
-                if (msg.Author.IsBot) return;
+                if (msg is not null && msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
                 if (!user.IsBot)
                 {
@@ -210,7 +210,7 @@ namespace Mewdeko.Modules.Utility.Services
                 if (GetSnipeSet(((SocketTextChannel) ch).Guild.Id) == 0) return;
 
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
-                if (msg.Author.IsBot) return;
+                if (msg is not null && msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(msg.Author.Id);
                 if (!user.IsBot)
                 {

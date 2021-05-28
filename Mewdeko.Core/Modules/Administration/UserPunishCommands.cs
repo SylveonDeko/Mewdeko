@@ -116,7 +116,7 @@ namespace Mewdeko.Modules.Administration
 
                 try
                 {
-                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                    await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("Warned in " + ctx.Guild)
                             .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
@@ -542,7 +542,7 @@ namespace Mewdeko.Modules.Administration
                     var toDmUser = _service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
                     if (!(toDmUser is null))
                     {
-                        var userChannel = await user.GetOrCreateDMChannelAsync();
+                        var userChannel = await user.CreateDMChannelAsync();
                         await userChannel.EmbedAsync(toDmUser);
                     }
                 }
@@ -633,7 +633,7 @@ namespace Mewdeko.Modules.Administration
 
             private async Task InternalBanMessageTest(string reason, TimeSpan? duration)
             {
-                var dmChannel = await ctx.User.GetOrCreateDMChannelAsync();
+                var dmChannel = await ctx.User.CreateDMChannelAsync();
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
                 var embed = _service.GetBanUserDmEmbed(Context,
                     (IGuildUser) Context.User,

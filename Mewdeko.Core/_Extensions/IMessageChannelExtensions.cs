@@ -18,6 +18,11 @@ namespace Mewdeko.Extensions
             return ch.SendMessageAsync(msg, embed: embed.Build(),
                 options: new RequestOptions {RetryMode = RetryMode.AlwaysRetry});
         }
+        public static Task<IUserMessage> EmbedAsync(this IUser ch, EmbedBuilder embed, string msg = "")
+        {
+            return ch.SendMessageAsync(msg, embed: embed.Build(),
+                options: new RequestOptions { RetryMode = RetryMode.AlwaysRetry });
+        }
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error,
             string url = null, string footer = null)
@@ -105,8 +110,6 @@ namespace Mewdeko.Extensions
             await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
             await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
 
-            await Task.Delay(2000).ConfigureAwait(false);
-
             var lastPageChange = DateTime.MinValue;
 
             async Task changePage(SocketReaction r)
@@ -114,8 +117,6 @@ namespace Mewdeko.Extensions
                 try
                 {
                     if (r.UserId != ctx.User.Id)
-                        return;
-                    if (DateTime.UtcNow - lastPageChange < TimeSpan.FromSeconds(1))
                         return;
                     if (r.Emote.Name == arrow_left.Name)
                     {
@@ -147,21 +148,7 @@ namespace Mewdeko.Extensions
 
             using (msg.OnReaction((DiscordSocketClient) ctx.Client, changePage, changePage))
             {
-                await Task.Delay(30000).ConfigureAwait(false);
-            }
-
-            try
-            {
-                if (msg.Channel is ITextChannel &&
-                    ((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
-                    await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
-                else
-                    await Task.WhenAll(msg.Reactions.Where(x => x.Value.IsMe)
-                        .Select(x => msg.RemoveReactionAsync(x.Key, ctx.Client.CurrentUser)));
-            }
-            catch
-            {
-                // ignored
+                await Task.Delay(3000000).ConfigureAwait(false);
             }
         }
 

@@ -157,39 +157,6 @@ namespace Mewdeko.Core.Services.Impl
                         // ignored
                     }
                 }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
-
-            _botlistTimer2 = new Timer(async state =>
-            {
-                try
-                {
-                    using (var http = _httpFactory.CreateClient())
-                    {
-                        using (var content = new FormUrlEncodedContent(
-                            new Dictionary<string, string>
-                            {
-                                {"guilds", client.Guilds.Count().ToString()},
-                                {"users", client.Guilds.Sum(x => x.MemberCount).ToString()}
-                            }))
-                        {
-                            content.Headers.Clear();
-                            content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                            http.DefaultRequestHeaders.Add("Authorization",
-                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
-
-                            using (await http
-                                .PostAsync(new Uri($"https://discordbotlist.com/api/v1/{client.CurrentUser.Id}/stats"),
-                                    content).ConfigureAwait(false))
-                            {
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex);
-                    // ignored
-                }
-            }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
         public string Library => "Discord.Net 2.4.0-20210508.2";

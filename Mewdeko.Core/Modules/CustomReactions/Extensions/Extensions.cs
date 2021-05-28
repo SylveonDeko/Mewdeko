@@ -105,7 +105,7 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
             DiscordSocketClient client, CustomReactionsService crs)
         {
             var channel = cr.DmResponse
-                ? await ctx.Author.GetOrCreateDMChannelAsync().ConfigureAwait(false)
+                ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
                 : ctx.Channel;
 
             if (CREmbed.TryParse(cr.Response, out var crembed))

@@ -35,7 +35,7 @@ namespace Mewdeko.Core.Services
             if (sendMessage)
                 try
                 {
-                    await (await user.GetOrCreateDMChannelAsync())
+                    await (await user.CreateDMChannelAsync())
                         .EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
                             .WithTitle($"Received {_config.BotConfig.CurrencySign}")

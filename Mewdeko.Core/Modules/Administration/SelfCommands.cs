@@ -537,14 +537,14 @@ namespace Mewdeko.Modules.Administration
                     if (CREmbed.TryParse(msg, out var crembed))
                     {
                         rep.Replace(crembed);
-                        await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false))
+                        await (await user.CreateDMChannelAsync().ConfigureAwait(false))
                             .EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
                             .ConfigureAwait(false);
                         await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
                         return;
                     }
 
-                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false))
+                    await (await user.CreateDMChannelAsync().ConfigureAwait(false))
                         .SendMessageAsync(rep.Replace(msg).SanitizeMentions()).ConfigureAwait(false);
                 }
                 else

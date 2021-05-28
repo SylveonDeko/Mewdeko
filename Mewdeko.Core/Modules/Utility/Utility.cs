@@ -560,7 +560,7 @@ namespace Mewdeko.Modules.Utility
 
             var rng = new MewdekoRandom();
             var arr = await Task.Run(() => socketGuild.Users
-                .Where(u => u.Activity?.Name?.ToUpperInvariant() == game)
+                .Where(u => u.Activities?.FirstOrDefault()?.Name.ToUpperInvariant() == game)
                 .Select(u => u.Username)
                 .OrderBy(x => rng.Next())
                 .Take(60)

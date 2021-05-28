@@ -632,10 +632,10 @@ namespace Mewdeko.Modules.Administration.Services
                                     return list;
                                 });
                         }
-                        else if (before.Activity?.Name != after.Activity?.Name)
+                        else if (before.Activities?.FirstOrDefault()?.Name != after.Activities?.FirstOrDefault()?.Name)
                         {
                             var str =
-                                $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activity?.Name ?? "-"}**.";
+                                $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activities?.FirstOrDefault()?.Name ?? "-"}**.";
                             PresenceUpdates.AddOrUpdate(logChannel,
                                 new List<string> {str}, (id, list) =>
                                 {

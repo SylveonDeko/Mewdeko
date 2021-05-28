@@ -79,17 +79,20 @@ namespace Mewdeko.Modules.Music.Services
             {
                 try
                 {
-                    _server = new EmbedIOAuthServer(new Uri("http://localhost:1234/callback"),
-                        1234);
-                    await _server.Start();
-
-                    _server.AuthorizationCodeReceived += OnAuthorizationCodeReceived;
-                    var request = new LoginRequest(_server.BaseUri, "dc237c779f55479fae3d5418c4bb392e",
-                        LoginRequest.ResponseType.Code)
+                    if (bot.Client.ShardId == 0)
                     {
-                        Scope = new List<string> {Scopes.UserReadEmail}
-                    };
-                    BrowserUtil.Open(request.ToUri());
+                        _server = new EmbedIOAuthServer(new Uri("http://localhost:1234/callback"),
+                            1234);
+                        await _server.Start();
+
+                        _server.AuthorizationCodeReceived += OnAuthorizationCodeReceived;
+                        var request = new LoginRequest(_server.BaseUri, "dc237c779f55479fae3d5418c4bb392e",
+                            LoginRequest.ResponseType.Code)
+                        {
+                            Scope = new List<string> {Scopes.UserReadEmail}
+                        };
+                        BrowserUtil.Open(request.ToUri());
+                    }
                 }
                 catch (Exception ex)
                 {

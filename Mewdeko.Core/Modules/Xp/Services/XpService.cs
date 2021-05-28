@@ -238,7 +238,7 @@ namespace Mewdeko.Modules.Xp.Services
                         {
                             if (x.NotifyType == XpNotificationLocation.Dm)
                             {
-                                var chan = await x.User.GetOrCreateDMChannelAsync();
+                                var chan = await x.User.CreateDMChannelAsync();
                                 if (chan != null)
                                     await chan.SendConfirmAsync(_strings.GetText("level_up_dm",
                                         x.Guild.Id,
@@ -256,7 +256,7 @@ namespace Mewdeko.Modules.Xp.Services
                         {
                             IMessageChannel chan;
                             if (x.NotifyType == XpNotificationLocation.Dm)
-                                chan = await x.User.GetOrCreateDMChannelAsync();
+                                chan = await x.User.CreateDMChannelAsync();
                             else // channel
                                 chan = x.MessageChannel;
 
