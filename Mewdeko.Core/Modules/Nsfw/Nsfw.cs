@@ -152,7 +152,7 @@ namespace Mewdeko.Modules.NSFW
                     e = Sort.Popular;
                     break;
             }
-            NHentai.NET.Models.Searches.SearchResult result = await client.SearchQueryAsync(page, e, search, exclude + " -lolicon");
+            NHentai.NET.Models.Searches.SearchResult result = await client.SearchQueryAsync(page, e, search, exclude + " -lolicon -loli");
             if (!result.Books.Any())
             {
                 await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");
