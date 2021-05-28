@@ -189,7 +189,7 @@ namespace Mewdeko.Modules.NSFW
         [Alias]
         [RequireContext(ContextType.Guild)]
         [RequireNsfw]
-        public async Task NHentaiSearch([Remainder] string search, string blacklist)
+        public async Task NHentaiSearch(string search, [Remainder]string blacklist)
             => await InternalNHentaiSearch(search, 1, blacklist);
         [MewdekoCommand]
         [Usage]
