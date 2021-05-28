@@ -130,6 +130,17 @@ namespace Mewdeko.Modules.NSFW
             Book book = await client.SearchBookAsync(num);
             string title = book.Titles.English;
             IEnumerable<string> pages = book.GetPages();
+            var tags = new List<string>();
+            foreach (var i in book.Tags)
+            {
+                tags.Add(i.Name);
+            }
+            if (tags.Contains("lolicon") || tags.Contains("loli"))
+            {
+                await ctx.Channel.SendErrorAsync("This manga contains loli content and is not allowed by discord TOS!");
+                return;
+            }
+
             await ctx.SendPaginatedConfirmAsync(page, cur =>
             {
                 var enumerable = pages as string[] ?? pages.ToArray();
