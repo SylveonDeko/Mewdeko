@@ -168,8 +168,9 @@ namespace Mewdeko.Modules.NSFW
                 return new EmbedBuilder().WithOkColor()
                     .WithTitle(result.Books.Skip(cur).FirstOrDefault().Titles.English)
                     .WithDescription(string.Join("|", list.Take(20)))
-                    .AddField("Nhentai Magic Number", result.Books.Skip(cur).FirstOrDefault().Id)
-                    .AddField("Nhentai Magic URL", $"https://nhentai.net/g/{result.Books.Skip(cur).FirstOrDefault().Id}")
+                    .AddField("NHentai Magic Number", result.Books.Skip(cur).FirstOrDefault().Id)
+                    .AddField("NHentai Magic URL", $"https://nhentai.net/g/{result.Books.Skip(cur).FirstOrDefault().Id}")
+                    .AddField("Pages", result.Books.Skip(cur).FirstOrDefault().PagesCount)
                     .WithImageUrl(result.Books.Skip(cur).FirstOrDefault().GetCover());
             }, result.Books.ToArray().Length, 1).ConfigureAwait(false);
         }
