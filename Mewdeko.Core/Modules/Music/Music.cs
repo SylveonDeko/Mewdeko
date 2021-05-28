@@ -319,9 +319,7 @@ namespace Mewdeko.Modules.Music
         public async Task Lyrics([Remainder] string songname = null)
         {
             string name;
-            MusicPlayer mp = null;
-            if(ctx.User.)
-            mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
+            var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
             var (_, currentSong) = mp.Current;
             switch (songname)
             {
@@ -342,6 +340,7 @@ namespace Mewdeko.Modules.Music
                 return new EmbedBuilder().WithOkColor()
                     .WithTitle(Format.Bold(
                         $"{lyrics.Data.Skip(cur).FirstOrDefault().Artist} - {lyrics.Data.Skip(cur).FirstOrDefault().Name}"))
+
                     .WithDescription(lyrics.Data.Skip(cur).FirstOrDefault().Lyrics);
             }, lyrics.Data.ToArray().Length, 1).ConfigureAwait(false);
         }
