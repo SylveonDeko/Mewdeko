@@ -259,6 +259,118 @@ namespace Mewdeko.Modules.Music.Services
                 return mp;
             });
         }
+        public Task<MusicPlayer> GetOrCreatePlayer2(ICommandContext context)
+        {
+            var gUsr = (IGuildUser)context.User;
+            var txtCh = (ITextChannel)context.Channel;
+            var vCh = gUsr.VoiceChannel;
+            return GetOrCreatePlayer2(context.Guild.Id, vCh, txtCh);
+        }
+
+        public async Task<MusicPlayer> GetOrCreatePlayer2(ulong guildId, IVoiceChannel voiceCh, ITextChannel textCh)
+        {
+            string GetText(string text, params object[] replacements)
+            {
+                return _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(),
+                    replacements);
+            }
+
+            if (voiceCh == null || voiceCh.Guild != textCh.Guild)
+            {
+                throw new NotInVoiceChannelException();
+            }
+
+            return MusicPlayers.GetOrAdd(guildId, _ =>
+            {
+                var vol = GetDefaultVolume(guildId);
+                if (!_musicSettings.TryGetValue(guildId, out var ms))
+                    ms = new MusicSettings();
+
+                var mp = new MusicPlayer(this, ms, _google, voiceCh, textCh, vol);
+
+                IUserMessage playingMessage = null;
+                IUserMessage lastFinishedMessage = null;
+
+                mp.OnCompleted += async (s, song) =>
+                {
+                    try
+                    {
+                        lastFinishedMessage?.DeleteAfter(0);
+
+                        try
+                        {
+                            lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                    .WithAuthor(eab => eab.WithName(GetText("finished_song")).WithMusicIcon())
+                                    .WithDescription(song.PrettyName)
+                                    .WithFooter(ef => ef.WithText(song.PrettyInfo)))
+                                .ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+
+                        var (Index, Current) = mp.Current;
+                        if (Current == null
+                            && !mp.RepeatCurrentSong
+                            && !mp.RepeatPlaylist
+                            && !mp.FairPlay
+                            && AutoDcServers.Contains(guildId))
+                            await DestroyPlayer(guildId).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                };
+                mp.OnStarted += async (player, song) =>
+                {
+                    //try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
+                    //catch
+                    //{
+                    //    // ignored
+                    //}
+                    var sender = player;
+                    if (sender == null)
+                        return;
+                    try
+                    {
+                        playingMessage?.DeleteAfter(0);
+
+                        playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                .WithAuthor(
+                                    eab => eab.WithName(GetText("playing_song", song.Index + 1)).WithMusicIcon())
+                                .WithDescription(song.Song.PrettyName)
+                                .WithImageUrl(song.Song.Thumbnail)
+                                .WithFooter(ef => ef.WithText(mp.PrettyVolume + " | " + song.Song.PrettyInfo)))
+                            .ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                };
+                mp.OnPauseChanged += async (player, paused) =>
+                {
+                    try
+                    {
+                        IUserMessage msg;
+                        if (paused)
+                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("paused")).ConfigureAwait(false);
+                        else
+                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("resumed")).ConfigureAwait(false);
+
+                        msg?.DeleteAfter(10);
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                };
+                _log.Info("Done creating");
+                return mp;
+            });
+        }
 
         public MusicPlayer GetPlayerOrDefault(ulong guildId)
         {

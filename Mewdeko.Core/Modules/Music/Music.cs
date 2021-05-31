@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AngleSharp.Html.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -235,7 +236,228 @@ namespace Mewdeko.Modules.Music
                 await ctx.Channel.SendMessageAsync(ex.ToString());
             }
         }
+        private async Task InternalSpotifySongNameSearch([Remainder] string query = null)
+        {
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                var config = SpotifyClientConfig.CreateDefault();
 
+                var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e",
+                    "db01b63b808040efbdd02098e0840d90");
+                var response = await new OAuthClient(config).RequestToken(request);
+
+                var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+                var cl = spotify.Search;
+                var e = new SearchRequest(SearchRequest.Types.Track, query);
+                try
+                {
+                    var ee = await cl.Item(e);
+                    var t = ee.Tracks.Items;
+                    if (!t.Any())
+                    {
+                        await ctx.Channel.SendErrorAsync(
+                            "No tracks found, Please refine your search and try again");
+                        return;
+                    }
+
+                    await ctx.SendPaginatedConfirmAsync(0, cur =>
+                    {
+                        var l = new List<string>();
+                        foreach (var i in t.Skip(cur).FirstOrDefault().Artists) l.Add(i.Name);
+                        var l2 = new List<string>();
+                        foreach (var i in t.Skip(cur).FirstOrDefault().Album.Images) l2.Add(i.Url);
+
+                        var url = t.Skip(cur).FirstOrDefault().Uri.Split(":");
+                        var eb = new EmbedBuilder();
+                        eb.WithOkColor()
+                            .WithTitle(Format.Bold(
+                                $"{t.Skip(cur).FirstOrDefault().Name}"))
+                            .WithImageUrl(l2.FirstOrDefault())
+                            .AddField("Album", t.Skip(cur).FirstOrDefault().Album.Name)
+                            .AddField("Album Tracks", t.Skip(cur).FirstOrDefault().Album.TotalTracks)
+                            .AddField("Album Date", t.Skip(cur).FirstOrDefault().Album.ReleaseDate)
+                            .AddField("Artist(s)", string.Join("\n", l))
+                            .AddField("Popularity", t.Skip(cur).FirstOrDefault().Popularity + "/100")
+                            .AddField("Spotify Url", $"https://open.spotify.com/track/{url[2]}");
+                        if (t.Skip(cur).FirstOrDefault().PreviewUrl is not null)
+                            eb.AddField("Spotify Preview URL", t.Skip(cur).FirstOrDefault().PreviewUrl);
+                        return eb;
+                    }, t.ToArray().Length, 1).ConfigureAwait(false);
+                }
+                catch (APIException)
+                {
+                    await ctx.Channel.SendErrorAsync(
+                        "The song you searched for couldn't be found, please try better search parameters.");
+                }
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync(
+                    "You are not currently playing a song and haven't specified a song to search for.");
+            }
+        }
+
+        private async Task SpotifySongUrlInfo(string query)
+        {
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e",
+                "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+            var e = new Uri(query);
+            var t = e.Segments;
+            var playlist = await spotify.Tracks.Get(t[2]);
+            var l = new List<string>();
+            foreach (var i in playlist.Artists) l.Add(i.Name);
+            var l2 = new List<string>();
+            foreach (var i in playlist.Album.Images) l2.Add(i.Url);
+
+            var url = playlist.Uri.Split(":");
+            var eb = new EmbedBuilder();
+            eb.WithOkColor()
+                .WithTitle(Format.Bold(
+                    $"{playlist.Name}"))
+                .WithImageUrl(l2.FirstOrDefault())
+                .AddField("Album", playlist.Album.Name)
+                .AddField("Album Tracks", playlist.Album.TotalTracks)
+                .AddField("Album Date", playlist.Album.ReleaseDate)
+                .AddField("Artist(s)", string.Join("\n", l))
+                .AddField("Popularity", playlist.Popularity + "/100")
+                .AddField("Spotify Url", $"https://open.spotify.com/track/{url[2]}");
+            if (playlist.PreviewUrl is not null)
+                eb.AddField("Spotify Preview URL", playlist.PreviewUrl);
+            ctx.Channel.SendMessageAsync(embed: eb.Build());
+
+        }
+        private async Task SpotifyPlaylistUrlInfo(string query)
+        {
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e",
+                "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+            var e = new Uri(query);
+            var t = e.Segments;
+            var playlist = await spotify.Playlists.Get(t[2]);
+            var images = new List<string>();
+            if (playlist.Images.Any())
+            {
+                foreach (var i in playlist.Images)
+                {
+                    images.Add(i.Url);
+                }
+            }
+
+            var Externals = new List<string>();
+            if (playlist.ExternalUrls.Any())
+            {
+                foreach (var i in playlist.ExternalUrls)
+                {
+                    Externals.Add($"{i.Value} || {i.Key.ToTitleCase()}");
+                }
+            }
+            var eb = new EmbedBuilder();
+            eb.WithOkColor();
+            eb.Title = playlist.Name;
+            eb.AddField("Created By", playlist.Owner.DisplayName);
+            eb.AddField("Was Made With Others", playlist.Collaborative);
+            if (Externals.Any())
+            {
+                eb.AddField("External Links", string.Join("\n", Externals));
+            }
+            eb.AddField("Public", playlist.Public);
+            if (playlist.Description is not null)
+            {
+                eb.AddField("Playlist Description", playlist.Description);
+            }
+            else eb.AddField("Playlist Description", "None");
+            if (images.Any())
+            {
+                eb.WithImageUrl(images.FirstOrDefault());
+            }
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+
+        private async Task SpotifyUserUrlSearch(string query)
+        {
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e",
+                "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+            var e = new Uri(query);
+            var t = e.Segments;
+            var playlist = await spotify.UserProfile.Get(t[2]);
+            var Externals = new List<string>();
+            if (playlist.ExternalUrls.Any())
+            {
+                foreach (var i in playlist.ExternalUrls)
+                {
+                    Externals.Add($"{i.Value} || {i.Key.ToTitleCase()}");
+                }
+            }
+            var images = new List<string>();
+            if (playlist.Images.Any())
+            {
+                foreach (var i in playlist.Images)
+                {
+                    images.Add(i.Url);
+                }
+            }
+            var eb = new EmbedBuilder();
+            eb.WithTitle(playlist.DisplayName);
+            eb.AddField("Followers", playlist.Followers);
+            eb.AddField("External Accounts", string.Join("\n", Externals));
+            eb.AddField("Href", playlist.Href);
+            if (images.Any())
+            {
+                eb.WithImageUrl(images.FirstOrDefault());
+            }
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SpotifyInfo(string url, [Remainder]string query = null)
+        {
+            if (url.StartsWith("https"))
+            {
+                if (url.StartsWith("https://open.spotify.com/track"))
+                {
+                    await SpotifySongUrlInfo(url);
+                }
+
+                if (url.StartsWith("https://open.spotify.com/playlist"))
+                {
+                    await SpotifyPlaylistUrlInfo(url);
+                }
+
+                if (url.StartsWith("https://open.spotify.com/user"))
+                {
+
+                }
+            }
+            if (query is not null)
+            {
+                switch (url.ToLower())
+                {
+                    case "song":
+                        await InternalSpotifySongNameSearch(query);
+                        break;
+                    default:
+                        await ctx.Channel.SendErrorAsync(
+                            "You did not input a valid type. The valid types are Song, Playlist, User");
+                        break;
+                }
+            }
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -243,13 +465,13 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Play([Remainder] string query = null)
         {
-            if (query.StartsWith("https://open.spotify.com/track"))
+            if (query is not null && query.StartsWith("https://open.spotify.com/track"))
             {
                 await Spotify(query);
                 return;
             }
 
-            if (query.StartsWith("https://open.spotify.com/playlist"))
+            if (query is not null && query.StartsWith("https://open.spotify.com/playlist"))
             {
                 await SpotifyPlaylist(query);
                 return;

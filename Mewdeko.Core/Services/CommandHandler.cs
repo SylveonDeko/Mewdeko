@@ -358,7 +358,7 @@ namespace Mewdeko.Core.Services
                         var em = new List<Embed>();
                         var embed = new EmbedBuilder();
                         embed.Description =
-                            $"User [{usrMsg.Author}] executed [{usrMsg.Content}] in [{beh.GetType().Name}]";
+                            $"User [{usrMsg.Author}] || [{usrMsg.Author.Id}] executed [{usrMsg.Content}] in [{beh.GetType().Name}]";
                         embed.Color = Mewdeko.ErrorColor;
                         em.Add(embed.Build());
                         var web = new DiscordWebhookClient(
