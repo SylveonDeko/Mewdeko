@@ -27,9 +27,9 @@ namespace Mewdeko.Modules.Music.Services
     public class MusicService : INService, IUnloadableService
     {
         public const string MusicDataPath = "data/musicdata";
-        public static string token;
-        private static EmbedIOAuthServer _server;
-        private readonly Timer _botlistTimer;
+        //public static string token;
+        //private static EmbedIOAuthServer _server;
+        //private readonly Timer _botlistTimer;
 
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
@@ -75,31 +75,31 @@ namespace Mewdeko.Modules.Music.Services
                 new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(x => x.AutoDcFromVc).Select(x => x.GuildId));
 
             Directory.CreateDirectory(MusicDataPath);
-            _botlistTimer = new Timer(async state =>
-            {
-                try
-                {
-                    if (bot.Client.ShardId == 0)
-                    {
-                        _server = new EmbedIOAuthServer(new Uri("http://localhost:1234/callback"),
-                            1234);
-                        await _server.Start();
+            //_botlistTimer = new Timer(async state =>
+            //{
+            //    try
+            //    {
+            //        if (bot.Client.ShardId == 0)
+            //        {
+            //            _server = new EmbedIOAuthServer(new Uri("http://localhost:1234/callback"),
+            //                1234);
+            //            await _server.Start();
 
-                        _server.AuthorizationCodeReceived += OnAuthorizationCodeReceived;
-                        var request = new LoginRequest(_server.BaseUri, "***REMOVED***",
-                            LoginRequest.ResponseType.Code)
-                        {
-                            Scope = new List<string> {Scopes.UserReadEmail}
-                        };
-                        BrowserUtil.Open(request.ToUri());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex);
-                    // ignored
-                }
-            }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
+            //            _server.AuthorizationCodeReceived += OnAuthorizationCodeReceived;
+            //            var request = new LoginRequest(_server.BaseUri, "***REMOVED***",
+            //                LoginRequest.ResponseType.Code)
+            //            {
+            //                Scope = new List<string> {Scopes.UserReadEmail}
+            //            };
+            //            BrowserUtil.Open(request.ToUri());
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _log.Error(ex);
+            //        // ignored
+            //    }
+            //}, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
         }
 
 
@@ -113,21 +113,21 @@ namespace Mewdeko.Modules.Music.Services
             return Task.CompletedTask;
         }
 
-        private static async Task OnAuthorizationCodeReceived(object sender, AuthorizationCodeResponse response)
-        {
-            await _server.Stop();
-            _server.Dispose();
+        //private static async Task OnAuthorizationCodeReceived(object sender, AuthorizationCodeResponse response)
+        //{
+        //    await _server.Stop();
+        //    _server.Dispose();
 
-            var config = SpotifyClientConfig.CreateDefault();
-            var tokenResponse = await new OAuthClient(config).RequestToken(
-                new AuthorizationCodeTokenRequest(
-                    "***REMOVED***", "***REMOVED***", response.Code,
-                    new Uri("http://localhost:1234/callback")
-                )
-            );
+        //    var config = SpotifyClientConfig.CreateDefault();
+        //    var tokenResponse = await new OAuthClient(config).RequestToken(
+        //        new AuthorizationCodeTokenRequest(
+        //            "***REMOVED***", "***REMOVED***", response.Code,
+        //            new Uri("http://localhost:1234/callback")
+        //        )
+        //    );
 
-            token = tokenResponse.AccessToken;
-        }
+        //    token = tokenResponse.AccessToken;
+        //}
 
         private Task _client_LeftGuild(SocketGuild arg)
         {
