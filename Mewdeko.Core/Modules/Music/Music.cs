@@ -149,10 +149,15 @@ namespace Mewdeko.Modules.Music
                     }
         }
 
-        public async Task SpotifyPlaylist(string url = null)
+        private async Task SpotifyPlaylist(string url = null)
         {
             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
-            var spotify = new SpotifyClient(MusicService.token);
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
             var e = new Uri(url);
             if (!e.Host.Contains("open.spotify.com"))
             {
@@ -199,13 +204,18 @@ namespace Mewdeko.Modules.Music
             }
         }
 
-        public async Task Spotify(string url = null)
+        private async Task Spotify(string url = null)
         {
-            var spotify = new SpotifyClient(MusicService.token);
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
             var e = new Uri(url);
             if (!e.Host.Contains("open.spotify.com"))
             {
-                await ctx.Channel.SendErrorAsync("This != a valid spotify link!");
+                await ctx.Channel.SendErrorAsync("This is not a valid spotify link!");
                 return;
             }
 
