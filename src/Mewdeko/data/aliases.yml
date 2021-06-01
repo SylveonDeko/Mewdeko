@@ -3,8 +3,6 @@ h:
 - h
 gencmdlist:
 - gencmdlist
-afkremove:
-- afkrm
 donate:
 - donate
 modules:
@@ -22,6 +20,8 @@ greetmsg:
 - greetmsg
 bye:
 - bye
+byemsg:
+- byemsg
 createcatvcchans:
 - ccvc
 stealforrole:
@@ -39,8 +39,6 @@ createcattxtchans:
 - cctc
 createcatandtxtchannels:
 - ccatc
-byemsg:
-- byemsg
 byedel:
 - byedel
 greetdm:
@@ -230,8 +228,6 @@ remindlist:
 - remindlist
 - remindl
 - remindlst
-remindtemplate:
-- remindtemplate
 serverinfo:
 - serverinfo
 - sinfo
@@ -445,8 +441,8 @@ next:
 - n
 play:
 - play
-- start
 - p
+- start
 stop:
 - stop
 - s
@@ -459,6 +455,7 @@ queue:
 - queue
 - q
 - yq
+- enqueue
 queuenext:
 - queuenext
 - qn
@@ -496,7 +493,9 @@ radio:
 local:
 - local
 - lo
-move:
+join:
+- join
+- j
 - move
 - mv
 songremove:
@@ -505,14 +504,12 @@ songremove:
 movesong:
 - movesong
 - ms
-setmaxqueue:
-- setmaxqueue
-- smq
 reptcursong:
 - reptcursong
 - rcs
-playlistrepeat:
-- playlistrepeat
+queuerepeat:
+- queuerepeat
+- qrp
 - rpl
 save:
 - save
@@ -529,9 +526,6 @@ playlistshow:
 deleteplaylist:
 - deleteplaylist
 - delpls
-autoplay:
-- autoplay
-- ap
 streamadd:
 - streamadd
 - sta
@@ -753,9 +747,6 @@ placelist:
 - placelist
 place:
 - place
-togethertube:
-- togethertube
-- totube
 poll:
 - poll
 - ppoll
@@ -802,18 +793,12 @@ logevents:
 - logevents
 log:
 - log
-fairplay:
-- fairplay
-- fp
 songautodelete:
 - songautodelete
 - sad
 define:
 - define
 - def
-setmaxplaytime:
-- setmaxplaytime
-- smp
 activity:
 - activity
 autohentai:
@@ -879,8 +864,6 @@ unsetmusicchannel:
 - usmch
 imagesreload:
 - imagesreload
-botconfigreload:
-- botconfigreload
 stringsreload:
 - stringsreload
 shardstats:
@@ -910,6 +893,8 @@ crreact:
 - crr
 crad:
 - crad
+crat:
+  - crat
 crdm:
 - crdm
 crca:
@@ -931,21 +916,26 @@ warn:
 - warn
 startupcommandadd:
 - scadd
+- startcmdadd
 autocommandadd:
+- acadd
 - autocmdadd
 startupcommandremove:
 - scrm
+- startcmdrm
+autocommandremove:
+- acrm
 - autocmdrm
-- autorm
 startupcommandsclear:
 - scclear
 - scclr
 startupcommandslist:
 - sclist
-autocommands:
-- autocommands
-- autocmds
+- startcmdlist
+autocommandslist:
+- aclist
 - autolist
+- autocommands
 - autocmdlist
 unban:
 - unban
@@ -979,13 +969,23 @@ ping:
 - ping
 time:
 - time
+shop:
+  - shop
 shopadd:
 - shopadd
 shopremove:
 - shopremove
 - shoprm
-shop:
-- shop
+shopchangeprice:
+- shopchangeprice
+- shopprice
+shopchangename:
+- shopchangename
+- shopname
+shopswap:
+- shopswap
+shopmove:
+- shopmove
 buy:
 - buy
 gamevoicechannel:
@@ -1026,6 +1026,14 @@ streamrolewhitelist:
 botconfigedit:
 - botconfigedit
 - bce
+config:
+- config
+- conf
+configreload:
+- configreload 
+- creload
+- confreload
+- crel
 nsfwtagblacklist:
 - nsfwtagbl
 - nsfwtbl
@@ -1044,8 +1052,6 @@ xpexclude:
 xpnotify:
 - xpnotify
 - xpn
-stealemotes:
-- steal
 xpleveluprewards:
 - xplvluprewards
 - xprews
@@ -1150,9 +1156,6 @@ rafflecur:
 - rafflecur
 rip:
 - rip
-autodisconnect:
-- autodisconnect
-- autodc
 timelyset:
 - timelyset
 timely:
