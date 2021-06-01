@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Mewdeko.Core.Services.Database.Models;
 using Newtonsoft.Json;
-using NLog;
+using Serilog;
 
 #nullable enable
 namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
@@ -14,18 +14,16 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
     public class TwitchProvider : Provider
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly Logger _log;
+
+        private static Regex Regex { get; } = new Regex(@"twitch.tv/(?<name>.+[^/])/?",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        public override FollowedStream.FType Platform => FollowedStream.FType.Twitch;
 
         public TwitchProvider(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _log = LogManager.GetCurrentClassLogger();
         }
-
-        private static Regex Regex { get; } = new(@"twitch.tv/(?<name>.+[^/])/?",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        public override FollowedStream.FType Platform => FollowedStream.FType.Twitch;
 
         public override Task<bool> IsValidUrl(string url)
         {
@@ -68,12 +66,13 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
                 var toReturn = new List<StreamData>();
                 foreach (var login in logins)
+                {
                     try
                     {
                         // get id based on the username
                         var idsStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/users?login={login}");
                         var userData = JsonConvert.DeserializeObject<TwitchUsersResponseV5>(idsStr);
-                        var user = userData?.Users.FirstOrDefault();
+                        var user = userData.Users.FirstOrDefault();
 
                         // if user can't be found, skip, it means there is no such user
                         if (user is null)
@@ -85,24 +84,23 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                             JsonConvert.DeserializeAnonymousType(str, new {Stream = new TwitchResponseV5.Stream()});
 
                         // if stream is null, user is not streaming
-                        if (resObj?.Stream is null)
+                        if (resObj.Stream is null)
                         {
                             // if user is not streaming, get his offline banner
                             var chStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/channels/{user.Id}");
                             var ch = JsonConvert.DeserializeObject<TwitchResponseV5.Channel>(chStr);
-
-                            if (ch != null)
-                                toReturn.Add(new StreamData
-                                {
-                                    StreamType = FollowedStream.FType.Twitch,
-                                    Name = ch.DisplayName,
-                                    UniqueName = ch.Name,
-                                    Title = ch.Status,
-                                    IsLive = false,
-                                    AvatarUrl = ch.Logo,
-                                    StreamUrl = $"https://twitch.tv/{ch.Name}",
-                                    Preview = ch.VideoBanner // set video banner as the preview,
-                                });
+                            
+                            toReturn.Add(new StreamData
+                            {
+                                StreamType = FollowedStream.FType.Twitch,
+                                Name = ch.DisplayName,
+                                UniqueName = ch.Name,
+                                Title = ch.Status,
+                                IsLive = false,
+                                AvatarUrl = ch.Logo,
+                                StreamUrl = $"https://twitch.tv/{ch.Name}",
+                                Preview = ch.VideoBanner // set video banner as the preview,
+                            });
                             continue; // move on
                         }
 
@@ -111,9 +109,10 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                     }
                     catch (Exception ex)
                     {
-                        _log.Warn($"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                        Log.Warning($"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
                         _failingStreams.TryAdd(login, DateTime.UtcNow);
                     }
+                }
 
                 return toReturn;
             }
@@ -121,7 +120,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         private StreamData ToStreamData(TwitchResponseV5.Stream stream)
         {
-            return new()
+            return new StreamData()
             {
                 StreamType = FollowedStream.FType.Twitch,
                 Name = stream.Channel.DisplayName,

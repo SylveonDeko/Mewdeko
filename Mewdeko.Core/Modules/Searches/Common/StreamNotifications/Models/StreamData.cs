@@ -15,9 +15,6 @@ namespace Mewdeko.Core.Modules.Searches.Common
         public string StreamUrl { get; set; }
         public string AvatarUrl { get; set; }
 
-        public StreamDataKey CreateKey()
-        {
-            return new(StreamType, UniqueName.ToLower());
-        }
+        public StreamDataKey CreateKey() => new StreamDataKey(StreamType, UniqueName.ToLower());
     }
 }

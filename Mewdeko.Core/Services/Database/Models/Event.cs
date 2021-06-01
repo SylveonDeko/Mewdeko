@@ -7,8 +7,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public enum Type
         {
             Reaction,
-
-            GameStatus
+            GameStatus,
             //NotRaid,
         }
 
@@ -18,34 +17,31 @@ namespace Mewdeko.Core.Services.Database.Models
         public Type EventType { get; set; }
 
         /// <summary>
-        ///     Amount of currency that the user will be rewarded.
+        /// Amount of currency that the user will be rewarded.
         /// </summary>
         public long Amount { get; set; }
-
         /// <summary>
-        ///     Maximum amount of currency that can be handed out.
+        /// Maximum amount of currency that can be handed out.
         /// </summary>
         public long PotSize { get; set; }
-
         public List<AwardedUser> AwardedUsers { get; set; }
 
         /// <summary>
-        ///     Used as extra data storage for events which need it.
+        /// Used as extra data storage for events which need it.
         /// </summary>
         public ulong ExtraId { get; set; }
-
         /// <summary>
-        ///     May be used for some future event.
+        /// May be used for some future event.
         /// </summary>
         public ulong ExtraId2 { get; set; }
-
         /// <summary>
-        ///     May be used for some future event.
+        /// May be used for some future event.
         /// </summary>
         public string ExtraString { get; set; }
     }
 
     public class AwardedUser
     {
+
     }
 }

@@ -1,23 +1,37 @@
-﻿using NLog;
-using NLog.Config;
-using NLog.Targets;
+﻿using System;
+using System.Text;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Mewdeko.Core.Services
 {
     public static class LogSetup
     {
-        public static void SetupLogger(int shardId)
+        public static void SetupLogger(object source)
         {
-            var logConfig = new LoggingConfiguration();
-            var consoleTarget = new ColoredConsoleTarget
-            {
-                Layout = shardId + @" ${date:format=HH\:mm\:ss} ${logger:shortName=True} | ${message}"
-            };
-            logConfig.AddTarget("Console", consoleTarget);
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("System", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(LogEventLevel.Information,
+                    theme: GetTheme(),
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
+                .Enrich.WithProperty("LogSource", source)
+                .CreateLogger();
+            
+            System.Console.OutputEncoding = Encoding.UTF8;
+        }
 
-            logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
-
-            LogManager.Configuration = logConfig;
+        private static ConsoleTheme GetTheme()
+        {
+            if(Environment.OSVersion.Platform == PlatformID.Unix)
+                return AnsiConsoleTheme.Code;
+#if DEBUG
+            return AnsiConsoleTheme.Code;
+#endif
+            return ConsoleTheme.None;
         }
     }
 }

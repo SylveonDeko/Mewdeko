@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
+using Mewdeko.Core.Services;
+using Discord;
+using Mewdeko.Core.Services.Database.Models;
+using System.Collections.Generic;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions
 {
-    public partial class Permissions : MewdekoTopLevelModule<PermissionService>
+    public partial class Permissions : MewdekoModule<PermissionService>
     {
-        public enum Reset
-        {
-            Reset
-        }
-
         private readonly DbService _db;
 
         public Permissions(DbService db)
@@ -29,50 +24,49 @@ namespace Mewdeko.Modules.Permissions
             _db = db;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Verbose(PermissionAction action = null)
         {
             using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
-                if (action == null)
-                    action = new PermissionAction(!config.VerbosePermissions); // New behaviour, can toggle.
+                if (action == null) action = new PermissionAction(!config.VerbosePermissions); // New behaviour, can toggle.
                 config.VerbosePermissions = action.Value;
                 await uow.SaveChangesAsync();
                 _service.UpdateCache(config);
             }
-
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("verbose_true").ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("verbose_false").ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [Priority(0)]
-        public async Task PermRole([Remainder] IRole role = null)
+        public async Task PermRole([Leftover] IRole role = null)
         {
             if (role != null && role == role.Guild.EveryoneRole)
                 return;
-
+            
             if (role == null)
             {
                 var cache = _service.GetCacheFor(ctx.Guild.Id);
                 if (!ulong.TryParse(cache.PermRole, out var roleId) ||
-                    (role = ((SocketGuild) ctx.Guild).GetRole(roleId)) == null)
-                    await ReplyConfirmLocalizedAsync("permrole_not_set", Format.Bold(cache.PermRole))
-                        .ConfigureAwait(false);
+                    (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
+                {
+                    await ReplyConfirmLocalizedAsync("permrole_not_set", Format.Bold(cache.PermRole)).ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyConfirmLocalizedAsync("permrole", Format.Bold(role.ToString())).ConfigureAwait(false);
+                }
                 return;
             }
 
@@ -80,17 +74,16 @@ namespace Mewdeko.Modules.Permissions
             {
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = role.Id.ToString();
-                await uow.SaveChangesAsync();
+                uow.SaveChanges();
                 _service.UpdateCache(config);
             }
 
             await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        public enum Reset { Reset };
+
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [Priority(1)]
@@ -107,10 +100,7 @@ namespace Mewdeko.Modules.Permissions
             await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ListPerms(int page = 1)
         {
@@ -120,31 +110,32 @@ namespace Mewdeko.Modules.Permissions
             IList<Permissionv2> perms;
 
             if (_service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            {
                 perms = permCache.Permissions.Source.ToList();
+            }
             else
+            {
                 perms = Permissionv2.GetDefaultPermlist;
+            }
 
             var startPos = 20 * (page - 1);
             var toSend = Format.Bold(GetText("page", page)) + "\n\n" + string.Join("\n",
-                perms.Reverse()
-                    .Skip(startPos)
-                    .Take(20)
-                    .Select(p =>
-                    {
-                        var str =
-                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild) ctx.Guild))}";
-                        if (p.Index == 0)
-                            str += $" [{GetText("uneditable")}]";
-                        return str;
-                    }));
+                             perms.Reverse()
+                                 .Skip(startPos)
+                                 .Take(20)
+                                 .Select(p =>
+                                 {
+                                     var str =
+                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
+                                     if (p.Index == 0)
+                                         str += $" [{GetText("uneditable")}]";
+                                     return str;
+                                 }));
 
             await ctx.Channel.SendMessageAsync(toSend).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RemovePerm(int index)
         {
@@ -164,10 +155,9 @@ namespace Mewdeko.Modules.Permissions
                     await uow.SaveChangesAsync();
                     _service.UpdateCache(config);
                 }
-
                 await ReplyConfirmLocalizedAsync("removed",
                     index + 1,
-                    Format.Code(p.GetCommand(Prefix, (SocketGuild) ctx.Guild))).ConfigureAwait(false);
+                    Format.Code(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))).ConfigureAwait(false);
             }
             catch (IndexOutOfRangeException)
             {
@@ -175,16 +165,14 @@ namespace Mewdeko.Modules.Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task MovePerm(int from, int to)
         {
             from -= 1;
             to -= 1;
             if (!(from == to || from < 0 || to < 0))
+            {
                 try
                 {
                     Permissionv2 fromPerm;
@@ -193,12 +181,12 @@ namespace Mewdeko.Modules.Permissions
                         var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
-                        var fromFound = @from < permsCol.Count;
+                        var fromFound = from < permsCol.Count;
                         var toFound = to < permsCol.Count;
 
                         if (!fromFound)
                         {
-                            await ReplyErrorLocalizedAsync("not_found", ++@from);
+                            await ReplyErrorLocalizedAsync("not_found", ++from);
                             return;
                         }
 
@@ -207,18 +195,16 @@ namespace Mewdeko.Modules.Permissions
                             await ReplyErrorLocalizedAsync("not_found", ++to);
                             return;
                         }
+                        fromPerm = permsCol[from];
 
-                        fromPerm = permsCol[@from];
-
-                        permsCol.RemoveAt(@from);
+                        permsCol.RemoveAt(from);
                         permsCol.Insert(to, fromPerm);
                         await uow.SaveChangesAsync();
                         _service.UpdateCache(config);
                     }
-
                     await ReplyConfirmLocalizedAsync("moved_permission",
-                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild) ctx.Guild)),
-                            ++@from,
+                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)ctx.Guild)),
+                            ++from,
                             ++to)
                         .ConfigureAwait(false);
                     return;
@@ -226,14 +212,11 @@ namespace Mewdeko.Modules.Permissions
                 catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)
                 {
                 }
-
+            }
             await ReplyErrorLocalizedAsync("perm_out_of_range").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
         {
@@ -244,23 +227,24 @@ namespace Mewdeko.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-                IsCustomCommand = command.IsCustom
+                IsCustomCommand = command.IsCustom,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("sx_enable",
                     Format.Code(command.Name),
                     GetText("of_command")).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("sx_disable",
                     Format.Code(command.Name),
                     GetText("of_command")).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
         {
@@ -270,25 +254,26 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = 0,
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("sx_enable",
                     Format.Code(module.Name),
                     GetText("of_module")).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("sx_disable",
                     Format.Code(module.Name),
                     GetText("of_module")).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
+        public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IGuildUser user)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -297,27 +282,28 @@ namespace Mewdeko.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-                IsCustomCommand = command.IsCustom
+                IsCustomCommand = command.IsCustom,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("ux_enable",
                     Format.Code(command.Name),
                     GetText("of_command"),
                     Format.Code(user.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("ux_disable",
                     Format.Code(command.Name),
                     GetText("of_command"),
                     Format.Code(user.ToString())).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
+        public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IGuildUser user)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -325,27 +311,28 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = user.Id,
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("ux_enable",
                     Format.Code(module.Name),
                     GetText("of_module"),
                     Format.Code(user.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("ux_disable",
                     Format.Code(module.Name),
                     GetText("of_module"),
                     Format.Code(user.ToString())).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IRole role)
+        public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -357,27 +344,28 @@ namespace Mewdeko.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-                IsCustomCommand = command.IsCustom
+                IsCustomCommand = command.IsCustom,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("rx_enable",
                     Format.Code(command.Name),
                     GetText("of_command"),
                     Format.Code(role.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("rx_disable",
                     Format.Code(command.Name),
                     GetText("of_command"),
                     Format.Code(role.Name)).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IRole role)
+        public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -388,28 +376,29 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = role.Id,
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("rx_enable",
                     Format.Code(module.Name),
                     GetText("of_module"),
                     Format.Code(role.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("rx_disable",
                     Format.Code(module.Name),
                     GetText("of_module"),
                     Format.Code(role.Name)).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
+        public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] ITextChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -418,27 +407,28 @@ namespace Mewdeko.Modules.Permissions
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = command.Name.ToLowerInvariant(),
                 State = action.Value,
-                IsCustomCommand = command.IsCustom
+                IsCustomCommand = command.IsCustom,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("cx_enable",
                     Format.Code(command.Name),
                     GetText("of_command"),
                     Format.Code(chnl.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("cx_disable",
                     Format.Code(command.Name),
                     GetText("of_command"),
                     Format.Code(chnl.Name)).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
+        public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] ITextChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -446,27 +436,28 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = chnl.Id,
                 SecondaryTarget = SecondaryPermissionType.Module,
                 SecondaryTargetName = module.Name.ToLowerInvariant(),
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("cx_enable",
                     Format.Code(module.Name),
                     GetText("of_module"),
                     Format.Code(chnl.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("cx_disable",
                     Format.Code(module.Name),
                     GetText("of_module"),
                     Format.Code(chnl.Name)).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
+        public async Task AllChnlMdls(PermissionAction action, [Leftover] ITextChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -474,23 +465,24 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = chnl.Id,
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("acm_enable",
                     Format.Code(chnl.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("acm_disable",
                     Format.Code(chnl.Name)).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllRoleMdls(PermissionAction action, [Remainder] IRole role)
+        public async Task AllRoleMdls(PermissionAction action, [Leftover] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -501,23 +493,24 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = role.Id,
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("arm_enable",
                     Format.Code(role.Name)).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("arm_disable",
                     Format.Code(role.Name)).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
+        public async Task AllUsrMdls(PermissionAction action, [Leftover] IUser user)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -525,21 +518,22 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = user.Id,
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
-                State = action.Value
+                State = action.Value,
             }).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("aum_enable",
                     Format.Code(user.ToString())).ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("aum_disable",
                     Format.Code(user.ToString())).ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AllSrvrMdls(PermissionAction action)
         {
@@ -549,7 +543,7 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = 0,
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
-                State = action.Value
+                State = action.Value,
             };
 
             var allowUser = new Permissionv2
@@ -558,7 +552,7 @@ namespace Mewdeko.Modules.Permissions
                 PrimaryTargetId = ctx.User.Id,
                 SecondaryTarget = SecondaryPermissionType.AllModules,
                 SecondaryTargetName = "*",
-                State = true
+                State = true,
             };
 
             await _service.AddPermissions(ctx.Guild.Id,
@@ -566,9 +560,13 @@ namespace Mewdeko.Modules.Permissions
                 allowUser).ConfigureAwait(false);
 
             if (action.Value)
+            {
                 await ReplyConfirmLocalizedAsync("asm_enable").ConfigureAwait(false);
+            }
             else
+            {
                 await ReplyConfirmLocalizedAsync("asm_disable").ConfigureAwait(false);
+            }
         }
     }
 }

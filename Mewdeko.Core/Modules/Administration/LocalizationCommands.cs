@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Discord;
+using Discord.Commands;
+using Mewdeko.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -16,8 +15,8 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class LocalizationCommands : MewdekoSubmodule
         {
-            private static readonly ImmutableDictionary<string, string> supportedLocales =
-                new Dictionary<string, string>
+            private static readonly IReadOnlyDictionary<string, string> supportedLocales =
+                new Dictionary<string, string>()
                 {
                     {"ar", "العربية"},
                     {"zh-TW", "繁體中文, 台灣"},
@@ -45,26 +44,19 @@ namespace Mewdeko.Modules.Administration
                     {"tr-TR", "Türkçe, Türkiye"},
                     {"ts-TS", "Tsundere, You Baka"},
                     {"uk-UA", "Українська, Україна"}
-                }.ToImmutableDictionary();
+                };
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
             public async Task LanguageSet()
             {
-                var cul = Localization.GetCultureInfo(ctx.Guild);
-                await ReplyConfirmLocalizedAsync("lang_set_show", Format.Bold(cul.ToString()),
-                        Format.Bold(cul.NativeName))
+                await ReplyConfirmLocalizedAsync("lang_set_show", Format.Bold(_cultureInfo.ToString()),
+                        Format.Bold(_cultureInfo.NativeName))
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
@@ -93,20 +85,14 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task LanguageSetDefault()
             {
                 var cul = Localization.DefaultCultureInfo;
                 await ReplyConfirmLocalizedAsync("lang_set_bot_show", cul, cul.NativeName).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task LanguageSetDefault(string name)
             {
@@ -133,10 +119,7 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task LanguagesList()
             {
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()

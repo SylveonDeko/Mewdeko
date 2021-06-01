@@ -6,6 +6,7 @@ namespace Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions
     {
         public AlreadyJoinedException()
         {
+
         }
 
         public AlreadyJoinedException(string message) : base(message)

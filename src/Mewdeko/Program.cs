@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Mewdeko.Core.Services;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Mewdeko.Core.Services;
 
 namespace Mewdeko
 {
@@ -9,12 +8,13 @@ namespace Mewdeko
     {
         public static async Task Main(string[] args)
         {
-            Console.WriteLine($"Pid: {Process.GetCurrentProcess().Id}");
+            var pid = Process.GetCurrentProcess().Id;
+            System.Console.WriteLine($"Pid: {pid}");
             if (args.Length == 2
-                && int.TryParse(args[0], out var shardId)
-                && int.TryParse(args[1], out var parentProcessId))
+                && int.TryParse(args[0], out int shardId)
+                && int.TryParse(args[1], out int parentProcessId))
             {
-                await new Mewdeko(shardId, parentProcessId)
+                await new Mewdeko(shardId, parentProcessId == 0 ? pid : parentProcessId)
                     .RunAndBlockAsync();
             }
             else
@@ -23,7 +23,7 @@ namespace Mewdeko
                     .RunAsync()
                     .ConfigureAwait(false);
 #if DEBUG
-                await new Mewdeko(0, Process.GetCurrentProcess().Id)
+                await new Mewdeko(0, pid)
                     .RunAndBlockAsync();
 #else
                 await Task.Delay(-1);

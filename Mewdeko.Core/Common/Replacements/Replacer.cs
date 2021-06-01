@@ -6,11 +6,10 @@ namespace Mewdeko.Common.Replacements
 {
     public class Replacer
     {
-        private readonly IEnumerable<(Regex Regex, Func<Match, string> Replacement)> _regex;
         private readonly IEnumerable<(string Key, Func<string> Text)> _replacements;
+        private readonly IEnumerable<(Regex Regex, Func<Match, string> Replacement)> _regex;
 
-        public Replacer(IEnumerable<(string, Func<string>)> replacements,
-            IEnumerable<(Regex, Func<Match, string>)> regex)
+        public Replacer(IEnumerable<(string, Func<string>)> replacements, IEnumerable<(Regex, Func<Match, string>)> regex)
         {
             _replacements = replacements;
             _regex = regex;
@@ -22,10 +21,15 @@ namespace Mewdeko.Common.Replacements
                 return input;
 
             foreach (var (Key, Text) in _replacements)
+            {
                 if (input.Contains(Key))
                     input = input.Replace(Key, Text(), StringComparison.InvariantCulture);
+            }
 
-            foreach (var item in _regex) input = item.Regex.Replace(input, m => item.Replacement(m));
+            foreach (var item in _regex)
+            {
+                input = item.Regex.Replace(input, (m) => item.Replacement(m));
+            }
 
             return input;
         }

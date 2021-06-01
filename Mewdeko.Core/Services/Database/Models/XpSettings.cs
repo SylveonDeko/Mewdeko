@@ -7,19 +7,15 @@ namespace Mewdeko.Core.Services.Database.Models
         public int GuildConfigId { get; set; }
         public GuildConfig GuildConfig { get; set; }
 
-        public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
-        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
+        public HashSet<XpRoleReward> RoleRewards { get; set; } = new HashSet<XpRoleReward>();
+        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new HashSet<XpCurrencyReward>();
         public bool XpRoleRewardExclusive { get; set; }
         public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
-        public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
+        public HashSet<ExcludedItem> ExclusionList { get; set; } = new HashSet<ExcludedItem>();
         public bool ServerExcluded { get; set; }
     }
 
-    public enum ExcludedItemType
-    {
-        Channel,
-        Role
-    }
+    public enum ExcludedItemType { Channel, Role }
 
     public class XpRoleReward : DbEntity
     {

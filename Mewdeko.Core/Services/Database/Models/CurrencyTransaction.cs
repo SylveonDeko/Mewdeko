@@ -6,14 +6,11 @@
         public string Reason { get; set; }
         public ulong UserId { get; set; }
 
-        public CurrencyTransaction Clone()
+        public CurrencyTransaction Clone() => new CurrencyTransaction
         {
-            return new()
-            {
-                Amount = Amount,
-                Reason = Reason,
-                UserId = UserId
-            };
-        }
+            Amount = Amount,
+            Reason = Reason,
+            UserId = UserId,
+        };
     }
 }

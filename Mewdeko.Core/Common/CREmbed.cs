@@ -1,7 +1,7 @@
-using System;
 using Discord;
 using Mewdeko.Extensions;
 using Newtonsoft.Json;
+using System;
 
 namespace Mewdeko.Common
 {
@@ -20,15 +20,14 @@ namespace Mewdeko.Common
 
         public bool IsValid =>
             IsEmbedValid || !string.IsNullOrWhiteSpace(PlainText);
-
         public bool IsEmbedValid =>
             !string.IsNullOrWhiteSpace(Title) ||
             !string.IsNullOrWhiteSpace(Description) ||
             !string.IsNullOrWhiteSpace(Url) ||
             !string.IsNullOrWhiteSpace(Thumbnail) ||
             !string.IsNullOrWhiteSpace(Image) ||
-            Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl)) ||
-            Fields != null && Fields.Length > 0;
+            (Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
+            (Fields != null && Fields.Length > 0);
 
         public EmbedBuilder ToEmbed()
         {
@@ -40,7 +39,7 @@ namespace Mewdeko.Common
                 embed.WithDescription(Description);
             if (Url != null && Uri.IsWellFormedUriString(Url, UriKind.Absolute))
                 embed.WithUrl(Url);
-            embed.WithColor(new Color(Color));
+            embed.WithColor(new Discord.Color(Color));
             if (Footer != null)
                 embed.WithFooter(efb =>
                 {
@@ -65,8 +64,10 @@ namespace Mewdeko.Common
 
             if (Fields != null)
                 foreach (var f in Fields)
+                {
                     if (!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
                         embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
+                }
 
             return embed;
         }
@@ -87,7 +88,6 @@ namespace Mewdeko.Common
                         f.Name = f.Name.TrimTo(256);
                         f.Value = f.Value.TrimTo(1024);
                     }
-
                 if (!crembed.IsValid)
                     return false;
 
@@ -112,25 +112,15 @@ namespace Mewdeko.Common
     {
         public string Text { get; set; }
         public string IconUrl { get; set; }
-
         [JsonProperty("icon_url")]
-        private string Icon_Url
-        {
-            set => IconUrl = value;
-        }
+        private string Icon_Url { set => IconUrl = value; }
     }
-
     public class CREmbedAuthor
     {
         public string Name { get; set; }
         public string IconUrl { get; set; }
-
         [JsonProperty("icon_url")]
-        private string Icon_Url
-        {
-            set => IconUrl = value;
-        }
-
+        private string Icon_Url { set => IconUrl = value; }
         public string Url { get; set; }
     }
 }

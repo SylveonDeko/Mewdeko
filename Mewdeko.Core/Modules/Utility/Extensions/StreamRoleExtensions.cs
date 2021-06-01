@@ -1,13 +1,13 @@
-﻿using Mewdeko.Core.Services.Database.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Database.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility.Extensions
 {
     public static class StreamRoleExtensions
     {
         /// <summary>
-        ///     Gets full stream role settings for the guild with the specified id.
+        /// Gets full stream role settings for the guild with the specified id.
         /// </summary>
         /// <param name="gc"></param>
         /// <param name="guildId">Id of the guild to get stream role settings for.</param>

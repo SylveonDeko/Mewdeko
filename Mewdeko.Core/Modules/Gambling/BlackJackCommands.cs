@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
@@ -9,6 +7,9 @@ using Mewdeko.Core.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using System.Linq;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -16,27 +17,25 @@ namespace Mewdeko.Modules.Gambling
     {
         public class BlackJackCommands : GamblingSubmodule<BlackJackService>
         {
-            public enum BjAction
-            {
-                Hit = int.MinValue,
-                Stand,
-                Double
-            }
-
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
             private IUserMessage _msg;
 
-            public BlackJackCommands(ICurrencyService cs, DbService db)
+            public enum BjAction
+            {
+                Hit = int.MinValue,
+                Stand,
+                Double,
+            }
+
+            public BlackJackCommands(ICurrencyService cs, DbService db,
+                GamblingConfigService gamblingConf) : base(gamblingConf) 
             {
                 _cs = cs;
                 _db = db;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task BlackJack(ShmartNumber amount)
             {
@@ -50,10 +49,9 @@ namespace Mewdeko.Modules.Gambling
                     if (!await bj.Join(ctx.User, amount).ConfigureAwait(false))
                     {
                         _service.Games.TryRemove(ctx.Channel.Id, out _);
-                        await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                         return;
                     }
-
                     bj.StateUpdated += Bj_StateUpdated;
                     bj.GameEnded += Bj_GameEnded;
                     bj.Start();
@@ -65,7 +63,9 @@ namespace Mewdeko.Modules.Gambling
                     if (await bj.Join(ctx.User, amount).ConfigureAwait(false))
                         await ReplyConfirmLocalizedAsync("bj_joined").ConfigureAwait(false);
                     else
-                        _log.Info($"{ctx.User} can't join a blackjack game as it's in " + bj.State + " state already.");
+                    {
+                        Log.Information($"{ctx.User} can't join a blackjack game as it's in " + bj.State.ToString() + " state already.");
+                    }
                 }
 
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
@@ -106,7 +106,9 @@ namespace Mewdeko.Modules.Gambling
                         .AddField($"{dealerIcon} Dealer's Hand | Value: {bj.Dealer.GetHandValue()}", cStr);
 
                     if (bj.CurrentUser != null)
-                        embed.WithFooter($"Player to make a choice: {bj.CurrentUser.DiscordUser}");
+                    {
+                        embed.WithFooter($"Player to make a choice: {bj.CurrentUser.DiscordUser.ToString()}");
+                    }
 
                     foreach (var p in bj.Players)
                     {
@@ -117,42 +119,37 @@ namespace Mewdeko.Modules.Gambling
                         if (bj.State == Blackjack.GameState.Ended)
                         {
                             if (p.State == User.UserState.Lost)
+                            {
                                 full = "❌ " + full;
+                            }
                             else
+                            {
                                 full = "✅ " + full;
+                            }
                         }
                         else if (p == bj.CurrentUser)
-                        {
                             full = "▶ " + full;
-                        }
                         else if (p.State == User.UserState.Stand)
-                        {
                             full = "⏹ " + full;
-                        }
                         else if (p.State == User.UserState.Bust)
-                        {
                             full = "💥 " + full;
-                        }
                         else if (p.State == User.UserState.Blackjack)
-                        {
                             full = "💰 " + full;
-                        }
-
                         embed.AddField(full, cStr);
                     }
-
                     _msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
                 catch
                 {
+
                 }
             }
 
             private string UserToString(User x)
             {
-                var playerName = x.State == User.UserState.Bust
-                    ? Format.Strikethrough(x.DiscordUser.ToString().TrimTo(30))
-                    : x.DiscordUser.ToString();
+                var playerName = x.State == User.UserState.Bust ?
+                    Format.Strikethrough(x.DiscordUser.ToString().TrimTo(30)) :
+                    x.DiscordUser.ToString();
 
                 var hand = $"{string.Concat(x.Cards.Select(y => "〖" + y.GetEmojiString() + "〗"))}";
 
@@ -160,35 +157,17 @@ namespace Mewdeko.Modules.Gambling
                 return $"{playerName} | Bet: {x.Bet}\n";
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Hit()
-            {
-                return InternalBlackJack(BjAction.Hit);
-            }
+            public Task Hit() => InternalBlackJack(BjAction.Hit);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Stand()
-            {
-                return InternalBlackJack(BjAction.Stand);
-            }
+            public Task Stand() => InternalBlackJack(BjAction.Stand);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
-            public Task Double()
-            {
-                return InternalBlackJack(BjAction.Double);
-            }
+            public Task Double() => InternalBlackJack(BjAction.Double);
 
             public async Task InternalBlackJack(BjAction a)
             {
@@ -200,8 +179,12 @@ namespace Mewdeko.Modules.Gambling
                 else if (a == BjAction.Stand)
                     await bj.Stand(ctx.User).ConfigureAwait(false);
                 else if (a == BjAction.Double)
+                {
                     if (!await bj.Double(ctx.User).ConfigureAwait(false))
-                        await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    {
+                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+                    }
+                }
 
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }

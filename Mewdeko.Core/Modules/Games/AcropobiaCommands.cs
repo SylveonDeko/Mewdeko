@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Mewdeko.Extensions;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Services;
+using Mewdeko.Core.Common;
 
 namespace Mewdeko.Modules.Games
 {
@@ -25,19 +25,17 @@ namespace Mewdeko.Modules.Games
                 _client = client;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [MewdekoOptions(typeof(AcrophobiaGame.Options))]
             public async Task Acrophobia(params string[] args)
             {
                 var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 var game = new AcrophobiaGame(options);
                 if (_service.AcrophobiaGames.TryAdd(channel.Id, game))
+                {
                     try
                     {
                         game.OnStarted += Game_OnStarted;
@@ -53,8 +51,11 @@ namespace Mewdeko.Modules.Games
                         _service.AcrophobiaGames.TryRemove(channel.Id, out game);
                         game.Dispose();
                     }
+                }
                 else
+                {
                     await ReplyErrorLocalizedAsync("acro_running").ConfigureAwait(false);
+                }
 
                 Task _client_MessageReceived(SocketMessage msg)
                 {
@@ -70,9 +71,7 @@ namespace Mewdeko.Modules.Games
                             if (success)
                                 await msg.DeleteAsync().ConfigureAwait(false);
                         }
-                        catch
-                        {
-                        }
+                        catch { }
                     });
 
                     return Task.CompletedTask;
@@ -82,9 +81,9 @@ namespace Mewdeko.Modules.Games
             private Task Game_OnStarted(AcrophobiaGame game)
             {
                 var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("acrophobia"))
-                    .WithDescription(GetText("acro_started", Format.Bold(string.Join(".", game.StartingLetters))))
-                    .WithFooter(efb => efb.WithText(GetText("acro_started_footer", game.Opts.SubmissionTime)));
+                        .WithTitle(GetText("acrophobia"))
+                        .WithDescription(GetText("acro_started", Format.Bold(string.Join(".", game.StartingLetters))))
+                        .WithFooter(efb => efb.WithText(GetText("acro_started_footer", game.Opts.SubmissionTime)));
 
                 return ctx.Channel.EmbedAsync(embed);
             }
@@ -96,16 +95,13 @@ namespace Mewdeko.Modules.Games
                     GetText("acro_vote_cast", Format.Bold(user)));
             }
 
-            private async Task Game_OnVotingStarted(AcrophobiaGame game,
-                ImmutableArray<KeyValuePair<AcrophobiaUser, int>> submissions)
+            private async Task Game_OnVotingStarted(AcrophobiaGame game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> submissions)
             {
                 if (submissions.Length == 0)
                 {
-                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub"))
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub")).ConfigureAwait(false);
                     return;
                 }
-
                 if (submissions.Length == 1)
                 {
                     await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
@@ -120,28 +116,24 @@ namespace Mewdeko.Modules.Games
 
                 var i = 0;
                 var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle(GetText("acrophobia") + " - " + GetText("submissions_closed"))
-                    .WithDescription(GetText("acro_nym_was",
-                        Format.Bold(string.Join(".", game.StartingLetters)) + "\n" +
-                        $@"--
+                        .WithOkColor()
+                        .WithTitle(GetText("acrophobia") + " - " + GetText("submissions_closed"))
+                        .WithDescription(GetText("acro_nym_was", Format.Bold(string.Join(".", game.StartingLetters)) + "\n" +
+$@"--
 {submissions.Aggregate("", (agg, cur) => agg + $"`{++i}.` **{cur.Key.Input}**\n")}
 --"))
-                    .WithFooter(efb => efb.WithText(GetText("acro_vote")));
+                        .WithFooter(efb => efb.WithText(GetText("acro_vote")));
 
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            private async Task Game_OnEnded(AcrophobiaGame game,
-                ImmutableArray<KeyValuePair<AcrophobiaUser, int>> votes)
+            private async Task Game_OnEnded(AcrophobiaGame game, ImmutableArray<KeyValuePair<AcrophobiaUser, int>> votes)
             {
                 if (!votes.Any() || votes.All(x => x.Value == 0))
                 {
-                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_no_votes_cast"))
-                        .ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_no_votes_cast")).ConfigureAwait(false);
                     return;
                 }
-
                 var table = votes.OrderByDescending(v => v.Value);
                 var winner = table.First();
                 var embed = new EmbedBuilder().WithOkColor()

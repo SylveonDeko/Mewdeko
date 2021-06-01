@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Mewdeko.Core.Services.Database.Models;
 using System.Linq;
-using Discord;
-using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Discord;
+using System.Collections.Generic;
+using System;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -37,9 +37,7 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
         }
 
         public DiscordUser GetOrCreate(IUser original)
-        {
-            return GetOrCreate(original.Id, original.Username, original.Discriminator, original.AvatarId);
-        }
+            => GetOrCreate(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
         public int GetUserGlobalRank(ulong id)
         {
@@ -50,11 +48,11 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
             //    WHERE UserId = @p1
             //    LIMIT 1), 0);"
             return _set.AsQueryable()
-                .Where(x => x.TotalXp > _set
+                .Where(x => x.TotalXp > (_set
                     .AsQueryable()
                     .Where(y => y.UserId == id)
                     .Select(y => y.TotalXp)
-                    .FirstOrDefault())
+                    .FirstOrDefault()))
                 .Count() + 1;
         }
 
@@ -87,21 +85,21 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
                 .ToList();
         }
 
-        public long GetUserCurrency(ulong userId)
-        {
-            return _set.AsNoTracking()
+        public long GetUserCurrency(ulong userId) =>
+            _set.AsNoTracking()
                 .FirstOrDefault(x => x.UserId == userId)
                 ?.CurrencyAmount ?? 0;
-        }
 
-        public void RemoveFromMany(List<ulong> ids)
+        public void RemoveFromMany(IEnumerable<ulong> ids)
         {
             var items = _set.AsQueryable().Where(x => ids.Contains(x.UserId));
-            foreach (var item in items) item.CurrencyAmount = 0;
+            foreach (var item in items)
+            {
+                item.CurrencyAmount = 0;
+            }
         }
 
-        public bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatarId, long amount,
-            bool allowNegative = false)
+        public bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatarId, long amount, bool allowNegative = false)
         {
             if (amount == 0)
                 return true;
@@ -137,6 +135,7 @@ WHERE UserId={userId};");
 
             // just update the amount, there is no new user data
             if (!updatedUserData)
+            {
                 _context.Database.ExecuteSqlInterpolated($@"
 UPDATE OR IGNORE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount}
@@ -145,7 +144,9 @@ WHERE UserId={userId};
 INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, CurrencyAmount)
 VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
 ");
+            }
             else
+            {
                 _context.Database.ExecuteSqlInterpolated($@"
 UPDATE OR IGNORE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount},
@@ -157,20 +158,8 @@ WHERE UserId={userId};
 INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, CurrencyAmount)
 VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
 ");
+            }
             return true;
-        }
-
-        public void CurrencyDecay(float decay, ulong botId)
-        {
-            _context.Database.ExecuteSqlInterpolated($@"
-UPDATE DiscordUser
-SET CurrencyAmount=CurrencyAmount-ROUND(CurrencyAmount*{decay}-0.5)
-WHERE CurrencyAmount>0 AND UserId!={botId};");
-        }
-
-        public long GetCurrencyDecayAmount(float decay)
-        {
-            return (long) _set.Sum(x => Math.Round(x.CurrencyAmount * decay - 0.5));
         }
 
         public decimal GetTotalCurrency()

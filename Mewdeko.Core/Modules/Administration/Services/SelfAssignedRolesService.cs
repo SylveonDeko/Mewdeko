@@ -1,35 +1,35 @@
-﻿using System;
+﻿using Discord;
+using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Modules.Xp.Common;
-using Microsoft.EntityFrameworkCore;
+using Mewdeko.Modules.Xp;
 
 namespace Mewdeko.Core.Modules.Administration.Services
 {
     public class SelfAssignedRolesService : INService
     {
-        public enum AssignResult
-        {
-            Assigned, // successfully removed
-            Err_Not_Assignable, // not assignable (error)
-            Err_Already_Have, // you already have that role (error)
-            Err_Not_Perms, // bot doesn't have perms (error)
-            Err_Lvl_Req // you are not required level (error)
-        }
+        private readonly DbService _db;
 
         public enum RemoveResult
         {
             Removed, // successfully removed
             Err_Not_Assignable, // not assignable (error)
             Err_Not_Have, // you don't have a role you want to remove (error)
-            Err_Not_Perms // bot doesn't have perms (error)
+            Err_Not_Perms, // bot doesn't have perms (error)
         }
 
-        private readonly DbService _db;
+        public enum AssignResult
+        {
+            Assigned, // successfully removed
+            Err_Not_Assignable, // not assignable (error)
+            Err_Already_Have, // you already have that role (error)
+            Err_Not_Perms, // bot doesn't have perms (error)
+            Err_Lvl_Req, // you are not required level (error)
+        }
 
         public SelfAssignedRolesService(DbService db)
         {
@@ -41,7 +41,10 @@ namespace Mewdeko.Core.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 var roles = uow.SelfAssignedRoles.GetFromGuild(guildId);
-                if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.Guild.Id)) return false;
+                if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.Guild.Id))
+                {
+                    return false;
+                }
 
                 uow.SelfAssignedRoles.Add(new SelfAssignedRole
                 {
@@ -51,7 +54,6 @@ namespace Mewdeko.Core.Modules.Administration.Services
                 });
                 uow.SaveChanges();
             }
-
             return true;
         }
 
@@ -64,7 +66,6 @@ namespace Mewdeko.Core.Modules.Administration.Services
                 newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
                 uow.SaveChanges();
             }
-
             return newval;
         }
 
@@ -81,10 +82,17 @@ namespace Mewdeko.Core.Modules.Administration.Services
 
             var theRoleYouWant = roles.FirstOrDefault(r => r.RoleId == role.Id);
             if (theRoleYouWant == null)
+            {
                 return (AssignResult.Err_Not_Assignable, autoDelete, null);
-            if (theRoleYouWant.LevelRequirement > userLevelData.Level)
+            }
+            else if (theRoleYouWant.LevelRequirement > userLevelData.Level)
+            {
                 return (AssignResult.Err_Lvl_Req, autoDelete, theRoleYouWant.LevelRequirement);
-            if (guildUser.RoleIds.Contains(role.Id)) return (AssignResult.Err_Already_Have, autoDelete, null);
+            }
+            else if (guildUser.RoleIds.Contains(role.Id))
+            {
+                return (AssignResult.Err_Already_Have, autoDelete, null);
+            }
 
             var roleIds = roles
                 .Where(x => x.Group == theRoleYouWant.Group)
@@ -98,6 +106,7 @@ namespace Mewdeko.Core.Modules.Administration.Services
                 {
                     var sameRole = guildUser.Guild.GetRole(roleId);
                     if (sameRole != null)
+                    {
                         try
                         {
                             await guildUser.RemoveRoleAsync(sameRole).ConfigureAwait(false);
@@ -107,9 +116,9 @@ namespace Mewdeko.Core.Modules.Administration.Services
                         {
                             // ignored
                         }
+                    }
                 }
             }
-
             try
             {
                 await guildUser.AddRoleAsync(role).ConfigureAwait(false);
@@ -124,7 +133,7 @@ namespace Mewdeko.Core.Modules.Administration.Services
 
         public async Task<bool> SetNameAsync(ulong guildId, int group, string name)
         {
-            var set = false;
+            bool set = false;
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
@@ -140,7 +149,7 @@ namespace Mewdeko.Core.Modules.Administration.Services
                     gc.SelfAssignableRoleGroupNames.Add(new GroupName
                     {
                         Name = name,
-                        Number = group
+                        Number = group,
                     });
                     set = true;
                 }
@@ -161,8 +170,13 @@ namespace Mewdeko.Core.Modules.Administration.Services
             var (autoDelete, _, roles) = GetAdAndRoles(guildUser.Guild.Id);
 
             if (roles.FirstOrDefault(r => r.RoleId == role.Id) == null)
+            {
                 return (RemoveResult.Err_Not_Assignable, autoDelete);
-            if (!guildUser.RoleIds.Contains(role.Id)) return (RemoveResult.Err_Not_Have, autoDelete);
+            }
+            if (!guildUser.RoleIds.Contains(role.Id))
+            {
+                return (RemoveResult.Err_Not_Have, autoDelete);
+            }
             try
             {
                 await guildUser.RemoveRoleAsync(role).ConfigureAwait(false);
@@ -183,7 +197,6 @@ namespace Mewdeko.Core.Modules.Administration.Services
                 success = uow.SelfAssignedRoles.DeleteByGuildAndRoleId(guildId, roleId);
                 uow.SaveChanges();
             }
-
             return success;
         }
 
@@ -230,12 +243,10 @@ namespace Mewdeko.Core.Modules.Administration.Services
                 areExclusive = config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
                 uow.SaveChanges();
             }
-
             return areExclusive;
         }
 
-        public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string>
-            GroupNames) GetRoles(IGuild guild)
+        public (bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames) GetRoles(IGuild guild)
         {
             var exclusive = false;
 

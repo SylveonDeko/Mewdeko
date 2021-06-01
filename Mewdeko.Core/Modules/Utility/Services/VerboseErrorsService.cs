@@ -3,18 +3,18 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Collections;
-using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
+using Mewdeko.Core.Services;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class VerboseErrorsService : INService, IUnloadableService
     {
-        private readonly CommandHandler _ch;
-        private readonly DbService _db;
-        private readonly HelpService _hs;
         private readonly ConcurrentHashSet<ulong> guildsEnabled;
+        private readonly DbService _db;
+        private readonly CommandHandler _ch;
+        private readonly HelpService _hs;
 
         public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch, HelpService hs)
         {
@@ -56,25 +56,24 @@ namespace Mewdeko.Modules.Utility.Services
             }
         }
 
-        public bool ToggleVerboseErrors(ulong guildId, bool? enabled = null)
+        public bool ToggleVerboseErrors(ulong guildId, bool? enabled=null)
         {
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
-                if (enabled == null)
-                    enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition
-                else gc.VerboseErrors = (bool) enabled; // New behaviour, just set it.
+                if (enabled==null) enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition
+                else gc.VerboseErrors = (bool)enabled; // New behaviour, just set it.
 
                 uow.SaveChanges();
             }
 
-            if ((bool) enabled) // This doesn't need to be duplicated inside the using block
+            if ((bool)enabled) // This doesn't need to be duplicated inside the using block
                 guildsEnabled.Add(guildId);
             else
                 guildsEnabled.TryRemove(guildId);
 
-            return (bool) enabled;
+            return (bool)enabled;            
         }
     }
 }

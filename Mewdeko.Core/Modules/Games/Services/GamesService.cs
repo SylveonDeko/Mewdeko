@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Mewdeko.Common;
 using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Common.Acrophobia;
@@ -18,81 +8,92 @@ using Mewdeko.Modules.Games.Common.Hangman;
 using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
-using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Games.Services
 {
     public class GamesService : INService, IUnloadableService
     {
-        private readonly IBotConfigProvider _bc;
-        private readonly CommandHandler _cmd;
-        private readonly CommandHandler _cmdHandler;
-        private readonly ICurrencyService _cs;
-        private readonly FontProvider _fonts;
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly IImageCache _images;
-        private readonly Logger _log;
-        private readonly MewdekoRandom _rng;
-        private readonly IBotStrings _strings;
+        private readonly GamesConfigService _gamesConfig;
+
+        public ConcurrentDictionary<ulong, GirlRating> GirlRatings { get; } = new ConcurrentDictionary<ulong, GirlRating>();
+
+        public IReadOnlyList<string> EightBallResponses => _gamesConfig.Data.EightBallResponses;
 
         private readonly Timer _t;
+        private readonly IHttpClientFactory _httpFactory;
+        private readonly Random _rng;
 
-        public GamesService(CommandHandler cmd, IBotConfigProvider bc, Mewdeko bot,
-            IBotStrings strings, IDataCache data, CommandHandler cmdHandler,
-            ICurrencyService cs, FontProvider fonts, IHttpClientFactory httpFactory)
+        private const string TypingArticlesPath = "data/typing_articles3.json";
+
+        public List<TypingArticle> TypingArticles { get; } = new List<TypingArticle>();
+
+        //channelId, game
+        public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new ConcurrentDictionary<ulong, AcrophobiaGame>();
+
+        public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new ConcurrentDictionary<ulong, Hangman>();
+        public TermPool TermPool { get; } = new TermPool();
+
+        public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new ConcurrentDictionary<ulong, TriviaGame>();
+        public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new Dictionary<ulong, TicTacToe>();
+        public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new ConcurrentDictionary<ulong, TypingGame>();
+        public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new ConcurrentDictionary<ulong, NunchiGame>();
+
+        public AsyncLazy<RatingTexts> Ratings { get; }
+
+        public class RatingTexts
         {
-            _bc = bc;
-            _cmd = cmd;
-            _strings = strings;
-            _images = data.LocalImages;
-            _cmdHandler = cmdHandler;
-            _log = LogManager.GetCurrentClassLogger();
-            _rng = new MewdekoRandom();
-            _cs = cs;
-            _fonts = fonts;
+            public string Nog { get; set; }
+            public string Tra { get; set; }
+            public string Fun { get; set; }
+            public string Uni { get; set; }
+            public string Wif { get; set; }
+            public string Dat { get; set; }
+            public string Dan { get; set; }
+        }
+
+        public GamesService(GamesConfigService gamesConfig, IHttpClientFactory httpFactory)
+        {
+            _gamesConfig = gamesConfig;
             _httpFactory = httpFactory;
 
             Ratings = new AsyncLazy<RatingTexts>(GetRatingTexts);
-
-            //8ball
-            EightBallResponses = _bc.BotConfig.EightBallResponses.Select(ebr => ebr.Text).ToImmutableArray();
+            _rng = new MewdekoRandom();
 
             //girl ratings
-            _t = new Timer(_ => { GirlRatings.Clear(); }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
+            _t = new Timer((_) =>
+            {
+                GirlRatings.Clear();
+
+            }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
 
             try
             {
-                TypingArticles =
-                    JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TypingArticlesPath));
+                TypingArticles = JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TypingArticlesPath));
             }
             catch (Exception ex)
             {
-                _log.Warn("Error while loading typing articles {0}", ex.ToString());
+                Log.Warning("Error while loading typing articles {0}", ex.ToString());
                 TypingArticles = new List<TypingArticle>();
             }
         }
 
-        public ConcurrentDictionary<ulong, GirlRating> GirlRatings { get; } = new();
-
-        public ImmutableArray<string> EightBallResponses { get; }
-
-        public string TypingArticlesPath { get; } = "data/typing_articles3.json";
-
-        public List<TypingArticle> TypingArticles { get; } = new();
-
-        //channelId, game
-        public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; } = new();
-
-        public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; } = new();
-        public TermPool TermPool { get; } = new();
-
-        public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; } = new();
-        public Dictionary<ulong, TicTacToe> TicTacToeGames { get; } = new();
-        public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; } = new();
-        public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new();
-
-        public AsyncLazy<RatingTexts> Ratings { get; }
-        private ConcurrentDictionary<ulong, object> _locks { get; } = new();
+        private async Task<RatingTexts> GetRatingTexts()
+        {
+            using (var http = _httpFactory.CreateClient())
+            {
+                var text = await http.GetStringAsync("https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
+                return JsonConvert.DeserializeObject<RatingTexts>(text);
+            }
+        }
 
         public async Task Unload()
         {
@@ -114,47 +115,34 @@ namespace Mewdeko.Modules.Games.Services
             NunchiGames.Clear();
         }
 
-        private async Task<RatingTexts> GetRatingTexts()
-        {
-            using (var http = _httpFactory.CreateClient())
-            {
-                var text = await http.GetStringAsync(
-                    "https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
-                return JsonConvert.DeserializeObject<RatingTexts>(text);
-            }
-        }
-
-        private void DisposeElems(IEnumerable<IDisposable> xs)
-        {
-            xs.ForEach(x => x.Dispose());
-        }
-
         public void AddTypingArticle(IUser user, string text)
         {
             TypingArticles.Add(new TypingArticle
             {
                 Source = user.ToString(),
                 Extra = $"Text added on {DateTime.UtcNow} by {user}.",
-                Text = text.SanitizeMentions(true)
+                Text = text.SanitizeMentions(true),
             });
 
             File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
         }
 
-        private string GetText(ITextChannel ch, string key, params object[] rep)
+        public string GetEightballResponse(string _)
         {
-            return _strings.GetText(key, ch.GuildId, rep);
+            return EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
         }
 
-        public class RatingTexts
+        public TypingArticle RemoveTypingArticle(int index)
         {
-            public string Nog { get; set; }
-            public string Tra { get; set; }
-            public string Fun { get; set; }
-            public string Uni { get; set; }
-            public string Wif { get; set; }
-            public string Dat { get; set; }
-            public string Dan { get; set; }
+            var articles = TypingArticles;
+            if (index < 0 || index >= articles.Count)
+                return null;
+
+            var removed = articles[index];
+            TypingArticles.RemoveAt(index);
+                
+            File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(articles));
+            return removed;
         }
     }
 }

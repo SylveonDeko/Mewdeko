@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Services.Database.Models;
 
 namespace Mewdeko.Core.Services.Database
 {

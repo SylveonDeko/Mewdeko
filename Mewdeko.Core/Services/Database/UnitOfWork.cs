@@ -8,12 +8,9 @@ namespace Mewdeko.Core.Services.Database
     public sealed class UnitOfWork : IUnitOfWork
     {
         private IAFKRepository _AFK;
-
-        private IBotConfigRepository _botConfig;
-
+        
         private IClubRepository _clubs;
-        private ICurrencyTransactionsRepository _currencyTransactions;
-
+        
         private ICustomReactionRepository _customReactions;
 
         private IDiscordUserRepository _discordUsers;
@@ -50,11 +47,7 @@ namespace Mewdeko.Core.Services.Database
 
         public MewdekoContext _context { get; }
         public IQuoteRepository Quotes => _quotes ?? (_quotes = new QuoteRepository(_context));
-
-        public ICurrencyTransactionsRepository CurrencyTransactions => _currencyTransactions ??
-                                                                       (_currencyTransactions =
-                                                                           new CurrencyTransactionsRepository(
-                                                                               _context));
+        
 
         public IGuildConfigRepository GuildConfigs =>
             _guildConfigs ?? (_guildConfigs = new GuildConfigRepository(_context));
@@ -64,7 +57,6 @@ namespace Mewdeko.Core.Services.Database
         public ISelfAssignedRolesRepository SelfAssignedRoles =>
             _selfAssignedRoles ?? (_selfAssignedRoles = new SelfAssignedRolesRepository(_context));
 
-        public IBotConfigRepository BotConfig => _botConfig ?? (_botConfig = new BotConfigRepository(_context));
 
         public IMusicPlaylistRepository MusicPlaylists =>
             _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Extensions;
-using NLog;
 using StackExchange.Redis;
+using Serilog;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -23,7 +23,6 @@ namespace Mewdeko.Core.Services.Impl
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly Logger _log;
         private readonly ConnectionMultiplexer _redis;
         private readonly DateTime _started;
         private long _commandsRan;
@@ -35,7 +34,6 @@ namespace Mewdeko.Core.Services.Impl
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
             IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory)
         {
-            _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
@@ -153,15 +151,15 @@ namespace Mewdeko.Core.Services.Impl
                     }
                     catch (Exception ex)
                     {
-                        _log.Error(ex);
+                        Log.Error(ex.ToString());
                         // ignored
                     }
                 }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
-        public string Library => "Discord.Net 2.4.0-20210508.2";
+        public string Library => "Discord.Net 2.4.1";
 
-        public string Heap => Math.Round((double) GC.GetTotalMemory(false) / 1.MiB(), 2)
+        public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
             .ToString(CultureInfo.InvariantCulture);
 
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;

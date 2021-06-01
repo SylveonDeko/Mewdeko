@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -18,7 +17,12 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class MemegenCommands : MewdekoSubmodule
         {
-            private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>
+            private class MemegenTemplate
+            {
+                public string Name { get; set; }
+                public string Id { get; set; }
+            }
+            private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>()
             {
                 {'?', "~q"},
                 {'%', "~p"},
@@ -28,8 +32,8 @@ namespace Mewdeko.Modules.Searches
                 {'-', "--"},
                 {'_', "__"},
                 {'"', "''"}
-            }.ToImmutableDictionary();
 
+            }.ToImmutableDictionary();
             private readonly IHttpClientFactory _httpFactory;
 
             public MemegenCommands(IHttpClientFactory factory)
@@ -37,10 +41,7 @@ namespace Mewdeko.Modules.Searches
                 _httpFactory = factory;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task Memelist(int page = 1)
             {
                 if (--page < 0)
@@ -48,36 +49,44 @@ namespace Mewdeko.Modules.Searches
 
                 using (var http = _httpFactory.CreateClient("memelist"))
                 {
-                    var res = await http.GetAsync("https://memegen.link/api/templates/")
+                    var res = await http.GetAsync("https://api.memegen.link/templates/")
                         .ConfigureAwait(false);
 
                     var rawJson = await res.Content.ReadAsStringAsync();
-
-                    var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(rawJson)
-                        .Select(kvp => Path.GetFileName(kvp.Value))
-                        .ToList();
+                    
+                    var data = JsonConvert.DeserializeObject<List<MemegenTemplate>>(rawJson);
 
                     await ctx.SendPaginatedConfirmAsync(page, curPage =>
                     {
+                        var templates = "";
+                        foreach (var template in data.Skip(curPage * 15).Take(15))
+                        {
+                            templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
+                        }
                         var embed = new EmbedBuilder()
                             .WithOkColor()
-                            .WithDescription(string.Join('\n', data.Skip(curPage * 20).Take(20)));
+                            .WithDescription(templates);
 
                         return embed;
-                    }, data.Count, 20);
-                    //await ctx.Channel.SendTableAsync(data, x => $"{x,-15}", 3).ConfigureAwait(false);
+                    }, data.Count, 15).ConfigureAwait(false);
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            public async Task Memegen(string meme, string topText, string botText)
+            [MewdekoCommand, Usage, Description, Aliases]
+            public async Task Memegen(string meme, [Leftover] string memeText = null)
             {
-                var top = Replace(topText);
-                var bot = Replace(botText);
-                await ctx.Channel.SendMessageAsync($"http://memegen.link/{meme}/{top}/{bot}.jpg")
+                var memeUrl = $"http://api.memegen.link/{meme}";
+                if (!string.IsNullOrWhiteSpace(memeText))
+                {
+                    var memeTextArray = memeText.Split(';');
+                    foreach(var text in memeTextArray)
+                    {
+                        var newText = Replace(text);
+                        memeUrl += $"/{newText}";
+                    }
+                }
+                memeUrl += ".png";
+                await ctx.Channel.SendMessageAsync(memeUrl)
                     .ConfigureAwait(false);
             }
 
@@ -86,10 +95,12 @@ namespace Mewdeko.Modules.Searches
                 var sb = new StringBuilder();
 
                 foreach (var c in input)
+                {
                     if (_map.TryGetValue(c, out var tmp))
                         sb.Append(tmp);
                     else
                         sb.Append(c);
+                }
 
                 return sb.ToString();
             }

@@ -1,9 +1,9 @@
+using Mewdeko.Core.Services.Database.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mewdeko.Common;
-using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Mewdeko.Common;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -28,8 +28,8 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
             var rng = new MewdekoRandom();
             return (await _set.AsQueryable()
-                    .Where(q => q.GuildId == guildId && q.Keyword == keyword)
-                    .ToListAsync())
+                .Where(q => q.GuildId == guildId && q.Keyword == keyword)
+                .ToListAsync())
                 .OrderBy(q => rng.Next())
                 .FirstOrDefault();
         }
@@ -38,12 +38,12 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
             var rngk = new MewdekoRandom();
             return (await _set.AsQueryable()
-                    .Where(q => q.GuildId == guildId
-                                && q.Keyword == keyword
-                                && EF.Functions.Like(q.Text.ToUpper(), $"%{text.ToUpper()}%")
-                        // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
-                    )
-                    .ToListAsync())
+                .Where(q => q.GuildId == guildId
+                            && q.Keyword == keyword
+                            && EF.Functions.Like(q.Text.ToUpper(), $"%{text.ToUpper()}%")
+                            // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
+                            )
+                .ToListAsync())
                 .OrderBy(q => rngk.Next())
                 .FirstOrDefault();
         }
@@ -52,5 +52,6 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
             _set.RemoveRange(_set.AsQueryable().Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
         }
+
     }
 }

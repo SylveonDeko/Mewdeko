@@ -3,18 +3,17 @@ using Newtonsoft.Json;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Mewdeko.Core.Modules.Xp.Common
+namespace Mewdeko.Core.Modules.Xp
 {
     public class XpTemplate
     {
         [JsonProperty("output_size")]
-        public XpTemplatePos OutputSize { get; set; } = new()
+        public XpTemplatePos OutputSize { get; set; } = new XpTemplatePos
         {
             X = 450,
-            Y = 220
+            Y = 220,
         };
-
-        public XpTemplateUser User { get; set; } = new()
+        public XpTemplateUser User { get; set; } = new XpTemplateUser
         {
             Name = new XpTemplateText
             {
@@ -23,7 +22,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 130,
-                    Y = 17
+                    Y = 17,
                 }
             },
             Icon = new XpTemplateIcon
@@ -32,12 +31,12 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 32,
-                    Y = 10
+                    Y = 10,
                 },
                 Size = new XpTemplatePos
                 {
                     X = 69,
-                    Y = 70
+                    Y = 70,
                 }
             },
             GuildLevel = new XpTemplateText
@@ -47,7 +46,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 47,
-                    Y = 297
+                    Y = 297,
                 }
             },
             GlobalLevel = new XpTemplateText
@@ -57,7 +56,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 47,
-                    Y = 149
+                    Y = 149,
                 }
             },
             GuildRank = new XpTemplateText
@@ -67,7 +66,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 148,
-                    Y = 326
+                    Y = 326,
                 }
             },
             GlobalRank = new XpTemplateText
@@ -77,7 +76,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 148,
-                    Y = 179
+                    Y = 179,
                 }
             },
             TimeOnLevel = new XpTemplateTimeOnLevel
@@ -174,8 +173,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 }
             }
         };
-
-        public XpTemplateClub Club { get; set; } = new()
+        public XpTemplateClub Club { get; set; } = new XpTemplateClub
         {
             Icon = new XpTemplateIcon
             {
@@ -183,12 +181,12 @@ namespace Mewdeko.Core.Modules.Xp.Common
                 Pos = new XpTemplatePos
                 {
                     X = 722,
-                    Y = 25
+                    Y = 25,
                 },
                 Size = new XpTemplatePos
                 {
                     X = 45,
-                    Y = 45
+                    Y = 45,
                 }
             },
             Name = new XpTemplateText
@@ -199,7 +197,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
                     X = 650,
                     Y = 49
                 },
-                Show = true
+                Show = true,
             }
         };
     }
@@ -246,7 +244,6 @@ namespace Mewdeko.Core.Modules.Xp.Common
     {
         [JsonConverter(typeof(XpRgba32Converter))]
         public Rgba32 Color { get; set; } = SixLabors.ImageSharp.Color.White;
-
         public bool Show { get; set; }
         public int FontSize { get; set; }
         public XpTemplatePos Pos { get; set; }
@@ -271,7 +268,6 @@ namespace Mewdeko.Core.Modules.Xp.Common
     {
         [JsonConverter(typeof(XpRgba32Converter))]
         public Rgba32 Color { get; set; }
-
         public XpTemplatePos PointA { get; set; }
         public XpTemplatePos PointB { get; set; }
         public int Length { get; set; }
@@ -288,8 +284,7 @@ namespace Mewdeko.Core.Modules.Xp.Common
 
     public class XpRgba32Converter : JsonConverter<Rgba32>
     {
-        public override Rgba32 ReadJson(JsonReader reader, Type objectType, Rgba32 existingValue, bool hasExistingValue,
-            JsonSerializer serializer)
+        public override Rgba32 ReadJson(JsonReader reader, Type objectType, Rgba32 existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             return Color.ParseHex(reader.Value.ToString());
         }

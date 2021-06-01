@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Discord.Commands;
+using Mewdeko.Extensions;
+using System;
 using System.Threading.Tasks;
-using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -12,6 +12,9 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class PlaceCommands : MewdekoSubmodule
         {
+            private static readonly string _typesStr = 
+                string.Join(", ", Enum.GetNames(typeof(PlaceType)));
+
             public enum PlaceType
             {
                 Cage, //http://www.placecage.com
@@ -21,27 +24,18 @@ namespace Mewdeko.Modules.Searches
                 Bear, //https://www.placebear.com
                 Kitten, //http://placekitten.com
                 Bacon, //http://baconmockup.com
-                Xoart //http://xoart.link
+                Xoart, //http://xoart.link
             }
 
-            private static readonly string _typesStr =
-                string.Join(", ", Enum.GetNames(typeof(PlaceType)));
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task Placelist()
             {
-                await ctx.Channel.SendConfirmAsync(GetText("list_of_place_tags", Prefix),
-                        _typesStr)
-                    .ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync(GetText("list_of_place_tags", Prefix), 
+                    _typesStr)
+                             .ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task Place(PlaceType placeType, uint width = 0, uint height = 0)
             {
                 var url = "";
@@ -72,13 +66,12 @@ namespace Mewdeko.Modules.Searches
                         url = "http://xoart.link";
                         break;
                 }
-
                 var rng = new MewdekoRandom();
                 if (width <= 0 || width > 1000)
-                    width = (uint) rng.Next(250, 850);
+                    width = (uint)rng.Next(250, 850);
 
                 if (height <= 0 || height > 1000)
-                    height = (uint) rng.Next(250, 850);
+                    height = (uint)rng.Next(250, 850);
 
                 url += $"/{width}/{height}";
 

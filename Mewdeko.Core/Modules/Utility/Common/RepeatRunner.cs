@@ -1,48 +1,30 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
+using Mewdeko.Extensions;
+using Mewdeko.Core.Services.Database.Models;
+using System.Linq;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
-using NLog;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility.Common
 {
     public class RepeatRunner
     {
-        private readonly DiscordSocketClient _client;
-        private readonly Logger _log;
-
-        private readonly MessageRepeaterService _mrs;
-
-        private TimeSpan _initialInterval;
-
-        private Timer _t;
-
-        public RepeatRunner(DiscordSocketClient client, SocketGuild guild, Repeater repeater,
-            MessageRepeaterService mrs)
-        {
-            _log = LogManager.GetCurrentClassLogger();
-            Repeater = repeater;
-            Guild = guild;
-            _mrs = mrs;
-            _client = client;
-
-            InitialInterval = Repeater.Interval;
-
-            Run();
-        }
-
+        
         public Repeater Repeater { get; }
         public SocketGuild Guild { get; }
 
+        private readonly MessageRepeaterService _mrs;
+
         public ITextChannel Channel { get; private set; }
+
+        private TimeSpan _initialInterval;
 
         public TimeSpan InitialInterval
         {
@@ -55,11 +37,26 @@ namespace Mewdeko.Modules.Utility.Common
         }
 
         /// <summary>
-        ///     When's the next time the repeater will run.
-        ///     On bot startup, it will be InitialInterval + StartupDateTime.
-        ///     After first execution, it will be Interval + ExecutionDateTime
+        /// When's the next time the repeater will run.
+        /// On bot startup, it will be InitialInterval + StartupDateTime.
+        /// After first execution, it will be Interval + ExecutionDateTime
         /// </summary>
         public DateTime NextDateTime { get; set; }
+
+        private Timer _t;
+        private readonly DiscordSocketClient _client;
+
+        public RepeatRunner(DiscordSocketClient client, SocketGuild guild, Repeater repeater, MessageRepeaterService mrs)
+        {
+            Repeater = repeater;
+            Guild = guild;
+            _mrs = mrs;
+            _client = client;
+
+            InitialInterval = Repeater.Interval;
+
+            Run();
+        }
 
         private void Run()
         {
@@ -69,7 +66,7 @@ namespace Mewdeko.Modules.Utility.Common
                 // calculate whats the next time of day repeat should trigger at
                 // based on teh dateadded
 
-                // i know this != null because of the .Where in the repeat service
+                // i know this is not null because of the .Where in the repeat service
                 var added = Repeater.DateAdded.Value;
 
                 // initial trigger was the time of day specified by the command.
@@ -80,18 +77,22 @@ namespace Mewdeko.Modules.Utility.Common
                 // if added timeofday is less than specified timeofday for initial trigger
                 // that means the repeater first ran that same day at that exact specified time
                 if (added.TimeOfDay <= initialTriggerTimeOfDay)
+                {
                     // in that case, just add the difference to make sure the timeofday is the same
                     initialDateTime = added + (initialTriggerTimeOfDay - added.TimeOfDay);
+                }
                 else
+                {
                     // if not, then it ran at that time the following day
                     // in other words; Add one day, and subtract how much time passed since that time of day
                     initialDateTime = added + TimeSpan.FromDays(1) - (added.TimeOfDay - initialTriggerTimeOfDay);
+                }
 
                 CalculateInitialInterval(initialDateTime);
             }
             else
             {
-                // if repeater != running daily, it's initial time is the time it was Added at, plus the interval
+                // if repeater is not running daily, it's initial time is the time it was Added at, plus the interval
                 CalculateInitialInterval(Repeater.DateAdded.Value + Repeater.Interval);
             }
 
@@ -99,7 +100,7 @@ namespace Mewdeko.Modules.Utility.Common
             if (InitialInterval < TimeSpan.FromMinutes(1))
                 InitialInterval = TimeSpan.FromMinutes(1);
 
-            _t = new Timer(async _ =>
+            _t = new Timer(async (_) =>
             {
                 try
                 {
@@ -112,7 +113,7 @@ namespace Mewdeko.Modules.Utility.Common
         }
 
         /// <summary>
-        ///     Calculate when is the proper time to run the repeater again based on initial time repeater ran.
+        /// Calculate when is the proper time to run the repeater again based on initial time repeater ran.
         /// </summary>
         /// <param name="initialDateTime">Initial time repeater ran at (or should run at).</param>
         private void CalculateInitialInterval(DateTime initialDateTime)
@@ -151,7 +152,7 @@ namespace Mewdeko.Modules.Utility.Common
         {
             async Task ChannelMissingError()
             {
-                _log.Warn("Channel not found or insufficient permissions. Repeater stopped. ChannelId : {0}",
+                Log.Warning("Channel not found or insufficient permissions. Repeater stopped. ChannelId : {0}",
                     Channel?.Id);
                 Stop();
                 await _mrs.RemoveRepeater(Repeater);
@@ -207,13 +208,12 @@ namespace Mewdeko.Modules.Utility.Common
                 if (CREmbed.TryParse(toSend, out var crEmbed))
                 {
                     rep.Replace(crEmbed);
-                    newMsg = await Channel.EmbedAsync(crEmbed.ToEmbed());
+                    newMsg = await Channel.EmbedAsync(crEmbed);
                 }
                 else
                 {
                     newMsg = await Channel.SendMessageAsync(rep.Replace(toSend));
                 }
-
                 _ = newMsg.AddReactionAsync(new Emoji("🔄"));
 
                 if (Repeater.NoRedundant)
@@ -224,12 +224,13 @@ namespace Mewdeko.Modules.Utility.Common
             }
             catch (HttpException ex)
             {
-                _log.Warn(ex.Message);
+                Log.Warning(ex, "Http Exception in repeat trigger");
                 await ChannelMissingError().ConfigureAwait(false);
+                return;
             }
             catch (Exception ex)
             {
-                _log.Warn(ex);
+                Log.Warning(ex, "Exception in repeat trigger");
                 Stop();
                 await _mrs.RemoveRepeater(Repeater).ConfigureAwait(false);
             }
@@ -246,12 +247,10 @@ namespace Mewdeko.Modules.Utility.Common
             _t.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        public override string ToString()
-        {
-            return $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} " +
-                   (Repeater.NoRedundant ? "| ✍" : "") +
-                   $"| {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
-                   $"| {Repeater.Message.TrimTo(33)}";
-        }
+        public override string ToString() =>
+            $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} " +
+            (this.Repeater.NoRedundant ? "| ✍" : "") +
+            $"| {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
+            $"| {Repeater.Message.TrimTo(33)}";
     }
 }

@@ -7,7 +7,6 @@ using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
-using Swan;
 
 namespace Mewdeko.Modules.Utility
 {

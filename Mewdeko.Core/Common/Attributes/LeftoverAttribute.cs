@@ -2,5 +2,8 @@
 {
     public class LeftoverAttribute : RemainderAttribute
     {
+        public LeftoverAttribute()
+        {
+        }
     }
 }

@@ -56,7 +56,6 @@ namespace Mewdeko.Core.Modules.Searches.Common
 
         [JsonProperty("following")] public bool Following { get; set; }
     }
-
     public class Thumbnails
     {
         [JsonProperty("web")] public string Web { get; set; }
@@ -111,4 +110,5 @@ namespace Mewdeko.Core.Modules.Searches.Common
 
         [JsonProperty("name")] public string Name { get; set; }
     }
+
 }

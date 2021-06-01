@@ -1,32 +1,23 @@
-﻿using System.Globalization;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using System.Globalization;
+using System.Threading.Tasks;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.ServerManagement.Services;
 using Mewdeko.Modules.Utility.Services;
-using NLog;
 
 namespace Mewdeko.Modules
 {
-    public abstract class MewdekoTopLevelModule : ModuleBase
+    public abstract class MewdekoModule : ModuleBase
     {
-        protected MewdekoTopLevelModule(bool isTopLevelModule = true)
-        {
-            //if it's top level module
-            _log = LogManager.GetCurrentClassLogger();
-        }
-
-        protected Logger _log { get; }
         protected CultureInfo _cultureInfo { get; set; }
         public IBotStrings Strings { get; set; }
-        public IBotConfigProvider Bc { get; set; }
         public CommandHandler CmdHandler { get; set; }
-        public SuggestService SugServ { get; set; }
         public ILocalization Localization { get; set; }
+        public SuggestService SugServ { get; set; }
         public UserPunishService UPun { get; set; }
         public ServerManagementService SMS { get; set; }
         public UserPunishService2 UPun2 { get; set; }
@@ -41,62 +32,42 @@ namespace Mewdeko.Modules
 
         protected ICommandContext ctx => Context;
 
+        protected MewdekoModule()
+        {
+        }
+
         protected override void BeforeExecute(CommandInfo cmd)
         {
             _cultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
         }
 
-        //public Task<IUserMessage> ReplyConfirmLocalized(string titleKey, string textKey, string url = null, string footer = null)
-        //{
-        //    var title = Mewdeko.ResponsesResourceManager.GetString(titleKey, cultureInfo);
-        //    var text = Mewdeko.ResponsesResourceManager.GetString(textKey, cultureInfo);
-        //    return ctx.Channel.SendConfirmAsync(title, text, url, footer);
-        //}
+        protected string GetText(string key) =>
+            Strings.GetText(key, _cultureInfo);
 
-        //public Task<IUserMessage> ReplyConfirmLocalized(string textKey)
-        //{
-        //    var text = Mewdeko.ResponsesResourceManager.GetString(textKey, cultureInfo);
-        //    return ctx.Channel.SendConfirmAsync(ctx.User.Mention + " " + textKey);
-        //}
+        protected string GetText(string key, params object[] args) =>
+            Strings.GetText(key, _cultureInfo, args);
 
-        //public Task<IUserMessage> ReplyErrorLocalized(string titleKey, string textKey, string url = null, string footer = null)
-        //{
-        //    var title = Mewdeko.ResponsesResourceManager.GetString(titleKey, cultureInfo);
-        //    var text = Mewdeko.ResponsesResourceManager.GetString(textKey, cultureInfo);
-        //    return ctx.Channel.SendErrorAsync(title, text, url, footer);
-        //}
-
-        protected string GetText(string key)
+        public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
         {
-            return Strings.GetText(key, _cultureInfo);
-        }
-
-        protected string GetText(string key, params object[] replacements)
-        {
-            return Strings.GetText(key, _cultureInfo, replacements);
-        }
-
-        public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] replacements)
-        {
-            var text = GetText(textKey, replacements);
+            var text = GetText(textKey, args);
             return ctx.Channel.SendErrorAsync(text);
         }
 
-        public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] replacements)
+        public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
         {
-            var text = GetText(textKey, replacements);
+            var text = GetText(textKey, args);
             return ctx.Channel.SendErrorAsync(Format.Bold(ctx.User.ToString()) + " " + text);
         }
 
-        public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] replacements)
+        public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] args)
         {
-            var text = GetText(textKey, replacements);
+            var text = GetText(textKey, args);
             return ctx.Channel.SendConfirmAsync(text);
         }
 
-        public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] replacements)
+        public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
         {
-            var text = GetText(textKey, replacements);
+            var text = GetText(textKey, args);
             return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
         }
 
@@ -111,7 +82,10 @@ namespace Mewdeko.Modules
                 var input = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id).ConfigureAwait(false);
                 input = input?.ToUpperInvariant();
 
-                if (input != "YES" && input != "Y") return false;
+                if (input != "YES" && input != "Y")
+                {
+                    return false;
+                }
 
                 return true;
             }
@@ -125,13 +99,15 @@ namespace Mewdeko.Modules
         public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
         {
             var userInputTask = new TaskCompletionSource<string>();
-            var dsc = (DiscordSocketClient) ctx.Client;
+            var dsc = (DiscordSocketClient)ctx.Client;
             try
             {
                 dsc.MessageReceived += MessageReceived;
 
-                if (await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false) !=
-                    userInputTask.Task) return null;
+                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false)) != userInputTask.Task)
+                {
+                    return null;
+                }
 
                 return await userInputTask.Task.ConfigureAwait(false);
             }
@@ -148,9 +124,14 @@ namespace Mewdeko.Modules
                         !(userMsg.Channel is ITextChannel chan) ||
                         userMsg.Author.Id != userId ||
                         userMsg.Channel.Id != channelId)
+                    {
                         return Task.CompletedTask;
+                    }
 
-                    if (userInputTask.TrySetResult(arg.Content)) userMsg.DeleteAfter(1);
+                    if (userInputTask.TrySetResult(arg.Content))
+                    {
+                        userMsg.DeleteAfter(1);
+                    }
                     return Task.CompletedTask;
                 });
                 return Task.CompletedTask;
@@ -158,25 +139,23 @@ namespace Mewdeko.Modules
         }
     }
 
-    public abstract class MewdekoTopLevelModule<TService> : MewdekoTopLevelModule where TService : INService
+    public abstract class MewdekoModule<TService> : MewdekoModule
     {
-        protected MewdekoTopLevelModule(bool isTopLevel = true) : base(isTopLevel)
-        {
-        }
-
         public TService _service { get; set; }
-    }
 
-    public abstract class MewdekoSubmodule : MewdekoTopLevelModule
-    {
-        protected MewdekoSubmodule() : base(false)
+        protected MewdekoModule() : base()
         {
         }
     }
 
-    public abstract class MewdekoSubmodule<TService> : MewdekoTopLevelModule<TService> where TService : INService
+    public abstract class MewdekoSubmodule : MewdekoModule
     {
-        protected MewdekoSubmodule() : base(false)
+        protected MewdekoSubmodule() : base() { }
+    }
+
+    public abstract class MewdekoSubmodule<TService> : MewdekoModule<TService>
+    {
+        protected MewdekoSubmodule() : base()
         {
         }
     }

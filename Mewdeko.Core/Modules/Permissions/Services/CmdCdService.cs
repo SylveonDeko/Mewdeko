@@ -12,25 +12,24 @@ namespace Mewdeko.Modules.Permissions.Services
 {
     public class CmdCdService : ILateBlocker, INService
     {
+        public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
+        public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>>();
+
+        public int Priority { get; } = 0;
+            
         public CmdCdService(Mewdeko bot)
         {
             CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-                bot.AllGuildConfigs.ToDictionary(k => k.GuildId,
-                    v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+                bot.AllGuildConfigs.ToDictionary(k => k.GuildId, 
+                                 v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
         }
 
-        public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
-        public ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns { get; } = new();
-
-        public int Priority { get; } = 0;
-
-        public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
-            CommandInfo command)
+        public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName, CommandInfo command)
         {
             var guild = ctx.Guild;
             var user = ctx.User;
             var commandName = command.Name.ToLowerInvariant();
-
+            
             if (guild == null)
                 return Task.FromResult(false);
             var cmdcds = CommandCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<CommandCooldown>());
@@ -39,11 +38,13 @@ namespace Mewdeko.Modules.Permissions.Services
             {
                 var activeCdsForGuild = ActiveCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
                 if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == commandName) != null)
+                {
                     return Task.FromResult(true);
-                activeCdsForGuild.Add(new ActiveCooldown
+                }
+                activeCdsForGuild.Add(new ActiveCooldown()
                 {
                     UserId = user.Id,
-                    Command = commandName
+                    Command = commandName,
                 });
                 var _ = Task.Run(async () =>
                 {
@@ -58,7 +59,6 @@ namespace Mewdeko.Modules.Permissions.Services
                     }
                 });
             }
-
             return Task.FromResult(false);
         }
     }

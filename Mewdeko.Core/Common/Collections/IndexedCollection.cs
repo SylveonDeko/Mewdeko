@@ -7,35 +7,49 @@ namespace Mewdeko.Common.Collections
 {
     public class IndexedCollection<T> : IList<T> where T : class, IIndexed
     {
-        private readonly object _locker = new();
+        public List<T> Source { get; }
+        private readonly object _locker = new object();
+
+        public int Count => Source.Count;
+        public bool IsReadOnly => false;
+        public int IndexOf(T item) => item.Index;
 
         public IndexedCollection()
         {
             Source = new List<T>();
         }
-
+        
         public IndexedCollection(IEnumerable<T> source)
         {
             lock (_locker)
             {
                 Source = source.OrderBy(x => x.Index).ToList();
-                for (var i = 0; i < Source.Count; i++)
-                    if (Source[i].Index != i)
-                        Source[i].Index = i;
+                UpdateIndexes();
             }
         }
 
-        public List<T> Source { get; }
-
-        public IEnumerator<T> GetEnumerator()
+        public void UpdateIndexes()
         {
-            return Source.GetEnumerator();
+            lock (_locker)
+            {
+                for (var i = 0; i < Source.Count; i++)
+                {
+                    if (Source[i].Index != i)
+                        Source[i].Index = i;
+                }
+            }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Source.GetEnumerator();
-        }
+        public static implicit operator List<T>(IndexedCollection<T> x) =>
+            x.Source;
+
+        public List<T> ToList() => Source.ToList();
+
+        public IEnumerator<T> GetEnumerator() =>
+            Source.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() =>
+            Source.GetEnumerator();
 
         public void Add(T item)
         {
@@ -76,23 +90,15 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 if (removed = Source.Remove(item))
-                    for (var i = 0; i < Source.Count; i++)
-                        // hm, no idea how ef works, so I don't want to set if it's not changed, 
-                        // maybe it will try to update db? 
-                        // But most likely it just compares old to new values, meh.
+                {
+                    for (int i = 0; i < Source.Count; i++)
+                    {
                         if (Source[i].Index != i)
                             Source[i].Index = i;
+                    }
+                }
             }
-
             return removed;
-        }
-
-        public int Count => Source.Count;
-        public bool IsReadOnly => false;
-
-        public int IndexOf(T item)
-        {
-            return item.Index;
         }
 
         public virtual void Insert(int index, T item)
@@ -100,7 +106,10 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 Source.Insert(index, item);
-                for (var i = index; i < Source.Count; i++) Source[i].Index = i;
+                for (int i = index; i < Source.Count; i++)
+                {
+                    Source[i].Index = i;
+                }
             }
         }
 
@@ -109,13 +118,16 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 Source.RemoveAt(index);
-                for (var i = index; i < Source.Count; i++) Source[i].Index = i;
+                for (int i = index; i < Source.Count; i++)
+                {
+                    Source[i].Index = i;
+                }
             }
         }
 
         public virtual T this[int index]
         {
-            get => Source[index];
+            get { return Source[index]; }
             set
             {
                 lock (_locker)
@@ -124,16 +136,6 @@ namespace Mewdeko.Common.Collections
                     Source[index] = value;
                 }
             }
-        }
-
-        public static implicit operator List<T>(IndexedCollection<T> x)
-        {
-            return x.Source;
-        }
-
-        public List<T> ToList()
-        {
-            return Source.ToList();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public string Username { get; set; }
         public string Discriminator { get; set; }
         public string AvatarId { get; set; }
-
+        
         public ClubInfo Club { get; set; }
         public bool IsClubAdmin { get; set; }
 
@@ -31,9 +31,7 @@ namespace Mewdeko.Core.Services.Database.Models
             return UserId.GetHashCode();
         }
 
-        public override string ToString()
-        {
-            return Username + "#" + Discriminator;
-        }
+        public override string ToString() => 
+            Username + "#" + Discriminator;
     }
 }

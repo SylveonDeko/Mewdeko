@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Music.Services;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Mewdeko.Common.Replacements
 {
     public class ReplacementBuilder
     {
-        private static readonly Regex rngRegex =
-            new("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
-
-        private readonly ConcurrentDictionary<Regex, Func<Match, string>> _regex = new();
-        private readonly ConcurrentDictionary<string, Func<string>> _reps = new();
+        private static readonly Regex rngRegex = new Regex("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
+        private ConcurrentDictionary<string, Func<string>> _reps = new ConcurrentDictionary<string, Func<string>>();
+        private ConcurrentDictionary<Regex, Func<Match, string>> _regex = new ConcurrentDictionary<Regex, Func<Match, string>>();
 
         public ReplacementBuilder()
         {
@@ -27,16 +25,14 @@ namespace Mewdeko.Common.Replacements
 
         public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g, DiscordSocketClient client)
         {
-            return WithUser(usr)
+            return this.WithUser(usr)
                 .WithChannel(ch)
                 .WithServer(client, g)
                 .WithClient(client);
         }
 
-        public ReplacementBuilder WithDefault(ICommandContext ctx)
-        {
-            return WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient) ctx.Client);
-        }
+        public ReplacementBuilder WithDefault(ICommandContext ctx) =>
+            WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
 
         public ReplacementBuilder WithMention(DiscordSocketClient client)
         {
@@ -53,16 +49,14 @@ namespace Mewdeko.Common.Replacements
 
             /*OBSOLETE*/
             _reps.TryAdd("%shardid%", () => client.ShardId.ToString());
-            _reps.TryAdd("%time%",
-                () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
+            _reps.TryAdd("%time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
 
             /*NEW*/
             _reps.TryAdd("%bot.status%", () => client.Status.ToString());
             _reps.TryAdd("%bot.latency%", () => client.Latency.ToString());
             _reps.TryAdd("%bot.name%", () => client.CurrentUser.Username);
             _reps.TryAdd("%bot.fullname%", () => client.CurrentUser.ToString());
-            _reps.TryAdd("%bot.time%",
-                () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
+            _reps.TryAdd("%bot.time%", () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
             _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);
             _reps.TryAdd("%bot.id%", () => client.CurrentUser.Id.ToString());
             _reps.TryAdd("%bot.avatar%", () => client.CurrentUser.RealAvatarUrl()?.ToString());
@@ -79,10 +73,12 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
             _reps.TryAdd("%server_time%", () =>
             {
-                var to = TimeZoneInfo.Local;
+                TimeZoneInfo to = TimeZoneInfo.Local;
                 if (g != null)
+                {
                     if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                         to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+                }
 
                 return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                     TimeZoneInfo.Utc,
@@ -94,10 +90,12 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%server.members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
             _reps.TryAdd("%server.time%", () =>
             {
-                var to = TimeZoneInfo.Local;
+                TimeZoneInfo to = TimeZoneInfo.Local;
                 if (g != null)
+                {
                     if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                         to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+                }
 
                 return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                     TimeZoneInfo.Utc,
@@ -154,8 +152,7 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%userfull%", () => string.Join(" ", users.Select(user => user.ToString())));
             _reps.TryAdd("%username%", () => string.Join(" ", users.Select(user => user.Username)));
             _reps.TryAdd("%userdiscrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
-            _reps.TryAdd("%useravatar%",
-                () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));
+            _reps.TryAdd("%useravatar%", () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));
             _reps.TryAdd("%id%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
             _reps.TryAdd("%uid%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
             /*NEW*/
@@ -163,18 +160,12 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%user.fullname%", () => string.Join(" ", users.Select(user => user.ToString())));
             _reps.TryAdd("%user.name%", () => string.Join(" ", users.Select(user => user.Username)));
             _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
-            _reps.TryAdd("%user.avatar%",
-                () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));
+            _reps.TryAdd("%user.avatar%", () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));
             _reps.TryAdd("%user.id%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
-            _reps.TryAdd("%user.created_time%",
-                () => string.Join(" ", users.Select(user => user.CreatedAt.ToString("HH:mm"))));
-            _reps.TryAdd("%user.created_date%",
-                () => string.Join(" ", users.Select(user => user.CreatedAt.ToString("dd.MM.yyyy"))));
-            _reps.TryAdd("%user.joined_time%",
-                () => string.Join(" ", users.Select(user => (user as IGuildUser)?.JoinedAt?.ToString("HH:mm") ?? "-")));
-            _reps.TryAdd("%user.joined_date%",
-                () => string.Join(" ",
-                    users.Select(user => (user as IGuildUser)?.JoinedAt?.ToString("dd.MM.yyyy") ?? "-")));
+            _reps.TryAdd("%user.created_time%", () => string.Join(" ", users.Select(user => user.CreatedAt.ToString("HH:mm"))));
+            _reps.TryAdd("%user.created_date%", () => string.Join(" ", users.Select(user => user.CreatedAt.ToString("dd.MM.yyyy"))));
+            _reps.TryAdd("%user.joined_time%", () => string.Join(" ", users.Select(user => (user as IGuildUser)?.JoinedAt?.ToString("HH:mm") ?? "-")));
+            _reps.TryAdd("%user.joined_date%", () => string.Join(" ", users.Select(user => (user as IGuildUser)?.JoinedAt?.ToString("dd.MM.yyyy") ?? "-")));
             return this;
         }
 
@@ -195,49 +186,48 @@ namespace Mewdeko.Common.Replacements
             return this;
         }
 
-        public ReplacementBuilder WithMusic(MusicService ms)
-        {
-            _reps.TryAdd("%playing%", () =>
-            {
-                var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
-                if (cnt != 1) return cnt.ToString();
-                try
-                {
-                    var mp = ms.MusicPlayers.FirstOrDefault();
-                    var title = mp.Value?.Current.Current?.Title;
-                    return title ?? "No songs";
-                }
-                catch
-                {
-                    return "error";
-                }
-            });
-            _reps.TryAdd("%queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
-
-            _reps.TryAdd("%music.queued%",
-                () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
-            _reps.TryAdd("%music.playing%", () =>
-            {
-                var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
-                if (cnt != 1) return cnt.ToString();
-                try
-                {
-                    var mp = ms.MusicPlayers.FirstOrDefault();
-                    var title = mp.Value?.Current.Current?.Title;
-                    return title ?? "No songs";
-                }
-                catch
-                {
-                    return "error";
-                }
-            });
-            return this;
-        }
+        // public ReplacementBuilder WithMusic(MusicService ms)
+        // {
+        //     _reps.TryAdd("%playing%", () =>
+        //     {
+        //         var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
+        //         if (cnt != 1) return cnt.ToString();
+        //         try
+        //         {
+        //             var mp = ms.MusicPlayers.FirstOrDefault();
+        //             var title = mp.Value?.Current.Current?.Title;
+        //             return title ?? "No songs";
+        //         }
+        //         catch
+        //         {
+        //             return "error";
+        //         }
+        //     });
+        //     _reps.TryAdd("%queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
+        //
+        //     _reps.TryAdd("%music.queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
+        //     _reps.TryAdd("%music.playing%", () =>
+        //     {
+        //         var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
+        //         if (cnt != 1) return cnt.ToString();
+        //         try
+        //         {
+        //             var mp = ms.MusicPlayers.FirstOrDefault();
+        //             var title = mp.Value?.Current.Current?.Title;
+        //             return title ?? "No songs";
+        //         }
+        //         catch
+        //         {
+        //             return "error";
+        //         }
+        //     });
+        //     return this;
+        // }
 
         public ReplacementBuilder WithRngRegex()
         {
             var rng = new MewdekoRandom();
-            _regex.TryAdd(rngRegex, match =>
+            _regex.TryAdd(rngRegex, (match) =>
             {
                 if (!int.TryParse(match.Groups["from"].ToString(), out var from))
                     from = 0;
@@ -263,7 +253,7 @@ namespace Mewdeko.Common.Replacements
 
         public Replacer Build()
         {
-            return new(_reps.Select(x => (x.Key, x.Value)).ToArray(), _regex.Select(x => (x.Key, x.Value)).ToArray());
+            return new Replacer(_reps.Select(x => (x.Key, x.Value)).ToArray(), _regex.Select(x => (x.Key, x.Value)).ToArray());
         }
     }
 }

@@ -10,14 +10,13 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
-using NLog;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class UserPunishService2 : INService
     {
         private readonly DbService _db;
-        private readonly Logger _log;
         private readonly MuteService _mute;
         private readonly Timer _warnExpiryTimer;
         private Mewdeko _bot;
@@ -27,7 +26,6 @@ namespace Mewdeko.Modules.Administration.Services
         {
             _mute = mute;
             _db = db;
-            _log = LogManager.GetCurrentClassLogger();
             _bot = bot;
             _miniwarnlogchannelids = bot.AllGuildConfigs
                 .Where(x => x.MiniWarnlogChannelId != 0)
@@ -131,7 +129,7 @@ namespace Mewdeko.Modules.Administration.Services
                         if (p.Time == 0)
                             await guild.AddBanAsync(user, reason: "Warned too many times.").ConfigureAwait(false);
                         else
-                            await _mute.TimedBan(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
+                            await _mute.TimedBan(guild, user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
                                 .ConfigureAwait(false);
                         break;
                     case PunishmentAction.Softban:
@@ -162,7 +160,7 @@ namespace Mewdeko.Modules.Administration.Services
                         }
                         else
                         {
-                            _log.Warn($"Warnpunish can't find role {p.RoleId.Value} on server {guild.Id}");
+                            Log.Warning($"Warnpunish can't find role {p.RoleId.Value} on server {guild.Id}");
                         }
 
                         break;
@@ -203,7 +201,7 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
 
                 if (cleared > 0 || deleted > 0)
-                    _log.Info($"Cleared {cleared} warnings and deleted {deleted} warnings due to expiry.");
+                    Log.Information($"Cleared {cleared} warnings and deleted {deleted} warnings due to expiry.");
             }
         }
 

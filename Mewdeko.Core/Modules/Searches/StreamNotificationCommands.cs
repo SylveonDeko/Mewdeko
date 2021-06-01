@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Discord.Commands;
+using Discord;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
+using System.Collections.Generic;
 using Mewdeko.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
-using Microsoft.EntityFrameworkCore;
+using Discord.WebSocket;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -28,10 +28,7 @@ namespace Mewdeko.Modules.Searches
             // private static readonly Regex picartoRegex = new Regex(@"picarto.tv/(?<name>.+[^/])/?",
             //     RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task StreamAdd(string link)
@@ -47,10 +44,7 @@ namespace Mewdeko.Modules.Searches
                 await ctx.Channel.EmbedAsync(embed, GetText("stream_tracked")).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(1)]
@@ -58,17 +52,17 @@ namespace Mewdeko.Modules.Searches
             {
                 if (--index < 0)
                     return;
-
+                
                 var fs = await _service.UnfollowStreamAsync(ctx.Guild.Id, index);
                 if (fs is null)
                 {
                     await ReplyErrorLocalizedAsync("stream_no").ConfigureAwait(false);
                     return;
                 }
-
+            
                 await ReplyConfirmLocalizedAsync(
-                    "stream_removed",
-                    Format.Bold(fs.Username),
+                    "stream_removed", 
+                    Format.Bold(fs.Username), 
                     fs.Type).ConfigureAwait(false);
             }
 
@@ -81,16 +75,16 @@ namespace Mewdeko.Modules.Searches
             //     await ReplyConfirmLocalizedAsync("streams_cleared", count).ConfigureAwait(false);
             // }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task StreamList(int page = 1)
             {
-                if (page-- < 1) return;
+                if (page-- < 1)
+                {
+                    return;
+                }
 
-                var streams = new List<FollowedStream>();
+                List<FollowedStream> streams = new List<FollowedStream>();
                 using (var uow = _db.GetDbContext())
                 {
                     var all = uow.GuildConfigs
@@ -103,21 +97,27 @@ namespace Mewdeko.Modules.Searches
                     {
                         var fs = all[index];
                         if (((SocketGuild) ctx.Guild).GetTextChannel(fs.ChannelId) is null)
+                        {
                             await _service.UnfollowStreamAsync(fs.GuildId, index);
+                        }
                         else
+                        {
                             streams.Insert(0, fs);
+                        }
                     }
                 }
 
-                await ctx.SendPaginatedConfirmAsync(page, cur =>
+                await ctx.SendPaginatedConfirmAsync(page, (cur) =>
                 {
                     var elements = streams.Skip(cur * 12).Take(12)
                         .ToList();
 
                     if (elements.Count == 0)
+                    {
                         return new EmbedBuilder()
                             .WithDescription(GetText("streams_none"))
                             .WithErrorColor();
+                    }
 
                     var eb = new EmbedBuilder()
                         .WithTitle(GetText("streams_follow_title"))
@@ -126,7 +126,7 @@ namespace Mewdeko.Modules.Searches
                     {
                         var elem = elements[index];
                         eb.AddField(
-                            $"**#{index + 1 + 12 * cur}** {elem.Username.ToLower()}",
+                            $"**#{(index + 1) + (12 * cur)}** {elem.Username.ToLower()}",
                             $"【{elem.Type}】\n<#{elem.ChannelId}>\n{elem.Message?.TrimTo(50)}",
                             true);
                     }
@@ -135,50 +135,49 @@ namespace Mewdeko.Modules.Searches
                 }, streams.Count, 12).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task StreamOffline()
             {
                 var newValue = _service.ToggleStreamOffline(ctx.Guild.Id);
                 if (newValue)
+                {
                     await ReplyConfirmLocalizedAsync("stream_off_enabled").ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyConfirmLocalizedAsync("stream_off_disabled").ConfigureAwait(false);
+                }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
-            public async Task StreamMessage(int index, [Remainder] string message)
+            public async Task StreamMessage(int index, [Leftover] string message)
             {
                 if (--index < 0)
                     return;
-
+                
                 if (!_service.SetStreamMessage(ctx.Guild.Id, index, message, out var fs))
                 {
                     await ReplyConfirmLocalizedAsync("stream_not_following").ConfigureAwait(false);
                     return;
                 }
-
+            
                 if (string.IsNullOrWhiteSpace(message))
+                {
                     await ReplyConfirmLocalizedAsync("stream_message_reset", Format.Bold(fs.Username))
                         .ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyConfirmLocalizedAsync("stream_message_set", Format.Bold(fs.Username))
                         .ConfigureAwait(false);
+                }
             }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task StreamCheck(string url)
             {
@@ -190,15 +189,19 @@ namespace Mewdeko.Modules.Searches
                         await ReplyErrorLocalizedAsync("no_channel_found").ConfigureAwait(false);
                         return;
                     }
-
+                    
                     if (data.IsLive)
+                    {
                         await ReplyConfirmLocalizedAsync("streamer_online",
                                 Format.Bold(data.Name),
                                 Format.Bold(data.Viewers.ToString()))
                             .ConfigureAwait(false);
+                    }
                     else
+                    {
                         await ReplyConfirmLocalizedAsync("streamer_offline", data.Name)
                             .ConfigureAwait(false);
+                    }
                 }
                 catch
                 {

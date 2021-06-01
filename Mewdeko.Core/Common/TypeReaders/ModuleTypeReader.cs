@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Core.Common.TypeReaders;
 using Mewdeko.Extensions;
+using Mewdeko.Core.Common.TypeReaders;
+using Discord.WebSocket;
 
 namespace Mewdeko.Common.TypeReaders
 {
@@ -20,8 +20,7 @@ namespace Mewdeko.Common.TypeReaders
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.ToUpperInvariant();
-            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-                .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
             if (module == null)
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 
@@ -41,14 +40,13 @@ namespace Mewdeko.Common.TypeReaders
         public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
         {
             input = input.ToUpperInvariant();
-            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-                .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule()).FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
             if (module == null && input != "ACTUALCUSTOMREACTIONS")
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 
             return Task.FromResult(TypeReaderResult.FromSuccess(new ModuleOrCrInfo
             {
-                Name = input
+                Name = input,
             }));
         }
     }

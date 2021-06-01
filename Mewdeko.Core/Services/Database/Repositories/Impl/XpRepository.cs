@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Mewdeko.Core.Services.Database.Models;
 using System.Linq;
-using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -16,13 +16,15 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
             var usr = _set.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
 
             if (usr == null)
-                _context.Add(usr = new UserXpStats
+            {
+                _context.Add(usr = new UserXpStats()
                 {
                     Xp = 0,
                     UserId = userId,
                     NotifyOnLevelUp = XpNotificationLocation.None,
-                    GuildId = guildId
+                    GuildId = guildId,
                 });
+            }
 
             return usr;
         }
@@ -62,18 +64,18 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
             return _set
                 .AsQueryable()
                 .AsNoTracking()
-                .Where(x => x.GuildId == guildId && x.Xp + x.AwardedXp >
-                    _set.AsQueryable()
+                .Where(x => x.GuildId == guildId && ((x.Xp + x.AwardedXp) >
+                    (_set.AsQueryable()
                         .Where(y => y.UserId == userId && y.GuildId == guildId)
                         .Select(y => y.Xp + y.AwardedXp)
                         .FirstOrDefault())
+                ))
                 .Count() + 1;
         }
 
         public void ResetGuildUserXp(ulong userId, ulong guildId)
         {
-            _context.Database.ExecuteSqlInterpolated(
-                $"DELETE FROM UserXpStats WHERE UserId={userId} AND GuildId={guildId};");
+            _context.Database.ExecuteSqlInterpolated($"DELETE FROM UserXpStats WHERE UserId={userId} AND GuildId={guildId};");
         }
 
         public void ResetGuildXp(ulong guildId)

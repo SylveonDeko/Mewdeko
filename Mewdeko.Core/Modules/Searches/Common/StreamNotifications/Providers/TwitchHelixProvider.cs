@@ -2,8 +2,7 @@
 {
     // public class TwitchProvider : IProvider
     // {
-    //     private readonly Logger _log;
-    //
+    //         //
     //     private static Regex Regex { get; } = new Regex(@"twitch.tv/(?<name>.+[^/])/?",
     //         RegexOptions.Compiled | RegexOptions.IgnoreCase);
     //
@@ -64,8 +63,8 @@
     //             }
     //             catch (Exception ex)
     //             {
-    //                 _log.Warn($"Something went wrong retreiving {Platform} streams.");
-    //                 _log.Warn(ex.ToString());
+    //                 Log.Warning($"Something went wrong retreiving {Platform} streams.");
+    //                 Log.Warning(ex.ToString());
     //                 return new List<StreamData>();
     //             }
     //

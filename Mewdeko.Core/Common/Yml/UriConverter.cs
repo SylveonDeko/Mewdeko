@@ -21,7 +21,7 @@ namespace Mewdeko.Common.Yml
 
         public void WriteYaml(IEmitter emitter, object value, Type type)
         {
-            var uri = (Uri) value;
+            var uri = (Uri)value;
             emitter.Emit(new Scalar(uri.ToString()));
         }
     }

@@ -1,38 +1,36 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
-using Microsoft.EntityFrameworkCore;
-using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class MessageRepeaterService : INService
     {
+        private readonly DbService _db;
+        private readonly IBotCredentials _creds;
         private readonly Mewdeko _bot;
         private readonly DiscordSocketClient _client;
-        private readonly IBotCredentials _creds;
-        private readonly DbService _db;
-        private readonly Logger _log;
+
+        public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
+        public bool RepeaterReady { get; private set; }
 
         public MessageRepeaterService(Mewdeko bot, DiscordSocketClient client, DbService db, IBotCredentials creds)
         {
             _db = db;
-            _creds = creds;
-            _log = LogManager.GetCurrentClassLogger();
+            _creds = creds; 
             _bot = bot;
             _client = client;
             var _ = LoadRepeaters();
         }
-
-        public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
-        public bool RepeaterReady { get; private set; }
 
         private async Task LoadRepeaters()
         {
@@ -40,28 +38,27 @@ namespace Mewdeko.Modules.Utility.Services
 #if GLOBAL_Mewdeko
             await Task.Delay(30000);
 #endif
-            _log.Info("Loading message repeaters on shard {ShardId}.", _client.ShardId);
+            Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
 
             var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
             foreach (var gc in _bot.AllGuildConfigs)
             {
                 // don't load repeaters which don't belong on this shard
-                if ((gc.GuildId >> 22) % (ulong) _creds.TotalShards != (ulong) _client.ShardId)
+                if((gc.GuildId >> 22) % (ulong)_creds.TotalShards != (ulong)_client.ShardId)
                     continue;
-
+                
                 try
                 {
                     var guild = _client.GetGuild(gc.GuildId);
                     if (guild is null)
                     {
-                        _log.Info("Unable to find guild {GuildId} for message repeaters.", gc.GuildId);
+                        Log.Information("Unable to find guild {GuildId} for message repeaters.", gc.GuildId);
                         continue;
                     }
 
                     var idToRepeater = gc.GuildRepeaters
                         .Where(gr => !(gr.DateAdded is null))
-                        .Select(gr =>
-                            new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
+                        .Select(gr => new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
                         .ToDictionary(x => x.Key, y => y.Value)
                         .ToConcurrent();
 
@@ -70,8 +67,7 @@ namespace Mewdeko.Modules.Utility.Services
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("Failed to load repeaters on Guild {0}.", gc.GuildId);
-                    _log.Error(ex);
+                    Log.Error(ex, "Failed to load repeaters on Guild {0}.", gc.GuildId);
                 }
             }
 

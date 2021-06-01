@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Common.TypeReaders.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Core.Common.TypeReaders
 {
@@ -12,8 +12,7 @@ namespace Mewdeko.Core.Common.TypeReaders
         {
         }
 
-        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
-            IServiceProvider services)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             if (string.IsNullOrWhiteSpace(input))
                 return Task.FromResult(TypeReaderResult.FromError(CommandError.Unsuccessful, "Input is empty."));

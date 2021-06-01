@@ -10,15 +10,13 @@ namespace Mewdeko.Common.ShardCom
         public int Guilds { get; set; }
         public DateTime Time { get; set; }
 
-        public ShardComMessage Clone()
-        {
-            return new()
+        public ShardComMessage Clone() =>
+            new ShardComMessage
             {
                 ShardId = ShardId,
                 ConnectionState = ConnectionState,
                 Guilds = Guilds,
-                Time = Time
+                Time = Time,
             };
-        }
     }
 }

@@ -1,63 +1,63 @@
-﻿using System;
+﻿using Discord.WebSocket;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Modules.Utility.Common.Patreon;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord.WebSocket;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Modules.Utility.Common.Patreon;
-using Newtonsoft.Json;
-using NLog;
+using Discord;
+using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Extensions;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class PatreonRewardsService : INService, IUnloadableService
     {
-        private readonly IBotConfigProvider _bc;
-        private readonly IBotCredentials _creds;
-        private readonly ICurrencyService _currency;
-        private readonly DbService _db;
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly Logger _log;
-
-        private readonly Timer _updater;
-        private readonly SemaphoreSlim claimLockJustInCase = new(1, 1);
-        private readonly SemaphoreSlim getPledgesLocker = new(1, 1);
+        private readonly SemaphoreSlim getPledgesLocker = new SemaphoreSlim(1, 1);
 
         private PatreonUserAndReward[] _pledges;
 
+        private readonly Timer _updater;
+        private readonly SemaphoreSlim claimLockJustInCase = new SemaphoreSlim(1, 1);
+        
+        public TimeSpan Interval { get; } = TimeSpan.FromMinutes(3);
+        private readonly IBotCredentials _creds;
+        private readonly DbService _db;
+        private readonly ICurrencyService _currency;
+        private readonly GamblingConfigService _gamblingConfigService;
+        private readonly IHttpClientFactory _httpFactory;
+        private readonly DiscordSocketClient _client;
+
+        public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
+
         public PatreonRewardsService(IBotCredentials creds, DbService db,
             ICurrencyService currency, IHttpClientFactory factory,
-            DiscordSocketClient client, IBotConfigProvider bc)
+            DiscordSocketClient client, GamblingConfigService gamblingConfigService)
         {
-            _log = LogManager.GetCurrentClassLogger();
             _creds = creds;
             _db = db;
             _currency = currency;
-            _bc = bc;
+            _gamblingConfigService = gamblingConfigService;
             _httpFactory = factory;
+            _client = client;
 
             if (client.ShardId == 0)
                 _updater = new Timer(async _ => await RefreshPledges().ConfigureAwait(false),
                     null, TimeSpan.Zero, Interval);
         }
 
-        public TimeSpan Interval { get; } = TimeSpan.FromMinutes(3);
-
-        public DateTime LastUpdate { get; private set; } = DateTime.UtcNow;
-
-        public Task Unload()
-        {
-            _updater?.Change(Timeout.Infinite, Timeout.Infinite);
-            return Task.CompletedTask;
-        }
-
         public async Task RefreshPledges()
         {
             if (string.IsNullOrWhiteSpace(_creds.PatreonAccessToken)
                 || string.IsNullOrWhiteSpace(_creds.PatreonAccessToken))
+                return;
+
+            if (DateTime.UtcNow.Day < 5)
                 return;
 
             LastUpdate = DateTime.UtcNow;
@@ -70,9 +70,9 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     http.DefaultRequestHeaders.Clear();
                     http.DefaultRequestHeaders.Add("Authorization", "Bearer " + _creds.PatreonAccessToken);
-                    var data = new PatreonData
+                    var data = new PatreonData()
                     {
-                        Links = new PatreonDataLinks
+                        Links = new PatreonDataLinks()
                         {
                             next = $"https://api.patreon.com/oauth2/api/campaigns/{_creds.PatreonCampaignId}/pledges"
                         }
@@ -83,49 +83,58 @@ namespace Mewdeko.Modules.Utility.Services
                             .ConfigureAwait(false);
                         data = JsonConvert.DeserializeObject<PatreonData>(res);
                         var pledgers = data.Data.Where(x => x["type"].ToString() == "pledge");
-                        rewards.AddRange(pledgers
-                            .Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
+                        rewards.AddRange(pledgers.Select(x => JsonConvert.DeserializeObject<PatreonPledge>(x.ToString()))
                             .Where(x => x.attributes.declined_since == null));
                         if (data.Included != null)
+                        {
                             users.AddRange(data.Included
                                 .Where(x => x["type"].ToString() == "user")
                                 .Select(x => JsonConvert.DeserializeObject<PatreonUser>(x.ToString())));
+                        }
                     } while (!string.IsNullOrWhiteSpace(data.Links.next));
                 }
-
-                var toSet = rewards.Join(users, r => r.relationships?.patron?.data?.id, u => u.id, (x, y) =>
-                    new PatreonUserAndReward
-                    {
-                        User = y,
-                        Reward = x
-                    }).ToArray();
+                var toSet = rewards.Join(users, (r) => r.relationships?.patron?.data?.id, (u) => u.id, (x, y) => new PatreonUserAndReward()
+                {
+                    User = y,
+                    Reward = x,
+                }).ToArray();
 
                 _pledges = toSet;
+
+                foreach (var pledge in _pledges)
+                {
+                    var userIdStr = pledge.User.attributes?.social_connections?.discord?.user_id;
+                    if (userIdStr != null && ulong.TryParse(userIdStr, out var userId))
+                    {
+                        await ClaimReward(userId);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                _log.Warn(ex);
+                Log.Warning(ex, "Error refreshing patreon pledges");
             }
             finally
             {
                 getPledgesLocker.Release();
             }
+
         }
 
         public async Task<int> ClaimReward(ulong userId)
         {
             await claimLockJustInCase.WaitAsync().ConfigureAwait(false);
+            var settings = _gamblingConfigService.Data;
             var now = DateTime.UtcNow;
             try
             {
-                var datas = _pledges?.Where(x =>
-                                x.User.attributes?.social_connections?.discord?.user_id == userId.ToString())
-                            ?? Enumerable.Empty<PatreonUserAndReward>();
+                var datas = _pledges?.Where(x => x.User.attributes?.social_connections?.discord?.user_id == userId.ToString())
+                    ?? Enumerable.Empty<PatreonUserAndReward>();
 
                 var totalAmount = 0;
                 foreach (var data in datas)
                 {
-                    var amount = (int) (data.Reward.attributes.amount_cents * _bc.BotConfig.PatreonCurrencyPerCent);
+                    var amount = (int)(data.Reward.attributes.amount_cents * settings.PatreonCurrencyPerCent);
 
                     using (var uow = _db.GetDbContext())
                     {
@@ -134,17 +143,21 @@ namespace Mewdeko.Modules.Utility.Services
 
                         if (usr == null)
                         {
-                            await users.AddAsync(new RewardedUser
+                            users.Add(new RewardedUser()
                             {
                                 PatreonUserId = data.User.id,
                                 LastReward = now,
-                                AmountRewardedThisMonth = amount
+                                AmountRewardedThisMonth = amount,
                             });
 
                             await uow.SaveChangesAsync();
 
-                            await _currency.AddAsync(userId, "Patreon reward - new", amount, true);
+                            await _currency.AddAsync(userId, "Patreon reward - new", amount, gamble: true);
                             totalAmount += amount;
+                            
+                            Log.Information($"Sending new currency reward to {userId}");
+                            await SendMessageToUser(userId, $"Thank you for your pledge! " +
+                                                            $"You've been awarded **{amount}**{settings.Currency.Sign} !");
                             continue;
                         }
 
@@ -155,8 +168,11 @@ namespace Mewdeko.Modules.Utility.Services
 
                             await uow.SaveChangesAsync();
 
-                            await _currency.AddAsync(userId, "Patreon reward - recurring", amount, true);
+                            await _currency.AddAsync(userId, "Patreon reward - recurring", amount, gamble: true);
                             totalAmount += amount;
+                            Log.Information($"Sending recurring currency reward to {userId}");
+                            await SendMessageToUser(userId, $"Thank you for your continued support! " +
+                                                            $"You've been awarded **{amount}**{settings.Currency.Sign} for this month's support!");
                             continue;
                         }
 
@@ -168,8 +184,12 @@ namespace Mewdeko.Modules.Utility.Services
                             usr.AmountRewardedThisMonth = amount;
                             await uow.SaveChangesAsync();
 
-                            await _currency.AddAsync(userId, "Patreon reward - update", toAward, true);
+                            await _currency.AddAsync(userId, "Patreon reward - update", toAward, gamble: true);
                             totalAmount += toAward;
+                            Log.Information($"Sending updated currency reward to {userId}");
+                            await SendMessageToUser(userId, $"Thank you for increasing your pledge! " +
+                                $"You've been awarded an additional **{toAward}**{settings.Currency.Sign} !");
+                            continue;
                         }
                     }
                 }
@@ -180,6 +200,29 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 claimLockJustInCase.Release();
             }
+        }
+
+        private async Task SendMessageToUser(ulong userId, string message)
+        {
+            try
+            {
+                var user = (IUser)_client.GetUser(userId) ?? await _client.Rest.GetUserAsync(userId);
+                if (user is null)
+                    return;
+                
+                var channel = await user.GetOrCreateDMChannelAsync();
+                await channel.SendConfirmAsync(message);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public Task Unload()
+        {
+            _updater?.Change(Timeout.Infinite, Timeout.Infinite);
+            return Task.CompletedTask;
         }
     }
 }

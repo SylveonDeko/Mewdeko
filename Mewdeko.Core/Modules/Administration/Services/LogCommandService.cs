@@ -7,58 +7,38 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using NLog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class LogCommandService : INService
     {
-        public enum LogType
-        {
-            Other,
-            MessageUpdated,
-            MessageDeleted,
-            UserJoined,
-            UserLeft,
-            UserBanned,
-            UserUnbanned,
-            UserUpdated,
-            ChannelCreated,
-            ChannelDestroyed,
-            ChannelUpdated,
-            UserPresence,
-            VoicePresence,
-            VoicePresenceTTS,
-            UserMuted
-        }
-
-        private readonly Timer _clearTimer;
         private readonly DiscordSocketClient _client;
-        private readonly DbService _db;
-        private readonly ConcurrentHashSet<ulong> _ignoreMessageIds = new();
-        private readonly Logger _log;
-        private readonly IMemoryCache _memoryCache;
-        private readonly MuteService _mute;
-        private readonly ProtectionService _prot;
-        private readonly IBotStrings _strings;
+        
+        public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
+
+        private ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } =
+            new ConcurrentDictionary<ITextChannel, List<string>>();
 
         private readonly Timer _timerReference;
+        private readonly IBotStrings _strings;
+        private readonly DbService _db;
+        private readonly MuteService _mute;
+        private readonly ProtectionService _prot;
         private readonly GuildTimezoneService _tz;
 
         public LogCommandService(DiscordSocketClient client, IBotStrings strings,
-            DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz,
+            DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz, 
             IMemoryCache memoryCache)
         {
             _client = client;
-            _memoryCache = memoryCache;
-            _log = LogManager.GetCurrentClassLogger();
+            _memoryCache = memoryCache; 
             _strings = strings;
             _db = db;
             _mute = mute;
@@ -81,7 +61,7 @@ namespace Mewdeko.Modules.Administration.Services
                     .ToConcurrent();
             }
 
-            _timerReference = new Timer(async state =>
+            _timerReference = new Timer(async (state) =>
             {
                 var keys = PresenceUpdates.Keys.ToList();
 
@@ -93,14 +73,7 @@ namespace Mewdeko.Modules.Administration.Services
                     {
                         var title = GetText(key.Guild, "presence_updates");
                         var desc = string.Join(Environment.NewLine, msgs);
-                        try
-                        {
-                            return key.SendConfirmAsync(title, desc.TrimTo(2048));
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.Warn(ex);
-                        }
+                        return key.SendConfirmAsync(title, desc.TrimTo(2048));
                     }
 
                     return Task.CompletedTask;
@@ -131,14 +104,15 @@ namespace Mewdeko.Modules.Administration.Services
 
             _prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
 
-            _clearTimer = new Timer(_ => { _ignoreMessageIds.Clear(); }, null, TimeSpan.FromHours(1),
-                TimeSpan.FromHours(1));
+            _clearTimer = new Timer(_ =>
+            {
+                _ignoreMessageIds.Clear();
+            }, null, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
         }
 
-        public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
-
-        private ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } =
-            new();
+        private readonly Timer _clearTimer;
+        private readonly ConcurrentHashSet<ulong> _ignoreMessageIds = new ConcurrentHashSet<ulong>();
+        private readonly IMemoryCache _memoryCache;
 
         public void AddDeleteIgnore(ulong messageId)
         {
@@ -147,11 +121,11 @@ namespace Mewdeko.Modules.Administration.Services
 
         public bool LogIgnore(ulong gid, ulong cid)
         {
-            var removed = 0;
+            int removed = 0;
             using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.LogSettingsFor(gid);
-                var logSetting = GuildLogSettings.GetOrAdd(gid, id => config.LogSetting);
+                LogSetting logSetting = GuildLogSettings.GetOrAdd(gid, (id) => config.LogSetting);
                 removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
                 config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
                 if (removed == 0)
@@ -167,10 +141,8 @@ namespace Mewdeko.Modules.Administration.Services
             return removed > 0;
         }
 
-        private string GetText(IGuild guild, string key, params object[] replacements)
-        {
-            return _strings.GetText(key, guild.Id, replacements);
-        }
+        private string GetText(IGuild guild, string key, params object[] replacements) =>
+            _strings.GetText(key, guild.Id, replacements);
 
 
         private string PrettyCurrentTime(IGuild g)
@@ -183,7 +155,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         private string CurrentTime(IGuild g)
         {
-            var time = DateTime.UtcNow;
+            DateTime time = DateTime.UtcNow;
             if (g != null)
                 time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
 
@@ -196,23 +168,23 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 logSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
-                GuildLogSettings.AddOrUpdate(guildId, id => logSetting, (id, old) => logSetting);
+                GuildLogSettings.AddOrUpdate(guildId, (id) => logSetting, (id, old) => logSetting);
                 logSetting.LogOtherId =
-                    logSetting.MessageUpdatedId =
-                        logSetting.MessageDeletedId =
-                            logSetting.UserJoinedId =
-                                logSetting.UserLeftId =
-                                    logSetting.UserBannedId =
-                                        logSetting.UserUnbannedId =
-                                            logSetting.UserUpdatedId =
-                                                logSetting.ChannelCreatedId =
-                                                    logSetting.ChannelDestroyedId =
-                                                        logSetting.ChannelUpdatedId =
-                                                            logSetting.LogUserPresenceId =
-                                                                logSetting.LogVoicePresenceId =
-                                                                    logSetting.UserMutedId =
-                                                                        logSetting.LogVoicePresenceTTSId =
-                                                                            value ? channelId : null;
+                logSetting.MessageUpdatedId =
+                logSetting.MessageDeletedId =
+                logSetting.UserJoinedId =
+                logSetting.UserLeftId =
+                logSetting.UserBannedId =
+                logSetting.UserUnbannedId =
+                logSetting.UserUpdatedId =
+                logSetting.ChannelCreatedId =
+                logSetting.ChannelDestroyedId =
+                logSetting.ChannelUpdatedId =
+                logSetting.LogUserPresenceId =
+                logSetting.LogVoicePresenceId =
+                logSetting.UserMutedId =
+                logSetting.LogVoicePresenceTTSId =
+                    (value ? channelId : (ulong?) null);
 
                 await uow.SaveChangesAsync();
             }
@@ -229,8 +201,8 @@ namespace Mewdeko.Modules.Administration.Services
 
                     var g = after.Guild;
 
-                    if (!GuildLogSettings.TryGetValue(g.Id, out var logSetting)
-                        || logSetting.UserUpdatedId == null)
+                    if (!GuildLogSettings.TryGetValue(g.Id, out LogSetting logSetting)
+                        || (logSetting.UserUpdatedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -279,64 +251,64 @@ namespace Mewdeko.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        public bool Log(ulong gid, ulong? cid, LogType type /*, string options*/)
+        public bool Log(ulong gid, ulong? cid, LogType type/*, string options*/)
         {
             ulong? channelId = null;
             using (var uow = _db.GetDbContext())
             {
                 var logSetting = uow.GuildConfigs.LogSettingsFor(gid).LogSetting;
-                GuildLogSettings.AddOrUpdate(gid, id => logSetting, (id, old) => logSetting);
+                GuildLogSettings.AddOrUpdate(gid, (id) => logSetting, (id, old) => logSetting);
                 switch (type)
                 {
                     case LogType.Other:
-                        channelId = logSetting.LogOtherId = logSetting.LogOtherId == null ? cid : default;
+                        channelId = logSetting.LogOtherId = (logSetting.LogOtherId == null ? cid : default);
                         break;
                     case LogType.MessageUpdated:
-                        channelId = logSetting.MessageUpdatedId = logSetting.MessageUpdatedId == null ? cid : default;
+                        channelId = logSetting.MessageUpdatedId = (logSetting.MessageUpdatedId == null ? cid : default);
                         break;
                     case LogType.MessageDeleted:
-                        channelId = logSetting.MessageDeletedId = logSetting.MessageDeletedId == null ? cid : default;
+                        channelId = logSetting.MessageDeletedId = (logSetting.MessageDeletedId == null ? cid : default);
                         //logSetting.DontLogBotMessageDeleted = (options == "nobot");
                         break;
                     case LogType.UserJoined:
-                        channelId = logSetting.UserJoinedId = logSetting.UserJoinedId == null ? cid : default;
+                        channelId = logSetting.UserJoinedId = (logSetting.UserJoinedId == null ? cid : default);
                         break;
                     case LogType.UserLeft:
-                        channelId = logSetting.UserLeftId = logSetting.UserLeftId == null ? cid : default;
+                        channelId = logSetting.UserLeftId = (logSetting.UserLeftId == null ? cid : default);
                         break;
                     case LogType.UserBanned:
-                        channelId = logSetting.UserBannedId = logSetting.UserBannedId == null ? cid : default;
+                        channelId = logSetting.UserBannedId = (logSetting.UserBannedId == null ? cid : default);
                         break;
                     case LogType.UserUnbanned:
-                        channelId = logSetting.UserUnbannedId = logSetting.UserUnbannedId == null ? cid : default;
+                        channelId = logSetting.UserUnbannedId = (logSetting.UserUnbannedId == null ? cid : default);
                         break;
                     case LogType.UserUpdated:
-                        channelId = logSetting.UserUpdatedId = logSetting.UserUpdatedId == null ? cid : default;
+                        channelId = logSetting.UserUpdatedId = (logSetting.UserUpdatedId == null ? cid : default);
                         break;
                     case LogType.UserMuted:
-                        channelId = logSetting.UserMutedId = logSetting.UserMutedId == null ? cid : default;
+                        channelId = logSetting.UserMutedId = (logSetting.UserMutedId == null ? cid : default);
                         break;
                     case LogType.ChannelCreated:
-                        channelId = logSetting.ChannelCreatedId = logSetting.ChannelCreatedId == null ? cid : default;
+                        channelId = logSetting.ChannelCreatedId = (logSetting.ChannelCreatedId == null ? cid : default);
                         break;
                     case LogType.ChannelDestroyed:
                         channelId = logSetting.ChannelDestroyedId =
-                            logSetting.ChannelDestroyedId == null ? cid : default;
+                            (logSetting.ChannelDestroyedId == null ? cid : default);
                         break;
                     case LogType.ChannelUpdated:
-                        channelId = logSetting.ChannelUpdatedId = logSetting.ChannelUpdatedId == null ? cid : default;
+                        channelId = logSetting.ChannelUpdatedId = (logSetting.ChannelUpdatedId == null ? cid : default);
                         break;
                     case LogType.UserPresence:
                         channelId = logSetting.LogUserPresenceId =
-                            logSetting.LogUserPresenceId == null ? cid : default;
+                            (logSetting.LogUserPresenceId == null ? cid : default);
                         break;
                     case LogType.VoicePresence:
                         channelId = logSetting.LogVoicePresenceId =
-                            logSetting.LogVoicePresenceId == null ? cid : default;
+                            (logSetting.LogVoicePresenceId == null ? cid : default);
                         break;
                     case LogType.VoicePresenceTTS:
                         channelId = logSetting.LogVoicePresenceTTSId =
-                            logSetting.LogVoicePresenceTTSId == null ? cid : default;
+                            (logSetting.LogVoicePresenceTTSId == null ? cid : default);
                         break;
                 }
 
@@ -361,8 +333,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (beforeVch == afterVch)
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                        || logSetting.LogVoicePresenceTTSId == null)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogVoicePresenceTTSId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -372,11 +344,17 @@ namespace Mewdeko.Modules.Administration.Services
 
                     var str = "";
                     if (beforeVch?.Guild == afterVch?.Guild)
+                    {
                         str = GetText(logChannel.Guild, "log_vc_moved", usr.Username, beforeVch?.Name, afterVch?.Name);
+                    }
                     else if (beforeVch == null)
+                    {
                         str = GetText(logChannel.Guild, "log_vc_joined", usr.Username, afterVch.Name);
+                    }
                     else if (afterVch == null)
+                    {
                         str = GetText(logChannel.Guild, "log_vc_left", usr.Username, beforeVch.Name);
+                    }
 
                     var toDelete = await logChannel.SendMessageAsync(str, true).ConfigureAwait(false);
                     toDelete.DeleteAfter(5);
@@ -395,8 +373,8 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                        || logSetting.UserMutedId == null)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserMutedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -439,8 +417,8 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                        || logSetting.UserMutedId == null)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserMutedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -491,8 +469,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (users.Length == 0)
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out var logSetting)
-                        || logSetting.LogOtherId == null)
+                    if (!GuildLogSettings.TryGetValue(users.First().Guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogOtherId == null))
                         return;
                     ITextChannel logChannel;
                     if ((logChannel = await TryGetLogChannel(users.First().Guild, logSetting, LogType.Other)
@@ -536,14 +514,12 @@ namespace Mewdeko.Modules.Administration.Services
         }
 
         private string GetRoleDeletedKey(ulong roleId)
-        {
-            return $"role_deleted_{roleId}";
-        }
-
+            => $"role_deleted_{roleId}";
+        
         private Task _client_RoleDeleted(SocketRole socketRole)
         {
-            _log.Info("Role deleted " + socketRole.Id);
-            _memoryCache.Set(GetRoleDeletedKey(socketRole.Id),
+            Serilog.Log.Information("Role deleted {RoleId}", socketRole.Id);
+            _memoryCache.Set(GetRoleDeletedKey(socketRole.Id), 
                 true,
                 TimeSpan.FromMinutes(5));
             return Task.CompletedTask;
@@ -561,7 +537,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out var logSetting))
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting))
                         return;
 
                     ITextChannel logChannel;
@@ -590,7 +566,7 @@ namespace Mewdeko.Modules.Administration.Services
                             {
                                 var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
                                 embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
-                                    .WithDescription(string.Join(", ", diffRoles));
+                                    .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
 
                                 await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                             }
@@ -606,7 +582,7 @@ namespace Mewdeko.Modules.Administration.Services
                                 {
                                     embed.WithAuthor(eab =>
                                             eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_rem")))
-                                        .WithDescription(string.Join(", ", diffRoles));
+                                        .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
 
                                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                                 }
@@ -626,18 +602,18 @@ namespace Mewdeko.Modules.Administration.Services
                                           "👤" + Format.Bold(after.Username),
                                           Format.Bold(after.Status.ToString()));
                             PresenceUpdates.AddOrUpdate(logChannel,
-                                new List<string> {str}, (id, list) =>
+                                new List<string>() {str}, (id, list) =>
                                 {
                                     list.Add(str);
                                     return list;
                                 });
                         }
-                        else if (before.Activities?.FirstOrDefault()?.Name != after.Activities?.FirstOrDefault()?.Name)
+                        else if (before.Activity?.Name != after.Activity?.Name)
                         {
                             var str =
-                                $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activities?.FirstOrDefault()?.Name ?? "-"}**.";
+                                $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activity?.Name ?? "-"}**.";
                             PresenceUpdates.AddOrUpdate(logChannel,
-                                new List<string> {str}, (id, list) =>
+                                new List<string>() {str}, (id, list) =>
                                 {
                                     list.Add(str);
                                     return list;
@@ -664,8 +640,8 @@ namespace Mewdeko.Modules.Administration.Services
 
                     var after = (IGuildChannel) cafter;
 
-                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out var logSetting)
-                        || logSetting.ChannelUpdatedId == null
+                    if (!GuildLogSettings.TryGetValue(before.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.ChannelUpdatedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == after.Id))
                         return;
 
@@ -681,11 +657,14 @@ namespace Mewdeko.Modules.Administration.Services
                     var afterTextChannel = cafter as ITextChannel;
 
                     if (before.Name != after.Name)
+                    {
                         embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_name_change"))
                             .WithDescription($"{after} | {after.Id}")
                             .AddField(efb =>
                                 efb.WithName(GetText(logChannel.Guild, "ch_old_name")).WithValue(before.Name));
+                    }
                     else if (beforeTextChannel?.Topic != afterTextChannel?.Topic)
+                    {
                         embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_topic_change"))
                             .WithDescription($"{after} | {after.Id}")
                             .AddField(efb =>
@@ -694,6 +673,7 @@ namespace Mewdeko.Modules.Administration.Services
                             .AddField(efb =>
                                 efb.WithName(GetText(logChannel.Guild, "new_topic"))
                                     .WithValue(afterTextChannel?.Topic ?? "-"));
+                    }
                     else
                         return;
 
@@ -716,8 +696,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (!(ich is IGuildChannel ch))
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out var logSetting)
-                        || logSetting.ChannelDestroyedId == null
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.ChannelDestroyedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == ch.Id))
                         return;
 
@@ -727,7 +707,9 @@ namespace Mewdeko.Modules.Administration.Services
                         return;
                     string title;
                     if (ch is IVoiceChannel)
+                    {
                         title = GetText(logChannel.Guild, "voice_chan_destroyed");
+                    }
                     else
                         title = GetText(logChannel.Guild, "text_chan_destroyed");
 
@@ -754,8 +736,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (!(ich is IGuildChannel ch))
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out var logSetting)
-                        || logSetting.ChannelCreatedId == null)
+                    if (!GuildLogSettings.TryGetValue(ch.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.ChannelCreatedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -764,7 +746,9 @@ namespace Mewdeko.Modules.Administration.Services
                         return;
                     string title;
                     if (ch is IVoiceChannel)
+                    {
                         title = GetText(logChannel.Guild, "voice_chan_created");
+                    }
                     else
                         title = GetText(logChannel.Guild, "text_chan_created");
 
@@ -774,9 +758,9 @@ namespace Mewdeko.Modules.Administration.Services
                         .WithDescription($"{ch.Name} | {ch.Id}")
                         .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _log.Warn(ex);
+                    // ignored
                 }
             });
             return Task.CompletedTask;
@@ -797,8 +781,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (beforeVch == afterVch)
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                        || logSetting.LogVoicePresenceId == null)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.LogVoicePresenceId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -808,22 +792,28 @@ namespace Mewdeko.Modules.Administration.Services
 
                     string str = null;
                     if (beforeVch?.Guild == afterVch?.Guild)
+                    {
                         str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild,
                             "user_vmoved",
                             "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                             Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""));
+                    }
                     else if (beforeVch == null)
+                    {
                         str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild,
                             "user_vjoined",
                             "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                             Format.Bold(afterVch.Name ?? ""));
+                    }
                     else if (afterVch == null)
+                    {
                         str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild, "user_vleft",
                             "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
                             Format.Bold(beforeVch.Name ?? ""));
+                    }
 
                     if (!string.IsNullOrWhiteSpace(str))
-                        PresenceUpdates.AddOrUpdate(logChannel, new List<string> {str}, (id, list) =>
+                        PresenceUpdates.AddOrUpdate(logChannel, new List<string>() {str}, (id, list) =>
                         {
                             list.Add(str);
                             return list;
@@ -886,8 +876,8 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                        || logSetting.UserLeftId == null)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserLeftId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -920,8 +910,8 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                        || logSetting.UserJoinedId == null)
+                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserJoinedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -943,13 +933,13 @@ namespace Mewdeko.Modules.Administration.Services
                         .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
 
                     if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))
-                        embed.WithImageUrl(usr.GetAvatarUrl(size: 2048));
+                        embed.WithThumbnailUrl(usr.GetAvatarUrl());
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _log.Warn(ex);
+                    // ignored
                 }
             });
             return Task.CompletedTask;
@@ -961,8 +951,8 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting)
-                        || logSetting.UserUnbannedId == null)
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserUnbannedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -981,9 +971,9 @@ namespace Mewdeko.Modules.Administration.Services
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _log.Warn(ex);
+                    // ignored
                 }
             });
             return Task.CompletedTask;
@@ -995,8 +985,8 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting)
-                        || logSetting.UserBannedId == null)
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out LogSetting logSetting)
+                        || (logSetting.UserBannedId == null))
                         return;
 
                     ITextChannel logChannel;
@@ -1018,9 +1008,9 @@ namespace Mewdeko.Modules.Administration.Services
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _log.Warn(ex);
+                    // ignored
                 }
             });
             return Task.CompletedTask;
@@ -1042,8 +1032,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (!(ch is ITextChannel channel))
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out var logSetting)
-                        || logSetting.MessageDeletedId == null
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.MessageDeletedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                         return;
 
@@ -1052,11 +1042,11 @@ namespace Mewdeko.Modules.Administration.Services
                         .ConfigureAwait(false)) == null || logChannel.Id == msg.Id)
                         return;
 
-                    var resolvedMessage = msg.Resolve(TagHandling.FullName);
+                    var resolvedMessage = msg.Resolve(userHandling: TagHandling.FullName);
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", (ITextChannel) msg.Channel))
-                        .WithDescription(msg.Author.Mention)
+                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel) msg.Channel).Name))
+                        .WithDescription(msg.Author.ToString())
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "content"))
                                 .WithValue(string.IsNullOrWhiteSpace(resolvedMessage) ? "-" : resolvedMessage)
@@ -1070,9 +1060,8 @@ namespace Mewdeko.Modules.Administration.Services
 
                     await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _log.Warn(ex);
                     // ignored
                 }
             });
@@ -1102,8 +1091,8 @@ namespace Mewdeko.Modules.Administration.Services
                     if (before.Author.IsBot)
                         return;
 
-                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out var logSetting)
-                        || logSetting.MessageUpdatedId == null
+                    if (!GuildLogSettings.TryGetValue(channel.Guild.Id, out LogSetting logSetting)
+                        || (logSetting.MessageUpdatedId == null)
                         || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                         return;
 
@@ -1114,18 +1103,18 @@ namespace Mewdeko.Modules.Administration.Services
 
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", (ITextChannel) after.Channel))
-                        .WithDescription(after.Author.Mention)
+                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel) after.Channel).Name))
+                        .WithDescription(after.Author.ToString())
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "old_msg"))
                                 .WithValue(string.IsNullOrWhiteSpace(before.Content)
                                     ? "-"
-                                    : before.Resolve(TagHandling.FullName)).WithIsInline(false))
+                                    : before.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "new_msg"))
                                 .WithValue(string.IsNullOrWhiteSpace(after.Content)
                                     ? "-"
-                                    : after.Resolve(TagHandling.FullName)).WithIsInline(false))
+                                    : after.Resolve(userHandling: TagHandling.FullName)).WithIsInline(false))
                         .AddField(efb => efb.WithName("Id").WithValue(after.Id.ToString()).WithIsInline(false))
                         .WithFooter(efb => efb.WithText(CurrentTime(channel.Guild)));
 
@@ -1137,6 +1126,25 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             });
             return Task.CompletedTask;
+        }
+
+        public enum LogType
+        {
+            Other,
+            MessageUpdated,
+            MessageDeleted,
+            UserJoined,
+            UserLeft,
+            UserBanned,
+            UserUnbanned,
+            UserUpdated,
+            ChannelCreated,
+            ChannelDestroyed,
+            ChannelUpdated,
+            UserPresence,
+            VoicePresence,
+            VoicePresenceTTS,
+            UserMuted
         }
 
         private async Task<ITextChannel> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
@@ -1204,8 +1212,8 @@ namespace Mewdeko.Modules.Administration.Services
                 UnsetLogSetting(guild.Id, logChannelType);
                 return null;
             }
-
-            return channel;
+            else
+                return channel;
         }
 
         private void UnsetLogSetting(ulong guildId, LogType logChannelType)

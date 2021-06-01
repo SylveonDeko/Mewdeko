@@ -1,34 +1,31 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Microsoft.EntityFrameworkCore;
-using NLog;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class RoleCommandsService : INService
     {
-        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly Logger _log;
+        private readonly DiscordSocketClient _client;
         private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
         public RoleCommandsService(DiscordSocketClient client, DbService db,
             Mewdeko bot)
         {
-            _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
-#if !GLOBAL_NADEKO
+#if !GLOBAL_Mewdeko
             _models = bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
-                    x => x.ReactionRoleMessages)
+                x => x.ReactionRoleMessages)
                 .ToConcurrent();
 
             _client.ReactionAdded += _client_ReactionAdded;
@@ -36,8 +33,7 @@ namespace Mewdeko.Modules.Administration.Services
 #endif
         }
 
-        private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel chan,
-            SocketReaction reaction)
+        private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel chan, SocketReaction reaction)
         {
             var _ = Task.Run(async () =>
             {
@@ -60,8 +56,7 @@ namespace Mewdeko.Modules.Administration.Services
                         return;
 
                     // compare emote names for backwards compatibility :facepalm:
-                    var reactionRole = conf.ReactionRoles.FirstOrDefault(x =>
-                        x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
+                    var reactionRole = conf.ReactionRoles.FirstOrDefault(x => x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
                     if (reactionRole != null)
                     {
                         if (conf.Exclusive)
@@ -82,49 +77,39 @@ namespace Mewdeko.Modules.Administration.Services
                                     {
                                         if (r.Key.Name == reaction.Emote.Name)
                                             continue;
-                                        try
-                                        {
-                                            await dl.RemoveReactionAsync(r.Key, gusr).ConfigureAwait(false);
-                                        }
-                                        catch
-                                        {
-                                        }
-
+                                        try { await dl.RemoveReactionAsync(r.Key, gusr).ConfigureAwait(false); } catch { }
                                         await Task.Delay(100).ConfigureAwait(false);
                                     }
                                 }
-                                catch
-                                {
-                                }
+                                catch { }
                             });
                             await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
                         }
 
                         var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
                         if (toAdd != null && !gusr.Roles.Contains(toAdd))
-                            await gusr.AddRolesAsync(new[] {toAdd}).ConfigureAwait(false);
+                        {
+                            await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
+                        }
                     }
                     else
                     {
                         var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
                         await dl.RemoveReactionAsync(reaction.Emote, dl.Author,
-                            new RequestOptions
+                            new RequestOptions()
                             {
                                 RetryMode = RetryMode.RetryRatelimit | RetryMode.Retry502
                             }).ConfigureAwait(false);
-                        _log.Warn("User {0} is adding unrelated reactions to the reaction roles message.", dl.Author);
+                        Log.Warning("User {0} is adding unrelated reactions to the reaction roles message.", dl.Author);
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             });
 
             return Task.CompletedTask;
         }
 
-        private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel chan,
-            SocketReaction reaction)
+        private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel chan, SocketReaction reaction)
         {
             var _ = Task.Run(async () =>
             {
@@ -146,8 +131,7 @@ namespace Mewdeko.Modules.Administration.Services
                     if (conf == null)
                         return;
 
-                    var reactionRole = conf.ReactionRoles.FirstOrDefault(x =>
-                        x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
+                    var reactionRole = conf.ReactionRoles.FirstOrDefault(x => x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
 
                     if (reactionRole != null)
                     {
@@ -157,9 +141,7 @@ namespace Mewdeko.Modules.Administration.Services
                         await gusr.RemoveRoleAsync(role).ConfigureAwait(false);
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             });
 
             return Task.CompletedTask;
@@ -176,14 +158,13 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 var gc = uow.GuildConfigs.ForId(id, set => set
                     .Include(x => x.ReactionRoleMessages)
-                    .ThenInclude<GuildConfig, ReactionRoleMessage, List<ReactionRole>>(x => x.ReactionRoles));
+                    .ThenInclude(x => x.ReactionRoles));
                 gc.ReactionRoleMessages.Add(rrm);
                 _models.AddOrUpdate(id,
                     gc.ReactionRoleMessages,
                     delegate { return gc.ReactionRoleMessages; });
                 uow.SaveChanges();
             }
-
             return true;
         }
 
@@ -193,7 +174,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 var gc = uow.GuildConfigs.ForId(id,
                     set => set.Include(x => x.ReactionRoleMessages)
-                        .ThenInclude<GuildConfig, ReactionRoleMessage, List<ReactionRole>>(x => x.ReactionRoles));
+                        .ThenInclude(x => x.ReactionRoles));
                 uow._context.Set<ReactionRole>()
                     .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
                 gc.ReactionRoleMessages.RemoveAt(index);

@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Core.Common.TypeReaders;
 using Mewdeko.Core.Services;
 using Mewdeko.Modules.CustomReactions.Services;
+using Mewdeko.Core.Common.TypeReaders;
+using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.TypeReaders
@@ -16,8 +16,7 @@ namespace Mewdeko.Common.TypeReaders
         {
         }
 
-        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
-            IServiceProvider services)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             var _cmds = services.GetService<CommandService>();
             var _cmdHandler = services.GetService<CommandHandler>();
@@ -41,28 +40,28 @@ namespace Mewdeko.Common.TypeReaders
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmds;
-
         public CommandOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
             _client = client;
             _cmds = cmds;
         }
 
-        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
-            IServiceProvider services)
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             input = input.ToUpperInvariant();
 
             var _crs = services.GetService<CustomReactionsService>();
 
             if (_crs.ReactionExists(context.Guild?.Id, input))
+            {
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
+            }
 
-            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services)
-                .ConfigureAwait(false);
+            var cmd = await new CommandTypeReader(_client, _cmds).ReadAsync(context, input, services).ConfigureAwait(false);
             if (cmd.IsSuccess)
-                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo) cmd.Values.First().Value).Name,
-                    CommandOrCrInfo.Type.Normal));
+            {
+                return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name, CommandOrCrInfo.Type.Normal));
+            }
             return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or cr found.");
         }
     }
@@ -72,17 +71,17 @@ namespace Mewdeko.Common.TypeReaders
         public enum Type
         {
             Normal,
-            Custom
-        }
-
-        public CommandOrCrInfo(string input, Type type)
-        {
-            Name = input;
-            CmdType = type;
+            Custom,
         }
 
         public string Name { get; set; }
         public Type CmdType { get; set; }
         public bool IsCustom => CmdType == Type.Custom;
+
+        public CommandOrCrInfo(string input, Type type)
+        {
+            this.Name = input;
+            this.CmdType = type;
+        }
     }
 }

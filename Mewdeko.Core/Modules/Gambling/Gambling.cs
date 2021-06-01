@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net.Http;
-using System.Numerics;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -16,66 +9,44 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Services;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
+using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Core.Services.Database;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Gambling
 {
-    public partial class Gambling : GamblingTopLevelModule<GamblingService>
+    public partial class Gambling : GamblingModule<GamblingService>
     {
-        public enum RpsPick
-        {
-            R = 0,
-            Rock = 0,
-            Rocket = 0,
-            P = 1,
-            Paper = 1,
-            Paperclip = 1,
-            S = 2,
-            Scissors = 2
-        }
-
-        public enum RpsResult
-        {
-            Win,
-            Loss,
-            Draw
-        }
-
-        private readonly IBotConfigProvider _bc;
+        private readonly DbService _db;
+        private readonly ICurrencyService _cs;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
-        private readonly ICurrencyService _cs;
-
-        private readonly DbService _db;
         private readonly NumberFormatInfo _enUsCulture;
-        private readonly IHttpClientFactory _http;
         private readonly DownloadTracker _tracker;
-
-        private IUserMessage rdMsg;
+        private readonly GamblingConfigService _configService;
 
         public Gambling(DbService db, ICurrencyService currency,
-            IDataCache cache, DiscordSocketClient client, IBotConfigProvider bc,
-            DownloadTracker tracker, IHttpClientFactory http)
+            IDataCache cache, DiscordSocketClient client,
+            DownloadTracker tracker, GamblingConfigService configService) : base(configService)
         {
             _db = db;
             _cs = currency;
             _cache = cache;
             _client = client;
-            _bc = bc;
-            _http = http;
             _enUsCulture = new CultureInfo("en-US", false).NumberFormat;
             _enUsCulture.NumberDecimalDigits = 0;
             _enUsCulture.NumberGroupSeparator = " ";
             _tracker = tracker;
+            _configService = configService;
         }
 
-        private string CurrencyName => Bc.BotConfig.CurrencyName;
-        private string CurrencyPluralName => Bc.BotConfig.CurrencyPluralName;
-        private string CurrencySign => Bc.BotConfig.CurrencySign;
-
-        private string n(long cur)
-        {
-            return cur.ToString("N", _enUsCulture);
-        }
+        private string n(long cur) => cur.ToString("N", _enUsCulture);
 
         public string GetCurrency(ulong id)
         {
@@ -84,117 +55,34 @@ namespace Mewdeko.Modules.Gambling
                 return n(uow.DiscordUsers.GetUserCurrency(id));
             }
         }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Economy()
         {
             var ec = _service.GetEconomy();
             decimal onePercent = 0;
             if (ec.Cash > 0)
-                onePercent =
-                    ec.OnePercent / (ec.Cash - ec.Bot); // This stops the top 1% from owning more than 100% of the money
-            // [21:03] Bob Page: Kinda remids me of US economy
+            {
+                onePercent = ec.OnePercent / (ec.Cash-ec.Bot); // This stops the top 1% from owning more than 100% of the money
+                // [21:03] Bob Page: Kinda remids me of US economy
+            }
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("economy_state"))
-                .AddField(GetText("currency_owned"), (BigInteger) (ec.Cash - ec.Bot) + _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_owned"), ((BigInteger)(ec.Cash - ec.Bot)) + CurrencySign)
                 .AddField(GetText("currency_one_percent"), (onePercent * 100).ToString("F2") + "%")
-                .AddField(GetText("currency_planted"), (BigInteger) ec.Planted + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("owned_waifus_total"), (BigInteger) ec.Waifus + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("bot_currency"), ec.Bot + _bc.BotConfig.CurrencySign)
-                .AddField(GetText("total"),
-                    ((BigInteger) (ec.Cash + ec.Planted + ec.Waifus)).ToString("N", _enUsCulture) +
-                    _bc.BotConfig.CurrencySign)
+                .AddField(GetText("currency_planted"), ((BigInteger)ec.Planted) + CurrencySign)
+                .AddField(GetText("owned_waifus_total"), ((BigInteger)ec.Waifus) + CurrencySign)
+                .AddField(GetText("bot_currency"), ec.Bot + CurrencySign)
+                .AddField(GetText("total"), ((BigInteger)(ec.Cash + ec.Planted + ec.Waifus)).ToString("N", _enUsCulture) + CurrencySign)
                 .WithOkColor();
-            // ec.Cash already contains ec.Bot as it's the total of all values in the CurrencyAmount column of the DiscordUser table
+                // ec.Cash already contains ec.Bot as it's the total of all values in the CurrencyAmount column of the DiscordUser table
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task VoteClaim()
-        {
-            var uid = ctx.User.Id;
-            {
-                using (var uow = _db.GetDbContext())
-                {
-                    var userTransactions = uow.CurrencyTransactions.GetAllFor(uid);
-                    foreach (var tr in userTransactions)
-                    {
-                        if (tr.DateAdded < DateTime.Now.AddHours(-12))
-                            break;
-                        if (tr.Reason == "Voted - <https://top.gg/bot/752236274261426212/vote>")
-                        {
-                            await ctx.Channel.SendMessageAsync("You've already claimed your reward.");
-                            return;
-                        }
-                    }
-                }
-
-                using (var req = new HttpRequestMessage(HttpMethod.Get,
-                    "https://top.gg/api/bots/752236274261426212/check?userId=" + uid))
-                {
-                    req.Headers.Add("Authorization",
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
-                    using (var http = _http.CreateClient())
-                    using (var res = await http.SendAsync(req).ConfigureAwait(false))
-                    {
-                        var resStr = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                        if (resStr == "{\"voted\":0}")
-                        {
-                            await ctx.Channel.SendMessageAsync("You havent voted, please vote by using .vote!");
-                            return;
-                        }
-
-                        await ctx.Channel.SendConfirmAsync("You have claimed your 200k 💵");
-
-                        await _cs.AddAsync(uid, "Voted - <https://top.gg/bot/752236274261426212/vote>", 200000)
-                            .ConfigureAwait(false);
-                    }
-                }
-            }
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task Work()
-        {
-            var random = new Random().Next(1, 1000);
-            using (var uow = _db.GetDbContext())
-            {
-                var userTransactions = uow.CurrencyTransactions.GetAllFor(ctx.User.Id);
-                foreach (var tr in userTransactions)
-                {
-                    if (tr.DateAdded < DateTime.Now.AddHours(-1))
-                        break;
-                    if (tr.Reason == "Worked")
-                    {
-                        await ctx.Channel.SendErrorAsync("You've already worked! Please run this again in an hour.");
-                        return;
-                    }
-                }
-            }
-
-            await _cs.AddAsync(ctx.User.Id, "Worked", random).ConfigureAwait(false);
-            await ctx.Channel.SendConfirmAsync($"You worked and got {random}{Bc.BotConfig.CurrencySign}");
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Timely()
         {
-            var val = Bc.BotConfig.TimelyCurrency;
-            var period = Bc.BotConfig.TimelyCurrencyPeriod;
+            var val = _config.Timely.Amount;
+            var period = _config.Timely.Cooldown;
             if (val <= 0 || period <= 0)
             {
                 await ReplyErrorLocalizedAsync("timely_none").ConfigureAwait(false);
@@ -204,21 +92,16 @@ namespace Mewdeko.Modules.Gambling
             TimeSpan? rem;
             if ((rem = _cache.AddTimelyClaim(ctx.User.Id, period)) != null)
             {
-                await ReplyErrorLocalizedAsync("timely_already_claimed", rem?.ToString(@"dd\d\ hh\h\ mm\m\ ss\s"))
-                    .ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("timely_already_claimed", rem?.ToString(@"dd\d\ hh\h\ mm\m\ ss\s")).ConfigureAwait(false);
                 return;
             }
 
             await _cs.AddAsync(ctx.User.Id, "Timely claim", val).ConfigureAwait(false);
 
-            await ReplyConfirmLocalizedAsync("timely", n(val) + Bc.BotConfig.CurrencySign, period)
-                .ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("timely", n(val) + CurrencySign, period).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         public async Task TimelyReset()
         {
@@ -226,108 +109,81 @@ namespace Mewdeko.Modules.Gambling
             await ReplyConfirmLocalizedAsync("timely_reset").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
-        public async Task TimelySet(int num, int period = 24)
+        public async Task TimelySet(int amount, int period = 24)
         {
-            if (num < 0 || period < 0)
+            if (amount < 0 || period < 0)
                 return;
-            using (var uow = _db.GetDbContext())
+            
+            _configService.ModifyConfig(gs =>
             {
-                var bc = uow.BotConfig.GetOrCreate(set => set);
-                _bc.BotConfig.TimelyCurrency = bc.TimelyCurrency = num;
-                _bc.BotConfig.TimelyCurrencyPeriod = bc.TimelyCurrencyPeriod = period;
-                await uow.SaveChangesAsync();
-            }
-
-            if (num == 0)
+                gs.Timely.Amount = amount;
+                gs.Timely.Cooldown = period;
+            });
+            
+            if (amount == 0)
                 await ReplyConfirmLocalizedAsync("timely_set_none").ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("timely_set", Format.Bold(n(num) + Bc.BotConfig.CurrencySign),
-                    Format.Bold(period.ToString())).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("timely_set", Format.Bold(n(amount) + CurrencySign), Format.Bold(period.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Raffle([Remainder] IRole role = null)
+        public async Task Raffle([Leftover] IRole role = null)
         {
             role = role ?? ctx.Guild.EveryoneRole;
 
-            var members =
-                (await role.GetMembersAsync().ConfigureAwait(false)).Where(u => u.Status != UserStatus.Offline);
+            var members = (await role.GetMembersAsync().ConfigureAwait(false)).Where(u => u.Status != UserStatus.Offline);
             var membersArray = members as IUser[] ?? members.ToArray();
-            if (membersArray.Length == 0) return;
+            if (membersArray.Length == 0)
+            {
+                return;
+            }
             var usr = membersArray[new MewdekoRandom().Next(0, membersArray.Length)];
-            await ctx.Channel.SendConfirmAsync("🎟 " + GetText("raffled_user"),
-                $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("🎟 " + GetText("raffled_user"), $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RaffleAny([Remainder] IRole role = null)
+        public async Task RaffleAny([Leftover] IRole role = null)
         {
             role = role ?? ctx.Guild.EveryoneRole;
 
-            var members = await role.GetMembersAsync().ConfigureAwait(false);
+            var members = (await role.GetMembersAsync().ConfigureAwait(false));
             var membersArray = members as IUser[] ?? members.ToArray();
-            if (membersArray.Length == 0) return;
+            if (membersArray.Length == 0)
+            {
+                return;
+            }
             var usr = membersArray[new MewdekoRandom().Next(0, membersArray.Length)];
-            await ctx.Channel.SendConfirmAsync("🎟 " + GetText("raffled_user"),
-                $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("🎟 " + GetText("raffled_user"), $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [Priority(1)]
-        public async Task Cash([Remainder] IUser user = null)
+        public async Task Cash([Leftover] IUser user = null)
         {
             user = user ?? ctx.User;
-            await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}")
-                .ConfigureAwait(false);
+            await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [Priority(2)]
-        public Task CurrencyTransactions(int page = 1)
-        {
-            return InternalCurrencyTransactions(ctx.User.Id, page);
-        }
+        public Task CurrencyTransactions(int page = 1) =>
+            InternalCurrencyTransactions(ctx.User.Id, page);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         [Priority(0)]
-        public Task CurrencyTransactions([Remainder] IUser usr)
-        {
-            return InternalCurrencyTransactions(usr.Id, 1);
-        }
+        public Task CurrencyTransactions([Leftover] IUser usr) =>
+            InternalCurrencyTransactions(usr.Id, 1);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         [Priority(1)]
-        public Task CurrencyTransactions(IUser usr, int page)
-        {
-            return InternalCurrencyTransactions(usr.Id, page);
-        }
+        public Task CurrencyTransactions(IUser usr, int page) =>
+            InternalCurrencyTransactions(usr.Id, page);
 
         private async Task InternalCurrencyTransactions(ulong userId, int page)
         {
@@ -337,12 +193,12 @@ namespace Mewdeko.Modules.Gambling
             var trs = new List<CurrencyTransaction>();
             using (var uow = _db.GetDbContext())
             {
-                trs = uow.CurrencyTransactions.GetPageFor(userId, page);
+                trs = uow._context.CurrencyTransactions.GetPageFor(userId, page);
             }
 
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("transactions",
-                    ((SocketGuild) ctx.Guild)?.GetUser(userId)?.ToString() ?? $"{userId}"))
+                    ((SocketGuild)ctx.Guild)?.GetUser(userId)?.ToString() ?? $"{userId}"))
                 .WithOkColor();
 
             var desc = "";
@@ -358,113 +214,80 @@ namespace Mewdeko.Modules.Gambling
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [Priority(0)]
         public async Task Cash(ulong userId)
         {
-            await ReplyConfirmLocalizedAsync("has", Format.Code(userId.ToString()),
-                $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("has", Format.Code(userId.ToString()), $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public async Task Give(ShmartNumber amount, IGuildUser receiver, [Remainder] string msg = null)
+        public async Task Give(ShmartNumber amount, IGuildUser receiver, [Leftover] string msg = null)
         {
             if (amount <= 0 || ctx.User.Id == receiver.Id || receiver.IsBot)
                 return;
-            var success = await _cs
-                .RemoveAsync((IGuildUser) ctx.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount)
-                .ConfigureAwait(false);
+            var success = await _cs.RemoveAsync((IGuildUser)ctx.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount, false).ConfigureAwait(false);
             if (!success)
             {
-                await ReplyErrorLocalizedAsync("not_enough", CurrencyPluralName).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                 return;
             }
-
-            await _cs.AddAsync(receiver, $"Gift from {ctx.User.Username} ({ctx.User.Id}) - {msg}.", amount, true)
-                .ConfigureAwait(false);
+            await _cs.AddAsync(receiver, $"Gift from {ctx.User.Username} ({ctx.User.Id}) - {msg}.", amount, true).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("gifted", n(amount) + CurrencySign, Format.Bold(receiver.ToString()), msg)
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public Task Give(ShmartNumber amount, [Remainder] IGuildUser receiver)
-        {
-            return Give(amount, receiver, null);
-        }
+        public Task Give(ShmartNumber amount, [Leftover] IGuildUser receiver)
+            => Give(amount, receiver, null);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(0)]
-        public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg)
-        {
-            return Award(amount, usr.Id, msg);
-        }
+        public Task Award(ShmartNumber amount, IGuildUser usr, [Leftover] string msg) =>
+            Award(amount, usr.Id, msg);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(1)]
-        public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr)
-        {
-            return Award(amount, usr.Id);
-        }
+        public Task Award(ShmartNumber amount, [Leftover] IGuildUser usr) =>
+            Award(amount, usr.Id);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string msg = null)
+        public async Task Award(ShmartNumber amount, ulong usrId, [Leftover] string msg = null)
         {
             if (amount <= 0)
                 return;
 
             await _cs.AddAsync(usrId,
-                $"Awarded by bot owner. ({ctx.User.Username}/{ctx.User.Id}) {msg ?? ""}",
+                $"Awarded by bot owner. ({ctx.User.Username}/{ctx.User.Id}) {(msg ?? "")}",
                 amount,
-                ctx.Client.CurrentUser.Id != usrId).ConfigureAwait(false);
+                gamble: (ctx.Client.CurrentUser.Id != usrId)).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("awarded", n(amount) + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(ShmartNumber amount, [Remainder] IRole role)
+        public async Task Award(ShmartNumber amount, [Leftover] IRole role)
         {
             var users = (await ctx.Guild.GetUsersAsync().ConfigureAwait(false))
-                .Where(u => u.GetRoles().Contains(role))
-                .ToList();
+                               .Where(u => u.GetRoles().Contains(role))
+                               .ToList();
 
             await _cs.AddBulkAsync(users.Select(x => x.Id),
-                    users.Select(x =>
-                        $"Awarded by bot owner to **{role.Name}** role. ({ctx.User.Username}/{ctx.User.Id})"),
-                    users.Select(x => amount.Value),
-                    true)
+                users.Select(x => $"Awarded by bot owner to **{role.Name}** role. ({ctx.User.Username}/{ctx.User.Id})"),
+                users.Select(x => amount.Value),
+                gamble: true)
                 .ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("mass_award",
@@ -473,49 +296,39 @@ namespace Mewdeko.Modules.Gambling
                 Format.Bold(role.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Take(ShmartNumber amount, [Remainder] IGuildUser user)
+        public async Task Take(ShmartNumber amount, [Leftover] IGuildUser user)
         {
             if (amount <= 0)
                 return;
 
             if (await _cs.RemoveAsync(user, $"Taken by bot owner.({ctx.User.Username}/{ctx.User.Id})", amount,
-                gamble: ctx.Client.CurrentUser.Id != user.Id).ConfigureAwait(false))
-                await ReplyConfirmLocalizedAsync("take", n(amount) + CurrencySign, Format.Bold(user.ToString()))
-                    .ConfigureAwait(false);
+                gamble: (ctx.Client.CurrentUser.Id != user.Id)).ConfigureAwait(false))
+                await ReplyConfirmLocalizedAsync("take", n(amount) + CurrencySign, Format.Bold(user.ToString())).ConfigureAwait(false);
             else
-                await ReplyErrorLocalizedAsync("take_fail", n(amount) + CurrencySign, Format.Bold(user.ToString()),
-                    CurrencyPluralName).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("take_fail", n(amount) + CurrencySign, Format.Bold(user.ToString()), CurrencySign).ConfigureAwait(false);
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [OwnerOnly]
-        public async Task Take(ShmartNumber amount, [Remainder] ulong usrId)
+        public async Task Take(ShmartNumber amount, [Leftover] ulong usrId)
         {
             if (amount <= 0)
                 return;
 
             if (await _cs.RemoveAsync(usrId, $"Taken by bot owner.({ctx.User.Username}/{ctx.User.Id})", amount,
-                ctx.Client.CurrentUser.Id != usrId).ConfigureAwait(false))
+                gamble: (ctx.Client.CurrentUser.Id != usrId)).ConfigureAwait(false))
                 await ReplyConfirmLocalizedAsync("take", amount + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
             else
-                await ReplyErrorLocalizedAsync("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()),
-                    CurrencyPluralName).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("take_fail", amount + CurrencySign, Format.Code(usrId.ToString()), CurrencySign).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        private IUserMessage rdMsg = null;
+
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RollDuel(IUser u)
         {
@@ -525,13 +338,12 @@ namespace Mewdeko.Modules.Gambling
             //since the challenge is created by another user, we need to reverse the ids
             //if it gets removed, means challenge is accepted
             if (_service.Duels.TryRemove((ctx.User.Id, u.Id), out var game))
+            {
                 await game.StartGame().ConfigureAwait(false);
+            }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RollDuel(ShmartNumber amount, IUser u)
         {
@@ -542,30 +354,33 @@ namespace Mewdeko.Modules.Gambling
                 return;
 
             var embed = new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle(GetText("roll_duel"));
+                    .WithOkColor()
+                    .WithTitle(GetText("roll_duel"));
 
             var game = new RollDuelGame(_cs, _client.CurrentUser.Id, ctx.User.Id, u.Id, amount);
             //means challenge is just created
             if (_service.Duels.TryGetValue((ctx.User.Id, u.Id), out var other))
             {
                 if (other.Amount != amount)
+                {
                     await ReplyErrorLocalizedAsync("roll_duel_already_challenged").ConfigureAwait(false);
+                }
                 else
+                {
                     await RollDuel(u).ConfigureAwait(false);
+                }
                 return;
             }
-
             if (_service.Duels.TryAdd((u.Id, ctx.User.Id), game))
             {
                 game.OnGameTick += Game_OnGameTick;
                 game.OnEnded += Game_OnEnded;
 
                 await ReplyConfirmLocalizedAsync("roll_duel_challenge",
-                        Format.Bold(ctx.User.ToString()),
-                        Format.Bold(u.ToString()),
-                        Format.Bold(amount + CurrencySign))
-                    .ConfigureAwait(false);
+                    Format.Bold(ctx.User.ToString()),
+                    Format.Bold(u.ToString()),
+                    Format.Bold(amount + CurrencySign))
+                        .ConfigureAwait(false);
             }
 
             async Task Game_OnGameTick(RollDuelGame arg)
@@ -577,10 +392,17 @@ namespace Mewdeko.Modules.Gambling
 ";
 
                 if (rdMsg == null)
+                {
                     rdMsg = await ctx.Channel.EmbedAsync(embed)
                         .ConfigureAwait(false);
+                }
                 else
-                    await rdMsg.ModifyAsync(x => { x.Embed = embed.Build(); }).ConfigureAwait(false);
+                {
+                    await rdMsg.ModifyAsync(x =>
+                    {
+                        x.Embed = embed.Build();
+                    }).ConfigureAwait(false);
+                }
             }
 
             async Task Game_OnEnded(RollDuelGame rdGame, RollDuelGame.Reason reason)
@@ -592,8 +414,7 @@ namespace Mewdeko.Modules.Gambling
                         var winner = rdGame.Winner == rdGame.P1
                             ? ctx.User
                             : u;
-                        embed.Description +=
-                            $"\n**{winner}** Won {n((long) (rdGame.Amount * 2 * 0.98)) + CurrencySign}";
+                        embed.Description += $"\n**{winner}** Won {n(((long)(rdGame.Amount * 2 * 0.98))) + CurrencySign}";
                         await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
                             .ConfigureAwait(false);
                     }
@@ -618,71 +439,46 @@ namespace Mewdeko.Modules.Gambling
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                 return;
 
-            if (!await _cs.RemoveAsync(ctx.User, "Betroll Gamble", amount, false, true).ConfigureAwait(false))
+            if (!await _cs.RemoveAsync(ctx.User, "Betroll Gamble", amount, false, gamble: true).ConfigureAwait(false))
             {
-                await ReplyErrorLocalizedAsync("not_enough", CurrencyPluralName).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                 return;
             }
 
-            var rnd = new MewdekoRandom().Next(0, 101);
-            var str = Format.Bold(ctx.User.ToString()) + Format.Code(GetText("roll", rnd));
-            if (rnd < 67)
+            var br = new Betroll(base._config.BetRoll);
+
+            var result = br.Roll();
+
+
+            var str = Format.Bold(ctx.User.ToString()) + Format.Code(GetText("roll", result.Roll));
+            if (result.Multiplier > 0)
             {
-                str += GetText("better_luck");
+                var win = (long)(amount * result.Multiplier);
+                str += GetText("br_win",
+                    n(win) + CurrencySign,
+                    result.Threshold + (result.Roll == 100 ? " 👑" : ""));
+                await _cs.AddAsync(ctx.User, "Betroll Gamble",
+                    win, false, gamble: true).ConfigureAwait(false);
             }
             else
             {
-                long win;
-                if (rnd < 91)
-                {
-                    win = (long) (amount * Bc.BotConfig.Betroll67Multiplier);
-                    str += GetText("br_win", n(win) + CurrencySign, 66);
-                    await _cs.AddAsync(ctx.User, "Betroll Gamble",
-                        win, false, true).ConfigureAwait(false);
-                }
-                else if (rnd < 100)
-                {
-                    win = (long) (amount * Bc.BotConfig.Betroll91Multiplier);
-                    str += GetText("br_win", n(win) + CurrencySign, 90);
-                    await _cs.AddAsync(ctx.User, "Betroll Gamble",
-                        win, false, true).ConfigureAwait(false);
-                }
-                else
-                {
-                    win = (long) (amount * Bc.BotConfig.Betroll100Multiplier);
-                    str += GetText("br_win", n(win) + CurrencySign, 99) + " 👑";
-                    await _cs.AddAsync(ctx.User, "Betroll Gamble",
-                        win, false, true).ConfigureAwait(false);
-                }
+                str += GetText("better_luck");
             }
-
+            
             await ctx.Channel.SendConfirmAsync(str).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public Task BetRoll(ShmartNumber amount)
-        {
-            return InternallBetroll(amount);
-        }
+            => InternallBetroll(amount);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [MewdekoOptions(typeof(LbOpts))]
         [Priority(0)]
         public Task Leaderboard(params string[] args)
-        {
-            return Leaderboard(1, args);
-        }
+            => Leaderboard(1, args);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [MewdekoOptions(typeof(LbOpts))]
         [Priority(1)]
         public async Task Leaderboard(int page = 1, params string[] args)
@@ -692,9 +488,12 @@ namespace Mewdeko.Modules.Gambling
 
             var (opts, _) = OptionsParser.ParseFrom(new LbOpts(), args);
 
-            var cleanRichest = new List<DiscordUser>();
+            List<DiscordUser> cleanRichest = new List<DiscordUser>();
             // it's pointless to have clean on dm context
-            if (Context.Guild is null) opts.Clean = false;
+            if (Context.Guild is null)
+            {
+                opts.Clean = false;
+            }
 
             if (opts.Clean)
             {
@@ -704,11 +503,11 @@ namespace Mewdeko.Modules.Gambling
                 {
                     cleanRichest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 10_000);
                 }
-
+                
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
-                var sg = (SocketGuild) Context.Guild;
+                var sg = (SocketGuild)Context.Guild;
                 cleanRichest = cleanRichest.Where(x => sg.GetUser(x.UserId) != null)
                     .ToList();
             }
@@ -723,47 +522,67 @@ namespace Mewdeko.Modules.Gambling
             await Context.SendPaginatedConfirmAsync(page, curPage =>
             {
                 var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle(CurrencySign + " " + GetText("leaderboard"));
+                   .WithOkColor()
+                   .WithTitle(CurrencySign + " " + GetText("leaderboard"));
 
                 List<DiscordUser> toSend;
                 if (!opts.Clean)
+                {
                     using (var uow = _db.GetDbContext())
                     {
                         toSend = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, curPage);
                     }
+                }
                 else
+                {
                     toSend = cleanRichest.Skip(curPage * 9).Take(9).ToList();
-
-                if (!toSend.Any())
-                {
-                    embed.WithDescription(GetText("no_user_on_this_page"));
-                    return embed;
                 }
+                 if (!toSend.Any())
+                 {
+                     embed.WithDescription(GetText("no_user_on_this_page"));
+                     return embed;
+                 }
 
-                for (var i = 0; i < toSend.Count; i++)
-                {
-                    var x = toSend[i];
-                    var usrStr = x.ToString().TrimTo(20, true);
+                 for (var i = 0; i < toSend.Count; i++)
+                 {
+                     var x = toSend[i];
+                     var usrStr = x.ToString().TrimTo(20, true);
 
-                    var j = i;
-                    embed.AddField(efb => efb.WithName("#" + (9 * curPage + j + 1) + " " + usrStr)
-                        .WithValue(n(x.CurrencyAmount) + " " + CurrencySign)
-                        .WithIsInline(true));
-                }
+                     var j = i;
+                     embed.AddField(efb => efb.WithName("#" + (9 * curPage + j + 1) + " " + usrStr)
+                                              .WithValue(n(x.CurrencyAmount) + " " + CurrencySign)
+                                              .WithIsInline(true));
+                 }
 
-                return embed;
-            }, opts.Clean ? cleanRichest.Count() : 9000, 9, opts.Clean);
+                 return embed;
+             }, opts.Clean ? cleanRichest.Count() : 9000, 9, opts.Clean);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+
+        public enum RpsPick
+        {
+            R = 0,
+            Rock = 0,
+            Rocket = 0,
+            P = 1,
+            Paper = 1,
+            Paperclip = 1,
+            S = 2,
+            Scissors = 2
+        }
+
+        public enum RpsResult
+        {
+            Win,
+            Loss,
+            Draw,
+        }
+
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Rps(RpsPick pick, ShmartNumber amount = default)
         {
             long oldAmount = amount;
-            if (!await CheckBetOptional(amount).ConfigureAwait(false) || amount == 1)
+            if (!await CheckBetOptional(amount).ConfigureAwait(false) || (amount == 1))
                 return;
 
             string getRpsPick(RpsPick p)
@@ -778,34 +597,35 @@ namespace Mewdeko.Modules.Gambling
                         return "✂️";
                 }
             }
-
             var embed = new EmbedBuilder();
 
-            var MewdekoPick = (RpsPick) new MewdekoRandom().Next(0, 3);
+            var MewdekoPick = (RpsPick)new MewdekoRandom().Next(0, 3);
 
             if (amount > 0)
+            {
                 if (!await _cs.RemoveAsync(ctx.User.Id,
-                    "Rps-bet", amount, true).ConfigureAwait(false))
+                    "Rps-bet", amount, gamble: true).ConfigureAwait(false))
                 {
-                    await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                     return;
                 }
+            }
 
             string msg;
             if (pick == MewdekoPick)
             {
                 await _cs.AddAsync(ctx.User.Id,
-                    "Rps-draw", amount, true).ConfigureAwait(false);
+                    "Rps-draw", amount, gamble: true).ConfigureAwait(false);
                 embed.WithOkColor();
                 msg = GetText("rps_draw", getRpsPick(pick));
             }
-            else if (pick == RpsPick.Paper && MewdekoPick == RpsPick.Rock ||
-                     pick == RpsPick.Rock && MewdekoPick == RpsPick.Scissors ||
-                     pick == RpsPick.Scissors && MewdekoPick == RpsPick.Paper)
+            else if ((pick == RpsPick.Paper && MewdekoPick == RpsPick.Rock) ||
+                     (pick == RpsPick.Rock && MewdekoPick == RpsPick.Scissors) ||
+                     (pick == RpsPick.Scissors && MewdekoPick == RpsPick.Paper))
             {
-                amount = (long) (amount * Bc.BotConfig.BetflipMultiplier);
+                amount = (long)(amount * base._config.BetFlip.Multiplier);
                 await _cs.AddAsync(ctx.User.Id,
-                    "Rps-win", amount, true).ConfigureAwait(false);
+                    "Rps-win", amount, gamble: true).ConfigureAwait(false);
                 embed.WithOkColor();
                 embed.AddField(GetText("won"), n(amount));
                 msg = GetText("rps_win", ctx.User.Mention,

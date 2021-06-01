@@ -6,13 +6,13 @@ namespace Mewdeko.Core.Services.Database.Models
     public enum ShopEntryType
     {
         Role,
-
-        List
+        List,
         //Infinite_List,
     }
 
     public class ShopEntry : DbEntity, IIndexed
     {
+        public int Index { get; set; }
         public int Price { get; set; }
         public string Name { get; set; }
         public ulong AuthorId { get; set; }
@@ -24,8 +24,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong RoleId { get; set; }
 
         //list
-        public HashSet<ShopEntryItem> Items { get; set; } = new();
-        public int Index { get; set; }
+        public HashSet<ShopEntryItem> Items { get; set; } = new HashSet<ShopEntryItem>();
     }
 
     public class ShopEntryItem : DbEntity
@@ -34,13 +33,14 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public override bool Equals(object obj)
         {
-            if (obj == null || GetType() != obj.GetType()) return false;
-            return ((ShopEntryItem) obj).Text == Text;
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            return ((ShopEntryItem)obj).Text == Text;
         }
 
-        public override int GetHashCode()
-        {
-            return Text.GetHashCode(StringComparison.InvariantCulture);
-        }
+        public override int GetHashCode() =>
+            Text.GetHashCode(StringComparison.InvariantCulture);
     }
 }

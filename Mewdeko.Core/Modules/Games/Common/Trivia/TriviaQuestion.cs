@@ -9,62 +9,64 @@ namespace Mewdeko.Modules.Games.Common.Trivia
 {
     public class TriviaQuestion
     {
-        public const int maxStringLength = 22;
-
         //represents the min size to judge levDistance with
-        private static readonly HashSet<Tuple<int, int>> strictness = new()
-        {
-            new(9, 0),
-            new(14, 1),
-            new(19, 2),
-            new(22, 3)
+        private static readonly HashSet<Tuple<int, int>> strictness = new HashSet<Tuple<int, int>> {
+            new Tuple<int, int>(9, 0),
+            new Tuple<int, int>(14, 1),
+            new Tuple<int, int>(19, 2),
+            new Tuple<int, int>(22, 3),
         };
-
-        private string _cleanAnswer;
-
-        public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
-        {
-            Question = q;
-            Answer = a;
-            Category = c;
-            ImageUrl = img;
-            AnswerImageUrl = answerImage ?? img;
-        }
+        public const int maxStringLength = 22;
 
         public string Category { get; set; }
         public string Question { get; set; }
         public string ImageUrl { get; set; }
         public string AnswerImageUrl { get; set; }
         public string Answer { get; set; }
+        private string _cleanAnswer;
         public string CleanAnswer => _cleanAnswer ?? (_cleanAnswer = Clean(Answer));
 
-        public string GetHint()
+        public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
         {
-            return Scramble(Answer);
+            this.Question = q;
+            this.Answer = a;
+            this.Category = c;
+            this.ImageUrl = img;
+            this.AnswerImageUrl = answerImage ?? img;
         }
+
+        public string GetHint() => Scramble(Answer);
 
         public bool IsAnswerCorrect(string guess)
         {
-            if (Answer.Equals(guess, StringComparison.InvariantCulture)) return true;
+            if (Answer.Equals(guess, StringComparison.InvariantCulture))
+            {
+                return true;
+            }
             var cleanGuess = Clean(guess);
-            if (CleanAnswer.Equals(cleanGuess, StringComparison.InvariantCulture)) return true;
+            if (CleanAnswer.Equals(cleanGuess, StringComparison.InvariantCulture))
+            {
+                return true;
+            }
 
-            var levDistanceClean = CleanAnswer.LevenshteinDistance(cleanGuess);
-            var levDistanceNormal = Answer.LevenshteinDistance(guess);
+            int levDistanceClean = CleanAnswer.LevenshteinDistance(cleanGuess);
+            int levDistanceNormal = Answer.LevenshteinDistance(guess);
             return JudgeGuess(CleanAnswer.Length, cleanGuess.Length, levDistanceClean)
-                   || JudgeGuess(Answer.Length, guess.Length, levDistanceNormal);
+                || JudgeGuess(Answer.Length, guess.Length, levDistanceNormal);
         }
 
         private static bool JudgeGuess(int guessLength, int answerLength, int levDistance)
         {
-            foreach (var level in strictness)
+            foreach (Tuple<int, int> level in strictness)
+            {
                 if (guessLength <= level.Item1 || answerLength <= level.Item1)
                 {
                     if (levDistance <= level.Item2)
                         return true;
-                    return false;
+                    else
+                        return false;
                 }
-
+            }
             return false;
         }
 
@@ -102,9 +104,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                 if (letters[i] != ' ')
                     letters[i] = '_';
             }
-
-            return string.Join(" ",
-                new string(letters).Replace(" ", " \u2000", StringComparison.InvariantCulture).AsEnumerable());
+            return string.Join(" ", new string(letters).Replace(" ", " \u2000", StringComparison.InvariantCulture).AsEnumerable());
         }
     }
 }

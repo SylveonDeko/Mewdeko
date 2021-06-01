@@ -8,35 +8,35 @@ namespace Mewdeko.Core.Services.Database.Models
         public GuildConfig GuildConfig { get; set; }
 
         /// <summary>
-        ///     Whether the feature is enabled in the guild.
+        /// Whether the feature is enabled in the guild.
         /// </summary>
         public bool Enabled { get; set; }
 
         /// <summary>
-        ///     Id of the role to give to the users in the role 'FromRole' when they start streaming
+        /// Id of the role to give to the users in the role 'FromRole' when they start streaming
         /// </summary>
         public ulong AddRoleId { get; set; }
 
         /// <summary>
-        ///     Id of the role whose users are eligible to get the 'AddRole'
+        /// Id of the role whose users are eligible to get the 'AddRole'
         /// </summary>
         public ulong FromRoleId { get; set; }
 
         /// <summary>
-        ///     If set, feature will only apply to users who have this keyword in their streaming status.
+        /// If set, feature will only apply to users who have this keyword in their streaming status.
         /// </summary>
         public string Keyword { get; set; }
 
         /// <summary>
-        ///     A collection of whitelisted users' IDs. Whitelisted users don't require 'keyword' in
-        ///     order to get the stream role.
+        /// A collection of whitelisted users' IDs. Whitelisted users don't require 'keyword' in
+        /// order to get the stream role.
         /// </summary>
-        public HashSet<StreamRoleWhitelistedUser> Whitelist { get; set; } = new();
+        public HashSet<StreamRoleWhitelistedUser> Whitelist { get; set; } = new HashSet<StreamRoleWhitelistedUser>();
 
         /// <summary>
-        ///     A collection of blacklisted users' IDs. Blacklisted useres will never get the stream role.
+        /// A collection of blacklisted users' IDs. Blacklisted useres will never get the stream role.
         /// </summary>
-        public HashSet<StreamRoleBlacklistedUser> Blacklist { get; set; } = new();
+        public HashSet<StreamRoleBlacklistedUser> Blacklist { get; set; } = new HashSet<StreamRoleBlacklistedUser>();
     }
 
     public class StreamRoleBlacklistedUser : DbEntity

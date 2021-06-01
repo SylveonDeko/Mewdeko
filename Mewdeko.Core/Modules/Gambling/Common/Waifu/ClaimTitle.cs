@@ -13,6 +13,6 @@
         Veteran,
         Incubis,
         Harem_King,
-        Harem_God
+        Harem_God,
     }
 }

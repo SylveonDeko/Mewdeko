@@ -9,18 +9,17 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot
 {
     public class ChatterBotSession : IChatterBotSession
     {
-        private readonly int _botId = 6;
+        private static MewdekoRandom Rng { get; } = new MewdekoRandom();
 
         private readonly string _chatterBotId;
         private readonly IHttpClientFactory _httpFactory;
+        private readonly int _botId = 6;
 
         public ChatterBotSession(IHttpClientFactory httpFactory)
         {
             _chatterBotId = Rng.Next(0, 1000000).ToString().ToBase64();
             _httpFactory = httpFactory;
         }
-
-        private static MewdekoRandom Rng { get; } = new();
 
         private string ApiEndpoint => "http://api.program-o.com/v2/chatbot/" +
                                       $"?bot_id={_botId}&" +

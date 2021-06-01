@@ -1,6 +1,11 @@
+
+# ⚠️ OBSOLETE
+- ⚠️ `.bce` command is removed in newer version.  If you're on version 2.39.0 or later, use [config guide][CONFIG GUIDE]  
+
+
 # BotConfigEdit Guide
 
-`.bce` allows you to conveniently set many of the bot-wide settings that Mewdeko has, such as what the currency looks like, what people get when they use `.help`, and so on.
+`.bce` allows you to conveniently set many of the bot-wide settings that Nadeko has, such as what the currency looks like, what people get when they use `.help`, and so on.
 Below is a list of all the settings that can be set, with a quick instruction on how to use them, and their default value.
 
 ## BetflipMultiplier
@@ -47,7 +52,7 @@ A number of seconds that the bot is guaranteed not to spawn any flowers again af
 ## CurrencyName
 
 Name of your currency. Mostly people aren't creative with this and just call them "Credit" or "Dollar". You can do better :^)  
-**Default is MewdekoFlower**
+**Default is NadekoFlower**
 
 ## CurrencySign
 
@@ -139,8 +144,8 @@ The percentage of currency all users will lose every 24 hours. The value goes be
 Whether the bot will see if there are updates available. The patch notes will be sent to Bot Owner's DM. The bot checks for updates once every 8 hours. There are 3 available values:  
 
 - None: The bot will not check for updates
-- Commit: This is useful for linux self-hosters - the bot will check for any new commit on the Mewdeko repository.
-- Release: This is useful for windows self-hosters - the bot will check for any new releases published on the Mewdeko repository. This setting is also useful for linux self-hosters who only want to update when it's pretty safe to do so :)
+- Commit: This is useful for linux self-hosters - the bot will check for any new commit on the NadekoBot repository.
+- Release: This is useful for windows self-hosters - the bot will check for any new releases published on the NadekoBot repository. This setting is also useful for linux self-hosters who only want to update when it's pretty safe to do so :)
 
 **Default is Release**
 
@@ -156,3 +161,5 @@ The average amount of xp added every minute to a user connected to a voice chann
 ## MaxXpMinutes
 The maximum amount of time, in minutes, a user can earn xp in a voice channel. This exists mainly to clear entries out of Redis.  
 **Default is 720**
+
+[CONFIG GUIDE]: config-guide.md

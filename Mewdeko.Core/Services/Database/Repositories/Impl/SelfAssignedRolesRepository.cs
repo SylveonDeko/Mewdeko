@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Mewdeko.Core.Services.Database.Models;
+using System.Collections.Generic;
 using System.Linq;
-using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
@@ -22,11 +22,9 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
             return true;
         }
 
-        public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId)
-        {
-            return _set.AsQueryable()
-                .Where(s => s.GuildId == guildId)
-                .ToArray();
-        }
+        public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId) 
+            =>  _set.AsQueryable()
+                    .Where(s => s.GuildId == guildId)
+                    .ToArray();
     }
 }

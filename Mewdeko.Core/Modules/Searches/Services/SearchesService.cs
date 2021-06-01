@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using AngleSharp;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
-using Html2Markdown;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common;
 using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Core.Services;
@@ -17,48 +8,53 @@ using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NLog;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using Color = SixLabors.ImageSharp.Color;
-using Configuration = AngleSharp.Configuration;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Serilog;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Searches.Services
 {
     public class SearchesService : INService, IUnloadableService
     {
-        public enum ImageTag
-        {
-            Food,
-            Dogs,
-            Cats,
-            Birds
-        }
-
-        private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new();
-        private readonly IDataCache _cache;
-        private readonly DiscordSocketClient _client;
-        private readonly IBotCredentials _creds;
-        private readonly DbService _db;
-        private readonly FontProvider _fonts;
-        private readonly IGoogleApiService _google;
         private readonly IHttpClientFactory _httpFactory;
-
-        private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new();
+        private readonly DiscordSocketClient _client;
+        private readonly IGoogleApiService _google;
+        private readonly DbService _db;
         private readonly IImageCache _imgs;
-        private readonly Logger _log;
+        private readonly IDataCache _cache;
+        private readonly FontProvider _fonts;
+        private readonly IBotCredentials _creds;
         private readonly MewdekoRandom _rng;
-        private readonly List<string> _yomamaJokes;
 
-        private readonly object yomamaLock = new();
-        private int yomamaJokeIndex;
+        public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new ConcurrentDictionary<ulong, bool>();
+        // (userId, channelId)
+        public ConcurrentDictionary<(ulong UserId, ulong ChannelId), string> UserLanguages { get; } = new ConcurrentDictionary<(ulong, ulong), string>();
+
+        public List<WoWJoke> WowJokes { get; } = new List<WoWJoke>();
+        public List<MagicItem> MagicItems { get; } = new List<MagicItem>();
+
+        private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new ConcurrentDictionary<ulong, SearchImageCacher>();
+
+        public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+        public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new ConcurrentDictionary<ulong, Timer>();
+
+        private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>();
+        private readonly List<string> _yomamaJokes;
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google,
             DbService db, Mewdeko bot, IDataCache cache, IHttpClientFactory factory,
@@ -68,7 +64,6 @@ namespace Mewdeko.Modules.Searches.Services
             _client = client;
             _google = google;
             _db = db;
-            _log = LogManager.GetCurrentClassLogger();
             _imgs = cache.LocalImages;
             _cache = cache;
             _fonts = fonts;
@@ -81,7 +76,7 @@ namespace Mewdeko.Modules.Searches.Services
                     x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
 
             //translate commands
-            _client.MessageReceived += msg =>
+            _client.MessageReceived += (msg) =>
             {
                 var _ = Task.Run(async () =>
                 {
@@ -95,44 +90,36 @@ namespace Mewdeko.Modules.Searches.Services
 
                         var key = (umsg.Author.Id, umsg.Channel.Id);
 
-                        if (!UserLanguages.TryGetValue(key, out var langs))
+                        if (!UserLanguages.TryGetValue(key, out string langs))
                             return;
 
                         var text = await Translate(langs, umsg.Resolve(TagHandling.Ignore))
-                            .ConfigureAwait(false);
+                                            .ConfigureAwait(false);
                         if (autoDelete)
-                            try
-                            {
-                                await umsg.DeleteAsync().ConfigureAwait(false);
-                            }
-                            catch
-                            {
-                            }
-
+                            try { await umsg.DeleteAsync().ConfigureAwait(false); } catch { }
                         await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` "
-                                                            + text.Replace("<@ ", "<@",
-                                                                    StringComparison.InvariantCulture)
-                                                                .Replace("<@! ", "<@!",
-                                                                    StringComparison.InvariantCulture))
-                            .ConfigureAwait(false);
+                            + text.Replace("<@ ", "<@", StringComparison.InvariantCulture)
+                                  .Replace("<@! ", "<@!", StringComparison.InvariantCulture)).ConfigureAwait(false);
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 });
                 return Task.CompletedTask;
             };
 
             //joke commands
             if (File.Exists("data/wowjokes.json"))
+            {
                 WowJokes = JsonConvert.DeserializeObject<List<WoWJoke>>(File.ReadAllText("data/wowjokes.json"));
+            }
             else
-                _log.Warn("data/wowjokes.json is missing. WOW Jokes are not loaded.");
+                Log.Warning("data/wowjokes.json is missing. WOW Jokes are not loaded.");
 
             if (File.Exists("data/magicitems.json"))
+            {
                 MagicItems = JsonConvert.DeserializeObject<List<MagicItem>>(File.ReadAllText("data/magicitems.json"));
+            }
             else
-                _log.Warn("data/magicitems.json is missing. Magic items are not loaded.");
+                Log.Warning("data/magicitems.json is missing. Magic items are not loaded.");
 
             if (File.Exists("data/yomama.txt"))
             {
@@ -143,38 +130,13 @@ namespace Mewdeko.Modules.Searches.Services
             else
             {
                 _yomamaJokes = new List<string>();
-                _log.Warn("data/yomama.txt is missing. .yomama command won't work");
+                Log.Warning("data/yomama.txt is missing. .yomama command won't work");
             }
-        }
-
-        public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new();
-
-        // (userId, channelId)
-        public ConcurrentDictionary<(ulong UserId, ulong ChannelId), string> UserLanguages { get; } = new();
-
-        public List<WoWJoke> WowJokes { get; } = new();
-        public List<MagicItem> MagicItems { get; } = new();
-
-        public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
-        public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
-        public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new();
-
-        public Task Unload()
-        {
-            AutoBoobTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
-            AutoBoobTimers.Clear();
-            AutoButtTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
-            AutoButtTimers.Clear();
-            AutoHentaiTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
-            AutoHentaiTimers.Clear();
-
-            _imageCacher.Clear();
-            return Task.CompletedTask;
         }
 
         public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
         {
-            var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
+            byte[] data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
                 GetRipPictureFactory,
                 (text, imgUrl),
                 TimeSpan.FromDays(1)).ConfigureAwait(false);
@@ -183,17 +145,16 @@ namespace Mewdeko.Modules.Searches.Services
         }
 
         private void DrawAvatar(Image bg, Image avatarImage)
-        {
-            bg.Mutate(x => x.Grayscale().DrawImage(avatarImage, new Point(83, 139), new GraphicsOptions()));
-        }
+            => bg.Mutate(x => x.Grayscale().DrawImage(avatarImage, new Point(83, 139), new GraphicsOptions()));
 
         public async Task<byte[]> GetRipPictureFactory((string text, Uri avatarUrl) arg)
         {
             var (text, avatarUrl) = arg;
             using (var bg = Image.Load<Rgba32>(_imgs.Rip.ToArray()))
             {
-                var (succ, data) = (false, (byte[]) null); //await _cache.TryGetImageDataAsync(avatarUrl);
+                var (succ, data) = (false, (byte[])null); //await _cache.TryGetImageDataAsync(avatarUrl);
                 if (!succ)
+                {
                     using (var http = _httpFactory.CreateClient())
                     {
                         data = await http.GetByteArrayAsync(avatarUrl);
@@ -205,27 +166,29 @@ namespace Mewdeko.Modules.Searches.Services
                             data = avatarImg.ToStream().ToArray();
                             DrawAvatar(bg, avatarImg);
                         }
-
                         await _cache.SetImageDataAsync(avatarUrl, data);
                     }
+                }
                 else
+                {
                     using (var avatarImg = Image.Load<Rgba32>(data))
                     {
                         DrawAvatar(bg, avatarImg);
                     }
+                }
 
                 bg.Mutate(x => x.DrawText(
-                    new TextGraphicsOptions
+                    new TextGraphicsOptions()
                     {
                         TextOptions = new TextOptions
                         {
                             HorizontalAlignment = HorizontalAlignment.Center,
-                            WrapTextWidth = 190
+                            WrapTextWidth = 190,
                         }.WithFallbackFonts(_fonts.FallBackFonts)
                     },
                     text,
                     _fonts.RipFont,
-                    Color.Black,
+                    SixLabors.ImageSharp.Color.Black,
                     new PointF(25, 225)));
 
                 //flowa
@@ -245,7 +208,7 @@ namespace Mewdeko.Modules.Searches.Services
             return _cache.GetOrAddCachedDataAsync($"Mewdeko_weather_{query}",
                 GetWeatherDataFactory,
                 query,
-                TimeSpan.FromHours(3));
+                expiry: TimeSpan.FromHours(3));
         }
 
         private async Task<WeatherData> GetWeatherDataFactory(string query)
@@ -254,10 +217,10 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 try
                 {
-                    var data = await http.GetStringAsync("http://api.openweathermap.org/data/2.5/weather?" +
-                                                         $"q={query}&" +
-                                                         "appid=42cd627dd60debf25a5739e50a217d74&" +
-                                                         "units=metric").ConfigureAwait(false);
+                    var data = await http.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?" +
+                        $"q={query}&" +
+                        $"appid=42cd627dd60debf25a5739e50a217d74&" +
+                        $"units=metric").ConfigureAwait(false);
 
                     if (data == null)
                         return null;
@@ -266,7 +229,7 @@ namespace Mewdeko.Modules.Searches.Services
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn(ex.Message);
+                    Log.Warning(ex.Message);
                     return null;
                 }
             }
@@ -280,17 +243,20 @@ namespace Mewdeko.Modules.Searches.Services
             //    arg,
             //    TimeSpan.FromMinutes(1));
         }
-
-        private async Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataFactory(
-            string query)
+        private async Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataFactory(string query)
         {
             query = query.Trim();
 
-            if (string.IsNullOrEmpty(query)) return (default, TimeErrors.InvalidInput);
+            if (string.IsNullOrEmpty(query))
+            {
+                return (default, TimeErrors.InvalidInput);
+            }
 
             if (string.IsNullOrWhiteSpace(_creds.LocationIqApiKey)
                 || string.IsNullOrWhiteSpace(_creds.TimezoneDbApiKey))
+            {
                 return (default, TimeErrors.ApiKeyMissing);
+            }
 
             try
             {
@@ -299,11 +265,9 @@ namespace Mewdeko.Modules.Searches.Services
                     var res = await _cache.GetOrAddCachedDataAsync($"geo_{query}", _ =>
                     {
                         var url = "https://eu1.locationiq.com/v1/search.php?" +
-                                  (string.IsNullOrWhiteSpace(_creds.LocationIqApiKey)
-                                      ? "key="
-                                      : $"key={_creds.LocationIqApiKey}&") +
-                                  $"q={Uri.EscapeDataString(query)}&" +
-                                  "format=json";
+                            (string.IsNullOrWhiteSpace(_creds.LocationIqApiKey) ? "key=" : $"key={_creds.LocationIqApiKey}&") +
+                            $"q={Uri.EscapeDataString(query)}&" +
+                            $"format=json";
 
                         var res = _http.GetStringAsync(url);
                         return res;
@@ -312,40 +276,47 @@ namespace Mewdeko.Modules.Searches.Services
                     var responses = JsonConvert.DeserializeObject<LocationIqResponse[]>(res);
                     if (responses is null || responses.Length == 0)
                     {
-                        _log.Warn("Geocode lookup failed for: {Query}", query);
+                        Log.Warning("Geocode lookup failed for: {Query}", query);
                         return (default, TimeErrors.NotFound);
                     }
 
                     var geoData = responses[0];
 
-                    using (var req = new HttpRequestMessage(HttpMethod.Get,
-                        "http://api.timezonedb.com/v2.1/get-time-zone?" +
+                    using (var req = new HttpRequestMessage(HttpMethod.Get, "http://api.timezonedb.com/v2.1/get-time-zone?" +
                         $"key={_creds.TimezoneDbApiKey}&format=json&" +
                         "by=position&" +
                         $"lat={geoData.Lat}&lng={geoData.Lon}"))
                     {
+
                         using (var geoRes = await _http.SendAsync(req))
                         {
                             var resString = await geoRes.Content.ReadAsStringAsync();
                             var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(resString);
 
-                            var time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                                .AddSeconds(timeObj.Timestamp);
+                            var time = new DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(timeObj.Timestamp);
 
                             return ((
                                 Address: responses[0].DisplayName,
                                 Time: time,
                                 TimeZoneName: timeObj.TimezoneName
-                            ), default);
+                                ), default);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                _log.Error(ex, "Weather error: {Message}", ex.Message);
+                Log.Error(ex, "Weather error: {Message}", ex.Message);
                 return (default, TimeErrors.NotFound);
             }
+        }
+
+        public enum ImageTag
+        {
+            Food,
+            Dogs,
+            Cats,
+            Birds
         }
 
         public string GetRandomImageUrl(ImageTag tag)
@@ -373,7 +344,7 @@ namespace Mewdeko.Modules.Searches.Services
             }
 
             return $"https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
-                   _rng.Next(1, max).ToString("000") + ".png";
+                _rng.Next(1, max).ToString("000") + ".png";
         }
 
         public async Task<string> Translate(string langs, string text = null)
@@ -386,16 +357,17 @@ namespace Mewdeko.Modules.Searches.Services
             var from = langarr[0];
             var to = langarr[1];
             text = text?.Trim();
-            return (await _google.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions();
+            return (await _google.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions(true);
         }
 
-        public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild,
-            bool isExplicit = false)
+        public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild, bool isExplicit = false)
         {
             tag = tag ?? "";
             if (string.IsNullOrWhiteSpace(tag)
                 && (tag.Contains("loli") || tag.Contains("shota")))
+            {
                 return null;
+            }
 
             var tags = tag
                 .Split('+')
@@ -406,13 +378,13 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 var blacklistedTags = GetBlacklistedTags(guild.Value);
 
-                var cacher = _imageCacher.GetOrAdd(guild.Value, key => new SearchImageCacher(_httpFactory));
+                var cacher = _imageCacher.GetOrAdd(guild.Value, (key) => new SearchImageCacher(_httpFactory));
 
                 return cacher.GetImage(tags, isExplicit, type, blacklistedTags);
             }
             else
             {
-                var cacher = _imageCacher.GetOrAdd(guild ?? 0, key => new SearchImageCacher(_httpFactory));
+                var cacher = _imageCacher.GetOrAdd(guild ?? 0, (key) => new SearchImageCacher(_httpFactory));
 
                 return cacher.GetImage(tags, isExplicit, type);
             }
@@ -437,9 +409,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
                 if (gc.NsfwBlacklistedTags.Add(tagObj))
-                {
                     added = true;
-                }
                 else
                 {
                     gc.NsfwBlacklistedTags.Remove(tagObj);
@@ -448,21 +418,24 @@ namespace Mewdeko.Modules.Searches.Services
                         uow._context.Remove(toRemove);
                     added = false;
                 }
-
                 var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
                 _blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
 
                 uow.SaveChanges();
             }
-
             return added;
         }
 
         public void ClearCache()
         {
-            foreach (var c in _imageCacher) c.Value?.Clear();
+            foreach (var c in _imageCacher)
+            {
+                c.Value?.Clear();
+            }
         }
 
+        private readonly object yomamaLock = new object();
+        private int yomamaJokeIndex = 0;
         public Task<string> GetYomamaJoke()
         {
             string joke;
@@ -478,9 +451,8 @@ namespace Mewdeko.Modules.Searches.Services
 
                 joke = _yomamaJokes[yomamaJokeIndex++];
             }
-
             return Task.FromResult(joke);
-
+            
             // using (var http = _httpFactory.CreateClient())
             // {
             //     var response = await http.GetStringAsync(new Uri("http://api.yomomma.info/")).ConfigureAwait(false);
@@ -488,18 +460,13 @@ namespace Mewdeko.Modules.Searches.Services
             // }
         }
 
-        public static async Task<(string Text, string BaseUri)> GetRandomJoke()
+        public async Task<(string Setup, string Punchline)> GetRandomJoke()
         {
-            var config = Configuration.Default.WithDefaultLoader();
-            using (var document = await BrowsingContext.New(config).OpenAsync("http://www.goodbadjokes.com/random")
-                .ConfigureAwait(false))
+            using (var http = _httpFactory.CreateClient())
             {
-                var html = document.QuerySelector(".post > .joke-body-wrap > .joke-content");
-
-                var part1 = html.QuerySelector("dt")?.TextContent;
-                var part2 = html.QuerySelector("dd")?.TextContent;
-
-                return (part1 + "\n\n" + part2, document.BaseUri);
+                var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke");
+                var resObj = JsonConvert.DeserializeAnonymousType(res, new {setup = "", punchline = ""});
+                return (resObj.setup, resObj.punchline);
             }
         }
 
@@ -507,10 +474,22 @@ namespace Mewdeko.Modules.Searches.Services
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var response = await http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/"))
-                    .ConfigureAwait(false);
-                return JObject.Parse(response)["value"]["joke"] + " 😆";
+                var response = await http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/")).ConfigureAwait(false);
+                return JObject.Parse(response)["value"]["joke"].ToString() + " 😆";
             }
+        }
+
+        public Task Unload()
+        {
+            AutoBoobTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            AutoBoobTimers.Clear();
+            AutoButtTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            AutoButtTimers.Clear();
+            AutoHentaiTimers.ForEach(x => x.Value.Change(Timeout.Infinite, Timeout.Infinite));
+            AutoHentaiTimers.Clear();
+
+            _imageCacher.Clear();
+            return Task.CompletedTask;
         }
 
         public async Task<MtgData> GetMtgCardAsync(string search)
@@ -534,17 +513,13 @@ namespace Mewdeko.Modules.Searches.Services
                 string storeUrl;
                 try
                 {
-                    storeUrl = await _google.ShortenUrl("https://shop.tcgplayer.com/productcatalog/product/show?" +
-                                                        "newSearch=false&" +
-                                                        "ProductType=All&" +
-                                                        "IsProductNameExact=false&" +
-                                                        $"ProductName={Uri.EscapeUriString(card.Name)}")
-                        .ConfigureAwait(false);
+                    storeUrl = await _google.ShortenUrl($"https://shop.tcgplayer.com/productcatalog/product/show?" +
+                        $"newSearch=false&" +
+                        $"ProductType=All&" +
+                        $"IsProductNameExact=false&" +
+                        $"ProductName={Uri.EscapeUriString(card.Name)}").ConfigureAwait(false);
                 }
-                catch
-                {
-                    storeUrl = "<url can't be found>";
-                }
+                catch { storeUrl = "<url can't be found>"; }
 
                 return new MtgData
                 {
@@ -553,15 +528,14 @@ namespace Mewdeko.Modules.Searches.Services
                     ImageUrl = card.ImageUrl,
                     StoreUrl = storeUrl,
                     Types = string.Join(",\n", card.Types),
-                    ManaCost = card.ManaCost
+                    ManaCost = card.ManaCost,
                 };
             }
 
             using (var http = _httpFactory.CreateClient())
             {
                 http.DefaultRequestHeaders.Clear();
-                var response = await http
-                    .GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
+                var response = await http.GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
                     .ConfigureAwait(false);
 
                 var responseObject = JsonConvert.DeserializeObject<MtgResponse>(response);
@@ -573,7 +547,7 @@ namespace Mewdeko.Modules.Searches.Services
                     return new MtgData[0];
 
                 var tasks = new List<Task<MtgData>>(cards.Length);
-                for (var i = 0; i < cards.Length; i++)
+                for (int i = 0; i < cards.Length; i++)
                 {
                     var card = cards[i];
 
@@ -601,30 +575,30 @@ namespace Mewdeko.Modules.Searches.Services
                 http.DefaultRequestHeaders.Add("x-rapidapi-key", _creds.MashapeKey);
                 try
                 {
-                    var response = await http.GetStringAsync("https://omgvamp-hearthstone-v1.p.rapidapi.com/" +
-                                                             $"cards/search/{Uri.EscapeUriString(name)}")
-                        .ConfigureAwait(false);
+                    var response = await http.GetStringAsync($"https://omgvamp-hearthstone-v1.p.rapidapi.com/" +
+                        $"cards/search/{Uri.EscapeUriString(name)}").ConfigureAwait(false);
                     var objs = JsonConvert.DeserializeObject<HearthstoneCardData[]>(response);
                     if (objs == null || objs.Length == 0)
                         return null;
                     var data = objs.FirstOrDefault(x => x.Collectible)
-                               ?? objs.FirstOrDefault(x => !string.IsNullOrEmpty(x.PlayerClass))
-                               ?? objs.FirstOrDefault();
+                        ?? objs.FirstOrDefault(x => !string.IsNullOrEmpty(x.PlayerClass))
+                        ?? objs.FirstOrDefault();
                     if (data == null)
                         return null;
                     if (!string.IsNullOrWhiteSpace(data.Img))
+                    {
                         data.Img = await _google.ShortenUrl(data.Img).ConfigureAwait(false);
+                    }
                     if (!string.IsNullOrWhiteSpace(data.Text))
                     {
-                        var converter = new Converter();
+                        var converter = new Html2Markdown.Converter();
                         data.Text = converter.Convert(data.Text);
                     }
-
                     return data;
                 }
                 catch (Exception ex)
                 {
-                    _log.Error(ex.Message);
+                    Log.Error(ex.Message);
                     return null;
                 }
             }
@@ -643,8 +617,7 @@ namespace Mewdeko.Modules.Searches.Services
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var res = await http.GetStringAsync(string.Format(
-                    "https://omdbapi.nadeko.bot/?t={0}&y=&plot=full&r=json",
+                var res = await http.GetStringAsync(string.Format("https://omdbapi.Mewdeko.bot/?t={0}&y=&plot=full&r=json",
                     name.Trim().Replace(' ', '+'))).ConfigureAwait(false);
                 var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
                 if (movie?.Title == null)
@@ -681,11 +654,8 @@ namespace Mewdeko.Modules.Searches.Services
                 using (var http = _httpFactory.CreateClient())
                 {
                     // https://api.steampowered.com/ISteamApps/GetAppList/v2/
-                    var gamesStr = await http.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/")
-                        .ConfigureAwait(false);
-                    var apps = JsonConvert
-                        .DeserializeAnonymousType(gamesStr, new {applist = new {apps = new List<SteamGameId>()}})
-                        .applist.apps;
+                    var gamesStr = await http.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/").ConfigureAwait(false);
+                    var apps = JsonConvert.DeserializeAnonymousType(gamesStr, new { applist = new { apps = new List<SteamGameId>() } }).applist.apps;
 
                     return apps
                         .OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
@@ -699,6 +669,7 @@ namespace Mewdeko.Modules.Searches.Services
 
             if (gamesMap == null)
                 return -1;
+
 
 
             query = query.Trim();
@@ -749,9 +720,10 @@ namespace Mewdeko.Modules.Searches.Services
 
     public class SteamGameId
     {
-        [JsonProperty("name")] public string Name { get; set; }
-
-        [JsonProperty("appid")] public int AppId { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("appid")]
+        public int AppId { get; set; }
     }
 
     public class SteamGameData
@@ -760,10 +732,13 @@ namespace Mewdeko.Modules.Searches.Services
 
         public class Container
         {
-            [JsonProperty("success")] public bool Success { get; set; }
+            [JsonProperty("success")]
+            public bool Success { get; set; }
 
-            [JsonProperty("data")] public SteamGameData Data { get; set; }
+            [JsonProperty("data")]
+            public SteamGameData Data { get; set; }
         }
+
     }
 
 

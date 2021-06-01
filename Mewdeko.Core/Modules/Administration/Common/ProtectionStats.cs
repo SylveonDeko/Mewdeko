@@ -8,21 +8,20 @@ namespace Mewdeko.Modules.Administration.Common
     public enum ProtectionType
     {
         Raiding,
-        Spamming
+        Spamming,
     }
 
     public class AntiRaidStats
     {
         public AntiRaidSetting AntiRaidSettings { get; set; }
         public int UsersCount { get; set; }
-        public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = new();
+        public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = new ConcurrentHashSet<IGuildUser>();
     }
 
     public class AntiSpamStats
     {
         public AntiSpamSetting AntiSpamSettings { get; set; }
-
         public ConcurrentDictionary<ulong, UserSpamStats> UserStats { get; set; }
-            = new();
+            = new ConcurrentDictionary<ulong, UserSpamStats>();
     }
 }

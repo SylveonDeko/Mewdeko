@@ -1,0 +1,50 @@
+# Trivia related settings (.t command)
+trivia:
+# The amount of currency awarded to the winner of the trivia game.
+  currencyReward: 0
+  # Users won't be able to start trivia games which have 
+# a smaller win requirement than the one specified by this setting.
+  minimumWinReq: 1
+# List of responses for the .8ball command. A random one will be selected every time
+eightBallResponses:
+  - Most definitely yes.
+  - For sure.
+  - Totally!
+  - Of course!
+  - As I see it, yes.
+  - My sources say yes.
+  - Yes.
+  - Most likely.
+  - Perhaps...
+  - Maybe...
+  - Hm, not sure.
+  - It is uncertain.
+  - Ask me again later.
+  - Don't count on it.
+  - Probably not.
+  - Very doubtful.
+  - Most likely no.
+  - Nope.
+  - No.
+  - My sources say no.
+  - Don't even think about it.
+  - Definitely no.
+  - NO - It may cause disease contraction!
+# List of animals which will be used for the animal race game (.race)
+raceAnimals:
+  - icon: "🐼"
+    name: Panda
+  - icon: "🐻"
+    name: Bear
+  - icon: "🐧"
+    name: Pengu
+  - icon: "🐨"
+    name: Koala
+  - icon: "🐬"
+    name: Dolphin
+  - icon: "🐞"
+    name: Ladybird
+  - icon: "🦀"
+    name: Crab
+  - icon: "🦄"
+    name: Unicorn

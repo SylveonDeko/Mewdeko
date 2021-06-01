@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common.Pokemon;
+using Mewdeko.Core.Services;
+using System;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -16,44 +17,64 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class PokemonSearchCommands : MewdekoSubmodule<SearchesService>
         {
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            public async Task Pokemon([Remainder] string pokemon = null)
+            private readonly IDataCache _cache;
+
+            public IReadOnlyDictionary<string, SearchPokemon> Pokemons => _cache.LocalData.Pokemons;
+            public IReadOnlyDictionary<string, SearchPokemonAbility> PokemonAbilities => _cache.LocalData.PokemonAbilities;
+
+            public PokemonSearchCommands(IDataCache cache)
             {
-                var str = pokemon.Replace(" ", "-");
-                var client = new HttpClient();
-                var response = await client.GetAsync(
-                    $"https://pokeapi.co/api/v2/pokemon/{str}");
-                var responseContent = response.Content;
-                using (var reader = new StreamReader(await responseContent.ReadAsStreamAsync()))
-                {
-                    var stats = new List<string>();
-                    var abil = new List<string>();
-                    var er = await reader.ReadToEndAsync();
-                    var stuff = JsonConvert.DeserializeObject<Pokemon>(er,
-                        new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
-                    foreach (var i in stuff.stats) stats.Add($"{i.stat.name.ToUpperInvariant()}: {i.base_stat}");
-
-                    foreach (var i in stuff.abilities) abil.Add($"{i.ability.name}");
-
-                    var eb = new EmbedBuilder();
-                    eb.AddField("Pokemon Name", stuff.name);
-                    eb.AddField("Pokemon Species", stuff.species.name);
-                    eb.AddField("Pokemon Stats", string.Join("\n", stats));
-                    eb.AddField("Abilities", string.Join("\n", abil));
-                    eb.WithThumbnailUrl(stuff.sprites.front_default);
-                    eb.WithOkColor();
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                }
+                _cache = cache;
             }
 
-            //[MewdekoCommand, Usage, Description, Aliases]
-            //public async Task PokemonAbility([Remainder] string ability = null)
-            //{
+            [MewdekoCommand, Usage, Description, Aliases]
+            public async Task Pokemon([Leftover] string pokemon = null)
+            {
+                pokemon = pokemon?.Trim().ToUpperInvariant();
+                if (string.IsNullOrWhiteSpace(pokemon))
+                    return;
 
-            //}
+                foreach (var kvp in Pokemons)
+                {
+                    if (kvp.Key.ToUpperInvariant() == pokemon.ToUpperInvariant())
+                    {
+                        var p = kvp.Value;
+                        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                            .WithTitle(kvp.Key.ToTitleCase())
+                            .WithDescription(p.BaseStats.ToString())
+                            .WithThumbnailUrl($"https://assets.pokemon.com/assets/cms2/img/pokedex/detail/{p.Id.ToString("000")}.png")
+                            .AddField(efb => efb.WithName(GetText("types")).WithValue(string.Join("\n", p.Types)).WithIsInline(true))
+                            .AddField(efb => efb.WithName(GetText("height_weight")).WithValue(GetText("height_weight_val", p.HeightM, p.WeightKg)).WithIsInline(true))
+                            .AddField(efb => efb.WithName(GetText("abilities")).WithValue(string.Join("\n", p.Abilities.Select(a => a.Value))).WithIsInline(true))).ConfigureAwait(false);
+                        return;
+                    }
+                }
+                await ReplyErrorLocalizedAsync("pokemon_none").ConfigureAwait(false);
+            }
+
+            [MewdekoCommand, Usage, Description, Aliases]
+            public async Task PokemonAbility([Leftover] string ability = null)
+            {
+                ability = ability?.Trim().ToUpperInvariant().Replace(" ", "", StringComparison.InvariantCulture);
+                if (string.IsNullOrWhiteSpace(ability))
+                    return;
+                foreach (var kvp in PokemonAbilities)
+                {
+                    if (kvp.Key.ToUpperInvariant() == ability)
+                    {
+                        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                            .WithTitle(kvp.Value.Name)
+                            .WithDescription(string.IsNullOrWhiteSpace(kvp.Value.Desc)
+                                ? kvp.Value.ShortDesc
+                                : kvp.Value.Desc)
+                            .AddField(efb => efb.WithName(GetText("rating"))
+                                                .WithValue(kvp.Value.Rating.ToString(_cultureInfo)).WithIsInline(true))
+                            ).ConfigureAwait(false);
+                        return;
+                    }
+                }
+                await ReplyErrorLocalizedAsync("pokemon_ability_none").ConfigureAwait(false);
+            }
         }
     }
 }

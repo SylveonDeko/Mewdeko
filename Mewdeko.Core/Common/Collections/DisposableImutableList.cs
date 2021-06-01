@@ -7,15 +7,10 @@ namespace Mewdeko.Common.Collections
     public static class DisposableReadOnlyListExtensions
     {
         public static IDisposableReadOnlyList<T> AsDisposable<T>(this IReadOnlyList<T> arr) where T : IDisposable
-        {
-            return new DisposableReadOnlyList<T>(arr);
-        }
+            => new DisposableReadOnlyList<T>(arr);
 
-        public static IDisposableReadOnlyList<KeyValuePair<TKey, TValue>> AsDisposable<TKey, TValue>(
-            this IReadOnlyList<KeyValuePair<TKey, TValue>> arr) where TValue : IDisposable
-        {
-            return new DisposableReadOnlyList<TKey, TValue>(arr);
-        }
+        public static IDisposableReadOnlyList<KeyValuePair<TKey, TValue>> AsDisposable<TKey, TValue>(this IReadOnlyList<KeyValuePair<TKey, TValue>> arr) where TValue : IDisposable
+            => new DisposableReadOnlyList<TKey, TValue>(arr);
     }
 
     public interface IDisposableReadOnlyList<T> : IReadOnlyList<T>, IDisposable
@@ -27,28 +22,27 @@ namespace Mewdeko.Common.Collections
     {
         private readonly IReadOnlyList<T> _arr;
 
-        public DisposableReadOnlyList(IReadOnlyList<T> arr)
-        {
-            _arr = arr;
-        }
-
         public int Count => _arr.Count;
 
         public T this[int index] => _arr[index];
 
-        public IEnumerator<T> GetEnumerator()
+        public DisposableReadOnlyList(IReadOnlyList<T> arr)
         {
-            return _arr.GetEnumerator();
+            this._arr = arr;
         }
 
+        public IEnumerator<T> GetEnumerator()
+            => _arr.GetEnumerator();
+
         IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _arr.GetEnumerator();
-        }
+            => _arr.GetEnumerator();
 
         public void Dispose()
         {
-            foreach (var item in _arr) item.Dispose();
+            foreach (var item in _arr)
+            {
+                item.Dispose();
+            }
         }
     }
 
@@ -57,28 +51,27 @@ namespace Mewdeko.Common.Collections
     {
         private readonly IReadOnlyList<KeyValuePair<T, U>> _arr;
 
-        public DisposableReadOnlyList(IReadOnlyList<KeyValuePair<T, U>> arr)
-        {
-            _arr = arr;
-        }
-
         public int Count => _arr.Count;
 
         KeyValuePair<T, U> IReadOnlyList<KeyValuePair<T, U>>.this[int index] => _arr[index];
 
-        public IEnumerator<KeyValuePair<T, U>> GetEnumerator()
+        public DisposableReadOnlyList(IReadOnlyList<KeyValuePair<T, U>> arr)
         {
-            return _arr.GetEnumerator();
+            this._arr = arr;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _arr.GetEnumerator();
-        }
+        public IEnumerator<KeyValuePair<T, U>> GetEnumerator() =>
+            _arr.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() =>
+            _arr.GetEnumerator();
 
         public void Dispose()
         {
-            foreach (var item in _arr) item.Value.Dispose();
+            foreach (var item in _arr)
+            {
+                item.Value.Dispose();
+            }
         }
     }
 }

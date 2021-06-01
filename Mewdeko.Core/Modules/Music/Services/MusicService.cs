@@ -1,465 +1,271 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Collections;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Core.Services.Impl;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Music.Common;
-using Mewdeko.Modules.Music.Common.Exceptions;
-using Mewdeko.Modules.Music.Common.SongResolver;
 using Microsoft.EntityFrameworkCore;
-using NLog;
-using SpotifyAPI.Web;
-using SpotifyAPI.Web.Auth;
+using Mewdeko.Core.Modules.Music;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
+using Serilog;
 
 namespace Mewdeko.Modules.Music.Services
 {
-    public class MusicService : INService, IUnloadableService
+    public sealed class MusicService : IMusicService
     {
-        public const string MusicDataPath = "data/musicdata";
-        //public static string token;
-        //private static EmbedIOAuthServer _server;
-        //private readonly Timer _botlistTimer;
-
-        private readonly DiscordSocketClient _client;
-        private readonly IBotCredentials _creds;
+        private readonly AyuVoiceStateService _voiceStateService;
+        private readonly ITrackResolveProvider _trackResolveProvider;
         private readonly DbService _db;
-        private readonly ConcurrentDictionary<ulong, float> _defaultVolumes;
-
-        private readonly IGoogleApiService _google;
-        private readonly ILocalization _localization;
-        private readonly Logger _log;
-        private readonly ConcurrentDictionary<ulong, MusicSettings> _musicSettings;
-        private readonly SoundCloudApiService _sc;
+        private readonly IYoutubeResolver _ytResolver;
+        private readonly ILocalTrackResolver _localResolver;
+        private readonly ISoundcloudResolver _scResolver;
+        private readonly DiscordSocketClient _client;
         private readonly IBotStrings _strings;
 
-        public MusicService(DiscordSocketClient client, IGoogleApiService google,
-            IBotStrings strings, ILocalization localization, DbService db,
-            SoundCloudApiService sc, IBotCredentials creds, Mewdeko bot)
+        private readonly ConcurrentDictionary<ulong, IMusicPlayer> _players;
+        private readonly ConcurrentDictionary<ulong, ITextChannel> _outputChannels;
+
+        public MusicService(AyuVoiceStateService voiceStateService, ITrackResolveProvider trackResolveProvider,
+            DbService db, IYoutubeResolver ytResolver, ILocalTrackResolver localResolver, ISoundcloudResolver scResolver,
+            DiscordSocketClient client, IBotStrings strings)
         {
-            _client = client;
-            _google = google;
-            _strings = strings;
-            _localization = localization;
+            _voiceStateService = voiceStateService;
+            _trackResolveProvider = trackResolveProvider;
             _db = db;
-            _sc = sc;
-            _creds = creds;
-            _log = LogManager.GetCurrentClassLogger();
-            _musicSettings = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.MusicSettings)
-                .ToConcurrent();
-
-            _client.LeftGuild += _client_LeftGuild;
-            try
-            {
-                Directory.Delete(MusicDataPath, true);
-            }
-            catch
-            {
-            }
-
-            _defaultVolumes = new ConcurrentDictionary<ulong, float>(
-                bot.AllGuildConfigs
-                    .ToDictionary(x => x.GuildId, x => x.DefaultMusicVolume));
-
-            AutoDcServers =
-                new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(x => x.AutoDcFromVc).Select(x => x.GuildId));
-
-            Directory.CreateDirectory(MusicDataPath);
-            //_botlistTimer = new Timer(async state =>
-            //{
-            //    try
-            //    {
-            //        if (bot.Client.ShardId == 0)
-            //        {
-            //            _server = new EmbedIOAuthServer(new Uri("http://localhost:1234/callback"),
-            //                1234);
-            //            await _server.Start();
-
-            //            _server.AuthorizationCodeReceived += OnAuthorizationCodeReceived;
-            //            var request = new LoginRequest(_server.BaseUri, "***REMOVED***",
-            //                LoginRequest.ResponseType.Code)
-            //            {
-            //                Scope = new List<string> {Scopes.UserReadEmail}
-            //            };
-            //            BrowserUtil.Open(request.ToUri());
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _log.Error(ex);
-            //        // ignored
-            //    }
-            //}, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
+            _ytResolver = ytResolver;
+            _localResolver = localResolver;
+            _scResolver = scResolver;
+            _client = client;
+            _strings = strings;
+            
+            _players = new ConcurrentDictionary<ulong, IMusicPlayer>();
+            _outputChannels = new ConcurrentDictionary<ulong, ITextChannel>();
+            
+            _client.LeftGuild += ClientOnLeftGuild;
+        }
+        
+        private void DisposeMusicPlayer(IMusicPlayer musicPlayer)
+        {
+            musicPlayer.Kill();
+            _ = Task.Delay(10_000).ContinueWith(_ => musicPlayer.Dispose());
         }
 
-
-        public ConcurrentHashSet<ulong> AutoDcServers { get; }
-
-        public ConcurrentDictionary<ulong, MusicPlayer> MusicPlayers { get; } = new();
-
-        public Task Unload()
+        private void RemoveMusicPlayer(ulong guildId)
         {
-            _client.LeftGuild -= _client_LeftGuild;
+            _outputChannels.TryRemove(guildId, out _);
+            if (_players.TryRemove(guildId, out var mp))
+            {
+                DisposeMusicPlayer(mp);
+            }
+        }
+
+        private Task ClientOnLeftGuild(SocketGuild guild)
+        {
+            RemoveMusicPlayer(guild.Id);
             return Task.CompletedTask;
         }
 
-        //private static async Task OnAuthorizationCodeReceived(object sender, AuthorizationCodeResponse response)
-        //{
-        //    await _server.Stop();
-        //    _server.Dispose();
-
-        //    var config = SpotifyClientConfig.CreateDefault();
-        //    var tokenResponse = await new OAuthClient(config).RequestToken(
-        //        new AuthorizationCodeTokenRequest(
-        //            "***REMOVED***", "***REMOVED***", response.Code,
-        //            new Uri("http://localhost:1234/callback")
-        //        )
-        //    );
-
-        //    token = tokenResponse.AccessToken;
-        //}
-
-        private Task _client_LeftGuild(SocketGuild arg)
+        public async Task LeaveVoiceChannelAsync(ulong guildId)
         {
-            var t = DestroyPlayer(arg.Id);
-            return Task.CompletedTask;
+            RemoveMusicPlayer(guildId);
+            await _voiceStateService.LeaveVoiceChannel(guildId);
         }
 
-        public float GetDefaultVolume(ulong guildId)
+        public Task JoinVoiceChannelAsync(ulong guildId, ulong voiceChannelId) 
+            => _voiceStateService.JoinVoiceChannel(guildId, voiceChannelId);
+
+        public IMusicPlayer GetOrCreateMusicPlayer(ITextChannel contextChannel)
         {
-            return _defaultVolumes.GetOrAdd(guildId, id =>
-            {
-                using (var uow = _db.GetDbContext())
-                {
-                    return uow.GuildConfigs.ForId(guildId, set => set).DefaultMusicVolume;
-                }
-            });
-        }
-
-        public Task<MusicPlayer> GetOrCreatePlayer(ICommandContext context)
-        {
-            var gUsr = (IGuildUser) context.User;
-            var txtCh = (ITextChannel) context.Channel;
-            var vCh = gUsr.VoiceChannel;
-            return GetOrCreatePlayer(context.Guild.Id, vCh, txtCh);
-        }
-
-        public async Task<MusicPlayer> GetOrCreatePlayer(ulong guildId, IVoiceChannel voiceCh, ITextChannel textCh)
-        {
-            string GetText(string text, params object[] replacements)
-            {
-                return _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(),
-                    replacements);
-            }
-
-            if (voiceCh == null || voiceCh.Guild != textCh.Guild)
-            {
-                if (textCh != null) await textCh.SendErrorAsync(GetText("must_be_in_voice")).ConfigureAwait(false);
-                throw new NotInVoiceChannelException();
-            }
-
-            return MusicPlayers.GetOrAdd(guildId, _ =>
-            {
-                var vol = GetDefaultVolume(guildId);
-                if (!_musicSettings.TryGetValue(guildId, out var ms))
-                    ms = new MusicSettings();
-
-                var mp = new MusicPlayer(this, ms, _google, voiceCh, textCh, vol);
-
-                IUserMessage playingMessage = null;
-                IUserMessage lastFinishedMessage = null;
-
-                mp.OnCompleted += async (s, song) =>
-                {
-                    try
-                    {
-                        lastFinishedMessage?.DeleteAfter(0);
-
-                        try
-                        {
-                            lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                    .WithAuthor(eab => eab.WithName(GetText("finished_song")).WithMusicIcon())
-                                    .WithDescription(song.PrettyName)
-                                    .WithFooter(ef => ef.WithText(song.PrettyInfo)))
-                                .ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-
-                        var (Index, Current) = mp.Current;
-                        if (Current == null
-                            && !mp.RepeatCurrentSong
-                            && !mp.RepeatPlaylist
-                            && !mp.FairPlay
-                            && AutoDcServers.Contains(guildId))
-                            await DestroyPlayer(guildId).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
-                mp.OnStarted += async (player, song) =>
-                {
-                    //try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
-                    //catch
-                    //{
-                    //    // ignored
-                    //}
-                    var sender = player;
-                    if (sender == null)
-                        return;
-                    try
-                    {
-                        playingMessage?.DeleteAfter(0);
-
-                        playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                .WithAuthor(
-                                    eab => eab.WithName(GetText("playing_song", song.Index + 1)).WithMusicIcon())
-                                .WithDescription(song.Song.PrettyName)
-                                .WithImageUrl(song.Song.Thumbnail)
-                                .WithFooter(ef => ef.WithText(mp.PrettyVolume + " | " + song.Song.PrettyInfo)))
-                            .ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
-                mp.OnPauseChanged += async (player, paused) =>
-                {
-                    try
-                    {
-                        IUserMessage msg;
-                        if (paused)
-                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("paused")).ConfigureAwait(false);
-                        else
-                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("resumed")).ConfigureAwait(false);
-
-                        msg?.DeleteAfter(10);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
-                _log.Info("Done creating");
-                return mp;
-            });
-        }
-        public Task<MusicPlayer> GetOrCreatePlayer2(ICommandContext context)
-        {
-            var gUsr = (IGuildUser)context.User;
-            var txtCh = (ITextChannel)context.Channel;
-            var vCh = gUsr.VoiceChannel;
-            return GetOrCreatePlayer2(context.Guild.Id, vCh, txtCh);
-        }
-
-        public async Task<MusicPlayer> GetOrCreatePlayer2(ulong guildId, IVoiceChannel voiceCh, ITextChannel textCh)
-        {
-            string GetText(string text, params object[] replacements)
-            {
-                return _strings.GetText(text, _localization.GetCultureInfo(textCh.Guild), "Music".ToLowerInvariant(),
-                    replacements);
-            }
-
-            if (voiceCh == null || voiceCh.Guild != textCh.Guild)
-            {
-                throw new NotInVoiceChannelException();
-            }
-
-            return MusicPlayers.GetOrAdd(guildId, _ =>
-            {
-                var vol = GetDefaultVolume(guildId);
-                if (!_musicSettings.TryGetValue(guildId, out var ms))
-                    ms = new MusicSettings();
-
-                var mp = new MusicPlayer(this, ms, _google, voiceCh, textCh, vol);
-
-                IUserMessage playingMessage = null;
-                IUserMessage lastFinishedMessage = null;
-
-                mp.OnCompleted += async (s, song) =>
-                {
-                    try
-                    {
-                        lastFinishedMessage?.DeleteAfter(0);
-
-                        try
-                        {
-                            lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                    .WithAuthor(eab => eab.WithName(GetText("finished_song")).WithMusicIcon())
-                                    .WithDescription(song.PrettyName)
-                                    .WithFooter(ef => ef.WithText(song.PrettyInfo)))
-                                .ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-
-                        var (Index, Current) = mp.Current;
-                        if (Current == null
-                            && !mp.RepeatCurrentSong
-                            && !mp.RepeatPlaylist
-                            && !mp.FairPlay
-                            && AutoDcServers.Contains(guildId))
-                            await DestroyPlayer(guildId).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
-                mp.OnStarted += async (player, song) =>
-                {
-                    //try { await mp.UpdateSongDurationsAsync().ConfigureAwait(false); }
-                    //catch
-                    //{
-                    //    // ignored
-                    //}
-                    var sender = player;
-                    if (sender == null)
-                        return;
-                    try
-                    {
-                        playingMessage?.DeleteAfter(0);
-
-                        playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                                .WithAuthor(
-                                    eab => eab.WithName(GetText("playing_song", song.Index + 1)).WithMusicIcon())
-                                .WithDescription(song.Song.PrettyName)
-                                .WithImageUrl(song.Song.Thumbnail)
-                                .WithFooter(ef => ef.WithText(mp.PrettyVolume + " | " + song.Song.PrettyInfo)))
-                            .ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
-                mp.OnPauseChanged += async (player, paused) =>
-                {
-                    try
-                    {
-                        IUserMessage msg;
-                        if (paused)
-                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("paused")).ConfigureAwait(false);
-                        else
-                            msg = await mp.OutputTextChannel.SendConfirmAsync(GetText("resumed")).ConfigureAwait(false);
-
-                        msg?.DeleteAfter(10);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                };
-                _log.Info("Done creating");
-                return mp;
-            });
-        }
-
-        public MusicPlayer GetPlayerOrDefault(ulong guildId)
-        {
-            if (MusicPlayers.TryGetValue(guildId, out var mp))
-                return mp;
-            return null;
-        }
-
-        public async Task TryQueueRelatedSongAsync(SongInfo song, ITextChannel txtCh, IVoiceChannel vch)
-        {
-            var related = (await _google.GetRelatedVideosAsync(song.VideoId, 4).ConfigureAwait(false)).ToArray();
-            if (!related.Any())
-                return;
-
-            var si = await ResolveSong(related[new MewdekoRandom().Next(related.Length)],
-                _client.CurrentUser.ToString(), MusicType.YouTube).ConfigureAwait(false);
-            if (si == null)
-                throw new SongNotFoundException();
-            var mp = await GetOrCreatePlayer(txtCh.GuildId, vch, txtCh).ConfigureAwait(false);
-            mp.Enqueue(si);
-        }
-
-        public async Task<SongInfo> ResolveSong(string query, string queuerName, MusicType? musicType = null)
-        {
-            query.ThrowIfNull(nameof(query));
-            ISongResolverFactory resolverFactory = new SongResolverFactory(_sc);
-            var strategy = await resolverFactory.GetResolveStrategy(query, musicType).ConfigureAwait(false);
-            var sinfo = await strategy.ResolveSong(query).ConfigureAwait(false);
-
-            if (sinfo == null)
+            var newPLayer = CreateMusicPlayerInternal(contextChannel.GuildId, contextChannel);
+            if (newPLayer is null)
                 return null;
-
-            sinfo.QueuerName = queuerName;
-
-            return sinfo;
+            
+            return _players.GetOrAdd(contextChannel.GuildId, newPLayer);
         }
 
-        public async Task DestroyAllPlayers()
+        public bool TryGetMusicPlayer(ulong guildId, out IMusicPlayer musicPlayer)
+            => _players.TryGetValue(guildId, out musicPlayer);
+
+        public void SetDefaultVolume(ulong guildId, int val)
         {
-            foreach (var key in MusicPlayers.Keys) await DestroyPlayer(key).ConfigureAwait(false);
+            using var uow = _db.GetDbContext();
+            uow.GuildConfigs.ForId(guildId, set => set).DefaultMusicVolume = val / 100.0f;
+            uow.SaveChanges();
         }
 
-        public async Task DestroyPlayer(ulong id)
+        public async Task<int> EnqueueYoutubePlaylistAsync(IMusicPlayer mp, string query, string queuer)
         {
-            if (MusicPlayers.TryRemove(id, out var mp))
-                await mp.Destroy().ConfigureAwait(false);
-        }
-
-        public bool ToggleAutoDc(ulong id)
-        {
-            bool val;
-            using (var uow = _db.GetDbContext())
+            var count = 0;
+            await foreach (var track in _ytResolver.ResolveTracksFromPlaylistAsync(query))
             {
-                var gc = uow.GuildConfigs.ForId(id, set => set);
-                val = gc.AutoDcFromVc = !gc.AutoDcFromVc;
-                uow.SaveChanges();
+                if (mp.IsKilled)
+                    break;
+
+                mp.EnqueueTrack(track, queuer);
+                ++count;
             }
 
-            if (val)
-                AutoDcServers.Add(id);
+            return count;
+        }
+
+        public async Task EnqueueDirectoryAsync(IMusicPlayer mp, string dirPath, string queuer)
+        {
+            await foreach (var track in _localResolver.ResolveDirectoryAsync(dirPath))
+            {
+                if (mp.IsKilled)
+                    break;
+                
+                mp.EnqueueTrack(track, queuer);
+            }
+        }
+
+        public async Task<int> EnqueueSoundcloudPlaylistAsync(IMusicPlayer mp, string playlist, string queuer)
+        {
+            var i = 0;
+            await foreach (var track in _scResolver.ResolvePlaylistAsync(playlist))
+            {
+                if (mp.IsKilled)
+                    break;
+                
+                mp.EnqueueTrack(track, queuer);
+                ++i;
+            }
+
+            return i;
+        }
+
+        private IMusicPlayer CreateMusicPlayerInternal(ulong guildId, ITextChannel currentOutputChannel)
+        {
+            var queue = new MusicQueue();
+            var resolver = _trackResolveProvider;
+
+            if (!_voiceStateService.TryGetProxy(guildId, out var proxy))
+            {
+                return null;
+            }
+
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings));
+
+            var outputChannel = currentOutputChannel;
+            if (gc.MusicSettings.MusicChannelId is ulong channelId)
+            {
+                var savedChannel = _client.GetGuild(guildId)?.GetTextChannel(channelId);
+
+                if (savedChannel is null)
+                {
+                    Log.Warning("Saved music output channel doesn't exist, falling back to current channel");
+                }
+            }
+            
+            _outputChannels[guildId] = outputChannel ?? currentOutputChannel;
+
+            var mp = new MusicPlayer(
+                queue,
+                resolver,
+                proxy
+            );
+
+            mp.OnCompleted += OnTrackCompleted(guildId);
+            mp.OnStarted += OnTrackStarted(guildId);
+
+            if (gc.DefaultMusicVolume >= 0 && gc.DefaultMusicVolume <= 1)
+            {
+                mp.SetVolume((int)(gc.DefaultMusicVolume * 100));
+            }
             else
-                AutoDcServers.TryRemove(id);
-
-            return val;
-        }
-
-        public void UpdateSettings(ulong id, MusicSettings musicSettings)
-        {
-            _musicSettings.AddOrUpdate(id, musicSettings, delegate { return musicSettings; });
-        }
-
-        public void SetMusicChannel(ulong guildId, ulong? cid)
-        {
-            using (var uow = _db.GetDbContext())
             {
-                var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
-                ms.MusicChannelId = cid;
-                uow.SaveChanges();
+                Log.Error("DefaultMusicVolume is outside of valid range >= 0 && <=1 ({DefaultMusicVolume})", gc.DefaultMusicVolume);
             }
+
+            return mp;
         }
 
-        public void SetSongAutoDelete(ulong guildId, bool val)
+        public Func<IMusicPlayer, IQueuedTrackInfo, Task> OnTrackCompleted(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
+            IUserMessage lastFinishedMessage = null;
+            return async (mp, trackInfo) =>
             {
-                var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
-                ms.SongAutoDelete = val;
-                uow.SaveChanges();
-            }
+                _ = lastFinishedMessage?.DeleteAsync();
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithAuthor(eab => eab.WithName(GetText(guildId, "finished_song")).WithMusicIcon())
+                    .WithDescription(trackInfo.PrettyName())
+                    .WithFooter(trackInfo.PrettyTotalTime());
+
+                lastFinishedMessage = await SendToOutputAsync(guildId, embed);
+            };
         }
+        
+        public Func<IMusicPlayer, IQueuedTrackInfo, int, Task> OnTrackStarted(ulong guildId)
+        {
+            IUserMessage lastPlayingMessage = null;
+            return async (mp, trackInfo, index) =>
+            {
+                _ = lastPlayingMessage?.DeleteAsync();
+                var embed = new EmbedBuilder().WithOkColor()
+                    .WithAuthor(eab => eab.WithName(GetText(guildId, "playing_song", index + 1)).WithMusicIcon())
+                    .WithDescription(trackInfo.PrettyName())
+                    .WithFooter(ef => ef.WithText($"{mp.PrettyVolume()} | {trackInfo.PrettyInfo()}"));
+
+                lastPlayingMessage = await SendToOutputAsync(guildId, embed);
+            };
+        }
+
+        public Task<IUserMessage> SendToOutputAsync(ulong guildId, EmbedBuilder embed)
+        {
+            if (_outputChannels.TryGetValue(guildId, out var textChannel))
+                return textChannel.EmbedAsync(embed);
+
+            return Task.FromResult<IUserMessage>(null);
+        }
+
+        public bool SetMusicChannel(ulong guildId, ulong channelId)
+        {
+            var channel = _client.GetGuild(guildId)?.GetTextChannel(channelId);
+            if (channel is null)
+                return false;
+            
+            using var uow = _db.GetDbContext();
+            var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
+            ms.MusicChannelId = channelId;
+            uow.SaveChanges();
+            
+            _outputChannels[guildId] = channel;
+            return true;
+        }
+
+        public void UnsetMusicChannel(ulong guildId)
+        {
+            using var uow = _db.GetDbContext();
+            var ms = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.MusicSettings)).MusicSettings;
+            ms.MusicChannelId = null;
+            uow.SaveChanges();
+        }
+
+        // this has to be done because dragging bot to another vc isn't supported yet
+        public async Task<bool> PlayAsync(ulong guildId, ulong voiceChannelId)
+        {
+            if (!TryGetMusicPlayer(guildId, out var mp))
+            {
+                return false;
+            }
+
+            if (mp.IsStopped)
+            {
+                if (!_voiceStateService.TryGetProxy(guildId, out var proxy)
+                    || proxy.State == VoiceProxy.VoiceProxyState.Stopped)
+                {
+                    await JoinVoiceChannelAsync(guildId, voiceChannelId);
+                }
+            }
+
+            mp.Next();
+            return true;
+        }
+
+
+        private string GetText(ulong guildId, string key, params object[] args)
+            => _strings.GetText(key, guildId, args);
     }
 }

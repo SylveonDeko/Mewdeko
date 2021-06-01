@@ -1,16 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Modules.Administration.Services;
 using Mewdeko.Extensions;
+using System;
+using System.Threading.Tasks;
+using Discord;
+using Mewdeko.Core.Modules.Administration.Services;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using System.Diagnostics;
+
 
 #if !GLOBAL_Mewdeko
 namespace Mewdeko.Modules.Administration
@@ -19,7 +20,6 @@ namespace Mewdeko.Modules.Administration
     {
         [Group]
         [OwnerOnly]
-        [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
         public class DangerousCommands : MewdekoSubmodule<DangerousCommandsService>
         {
             private readonly DiscordSocketClient _client;
@@ -28,7 +28,63 @@ namespace Mewdeko.Modules.Administration
             {
                 _client = client;
             }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [OwnerOnly]
+            public async Task Bash([Remainder] string message)
+            {
+                using (var process = new Process())
+                {
+                    process.StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "/bin/bash",
+                        Arguments = $"-c \"{message} 2>&1\"",
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
 
+                    using (ctx.Channel.EnterTypingState())
+                    {
+                        process.Start();
+
+                        // Synchronously read the standard output of the spawned process.
+                        var reader = process.StandardOutput;
+
+                        var output = await reader.ReadToEndAsync();
+                        var omewdeko = "pm2 restart Mewdeko";
+                        var testdeko = "pm2 restart Mewtest";
+                        var mewdekoclone = "pm2 restart MewdekoClone";
+                        if (message == omewdeko) await ctx.Channel.SendMessageAsync("Restarting Main Mewdeko");
+                        if (message == testdeko) await ctx.Channel.SendMessageAsync("Restarting Testing Mewdeko");
+                        if (message == mewdekoclone) await ctx.Channel.SendMessageAsync("Restarting MewdekoV2");
+                        if (output.Length > 2000)
+                        {
+                            var chunkSize = 1988;
+                            var stringLength = output.Length;
+                            for (var i = 0; i < stringLength; i += chunkSize)
+                            {
+                                if (i + chunkSize > stringLength) chunkSize = stringLength - i;
+                                await ctx.Channel.SendMessageAsync("```bash\n" + output.Substring(i, chunkSize) +
+                                                                   "```");
+                                process.WaitForExit();
+                            }
+                        }
+                        else if (output == "")
+                        {
+                            await ctx.Channel.SendMessageAsync("```The output was blank```");
+                        }
+                        else
+                        {
+                            await ctx.Channel.SendMessageAsync("```bash\n" + output + "```");
+                        }
+                    }
+
+                    process.WaitForExit();
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -52,7 +108,7 @@ namespace Mewdeko.Modules.Administration
                 };
                 var msg = await ctx.Channel.SendMessageAsync("", embed: embed.Build());
 
-                var globals = new EvaluationEnvironment((CommandContext) Context);
+                var globals = new EvaluationEnvironment((CommandContext)Context);
                 var sopts = ScriptOptions.Default
                     .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
                         "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
@@ -139,7 +195,6 @@ namespace Mewdeko.Modules.Administration
 
                 await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
             }
-
             private async Task InternalExecSql(string sql, params object[] reps)
             {
                 sql = string.Format(sql, reps);
@@ -149,7 +204,10 @@ namespace Mewdeko.Modules.Administration
                         .WithTitle(GetText("sql_confirm_exec"))
                         .WithDescription(Format.Code(sql));
 
-                    if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+                    if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
+                    {
+                        return;
+                    }
 
                     var res = await _service.ExecuteSql(sql).ConfigureAwait(false);
                     await ctx.Channel.SendConfirmAsync(res.ToString()).ConfigureAwait(false);
@@ -160,200 +218,73 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task OUnban(ulong guild)
-
-            {
-                var guild2 = _client.GetGuild(guild);
-                await guild2.RemoveBanAsync(ctx.User);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public async Task OInvite([Remainder] ulong id)
-            {
-                var guild = _client.GetGuild(id);
-                var channel = guild.Channels.FirstOrDefault() as SocketTextChannel;
-                var invite = await channel.CreateInviteAsync(null);
-                await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                    .WithTitle(guild.Name)
-                    .WithThumbnailUrl(guild.IconUrl)
-                    .WithDescription("[Invite Link]" + "(" + invite + ")"));
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task SqlSelect([Remainder] string sql)
+            public Task SqlSelect([Leftover]string sql)
             {
                 var result = _service.SelectSql(sql);
 
-                return ctx.SendPaginatedConfirmAsync(0, cur =>
+                return ctx.SendPaginatedConfirmAsync(0, (cur) =>
                 {
-                    var enumerable = result.Results.Skip(cur * 20).Take(20);
+                    var items = result.Results.Skip(cur * 20).Take(20);
 
-                    if (enumerable.Any())
+                    if (!items.Any())
+                    {
                         return new EmbedBuilder()
-                            .WithOkColor()
+                            .WithErrorColor()
                             .WithFooter(sql)
-                            .WithTitle(string.Join(" ║ ", result.ColumnNames))
-                            .WithDescription(string.Join('\n', enumerable.Select(x => string.Join(" ║ ", x))));
+                            .WithDescription("-");
+                    }
+
                     return new EmbedBuilder()
-                        .WithErrorColor()
+                        .WithOkColor()
                         .WithFooter(sql)
-                        .WithDescription("-");
+                        .WithTitle(string.Join(" ║ ", result.ColumnNames))
+                        .WithDescription(string.Join('\n', items.Select(x => string.Join(" ║ ", x))));
+
                 }, result.Results.Count, 20);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task Bash([Remainder] string message)
-            {
-                using (var process = new Process())
-                {
-                    process.StartInfo = new ProcessStartInfo
-                    {
-                        FileName = "/bin/bash",
-                        Arguments = $"-c \"{message} 2>&1\"",
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    };
+            public Task SqlExec([Leftover]string sql) =>
+                InternalExecSql(sql);
 
-                    using (ctx.Channel.EnterTypingState())
-                    {
-                        process.Start();
-
-                        // Synchronously read the standard output of the spawned process.
-                        var reader = process.StandardOutput;
-
-                        var output = await reader.ReadToEndAsync();
-                        var omewdeko = "pm2 restart Mewdeko";
-                        var testdeko = "pm2 restart Mewtest";
-                        var mewdekoclone = "pm2 restart MewdekoClone";
-                        if (message == omewdeko) await ctx.Channel.SendMessageAsync("Restarting Main Mewdeko");
-                        if (message == testdeko) await ctx.Channel.SendMessageAsync("Restarting Testing Mewdeko");
-                        if (message == mewdekoclone) await ctx.Channel.SendMessageAsync("Restarting MewdekoV2");
-                        if (output.Length > 2000)
-                        {
-                            var chunkSize = 1988;
-                            var stringLength = output.Length;
-                            for (var i = 0; i < stringLength; i += chunkSize)
-                            {
-                                if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                                await ctx.Channel.SendMessageAsync("```bash\n" + output.Substring(i, chunkSize) +
-                                                                   "```");
-                                process.WaitForExit();
-                            }
-                        }
-                        else if (output == "")
-                        {
-                            await ctx.Channel.SendMessageAsync("```The output was blank```");
-                        }
-                        else
-                        {
-                            await ctx.Channel.SendMessageAsync("```bash\n" + output + "```");
-                        }
-                    }
-
-                    process.WaitForExit();
-                }
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task SqlExec([Remainder] string sql)
-            {
-                return InternalExecSql(sql);
-            }
+            public Task DeleteWaifus() =>
+                SqlExec(DangerousCommandsService.WaifusDeleteSql);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task DeleteWaifus()
-            {
-                return SqlExec(DangerousCommandsService.WaifusDeleteSql);
-            }
+            public Task DeleteWaifu(IUser user) =>
+                DeleteWaifu(user.Id);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task DeleteWaifu(IUser user)
-            {
-                return DeleteWaifu(user.Id);
-            }
+            public Task DeleteWaifu(ulong userId) =>
+                InternalExecSql(DangerousCommandsService.WaifuDeleteSql, userId);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task DeleteWaifu(ulong userId)
-            {
-                return InternalExecSql(DangerousCommandsService.WaifuDeleteSql, userId);
-            }
+            public Task DeleteCurrency() =>
+                SqlExec(DangerousCommandsService.CurrencyDeleteSql);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task DeleteCurrency()
-            {
-                return SqlExec(DangerousCommandsService.CurrencyDeleteSql);
-            }
+            public Task DeletePlaylists() =>
+                SqlExec(DangerousCommandsService.MusicPlaylistDeleteSql);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task DeletePlaylists()
-            {
-                return SqlExec(DangerousCommandsService.MusicPlaylistDeleteSql);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeleteExp()
-            {
-                return SqlExec(DangerousCommandsService.XpDeleteSql);
-            }
-
-            private string GetDebuggerDisplay()
-            {
-                return ToString();
-            }
-
+            public Task DeleteXp() =>
+                SqlExec(DangerousCommandsService.XpDeleteSql);
 
             //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
             //public Task DeleteUnusedCrnQ() =>
             //    SqlExec(DangerousCommandsService.DeleteUnusedCustomReactionsAndQuotes);
         }
-
         public sealed class EvaluationEnvironment
         {
             public EvaluationEnvironment(CommandContext ctx)
@@ -367,7 +298,7 @@ namespace Mewdeko.Modules.Administration
             public IMessageChannel Channel => ctx.Channel;
             public IGuild Guild => ctx.Guild;
             public IUser User => ctx.User;
-            public IGuildUser Member => (IGuildUser) ctx.User;
+            public IGuildUser Member => (IGuildUser)ctx.User;
             public IDiscordClient Client => ctx.Client;
         }
     }

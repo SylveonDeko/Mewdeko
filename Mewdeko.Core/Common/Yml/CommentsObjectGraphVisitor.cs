@@ -16,7 +16,9 @@ namespace Mewdeko.Common.Yml
         {
             var commentsDescriptor = value as CommentsObjectDescriptor;
             if (commentsDescriptor != null && !string.IsNullOrWhiteSpace(commentsDescriptor.Comment))
+            {
                 context.Emit(new Comment(commentsDescriptor.Comment.Replace("\n", "\n# "), false));
+            }
 
             return base.EnterMapping(key, value, context);
         }

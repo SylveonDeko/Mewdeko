@@ -1,25 +1,51 @@
-﻿using System;
+﻿using Discord;
+using Microsoft.Extensions.Configuration;
+using Mewdeko.Common;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using Discord;
-using Mewdeko.Common;
 using Mewdeko.Core.Common;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using NLog;
+using Serilog;
 
 namespace Mewdeko.Core.Services.Impl
 {
     public class BotCredentials : IBotCredentials
     {
+        public string GoogleApiKey { get; }
+        public string MashapeKey { get; }
+        public string Token { get; }
+
+        public ImmutableArray<ulong> OwnerIds { get; }
+
+        public string OsuApiKey { get; }
+        public string CleverbotApiKey { get; }
+        public RestartConfig RestartCommand { get; }
+        public DBConfig Db { get; }
+        public int TotalShards { get; }
+        public string CarbonKey { get; }
+
         private readonly string _credsFileName = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
-        private readonly Logger _log;
+        public string PatreonAccessToken { get; }
+        public string ShardRunCommand { get; }
+        public string ShardRunArguments { get; }
+        public int ShardRunPort { get; }
+
+        public string PatreonCampaignId { get; }
+
+        public string TwitchClientId { get; }
+
+        public string VotesUrl { get; }
+        public string VotesToken { get; }
+        public string BotListToken { get; }
+        public string RedisOptions { get; }
+        public string LocationIqApiKey { get; }
+        public string TimezoneDbApiKey { get; }
+        public string CoinmarketcapApiKey { get; }
 
         public BotCredentials()
         {
-            _log = LogManager.GetCurrentClassLogger();
-
             try
             {
                 File.WriteAllText("./credentials_example.json",
@@ -30,7 +56,7 @@ namespace Mewdeko.Core.Services.Impl
             }
 
             if (!File.Exists(_credsFileName))
-                _log.Warn(
+                Log.Warning(
                     $"credentials.json is missing. Attempting to load creds from environment variables prefixed with 'Mewdeko_'. Example is in {Path.GetFullPath("./credentials_example.json")}");
             try
             {
@@ -43,7 +69,7 @@ namespace Mewdeko.Core.Services.Impl
                 Token = data[nameof(Token)];
                 if (string.IsNullOrWhiteSpace(Token))
                 {
-                    _log.Error(
+                    Log.Error(
                         "Token is missing from credentials.json or Environment variables. Add it and restart the program.");
                     Helpers.ReadErrorAndExit(5);
                 }
@@ -62,7 +88,9 @@ namespace Mewdeko.Core.Services.Impl
                 TimezoneDbApiKey = data[nameof(TimezoneDbApiKey)];
                 CoinmarketcapApiKey = data[nameof(CoinmarketcapApiKey)];
                 if (string.IsNullOrWhiteSpace(CoinmarketcapApiKey))
+                {
                     CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
+                }
 
                 if (!string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]))
                     RedisOptions = data[nameof(RedisOptions)];
@@ -114,78 +142,46 @@ namespace Mewdeko.Core.Services.Impl
                         : dbSection["ConnectionString"]);
 
                 TwitchClientId = data[nameof(TwitchClientId)];
-                if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                if (string.IsNullOrWhiteSpace(TwitchClientId))
+                {
+                    TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+                }
             }
             catch (Exception ex)
             {
-                _log.Error("JSON serialization has failed. Fix your credentials file and restart the bot.");
-                _log.Fatal(ex.ToString());
+                Log.Error("JSON serialization has failed. Fix your credentials file and restart the bot.");
+                Log.Fatal(ex.ToString());
                 Helpers.ReadErrorAndExit(6);
             }
         }
 
-        public int ShardRunPort { get; }
-
-        public string GoogleApiKey { get; }
-        public string MashapeKey { get; }
-        public string Token { get; }
-
-        public ImmutableArray<ulong> OwnerIds { get; }
-
-        public string OsuApiKey { get; }
-        public string CleverbotApiKey { get; }
-        public RestartConfig RestartCommand { get; }
-        public DBConfig Db { get; }
-        public int TotalShards { get; }
-        public string CarbonKey { get; }
-        public string PatreonAccessToken { get; }
-        public string ShardRunCommand { get; }
-        public string ShardRunArguments { get; }
-
-        public string PatreonCampaignId { get; }
-
-        public string TwitchClientId { get; }
-
-        public string VotesUrl { get; }
-        public string VotesToken { get; }
-        public string BotListToken { get; }
-        public string RedisOptions { get; }
-        public string LocationIqApiKey { get; }
-        public string TimezoneDbApiKey { get; }
-        public string CoinmarketcapApiKey { get; }
-
-        public bool IsOwner(IUser u)
-        {
-            return OwnerIds.Contains(u.Id);
-        }
-
         /// <summary>
-        ///     No idea why this thing exists
+        /// No idea why this thing exists
         /// </summary>
         private class CredentialsModel : IBotCredentials
         {
-            public ulong[] OwnerIds { get; set; } =
+            public string Token { get; set; } = "";
+
+            public ulong[] OwnerIds { get; set; } = new ulong[]
             {
                 105635576866156544
             };
 
+            public string GoogleApiKey { get; set; } = "";
+            public string MashapeKey { get; set; } = "";
+            public string OsuApiKey { get; set; } = "";
             public string SoundCloudClientId { get; set; } = "";
-            public string RestartCommand { get; set; } = null;
-            public int? ShardRunPort { get; set; } = null;
-            public string Token { get; } = "";
-
-            public string GoogleApiKey { get; } = "";
-            public string MashapeKey { get; } = "";
-            public string OsuApiKey { get; } = "";
             public string CleverbotApiKey { get; } = "";
-            public string CarbonKey { get; } = "";
-            public DBConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
-            public int TotalShards { get; } = 1;
-            public string PatreonAccessToken { get; } = "";
-            public string PatreonCampaignId { get; } = "334038";
+            public string CarbonKey { get; set; } = "";
+            public DBConfig Db { get; set; } = new DBConfig("sqlite", "Data Source=data/Mewdeko.db");
+            public int TotalShards { get; set; } = 1;
+            public string PatreonAccessToken { get; set; } = "";
+            public string PatreonCampaignId { get; set; } = "334038";
+            public string RestartCommand { get; set; } = null;
 
-            public string ShardRunCommand { get; } = "";
-            public string ShardRunArguments { get; } = "";
+            public string ShardRunCommand { get; set; } = "";
+            public string ShardRunArguments { get; set; } = "";
+            public int? ShardRunPort { get; set; } = null;
 
             public string BotListToken { get; set; }
             public string TwitchClientId { get; set; }
@@ -205,5 +201,7 @@ namespace Mewdeko.Core.Services.Impl
                 throw new NotImplementedException();
             }
         }
+
+        public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
     }
 }
