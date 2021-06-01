@@ -4,48 +4,46 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord;
-using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common;
-using Mewdeko.Common.Collections;
 using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Core.Modules.Searches.Common.StreamNotifications;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using NLog;
 using StackExchange.Redis;
+using Discord;
+using Discord.WebSocket;
+using Mewdeko.Common.Collections;
+using Serilog;
 
 namespace Mewdeko.Modules.Searches.Services
 {
     public class StreamNotificationService : INService
     {
-        private readonly DiscordSocketClient _client;
-        private readonly IBotCredentials _creds;
         private readonly DbService _db;
-        private readonly Logger _log;
-
-        private readonly ConnectionMultiplexer _multi;
-        private readonly Timer _notifCleanupTimer;
-        private readonly ConcurrentHashSet<ulong> _offlineNotificationServers;
-        private readonly Random _rng = new MewdekoRandom();
-
-        private readonly object _shardLock = new();
-
-        private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> _shardTrackedStreams;
-        private readonly NotifChecker _streamTracker;
         private readonly IBotStrings _strings;
+        private readonly Random _rng = new MewdekoRandom();
+        private readonly DiscordSocketClient _client;
+        private readonly NotifChecker _streamTracker;
+
+        private readonly object _shardLock = new object();
 
         private readonly Dictionary<StreamDataKey, HashSet<ulong>> _trackCounter =
-            new();
+            new Dictionary<StreamDataKey, HashSet<ulong>>();
+
+        private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> _shardTrackedStreams;
+        private readonly ConcurrentHashSet<ulong> _offlineNotificationServers;
+
+        private readonly ConnectionMultiplexer _multi;
+        private readonly IBotCredentials _creds;
+        private readonly Timer _notifCleanupTimer;
 
         public StreamNotificationService(DbService db, DiscordSocketClient client,
             IBotStrings strings, IDataCache cache, IBotCredentials creds, IHttpClientFactory httpFactory,
             Mewdeko bot)
         {
-            _log = LogManager.GetCurrentClassLogger();
             _db = db;
             _client = client;
             _strings = strings;
@@ -72,7 +70,7 @@ namespace Mewdeko.Modules.Searches.Services
                     .ToList();
 
                 _shardTrackedStreams = followedStreams
-                    .GroupBy(x => new {x.Type, Name = x.Username.ToLower()})
+                    .GroupBy(x => new {Type = x.Type, Name = x.Username.ToLower()})
                     .ToList()
                     .ToDictionary(
                         x => new StreamDataKey(x.Key.Type, x.Key.Name.ToLower()),
@@ -86,10 +84,13 @@ namespace Mewdeko.Modules.Searches.Services
                         .AsQueryable()
                         .ToList();
 
-                    foreach (var fs in allFollowedStreams) _streamTracker.CacheAddData(fs.CreateKey(), null, false);
+                    foreach (var fs in allFollowedStreams)
+                    {
+                        _streamTracker.CacheAddData(fs.CreateKey(), null, replace: false);
+                    }
 
                     _trackCounter = allFollowedStreams
-                        .GroupBy(x => new {x.Type, Name = x.Username.ToLower()})
+                        .GroupBy(x => new {Type = x.Type, Name = x.Username.ToLower()})
                         .ToDictionary(
                             x => new StreamDataKey(x.Key.Type, x.Key.Name),
                             x => x.Select(fs => fs.GuildId).ToHashSet());
@@ -125,7 +126,7 @@ namespace Mewdeko.Modules.Searches.Services
                         {
                             foreach (var kvp in deleteGroups)
                             {
-                                _log.Info($"Deleting {kvp.Value.Count} {kvp.Key} streams because " +
+                                Log.Information($"Deleting {kvp.Value.Count} {kvp.Key} streams because " +
                                           $"they've been erroring for more than {errorLimit}: {string.Join(", ", kvp.Value)}");
 
                                 var toDelete = uow._context.Set<FollowedStream>()
@@ -135,16 +136,16 @@ namespace Mewdeko.Modules.Searches.Services
 
                                 uow._context.RemoveRange(toDelete);
                                 uow.SaveChanges();
-
-                                foreach (var loginToDelete in kvp.Value)
+                                
+                                foreach(var loginToDelete in kvp.Value)
                                     _streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        _log.Error("Error cleaning up FollowedStreams");
-                        _log.Error(ex.ToString());
+                        Log.Error("Error cleaning up FollowedStreams");
+                        Log.Error(ex.ToString());
                     }
                 }, null, TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
 
@@ -157,41 +158,42 @@ namespace Mewdeko.Modules.Searches.Services
         }
 
         /// <summary>
-        ///     Handles follow_stream pubs to keep the counter up to date.
-        ///     When counter reaches 0, stream is removed from tracking because
-        ///     that means no guilds are subscribed to that stream anymore
+        /// Handles follow_stream pubs to keep the counter up to date.
+        /// When counter reaches 0, stream is removed from tracking because
+        /// that means no guilds are subscribed to that stream anymore 
         /// </summary>
         private void HandleFollowStream(RedisChannel ch, RedisValue val)
-        {
-            Task.Run(() =>
+            => Task.Run(() =>
             {
                 var info = JsonConvert.DeserializeAnonymousType(
                     val.ToString(),
                     new {Key = default(StreamDataKey), GuildId = 0ul});
 
-                _streamTracker.CacheAddData(info.Key, null, false);
+                _streamTracker.CacheAddData(info.Key, null, replace: false);
                 lock (_shardLock)
                 {
                     var key = info.Key;
                     if (_trackCounter.ContainsKey(key))
+                    {
                         _trackCounter[key].Add(info.GuildId);
+                    }
                     else
-                        _trackCounter[key] = new HashSet<ulong>
+                    {
+                        _trackCounter[key] = new HashSet<ulong>()
                         {
                             info.GuildId
                         };
+                    }
                 }
             });
-        }
 
         /// <summary>
-        ///     Handles unfollow_stream pubs to keep the counter up to date.
-        ///     When counter reaches 0, stream is removed from tracking because
-        ///     that means no guilds are subscribed to that stream anymore
+        /// Handles unfollow_stream pubs to keep the counter up to date.
+        /// When counter reaches 0, stream is removed from tracking because
+        /// that means no guilds are subscribed to that stream anymore 
         /// </summary>
         private void HandleUnfollowStream(RedisChannel ch, RedisValue val)
-        {
-            Task.Run(() =>
+            => Task.Run(() =>
             {
                 var info = JsonConvert.DeserializeAnonymousType(val.ToString(),
                     new {Key = default(StreamDataKey), GuildId = 0ul});
@@ -216,59 +218,52 @@ namespace Mewdeko.Modules.Searches.Services
                     _streamTracker.UntrackStreamByKey(in key);
                 }
             });
-        }
 
-        private void HandleStreamsOffline(RedisChannel arg1, RedisValue val)
+        private void HandleStreamsOffline(RedisChannel arg1, RedisValue val) => Task.Run(async () =>
         {
-            Task.Run(async () =>
+            var offlineStreams = JsonConvert.DeserializeObject<List<StreamData>>(val.ToString());
+            foreach (var stream in offlineStreams)
             {
-                var offlineStreams = JsonConvert.DeserializeObject<List<StreamData>>(val.ToString());
-                foreach (var stream in offlineStreams)
+                var key = stream.CreateKey();
+                if (_shardTrackedStreams.TryGetValue(key, out var fss))
                 {
-                    var key = stream.CreateKey();
-                    if (_shardTrackedStreams.TryGetValue(key, out var fss))
-                    {
-                        var sendTasks = fss
-                            // send offline stream notifications only to guilds which enable it with .stoff
-                            .SelectMany(x => x.Value)
-                            .Where(x => _offlineNotificationServers.Contains(x.GuildId))
-                            .Select(fs => _client.GetGuild(fs.GuildId)
-                                ?.GetTextChannel(fs.ChannelId)
-                                ?.EmbedAsync(GetEmbed(fs.GuildId, stream)));
+                    var sendTasks = fss
+                        // send offline stream notifications only to guilds which enable it with .stoff
+                        .SelectMany(x => x.Value)
+                        .Where(x => _offlineNotificationServers.Contains(x.GuildId))
+                        .Select(fs => _client.GetGuild(fs.GuildId)
+                            ?.GetTextChannel(fs.ChannelId)
+                            ?.EmbedAsync(GetEmbed(fs.GuildId, stream)));
 
-                        await Task.WhenAll(sendTasks);
-                    }
+                    await Task.WhenAll(sendTasks);
                 }
-            });
-        }
+            }
+        });
 
-        private void HandleStreamsOnline(RedisChannel arg1, RedisValue val)
+        private void HandleStreamsOnline(RedisChannel arg1, RedisValue val) => Task.Run(async () =>
         {
-            Task.Run(async () =>
+            var onlineStreams = JsonConvert.DeserializeObject<List<StreamData>>(val.ToString());
+            foreach (var stream in onlineStreams)
             {
-                var onlineStreams = JsonConvert.DeserializeObject<List<StreamData>>(val.ToString());
-                foreach (var stream in onlineStreams)
+                var key = stream.CreateKey();
+                if (_shardTrackedStreams.TryGetValue(key, out var fss))
                 {
-                    var key = stream.CreateKey();
-                    if (_shardTrackedStreams.TryGetValue(key, out var fss))
-                    {
-                        var sendTasks = fss
-                            .SelectMany(x => x.Value)
-                            .Select(fs =>
-                            {
-                                var textChannel = _client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
-                                if (textChannel is null)
-                                    return Task.CompletedTask;
-                                return textChannel.EmbedAsync(
-                                    GetEmbed(fs.GuildId, stream),
-                                    string.IsNullOrWhiteSpace(fs.Message) ? "" : fs.Message);
-                            });
+                    var sendTasks = fss
+                        .SelectMany(x => x.Value)
+                        .Select(fs =>
+                        {
+                            var textChannel = _client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
+                            if (textChannel is null)
+                                return Task.CompletedTask;
+                            return textChannel.EmbedAsync(
+                                GetEmbed(fs.GuildId, stream),
+                                msg: string.IsNullOrWhiteSpace(fs.Message) ? "" : fs.Message);
+                        });
 
-                        await Task.WhenAll(sendTasks);
-                    }
+                    await Task.WhenAll(sendTasks);
                 }
-            });
-        }
+            }
+        });
 
         private Task OnStreamsOffline(List<StreamData> data)
         {
@@ -293,7 +288,7 @@ namespace Mewdeko.Modules.Searches.Services
 
                 if (gc is null)
                     return Task.CompletedTask;
-
+                
                 if (gc.NotifyStreamOffline)
                     _offlineNotificationServers.Add(gc.GuildId);
 
@@ -331,7 +326,7 @@ namespace Mewdeko.Modules.Searches.Services
 
         public int ClearAllStreams(ulong guildId)
         {
-            // todo clear streams
+            // todo future clear streams
             int count;
             using (var uow = _db.GetDbContext())
             {
@@ -382,14 +377,14 @@ namespace Mewdeko.Modules.Searches.Services
         {
             var sub = _multi.GetSubscriber();
             sub.Publish($"{_creds.RedisKey()}_unfollow_stream",
-                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), fs.GuildId}));
+                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), GuildId = fs.GuildId}));
         }
 
         private void PublishFollowStream(FollowedStream fs)
         {
             var sub = _multi.GetSubscriber();
             sub.Publish($"{_creds.RedisKey()}_follow_stream",
-                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), fs.GuildId}),
+                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), GuildId = fs.GuildId}),
                 CommandFlags.FireAndForget);
         }
 
@@ -407,16 +402,13 @@ namespace Mewdeko.Modules.Searches.Services
                 var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FollowedStreams));
 
                 // add it to the database
-                fs = new FollowedStream
+                fs = new FollowedStream()
                 {
                     Type = data.StreamType,
                     Username = data.UniqueName,
                     ChannelId = channelId,
-                    GuildId = guildId
+                    GuildId = guildId,
                 };
-
-                if (gc.FollowedStreams.Count >= 10)
-                    return null;
 
                 gc.FollowedStreams.Add(fs);
                 await uow.SaveChangesAsync();
@@ -467,9 +459,7 @@ namespace Mewdeko.Modules.Searches.Services
         }
 
         private string GetText(ulong guildId, string key, params object[] replacements)
-        {
-            return _strings.GetText(key, guildId, replacements);
-        }
+            => _strings.GetText(key, guildId, replacements);
 
         public bool ToggleStreamOffline(ulong guildId)
         {
@@ -481,9 +471,13 @@ namespace Mewdeko.Modules.Searches.Services
                 uow.SaveChanges();
 
                 if (newValue)
+                {
                     _offlineNotificationServers.Add(guildId);
+                }
                 else
+                {
                     _offlineNotificationServers.TryRemove(guildId);
+                }
             }
 
             return newValue;
@@ -499,15 +493,22 @@ namespace Mewdeko.Modules.Searches.Services
             if (_shardTrackedStreams.TryGetValue(key, out var map))
             {
                 if (map.TryGetValue(guildId, out var set))
+                {
                     return set;
-                return map[guildId] = new HashSet<FollowedStream>();
+                }
+                else
+                {
+                    return map[guildId] = new HashSet<FollowedStream>();
+                }
             }
-
-            _shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>
+            else
             {
-                {guildId, new HashSet<FollowedStream>()}
-            };
-            return _shardTrackedStreams[key][guildId];
+                _shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>()
+                {
+                    {guildId, new HashSet<FollowedStream>()}
+                };
+                return _shardTrackedStreams[key][guildId];
+            }
         }
 
         public bool SetStreamMessage(ulong guildId, int index, string message, out FollowedStream fs)

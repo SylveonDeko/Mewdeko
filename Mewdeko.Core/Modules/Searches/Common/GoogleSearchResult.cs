@@ -1,6 +1,6 @@
 ﻿namespace Mewdeko.Modules.Searches.Common
 {
-    public readonly struct GoogleSearchResult
+    public struct GoogleSearchResult
     {
         public string Title { get; }
         public string Link { get; }
@@ -8,9 +8,9 @@
 
         public GoogleSearchResult(string title, string link, string text)
         {
-            Title = title;
-            Link = link;
-            Text = text;
+            this.Title = title;
+            this.Link = link;
+            this.Text = text;
         }
     }
 }

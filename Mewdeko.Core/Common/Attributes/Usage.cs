@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Discord.Commands;
+using Mewdeko.Core.Services.Impl;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Common.Attributes
 {

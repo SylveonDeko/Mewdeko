@@ -14,8 +14,6 @@ namespace Mewdeko.Core.Modules.Searches.Common
 
     public class MtgResponse
     {
-        public List<Data> Cards { get; set; }
-
         public class Data
         {
             public string Name { get; set; }
@@ -24,5 +22,7 @@ namespace Mewdeko.Core.Modules.Searches.Common
             public List<string> Types { get; set; }
             public string ImageUrl { get; set; }
         }
+
+        public List<Data> Cards { get; set; }
     }
 }

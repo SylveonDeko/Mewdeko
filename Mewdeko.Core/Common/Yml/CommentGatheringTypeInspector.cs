@@ -33,25 +33,23 @@ namespace Mewdeko.Common.Yml
                 Name = baseDescriptor.Name;
             }
 
-            public string Name { get; }
+            public string Name { get; set; }
 
-            public Type Type => baseDescriptor.Type;
+            public Type Type { get { return baseDescriptor.Type; } }
 
-            public Type TypeOverride
-            {
-                get => baseDescriptor.TypeOverride;
-                set => baseDescriptor.TypeOverride = value;
+            public Type TypeOverride {
+                get { return baseDescriptor.TypeOverride; }
+                set { baseDescriptor.TypeOverride = value; }
             }
 
             public int Order { get; set; }
 
-            public ScalarStyle ScalarStyle
-            {
-                get => baseDescriptor.ScalarStyle;
-                set => baseDescriptor.ScalarStyle = value;
+            public ScalarStyle ScalarStyle {
+                get { return baseDescriptor.ScalarStyle; }
+                set { baseDescriptor.ScalarStyle = value; }
             }
 
-            public bool CanWrite => baseDescriptor.CanWrite;
+            public bool CanWrite { get { return baseDescriptor.CanWrite; } }
 
             public void Write(object target, object value)
             {

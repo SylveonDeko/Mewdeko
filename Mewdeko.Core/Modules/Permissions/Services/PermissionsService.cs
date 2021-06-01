@@ -5,21 +5,26 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Common;
-using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
 
 namespace Mewdeko.Modules.Permissions.Services
 {
     public class PermissionService : ILateBlocker, INService
     {
-        private readonly CommandHandler _cmd;
-
+        public int Priority { get; } = 0;
+        
         private readonly DbService _db;
+        private readonly CommandHandler _cmd;
         private readonly IBotStrings _strings;
+
+        //guildid, root permission
+        public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
+            new ConcurrentDictionary<ulong, PermissionCache>();
 
         public PermissionService(DiscordSocketClient client, DbService db, CommandHandler cmd, IBotStrings strings)
         {
@@ -29,103 +34,16 @@ namespace Mewdeko.Modules.Permissions.Services
 
             using (var uow = _db.GetDbContext())
             {
-                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id)
-                    .ToList()))
-                    Cache.TryAdd(x.GuildId, new PermissionCache
+                foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
+                {
+                    Cache.TryAdd(x.GuildId, new PermissionCache()
                     {
                         Verbose = x.VerbosePermissions,
                         PermRole = x.PermissionRole,
                         Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
                     });
-            }
-        }
-
-        //guildid, root permission
-        public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
-            new();
-
-        public int Priority { get; } = 0;
-
-        public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
-            CommandInfo command)
-        {
-            var guild = ctx.Guild;
-            var msg = ctx.Message;
-            var user = ctx.User;
-            var channel = ctx.Channel;
-            var commandName = command.Name.ToLowerInvariant();
-
-            await Task.Yield();
-            if (guild == null) return false;
-
-            var resetCommand = commandName == "resetperms";
-
-            var pc = GetCacheFor(guild.Id);
-            if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out var index))
-            {
-                if (pc.Verbose)
-                    try
-                    {
-                        await channel.SendErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
-                                Format.Bold(
-                                    pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild) guild))))
-                            .ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                    }
-
-                return true;
-            }
-
-
-            if (moduleName == nameof(Permissions))
-            {
-                if (!(user is IGuildUser guildUser))
-                    return true;
-
-                if (guildUser.GuildPermissions.Administrator)
-                    return false;
-
-                var permRole = pc.PermRole;
-                if (!ulong.TryParse(permRole, out var rid))
-                    rid = 0;
-                string returnMsg;
-                IRole role;
-                if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)
-                {
-                    returnMsg = "You need Admin permissions in order to use permission commands.";
-                    if (pc.Verbose)
-                        try
-                        {
-                            await channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                        }
-
-                    return true;
                 }
-
-                if (!guildUser.RoleIds.Contains(rid))
-                {
-                    returnMsg = $"You need the {Format.Bold(role.Name)} role in order to use permission commands.";
-                    if (pc.Verbose)
-                        try
-                        {
-                            await channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                        }
-
-                    return true;
-                }
-
-                return false;
             }
-
-            return false;
         }
 
         public PermissionCache GetCacheFor(ulong guildId)
@@ -138,12 +56,10 @@ namespace Mewdeko.Modules.Permissions.Services
                         set => set.Include(x => x.Permissions));
                     UpdateCache(config);
                 }
-
                 Cache.TryGetValue(guildId, out pc);
                 if (pc == null)
                     throw new Exception("Cache is null.");
             }
-
             return pc;
         }
 
@@ -159,7 +75,6 @@ namespace Mewdeko.Modules.Permissions.Services
                     perm.Index = ++max;
                     config.Permissions.Add(perm);
                 }
-
                 await uow.SaveChangesAsync();
                 UpdateCache(config);
             }
@@ -167,7 +82,7 @@ namespace Mewdeko.Modules.Permissions.Services
 
         public void UpdateCache(GuildConfig config)
         {
-            Cache.AddOrUpdate(config.GuildId, new PermissionCache
+            Cache.AddOrUpdate(config.GuildId, new PermissionCache()
             {
                 Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
                 PermRole = config.PermissionRole,
@@ -179,6 +94,80 @@ namespace Mewdeko.Modules.Permissions.Services
                 old.Verbose = config.VerbosePermissions;
                 return old;
             });
+        }
+
+        public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
+            CommandInfo command)
+        {
+            var guild = ctx.Guild;
+            var msg = ctx.Message;
+            var user = ctx.User;
+            var channel = ctx.Channel;
+            var commandName = command.Name.ToLowerInvariant();
+            
+            await Task.Yield();
+            if (guild == null)
+            {
+                return false;
+            }
+            else
+            {
+                var resetCommand = commandName == "resetperms";
+
+                PermissionCache pc = GetCacheFor(guild.Id);
+                if (!resetCommand && !pc.Permissions.CheckPermissions(msg, commandName, moduleName, out int index))
+                {
+                    if (pc.Verbose)
+                    {
+                        try
+                        {
+                            await channel.SendErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
+                                    Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild) guild))))
+                                .ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    return true;
+                }
+
+
+                if (moduleName == nameof(Permissions))
+                {
+                    if (!(user is IGuildUser guildUser))
+                        return true;
+
+                    if (guildUser.GuildPermissions.Administrator)
+                        return false;
+
+                    var permRole = pc.PermRole;
+                    if (!ulong.TryParse(permRole, out var rid))
+                        rid = 0;
+                    string returnMsg;
+                    IRole role;
+                    if (string.IsNullOrWhiteSpace(permRole) || (role = guild.GetRole(rid)) == null)
+                    {
+                        returnMsg = $"You need Admin permissions in order to use permission commands.";
+                        if (pc.Verbose)
+                            try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+
+                        return true;
+                    }
+                    else if (!guildUser.RoleIds.Contains(rid))
+                    {
+                        returnMsg = $"You need the {Format.Bold(role.Name)} role in order to use permission commands.";
+                        if (pc.Verbose)
+                            try { await channel.SendErrorAsync(returnMsg).ConfigureAwait(false); } catch { }
+
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            return false;
         }
 
         public async Task Reset(ulong guildId)

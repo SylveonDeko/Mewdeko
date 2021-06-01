@@ -12,10 +12,5 @@ namespace Mewdeko.Core.Services.Database.Models
         public DateTime LastLevelUp { get; set; } = DateTime.UtcNow;
     }
 
-    public enum XpNotificationLocation
-    {
-        None,
-        Dm,
-        Channel
-    }
+    public enum XpNotificationLocation { None, Dm, Channel }
 }

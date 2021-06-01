@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Utility.Services;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -11,10 +11,7 @@ namespace Mewdeko.Modules.Utility
         [Group]
         public class VerboseErrorCommands : MewdekoSubmodule<VerboseErrorsService>
         {
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task VerboseError(bool? newstate = null)

@@ -1,15 +1,15 @@
-﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Collections;
+using Microsoft.EntityFrameworkCore;
+using Mewdeko.Extensions;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Extensions;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Permissions.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Permissions
 {
@@ -21,26 +21,22 @@ namespace Mewdeko.Modules.Permissions
             private readonly DbService _db;
             private readonly CmdCdService _service;
 
+            private ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns
+                => _service.CommandCooldowns;
+            private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
+                => _service.ActiveCooldowns;
+
             public CmdCdsCommands(CmdCdService service, DbService db)
             {
                 _service = service;
                 _db = db;
             }
 
-            private ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns
-                => _service.CommandCooldowns;
-
-            private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
-                => _service.ActiveCooldowns;
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task CmdCooldown(CommandInfo command, int secs)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (secs < 0 || secs > 3600)
                 {
                     await ReplyErrorLocalizedAsync("invalid_second_param_between", 0, 3600).ConfigureAwait(false);
@@ -49,30 +45,25 @@ namespace Mewdeko.Modules.Permissions
 
                 using (var uow = _db.GetDbContext())
                 {
-                    var config =
-                        uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
-                    var localSet =
-                        CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
+                    var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
+                    var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
-                    var toDelete = config.CommandCooldowns.FirstOrDefault(cc =>
-                        cc.CommandName == command.Aliases.First().ToLowerInvariant());
+                    var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == command.Aliases.First().ToLowerInvariant());
                     if (toDelete != null)
                         uow._context.Set<CommandCooldown>().Remove(toDelete);
                     localSet.RemoveWhere(cc => cc.CommandName == command.Aliases.First().ToLowerInvariant());
                     if (secs != 0)
                     {
-                        var cc = new CommandCooldown
+                        var cc = new CommandCooldown()
                         {
                             CommandName = command.Aliases.First().ToLowerInvariant(),
-                            Seconds = secs
+                            Seconds = secs,
                         };
                         config.CommandCooldowns.Add(cc);
                         localSet.Add(cc);
                     }
-
                     await uow.SaveChangesAsync();
                 }
-
                 if (secs == 0)
                 {
                     var activeCds = ActiveCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
@@ -88,22 +79,17 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task AllCmdCooldowns()
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 if (!localSet.Any())
                     await ReplyConfirmLocalizedAsync("cmdcd_none").ConfigureAwait(false);
                 else
-                    await channel.SendTableAsync("",
-                            localSet.Select(c => c.CommandName + ": " + c.Seconds + GetText("sec")), s => $"{s,-30}", 2)
-                        .ConfigureAwait(false);
+                    await channel.SendTableAsync("", localSet.Select(c => c.CommandName + ": " + c.Seconds + GetText("sec")), s => $"{s,-30}", 2).ConfigureAwait(false);
             }
         }
     }

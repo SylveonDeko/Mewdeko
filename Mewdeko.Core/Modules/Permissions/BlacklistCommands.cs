@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions
 {
@@ -16,8 +16,8 @@ namespace Mewdeko.Modules.Permissions
         [Group]
         public class BlacklistCommands : MewdekoSubmodule<BlacklistService>
         {
-            private readonly IBotCredentials _creds;
             private readonly DbService _db;
+            private readonly IBotCredentials _creds;
 
             public BlacklistCommands(DbService db, IBotCredentials creds)
             {
@@ -25,80 +25,43 @@ namespace Mewdeko.Modules.Permissions
                 _creds = creds;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task UserBlacklist(AddRemove action, ulong id)
-            {
-                return Blacklist(action, id, BlacklistType.User);
-            }
+                => Blacklist(action, id, BlacklistType.User);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task UserBlacklist(AddRemove action, IUser usr)
-            {
-                return Blacklist(action, usr.Id, BlacklistType.User);
-            }
+                => Blacklist(action, usr.Id, BlacklistType.User);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task ChannelBlacklist(AddRemove action, ulong id)
-            {
-                return Blacklist(action, id, BlacklistType.Channel);
-            }
+                => Blacklist(action, id, BlacklistType.Channel);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task ServerBlacklist(AddRemove action, ulong id)
-            {
-                return Blacklist(action, id, BlacklistType.Server);
-            }
+                => Blacklist(action, id, BlacklistType.Server);
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public Task ServerBlacklist(AddRemove action, IGuild guild)
-            {
-                return Blacklist(action, guild.Id, BlacklistType.Server);
-            }
+                => Blacklist(action, guild.Id, BlacklistType.Server);
 
             private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
             {
                 if (action == AddRemove.Add && _creds.OwnerIds.Contains(id))
                     return;
 
-                using (var uow = _db.GetDbContext())
+                if (action == AddRemove.Add)
                 {
-                    if (action == AddRemove.Add)
-                    {
-                        var item = new BlacklistItem {ItemId = id, Type = type};
-                        uow.BotConfig.GetOrCreate().Blacklist.Add(item);
-                    }
-                    else
-                    {
-                        var objs = uow.BotConfig
-                            .GetOrCreate(set => set.Include(x => x.Blacklist))
-                            .Blacklist
-                            .Where(bi => bi.ItemId == id && bi.Type == type);
-
-                        if (objs.Any())
-                            uow._context.Set<BlacklistItem>().RemoveRange(objs);
-                    }
-
-                    await uow.SaveChangesAsync();
+                    _service.Blacklist(type, id);
+                }
+                else
+                {
+                    _service.UnBlacklist(type, id);
                 }
 
                 if (action == AddRemove.Add)

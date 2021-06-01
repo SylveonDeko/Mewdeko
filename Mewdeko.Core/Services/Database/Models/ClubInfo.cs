@@ -5,21 +5,21 @@ namespace Mewdeko.Core.Services.Database.Models
 {
     public class ClubInfo : DbEntity
     {
-        [MaxLength(20)] public string Name { get; set; }
-
+        [MaxLength(20)]
+        public string Name { get; set; }
         public int Discrim { get; set; }
 
         public string ImageUrl { get; set; } = "";
         public int MinimumLevelReq { get; set; } = 5;
         public int Xp { get; set; } = 0;
-
+        
         public int OwnerId { get; set; }
         public DiscordUser Owner { get; set; }
 
-        public List<DiscordUser> Users { get; set; } = new();
+        public List<DiscordUser> Users { get; set; } = new List<DiscordUser>();
 
-        public List<ClubApplicants> Applicants { get; set; } = new();
-        public List<ClubBans> Bans { get; set; } = new();
+        public List<ClubApplicants> Applicants { get; set; } = new List<ClubApplicants>();
+        public List<ClubBans> Bans { get; set; } = new List<ClubBans>();
         public string Description { get; set; }
 
         public override string ToString()

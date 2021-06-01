@@ -7,10 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{04929013-5BA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B2F1537-4BF0-422B-A0DD-8F9CCEFB340F}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
 		license.md = license.md
-		Mewdeko.iss = Mewdeko.iss
 		mkdocs.yml = mkdocs.yml
+		NadekoBot.iss = NadekoBot.iss
 		release.ps1 = release.ps1
 	EndProjectSection
 EndProject
@@ -18,25 +17,43 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Core", "Mewdeko.Core\Mewdeko.Core.csproj", "{A6CCEFBD-DCF2-482C-9643-47664683548F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Tests", "Mewdeko.Tests\Nadeko.Tests.csproj", "{269AB023-89AE-4588-BAC0-1BE12A205880}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ayu", "ayu", "{6058FEDF-A318-4CD4-8F04-A7E8E7EC8874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ayu.Discord.Voice", "src\ayu\Ayu.Discord.Voice\Ayu.Discord.Voice.csproj", "{2F4CF6D6-0C2F-4944-B204-9508CDA53195}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		GlobalMewdeko|Any CPU = GlobalMewdeko|Any CPU
+		GlobalNadeko|Any CPU = GlobalNadeko|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalMewdeko|Any CPU.ActiveCfg = Release|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalMewdeko|Any CPU.Build.0 = Release|Any CPU
+		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.ActiveCfg = Release|Any CPU
+		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.Build.0 = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalMewdeko|Any CPU.ActiveCfg = Release|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalMewdeko|Any CPU.Build.0 = Release|Any CPU
+		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalNadeko|Any CPU.ActiveCfg = Release|Any CPU
+		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalNadeko|Any CPU.Build.0 = Release|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269AB023-89AE-4588-BAC0-1BE12A205880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269AB023-89AE-4588-BAC0-1BE12A205880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269AB023-89AE-4588-BAC0-1BE12A205880}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
+		{269AB023-89AE-4588-BAC0-1BE12A205880}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
+		{269AB023-89AE-4588-BAC0-1BE12A205880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269AB023-89AE-4588-BAC0-1BE12A205880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +61,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{45EC1473-C678-4857-A544-07DFE0D0B478} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
 		{A6CCEFBD-DCF2-482C-9643-47664683548F} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
+		{269AB023-89AE-4588-BAC0-1BE12A205880} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
+		{6058FEDF-A318-4CD4-8F04-A7E8E7EC8874} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
+		{2F4CF6D6-0C2F-4944-B204-9508CDA53195} = {6058FEDF-A318-4CD4-8F04-A7E8E7EC8874}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F3F555C-855F-4BE8-B526-D062D3E8ACA4}

@@ -4,7 +4,6 @@
     {
         public UrbanDef[] List { get; set; }
     }
-
     public class UrbanDef
     {
         public string Word { get; set; }

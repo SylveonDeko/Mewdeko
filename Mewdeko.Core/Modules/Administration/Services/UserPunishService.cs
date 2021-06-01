@@ -1,40 +1,34 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Microsoft.EntityFrameworkCore;
+using Mewdeko.Modules.Permissions.Services;
 using Newtonsoft.Json;
-using NLog;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
-    public enum WarnAction
-    {
-        Mute,
-        Addrole,
-        Ban
-    }
-
     public class UserPunishService : INService
     {
         private readonly Mewdeko _bot;
-        private readonly DbService _db;
-        private readonly Logger _log;
         private readonly MuteService _mute;
+        private readonly DbService _db;
+        private readonly BlacklistService _blacklistService;
         private readonly Timer _warnExpiryTimer;
 
-        public UserPunishService(MuteService mute, DbService db, Mewdeko bot)
+        public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService, Mewdeko bot)
         {
             _warnlogchannelids = bot.AllGuildConfigs
                 .Where(x => x.WarnlogChannelId != 0)
@@ -43,12 +37,13 @@ namespace Mewdeko.Modules.Administration.Services
             _mute = mute;
             _bot = bot;
             _db = db;
-            _log = LogManager.GetCurrentClassLogger();
-
-            _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
-                TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
+            _blacklistService = blacklistService;
+            
+            _warnExpiryTimer = new Timer(async _ =>
+            {
+                await CheckAllWarnExpiresAsync();
+            }, null, TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
         }
-
         private ConcurrentDictionary<ulong, ulong> _warnlogchannelids { get; } = new();
 
         public ulong GetWarnlogChannel(ulong? id)
@@ -70,128 +65,6 @@ namespace Mewdeko.Modules.Administration.Services
 
             _warnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
         }
-
-        public string GetBanTemplate(ulong guildId)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var template = uow._context.BanTemplates
-                    .AsQueryable()
-                    .FirstOrDefault(x => x.GuildId == guildId);
-                return template?.Text;
-            }
-        }
-
-        public void SetBanTemplate(ulong guildId, string text)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var template = uow._context.BanTemplates
-                    .AsQueryable()
-                    .FirstOrDefault(x => x.GuildId == guildId);
-
-                if (text == null)
-                {
-                    if (template is null)
-                        return;
-
-                    uow._context.Remove(template);
-                }
-                else if (template == null)
-                {
-                    uow._context.BanTemplates.Add(new BanTemplate
-                    {
-                        GuildId = guildId,
-                        Text = text
-                    });
-                }
-                else
-                {
-                    template.Text = text;
-                }
-
-                uow.SaveChanges();
-            }
-        }
-
-        public CREmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
-            string banReason, TimeSpan? duration)
-        {
-            return GetBanUserDmEmbed(
-                (DiscordSocketClient) context.Client,
-                (SocketGuild) context.Guild,
-                (IGuildUser) context.User,
-                target,
-                defaultMessage,
-                banReason,
-                duration);
-        }
-
-
-        public CREmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
-            IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
-        {
-            var embed = new EmbedBuilder();
-            var template = GetBanTemplate(guild.Id);
-            var plainText = string.Empty;
-
-            banReason = string.IsNullOrWhiteSpace(banReason)
-                ? "-"
-                : banReason;
-
-            var replacer = new ReplacementBuilder()
-                .WithServer(client, guild)
-                .WithOverride("%ban.mod%", () => moderator.ToString())
-                .WithOverride("%ban.mod.fullname%", () => moderator.ToString())
-                .WithOverride("%ban.mod.name%", () => moderator.Username)
-                .WithOverride("%ban.mod.discrim%", () => moderator.Discriminator)
-                .WithOverride("%ban.user%", () => target.ToString())
-                .WithOverride("%ban.user.fullname%", () => target.ToString())
-                .WithOverride("%ban.user.name%", () => target.Username)
-                .WithOverride("%ban.user.discrim%", () => target.Discriminator)
-                .WithOverride("%reason%", () => banReason)
-                .WithOverride("%ban.reason%", () => banReason)
-                .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm") ?? "perma")
-                .Build();
-
-            CREmbed crEmbed = null;
-            // if template isn't set, use the old message style
-            if (string.IsNullOrWhiteSpace(template))
-            {
-                template = JsonConvert.SerializeObject(new
-                {
-                    color = Mewdeko.ErrorColor.RawValue,
-                    description = defaultMessage
-                });
-
-                CREmbed.TryParse(template, out crEmbed);
-            }
-            // if template is set to "-" do not dm the user
-            else if (template == "-")
-            {
-                return default;
-            }
-            // if template is an embed, send that embed with replacements
-            else if (CREmbed.TryParse(template, out crEmbed))
-            {
-                replacer.Replace(crEmbed);
-            }
-            // otherwise, treat template as a regular string with replacements
-            else
-            {
-                template = JsonConvert.SerializeObject(new
-                {
-                    color = Mewdeko.ErrorColor.RawValue,
-                    description = replacer.Replace(template)
-                });
-
-                CREmbed.TryParse(template, out crEmbed);
-            }
-
-            return crEmbed;
-        }
-
-
         public async Task<WarningPunishment> Warn(IGuild guild, ulong userId, IUser mod, string reason)
         {
             var modName = mod.ToString();
@@ -201,16 +74,16 @@ namespace Mewdeko.Modules.Administration.Services
 
             var guildId = guild.Id;
 
-            var warn = new Warning
+            var warn = new Warning()
             {
                 UserId = userId,
                 GuildId = guildId,
                 Forgiven = false,
                 Reason = reason,
-                Moderator = modName
+                Moderator = modName,
             };
 
-            var warnings = 1;
+            int warnings = 1;
             List<WarningPunishment> ps;
             using (var uow = _db.GetDbContext())
             {
@@ -219,11 +92,12 @@ namespace Mewdeko.Modules.Administration.Services
 
                 warnings += uow.Warnings
                     .ForId(guildId, userId)
-                    .Count(w => !w.Forgiven && w.UserId == userId);
+                    .Where(w => !w.Forgiven && w.UserId == userId)
+                    .Count();
 
                 uow.Warnings.Add(warn);
 
-                await uow.SaveChangesAsync();
+                uow.SaveChanges();
             }
 
             var p = ps.FirstOrDefault(x => x.Count == warnings);
@@ -233,114 +107,108 @@ namespace Mewdeko.Modules.Administration.Services
                 var user = await guild.GetUserAsync(userId).ConfigureAwait(false);
                 if (user == null)
                     return null;
-                var muteReason = "Warning punishment - " + reason;
-                switch (p.Punishment)
-                {
-                    case PunishmentAction.Mute:
-                        if (p.Time == 0)
-                            await _mute.MuteUser(user, mod, reason: muteReason).ConfigureAwait(false);
-                        else
-                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), reason: muteReason)
-                                .ConfigureAwait(false);
-                        break;
-                    case PunishmentAction.VoiceMute:
-                        if (p.Time == 0)
-                            await _mute.MuteUser(user, mod, MuteType.Voice, muteReason).ConfigureAwait(false);
-                        else
-                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Voice, muteReason)
-                                .ConfigureAwait(false);
-                        break;
-                    case PunishmentAction.ChatMute:
-                        if (p.Time == 0)
-                            await _mute.MuteUser(user, mod, MuteType.Chat, muteReason).ConfigureAwait(false);
-                        else
-                            await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(p.Time), MuteType.Chat, muteReason)
-                                .ConfigureAwait(false);
-                        break;
-                    case PunishmentAction.Kick:
-                        await user.KickAsync("Warned too many times.").ConfigureAwait(false);
-                        break;
-                    case PunishmentAction.Ban:
-                        if (p.Time == 0)
 
-                            await guild.AddBanAsync(user, reason: "Warned too many times.").ConfigureAwait(false);
-                        //await guild2.AddBanAsync(user, reason: "Warned too many times.");
-                        //await guild3.AddBanAsync(user, reason: "Warned too many times.");
-
-                        else
-                            await _mute.TimedBan(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
-                                .ConfigureAwait(false);
-                        break;
-                    case PunishmentAction.Softban:
-                        await guild.AddBanAsync(user, 7, "Warned too many times").ConfigureAwait(false);
-                        try
-                        {
-                            await guild.RemoveBanAsync(user).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            await guild.RemoveBanAsync(user).ConfigureAwait(false);
-                        }
-
-                        break;
-                    case PunishmentAction.RemoveRoles:
-                        await user.RemoveRolesAsync(user.GetRoles().Where(x => x.Id != guild.EveryoneRole.Id))
-                            .ConfigureAwait(false);
-                        break;
-                    case PunishmentAction.AddRole:
-                        var role = guild.GetRole(p.RoleId.Value);
-                        if (!(role is null))
-                        {
-                            if (p.Time == 0)
-                                await user.AddRoleAsync(role).ConfigureAwait(false);
-                            else
-                                await _mute.TimedRole(user, TimeSpan.FromMinutes(p.Time), "Warned too many times.",
-                                    role).ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            _log.Warn($"Warnpunish can't find role {p.RoleId.Value} on server {guild.Id}");
-                        }
-
-                        break;
-                }
-
+                await ApplyPunishment(guild, user, mod, p.Punishment, p.Time, p.RoleId, "Warned too many times.");
                 return p;
             }
 
             return null;
         }
 
-        public int GetWarnings(IGuild guild, ulong userId)
+        public async Task ApplyPunishment(IGuild guild, IGuildUser user, IUser mod, PunishmentAction p, int minutes,
+            ulong? roleId, string reason)
         {
-            int warnings;
-            using (var uow = _db.GetDbContext())
+            switch (p)
             {
-                warnings = uow.Warnings
-                    .ForId(guild.Id, userId)
-                    .Count(w => !w.Forgiven && w.UserId == userId);
-            }
+                case PunishmentAction.Mute:
+                    if (minutes == 0)
+                        await _mute.MuteUser(user, mod, reason: reason).ConfigureAwait(false);
+                    else
+                        await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), reason: reason)
+                            .ConfigureAwait(false);
+                    break;
+                case PunishmentAction.VoiceMute:
+                    if (minutes == 0)
+                        await _mute.MuteUser(user, mod, MuteType.Voice, reason).ConfigureAwait(false);
+                    else
+                        await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Voice, reason)
+                            .ConfigureAwait(false);
+                    break;
+                case PunishmentAction.ChatMute:
+                    if (minutes == 0)
+                        await _mute.MuteUser(user, mod, MuteType.Chat, reason).ConfigureAwait(false);
+                    else
+                        await _mute.TimedMute(user, mod, TimeSpan.FromMinutes(minutes), MuteType.Chat, reason)
+                            .ConfigureAwait(false);
+                    break;
+                case PunishmentAction.Kick:
+                    await user.KickAsync(reason).ConfigureAwait(false);
+                    break;
+                case PunishmentAction.Ban:
+                    if (minutes == 0)
+                        await guild.AddBanAsync(user, reason: reason).ConfigureAwait(false);
+                    else
+                        await _mute.TimedBan(user.Guild, user, TimeSpan.FromMinutes(minutes), reason)
+                            .ConfigureAwait(false);
+                    break;
+                case PunishmentAction.Softban:
+                    await guild.AddBanAsync(user, 7, reason: $"Softban | {reason}").ConfigureAwait(false);
+                    try
+                    {
+                        await guild.RemoveBanAsync(user).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        await guild.RemoveBanAsync(user).ConfigureAwait(false);
+                    }
 
-            return warnings;
+                    break;
+                case PunishmentAction.RemoveRoles:
+                    await user.RemoveRolesAsync(user.GetRoles().Where(x => !x.IsManaged && x != x.Guild.EveryoneRole))
+                        .ConfigureAwait(false);
+                    break;
+                case PunishmentAction.AddRole:
+                    if (roleId is null)
+                        return;
+                    var role = guild.GetRole(roleId.Value);
+                    if (!(role is null))
+                    {
+                        if (minutes == 0)
+                            await user.AddRoleAsync(role).ConfigureAwait(false);
+                        else
+                            await _mute.TimedRole(user, TimeSpan.FromMinutes(minutes), reason, role)
+                                .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        Log.Warning($"Can't find role {roleId.Value} on server {guild.Id} to apply punishment.");
+                    }
+
+                    break;
+                default:
+                    break;
+            }
         }
 
         public async Task CheckAllWarnExpiresAsync()
         {
             using (var uow = _db.GetDbContext())
             {
-                var cleared = await uow._context.Database.ExecuteSqlRawAsync(@"UPDATE Warnings
+                var cleared = await uow._context.Database.ExecuteSqlRawAsync($@"UPDATE Warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 0)
 	AND Forgiven = 0
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings.GuildId));");
 
-                var deleted = await uow._context.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings
+                var deleted = await uow._context.Database.ExecuteSqlRawAsync($@"DELETE FROM Warnings
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 1)
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings.GuildId));");
 
-                if (cleared > 0 || deleted > 0)
-                    _log.Info($"Cleared {cleared} warnings and deleted {deleted} warnings due to expiry.");
+                if(cleared > 0 || deleted > 0)
+                {
+                    Log.Information($"Cleared {cleared} warnings and deleted {deleted} warnings due to expiry.");
+                }
             }
         }
 
@@ -355,16 +223,20 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
 
                 var hours = $"{-config.WarnExpireHours} hours";
                 if (config.WarnExpireAction == WarnExpireAction.Clear)
+                {
                     await uow._context.Database.ExecuteSqlInterpolatedAsync($@"UPDATE warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId={guildId}
     AND Forgiven = 0
     AND DateAdded < datetime('now', {hours})");
+                }
                 else if (config.WarnExpireAction == WarnExpireAction.Delete)
+                {
                     await uow._context.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings
 WHERE GuildId={guildId}
     AND DateAdded < datetime('now', {hours})");
+                }
 
                 await uow.SaveChangesAsync();
             }
@@ -406,26 +278,28 @@ WHERE GuildId={guildId}
 
         public async Task<bool> WarnClearAsync(ulong guildId, ulong userId, int index, string moderator)
         {
-            var toReturn = true;
+            bool toReturn = true;
             using (var uow = _db.GetDbContext())
             {
                 if (index == 0)
+                {
                     await uow.Warnings.ForgiveAll(guildId, userId, moderator);
+                }
                 else
+                {
                     toReturn = uow.Warnings.Forgive(guildId, userId, moderator, index - 1);
-                await uow.SaveChangesAsync();
+                }
+                uow.SaveChanges();
             }
-
             return toReturn;
         }
 
         public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime time, IRole role = null)
         {
             // these 3 don't make sense with time
-            if ((punish == PunishmentAction.Softban || punish == PunishmentAction.Kick ||
-                 punish == PunishmentAction.RemoveRoles) && time != null)
+            if ((punish == PunishmentAction.Softban || punish == PunishmentAction.Kick || punish == PunishmentAction.RemoveRoles) && time != null)
                 return false;
-            if (number <= 0 || time != null && time.Time > TimeSpan.FromDays(49))
+            if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
                 return false;
 
             using (var uow = _db.GetDbContext())
@@ -435,16 +309,15 @@ WHERE GuildId={guildId}
 
                 uow._context.RemoveRange(toDelete);
 
-                ps.Add(new WarningPunishment
+                ps.Add(new WarningPunishment()
                 {
                     Count = number,
                     Punishment = punish,
-                    Time = (int?) time?.Time.TotalMinutes ?? 0,
-                    RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
+                    Time = (int?)(time?.Time.TotalMinutes) ?? 0,
+                    RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?),
                 });
                 uow.SaveChanges();
             }
-
             return true;
         }
 
@@ -464,7 +337,6 @@ WHERE GuildId={guildId}
                     uow.SaveChanges();
                 }
             }
-
             return true;
         }
 
@@ -479,8 +351,7 @@ WHERE GuildId={guildId}
             }
         }
 
-        public (IEnumerable<(string Original, ulong? Id, string Reason)> Bans, int Missing) MassKill(SocketGuild guild,
-            string people)
+        public (IEnumerable<(string Original, ulong? Id, string Reason)> Bans, int Missing) MassKill(SocketGuild guild, string people)
         {
             var gusers = guild.Users;
             //get user objects and reasons
@@ -495,7 +366,7 @@ WHERE GuildId={guildId}
                         return (Original: split[0], Id: id, Reason: reason);
 
                     return (Original: split[0],
-                        gusers
+                        Id: gusers
                             .FirstOrDefault(u => u.ToString().ToLowerInvariant() == x)
                             ?.Id,
                         Reason: reason);
@@ -510,24 +381,128 @@ WHERE GuildId={guildId}
             var found = bans
                 .Where(x => x.Id.HasValue)
                 .Select(x => x.Id.Value)
-                .ToArray();
+                .ToList();
 
-            using (var uow = _db.GetDbContext())
-            {
-                var bc = uow.BotConfig.GetOrCreate(set => set.Include(x => x.Blacklist));
-                //blacklist the users
-                bc.Blacklist.AddRange(found.Select(x =>
-                    new BlacklistItem
-                    {
-                        ItemId = x,
-                        Type = BlacklistType.User
-                    }));
-                //clear their currencies
-                uow.DiscordUsers.RemoveFromMany(found.Select(x => x).ToList());
-                uow.SaveChanges();
-            }
+            _blacklistService.BlacklistUsers(found);
 
             return (bans, missing);
+        }
+
+        public string GetBanTemplate(ulong guildId)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var template = uow._context.BanTemplates
+                    .AsQueryable()
+                    .FirstOrDefault(x => x.GuildId == guildId);
+                return template?.Text;
+            }
+        }
+
+        public void SetBanTemplate(ulong guildId, string text)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var template = uow._context.BanTemplates
+                    .AsQueryable()
+                    .FirstOrDefault(x => x.GuildId == guildId);
+
+                if (text == null)
+                {
+                    if (template is null)
+                        return;
+                    
+                    uow._context.Remove(template);
+                }
+                else if (template == null)
+                {
+                    uow._context.BanTemplates.Add(new BanTemplate()
+                    {
+                        GuildId = guildId,
+                        Text = text,
+                    });
+                }
+                else
+                {
+                    template.Text = text;
+                }
+
+                uow.SaveChanges();
+            }
+        }
+
+        public CREmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
+            string banReason, TimeSpan? duration)
+        {
+            return GetBanUserDmEmbed(
+                (DiscordSocketClient) context.Client,
+                (SocketGuild) context.Guild,
+                (IGuildUser) context.User,
+                target,
+                defaultMessage,
+                banReason,
+                duration);
+        }
+
+        public CREmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+            IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
+        {
+            var template = GetBanTemplate(guild.Id);
+
+            banReason = string.IsNullOrWhiteSpace(banReason)
+                ? "-"
+                : banReason;
+
+            var replacer = new ReplacementBuilder()
+                .WithServer(client, guild)
+                .WithOverride("%ban.mod%", () => moderator.ToString())
+                .WithOverride("%ban.mod.fullname%", () => moderator.ToString())
+                .WithOverride("%ban.mod.name%", () => moderator.Username)
+                .WithOverride("%ban.mod.discrim%", () => moderator.Discriminator)
+                .WithOverride("%ban.user%", () => target.ToString())
+                .WithOverride("%ban.user.fullname%", () => target.ToString())
+                .WithOverride("%ban.user.name%", () => target.Username)
+                .WithOverride("%ban.user.discrim%", () => target.Discriminator)
+                .WithOverride("%reason%", () => banReason)
+                .WithOverride("%ban.reason%", () => banReason)
+                .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm")?? "perma")
+                .Build();
+
+            CREmbed crEmbed = null; 
+            // if template isn't set, use the old message style
+            if (string.IsNullOrWhiteSpace(template))
+            {
+                template = JsonConvert.SerializeObject(new
+                {
+                    color = Mewdeko.ErrorColor.RawValue,
+                    description = defaultMessage 
+                });
+                
+                CREmbed.TryParse(template, out crEmbed);
+            }
+            // if template is set to "-" do not dm the user
+            else if (template == "-")
+            {
+                return default;
+            }
+            // if template is an embed, send that embed with replacements
+            else if (CREmbed.TryParse(template, out crEmbed))
+            {
+                replacer.Replace(crEmbed);
+            }
+            // otherwise, treat template as a regular string with replacements
+            else
+            {
+                template = JsonConvert.SerializeObject(new
+                {
+                    color = Mewdeko.ErrorColor.RawValue,
+                    description = replacer.Replace(template) 
+                });
+
+                CREmbed.TryParse(template, out crEmbed);
+            }
+            
+            return crEmbed;
         }
     }
 }

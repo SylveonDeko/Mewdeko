@@ -9,6 +9,6 @@ namespace Mewdeko.Modules.Games.Common.Hangman
         Movies = 1,
         Animals = 2,
         Things = 4,
-        Random = 8
+        Random = 8,
     }
 }

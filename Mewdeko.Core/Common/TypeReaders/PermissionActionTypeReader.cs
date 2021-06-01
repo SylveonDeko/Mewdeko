@@ -8,7 +8,7 @@ using Mewdeko.Core.Common.TypeReaders;
 namespace Mewdeko.Common.TypeReaders
 {
     /// <summary>
-    ///     Used instead of bool for more flexible keywords for true/false only in the permission module
+    /// Used instead of bool for more flexible keywords for true/false only in the permission module
     /// </summary>
     public class PermissionActionTypeReader : MewdekoTypeReader<PermissionAction>
     {
@@ -40,8 +40,7 @@ namespace Mewdeko.Common.TypeReaders
                 case "BAN":
                     return Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable));
                 default:
-                    return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed,
-                        "Did not receive a valid boolean value"));
+                    return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Did not receive a valid boolean value"));
             }
         }
     }

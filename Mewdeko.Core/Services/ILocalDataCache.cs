@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Mewdeko.Core.Common.Pokemon;
+﻿using Mewdeko.Core.Common.Pokemon;
 using Mewdeko.Modules.Games.Common.Trivia;
+using System.Collections.Generic;
 
 namespace Mewdeko.Core.Services
 {

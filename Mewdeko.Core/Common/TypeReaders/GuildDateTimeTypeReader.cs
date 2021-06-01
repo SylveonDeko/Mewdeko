@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Core.Common.TypeReaders;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Core.Common.TypeReaders;
+using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.TypeReaders
@@ -14,13 +14,11 @@ namespace Mewdeko.Common.TypeReaders
         {
         }
 
-        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
-            IServiceProvider services)
+        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
         {
             var gdt = Parse(services, context.Guild.Id, input);
-            if (gdt == null)
-                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed,
-                    "Input string is in an incorrect format."));
+            if(gdt == null)
+                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Input string is in an incorrect format."));
 
             return Task.FromResult(TypeReaderResult.FromSuccess(gdt));
         }
@@ -39,9 +37,12 @@ namespace Mewdeko.Common.TypeReaders
 
     public class GuildDateTime
     {
-        private GuildDateTime()
-        {
-        }
+        public TimeZoneInfo Timezone { get; }
+        public DateTime CurrentGuildTime { get; }
+        public DateTime InputTime { get; }
+        public DateTime InputTimeUtc { get; }
+
+        private GuildDateTime() { }
 
         public GuildDateTime(TimeZoneInfo guildTimezone, DateTime inputTime)
         {
@@ -51,10 +52,5 @@ namespace Mewdeko.Common.TypeReaders
             InputTime = inputTime;
             InputTimeUtc = TimeZoneInfo.ConvertTime(inputTime, Timezone, TimeZoneInfo.Utc);
         }
-
-        public TimeZoneInfo Timezone { get; }
-        public DateTime CurrentGuildTime { get; }
-        public DateTime InputTime { get; }
-        public DateTime InputTimeUtc { get; }
     }
 }

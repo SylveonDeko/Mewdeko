@@ -10,8 +10,8 @@ namespace Mewdeko.Core.Modules.Gambling.Common.AnimalRacing
 
         public void NormalizeOptions()
         {
-            if (StartTime < 10 || StartTime > 120)
-                StartTime = 20;
+            if (this.StartTime < 10 || this.StartTime > 120)
+                this.StartTime = 20;
         }
     }
 }

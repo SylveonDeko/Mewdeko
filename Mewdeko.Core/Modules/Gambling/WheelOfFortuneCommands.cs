@@ -1,13 +1,14 @@
-﻿using System.Collections.Immutable;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Gambling.Services;
+using Mewdeko.Core.Services;
+using System.Threading.Tasks;
 using Wof = Mewdeko.Modules.Gambling.Common.WheelOfFortune.WheelOfFortuneGame;
+using Mewdeko.Modules.Gambling.Services;
+using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Common;
+using System.Collections.Immutable;
+using Mewdeko.Core.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -15,52 +16,49 @@ namespace Mewdeko.Modules.Gambling
     {
         public class WheelOfFortuneCommands : GamblingSubmodule<GamblingService>
         {
-            private static readonly ImmutableArray<string> _emojis = new[]
-            {
-                "⬆",
-                "↖",
-                "⬅",
-                "↙",
-                "⬇",
-                "↘",
-                "➡",
-                "↗"
-            }.ToImmutableArray();
+            private static readonly ImmutableArray<string> _emojis = new string[] {
+            "⬆",
+            "↖",
+            "⬅",
+            "↙",
+            "⬇",
+            "↘",
+            "➡",
+            "↗" }.ToImmutableArray();
 
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
 
-            public WheelOfFortuneCommands(ICurrencyService cs, DbService db)
+            public WheelOfFortuneCommands(ICurrencyService cs, DbService db, GamblingConfigService gamblingConfService)
+                : base(gamblingConfService)
             {
                 _cs = cs;
                 _db = db;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task WheelOfFortune(ShmartNumber amount)
             {
                 if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                     return;
 
-                if (!await _cs.RemoveAsync(ctx.User.Id, "Wheel Of Fortune - bet", amount, true).ConfigureAwait(false))
+                if (!await _cs.RemoveAsync(ctx.User.Id, "Wheel Of Fortune - bet", amount, gamble: true).ConfigureAwait(false))
                 {
-                    await ReplyErrorLocalizedAsync("not_enough", Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                     return;
                 }
 
                 var result = await _service.WheelOfFortuneSpinAsync(ctx.User.Id, amount).ConfigureAwait(false);
 
+                var wofMultipliers = _config.WheelOfFortune.Multipliers;
                 await ctx.Channel.SendConfirmAsync(
-                    Format.Bold($@"{ctx.User} won: {result.Amount + Bc.BotConfig.CurrencySign}
+Format.Bold($@"{ctx.User.ToString()} won: {result.Amount + CurrencySign}
 
-   『{Wof.Multipliers[1]}』   『{Wof.Multipliers[0]}』   『{Wof.Multipliers[7]}』
+   『{wofMultipliers[1]}』   『{wofMultipliers[0]}』   『{wofMultipliers[7]}』
 
-『{Wof.Multipliers[2]}』      {_emojis[result.Index]}      『{Wof.Multipliers[6]}』
+『{wofMultipliers[2]}』      {_emojis[result.Index]}      『{wofMultipliers[6]}』
 
-     『{Wof.Multipliers[3]}』   『{Wof.Multipliers[4]}』   『{Wof.Multipliers[5]}』")).ConfigureAwait(false);
+     『{wofMultipliers[3]}』   『{wofMultipliers[4]}』   『{wofMultipliers[5]}』")).ConfigureAwait(false);
             }
         }
     }

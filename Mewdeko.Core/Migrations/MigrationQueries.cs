@@ -34,9 +34,9 @@ INSERT INTO DiscordUser
     FROM DiscordUser_tmp;
 
 DROP TABLE DiscordUser_tmp;";
-
         public static string TotalXp { get; } =
-            @"UPDATE DiscordUser
+@"UPDATE DiscordUser
 SET TotalXp = ifnull((SELECT SUM(Xp) FROM UserXpStats WHERE UserId = DiscordUser.UserId), 0)";
+
     }
 }

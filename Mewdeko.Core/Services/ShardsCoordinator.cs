@@ -1,45 +1,80 @@
-﻿using System;
+﻿using Mewdeko.Common.Collections;
+using Mewdeko.Common.ShardCom;
+using Mewdeko.Core.Services.Impl;
+using Mewdeko.Extensions;
+using Newtonsoft.Json;
+using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
-using Mewdeko.Common.Collections;
-using Mewdeko.Common.ShardCom;
 using Mewdeko.Core.Common;
-using Mewdeko.Core.Services.Impl;
-using Mewdeko.Extensions;
-using Newtonsoft.Json;
-using NLog;
-using StackExchange.Redis;
+using Serilog;
 
 namespace Mewdeko.Core.Services
 {
     public class ShardsCoordinator
     {
+        private class ShardsCoordinatorQueue
+        {
+            private readonly object _locker = new object();
+            private readonly HashSet<int> _set = new HashSet<int>();
+            private readonly Queue<int> _queue = new Queue<int>();
+            public int Count => _queue.Count;
+
+            public void Enqueue(int i)
+            {
+                lock (_locker)
+                {
+                    if (_set.Add(i))
+                        _queue.Enqueue(i);
+                }
+            }
+
+            public bool TryPeek(out int id)
+            {
+                lock (_locker)
+                {
+                    return _queue.TryPeek(out id);
+                }
+            }
+
+            public bool TryDequeue(out int id)
+            {
+                lock (_locker)
+                {
+                    if (_queue.TryDequeue(out id))
+                    {
+                        _set.Remove(id);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
         private readonly BotCredentials _creds;
-        private readonly int _curProcessId;
         private readonly string _key;
-
-        private readonly Logger _log;
-        private readonly ConnectionMultiplexer _redis;
         private readonly Process[] _shardProcesses;
-        private readonly ShardComMessage _defaultShardState;
 
-        private readonly ConcurrentHashSet<int> _shardRestartWaitingList =
-            new();
+        private readonly int _curProcessId;
+        private readonly ConnectionMultiplexer _redis;
+        private ShardComMessage _defaultShardState;
 
-        private readonly ShardsCoordinatorQueue _shardStartQueue =
-            new();
+        private ShardsCoordinatorQueue _shardStartQueue =
+            new ShardsCoordinatorQueue();
+
+        private ConcurrentHashSet<int> _shardRestartWaitingList =
+            new ConcurrentHashSet<int>();
 
         public ShardsCoordinator()
         {
             //load main stuff
-            LogSetup.SetupLogger(-1);
-            _log = LogManager.GetCurrentClassLogger();
+            LogSetup.SetupLogger("coord");
             _creds = new BotCredentials();
 
-            _log.Info("Starting Mewdeko v" + StatsService.BotVersion);
+            Log.Information("Starting Mewdeko v" + StatsService.BotVersion);
 
             _key = _creds.RedisKey();
 
@@ -50,22 +85,24 @@ namespace Mewdeko.Core.Services
             }
             catch (RedisConnectionException ex)
             {
-                _log.Error("Redis error. Make sure Redis is installed and running as a service.");
-                _log.Fatal(ex.ToString());
+                Log.Error(ex, "Redis error. Make sure Redis is installed and running as a service");
                 Helpers.ReadErrorAndExit(11);
             }
 
             var imgCache = new RedisImagesCache(_redis, _creds); //reload images into redis
-            if (!imgCache.AllKeysExist().GetAwaiter()
-                .GetResult()) // but only if the keys don't exist. If images exist, you have to reload them manually
+            if (!imgCache.AllKeysExist().GetAwaiter().GetResult()) // but only if the keys don't exist. If images exist, you have to reload them manually
+            {
                 imgCache.Reload().GetAwaiter().GetResult();
+            }
             else
-                _log.Info("Images are already present in redis. Use .imagesreload to force update if needed.");
+            {
+                Log.Information("Images are already present in redis. Use .imagesreload to force update if needed");
+            }
 
             //setup initial shard statuses
-            _defaultShardState = new ShardComMessage
+            _defaultShardState = new ShardComMessage()
             {
-                ConnectionState = ConnectionState.Disconnected,
+                ConnectionState = Discord.ConnectionState.Disconnected,
                 Guilds = 0,
                 Time = DateTime.UtcNow
             };
@@ -149,9 +186,9 @@ namespace Mewdeko.Core.Services
             var msg = _defaultShardState.Clone();
             msg.ShardId = shardId;
             db.ListSetByIndex(_key + "_shardstats",
-                shardId,
-                JsonConvert.SerializeObject(msg),
-                CommandFlags.FireAndForget);
+                    shardId,
+                    JsonConvert.SerializeObject(msg),
+                    CommandFlags.FireAndForget);
             var p = _shardProcesses[shardId];
             if (p == null)
                 return; // ignore
@@ -161,9 +198,7 @@ namespace Mewdeko.Core.Services
                 p.KillTree();
                 p.Dispose();
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void OnDataReceived(RedisChannel ch, RedisValue data)
@@ -174,13 +209,13 @@ namespace Mewdeko.Core.Services
             var db = _redis.GetDatabase();
             //sets the shard state
             db.ListSetByIndex(_key + "_shardstats",
-                msg.ShardId,
-                data,
-                CommandFlags.FireAndForget);
-            if (msg.ConnectionState == ConnectionState.Disconnected
-                || msg.ConnectionState == ConnectionState.Disconnecting)
+                    msg.ShardId,
+                    data,
+                    CommandFlags.FireAndForget);
+            if (msg.ConnectionState == Discord.ConnectionState.Disconnected
+                || msg.ConnectionState == Discord.ConnectionState.Disconnecting)
             {
-                _log.Error("!!! SHARD {0} IS IN {1} STATE !!!", msg.ShardId, msg.ConnectionState.ToString());
+                Log.Error("!!! SHARD {0} IS IN {1} STATE !!!", msg.ShardId, msg.ConnectionState.ToString());
 
                 OnShardUnavailable(msg.ShardId);
             }
@@ -190,6 +225,7 @@ namespace Mewdeko.Core.Services
                 // because it's connected/connecting now
                 _shardRestartWaitingList.TryRemove(msg.ShardId);
             }
+            return;
         }
 
         private void OnShardUnavailable(int shardId)
@@ -212,7 +248,7 @@ namespace Mewdeko.Core.Services
             //this task will complete when the initial start of the shards 
             //is complete, but will keep running in order to restart shards
             //which are disconnected for too long
-            var tsc = new TaskCompletionSource<bool>();
+            TaskCompletionSource<bool> tsc = new TaskCompletionSource<bool>();
             var _ = Task.Run(async () =>
             {
                 do
@@ -228,28 +264,31 @@ namespace Mewdeko.Core.Services
                         //it means the initial shard starting is done,
                         //and this is an auto-restart
                         if (tsc.Task.IsCompleted)
-                            _log.Warn("Auto-restarting shard {0}, {1} more in queue.", id, _shardStartQueue.Count);
+                        {
+                            Log.Warning("Auto-restarting shard {0}, {1} more in queue.", id, _shardStartQueue.Count);
+                        }
                         else
-                            _log.Warn("Starting shard {0}, {1} more in queue.", id, _shardStartQueue.Count - 1);
+                        {
+                            Log.Warning("Starting shard {0}, {1} more in queue.", id, _shardStartQueue.Count - 1);
+                        }
                         var rem = _shardProcesses[id];
                         if (rem != null)
+                        {
                             try
                             {
                                 rem.KillTree();
                                 rem.Dispose();
                             }
-                            catch
-                            {
-                            }
-
+                            catch { }
+                        }
                         _shardProcesses[id] = StartShard(id);
                         _shardStartQueue.TryDequeue(out var __);
                         await Task.Delay(10000).ConfigureAwait(false);
                     }
-
                     tsc.TrySetResult(true);
                     await Task.Delay(6000).ConfigureAwait(false);
-                } while (true);
+                }
+                while (true);
                 // ^ keep checking for shards which need to be restarted
             });
 
@@ -266,10 +305,10 @@ namespace Mewdeko.Core.Services
                         var db = _redis.GetDatabase();
                         //get all shards which didn't communicate their status in the last 30 seconds
                         var all = db.ListRange(_creds.RedisKey() + "_shardstats")
-                            .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
+                           .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
                         var statuses = all
-                            .Where(x => x.Time < DateTime.UtcNow - TimeSpan.FromSeconds(30))
-                            .ToArray();
+                           .Where(x => x.Time < DateTime.UtcNow - TimeSpan.FromSeconds(30))
+                           .ToArray();
 
                         if (!statuses.Any())
                         {
@@ -279,7 +318,7 @@ namespace Mewdeko.Core.Services
                                 var p = _shardProcesses[i];
                                 if (p == null || p.HasExited)
                                 {
-                                    _log.Warn("Scheduling shard {0} for restart because it's process is stopped.", i);
+                                    Log.Warning("Scheduling shard {0} for restart because it's process is stopped.", i);
                                     _shardStartQueue.Enqueue(i);
                                 }
                             }
@@ -297,24 +336,21 @@ namespace Mewdeko.Core.Services
                                 s.Time = DateTime.UtcNow + TimeSpan.FromSeconds(60 * _shardStartQueue.Count);
                                 db.ListSetByIndex(_key + "_shardstats", s.ShardId,
                                     JsonConvert.SerializeObject(s), CommandFlags.FireAndForget);
-                                _log.Warn("Shard {0} is scheduled for a restart because it's unresponsive.", s.ShardId);
+                                Log.Warning("Shard {0} is scheduled for a restart because it's unresponsive.", s.ShardId);
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        _log.Error(ex);
-                        throw;
-                    }
+                    catch (Exception ex) { Log.Error(ex, "Error in RunAsync"); throw; }
                 }
             });
 
             await tsc.Task.ConfigureAwait(false);
+            return;
         }
 
         private Process StartShard(int shardId)
         {
-            return Process.Start(new ProcessStartInfo
+            return Process.Start(new ProcessStartInfo()
             {
                 FileName = _creds.ShardRunCommand,
                 Arguments = string.Format(_creds.ShardRunArguments, shardId, _curProcessId, "")
@@ -331,7 +367,7 @@ namespace Mewdeko.Core.Services
             }
             catch (Exception ex)
             {
-                _log.Error(ex);
+                Log.Error(ex, "Unhandled exception in RunAsync");
                 foreach (var p in _shardProcesses)
                 {
                     if (p == null)
@@ -341,54 +377,12 @@ namespace Mewdeko.Core.Services
                         p.KillTree();
                         p.Dispose();
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
-
                 return;
             }
 
             await Task.Delay(-1).ConfigureAwait(false);
-        }
-
-        private class ShardsCoordinatorQueue
-        {
-            private readonly object _locker = new();
-            private readonly Queue<int> _queue = new();
-            private readonly HashSet<int> _set = new();
-            public int Count => _queue.Count;
-
-            public void Enqueue(int i)
-            {
-                lock (_locker)
-                {
-                    if (_set.Add(i))
-                        _queue.Enqueue(i);
-                }
-            }
-
-            public bool TryPeek(out int id)
-            {
-                lock (_locker)
-                {
-                    return _queue.TryPeek(out id);
-                }
-            }
-
-            public bool TryDequeue(out int id)
-            {
-                lock (_locker)
-                {
-                    if (_queue.TryDequeue(out id))
-                    {
-                        _set.Remove(id);
-                        return true;
-                    }
-                }
-
-                return false;
-            }
         }
     }
 }

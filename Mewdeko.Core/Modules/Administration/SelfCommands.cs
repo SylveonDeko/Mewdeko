@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
@@ -11,6 +8,11 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Mewdeko.Core.Services;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -19,49 +21,28 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class SelfCommands : MewdekoSubmodule<SelfService>
         {
-            public enum SettableUserStatus
-            {
-                Online,
-                Invisible,
-                Idle,
-                Dnd
-            }
-
-            private readonly Mewdeko _bot;
             private readonly DiscordSocketClient _client;
+            private readonly Mewdeko _bot;
+            private readonly IBotStrings _strings;
 
-            public SelfCommands(DiscordSocketClient client, Mewdeko bot)
+            public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings)
             {
                 _client = client;
                 _bot = bot;
+                _strings = strings;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.DM)]
-            [OwnerOnly]
-            public async Task UpdatesCheck(UpdateCheckType type)
-            {
-                _service.SetUpdateCheck(type);
-                await ReplyConfirmLocalizedAsync("updates_check_set", type.ToString()).ConfigureAwait(false);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task StartupCommandAdd([Remainder] string cmdText)
+            public async Task StartupCommandAdd([Leftover] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
 
-                var guser = (IGuildUser) ctx.User;
-                var cmd = new StartupCommand
+                var guser = (IGuildUser)ctx.User;
+                var cmd = new AutoCommand()
                 {
                     CommandText = cmdText,
                     ChannelId = ctx.Channel.Id,
@@ -70,28 +51,25 @@ namespace Mewdeko.Modules.Administration
                     GuildName = ctx.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
-                    Interval = 0
+                    Interval = 0,
                 };
                 _service.AddNewAutoCommand(cmd);
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("scadd"))
                     .AddField(efb => efb.WithName(GetText("server"))
-                        .WithValue(cmd.GuildId == null ? "-" : $"{cmd.GuildName}/{cmd.GuildId}").WithIsInline(true))
+                        .WithValue(cmd.GuildId == null ? $"-" : $"{cmd.GuildName}/{cmd.GuildId}").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("channel"))
                         .WithValue($"{cmd.ChannelName}/{cmd.ChannelId}").WithIsInline(true))
                     .AddField(efb => efb.WithName(GetText("command_text"))
                         .WithValue(cmdText).WithIsInline(false))).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
+            public async Task AutoCommandAdd(int interval, [Leftover] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
@@ -99,8 +77,8 @@ namespace Mewdeko.Modules.Administration
                 if (interval < 5)
                     return;
 
-                var guser = (IGuildUser) ctx.User;
-                var cmd = new StartupCommand
+                var guser = (IGuildUser)ctx.User;
+                var cmd = new AutoCommand()
                 {
                     CommandText = cmdText,
                     ChannelId = ctx.Channel.Id,
@@ -109,73 +87,77 @@ namespace Mewdeko.Modules.Administration
                     GuildName = ctx.Guild?.Name,
                     VoiceChannelId = guser.VoiceChannel?.Id,
                     VoiceChannelName = guser.VoiceChannel?.Name,
-                    Interval = interval
+                    Interval = interval,
                 };
                 _service.AddNewAutoCommand(cmd);
 
-                await ReplyConfirmLocalizedAsync("autocmd_add", Format.Code(Format.Sanitize(cmdText)), cmd.Interval)
-                    .ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("autocmd_add", Format.Code(Format.Sanitize(cmdText)), cmd.Interval).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task StartupCommands(int page = 1)
+            public async Task StartupCommandsList(int page = 1)
             {
                 if (page-- < 1)
                     return;
 
                 var scmds = _service.GetStartupCommands()
-                    .Where(x => x.Interval <= 0)
                     .Skip(page * 5)
-                    .Take(5);
-                if (!scmds.Any())
+                    .Take(5)
+                    .ToList();
+                
+                if (scmds.Count == 0)
+                {
                     await ReplyErrorLocalizedAsync("startcmdlist_none").ConfigureAwait(false);
+                }
                 else
+                {
+                    var i = 0;
                     await ctx.Channel.SendConfirmAsync(
-                            text: string.Join("\n", scmds
-                                .Select(x => $@"```css
-#{x.Index}
+                        text: string.Join("\n", scmds
+                        .Select(x => $@"```css
+#{++i}
 [{GetText("server")}]: {(x.GuildId.HasValue ? $"{x.GuildName} #{x.GuildId}" : "-")}
 [{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
 [{GetText("command_text")}]: {x.CommandText}```")),
-                            title: string.Empty,
-                            footer: GetText("page", page + 1))
-                        .ConfigureAwait(false);
+                        title: string.Empty,
+                        footer: GetText("page", page + 1))
+                    .ConfigureAwait(false);
+                }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task AutoCommands(int page = 1)
+            public async Task AutoCommandsList(int page = 1)
             {
                 if (page-- < 1)
                     return;
 
-                var scmds = _service.GetStartupCommands()
-                    .Where(x => x.Interval >= 5)
+                var scmds = _service.GetAutoCommands()
                     .Skip(page * 5)
-                    .Take(5);
+                    .Take(5)
+                    .ToList();
                 if (!scmds.Any())
+                {
                     await ReplyErrorLocalizedAsync("autocmdlist_none").ConfigureAwait(false);
+                }
                 else
+                {
+                    var i = 0;
                     await ctx.Channel.SendConfirmAsync(
-                            text: string.Join("\n", scmds
-                                .Select(x => $@"```css
-#{x.Index}
+                        text: string.Join("\n", scmds
+                        .Select(x => $@"```css
+#{++i}
 [{GetText("server")}]: {(x.GuildId.HasValue ? $"{x.GuildName} #{x.GuildId}" : "-")}
 [{GetText("channel")}]: {x.ChannelName} #{x.ChannelId}
 {GetIntervalText(x.Interval)}
 [{GetText("command_text")}]: {x.CommandText}```")),
-                            title: string.Empty,
-                            footer: GetText("page", page + 1))
-                        .ConfigureAwait(false);
+                        title: string.Empty,
+                        footer: GetText("page", page + 1))
+                    .ConfigureAwait(false);
+                }
             }
 
             private string GetIntervalText(int interval)
@@ -183,10 +165,7 @@ namespace Mewdeko.Modules.Administration
                 return $"[{GetText("interval")}]: {interval}";
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task Wait(int miliseconds)
             {
@@ -199,32 +178,38 @@ namespace Mewdeko.Modules.Administration
                         .ConfigureAwait(false);
                     msg.DeleteAfter(miliseconds / 1000);
                 }
-                catch
-                {
-                }
+                catch { }
 
                 await Task.Delay(miliseconds).ConfigureAwait(false);
             }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task StartupCommandRemove([Remainder] int index)
+            public async Task AutoCommandRemove([Leftover] int index)
             {
-                if (!_service.RemoveStartupCommand(index, out _))
+                if (!_service.RemoveAutoCommand(--index, out _))
+                {
+                    await ReplyErrorLocalizedAsync("acrm_fail").ConfigureAwait(false);
+                    return;
+                }
+                
+                await ctx.OkAsync();
+            }
+
+            [MewdekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [OwnerOnly]
+            public async Task StartupCommandRemove([Leftover] int index)
+            {
+                if (!_service.RemoveStartupCommand(--index, out _))
                     await ReplyErrorLocalizedAsync("scrm_fail").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalizedAsync("scrm").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
@@ -235,40 +220,32 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("startcmds_cleared").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task ForwardMessages()
             {
-                _service.ForwardMessages();
+                var enabled = _service.ForwardMessages();
 
-                if (_service.ForwardDMs)
+                if (enabled)
                     await ReplyConfirmLocalizedAsync("fwdm_start").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalizedAsync("fwdm_stop").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task ForwardToAll()
             {
-                _service.ForwardToAll();
+                var enabled = _service.ForwardToAll();
 
-                if (_service.ForwardDMsToAllOwners)
+                if (enabled)
                     await ReplyConfirmLocalizedAsync("fwall_start").ConfigureAwait(false);
                 else
                     await ReplyConfirmLocalizedAsync("fwall_stop").ConfigureAwait(false);
+
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task ShardStats(int page = 1)
             {
                 if (--page < 0)
@@ -286,16 +263,15 @@ namespace Mewdeko.Modules.Administration
                     {
                         var timeDiff = DateTime.UtcNow - x.Time;
                         if (timeDiff >= TimeSpan.FromSeconds(30))
-                            return
-                                $"Shard #{Format.Bold(x.ShardId.ToString())} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
+                            return $"Shard #{Format.Bold(x.ShardId.ToString())} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
                         return GetText("shard_stats_txt", x.ShardId.ToString(),
-                            Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()),
-                            timeDiff.ToString(@"hh\:mm\:ss"));
+                            Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()), timeDiff.ToString(@"hh\:mm\:ss"));
                     })
                     .ToArray();
 
-                await ctx.SendPaginatedConfirmAsync(page, curPage =>
+                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
                 {
+
                     var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
 
                     if (string.IsNullOrWhiteSpace(str))
@@ -309,36 +285,30 @@ namespace Mewdeko.Modules.Administration
                 }, allShardStrings.Length, 25).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task RestartShard(int shardId)
             {
                 var success = _service.RestartShard(shardId);
                 if (success)
-                    await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold("#" + shardId))
-                        .ConfigureAwait(false);
+                {
+                    await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold("#" + shardId)).ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyErrorLocalizedAsync("no_shard_id").ConfigureAwait(false);
+                }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public Task Leave([Remainder] string guildStr)
+            public Task Leave([Leftover] string guildStr)
             {
                 return _service.LeaveGuild(guildStr);
             }
 
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task Die()
             {
@@ -350,40 +320,27 @@ namespace Mewdeko.Modules.Administration
                 {
                     // ignored
                 }
-
                 await Task.Delay(2000).ConfigureAwait(false);
                 _service.Die();
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task Restart()
             {
-                var success = _service.RestartBot();
+                bool success = _service.RestartBot();
                 if (!success)
                 {
                     await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);
                     return;
                 }
 
-                try
-                {
-                    await ReplyConfirmLocalizedAsync("restarting").ConfigureAwait(false);
-                }
-                catch
-                {
-                }
+                try { await ReplyConfirmLocalizedAsync("restarting").ConfigureAwait(false); } catch { }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetName([Remainder] string newName)
+            public async Task SetName([Leftover] string newName)
             {
                 if (string.IsNullOrWhiteSpace(newName))
                     return;
@@ -394,19 +351,17 @@ namespace Mewdeko.Modules.Administration
                 }
                 catch (RateLimitedException)
                 {
-                    _log.Warn("You've been ratelimited. Wait 2 hours to change your name.");
+                    Log.Warning("You've been ratelimited. Wait 2 hours to change your name");
                 }
 
                 await ReplyConfirmLocalizedAsync("bot_name", Format.Bold(newName)).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [UserPerm(GuildPerm.ManageNicknames)]
+            [BotPerm(GuildPerm.ChangeNickname)]
             [Priority(0)]
-            public async Task SetNick([Remainder] string newNick = null)
+            public async Task SetNick([Leftover] string newNick = null)
             {
                 if (string.IsNullOrWhiteSpace(newNick))
                     return;
@@ -416,51 +371,49 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [BotPerm(GuildPerm.ManageNicknames)]
             [UserPerm(GuildPerm.ManageNicknames)]
             [Priority(1)]
-            public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
+            public async Task SetNick(IGuildUser gu, [Leftover] string newNick = null)
             {
+                var sg = (SocketGuild) Context.Guild;
+                if (sg.OwnerId == gu.Id ||
+                    gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
+                {
+                    await ReplyErrorLocalizedAsync("insuf_perms_i");
+                    return;
+                }
+                
                 await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
 
-                await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-")
-                    .ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetStatus([Remainder] SettableUserStatus status)
+            public async Task SetStatus([Leftover] SettableUserStatus status)
             {
                 await _client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
 
                 await ReplyConfirmLocalizedAsync("bot_status", Format.Bold(status.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetAvatar([Remainder] string img = null)
+            public async Task SetAvatar([Leftover] string img = null)
             {
                 var success = await _service.SetAvatar(img);
 
-                if (success) await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
+                if (success)
+                {
+                    await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
+                }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetGame(ActivityType type, [Remainder] string game = null)
+            public async Task SetGame(ActivityType type, [Leftover] string game = null)
             {
                 var rep = new ReplacementBuilder()
                     .WithDefault(Context)
@@ -471,12 +424,9 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("set_game").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task SetStream(string url, [Remainder] string name = null)
+            public async Task SetStream(string url, [Leftover] string name = null)
             {
                 name = name ?? "";
 
@@ -485,12 +435,9 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("set_stream").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task Send(string where, [Remainder] string msg = null)
+            public async Task Send(string where, [Leftover] string msg = null)
             {
                 if (string.IsNullOrWhiteSpace(msg))
                     return;
@@ -512,70 +459,62 @@ namespace Mewdeko.Modules.Administration
                 {
                     var cid = ulong.Parse(ids[1].Substring(2));
                     var ch = server.TextChannels.FirstOrDefault(c => c.Id == cid);
-                    if (ch == null) return;
+                    if (ch == null)
+                    {
+                        return;
+                    }
 
                     if (CREmbed.TryParse(msg, out var crembed))
                     {
                         rep.Replace(crembed);
-                        await ch.EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
-                            .ConfigureAwait(false);
+                        await ch.EmbedAsync(crembed).ConfigureAwait(false);
                         await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
                         return;
                     }
-
-                    var mentionables = AllowedMentions.None;
-                    mentionables.AllowedTypes = AllowedMentionTypes.Users;
-                    await ch.SendMessageAsync(rep.Replace(msg).SanitizeMentions(), allowedMentions: mentionables)
-                        .ConfigureAwait(false);
+                    await ch.SendMessageAsync(rep.Replace(msg).SanitizeMentions()).ConfigureAwait(false);
                 }
                 else if (ids[1].ToUpperInvariant().StartsWith("U:", StringComparison.InvariantCulture))
                 {
                     var uid = ulong.Parse(ids[1].Substring(2));
                     var user = server.Users.FirstOrDefault(u => u.Id == uid);
-                    if (user == null) return;
+                    if (user == null)
+                    {
+                        return;
+                    }
 
                     if (CREmbed.TryParse(msg, out var crembed))
                     {
                         rep.Replace(crembed);
-                        await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-                            .EmbedAsync(crembed.ToEmbed(), crembed.PlainText?.SanitizeMentions() ?? "")
+                        await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(crembed)
                             .ConfigureAwait(false);
                         await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
                         return;
                     }
 
-                    await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-                        .SendMessageAsync(rep.Replace(msg).SanitizeMentions()).ConfigureAwait(false);
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync(rep.Replace(msg).SanitizeMentions()).ConfigureAwait(false);
                 }
                 else
                 {
                     await ReplyErrorLocalizedAsync("invalid_format").ConfigureAwait(false);
                     return;
                 }
-
                 await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
             public async Task ImagesReload()
             {
                 _service.ReloadImages();
                 await ReplyConfirmLocalizedAsync("images_loading", 0).ConfigureAwait(false);
             }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            
+            [MewdekoCommand, Usage, Description, Aliases]
             [OwnerOnly]
-            public async Task BotConfigReload()
+            public async Task StringsReload()
             {
-                _service.ReloadBotConfig();
-                await ReplyConfirmLocalizedAsync("bot_config_reloaded").ConfigureAwait(false);
+                _strings.Reload();
+                await ReplyConfirmLocalizedAsync("bot_strings_reloaded").ConfigureAwait(false);
             }
 
             private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
@@ -593,6 +532,14 @@ namespace Mewdeko.Modules.Administration
                 }
 
                 return UserStatus.Online;
+            }
+
+            public enum SettableUserStatus
+            {
+                Online,
+                Invisible,
+                Idle,
+                Dnd
             }
         }
     }

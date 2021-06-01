@@ -23,12 +23,12 @@ namespace Mewdeko.Common.Yml
 
         public void WriteYaml(IEmitter emitter, object value, Type type)
         {
-            var color = (Rgba32) value;
-            var val = (uint) ((color.B << 0) | (color.G << 8) | (color.R << 16));
+            var color = (Rgba32)value;
+            var val = (uint) (color.B << 0 | color.G << 8 | color.R << 16);
             emitter.Emit(new Scalar(val.ToString("X6").ToLower()));
         }
     }
-
+    
     public class CultureInfoConverter : IYamlTypeConverter
     {
         public bool Accepts(Type type)
@@ -45,7 +45,7 @@ namespace Mewdeko.Common.Yml
 
         public void WriteYaml(IEmitter emitter, object value, Type type)
         {
-            var ci = (CultureInfo) value;
+            var ci = (CultureInfo)value;
             emitter.Emit(new Scalar(ci.Name));
         }
     }

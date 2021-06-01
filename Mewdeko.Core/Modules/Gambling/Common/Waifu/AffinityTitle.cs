@@ -4,7 +4,7 @@
     {
         Pure,
         Faithful,
-        Defiled,
+        Playful,
         Cheater,
         Tainted,
         Corrupted,

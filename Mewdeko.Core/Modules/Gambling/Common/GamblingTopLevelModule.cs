@@ -1,52 +1,67 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using Discord;
 using Mewdeko.Core.Services;
 using Mewdeko.Modules;
+using System.Threading.Tasks;
+using Mewdeko.Core.Modules.Gambling.Services;
 
 namespace Mewdeko.Core.Modules.Gambling.Common
 {
-    public abstract class GamblingTopLevelModule<TService> : MewdekoTopLevelModule<TService> where TService : INService
+    public abstract class GamblingModule<TService> : MewdekoModule<TService>
     {
-        protected GamblingTopLevelModule(bool isTopLevel = true) : base(isTopLevel)
+        private readonly Lazy<GamblingConfig> _lazyConfig;
+        protected GamblingConfig _config => _lazyConfig.Value;
+        protected string CurrencySign => _config.Currency.Sign;
+        protected string CurrencyName => _config.Currency.Name;
+        
+        protected GamblingModule(GamblingConfigService gambService)
         {
+            _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
         }
 
         private async Task<bool> InternalCheckBet(long amount)
         {
-            if (amount < 1) return false;
-            if (amount < Bc.BotConfig.MinBet)
+            if (amount < 1)
             {
-                await ReplyErrorLocalizedAsync("min_bet_limit",
-                    Format.Bold(Bc.BotConfig.MinBet.ToString()) + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
                 return false;
             }
-
-            if (Bc.BotConfig.MaxBet > 0 && amount > Bc.BotConfig.MaxBet)
+            if (amount < _config.MinBet)
             {
-                await ReplyErrorLocalizedAsync("max_bet_limit",
-                    Format.Bold(Bc.BotConfig.MaxBet.ToString()) + Bc.BotConfig.CurrencySign).ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("min_bet_limit", 
+                    Format.Bold(_config.MinBet.ToString()) + CurrencySign).ConfigureAwait(false);
                 return false;
             }
-
+            if (_config.MaxBet > 0 && amount > _config.MaxBet)
+            {
+                await ReplyErrorLocalizedAsync("max_bet_limit", 
+                    Format.Bold(_config.MaxBet.ToString()) + CurrencySign).ConfigureAwait(false);
+                return false;
+            }
             return true;
         }
 
         protected Task<bool> CheckBetMandatory(long amount)
         {
-            if (amount < 1) return Task.FromResult(false);
+            if (amount < 1)
+            {
+                return Task.FromResult(false);
+            }
             return InternalCheckBet(amount);
         }
 
         protected Task<bool> CheckBetOptional(long amount)
         {
-            if (amount == 0) return Task.FromResult(true);
+            if (amount == 0)
+            {
+                return Task.FromResult(true);
+            }
             return InternalCheckBet(amount);
         }
     }
 
-    public abstract class GamblingSubmodule<TService> : GamblingTopLevelModule<TService> where TService : INService
+    public abstract class GamblingSubmodule<TService> : GamblingModule<TService>
     {
-        protected GamblingSubmodule() : base(false)
+        protected GamblingSubmodule(GamblingConfigService gamblingConfService) : base(gamblingConfService)
         {
         }
     }

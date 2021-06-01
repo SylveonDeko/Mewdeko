@@ -7,7 +7,7 @@ This document aims to guide you through the process of setting up the credential
 #### Setting up credentials.json file
 
 - **For Windows (Updater)**: the `credentials.json` file is located in the `system` folder. You can access it through the updater by clicking on the `Creds` button.  
-- **For Windows (Source), Linux and OSX**: the `credentials.json` file is located in the `Mewdeko/src/Mewdeko` folder.
+- **For Windows (Source), Linux and OSX**: the `credentials.json` file is located in the `NadekoBot/src/NadekoBot` folder.
 
 ---
 
@@ -117,13 +117,13 @@ This part is completely optional, **however it's necessary for music and a few o
     - You can find all available options [here](https://stackexchange.github.io/StackExchange.Redis/Configuration.html).
 - **RestartCommand**
     - Required if you want to be able to use the `.restart` command
-    - If you're using the CLI installer or Linux/OSX, it's easier and more reliable setup Mewdeko with auto-restart and just use `.die`
+    - If you're using the CLI installer or Linux/OSX, it's easier and more reliable setup Nadeko with auto-restart and just use `.die`
 
 For Windows (Updater), add this to your `credentials.json`
 
 ```json
 "RestartCommand": {
-    "Cmd": "Mewdeko.exe"
+    "Cmd": "NadekoBot.exe"
 },
 ```
 
@@ -159,7 +159,7 @@ For Windows (Source), Linux or OSX, add this to your `credentials.json`
   "PatreonAccessToken": "",
   "PatreonCampaignId": "334038",
   "RestartCommand": {
-    "Cmd": "Mewdeko.exe"
+    "Cmd": "NadekoBot.exe"
 	},
   "ShardRunCommand": "",
   "ShardRunArguments": "",
@@ -173,19 +173,19 @@ For Windows (Source), Linux or OSX, add this to your `credentials.json`
 
 ## Database
 
-Mewdeko saves all settings and data in the database file `Mewdeko.db`, located in:
+Nadeko saves all settings and data in the database file `NadekoBot.db`, located in:
 
 - Windows (Updater): `system/data` (can be easily accessed through the `Data` button on the updater)
-- Windows (Source), Linux and OSX: `Mewdeko/src/Mewdeko/bin/Release/netcoreapp3.1/data/Mewdeko.db`
+- Windows (Source), Linux and OSX: `NadekoBot/src/NadekoBot/bin/Release/netcoreapp2.1/data/NadekoBot.db`
 
 In order to open it you will need [SQLite Browser](http://sqlitebrowser.org/).
 
-*NOTE: You don't have to worry if you don't have the `Mewdeko.db` file, it gets automatically created once you successfully run the bot for the first time.*
+*NOTE: You don't have to worry if you don't have the `NadekoBot.db` file, it gets automatically created once you successfully run the bot for the first time.*
 
 **To make changes:**
 
 - Shut your bot down.
-- Copy the `Mewdeko.db` file to someplace safe. (Back up)
+- Copy the `NadekoBot.db` file to someplace safe. (Back up)
 - Open it with SQLite Browser.
 - Go to the **Browse Data** tab.
 - Click on the **Table** drop-down list.
@@ -195,7 +195,7 @@ In order to open it you will need [SQLite Browser](http://sqlitebrowser.org/).
 - Click on **Apply**.
 - Click on **Write Changes**.
 
-![Mewdekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/Mewdekodb.gif)
+![nadekodb](https://cdn.discordapp.com/attachments/251504306010849280/254067055240806400/nadekodb.gif)
 
 ---
 
@@ -205,14 +205,14 @@ In order to open it you will need [SQLite Browser](http://sqlitebrowser.org/).
     - Command with which to run shards 1+
     - Required if you're sharding your bot on windows using .exe, or in a custom way.
     - This internally defaults to `dotnet`
-    - For example, if you want to shard your Mewdeko which you installed using windows installer, you would want to set it to something like this: `C:\Program Files\Mewdeko\system\Mewdeko.exe`
+    - For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to something like this: `C:\Program Files\NadekoBot\system\NadekoBot.exe`
 - **ShardRunArguments**
     - Arguments to the shard run command
     - Required if you're sharding your bot on windows using .exe, or in a custom way.
     - This internally defaults to `run -c Release --no-build -- {0} {1} {2}` which will be enough to run linux and other 'from source' setups
     - {0} will be replaced by the `shard ID` of the shard being ran, {1} by the shard 0's process id, and {2} by the port shard communication is happening on
     - If shard0 (main window) is closed, all other shards will close too
-    - For example, if you want to shard your Mewdeko which you installed using windows installer, you would want to set it to `{0} {1} {2}`
+    - For example, if you want to shard your NadekoBot which you installed using windows installer, you would want to set it to `{0} {1} {2}`
 - **ShardRunPort**
     - Bot uses a random UDP port in [5000, 6000] range for communication between shards
 

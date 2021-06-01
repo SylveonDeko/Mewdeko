@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
-using Google;
+﻿using Google;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
@@ -15,7 +7,14 @@ using Google.Apis.YouTube.v3;
 using Mewdeko.Common;
 using Mewdeko.Extensions;
 using Newtonsoft.Json.Linq;
-using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Serilog;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -23,153 +22,10 @@ namespace Mewdeko.Core.Services.Impl
     {
         private const string SearchEngineId = "018084019232060951019:hs5piey28-e";
 
-        private static readonly Regex plRegex =
-            new("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
-
-        //private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
-        private readonly IBotCredentials _creds;
-        private readonly IHttpClientFactory _httpFactory;
-
-        private readonly Dictionary<string, string> _languageDictionary = new()
-        {
-            {"afrikaans", "af"},
-            {"albanian", "sq"},
-            {"arabic", "ar"},
-            {"armenian", "hy"},
-            {"azerbaijani", "az"},
-            {"basque", "eu"},
-            {"belarusian", "be"},
-            {"bengali", "bn"},
-            {"bulgarian", "bg"},
-            {"catalan", "ca"},
-            {"chinese-traditional", "zh-TW"},
-            {"chinese-simplified", "zh-CN"},
-            {"chinese", "zh-CN"},
-            {"croatian", "hr"},
-            {"czech", "cs"},
-            {"danish", "da"},
-            {"dutch", "nl"},
-            {"english", "en"},
-            {"esperanto", "eo"},
-            {"estonian", "et"},
-            {"filipino", "tl"},
-            {"finnish", "fi"},
-            {"french", "fr"},
-            {"galician", "gl"},
-            {"german", "de"},
-            {"georgian", "ka"},
-            {"greek", "el"},
-            {"haitian Creole", "ht"},
-            {"hebrew", "iw"},
-            {"hindi", "hi"},
-            {"hungarian", "hu"},
-            {"icelandic", "is"},
-            {"indonesian", "id"},
-            {"irish", "ga"},
-            {"italian", "it"},
-            {"japanese", "ja"},
-            {"korean", "ko"},
-            {"lao", "lo"},
-            {"latin", "la"},
-            {"latvian", "lv"},
-            {"lithuanian", "lt"},
-            {"macedonian", "mk"},
-            {"malay", "ms"},
-            {"maltese", "mt"},
-            {"norwegian", "no"},
-            {"persian", "fa"},
-            {"polish", "pl"},
-            {"portuguese", "pt"},
-            {"romanian", "ro"},
-            {"russian", "ru"},
-            {"serbian", "sr"},
-            {"slovak", "sk"},
-            {"slovenian", "sl"},
-            {"spanish", "es"},
-            {"swahili", "sw"},
-            {"swedish", "sv"},
-            {"tamil", "ta"},
-            {"telugu", "te"},
-            {"thai", "th"},
-            {"turkish", "tr"},
-            {"ukrainian", "uk"},
-            {"urdu", "ur"},
-            {"vietnamese", "vi"},
-            {"welsh", "cy"},
-            {"yiddish", "yi"},
-
-            {"af", "af"},
-            {"sq", "sq"},
-            {"ar", "ar"},
-            {"hy", "hy"},
-            {"az", "az"},
-            {"eu", "eu"},
-            {"be", "be"},
-            {"bn", "bn"},
-            {"bg", "bg"},
-            {"ca", "ca"},
-            {"zh-tw", "zh-TW"},
-            {"zh-cn", "zh-CN"},
-            {"hr", "hr"},
-            {"cs", "cs"},
-            {"da", "da"},
-            {"nl", "nl"},
-            {"en", "en"},
-            {"eo", "eo"},
-            {"et", "et"},
-            {"tl", "tl"},
-            {"fi", "fi"},
-            {"fr", "fr"},
-            {"gl", "gl"},
-            {"de", "de"},
-            {"ka", "ka"},
-            {"el", "el"},
-            {"ht", "ht"},
-            {"iw", "iw"},
-            {"hi", "hi"},
-            {"hu", "hu"},
-            {"is", "is"},
-            {"id", "id"},
-            {"ga", "ga"},
-            {"it", "it"},
-            {"ja", "ja"},
-            {"ko", "ko"},
-            {"lo", "lo"},
-            {"la", "la"},
-            {"lv", "lv"},
-            {"lt", "lt"},
-            {"mk", "mk"},
-            {"ms", "ms"},
-            {"mt", "mt"},
-            {"no", "no"},
-            {"fa", "fa"},
-            {"pl", "pl"},
-            {"pt", "pt"},
-            {"ro", "ro"},
-            {"ru", "ru"},
-            {"sr", "sr"},
-            {"sk", "sk"},
-            {"sl", "sl"},
-            {"es", "es"},
-            {"sw", "sw"},
-            {"sv", "sv"},
-            {"ta", "ta"},
-            {"te", "te"},
-            {"th", "th"},
-            {"tr", "tr"},
-            {"uk", "uk"},
-            {"ur", "ur"},
-            {"vi", "vi"},
-            {"cy", "cy"},
-            {"yi", "yi"}
-        };
-
-        private readonly Logger _log;
-        private readonly CustomsearchService cs;
-        private readonly UrlshortenerService sh;
-
-        private readonly YouTubeService yt;
-
+        private YouTubeService yt;
+        private UrlshortenerService sh;
+        private CustomsearchService cs;
+        
         public GoogleApiService(IBotCredentials creds, IHttpClientFactory factory)
         {
             _creds = creds;
@@ -178,16 +34,14 @@ namespace Mewdeko.Core.Services.Impl
             var bcs = new BaseClientService.Initializer
             {
                 ApplicationName = "Mewdeko Bot",
-                ApiKey = _creds.GoogleApiKey
+                ApiKey = _creds.GoogleApiKey,
             };
-
-            _log = LogManager.GetCurrentClassLogger();
-
+            
             yt = new YouTubeService(bcs);
             sh = new UrlshortenerService(bcs);
             cs = new CustomsearchService(bcs);
         }
-
+        private static readonly Regex plRegex = new Regex("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
         public async Task<IEnumerable<string>> GetPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
         {
             await Task.Yield();
@@ -198,7 +52,10 @@ namespace Mewdeko.Core.Services.Impl
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             var match = plRegex.Match(keywords);
-            if (match.Length > 1) return new[] {match.Groups["id"].Value};
+            if (match.Length > 1)
+            {
+                return new[] { match.Groups["id"].Value.ToString() };
+            }
             var query = yt.Search.List("snippet");
             query.MaxResults = count;
             query.Type = "playlist";
@@ -207,7 +64,11 @@ namespace Mewdeko.Core.Services.Impl
             return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i => i.Id.PlaylistId);
         }
 
-        // todo add quota users
+        //private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
+        private readonly IBotCredentials _creds;
+        private readonly IHttpClientFactory _httpFactory;
+
+        // todo future add quota users
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
             await Task.Yield();
@@ -220,8 +81,7 @@ namespace Mewdeko.Core.Services.Impl
             query.MaxResults = count;
             query.RelatedToVideoId = id;
             query.Type = "video";
-            return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-                "http://www.youtube.com/watch?v=" + i.Id.VideoId);
+            return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i => "http://www.youtube.com/watch?v=" + i.Id.VideoId);
         }
 
         public async Task<IEnumerable<string>> GetVideoLinksByKeywordAsync(string keywords, int count = 1)
@@ -238,12 +98,10 @@ namespace Mewdeko.Core.Services.Impl
             query.Q = keywords;
             query.Type = "video";
             query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
-            return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-                "http://www.youtube.com/watch?v=" + i.Id.VideoId);
+            return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i => "http://www.youtube.com/watch?v=" + i.Id.VideoId);
         }
 
-        public async Task<IEnumerable<(string Name, string Id, string Url)>> GetVideoInfosByKeywordAsync(
-            string keywords, int count = 1)
+        public async Task<IEnumerable<(string Name, string Id, string Url)>> GetVideoInfosByKeywordAsync(string keywords, int count = 1)
         {
             await Task.Yield();
             if (string.IsNullOrWhiteSpace(keywords))
@@ -256,14 +114,10 @@ namespace Mewdeko.Core.Services.Impl
             query.MaxResults = count;
             query.Q = keywords;
             query.Type = "video";
-            return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-                (i.Snippet.Title.TrimTo(50), i.Id.VideoId, "http://www.youtube.com/watch?v=" + i.Id.VideoId));
+            return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i => (i.Snippet.Title.TrimTo(50), i.Id.VideoId, "http://www.youtube.com/watch?v=" + i.Id.VideoId));
         }
 
-        public Task<string> ShortenUrl(Uri url)
-        {
-            return ShortenUrl(url.ToString());
-        }
+        public Task<string> ShortenUrl(Uri url) => ShortenUrl(url.ToString());
 
         public async Task<string> ShortenUrl(string url)
         {
@@ -276,7 +130,7 @@ namespace Mewdeko.Core.Services.Impl
 
             try
             {
-                var response = await sh.Url.Insert(new Url {LongUrl = url}).ExecuteAsync().ConfigureAwait(false);
+                var response = await sh.Url.Insert(new Url { LongUrl = url }).ExecuteAsync().ConfigureAwait(false);
                 return response.Id;
             }
             catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.Forbidden)
@@ -285,7 +139,7 @@ namespace Mewdeko.Core.Services.Impl
             }
             catch (Exception ex)
             {
-                _log.Warn(ex);
+                Log.Warning(ex, "Error shortening URL");
                 return url;
             }
         }
@@ -301,7 +155,7 @@ namespace Mewdeko.Core.Services.Impl
 
             string nextPageToken = null;
 
-            var toReturn = new List<string>(count);
+            List<string> toReturn = new List<string>(count);
 
             do
             {
@@ -317,7 +171,8 @@ namespace Mewdeko.Core.Services.Impl
 
                 toReturn.AddRange(data.Items.Select(i => i.ContentDetails.VideoId));
                 nextPageToken = data.NextPageToken;
-            } while (count > 0 && !string.IsNullOrWhiteSpace(nextPageToken));
+            }
+            while (count > 0 && !string.IsNullOrWhiteSpace(nextPageToken));
 
             return toReturn;
         }
@@ -327,7 +182,7 @@ namespace Mewdeko.Core.Services.Impl
             await Task.Yield();
             var videoIdsList = videoIds as List<string> ?? videoIds.ToList();
 
-            var toReturn = new Dictionary<string, TimeSpan>();
+            Dictionary<string, TimeSpan> toReturn = new Dictionary<string, TimeSpan>();
 
             if (!videoIdsList.Any())
                 return toReturn;
@@ -342,8 +197,12 @@ namespace Mewdeko.Core.Services.Impl
                 q.Id = string.Join(",", videoIdsList.Take(toGet));
                 videoIdsList = videoIdsList.Skip(toGet).ToList();
                 var items = (await q.ExecuteAsync().ConfigureAwait(false)).Items;
-                foreach (var i in items) toReturn.Add(i.Id, XmlConvert.ToTimeSpan(i.ContentDetails.Duration));
-            } while (remaining > 0);
+                foreach (var i in items)
+                {
+                    toReturn.Add(i.Id, System.Xml.XmlConvert.ToTimeSpan(i.ContentDetails.Duration));
+                }
+            }
+            while (remaining > 0);
 
             return toReturn;
         }
@@ -368,6 +227,138 @@ namespace Mewdeko.Core.Services.Impl
         }
 
         public IEnumerable<string> Languages => _languageDictionary.Keys.OrderBy(x => x);
+        private readonly Dictionary<string, string> _languageDictionary = new Dictionary<string, string>() {
+                    { "afrikaans", "af"},
+                    { "albanian", "sq"},
+                    { "arabic", "ar"},
+                    { "armenian", "hy"},
+                    { "azerbaijani", "az"},
+                    { "basque", "eu"},
+                    { "belarusian", "be"},
+                    { "bengali", "bn"},
+                    { "bulgarian", "bg"},
+                    { "catalan", "ca"},
+                    { "chinese-traditional", "zh-TW"},
+                    { "chinese-simplified", "zh-CN"},
+                    { "chinese", "zh-CN"},
+                    { "croatian", "hr"},
+                    { "czech", "cs"},
+                    { "danish", "da"},
+                    { "dutch", "nl"},
+                    { "english", "en"},
+                    { "esperanto", "eo"},
+                    { "estonian", "et"},
+                    { "filipino", "tl"},
+                    { "finnish", "fi"},
+                    { "french", "fr"},
+                    { "galician", "gl"},
+                    { "german", "de"},
+                    { "georgian", "ka"},
+                    { "greek", "el"},
+                    { "haitian Creole", "ht"},
+                    { "hebrew", "iw"},
+                    { "hindi", "hi"},
+                    { "hungarian", "hu"},
+                    { "icelandic", "is"},
+                    { "indonesian", "id"},
+                    { "irish", "ga"},
+                    { "italian", "it"},
+                    { "japanese", "ja"},
+                    { "korean", "ko"},
+                    { "lao", "lo"},
+                    { "latin", "la"},
+                    { "latvian", "lv"},
+                    { "lithuanian", "lt"},
+                    { "macedonian", "mk"},
+                    { "malay", "ms"},
+                    { "maltese", "mt"},
+                    { "norwegian", "no"},
+                    { "persian", "fa"},
+                    { "polish", "pl"},
+                    { "portuguese", "pt"},
+                    { "romanian", "ro"},
+                    { "russian", "ru"},
+                    { "serbian", "sr"},
+                    { "slovak", "sk"},
+                    { "slovenian", "sl"},
+                    { "spanish", "es"},
+                    { "swahili", "sw"},
+                    { "swedish", "sv"},
+                    { "tamil", "ta"},
+                    { "telugu", "te"},
+                    { "thai", "th"},
+                    { "turkish", "tr"},
+                    { "ukrainian", "uk"},
+                    { "urdu", "ur"},
+                    { "vietnamese", "vi"},
+                    { "welsh", "cy"},
+                    { "yiddish", "yi"},
+
+                    { "af", "af"},
+                    { "sq", "sq"},
+                    { "ar", "ar"},
+                    { "hy", "hy"},
+                    { "az", "az"},
+                    { "eu", "eu"},
+                    { "be", "be"},
+                    { "bn", "bn"},
+                    { "bg", "bg"},
+                    { "ca", "ca"},
+                    { "zh-tw", "zh-TW"},
+                    { "zh-cn", "zh-CN"},
+                    { "hr", "hr"},
+                    { "cs", "cs"},
+                    { "da", "da"},
+                    { "nl", "nl"},
+                    { "en", "en"},
+                    { "eo", "eo"},
+                    { "et", "et"},
+                    { "tl", "tl"},
+                    { "fi", "fi"},
+                    { "fr", "fr"},
+                    { "gl", "gl"},
+                    { "de", "de"},
+                    { "ka", "ka"},
+                    { "el", "el"},
+                    { "ht", "ht"},
+                    { "iw", "iw"},
+                    { "hi", "hi"},
+                    { "hu", "hu"},
+                    { "is", "is"},
+                    { "id", "id"},
+                    { "ga", "ga"},
+                    { "it", "it"},
+                    { "ja", "ja"},
+                    { "ko", "ko"},
+                    { "lo", "lo"},
+                    { "la", "la"},
+                    { "lv", "lv"},
+                    { "lt", "lt"},
+                    { "mk", "mk"},
+                    { "ms", "ms"},
+                    { "mt", "mt"},
+                    { "no", "no"},
+                    { "fa", "fa"},
+                    { "pl", "pl"},
+                    { "pt", "pt"},
+                    { "ro", "ro"},
+                    { "ru", "ru"},
+                    { "sr", "sr"},
+                    { "sk", "sk"},
+                    { "sl", "sl"},
+                    { "es", "es"},
+                    { "sw", "sw"},
+                    { "sv", "sv"},
+                    { "ta", "ta"},
+                    { "te", "te"},
+                    { "th", "th"},
+                    { "tr", "tr"},
+                    { "uk", "uk"},
+                    { "ur", "ur"},
+                    { "vi", "vi"},
+                    { "cy", "cy"},
+                    { "yi", "yi"},
+                };
 
         public async Task<string> Translate(string sourceText, string sourceLanguage, string targetLanguage)
         {
@@ -375,23 +366,21 @@ namespace Mewdeko.Core.Services.Impl
             string text;
 
             if (!_languageDictionary.ContainsKey(sourceLanguage) ||
-                !_languageDictionary.ContainsKey(targetLanguage))
+               !_languageDictionary.ContainsKey(targetLanguage))
                 throw new ArgumentException(nameof(sourceLanguage) + "/" + nameof(targetLanguage));
 
 
-            var url = new Uri(string.Format(
-                "https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
-                ConvertToLanguageCode(sourceLanguage),
-                ConvertToLanguageCode(targetLanguage),
-                WebUtility.UrlEncode(sourceText)));
+            var url = new Uri(string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
+                                        ConvertToLanguageCode(sourceLanguage),
+                                        ConvertToLanguageCode(targetLanguage),
+                                       WebUtility.UrlEncode(sourceText)));
             using (var http = _httpFactory.CreateClient())
             {
-                http.DefaultRequestHeaders.Add("user-agent",
-                    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+                http.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
                 text = await http.GetStringAsync(url).ConfigureAwait(false);
             }
 
-            return string.Concat(JArray.Parse(text)[0].Select(x => x[0]));
+            return (string.Concat(JArray.Parse(text)[0].Select(x => x[0])));
         }
 
         private string ConvertToLanguageCode(string language)

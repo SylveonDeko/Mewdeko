@@ -9,7 +9,9 @@ namespace Mewdeko.Core.Modules.Searches.Common
 
         public class User
         {
-            [JsonProperty("_id")] public string Id { get; set; }
+
+            [JsonProperty("_id")]
+            public string Id { get; set; } 
 
             // [JsonProperty("bio")]
             // public string Bio { get; set; } 
@@ -31,6 +33,7 @@ namespace Mewdeko.Core.Modules.Searches.Common
             //
             // [JsonProperty("updated_at")]
             // public DateTime UpdatedAt { get; set; } 
+
         }
     }
 }

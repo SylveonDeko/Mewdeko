@@ -3,6 +3,6 @@
     public enum StreamRoleListType
     {
         Whitelist,
-        Blacklist
+        Blacklist,
     }
 }

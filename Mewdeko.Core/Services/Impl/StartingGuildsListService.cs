@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using Discord.WebSocket;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Discord.WebSocket;
+using System.Collections;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -12,17 +12,13 @@ namespace Mewdeko.Core.Services.Impl
 
         public StartingGuildsService(DiscordSocketClient client)
         {
-            _guilds = client.Guilds.Select(x => x.Id).ToImmutableList();
+            this._guilds = client.Guilds.Select(x => x.Id).ToImmutableList();
         }
 
-        public IEnumerator<ulong> GetEnumerator()
-        {
-            return _guilds.GetEnumerator();
-        }
+        public IEnumerator<ulong> GetEnumerator() =>
+            _guilds.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _guilds.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>
+            _guilds.GetEnumerator();
     }
 }

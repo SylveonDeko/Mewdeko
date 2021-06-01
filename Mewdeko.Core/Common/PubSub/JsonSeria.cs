@@ -5,26 +5,23 @@ namespace Mewdeko.Core.Common
 {
     public class JsonSeria : ISeria
     {
-        private readonly JsonSerializerOptions serializerOptions = new()
+        private JsonSerializerOptions serializerOptions = new JsonSerializerOptions()
         {
             Converters =
             {
                 new Rgba32Converter(),
-                new CultureInfoConverter()
+                new CultureInfoConverter(),
             }
         };
-
-        public byte[] Serialize<T>(T data)
-        {
-            return JsonSerializer.SerializeToUtf8Bytes(data, serializerOptions);
-        }
+        public byte[] Serialize<T>(T data) 
+            => JsonSerializer.SerializeToUtf8Bytes(data, serializerOptions);
 
         public T Deserialize<T>(byte[] data)
         {
             if (data is null)
                 return default;
 
-
+            
             return JsonSerializer.Deserialize<T>(data, serializerOptions);
         }
     }

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
-using NLog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
@@ -15,11 +14,9 @@ namespace Mewdeko.Modules.Administration.Services
     {
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly Logger _log;
 
         public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
         {
-            _log = LogManager.GetCurrentClassLogger();
             _client = client;
             _db = db;
 
@@ -66,22 +63,15 @@ namespace Mewdeko.Modules.Administration.Services
                                 }
                                 else
                                 {
-                                    _log.Warn(
-                                        $"Disabled 'Auto assign role' feature on {0} server the role doesn't exist.",
-                                        roleId);
                                     DisableAar(user.Guild.Id);
                                 }
                             }
                             catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
                             {
-                                _log.Warn(
-                                    $"Disabled 'Auto assign role' feature on {0} server because I don't have role management permissions.",
-                                    roleId);
                                 DisableAar(user.Guild.Id);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                _log.Warn(ex);
                             }
                         }
                     })).Append(Task.Delay(3000))).ConfigureAwait(false);

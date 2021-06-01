@@ -6,7 +6,7 @@ namespace Mewdeko.Core.Services
     public class GreetGrouper<T>
     {
         private readonly Dictionary<ulong, HashSet<T>> group;
-        private readonly object locker = new();
+        private readonly object locker = new object();
 
         public GreetGrouper()
         {
@@ -15,7 +15,7 @@ namespace Mewdeko.Core.Services
 
 
         /// <summary>
-        ///     Creates a group, if group already exists, adds the specified user
+        /// Creates a group, if group already exists, adds the specified user
         /// </summary>
         /// <param name="guildId">Id of the server for which to create group for</param>
         /// <param name="toAddIfExists">User to add if group already exists</param>
@@ -36,7 +36,7 @@ namespace Mewdeko.Core.Services
         }
 
         /// <summary>
-        ///     Remove the specified amount of items from the group. If all items are removed, group will be removed.
+        /// Remove the specified amount of items from the group. If all items are removed, group will be removed.
         /// </summary>
         /// <param name="guildId">Id of the group</param>
         /// <param name="count">Maximum number of items to retrieve</param>
@@ -64,7 +64,7 @@ namespace Mewdeko.Core.Services
                         set.Remove(item);
 
                     items = toReturn;
-                    // returning falsemeans group != yet deleted
+                    // returning falsemeans group is not yet deleted
                     // because there are items left
                     return false;
                 }

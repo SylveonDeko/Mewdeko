@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Mewdeko.Core.Services.Database.Models;
 using System.Linq;
-using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
@@ -27,26 +27,26 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         public ClubInfo GetByOwnerOrAdmin(ulong userId)
         {
             return _set
-                       .Include(x => x.Bans)
-                       .ThenInclude<ClubInfo, ClubBans, DiscordUser>(x => x.User)
-                       .Include(x => x.Applicants)
-                       .ThenInclude<ClubInfo, ClubApplicants, DiscordUser>(x => x.User)
-                       .Include(x => x.Owner)
-                       .Include(x => x.Users)
-                       .FirstOrDefault(x => x.Owner.UserId == userId) ??
-                   _context.Set<DiscordUser>()
-                       .Include(x => x.Club)
-                       .ThenInclude(x => x.Users)
-                       .Include(x => x.Club)
-                       .ThenInclude(x => x.Bans)
-                       .ThenInclude<DiscordUser, ClubBans, DiscordUser>(x => x.User)
-                       .Include(x => x.Club)
-                       .ThenInclude(x => x.Applicants)
-                       .ThenInclude<DiscordUser, ClubApplicants, DiscordUser>(x => x.User)
-                       .Include(x => x.Club)
-                       .ThenInclude(x => x.Owner)
-                       .FirstOrDefault(x => x.UserId == userId && x.IsClubAdmin)
-                       ?.Club;
+                .Include(x => x.Bans)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.Applicants)
+                    .ThenInclude(x => x.User)
+                .Include(x => x.Owner)
+                .Include(x => x.Users)
+                .FirstOrDefault(x => x.Owner.UserId == userId) ??
+            _context.Set<DiscordUser>()
+                .Include(x => x.Club)
+                    .ThenInclude(x => x.Users)
+                .Include(x => x.Club)
+                    .ThenInclude(x => x.Bans)
+                        .ThenInclude(x => x.User)
+                .Include(x => x.Club)
+                    .ThenInclude(x => x.Applicants)
+                        .ThenInclude(x => x.User)
+                .Include(x => x.Club)
+                .ThenInclude(x => x.Owner)
+                .FirstOrDefault(x => x.UserId == userId && x.IsClubAdmin)
+                ?.Club;
         }
 
         public ClubInfo GetByName(string name, int discrim, Func<DbSet<ClubInfo>, IQueryable<ClubInfo>> func = null)

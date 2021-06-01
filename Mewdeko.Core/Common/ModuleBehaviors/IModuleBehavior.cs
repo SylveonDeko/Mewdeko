@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Common.ModuleBehaviors
 {
@@ -9,33 +9,26 @@ namespace Mewdeko.Common.ModuleBehaviors
         public bool Blocked { get; set; }
         public string NewInput { get; set; }
 
-        public static ModuleBehaviorResult None()
+        public static ModuleBehaviorResult None() => new ModuleBehaviorResult
         {
-            return new()
-            {
-                Blocked = false,
-                NewInput = null
-            };
-        }
+            Blocked = false,
+            NewInput = null,
+        };
 
-        public static ModuleBehaviorResult FromBlocked(bool blocked)
+        public static ModuleBehaviorResult FromBlocked(bool blocked) => new ModuleBehaviorResult
         {
-            return new()
-            {
-                Blocked = blocked,
-                NewInput = null
-            };
-        }
+            Blocked = blocked,
+            NewInput = null,
+        };
     }
 
     public interface IModuleBehavior
     {
         /// <summary>
-        ///     Negative priority means it will try to apply as early as possible
-        ///     Positive priority menas it will try to apply as late as possible
+        /// Negative priority means it will try to apply as early as possible
+        /// Positive priority menas it will try to apply as late as possible
         /// </summary>
         int Priority { get; }
-
         Task<ModuleBehaviorResult> ApplyBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg);
     }
 }

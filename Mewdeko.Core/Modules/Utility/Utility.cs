@@ -1,50 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Utility.Services;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Mewdeko.Core.Common;
+using Serilog;
+using Mewdeko.Modules.Utility.Services;
+
 namespace Mewdeko.Modules.Utility
 {
-    public partial class Utility : MewdekoTopLevelModule<UtilityService>
+    public partial class Utility : MewdekoModule<UtilityService>
     {
-        public enum MeOrBot
-        {
-            Me,
-            Bot
-        }
-
-        private static readonly SemaphoreSlim sem = new(1, 1);
-        private readonly Mewdeko _bot;
         private readonly DiscordSocketClient _client;
-        private readonly IBotCredentials _creds;
-        private readonly DbService _db;
-        private readonly IHttpClientFactory _httpFactory;
         private readonly IStatsService _stats;
+        private readonly IBotCredentials _creds;
+        private readonly Mewdeko _bot;
         private readonly DownloadTracker _tracker;
 
         public Utility(Mewdeko Mewdeko, DiscordSocketClient client,
-            IStatsService stats, IBotCredentials creds,
-            DbService db, IHttpClientFactory factory, DownloadTracker tracker)
+            IStatsService stats, IBotCredentials creds, DownloadTracker tracker)
         {
             _client = client;
             _stats = stats;
             _creds = creds;
             _bot = Mewdeko;
-            _db = db;
-            _httpFactory = factory;
             _tracker = tracker;
         }
 
@@ -94,27 +84,6 @@ namespace Mewdeko.Modules.Utility
                     }
                 }
             }
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task TogetherTube()
-        {
-            Uri target;
-            using (var http = _httpFactory.CreateClient())
-            using (var res = await http.GetAsync("https://togethertube.com/room/create").ConfigureAwait(false))
-            {
-                target = res.RequestMessage.RequestUri;
-            }
-
-            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithAuthor(eab => eab.WithIconUrl("https://togethertube.com/assets/img/favicons/favicon-32x32.png")
-                        .WithName("Together Tube")
-                        .WithUrl("https://togethertube.com/"))
-                    .WithDescription(ctx.User.Mention + " " + GetText("togtub_room_link") + "\n" + target))
-                .ConfigureAwait(false);
         }
 
         [MewdekoCommand]
@@ -554,7 +523,7 @@ namespace Mewdeko.Modules.Utility
 
             if (!(ctx.Guild is SocketGuild socketGuild))
             {
-                _log.Warn("Can't cast guild to socket guild.");
+                Log.Warning("Can't cast guild to socket guild.");
                 return;
             }
 
@@ -639,23 +608,6 @@ namespace Mewdeko.Modules.Utility
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task CheckPerms(MeOrBot who = MeOrBot.Me)
-        {
-            var builder = new StringBuilder();
-            var user = who == MeOrBot.Me
-                ? (IGuildUser) ctx.User
-                : ((SocketGuild) ctx.Guild).CurrentUser;
-            var perms = user.GetPermissions((ITextChannel) ctx.Channel);
-            foreach (var p in perms.GetType().GetProperties().Where(p => !p.GetGetMethod().GetParameters().Any()))
-                builder.AppendLine($"{p.Name} : {p.GetValue(perms, null)}");
-            await ctx.Channel.SendConfirmAsync(builder.ToString()).ConfigureAwait(false);
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
         public async Task UserId([Remainder] IGuildUser target = null)
         {
             var usr = target ?? ctx.User;
@@ -702,7 +654,7 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task Roles(IGuildUser target, int page = 1)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             var guild = channel.Guild;
 
             const int rolesPerPage = 20;
@@ -712,23 +664,23 @@ namespace Mewdeko.Modules.Utility
 
             if (target != null)
             {
-                var roles = target.GetRoles().Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+                var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                     .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
                 if (!roles.Any())
                     await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
                 else
                     await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
-                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles)).ConfigureAwait(false);
+                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles)).ConfigureAwait(false);
             }
             else
             {
-                var roles = guild.Roles.Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+                var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                     .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
                 if (!roles.Any())
                     await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
                 else
                     await channel.SendConfirmAsync(GetText("roles_all_page", page),
-                            "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles).SanitizeMentions())
+                            "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions())
                         .ConfigureAwait(false);
             }
         }
@@ -751,7 +703,7 @@ namespace Mewdeko.Modules.Utility
         public async Task ChannelTopic([Remainder] ITextChannel channel = null)
         {
             if (channel == null)
-                channel = (ITextChannel) ctx.Channel;
+                channel = (ITextChannel)ctx.Channel;
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
@@ -809,7 +761,7 @@ namespace Mewdeko.Modules.Utility
         public async Task
             Showemojis([Remainder] string _) // need to have the parameter so that the message.tags gets populated
         {
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote) t.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 
             var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 
@@ -891,18 +843,27 @@ namespace Mewdeko.Modules.Utility
                 await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
             }
         }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        private static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
+        [MewdekoCommand, Usage, Description, Aliases]
 #if GLOBAL_Mewdeko
         [Ratelimit(30)]
 #endif
         public async Task Ping()
         {
-            var lat = _client.Latency;
-            await ctx.Channel.SendConfirmAsync($"Pong! {lat}ms!");
+            await sem.WaitAsync(5000).ConfigureAwait(false);
+            try
+            {
+                var sw = Stopwatch.StartNew();
+                var msg = await ctx.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
+                sw.Stop();
+                msg.DeleteAfter(0);
+
+                await ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} 🏓 {(int)sw.Elapsed.TotalMilliseconds}ms").ConfigureAwait(false);
+            }
+            finally
+            {
+                sem.Release();
+            }
         }
     }
 }

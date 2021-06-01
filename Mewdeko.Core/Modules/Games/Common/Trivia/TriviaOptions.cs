@@ -5,23 +5,15 @@ namespace Mewdeko.Core.Modules.Games.Common.Trivia
 {
     public class TriviaOptions : IMewdekoCommandOptions
     {
-        [Option('p', "pokemon", Required = false, Default = false,
-            HelpText = "Whether it's 'Who's that pokemon?' trivia.")]
+        [Option('p', "pokemon", Required = false, Default = false, HelpText = "Whether it's 'Who's that pokemon?' trivia.")]
         public bool IsPokemon { get; set; } = false;
-
         [Option("nohint", Required = false, Default = false, HelpText = "Don't show any hints.")]
         public bool NoHint { get; set; } = false;
-
-        [Option('w', "win-req", Required = false, Default = 10,
-            HelpText = "Winning requirement. Set 0 for an infinite game. Default 10.")]
+        [Option('w', "win-req", Required = false, Default = 10, HelpText = "Winning requirement. Set 0 for an infinite game. Default 10.")]
         public int WinRequirement { get; set; } = 10;
-
-        [Option('q', "question-timer", Required = false, Default = 30,
-            HelpText = "How long until the question ends. Default 30.")]
+        [Option('q', "question-timer", Required = false, Default = 30, HelpText = "How long until the question ends. Default 30.")]
         public int QuestionTimer { get; set; } = 30;
-
-        [Option('t', "timeout", Required = false, Default = 10,
-            HelpText = "Number of questions of inactivity in order stop. Set 0 for never. Default 10.")]
+        [Option('t', "timeout", Required = false, Default = 10, HelpText = "Number of questions of inactivity in order stop. Set 0 for never. Default 10.")]
         public int Timeout { get; set; } = 10;
 
         public void NormalizeOptions()
@@ -32,6 +24,7 @@ namespace Mewdeko.Core.Modules.Games.Common.Trivia
                 QuestionTimer = 30;
             if (Timeout < 0 || Timeout > 20)
                 Timeout = 10;
+
         }
     }
 }

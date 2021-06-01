@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -10,6 +6,10 @@ using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Games
 {
@@ -17,11 +17,11 @@ namespace Mewdeko.Modules.Games
     - Shiritori
     - Simple RPG adventure
     */
-    public partial class Games : MewdekoTopLevelModule<GamesService>
+    public partial class Games : MewdekoModule<GamesService>
     {
-        private readonly IHttpClientFactory _httpFactory;
         private readonly IImageCache _images;
-        private readonly Random _rng = new();
+        private readonly IHttpClientFactory _httpFactory;
+        private readonly Random _rng = new Random();
 
         public Games(IDataCache data, IHttpClientFactory factory)
         {
@@ -29,10 +29,7 @@ namespace Mewdeko.Modules.Games
             _httpFactory = factory;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Choose([Leftover] string list = null)
         {
             if (string.IsNullOrWhiteSpace(list))
@@ -44,29 +41,20 @@ namespace Mewdeko.Modules.Games
             await ctx.Channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task EightBall([Leftover] string question = null)
         {
             if (string.IsNullOrWhiteSpace(question))
                 return;
 
+            var res = _service.GetEightballResponse(question);
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.OkColor)
-                    .WithDescription(ctx.User.ToString())
-                    .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
-                    .AddField(efb =>
-                        efb.WithName("🎱 " + GetText("8ball"))
-                            .WithValue(_service.EightBallResponses[
-                                new MewdekoRandom().Next(0, _service.EightBallResponses.Length)]).WithIsInline(false)))
-                .ConfigureAwait(false);
+                .WithDescription(ctx.User.ToString())
+                .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
+                .AddField("🎱 " + GetText("8ball"), res, false));
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task RateGirl(IGuildUser usr)
         {
@@ -86,11 +74,10 @@ namespace Mewdeko.Modules.Games
                     originalStream.Position = 0;
                     originalStream.CopyTo(imgStream);
                 }
-
                 imgStream.Position = 0;
-                await ctx.Channel.SendFileAsync(imgStream,
-                    $"girl_{usr}.png",
-                    Format.Bold($"{ctx.User.Mention} Girl Rating For {usr}"),
+                await ctx.Channel.SendFileAsync(stream: imgStream,
+                    filename: $"girl_{usr}.png",
+                    text: Format.Bold($"{ctx.User.Mention} Girl Rating For {usr}"),
                     embed: new EmbedBuilder()
                         .WithOkColor()
                         .AddField(efb => efb.WithName("Hot").WithValue(gr.Hot.ToString("F2")).WithIsInline(true))
@@ -162,14 +149,11 @@ namespace Mewdeko.Modules.Games
             return new GirlRating(_images, _httpFactory, crazy, hot, roll, advice);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Linux(string guhnoo, string loonix)
         {
             await ctx.Channel.SendConfirmAsync(
-                $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} != an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+$@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
 Many computer users run a modified version of the {guhnoo} system every day, without realizing it. Through a peculiar turn of events, the version of {guhnoo} which is widely used today is often called {loonix}, and many of its users are not aware that it is basically the {guhnoo} system, developed by the {guhnoo} Project.
 

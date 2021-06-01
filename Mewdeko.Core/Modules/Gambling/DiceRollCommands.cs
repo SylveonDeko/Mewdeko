@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common;
@@ -11,6 +6,11 @@ using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling
@@ -20,12 +20,10 @@ namespace Mewdeko.Modules.Gambling
         [Group]
         public class DiceRollCommands : MewdekoSubmodule
         {
-            private static readonly Regex dndRegex =
-                new(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
+            private static readonly Regex dndRegex = new Regex(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
+            private static readonly Regex fudgeRegex = new Regex(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-            private static readonly Regex fudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
-
-            private static readonly char[] _fateRolls = {'-', ' ', '+'};
+            private static readonly char[] _fateRolls = { '-', ' ', '+' };
             private readonly IImageCache _images;
 
             public DiceRollCommands(IDataCache data)
@@ -33,10 +31,7 @@ namespace Mewdeko.Modules.Gambling
                 _images = data.LocalImages;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             public async Task Roll()
             {
                 var rng = new MewdekoRandom();
@@ -47,21 +42,16 @@ namespace Mewdeko.Modules.Gambling
 
                 using (var img1 = GetDice(num1))
                 using (var img2 = GetDice(num2))
-                using (var img = new[] {img1, img2}.Merge(out var format))
+                using (var img = new[] { img1, img2 }.Merge(out var format))
                 using (var ms = img.ToStream(format))
                 {
                     await ctx.Channel.SendFileAsync(ms,
-                            $"dice.{format.FileExtensions.First()}",
-                            Format.Bold(ctx.User.ToString()) + " " +
-                            GetText("dice_rolled", Format.Code(gen.ToString())))
-                        .ConfigureAwait(false);
+                        $"dice.{format.FileExtensions.First()}",
+                        Format.Bold(ctx.User.ToString()) + " " + GetText("dice_rolled", Format.Code(gen.ToString()))).ConfigureAwait(false);
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [Priority(1)]
             public async Task Roll(int num)
             {
@@ -69,30 +59,21 @@ namespace Mewdeko.Modules.Gambling
             }
 
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [Priority(1)]
             public async Task Rolluo(int num = 1)
             {
                 await InternalRoll(num, false).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [Priority(0)]
             public async Task Roll(string arg)
             {
                 await InternallDndRoll(arg, true).ConfigureAwait(false);
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [Priority(0)]
             public async Task Rolluo(string arg)
             {
@@ -121,17 +102,18 @@ namespace Mewdeko.Modules.Gambling
                             toInsert = 0;
                         else if (randomNumber != 1)
                             for (var j = 0; j < dice.Count; j++)
+                            {
                                 if (values[j] < randomNumber)
                                 {
                                     toInsert = j;
                                     break;
                                 }
+                            }
                     }
                     else
                     {
                         toInsert = dice.Count;
                     }
-
                     dice.Insert(toInsert, GetDice(randomNumber));
                     values.Insert(toInsert, randomNumber);
                 }
@@ -139,7 +121,10 @@ namespace Mewdeko.Modules.Gambling
                 using (var bitmap = dice.Merge(out var format))
                 using (var ms = bitmap.ToStream(format))
                 {
-                    foreach (var d in dice) d.Dispose();
+                    foreach (var d in dice)
+                    {
+                        d.Dispose();
+                    }
 
                     await ctx.Channel.SendFileAsync(ms, $"dice.{format.FileExtensions.First()}",
                         Format.Bold(ctx.User.ToString()) + " " +
@@ -154,16 +139,18 @@ namespace Mewdeko.Modules.Gambling
             {
                 Match match;
                 if ((match = fudgeRegex.Match(arg)).Length != 0 &&
-                    int.TryParse(match.Groups["n1"].ToString(), out var n1) &&
+                    int.TryParse(match.Groups["n1"].ToString(), out int n1) &&
                     n1 > 0 && n1 < 500)
                 {
                     var rng = new MewdekoRandom();
 
                     var rolls = new List<char>();
 
-                    for (var i = 0; i < n1; i++) rolls.Add(_fateRolls[rng.Next(0, _fateRolls.Length)]);
-                    var embed = new EmbedBuilder().WithOkColor().WithDescription(ctx.User.Mention + " " +
-                            GetText("dice_rolled_num", Format.Bold(n1.ToString())))
+                    for (int i = 0; i < n1; i++)
+                    {
+                        rolls.Add(_fateRolls[rng.Next(0, _fateRolls.Length)]);
+                    }
+                    var embed = new EmbedBuilder().WithOkColor().WithDescription(ctx.User.Mention + " " + GetText("dice_rolled_num", Format.Bold(n1.ToString())))
                         .AddField(efb => efb.WithName(Format.Bold("Result"))
                             .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
                     await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -172,36 +159,33 @@ namespace Mewdeko.Modules.Gambling
                 {
                     var rng = new MewdekoRandom();
                     if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
-                        int.TryParse(match.Groups["n2"].ToString(), out var n2) &&
+                        int.TryParse(match.Groups["n2"].ToString(), out int n2) &&
                         n1 <= 50 && n2 <= 100000 && n1 > 0 && n2 > 0)
                     {
-                        if (!int.TryParse(match.Groups["add"].Value, out var add))
+                        if (!int.TryParse(match.Groups["add"].Value, out int add))
                             add = 0;
-                        if (!int.TryParse(match.Groups["sub"].Value, out var sub))
+                        if (!int.TryParse(match.Groups["sub"].Value, out int sub))
                             sub = 0;
 
                         var arr = new int[n1];
-                        for (var i = 0; i < n1; i++) arr[i] = rng.Next(1, n2 + 1);
+                        for (int i = 0; i < n1; i++)
+                        {
+                            arr[i] = rng.Next(1, n2 + 1);
+                        }
 
                         var sum = arr.Sum();
-                        var embed = new EmbedBuilder().WithOkColor()
-                            .WithDescription(ctx.User.Mention + " " + GetText("dice_rolled_num", n1) + $"`1 - {n2}`")
-                            .AddField(efb => efb.WithName(Format.Bold("Rolls"))
-                                .WithValue(string.Join(" ",
-                                    (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x =>
-                                        Format.Code(x.ToString())))))
-                            .AddField(efb => efb.WithName(Format.Bold("Sum"))
-                                .WithValue(sum + " + " + add + " - " + sub + " = " + (sum + add - sub)));
+                        var embed = new EmbedBuilder().WithOkColor().WithDescription(ctx.User.Mention + " " + GetText("dice_rolled_num", n1) + $"`1 - {n2}`")
+                        .AddField(efb => efb.WithName(Format.Bold("Rolls"))
+                            .WithValue(string.Join(" ", (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x => Format.Code(x.ToString())))))
+                        .AddField(efb => efb.WithName(Format.Bold("Sum"))
+                            .WithValue(sum + " + " + add + " - " + sub + " = " + (sum + add - sub)));
                         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                     }
                 }
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            public async Task NRoll([Remainder] string range)
+            [MewdekoCommand, Usage, Description, Aliases]
+            public async Task NRoll([Leftover] string range)
             {
                 int rolled;
                 if (range.Contains("-"))
@@ -215,7 +199,6 @@ namespace Mewdeko.Modules.Gambling
                         await ReplyErrorLocalizedAsync("second_larger_than_first").ConfigureAwait(false);
                         return;
                     }
-
                     rolled = new MewdekoRandom().Next(arr[0], arr[1] + 1);
                 }
                 else
@@ -237,10 +220,9 @@ namespace Mewdeko.Modules.Gambling
                     using (var imgOne = Image.Load(images[1]))
                     using (var imgZero = Image.Load(images[0]))
                     {
-                        return new[] {imgOne, imgZero}.Merge();
+                        return new[] { imgOne, imgZero }.Merge();
                     }
                 }
-
                 return Image.Load(_images.Dice[num]);
             }
         }

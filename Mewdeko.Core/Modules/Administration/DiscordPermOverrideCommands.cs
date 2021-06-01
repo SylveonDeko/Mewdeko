@@ -16,10 +16,7 @@ namespace Mewdeko.Modules.Administration
         {
             // override stats, it should require that the user has managessages guild permission
             // .po 'stats' add user guild managemessages
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPerm[] perms)
@@ -38,11 +35,8 @@ namespace Mewdeko.Modules.Administration
                     Format.Bold(aggregatePerms.ToString()),
                     Format.Code(cmd.Name));
             }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task DiscordPermOverrideReset()
@@ -50,7 +44,7 @@ namespace Mewdeko.Modules.Administration
                 var result = await PromptUserConfirmAsync(new EmbedBuilder()
                     .WithOkColor()
                     .WithDescription(GetText("perm_override_all_confirm")));
-
+                
                 if (!result)
                     return;
                 await _service.ClearAllOverrides(Context.Guild.Id);
@@ -58,17 +52,14 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("perm_override_all");
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
+            [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task DiscordPermOverrideList(int page = 1)
             {
                 if (--page < 0)
                     return;
-
+                
                 var overrides = await _service.GetAllOverrides(Context.Guild.Id);
 
                 await ctx.SendPaginatedConfirmAsync(page, curPage =>
@@ -89,7 +80,7 @@ namespace Mewdeko.Modules.Administration
                             thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}")));
 
                     return eb;
-                }, overrides.Count, 9);
+                }, overrides.Count, 9, true);
             }
         }
     }

@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Mewdeko.Core.Services;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Core.Services;
 
 namespace Mewdeko.Core.Common
 {
     public class DownloadTracker : INService
     {
-        private readonly SemaphoreSlim downloadUsersSemaphore = new(1, 1);
-        private ConcurrentDictionary<ulong, DateTime> LastDownloads { get; } = new();
+        private ConcurrentDictionary<ulong, DateTime> LastDownloads { get; } = new ConcurrentDictionary<ulong, DateTime>();
+        private SemaphoreSlim downloadUsersSemaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
-        ///     Ensures all users on the specified guild were downloaded within the last hour.
+        /// Ensures all users on the specified guild were downloaded within the last hour. 
         /// </summary>
         /// <param name="guild">Guild to check and potentially download users from</param>
         /// <returns>Task representing download state</returns>
@@ -28,7 +28,7 @@ namespace Mewdeko.Core.Common
                 var added = LastDownloads.AddOrUpdate(
                     guild.Id,
                     now,
-                    (key, old) => now - old > TimeSpan.FromHours(1) ? now : old);
+                    (key, old) => (now - old) > TimeSpan.FromHours(1) ? now : old);
 
                 // means that this entry was just added - download the users
                 if (added == now)

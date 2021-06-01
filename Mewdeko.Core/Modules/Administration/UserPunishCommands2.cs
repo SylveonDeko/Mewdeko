@@ -12,6 +12,7 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -86,7 +87,7 @@ namespace Mewdeko.Modules.Administration
 
                 try
                 {
-                    await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription("Warned in " + ctx.Guild)
                             .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
@@ -104,7 +105,7 @@ namespace Mewdeko.Modules.Administration
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn(ex.Message);
+                    Log.Warning(ex.Message);
                     await ReplyErrorLocalizedAsync("cant_apply_punishment").ConfigureAwait(false);
                     return;
                 }

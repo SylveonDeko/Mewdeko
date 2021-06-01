@@ -13,17 +13,19 @@ namespace Mewdeko.Modules.Permissions.Common
         {
             var perms = permsEnumerable as List<Permissionv2> ?? permsEnumerable.ToList();
 
-            for (var i = perms.Count - 1; i >= 0; i--)
+            for (int i = perms.Count - 1; i >= 0; i--)
             {
                 var perm = perms[i];
 
                 var result = perm.CheckPermission(message, commandName, moduleName);
 
-                if (result == null) continue;
+                if (result == null)
+                {
+                    continue;
+                }
                 permIndex = i;
                 return result.Value;
             }
-
             permIndex = -1; //defaut behaviour
             return true;
         }
@@ -31,14 +33,13 @@ namespace Mewdeko.Modules.Permissions.Common
         //null = not applicable
         //true = applicable, allowed
         //false = applicable, not allowed
-        public static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName,
-            string moduleName)
+        public static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName, string moduleName)
         {
-            if (!(perm.SecondaryTarget == SecondaryPermissionType.Command &&
-                  perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant() ||
-                  perm.SecondaryTarget == SecondaryPermissionType.Module &&
-                  perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant() ||
-                  perm.SecondaryTarget == SecondaryPermissionType.AllModules))
+            if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
+                    perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant()) ||
+                (perm.SecondaryTarget == SecondaryPermissionType.Module &&
+                    perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant()) ||
+                    perm.SecondaryTarget == SecondaryPermissionType.AllModules))
                 return null;
 
             var guildUser = message.Author as IGuildUser;
@@ -53,7 +54,7 @@ namespace Mewdeko.Modules.Permissions.Common
                     if (perm.PrimaryTargetId == message.Channel.Id)
                         return perm.State;
                     break;
-                case PrimaryPermissionType.Role:
+                case PrimaryPermissionType.Role:        
                     if (guildUser == null)
                         break;
                     if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
@@ -64,7 +65,6 @@ namespace Mewdeko.Modules.Permissions.Common
                         break;
                     return perm.State;
             }
-
             return null;
         }
 
@@ -100,11 +100,9 @@ namespace Mewdeko.Modules.Permissions.Common
                     break;
             }
 
-            var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !perm.IsCustomCommand
-                ? prefix + perm.SecondaryTargetName
-                : perm.SecondaryTargetName;
-            com += " " + (perm.SecondaryTargetName != "*" ? secName + " " : "") + (perm.State ? "enable" : "disable") +
-                   " ";
+            var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !perm.IsCustomCommand ?
+                prefix + perm.SecondaryTargetName : perm.SecondaryTargetName;
+            com += " " + (perm.SecondaryTargetName != "*" ? secName + " " : "") + (perm.State ? "enable" : "disable") + " ";
 
             switch (perm.PrimaryTarget)
             {
@@ -126,10 +124,8 @@ namespace Mewdeko.Modules.Permissions.Common
 
         public static IEnumerable<Permission> AsEnumerable(this Permission perm)
         {
-            do
-            {
-                yield return perm;
-            } while ((perm = perm.Next) != null);
+            do yield return perm;
+            while ((perm = perm.Next) != null);
         }
     }
 }
