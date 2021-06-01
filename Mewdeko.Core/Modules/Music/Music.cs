@@ -317,11 +317,6 @@ namespace Mewdeko.Core.Modules.Music
                             m.Content =
                                 $"<a:check_animated:780103746432139274> Successfully queued {count} Songs!")
                         .ConfigureAwait(false);
-                if (mp.IsStopped)
-                {
-                    var msg2 = await ReplyErrorLocalizedAsync("queue_stopped", Format.Code(Prefix + "play"));
-                    msg2.DeleteAfter(10, _logService);
-                }
             }
         }
         private async Task Spotify(string url = null)
