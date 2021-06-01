@@ -48,7 +48,7 @@ nhentai:
  desc: "Let's you read any doujin using the magic number."
  args:
  - "209519"
-stealforrole:
+sfr:
  desc: "Lets you steal emotes for specific roles"
  args:
  - "role emote emote"
@@ -201,7 +201,7 @@ afk:
   desc: "Sets your afk message." 
   args: 
   - "Hi, I'm Bob!"
-afkremove:
+afkrm:
   desc: "Mods can use this to remove an afk from one or more users that are abusing afk." 
   args: 
   - "@user @user @user"
