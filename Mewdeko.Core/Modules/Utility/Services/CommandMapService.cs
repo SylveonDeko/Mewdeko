@@ -81,20 +81,6 @@ namespace Mewdeko.Modules.Utility.Services
                             newInput = maps[k];
                         else
                             continue;
-
-                        try
-                        {
-                            var toDelete = await channel.SendConfirmAsync($"{input} => {newInput}").ConfigureAwait(false);
-                            var _ = Task.Run(async () =>
-                            {
-                                await Task.Delay(1500).ConfigureAwait(false);
-                                await toDelete.DeleteAsync(new RequestOptions()
-                                {
-                                    RetryMode = RetryMode.AlwaysRetry
-                                }).ConfigureAwait(false);
-                            });
-                        }
-                        catch { }
                         return newInput;
                     }
                 }
