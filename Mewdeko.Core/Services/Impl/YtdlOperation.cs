@@ -24,7 +24,7 @@ namespace Mewdeko.Core.Services.Impl
             {
                 StartInfo = new ProcessStartInfo()
                 {
-                    FileName = @"C:\youtube-dl\youtube-dl.exe",
+                    FileName = @"youtube-dl",
                     Arguments = string.Format(_baseArgString, args),
                     UseShellExecute = false,
                     RedirectStandardError = true,
