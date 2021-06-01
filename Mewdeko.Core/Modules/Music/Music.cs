@@ -13,7 +13,7 @@ using Mewdeko.Modules;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Music.Services;
 using SpotifyAPI.Web;
-
+using KSoftNet;
 namespace Mewdeko.Core.Modules.Music
 {
     [NoPublicBot]
@@ -21,9 +21,11 @@ namespace Mewdeko.Core.Modules.Music
     {
         private readonly IGoogleApiService _google;
         private readonly LogCommandService _logService;
+        private readonly KSoftAPI _ksoft;
 
-        public Music(IGoogleApiService google, LogCommandService _logService)
+        public Music(IGoogleApiService google, LogCommandService _logService, KSoftAPI ks)
         {
+            _ksoft = ks;
             _google = google;
             this._logService = _logService;
         }
@@ -220,7 +222,22 @@ namespace Mewdeko.Core.Modules.Music
             }
             else await QueueByQuery(query);
         }
-        
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task Lyrics([Remainder] string songname = null)
+        {
+            var lyrics = await _ksoft.musicAPI.SearchLyrics(songname, true, 30);
+            await ctx.SendPaginatedConfirmAsync(0, cur =>
+            {
+                return new EmbedBuilder().WithOkColor()
+                    .WithTitle(Format.Bold(
+                        $"{lyrics.Data.Skip(cur).FirstOrDefault().Artist} - {lyrics.Data.Skip(cur).FirstOrDefault().Name}"))
+
+                    .WithDescription(lyrics.Data.Skip(cur).FirstOrDefault().Lyrics);
+            }, lyrics.Data.ToArray().Length, 1).ConfigureAwait(false);
+        }
         [MewdekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
         public Task Queue([Leftover] string query)
