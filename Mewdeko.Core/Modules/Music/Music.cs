@@ -352,19 +352,10 @@ namespace Mewdeko.Core.Modules.Music
             {
                 if (item.Track is FullTrack track)
                 {
-                    var en = new SpotifyPlist
-                    {
-                        Provider = "Spotify",
-                        ProviderType = MusicType.Spotify,
-                        Title = track.Name,
-                        Uri = track.Uri,
-                        Query = $"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio"
-                    };
-                    list.Add(en);
+
+                    await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio", ctx.User.ToString(), true, MusicPlatform.Spotify);
                 }
 
-                await mp.EnqueueManyAsync(list.Select(x => (x.Query, (MusicPlatform) x.ProviderType)),
-                    ctx.User.ToString());
                 await msg.ModifyAsync(m =>
                         m.Content =
                             $"<a:check_animated:780103746432139274> Successfully queued {count} Songs!")
