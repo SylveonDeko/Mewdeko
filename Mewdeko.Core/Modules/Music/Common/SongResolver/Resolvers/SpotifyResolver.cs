@@ -9,6 +9,7 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
 using Serilog;
+using SpotifyAPI.Web;
 
 namespace Mewdeko.Core.Modules.Music
 {
@@ -325,6 +326,17 @@ namespace Mewdeko.Core.Modules.Music
 
             Log.Information("Resolving youtube song by search term: {YoutubeQuery}", query);
 
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request =
+                new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+            var e = spotify.Search;
+            var en = new SearchRequest(SearchRequest.Types.Track, query);
+            var tt = await e.Item(en);
+            var es = tt.Tracks.Items;
             var cachedData = await _trackCacher.GetCachedDataByQueryAsync(query, MusicPlatform.Youtube);
             if (cachedData is null)
             {
@@ -340,9 +352,9 @@ namespace Mewdeko.Core.Modules.Music
             }
 
             return DataToInfo(new YtTrackData(
-                cachedData.Title,
+                es.FirstOrDefault().Name,
                 cachedData.Id,
-                cachedData.Thumbnail,
+                es.FirstOrDefault().Album.Images.FirstOrDefault().Url,
                 null,
                 cachedData.Duration
             ));

@@ -5,17 +5,28 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Music.Services;
 using SpotifyAPI.Web;
-using KSoftNet;
+
 namespace Mewdeko.Core.Modules.Music
 {
+    public class SpotifyPlist
+    {
+        public string Provider { get; set; }
+        public MusicType ProviderType { get; set; }
+        public string Title { get; set; }
+        public string Uri { get; set; }
+        public string Query { get; set; }
+    }
+
     [NoPublicBot]
     public sealed partial class Music : MewdekoModule<IMusicService>
     {
@@ -29,12 +40,12 @@ namespace Mewdeko.Core.Modules.Music
             _google = google;
             this._logService = _logService;
         }
-        
+
         private async Task<bool> ValidateAsync()
         {
             var user = (IGuildUser) ctx.User;
             var userVoiceChannelId = user.VoiceChannel?.Id;
-            
+
             if (userVoiceChannelId is null)
             {
                 await ReplyErrorLocalizedAsync("must_be_in_voice");
@@ -51,7 +62,8 @@ namespace Mewdeko.Core.Modules.Music
             return true;
         }
 
-        private static readonly SemaphoreSlim voiceChannelLock = new SemaphoreSlim(1, 1);
+        private static readonly SemaphoreSlim voiceChannelLock = new(1, 1);
+
         private async Task EnsureBotInVoiceChannelAsync(ulong voiceChannelId, IGuildUser botUser = null)
         {
             botUser ??= await ctx.Guild.GetCurrentUserAsync();
@@ -66,12 +78,12 @@ namespace Mewdeko.Core.Modules.Music
                 voiceChannelLock.Release();
             }
         }
-        
+
         private async Task<bool> QueuePreconditionInternalAsync()
         {
             var user = (IGuildUser) Context.User;
             var voiceChannelId = user.VoiceChannel?.Id;
-            
+
             if (voiceChannelId is null)
             {
                 await ReplyErrorLocalizedAsync("must_be_in_voice");
@@ -79,10 +91,10 @@ namespace Mewdeko.Core.Modules.Music
             }
 
             _ = ctx.Channel.TriggerTypingAsync();
-            
+
             var botUser = await ctx.Guild.GetCurrentUserAsync();
             await EnsureBotInVoiceChannelAsync(voiceChannelId!.Value, botUser);
-            
+
             if (botUser.VoiceChannel?.Id != voiceChannelId)
             {
                 await ReplyErrorLocalizedAsync("not_with_bot_in_voice");
@@ -97,15 +109,15 @@ namespace Mewdeko.Core.Modules.Music
             var succ = await QueuePreconditionInternalAsync();
             if (!succ)
                 return;
-            
+
             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-            
-            var (trackInfo, index) = await mp.TryEnqueueTrackAsync(query, 
+
+            var (trackInfo, index) = await mp.TryEnqueueTrackAsync(query,
                 Context.User.ToString(),
                 asNext,
                 forcePlatform);
@@ -144,11 +156,11 @@ namespace Mewdeko.Core.Modules.Music
         {
             if (--index < 0)
                 return;
-            
+
             var succ = await QueuePreconditionInternalAsync();
             if (!succ)
                 return;
-            
+
             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
             if (mp is null)
             {
@@ -158,9 +170,12 @@ namespace Mewdeko.Core.Modules.Music
 
             mp.MoveTo(index);
         }
-        
+
         // join vc
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Join()
         {
@@ -178,7 +193,10 @@ namespace Mewdeko.Core.Modules.Music
         }
 
         // leave vc (destroy)
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Destroy()
         {
@@ -188,23 +206,36 @@ namespace Mewdeko.Core.Modules.Music
 
             await _service.LeaveVoiceChannelAsync(Context.Guild.Id);
         }
-        
+
         // play - no args = next
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(2)]
         public Task Play()
-            => Next();
-        
+        {
+            return Next();
+        }
+
         // play - index = skip to that index
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public Task Play(int index)
-            => MoveToIndex(index);
+        {
+            return MoveToIndex(index);
+        }
 
         // play - query = q(query)
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
         public async Task Play([Leftover] string query)
@@ -216,12 +247,11 @@ namespace Mewdeko.Core.Modules.Music
             }
 
             if (query is not null && query.StartsWith("https://open.spotify.com/playlist"))
-            {
                 await SpotifyPlaylist(query);
-                return;
-            }
-            else await QueueByQuery(query);
+            else
+                await QueueByQuery(query);
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -234,21 +264,34 @@ namespace Mewdeko.Core.Modules.Music
                 return new EmbedBuilder().WithOkColor()
                     .WithTitle(Format.Bold(
                         $"{lyrics.Data.Skip(cur).FirstOrDefault().Artist} - {lyrics.Data.Skip(cur).FirstOrDefault().Name}"))
-
                     .WithDescription(lyrics.Data.Skip(cur).FirstOrDefault().Lyrics);
             }, lyrics.Data.ToArray().Length, 1).ConfigureAwait(false);
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public Task Queue([Leftover] string query)
-            => QueueByQuery(query);
-        
-        [MewdekoCommand, Usage, Description, Aliases]
+        {
+            return QueueByQuery(query);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public Task QueueNext([Leftover] string query)
-            => QueueByQuery(query, asNext: true);
+        {
+            return QueueByQuery(query, true);
+        }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Volume(int vol)
         {
@@ -257,7 +300,7 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("volume_input_invalid");
                 return;
             }
-            
+
             var valid = await ValidateAsync();
             if (!valid)
                 return;
@@ -271,20 +314,23 @@ namespace Mewdeko.Core.Modules.Music
             mp.SetVolume(vol);
             await ReplyConfirmLocalizedAsync("volume_set", vol);
         }
+
         private async Task SpotifyPlaylist(string url = null)
         {
             var succ = await QueuePreconditionInternalAsync();
             if (!succ)
                 return;
-            var mp = _service.GetOrCreateMusicPlayer((ITextChannel)Context.Channel);
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var config = SpotifyClientConfig.CreateDefault();
 
-            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+            var request =
+                new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
             var response = await new OAuthClient(config).RequestToken(request);
 
             var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
@@ -301,24 +347,31 @@ namespace Mewdeko.Core.Modules.Music
             var msg = await ctx.Channel
                 .SendMessageAsync($"<a:loading:834915210967253013> Queueing {count} Spotify Songs...")
                 .ConfigureAwait(false);
-
+            var list = new List<SpotifyPlist>();
             foreach (var item in playlist.Tracks.Items)
             {
-                    if (item.Track is FullTrack track)
+                if (item.Track is FullTrack track)
+                {
+                    var en = new SpotifyPlist
                     {
+                        Provider = "Spotify",
+                        ProviderType = MusicType.Spotify,
+                        Title = track.Name,
+                        Uri = track.Uri,
+                        Query = $"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio"
+                    };
+                    list.Add(en);
+                }
 
-                        await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
-            Context.User.ToString(),
-            true,
-            MusicPlatform.Spotify);
-                    }
-
-                    await msg.ModifyAsync(m =>
-                            m.Content =
-                                $"<a:check_animated:780103746432139274> Successfully queued {count} Songs!")
-                        .ConfigureAwait(false);
+                await mp.EnqueueManyAsync(list.Select(x => (x.Query, (MusicPlatform) x.ProviderType)),
+                    ctx.User.ToString());
+                await msg.ModifyAsync(m =>
+                        m.Content =
+                            $"<a:check_animated:780103746432139274> Successfully queued {count} Songs!")
+                    .ConfigureAwait(false);
             }
         }
+
         private async Task Spotify(string url = null)
         {
             var succ = await QueuePreconditionInternalAsync();
@@ -326,7 +379,8 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             var config = SpotifyClientConfig.CreateDefault();
 
-            var request = new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+            var request =
+                new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
             var response = await new OAuthClient(config).RequestToken(request);
 
             var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
@@ -342,14 +396,19 @@ namespace Mewdeko.Core.Modules.Music
             var track = await spotify.Tracks.Get(t[2]);
             try
             {
-                await QueueByQuery($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio", false, MusicPlatform.Spotify);
+                await QueueByQuery($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio", false,
+                    MusicPlatform.Spotify);
             }
             catch (Exception ex)
             {
                 await ctx.Channel.SendMessageAsync(ex.ToString());
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Next()
         {
@@ -357,18 +416,17 @@ namespace Mewdeko.Core.Modules.Music
             if (!valid)
                 return;
 
-            var success = await _service.PlayAsync(Context.Guild.Id, ((IGuildUser)Context.User).VoiceChannel.Id);
-            if (!success)
-            {
-                await ReplyErrorLocalizedAsync("no_player");
-                return;
-            }
+            var success = await _service.PlayAsync(Context.Guild.Id, ((IGuildUser) Context.User).VoiceChannel.Id);
+            if (!success) await ReplyErrorLocalizedAsync("no_player");
         }
 
         private const int LQ_ITEMS_PER_PAGE = 9;
-        
+
         // list queue, relevant page
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue()
         {
@@ -378,12 +436,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-            
+
             await ListQueue(mp.CurrentIndex / LQ_ITEMS_PER_PAGE + 1);
         }
-        
+
         // list queue, specify page
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ListQueue(int page)
         {
@@ -396,33 +457,32 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-            
+
             EmbedBuilder printAction(int curPage)
             {
-                string desc = string.Empty;
+                var desc = string.Empty;
                 var current = mp.GetCurrentTrack(out var currentIndex);
-                if (!(current is null))
-                {
-                    desc = $"`🔊` {current.PrettyFullName()}\n\n" + desc;
-                }
+                if (!(current is null)) desc = $"`🔊` {current.PrettyFullName()}\n\n" + desc;
 
                 var add = "";
                 if (mp.IsStopped)
                     add += Format.Bold(GetText("queue_stopped", Format.Code(Prefix + "play"))) + "\n";
-                 // var mps = mp.MaxPlaytimeSeconds;
-                 // if (mps > 0)
-                 //     add += Format.Bold(GetText("song_skips_after", TimeSpan.FromSeconds(mps).ToString("HH\\:mm\\:ss"))) + "\n";
-                 if (mp.IsRepeatingCurrentSong)
-                     add += "🔂 " + GetText("repeating_cur_song") + "\n";
-                 else
-                 {
-                     // if (mp.Autoplay)
-                     //     add += "↪ " + GetText("autoplaying") + "\n";
-                     // if (mp.FairPlay && !mp.Autoplay)
-                     //     add += " " + GetText("fairplay") + "\n";
-                     if (mp.IsRepeatingQueue)
-                         add += "🔁 " + GetText("repeating_playlist") + "\n";
-                 }
+                // var mps = mp.MaxPlaytimeSeconds;
+                // if (mps > 0)
+                //     add += Format.Bold(GetText("song_skips_after", TimeSpan.FromSeconds(mps).ToString("HH\\:mm\\:ss"))) + "\n";
+                if (mp.IsRepeatingCurrentSong)
+                {
+                    add += "🔂 " + GetText("repeating_cur_song") + "\n";
+                }
+                else
+                {
+                    // if (mp.Autoplay)
+                    //     add += "↪ " + GetText("autoplaying") + "\n";
+                    // if (mp.FairPlay && !mp.Autoplay)
+                    //     add += " " + GetText("fairplay") + "\n";
+                    if (mp.IsRepeatingQueue)
+                        add += "🔁 " + GetText("repeating_playlist") + "\n";
+                }
 
 
                 desc += tracks
@@ -432,25 +492,25 @@ namespace Mewdeko.Core.Modules.Music
                     {
                         index += LQ_ITEMS_PER_PAGE * curPage;
                         if (index == currentIndex)
-                             return $"**⇒**`{index + 1}.` {v.PrettyFullName()}";
-                         
+                            return $"**⇒**`{index + 1}.` {v.PrettyFullName()}";
+
                         return $"`{index + 1}.` {v.PrettyFullName()}";
-                     })
+                    })
                     .JoinWith('\n');
-                 
+
                 if (!string.IsNullOrWhiteSpace(add))
                     desc = add + "\n" + desc;
 
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab
-                        .WithName(GetText("player_queue", curPage + 1, (tracks.Count / LQ_ITEMS_PER_PAGE) + 1))
+                        .WithName(GetText("player_queue", curPage + 1, tracks.Count / LQ_ITEMS_PER_PAGE + 1))
                         .WithMusicIcon())
                     .WithDescription(desc)
                     .WithFooter($"  {mp.PrettyVolume()}  |  🎶 {tracks.Count}  |  ⌛ {mp.PrettyTotalTime()}  ")
                     .WithOkColor();
 
                 return embed;
-             }
+            }
 
             await ctx.SendPaginatedConfirmAsync(
                 page,
@@ -461,12 +521,15 @@ namespace Mewdeko.Core.Modules.Music
         }
 
         // search
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task QueueSearch([Leftover] string query)
         {
             _ = ctx.Channel.TriggerTypingAsync();
-            
+
             var videos = (await _google.GetVideoInfosByKeywordAsync(query, 5).ConfigureAwait(false))
                 .ToArray();
 
@@ -479,7 +542,7 @@ namespace Mewdeko.Core.Modules.Music
             var resultsString = videos
                 .Select((x, i) => $"`{i + 1}.`\n\t{Format.Bold(x.Name)}\n\t{x.Url}")
                 .JoinWith('\n');
-            
+
             var msg = await ctx.Channel.SendConfirmAsync(resultsString);
 
             try
@@ -501,6 +564,7 @@ namespace Mewdeko.Core.Modules.Music
 
                     return;
                 }
+
                 query = videos[index].Url;
 
                 await Play(query);
@@ -518,7 +582,10 @@ namespace Mewdeko.Core.Modules.Music
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public async Task SongRemove(int index)
@@ -528,7 +595,7 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("removed_song_error").ConfigureAwait(false);
                 return;
             }
-            
+
             var valid = await ValidateAsync();
             if (!valid)
                 return;
@@ -538,15 +605,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-            
+
             if (!mp.TryRemoveTrackAt(index - 1, out var song))
             {
                 await ReplyErrorLocalizedAsync("removed_song_error").ConfigureAwait(false);
                 return;
             }
-            
+
             var embed = new EmbedBuilder()
-                .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + (index)).WithMusicIcon())
+                .WithAuthor(eab => eab.WithName(GetText("removed_song") + " #" + index).WithMusicIcon())
                 .WithDescription(song.PrettyName())
                 .WithFooter(ef => ef.WithText(song.PrettyInfo()))
                 .WithErrorColor();
@@ -554,361 +621,421 @@ namespace Mewdeko.Core.Modules.Music
             await _service.SendToOutputAsync(Context.Guild.Id, embed);
         }
 
-         public enum All { All = -1 }
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         [Priority(0)]
-         public async Task SongRemove(All _ = All.All)
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
+        public enum All
+        {
+            All = -1
+        }
 
-             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             mp.Clear();
-             await ReplyConfirmLocalizedAsync("queue_cleared").ConfigureAwait(false);
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task Defvol([Leftover] int val)
-         {
-             if (val < 0 || val > 100)
-             {
-                 await ReplyErrorLocalizedAsync("volume_input_invalid").ConfigureAwait(false);
-                 return;
-             }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(0)]
+        public async Task SongRemove(All _ = All.All)
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-             _service.SetDefaultVolume(Context.Guild.Id, val);
+            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             await ReplyConfirmLocalizedAsync("defvol_set", val).ConfigureAwait(false);
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task Stop()
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
+            mp.Clear();
+            await ReplyConfirmLocalizedAsync("queue_cleared").ConfigureAwait(false);
+        }
 
-             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             mp.Stop();
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task QueueRepeat()
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Defvol([Leftover] int val)
+        {
+            if (val < 0 || val > 100)
+            {
+                await ReplyErrorLocalizedAsync("volume_input_invalid").ConfigureAwait(false);
+                return;
+            }
 
-             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             if (mp.ToggleRpl())
-                 await ReplyConfirmLocalizedAsync("rpl_enabled").ConfigureAwait(false);
-             else
-                 await ReplyConfirmLocalizedAsync("rpl_disabled").ConfigureAwait(false);
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task ReptCurSong()
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
+            _service.SetDefaultVolume(Context.Guild.Id, val);
 
-             IQueuedTrackInfo current;
-             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || (current = mp.GetCurrentTrack(out _)) is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
+            await ReplyConfirmLocalizedAsync("defvol_set", val).ConfigureAwait(false);
+        }
 
-             if (mp.ToggleRcs())
-             {
-                 await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                     .WithOkColor()
-                     .WithAuthor(eab => eab.WithMusicIcon().WithName("🔂 " + GetText("repeating_track")))
-                     .WithDescription(current.PrettyName())
-                     .WithFooter(ef => ef.WithText(current.PrettyInfo())));
-             }
-             else
-             {
-                 await ctx.Channel.SendConfirmAsync("🔂 " + GetText("repeating_track_stopped"));
-             }
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task Pause()
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Stop()
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || mp.GetCurrentTrack(out _) is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
+            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             mp.TogglePause();
-         }
+            mp.Stop();
+        }
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task SongAutoDelete()
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task QueueRepeat()
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             if (mp.ToggleAd())
-             {
-                 await ReplyConfirmLocalizedAsync("sad_enabled").ConfigureAwait(false);
-             }
-             else
-             {
-                 await ReplyConfirmLocalizedAsync("sad_disabled").ConfigureAwait(false);
-             }
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public Task Radio(string radioLink)
-             => QueueByQuery(radioLink, false, MusicPlatform.Radio);
+            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         [OwnerOnly]
-         public Task Local([Leftover] string path)
-             => QueueByQuery(path, false, MusicPlatform.Local);
+            if (mp.ToggleRpl())
+                await ReplyConfirmLocalizedAsync("rpl_enabled").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("rpl_disabled").ConfigureAwait(false);
+        }
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         [OwnerOnly]
-         public async Task LocalPlaylist([Leftover] string dirPath)
-         {
-             if (string.IsNullOrWhiteSpace(dirPath))
-                 return;
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task ReptCurSong()
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-             var user = (IGuildUser) Context.User;
-             var voiceChannelId = user.VoiceChannel?.Id;
-        
-             if (voiceChannelId is null)
-             {
-                 await ReplyErrorLocalizedAsync("must_be_in_voice");
-                 return;
-             }
+            IQueuedTrackInfo current;
+            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || (current = mp.GetCurrentTrack(out _)) is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             _ = ctx.Channel.TriggerTypingAsync();
-        
-             var botUser = await ctx.Guild.GetCurrentUserAsync();
-             await EnsureBotInVoiceChannelAsync(voiceChannelId!.Value, botUser);
-        
-             if (botUser.VoiceChannel?.Id != voiceChannelId)
-             {
-                 await ReplyErrorLocalizedAsync("not_with_bot_in_voice");
-                 return;
-             }
-            
-             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
-             if (mp is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             await _service.EnqueueDirectoryAsync(mp, dirPath, ctx.User.ToString());
-             
-             await ReplyConfirmLocalizedAsync("dir_queue_complete").ConfigureAwait(false);
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task MoveSong(int from, int to)
-         {
-             if (--from < 0 || --to < 0 || from == to)
-             {
-                 await ReplyErrorLocalizedAsync("invalid_input").ConfigureAwait(false);
-                 return;
-             }
+            if (mp.ToggleRcs())
+                await ctx.Channel.EmbedAsync(new EmbedBuilder()
+                    .WithOkColor()
+                    .WithAuthor(eab => eab.WithMusicIcon().WithName("🔂 " + GetText("repeating_track")))
+                    .WithDescription(current.PrettyName())
+                    .WithFooter(ef => ef.WithText(current.PrettyInfo())));
+            else
+                await ctx.Channel.SendConfirmAsync("🔂 " + GetText("repeating_track_stopped"));
+        }
 
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
-             
-             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
-             if (mp is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Pause()
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-             var track = mp.MoveTrack(from, to);
-             if (track is null)
-             {
-                 await ReplyErrorLocalizedAsync("invalid_input").ConfigureAwait(false);
-                 return;
-             }
-             
-             var embed = new EmbedBuilder()
-                 .WithTitle(track.Title.TrimTo(65))
-                 .WithAuthor(eab => eab.WithName(GetText("song_moved")).WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
-                 .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{from + 1}").WithIsInline(true))
-                 .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{to + 1}").WithIsInline(true))
-                 .WithColor(Mewdeko.OkColor);
+            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || mp.GetCurrentTrack(out _) is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             if (Uri.IsWellFormedUriString(track.Url, UriKind.Absolute))
-                 embed.WithUrl(track.Url);
+            mp.TogglePause();
+        }
 
-             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SongAutoDelete()
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public Task SoundCloudQueue([Leftover] string query)
-             => QueueByQuery(query, false, MusicPlatform.SoundCloud);
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task SoundCloudPl([Leftover] string playlist)
-         {
-             if (string.IsNullOrWhiteSpace(playlist))
-                 return;
+            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             var succ = await QueuePreconditionInternalAsync();
-             if (!succ)
-                 return;
+            if (mp.ToggleAd())
+                await ReplyConfirmLocalizedAsync("sad_enabled").ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("sad_disabled").ConfigureAwait(false);
+        }
 
-             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
-             if (mp is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             _ = ctx.Channel.TriggerTypingAsync();
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task Radio(string radioLink)
+        {
+            return QueueByQuery(radioLink, false, MusicPlatform.Radio);
+        }
 
-             await _service.EnqueueSoundcloudPlaylistAsync(mp, playlist, ctx.User.ToString());
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public Task Local([Leftover] string path)
+        {
+            return QueueByQuery(path, false, MusicPlatform.Local);
+        }
 
-             await ctx.OkAsync();
-         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [OwnerOnly]
+        public async Task LocalPlaylist([Leftover] string dirPath)
+        {
+            if (string.IsNullOrWhiteSpace(dirPath))
+                return;
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task Playlist([Leftover] string playlistQuery)
-         {
-             if (string.IsNullOrWhiteSpace(playlistQuery))
-                 return;
+            var user = (IGuildUser) Context.User;
+            var voiceChannelId = user.VoiceChannel?.Id;
 
-             var succ = await QueuePreconditionInternalAsync();
-             if (!succ)
-                 return;
+            if (voiceChannelId is null)
+            {
+                await ReplyErrorLocalizedAsync("must_be_in_voice");
+                return;
+            }
 
-             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
-             if (mp is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
+            _ = ctx.Channel.TriggerTypingAsync();
 
-             _ = Context.Channel.TriggerTypingAsync();
+            var botUser = await ctx.Guild.GetCurrentUserAsync();
+            await EnsureBotInVoiceChannelAsync(voiceChannelId!.Value, botUser);
+
+            if (botUser.VoiceChannel?.Id != voiceChannelId)
+            {
+                await ReplyErrorLocalizedAsync("not_with_bot_in_voice");
+                return;
+            }
+
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
+
+            await _service.EnqueueDirectoryAsync(mp, dirPath, ctx.User.ToString());
+
+            await ReplyConfirmLocalizedAsync("dir_queue_complete").ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task MoveSong(int from, int to)
+        {
+            if (--from < 0 || --to < 0 || from == to)
+            {
+                await ReplyErrorLocalizedAsync("invalid_input").ConfigureAwait(false);
+                return;
+            }
+
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
+
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
+
+            var track = mp.MoveTrack(from, to);
+            if (track is null)
+            {
+                await ReplyErrorLocalizedAsync("invalid_input").ConfigureAwait(false);
+                return;
+            }
+
+            var embed = new EmbedBuilder()
+                .WithTitle(track.Title.TrimTo(65))
+                .WithAuthor(eab =>
+                    eab.WithName(GetText("song_moved")).WithIconUrl(
+                        "https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
+                .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{from + 1}").WithIsInline(true))
+                .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{to + 1}").WithIsInline(true))
+                .WithColor(Mewdeko.OkColor);
+
+            if (Uri.IsWellFormedUriString(track.Url, UriKind.Absolute))
+                embed.WithUrl(track.Url);
+
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public Task SoundCloudQueue([Leftover] string query)
+        {
+            return QueueByQuery(query, false, MusicPlatform.SoundCloud);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SoundCloudPl([Leftover] string playlist)
+        {
+            if (string.IsNullOrWhiteSpace(playlist))
+                return;
+
+            var succ = await QueuePreconditionInternalAsync();
+            if (!succ)
+                return;
+
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
+
+            _ = ctx.Channel.TriggerTypingAsync();
+
+            await _service.EnqueueSoundcloudPlaylistAsync(mp, playlist, ctx.User.ToString());
+
+            await ctx.OkAsync();
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Playlist([Leftover] string playlistQuery)
+        {
+            if (string.IsNullOrWhiteSpace(playlistQuery))
+                return;
+
+            var succ = await QueuePreconditionInternalAsync();
+            if (!succ)
+                return;
+
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
+
+            _ = Context.Channel.TriggerTypingAsync();
 
 
-             var queuedCount = await _service.EnqueueYoutubePlaylistAsync(mp, playlistQuery, ctx.User.ToString());
-             if (queuedCount == 0)
-             {
-                 await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
-                 return;
-             }
-             await ctx.OkAsync();
-         }
+            var queuedCount = await _service.EnqueueYoutubePlaylistAsync(mp, playlistQuery, ctx.User.ToString());
+            if (queuedCount == 0)
+            {
+                await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
+                return;
+            }
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task NowPlaying()
-         {
-             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
-             if (mp is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
+            await ctx.OkAsync();
+        }
 
-             var currentTrack = mp.GetCurrentTrack(out _);
-             if (currentTrack == null)
-                 return;
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task NowPlaying()
+        {
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             var embed = new EmbedBuilder().WithOkColor()
-                 .WithAuthor(eab => eab.WithName(GetText("now_playing")).WithMusicIcon())
-                 .WithDescription(currentTrack.PrettyName())
-                 .WithThumbnailUrl(currentTrack.Thumbnail)
-                 .WithFooter($"{mp.PrettyVolume()} | {mp.PrettyTotalTime()} | {currentTrack.Platform} | {currentTrack.Queuer}");
+            var currentTrack = mp.GetCurrentTrack(out _);
+            if (currentTrack == null)
+                return;
 
-             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-         }
+            var embed = new EmbedBuilder().WithOkColor()
+                .WithAuthor(eab => eab.WithName(GetText("now_playing")).WithMusicIcon())
+                .WithDescription(currentTrack.PrettyName())
+                .WithThumbnailUrl(currentTrack.Thumbnail)
+                .WithFooter(
+                    $"{mp.PrettyVolume()} | {mp.PrettyTotalTime()} | {currentTrack.Platform} | {currentTrack.Queuer}");
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         public async Task PlaylistShuffle()
-         {
-             var valid = await ValidateAsync();
-             if (!valid)
-                 return;
-             
-             var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
-             if (mp is null)
-             {
-                 await ReplyErrorLocalizedAsync("no_player");
-                 return;
-             }
-             
-             mp.ShuffleQueue();
-             await ReplyConfirmLocalizedAsync("queue_shuffled");
-         }
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
 
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         [UserPerm(GuildPerm.ManageMessages)]
-         public async Task SetMusicChannel()
-         {
-             _service.SetMusicChannel(ctx.Guild.Id, ctx.Channel.Id);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task PlaylistShuffle()
+        {
+            var valid = await ValidateAsync();
+            if (!valid)
+                return;
 
-             await ReplyConfirmLocalizedAsync("set_music_channel");
-         }
-         
-         [MewdekoCommand, Usage, Description, Aliases]
-         [RequireContext(ContextType.Guild)]
-         [UserPerm(GuildPerm.ManageMessages)]
-         public async Task UnsetMusicChannel()
-         {
-             _service.UnsetMusicChannel(ctx.Guild.Id);
+            var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
 
-             await ReplyConfirmLocalizedAsync("unset_music_channel");
-         }
+            mp.ShuffleQueue();
+            await ReplyConfirmLocalizedAsync("queue_shuffled");
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.ManageMessages)]
+        public async Task SetMusicChannel()
+        {
+            _service.SetMusicChannel(ctx.Guild.Id, ctx.Channel.Id);
+
+            await ReplyConfirmLocalizedAsync("set_music_channel");
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.ManageMessages)]
+        public async Task UnsetMusicChannel()
+        {
+            _service.UnsetMusicChannel(ctx.Guild.Id);
+
+            await ReplyConfirmLocalizedAsync("unset_music_channel");
+        }
     }
 }
