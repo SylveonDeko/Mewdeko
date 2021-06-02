@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Core.Modules.Music;
 
@@ -29,5 +30,6 @@ namespace Mewdeko.Modules.Music.Services
         bool SetMusicChannel(ulong guildId, ulong channelId);
         void UnsetMusicChannel(ulong guildId);
         Task<bool> PlayAsync(ulong guildId, ulong voiceChannelId);
+        Task<IList<(string Title, string Url)>> SearchVideosAsync(string query);
     }
 }

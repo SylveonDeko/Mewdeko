@@ -30,14 +30,12 @@ namespace Mewdeko.Core.Modules.Music
     [NoPublicBot]
     public sealed partial class Music : MewdekoModule<IMusicService>
     {
-        private readonly IGoogleApiService _google;
         private readonly LogCommandService _logService;
         private readonly KSoftAPI _ksoft;
 
-        public Music(IGoogleApiService google, LogCommandService _logService, KSoftAPI ks)
+        public Music(LogCommandService _logService, KSoftAPI ks)
         {
             _ksoft = ks;
-            _google = google;
             this._logService = _logService;
         }
 
@@ -521,17 +519,16 @@ namespace Mewdeko.Core.Modules.Music
         {
             _ = ctx.Channel.TriggerTypingAsync();
 
-            var videos = (await _google.GetVideoInfosByKeywordAsync(query, 5).ConfigureAwait(false))
-                .ToArray();
+            var videos = await _service.SearchVideosAsync(query);
 
-            if (!videos.Any())
-            {
+            if (videos is null || videos.Count == 0)
+            { 
                 await ReplyErrorLocalizedAsync("song_not_found").ConfigureAwait(false);
                 return;
             }
 
             var resultsString = videos
-                .Select((x, i) => $"`{i + 1}.`\n\t{Format.Bold(x.Name)}\n\t{x.Url}")
+                .Select((x, i) => $"`{i + 1}.`\n\t{Format.Bold(x.Title)}\n\t{x.Url}")
                 .JoinWith('\n');
 
             var msg = await ctx.Channel.SendConfirmAsync(resultsString);
@@ -542,7 +539,7 @@ namespace Mewdeko.Core.Modules.Music
                 if (input == null
                     || !int.TryParse(input, out var index)
                     || (index -= 1) < 0
-                    || index >= videos.Length)
+                    || index >= videos.Count)
                 {
                     _logService.AddDeleteIgnore(msg.Id);
                     try
