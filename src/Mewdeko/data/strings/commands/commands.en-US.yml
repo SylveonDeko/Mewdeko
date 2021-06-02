@@ -692,7 +692,7 @@ setchanlname:
   args:
     - "NewName"
 prune:
-  desc: "`{0}prune` removes all Nadeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned."
+  desc: "`{0}prune` removes all Nadeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned. You can use the `-nb` / `--nobots` paramater to clear around bots. You can use the `-ob` / `--onlybots` paramater to clear only bots."
   args:
     - ""
     - "-s"
@@ -702,6 +702,8 @@ prune:
     - "@Someone --safe"
     - "@Someone X"
     - "@Someone X -s"
+    - "20 --nb"
+    - "20 --ob"
 die:
   desc: "Shuts the bot down."
   args:

@@ -230,9 +230,17 @@ namespace Mewdeko.Modules.Utility
             public async Task Afk()
             {
                 var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message).Last();
-                if (afkmsg == "") return;
-                await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "");
-                await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
+                if (afkmsg == "")
+                {
+                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _");
+                    await ctx.Channel.SendConfirmAsync("Afk message enabled!");
+                    return;
+                }
+                else
+                {
+                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "");
+                    await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
+                }
             }
 
             [MewdekoCommand]

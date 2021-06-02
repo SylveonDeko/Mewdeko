@@ -19,11 +19,11 @@ namespace Mewdeko.Core.Common.TypeReaders
             input = input.Replace("#", "", StringComparison.InvariantCulture);
             try
             {
-                return TypeReaderResult.FromSuccess(Color.ParseHex(input));
+                return TypeReaderResult.FromSuccess(Color.Parse(input));
             }
             catch
             {
-                return TypeReaderResult.FromError(CommandError.ParseFailed, "Parameter is not a valid color hex.");
+                return TypeReaderResult.FromError(CommandError.ParseFailed, "Parameter is not a valid color hex or name.");
             }
         }
     }

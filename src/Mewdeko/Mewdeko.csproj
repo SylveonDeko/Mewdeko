@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Remove="credentials.json" />
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <PackageReference Include="Anilist4Net" Version="1.2.0" />
     <PackageReference Include="DeepAI.Client" Version="1.3.0" />
     <PackageReference Include="KSoftNet" Version="3.0.1" />

@@ -943,7 +943,6 @@ namespace Mewdeko.Modules.Searches
                     await ctx.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl).ConfigureAwait(false);
             }
         }
-
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Color(params SixLabors.ImageSharp.Color[] colors)
         {

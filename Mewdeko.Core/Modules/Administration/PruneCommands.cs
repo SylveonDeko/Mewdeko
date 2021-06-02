@@ -16,8 +16,9 @@ namespace Mewdeko.Modules.Administration
         {
             private static readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
-            //delets her own messages, no perm required
+            
             [MewdekoCommand, Usage, Description, Aliases]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Prune(string parameter = null)
             {
@@ -45,6 +46,10 @@ namespace Mewdeko.Modules.Administration
 
                 if (parameter == "-s" || parameter == "--safe")
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.IsPinned).ConfigureAwait(false);
+                if (parameter == "-nb" || parameter == "--nobots")
+                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.Author.IsBot).ConfigureAwait(false);
+                if (parameter == "-ob" || parameter == "--onlybots")
+                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.Author.IsBot).ConfigureAwait(false);
                 else
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
             }
