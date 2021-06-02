@@ -8,13 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
 {
     public partial class Utility
     {
         [Group]
-        public class InfoCommands : MewdekoSubmodule
+        public class InfoCommands : MewdekoSubmodule<UtilityService>
         {
             private readonly DiscordSocketClient _client;
             private readonly IStatsService _stats;

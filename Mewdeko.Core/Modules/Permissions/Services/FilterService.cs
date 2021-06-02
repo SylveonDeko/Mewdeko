@@ -148,6 +148,7 @@ namespace Mewdeko.Modules.Permissions.Services
         {
             _db = db;
             _bot = bot;
+            Client = client;
             using(var uow = db.GetDbContext())
             {
                 var ids = client.GetGuildIds();
