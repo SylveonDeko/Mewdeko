@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
+using System.Net;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -41,22 +42,22 @@ namespace Mewdeko.Modules.Administration
                 var results = input
                     .GroupBy(x => grp++ / 2)
                     .Select(async x =>
-                   {
-                       var inputRoleStr = x.First();
-                       var roleReader = new RoleTypeReader<SocketRole>();
-                       var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services);
-                       if (!roleResult.IsSuccess)
-                       {
-                           Log.Warning("Role {0} not found.", inputRoleStr);
-                           return null;
-                       }
-                       var role = (IRole)roleResult.BestMatch;
-                       if (role.Position > ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()
-                           && ctx.User.Id != ctx.Guild.OwnerId)
-                           return null;
-                       var emote = x.Last().ToIEmote();
-                       return new { role, emote };
-                   })
+                    {
+                        var inputRoleStr = x.First();
+                        var roleReader = new RoleTypeReader<SocketRole>();
+                        var roleResult = await roleReader.ReadAsync(ctx, inputRoleStr, _services);
+                        if (!roleResult.IsSuccess)
+                        {
+                            Log.Warning("Role {0} not found.", inputRoleStr);
+                            return null;
+                        }
+                        var role = (IRole)roleResult.BestMatch;
+                        if (role.Position > ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()
+                            && ctx.User.Id != ctx.Guild.OwnerId)
+                            return null;
+                        var emote = x.Last().ToIEmote();
+                        return new { role, emote };
+                    })
                     .Where(x => x != null);
 
                 var all = await Task.WhenAll(results);
@@ -66,10 +67,19 @@ namespace Mewdeko.Modules.Administration
 
                 foreach (var x in all)
                 {
-                    await prev.AddReactionAsync(x.emote, new RequestOptions()
+                    try
                     {
-                        RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
-                    }).ConfigureAwait(false);
+                        await prev.AddReactionAsync(x.emote, new RequestOptions()
+                        {
+                            RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
+                        }).ConfigureAwait(false);
+                    }
+                    catch (Discord.Net.HttpException ex) when (ex.HttpCode == HttpStatusCode.BadRequest)
+                    {
+                        await ReplyErrorLocalizedAsync("reaction_cant_access", Format.Code(x.emote.ToString()));
+                        return;
+                    }
+
                     await Task.Delay(500).ConfigureAwait(false);
                 }
 
@@ -95,6 +105,7 @@ namespace Mewdeko.Modules.Administration
                     await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
                 }
             }
+
 
             [MewdekoCommand, Usage, Description, Aliases]
             [RequireContext(ContextType.Guild)]

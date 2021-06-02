@@ -228,11 +228,11 @@ namespace Mewdeko.Modules.Administration.Services
                             .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
 
-                        var bav = before.RealAvatarUrl();
+                        var bav = before.RealAvatarUrl(2048);
                         if (bav != null && bav.IsAbsoluteUri)
                             embed.WithThumbnailUrl(bav.ToString());
 
-                        var aav = after.RealAvatarUrl();
+                        var aav = after.RealAvatarUrl(2048);
                         if (aav != null && aav.IsAbsoluteUri)
                             embed.WithImageUrl(aav.ToString());
                     }

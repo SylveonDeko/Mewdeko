@@ -17,6 +17,7 @@
   "aliases_cleared": "All {0} aliases on this server have been removed.",
   "streams_cleared": "All {0} followed streams on this server have been removed.",
   "autohentai_stopped": "Autohentai stopped.",
+  "reaction_cant_access": "I can't access {0} reaction. You can only use emotes from servers I'm in.",
   "no_results": "No results found.",
   "vcrole_not_found": "That voice channel doesn't have a VcRole.",
   "aar_disabled": "**Auto assign role** on user join is now **disabled**.",
@@ -1040,5 +1041,5 @@
   "module_description_permissions": "Setup perms for commands, filter words and set up command cooldowns",
   "module_description_searches": "Search for jokes, images of animals, anime and manga",
   "module_description_xp": "Gain xp based on chat activity, check users' xp cards",
-  "module_description_servermanagement":  "Different tools to manage channels, emotes and roles"
+  "module_description_servermanagement": "Different tools to manage channels, emotes and roles"
 }

@@ -52,7 +52,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 return;
             while (true)
             {
-                await Task.Delay(TimeSpan.FromHours(1)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMinutes(30)).ConfigureAwait(false);
                 await TriggerVoteCheck().ConfigureAwait(false);
             }
         }
@@ -77,7 +77,8 @@ namespace Mewdeko.Modules.Gambling.Services
                         var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
                             .Select(x => x.User)
                             .Distinct();
-                        await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://discordbots.org/bot/Mewdeko/vote>"), ids.Select(x => 10L), true).ConfigureAwait(false);
+                        await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://top.gg/bot/752236274261426212/vote>"), ids.Select(x => 50L), true).ConfigureAwait(false);
+                        Log.Information($"Vote currency given to {ids.Count()} users.");
                     }
                 }
             }

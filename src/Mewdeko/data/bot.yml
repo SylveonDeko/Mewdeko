@@ -7,8 +7,11 @@ version: 1
 # To get color's hex, you can go here https://htmlcolorcodes.com/
 # and copy the hex code fo your selected color (marked as #)
 color:
+# Color used for embed responses when command successfully executes
   ok: cff2ff
+  # Color used for embed responses when command has an error
   error: ee281f
+  # Color used for embed responses while command is doing work or is in progress
   pending: faa61a
 # Default bot language. It has to be in the list of supported languages (.langli)
 defaultLocale: ts-TS
@@ -20,7 +23,7 @@ forwardMessages: false
 # Do you want the message to be forwarded only to the first owner specified in the list of owners (in creds.yml),
 # or all owners? (this might cause the bot to lag if there's a lot of owners specified)
 forwardToAllOwners: true
-# When a user DMs the bot with a message which != a command
+# When a user DMs the bot with a message which is not a command
 # they will receive this message. Leave empty for no response. The string which will be sent whenever someone DMs the bot.
 # Supports embeds. How it looks: https://puu.sh/B0BLV.png
 dmHelpText: |-
