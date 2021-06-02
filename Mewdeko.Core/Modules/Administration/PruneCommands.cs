@@ -49,7 +49,7 @@ namespace Mewdeko.Modules.Administration
                 if (parameter == "-nb" || parameter == "--nobots")
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.Author.IsBot).ConfigureAwait(false);
                 if (parameter == "-ob" || parameter == "--onlybots")
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.Author.IsBot).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => x.Author.IsBot).ConfigureAwait(false);
                 else
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
             }
