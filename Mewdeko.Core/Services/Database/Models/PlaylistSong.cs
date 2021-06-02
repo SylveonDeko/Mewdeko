@@ -14,6 +14,7 @@
         Radio,
         YouTube,
         Local,
-        Soundcloud
+        Soundcloud,
+        Spotify
     }
 }

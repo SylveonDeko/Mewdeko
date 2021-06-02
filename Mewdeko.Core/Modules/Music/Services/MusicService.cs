@@ -206,6 +206,7 @@ namespace Mewdeko.Modules.Music.Services
                 var embed = new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName(GetText(guildId, "playing_song", index + 1)).WithMusicIcon())
                     .WithDescription(trackInfo.PrettyName())
+                    .WithImageUrl(trackInfo.Thumbnail)
                     .WithFooter(ef => ef.WithText($"{mp.PrettyVolume()} | {trackInfo.PrettyInfo()}"));
 
                 lastPlayingMessage = await SendToOutputAsync(guildId, embed);
