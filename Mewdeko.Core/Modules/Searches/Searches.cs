@@ -973,14 +973,17 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Avatar([Leftover] IGuildUser usr = null)
+        public async Task Avatar([Remainder] IGuildUser usr = null)
         {
             if (usr == null)
                 usr = (IGuildUser)ctx.User;
 
-            var avatarUrl = usr.RealAvatarUrl(2048);
+            var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 
             if (avatarUrl == null)
             {
@@ -989,11 +992,12 @@ namespace Mewdeko.Modules.Searches
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(false))
-                .AddField(efb => efb.WithName("Avatar Url").WithValue(avatarUrl).WithIsInline(false))
-                .WithThumbnailUrl(avatarUrl.ToString()), ctx.User.Mention).ConfigureAwait(false);
+                .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+                .AddField(efb =>
+                    efb.WithName("Avatar Url").WithValue("[Link]" + "(" + avatarUrl + ")").WithIsInline(true))
+                .WithImageUrl(avatarUrl));
         }
-        
+
         // done in 3.0
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Wikia(string target, [Leftover] string query)
