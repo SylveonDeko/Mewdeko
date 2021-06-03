@@ -45,11 +45,20 @@ namespace Mewdeko.Modules.Administration
                     count = 1000;
 
                 if (parameter == "-s" || parameter == "--safe")
+                {
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.IsPinned).ConfigureAwait(false);
+                    return;
+                }
                 if (parameter == "-nb" || parameter == "--nobots")
+                {
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.Author.IsBot).ConfigureAwait(false);
+                    return;
+                }
                 if (parameter == "-ob" || parameter == "--onlybots")
+                {
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => x.Author.IsBot).ConfigureAwait(false);
+                    return;
+                }
                 else
                     await _service.PruneWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
             }
