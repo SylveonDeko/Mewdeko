@@ -547,7 +547,7 @@ namespace Mewdeko.Modules.Searches
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                        .WithUrl("https://www.google.rs/search?q=" + query + "&source=lnms&tbm=isch")
+                        .WithUrl("https://www.google.com/search?q=" + query + "&source=lnms&tbm=isch")
                         .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
                     .WithDescription(res.Link)
                     .WithImageUrl(res.Link)
