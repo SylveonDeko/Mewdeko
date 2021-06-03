@@ -158,6 +158,42 @@ namespace Mewdeko.Modules.Searches
                 await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
             }
         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task Upscale(string url = null)
+        {
+            var e = string.Empty;
+            if (url is null)
+                e = ctx.Message.Attachments.FirstOrDefault().Url;
+            else
+                e = url;
+
+            if (e is null) await ctx.Channel.SendErrorAsync("Please supply an image to process!");
+            var msg = await ctx.Channel.SendConfirmAsync("<a:loading:834915210967253013> Processing file...");
+            var api = new DeepAI_API("9cad49b9-7b07-445a-a7d9-0f9f0f4ada6d");
+
+            var resp = api.callStandardApi("torch-srgan", new
+            {
+                image = e
+            });
+            if (resp.output_url != null)
+            {
+                await msg.ModifyAsync(x =>
+                {
+                    x.Content = resp.output_url;
+                    x.Embed = null;
+                });
+            }
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.Color = Mewdeko.ErrorColor;
+                embed.WithDescription("The AI returned no results!");
+                await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
+            }
+        }
 
         [MewdekoCommand]
         [Usage]
