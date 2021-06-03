@@ -26,6 +26,11 @@ snipe:
  - "#channel"
  - "@user"
  - "#channel @user"
+up:
+ desc: "Upscales an image by up to 4x"
+ args:
+ - "image/url"
+ - "uploaded file"
 editsnipe:
  desc: "Allows you to see the last edited message in the current or specified channel, will tell you how to enable sniping if its disabled when running the command."
  args:

@@ -22,6 +22,9 @@ bye:
 - bye
 byemsg:
 - byemsg
+upscale:
+- up
+- upscale
 createcatvcchans:
 - ccvc
 stealforrole:
