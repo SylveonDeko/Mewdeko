@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Searches
 
             if (e is null) await ctx.Channel.SendErrorAsync("Please supply an image to process!");
             var msg = await ctx.Channel.SendConfirmAsync("<a:loading:834915210967253013> Processing file...");
-            var api = new DeepAI_API("507ceac5-763f-4430-be44-5b1a81462409");
+            var api = new DeepAI_API("9cad49b9-7b07-445a-a7d9-0f9f0f4ada6d");
 
             var resp = api.callStandardApi("colorizer", new
             {
@@ -294,7 +294,7 @@ namespace Mewdeko.Modules.Searches
         {
             var chan = ctx.Channel as ITextChannel;
             var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "20");
-            var api = new DeepAI_API("507ceac5-763f-4430-be44-5b1a81462409");
+            var api = new DeepAI_API("9cad49b9-7b07-445a-a7d9-0f9f0f4ada6d");
             var resp = api.callStandardApi("nsfw-detector", new
             {
                 image = image.ImageUrl
@@ -535,28 +535,45 @@ namespace Mewdeko.Modules.Searches
 
         // done in 3.0
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Image([Leftover] string query = null)
+        public async Task Image([Remainder] string query = null)
         {
             var oterms = query?.Trim();
+            var chan = ctx.Channel as ITextChannel;
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
             query = WebUtility.UrlEncode(oterms).Replace(' ', '+');
             try
             {
                 var res = await _google.GetImageAsync(oterms).ConfigureAwait(false);
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                        .WithUrl("https://www.google.rs/search?q=" + query + "&source=lnms&tbm=isch")
-                        .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                    .WithDescription(res.Link)
-                    .WithImageUrl(res.Link)
-                    .WithTitle(ctx.User.ToString());
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                DeepAI_API api = new DeepAI_API(apiKey: "9cad49b9-7b07-445a-a7d9-0f9f0f4ada6d");
+
+                StandardApiResponse resp = api.callStandardApi("nsfw-detector", new
+                {
+                    image = res.Link,
+                });
+                var stuff = JsonConvert.DeserializeObject<Core._Extensions.DeepAI>(api.objectAsJsonString(resp));
+                if (!chan.IsNsfw && stuff.Output.NsfwScore > 0.03)
+                {
+                    await ctx.Channel.SendErrorAsync("The search result returned a nsfw image! Please try something else or use an nsfw channel, thanks!");
+                    return;
+                }
+                else
+                {
+
+                    var embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
+                            .WithUrl("https://www.google.rs/search?q=" + query + "&source=lnms&tbm=isch")
+                            .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                        .WithDescription(res.Link)
+                        .WithImageUrl(res.Link)
+                        .WithTitle(ctx.User.ToString());
+                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                }
             }
             catch
             {
-                Log.Warning("Falling back to Imgur");
+                _log.Warn("Falling back to Imgur");
 
                 var fullQueryLink = $"http://imgur.com/search?q={ query }";
                 var config = Configuration.Default.WithDefaultLoader();
@@ -573,16 +590,31 @@ namespace Mewdeko.Modules.Searches
                         return;
 
                     var source = img.Source.Replace("b.", ".", StringComparison.InvariantCulture);
+                    DeepAI_API api = new DeepAI_API(apiKey: "507ceac5-763f-4430-be44-5b1a81462409");
 
-                    var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                            .WithUrl(fullQueryLink)
-                            .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
-                        .WithDescription(source)
-                        .WithImageUrl(source)
-                        .WithTitle(ctx.User.ToString());
-                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    StandardApiResponse resp = api.callStandardApi("nsfw-detector", new
+                    {
+                        image = source,
+                    });
+                    var stuff = JsonConvert.DeserializeObject<Core._Extensions.DeepAI>(api.objectAsJsonString(resp));
+                    if (!chan.IsNsfw && stuff.Output.NsfwScore > 0.03)
+                    {
+                        await ctx.Channel.SendErrorAsync("The search result returned a nsfw image! Please try something else or use an nsfw channel, thanks!");
+                        return;
+                    }
+                    else
+                    {
+                        var embed = new EmbedBuilder()
+                            .WithOkColor()
+                            .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
+                                .WithUrl(fullQueryLink)
+                                .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
+                            .WithDescription(source)
+                            .WithImageUrl(source)
+                            .WithTitle(ctx.User.ToString());
+                        await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                    }
+
                 }
             }
         }
