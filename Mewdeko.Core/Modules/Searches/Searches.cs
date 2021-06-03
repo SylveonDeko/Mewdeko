@@ -573,7 +573,7 @@ namespace Mewdeko.Modules.Searches
             }
             catch
             {
-                _log.Warn("Falling back to Imgur");
+                Log.Warning("Falling back to Imgur");
 
                 var fullQueryLink = $"http://imgur.com/search?q={ query }";
                 var config = Configuration.Default.WithDefaultLoader();
