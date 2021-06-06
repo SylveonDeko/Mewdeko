@@ -7,6 +7,7 @@ using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Swan;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -175,18 +176,17 @@ namespace Mewdeko.Modules.Utility.Services
                 if (Convert.ToUInt64(reactions) >= stars)
                 {
                     IUserMessage message2 = null;
-                    if (e.Length == 0)
+                    if (!e.Any())
                         message2 = null;
                     else
                         message2 =
                             await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
                                 IUserMessage;
 
-                    if (message2 != null)
-                        if (message2.Id == message.Id)
+                        if (msg.Channel.Id == chanID)
                             return;
 
-                    var em = new EmbedBuilder
+                        var em = new EmbedBuilder
                     {
                         Author = new EmbedAuthorBuilder
                         {
@@ -310,9 +310,8 @@ namespace Mewdeko.Modules.Utility.Services
                         message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault()
                             .PostId) as IUserMessage;
 
-                    if (message2 != null)
-                        if (message2.Id == message.Id)
-                            return;
+                    if (msg.Channel.Id == chanID)
+                        return;
 
                     if (message2 != null) await message2.DeleteAsync();
                     return;
