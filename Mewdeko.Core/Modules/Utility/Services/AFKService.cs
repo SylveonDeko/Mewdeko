@@ -89,7 +89,7 @@ namespace Mewdeko.Modules.Utility.Services
                         if (msg.Content.Contains($"{Cmd.GetPrefix(user.Guild)}afkremove") ||
                             msg.Content.Contains($"{Cmd.GetPrefix(user.Guild)}afkremove")) return;
                         var IDs = msg.MentionedUsers;
-                        if (GetDisabledAfkChannels(user.GuildId) != "0")
+                        if (GetDisabledAfkChannels(user.GuildId) != "0" && GetDisabledAfkChannels(user.GuildId) != null)
                         {
                             var chans = GetDisabledAfkChannels(user.GuildId);
                             var e = chans.Split(",");
