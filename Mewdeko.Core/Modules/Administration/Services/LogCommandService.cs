@@ -715,7 +715,7 @@ namespace Mewdeko.Modules.Administration.Services
                         title = GetText(logChannel.Guild, "text_chan_destroyed");
 
                     var audits = await ch.Guild.GetAuditLogsAsync();
-                    var e = audits.Where(x => x.Action == ActionType.ChannelDeleted).Last();
+                    var e = audits.Where(x => x.Action == ActionType.ChannelDeleted).FirstOrDefault();
                     await logChannel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("🆕 " + title)
