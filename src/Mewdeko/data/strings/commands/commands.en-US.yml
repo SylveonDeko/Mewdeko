@@ -218,6 +218,12 @@ afkrm:
   desc: "Mods can use this to remove an afk from one or more users that are abusing afk." 
   args: 
   - "@user @user @user"
+greethook:
+ desc: "Allows you to set a webhook used for welcome messages. You can either upload an image to use or use a image url. Type disable to disable webhook greets. set the message used for greets using the greetmsg command together with https://eb.mewdeko.tech/ and https://mewdeko.tech/en/home/Misc/Placeholders"
+ args:
+ - "channel name image"
+ - "channel name"
+ - "disable"
 reactchannel:
   desc: "Sets a channel where mewdeko will react with upvote and downvote arrows to media. Provide no paramter to disable." 
   args: 

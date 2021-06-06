@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Discord.Webhook;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services.Database.Models;
@@ -22,6 +23,8 @@ namespace Mewdeko.Core.Services
         
         private GreetGrouper<IGuildUser> greets = new GreetGrouper<IGuildUser>();
         private GreetGrouper<IGuildUser> byes = new GreetGrouper<IGuildUser>();
+        private ConcurrentDictionary<ulong, int> _webgreets { get; } = new();
+        private ConcurrentDictionary<ulong, string> _webhooks { get; } = new();
         private readonly BotConfigService _bss;
         public bool GroupGreets => _bss.Data.GroupGreets;
 
@@ -41,6 +44,12 @@ namespace Mewdeko.Core.Services
 
             bot.JoinedGuild += Bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;
+            _webgreets = bot.AllGuildConfigs
+               .ToDictionary(x => x.GuildId, x => x.WebhookGreet)
+               .ToConcurrent();
+            _webhooks = bot.AllGuildConfigs
+               .ToDictionary(x => x.GuildId, x => x.WebhookURL)
+               .ToConcurrent();
         }
 
         private Task _client_LeftGuild(SocketGuild arg)
@@ -101,7 +110,28 @@ namespace Mewdeko.Core.Services
             });
             return Task.CompletedTask;
         }
+        public async Task SetWebGreet(IGuild guild, int channel)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.WebhookGreet = channel;
+                await uow.SaveChangesAsync();
+            }
 
+            _webgreets.AddOrUpdate(guild.Id, channel, (key, old) => channel);
+        }
+        public async Task SetWebGreetURL(IGuild guild, string url)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.WebhookURL = url;
+                await uow.SaveChangesAsync();
+            }
+
+            _webhooks.AddOrUpdate(guild.Id, url, (key, old) => url);
+        }
         public string GetDmGreetMsg(ulong id)
         {
             using (var uow = _db.GetDbContext())
@@ -117,7 +147,16 @@ namespace Mewdeko.Core.Services
                 return uow.GuildConfigs.ForId(gid, set => set).ChannelGreetMessageText;
             }
         }
-
+        public string GetWebhook(ulong? gid)
+        {
+            _webhooks.TryGetValue(gid.Value, out var snum);
+            return snum;
+        }
+        public int GetWebGreet(ulong? gid)
+        {
+            _webgreets.TryGetValue(gid.Value, out var snum);    
+            return snum;
+        }
         private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user)
             => ByeUsers(conf, channel, new[] {user});
         private async Task ByeUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IUser> users)
@@ -137,10 +176,25 @@ namespace Mewdeko.Core.Services
                 rep.Replace(embedData);
                 try
                 {
-                    var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
-                    if (conf.AutoDeleteByeMessagesTimer > 0)
+                    if (GetWebGreet(channel.GuildId) == 0)
                     {
-                        toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                        var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
+                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        {
+                            toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                        }
+                    }
+                    else
+                    {
+                        var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                        var embeds = new List<Embed>();
+                        embeds.Add(embedData.ToEmbed().Build());
+                        var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds).ConfigureAwait(false);
+                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        {
+                            var msg = await channel.GetMessageAsync(toDelete) as IUserMessage;
+                            msg.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -155,10 +209,23 @@ namespace Mewdeko.Core.Services
                     return;
                 try
                 {
-                    var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                    if (conf.AutoDeleteByeMessagesTimer > 0)
+                    if (GetWebGreet(channel.GuildId) == 0)
                     {
-                        toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        {
+                            toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                        }
+                    }
+                    else
+                    {
+                        var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                        var toDel = await webhook.SendMessageAsync(msg.SanitizeMentions());
+                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        {
+                            var msg2 = await channel.GetMessageAsync(toDel) as IUserMessage;
+                            msg2.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -188,10 +255,25 @@ namespace Mewdeko.Core.Services
                 rep.Replace(embedData);
                 try
                 {
-                    var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
-                    if (conf.AutoDeleteGreetMessagesTimer > 0)
+                    if (GetWebGreet(channel.GuildId) == 0)
                     {
-                        toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                        var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
+                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        {
+                            toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                        }
+                    }
+                    else
+                    {
+                        var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                        var embeds = new List<Embed>();
+                        embeds.Add(embedData.ToEmbed().Build());
+                        var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds).ConfigureAwait(false);
+                        if (conf.AutoDeleteGreetMessagesTimer > 0)
+                        {
+                            var msg = await channel.GetMessageAsync(toDelete) as IUserMessage;
+                            msg.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -206,10 +288,23 @@ namespace Mewdeko.Core.Services
                 {
                     try
                     {
-                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                        if (conf.AutoDeleteGreetMessagesTimer > 0)
+                        if (GetWebGreet(channel.GuildId) == 0)
                         {
-                            toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                            var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
+                            if (conf.AutoDeleteGreetMessagesTimer > 0)
+                            {
+                                toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                            }
+                        }
+                        else
+                        {
+                            var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                            var toDel = await webhook.SendMessageAsync(msg.SanitizeMentions());
+                            if (conf.AutoDeleteGreetMessagesTimer > 0)
+                            {
+                                var msg2 = await channel.GetMessageAsync(toDel) as IUserMessage;
+                                msg2.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
+                            }
                         }
                     }
                     catch (Exception ex)

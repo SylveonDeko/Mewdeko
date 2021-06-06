@@ -644,6 +644,13 @@ revimg:
 - revimg
 safebooru:
 - safebooru
+afkremove:
+- afkrm
+- afkremove
+greethook:
+- greethook
+- webgreet
+- webhookgreet
 wiki:
 - wiki
 - wikipedia
