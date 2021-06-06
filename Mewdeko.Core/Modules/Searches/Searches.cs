@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
 using Configuration = AngleSharp.Configuration;
-using DeepAI;
 using KSoftNet;
 
 namespace Mewdeko.Modules.Searches
@@ -122,42 +121,6 @@ namespace Mewdeko.Modules.Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task Colorize(string url = null)
-        {
-            var e = string.Empty;
-            if (url is null)
-                e = ctx.Message.Attachments.FirstOrDefault().Url;
-            else
-                e = url;
-
-            if (e is null) await ctx.Channel.SendErrorAsync("Please supply an image to process!");
-            var msg = await ctx.Channel.SendConfirmAsync("<a:loading:834915210967253013> Processing file...");
-            var api = new DeepAI_API("507ceac5-763f-4430-be44-5b1a81462409");
-
-            var resp = api.callStandardApi("colorizer", new
-            {
-                image = e
-            });
-            if (resp.output_url != null)
-            {
-                await msg.ModifyAsync(x =>
-                {
-                    x.Content = resp.output_url;
-                    x.Embed = null;
-                });
-            }
-            else
-            {
-                var embed = new EmbedBuilder();
-                embed.Color = Mewdeko.ErrorColor;
-                embed.WithDescription("The AI returned no results!");
-                await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
-            }
-        }
 
         [MewdekoCommand]
         [Usage]
@@ -294,18 +257,6 @@ namespace Mewdeko.Modules.Searches
         {
             var chan = ctx.Channel as ITextChannel;
             var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "20");
-            var api = new DeepAI_API("507ceac5-763f-4430-be44-5b1a81462409");
-            var resp = api.callStandardApi("nsfw-detector", new
-            {
-                image = image.ImageUrl
-            });
-            var stuff = JsonConvert.DeserializeObject<Core._Extensions.DeepAI>(api.objectAsJsonString(resp));
-            if (!chan.IsNsfw && stuff.Output.NsfwScore > 0.03)
-            {
-                await ctx.Channel.SendErrorAsync(
-                    "The search result returned a nsfw image! Please try something else or use an nsfw channel, thanks!");
-                return;
-            }
 
             var em = new EmbedBuilder
             {
@@ -659,64 +610,37 @@ namespace Mewdeko.Modules.Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Google([Leftover] string query = null)
         {
-            var oterms = query?.Trim();
+            query = query?.Trim();
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
 
-            query = WebUtility.UrlEncode(oterms).Replace(' ', '+');
+            _ = ctx.Channel.TriggerTypingAsync();
 
-            var fullQueryLink = $"https://www.google.ca/search?q={ query }&safe=on&lr=lang_eng&hl=en&ie=utf-8&oe=utf-8";
-
-            using (var msg = new HttpRequestMessage(HttpMethod.Get, fullQueryLink))
+            var data = await _service.GoogleSearchAsync(query);
+            if (data is null)
             {
-                msg.Headers.AddFakeHeaders();
-                var parser = new HtmlParser();
-                var test = "";
-                using (var http = _httpFactory.CreateClient())
-                using (var response = await http.SendAsync(msg).ConfigureAwait(false))
-                using (var document = await parser.ParseDocumentAsync(test = await response.Content.ReadAsStringAsync().ConfigureAwait(false)).ConfigureAwait(false))
-                {
-                    var elems = document.QuerySelectorAll("div.g");
-
-                    var resultsElem = document.QuerySelectorAll("#resultStats").FirstOrDefault();
-                    var totalResults = resultsElem?.TextContent;
-                    //var time = resultsElem.Children.FirstOrDefault()?.TextContent
-                    //^ this doesn't work for some reason, <nobr> is completely missing in parsed collection
-                    if (!elems.Any())
-                        return;
-
-                    var results = elems.Select<IElement, GoogleSearchResult?>(elem =>
-                    {
-                        var aTag = elem.QuerySelector("a") as IHtmlAnchorElement; // <h3> -> <a>
-                        var href = aTag?.Href;
-                        var name = aTag?.QuerySelector("h3")?.TextContent;
-                        if (href == null || name == null)
-                            return null;
-
-                        var txt = elem.QuerySelectorAll(".st").FirstOrDefault()?.TextContent;
-
-                        if (txt == null)
-                            return null;
-
-                        return new GoogleSearchResult(name, href, txt);
-                    }).Where(x => x != null).Take(5);
-
-                    var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + oterms.TrimTo(50))
-                            .WithUrl(fullQueryLink)
-                            .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                        .WithTitle(ctx.User.ToString())
-                        .WithFooter(efb => efb.WithText(totalResults));
-
-                    var desc = await Task.WhenAll(results.Select(async res =>
-                            $"[{Format.Bold(res?.Title)}]({(await _google.ShortenUrl(res?.Link).ConfigureAwait(false))})\n{res?.Text?.TrimTo(400 - res.Value.Title.Length - res.Value.Link.Length)}\n\n"))
-                        .ConfigureAwait(false);
-                    var descStr = string.Concat(desc);
-                    await ctx.Channel.EmbedAsync(embed.WithDescription(descStr)).ConfigureAwait(false);
-                }
+                await ReplyErrorLocalizedAsync("no_results");
+                return;
             }
+
+            var desc = data.Results.Take(5).Select(res =>
+                $@"[**{(res.Title)}**]({res.Link})
+{res.Text.TrimTo(400 - res.Title.Length - res.Link.Length)}");
+
+            var descStr = string.Join("\n\n", desc);
+
+            var embed = new EmbedBuilder()
+                .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + query.TrimTo(50))
+                    .WithUrl(data.FullQueryLink)
+                    .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                .WithTitle(ctx.User.ToString())
+                .WithFooter(efb => efb.WithText(data.TotalResults))
+                .WithDescription(descStr)
+                .WithOkColor();
+
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
+
 
         // done in 3.0
         [MewdekoCommand, Usage, Description, Aliases]

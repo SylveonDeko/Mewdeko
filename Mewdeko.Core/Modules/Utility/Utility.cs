@@ -85,7 +85,19 @@ namespace Mewdeko.Modules.Utility
                 }
             }
         }
-
+        //[MewdekoCommand]
+        //[Usage]
+        //[Description]
+        //[Aliases]
+        //public async Task Test()
+        //{
+        //    var audits = await ctx.Guild.GetAuditLogsAsync();
+        //    var e = audits.Where(x => x.Action == ActionType.ChannelCreated);
+        //    var t = e.Select(x => x.Data);
+        //    var ts = t.ToArray();
+        //    Console.WriteLine(t.ToJson());
+            
+        //}
         [MewdekoCommand]
         [Usage]
         [Description]

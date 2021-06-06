@@ -31,7 +31,9 @@ namespace Mewdeko.Core.Services
 #if DEBUG
             return AnsiConsoleTheme.Code;
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
             return ConsoleTheme.None;
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }

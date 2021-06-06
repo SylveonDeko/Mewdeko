@@ -14,6 +14,7 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
+using Humanizer;
 
 namespace Mewdeko.Modules.Administration.Services
 {
@@ -566,7 +567,7 @@ namespace Mewdeko.Modules.Administration.Services
                             {
                                 var diffRoles = after.Roles.Where(r => !before.Roles.Contains(r)).Select(r => r.Name);
                                 embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
-                                    .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
+                                    .WithDescription(string.Join(", ", diffRoles));
 
                                 await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                             }
@@ -713,10 +714,13 @@ namespace Mewdeko.Modules.Administration.Services
                     else
                         title = GetText(logChannel.Guild, "text_chan_destroyed");
 
+                    var audits = await ch.Guild.GetAuditLogsAsync();
+                    var e = audits.Where(x => x.Action == ActionType.ChannelDeleted).Last();
                     await logChannel.EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
                         .WithTitle("🆕 " + title)
                         .WithDescription($"{ch.Name} | {ch.Id}")
+                        .AddField("Yeeted By", e.User)
                         .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
                 }
                 catch
@@ -889,6 +893,8 @@ namespace Mewdeko.Modules.Administration.Services
                         .WithTitle("❌ " + GetText(logChannel.Guild, "user_left"))
                         .WithDescription(usr.ToString())
                         .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                        .AddField("Roles", string.Join("|", usr.GetRoles().Select(x => x.Mention)))
+                        .AddField("Time Stayed:", (usr.JoinedAt - DateTime.Now).Value.Humanize())
                         .WithFooter(efb => efb.WithText(CurrentTime(usr.Guild)));
 
                     if (Uri.IsWellFormedUriString(usr.GetAvatarUrl(), UriKind.Absolute))

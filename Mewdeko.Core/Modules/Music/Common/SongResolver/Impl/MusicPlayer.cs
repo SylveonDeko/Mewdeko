@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ayu.Discord.Voice;
 using Mewdeko.Common;
+using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Music;
 using Serilog;
@@ -19,15 +21,13 @@ namespace Mewdeko.Core.Modules.Music
     {
         private readonly VoiceClient _vc = new VoiceClient(frameDelay: FrameDelay.Delay20);
 
-        public bool IsKilled { get; set; }
-        public bool IsStopped { get; set; }
-        public bool IsPaused { get; set; }
-        public bool IsRepeatingCurrentSong { get; set; }
-        public bool IsAutoDelete { get; set; }
-        public bool IsRepeatingQueue { get; set; } = true;
+        public bool IsKilled { get; private set; }
+        public bool IsStopped { get; private set; }
+        public bool IsPaused { get; private set; }
+        public PlayerRepeatType Repeat { get; private set; }
 
         public int CurrentIndex => _queue.Index;
-        
+
         public float Volume => _volume;
         private float _volume = 1.0f;
 
@@ -65,7 +65,7 @@ namespace Mewdeko.Core.Modules.Music
                 // wait until a song is available in the queue
                 // or until the queue is resumed
                 var track = _queue.GetCurrent(out int index);
-                
+
                 if (track is null || IsStopped)
                 {
                     await Task.Delay(500);
@@ -87,7 +87,7 @@ namespace Mewdeko.Core.Modules.Music
                     _ = _proxy.StartSpeakingAsync();
 
                     _ = OnStarted?.Invoke(this, track, index);
-                    
+
                     // make sure song buffer is ready to be (re)used
                     _songBuffer.Reset();
 
@@ -131,7 +131,7 @@ namespace Mewdeko.Core.Modules.Music
                             // if song is finished
                             if (result is null)
                                 break;
-                            
+
                             if (result is true)
                             {
                                 // wait for slightly less than the latency
@@ -160,7 +160,7 @@ namespace Mewdeko.Core.Modules.Music
                                     await Task.Delay(200, cancellationToken);
                                     continue;
                                 }
-                                
+
                                 Log.Warning("Can't send data to voice channel");
 
                                 IsStopped = true;
@@ -175,6 +175,12 @@ namespace Mewdeko.Core.Modules.Music
                         }
                     }
                 }
+                catch (Win32Exception)
+                {
+                    IsStopped = true;
+                    Log.Error("Please install ffmpeg and make sure it's added to your " +
+                              "PATH environment variable before trying again");
+                }
                 catch (OperationCanceledException)
                 {
                     Log.Information("Song skipped");
@@ -187,17 +193,19 @@ namespace Mewdeko.Core.Modules.Music
                 {
                     // turn off green in vc
                     trackCancellationSource.Cancel();
-                    HandleQueuePostTrack();
-                    
-                    _ = _proxy.StopSpeakingAsync();
+
                     _ = OnCompleted?.Invoke(this, track);
-                    
+
+                    HandleQueuePostTrack();
                     _skipped = false;
+
+                    _ = _proxy.StopSpeakingAsync(); ;
+
                     await Task.Delay(100);
                 }
             }
         }
-        
+
         private bool? CopyChunkToOutput(ISongBuffer sb, VoiceClient vc)
         {
             var data = sb.Read(vc.FrameSize, out var length);
@@ -221,53 +229,48 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             }
 
-            if (IsRepeatingCurrentSong || IsStopped)
+            var (repeat, isStopped) = (Repeat, IsStopped);
+
+            if (repeat == PlayerRepeatType.Track || isStopped)
                 return;
 
-            // autodelete is basically advance, so if it's enabled
-            // don't advance
-            if(IsAutoDelete)
-                _queue.RemoveCurrent();
-            
             // if queue is being repeated, advance no matter what
-            if (!IsRepeatingQueue)
+            if (repeat == PlayerRepeatType.None)
             {
                 // if this is the last song,
                 // stop the queue
-                if (_queue.Index < _queue.Count - 1)
+                if (_queue.IsLast())
                 {
                     IsStopped = true;
+                    OnQueueStopped?.Invoke(this);
                     return;
                 }
-                
-                if(!IsAutoDelete)
-                    _queue.Advance();
-                
+
+                _queue.Advance();
                 return;
             }
-            
-            if(!IsAutoDelete)
-                _queue.Advance();
+
+            _queue.Advance();
         }
 
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void AdjustVolume(Span<byte> audioSamples, float volume)
         {
             if (Math.Abs(volume - 1f) < 0.0001f) return;
-        
+
             var samples = MemoryMarshal.Cast<byte, short>(audioSamples);
-        
+
             for (var i = 0; i < samples.Length; i++)
             {
                 ref var sample = ref samples[i];
-                sample = (short) (sample * volume);
+                sample = (short)(sample * volume);
             }
         }
 
         public async Task<(IQueuedTrackInfo? QueuedTrack, int Index)> TryEnqueueTrackAsync(
-            string query, 
+            string query,
             string queuer,
             bool asNext,
             MusicPlatform? forcePlatform = null)
@@ -283,7 +286,7 @@ namespace Mewdeko.Core.Modules.Music
 
             return (_queue.Enqueue(song, queuer, out index), index);
         }
-        
+
         public async Task EnqueueManyAsync(IEnumerable<(string Query, MusicPlatform Platform)> queries, string queuer)
         {
             var errorCount = 0;
@@ -291,7 +294,7 @@ namespace Mewdeko.Core.Modules.Music
             {
                 if (IsKilled)
                     break;
-                
+
                 var queueTasks = chunk.Select(async data =>
                 {
                     var (query, platform) = data;
@@ -309,13 +312,13 @@ namespace Mewdeko.Core.Modules.Music
 
                 await Task.WhenAll(queueTasks);
                 await Task.Delay(1000);
-                
+
                 // > 10 errors in a row = kill
                 if (errorCount > 10)
                     break;
             }
         }
-        
+
         public void EnqueueTrack(ITrackInfo track, string queuer)
         {
             _queue.Enqueue(track, queuer, out _);
@@ -324,6 +327,11 @@ namespace Mewdeko.Core.Modules.Music
         public void EnqueueTracks(IEnumerable<ITrackInfo> tracks, string queuer)
         {
             _queue.EnqueueMany(tracks, queuer);
+        }
+
+        public void SetRepeat(PlayerRepeatType type)
+        {
+            Repeat = type;
         }
 
         public void ShuffleQueue()
@@ -397,9 +405,6 @@ namespace Mewdeko.Core.Modules.Music
             return true;
         }
 
-        public bool ToggleRcs() => IsRepeatingCurrentSong = !IsRepeatingCurrentSong;
-        public bool ToggleRpl() => IsRepeatingQueue = !IsRepeatingQueue;
-        public bool ToggleAd() => IsAutoDelete = !IsAutoDelete;
         public bool TogglePause() => IsPaused = !IsPaused;
         public IQueuedTrackInfo? MoveTrack(int from, int to) => _queue.MoveTrack(from, to);
 
@@ -408,6 +413,7 @@ namespace Mewdeko.Core.Modules.Music
             IsKilled = true;
             OnCompleted = null;
             OnStarted = null;
+            OnQueueStopped = null;
             _queue.Clear();
             _songBuffer.Dispose();
             _vc.Dispose();
@@ -415,5 +421,6 @@ namespace Mewdeko.Core.Modules.Music
 
         public event Func<IMusicPlayer, IQueuedTrackInfo, Task>? OnCompleted;
         public event Func<IMusicPlayer, IQueuedTrackInfo, int, Task>? OnStarted;
+        public event Func<IMusicPlayer, Task>? OnQueueStopped;
     }
 }

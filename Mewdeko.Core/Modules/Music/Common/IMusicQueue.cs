@@ -15,6 +15,7 @@ namespace Mewdeko.Core.Modules.Music
         IQueuedTrackInfo? GetCurrent(out int index);
         void Advance();
         void Clear();
+        bool IsLast();
         bool SetIndex(int index);
         bool TryRemoveAt(int index, out IQueuedTrackInfo? trackInfo, out bool isCurrent);
         int Index { get; }

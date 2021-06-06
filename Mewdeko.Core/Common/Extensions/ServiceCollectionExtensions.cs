@@ -4,6 +4,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Mewdeko.Core.Modules.Music;
 using Mewdeko.Core.Services;
+using Mewdeko.Core.Common;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Music.Resolvers;
 using Mewdeko.Modules.Music.Services;
@@ -47,7 +48,9 @@ namespace Mewdeko.Extensions
                 .AddSingleton<ISpotifyResolver, SpotifyResolver>()
                 .AddSingleton<IRadioResolver, RadioResolver>()
                 .AddSingleton<ITrackCacher, RedisTrackCacher>()
-                .AddSingleton<YtLoader>();
+                .AddSingleton<YtLoader>()
+                .AddSingleton<IPlaceholderProvider>(svc => svc.GetService<IMusicService>());
+
 
 
         // consider using scrutor, because slightly different versions
