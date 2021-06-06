@@ -28,7 +28,66 @@ namespace Mewdeko.Modules.ServerManagement
             {
                 _httpFactory = httpfact;
             }
+            //[MewdekoCommand]
+            //[Usage]
+            //[Description]
+            //[Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //[UserPerm(GuildPerm.Administrator)]
+            //public async Task LockCheck()
+            //{
+            //    var msg = await ctx.Channel.SendMessageAsync("Making sure role permissions don't get in the way of lockdown...");
+            //    var roles = ctx.Guild.Roles.Where(x => x.Id != ctx.Guild.Id && x.Permissions.SendMessages && x.Position <= ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+            //    if (roles.Any())
+            //    {
+            //        foreach (var i in roles)
+            //        {
+            //            GuildPermissions perms = i.Permissions;
+            //            var newperms = perms.Modify(sendMessages: false);
+            //            await i.ModifyAsync(x =>
+            //            {
+            //                x.Permissions = newperms;
+            //            });
+            //        }
+            //        await msg.ModifyAsync(x =>
+            //        {
+            //            x.Content = "Roles checked! You may now run the lockdown command.";
+            //        });
+            //    }
+            //    else
+            //    {
+            //        await msg.ModifyAsync(x =>
+            //        {
+            //            x.Content = "Roles checked! No roles are in the way of the lockdown command.";
+            //        });
+            //    }
+            //}
+            //[MewdekoCommand]
+            //[Usage]
+            //[Description]
+            //[Aliases]
+            //[RequireContext(ContextType.Guild)]
+            //[UserPerm(GuildPerm.ManageChannels)]
+            //public async Task LockDown()
+            //{
+            //    var roles = ctx.Guild.Roles.Where(x => x.Id != ctx.Guild.Id).Where(x => x.Permissions.SendMessages == false);
+            //    if (roles.Any())
+            //    {
+            //        await ctx.Channel.SendErrorAsync("Please run the Lockcheck command as you have roles that will get in the way of lockdown");
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        var everyonerole = ctx.Guild.EveryoneRole;
+            //        var newperms = everyonerole.Permissions.Modify(sendMessages: false);
+            //        await everyonerole.ModifyAsync(x =>
+            //        {
+            //            x.Permissions = newperms;
+            //        });
+            //        await ctx.Channel.SendConfirmAsync("Server has been locked down!");
+            //    }
 
+            //}
             [MewdekoCommand]
             [Usage]
             [Description]

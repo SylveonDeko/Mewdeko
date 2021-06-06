@@ -132,7 +132,7 @@ namespace Mewdeko.Extensions
 
             using (msg.OnReaction((DiscordSocketClient)ctx.Client, changePage, changePage))
             {
-                await Task.Delay(30000).ConfigureAwait(false);
+                await Task.Delay(3000000).ConfigureAwait(false);
             }
 
             try
