@@ -16,13 +16,13 @@
     <PackageReference Include="AWSSDK.S3" Version="3.7.0.14" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="DeepAI.Client" Version="1.3.0" />
     <PackageReference Include="Discord.Net" Version="2.4.0" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.80" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.47.0.2008" />
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.48.0.2014" />
     <PackageReference Include="Html2Markdown" Version="3.3.1.407" />
+    <PackageReference Include="Humanizer" Version="2.10.1" />
     <PackageReference Include="KSoftNet" Version="3.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.10.0-1.final" />

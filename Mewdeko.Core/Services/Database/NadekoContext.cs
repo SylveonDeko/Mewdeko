@@ -42,6 +42,7 @@ namespace Mewdeko.Core.Services.Database
         public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
         public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
+        public DbSet<MusicPlayerSettings> MusicPlayerSettings { get; set; }
         public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
         public DbSet<Warning> Warnings { get; set; }
         public DbSet<UserXpStats> UserXpStats { get; set; }
@@ -208,6 +209,19 @@ namespace Mewdeko.Core.Services.Database
             xps.HasIndex(x => x.AwardedXp);
 
             #endregion
+
+            #region Music
+
+            modelBuilder.Entity<MusicPlayerSettings>()
+                .HasIndex(x => x.GuildId)
+                .IsUnique();
+
+            modelBuilder.Entity<MusicPlayerSettings>()
+                .Property(x => x.Volume)
+                .HasDefaultValue(100);
+
+            #endregion
+
 
             #region XpSettings
             modelBuilder.Entity<XpSettings>()

@@ -13,7 +13,7 @@ using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
-
+using Humanizer;
 namespace Mewdeko.Modules.Administration
 {
     public partial class Administration
@@ -122,7 +122,7 @@ namespace Mewdeko.Modules.Administration
                         .ForId(ctx.Guild.Id, user.Id)
                         .Count(w => !w.Forgiven && w.UserId == user.Id);
                     var condition = punishment != null;
-                    var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
+                    var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).Humanize() : " ";
                     var punishaction = condition ? punishment.Punishment.ToString() : "None";
                     var channel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
                     await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()

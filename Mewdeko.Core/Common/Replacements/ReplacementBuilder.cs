@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Mewdeko.Core.Common;
 
 namespace Mewdeko.Common.Replacements
 {
@@ -141,7 +142,7 @@ namespace Mewdeko.Common.Replacements
             // _reps.TryAdd("%user.created_date%", () => user.CreatedAt.ToString("dd.MM.yyyy"));
             // _reps.TryAdd("%user.joined_time%", () => (user as IGuildUser)?.JoinedAt?.ToString("HH:mm") ?? "-");
             // _reps.TryAdd("%user.joined_date%", () => (user as IGuildUser)?.JoinedAt?.ToString("dd.MM.yyyy") ?? "-");
-            WithManyUsers(new[] {user});
+            WithManyUsers(new[] { user });
             return this;
         }
 
@@ -186,44 +187,6 @@ namespace Mewdeko.Common.Replacements
             return this;
         }
 
-        // public ReplacementBuilder WithMusic(MusicService ms)
-        // {
-        //     _reps.TryAdd("%playing%", () =>
-        //     {
-        //         var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
-        //         if (cnt != 1) return cnt.ToString();
-        //         try
-        //         {
-        //             var mp = ms.MusicPlayers.FirstOrDefault();
-        //             var title = mp.Value?.Current.Current?.Title;
-        //             return title ?? "No songs";
-        //         }
-        //         catch
-        //         {
-        //             return "error";
-        //         }
-        //     });
-        //     _reps.TryAdd("%queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
-        //
-        //     _reps.TryAdd("%music.queued%", () => ms.MusicPlayers.Sum(kvp => kvp.Value.QueueArray().Songs.Length).ToString());
-        //     _reps.TryAdd("%music.playing%", () =>
-        //     {
-        //         var cnt = ms.MusicPlayers.Count(kvp => kvp.Value.Current.Current != null);
-        //         if (cnt != 1) return cnt.ToString();
-        //         try
-        //         {
-        //             var mp = ms.MusicPlayers.FirstOrDefault();
-        //             var title = mp.Value?.Current.Current?.Title;
-        //             return title ?? "No songs";
-        //         }
-        //         catch
-        //         {
-        //             return "error";
-        //         }
-        //     });
-        //     return this;
-        // }
-
         public ReplacementBuilder WithRngRegex()
         {
             var rng = new MewdekoRandom();
@@ -254,6 +217,19 @@ namespace Mewdeko.Common.Replacements
         public Replacer Build()
         {
             return new Replacer(_reps.Select(x => (x.Key, x.Value)).ToArray(), _regex.Select(x => (x.Key, x.Value)).ToArray());
+        }
+
+        public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)
+        {
+            foreach (var provider in phProviders)
+            {
+                foreach (var ovr in provider.GetPlaceholders())
+                {
+                    _reps.TryAdd(ovr.Name, ovr.Func);
+                }
+            }
+
+            return this;
         }
     }
 }

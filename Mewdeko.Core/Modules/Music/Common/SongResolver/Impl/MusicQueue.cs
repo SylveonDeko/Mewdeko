@@ -174,12 +174,20 @@ namespace Mewdeko.Core.Modules.Music
             trackInfo = removedNode.Value;
             _tracks.Remove(removedNode);
 
-            // if it was the last song in the queue
-            // wrap back to start
-            if (i == Count)
-                _index = 0;
-            else if (i <= _index)
+            if (i <= _index)
                 --_index;
+
+            if (_index < 0)
+                _index = Count;
+
+            // if it was the last song in the queue
+            // // wrap back to start
+            // if (_index == Count)
+            //     _index = 0;
+            // else if (i <= _index)
+            //     if (_index == 0)
+            //         _index = Count;
+            //     else --_index;
         }
 
         public void RemoveCurrent()
@@ -279,6 +287,15 @@ namespace Mewdeko.Core.Modules.Music
                 }
 
                 _tracks = new LinkedList<QueuedTrackInfo>(list);
+            }
+        }
+
+        public bool IsLast()
+        {
+            lock (locker)
+            {
+                return _index == _tracks.Count // if there are no tracks
+                       || _index == _tracks.Count - 1;
             }
         }
 

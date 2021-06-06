@@ -22,9 +22,9 @@ bye:
 - bye
 byemsg:
 - byemsg
-upscale:
-- up
-- upscale
+autodisconnect:
+- autodisconnect
+- autodc
 createcatvcchans:
 - ccvc
 stealforrole:
@@ -501,8 +501,8 @@ join:
 - j
 - move
 - mv
-songremove:
-- songremove
+trackremove:
+- trackremove
 - srm
 movesong:
 - movesong

@@ -19,7 +19,6 @@ namespace Mewdeko.Core.Services.Impl
         private readonly Mewdeko _bot;
 
         private readonly Timer _botlistTimer;
-        private readonly Timer _botlistTimer2;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _httpFactory;

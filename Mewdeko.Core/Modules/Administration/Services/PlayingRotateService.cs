@@ -6,15 +6,15 @@ using Discord.WebSocket;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Modules.Music.Services;
 using Discord;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Common;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
-    public class PlayingRotateService : INService
+    public sealed class PlayingRotateService : INService
     {
         private readonly Timer _t;
         private readonly BotConfigService _bss;
@@ -28,7 +28,7 @@ namespace Mewdeko.Modules.Administration.Services
         }
 
         public PlayingRotateService(DiscordSocketClient client, DbService db, Mewdeko bot,
-            BotConfigService bss, IMusicService music)
+            BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders)
         {
             _db = db;
             _bot = bot;
@@ -38,7 +38,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 _rep = new ReplacementBuilder()
                     .WithClient(client)
-                    // .WithMusic(music)
+                    .WithProviders(phProviders)
                     .Build();
 
                 _t = new Timer(RotatingStatuses, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
@@ -49,7 +49,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             try
             {
-                var state = (TimerState) objState;
+                var state = (TimerState)objState;
 
                 if (!_bss.Data.RotateStatuses) return;
 
@@ -101,7 +101,7 @@ namespace Mewdeko.Modules.Administration.Services
         public async Task AddPlaying(ActivityType t, string status)
         {
             using var uow = _db.GetDbContext();
-            var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
+            var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
             uow._context.Add(toAdd);
             await uow.SaveChangesAsync();
         }

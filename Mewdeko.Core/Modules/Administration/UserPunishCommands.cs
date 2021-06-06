@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
+using Humanizer;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -180,7 +181,7 @@ namespace Mewdeko.Modules.Administration
                         .Count(w => !w.Forgiven && w.UserId == user.Id);
                     var condition = punishment != null;
                     var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
-                    var punishaction = condition ? punishment.Punishment.ToString() : "None";
+                    var punishaction = condition ? punishment.Punishment.Humanize() : "None";
                     var channel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
                     await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                         .WithThumbnailUrl(user.RealAvatarUrl().ToString())

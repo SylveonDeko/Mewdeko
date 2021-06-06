@@ -196,8 +196,8 @@ namespace Mewdeko.Core.Modules.Music
                         await ReplyErrorLocalizedAsync("not_with_bot_in_voice");
                         return;
                     }
-            
-                    var mp = _service.GetOrCreateMusicPlayer((ITextChannel) Context.Channel);
+
+                    var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
                     if (mp is null)
                     {
                         await ReplyErrorLocalizedAsync("no_player");
