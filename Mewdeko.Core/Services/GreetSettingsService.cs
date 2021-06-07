@@ -258,7 +258,7 @@ namespace Mewdeko.Core.Services
                     if (GetWebGreet(channel.GuildId) == 0)
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
-                        if (conf.AutoDeleteByeMessagesTimer > 0)
+                        if (conf.AutoDeleteGreetMessagesTimer > 0)
                         {
                             toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
                         }
