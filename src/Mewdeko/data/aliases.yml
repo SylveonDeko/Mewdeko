@@ -20,6 +20,9 @@ greetmsg:
 - greetmsg
 bye:
 - bye
+musicquality:
+- musicquality
+- mquality
 byemsg:
 - byemsg
 autodisconnect:

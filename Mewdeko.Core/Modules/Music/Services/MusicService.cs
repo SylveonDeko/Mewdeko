@@ -165,9 +165,11 @@ namespace Mewdeko.Modules.Music.Services
             var mp = new MusicPlayer(
                 queue,
                 resolver,
-                proxy
-            );
+                proxy,
+                settings.QualityPreset
 
+            );
+            
             mp.SetRepeat(settings.PlayerRepeat);
 
             if (settings.Volume >= 0 && settings.Volume <= 100)
@@ -184,6 +186,20 @@ namespace Mewdeko.Modules.Music.Services
             mp.OnQueueStopped += OnQueueStopped(guildId);
 
             return mp;
+        }
+        public async Task<QualityPreset> GetMusicQualityAsync(ulong guildId)
+        {
+            using var uow = _db.GetDbContext();
+            var settings = await uow._context.MusicPlayerSettings.ForGuildAsync(guildId);
+            return settings.QualityPreset;
+        }
+
+        public Task SetMusicQualityAsync(ulong guildId, QualityPreset preset)
+        {
+            return ModifySettingsInternalAsync(guildId, (settings, _) =>
+            {
+                settings.QualityPreset = preset;
+            }, preset);
         }
 
         public Task<IUserMessage?> SendToOutputAsync(ulong guildId, EmbedBuilder embed)

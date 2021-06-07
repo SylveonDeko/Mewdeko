@@ -48,6 +48,24 @@ namespace Mewdeko.Core.Modules.Music
 
             return true;
         }
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task MusicQuality()
+        {
+            var quality = await _service.GetMusicQualityAsync(ctx.Guild.Id);
+            await ReplyConfirmLocalizedAsync("current_music_quality", Format.Bold(quality.ToString()));
+        }
+         
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task MusicQuality(QualityPreset preset)
+        {
+            await _service.SetMusicQualityAsync(ctx.Guild.Id, preset);
+            await ReplyConfirmLocalizedAsync("music_quality_set", Format.Bold(preset.ToString()));
+        }
+
         [MewdekoCommand]
         [Usage]
         [Description]
