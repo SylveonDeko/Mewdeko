@@ -26,6 +26,12 @@ snipe:
  - "#channel"
  - "@user"
  - "#channel @user"
+musicquality:
+ desc: "Gets or sets the default music player quality. Available settings: Highest, High, Medium, Low. Default is **Highest**. Provide no argument to see current setting."
+ args:
+  - ""
+  - "High"
+  - "Low"
 up:
  desc: "Upscales an image by up to 4x"
  args:

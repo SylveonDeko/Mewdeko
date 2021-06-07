@@ -24,18 +24,20 @@ namespace Ayu.Discord.Voice
 
         private readonly string _streamUrl;
         private readonly bool _isLocal;
+        private readonly string _pcmType;
 
-        private FfmpegTrackDataSource(string streamUrl, bool isLocal)
+        private FfmpegTrackDataSource(int bitDepth, string streamUrl, bool isLocal)
         {
+            this._pcmType = bitDepth == 16 ? "s16le" : "f32le";
             this._streamUrl = streamUrl;
             this._isLocal = isLocal;
         }
 
-        public static FfmpegTrackDataSource CreateAsync(string streamUrl, bool isLocal)
+        public static FfmpegTrackDataSource CreateAsync(int bitDepth, string streamUrl, bool isLocal)
         {
             try
             {
-                var source = new FfmpegTrackDataSource(streamUrl, isLocal);
+                var source = new FfmpegTrackDataSource(bitDepth, streamUrl, isLocal);
                 source.StartFFmpegProcess();
                 return source;
             }
@@ -46,6 +48,7 @@ Please install and configure FFMPEG to play music.
 Check the guides for your platform on how to setup ffmpeg correctly:
     Windows Guide: https://goo.gl/OjKk8F
     Linux Guide:  https://goo.gl/ShjCUo");
+                throw;
             }
             catch (OperationCanceledException)
             {
@@ -63,7 +66,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
 
         private Process StartFFmpegProcess()
         {
-            var args = $"-err_detect ignore_err -i {_streamUrl} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel error";
+            var args = $"-err_detect ignore_err -i {_streamUrl} -f {_pcmType} -ar 48000 -vn -ac 2 pipe:1 -loglevel error";
             if (!_isLocal)
                 args = $"-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 {args}";
 

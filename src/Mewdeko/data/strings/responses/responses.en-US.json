@@ -27,6 +27,8 @@
   "repeating_queue": "Player will repeat the queue.",
   "repeating_track": "Player will keep repeating the same track.",
   "attachments": "Attachments",
+  "current_music_quality": "Currently set music quality is: {0}",
+  "music_quality_set": "Music quality has been set to {0}. You will have to destroy and restart music player for the change to take effect.",
   "avatar_changed": "Avatar Changed",
   "bandm": "You have been banned from {0} server.\nReason: {1}",
   "banmsg_disabled": "Ban messages are disabled. You can enable them by setting a banmsg to something other than '-'.",

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Buffers;
 
-
 namespace Ayu.Discord.Voice
 {
     public sealed class VoiceClient : IDisposable
@@ -17,10 +16,11 @@ namespace Ayu.Discord.Voice
         public LibOpusEncoder Encoder { get; }
         private readonly ArrayPool<byte> _arrayPool;
 
-        public int SamplesPerChannel => sampleRate * frameDelay / 1000;
-        public int SampleLength => SamplesPerChannel * channels;
-        public int FrameSize => SampleLength * bitDepth;
+        public int BitDepth => bitDepth * 8;
         public int Delay => frameDelay;
+
+        private int FrameSizePerChannel => Encoder.FrameSizePerChannel;
+        public int InputLength => FrameSizePerChannel * channels * bitDepth;
 
         EncodeDelegate Encode;
 
@@ -29,24 +29,24 @@ namespace Ayu.Discord.Voice
             Bitrate bitRate = Bitrate._192k,
             Channels channels = Channels.Two,
             FrameDelay frameDelay = FrameDelay.Delay20,
-            BitDepth bitDepth = BitDepth.UInt16)
+            BitDepthEnum bitDepthEnum = BitDepthEnum.Float32)
         {
             this.frameDelay = (int) frameDelay;
             this.sampleRate = (int) sampleRate;
             this.bitRate = (int) bitRate;
             this.channels = (int) channels;
-            this.bitDepth = (int) bitDepth;
+            this.bitDepth = (int) bitDepthEnum;
 
             this.Encoder = new LibOpusEncoder(this.sampleRate, this.channels, this.bitRate, this.frameDelay);
 
-            Encode = bitDepth switch
+            Encode = bitDepthEnum switch
             {
-                BitDepth.Float32 => Encoder.EncodeFloat,
-                BitDepth.UInt16 => Encoder.Encode,
+                BitDepthEnum.Float32 => Encoder.EncodeFloat,
+                BitDepthEnum.UInt16 => Encoder.Encode,
                 _ => throw new NotSupportedException(nameof(BitDepth))
             };
 
-            if (bitDepth == BitDepth.Float32)
+            if (bitDepthEnum == BitDepthEnum.Float32)
             {
                 Encode = Encoder.EncodeFloat;
             }
@@ -106,7 +106,7 @@ namespace Ayu.Discord.Voice
             var timestampBytes = BitConverter.GetBytes(gw.Timestamp); // 4
             var ssrcBytes = BitConverter.GetBytes(gw.Ssrc); // 4
 
-            gw.Timestamp += (uint) SamplesPerChannel;
+            gw.Timestamp += (uint) FrameSizePerChannel;
             gw.Sequence++;
             gw.NonceSequence++;
 
@@ -183,7 +183,7 @@ namespace Ayu.Discord.Voice
         Delay60 = 60,
     }
 
-    public enum BitDepth
+    public enum BitDepthEnum
     {
         UInt16 = sizeof(UInt16),
         Float32 = sizeof(float),

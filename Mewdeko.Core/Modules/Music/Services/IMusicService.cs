@@ -29,6 +29,9 @@ namespace Mewdeko.Modules.Music.Services
         Task EnqueueDirectoryAsync(IMusicPlayer mp, string dirPath, string queuer);
         Task<int> EnqueueSoundcloudPlaylistAsync(IMusicPlayer mp, string playlist, string queuer);
         Task<IUserMessage?> SendToOutputAsync(ulong guildId, EmbedBuilder embed);
+        Task<QualityPreset> GetMusicQualityAsync(ulong guildId);
+        Task SetMusicQualityAsync(ulong guildId, QualityPreset preset);
+
         Task<bool> PlayAsync(ulong guildId, ulong voiceChannelId);
         Task<IList<(string Title, string Url)>> SearchVideosAsync(string query);
         Task<bool> SetMusicChannelAsync(ulong guildId, ulong? channelId);

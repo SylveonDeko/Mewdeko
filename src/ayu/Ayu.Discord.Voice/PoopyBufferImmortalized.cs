@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Buffers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ namespace Ayu.Discord.Voice
 {
     public sealed class PoopyBufferImmortalized : ISongBuffer
     {
+        private readonly int _frameSize;
         private readonly byte[] _buffer;
         private readonly byte[] _outputArray;
         private CancellationToken _cancellationToken;
@@ -23,10 +24,11 @@ namespace Ayu.Discord.Voice
 
         public bool Stopped => _cancellationToken.IsCancellationRequested;
 
-        public PoopyBufferImmortalized()
+        public PoopyBufferImmortalized(int frameSize)
         {
+            _frameSize = frameSize;
             _buffer = ArrayPool<byte>.Shared.Rent(1_000_000);
-            _outputArray = new byte[3840];
+            _outputArray = new byte[frameSize];
 
             ReadPosition = 0;
             WritePosition = 0;

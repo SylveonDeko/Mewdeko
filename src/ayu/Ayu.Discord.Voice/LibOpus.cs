@@ -40,7 +40,8 @@ namespace Ayu.Discord.Voice
         // private readonly int _bitRate;
         private readonly int _frameDelay;
 
-        public int FramesPerChannel => _sampleRate * _frameDelay / 1000;
+        private readonly int _frameSizePerChannel;
+        public int FrameSizePerChannel => _frameSizePerChannel;
 
         public const int MaxData = 1276;
 
@@ -50,6 +51,7 @@ namespace Ayu.Discord.Voice
             // _channels = channels;
             // _bitRate = bitRate;
             _frameDelay = frameDelay;
+            _frameSizePerChannel = _sampleRate * _frameDelay / 1000;
 
             _encoderPtr = LibOpus.CreateEncoder(sampleRate, channels, (int) OpusApplication.Audio, out var error);
             if (error != OpusError.OK)
@@ -70,15 +72,16 @@ namespace Ayu.Discord.Voice
         {
             fixed (byte* inPtr = input)
             fixed (byte* outPtr = output)
-                return LibOpus.Encode(_encoderPtr, inPtr, _sampleRate / 1000 * _frameDelay, outPtr, output.Length);
+                return LibOpus.Encode(_encoderPtr, inPtr, FrameSizePerChannel, outPtr, output.Length);
         }
 
         public int EncodeFloat(Span<byte> input, byte[] output)
         {
             fixed (byte* inPtr = input)
             fixed (byte* outPtr = output)
-                return LibOpus.EncodeFloat(_encoderPtr, inPtr, _sampleRate / 1000 * _frameDelay, outPtr, output.Length);
+                return LibOpus.EncodeFloat(_encoderPtr, inPtr, FrameSizePerChannel, outPtr, output.Length);
         }
+
 
         public void Dispose()
         {
