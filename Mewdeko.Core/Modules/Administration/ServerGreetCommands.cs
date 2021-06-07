@@ -54,13 +54,13 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageGuild)]
             public async Task GreetHook(ITextChannel chan = null, string name = null, string image = null, string text = null)
             {
-                if (text.ToLower() == "disable")
+                if (text is not null && text.ToLower() == "disable")
                 {
                     await _service.SetWebGreet(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("Greet webhook disabled.");
                     return;
                 }
-                if(chan is not null && name is not null && image is not null && text.ToLower() is not "disable")
+                if(chan is not null && name is not null && image is not null && text is not null && text?.ToLower() != "disable")
                 {
                     return;
                 }
