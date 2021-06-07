@@ -123,7 +123,7 @@ namespace Mewdeko.Modules.Utility
             {
                 if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
                 {
-                    await ctx.Channel.SendErrorAsync("The maximum Afk timeout is 60 minutes!");
+                    await ctx.Channel.SendErrorAsync("The maximum Afk timeout is 2 Hours. Minimum is 1 Second.");
                     return;
                 }
 
