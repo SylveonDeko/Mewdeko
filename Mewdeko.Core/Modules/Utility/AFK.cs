@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
-
+using Humanizer;
 namespace Mewdeko.Modules.Utility
 {
     public partial class Utility
@@ -118,16 +119,16 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task AfkTimeout(int num)
+            public async Task AfkTimeout(StoopidTime time)
             {
-                if (num > 60)
+                if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
                 {
                     await ctx.Channel.SendErrorAsync("The maximum Afk timeout is 60 minutes!");
                     return;
                 }
 
-                await _service.AfkTimeoutSet(ctx.Guild, num);
-                await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {num} minutes!");
+                await _service.AfkTimeoutSet(ctx.Guild, time.Time.Seconds);
+                await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
             }
 
             [MewdekoCommand]
