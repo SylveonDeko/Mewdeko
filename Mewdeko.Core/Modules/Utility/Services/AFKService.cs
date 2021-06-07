@@ -74,7 +74,7 @@ namespace Mewdeko.Modules.Utility.Services
                         if (IsAfk(user.Guild, user))
                         {
                             var t = AfkMessage(user.Guild.Id, user.Id).Last();
-                            if (t.DateAdded.Value.ToLocalTime() < DateTime.Now.AddMinutes(-GetAfkTimeout(user.GuildId)))
+                            if (t.DateAdded.Value.ToLocalTime() < DateTime.Now.AddSeconds(-GetAfkTimeout(user.GuildId)))
                             {
                                 await AFKSet(user.Guild, user, "");
                                 await msg.Channel.SendMessageAsync(
