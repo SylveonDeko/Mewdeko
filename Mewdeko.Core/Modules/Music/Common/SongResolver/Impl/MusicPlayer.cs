@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ayu.Discord.Voice;
 using Mewdeko.Common;
+using Mewdeko.Core.Modules.Music.Common;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Music;
@@ -19,15 +19,18 @@ namespace Mewdeko.Core.Modules.Music
 {
     public sealed class MusicPlayer : IMusicPlayer
     {
+        private delegate void AdjustVolumeDelegate(Span<byte> data, float volume);
+
+        private AdjustVolumeDelegate AdjustVolume;
         private readonly VoiceClient _vc;
 
         public bool IsKilled { get; private set; }
         public bool IsStopped { get; private set; }
         public bool IsPaused { get; private set; }
         public PlayerRepeatType Repeat { get; private set; }
-        
+
         public int CurrentIndex => _queue.Index;
-        
+
         public float Volume => _volume;
         private float _volume = 1.0f;
 
@@ -53,7 +56,11 @@ namespace Mewdeko.Core.Modules.Music
             _rng = new MewdekoRandom();
 
             _vc = GetVoiceClient(qualityPreset);
-            
+            if (_vc.BitDepth == 16)
+                AdjustVolume = AdjustVolumeInt16;
+            else
+                AdjustVolume = AdjustVolumeFloat32;
+
             _songBuffer = new PoopyBufferImmortalized(_vc.InputLength);
 
             _thread = new Thread(async () =>
@@ -106,7 +113,7 @@ namespace Mewdeko.Core.Modules.Music
                 // wait until a song is available in the queue
                 // or until the queue is resumed
                 var track = _queue.GetCurrent(out int index);
-                
+
                 if (track is null || IsStopped)
                 {
                     await Task.Delay(500);
@@ -120,8 +127,8 @@ namespace Mewdeko.Core.Modules.Music
                     continue;
                 }
 
-                var trackCancellationSource = new CancellationTokenSource();
-                var cancellationToken = trackCancellationSource.Token;
+                using var cancellationTokenSource = new CancellationTokenSource();
+                var token = cancellationTokenSource.Token;
                 try
                 {
                     // light up green in vc
@@ -134,7 +141,7 @@ namespace Mewdeko.Core.Modules.Music
 
                     var streamUrl = await track.GetStreamUrl();
                     // start up the data source
-                    var source = FfmpegTrackDataSource.CreateAsync(
+                    using var source = FfmpegTrackDataSource.CreateAsync(
                         _vc.BitDepth,
                         streamUrl,
                         track.Platform == MusicPlatform.Local
@@ -142,11 +149,62 @@ namespace Mewdeko.Core.Modules.Music
 
                     // start moving data from the source into the buffer
                     // this method will return once the sufficient prebuffering is done
-                    await _songBuffer.BufferAsync(source, cancellationToken);
+                    await _songBuffer.BufferAsync(source, token);
 
+                    // // Implemenation with multimedia timer. Works but a hassle because no support for switching
+                    // // vcs, as any error in copying will cancel the song. Also no idea how to use this as an option
+                    // // for selfhosters.
+                    // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    // {
+                    //     var cancelSource = new CancellationTokenSource();
+                    //     var cancelToken = cancelSource.Token;
+                    //     using var timer = new MultimediaTimer(_ =>
+                    //     {
+                    //         if (IsStopped || IsKilled)
+                    //         {
+                    //             cancelSource.Cancel();
+                    //             return;
+                    //         }
+                    //         
+                    //         if (_skipped)
+                    //         {
+                    //             _skipped = false;
+                    //             cancelSource.Cancel();
+                    //             return;
+                    //         }
+                    //
+                    //         if (IsPaused)
+                    //             return;
+                    //
+                    //         try
+                    //         {
+                    //             // this should tolerate certain number of errors
+                    //             var result = CopyChunkToOutput(_songBuffer, _vc);
+                    //             if (!result)
+                    //                 cancelSource.Cancel();
+                    //               
+                    //         }
+                    //         catch (Exception ex)
+                    //         {
+                    //             Log.Warning(ex, "Something went wrong sending voice data: {ErrorMessage}", ex.Message);
+                    //             cancelSource.Cancel();
+                    //         }
+                    //
+                    //     }, null, 20);
+                    //     
+                    //     while(true)
+                    //         await Task.Delay(1000, cancelToken);
+                    // }
 
                     // start sending data
                     var ticksPerMs = 1000f / Stopwatch.Frequency;
+                    sw.Start();
+                    Thread.Sleep(2);
+
+                    var delay = sw.ElapsedTicks * ticksPerMs > 3f
+                        ? _vc.Delay - 16
+                        : _vc.Delay - 3;
+
                     var errorCount = 0;
                     while (!IsStopped && !IsKilled)
                     {
@@ -160,7 +218,7 @@ namespace Mewdeko.Core.Modules.Music
 
                         if (IsPaused)
                         {
-                            await Task.Delay(200, cancellationToken);
+                            await Task.Delay(200);
                             continue;
                         }
 
@@ -181,13 +239,12 @@ namespace Mewdeko.Core.Modules.Music
                                     _ = _proxy.StartSpeakingAsync();
                                     errorCount = 0;
                                 }
-                                
+
                                 // todo future windows multimedia api
-                                
+
                                 // wait for slightly less than the latency
-                                // sleep precision is around 15.5ms
-                                Thread.Sleep(_vc.Delay - 16);
-                                
+                                Thread.Sleep(delay);
+
                                 // and then spin out the rest
                                 while ((sw.ElapsedTicks - ticks) * ticksPerMs <= _vc.Delay - 0.1f)
                                     Thread.SpinWait(100);
@@ -200,7 +257,7 @@ namespace Mewdeko.Core.Modules.Music
                                 // tolerate up to 15x200ms of failures (3 seconds)
                                 if (++errorCount <= 15)
                                 {
-                                    await Task.Delay(200, cancellationToken);
+                                    await Task.Delay(200);
                                     continue;
                                 }
 
@@ -234,21 +291,20 @@ namespace Mewdeko.Core.Modules.Music
                 }
                 finally
                 {
+                    cancellationTokenSource.Cancel();
                     // turn off green in vc
-                    trackCancellationSource.Cancel();
-
                     _ = OnCompleted?.Invoke(this, track);
-                    
+
                     HandleQueuePostTrack();
                     _skipped = false;
-                    
-                    _ = _proxy.StopSpeakingAsync();;
-                    
+
+                    _ = _proxy.StopSpeakingAsync(); ;
+
                     await Task.Delay(100);
                 }
             }
         }
-        
+
         private bool? CopyChunkToOutput(ISongBuffer sb, VoiceClient vc)
         {
             var data = sb.Read(vc.InputLength, out var length);
@@ -276,7 +332,7 @@ namespace Mewdeko.Core.Modules.Music
 
             if (repeat == PlayerRepeatType.Track || isStopped)
                 return;
-            
+
             // if queue is being repeated, advance no matter what
             if (repeat == PlayerRepeatType.None)
             {
@@ -288,32 +344,46 @@ namespace Mewdeko.Core.Modules.Music
                     OnQueueStopped?.Invoke(this);
                     return;
                 }
-                
+
                 _queue.Advance();
                 return;
             }
-            
+
             _queue.Advance();
         }
 
-        
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void AdjustVolume(Span<byte> audioSamples, float volume)
+        private static void AdjustVolumeInt16(Span<byte> audioSamples, float volume)
         {
             if (Math.Abs(volume - 1f) < 0.0001f) return;
-        
+
             var samples = MemoryMarshal.Cast<byte, short>(audioSamples);
-        
+
             for (var i = 0; i < samples.Length; i++)
             {
                 ref var sample = ref samples[i];
-                sample = (short) (sample * volume);
+                sample = (short)(sample * volume);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void AdjustVolumeFloat32(Span<byte> audioSamples, float volume)
+        {
+            if (Math.Abs(volume - 1f) < 0.0001f) return;
+
+            var samples = MemoryMarshal.Cast<byte, float>(audioSamples);
+
+            for (var i = 0; i < samples.Length; i++)
+            {
+                ref var sample = ref samples[i];
+                sample = (float)(sample * volume);
             }
         }
 
         public async Task<(IQueuedTrackInfo? QueuedTrack, int Index)> TryEnqueueTrackAsync(
-            string query, 
+            string query,
             string queuer,
             bool asNext,
             MusicPlatform? forcePlatform = null)
@@ -329,7 +399,7 @@ namespace Mewdeko.Core.Modules.Music
 
             return (_queue.Enqueue(song, queuer, out index), index);
         }
-        
+
         public async Task EnqueueManyAsync(IEnumerable<(string Query, MusicPlatform Platform)> queries, string queuer)
         {
             var errorCount = 0;
@@ -337,7 +407,7 @@ namespace Mewdeko.Core.Modules.Music
             {
                 if (IsKilled)
                     break;
-                
+
                 var queueTasks = chunk.Select(async data =>
                 {
                     var (query, platform) = data;
@@ -355,13 +425,13 @@ namespace Mewdeko.Core.Modules.Music
 
                 await Task.WhenAll(queueTasks);
                 await Task.Delay(1000);
-                
+
                 // > 10 errors in a row = kill
                 if (errorCount > 10)
                     break;
             }
         }
-        
+
         public void EnqueueTrack(ITrackInfo track, string queuer)
         {
             _queue.Enqueue(track, queuer, out _);
@@ -447,7 +517,7 @@ namespace Mewdeko.Core.Modules.Music
 
             return true;
         }
-        
+
         public bool TogglePause() => IsPaused = !IsPaused;
         public IQueuedTrackInfo? MoveTrack(int from, int to) => _queue.MoveTrack(from, to);
 

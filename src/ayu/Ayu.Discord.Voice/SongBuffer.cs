@@ -11,6 +11,7 @@ namespace Ayu.Discord.Voice
         Span<byte> Read(int toRead, out int read);
         Task<bool> BufferAsync(ITrackDataSource source, CancellationToken cancellationToken);
         void Reset();
+        void Stop();
     }
 
     public interface ITrackDataSource
@@ -18,7 +19,7 @@ namespace Ayu.Discord.Voice
         public int Read(byte[] output);
     }
 
-    public sealed class FfmpegTrackDataSource : ITrackDataSource
+    public sealed class FfmpegTrackDataSource : ITrackDataSource, IDisposable
     {
         private Process _p;
 

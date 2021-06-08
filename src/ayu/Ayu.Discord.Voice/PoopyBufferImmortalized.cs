@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Buffers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ namespace Ayu.Discord.Voice
         private readonly byte[] _buffer;
         private readonly byte[] _outputArray;
         private CancellationToken _cancellationToken;
+        private bool _isStopped;
 
         public int ReadPosition { get; private set; }
         public int WritePosition { get; private set; }
@@ -22,7 +23,7 @@ namespace Ayu.Discord.Voice
 
         public int FreeSpace => _buffer.Length - ContentLength;
 
-        public bool Stopped => _cancellationToken.IsCancellationRequested;
+        public bool Stopped => _cancellationToken.IsCancellationRequested || _isStopped;
 
         public PoopyBufferImmortalized(int frameSize)
         {
@@ -32,6 +33,11 @@ namespace Ayu.Discord.Voice
 
             ReadPosition = 0;
             WritePosition = 0;
+        }
+
+        public void Stop()
+        {
+            _isStopped = true;
         }
 
         // this method needs a rewrite
@@ -102,7 +108,7 @@ namespace Ayu.Discord.Voice
                 // writer never writes until the end,
                 // but leaves a single chunk free
                 Span<byte> toReturn = _outputArray;
-                ((Span<byte>) _buffer).Slice(ReadPosition, toRead).CopyTo(toReturn);
+                ((Span<byte>)_buffer).Slice(ReadPosition, toRead).CopyTo(toReturn);
                 ReadPosition += toRead;
                 length = toRead;
                 return toReturn;
@@ -111,7 +117,7 @@ namespace Ayu.Discord.Voice
             {
                 Span<byte> toReturn = _outputArray;
                 var toEnd = _buffer.Length - ReadPosition;
-                var bufferSpan = (Span<byte>) _buffer;
+                var bufferSpan = (Span<byte>)_buffer;
 
                 bufferSpan.Slice(ReadPosition, toEnd).CopyTo(toReturn);
                 var fromStart = toRead - toEnd;
