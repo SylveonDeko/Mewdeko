@@ -569,7 +569,7 @@ iamnot:
   args:
     - "Gamer"
 addcustreact:
-  desc: "Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://nadekobot.readthedocs.io/en/latest/custom-reactions/>"
+  desc: "Add a custom reaction with a trigger and a response. Running this command in server requires the Administration permission. Running this command in DM is Bot Owner only and adds a new global custom reaction. Guide here: <http://Mewdeko.readthedocs.io/en/latest/custom-reactions/>"
   args:
     - "\"hello\" Hi there %user.mention%"
 listcustreact:
@@ -743,7 +743,7 @@ setnick:
     - "BotNickname"
     - "@SomeUser New Nickname"
 setavatar:
-  desc: "Sets a new avatar image for the NadekoBot. Parameter is a direct link to an image."
+  desc: "Sets a new avatar image for the Mewdeko. Parameter is a direct link to an image."
   args:
     - "http://i.imgur.com/xTG3a1I.jpg"
 setgame:
