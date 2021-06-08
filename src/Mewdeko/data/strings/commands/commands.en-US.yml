@@ -220,6 +220,18 @@ afk:
   desc: "Sets your afk message." 
   args: 
   - "Hi, I'm Bob!"
+lockdown:
+  desc: "Locks the server, will tell you to run lockcheck if some roles are in the way of lockdown."
+  args:
+  - ""
+lockcheck:
+  desc: "Checks all roles to make sure they are lockdown compliant"
+  args:
+  - ""
+unlockdown:
+  desc: "Ends a server lockdown."
+  args:
+  - ""
 afkrm:
   desc: "Mods can use this to remove an afk from one or more users that are abusing afk." 
   args: 
@@ -246,10 +258,6 @@ setstars:
   desc: "Sets the amount of stars needed to reach starboard." 
   args: 
   - "90"
-url:
-  desc: "Plays a song directly from a link or an uploaded file. ***A direct link must end in an extension such as .mp3 for this to work*** " 
-  args: 
-  - "https://path.to.file"
 character:
   desc: "Finds an anime character using the AniList Api " 
   args: 
