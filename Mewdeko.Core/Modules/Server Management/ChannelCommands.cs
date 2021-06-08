@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task LockCheck()
             {
                 var msg = await ctx.Channel.SendMessageAsync("Making sure role permissions don't get in the way of lockdown...");
-                var roles = Context.Guild.Roles.ToList().FindAll(x => x.Id != Context.Guild.Id && x.Permissions.SendMessages == true && x.Position <= ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                var roles = Context.Guild.Roles.ToList().FindAll(x => x.Id != Context.Guild.Id && x.Permissions.SendMessages == true && x.Position < ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     foreach (var i in roles)
@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.ServerManagement
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task LockDown()
             {
-                var roles = Context.Guild.Roles.ToList().FindAll(x => x.Id != Context.Guild.Id && x.Permissions.SendMessages == true);
+                var roles = Context.Guild.Roles.ToList().FindAll(x => x.Id != Context.Guild.Id && x.Permissions.SendMessages == true && x.Position < ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     await ctx.Channel.SendErrorAsync("Please run the Lockcheck command as you have roles that will get in the way of lockdown");
