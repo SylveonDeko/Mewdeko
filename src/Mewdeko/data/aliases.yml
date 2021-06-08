@@ -654,6 +654,13 @@ greethook:
 - greethook
 - webgreet
 - webhookgreet
+lockdown:
+- lockdown
+- lockserver
+- lockall
+unlockdown:
+- unlockdown
+- endlockdown
 wiki:
 - wiki
 - wikipedia
