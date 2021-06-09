@@ -82,10 +82,10 @@ namespace Mewdeko.Modules.NSFW
         [RequireNsfw]
         public async Task RedditNSFW(string subreddit)
         {
-            var image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, null);
+            var image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
             var eb = new EmbedBuilder
             {
-                Description = $"[Source]({image.Source})",
+                Description = $"[{image.Title}]({image.Source})",
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor
             };
