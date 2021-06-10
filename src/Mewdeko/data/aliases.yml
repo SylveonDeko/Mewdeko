@@ -28,6 +28,8 @@ byemsg:
 autodisconnect:
 - autodisconnect
 - autodc
+antialt:
+- antialt
 createcatvcchans:
 - ccvc
 stealforrole:

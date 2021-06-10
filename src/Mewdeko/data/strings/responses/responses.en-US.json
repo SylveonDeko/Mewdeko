@@ -18,6 +18,8 @@
   "streams_cleared": "All {0} followed streams on this server have been removed.",
   "autohentai_stopped": "Autohentai stopped.",
   "reaction_cant_access": "I can't access {0} reaction. You can only use emotes from servers I'm in.",
+  "anti_alt_status": "Any user joining the server with an account that is not older than {0} will have the following action applied to them: {1}\nPunished so far: {2}",
+  "protection_not_running": "{0} protection is not enabled.",
   "no_results": "No results found.",
   "vcrole_not_found": "That voice channel doesn't have a VcRole.",
   "aar_disabled": "**Auto assign role** on user join is now **disabled**.",

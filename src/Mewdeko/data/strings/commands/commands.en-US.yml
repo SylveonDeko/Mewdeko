@@ -26,6 +26,11 @@ snipe:
  - "#channel"
  - "@user"
  - "#channel @user"
+antialt:
+  desc: "Applies a punishment action to any user whose account is younger than the specified threshold. Specify time after the punishment to have a timed punishment (not all punishments support timers)."
+  args:
+    - "1h Ban"
+    - "3d Mute 1h"
 musicquality:
  desc: "Gets or sets the default music player quality. Available settings: Highest, High, Medium, Low. Default is **Highest**. Provide no argument to see current setting."
  args:
