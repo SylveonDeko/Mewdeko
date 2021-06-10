@@ -20,6 +20,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
         public ulong Stars { get; set; }
         public int AfkType { get; set; }
+        public AntiAltSetting AntiAltSetting { get; set; }
         public string AfkDisabledChannels { get; set; }
         public int AfkTimeout { get; set; }
         //public int TLogType { get; set; }

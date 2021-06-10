@@ -10,6 +10,7 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
@@ -21,7 +22,10 @@ namespace Mewdeko.Modules.Administration.Services
 
         private readonly ConcurrentDictionary<ulong, AntiSpamStats> _antiSpamGuilds
             = new ConcurrentDictionary<ulong, AntiSpamStats>();
-        
+
+        private readonly ConcurrentDictionary<ulong, AntiAltStats> _antiAltGuilds
+            = new ConcurrentDictionary<ulong, AntiAltStats>();
+
         public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered
             = delegate { return Task.CompletedTask; };
 
@@ -29,7 +33,7 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly MuteService _mute;
         private readonly DbService _db;
         private readonly UserPunishService _punishService;
-        
+
         private readonly Channel<PunishQueueItem> PunishUserQueue =
             System.Threading.Channels.Channel.CreateUnbounded<PunishQueueItem>(new UnboundedChannelOptions()
             {
@@ -39,7 +43,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         public ProtectionService(DiscordSocketClient client, Mewdeko bot,
             MuteService mute, DbService db, UserPunishService punishService)
-        { 
+        {
             _client = client;
             _mute = mute;
             _db = db;
@@ -53,6 +57,7 @@ namespace Mewdeko.Modules.Administration.Services
                     .Include(x => x.AntiRaidSetting)
                     .Include(x => x.AntiSpamSetting)
                     .ThenInclude(x => x.IgnoredChannels)
+                    .Include(x => x.AntiAltSetting)
                     .Where(x => ids.Contains(x.GuildId))
                     .ToList();
 
@@ -63,11 +68,11 @@ namespace Mewdeko.Modules.Administration.Services
             }
 
             _client.MessageReceived += HandleAntiSpam;
-            _client.UserJoined += HandleAntiRaid;
+            _client.UserJoined += HandleUserJoined;
 
             bot.JoinedGuild += _bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;
-            
+
             _ = Task.Run(RunQueue);
         }
 
@@ -95,28 +100,28 @@ namespace Mewdeko.Modules.Administration.Services
             }
         }
 
-        private Task _client_LeftGuild(SocketGuild arg)
+        private Task _client_LeftGuild(SocketGuild guild)
         {
             var _ = Task.Run(() =>
             {
-                TryStopAntiRaid(arg.Id);
-                TryStopAntiSpam(arg.Id);
+                TryStopAntiRaid(guild.Id);
+                TryStopAntiSpam(guild.Id);
+                TryStopAntiRaid(guild.Id);
             });
             return Task.CompletedTask;
         }
 
         private Task _bot_JoinedGuild(GuildConfig gc)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gcWithData = uow.GuildConfigs.ForId(gc.GuildId,
-                    set => set
-                        .Include(x => x.AntiRaidSetting)
-                        .Include(x => x.AntiSpamSetting)
-                        .ThenInclude(x => x.IgnoredChannels));
+            using var uow = _db.GetDbContext();
+            var gcWithData = uow.GuildConfigs.ForId(gc.GuildId,
+                set => set
+                    .Include(x => x.AntiRaidSetting)
+                    .Include(x => x.AntiAltSetting)
+                    .Include(x => x.AntiSpamSetting)
+                    .ThenInclude(x => x.IgnoredChannels));
 
-                Initialize(gcWithData);
-            }
+            Initialize(gcWithData);
             return Task.CompletedTask;
         }
 
@@ -128,26 +133,56 @@ namespace Mewdeko.Modules.Administration.Services
             if (raid != null)
             {
                 var raidStats = new AntiRaidStats() { AntiRaidSettings = raid };
-                _antiRaidGuilds.TryAdd(gc.GuildId, raidStats);
+                _antiRaidGuilds[gc.GuildId] = raidStats;
             }
 
             if (spam != null)
-                _antiSpamGuilds.TryAdd(gc.GuildId, new AntiSpamStats() { AntiSpamSettings = spam });
+                _antiSpamGuilds[gc.GuildId] = new AntiSpamStats() { AntiSpamSettings = spam };
+
+            var alt = gc.AntiAltSetting;
+            if (!(alt is null))
+                _antiAltGuilds[gc.GuildId] = new AntiAltStats(alt);
         }
 
-        private Task HandleAntiRaid(SocketGuildUser usr)
+        private Task HandleUserJoined(SocketGuildUser user)
         {
-            if (usr.IsBot)
-                return Task.CompletedTask;
-            if (!_antiRaidGuilds.TryGetValue(usr.Guild.Id, out var stats))
-                return Task.CompletedTask;
-            if (!stats.RaidUsers.Add(usr))
+            if (user.IsBot)
                 return Task.CompletedTask;
 
-            var _ = Task.Run(async () =>
+            _antiRaidGuilds.TryGetValue(user.Guild.Id, out var maybeStats);
+            _antiAltGuilds.TryGetValue(user.Guild.Id, out var maybeAlts);
+
+            if (maybeStats is null && maybeAlts is null)
+                return Task.CompletedTask;
+
+            _ = Task.Run(async () =>
             {
+                if (maybeAlts is AntiAltStats alts)
+                {
+                    if (user.CreatedAt != default)
+                    {
+                        var diff = DateTime.UtcNow - user.CreatedAt.UtcDateTime;
+                        if (diff < alts.MinAge)
+                        {
+                            alts.Increment();
+
+                            await PunishUsers(
+                                alts.Action,
+                                ProtectionType.Alting,
+                                alts.ActionDurationMinutes,
+                                alts.RoleId,
+                                user);
+
+                            return;
+                        }
+                    }
+                }
+
                 try
                 {
+                    if (!(maybeStats is AntiRaidStats stats) || !stats.RaidUsers.Add(user))
+                        return;
+
                     ++stats.UsersCount;
 
                     if (stats.UsersCount >= stats.AntiRaidSettings.UserThreshold)
@@ -157,11 +192,11 @@ namespace Mewdeko.Modules.Administration.Services
                         var settings = stats.AntiRaidSettings;
 
                         await PunishUsers(settings.Action, ProtectionType.Raiding,
-                            settings.PunishDuration, null,  users).ConfigureAwait(false);
+                            settings.PunishDuration, null, users).ConfigureAwait(false);
                     }
                     await Task.Delay(1000 * stats.AntiRaidSettings.Seconds).ConfigureAwait(false);
 
-                    stats.RaidUsers.TryRemove(usr);
+                    stats.RaidUsers.TryRemove(user);
                     --stats.UsersCount;
 
                 }
@@ -220,18 +255,26 @@ namespace Mewdeko.Modules.Administration.Services
         private async Task PunishUsers(PunishmentAction action, ProtectionType pt, int muteTime, ulong? roleId,
             params IGuildUser[] gus)
         {
-            Log.Information($"[{pt}] - Punishing [{gus.Length}] users with [{action}] in {gus[0].Guild.Name} guild");
+            Log.Information(
+                "[{PunishType}] - Punishing [{Count}] users with [{PunishAction}] in {GuildName} guild",
+                pt,
+                gus.Length,
+                action,
+                gus[0].Guild.Name);
+
             foreach (var gu in gus)
             {
                 await PunishUserQueue.Writer.WriteAsync(new PunishQueueItem()
                 {
                     Action = action,
                     Type = pt,
-                    User = gu,MuteTime = muteTime,
+                    User = gu,
+                    MuteTime = muteTime,
                     RoleId = roleId
                 });
             }
-            await OnAntiProtectionTriggered(action, pt, gus).ConfigureAwait(false);
+
+            _ = OnAntiProtectionTriggered(action, pt, gus);
         }
 
         public async Task<AntiRaidStats> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds,
@@ -242,7 +285,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             if (action == PunishmentAction.AddRole)
                 return null;
-            
+
             if (!IsDurationAllowed(action))
                 minutesDuration = 0;
 
@@ -388,12 +431,13 @@ namespace Mewdeko.Modules.Administration.Services
             return added;
         }
 
-        public (AntiSpamStats, AntiRaidStats) GetAntiStats(ulong guildId)
+        public (AntiSpamStats, AntiRaidStats, AntiAltStats) GetAntiStats(ulong guildId)
         {
             _antiRaidGuilds.TryGetValue(guildId, out var antiRaidStats);
             _antiSpamGuilds.TryGetValue(guildId, out var antiSpamStats);
+            _antiAltGuilds.TryGetValue(guildId, out var antiAltStats);
 
-            return (antiSpamStats, antiRaidStats);
+            return (antiSpamStats, antiRaidStats, antiAltStats);
         }
 
         public bool IsDurationAllowed(PunishmentAction action)
@@ -409,6 +453,35 @@ namespace Mewdeko.Modules.Administration.Services
                 default:
                     return false;
             }
+        }
+
+        public async Task StartAntiAltAsync(ulong guildId, int minAgeMinutes, PunishmentAction action,
+            int actionDurationMinutes = 0, ulong? roleId = null)
+        {
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiAltSetting));
+            gc.AntiAltSetting = new AntiAltSetting()
+            {
+                Action = action,
+                ActionDurationMinutes = actionDurationMinutes,
+                MinAge = TimeSpan.FromMinutes(minAgeMinutes),
+                RoleId = roleId,
+            };
+
+            await uow.SaveChangesAsync();
+            _antiAltGuilds[guildId] = new AntiAltStats(gc.AntiAltSetting);
+        }
+
+        public async Task<bool> TryStopAntiAlt(ulong guildId)
+        {
+            if (!_antiAltGuilds.TryRemove(guildId, out _))
+                return false;
+
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiAltSetting));
+            gc.AntiSpamSetting = null;
+            await uow.SaveChangesAsync();
+            return true;
         }
     }
 }
