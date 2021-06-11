@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -159,11 +160,14 @@ namespace Mewdeko.Modules.Help
         {
             var channel = ctx.Channel;
 
-            var (opts, _) = OptionsParser.ParseFrom(new CommandsOptions(), args);
-
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
+            {
+                await Modules();
                 return;
+            }
+
+            var (opts, _) = OptionsParser.ParseFrom(new CommandsOptions(), args);
 
             // Find commands for that module
             // don't show commands which are blocked
