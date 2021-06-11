@@ -97,7 +97,7 @@ namespace Mewdeko.Modules.Utility.Services
 
         public async Task CountUpdate2(SocketGuildUser user)
         {
-            var e = GetJoined(user.Guild.Id);
+            var e = GetLeft(user.Guild.Id);
             await LeftSet(user.Guild, e + 1);
         }
 
