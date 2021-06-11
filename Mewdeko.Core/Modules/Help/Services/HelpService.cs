@@ -59,9 +59,7 @@ namespace Mewdeko.Modules.Help.Services
             var em = new EmbedBuilder()
                 .AddField(fb => fb.WithName(str)
                     .WithValue($"{com.RealSummary(_strings, guild?.Id, prefix)}")
-                    .WithIsInline(true))
-                .WithThumbnailUrl(
-                    "https://cdn.discordapp.com/attachments/802687899350990919/822503142549225553/nayofinalihope.png");;
+                    .WithIsInline(true));
 
             _dpos.TryGetOverrides(guild?.Id ?? 0, com.Name, out var overrides);
             var reqs = GetCommandRequirements(com, overrides);
