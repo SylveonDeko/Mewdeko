@@ -877,7 +877,7 @@
 //                 .WithColor(Mewdeko.OkColor);
 //
 //             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-         // }
+// }
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
@@ -982,3 +982,4 @@
 //         }
 //     }
 // }
+

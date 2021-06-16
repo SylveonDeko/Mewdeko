@@ -1,58 +1,53 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.Net;
-using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
-using Mewdeko.Common.Collections;
-using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.Net;
+using Discord.WebSocket;
+using Mewdeko.Common.Collections;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Core.Common.Configs;
-using Mewdeko.Core.Services.Impl;
+using Mewdeko.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Mewdeko.Core.Services
 {
     public class GuildUserComparer : IEqualityComparer<IGuildUser>
     {
-        public bool Equals(IGuildUser x, IGuildUser y) => x.Id == y.Id;
+        public bool Equals(IGuildUser x, IGuildUser y)
+        {
+            return x.Id == y.Id;
+        }
 
-        public int GetHashCode(IGuildUser obj) => obj.Id.GetHashCode();
+        public int GetHashCode(IGuildUser obj)
+        {
+            return obj.Id.GetHashCode();
+        }
     }
 
     public class CommandHandler : INService
     {
         public const int GlobalCommandsCooldown = 750;
 
+        private const float _oneThousandth = 1.0f / 1000;
+        private readonly Mewdeko _bot;
+        private readonly BotConfigService _bss;
+        private readonly Timer _clearUsersOnShortCooldown;
+
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
-        private readonly BotConfigService _bss;
-        private readonly Mewdeko _bot;
-        private IServiceProvider _services;
+        private readonly DbService _db;
         private IEnumerable<IEarlyBehavior> _earlyBehaviors;
         private IEnumerable<IInputTransformer> _inputTransformers;
         private IEnumerable<ILateBlocker> _lateBlockers;
         private IEnumerable<ILateExecutor> _lateExecutors;
-        
-        private ConcurrentDictionary<ulong, string> _prefixes { get; } = new ConcurrentDictionary<ulong, string>();
-
-        public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
-        public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
-        public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
-
-        //userid/msg count
-        public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new ConcurrentDictionary<ulong, uint>();
-
-        public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new ConcurrentHashSet<ulong>();
-        private readonly Timer _clearUsersOnShortCooldown;
+        private readonly IServiceProvider _services;
 
         public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
             BotConfigService bss, Mewdeko bot, IServiceProvider services)
@@ -64,19 +59,36 @@ namespace Mewdeko.Core.Services
             _db = db;
             _services = services;
 
-            
-            _clearUsersOnShortCooldown = new Timer(_ =>
-            {
-                UsersOnShortCooldown.Clear();
-            }, null, GlobalCommandsCooldown, GlobalCommandsCooldown);
-            
+
+            _clearUsersOnShortCooldown = new Timer(_ => { UsersOnShortCooldown.Clear(); }, null, GlobalCommandsCooldown,
+                GlobalCommandsCooldown);
+
             _prefixes = bot.AllGuildConfigs
                 .Where(x => x.Prefix != null)
                 .ToDictionary(x => x.GuildId, x => x.Prefix)
                 .ToConcurrent();
         }
 
-        public string GetPrefix(IGuild guild) => GetPrefix(guild?.Id);
+        private ConcurrentDictionary<ulong, string> _prefixes { get; } = new();
+
+        //userid/msg count
+        public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new();
+
+        public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
+
+        public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
+
+        public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate
+        {
+            return Task.CompletedTask;
+        };
+
+        public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
+
+        public string GetPrefix(IGuild guild)
+        {
+            return GetPrefix(guild?.Id);
+        }
 
         public string GetPrefix(ulong? id = null)
         {
@@ -91,13 +103,11 @@ namespace Mewdeko.Core.Services
             if (string.IsNullOrWhiteSpace(prefix))
                 throw new ArgumentNullException(nameof(prefix));
 
-            _bss.ModifyConfig(bs =>
-            {
-                bs.Prefix = prefix;
-            });
+            _bss.ModifyConfig(bs => { bs.Prefix = prefix; });
 
             return prefix;
         }
+
         public string SetPrefix(IGuild guild, string prefix)
         {
             if (string.IsNullOrWhiteSpace(prefix))
@@ -111,6 +121,7 @@ namespace Mewdeko.Core.Services
                 gc.Prefix = prefix;
                 uow.SaveChanges();
             }
+
             _prefixes.AddOrUpdate(guild.Id, prefix, (key, old) => prefix);
 
             return prefix;
@@ -119,20 +130,24 @@ namespace Mewdeko.Core.Services
 
         public void AddServices(IServiceCollection services)
         {
-            _lateBlockers = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
+            _lateBlockers = services
+                .Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
                 .Select(x => _services.GetService(x.ImplementationType) as ILateBlocker)
                 .OrderByDescending(x => x.Priority)
                 .ToArray();
 
-            _lateExecutors = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateExecutor)) ?? false)
+            _lateExecutors = services.Where(x =>
+                    x.ImplementationType?.GetInterfaces().Contains(typeof(ILateExecutor)) ?? false)
                 .Select(x => _services.GetService(x.ImplementationType) as ILateExecutor)
                 .ToArray();
 
-            _inputTransformers = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(IInputTransformer)) ?? false)
+            _inputTransformers = services.Where(x =>
+                    x.ImplementationType?.GetInterfaces().Contains(typeof(IInputTransformer)) ?? false)
                 .Select(x => _services.GetService(x.ImplementationType) as IInputTransformer)
                 .ToArray();
 
-            _earlyBehaviors = services.Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
+            _earlyBehaviors = services.Where(x =>
+                    x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
                 .Select(x => _services.GetService(x.ImplementationType) as IEarlyBehavior)
                 .ToArray();
         }
@@ -151,85 +166,85 @@ namespace Mewdeko.Core.Services
                 try
                 {
                     IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
-                    msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
+                    msg = (IUserMessage) await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
                     await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
                     //msg.DeleteAfter(5);
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 
         public Task StartHandling()
         {
-            _client.MessageReceived += (msg) => { var _ = Task.Run(() => MessageReceivedHandler(msg)); return Task.CompletedTask; };
+            _client.MessageReceived += msg =>
+            {
+                var _ = Task.Run(() => MessageReceivedHandler(msg));
+                return Task.CompletedTask;
+            };
             return Task.CompletedTask;
         }
-
-        private const float _oneThousandth = 1.0f / 1000;
-        private readonly DbService _db;
 
         private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
             var bss = _services.GetService<BotConfigService>();
             if (bss.Data.ConsoleOutputType == ConsoleOutputType.Normal)
-            {
-                Log.Information($"Command Executed after " + string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) + "s\n\t" +
-                        "User: {0}\n\t" +
-                        "Server: {1}\n\t" +
-                        "Channel: {2}\n\t" +
-                        "Message: {3}",
-                        usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                        (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                        (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                        usrMsg.Content // {3}
-                        );
-            }
+                Log.Information("Command Executed after " +
+                                string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
+                                "s\n\t" +
+                                "User: {0}\n\t" +
+                                "Server: {1}\n\t" +
+                                "Channel: {2}\n\t" +
+                                "Message: {3}",
+                    usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                    channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]", // {1}
+                    channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
+                    usrMsg.Content // {3}
+                );
             else
-            {
                 Log.Information("Succ | g:{0} | c: {1} | u: {2} | msg: {3}",
                     channel?.Guild.Id.ToString() ?? "-",
                     channel?.Id.ToString() ?? "-",
                     usrMsg.Author.Id,
                     usrMsg.Content.TrimTo(10));
-            }
             return Task.CompletedTask;
         }
 
-        private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
+        private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
+            params int[] execPoints)
         {
             var bss = _services.GetService<BotConfigService>();
             if (bss.Data.ConsoleOutputType == ConsoleOutputType.Normal)
-            {
-                Log.Warning($"Command Errored after " + string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) + "s\n\t" +
+                Log.Warning("Command Errored after " +
+                            string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) + "s\n\t" +
                             "User: {0}\n\t" +
                             "Server: {1}\n\t" +
                             "Channel: {2}\n\t" +
                             "Message: {3}\n\t" +
                             "Error: {4}",
-                            usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                            (channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]"), // {1}
-                            (channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]"), // {2}
-                            usrMsg.Content,// {3}
-                            errorMessage
-                            //exec.Result.ErrorReason // {4}
-                            );
-            }
+                    usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
+                    channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]", // {1}
+                    channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
+                    usrMsg.Content, // {3}
+                    errorMessage
+                    //exec.Result.ErrorReason // {4}
+                );
             else
-            {
                 Log.Warning("Err | g:{0} | c: {1} | u: {2} | msg: {3}\n\tErr: {4}",
                     channel?.Guild.Id.ToString() ?? "-",
                     channel?.Id.ToString() ?? "-",
                     usrMsg.Author.Id,
                     usrMsg.Content.TrimTo(10),
                     errorMessage);
-            }
         }
 
         private async Task MessageReceivedHandler(SocketMessage msg)
         {
             try
             {
-                if (msg.Author.IsBot || !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
+                if (msg.Author.IsBot ||
+                    !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
                     return;
 
                 if (!(msg is SocketUserMessage usrMsg))
@@ -239,7 +254,7 @@ namespace Mewdeko.Core.Services
                 UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
 #endif
 
-                var channel = msg.Channel as ISocketMessageChannel;
+                var channel = msg.Channel;
                 var guild = (msg.Channel as SocketTextChannel)?.Guild;
 
                 await TryRunCommand(guild, channel, usrMsg).ConfigureAwait(false);
@@ -248,9 +263,7 @@ namespace Mewdeko.Core.Services
             {
                 Log.Warning(ex, "Error in CommandHandler");
                 if (ex.InnerException != null)
-                {
                     Log.Warning(ex.InnerException, "Inner Exception of the error in CommandHandler");
-                }
             }
         }
 
@@ -262,29 +275,22 @@ namespace Mewdeko.Core.Services
             //i could also have one interface with priorities, and just put early blockers on
             //highest priority. :thinking:
             foreach (var beh in _earlyBehaviors)
-            {
                 if (await beh.RunBehavior(_client, guild, usrMsg).ConfigureAwait(false))
                 {
                     if (beh.BehaviorType == ModuleBehaviorType.Blocker)
-                    {
                         Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
                             usrMsg.Content, beh.GetType().Name);
-                    }
                     else if (beh.BehaviorType == ModuleBehaviorType.Executor)
-                    {
                         Log.Information("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content,
                             beh.GetType().Name);
 
-                    }
-
                     return;
                 }
-            }
 
             var exec2 = Environment.TickCount - execTime;
 
-            
-            string messageContent = usrMsg.Content;
+
+            var messageContent = usrMsg.Content;
             foreach (var exec in _inputTransformers)
             {
                 string newContent;
@@ -295,21 +301,26 @@ namespace Mewdeko.Core.Services
                     break;
                 }
             }
+
             var prefix = GetPrefix(guild?.Id);
             var isPrefixCommand = messageContent.StartsWith(".prefix", StringComparison.InvariantCultureIgnoreCase);
             // execute the command and measure the time it took
             if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || isPrefixCommand)
             {
-                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg), messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best).ConfigureAwait(false);
+                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg),
+                        messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best)
+                    .ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
                 if (Success)
                 {
-                    await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, execTime).ConfigureAwait(false);
+                    await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, execTime)
+                        .ConfigureAwait(false);
                     await CommandExecuted(usrMsg, Info).ConfigureAwait(false);
                     return;
                 }
-                else if (Error != null)
+
+                if (Error != null)
                 {
                     LogErroredExecution(Error, usrMsg, channel as ITextChannel, exec2, execTime);
                     if (guild != null)
@@ -321,18 +332,20 @@ namespace Mewdeko.Core.Services
                 await OnMessageNoTrigger(usrMsg).ConfigureAwait(false);
             }
 
-            foreach (var exec in _lateExecutors)
-            {
-                await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
-            }
-
+            foreach (var exec in _lateExecutors) await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
         }
 
-        public Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context, string input, int argPos, IServiceProvider serviceProvider, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
-            => ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
+        public Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
+            string input, int argPos, IServiceProvider serviceProvider,
+            MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        {
+            return ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
+        }
 
 
-        public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context, string input, IServiceProvider services, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+        public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
+            string input, IServiceProvider services,
+            MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
             var searchResult = _commandService.Search(context, input);
             if (!searchResult.IsSuccess)
@@ -342,9 +355,8 @@ namespace Mewdeko.Core.Services
             var preconditionResults = new Dictionary<CommandMatch, PreconditionResult>();
 
             foreach (var match in commands)
-            {
-                preconditionResults[match] = await match.Command.CheckPreconditionsAsync(context, services).ConfigureAwait(false);
-            }
+                preconditionResults[match] =
+                    await match.Command.CheckPreconditionsAsync(context, services).ConfigureAwait(false);
 
             var successfulPreconditions = preconditionResults
                 .Where(x => x.Value.IsSuccess)
@@ -362,7 +374,8 @@ namespace Mewdeko.Core.Services
             var parseResultsDict = new Dictionary<CommandMatch, ParseResult>();
             foreach (var pair in successfulPreconditions)
             {
-                var parseResult = await pair.Key.ParseAsync(context, searchResult, pair.Value, services).ConfigureAwait(false);
+                var parseResult = await pair.Key.ParseAsync(context, searchResult, pair.Value, services)
+                    .ConfigureAwait(false);
 
                 if (parseResult.Error == CommandError.MultipleMatches)
                 {
@@ -370,8 +383,10 @@ namespace Mewdeko.Core.Services
                     switch (multiMatchHandling)
                     {
                         case MultiMatchHandling.Best:
-                            argList = parseResult.ArgValues.Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
-                            paramList = parseResult.ParamValues.Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                            argList = parseResult.ArgValues
+                                .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                            paramList = parseResult.ParamValues
+                                .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
                             parseResult = ParseResult.FromSuccess(argList, paramList);
                             break;
                     }
@@ -379,6 +394,7 @@ namespace Mewdeko.Core.Services
 
                 parseResultsDict[pair.Key] = parseResult;
             }
+
             // Calculates the 'score' of a command given a parse result
             float CalculateScore(CommandMatch match, ParseResult parseResult)
             {
@@ -386,8 +402,11 @@ namespace Mewdeko.Core.Services
 
                 if (match.Command.Parameters.Count > 0)
                 {
-                    var argValuesSum = parseResult.ArgValues?.Sum(x => x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
-                    var paramValuesSum = parseResult.ParamValues?.Sum(x => x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
+                    var argValuesSum =
+                        parseResult.ArgValues?.Sum(x =>
+                            x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
+                    var paramValuesSum = parseResult.ParamValues?.Sum(x =>
+                        x.Values.OrderByDescending(y => y.Score).FirstOrDefault().Score) ?? 0;
 
                     argValuesScore = argValuesSum / match.Command.Parameters.Count;
                     paramValuesScore = paramValuesSum / match.Command.Parameters.Count;
@@ -423,7 +442,6 @@ namespace Mewdeko.Core.Services
 
             var commandName = cmd.Aliases.First();
             foreach (var exec in _lateBlockers)
-            {
                 if (await exec.TryBlockLate(_client, context, cmd.Module.GetTopLevelModule().Name, cmd)
                     .ConfigureAwait(false))
                 {
@@ -431,16 +449,15 @@ namespace Mewdeko.Core.Services
                         exec.GetType().Name);
                     return (false, null, cmd);
                 }
-            }
 
             //If we get this far, at least one parse was successful. Execute the most likely overload.
             var chosenOverload = successfulParses[0];
-            var execResult = (ExecuteResult)await chosenOverload.Key.ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
+            var execResult = (ExecuteResult) await chosenOverload.Key
+                .ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
 
-            if (execResult.Exception != null && (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
-            {
+            if (execResult.Exception != null &&
+                (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
                 Log.Warning(execResult.Exception, "Command Error");
-            }
 
             return (true, null, cmd);
         }

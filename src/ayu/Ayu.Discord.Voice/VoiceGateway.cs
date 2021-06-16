@@ -1,8 +1,4 @@
-﻿using Ayu.Discord.Voice.Models;
-using Discord.Models.Gateway;
-using Newtonsoft.Json.Linq;
-using Serilog;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -10,76 +6,53 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Ayu.Discord.Gateway;
+using Ayu.Discord.Voice.Models;
+using Discord.Models.Gateway;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace Ayu.Discord.Voice
 {
     public class VoiceGateway
     {
-        private class QueueItem
-        {
-            public VoicePayload Payload { get; }
-            public TaskCompletionSource<bool> Result { get; }
-
-            public QueueItem(VoicePayload payload, TaskCompletionSource<bool> result)
-            {
-                Payload = payload;
-                Result = result;
-            }
-        }
+        private readonly Channel<QueueItem> _channel;
+        private readonly string _endpoint;
 
         private readonly ulong _guildId;
-        private readonly ulong _userId;
-        private readonly string _sessionId;
-        private readonly string _token;
-        private readonly string _endpoint;
-        private readonly Uri _websocketUrl;
-        private readonly Channel<QueueItem> _channel;
-
-        public TaskCompletionSource<bool> ConnectingFinished { get; }
 
         private readonly Random _rng;
-        private readonly SocketClient _ws;
+        private readonly string _sessionId;
+
+        private readonly CancellationTokenSource _stopCancellationSource;
+        private readonly CancellationToken _stopCancellationToken;
+        private readonly string _token;
         private readonly UdpClient _udpClient;
+        private readonly ulong _userId;
+        private readonly Uri _websocketUrl;
+        private readonly SocketClient _ws;
         private Timer? _heartbeatTimer;
         private bool _receivedAck;
         private IPEndPoint? _udpEp;
-
-        public uint Ssrc { get; private set; }
-        public string Ip { get; private set; } = "";
-        public int Port { get; private set; } = 0;
-        public byte[] SecretKey { get; private set; } = Array.Empty<byte>();
-        public string Mode { get; private set; } = "";
-        public ushort Sequence { get; set; }
-        public uint NonceSequence { get; set; }
-        public uint Timestamp { get; set; }
-        public string MyIp { get; private set; } = "";
-        public ushort MyPort { get; private set; }
-        private bool shouldResume = false;
-        
-        private readonly CancellationTokenSource _stopCancellationSource;
-        private readonly CancellationToken _stopCancellationToken;
-        public bool Stopped => _stopCancellationToken.IsCancellationRequested;
-
-        public event Func<VoiceGateway, Task> OnClosed = delegate { return Task.CompletedTask; };
+        private bool shouldResume;
 
         public VoiceGateway(ulong guildId, ulong userId, string session, string token, string endpoint)
         {
-            this._guildId = guildId;
-            this._userId = userId;
-            this._sessionId = session;
-            this._token = token;
-            this._endpoint = endpoint;
+            _guildId = guildId;
+            _userId = userId;
+            _sessionId = session;
+            _token = token;
+            _endpoint = endpoint;
 
             //Log.Information("g: {GuildId} u: {UserId} sess: {Session} tok: {Token} ep: {Endpoint}",
             //    guildId, userId, session, token, endpoint);
 
-            this._websocketUrl = new Uri($"wss://{_endpoint.Replace(":80", "")}?v=4");
-            this._channel = Channel.CreateUnbounded<QueueItem>(new UnboundedChannelOptions
+            _websocketUrl = new Uri($"wss://{_endpoint.Replace(":80", "")}?v=4");
+            _channel = Channel.CreateUnbounded<QueueItem>(new UnboundedChannelOptions
             {
                 SingleReader = true,
                 SingleWriter = false,
-                AllowSynchronousContinuations = false,
+                AllowSynchronousContinuations = false
             });
 
             ConnectingFinished = new TaskCompletionSource<bool>();
@@ -95,13 +68,32 @@ namespace Ayu.Discord.Voice
             _ws.WebsocketClosed += _ws_WebsocketClosed;
         }
 
+        public TaskCompletionSource<bool> ConnectingFinished { get; }
+
+        public uint Ssrc { get; private set; }
+        public string Ip { get; } = "";
+        public int Port { get; } = 0;
+        public byte[] SecretKey { get; private set; } = Array.Empty<byte>();
+        public string Mode { get; private set; } = "";
+        public ushort Sequence { get; set; }
+        public uint NonceSequence { get; set; }
+        public uint Timestamp { get; set; }
+        public string MyIp { get; private set; } = "";
+        public ushort MyPort { get; private set; }
+        public bool Stopped => _stopCancellationToken.IsCancellationRequested;
+
+        public bool Started { get; set; }
+
+        public event Func<VoiceGateway, Task> OnClosed = delegate { return Task.CompletedTask; };
+
         public Task WaitForReadyAsync()
-            => ConnectingFinished.Task;
+        {
+            return ConnectingFinished.Task;
+        }
 
         private async Task SendLoop()
         {
             while (!_stopCancellationToken.IsCancellationRequested)
-            {
                 try
                 {
                     var qi = await _channel.Reader.ReadAsync(_stopCancellationToken);
@@ -117,7 +109,6 @@ namespace Ayu.Discord.Voice
                 {
                     Log.Warning("Voice gateway send channel is closed");
                 }
-            }
         }
 
         private async Task _ws_PayloadReceived(byte[] arg)
@@ -172,12 +163,10 @@ namespace Ayu.Discord.Voice
                 Log.Error(ex, "Error handling payload with opcode {OpCode}: {Message}", payload.OpCode, ex.Message);
             }
         }
+
         private Task _ws_WebsocketClosed(string arg)
         {
-            if (!string.IsNullOrWhiteSpace(arg))
-            {
-                Log.Warning("Voice Websocket closed: {Arg}", arg);
-            }
+            if (!string.IsNullOrWhiteSpace(arg)) Log.Warning("Voice Websocket closed: {Arg}", arg);
 
             var hbt = _heartbeatTimer;
             hbt?.Change(Timeout.Infinite, Timeout.Infinite);
@@ -188,14 +177,14 @@ namespace Ayu.Discord.Voice
                 _ = _ws.RunAndBlockAsync(_websocketUrl, _stopCancellationToken);
                 return Task.CompletedTask;
             }
-            
+
             _ws.WebsocketClosed -= _ws_WebsocketClosed;
             _ws.PayloadReceived -= _ws_PayloadReceived;
-            
-            if(!_stopCancellationToken.IsCancellationRequested)
+
+            if (!_stopCancellationToken.IsCancellationRequested)
                 _stopCancellationSource.Cancel();
 
-            return this.OnClosed(this);
+            return OnClosed(this);
         }
 
         public void SendRtpData(byte[] rtpData, int length)
@@ -221,9 +210,9 @@ namespace Ayu.Discord.Voice
                 OpCode = VoiceOpCode.Resume,
                 Data = JToken.FromObject(new VoiceResume
                 {
-                    ServerId = this._guildId.ToString(),
-                    SessionId = this._sessionId,
-                    Token = this._token,
+                    ServerId = _guildId.ToString(),
+                    SessionId = _sessionId,
+                    Token = _token
                 })
             });
         }
@@ -265,21 +254,17 @@ namespace Ayu.Discord.Voice
         private Task HandleHelloAsync(VoiceHello data)
         {
             _receivedAck = true;
-            _heartbeatTimer = new Timer(async _ =>
-            {
-                await SendHeartbeatAsync();
-            }, default, data.HeartbeatInterval, data.HeartbeatInterval);
+            _heartbeatTimer = new Timer(async _ => { await SendHeartbeatAsync(); }, default, data.HeartbeatInterval,
+                data.HeartbeatInterval);
 
-            if (shouldResume)
-            {
-                return ResumeAsync();
-            }
+            if (shouldResume) return ResumeAsync();
 
             return IdentifyAsync();
         }
 
         private Task IdentifyAsync()
-            => SendCommandPayloadAsync(new VoicePayload
+        {
+            return SendCommandPayloadAsync(new VoicePayload
             {
                 OpCode = VoiceOpCode.Identify,
                 Data = JToken.FromObject(new VoiceIdentify
@@ -287,25 +272,28 @@ namespace Ayu.Discord.Voice
                     ServerId = _guildId.ToString(),
                     SessionId = _sessionId,
                     Token = _token,
-                    UserId = _userId.ToString(),
+                    UserId = _userId.ToString()
                 })
             });
+        }
 
         private Task SelectProtocol()
-            => SendCommandPayloadAsync(new VoicePayload
+        {
+            return SendCommandPayloadAsync(new VoicePayload
             {
                 OpCode = VoiceOpCode.SelectProtocol,
                 Data = JToken.FromObject(new SelectProtocol
                 {
                     Protocol = "udp",
-                    Data = new SelectProtocol.ProtocolData()
+                    Data = new SelectProtocol.ProtocolData
                     {
                         Address = MyIp,
                         Port = MyPort,
-                        Mode = "xsalsa20_poly1305_lite",
+                        Mode = "xsalsa20_poly1305_lite"
                     }
                 })
             });
+        }
 
         private async Task SendHeartbeatAsync()
         {
@@ -317,7 +305,7 @@ namespace Ayu.Discord.Voice
                     await _ws_WebsocketClosed(null);
                 return;
             }
-            
+
             _receivedAck = false;
             await SendCommandPayloadAsync(new VoicePayload
             {
@@ -327,23 +315,32 @@ namespace Ayu.Discord.Voice
         }
 
         public Task SendSpeakingAsync(VoiceSpeaking.State speaking)
-            => SendCommandPayloadAsync(new VoicePayload
+        {
+            return SendCommandPayloadAsync(new VoicePayload
             {
                 OpCode = VoiceOpCode.Speaking,
                 Data = JToken.FromObject(new VoiceSpeaking
                 {
                     Delay = 0,
                     Ssrc = Ssrc,
-                    Speaking = (int)speaking
+                    Speaking = (int) speaking
                 })
             });
+        }
 
         public Task StopAsync()
         {
             Started = false;
             shouldResume = false;
-            if(!_stopCancellationSource.IsCancellationRequested)
-                try { _stopCancellationSource.Cancel(); } catch { }
+            if (!_stopCancellationSource.IsCancellationRequested)
+                try
+                {
+                    _stopCancellationSource.Cancel();
+                }
+                catch
+                {
+                }
+
             return _ws.CloseAsync("Stopped by the user.");
         }
 
@@ -354,8 +351,6 @@ namespace Ayu.Discord.Voice
             return _ws.RunAndBlockAsync(_websocketUrl, _stopCancellationToken);
         }
 
-        public bool Started { get; set; }
-
         public async Task SendCommandPayloadAsync(VoicePayload payload)
         {
             var complete = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -365,6 +360,18 @@ namespace Ayu.Discord.Voice
                 await _channel.Writer.WriteAsync(queueItem);
 
             await complete.Task;
+        }
+
+        private class QueueItem
+        {
+            public QueueItem(VoicePayload payload, TaskCompletionSource<bool> result)
+            {
+                Payload = payload;
+                Result = result;
+            }
+
+            public VoicePayload Payload { get; }
+            public TaskCompletionSource<bool> Result { get; }
         }
     }
 }

@@ -10,11 +10,28 @@ namespace Mewdeko.Modules.Games.Common.Hangman
 {
     public sealed class Hangman : IDisposable
     {
+        private readonly TaskCompletionSource<bool> _endingCompletionSource = new();
+
+        private readonly SemaphoreSlim _locker = new(1, 1);
+
+        private readonly HashSet<char> _previousGuesses = new();
+
+        private readonly HashSet<ulong> _recentUsers = new();
+
+        private Phase _currentPhase = Phase.Active;
+
+        public Hangman(string type, TermPool tp = null)
+        {
+            TermType = type.Trim().ToLowerInvariant().ToTitleCase();
+            TermPool = tp ?? new TermPool();
+            Term = TermPool.GetTerm(type);
+        }
+
         public string TermType { get; }
         public TermPool TermPool { get; }
         public HangmanObject Term { get; }
 
-        public string ScrambledWord => "`" + String.Concat(Term.Word.Select(c =>
+        public string ScrambledWord => "`" + string.Concat(Term.Word.Select(c =>
         {
             if (c == ' ')
                 return " \u2000";
@@ -25,7 +42,6 @@ namespace Mewdeko.Modules.Games.Common.Hangman
             return _previousGuesses.Contains(c) ? $" {c}" : " ◯";
         })) + "`";
 
-        private Phase _currentPhase = Phase.Active;
         public Phase CurrentPhase
         {
             get => _currentPhase;
@@ -38,31 +54,27 @@ namespace Mewdeko.Modules.Games.Common.Hangman
             }
         }
 
-        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
-
-        private readonly HashSet<ulong> _recentUsers = new HashSet<ulong>();
-
-        public uint Errors { get; private set; } = 0;
+        public uint Errors { get; private set; }
         public uint MaxErrors { get; } = 6;
+        public ImmutableArray<char> PreviousGuesses => _previousGuesses.ToImmutableArray();
+
+        public Task EndedTask => _endingCompletionSource.Task;
+
+        public void Dispose()
+        {
+            OnGameEnded = null;
+            OnGuessFailed = null;
+            OnGuessSucceeded = null;
+            OnLetterAlreadyUsed = null;
+            _previousGuesses.Clear();
+            _recentUsers.Clear();
+            // _locker.Dispose();
+        }
 
         public event Func<Hangman, string, Task> OnGameEnded = delegate { return Task.CompletedTask; };
         public event Func<Hangman, string, char, Task> OnLetterAlreadyUsed = delegate { return Task.CompletedTask; };
         public event Func<Hangman, string, char, Task> OnGuessFailed = delegate { return Task.CompletedTask; };
         public event Func<Hangman, string, char, Task> OnGuessSucceeded = delegate { return Task.CompletedTask; };
-
-        private readonly HashSet<char> _previousGuesses = new HashSet<char>();
-        public ImmutableArray<char> PreviousGuesses => _previousGuesses.ToImmutableArray();
-
-        private readonly TaskCompletionSource<bool> _endingCompletionSource = new TaskCompletionSource<bool>();
-
-        public Task EndedTask => _endingCompletionSource.Task;
-
-        public Hangman(string type, TermPool tp = null)
-        {
-            this.TermType = type.Trim().ToLowerInvariant().ToTitleCase();
-            this.TermPool = tp ?? new TermPool();
-            this.Term = this.TermPool.GetTerm(type);
-        }
 
         private void AddError()
         {
@@ -73,13 +85,16 @@ namespace Mewdeko.Modules.Games.Common.Hangman
             }
         }
 
-        public string GetHangman() => $@". ┌─────┐
+        public string GetHangman()
+        {
+            return $@". ┌─────┐
 .┃...............┋
 .┃...............┋
 .┃{(Errors > 0 ? ".............😲" : "")}
 .┃{(Errors > 1 ? "............./" : "")} {(Errors > 2 ? "|" : "")} {(Errors > 3 ? "\\" : "")}
 .┃{(Errors > 4 ? "............../" : "")} {(Errors > 5 ? "\\" : "")}
 /-\";
+        }
 
         public async Task Input(ulong userId, string userName, string input)
         {
@@ -125,7 +140,7 @@ namespace Mewdeko.Modules.Games.Common.Hangman
                     AddError();
                 }
                 else if (Term.Word.All(x => _previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
-                                                                            .Where(char.IsLetterOrDigit))))
+                    .Where(char.IsLetterOrDigit))))
                 {
                     var _ = OnGameEnded.Invoke(this, userName); // if all letters are guessed
                     CurrentPhase = Phase.Ended;
@@ -143,7 +158,10 @@ namespace Mewdeko.Modules.Games.Common.Hangman
                     _recentUsers.Remove(userId);
                 });
             }
-            finally { _locker.Release(); }
+            finally
+            {
+                _locker.Release();
+            }
         }
 
         public async Task Stop()
@@ -153,18 +171,10 @@ namespace Mewdeko.Modules.Games.Common.Hangman
             {
                 CurrentPhase = Phase.Ended;
             }
-            finally { _locker.Release(); }
-        }
-
-        public void Dispose()
-        {
-            OnGameEnded = null;
-            OnGuessFailed = null;
-            OnGuessSucceeded = null;
-            OnLetterAlreadyUsed = null;
-            _previousGuesses.Clear();
-            _recentUsers.Clear();
-            // _locker.Dispose();
+            finally
+            {
+                _locker.Release();
+            }
         }
     }
 }

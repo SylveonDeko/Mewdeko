@@ -20,7 +20,7 @@ namespace Mewdeko.Modules.Music.Resolvers
             ".AAC", ".MKV", ".WEBM", ".M4A", ".AA", ".AAX",
             ".ALAC", ".AIFF", ".MOV", ".FLV", ".OGG", ".M4V"
         }.ToHashSet();
-        
+
         public async Task<ITrackInfo?> ResolveByQueryAsync(string query)
         {
             if (!File.Exists(query))
@@ -61,16 +61,16 @@ namespace Mewdeko.Modules.Music.Resolvers
             var firstFile = files.FirstOrDefault()?.FullName;
             if (firstFile is null)
                 yield break;
-            
+
             var firstData = await ResolveByQueryAsync(firstFile);
             if (!(firstData is null))
                 yield return firstData;
 
             var fileChunks = files.Skip(1).Chunk(10);
             foreach (var chunk in fileChunks)
-            { 
+            {
                 var part = await Task.WhenAll(chunk.Select(x => ResolveByQueryAsync(x.FullName)));
-                
+
                 // nullable reference types being annoying
                 foreach (var p in part)
                 {
@@ -91,21 +91,22 @@ namespace Mewdeko.Modules.Music.Resolvers
 
             try
             {
-                using var p = Process.Start(new ProcessStartInfo()
+                using var p = Process.Start(new ProcessStartInfo
                 {
                     FileName = "ffprobe",
-                    Arguments = $"-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 -- \"{query}\"",
+                    Arguments =
+                        $"-v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 -- \"{query}\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     StandardOutputEncoding = Encoding.UTF8,
                     StandardErrorEncoding = Encoding.UTF8,
-                    CreateNoWindow = true,
+                    CreateNoWindow = true
                 });
 
-                if(p is null)
+                if (p is null)
                     return TimeSpan.Zero;
-                
+
                 var data = await p.StandardOutput.ReadToEndAsync();
                 if (double.TryParse(data, out var seconds))
                     return TimeSpan.FromSeconds(seconds);
@@ -113,7 +114,7 @@ namespace Mewdeko.Modules.Music.Resolvers
                 var errorData = await p.StandardError.ReadToEndAsync();
                 if (!string.IsNullOrWhiteSpace(errorData))
                     Log.Warning("Ffprobe warning for file {FileName}: {ErrorMessage}", query, errorData);
-                
+
                 return TimeSpan.Zero;
             }
             catch

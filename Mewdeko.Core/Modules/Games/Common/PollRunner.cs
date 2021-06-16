@@ -1,26 +1,27 @@
-﻿using System.Threading.Tasks;
-using Discord;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Core.Services;
-using System;
+﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Discord;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
 
 namespace Mewdeko.Modules.Games.Common
 {
     public class PollRunner
     {
-        public Poll Poll { get; }
         private readonly DbService _db;
 
-        public event Func<IUserMessage, IGuildUser, Task> OnVoted;
-
-        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim _locker = new(1, 1);
 
         public PollRunner(DbService db, Poll poll)
         {
             _db = db;
             Poll = poll;
         }
+
+        public Poll Poll { get; }
+
+        public event Func<IUserMessage, IGuildUser, Task> OnVoted;
 
         public async Task<bool> TryVote(IUserMessage msg)
         {
@@ -34,7 +35,7 @@ namespace Mewdeko.Modules.Games.Common
                     return false;
 
                 // has to be an integer
-                if (!int.TryParse(msg.Content, out int vote))
+                if (!int.TryParse(msg.Content, out var vote))
                     return false;
                 --vote;
                 if (vote < 0 || vote >= Poll.Answers.Count)
@@ -44,23 +45,28 @@ namespace Mewdeko.Modules.Games.Common
                 if (usr == null)
                     return false;
 
-                voteObj = new PollVote()
+                voteObj = new PollVote
                 {
                     UserId = msg.Author.Id,
-                    VoteIndex = vote,
+                    VoteIndex = vote
                 };
                 if (!Poll.Votes.Add(voteObj))
                     return false;
 
                 var _ = OnVoted?.Invoke(msg, usr);
             }
-            finally { _locker.Release(); }
+            finally
+            {
+                _locker.Release();
+            }
+
             using (var uow = _db.GetDbContext())
             {
                 var trackedPoll = uow.Polls.GetById(Poll.Id);
                 trackedPoll.Votes.Add(voteObj);
                 uow.SaveChanges();
             }
+
             return true;
         }
 

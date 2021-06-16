@@ -7,9 +7,8 @@ namespace Mewdeko.Modules.Games.Services
 {
     public sealed class GamesConfigService : ConfigServiceBase<GamesConfig>
     {
-        public override string Name { get; } = "games";
         private const string FilePath = "data/games.yml";
-        private static TypedKey<GamesConfig> changeKey = new TypedKey<GamesConfig>("config.games.updated");
+        private static readonly TypedKey<GamesConfig> changeKey = new("config.games.updated");
 
         public GamesConfigService(IConfigSeria serializer, IPubSub pubSub)
             : base(FilePath, serializer, pubSub, changeKey)
@@ -19,6 +18,8 @@ namespace Mewdeko.Modules.Games.Services
             AddParsedProp("trivia.currency_reward", gs => gs.Trivia.CurrencyReward, long.TryParse,
                 ConfigPrinters.ToString, val => val >= 0);
         }
+
+        public override string Name { get; } = "games";
     }
 
     // public sealed class GamesConfigMigrator : IConfigMigrator

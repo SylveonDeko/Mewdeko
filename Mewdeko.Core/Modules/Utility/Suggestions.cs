@@ -93,6 +93,7 @@ namespace Mewdeko.Modules.Utility
                     !(_service.GetSuggestionRole(ctx.Guild.Id) == 0))
                 {
                     var oldrole = ctx.Guild.GetRole(_service.GetSuggestionRole(ctx.Guild.Id));
+                    await _service.SetSuggestionRole(ctx.Guild, name.Id);
                     var em = new EmbedBuilder
                     {
                         Description = $"Switched the suggestion role from {oldrole.Mention} to {name.Mention}.",

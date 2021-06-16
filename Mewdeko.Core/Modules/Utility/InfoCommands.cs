@@ -1,13 +1,13 @@
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
 using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -25,6 +25,7 @@ namespace Mewdeko.Modules.Utility
                 _client = client;
                 _stats = stats;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -41,6 +42,7 @@ namespace Mewdeko.Modules.Utility
                     .WithOkColor();
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -48,11 +50,11 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task ServerInfo(string guildName = null)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
                 guildName = guildName?.ToUpperInvariant();
                 SocketGuild guild;
                 if (string.IsNullOrWhiteSpace(guildName))
-                    guild = (SocketGuild)channel.Guild;
+                    guild = (SocketGuild) channel.Guild;
                 else
                     guild = _client.Guilds.FirstOrDefault(
                         g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
@@ -101,11 +103,14 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChannelInfo(ITextChannel channel = null)
             {
-                var ch = channel ?? (ITextChannel)ctx.Channel;
+                var ch = channel ?? (ITextChannel) ctx.Channel;
                 if (ch == null)
                     return;
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
@@ -114,7 +119,9 @@ namespace Mewdeko.Modules.Utility
                     .WithTitle(ch.Name)
                     .WithDescription(ch.Topic?.SanitizeMentions(true))
                     .AddField(fb => fb.WithName(GetText("id")).WithValue(ch.Id.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("created_at")).WithValue($"{createdAt:dd.MM.yyyy HH:mm}").WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:dd.MM.yyyy HH:mm}")
+                            .WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("users")).WithValue(usercount.ToString()).WithIsInline(true))
                     .WithColor(Mewdeko.OkColor);
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -156,7 +163,8 @@ namespace Mewdeko.Modules.Utility
                             .WithIsInline(false));
                 if (user.Activities?.FirstOrDefault()?.Name != null)
                     embed.AddField(fb =>
-                        fb.WithName("User Activity").WithValue(user.Activities?.FirstOrDefault()?.Type + ": " + user.Activities.FirstOrDefault().Name));
+                        fb.WithName("User Activity").WithValue(user.Activities?.FirstOrDefault()?.Type + ": " +
+                                                               user.Activities.FirstOrDefault().Name));
                 else
                     embed.AddField(fb => fb.WithName("User Activity").WithValue("None"));
                 var av = user.RealAvatarUrl();
@@ -166,7 +174,10 @@ namespace Mewdeko.Modules.Utility
             }
 
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
             public async Task Activity(int page = 1)
@@ -177,16 +188,15 @@ namespace Mewdeko.Modules.Utility
                 if (page < 0)
                     return;
 
-                int startCount = page * activityPerPage;
+                var startCount = page * activityPerPage;
 
-                StringBuilder str = new StringBuilder();
-                foreach (var kvp in CmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value).Skip(page * activityPerPage).Take(activityPerPage))
-                {
+                var str = new StringBuilder();
+                foreach (var kvp in CmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value)
+                    .Skip(page * activityPerPage).Take(activityPerPage))
                     str.AppendLine(GetText("activity_line",
                         ++startCount,
                         Format.Bold(kvp.Key.ToString()),
                         kvp.Value / _stats.GetUptime().TotalSeconds, kvp.Value));
-                }
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder()
                     .WithTitle(GetText("activity_page", page + 1))

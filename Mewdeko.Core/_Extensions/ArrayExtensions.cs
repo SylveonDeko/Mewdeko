@@ -7,7 +7,7 @@ namespace Mewdeko.Extensions
     public static class ArrayExtensions
     {
         /// <summary>
-        /// Create a new array from the old array + new element at the end
+        ///     Create a new array from the old array + new element at the end
         /// </summary>
         /// <param name="input">Input array</param>
         /// <param name="added">Item to add to the end of the output array</param>

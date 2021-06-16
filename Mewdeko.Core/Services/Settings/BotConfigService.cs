@@ -7,15 +7,13 @@ using SixLabors.ImageSharp.PixelFormats;
 namespace Mewdeko.Core.Services
 {
     /// <summary>
-    /// Settings service for bot-wide configuration.
+    ///     Settings service for bot-wide configuration.
     /// </summary>
     public sealed class BotConfigService : ConfigServiceBase<BotConfig>
     {
-        public override string Name { get; } = "bot";
-        
         private const string FilePath = "data/bot.yml";
-        private static TypedKey<BotConfig> changeKey = new TypedKey<BotConfig>("config.bot.updated");
-        
+        private static readonly TypedKey<BotConfig> changeKey = new("config.bot.updated");
+
         public BotConfigService(IConfigSeria serializer, IPubSub pubSub)
             : base(FilePath, serializer, pubSub, changeKey)
         {
@@ -27,9 +25,11 @@ namespace Mewdeko.Core.Services
             AddParsedProp("console.type", bs => bs.ConsoleOutputType, Enum.TryParse, ConfigPrinters.ToString);
             AddParsedProp("locale", bs => bs.DefaultLocale, ConfigParsers.Culture, ConfigPrinters.Culture);
             AddParsedProp("prefix", bs => bs.Prefix, ConfigParsers.String, ConfigPrinters.ToString);
-            
+
             UpdateColors();
         }
+
+        public override string Name { get; } = "bot";
 
         private void UpdateColors()
         {
@@ -39,7 +39,7 @@ namespace Mewdeko.Core.Services
             Mewdeko.OkColor = new Color(ok.R, ok.G, ok.B);
             Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
         }
-        
+
         protected override void OnStateUpdate()
         {
             UpdateColors();

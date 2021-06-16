@@ -28,6 +28,7 @@ namespace Mewdeko.Modules.ServerManagement
             {
                 _httpFactory = httpfact;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -36,23 +37,21 @@ namespace Mewdeko.Modules.ServerManagement
             [UserPerm(GuildPerm.Administrator)]
             public async Task LockCheck()
             {
-                var msg = await ctx.Channel.SendMessageAsync("Making sure role permissions don't get in the way of lockdown...");
-                var roles = Context.Guild.Roles.ToList().FindAll(x => x.Id != Context.Guild.Id && x.Permissions.SendMessages == true && x.Position < ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                var msg = await ctx.Channel.SendMessageAsync(
+                    "Making sure role permissions don't get in the way of lockdown...");
+                var roles = Context.Guild.Roles.ToList().FindAll(x =>
+                    x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
+                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     foreach (var i in roles)
                     {
-                        GuildPermissions perms = i.Permissions;
+                        var perms = i.Permissions;
                         var newperms = perms.Modify(sendMessages: false);
-                        await i.ModifyAsync(x =>
-                        {
-                            x.Permissions = newperms;
-                        });
+                        await i.ModifyAsync(x => { x.Permissions = newperms; });
                     }
-                    await msg.ModifyAsync(x =>
-                    {
-                        x.Content = "Roles checked! You may now run the lockdown command.";
-                    });
+
+                    await msg.ModifyAsync(x => { x.Content = "Roles checked! You may now run the lockdown command."; });
                 }
                 else
                 {
@@ -62,6 +61,7 @@ namespace Mewdeko.Modules.ServerManagement
                     });
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -70,29 +70,29 @@ namespace Mewdeko.Modules.ServerManagement
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task LockDown()
             {
-                var roles = Context.Guild.Roles.ToList().FindAll(x => x.Id != Context.Guild.Id && x.Permissions.SendMessages == true && x.Position < ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                var roles = Context.Guild.Roles.ToList().FindAll(x =>
+                    x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
+                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("Please run the Lockcheck command as you have roles that will get in the way of lockdown");
+                    await ctx.Channel.SendErrorAsync(
+                        "Please run the Lockcheck command as you have roles that will get in the way of lockdown");
                     return;
                 }
+
                 if (ctx.Guild.EveryoneRole.Permissions.SendMessages == false)
                 {
                     await ctx.Channel.SendErrorAsync("Server is already in lockdown!");
-                    return;
                 }
                 else
                 {
                     var everyonerole = ctx.Guild.EveryoneRole;
                     var newperms = everyonerole.Permissions.Modify(sendMessages: false);
-                    await everyonerole.ModifyAsync(x =>
-                    {
-                        x.Permissions = newperms;
-                    });
+                    await everyonerole.ModifyAsync(x => { x.Permissions = newperms; });
                     await ctx.Channel.SendConfirmAsync("Server has been locked down!");
                 }
-
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -101,19 +101,18 @@ namespace Mewdeko.Modules.ServerManagement
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task Unlockdown()
             {
-                if (ctx.Guild.EveryoneRole.Permissions.SendMessages == true)
+                if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
                 {
                     await ctx.Channel.SendErrorAsync("Server is not locked down!");
                     return;
                 }
+
                 var everyonerole = ctx.Guild.EveryoneRole;
                 var newperms = everyonerole.Permissions.Modify(sendMessages: true);
-                await everyonerole.ModifyAsync(x =>
-                {
-                    x.Permissions = newperms;
-                });
+                await everyonerole.ModifyAsync(x => { x.Permissions = newperms; });
                 await ctx.Channel.SendConfirmAsync("Server has been unlocked!");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -381,7 +380,6 @@ namespace Mewdeko.Modules.ServerManagement
                 eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
-
 
 
             [MewdekoCommand]

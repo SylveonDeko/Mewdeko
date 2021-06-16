@@ -1,5 +1,5 @@
-﻿using Mewdeko.Common.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Mewdeko.Common.Collections;
 
 namespace Mewdeko.Core.Services.Database.Models
 {
@@ -9,12 +9,12 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong ChannelId { get; set; }
         public string Question { get; set; }
         public IndexedCollection<PollAnswer> Answers { get; set; }
-        public HashSet<PollVote> Votes { get; set; } = new HashSet<PollVote>();
+        public HashSet<PollVote> Votes { get; set; } = new();
     }
 
     public class PollAnswer : DbEntity, IIndexed
     {
-        public int Index { get; set; }
         public string Text { get; set; }
+        public int Index { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Common;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Services;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Xp.Services
@@ -48,7 +48,7 @@ namespace Mewdeko.Modules.Xp.Services
             Log.Information("Migrating Xp settings...");
 
             using var com = conn.CreateCommand();
-            com.CommandText = $@"SELECT XpPerMessage, XpMinutesTimeout, VoiceXpPerMinute, MaxXpMinutes 
+            com.CommandText = @"SELECT XpPerMessage, XpMinutesTimeout, VoiceXpPerMinute, MaxXpMinutes 
 FROM BotConfig";
 
             using var reader = com.ExecuteReader();
@@ -59,12 +59,14 @@ FROM BotConfig";
         }
 
         private static Action<XpConfig> ModifyAction(DbDataReader reader)
-            => config =>
+        {
+            return config =>
             {
                 config.XpPerMessage = (int) (long) reader["XpPerMessage"];
                 config.MessageXpCooldown = (int) (long) reader["XpMinutesTimeout"];
                 config.VoiceMaxMinutes = (int) (long) reader["MaxXpMinutes"];
                 config.VoiceXpPerMinute = (double) reader["VoiceXpPerMinute"];
             };
+        }
     }
 }

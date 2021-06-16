@@ -1,32 +1,27 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Discord.Webhook;
-using Mewdeko.Common;
-using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Webhook;
+using Discord.WebSocket;
+using Mewdeko.Common;
+using Mewdeko.Common.Replacements;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Core.Services
 {
     public class GreetSettingsService : INService
     {
-        private readonly DbService _db;
-
-        public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
-        private readonly DiscordSocketClient _client;
-        
-        private GreetGrouper<IGuildUser> greets = new GreetGrouper<IGuildUser>();
-        private GreetGrouper<IGuildUser> byes = new GreetGrouper<IGuildUser>();
-        private ConcurrentDictionary<ulong, int> _webgreets { get; } = new();
-        private ConcurrentDictionary<ulong, string> _webhooks { get; } = new();
         private readonly BotConfigService _bss;
-        public bool GroupGreets => _bss.Data.GroupGreets;
+        private readonly DiscordSocketClient _client;
+        private readonly DbService _db;
+        private readonly GreetGrouper<IGuildUser> byes = new();
+
+        private readonly GreetGrouper<IGuildUser> greets = new();
 
         public GreetSettingsService(DiscordSocketClient client, Mewdeko bot, DbService db,
             BotConfigService bss)
@@ -45,12 +40,17 @@ namespace Mewdeko.Core.Services
             bot.JoinedGuild += Bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;
             _webgreets = bot.AllGuildConfigs
-               .ToDictionary(x => x.GuildId, x => x.WebhookGreet)
-               .ToConcurrent();
+                .ToDictionary(x => x.GuildId, x => x.WebhookGreet)
+                .ToConcurrent();
             _webhooks = bot.AllGuildConfigs
-               .ToDictionary(x => x.GuildId, x => x.WebhookURL)
-               .ToConcurrent();
+                .ToDictionary(x => x.GuildId, x => x.WebhookURL)
+                .ToConcurrent();
         }
+
+        public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
+        private ConcurrentDictionary<ulong, int> _webgreets { get; } = new();
+        private ConcurrentDictionary<ulong, string> _webhooks { get; } = new();
+        public bool GroupGreets => _bss.Data.GroupGreets;
 
         private Task _client_LeftGuild(SocketGuild arg)
         {
@@ -75,11 +75,13 @@ namespace Mewdeko.Core.Services
                     var conf = GetOrAddSettingsForGuild(user.GuildId);
 
                     if (!conf.SendChannelByeMessage) return;
-                    var channel = (await user.Guild.GetTextChannelsAsync().ConfigureAwait(false)).SingleOrDefault(c => c.Id == conf.ByeMessageChannelId);
+                    var channel =
+                        (await user.Guild.GetTextChannelsAsync().ConfigureAwait(false)).SingleOrDefault(c =>
+                            c.Id == conf.ByeMessageChannelId);
 
                     if (channel == null) //maybe warn the server owner that the channel is missing
                         return;
-                    
+
                     if (GroupGreets)
                     {
                         // if group is newly created, greet that user right away,
@@ -90,7 +92,7 @@ namespace Mewdeko.Core.Services
                             // greet single user
                             await ByeUsers(conf, channel, new[] {user});
                             var groupClear = false;
-                            while(!groupClear)
+                            while (!groupClear)
                             {
                                 await Task.Delay(5000).ConfigureAwait(false);
                                 groupClear = byes.ClearGroup(user.GuildId, 5, out var toBye);
@@ -110,6 +112,7 @@ namespace Mewdeko.Core.Services
             });
             return Task.CompletedTask;
         }
+
         public async Task SetWebGreet(IGuild guild, int channel)
         {
             using (var uow = _db.GetDbContext())
@@ -121,6 +124,7 @@ namespace Mewdeko.Core.Services
 
             _webgreets.AddOrUpdate(guild.Id, channel, (key, old) => channel);
         }
+
         public async Task SetWebGreetURL(IGuild guild, string url)
         {
             using (var uow = _db.GetDbContext())
@@ -132,6 +136,7 @@ namespace Mewdeko.Core.Services
 
             _webhooks.AddOrUpdate(guild.Id, url, (key, old) => url);
         }
+
         public string GetDmGreetMsg(ulong id)
         {
             using (var uow = _db.GetDbContext())
@@ -147,23 +152,29 @@ namespace Mewdeko.Core.Services
                 return uow.GuildConfigs.ForId(gid, set => set).ChannelGreetMessageText;
             }
         }
+
         public string GetWebhook(ulong? gid)
         {
             _webhooks.TryGetValue(gid.Value, out var snum);
             return snum;
         }
+
         public int GetWebGreet(ulong? gid)
         {
-            _webgreets.TryGetValue(gid.Value, out var snum);    
+            _webgreets.TryGetValue(gid.Value, out var snum);
             return snum;
         }
+
         private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user)
-            => ByeUsers(conf, channel, new[] {user});
+        {
+            return ByeUsers(conf, channel, new[] {user});
+        }
+
         private async Task ByeUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IUser> users)
         {
             if (!users.Any())
                 return;
-            
+
             var rep = new ReplacementBuilder()
                 .WithChannel(channel)
                 .WithClient(_client)
@@ -179,17 +190,15 @@ namespace Mewdeko.Core.Services
                     if (GetWebGreet(channel.GuildId) == 0)
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
-                        if (conf.AutoDeleteByeMessagesTimer > 0)
-                        {
-                            toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
-                        }
+                        if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                     }
                     else
                     {
                         var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
                         var embeds = new List<Embed>();
                         embeds.Add(embedData.ToEmbed().Build());
-                        var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds).ConfigureAwait(false);
+                        var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds)
+                            .ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0)
                         {
                             var msg = await channel.GetMessageAsync(toDelete) as IUserMessage;
@@ -212,10 +221,7 @@ namespace Mewdeko.Core.Services
                     if (GetWebGreet(channel.GuildId) == 0)
                     {
                         var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                        if (conf.AutoDeleteByeMessagesTimer > 0)
-                        {
-                            toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
-                        }
+                        if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                     }
                     else
                     {
@@ -234,15 +240,17 @@ namespace Mewdeko.Core.Services
                 }
             }
         }
-        
+
         private Task GreetUsers(GreetSettings conf, ITextChannel channel, IGuildUser user)
-            => GreetUsers(conf, channel, new[] {user});
-        
+        {
+            return GreetUsers(conf, channel, new[] {user});
+        }
+
         private async Task GreetUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IGuildUser> users)
         {
             if (!users.Any())
                 return;
-            
+
             var rep = new ReplacementBuilder()
                 .WithChannel(channel)
                 .WithClient(_client)
@@ -259,16 +267,15 @@ namespace Mewdeko.Core.Services
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteGreetMessagesTimer > 0)
-                        {
                             toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
-                        }
                     }
                     else
                     {
                         var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
                         var embeds = new List<Embed>();
                         embeds.Add(embedData.ToEmbed().Build());
-                        var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds).ConfigureAwait(false);
+                        var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds)
+                            .ConfigureAwait(false);
                         if (conf.AutoDeleteGreetMessagesTimer > 0)
                         {
                             var msg = await channel.GetMessageAsync(toDelete) as IUserMessage;
@@ -285,16 +292,13 @@ namespace Mewdeko.Core.Services
             {
                 var msg = rep.Replace(conf.ChannelGreetMessageText);
                 if (!string.IsNullOrWhiteSpace(msg))
-                {
                     try
                     {
                         if (GetWebGreet(channel.GuildId) == 0)
                         {
                             var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                             if (conf.AutoDeleteGreetMessagesTimer > 0)
-                            {
                                 toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
-                            }
                         }
                         else
                         {
@@ -311,16 +315,15 @@ namespace Mewdeko.Core.Services
                     {
                         Log.Warning(ex, "Error sending greet message");
                     }
-                }
             }
         }
 
         private async Task<bool> GreetDmUser(GreetSettings conf, IDMChannel channel, IGuildUser user)
         {
             var rep = new ReplacementBuilder()
-                .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
+                .WithDefault(user, channel, (SocketGuild) user.Guild, _client)
                 .Build();
-            
+
             if (CREmbed.TryParse(conf.DmGreetMessageText, out var embedData))
             {
                 rep.Replace(embedData);
@@ -337,7 +340,6 @@ namespace Mewdeko.Core.Services
             {
                 var msg = rep.Replace(conf.DmGreetMessageText);
                 if (!string.IsNullOrWhiteSpace(msg))
-                {
                     try
                     {
                         await channel.SendConfirmAsync(msg).ConfigureAwait(false);
@@ -346,7 +348,6 @@ namespace Mewdeko.Core.Services
                     {
                         return false;
                     }
-                }
             }
 
             return true;
@@ -375,7 +376,7 @@ namespace Mewdeko.Core.Services
                                     // greet single user
                                     await GreetUsers(conf, channel, new[] {user});
                                     var groupClear = false;
-                                    while(!groupClear)
+                                    while (!groupClear)
                                     {
                                         await Task.Delay(5000).ConfigureAwait(false);
                                         groupClear = greets.ClearGroup(user.GuildId, 5, out var toGreet);
@@ -388,17 +389,13 @@ namespace Mewdeko.Core.Services
                                 await GreetUsers(conf, channel, new[] {user});
                             }
                         }
-
                     }
 
                     if (conf.SendDmGreetMessage)
                     {
                         var channel = await user.GetOrCreateDMChannelAsync().ConfigureAwait(false);
 
-                        if (channel != null)
-                        {
-                            await GreetDmUser(conf, channel, user);
-                        }
+                        if (channel != null) await GreetDmUser(conf, channel, user);
                     }
                 }
                 catch
@@ -439,9 +436,7 @@ namespace Mewdeko.Core.Services
                 settings.AutoDeleteByeMessagesTimer < 0 ||
                 settings.AutoDeleteGreetMessagesTimer > 600 ||
                 settings.AutoDeleteGreetMessagesTimer < 0)
-            {
                 return false;
-            }
 
             using (var uow = _db.GetDbContext())
             {
@@ -485,6 +480,7 @@ namespace Mewdeko.Core.Services
 
                 await uow.SaveChangesAsync();
             }
+
             return enabled;
         }
 
@@ -507,6 +503,7 @@ namespace Mewdeko.Core.Services
 
                 uow.SaveChanges();
             }
+
             return greetMsgEnabled;
         }
 
@@ -523,58 +520,9 @@ namespace Mewdeko.Core.Services
 
                 await uow.SaveChangesAsync();
             }
+
             return enabled;
         }
-
-        #region Get Enabled Status
-        public bool GetGreetDmEnabled(ulong guildId)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                return conf.SendDmGreetMessage;
-            }
-        }
-        
-        public bool GetGreetEnabled(ulong guildId)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                return conf.SendChannelGreetMessage;
-            }
-        }
-        
-        public bool GetByeEnabled(ulong guildId)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                return conf.SendChannelByeMessage;
-            }
-        }
-        #endregion
-        
-        #region Test Messages
-
-        public Task ByeTest(ITextChannel channel, IGuildUser user)
-        {
-            var conf = GetOrAddSettingsForGuild(user.GuildId);
-            return ByeUsers(conf, channel, user);
-        }
-        
-        public Task GreetTest(ITextChannel channel, IGuildUser user)
-        {
-            var conf = GetOrAddSettingsForGuild(user.GuildId);
-            return GreetUsers(conf, channel, user);
-        }
-        
-        public Task<bool> GreetDmTest(IDMChannel channel, IGuildUser user)
-        {
-            var conf = GetOrAddSettingsForGuild(user.GuildId);
-            return GreetDmUser(conf, channel, user);
-        }
-        #endregion
 
         public bool SetGreetDmMessage(ulong guildId, ref string message)
         {
@@ -595,6 +543,7 @@ namespace Mewdeko.Core.Services
 
                 uow.SaveChanges();
             }
+
             return greetMsgEnabled;
         }
 
@@ -612,6 +561,7 @@ namespace Mewdeko.Core.Services
 
                 await uow.SaveChangesAsync();
             }
+
             return enabled;
         }
 
@@ -634,6 +584,7 @@ namespace Mewdeko.Core.Services
 
                 uow.SaveChanges();
             }
+
             return byeMsgEnabled;
         }
 
@@ -670,6 +621,59 @@ namespace Mewdeko.Core.Services
                 await uow.SaveChangesAsync();
             }
         }
+
+        #region Get Enabled Status
+
+        public bool GetGreetDmEnabled(ulong guildId)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId, set => set);
+                return conf.SendDmGreetMessage;
+            }
+        }
+
+        public bool GetGreetEnabled(ulong guildId)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId, set => set);
+                return conf.SendChannelGreetMessage;
+            }
+        }
+
+        public bool GetByeEnabled(ulong guildId)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId, set => set);
+                return conf.SendChannelByeMessage;
+            }
+        }
+
+        #endregion
+
+        #region Test Messages
+
+        public Task ByeTest(ITextChannel channel, IGuildUser user)
+        {
+            var conf = GetOrAddSettingsForGuild(user.GuildId);
+            return ByeUsers(conf, channel, user);
+        }
+
+        public Task GreetTest(ITextChannel channel, IGuildUser user)
+        {
+            var conf = GetOrAddSettingsForGuild(user.GuildId);
+            return GreetUsers(conf, channel, user);
+        }
+
+        public Task<bool> GreetDmTest(IDMChannel channel, IGuildUser user)
+        {
+            var conf = GetOrAddSettingsForGuild(user.GuildId);
+            return GreetDmUser(conf, channel, user);
+        }
+
+        #endregion
     }
 
     public class GreetSettings
@@ -689,18 +693,21 @@ namespace Mewdeko.Core.Services
         public bool SendChannelByeMessage { get; set; }
         public string ChannelByeMessageText { get; set; }
 
-        public static GreetSettings Create(GuildConfig g) => new GreetSettings()
+        public static GreetSettings Create(GuildConfig g)
         {
-            AutoDeleteByeMessagesTimer = g.AutoDeleteByeMessagesTimer,
-            AutoDeleteGreetMessagesTimer = g.AutoDeleteGreetMessagesTimer,
-            GreetMessageChannelId = g.GreetMessageChannelId,
-            ByeMessageChannelId = g.ByeMessageChannelId,
-            SendDmGreetMessage = g.SendDmGreetMessage,
-            DmGreetMessageText = g.DmGreetMessageText,
-            SendChannelGreetMessage = g.SendChannelGreetMessage,
-            ChannelGreetMessageText = g.ChannelGreetMessageText,
-            SendChannelByeMessage = g.SendChannelByeMessage,
-            ChannelByeMessageText = g.ChannelByeMessageText,
-        };
+            return new()
+            {
+                AutoDeleteByeMessagesTimer = g.AutoDeleteByeMessagesTimer,
+                AutoDeleteGreetMessagesTimer = g.AutoDeleteGreetMessagesTimer,
+                GreetMessageChannelId = g.GreetMessageChannelId,
+                ByeMessageChannelId = g.ByeMessageChannelId,
+                SendDmGreetMessage = g.SendDmGreetMessage,
+                DmGreetMessageText = g.DmGreetMessageText,
+                SendChannelGreetMessage = g.SendChannelGreetMessage,
+                ChannelGreetMessageText = g.ChannelGreetMessageText,
+                SendChannelByeMessage = g.SendChannelByeMessage,
+                ChannelByeMessageText = g.ChannelByeMessageText
+            };
+        }
     }
 }

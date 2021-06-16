@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -102,6 +101,7 @@ namespace Mewdeko.Modules.ServerManagement
             await guild.ModifyAsync(x => { x.Name = name; });
             await ctx.Channel.SendMessageAsync("Succesfuly set server name to" + name);
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -179,7 +179,6 @@ namespace Mewdeko.Modules.ServerManagement
         [Aliases]
         [UserPerm(GuildPerm.ManageEmojis)]
         [RequireContext(ContextType.Guild)]
-        
         public async Task RenameEmote(string emote, string name)
         {
             if (name.StartsWith("<"))
@@ -255,6 +254,7 @@ namespace Mewdeko.Modules.ServerManagement
             if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
             await msg.ModifyAsync(x => { x.Embed = b.Build(); });
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -263,9 +263,8 @@ namespace Mewdeko.Modules.ServerManagement
         [UserPerm(GuildPerm.ManageEmojis)]
         [BotPerm(GuildPerm.ManageEmojis)]
         [Priority(0)]
-        public async Task StealForRole(IRole role,[Remainder] string e)
+        public async Task StealForRole(IRole role, [Remainder] string e)
         {
-            
             var eb = new EmbedBuilder
             {
                 Description = $"<a:loading:834915210967253013> Adding Emotes to {role.Mention}...",
@@ -274,10 +273,10 @@ namespace Mewdeko.Modules.ServerManagement
             var list = new Discord.Optional<IEnumerable<IRole>>(new[] {role});
             var errored = new List<string>();
             var emotes = new List<string>();
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
             if (!tags.Any()) return;
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-           
+
             foreach (var i in tags)
             {
                 using var http = _httpFactory.CreateClient();
@@ -304,7 +303,8 @@ namespace Mewdeko.Modules.ServerManagement
 
             var b = new EmbedBuilder();
             b.Color = Mewdeko.OkColor;
-            if (emotes.Any()) b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
+            if (emotes.Any())
+                b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
             if (errored.Any()) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
             await msg.ModifyAsync(x => { x.Embed = b.Build(); });
         }

@@ -8,10 +8,11 @@ namespace Mewdeko.Migrations
         {
             migrationBuilder.Sql(@"INSERT INTO Blacklist(DateAdded, ItemID, Type) 
 SELECT DateAdded, ItemId, Type FROM BlacklistItem;");
-            
-            migrationBuilder.Sql(@"INSERT INTO AutoCommands(DateAdded, CommandText, ChannelId, ChannelName, GuildId, GuildName, VoiceChannelId, VoiceChannelName, Interval) 
+
+            migrationBuilder.Sql(
+                @"INSERT INTO AutoCommands(DateAdded, CommandText, ChannelId, ChannelName, GuildId, GuildName, VoiceChannelId, VoiceChannelName, Interval) 
 SELECT DateAdded, CommandText, ChannelId, ChannelName, GuildId, GuildName, VoiceChannelId, VoiceChannelName, Interval FROM StartupCommand;");
-            
+
             migrationBuilder.Sql(@"INSERT INTO RotatingStatus(DateAdded, Status, Type) 
 SELECT DateAdded, Status, Type FROM PlayingStatus;");
         }

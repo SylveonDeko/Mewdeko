@@ -10,34 +10,33 @@ namespace Mewdeko.Modules.Permissions.Services
     public class GlobalPermissionService : ILateBlocker, INService
     {
         private readonly BotConfigService _bss;
-        public int Priority { get; } = 0;
-
-        public HashSet<string> BlockedCommands => _bss.Data.Blocked.Commands;
-        public HashSet<string> BlockedModules => _bss.Data.Blocked.Modules;
 
         public GlobalPermissionService(BotConfigService bss)
         {
             _bss = bss;
         }
 
+        public HashSet<string> BlockedCommands => _bss.Data.Blocked.Commands;
+        public HashSet<string> BlockedModules => _bss.Data.Blocked.Modules;
+        public int Priority { get; } = 0;
 
-        public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName, CommandInfo command)
+
+        public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
+            CommandInfo command)
         {
-            var settings = _bss.Data; 
+            var settings = _bss.Data;
             var commandName = command.Name.ToLowerInvariant();
 
             if (commandName != "resetglobalperms" &&
                 (settings.Blocked.Commands.Contains(commandName) ||
-                settings.Blocked.Modules.Contains(moduleName.ToLowerInvariant())))
-            {
+                 settings.Blocked.Modules.Contains(moduleName.ToLowerInvariant())))
                 return Task.FromResult(true);
-            }
-            
+
             return Task.FromResult(false);
         }
 
         /// <summary>
-        /// Toggles module blacklist
+        ///     Toggles module blacklist
         /// </summary>
         /// <param name="moduleName">Lowercase module name</param>
         /// <returns>Whether the module is added</returns>
@@ -59,9 +58,9 @@ namespace Mewdeko.Modules.Permissions.Services
 
             return added;
         }
-        
+
         /// <summary>
-        /// Toggles command blacklist
+        ///     Toggles command blacklist
         /// </summary>
         /// <param name="commandName">Lowercase command name</param>
         /// <returns>Whether the command is added</returns>
@@ -85,7 +84,7 @@ namespace Mewdeko.Modules.Permissions.Services
         }
 
         /// <summary>
-        /// Resets all global permissions
+        ///     Resets all global permissions
         /// </summary>
         public Task Reset()
         {

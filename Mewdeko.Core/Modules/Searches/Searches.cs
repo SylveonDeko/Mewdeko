@@ -1,46 +1,47 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using AngleSharp;
 using AngleSharp.Html.Dom;
-using AngleSharp.Html.Parser;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.Caching.Memory;
+using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Mewdeko.Modules.Administration.Services;
-using Serilog;
+using Color = SixLabors.ImageSharp.Color;
 using Configuration = AngleSharp.Configuration;
-using KSoftNet;
 
 namespace Mewdeko.Modules.Searches
 {
     public partial class Searches : MewdekoModule<SearchesService>
     {
+        private static readonly MewdekoRandom _rng = new();
+
+        private static readonly ConcurrentDictionary<string, string> cachedShortenedLinks = new();
+        private readonly IMemoryCache _cache;
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly IMemoryCache _cache;
         private readonly KSoftAPI _kSoftAPI;
-        private static readonly MewdekoRandom _rng = new MewdekoRandom();
         private readonly GuildTimezoneService _tzSvc;
 
         public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
@@ -54,6 +55,7 @@ namespace Mewdeko.Modules.Searches
             _cache = cache;
             _tzSvc = tzSvc;
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -274,25 +276,33 @@ namespace Mewdeko.Modules.Searches
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
+
         //for anonymasen :^)
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Rip([Leftover] IGuildUser usr)
         {
-            var av = usr.RealAvatarUrl(128);
+            var av = usr.RealAvatarUrl();
             if (av == null)
                 return;
-            using (var picStream = await _service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
+            using (var picStream =
+                await _service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
             {
                 await ctx.Channel.SendFileAsync(
-                    picStream,
-                    "rip.png",
-                    $"Rip {Format.Bold(usr.ToString())} \n\t- " +
+                        picStream,
+                        "rip.png",
+                        $"Rip {Format.Bold(usr.ToString())} \n\t- " +
                         Format.Italics(ctx.User.ToString()))
                     .ConfigureAwait(false);
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageMessages)]
         [Priority(1)]
@@ -302,33 +312,39 @@ namespace Mewdeko.Modules.Searches
                 return;
 
             var rep = new ReplacementBuilder()
-                        .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
-                        .Build();
+                .WithDefault(ctx.User, channel, (SocketGuild) ctx.Guild, (DiscordSocketClient) ctx.Client)
+                .Build();
 
             if (CREmbed.TryParse(message, out var embedData))
             {
                 rep.Replace(embedData);
-                await channel.EmbedAsync(embedData, sanitizeAll: !((IGuildUser)Context.User).GuildPermissions.MentionEveryone).ConfigureAwait(false);
+                await channel.EmbedAsync(embedData, !((IGuildUser) Context.User).GuildPermissions.MentionEveryone)
+                    .ConfigureAwait(false);
             }
             else
             {
                 var msg = rep.Replace(message);
-                if (!string.IsNullOrWhiteSpace(msg))
-                {
-                    await channel.SendConfirmAsync(msg).ConfigureAwait(false);
-                }
+                if (!string.IsNullOrWhiteSpace(msg)) await channel.SendConfirmAsync(msg).ConfigureAwait(false);
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageMessages)]
         [Priority(0)]
-        public Task Say([Leftover] string message) =>
-            Say((ITextChannel)ctx.Channel, message);
+        public Task Say([Leftover] string message)
+        {
+            return Say((ITextChannel) ctx.Channel, message);
+        }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Weather([Leftover] string query)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -345,7 +361,7 @@ namespace Mewdeko.Modules.Searches
             else
             {
                 Func<double, double> f = StandardConversions.CelsiusToFahrenheit;
-                
+
                 var tz = Context.Guild is null
                     ? TimeZoneInfo.Utc
                     : _tzSvc.GetTimeZoneOrUtc(Context.Guild.Id);
@@ -355,23 +371,51 @@ namespace Mewdeko.Modules.Searches
                 sunset = sunset.ToOffset(tz.GetUtcOffset(sunset));
                 var timezone = $"UTC{sunrise:zzz}";
 
-                embed.AddField(fb => fb.WithName("🌍 " + Format.Bold(GetText("location"))).WithValue($"[{data.Name + ", " + data.Sys.Country}](https://openweathermap.org/city/{data.Id})").WithIsInline(true))
-                    .AddField(fb => fb.WithName("📏 " + Format.Bold(GetText("latlong"))).WithValue($"{data.Coord.Lat}, {data.Coord.Lon}").WithIsInline(true))
-                    .AddField(fb => fb.WithName("☁ " + Format.Bold(GetText("condition"))).WithValue(string.Join(", ", data.Weather.Select(w => w.Main))).WithIsInline(true))
-                    .AddField(fb => fb.WithName("😓 " + Format.Bold(GetText("humidity"))).WithValue($"{data.Main.Humidity}%").WithIsInline(true))
-                    .AddField(fb => fb.WithName("💨 " + Format.Bold(GetText("wind_speed"))).WithValue(data.Wind.Speed + " m/s").WithIsInline(true))
-                    .AddField(fb => fb.WithName("🌡 " + Format.Bold(GetText("temperature"))).WithValue($"{data.Main.Temp:F1}°C / {f(data.Main.Temp):F1}°F").WithIsInline(true))
-                    .AddField(fb => fb.WithName("🔆 " + Format.Bold(GetText("min_max"))).WithValue($"{data.Main.TempMin:F1}°C - {data.Main.TempMax:F1}°C\n{f(data.Main.TempMin):F1}°F - {f(data.Main.TempMax):F1}°F").WithIsInline(true))
-                    .AddField(fb => fb.WithName("🌄 " + Format.Bold(GetText("sunrise"))).WithValue($"{sunrise:HH:mm} {timezone}").WithIsInline(true))
-                    .AddField(fb => fb.WithName("🌇 " + Format.Bold(GetText("sunset"))).WithValue($"{sunset:HH:mm} {timezone}").WithIsInline(true))
+                embed.AddField(fb =>
+                        fb.WithName("🌍 " + Format.Bold(GetText("location")))
+                            .WithValue(
+                                $"[{data.Name + ", " + data.Sys.Country}](https://openweathermap.org/city/{data.Id})")
+                            .WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("📏 " + Format.Bold(GetText("latlong")))
+                            .WithValue($"{data.Coord.Lat}, {data.Coord.Lon}").WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("☁ " + Format.Bold(GetText("condition")))
+                            .WithValue(string.Join(", ", data.Weather.Select(w => w.Main))).WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("😓 " + Format.Bold(GetText("humidity"))).WithValue($"{data.Main.Humidity}%")
+                            .WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("💨 " + Format.Bold(GetText("wind_speed"))).WithValue(data.Wind.Speed + " m/s")
+                            .WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("🌡 " + Format.Bold(GetText("temperature")))
+                            .WithValue($"{data.Main.Temp:F1}°C / {f(data.Main.Temp):F1}°F").WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("🔆 " + Format.Bold(GetText("min_max")))
+                            .WithValue(
+                                $"{data.Main.TempMin:F1}°C - {data.Main.TempMax:F1}°C\n{f(data.Main.TempMin):F1}°F - {f(data.Main.TempMax):F1}°F")
+                            .WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("🌄 " + Format.Bold(GetText("sunrise"))).WithValue($"{sunrise:HH:mm} {timezone}")
+                            .WithIsInline(true))
+                    .AddField(fb =>
+                        fb.WithName("🌇 " + Format.Bold(GetText("sunset"))).WithValue($"{sunset:HH:mm} {timezone}")
+                            .WithIsInline(true))
                     .WithOkColor()
-                    .WithFooter(efb => efb.WithText("Powered by openweathermap.org").WithIconUrl($"http://openweathermap.org/img/w/{data.Weather[0].Icon}.png"));
+                    .WithFooter(efb =>
+                        efb.WithText("Powered by openweathermap.org")
+                            .WithIconUrl($"http://openweathermap.org/img/w/{data.Weather[0].Icon}.png"));
             }
+
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Time([Leftover] string query)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -398,10 +442,12 @@ namespace Mewdeko.Modules.Searches
                         errorKey = "error_occured";
                         break;
                 }
+
                 await ReplyErrorLocalizedAsync(errorKey).ConfigureAwait(false);
                 return;
             }
-            else if (string.IsNullOrWhiteSpace(data.TimeZoneName))
+
+            if (string.IsNullOrWhiteSpace(data.TimeZoneName))
             {
                 await ReplyErrorLocalizedAsync("timezone_db_api_key").ConfigureAwait(false);
                 return;
@@ -411,20 +457,23 @@ namespace Mewdeko.Modules.Searches
                 .WithOkColor()
                 .WithTitle(GetText("time_new"))
                 .WithDescription(Format.Code(data.Time.ToString()))
-                .AddField(GetText("location"), string.Join('\n', data.Address.Split(", ")), inline: true)
-                .AddField(GetText("timezone"), data.TimeZoneName, inline: true);
+                .AddField(GetText("location"), string.Join('\n', data.Address.Split(", ")), true)
+                .AddField(GetText("timezone"), data.TimeZoneName, true);
 
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Youtube([Leftover] string query = null)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
 
-            var result = (await _google.GetVideoLinksByKeywordAsync(query, 1).ConfigureAwait(false)).FirstOrDefault();
+            var result = (await _google.GetVideoLinksByKeywordAsync(query).ConfigureAwait(false)).FirstOrDefault();
             if (string.IsNullOrWhiteSpace(result))
             {
                 await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
@@ -435,7 +484,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Movie([Leftover] string query = null)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -449,6 +501,7 @@ namespace Mewdeko.Modules.Searches
                 await ReplyErrorLocalizedAsync("imdb_fail").ConfigureAwait(false);
                 return;
             }
+
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle(movie.Title)
                 .WithUrl($"http://www.imdb.com/title/{movie.ImdbId}/")
@@ -460,20 +513,44 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
-        public Task RandomCat() => InternalRandomImage(SearchesService.ImageTag.Cats);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public Task RandomCat()
+        {
+            return InternalRandomImage(SearchesService.ImageTag.Cats);
+        }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
-        public Task RandomDog() => InternalRandomImage(SearchesService.ImageTag.Dogs);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public Task RandomDog()
+        {
+            return InternalRandomImage(SearchesService.ImageTag.Dogs);
+        }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
-        public Task RandomFood() => InternalRandomImage(SearchesService.ImageTag.Food);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public Task RandomFood()
+        {
+            return InternalRandomImage(SearchesService.ImageTag.Food);
+        }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
-        public Task RandomBird() => InternalRandomImage(SearchesService.ImageTag.Birds);
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public Task RandomBird()
+        {
+            return InternalRandomImage(SearchesService.ImageTag.Birds);
+        }
 
         // done in 3.0
         private Task InternalRandomImage(SearchesService.ImageTag tag)
@@ -485,7 +562,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Image([Leftover] string query = null)
         {
             var oterms = query?.Trim();
@@ -509,7 +589,7 @@ namespace Mewdeko.Modules.Searches
             {
                 Log.Warning("Falling back to Imgur");
 
-                var fullQueryLink = $"http://imgur.com/search?q={ query }";
+                var fullQueryLink = $"http://imgur.com/search?q={query}";
                 var config = Configuration.Default.WithDefaultLoader();
                 using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
                 {
@@ -518,7 +598,8 @@ namespace Mewdeko.Modules.Searches
                     if (!elems.Any())
                         return;
 
-                    var img = (elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Count))?.Children?.FirstOrDefault() as IHtmlImageElement);
+                    var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Count))?.Children
+                        ?.FirstOrDefault() as IHtmlImageElement;
 
                     if (img?.Source == null)
                         return;
@@ -538,25 +619,26 @@ namespace Mewdeko.Modules.Searches
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Lmgtfy([Leftover] string ffs = null)
         {
             if (!await ValidateQuery(ctx.Channel, ffs).ConfigureAwait(false))
                 return;
 
-            await ctx.Channel.SendConfirmAsync("<" + await _google.ShortenUrl($"http://lmgtfy.com/?q={ Uri.EscapeUriString(ffs) }").ConfigureAwait(false) + ">")
-                           .ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("<" +
+                                               await _google
+                                                   .ShortenUrl($"http://lmgtfy.com/?q={Uri.EscapeUriString(ffs)}")
+                                                   .ConfigureAwait(false) + ">")
+                .ConfigureAwait(false);
         }
 
-        public class ShortenData
-        {
-            [JsonProperty("result_url")]
-            public string ResultUrl { get; set; }
-        }
-
-        private static readonly ConcurrentDictionary<string, string> cachedShortenedLinks = new ConcurrentDictionary<string, string>();
-
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Shorten([Leftover] string query)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -564,16 +646,15 @@ namespace Mewdeko.Modules.Searches
 
             query = query.Trim();
             if (!cachedShortenedLinks.TryGetValue(query, out var shortLink))
-            {
                 try
                 {
                     using (var _http = _httpFactory.CreateClient())
                     using (var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten"))
                     {
                         var formData = new MultipartFormDataContent
-                    {
-                        { new StringContent(query), "url" }
-                    };
+                        {
+                            {new StringContent(query), "url"}
+                        };
                         req.Content = formData;
 
                         using (var res = await _http.SendAsync(req).ConfigureAwait(false))
@@ -595,19 +676,21 @@ namespace Mewdeko.Modules.Searches
                     Log.Error(ex, "Error shortening a link: {Message}", ex.Message);
                     return;
                 }
-            }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                .WithColor(Mewdeko.OkColor)
-                .AddField(efb => efb.WithName(GetText("original_url"))
-                                    .WithValue($"<{query}>"))
-                .AddField(efb => efb.WithName(GetText("short_url"))
-                                    .WithValue($"<{shortLink}>")))
+                    .WithColor(Mewdeko.OkColor)
+                    .AddField(efb => efb.WithName(GetText("original_url"))
+                        .WithValue($"<{query}>"))
+                    .AddField(efb => efb.WithName(GetText("short_url"))
+                        .WithValue($"<{shortLink}>")))
                 .ConfigureAwait(false);
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Google([Leftover] string query = null)
         {
             query = query?.Trim();
@@ -624,7 +707,7 @@ namespace Mewdeko.Modules.Searches
             }
 
             var desc = data.Results.Take(5).Select(res =>
-                $@"[**{(res.Title)}**]({res.Link})
+                $@"[**{res.Title}**]({res.Link})
 {res.Text.TrimTo(400 - res.Title.Length - res.Link.Length)}");
 
             var descStr = string.Join("\n\n", desc);
@@ -643,7 +726,10 @@ namespace Mewdeko.Modules.Searches
 
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task MagicTheGathering([Leftover] string search)
         {
             if (!await ValidateQuery(ctx.Channel, search))
@@ -670,7 +756,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Hearthstone([Leftover] string name)
         {
             var arg = name;
@@ -691,6 +780,7 @@ namespace Mewdeko.Modules.Searches
                 await ReplyErrorLocalizedAsync("card_not_found").ConfigureAwait(false);
                 return;
             }
+
             var embed = new EmbedBuilder().WithOkColor()
                 .WithImageUrl(card.Img);
 
@@ -701,7 +791,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task UrbanDict([Leftover] string query = null)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -710,20 +803,22 @@ namespace Mewdeko.Modules.Searches
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = _httpFactory.CreateClient())
             {
-                var res = await http.GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}").ConfigureAwait(false);
+                var res = await http
+                    .GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}")
+                    .ConfigureAwait(false);
                 try
                 {
                     var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
                     if (items.Any())
                     {
-
-                        await ctx.SendPaginatedConfirmAsync(0, (p) =>
+                        await ctx.SendPaginatedConfirmAsync(0, p =>
                         {
                             var item = items[p];
                             return new EmbedBuilder().WithOkColor()
-                                         .WithUrl(item.Permalink)
-                                         .WithAuthor(eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
-                                         .WithDescription(item.Definition);
+                                .WithUrl(item.Permalink)
+                                .WithAuthor(
+                                    eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                                .WithDescription(item.Definition);
                         }, items.Length, 1).ConfigureAwait(false);
                         return;
                     }
@@ -732,12 +827,15 @@ namespace Mewdeko.Modules.Searches
                 {
                 }
             }
-            await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
 
+            await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Define([Leftover] string word)
         {
             if (!await ValidateQuery(ctx.Channel, word).ConfigureAwait(false))
@@ -749,10 +847,11 @@ namespace Mewdeko.Modules.Searches
                 try
                 {
                     res = await _cache.GetOrCreateAsync($"define_{word}", e =>
-                     {
-                         e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
-                         return _http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" + WebUtility.UrlEncode(word));
-                     }).ConfigureAwait(false);
+                    {
+                        e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
+                        return _http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
+                                                    WebUtility.UrlEncode(word));
+                    }).ConfigureAwait(false);
 
                     var data = JsonConvert.DeserializeObject<DefineModel>(res);
 
@@ -770,7 +869,7 @@ namespace Mewdeko.Modules.Searches
                     var col = datas.Select(data => (
                         Definition: data.Sense.Definition is string
                             ? data.Sense.Definition.ToString()
-                            : ((JArray)JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
+                            : ((JArray) JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
                         Example: data.Sense.Examples is null || data.Sense.Examples.Count == 0
                             ? string.Empty
                             : data.Sense.Examples[0].Text,
@@ -785,8 +884,8 @@ namespace Mewdeko.Modules.Searches
                         var data = col.Skip(page).First();
                         var embed = new EmbedBuilder()
                             .WithDescription(ctx.User.Mention)
-                            .AddField(GetText("word"), data.Word, inline: true)
-                            .AddField(GetText("class"), data.WordType, inline: true)
+                            .AddField(GetText("word"), data.Word, true)
+                            .AddField(GetText("class"), data.WordType, true)
                             .AddField(GetText("definition"), data.Definition)
                             .WithOkColor();
 
@@ -804,7 +903,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Catfact()
         {
             using (var http = _httpFactory.CreateClient())
@@ -819,37 +921,53 @@ namespace Mewdeko.Modules.Searches
         }
 
         //done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Revav([Leftover] IGuildUser usr = null)
         {
             if (usr == null)
-                usr = (IGuildUser)ctx.User;
+                usr = (IGuildUser) ctx.User;
 
             var av = usr.RealAvatarUrl();
             if (av == null)
                 return;
 
-            await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={av}").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={av}")
+                .ConfigureAwait(false);
         }
 
         //done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Revimg([Leftover] string imageLink = null)
         {
             imageLink = imageLink?.Trim() ?? "";
 
             if (string.IsNullOrWhiteSpace(imageLink))
                 return;
-            await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={imageLink}").ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync($"https://images.google.com/searchbyimage?image_url={imageLink}")
+                .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public Task Safebooru([Leftover] string tag = null)
-            => InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
+        {
+            return InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
+        }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Wiki([Leftover] string query = null)
         {
             query = query?.Trim();
@@ -859,7 +977,10 @@ namespace Mewdeko.Modules.Searches
 
             using (var http = _httpFactory.CreateClient())
             {
-                var result = await http.GetStringAsync("https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" + Uri.EscapeDataString(query)).ConfigureAwait(false);
+                var result = await http
+                    .GetStringAsync(
+                        "https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" +
+                        Uri.EscapeDataString(query)).ConfigureAwait(false);
                 var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
                 if (data.Query.Pages[0].Missing || string.IsNullOrWhiteSpace(data.Query.Pages[0].FullUrl))
                     await ReplyErrorLocalizedAsync("wiki_page_not_found").ConfigureAwait(false);
@@ -867,8 +988,12 @@ namespace Mewdeko.Modules.Searches
                     await ctx.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl).ConfigureAwait(false);
             }
         }
-        [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Color(params SixLabors.ImageSharp.Color[] colors)
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task Color(params Color[] colors)
         {
             if (!colors.Any())
                 return;
@@ -878,19 +1003,16 @@ namespace Mewdeko.Modules.Searches
 
             using (var img = new Image<Rgba32>(colorObjects.Length * 50, 50))
             {
-                for (int i = 0; i < colorObjects.Length; i++)
+                for (var i = 0; i < colorObjects.Length; i++)
                 {
                     var x = i * 50;
-                    img.Mutate(m => m.FillPolygon(colorObjects[i], new PointF[] {
-                        new PointF(x, 0),
-                        new PointF(x + 50, 0),
-                        new PointF(x + 50, 50),
-                        new PointF(x, 50)
-                    }));
+                    img.Mutate(m => m.FillPolygon(colorObjects[i], new PointF(x, 0), new PointF(x + 50, 0),
+                        new PointF(x + 50, 50), new PointF(x, 50)));
                 }
+
                 using (var ms = img.ToStream())
                 {
-                    await ctx.Channel.SendFileAsync(ms, $"colors.png").ConfigureAwait(false);
+                    await ctx.Channel.SendFileAsync(ms, "colors.png").ConfigureAwait(false);
                 }
             }
         }
@@ -904,7 +1026,7 @@ namespace Mewdeko.Modules.Searches
         public async Task Avatar([Remainder] IGuildUser usr = null)
         {
             if (usr == null)
-                usr = (IGuildUser)ctx.User;
+                usr = (IGuildUser) ctx.User;
 
             var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 
@@ -922,7 +1044,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Wikia(string target, [Leftover] string query)
         {
             if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
@@ -930,6 +1055,7 @@ namespace Mewdeko.Modules.Searches
                 await ReplyErrorLocalizedAsync("wikia_input_error").ConfigureAwait(false);
                 return;
             }
+
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
             using (var http = _httpFactory.CreateClient())
             {
@@ -937,14 +1063,14 @@ namespace Mewdeko.Modules.Searches
                 try
                 {
                     var res = await http.GetStringAsync($"https://{Uri.EscapeUriString(target)}.fandom.com/api.php" +
-                                                        $"?action=query" +
-                                                        $"&format=json" +
-                                                        $"&list=search" +
+                                                        "?action=query" +
+                                                        "&format=json" +
+                                                        "&list=search" +
                                                         $"&srsearch={Uri.EscapeUriString(query)}" +
-                                                        $"&srlimit=1").ConfigureAwait(false);
+                                                        "&srlimit=1").ConfigureAwait(false);
                     var items = JObject.Parse(res);
                     var title = items["query"]?["search"]?.FirstOrDefault()?["title"]?.ToString();
-                    
+
                     if (string.IsNullOrWhiteSpace(title))
                     {
                         await ReplyErrorLocalizedAsync("wikia_error").ConfigureAwait(false);
@@ -964,7 +1090,10 @@ namespace Mewdeko.Modules.Searches
         }
 
         // done in 3.0
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Bible(string book, string chapterAndVerse)
         {
@@ -982,8 +1111,11 @@ namespace Mewdeko.Modules.Searches
             catch
             {
             }
+
             if (obj.Error != null || obj.Verses == null || obj.Verses.Length == 0)
+            {
                 await ctx.Channel.SendErrorAsync(obj.Error ?? "No verse found.").ConfigureAwait(false);
+            }
             else
             {
                 var v = obj.Verses[0];
@@ -994,7 +1126,10 @@ namespace Mewdeko.Modules.Searches
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Steam([Leftover] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -1041,13 +1176,15 @@ namespace Mewdeko.Modules.Searches
 
         public async Task<bool> ValidateQuery(IMessageChannel ch, string query)
         {
-            if (!string.IsNullOrWhiteSpace(query))
-            {
-                return true;
-            }
+            if (!string.IsNullOrWhiteSpace(query)) return true;
 
             await ErrorLocalizedAsync("specify_search_params").ConfigureAwait(false);
             return false;
+        }
+
+        public class ShortenData
+        {
+            [JsonProperty("result_url")] public string ResultUrl { get; set; }
         }
     }
 }

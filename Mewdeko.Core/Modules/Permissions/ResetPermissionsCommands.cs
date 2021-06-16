@@ -1,6 +1,6 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
-using System.Threading.Tasks;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Permissions.Services;
 
@@ -20,7 +20,10 @@ namespace Mewdeko.Modules.Permissions
                 _perms = perms;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task ResetPerms()
@@ -29,7 +32,10 @@ namespace Mewdeko.Modules.Permissions
                 await ReplyConfirmLocalizedAsync("perms_reset").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task ResetGlobalPerms()
             {

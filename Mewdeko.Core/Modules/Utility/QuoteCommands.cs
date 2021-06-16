@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common;
@@ -6,9 +9,6 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -24,13 +24,21 @@ namespace Mewdeko.Modules.Utility
                 _db = db;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
             public Task ListQuotes(OrderType order = OrderType.Keyword)
-                => ListQuotes(1, order);
+            {
+                return ListQuotes(1, order);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
             public async Task ListQuotes(int page = 1, OrderType order = OrderType.Keyword)
@@ -47,13 +55,18 @@ namespace Mewdeko.Modules.Utility
 
                 if (quotes.Any())
                     await ctx.Channel.SendConfirmAsync(GetText("quotes_page", page + 1),
-                            string.Join("\n", quotes.Select(q => $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
+                            string.Join("\n",
+                                quotes.Select(q =>
+                                    $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
                         .ConfigureAwait(false);
                 else
                     await ReplyErrorLocalizedAsync("quotes_page_none").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuotePrint([Leftover] string keyword)
             {
@@ -83,14 +96,21 @@ namespace Mewdeko.Modules.Utility
                 if (CREmbed.TryParse(quote.Text, out var crembed))
                 {
                     rep.Replace(crembed);
-                    await ctx.Channel.EmbedAsync(crembed.ToEmbed(), $"`#{quote.Id}` 📣 " + crembed.PlainText?.SanitizeAllMentions() ?? "")
+                    await ctx.Channel.EmbedAsync(crembed.ToEmbed(),
+                            $"`#{quote.Id}` 📣 " + crembed.PlainText?.SanitizeAllMentions() ?? "")
                         .ConfigureAwait(false);
                     return;
                 }
-                await ctx.Channel.SendMessageAsync($"`#{quote.Id}` 📣 " + rep.Replace(quote.Text)?.SanitizeAllMentions()).ConfigureAwait(false);
+
+                await ctx.Channel
+                    .SendMessageAsync($"`#{quote.Id}` 📣 " + rep.Replace(quote.Text)?.SanitizeAllMentions())
+                    .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteShow(int id)
             {
@@ -124,7 +144,10 @@ namespace Mewdeko.Modules.Utility
                 ).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteSearch(string keyword, [Leftover] string text)
             {
@@ -143,10 +166,13 @@ namespace Mewdeko.Modules.Utility
                     return;
 
                 await ctx.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
-                                                       keywordquote.Text.SanitizeAllMentions()).ConfigureAwait(false);
+                                                   keywordquote.Text.SanitizeAllMentions()).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteId(int id)
             {
@@ -170,7 +196,8 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                var infoText = $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ " + quote.Keyword.ToLowerInvariant().SanitizeAllMentions() + ":\n";
+                var infoText = $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ " +
+                               quote.Keyword.ToLowerInvariant().SanitizeAllMentions() + ":\n";
 
                 if (CREmbed.TryParse(quote.Text, out var crembed))
                 {
@@ -186,15 +213,18 @@ namespace Mewdeko.Modules.Utility
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteAdd(string keyword, [Leftover] string text)
             {
                 if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                     return;
-            
+
                 keyword = keyword.ToUpperInvariant();
-            
+
                 Quote q;
                 using (var uow = _db.GetDbContext())
                 {
@@ -204,18 +234,22 @@ namespace Mewdeko.Modules.Utility
                         AuthorName = ctx.Message.Author.Username,
                         GuildId = ctx.Guild.Id,
                         Keyword = keyword,
-                        Text = text,
+                        Text = text
                     });
                     await uow.SaveChangesAsync();
                 }
+
                 await ReplyConfirmLocalizedAsync("quote_added_new", Format.Code(q.Id.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task QuoteDelete(int id)
             {
-                var isAdmin = ((IGuildUser)ctx.Message.Author).GuildPermissions.Administrator;
+                var isAdmin = ((IGuildUser) ctx.Message.Author).GuildPermissions.Administrator;
 
                 var success = false;
                 string response;
@@ -223,7 +257,7 @@ namespace Mewdeko.Modules.Utility
                 {
                     var q = uow.Quotes.GetById(id);
 
-                    if ((q?.GuildId != ctx.Guild.Id) || (!isAdmin && q.AuthorId != ctx.Message.Author.Id))
+                    if (q?.GuildId != ctx.Guild.Id || !isAdmin && q.AuthorId != ctx.Message.Author.Id)
                     {
                         response = GetText("quotes_remove_none");
                     }
@@ -235,13 +269,17 @@ namespace Mewdeko.Modules.Utility
                         response = GetText("quote_deleted", id);
                     }
                 }
+
                 if (success)
                     await ctx.Channel.SendConfirmAsync(response).ConfigureAwait(false);
                 else
                     await ctx.Channel.SendErrorAsync(response).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task DelAllQuotes([Leftover] string keyword)
@@ -258,7 +296,8 @@ namespace Mewdeko.Modules.Utility
                     await uow.SaveChangesAsync();
                 }
 
-                await ReplyConfirmLocalizedAsync("quotes_deleted", Format.Bold(keyword.SanitizeAllMentions())).ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("quotes_deleted", Format.Bold(keyword.SanitizeAllMentions()))
+                    .ConfigureAwait(false);
             }
         }
     }

@@ -1,13 +1,11 @@
-﻿using NUnit.Framework;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using AngleSharp.Common;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Modules;
-using YamlDotNet.Serialization;
+using NUnit.Framework;
 
 namespace Mewdeko.Tests
 {
@@ -16,6 +14,7 @@ namespace Mewdeko.Tests
         private const string responsesPath = "../../../../src/Mewdeko/data/strings/responses";
         private const string commandsPath = "../../../../src/Mewdeko/data/strings/commands";
         private const string aliasesPath = "../../../../src/Mewdeko/data/aliases.yml";
+
         [Test]
         public void AllCommandNamesHaveStrings()
         {
@@ -43,16 +42,18 @@ namespace Mewdeko.Tests
         }
 
         private static string[] GetCommandMethodNames()
-            => typeof(Mewdeko).Assembly
+        {
+            return typeof(Mewdeko).Assembly
                 .GetExportedTypes()
                 .Where(type => type.IsClass && !type.IsAbstract)
                 .Where(type => typeof(MewdekoModule).IsAssignableFrom(type) // if its a top level module
                                || !(type.GetCustomAttribute<GroupAttribute>(true) is null)) // or a submodule
                 .SelectMany(x => x.GetMethods()
-                        .Where(mi => mi.CustomAttributes
-                            .Any(ca => ca.AttributeType == typeof(MewdekoCommandAttribute))))
+                    .Where(mi => mi.CustomAttributes
+                        .Any(ca => ca.AttributeType == typeof(MewdekoCommandAttribute))))
                 .Select(x => x.Name.ToLowerInvariant())
                 .ToArray();
+        }
 
         [Test]
         public void AllCommandMethodsHaveNames()
@@ -64,17 +65,15 @@ namespace Mewdeko.Tests
 
             var isSuccess = true;
             foreach (var methodName in methodNames)
-            {
                 if (!allAliases.TryGetValue(methodName, out var _))
                 {
                     TestContext.Error.WriteLine($"{methodName} is missing an alias.");
                     isSuccess = false;
                 }
-            }
-            
+
             Assert.IsTrue(isSuccess);
         }
-        
+
         [Test]
         public void NoObsoleteAliases()
         {
@@ -95,10 +94,10 @@ namespace Mewdeko.Tests
                     isSuccess = false;
                 }
             }
-            
+
             Assert.IsTrue(isSuccess);
         }
-        
+
         // [Test]
         // public void NoObsoleteCommandStrings()
         // {

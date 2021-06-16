@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Discord.Net;
 using Serilog;
 
 namespace Mewdeko.Modules.Music.Services
 {
     public sealed partial class YtLoader
     {
-        private readonly IHttpClientFactory _httpFactory;
         private static readonly byte[] YT_RESULT_INITIAL_DATA = Encoding.UTF8.GetBytes("var ytInitialData = ");
         private static readonly byte[] YT_RESULT_JSON_END = Encoding.UTF8.GetBytes(";<");
 
-        private static readonly string[] durationFormats = new[]
+        private static readonly string[] durationFormats =
         {
             @"m\:ss", @"mm\:ss", @"h\:mm\:ss", @"hh\:mm\:ss", @"hhh\:mm\:ss"
         };
+
+        private readonly IHttpClientFactory _httpFactory;
 
         public YtLoader(IHttpClientFactory httpFactory)
         {
@@ -129,7 +127,8 @@ namespace Mewdeko.Modules.Music.Services
                 return null; // todo try selecting html
             startIndex += YT_RESULT_INITIAL_DATA.Length;
 
-            var endIndex = 140_000 + startIndex + responseSpan.Slice(startIndex + 20_000).IndexOf(YT_RESULT_JSON_END) + 20_000;
+            var endIndex = 140_000 + startIndex + responseSpan.Slice(startIndex + 20_000).IndexOf(YT_RESULT_JSON_END) +
+                           20_000;
             startIndex += 140_000;
             return response.AsMemory(
                 startIndex,

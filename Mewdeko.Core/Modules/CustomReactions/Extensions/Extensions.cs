@@ -1,4 +1,10 @@
-﻿using AngleSharp;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using AngleSharp;
 using AngleSharp.Html.Dom;
 using Discord;
 using Discord.WebSocket;
@@ -6,49 +12,51 @@ using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.CustomReactions.Extensions
 {
     public static class Extensions
     {
-        private static readonly Regex imgRegex = new Regex("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
+        private static readonly Regex imgRegex = new("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
 
-        private static Dictionary<Regex, Func<Match, Task<string>>> regexPlaceholders { get; } = new Dictionary<Regex, Func<Match, Task<string>>>()
+        private static Dictionary<Regex, Func<Match, Task<string>>> regexPlaceholders { get; } = new()
         {
-            { imgRegex, async (match) => {
-                var tag = match.Groups["tag"].ToString();
-                if(string.IsNullOrWhiteSpace(tag))
-                    return "";
-
-                var fullQueryLink = $"http://imgur.com/search?q={ tag }";
-                var config = Configuration.Default.WithDefaultLoader();
-                using(var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
+            {
+                imgRegex, async match =>
                 {
-                    var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
-
-                    if (!elems.Any())
+                    var tag = match.Groups["tag"].ToString();
+                    if (string.IsNullOrWhiteSpace(tag))
                         return "";
 
-                    var img = (elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children?.FirstOrDefault() as IHtmlImageElement);
+                    var fullQueryLink = $"http://imgur.com/search?q={tag}";
+                    var config = Configuration.Default.WithDefaultLoader();
+                    using (var document =
+                        await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
+                    {
+                        var elems = document.QuerySelectorAll("a.image-list-link").ToArray();
 
-                    if (img?.Source == null)
-                        return "";
+                        if (!elems.Any())
+                            return "";
 
-                    return " " + img.Source.Replace("b.", ".", StringComparison.InvariantCulture) + " ";
+                        var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Length))?.Children
+                            ?.FirstOrDefault() as IHtmlImageElement;
+
+                        if (img?.Source == null)
+                            return "";
+
+                        return " " + img.Source.Replace("b.", ".", StringComparison.InvariantCulture) + " ";
+                    }
                 }
-            } }
+            }
         };
 
         private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordSocketClient client)
-            => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
+        {
+            return str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
+        }
 
-        private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx, DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
+        private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx,
+            DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
         {
             var substringIndex = resolvedTrigger.Length;
             if (containsAnywhere)
@@ -61,7 +69,7 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
                 else if (pos == WordPosition.Middle)
                     substringIndex += ctx.Content.IndexOf(resolvedTrigger, StringComparison.InvariantCulture);
             }
-            
+
             var canMentionEveryone = (ctx.Author as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
 
             var rep = new ReplacementBuilder()
@@ -74,22 +82,26 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
 
             str = rep.Replace(str);
 #if !GLOBAL_Mewdeko
-            foreach (var ph in regexPlaceholders)
-            {
-                str = await ph.Key.ReplaceAsync(str, ph.Value).ConfigureAwait(false);
-            }
+            foreach (var ph in regexPlaceholders) str = await ph.Key.ReplaceAsync(str, ph.Value).ConfigureAwait(false);
 #endif
             return str;
         }
 
-        public static Task<string> ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client, bool containsAnywhere)
-            => cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client), containsAnywhere);
-
-        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx, DiscordSocketClient client, bool sanitize)
+        public static Task<string> ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx,
+            DiscordSocketClient client, bool containsAnywhere)
         {
-            var channel = cr.DmResponse ? await ctx.Author.GetOrCreateDMChannelAsync().ConfigureAwait(false) : ctx.Channel;
+            return cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client),
+                containsAnywhere);
+        }
 
-            if (CREmbed.TryParse(cr.Response, out CREmbed crembed))
+        public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx,
+            DiscordSocketClient client, bool sanitize)
+        {
+            var channel = cr.DmResponse
+                ? await ctx.Author.GetOrCreateDMChannelAsync().ConfigureAwait(false)
+                : ctx.Channel;
+
+            if (CREmbed.TryParse(cr.Response, out var crembed))
             {
                 var trigger = cr.Trigger.ResolveTriggerString(ctx, client);
                 var substringIndex = trigger.Length;
@@ -105,7 +117,7 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
                 }
 
                 var canMentionEveryone = (ctx.Author as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
-                
+
                 var rep = new ReplacementBuilder()
                     .WithDefault(ctx.Author, ctx.Channel, (ctx.Channel as ITextChannel)?.Guild as SocketGuild, client)
                     .WithOverride("%target%", () => canMentionEveryone
@@ -117,7 +129,11 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
 
                 return await channel.EmbedAsync(crembed, sanitize).ConfigureAwait(false);
             }
-            return await channel.SendMessageAsync((await cr.ResponseWithContextAsync(ctx, client, cr.ContainsAnywhere).ConfigureAwait(false)).SanitizeMentions(sanitize)).ConfigureAwait(false);
+
+            return await channel
+                .SendMessageAsync(
+                    (await cr.ResponseWithContextAsync(ctx, client, cr.ContainsAnywhere).ConfigureAwait(false))
+                    .SanitizeMentions(sanitize)).ConfigureAwait(false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -132,13 +148,15 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
                 if (word.Length < str.Length && str.isValidWordDivider(word.Length))
                     return WordPosition.Start;
             }
-            else if ((wordIndex + word.Length) == str.Length)
+            else if (wordIndex + word.Length == str.Length)
             {
                 if (str.isValidWordDivider(wordIndex - 1))
                     return WordPosition.End;
             }
             else if (str.isValidWordDivider(wordIndex - 1) && str.isValidWordDivider(wordIndex + word.Length))
+            {
                 return WordPosition.Middle;
+            }
 
             return WordPosition.None;
         }
@@ -162,6 +180,6 @@ namespace Mewdeko.Modules.CustomReactions.Extensions
         None,
         Start,
         Middle,
-        End,
+        End
     }
 }

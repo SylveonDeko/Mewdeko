@@ -2,10 +2,8 @@
 
 namespace Mewdeko.Modules.Music.Services
 {
-
     public sealed partial class YtLoader
     {
-
         public class InitRange
         {
             public string Start { get; set; }
@@ -56,9 +54,6 @@ namespace Mewdeko.Modules.Music.Services
         public sealed class YtTrackInfo : TrackInfo
         {
             private const string BaseYoutubeUrl = "https://youtube.com?v=";
-            public override string Url { get; }
-            public override string Title { get; }
-            public override TimeSpan Duration { get; }
 
             private readonly string _videoId;
 
@@ -70,6 +65,10 @@ namespace Mewdeko.Modules.Music.Services
 
                 _videoId = videoId;
             }
+
+            public override string Url { get; }
+            public override string Title { get; }
+            public override TimeSpan Duration { get; }
         }
     }
 }

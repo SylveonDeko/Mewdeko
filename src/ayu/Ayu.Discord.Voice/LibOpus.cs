@@ -32,18 +32,14 @@ namespace Ayu.Discord.Voice
 
     public unsafe class LibOpusEncoder : IDisposable
     {
+        public const int MaxData = 1276;
         private readonly IntPtr _encoderPtr;
-
-        private readonly int _sampleRate;
 
         // private readonly int _channels;
         // private readonly int _bitRate;
         private readonly int _frameDelay;
 
-        private readonly int _frameSizePerChannel;
-        public int FrameSizePerChannel => _frameSizePerChannel;
-
-        public const int MaxData = 1276;
+        private readonly int _sampleRate;
 
         public LibOpusEncoder(int sampleRate, int channels, int bitRate, int frameDelay)
         {
@@ -51,7 +47,7 @@ namespace Ayu.Discord.Voice
             // _channels = channels;
             // _bitRate = bitRate;
             _frameDelay = frameDelay;
-            _frameSizePerChannel = _sampleRate * _frameDelay / 1000;
+            FrameSizePerChannel = _sampleRate * _frameDelay / 1000;
 
             _encoderPtr = LibOpus.CreateEncoder(sampleRate, channels, (int) OpusApplication.Audio, out var error);
             if (error != OpusError.OK)
@@ -63,6 +59,14 @@ namespace Ayu.Discord.Voice
             LibOpus.EncoderCtl(_encoderPtr, OpusCtl.SetPacketLossPerc, 2);
         }
 
+        public int FrameSizePerChannel { get; }
+
+
+        public void Dispose()
+        {
+            LibOpus.DestroyEncoder(_encoderPtr);
+        }
+
         public int SetControl(OpusCtl ctl, int value)
         {
             return LibOpus.EncoderCtl(_encoderPtr, ctl, value);
@@ -72,20 +76,18 @@ namespace Ayu.Discord.Voice
         {
             fixed (byte* inPtr = input)
             fixed (byte* outPtr = output)
+            {
                 return LibOpus.Encode(_encoderPtr, inPtr, FrameSizePerChannel, outPtr, output.Length);
+            }
         }
 
         public int EncodeFloat(Span<byte> input, byte[] output)
         {
             fixed (byte* inPtr = input)
             fixed (byte* outPtr = output)
+            {
                 return LibOpus.EncodeFloat(_encoderPtr, inPtr, FrameSizePerChannel, outPtr, output.Length);
-        }
-
-
-        public void Dispose()
-        {
-            LibOpus.DestroyEncoder(_encoderPtr);
+            }
         }
     }
 
@@ -124,6 +126,6 @@ namespace Ayu.Discord.Voice
     {
         Auto = -1000,
         Voice = 3001,
-        Music = 3002,
+        Music = 3002
     }
 }

@@ -16,15 +16,15 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        private static Regex Regex { get; } = new Regex(@"picarto.tv/(?<name>.+[^/])/?",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        public override FollowedStream.FType Platform => FollowedStream.FType.Picarto;
-
         public PicartoProvider(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
+
+        private static Regex Regex { get; } = new(@"picarto.tv/(?<name>.+[^/])/?",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        public override FollowedStream.FType Platform => FollowedStream.FType.Picarto;
 
         public override Task<bool> IsValidUrl(string url)
         {
@@ -55,7 +55,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
             return data.FirstOrDefault();
         }
 
-        public async override Task<List<StreamData>> GetStreamDataAsync(List<string> logins)
+        public override async Task<List<StreamData>> GetStreamDataAsync(List<string> logins)
         {
             if (logins.Count == 0)
                 return new List<StreamData>();
@@ -64,27 +64,28 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
             {
                 var toReturn = new List<StreamData>();
                 foreach (var login in logins)
-                {
                     try
                     {
                         http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         // get id based on the username
                         var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
-                        
+
                         if (!res.IsSuccessStatusCode)
                             continue;
-                        
-                        var userData = JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync());
+
+                        var userData =
+                            JsonConvert.DeserializeObject<PicartoChannelResponse>(
+                                await res.Content.ReadAsStringAsync());
 
                         toReturn.Add(ToStreamData(userData));
                         _failingStreams.TryRemove(login, out _);
                     }
                     catch (Exception ex)
                     {
-                        Log.Warning(ex, $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                        Log.Warning(ex,
+                            $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
                         _failingStreams.TryAdd(login, DateTime.UtcNow);
                     }
-                }
 
                 return toReturn;
             }
@@ -92,7 +93,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         private StreamData ToStreamData(PicartoChannelResponse stream)
         {
-            return new StreamData()
+            return new()
             {
                 StreamType = FollowedStream.FType.Picarto,
                 Name = stream.Name,

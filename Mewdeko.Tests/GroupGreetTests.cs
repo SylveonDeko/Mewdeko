@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mewdeko.Core.Services;
@@ -21,10 +19,10 @@ namespace Mewdeko.Tests
         public void CreateTest()
         {
             var created = _grouper.CreateOrAdd(0, 5);
-            
+
             Assert.True(created);
         }
-        
+
         [Test]
         public void CreateClearTest()
         {
@@ -33,16 +31,16 @@ namespace Mewdeko.Tests
 
             Assert.AreEqual(0, items.Count());
         }
-        
+
         [Test]
         public void NotCreatedTest()
         {
             _grouper.CreateOrAdd(0, 5);
             var created = _grouper.CreateOrAdd(0, 4);
-            
+
             Assert.False(created);
         }
-        
+
         [Test]
         public void ClearAddedTest()
         {
@@ -51,7 +49,7 @@ namespace Mewdeko.Tests
             _grouper.ClearGroup(0, 5, out var items);
 
             var list = items.ToList();
-            
+
             Assert.AreEqual(1, list.Count, $"Count was {list.Count}");
             Assert.AreEqual(4, list[0]);
         }
@@ -60,11 +58,11 @@ namespace Mewdeko.Tests
         public async Task ClearManyTest()
         {
             _grouper.CreateOrAdd(0, 5);
-            
+
             // add 15 items
             await Task.WhenAll(Enumerable.Range(10, 15)
                 .Select(x => Task.Run(() => _grouper.CreateOrAdd(0, x))));
-            
+
             // get 5 at most
             _grouper.ClearGroup(0, 5, out var items);
             var list = items.ToList();

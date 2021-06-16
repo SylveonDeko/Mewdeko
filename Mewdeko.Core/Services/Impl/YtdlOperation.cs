@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Mewdeko.Extensions;
@@ -20,9 +19,9 @@ namespace Mewdeko.Core.Services.Impl
         private Process CreateProcess(string[] args)
         {
             args = args.Map(arg => arg.Replace("\"", ""));
-            return new Process()
+            return new Process
             {
-                StartInfo = new ProcessStartInfo()
+                StartInfo = new ProcessStartInfo
                 {
                     FileName = @"youtube-dl",
                     Arguments = string.Format(_baseArgString, args),
@@ -31,23 +30,23 @@ namespace Mewdeko.Core.Services.Impl
                     RedirectStandardOutput = true,
                     StandardOutputEncoding = Encoding.UTF8,
                     StandardErrorEncoding = Encoding.UTF8,
-                    CreateNoWindow = true,
-                },
+                    CreateNoWindow = true
+                }
             };
         }
-        
+
         public async Task<string> GetDataAsync(params string[] args)
         {
             using var process = CreateProcess(args);
-            
+
             Log.Debug($"Executing {process.StartInfo.FileName} {process.StartInfo.Arguments}");
             process.Start();
-            
+
             var str = await process.StandardOutput.ReadToEndAsync().ConfigureAwait(false);
             var err = await process.StandardError.ReadToEndAsync().ConfigureAwait(false);
             if (!string.IsNullOrEmpty(err))
                 Log.Warning("YTDL warning: {YtdlWarning}", err);
-            
+
             return str;
         }
 
@@ -57,9 +56,9 @@ namespace Mewdeko.Core.Services.Impl
 
             Log.Debug($"Executing {process.StartInfo.FileName} {process.StartInfo.Arguments}");
             process.Start();
-            
+
             string line;
-            while((line = await process.StandardOutput.ReadLineAsync()) != null)
+            while ((line = await process.StandardOutput.ReadLineAsync()) != null)
                 yield return line;
         }
     }

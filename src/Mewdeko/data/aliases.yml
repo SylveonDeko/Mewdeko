@@ -30,6 +30,12 @@ autodisconnect:
 - autodc
 antialt:
 - antialt
+addtousersover:
+- atuo
+- addtousersover
+addtousersunder:
+- atuu
+- addtousersunder
 createcatvcchans:
 - ccvc
 stealforrole:

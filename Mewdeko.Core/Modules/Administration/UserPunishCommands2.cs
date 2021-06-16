@@ -5,6 +5,7 @@ using CommandLine;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Common.TypeReaders.Models;
@@ -13,7 +14,7 @@ using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
-using Humanizer;
+
 namespace Mewdeko.Modules.Administration
 {
     public partial class Administration

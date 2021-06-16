@@ -1,11 +1,10 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
-using ITextChannel = Discord.ITextChannel;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -16,8 +15,11 @@ namespace Mewdeko.Modules.Administration
         {
             private static readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
-            
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireUserPermission(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Prune(string parameter = null)
@@ -25,13 +27,20 @@ namespace Mewdeko.Modules.Administration
                 var user = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
                 if (parameter == "-s" || parameter == "--safe")
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, 100, (x) => x.Author.Id == user.Id && !x.IsPinned).ConfigureAwait(false);
+                    await _service
+                        .PruneWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
+                        .ConfigureAwait(false);
                 else
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, 100, (x) => x.Author.Id == user.Id).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id)
+                        .ConfigureAwait(false);
                 ctx.Message.DeleteAfter(3);
             }
+
             // prune x
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(ChannelPerm.ManageMessages)]
             [BotPerm(ChannelPerm.ManageMessages)]
@@ -46,34 +55,44 @@ namespace Mewdeko.Modules.Administration
 
                 if (parameter == "-s" || parameter == "--safe")
                 {
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.IsPinned).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, count, x => !x.IsPinned)
+                        .ConfigureAwait(false);
                     return;
                 }
+
                 if (parameter == "-nb" || parameter == "--nobots")
                 {
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => !x.Author.IsBot).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, count, x => !x.Author.IsBot)
+                        .ConfigureAwait(false);
                     return;
                 }
+
                 if (parameter == "-ob" || parameter == "--onlybots")
-                {
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, (x) => x.Author.IsBot).ConfigureAwait(false);
-                    return;
-                }
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, count, x => x.Author.IsBot)
+                        .ConfigureAwait(false);
                 else
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, count, x => true).ConfigureAwait(false);
             }
 
             //prune @user [x]
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(ChannelPerm.ManageMessages)]
             [BotPerm(ChannelPerm.ManageMessages)]
             [Priority(0)]
             public Task Prune(IGuildUser user, int count = 100, string parameter = null)
-                => Prune(user.Id, count, parameter);
+            {
+                return Prune(user.Id, count, parameter);
+            }
 
             //prune userid [x]
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(ChannelPerm.ManageMessages)]
             [BotPerm(ChannelPerm.ManageMessages)]
@@ -90,9 +109,12 @@ namespace Mewdeko.Modules.Administration
                     count = 1000;
 
                 if (parameter == "-s" || parameter == "--safe")
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks && !m.IsPinned).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, count,
+                            m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks && !m.IsPinned)
+                        .ConfigureAwait(false);
                 else
-                    await _service.PruneWhere((ITextChannel)ctx.Channel, count, m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks).ConfigureAwait(false);
+                    await _service.PruneWhere((ITextChannel) ctx.Channel, count,
+                        m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks).ConfigureAwait(false);
             }
         }
     }

@@ -17,12 +17,7 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class MemegenCommands : MewdekoSubmodule
         {
-            private class MemegenTemplate
-            {
-                public string Name { get; set; }
-                public string Id { get; set; }
-            }
-            private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>()
+            private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>
             {
                 {'?', "~q"},
                 {'%', "~p"},
@@ -32,8 +27,8 @@ namespace Mewdeko.Modules.Searches
                 {'-', "--"},
                 {'_', "__"},
                 {'"', "''"}
-
             }.ToImmutableDictionary();
+
             private readonly IHttpClientFactory _httpFactory;
 
             public MemegenCommands(IHttpClientFactory factory)
@@ -41,7 +36,10 @@ namespace Mewdeko.Modules.Searches
                 _httpFactory = factory;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Memelist(int page = 1)
             {
                 if (--page < 0)
@@ -53,16 +51,14 @@ namespace Mewdeko.Modules.Searches
                         .ConfigureAwait(false);
 
                     var rawJson = await res.Content.ReadAsStringAsync();
-                    
+
                     var data = JsonConvert.DeserializeObject<List<MemegenTemplate>>(rawJson);
 
                     await ctx.SendPaginatedConfirmAsync(page, curPage =>
                     {
                         var templates = "";
                         foreach (var template in data.Skip(curPage * 15).Take(15))
-                        {
                             templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
-                        }
                         var embed = new EmbedBuilder()
                             .WithOkColor()
                             .WithDescription(templates);
@@ -72,19 +68,23 @@ namespace Mewdeko.Modules.Searches
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Memegen(string meme, [Leftover] string memeText = null)
             {
                 var memeUrl = $"http://api.memegen.link/{meme}";
                 if (!string.IsNullOrWhiteSpace(memeText))
                 {
                     var memeTextArray = memeText.Split(';');
-                    foreach(var text in memeTextArray)
+                    foreach (var text in memeTextArray)
                     {
                         var newText = Replace(text);
                         memeUrl += $"/{newText}";
                     }
                 }
+
                 memeUrl += ".png";
                 await ctx.Channel.SendMessageAsync(memeUrl)
                     .ConfigureAwait(false);
@@ -95,14 +95,18 @@ namespace Mewdeko.Modules.Searches
                 var sb = new StringBuilder();
 
                 foreach (var c in input)
-                {
                     if (_map.TryGetValue(c, out var tmp))
                         sb.Append(tmp);
                     else
                         sb.Append(c);
-                }
 
                 return sb.ToString();
+            }
+
+            private class MemegenTemplate
+            {
+                public string Name { get; set; }
+                public string Id { get; set; }
             }
         }
     }

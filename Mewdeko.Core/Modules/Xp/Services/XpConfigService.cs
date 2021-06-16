@@ -6,9 +6,8 @@ namespace Mewdeko.Modules.Xp.Services
 {
     public sealed class XpConfigService : ConfigServiceBase<XpConfig>
     {
-        public override string Name { get; } = "xp";
         private const string FilePath = "data/xp.yml";
-        private static TypedKey<XpConfig> changeKey = new TypedKey<XpConfig>("config.xp.updated");
+        private static readonly TypedKey<XpConfig> changeKey = new("config.xp.updated");
 
         public XpConfigService(IConfigSeria serializer, IPubSub pubSub) : base(FilePath, serializer, pubSub,
             changeKey)
@@ -22,5 +21,7 @@ namespace Mewdeko.Modules.Xp.Services
             AddParsedProp("voice.max_minutes", conf => conf.VoiceMaxMinutes, int.TryParse,
                 ConfigPrinters.ToString, x => x > 0);
         }
+
+        public override string Name { get; } = "xp";
     }
 }

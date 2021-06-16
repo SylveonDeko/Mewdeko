@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -20,13 +20,14 @@ namespace Mewdeko.Core.Services.Impl
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentNullException(nameof(url));
 
-            string response = "";
+            var response = "";
 
             using (var http = _httpFactory.CreateClient())
             {
-                response = await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={url}").ConfigureAwait(false);
+                response = await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={url}")
+                    .ConfigureAwait(false);
             }
-            
+
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo>(response);
             if (responseObj?.Kind != "track")
                 throw new InvalidOperationException("Url is either not a track, or it doesn't exist.");
@@ -42,12 +43,14 @@ namespace Mewdeko.Core.Services.Impl
             var response = "";
             using (var http = _httpFactory.CreateClient())
             {
-                response = await http.GetStringAsync(new Uri($"https://scapi.Mewdeko.bot/tracks?q={Uri.EscapeDataString(query)}")).ConfigureAwait(false);
+                response = await http
+                    .GetStringAsync(new Uri($"https://scapi.Mewdeko.bot/tracks?q={Uri.EscapeDataString(query)}"))
+                    .ConfigureAwait(false);
             }
 
             var responseObj = JsonConvert.DeserializeObject<SoundCloudVideo[]>(response)
                 .FirstOrDefault(s => s.Streamable is true);
-            
+
             if (responseObj?.Kind != "track")
                 throw new InvalidOperationException("Query yielded no results.");
 
@@ -59,20 +62,19 @@ namespace Mewdeko.Core.Services.Impl
     {
         public string Kind { get; set; } = "";
         public long Id { get; set; } = 0;
-        public SoundCloudUser User { get; set; } = new SoundCloudUser();
+        public SoundCloudUser User { get; set; } = new();
         public string Title { get; set; } = "";
         public string FullName => User.Name + " - " + Title;
         public bool? Streamable { get; set; } = false;
         public int Duration { get; set; }
-        [JsonProperty("permalink_url")]
-        public string TrackLink { get; set; } = "";
-        [JsonProperty("artwork_url")]
-        public string ArtworkUrl { get; set; } = "";
+
+        [JsonProperty("permalink_url")] public string TrackLink { get; set; } = "";
+
+        [JsonProperty("artwork_url")] public string ArtworkUrl { get; set; } = "";
     }
-    
+
     public class SoundCloudUser
     {
-        [JsonProperty("username")]
-        public string Name { get; set; }
+        [JsonProperty("username")] public string Name { get; set; }
     }
 }

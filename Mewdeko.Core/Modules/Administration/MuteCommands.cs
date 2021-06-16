@@ -1,13 +1,13 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Modules.Administration.Services;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Administration.Services;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration
@@ -31,7 +31,10 @@ namespace Mewdeko.Modules.Administration
                 return true;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task MuteRole([Leftover] IRole role = null)
@@ -42,20 +45,23 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("mute_role", Format.Code(muteRole.Name)).ConfigureAwait(false);
                     return;
                 }
-                
+
                 if (Context.User.Id != Context.Guild.OwnerId &&
                     role.Position >= ((SocketGuildUser) Context.User).Roles.Max(x => x.Position))
                 {
                     await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);
                     return;
                 }
-                
+
                 await _service.SetMuteRoleAsync(ctx.Guild.Id, role.Name).ConfigureAwait(false);
 
                 await ReplyConfirmLocalizedAsync("mute_role_set").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
             [Priority(0)]
@@ -63,11 +69,12 @@ namespace Mewdeko.Modules.Administration
             {
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, target))
+                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, target))
                         return;
 
                     await _service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_muted", Format.Bold(target.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_muted", Format.Bold(target.ToString()))
+                        .ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +83,10 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
             [Priority(1)]
@@ -86,11 +96,12 @@ namespace Mewdeko.Modules.Administration
                     return;
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
                         return;
 
                     await _service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_muted_time", Format.Bold(user.ToString()), (int)time.Time.TotalMinutes).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_muted_time", Format.Bold(user.ToString()),
+                        (int) time.Time.TotalMinutes).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -99,7 +110,10 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
             public async Task Unmute(IGuildUser user, [Leftover] string reason = "")
@@ -107,7 +121,8 @@ namespace Mewdeko.Modules.Administration
                 try
                 {
                     await _service.UnmuteUser(user.GuildId, user.Id, ctx.User, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_unmuted", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_unmuted", Format.Bold(user.ToString()))
+                        .ConfigureAwait(false);
                 }
                 catch
                 {
@@ -115,18 +130,22 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task ChatMute(IGuildUser user, [Leftover] string reason = "")
             {
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
                         return;
 
-                    await _service.MuteUser(user, ctx.User, MuteType.Chat, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_chat_mute", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    await _service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_chat_mute", Format.Bold(user.ToString()))
+                        .ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -135,15 +154,20 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task ChatUnmute(IGuildUser user, [Leftover] string reason = "")
             {
                 try
                 {
-                    await _service.UnmuteUser(user.Guild.Id, user.Id, ctx.User, MuteType.Chat, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_chat_unmute", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    await _service.UnmuteUser(user.Guild.Id, user.Id, ctx.User, MuteType.Chat, reason)
+                        .ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_chat_unmute", Format.Bold(user.ToString()))
+                        .ConfigureAwait(false);
                 }
                 catch
                 {
@@ -151,18 +175,22 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             public async Task VoiceMute(IGuildUser user, [Leftover] string reason = "")
             {
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
                         return;
 
-                    await _service.MuteUser(user, ctx.User, MuteType.Voice, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_voice_mute", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    await _service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_voice_mute", Format.Bold(user.ToString()))
+                        .ConfigureAwait(false);
                 }
                 catch
                 {
@@ -170,15 +198,20 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             public async Task VoiceUnmute(IGuildUser user, [Leftover] string reason = "")
             {
                 try
                 {
-                    await _service.UnmuteUser(user.GuildId, user.Id, ctx.User, MuteType.Voice, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_voice_unmute", Format.Bold(user.ToString())).ConfigureAwait(false);
+                    await _service.UnmuteUser(user.GuildId, user.Id, ctx.User, MuteType.Voice, reason)
+                        .ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_voice_unmute", Format.Bold(user.ToString()))
+                        .ConfigureAwait(false);
                 }
                 catch
                 {

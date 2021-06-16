@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Mewdeko.Core.Services;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace Mewdeko.Common.ShardCom
 {
@@ -20,7 +21,7 @@ namespace Mewdeko.Common.ShardCom
             sub.SubscribeAsync("shardcoord_send", (ch, data) =>
             {
                 var _ = OnDataReceived(JsonConvert.DeserializeObject<ShardComMessage>(data));
-            }, StackExchange.Redis.CommandFlags.FireAndForget);
+            }, CommandFlags.FireAndForget);
         }
 
         public event Func<ShardComMessage, Task> OnDataReceived = delegate { return Task.CompletedTask; };

@@ -2,46 +2,35 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
 using Mewdeko.Core.Modules.Games.Common.Trivia;
-using Mewdeko.Modules.Games.Services;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Games.Common.Trivia
 {
     public class TriviaGame
     {
-        private readonly SemaphoreSlim _guessLock = new SemaphoreSlim(1, 1);
         private readonly IDataCache _cache;
-        private readonly IBotStrings _strings;
         private readonly DiscordSocketClient _client;
         private readonly GamesConfig _config;
         private readonly ICurrencyService _cs;
+        private readonly SemaphoreSlim _guessLock = new(1, 1);
         private readonly TriviaOptions _options;
 
-        public IGuild Guild { get; }
-        public ITextChannel Channel { get; }
+        private readonly TriviaQuestionPool _questionPool;
+        private readonly string _quitCommand;
+        private readonly IBotStrings _strings;
+        private int _timeoutCount;
 
         private CancellationTokenSource _triviaCancelSource;
-
-        public TriviaQuestion CurrentQuestion { get; private set; }
-        public HashSet<TriviaQuestion> OldQuestions { get; } = new HashSet<TriviaQuestion>();
-
-        public ConcurrentDictionary<IGuildUser, int> Users { get; } = new ConcurrentDictionary<IGuildUser, int>();
-
-        public bool GameActive { get; private set; }
-        public bool ShouldStopGame { get; private set; }
-
-        private readonly TriviaQuestionPool _questionPool;
-        private int _timeoutCount = 0;
-        private readonly string _quitCommand;
 
         public TriviaGame(IBotStrings strings, DiscordSocketClient client, GamesConfig config,
             IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
@@ -60,8 +49,21 @@ namespace Mewdeko.Modules.Games.Common.Trivia
             Channel = channel;
         }
 
+        public IGuild Guild { get; }
+        public ITextChannel Channel { get; }
+
+        public TriviaQuestion CurrentQuestion { get; private set; }
+        public HashSet<TriviaQuestion> OldQuestions { get; } = new();
+
+        public ConcurrentDictionary<IGuildUser, int> Users { get; } = new();
+
+        public bool GameActive { get; private set; }
+        public bool ShouldStopGame { get; private set; }
+
         private string GetText(string key, params object[] replacements)
-            => _strings.GetText(key, Channel.GuildId, replacements);
+        {
+            return _strings.GetText(key, Channel.GuildId, replacements);
+        }
 
         public async Task StartGame()
         {
@@ -74,11 +76,14 @@ namespace Mewdeko.Modules.Games.Common.Trivia
 
                 // load question
                 CurrentQuestion = _questionPool.GetRandomQuestion(OldQuestions, _options.IsPokemon);
-                if (string.IsNullOrWhiteSpace(CurrentQuestion?.Answer) || string.IsNullOrWhiteSpace(CurrentQuestion.Question))
+                if (string.IsNullOrWhiteSpace(CurrentQuestion?.Answer) ||
+                    string.IsNullOrWhiteSpace(CurrentQuestion.Question))
                 {
-                    await Channel.SendErrorAsync(GetText("trivia_game"), GetText("failed_loading_question")).ConfigureAwait(false);
+                    await Channel.SendErrorAsync(GetText("trivia_game"), GetText("failed_loading_question"))
+                        .ConfigureAwait(false);
                     return;
                 }
+
                 OldQuestions.Add(CurrentQuestion); //add it to exclusion list so it doesn't show up again
 
                 EmbedBuilder questionEmbed;
@@ -92,15 +97,15 @@ namespace Mewdeko.Modules.Games.Common.Trivia
 
                     if (showHowToQuit)
                         questionEmbed.WithFooter(GetText("trivia_quit", _quitCommand));
-                    
+
                     if (Uri.IsWellFormedUriString(CurrentQuestion.ImageUrl, UriKind.Absolute))
                         questionEmbed.WithImageUrl(CurrentQuestion.ImageUrl);
 
                     questionMessage = await Channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
                 }
-                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound ||
-                                               ex.HttpCode == System.Net.HttpStatusCode.Forbidden ||
-                                               ex.HttpCode == System.Net.HttpStatusCode.BadRequest)
+                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.NotFound ||
+                                               ex.HttpCode == HttpStatusCode.Forbidden ||
+                                               ex.HttpCode == HttpStatusCode.BadRequest)
                 {
                     return;
                 }
@@ -121,32 +126,42 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                     try
                     {
                         //hint
-                        await Task.Delay(_options.QuestionTimer * 1000 / 2, _triviaCancelSource.Token).ConfigureAwait(false);
+                        await Task.Delay(_options.QuestionTimer * 1000 / 2, _triviaCancelSource.Token)
+                            .ConfigureAwait(false);
                         if (!_options.NoHint)
                             try
                             {
-                                await questionMessage.ModifyAsync(m => m.Embed = questionEmbed.WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
+                                await questionMessage.ModifyAsync(m =>
+                                        m.Embed = questionEmbed
+                                            .WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
                                     .ConfigureAwait(false);
                             }
-                            catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound || ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                            catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.NotFound ||
+                                                           ex.HttpCode == HttpStatusCode.Forbidden)
                             {
                                 break;
                             }
-                            catch (Exception ex) { Log.Warning(ex, "Error editing triva message"); }
+                            catch (Exception ex)
+                            {
+                                Log.Warning(ex, "Error editing triva message");
+                            }
 
                         //timeout
-                        await Task.Delay(_options.QuestionTimer * 1000 / 2, _triviaCancelSource.Token).ConfigureAwait(false);
-
+                        await Task.Delay(_options.QuestionTimer * 1000 / 2, _triviaCancelSource.Token)
+                            .ConfigureAwait(false);
                     }
-                    catch (TaskCanceledException) { _timeoutCount = 0; } //means someone guessed the answer
+                    catch (TaskCanceledException)
+                    {
+                        _timeoutCount = 0;
+                    } //means someone guessed the answer
                 }
                 finally
                 {
                     GameActive = false;
                     _client.MessageReceived -= PotentialGuess;
                 }
+
                 if (!_triviaCancelSource.IsCancellationRequested)
-                {
                     try
                     {
                         var embed = new EmbedBuilder().WithErrorColor()
@@ -164,7 +179,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                     {
                         Log.Warning(ex, "Error sending trivia time's up message");
                     }
-                }
+
                 await Task.Delay(5000).ConfigureAwait(false);
             }
         }
@@ -174,9 +189,9 @@ namespace Mewdeko.Modules.Games.Common.Trivia
             ShouldStopGame = true;
 
             await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                    .WithAuthor(eab => eab.WithName("Trivia Game Ended"))
-                    .WithTitle("Final Results")
-                    .WithDescription(GetLeaderboard())).ConfigureAwait(false);
+                .WithAuthor(eab => eab.WithName("Trivia Game Ended"))
+                .WithTitle("Final Results")
+                .WithDescription(GetLeaderboard())).ConfigureAwait(false);
         }
 
         public async Task StopGame()
@@ -184,18 +199,15 @@ namespace Mewdeko.Modules.Games.Common.Trivia
             var old = ShouldStopGame;
             ShouldStopGame = true;
             if (!old)
-            {
                 try
                 {
                     await Channel.SendConfirmAsync(GetText("trivia_game"), GetText("trivia_stopping"))
                         .ConfigureAwait(false);
-
                 }
                 catch (Exception ex)
                 {
                     Log.Warning(ex, "Error sending trivia stopping message");
                 }
-            }
         }
 
         private Task PotentialGuess(SocketMessage imsg)
@@ -213,19 +225,24 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                     if (textChannel == null || textChannel.Guild != Guild)
                         return;
 
-                    var guildUser = (IGuildUser)umsg.Author;
+                    var guildUser = (IGuildUser) umsg.Author;
 
                     var guess = false;
                     await _guessLock.WaitAsync().ConfigureAwait(false);
                     try
                     {
-                        if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) && !_triviaCancelSource.IsCancellationRequested)
+                        if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) &&
+                            !_triviaCancelSource.IsCancellationRequested)
                         {
                             Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
                             guess = true;
                         }
                     }
-                    finally { _guessLock.Release(); }
+                    finally
+                    {
+                        _guessLock.Release();
+                    }
+
                     if (!guess) return;
                     _triviaCancelSource.Cancel();
 
@@ -248,19 +265,25 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                         {
                             // ignored
                         }
+
                         var reward = _config.Trivia.CurrencyReward;
                         if (reward > 0)
                             await _cs.AddAsync(guildUser, "Won trivia", reward, true).ConfigureAwait(false);
                         return;
                     }
+
                     var embed = new EmbedBuilder().WithOkColor()
                         .WithTitle(GetText("trivia_game"))
-                        .WithDescription(GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer)));
+                        .WithDescription(
+                            GetText("trivia_guess", guildUser.Mention, Format.Bold(CurrentQuestion.Answer)));
                     if (Uri.IsWellFormedUriString(CurrentQuestion.AnswerImageUrl, UriKind.Absolute))
                         embed.WithImageUrl(CurrentQuestion.AnswerImageUrl);
                     await Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
-                catch (Exception ex) { Log.Warning(ex.ToString()); }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex.ToString());
+                }
             });
             return Task.CompletedTask;
         }
@@ -273,9 +296,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia
             var sb = new StringBuilder();
 
             foreach (var kvp in Users.OrderByDescending(kvp => kvp.Value))
-            {
                 sb.AppendLine(GetText("trivia_points", Format.Bold(kvp.Key.ToString()), kvp.Value).SnPl(kvp.Value));
-            }
 
             return sb.ToString();
         }

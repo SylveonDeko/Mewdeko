@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Administration.Services;
-using System.Linq;
-using System.Threading.Tasks;
-using Mewdeko.Core.Common.TypeReaders.Models;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -17,7 +17,10 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class ProtectionCommands : MewdekoSubmodule<ProtectionService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task AntiAlt()
@@ -31,28 +34,36 @@ namespace Mewdeko.Modules.Administration
                 await ReplyErrorLocalizedAsync("protection_not_running", "Anti-Alt");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Leftover] StoopidTime punishTime = null)
+            public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
+                [Leftover] StoopidTime punishTime = null)
             {
-                var minAgeMinutes = (int)minAge.Time.TotalMinutes;
-                var punishTimeMinutes = (int?)punishTime?.Time.TotalMinutes ?? 0;
+                var minAgeMinutes = (int) minAge.Time.TotalMinutes;
+                var punishTimeMinutes = (int?) punishTime?.Time.TotalMinutes ?? 0;
 
                 if (minAgeMinutes < 1 || punishTimeMinutes < 0)
                     return;
 
-                await _service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action, (int?)punishTime?.Time.TotalMinutes ?? 0);
+                await _service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
+                    (int?) punishTime?.Time.TotalMinutes ?? 0);
 
                 await ctx.OkAsync();
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Leftover] IRole role)
             {
-                var minAgeMinutes = (int)minAge.Time.TotalMinutes;
+                var minAgeMinutes = (int) minAge.Time.TotalMinutes;
 
                 if (minAgeMinutes < 1)
                     return;
@@ -62,35 +73,43 @@ namespace Mewdeko.Modules.Administration
                 await ctx.OkAsync();
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public Task AntiRaid()
             {
                 if (_service.TryStopAntiRaid(ctx.Guild.Id))
-                {
                     return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Raid");
-                }
-                else
-                {
-                    return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
-                }
+                return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
             public Task AntiRaid(int userThreshold, int seconds,
                 PunishmentAction action, [Leftover] StoopidTime punishTime)
-                => InternalAntiRaid(userThreshold, seconds, action, punishTime: punishTime);
+            {
+                return InternalAntiRaid(userThreshold, seconds, action, punishTime);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(2)]
             public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action)
-                => InternalAntiRaid(userThreshold, seconds, action);
+            {
+                return InternalAntiRaid(userThreshold, seconds, action);
+            }
 
             private async Task InternalAntiRaid(int userThreshold, int seconds = 10,
                 PunishmentAction action = PunishmentAction.Mute, StoopidTime punishTime = null)
@@ -114,46 +133,40 @@ namespace Mewdeko.Modules.Administration
                 }
 
                 if (!(punishTime is null))
-                {
                     if (!_service.IsDurationAllowed(action))
-                    {
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
-                    }
-                }
 
-                var time = (int?)punishTime?.Time.TotalMinutes ?? 0;
+                var time = (int?) punishTime?.Time.TotalMinutes ?? 0;
                 if (time < 0 || time > 60 * 24)
                     return;
 
                 var stats = await _service.StartAntiRaidAsync(ctx.Guild.Id, userThreshold, seconds,
                     action, time).ConfigureAwait(false);
 
-                if (stats == null)
-                {
-                    return;
-                }
+                if (stats == null) return;
 
                 await ctx.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Raid"),
                         $"{ctx.User.Mention} {GetAntiRaidString(stats)}")
-                        .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public Task AntiSpam()
             {
                 if (_service.TryStopAntiSpam(ctx.Guild.Id))
-                {
                     return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Spam");
-                }
-                else
-                {
-                    return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
-                }
+                return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
@@ -165,19 +178,29 @@ namespace Mewdeko.Modules.Administration
                 return InternalAntiSpam(messageCount, action, null, role);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
             public Task AntiSpam(int messageCount, PunishmentAction action, [Leftover] StoopidTime punishTime)
-                => InternalAntiSpam(messageCount, action, punishTime, null);
+            {
+                return InternalAntiSpam(messageCount, action, punishTime);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(2)]
             public Task AntiSpam(int messageCount, PunishmentAction action)
-                => InternalAntiSpam(messageCount, action);
+            {
+                return InternalAntiSpam(messageCount, action);
+            }
 
             public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
                 StoopidTime timeData = null, IRole role = null)
@@ -186,24 +209,24 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 if (!(timeData is null))
-                {
                     if (!_service.IsDurationAllowed(action))
-                    {
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
-                    }
-                }
 
-                var time = (int?)timeData?.Time.TotalMinutes ?? 0;
+                var time = (int?) timeData?.Time.TotalMinutes ?? 0;
                 if (time < 0 || time > 60 * 24)
                     return;
 
-                var stats = await _service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id).ConfigureAwait(false);
+                var stats = await _service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id)
+                    .ConfigureAwait(false);
 
                 await ctx.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"),
                     $"{ctx.User.Mention} {GetAntiSpamString(stats)}").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task AntispamIgnore()
@@ -216,10 +239,14 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                await ReplyConfirmLocalizedAsync(added.Value ? "spam_ignore" : "spam_not_ignore", "Anti-Spam").ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync(added.Value ? "spam_ignore" : "spam_not_ignore", "Anti-Spam")
+                    .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task AntiList()
             {
@@ -251,10 +278,12 @@ namespace Mewdeko.Modules.Administration
             }
 
             private string GetAntiAltString(AntiAltStats alt)
-                => GetText("anti_alt_status",
+            {
+                return GetText("anti_alt_status",
                     Format.Bold(alt.MinAge.ToString(@"dd\d\ hh\h\ mm\m\ ")),
                     Format.Bold(alt.Action.ToString()),
                     Format.Bold(alt.Counter.ToString()));
+            }
 
             private string GetAntiSpamString(AntiSpamStats stats)
             {
@@ -264,16 +293,13 @@ namespace Mewdeko.Modules.Administration
                 if (string.IsNullOrWhiteSpace(ignoredString))
                     ignoredString = "none";
 
-                string add = "";
-                if (settings.MuteTime > 0)
-                {
-                    add = $" ({TimeSpan.FromMinutes(settings.MuteTime):hh\\hmm\\m})";
-                }
+                var add = "";
+                if (settings.MuteTime > 0) add = $" ({TimeSpan.FromMinutes(settings.MuteTime):hh\\hmm\\m})";
 
                 return GetText("spam_stats",
-                        Format.Bold(settings.MessageThreshold.ToString()),
-                        Format.Bold(settings.Action.ToString() + add),
-                        ignoredString);
+                    Format.Bold(settings.MessageThreshold.ToString()),
+                    Format.Bold(settings.Action + add),
+                    ignoredString);
             }
 
             private string GetAntiRaidString(AntiRaidStats stats)
@@ -281,9 +307,7 @@ namespace Mewdeko.Modules.Administration
                 var actionString = Format.Bold(stats.AntiRaidSettings.Action.ToString());
 
                 if (stats.AntiRaidSettings.PunishDuration > 0)
-                {
                     actionString += $" **({TimeSpan.FromMinutes(stats.AntiRaidSettings.PunishDuration):hh\\hmm\\m})**";
-                }
 
                 return GetText("raid_stats",
                     Format.Bold(stats.AntiRaidSettings.UserThreshold.ToString()),

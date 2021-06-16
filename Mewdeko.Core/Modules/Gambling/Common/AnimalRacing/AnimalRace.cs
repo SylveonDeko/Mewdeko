@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Mewdeko.Common;
 using Mewdeko.Core.Modules.Gambling.Common.AnimalRacing;
 using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using Mewdeko.Modules.Games.Common;
@@ -20,36 +18,48 @@ namespace Mewdeko.Modules.Gambling.Common.AnimalRacing
         {
             WaitingForPlayers,
             Running,
-            Ended,
+            Ended
+        }
+
+        private readonly Queue<RaceAnimal> _animalsQueue;
+        private readonly ICurrencyService _currency;
+
+        private readonly SemaphoreSlim _locker = new(1, 1);
+        private readonly RaceOptions _options;
+        private readonly HashSet<AnimalRacingUser> _users = new();
+
+        public AnimalRace(RaceOptions options, ICurrencyService currency, IEnumerable<RaceAnimal> availableAnimals)
+        {
+            _currency = currency;
+            _options = options;
+            _animalsQueue = new Queue<RaceAnimal>(availableAnimals);
+            MaxUsers = _animalsQueue.Count;
+
+            if (_animalsQueue.Count == 0)
+                CurrentPhase = Phase.Ended;
         }
 
         public Phase CurrentPhase { get; private set; } = Phase.WaitingForPlayers;
+
+        public IReadOnlyCollection<AnimalRacingUser> Users => _users.ToList();
+        public List<AnimalRacingUser> FinishedUsers { get; } = new();
+        public int MaxUsers { get; }
+
+        public void Dispose()
+        {
+            CurrentPhase = Phase.Ended;
+            OnStarted = null;
+            OnEnded = null;
+            OnStartingFailed = null;
+            OnStateUpdate = null;
+            _locker.Dispose();
+            _users.Clear();
+        }
 
         public event Func<AnimalRace, Task> OnStarted = delegate { return Task.CompletedTask; };
         public event Func<AnimalRace, Task> OnStartingFailed = delegate { return Task.CompletedTask; };
         public event Func<AnimalRace, Task> OnStateUpdate = delegate { return Task.CompletedTask; };
         public event Func<AnimalRace, Task> OnEnded = delegate { return Task.CompletedTask; };
-
-        public IReadOnlyCollection<AnimalRacingUser> Users => _users.ToList();
-        public List<AnimalRacingUser> FinishedUsers { get; } = new List<AnimalRacingUser>();
-
-        private readonly SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
-        private readonly HashSet<AnimalRacingUser> _users = new HashSet<AnimalRacingUser>();
-        private readonly ICurrencyService _currency;
-        private readonly RaceOptions _options;
-        private readonly Queue<RaceAnimal> _animalsQueue;
-        public int MaxUsers { get; }
-
-        public AnimalRace(RaceOptions options, ICurrencyService currency, IEnumerable<RaceAnimal> availableAnimals)
-        {
-            this._currency = currency;
-            this._options = options;
-            this._animalsQueue = new Queue<RaceAnimal>(availableAnimals);
-            this.MaxUsers = _animalsQueue.Count;
-
-            if (this._animalsQueue.Count == 0)
-                CurrentPhase = Phase.Ended;
-        }
 
         public void Initialize() //lame name
         {
@@ -65,7 +75,10 @@ namespace Mewdeko.Modules.Gambling.Common.AnimalRacing
 
                     await Start().ConfigureAwait(false);
                 }
-                finally { _locker.Release(); }
+                finally
+                {
+                    _locker.Release();
+                }
             });
         }
 
@@ -100,7 +113,10 @@ namespace Mewdeko.Modules.Gambling.Common.AnimalRacing
 
                 return user;
             }
-            finally { _locker.Release(); }
+            finally
+            {
+                _locker.Release();
+            }
         }
 
         private async Task Start()
@@ -109,10 +125,8 @@ namespace Mewdeko.Modules.Gambling.Common.AnimalRacing
             if (_users.Count <= 1)
             {
                 foreach (var user in _users)
-                {
                     if (user.Bet > 0)
                         await _currency.AddAsync(user.UserId, "Race refund", user.Bet).ConfigureAwait(false);
-                }
 
                 var _sf = OnStartingFailed?.Invoke(this);
                 CurrentPhase = Phase.Ended;
@@ -142,22 +156,12 @@ namespace Mewdeko.Modules.Gambling.Common.AnimalRacing
                 }
 
                 if (FinishedUsers[0].Bet > 0)
-                    await _currency.AddAsync(FinishedUsers[0].UserId, "Won a Race", FinishedUsers[0].Bet * (_users.Count - 1))
+                    await _currency.AddAsync(FinishedUsers[0].UserId, "Won a Race",
+                            FinishedUsers[0].Bet * (_users.Count - 1))
                         .ConfigureAwait(false);
 
                 var _ended = OnEnded?.Invoke(this);
             });
-        }
-
-        public void Dispose()
-        {
-            CurrentPhase = Phase.Ended;
-            OnStarted = null;
-            OnEnded = null;
-            OnStartingFailed = null;
-            OnStateUpdate = null;
-            _locker.Dispose();
-            _users.Clear();
         }
     }
 }

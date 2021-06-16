@@ -8,12 +8,12 @@ using YamlDotNet.Serialization;
 namespace Mewdeko.Core.Services
 {
     /// <summary>
-    /// Loads strings from the local default filepath <see cref="_responsesPath"/>
+    ///     Loads strings from the local default filepath <see cref="_responsesPath" />
     /// </summary>
     public class LocalFileStringsSource : IStringsSource
     {
-        private readonly string _responsesPath = "data/strings/responses";
         private readonly string _commandsPath = "data/strings/commands";
+        private readonly string _responsesPath = "data/strings/responses";
 
         public LocalFileStringsSource(string responsesPath = "data/strings/responses",
             string commandsPath = "data/strings/commands")
@@ -21,12 +21,11 @@ namespace Mewdeko.Core.Services
             _responsesPath = responsesPath;
             _commandsPath = commandsPath;
         }
-        
+
         public Dictionary<string, Dictionary<string, string>> GetResponseStrings()
         {
             var outputDict = new Dictionary<string, Dictionary<string, string>>();
             foreach (var file in Directory.GetFiles(_responsesPath))
-            {
                 try
                 {
                     var langDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(file));
@@ -37,7 +36,6 @@ namespace Mewdeko.Core.Services
                 {
                     Log.Error(ex, "Error loading {FileName} response strings: {ErrorMessage}", file, ex.Message);
                 }
-            }
 
             return outputDict;
         }
@@ -46,10 +44,9 @@ namespace Mewdeko.Core.Services
         {
             var deserializer = new DeserializerBuilder()
                 .Build();
-            
+
             var outputDict = new Dictionary<string, Dictionary<string, CommandStrings>>();
             foreach (var file in Directory.GetFiles(_commandsPath))
-            {
                 try
                 {
                     var text = File.ReadAllText(file);
@@ -61,11 +58,10 @@ namespace Mewdeko.Core.Services
                 {
                     Log.Error(ex, "Error loading {FileName} command strings: {ErrorMessage}", file, ex.Message);
                 }
-            }
 
             return outputDict;
         }
-        
+
         private static string GetLocaleName(string fileName)
         {
             fileName = Path.GetFileName(fileName);

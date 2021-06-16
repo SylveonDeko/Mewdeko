@@ -1,4 +1,5 @@
 ﻿using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Mewdeko.Common.Yml
 {
@@ -8,7 +9,7 @@ namespace Mewdeko.Common.Yml
             .WithTypeInspector(inner => new CommentGatheringTypeInspector(inner))
             .WithEmissionPhaseObjectGraphVisitor(args => new CommentsObjectGraphVisitor(args.InnerVisitor))
             .WithEventEmitter(args => new MultilineScalarFlowStyleEmitter(args))
-            .WithNamingConvention(YamlDotNet.Serialization.NamingConventions.CamelCaseNamingConvention.Instance)
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .WithIndentedSequences()
             .WithTypeConverter(new Rgba32Converter())
             .WithTypeConverter(new CultureInfoConverter())
@@ -16,7 +17,7 @@ namespace Mewdeko.Common.Yml
             .Build();
 
         public static IDeserializer Deserializer => new DeserializerBuilder()
-            .WithNamingConvention(YamlDotNet.Serialization.NamingConventions.CamelCaseNamingConvention.Instance)
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .WithTypeConverter(new Rgba32Converter())
             .WithTypeConverter(new CultureInfoConverter())
             .WithTypeConverter(new UriConverter())

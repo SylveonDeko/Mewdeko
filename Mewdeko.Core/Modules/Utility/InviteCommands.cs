@@ -1,11 +1,11 @@
-﻿using Discord;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Utility.Services;
 using Mewdeko.Extensions;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -14,7 +14,10 @@ namespace Mewdeko.Modules.Utility
         [Group]
         public class InviteCommands : MewdekoSubmodule<InviteService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [BotPerm(ChannelPerm.CreateInstantInvite)]
             [UserPerm(ChannelPerm.CreateInstantInvite)]
@@ -25,34 +28,37 @@ namespace Mewdeko.Modules.Utility
                 if (!success)
                     return;
 
-                var ch = (ITextChannel)ctx.Channel;
-                var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, isTemporary: opts.Temporary, isUnique: opts.Unique).ConfigureAwait(false);
+                var ch = (ITextChannel) ctx.Channel;
+                var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, opts.Temporary, opts.Unique)
+                    .ConfigureAwait(false);
 
-                await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}").ConfigureAwait(false);
+                await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}")
+                    .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [BotPerm(ChannelPerm.ManageChannel)]
             [UserPerm(ChannelPerm.ManageChannel)]
-            public async Task InviteList(int page = 1, [Leftover]ITextChannel ch = null)
+            public async Task InviteList(int page = 1, [Leftover] ITextChannel ch = null)
             {
                 if (--page < 0)
                     return;
-                var channel = ch ?? (ITextChannel)ctx.Channel;
+                var channel = ch ?? (ITextChannel) ctx.Channel;
 
                 var invites = await channel.GetInvitesAsync().ConfigureAwait(false);
 
-                await ctx.SendPaginatedConfirmAsync(page, (cur) =>
+                await ctx.SendPaginatedConfirmAsync(page, cur =>
                 {
                     var i = 1;
                     var invs = invites.Skip(cur * 9).Take(9);
                     if (!invs.Any())
-                    {
                         return new EmbedBuilder()
                             .WithErrorColor()
                             .WithDescription(GetText("no_invites"));
-                    }
                     return invs.Aggregate(new EmbedBuilder().WithOkColor(),
                         (acc, inv) => acc.AddField(
                             $"#{i++} {inv.Inviter.ToString().TrimTo(15)} " +
@@ -61,7 +67,10 @@ namespace Mewdeko.Modules.Utility
                 }, invites.Count, 9).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [BotPerm(ChannelPerm.ManageChannel)]
             [UserPerm(ChannelPerm.ManageChannel)]
@@ -69,7 +78,7 @@ namespace Mewdeko.Modules.Utility
             {
                 if (--index < 0)
                     return;
-                var ch = (ITextChannel)ctx.Channel;
+                var ch = (ITextChannel) ctx.Channel;
 
                 var invites = await ch.GetInvitesAsync().ConfigureAwait(false);
 
@@ -78,7 +87,7 @@ namespace Mewdeko.Modules.Utility
                 var inv = invites.ElementAt(index);
                 await inv.DeleteAsync().ConfigureAwait(false);
 
-                await ReplyAsync(GetText("invite_deleted", Format.Bold(inv.Code.ToString()))).ConfigureAwait(false);
+                await ReplyAsync(GetText("invite_deleted", Format.Bold(inv.Code))).ConfigureAwait(false);
             }
         }
     }

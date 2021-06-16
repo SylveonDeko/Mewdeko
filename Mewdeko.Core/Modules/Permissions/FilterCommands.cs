@@ -1,14 +1,14 @@
-﻿using Discord;
-using Discord.Commands;
-using Microsoft.EntityFrameworkCore;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
-using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Permissions.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Permissions
 {
@@ -23,6 +23,7 @@ namespace Mewdeko.Modules.Permissions
             {
                 _db = db;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -64,7 +65,11 @@ namespace Mewdeko.Modules.Permissions
                         break;
                 }
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task FwClear()
@@ -73,11 +78,14 @@ namespace Mewdeko.Modules.Permissions
                 await ReplyConfirmLocalizedAsync("fw_cleared").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterInv()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 bool enabled;
                 using (var uow = _db.GetDbContext())
@@ -99,30 +107,30 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterInv()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 FilterChannelId removed;
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterInvitesChannelIds));
-                    var match = new FilterChannelId()
+                    var config = uow.GuildConfigs.ForId(channel.Guild.Id,
+                        set => set.Include(gc => gc.FilterInvitesChannelIds));
+                    var match = new FilterChannelId
                     {
                         ChannelId = channel.Id
                     };
                     removed = config.FilterInvitesChannelIds.FirstOrDefault(fc => fc.Equals(match));
 
                     if (removed == null)
-                    {
                         config.FilterInvitesChannelIds.Add(match);
-                    }
                     else
-                    {
                         uow._context.Remove(removed);
-                    }
                     await uow.SaveChangesAsync();
                 }
 
@@ -138,11 +146,14 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterLin()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 bool enabled;
                 using (var uow = _db.GetDbContext())
@@ -164,30 +175,30 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterLin()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 FilterLinksChannelId removed;
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterLinksChannelIds));
-                    var match = new FilterLinksChannelId()
+                    var config = uow.GuildConfigs.ForId(channel.Guild.Id,
+                        set => set.Include(gc => gc.FilterLinksChannelIds));
+                    var match = new FilterLinksChannelId
                     {
                         ChannelId = channel.Id
                     };
                     removed = config.FilterLinksChannelIds.FirstOrDefault(fc => fc.Equals(match));
 
                     if (removed == null)
-                    {
                         config.FilterLinksChannelIds.Add(match);
-                    }
                     else
-                    {
                         uow._context.Remove(removed);
-                    }
                     await uow.SaveChangesAsync();
                 }
 
@@ -203,11 +214,14 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task SrvrFilterWords()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 bool enabled;
                 using (var uow = _db.GetDbContext())
@@ -229,30 +243,30 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task ChnlFilterWords()
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 FilterChannelId removed;
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilterWordsChannelIds));
+                    var config = uow.GuildConfigs.ForId(channel.Guild.Id,
+                        set => set.Include(gc => gc.FilterWordsChannelIds));
 
-                    var match = new FilterChannelId()
+                    var match = new FilterChannelId
                     {
                         ChannelId = channel.Id
                     };
                     removed = config.FilterWordsChannelIds.FirstOrDefault(fc => fc.Equals(match));
                     if (removed == null)
-                    {
                         config.FilterWordsChannelIds.Add(match);
-                    }
                     else
-                    {
                         uow._context.Remove(removed);
-                    }
                     await uow.SaveChangesAsync();
                 }
 
@@ -268,11 +282,14 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task FilterWord([Leftover] string word)
             {
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 word = word?.Trim().ToLowerInvariant();
 
@@ -287,16 +304,15 @@ namespace Mewdeko.Modules.Permissions
                     removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
                     if (removed == null)
-                        config.FilteredWords.Add(new FilteredWord() { Word = word });
+                        config.FilteredWords.Add(new FilteredWord {Word = word});
                     else
-                    {
                         uow._context.Remove(removed);
-                    }
 
                     await uow.SaveChangesAsync();
                 }
 
-                var filteredWords = _service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
+                var filteredWords =
+                    _service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
 
                 if (removed == null)
                 {
@@ -310,7 +326,10 @@ namespace Mewdeko.Modules.Permissions
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task LstFilterWords(int page = 1)
             {
@@ -318,18 +337,18 @@ namespace Mewdeko.Modules.Permissions
                 if (page < 0)
                     return;
 
-                var channel = (ITextChannel)ctx.Channel;
+                var channel = (ITextChannel) ctx.Channel;
 
                 _service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
 
                 var fws = fwHash.ToArray();
 
                 await ctx.SendPaginatedConfirmAsync(page,
-                    (curPage) => new EmbedBuilder()
+                    curPage => new EmbedBuilder()
                         .WithTitle(GetText("filter_word_list"))
                         .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))
                         .WithOkColor()
-                , fws.Length, 10).ConfigureAwait(false);
+                    , fws.Length, 10).ConfigureAwait(false);
             }
         }
     }

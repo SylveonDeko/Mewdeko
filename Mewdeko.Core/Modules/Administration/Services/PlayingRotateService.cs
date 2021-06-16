@@ -2,30 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Core.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using Discord;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Mewdeko.Core.Common;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public sealed class PlayingRotateService : INService
     {
-        private readonly Timer _t;
-        private readonly BotConfigService _bss;
-        private readonly Replacer _rep;
-        private readonly DbService _db;
         private readonly Mewdeko _bot;
-
-        private class TimerState
-        {
-            public int Index { get; set; }
-        }
+        private readonly BotConfigService _bss;
+        private readonly DbService _db;
+        private readonly Replacer _rep;
+        private readonly Timer _t;
 
         public PlayingRotateService(DiscordSocketClient client, DbService db, Mewdeko bot,
             BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders)
@@ -49,7 +44,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             try
             {
-                var state = (TimerState)objState;
+                var state = (TimerState) objState;
 
                 if (!_bss.Data.RotateStatuses) return;
 
@@ -101,7 +96,7 @@ namespace Mewdeko.Modules.Administration.Services
         public async Task AddPlaying(ActivityType t, string status)
         {
             using var uow = _db.GetDbContext();
-            var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
+            var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
             uow._context.Add(toAdd);
             await uow.SaveChangesAsync();
         }
@@ -117,6 +112,11 @@ namespace Mewdeko.Modules.Administration.Services
         {
             using var uow = _db.GetDbContext();
             return uow._context.RotatingStatus.AsNoTracking().ToList();
+        }
+
+        private class TimerState
+        {
+            public int Index { get; set; }
         }
     }
 }

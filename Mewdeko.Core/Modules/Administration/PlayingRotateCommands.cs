@@ -1,9 +1,9 @@
-﻿using Discord.Commands;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Administration.Services;
-using Discord;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -12,7 +12,10 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class PlayingRotateCommands : MewdekoSubmodule<PlayingRotateService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task RotatePlaying()
             {
@@ -22,7 +25,10 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("ropl_disabled").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task AddPlaying(ActivityType t, [Leftover] string status)
             {
@@ -31,7 +37,10 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("ropl_added").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task ListPlaying()
             {
@@ -48,10 +57,12 @@ namespace Mewdeko.Modules.Administration
                             string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")))
                         .ConfigureAwait(false);
                 }
-
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task RemovePlaying(int index)
             {

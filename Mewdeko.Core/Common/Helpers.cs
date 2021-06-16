@@ -8,7 +8,7 @@ namespace Mewdeko.Core.Common
         {
             if (!Console.IsInputRedirected)
                 Console.ReadKey();
-            
+
             Environment.Exit(exitCode);
         }
     }

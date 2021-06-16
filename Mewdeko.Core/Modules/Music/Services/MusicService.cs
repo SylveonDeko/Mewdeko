@@ -17,23 +17,24 @@ namespace Mewdeko.Modules.Music.Services
 {
     public sealed class MusicService : IMusicService
     {
-        private readonly AyuVoiceStateService _voiceStateService;
-        private readonly ITrackResolveProvider _trackResolveProvider;
-        private readonly DbService _db;
-        private readonly IYoutubeResolver _ytResolver;
-        private readonly ILocalTrackResolver _localResolver;
-        private readonly ISoundcloudResolver _scResolver;
         private readonly DiscordSocketClient _client;
-        private readonly IBotStrings _strings;
+        private readonly DbService _db;
         private readonly IGoogleApiService _googleApiService;
-        private readonly YtLoader _ytLoader;
+        private readonly ILocalTrackResolver _localResolver;
+        private readonly ConcurrentDictionary<ulong, (ITextChannel Default, ITextChannel? Override)> _outputChannels;
 
         private readonly ConcurrentDictionary<ulong, IMusicPlayer> _players;
-        private readonly ConcurrentDictionary<ulong, (ITextChannel Default, ITextChannel? Override)> _outputChannels;
+        private readonly ISoundcloudResolver _scResolver;
         private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
+        private readonly IBotStrings _strings;
+        private readonly ITrackResolveProvider _trackResolveProvider;
+        private readonly AyuVoiceStateService _voiceStateService;
+        private readonly YtLoader _ytLoader;
+        private readonly IYoutubeResolver _ytResolver;
 
         public MusicService(AyuVoiceStateService voiceStateService, ITrackResolveProvider trackResolveProvider,
-            DbService db, IYoutubeResolver ytResolver, ILocalTrackResolver localResolver, ISoundcloudResolver scResolver,
+            DbService db, IYoutubeResolver ytResolver, ILocalTrackResolver localResolver,
+            ISoundcloudResolver scResolver,
             DiscordSocketClient client, IBotStrings strings, IGoogleApiService googleApiService, YtLoader ytLoader)
         {
             _voiceStateService = voiceStateService;
@@ -54,27 +55,6 @@ namespace Mewdeko.Modules.Music.Services
             _client.LeftGuild += ClientOnLeftGuild;
         }
 
-        private void DisposeMusicPlayer(IMusicPlayer musicPlayer)
-        {
-            musicPlayer.Kill();
-            _ = Task.Delay(10_000).ContinueWith(_ => musicPlayer.Dispose());
-        }
-
-        private void RemoveMusicPlayer(ulong guildId)
-        {
-            _outputChannels.TryRemove(guildId, out _);
-            if (_players.TryRemove(guildId, out var mp))
-            {
-                DisposeMusicPlayer(mp);
-            }
-        }
-
-        private Task ClientOnLeftGuild(SocketGuild guild)
-        {
-            RemoveMusicPlayer(guild.Id);
-            return Task.CompletedTask;
-        }
-
         public async Task LeaveVoiceChannelAsync(ulong guildId)
         {
             RemoveMusicPlayer(guildId);
@@ -82,7 +62,9 @@ namespace Mewdeko.Modules.Music.Services
         }
 
         public Task JoinVoiceChannelAsync(ulong guildId, ulong voiceChannelId)
-            => _voiceStateService.JoinVoiceChannel(guildId, voiceChannelId);
+        {
+            return _voiceStateService.JoinVoiceChannel(guildId, voiceChannelId);
+        }
 
         public async Task<IMusicPlayer?> GetOrCreateMusicPlayerAsync(ITextChannel contextChannel)
         {
@@ -94,7 +76,9 @@ namespace Mewdeko.Modules.Music.Services
         }
 
         public bool TryGetMusicPlayer(ulong guildId, out IMusicPlayer musicPlayer)
-            => _players.TryGetValue(guildId, out musicPlayer);
+        {
+            return _players.TryGetValue(guildId, out musicPlayer);
+        }
 
         public async Task<int> EnqueueYoutubePlaylistAsync(IMusicPlayer mp, string query, string queuer)
         {
@@ -137,56 +121,6 @@ namespace Mewdeko.Modules.Music.Services
             return i;
         }
 
-        private async Task<IMusicPlayer?> CreateMusicPlayerInternalAsync(ulong guildId, ITextChannel defaultChannel)
-        {
-            var queue = new MusicQueue();
-            var resolver = _trackResolveProvider;
-
-            if (!_voiceStateService.TryGetProxy(guildId, out var proxy))
-            {
-                return null;
-            }
-
-            var settings = await GetSettingsInternalAsync(guildId);
-
-            ITextChannel? overrideChannel = null;
-            if (settings.MusicChannelId is ulong channelId)
-            {
-                overrideChannel = _client.GetGuild(guildId)?.GetTextChannel(channelId);
-
-                if (overrideChannel is null)
-                {
-                    Log.Warning("Saved music output channel doesn't exist, falling back to current channel");
-                }
-            }
-
-            _outputChannels[guildId] = (defaultChannel, overrideChannel);
-
-            var mp = new MusicPlayer(
-                queue,
-                resolver,
-                proxy,
-                settings.QualityPreset
-
-            );
-            
-            mp.SetRepeat(settings.PlayerRepeat);
-
-            if (settings.Volume >= 0 && settings.Volume <= 100)
-            {
-                mp.SetVolume(settings.Volume);
-            }
-            else
-            {
-                Log.Error("Saved Volume is outside of valid range >= 0 && <=100 ({Volume})", settings.Volume);
-            }
-
-            mp.OnCompleted += OnTrackCompleted(guildId);
-            mp.OnStarted += OnTrackStarted(guildId);
-            mp.OnQueueStopped += OnQueueStopped(guildId);
-
-            return mp;
-        }
         public async Task<QualityPreset> GetMusicQualityAsync(ulong guildId)
         {
             using var uow = _db.GetDbContext();
@@ -196,10 +130,7 @@ namespace Mewdeko.Modules.Music.Services
 
         public Task SetMusicQualityAsync(ulong guildId, QualityPreset preset)
         {
-            return ModifySettingsInternalAsync(guildId, (settings, _) =>
-            {
-                settings.QualityPreset = preset;
-            }, preset);
+            return ModifySettingsInternalAsync(guildId, (settings, _) => { settings.QualityPreset = preset; }, preset);
         }
 
         public Task<IUserMessage?> SendToOutputAsync(ulong guildId, EmbedBuilder embed)
@@ -208,6 +139,143 @@ namespace Mewdeko.Modules.Music.Services
                 return (chan.Default ?? chan.Override).EmbedAsync(embed);
 
             return Task.FromResult<IUserMessage?>(null);
+        }
+
+        // this has to be done because dragging bot to another vc isn't supported yet
+        public async Task<bool> PlayAsync(ulong guildId, ulong voiceChannelId)
+        {
+            if (!TryGetMusicPlayer(guildId, out var mp)) return false;
+
+            if (mp.IsStopped)
+                if (!_voiceStateService.TryGetProxy(guildId, out var proxy)
+                    || proxy.State == VoiceProxy.VoiceProxyState.Stopped)
+                    await JoinVoiceChannelAsync(guildId, voiceChannelId);
+
+            mp.Next();
+            return true;
+        }
+
+        public async Task<IList<(string Title, string Url)>> SearchVideosAsync(string query)
+        {
+            try
+            {
+                IList<(string, string)> videos = await SearchYtLoaderVideosAsync(query);
+                if (videos.Count > 0) return videos;
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("Failed geting videos with YtLoader: {ErrorMessage}", ex.Message);
+            }
+
+            try
+            {
+                return await SearchGoogleApiVideosAsync(query);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("Failed getting video results with Google Api. " +
+                            "Probably google api key missing: {ErrorMessage}", ex.Message);
+            }
+
+            return Array.Empty<(string, string)>();
+        }
+
+        public IEnumerable<(string Name, Func<string> Func)> GetPlaceholders()
+        {
+            // random song that's playing
+            yield return ("%music.playing%", () =>
+                    {
+                        var randomPlayingTrack = _players
+                            .Select(x => x.Value.GetCurrentTrack(out _))
+                            .Where(x => !(x is null))
+                            .Shuffle()
+                            .FirstOrDefault();
+
+                        if (randomPlayingTrack is null)
+                            return "-";
+
+                        return randomPlayingTrack.Title;
+                    }
+                );
+
+            // number of servers currently listening to music
+            yield return ("%music.servers%", () =>
+                    {
+                        var count = _players
+                            .Select(x => x.Value.GetCurrentTrack(out _))
+                            .Count(x => !(x is null));
+
+                        return count.ToString();
+                    }
+                );
+
+            yield return ("%music.queued%", () =>
+                    {
+                        var count = _players
+                            .Sum(x => x.Value.GetQueuedTracks().Count);
+
+                        return count.ToString();
+                    }
+                );
+        }
+
+        private void DisposeMusicPlayer(IMusicPlayer musicPlayer)
+        {
+            musicPlayer.Kill();
+            _ = Task.Delay(10_000).ContinueWith(_ => musicPlayer.Dispose());
+        }
+
+        private void RemoveMusicPlayer(ulong guildId)
+        {
+            _outputChannels.TryRemove(guildId, out _);
+            if (_players.TryRemove(guildId, out var mp)) DisposeMusicPlayer(mp);
+        }
+
+        private Task ClientOnLeftGuild(SocketGuild guild)
+        {
+            RemoveMusicPlayer(guild.Id);
+            return Task.CompletedTask;
+        }
+
+        private async Task<IMusicPlayer?> CreateMusicPlayerInternalAsync(ulong guildId, ITextChannel defaultChannel)
+        {
+            var queue = new MusicQueue();
+            var resolver = _trackResolveProvider;
+
+            if (!_voiceStateService.TryGetProxy(guildId, out var proxy)) return null;
+
+            var settings = await GetSettingsInternalAsync(guildId);
+
+            ITextChannel? overrideChannel = null;
+            if (settings.MusicChannelId is ulong channelId)
+            {
+                overrideChannel = _client.GetGuild(guildId)?.GetTextChannel(channelId);
+
+                if (overrideChannel is null)
+                    Log.Warning("Saved music output channel doesn't exist, falling back to current channel");
+            }
+
+            _outputChannels[guildId] = (defaultChannel, overrideChannel);
+
+            var mp = new MusicPlayer(
+                queue,
+                resolver,
+                proxy,
+                settings.QualityPreset
+            );
+
+            mp.SetRepeat(settings.PlayerRepeat);
+
+            if (settings.Volume >= 0 && settings.Volume <= 100)
+                mp.SetVolume(settings.Volume);
+            else
+                Log.Error("Saved Volume is outside of valid range >= 0 && <=100 ({Volume})", settings.Volume);
+
+            mp.OnCompleted += OnTrackCompleted(guildId);
+            mp.OnStarted += OnTrackStarted(guildId);
+            mp.OnQueueStopped += OnQueueStopped(guildId);
+
+            return mp;
         }
 
         private Func<IMusicPlayer, IQueuedTrackInfo, Task> OnTrackCompleted(ulong guildId)
@@ -242,38 +310,15 @@ namespace Mewdeko.Modules.Music.Services
         }
 
         private Func<IMusicPlayer, Task> OnQueueStopped(ulong guildId)
-            => (mp) =>
+        {
+            return mp =>
             {
                 if (_settings.TryGetValue(guildId, out var settings))
-                {
                     if (settings.AutoDisconnect)
-                    {
                         return LeaveVoiceChannelAsync(guildId);
-                    }
-                }
 
                 return Task.CompletedTask;
             };
-
-        // this has to be done because dragging bot to another vc isn't supported yet
-        public async Task<bool> PlayAsync(ulong guildId, ulong voiceChannelId)
-        {
-            if (!TryGetMusicPlayer(guildId, out var mp))
-            {
-                return false;
-            }
-
-            if (mp.IsStopped)
-            {
-                if (!_voiceStateService.TryGetProxy(guildId, out var proxy)
-                    || proxy.State == VoiceProxy.VoiceProxyState.Stopped)
-                {
-                    await JoinVoiceChannelAsync(guildId, voiceChannelId);
-                }
-            }
-
-            mp.Next();
-            return true;
         }
 
         private async Task<IList<(string Title, string Url)>> SearchYtLoaderVideosAsync(string query)
@@ -288,74 +333,9 @@ namespace Mewdeko.Modules.Music.Services
             return result.Select(x => (x.Name, x.Url)).ToList();
         }
 
-        public async Task<IList<(string Title, string Url)>> SearchVideosAsync(string query)
-        {
-            try
-            {
-                IList<(string, string)> videos = await SearchYtLoaderVideosAsync(query);
-                if (videos.Count > 0)
-                {
-                    return videos;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("Failed geting videos with YtLoader: {ErrorMessage}", ex.Message);
-            }
-
-            try
-            {
-                return await SearchGoogleApiVideosAsync(query);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("Failed getting video results with Google Api. " +
-                            "Probably google api key missing: {ErrorMessage}", ex.Message);
-            }
-
-            return Array.Empty<(string, string)>();
-        }
-
         private string GetText(ulong guildId, string key, params object[] args)
-            => _strings.GetText(key, guildId, args);
-
-        public IEnumerable<(string Name, Func<string> Func)> GetPlaceholders()
         {
-            // random song that's playing
-            yield return ("%music.playing%", () =>
-            {
-                var randomPlayingTrack = _players
-                    .Select(x => x.Value.GetCurrentTrack(out _))
-                    .Where(x => !(x is null))
-                    .Shuffle()
-                    .FirstOrDefault();
-
-                if (randomPlayingTrack is null)
-                    return "-";
-
-                return randomPlayingTrack.Title;
-            }
-            );
-
-            // number of servers currently listening to music
-            yield return ("%music.servers%", () =>
-            {
-                var count = _players
-                    .Select(x => x.Value.GetCurrentTrack(out _))
-                    .Count(x => !(x is null));
-
-                return count.ToString();
-            }
-            );
-
-            yield return ("%music.queued%", () =>
-            {
-                var count = _players
-                    .Sum(x => x.Value.GetQueuedTracks().Count);
-
-                return count.ToString();
-            }
-            );
+            return _strings.GetText(key, guildId, args);
         }
 
         #region Settings
@@ -396,10 +376,8 @@ namespace Mewdeko.Modules.Music.Services
             if (channel is null)
                 return false;
 
-            await ModifySettingsInternalAsync(guildId, (settings, chId) =>
-            {
-                settings.MusicChannelId = chId;
-            }, channelId);
+            await ModifySettingsInternalAsync(guildId, (settings, chId) => { settings.MusicChannelId = chId; },
+                channelId);
 
             _outputChannels.AddOrUpdate(guildId,
                 (channel, channel),
@@ -410,10 +388,8 @@ namespace Mewdeko.Modules.Music.Services
 
         public async Task UnsetMusicChannelAsync(ulong guildId)
         {
-            await ModifySettingsInternalAsync(guildId, (settings, _) =>
-            {
-                settings.MusicChannelId = null;
-            }, (ulong?)null);
+            await ModifySettingsInternalAsync(guildId, (settings, _) => { settings.MusicChannelId = null; },
+                (ulong?) null);
 
             if (_outputChannels.TryGetValue(guildId, out var old))
                 _outputChannels[guildId] = (old.Default, null);
@@ -421,10 +397,8 @@ namespace Mewdeko.Modules.Music.Services
 
         public async Task SetRepeatAsync(ulong guildId, PlayerRepeatType repeatType)
         {
-            await ModifySettingsInternalAsync(guildId, (settings, type) =>
-            {
-                settings.PlayerRepeat = type;
-            }, repeatType);
+            await ModifySettingsInternalAsync(guildId, (settings, type) => { settings.PlayerRepeat = type; },
+                repeatType);
 
             if (TryGetMusicPlayer(guildId, out var mp))
                 mp.SetRepeat(repeatType);
@@ -435,10 +409,7 @@ namespace Mewdeko.Modules.Music.Services
             if (value < 0 || value > 100)
                 throw new ArgumentOutOfRangeException(nameof(value));
 
-            await ModifySettingsInternalAsync(guildId, (settings, newValue) =>
-            {
-                settings.Volume = newValue;
-            }, value);
+            await ModifySettingsInternalAsync(guildId, (settings, newValue) => { settings.Volume = newValue; }, value);
 
             if (TryGetMusicPlayer(guildId, out var mp))
                 mp.SetVolume(value);
@@ -447,10 +418,8 @@ namespace Mewdeko.Modules.Music.Services
         public async Task<bool> ToggleAutoDisconnectAsync(ulong guildId)
         {
             var newState = false;
-            await ModifySettingsInternalAsync(guildId, (settings, _) =>
-            {
-                newState = settings.AutoDisconnect = !settings.AutoDisconnect;
-            }, default(object));
+            await ModifySettingsInternalAsync(guildId,
+                (settings, _) => { newState = settings.AutoDisconnect = !settings.AutoDisconnect; }, default(object));
 
             return newState;
         }

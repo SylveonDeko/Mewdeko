@@ -1,22 +1,20 @@
-﻿using Mewdeko.Extensions;
-using Newtonsoft.Json;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Mewdeko.Extensions;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace Mewdeko.Core.Services.Impl
 {
     public class RedisCache : IDataCache
     {
-        public ConnectionMultiplexer Redis { get; }
-
-        public IImageCache LocalImages { get; }
-        public ILocalDataCache LocalData { get; }
+        private readonly EndPoint _redisEndpoint;
 
         private readonly string _redisKey;
-        private readonly EndPoint _redisEndpoint;
+
+        private readonly object timelyLock = new();
 
         public RedisCache(IBotCredentials creds, int shardId)
         {
@@ -29,6 +27,11 @@ namespace Mewdeko.Core.Services.Impl
             LocalData = new RedisLocalDataCache(Redis, creds, shardId);
             _redisKey = creds.RedisKey();
         }
+
+        public ConnectionMultiplexer Redis { get; }
+
+        public IImageCache LocalImages { get; }
+        public ILocalDataCache LocalData { get; }
 
         // things here so far don't need the bot id
         // because it's a good thing if different bots 
@@ -57,7 +60,7 @@ namespace Mewdeko.Core.Services.Impl
         public Task SetAnimeDataAsync(string key, string data)
         {
             var _db = Redis.GetDatabase();
-            return _db.StringSetAsync("anime_" + key, data, expiry: TimeSpan.FromHours(3));
+            return _db.StringSetAsync("anime_" + key, data, TimeSpan.FromHours(3));
         }
 
         public async Task<(bool Success, string Data)> TryGetNovelDataAsync(string key)
@@ -70,10 +73,9 @@ namespace Mewdeko.Core.Services.Impl
         public Task SetNovelDataAsync(string key, string data)
         {
             var _db = Redis.GetDatabase();
-            return _db.StringSetAsync("novel_" + key, data, expiry: TimeSpan.FromHours(3));
+            return _db.StringSetAsync("novel_" + key, data, TimeSpan.FromHours(3));
         }
 
-        private readonly object timelyLock = new object();
         public TimeSpan? AddTimelyClaim(ulong id, int period)
         {
             if (period == 0)
@@ -82,11 +84,12 @@ namespace Mewdeko.Core.Services.Impl
             {
                 var time = TimeSpan.FromHours(period);
                 var _db = Redis.GetDatabase();
-                if ((bool?)_db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
+                if ((bool?) _db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
                 {
                     _db.StringSet($"{_redisKey}_timelyclaim_{id}", true, time);
                     return null;
                 }
+
                 return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
             }
         }
@@ -96,9 +99,7 @@ namespace Mewdeko.Core.Services.Impl
             var server = Redis.GetServer(_redisEndpoint);
             var _db = Redis.GetDatabase();
             foreach (var k in server.Keys(pattern: $"{_redisKey}_timelyclaim_*"))
-            {
                 _db.KeyDelete(k, CommandFlags.FireAndForget);
-            }
         }
 
         public bool TryAddAffinityCooldown(ulong userId, out TimeSpan? time)
@@ -111,6 +112,7 @@ namespace Mewdeko.Core.Services.Impl
                 _db.StringSet($"{_redisKey}_affinity_{userId}", true, time);
                 return true;
             }
+
             return false;
         }
 
@@ -124,21 +126,8 @@ namespace Mewdeko.Core.Services.Impl
                 _db.StringSet($"{_redisKey}_divorce_{userId}", true, time);
                 return true;
             }
+
             return false;
-        }
-
-        public Task SetStreamDataAsync(string url, string data)
-        {
-            var _db = Redis.GetDatabase();
-            return _db.StringSetAsync($"{_redisKey}_stream_{url}", data, expiry: TimeSpan.FromHours(6));
-        }
-
-        public bool TryGetStreamData(string url, out string dataStr)
-        {
-            var _db = Redis.GetDatabase();
-            dataStr = _db.StringGet($"{_redisKey}_stream_{url}");
-
-            return !string.IsNullOrWhiteSpace(dataStr);
         }
 
         public TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn)
@@ -148,9 +137,7 @@ namespace Mewdeko.Core.Services.Impl
                 0, // i don't use the value
                 TimeSpan.FromSeconds(expireIn),
                 When.NotExists))
-            {
                 return null;
-            }
 
             return _db.KeyTimeToLive($"{_redisKey}_ratelimit_{id}_{name}");
         }
@@ -158,10 +145,7 @@ namespace Mewdeko.Core.Services.Impl
         public bool TryGetEconomy(out string data)
         {
             var _db = Redis.GetDatabase();
-            if ((data = _db.StringGet($"{_redisKey}_economy")) != null)
-            {
-                return true;
-            }
+            if ((data = _db.StringGet($"{_redisKey}_economy")) != null) return true;
 
             return false;
         }
@@ -171,35 +155,37 @@ namespace Mewdeko.Core.Services.Impl
             var _db = Redis.GetDatabase();
             _db.StringSet($"{_redisKey}_economy",
                 data,
-                expiry: TimeSpan.FromMinutes(3));
+                TimeSpan.FromMinutes(3));
         }
 
-        public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory, TParam param, TimeSpan expiry) where TOut : class
+        public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory,
+            TParam param, TimeSpan expiry) where TOut : class
         {
             var _db = Redis.GetDatabase();
 
-            RedisValue data = await _db.StringGetAsync(key).ConfigureAwait(false);
+            var data = await _db.StringGetAsync(key).ConfigureAwait(false);
             if (!data.HasValue)
             {
                 var obj = await factory(param).ConfigureAwait(false);
 
                 if (obj == null)
-                    return default(TOut);
+                    return default;
 
                 await _db.StringSetAsync(key, JsonConvert.SerializeObject(obj),
-                    expiry: expiry).ConfigureAwait(false);
+                    expiry).ConfigureAwait(false);
 
                 return obj;
             }
-            return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
+
+            return (TOut) JsonConvert.DeserializeObject(data, typeof(TOut));
         }
 
         public DateTime GetLastCurrencyDecay()
         {
             var db = Redis.GetDatabase();
 
-            var str = (string)db.StringGet($"{_redisKey}_last_currency_decay");
-            if(string.IsNullOrEmpty(str))
+            var str = (string) db.StringGet($"{_redisKey}_last_currency_decay");
+            if (string.IsNullOrEmpty(str))
                 return DateTime.MinValue;
 
             return JsonConvert.DeserializeObject<DateTime>(str);
@@ -210,6 +196,20 @@ namespace Mewdeko.Core.Services.Impl
             var db = Redis.GetDatabase();
 
             db.StringSet($"{_redisKey}_last_currency_decay", JsonConvert.SerializeObject(DateTime.UtcNow));
+        }
+
+        public Task SetStreamDataAsync(string url, string data)
+        {
+            var _db = Redis.GetDatabase();
+            return _db.StringSetAsync($"{_redisKey}_stream_{url}", data, TimeSpan.FromHours(6));
+        }
+
+        public bool TryGetStreamData(string url, out string dataStr)
+        {
+            var _db = Redis.GetDatabase();
+            dataStr = _db.StringGet($"{_redisKey}_stream_{url}");
+
+            return !string.IsNullOrWhiteSpace(dataStr);
         }
     }
 }

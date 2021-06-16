@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -5,42 +8,61 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Administration
 {
     public partial class Administration : MewdekoModule<AdministrationService>
     {
+        public enum Channel
+        {
+            Channel,
+            Ch,
+            Chnl,
+            Chan
+        }
+
         public enum List
         {
             List = 0,
             Ls = 0
         }
 
+        public enum Server
+        {
+            Server
+        }
+
+        public enum State
+        {
+            Enable,
+            Disable,
+            Inherit
+        }
 
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(ChannelPerm.ManageChannel)]
         [BotPerm(ChannelPerm.ManageChannel)]
         public async Task Slowmode(StoopidTime time = null)
         {
-            var seconds = (int?)time?.Time.TotalSeconds ?? 0;
+            var seconds = (int?) time?.Time.TotalSeconds ?? 0;
             if (!(time is null) && (time.Time < TimeSpan.FromSeconds(0) || time.Time > TimeSpan.FromHours(6)))
                 return;
-            
 
-            await ((ITextChannel) Context.Channel).ModifyAsync(tcp =>
-            {
-                tcp.SlowModeInterval = seconds;
-            });
+
+            await ((ITextChannel) Context.Channel).ModifyAsync(tcp => { tcp.SlowModeInterval = seconds; });
 
             await Context.OkAsync();
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [BotPerm(GuildPerm.ManageMessages)]
@@ -72,12 +94,10 @@ namespace Mewdeko.Modules.Administration
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        public enum Server
-        {
-            Server
-        }
-
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [BotPerm(GuildPerm.ManageMessages)]
@@ -96,30 +116,23 @@ namespace Mewdeko.Modules.Administration
             }
         }
 
-        public enum Channel
-        {
-            Channel,
-            Ch,
-            Chnl,
-            Chan
-        }
-
-        public enum State
-        {
-            Enable,
-            Disable,
-            Inherit
-        }
-
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [BotPerm(GuildPerm.ManageMessages)]
         [Priority(0)]
         public Task Delmsgoncmd(Channel _, State s, ITextChannel ch)
-            => Delmsgoncmd(_, s, ch.Id);
+        {
+            return Delmsgoncmd(_, s, ch.Id);
+        }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [BotPerm(GuildPerm.ManageMessages)]
@@ -130,20 +143,17 @@ namespace Mewdeko.Modules.Administration
             await _service.SetDelMsgOnCmdState(ctx.Guild.Id, actualChId, s).ConfigureAwait(false);
 
             if (s == State.Disable)
-            {
                 await ReplyConfirmLocalizedAsync("delmsg_channel_off").ConfigureAwait(false);
-            }
             else if (s == State.Enable)
-            {
                 await ReplyConfirmLocalizedAsync("delmsg_channel_on").ConfigureAwait(false);
-            }
             else
-            {
                 await ReplyConfirmLocalizedAsync("delmsg_channel_inherit").ConfigureAwait(false);
-            }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.DeafenMembers)]
         [BotPerm(GuildPerm.DeafenMembers)]
@@ -153,7 +163,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("deafen").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.DeafenMembers)]
         [BotPerm(GuildPerm.DeafenMembers)]
@@ -163,7 +176,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("undeafen").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -173,7 +189,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("delvoich", Format.Bold(voiceChannel.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -183,7 +202,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -193,7 +215,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("deltextchan", Format.Bold(toDelete.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -203,7 +228,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("createtextchan", Format.Bold(txtCh.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -215,7 +243,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("set_topic").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -226,7 +257,10 @@ namespace Mewdeko.Modules.Administration
             await ReplyConfirmLocalizedAsync("set_channel_name").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
@@ -243,14 +277,22 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("nsfw_set_true").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(ChannelPerm.ManageMessages)]
         [Priority(0)]
         public Task Edit(ulong messageId, [Leftover] string text)
-            => Edit((ITextChannel) ctx.Channel, messageId, text);
+        {
+            return Edit((ITextChannel) ctx.Channel, messageId, text);
+        }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
         public async Task Edit(ITextChannel channel, ulong messageId, [Leftover] string text)
@@ -272,18 +314,26 @@ namespace Mewdeko.Modules.Administration
             await _service.EditMessage(ctx, channel, messageId, text);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(ChannelPerm.ManageMessages)]
         [BotPerm(ChannelPerm.ManageMessages)]
         public Task Delete(ulong messageId, StoopidTime time = null)
-            => Delete((ITextChannel) ctx.Channel, messageId, time);
+        {
+            return Delete((ITextChannel) ctx.Channel, messageId, time);
+        }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime time = null)
         {
-            await InternalMessageAction(channel, messageId, time, (msg) => msg.DeleteAsync());
+            await InternalMessageAction(channel, messageId, time, msg => msg.DeleteAsync());
         }
 
         private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime time,

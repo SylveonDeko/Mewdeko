@@ -1,12 +1,12 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Administration
         public class LocalizationCommands : MewdekoSubmodule
         {
             private static readonly IReadOnlyDictionary<string, string> supportedLocales =
-                new Dictionary<string, string>()
+                new Dictionary<string, string>
                 {
                     {"ar", "العربية"},
                     {"zh-TW", "繁體中文, 台灣"},
@@ -46,7 +46,10 @@ namespace Mewdeko.Modules.Administration
                     {"uk-UA", "Українська, Україна"}
                 };
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
             public async Task LanguageSet()
@@ -56,7 +59,10 @@ namespace Mewdeko.Modules.Administration
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
@@ -85,14 +91,20 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task LanguageSetDefault()
             {
                 var cul = Localization.DefaultCultureInfo;
                 await ReplyConfirmLocalizedAsync("lang_set_bot_show", cul, cul.NativeName).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task LanguageSetDefault(string name)
             {
@@ -119,7 +131,10 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task LanguagesList()
             {
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()

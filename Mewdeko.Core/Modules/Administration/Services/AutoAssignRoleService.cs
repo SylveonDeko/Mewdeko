@@ -53,18 +53,14 @@ namespace Mewdeko.Modules.Administration.Services
                             try
                             {
                                 if (user.Guild != null)
-                                {
                                     foreach (var i in roleId.Split())
                                     {
                                         var role = user.Guild.GetRole(Convert.ToUInt64(i));
                                         await user.AddRoleAsync(role).ConfigureAwait(false);
                                         await Task.Delay(250).ConfigureAwait(false);
                                     }
-                                }
                                 else
-                                {
                                     DisableAar(user.Guild.Id);
-                                }
                             }
                             catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
                             {

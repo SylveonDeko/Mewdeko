@@ -12,7 +12,8 @@ namespace Mewdeko.Core.Common.TypeReaders
         {
         }
 
-        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
+            IServiceProvider services)
         {
             await Task.Yield();
 
@@ -23,7 +24,8 @@ namespace Mewdeko.Core.Common.TypeReaders
             }
             catch
             {
-                return TypeReaderResult.FromError(CommandError.ParseFailed, "Parameter is not a valid color hex or name.");
+                return TypeReaderResult.FromError(CommandError.ParseFailed,
+                    "Parameter is not a valid color hex or name.");
             }
         }
     }

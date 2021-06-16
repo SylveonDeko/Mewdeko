@@ -1,12 +1,11 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Xp.Services;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp
 {
@@ -22,7 +21,10 @@ namespace Mewdeko.Modules.Xp
                 _xps = xps;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubTransfer([Leftover] IUser newOwner)
             {
                 var club = _service.TransferClub(ctx.User, newOwner);
@@ -35,7 +37,10 @@ namespace Mewdeko.Modules.Xp
                     await ReplyErrorLocalizedAsync("club_transfer_failed").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubAdmin([Leftover] IUser toAdmin)
             {
                 bool admin;
@@ -57,7 +62,10 @@ namespace Mewdeko.Modules.Xp
                         .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubCreate([Leftover] string clubName)
             {
                 if (string.IsNullOrWhiteSpace(clubName) || clubName.Length > 20)
@@ -66,7 +74,7 @@ namespace Mewdeko.Modules.Xp
                     return;
                 }
 
-                if (!_service.CreateClub(ctx.User, clubName, out ClubInfo club))
+                if (!_service.CreateClub(ctx.User, clubName, out var club))
                 {
                     await ReplyErrorLocalizedAsync("club_create_error").ConfigureAwait(false);
                     return;
@@ -75,10 +83,13 @@ namespace Mewdeko.Modules.Xp
                 await ReplyConfirmLocalizedAsync("club_created", Format.Bold(club.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubIcon([Leftover] string url = null)
             {
-                if ((!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null)
+                if (!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null
                     || !await _service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)))
                 {
                     await ReplyErrorLocalizedAsync("club_icon_error").ConfigureAwait(false);
@@ -88,7 +99,10 @@ namespace Mewdeko.Modules.Xp
                 await ReplyConfirmLocalizedAsync("club_icon_set").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(1)]
             public async Task ClubInformation(IUser user = null)
             {
@@ -103,7 +117,10 @@ namespace Mewdeko.Modules.Xp
                 await ClubInformation(club.ToString()).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             public async Task ClubInformation([Leftover] string clubName = null)
             {
@@ -113,7 +130,7 @@ namespace Mewdeko.Modules.Xp
                     return;
                 }
 
-                if (!_service.GetClubByName(clubName, out ClubInfo club))
+                if (!_service.GetClubByName(clubName, out var club))
                 {
                     await ReplyErrorLocalizedAsync("club_not_exists").ConfigureAwait(false);
                     return;
@@ -126,20 +143,18 @@ namespace Mewdeko.Modules.Xp
                         var l = new LevelStats(x.TotalXp).Level;
                         if (club.OwnerId == x.Id)
                             return int.MaxValue;
-                        else if (x.IsClubAdmin)
+                        if (x.IsClubAdmin)
                             return int.MaxValue / 2 + l;
-                        else
-                            return l;
+                        return l;
                     });
 
-                await ctx.SendPaginatedConfirmAsync(0, (page) =>
+                await ctx.SendPaginatedConfirmAsync(0, page =>
                 {
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle($"{club.ToString()}")
+                        .WithTitle($"{club}")
                         .WithDescription(GetText("level_x", lvl.Level) + $" ({club.Xp} xp)")
-                        .AddField(GetText("desc"), string.IsNullOrWhiteSpace(club.Description) ? "-" : club.Description,
-                            false)
+                        .AddField(GetText("desc"), string.IsNullOrWhiteSpace(club.Description) ? "-" : club.Description)
                         .AddField(GetText("owner"), club.Owner.ToString(), true)
                         .AddField(GetText("level_req"), club.MinimumLevelReq.ToString(), true)
                         .AddField(GetText("members"), string.Join("\n", users
@@ -150,11 +165,11 @@ namespace Mewdeko.Modules.Xp
                                 var l = new LevelStats(x.TotalXp);
                                 var lvlStr = Format.Bold($" ⟪{l.Level}⟫");
                                 if (club.OwnerId == x.Id)
-                                    return x.ToString() + "🌟" + lvlStr;
-                                else if (x.IsClubAdmin)
-                                    return x.ToString() + "⭐" + lvlStr;
-                                return x.ToString() + lvlStr;
-                            })), false);
+                                    return x + "🌟" + lvlStr;
+                                if (x.IsClubAdmin)
+                                    return x + "⭐" + lvlStr;
+                                return x + lvlStr;
+                            })));
 
                     if (Uri.IsWellFormedUriString(club.ImageUrl, UriKind.Absolute))
                         return embed.WithThumbnailUrl(club.ImageUrl);
@@ -163,7 +178,10 @@ namespace Mewdeko.Modules.Xp
                 }, club.Users.Count, 10).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public Task ClubBans(int page = 1)
             {
                 if (--page < 0)
@@ -194,7 +212,10 @@ namespace Mewdeko.Modules.Xp
             }
 
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public Task ClubApps(int page = 1)
             {
                 if (--page < 0)
@@ -224,48 +245,56 @@ namespace Mewdeko.Modules.Xp
                     }, apps.Length, 10);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubApply([Leftover] string clubName)
             {
                 if (string.IsNullOrWhiteSpace(clubName))
                     return;
 
-                if (!_service.GetClubByName(clubName, out ClubInfo club))
+                if (!_service.GetClubByName(clubName, out var club))
                 {
                     await ReplyErrorLocalizedAsync("club_not_exists").ConfigureAwait(false);
                     return;
                 }
 
                 if (_service.ApplyToClub(ctx.User, club))
-                {
                     await ReplyConfirmLocalizedAsync("club_applied", Format.Bold(club.ToString()))
                         .ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyErrorLocalizedAsync("club_apply_error").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(1)]
             public Task ClubAccept(IUser user)
-                => ClubAccept(user.ToString());
+            {
+                return ClubAccept(user.ToString());
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             public async Task ClubAccept([Leftover] string userName)
             {
                 if (_service.AcceptApplication(ctx.User.Id, userName, out var discordUser))
-                {
                     await ReplyConfirmLocalizedAsync("club_accepted", Format.Bold(discordUser.ToString()))
                         .ConfigureAwait(false);
-                }
                 else
                     await ReplyErrorLocalizedAsync("club_accept_error").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Clubleave()
             {
                 if (_service.LeaveClub(ctx.User))
@@ -274,97 +303,118 @@ namespace Mewdeko.Modules.Xp
                     await ReplyErrorLocalizedAsync("club_not_in_club").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(1)]
             public Task ClubKick([Leftover] IUser user)
-                => ClubKick(user.ToString());
+            {
+                return ClubKick(user.ToString());
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             public Task ClubKick([Leftover] string userName)
             {
                 if (_service.Kick(ctx.User.Id, userName, out var club))
                     return ReplyConfirmLocalizedAsync("club_user_kick", Format.Bold(userName),
                         Format.Bold(club.ToString()));
-                else
-                    return ReplyErrorLocalizedAsync("club_user_kick_fail");
+                return ReplyErrorLocalizedAsync("club_user_kick_fail");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(1)]
             public Task ClubBan([Leftover] IUser user)
-                => ClubBan(user.ToString());
+            {
+                return ClubBan(user.ToString());
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             public Task ClubBan([Leftover] string userName)
             {
                 if (_service.Ban(ctx.User.Id, userName, out var club))
                     return ReplyConfirmLocalizedAsync("club_user_banned", Format.Bold(userName),
                         Format.Bold(club.ToString()));
-                else
-                    return ReplyErrorLocalizedAsync("club_user_ban_fail");
+                return ReplyErrorLocalizedAsync("club_user_ban_fail");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(1)]
             public Task ClubUnBan([Leftover] IUser user)
-                => ClubUnBan(user.ToString());
+            {
+                return ClubUnBan(user.ToString());
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             public Task ClubUnBan([Leftover] string userName)
             {
                 if (_service.UnBan(ctx.User.Id, userName, out var club))
                     return ReplyConfirmLocalizedAsync("club_user_unbanned", Format.Bold(userName),
                         Format.Bold(club.ToString()));
-                else
-                    return ReplyErrorLocalizedAsync("club_user_unban_fail");
+                return ReplyErrorLocalizedAsync("club_user_unban_fail");
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubLevelReq(int level)
             {
                 if (_service.ChangeClubLevelReq(ctx.User.Id, level))
-                {
                     await ReplyConfirmLocalizedAsync("club_level_req_changed", Format.Bold(level.ToString()))
                         .ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyErrorLocalizedAsync("club_level_req_change_error").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubDescription([Leftover] string desc = null)
             {
                 if (_service.ChangeClubDescription(ctx.User.Id, desc))
-                {
                     await ReplyConfirmLocalizedAsync("club_desc_updated", Format.Bold(desc ?? "-"))
                         .ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyErrorLocalizedAsync("club_desc_update_failed").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ClubDisband()
             {
-                if (_service.Disband(ctx.User.Id, out ClubInfo club))
-                {
+                if (_service.Disband(ctx.User.Id, out var club))
                     await ReplyConfirmLocalizedAsync("club_disbanded", Format.Bold(club.ToString()))
                         .ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyErrorLocalizedAsync("club_disband_error").ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public Task ClubLeaderboard(int page = 1)
             {
                 if (--page < 0)
@@ -377,10 +427,7 @@ namespace Mewdeko.Modules.Xp
                     .WithOkColor();
 
                 var i = page * 9;
-                foreach (var club in clubs)
-                {
-                    embed.AddField($"#{++i} " + club.ToString(), club.Xp.ToString() + " xp", false);
-                }
+                foreach (var club in clubs) embed.AddField($"#{++i} " + club, club.Xp + " xp");
 
                 return ctx.Channel.EmbedAsync(embed);
             }

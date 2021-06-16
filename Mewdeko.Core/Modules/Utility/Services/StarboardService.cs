@@ -7,15 +7,14 @@ using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Swan;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class StarboardService : INService
     {
+        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
         public Mewdeko _bot;
-        private readonly DiscordSocketClient _client;
         public CommandHandler _CmdHandler;
 
         public StarboardService(DiscordSocketClient client, CommandHandler cmdhandler, DbService db, Mewdeko bot)
@@ -183,10 +182,10 @@ namespace Mewdeko.Modules.Utility.Services
                             await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
                                 IUserMessage;
 
-                        if (msg.Channel.Id == chanID)
-                            return;
+                    if (msg.Channel.Id == chanID)
+                        return;
 
-                        var em = new EmbedBuilder
+                    var em = new EmbedBuilder
                     {
                         Author = new EmbedAuthorBuilder
                         {

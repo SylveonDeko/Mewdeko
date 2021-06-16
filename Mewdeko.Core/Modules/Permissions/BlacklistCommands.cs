@@ -1,13 +1,11 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions
 {
@@ -16,8 +14,8 @@ namespace Mewdeko.Modules.Permissions
         [Group]
         public class BlacklistCommands : MewdekoSubmodule<BlacklistService>
         {
-            private readonly DbService _db;
             private readonly IBotCredentials _creds;
+            private readonly DbService _db;
 
             public BlacklistCommands(DbService db, IBotCredentials creds)
             {
@@ -25,30 +23,55 @@ namespace Mewdeko.Modules.Permissions
                 _creds = creds;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public Task UserBlacklist(AddRemove action, ulong id)
-                => Blacklist(action, id, BlacklistType.User);
+            {
+                return Blacklist(action, id, BlacklistType.User);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public Task UserBlacklist(AddRemove action, IUser usr)
-                => Blacklist(action, usr.Id, BlacklistType.User);
+            {
+                return Blacklist(action, usr.Id, BlacklistType.User);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public Task ChannelBlacklist(AddRemove action, ulong id)
-                => Blacklist(action, id, BlacklistType.Channel);
+            {
+                return Blacklist(action, id, BlacklistType.Channel);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public Task ServerBlacklist(AddRemove action, ulong id)
-                => Blacklist(action, id, BlacklistType.Server);
+            {
+                return Blacklist(action, id, BlacklistType.Server);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public Task ServerBlacklist(AddRemove action, IGuild guild)
-                => Blacklist(action, guild.Id, BlacklistType.Server);
+            {
+                return Blacklist(action, guild.Id, BlacklistType.Server);
+            }
 
             private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
             {
@@ -56,13 +79,9 @@ namespace Mewdeko.Modules.Permissions
                     return;
 
                 if (action == AddRemove.Add)
-                {
                     _service.Blacklist(type, id);
-                }
                 else
-                {
                     _service.UnBlacklist(type, id);
-                }
 
                 if (action == AddRemove.Add)
                     await ReplyConfirmLocalizedAsync("blacklisted", Format.Code(type.ToString()),

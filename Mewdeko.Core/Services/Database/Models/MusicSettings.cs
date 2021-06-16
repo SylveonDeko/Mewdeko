@@ -3,42 +3,42 @@
     public class MusicPlayerSettings
     {
         /// <summary>
-        /// Auto generated Id 
+        ///     Auto generated Id
         /// </summary>
         public int Id { get; set; }
-        
+
         /// <summary>
-        /// Id of the guild
+        ///     Id of the guild
         /// </summary>
         public ulong GuildId { get; set; }
-        
+
         /// <summary>
-        /// Queue repeat type
+        ///     Queue repeat type
         /// </summary>
         public PlayerRepeatType PlayerRepeat { get; set; } = PlayerRepeatType.Queue;
-        
+
         /// <summary>
-        /// Channel id the bot will always try to send track related messages to
+        ///     Channel id the bot will always try to send track related messages to
         /// </summary>
         public ulong? MusicChannelId { get; set; } = null;
-        
+
         /// <summary>
-        /// Default volume player will be created with
+        ///     Default volume player will be created with
         /// </summary>
         public int Volume { get; set; } = 100;
-        
+
         /// <summary>
-        /// Whether the bot should auto disconnect from the voice channel once the queue is done
-        /// This only has effect if 
+        ///     Whether the bot should auto disconnect from the voice channel once the queue is done
+        ///     This only has effect if
         /// </summary>
         public bool AutoDisconnect { get; set; } = false;
 
         /// <summary>
-        /// Selected quality preset for the music player 
+        ///     Selected quality preset for the music player
         /// </summary>
         public QualityPreset QualityPreset { get; set; }
     }
-    
+
     public enum QualityPreset
     {
         Highest,
@@ -53,6 +53,4 @@
         Track,
         Queue
     }
-
-
 }

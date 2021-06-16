@@ -7,8 +7,10 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong UserId { get; set; }
         public DateTime UnbanAt { get; set; }
 
-        public override int GetHashCode() =>
-            UserId.GetHashCode();
+        public override int GetHashCode()
+        {
+            return UserId.GetHashCode();
+        }
 
         public override bool Equals(object obj)
         {

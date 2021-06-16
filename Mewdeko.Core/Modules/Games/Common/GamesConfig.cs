@@ -6,14 +6,14 @@ namespace Mewdeko.Modules.Games.Common
     public sealed class GamesConfig
     {
         [Comment("Trivia related settings (.t command)")]
-        public TriviaConfig Trivia { get; set; } = new TriviaConfig()
+        public TriviaConfig Trivia { get; set; } = new()
         {
             CurrencyReward = 0,
-            MinimumWinReq = 1,
+            MinimumWinReq = 1
         };
-            
+
         [Comment("List of responses for the .8ball command. A random one will be selected every time")]
-        public List<string> EightBallResponses { get; set; } = new List<string>()
+        public List<string> EightBallResponses { get; set; } = new()
         {
             "Most definitely yes.",
             "For sure.",
@@ -41,23 +41,23 @@ namespace Mewdeko.Modules.Games.Common
         };
 
         [Comment("List of animals which will be used for the animal race game (.race)")]
-        public List<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimal>()
+        public List<RaceAnimal> RaceAnimals { get; set; } = new()
         {
-            new RaceAnimal {Icon = "🐼", Name = "Panda"},
-            new RaceAnimal {Icon = "🐻", Name = "Bear"},
-            new RaceAnimal {Icon = "🐧", Name = "Pengu"},
-            new RaceAnimal {Icon = "🐨", Name = "Koala"},
-            new RaceAnimal {Icon = "🐬", Name = "Dolphin"},
-            new RaceAnimal {Icon = "🐞", Name = "Ladybird"},
-            new RaceAnimal {Icon = "🦀", Name = "Crab"},
-            new RaceAnimal {Icon = "🦄", Name = "Unicorn"}
+            new() {Icon = "🐼", Name = "Panda"},
+            new() {Icon = "🐻", Name = "Bear"},
+            new() {Icon = "🐧", Name = "Pengu"},
+            new() {Icon = "🐨", Name = "Koala"},
+            new() {Icon = "🐬", Name = "Dolphin"},
+            new() {Icon = "🐞", Name = "Ladybird"},
+            new() {Icon = "🦀", Name = "Crab"},
+            new() {Icon = "🦄", Name = "Unicorn"}
         };
     }
 
     public sealed class TriviaConfig
     {
         [Comment("The amount of currency awarded to the winner of the trivia game.")]
-        public long CurrencyReward { get; set; } = 0;
+        public long CurrencyReward { get; set; }
 
         [Comment(@"Users won't be able to start trivia games which have 
 a smaller win requirement than the one specified by this setting.")]

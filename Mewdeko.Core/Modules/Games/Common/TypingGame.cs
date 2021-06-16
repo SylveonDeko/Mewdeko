@@ -3,55 +3,44 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandLine;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common;
+using Mewdeko.Core.Common;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Services;
-using CommandLine;
-using Mewdeko.Core.Common;
 using Serilog;
 
 namespace Mewdeko.Modules.Games.Common
 {
     public class TypingGame
     {
-        public class Options : IMewdekoCommandOptions
-        {
-            [Option('s', "start-time", Default = 5, Required = false, HelpText = "How long does it take for the race to start. Default 5.")]
-            public int StartTime { get; set; } = 5;
-
-            public void NormalizeOptions()
-            {
-                if (StartTime < 3 || StartTime > 30)
-                    StartTime = 5;
-            }
-        }
-
         public const float WORD_VALUE = 4.5f;
-        public ITextChannel Channel { get; }
-        public string CurrentSentence { get; private set; }
-        public bool IsActive { get; private set; }
-        private readonly Stopwatch sw;
-        private readonly List<ulong> finishedUserIds;
         private readonly DiscordSocketClient _client;
         private readonly GamesService _games;
-        private readonly string _prefix;
         private readonly Options _options;
+        private readonly string _prefix;
+        private readonly List<ulong> finishedUserIds;
+        private readonly Stopwatch sw;
 
-        public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel, 
+        public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel,
             string prefix, Options options)
         {
             _games = games;
             _client = client;
             _prefix = prefix;
             _options = options;
-    
-            this.Channel = channel;
+
+            Channel = channel;
             IsActive = false;
             sw = new Stopwatch();
             finishedUserIds = new List<ulong>();
         }
+
+        public ITextChannel Channel { get; }
+        public string CurrentSentence { get; private set; }
+        public bool IsActive { get; private set; }
 
         public async Task<bool> Stop()
         {
@@ -78,27 +67,39 @@ namespace Mewdeko.Modules.Games.Common
             if (IsActive) return; // can't start running game
             IsActive = true;
             CurrentSentence = GetRandomSentence();
-            var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
+            var i = (int) (CurrentSentence.Length / WORD_VALUE * 1.7f);
             try
             {
-                await Channel.SendConfirmAsync($@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.").ConfigureAwait(false);
+                await Channel
+                    .SendConfirmAsync(
+                        $@":clock2: Next contest will last for {i} seconds. Type the bolded text as fast as you can.")
+                    .ConfigureAwait(false);
 
 
                 var time = _options.StartTime;
 
-                var msg = await Channel.SendMessageAsync($"Starting new typing contest in **{time}**...", options: new RequestOptions()
-                {
-                    RetryMode = RetryMode.AlwaysRetry
-                }).ConfigureAwait(false);
+                var msg = await Channel.SendMessageAsync($"Starting new typing contest in **{time}**...",
+                    options: new RequestOptions
+                    {
+                        RetryMode = RetryMode.AlwaysRetry
+                    }).ConfigureAwait(false);
 
                 do
                 {
                     await Task.Delay(2000).ConfigureAwait(false);
                     time -= 2;
-                    try { await msg.ModifyAsync(m => m.Content = $"Starting new typing contest in **{time}**..").ConfigureAwait(false); } catch { }
+                    try
+                    {
+                        await msg.ModifyAsync(m => m.Content = $"Starting new typing contest in **{time}**..")
+                            .ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
                 } while (time > 2);
 
-                await msg.ModifyAsync(m => {
+                await msg.ModifyAsync(m =>
+                {
                     m.Content = CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture);
                 }).ConfigureAwait(false);
                 sw.Start();
@@ -111,9 +112,10 @@ namespace Mewdeko.Modules.Games.Common
                     if (!IsActive)
                         return;
                 }
-
             }
-            catch { }
+            catch
+            {
+            }
             finally
             {
                 await Stop().ConfigureAwait(false);
@@ -124,9 +126,7 @@ namespace Mewdeko.Modules.Games.Common
         {
             if (_games.TypingArticles.Any())
                 return _games.TypingArticles[new MewdekoRandom().Next(0, _games.TypingArticles.Count)].Text;
-            else
-                return $"No typing articles found. Use {_prefix}typeadd command to add a new article for typing.";
-
+            return $"No typing articles found. Use {_prefix}typeadd command to add a new article for typing.";
         }
 
         private void HandleAnswers()
@@ -146,7 +146,7 @@ namespace Mewdeko.Modules.Games.Common
                     if (msg == null)
                         return;
 
-                    if (this.Channel == null || this.Channel.Id != msg.Channel.Id) return;
+                    if (Channel == null || Channel.Id != msg.Channel.Id) return;
 
                     var guess = msg.Content;
 
@@ -157,7 +157,7 @@ namespace Mewdeko.Modules.Games.Common
                         var elapsed = sw.Elapsed;
                         var wpm = CurrentSentence.Length / WORD_VALUE / elapsed.TotalSeconds * 60;
                         finishedUserIds.Add(msg.Author.Id);
-                        await this.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                        await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                 .WithTitle($"{msg.Author} finished the race!")
                                 .AddField(efb =>
                                     efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
@@ -168,12 +168,10 @@ namespace Mewdeko.Modules.Games.Common
                                     efb.WithName("Errors").WithValue(distance.ToString()).WithIsInline(true)))
                             .ConfigureAwait(false);
                         if (finishedUserIds.Count % 4 == 0)
-                        {
-                            await this.Channel.SendConfirmAsync(
-                                    $":exclamation: A lot of people finished, here is the text for those still typing:" +
+                            await Channel.SendConfirmAsync(
+                                    ":exclamation: A lot of people finished, here is the text for those still typing:" +
                                     $"\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
                                 .ConfigureAwait(false);
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -184,7 +182,22 @@ namespace Mewdeko.Modules.Games.Common
             return Task.CompletedTask;
         }
 
-        private static bool Judge(int errors, int textLength) => errors <= textLength / 25;
+        private static bool Judge(int errors, int textLength)
+        {
+            return errors <= textLength / 25;
+        }
 
+        public class Options : IMewdekoCommandOptions
+        {
+            [Option('s', "start-time", Default = 5, Required = false,
+                HelpText = "How long does it take for the race to start. Default 5.")]
+            public int StartTime { get; set; } = 5;
+
+            public void NormalizeOptions()
+            {
+                if (StartTime < 3 || StartTime > 30)
+                    StartTime = 5;
+            }
+        }
     }
 }

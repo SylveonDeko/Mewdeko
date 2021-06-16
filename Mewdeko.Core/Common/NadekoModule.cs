@@ -1,10 +1,10 @@
-﻿using Discord;
+﻿using System.Globalization;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
-using System.Globalization;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.ServerManagement.Services;
 using Mewdeko.Modules.Utility.Services;
@@ -32,20 +32,20 @@ namespace Mewdeko.Modules
 
         protected ICommandContext ctx => Context;
 
-        protected MewdekoModule()
-        {
-        }
-
         protected override void BeforeExecute(CommandInfo cmd)
         {
             _cultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
         }
 
-        protected string GetText(string key) =>
-            Strings.GetText(key, _cultureInfo);
+        protected string GetText(string key)
+        {
+            return Strings.GetText(key, _cultureInfo);
+        }
 
-        protected string GetText(string key, params object[] args) =>
-            Strings.GetText(key, _cultureInfo, args);
+        protected string GetText(string key, params object[] args)
+        {
+            return Strings.GetText(key, _cultureInfo, args);
+        }
 
         public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
         {
@@ -82,10 +82,7 @@ namespace Mewdeko.Modules
                 var input = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id).ConfigureAwait(false);
                 input = input?.ToUpperInvariant();
 
-                if (input != "YES" && input != "Y")
-                {
-                    return false;
-                }
+                if (input != "YES" && input != "Y") return false;
 
                 return true;
             }
@@ -99,15 +96,13 @@ namespace Mewdeko.Modules
         public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
         {
             var userInputTask = new TaskCompletionSource<string>();
-            var dsc = (DiscordSocketClient)ctx.Client;
+            var dsc = (DiscordSocketClient) ctx.Client;
             try
             {
                 dsc.MessageReceived += MessageReceived;
 
-                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false)) != userInputTask.Task)
-                {
-                    return null;
-                }
+                if (await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false) !=
+                    userInputTask.Task) return null;
 
                 return await userInputTask.Task.ConfigureAwait(false);
             }
@@ -124,14 +119,9 @@ namespace Mewdeko.Modules
                         !(userMsg.Channel is ITextChannel chan) ||
                         userMsg.Author.Id != userId ||
                         userMsg.Channel.Id != channelId)
-                    {
                         return Task.CompletedTask;
-                    }
 
-                    if (userInputTask.TrySetResult(arg.Content))
-                    {
-                        userMsg.DeleteAfter(1);
-                    }
+                    if (userInputTask.TrySetResult(arg.Content)) userMsg.DeleteAfter(1);
                     return Task.CompletedTask;
                 });
                 return Task.CompletedTask;
@@ -142,21 +132,13 @@ namespace Mewdeko.Modules
     public abstract class MewdekoModule<TService> : MewdekoModule
     {
         public TService _service { get; set; }
-
-        protected MewdekoModule() : base()
-        {
-        }
     }
 
     public abstract class MewdekoSubmodule : MewdekoModule
     {
-        protected MewdekoSubmodule() : base() { }
     }
 
     public abstract class MewdekoSubmodule<TService> : MewdekoModule<TService>
     {
-        protected MewdekoSubmodule() : base()
-        {
-        }
     }
 }

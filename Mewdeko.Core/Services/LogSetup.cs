@@ -17,16 +17,17 @@ namespace Mewdeko.Core.Services
                 .Enrich.FromLogContext()
                 .WriteTo.Console(LogEventLevel.Information,
                     theme: GetTheme(),
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level:u3}] | #{LogSource} | {Message:lj}{NewLine}{Exception}")
                 .Enrich.WithProperty("LogSource", source)
                 .CreateLogger();
-            
-            System.Console.OutputEncoding = Encoding.UTF8;
+
+            Console.OutputEncoding = Encoding.UTF8;
         }
 
         private static ConsoleTheme GetTheme()
         {
-            if(Environment.OSVersion.Platform == PlatformID.Unix)
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
                 return AnsiConsoleTheme.Code;
 #if DEBUG
             return AnsiConsoleTheme.Code;

@@ -1,9 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Discord;
 using Mewdeko.Core.Services.Database.Models;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories
 {
@@ -16,7 +13,10 @@ namespace Mewdeko.Core.Services.Database.Repositories
         DiscordUser[] GetUsersXpLeaderboardFor(int page);
 
         long GetUserCurrency(ulong userId);
-        bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatar, long change, bool allowNegative = false);
+
+        bool TryUpdateCurrencyState(ulong userId, string name, string discrim, string avatar, long change,
+            bool allowNegative = false);
+
         List<DiscordUser> GetTopRichest(ulong botId, int count, int page);
         List<DiscordUser> GetTopRichest(ulong botId, int count);
         void RemoveFromMany(IEnumerable<ulong> ids);

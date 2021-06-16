@@ -1,32 +1,29 @@
-﻿using Discord.WebSocket;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Services;
-using Mewdeko.Modules.Gambling.Common.Connect4;
-using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Discord.WebSocket;
+using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Core.Services;
+using Mewdeko.Modules.Gambling.Common.Connect4;
+using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Services
 {
     public class GamblingService : INService
     {
-        private readonly DbService _db;
-        private readonly ICurrencyService _cs;
         private readonly Mewdeko _bot;
-        private readonly DiscordSocketClient _client;
         private readonly IDataCache _cache;
-        private readonly GamblingConfigService _gss;
-
-        public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new ConcurrentDictionary<(ulong, ulong), RollDuelGame>();
-        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new ConcurrentDictionary<ulong, Connect4Game>();
+        private readonly DiscordSocketClient _client;
+        private readonly ICurrencyService _cs;
+        private readonly DbService _db;
 
         private readonly Timer _decayTimer;
+        private readonly GamblingConfigService _gss;
 
         public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs,
             DiscordSocketClient client, IDataCache cache, GamblingConfigService gss)
@@ -37,9 +34,8 @@ namespace Mewdeko.Modules.Gambling.Services
             _client = client;
             _cache = cache;
             _gss = gss;
-            
+
             if (_bot.Client.ShardId == 0)
-            {
                 _decayTimer = new Timer(_ =>
                 {
                     var config = _gss.Data;
@@ -50,17 +46,17 @@ namespace Mewdeko.Modules.Gambling.Services
                     using (var uow = _db.GetDbContext())
                     {
                         var lastCurrencyDecay = _cache.GetLastCurrencyDecay();
-                        
+
                         if (DateTime.UtcNow - lastCurrencyDecay < TimeSpan.FromHours(config.Decay.HourInterval))
-                           return;
-                        
-                         Log.Information($"Decaying users' currency - decay: {config.Decay.Percent * 100}% " +
-                                   $"| max: {maxDecay} " +
-                                   $"| threshold: {config.Decay.MinThreshold}");
-                         
-                         if (maxDecay == 0)
-                             maxDecay = int.MaxValue;
-                         
+                            return;
+
+                        Log.Information($"Decaying users' currency - decay: {config.Decay.Percent * 100}% " +
+                                        $"| max: {maxDecay} " +
+                                        $"| threshold: {config.Decay.MinThreshold}");
+
+                        if (maxDecay == 0)
+                            maxDecay = int.MaxValue;
+
                         uow._context.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=
@@ -77,7 +73,6 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
                         uow.SaveChanges();
                     }
                 }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
-            }
 
             //using (var uow = _db.UnitOfWork)
             //{
@@ -106,25 +101,19 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
             //}
         }
 
-        public struct EconomyResult
-        {
-            public decimal Cash { get; set; }
-            public decimal Planted { get; set; }
-            public decimal Waifus { get; set; }
-            public decimal OnePercent { get; set; }
-            public long Bot { get; set; }
-        }
+        public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
+        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
 
         public EconomyResult GetEconomy()
         {
             if (_cache.TryGetEconomy(out var data))
-            {
                 try
                 {
                     return JsonConvert.DeserializeObject<EconomyResult>(data);
                 }
-                catch { }
-            }
+                catch
+                {
+                }
 
             decimal cash;
             decimal onePercent;
@@ -147,7 +136,7 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
                 Planted = planted,
                 Bot = bot,
                 Waifus = waifus,
-                OnePercent = onePercent,
+                OnePercent = onePercent
             };
 
             _cache.SetEconomy(JsonConvert.SerializeObject(result));
@@ -157,6 +146,15 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
         public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet)
         {
             return new WheelOfFortuneGame(userId, bet, _gss.Data, _cs).SpinAsync();
+        }
+
+        public struct EconomyResult
+        {
+            public decimal Cash { get; set; }
+            public decimal Planted { get; set; }
+            public decimal Waifus { get; set; }
+            public decimal OnePercent { get; set; }
+            public long Bot { get; set; }
         }
     }
 }

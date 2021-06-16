@@ -7,16 +7,11 @@ namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune
 {
     public class WheelOfFortuneGame
     {
-        public class Result
-        {
-            public int Index { get; set; }
-            public long Amount { get; set; }
-        }
-
-        private readonly MewdekoRandom _rng;
-        private readonly ICurrencyService _cs;
         private readonly long _bet;
         private readonly GamblingConfig _config;
+        private readonly ICurrencyService _cs;
+
+        private readonly MewdekoRandom _rng;
         private readonly ulong _userId;
 
         public WheelOfFortuneGame(ulong userId, long bet, GamblingConfig config, ICurrencyService cs)
@@ -32,16 +27,22 @@ namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune
         {
             var result = _rng.Next(0, _config.WheelOfFortune.Multipliers.Length);
 
-            var amount = (long)(_bet * _config.WheelOfFortune.Multipliers[result]);
+            var amount = (long) (_bet * _config.WheelOfFortune.Multipliers[result]);
 
             if (amount > 0)
-                await _cs.AddAsync(_userId, "Wheel Of Fortune - won", amount, gamble: true).ConfigureAwait(false);
+                await _cs.AddAsync(_userId, "Wheel Of Fortune - won", amount, true).ConfigureAwait(false);
 
             return new Result
             {
                 Index = result,
-                Amount = amount,
+                Amount = amount
             };
+        }
+
+        public class Result
+        {
+            public int Index { get; set; }
+            public long Amount { get; set; }
         }
     }
 }

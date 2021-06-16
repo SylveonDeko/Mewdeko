@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
+using Mewdeko.Common.TypeReaders;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Modules.Utility.Extensions;
-using Mewdeko.Common.TypeReaders;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
-using Discord.Net;
+using Mewdeko.Modules.Utility.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services
 {
     public class StreamRoleService : INService, IUnloadableService
     {
-        private readonly DbService _db;
         private readonly DiscordSocketClient _client;
+        private readonly DbService _db;
         private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
-        
+
         public StreamRoleService(DiscordSocketClient client, DbService db, Mewdeko bot)
         {
             _db = db;
@@ -59,36 +60,36 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 //if user wasn't streaming or didn't have a game status at all
                 if (guildSettings.TryGetValue(after.Guild.Id, out var setting))
-                {
                     await RescanUser(after, setting).ConfigureAwait(false);
-                }
             });
 
             return Task.CompletedTask;
         }
+
         /// <summary>
-        /// Adds or removes a user from a blacklist or a whitelist in the specified guild.
+        ///     Adds or removes a user from a blacklist or a whitelist in the specified guild.
         /// </summary>
         /// <param name="guild">Guild</param>
         /// <param name="action">Add or rem action</param>
         /// <param name="userId">User's Id</param>
         /// <param name="userName">User's name#discrim</param>
         /// <returns>Whether the operation was successful</returns>
-        public async Task<bool> ApplyListAction(StreamRoleListType listType, IGuild guild, AddRemove action, ulong userId, string userName)
+        public async Task<bool> ApplyListAction(StreamRoleListType listType, IGuild guild, AddRemove action,
+            ulong userId, string userName)
         {
             userName.ThrowIfNull(nameof(userName));
 
-            bool success = false;
+            var success = false;
             using (var uow = _db.GetDbContext())
             {
                 var streamRoleSettings = uow.GuildConfigs.GetStreamRoleSettings(guild.Id);
 
                 if (listType == StreamRoleListType.Whitelist)
                 {
-                    var userObj = new StreamRoleWhitelistedUser()
+                    var userObj = new StreamRoleWhitelistedUser
                     {
                         UserId = userId,
-                        Username = userName,
+                        Username = userName
                     };
 
                     if (action == AddRemove.Rem)
@@ -101,14 +102,16 @@ namespace Mewdeko.Modules.Utility.Services
                         }
                     }
                     else
+                    {
                         success = streamRoleSettings.Whitelist.Add(userObj);
+                    }
                 }
                 else
                 {
-                    var userObj = new StreamRoleBlacklistedUser()
+                    var userObj = new StreamRoleBlacklistedUser
                     {
                         UserId = userId,
-                        Username = userName,
+                        Username = userName
                     };
 
                     if (action == AddRemove.Rem)
@@ -121,21 +124,21 @@ namespace Mewdeko.Modules.Utility.Services
                         }
                     }
                     else
+                    {
                         success = streamRoleSettings.Blacklist.Add(userObj);
+                    }
                 }
 
                 await uow.SaveChangesAsync();
                 UpdateCache(guild.Id, streamRoleSettings);
             }
-            if (success)
-            {
-                await RescanUsers(guild).ConfigureAwait(false);
-            }
+
+            if (success) await RescanUsers(guild).ConfigureAwait(false);
             return success;
         }
 
         /// <summary>
-        /// Sets keyword on a guild and updates the cache.
+        ///     Sets keyword on a guild and updates the cache.
         /// </summary>
         /// <param name="guild">Guild Id</param>
         /// <param name="keyword">Keyword to set</param>
@@ -158,7 +161,7 @@ namespace Mewdeko.Modules.Utility.Services
         }
 
         /// <summary>
-        /// Gets the currently set keyword on a guild.
+        ///     Gets the currently set keyword on a guild.
         /// </summary>
         /// <param name="guildId">Guild Id</param>
         /// <returns>The keyword set</returns>
@@ -179,8 +182,8 @@ namespace Mewdeko.Modules.Utility.Services
         }
 
         /// <summary>
-        /// Sets the role to monitor, and a role to which to add to 
-        /// the user who starts streaming in the monitored role.
+        ///     Sets the role to monitor, and a role to which to add to
+        ///     the user who starts streaming in the monitored role.
         /// </summary>
         /// <param name="fromRole">Role to monitor</param>
         /// <param name="addRole">Role to add to the user</param>
@@ -205,14 +208,12 @@ namespace Mewdeko.Modules.Utility.Services
             UpdateCache(fromRole.Guild.Id, setting);
 
             foreach (var usr in await fromRole.GetMembersAsync().ConfigureAwait(false))
-            {
                 if (usr is IGuildUser x)
                     await RescanUser(x, setting, addRole).ConfigureAwait(false);
-            }
         }
 
         /// <summary>
-        /// Stops the stream role feature on the specified guild.
+        ///     Stops the stream role feature on the specified guild.
         /// </summary>
         /// <param name="guildId">Guild's Id</param>
         public async Task StopStreamRole(IGuild guild, bool cleanup = false)
@@ -232,12 +233,12 @@ namespace Mewdeko.Modules.Utility.Services
 
         private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
         {
-            var g = (StreamingGame)user.Activities
+            var g = (StreamingGame) user.Activities
                 .FirstOrDefault(a => a is StreamingGame &&
-                       (string.IsNullOrWhiteSpace(setting.Keyword)
-                        || a.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
-                        || setting.Whitelist.Any(x => x.UserId == user.Id)));
-            
+                                     (string.IsNullOrWhiteSpace(setting.Keyword)
+                                      || a.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
+                                      || setting.Whitelist.Any(x => x.UserId == user.Id)));
+
             if (!(g is null)
                 && setting.Enabled
                 && setting.Blacklist.All(x => x.UserId != user.Id)
@@ -256,9 +257,10 @@ namespace Mewdeko.Modules.Utility.Services
                     //check if he doesn't have addrole already, to avoid errors
                     if (!user.RoleIds.Contains(setting.AddRoleId))
                         await user.AddRoleAsync(addRole).ConfigureAwait(false);
-                    Log.Information("Added stream role to user {0} in {1} server", user.ToString(), user.Guild.ToString());
+                    Log.Information("Added stream role to user {0} in {1} server", user.ToString(),
+                        user.Guild.ToString());
                 }
-                catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
                 {
                     await StopStreamRole(user.Guild).ConfigureAwait(false);
                     Log.Warning(ex, "Error adding stream role(s). Forcibly disabling stream role feature");
@@ -273,7 +275,6 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 //check if user is in the addrole
                 if (user.RoleIds.Contains(setting.AddRoleId))
-                {
                     try
                     {
                         addRole = addRole ?? user.Guild.GetRole(setting.AddRoleId);
@@ -281,15 +282,15 @@ namespace Mewdeko.Modules.Utility.Services
                             throw new StreamRoleNotFoundException();
 
                         await user.RemoveRoleAsync(addRole).ConfigureAwait(false);
-                        Log.Information("Removed stream role from the user {0} in {1} server", user.ToString(), user.Guild.ToString());
+                        Log.Information("Removed stream role from the user {0} in {1} server", user.ToString(),
+                            user.Guild.ToString());
                     }
-                    catch (HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                    catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
                     {
                         await StopStreamRole(user.Guild).ConfigureAwait(false);
                         Log.Warning(ex, "Error removing stream role(s). Forcibly disabling stream role feature");
                         throw new StreamRolePermissionException();
                     }
-                }
             }
         }
 
@@ -305,17 +306,16 @@ namespace Mewdeko.Modules.Utility.Services
             if (setting.Enabled)
             {
                 var users = await guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false);
-                foreach (var usr in users.Where(x => x.RoleIds.Contains(setting.FromRoleId) || x.RoleIds.Contains(addRole.Id)))
-                {
+                foreach (var usr in users.Where(x =>
+                    x.RoleIds.Contains(setting.FromRoleId) || x.RoleIds.Contains(addRole.Id)))
                     if (usr is IGuildUser x)
                         await RescanUser(x, setting, addRole).ConfigureAwait(false);
-                }
             }
         }
 
         private void UpdateCache(ulong guildId, StreamRoleSettings setting)
         {
-            guildSettings.AddOrUpdate(guildId, (key) => setting, (key, old) => setting);
+            guildSettings.AddOrUpdate(guildId, key => setting, (key, old) => setting);
         }
     }
 }

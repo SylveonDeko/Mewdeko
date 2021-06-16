@@ -7,19 +7,19 @@ namespace Mewdeko.Core.Common
 {
     public class YamlSeria : IConfigSeria
     {
-        private readonly ISerializer _serializer;
-        private readonly IDeserializer _deserializer;
-
         private static readonly Regex CodePointRegex
-            = new Regex(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
+            = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
                 RegexOptions.Compiled);
+
+        private readonly IDeserializer _deserializer;
+        private readonly ISerializer _serializer;
 
         public YamlSeria()
         {
             _serializer = Yaml.Serializer;
             _deserializer = Yaml.Deserializer;
         }
-        
+
         public string Serialize<T>(T obj)
         {
             var escapedOutput = _serializer.Serialize(obj);
@@ -32,7 +32,9 @@ namespace Mewdeko.Core.Common
             return output;
         }
 
-        public T Deserialize<T>(string data) 
-            => _deserializer.Deserialize<T>(data);
+        public T Deserialize<T>(string data)
+        {
+            return _deserializer.Deserialize<T>(data);
+        }
     }
 }

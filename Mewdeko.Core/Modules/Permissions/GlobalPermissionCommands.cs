@@ -1,12 +1,12 @@
-﻿using Discord;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Permissions
 {
@@ -15,8 +15,8 @@ namespace Mewdeko.Modules.Permissions
         [Group]
         public class GlobalPermissionCommands : MewdekoSubmodule
         {
-            private GlobalPermissionService _service;
             private readonly DbService _db;
+            private readonly GlobalPermissionService _service;
 
             public GlobalPermissionCommands(GlobalPermissionService service, DbService db)
             {
@@ -24,7 +24,10 @@ namespace Mewdeko.Modules.Permissions
                 _db = db;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task GlobalPermList()
             {
@@ -53,36 +56,42 @@ namespace Mewdeko.Modules.Permissions
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task GlobalModule(ModuleOrCrInfo module)
             {
                 var moduleName = module.Name.ToLowerInvariant();
 
                 var added = _service.ToggleModule(moduleName);
-                
+
                 if (added)
                 {
                     await ReplyConfirmLocalizedAsync("gmod_add", Format.Bold(module.Name)).ConfigureAwait(false);
                     return;
                 }
-                
+
                 await ReplyConfirmLocalizedAsync("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task GlobalCommand(CommandOrCrInfo cmd)
             {
                 var commandName = cmd.Name.ToLowerInvariant();
                 var added = _service.ToggleCommand(commandName);
-                
+
                 if (added)
                 {
                     await ReplyConfirmLocalizedAsync("gcmd_add", Format.Bold(cmd.Name)).ConfigureAwait(false);
                     return;
                 }
-                
+
                 await ReplyConfirmLocalizedAsync("gcmd_remove", Format.Bold(cmd.Name)).ConfigureAwait(false);
             }
         }

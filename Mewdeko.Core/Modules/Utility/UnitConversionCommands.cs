@@ -1,12 +1,11 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Utility.Services;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -15,38 +14,53 @@ namespace Mewdeko.Modules.Utility
         [Group]
         public class UnitConverterCommands : MewdekoSubmodule<ConverterService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task ConvertList()
             {
                 var units = _service.Units;
                 var res = units.GroupBy(x => x.UnitType)
-                               .Aggregate(new EmbedBuilder().WithTitle(GetText("convertlist"))
-                                                            .WithOkColor(),
-                                          (embed, g) => embed.AddField(efb =>
-                                                                         efb.WithName(g.Key.ToTitleCase())
-                                                                         .WithValue(String.Join(", ", g.Select(x => x.Triggers.FirstOrDefault())
-                                                                                                       .OrderBy(x => x)))));
+                    .Aggregate(new EmbedBuilder().WithTitle(GetText("convertlist"))
+                            .WithOkColor(),
+                        (embed, g) => embed.AddField(efb =>
+                            efb.WithName(g.Key.ToTitleCase())
+                                .WithValue(string.Join(", ", g.Select(x => x.Triggers.FirstOrDefault())
+                                    .OrderBy(x => x)))));
                 await ctx.Channel.EmbedAsync(res).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             public async Task Convert(string origin, string target, decimal value)
             {
-                var originUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToUpperInvariant()).Contains(origin.ToUpperInvariant()));
-                var targetUnit = _service.Units.FirstOrDefault(x => x.Triggers.Select(y => y.ToUpperInvariant()).Contains(target.ToUpperInvariant()));
+                var originUnit = _service.Units.FirstOrDefault(x =>
+                    x.Triggers.Select(y => y.ToUpperInvariant()).Contains(origin.ToUpperInvariant()));
+                var targetUnit = _service.Units.FirstOrDefault(x =>
+                    x.Triggers.Select(y => y.ToUpperInvariant()).Contains(target.ToUpperInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {
-                    await ReplyErrorLocalizedAsync("convert_not_found", Format.Bold(origin), Format.Bold(target)).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("convert_not_found", Format.Bold(origin), Format.Bold(target))
+                        .ConfigureAwait(false);
                     return;
                 }
+
                 if (originUnit.UnitType != targetUnit.UnitType)
                 {
-                    await ReplyErrorLocalizedAsync("convert_type_error", Format.Bold(originUnit.Triggers.First()), Format.Bold(targetUnit.Triggers.First())).ConfigureAwait(false);
+                    await ReplyErrorLocalizedAsync("convert_type_error", Format.Bold(originUnit.Triggers.First()),
+                        Format.Bold(targetUnit.Triggers.First())).ConfigureAwait(false);
                     return;
                 }
+
                 decimal res;
-                if (originUnit.Triggers == targetUnit.Triggers) res = value;
+                if (originUnit.Triggers == targetUnit.Triggers)
+                {
+                    res = value;
+                }
                 else if (originUnit.UnitType == "temperature")
                 {
                     //don't really care too much about efficiency, so just convert to Kelvin, then to target
@@ -62,6 +76,7 @@ namespace Mewdeko.Modules.Utility
                             res = value;
                             break;
                     }
+
                     //from Kelvin to target
                     switch (targetUnit.Triggers.First().ToUpperInvariant())
                     {
@@ -76,15 +91,16 @@ namespace Mewdeko.Modules.Utility
                 else
                 {
                     if (originUnit.UnitType == "currency")
-                    {
-                        res = (value * targetUnit.Modifier) / originUnit.Modifier;
-                    }
+                        res = value * targetUnit.Modifier / originUnit.Modifier;
                     else
-                        res = (value * originUnit.Modifier) / targetUnit.Modifier;
+                        res = value * originUnit.Modifier / targetUnit.Modifier;
                 }
+
                 res = Math.Round(res, 4);
 
-                await ctx.Channel.SendConfirmAsync(GetText("convert", value, originUnit.Triggers.Last(), res, targetUnit.Triggers.Last())).ConfigureAwait(false);
+                await ctx.Channel
+                    .SendConfirmAsync(GetText("convert", value, originUnit.Triggers.Last(), res,
+                        targetUnit.Triggers.Last())).ConfigureAwait(false);
             }
         }
     }

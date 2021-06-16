@@ -1,20 +1,32 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Ayu.Discord.Voice;
+using Serilog;
 
 namespace Ayu.Discord.Gateway
 {
     public class SocketClient : IDisposable
     {
-        private ClientWebSocket? _ws = null;
+        private const int CHUNK_SIZE = 1024 * 16;
+
+        private readonly SemaphoreSlim _sendLock = new SemaphoreSlim(1, 1);
+        private ClientWebSocket? _ws;
+
+        public void Dispose()
+        {
+            PayloadReceived = null;
+            WebsocketClosed = null;
+            var ws = _ws;
+            if (ws is null)
+                return;
+
+            ws.Dispose();
+        }
 
         public event Func<byte[], Task>? PayloadReceived = delegate { return Task.CompletedTask; };
         public event Func<string, Task>? WebsocketClosed = delegate { return Task.CompletedTask; };
-
-        const int CHUNK_SIZE = 1024 * 16;
 
         public async Task RunAndBlockAsync(Uri url, CancellationToken cancel)
         {
@@ -34,7 +46,8 @@ namespace Ayu.Discord.Gateway
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
                             var closeMessage = CloseCodes.GetErrorCodeMessage((int?) _ws.CloseStatus ?? 0).Message;
-                            error = $"Websocket closed ({_ws.CloseStatus}): {_ws.CloseStatusDescription} {closeMessage}";
+                            error =
+                                $"Websocket closed ({_ws.CloseStatus}): {_ws.CloseStatusDescription} {closeMessage}";
                             break;
                         }
 
@@ -44,10 +57,7 @@ namespace Ayu.Discord.Gateway
                             var data = bufferWriter.WrittenMemory.ToArray();
                             bufferWriter.Clear();
 
-                            if (!(pr is null))
-                            {
-                                await pr.Invoke(data);
-                            }
+                            if (!(pr is null)) await pr.Invoke(data);
                         }
                     }
                 }
@@ -84,8 +94,6 @@ namespace Ayu.Discord.Gateway
             }
         }
 
-        private readonly SemaphoreSlim _sendLock = new SemaphoreSlim(1, 1);
-
         public async Task SendAsync(byte[] data)
         {
             await _sendLock.WaitAsync().ConfigureAwait(false);
@@ -94,7 +102,7 @@ namespace Ayu.Discord.Gateway
                 var ws = _ws;
                 if (ws is null)
                     throw new WebSocketException("Websocket is disconnected.");
-                for (int i = 0; i < data.Length; i += 4096)
+                for (var i = 0; i < data.Length; i += 4096)
                 {
                     var count = i + 4096 > data.Length ? data.Length - i : 4096;
                     await ws.SendAsync(new ArraySegment<byte>(data, i, count),
@@ -124,31 +132,18 @@ namespace Ayu.Discord.Gateway
         public async Task<bool> CloseAsync(string msg = "Stop")
         {
             if (_ws != null && _ws.State != WebSocketState.Closed)
-            {
                 try
                 {
                     await _ws.CloseAsync(WebSocketCloseStatus.InternalServerError, msg, CancellationToken.None)
                         .ConfigureAwait(false);
-                    
+
                     return true;
                 }
                 catch
                 {
                 }
-            }
 
             return false;
-        }
-
-        public void Dispose()
-        {
-            PayloadReceived = null;
-            WebsocketClosed = null;
-            var ws = _ws;
-            if (ws is null)
-                return;
-
-            ws.Dispose();
         }
     }
 }

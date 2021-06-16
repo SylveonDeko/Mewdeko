@@ -22,7 +22,7 @@ namespace Mewdeko.Tests
             await pubsub.Pub(key, expected);
             Assert.Fail("Event not registered");
         }
-        
+
         [Test]
         public async Task Test_EventPubSub_MeaninglessUnsub()
         {
@@ -39,7 +39,7 @@ namespace Mewdeko.Tests
             await pubsub.Pub(key, expected);
             Assert.Fail("Event not registered");
         }
-        
+
         [Test]
         public async Task Test_EventPubSub_MeaninglessUnsubThatLooksTheSame()
         {
@@ -61,7 +61,7 @@ namespace Mewdeko.Tests
             await pubsub.Pub(key, expected);
             Assert.Fail("Event not registered");
         }
-        
+
         [Test]
         public async Task Test_EventPubSub_MeaningfullUnsub()
         {
@@ -79,15 +79,15 @@ namespace Mewdeko.Tests
             await pubsub.Pub(key, 0);
             Assert.Pass();
         }
-        
+
         [Test]
         public async Task Test_EventPubSub_ObjectData()
         {
             TypedKey<byte[]> key = "test_key";
             var pubsub = new EventPubSub();
 
-            var localData = new byte[1]; 
-            
+            var localData = new byte[1];
+
             ValueTask Action(byte[] data)
             {
                 Assert.AreEqual(localData, data);
@@ -97,10 +97,10 @@ namespace Mewdeko.Tests
 
             await pubsub.Sub(key, Action);
             await pubsub.Pub(key, localData);
-            
+
             Assert.Fail("Event not raised");
         }
-        
+
         [Test]
         public async Task Test_EventPubSub_MultiSubUnsub()
         {
@@ -108,15 +108,15 @@ namespace Mewdeko.Tests
             var pubsub = new EventPubSub();
 
             var localData = new object();
-            int successCounter = 0;
-            
+            var successCounter = 0;
+
             ValueTask Action1(object data)
             {
                 Assert.AreEqual(localData, data);
-                successCounter+=10;
+                successCounter += 10;
                 return default;
             }
-            
+
             ValueTask Action2(object data)
             {
                 Assert.AreEqual(localData, data);
@@ -129,7 +129,7 @@ namespace Mewdeko.Tests
             await pubsub.Sub(key, Action2); // + 1 /
             await pubsub.Unsub(key, Action2); // - 1/
             await pubsub.Pub(key, localData);
-            
+
             Assert.AreEqual(successCounter, 11, "Not all events are raised.");
         }
     }

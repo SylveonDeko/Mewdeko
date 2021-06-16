@@ -1,6 +1,6 @@
-﻿using Mewdeko.Core.Services.Database.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Mewdeko.Core.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
@@ -29,11 +29,13 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                 _context.Set<PollVote>().RemoveRange(p.Votes);
                 p.Votes.Clear();
             }
+
             if (p.Answers != null)
             {
                 _context.Set<PollAnswer>().RemoveRange(p.Answers);
                 p.Answers.Clear();
             }
+
             _set.Remove(p);
         }
     }
