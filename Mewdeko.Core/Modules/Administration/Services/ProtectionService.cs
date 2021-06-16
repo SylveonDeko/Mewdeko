@@ -98,11 +98,11 @@ namespace Mewdeko.Modules.Administration.Services
 
         private Task _client_LeftGuild(SocketGuild guild)
         {
-            var _ = Task.Run(() =>
+            var _ = Task.Run(async () =>
             {
                 TryStopAntiRaid(guild.Id);
                 TryStopAntiSpam(guild.Id);
-                TryStopAntiRaid(guild.Id);
+                await TryStopAntiAlt(guild.Id);
             });
             return Task.CompletedTask;
         }
