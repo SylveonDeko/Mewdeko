@@ -1,5 +1,5 @@
-﻿using Discord;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
+using Discord;
 
 namespace Mewdeko.Core.Services
 {
@@ -14,8 +14,6 @@ namespace Mewdeko.Core.Services
 
         DBConfig Db { get; }
         string OsuApiKey { get; }
-
-        bool IsOwner(IUser u);
         int TotalShards { get; }
         string ShardRunCommand { get; }
         string ShardRunArguments { get; }
@@ -30,14 +28,16 @@ namespace Mewdeko.Core.Services
         string LocationIqApiKey { get; }
         string TimezoneDbApiKey { get; }
         string CoinmarketcapApiKey { get; }
+
+        bool IsOwner(IUser u);
     }
 
     public class RestartConfig
     {
         public RestartConfig(string cmd, string args)
         {
-            this.Cmd = cmd;
-            this.Args = args;
+            Cmd = cmd;
+            Args = args;
         }
 
         public string Cmd { get; }
@@ -48,9 +48,10 @@ namespace Mewdeko.Core.Services
     {
         public DBConfig(string type, string connectionString)
         {
-            this.Type = type;
-            this.ConnectionString = connectionString;
+            Type = type;
+            ConnectionString = connectionString;
         }
+
         public string Type { get; }
         public string ConnectionString { get; }
     }

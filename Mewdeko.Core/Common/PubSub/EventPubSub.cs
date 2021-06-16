@@ -8,13 +8,14 @@ namespace Mewdeko.Core.Common
     public class EventPubSub : IPubSub
     {
         private readonly Dictionary<string, Dictionary<Delegate, List<Func<object, ValueTask>>>> _actions
-            = new Dictionary<string, Dictionary<Delegate, List<Func<object, ValueTask>>>>();
-        private readonly object locker = new object();
-        
+            = new();
+
+        private readonly object locker = new();
+
         public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
         {
             Func<object, ValueTask> localAction = obj => action((TData) obj);
-            lock(locker)
+            lock (locker)
             {
                 Dictionary<Delegate, List<Func<object, ValueTask>>> keyActions;
                 if (!_actions.TryGetValue(key.Key, out keyActions))
@@ -35,20 +36,18 @@ namespace Mewdeko.Core.Common
                 return Task.CompletedTask;
             }
         }
-        
+
         public Task Pub<TData>(in TypedKey<TData> key, TData data)
         {
             lock (locker)
             {
-                if(_actions.TryGetValue(key.Key, out var actions))
-                {
+                if (_actions.TryGetValue(key.Key, out var actions))
                     // if this class ever gets used, this needs to be properly implemented
                     // 1. ignore all valuetasks which are completed
                     // 2. return task.whenall all other tasks
                     return Task.WhenAll(actions
                         .SelectMany(kvp => kvp.Value)
                         .Select(action => action(data).AsTask()));
-                }
 
                 return Task.CompletedTask;
             }
@@ -69,20 +68,17 @@ namespace Mewdeko.Core.Common
                     {
                         // remove last subscription
                         sameActions.RemoveAt(sameActions.Count - 1);
-                        
+
                         // if the last subscription was the only subscription
                         // we can safely remove this action's dictionary entry
                         if (sameActions.Count == 0)
                         {
                             actions.Remove(action);
-                            
+
                             // if our dictionary has no more elements after 
                             // removing the entry
                             // it's safe to remove it from the key's subscriptions
-                            if (actions.Count == 0)
-                            {
-                                _actions.Remove(key.Key);
-                            }
+                            if (actions.Count == 0) _actions.Remove(key.Key);
                         }
                     }
                 }
@@ -91,5 +87,4 @@ namespace Mewdeko.Core.Common
             }
         }
     }
-    
 }

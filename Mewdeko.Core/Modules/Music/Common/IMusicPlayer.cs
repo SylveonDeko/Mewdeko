@@ -27,7 +27,9 @@ namespace Mewdeko.Core.Modules.Music
         bool TryRemoveTrackAt(int index, out IQueuedTrackInfo? trackInfo);
 
 
-        Task<(IQueuedTrackInfo? QueuedTrack, int Index)> TryEnqueueTrackAsync(string query, string queuer, bool asNext, MusicPlatform? forcePlatform = null);
+        Task<(IQueuedTrackInfo? QueuedTrack, int Index)> TryEnqueueTrackAsync(string query, string queuer, bool asNext,
+            MusicPlatform? forcePlatform = null);
+
         Task EnqueueManyAsync(IEnumerable<(string Query, MusicPlatform Platform)> queries, string queuer);
         bool TogglePause();
         IQueuedTrackInfo? MoveTrack(int from, int to);

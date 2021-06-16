@@ -10,14 +10,10 @@ namespace Mewdeko.Modules.Music.Resolvers
 {
     public class RadioResolver : IRadioResolver
     {
-        private readonly Regex plsRegex = new Regex("File1=(?<url>.*?)\\n", RegexOptions.Compiled);
-        private readonly Regex m3uRegex = new Regex("(?<url>^[^#].*)", RegexOptions.Compiled | RegexOptions.Multiline);
-        private readonly Regex asxRegex = new Regex("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
-        private readonly Regex xspfRegex = new Regex("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
-
-        public RadioResolver()
-        {
-        }
+        private readonly Regex asxRegex = new("<ref href=\"(?<url>.*?)\"", RegexOptions.Compiled);
+        private readonly Regex m3uRegex = new("(?<url>^[^#].*)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private readonly Regex plsRegex = new("File1=(?<url>.*?)\\n", RegexOptions.Compiled);
+        private readonly Regex xspfRegex = new("<location>(?<url>.*?)</location>", RegexOptions.Compiled);
 
         public async Task<ITrackInfo> ResolveByQueryAsync(string query)
         {
@@ -34,14 +30,16 @@ namespace Mewdeko.Modules.Music.Resolvers
             );
         }
 
-        public static bool IsRadioLink(string query) =>
-            (query.StartsWith("http", StringComparison.InvariantCulture) ||
-            query.StartsWith("ww", StringComparison.InvariantCulture))
-            &&
-            (query.Contains(".pls") ||
-            query.Contains(".m3u") ||
-            query.Contains(".asx") ||
-            query.Contains(".xspf"));
+        public static bool IsRadioLink(string query)
+        {
+            return (query.StartsWith("http", StringComparison.InvariantCulture) ||
+                    query.StartsWith("ww", StringComparison.InvariantCulture))
+                   &&
+                   (query.Contains(".pls") ||
+                    query.Contains(".m3u") ||
+                    query.Contains(".asx") ||
+                    query.Contains(".xspf"));
+        }
 
         private async Task<string> HandleStreamContainers(string query)
         {
@@ -57,8 +55,8 @@ namespace Mewdeko.Modules.Music.Resolvers
             {
                 return query;
             }
+
             if (query.Contains(".pls"))
-            {
                 //File1=http://armitunes.com:8000/
                 //Regex.Match(query)
                 try
@@ -72,14 +70,13 @@ namespace Mewdeko.Modules.Music.Resolvers
                     Log.Warning($"Failed reading .pls:\n{file}");
                     return null;
                 }
-            }
+
             if (query.Contains(".m3u"))
-            {
                 /* 
-# This is a comment
-                   C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
-                   C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
-                */
+    # This is a comment
+                       C:\xxx4xx\xxxxxx3x\xx2xxxx\xx.mp3
+                       C:\xxx5xx\x6xxxxxx\x7xxxxx\xx.mp3
+                    */
                 try
                 {
                     var m = m3uRegex.Match(file);
@@ -92,9 +89,7 @@ namespace Mewdeko.Modules.Music.Resolvers
                     return null;
                 }
 
-            }
             if (query.Contains(".asx"))
-            {
                 //<ref href="http://armitunes.com:8000"/>
                 try
                 {
@@ -107,29 +102,27 @@ namespace Mewdeko.Modules.Music.Resolvers
                     Log.Warning($"Failed reading .asx:\n{file}");
                     return null;
                 }
-            }
-            if (query.Contains(".xspf"))
-            {
-                /*
-                <?xml version="1.0" encoding="UTF-8"?>
-                    <playlist version="1" xmlns="http://xspf.org/ns/0/">
-                        <trackList>
-                            <track><location>file:///mp3s/song_1.mp3</location></track>
-                */
-                try
-                {
-                    var m = xspfRegex.Match(file);
-                    var res = m.Groups["url"]?.ToString();
-                    return res?.Trim();
-                }
-                catch
-                {
-                    Log.Warning($"Failed reading .xspf:\n{file}");
-                    return null;
-                }
-            }
 
-            return query;
-        }
-    }
-}
+            if (query.Contains(".xspf"))
+                /*
+                    <?xml version="1.0" encoding="UTF-8"?>
+                        <playlist version="1" xmlns="http://xspf.org/ns/0/">
+                            <trackList>
+                                <track><location>file:///mp3s/song_1.mp3</location></track>
+                    */
+                    try
+                    {
+                        var m = xspfRegex.Match(file);
+                        var res = m.Groups["url"]?.ToString();
+                        return res?.Trim();
+                    }
+                    catch
+                    {
+                        Log.Warning($"Failed reading .xspf:\n{file}");
+                        return null;
+                    }
+
+                return query;
+                }
+                }
+                }

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Core.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Mewdeko.Core.Common;
 
 namespace Mewdeko.Modules.Permissions.Services
 {
@@ -15,12 +15,10 @@ namespace Mewdeko.Modules.Permissions.Services
     {
         private readonly DbService _db;
         private readonly IPubSub _pubSub;
+
+        private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
         private IReadOnlyList<BlacklistEntry> _blacklist;
-        public int Priority => -100;
 
-        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
-
-        private readonly TypedKey<BlacklistEntry[]> blPubKey = new TypedKey<BlacklistEntry[]>("blacklist.reload");
         public BlacklistService(DbService db, IPubSub pubSub)
         {
             _db = db;
@@ -30,11 +28,9 @@ namespace Mewdeko.Modules.Permissions.Services
             _pubSub.Sub(blPubKey, OnReload);
         }
 
-        private ValueTask OnReload(BlacklistEntry[] blacklist)
-        {
-            _blacklist = blacklist;
-            return default;
-        }
+        public int Priority => -100;
+
+        public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
         public Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
         {
@@ -53,44 +49,47 @@ namespace Mewdeko.Modules.Permissions.Services
             return Task.FromResult(false);
         }
 
+        private ValueTask OnReload(BlacklistEntry[] blacklist)
+        {
+            _blacklist = blacklist;
+            return default;
+        }
+
         public void Reload(bool publish = true)
         {
             using var uow = _db.GetDbContext();
             var toPublish = uow._context.Blacklist.AsNoTracking().ToArray();
             _blacklist = toPublish;
-            if (publish)
-            {
-                _pubSub.Pub(blPubKey, toPublish);
-            }
+            if (publish) _pubSub.Pub(blPubKey, toPublish);
         }
 
         public void Blacklist(BlacklistType type, ulong id)
         {
             using var uow = _db.GetDbContext();
-            var item = new BlacklistEntry { ItemId = id, Type = type };
+            var item = new BlacklistEntry {ItemId = id, Type = type};
             uow._context.Blacklist.Add(item);
             uow.SaveChanges();
-            
-            Reload(true);
+
+            Reload();
         }
-        
+
         public void UnBlacklist(BlacklistType type, ulong id)
         {
             using var uow = _db.GetDbContext();
             var toRemove = uow._context.Blacklist
                 .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
-            
+
             if (!(toRemove is null))
                 uow._context.Blacklist.Remove(toRemove);
-            
+
             uow.SaveChanges();
-            
-            Reload(true);
+
+            Reload();
         }
-        
+
         public void BlacklistUsers(IReadOnlyCollection<ulong> toBlacklist)
         {
-            using (var uow = _db.GetDbContext()) 
+            using (var uow = _db.GetDbContext())
             {
                 var bc = uow._context.Blacklist;
                 //blacklist the users
@@ -98,15 +97,15 @@ namespace Mewdeko.Modules.Permissions.Services
                     new BlacklistEntry
                     {
                         ItemId = x,
-                        Type = BlacklistType.User,
+                        Type = BlacklistType.User
                     }));
-                
+
                 //clear their currencies
                 uow.DiscordUsers.RemoveFromMany(toBlacklist);
                 uow.SaveChanges();
             }
-            
-            Reload(true);
+
+            Reload();
         }
     }
 }

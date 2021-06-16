@@ -12,7 +12,7 @@ namespace Mewdeko.Tests
 
             Assert.AreEqual(0, num.GetHashCode());
         }
-        
+
         [Test]
         public void TestEqualGetHashCode()
         {
@@ -21,7 +21,7 @@ namespace Mewdeko.Tests
 
             Assert.AreEqual(num1.GetHashCode(), num2.GetHashCode());
         }
-        
+
         [Test]
         public void TestNotEqualGetHashCode()
         {
@@ -30,7 +30,7 @@ namespace Mewdeko.Tests
 
             Assert.AreNotEqual(num1.GetHashCode(), num2.GetHashCode());
         }
-        
+
         [Test]
         public void TestLongEqualGetHashCode()
         {
@@ -39,7 +39,7 @@ namespace Mewdeko.Tests
 
             Assert.AreEqual(num1.GetHashCode(), num2.GetHashCode());
         }
-        
+
         [Test]
         public void TestLongEqual()
         {
@@ -48,7 +48,7 @@ namespace Mewdeko.Tests
 
             Assert.AreEqual(num1, num2);
         }
-        
+
         [Test]
         public void TestLongNotEqual()
         {
@@ -57,7 +57,7 @@ namespace Mewdeko.Tests
 
             Assert.AreNotEqual(num1, num2);
         }
-        
+
         [Test]
         public void TestParseValidValue()
         {
@@ -71,22 +71,22 @@ namespace Mewdeko.Tests
             var invalidValue = "1234";
             Assert.False(kwum.TryParse(invalidValue, out _));
         }
-        
+
         [Test]
         public void TestCorrectParseValue()
         {
             var validValue = "qwerf4bmkjbvg673vghhjjmb4xcxszz2349896544645adfvbjkmjkj";
             kwum.TryParse(validValue, out var parsedValue);
-            
+
             Assert.AreEqual(parsedValue, new kwum(validValue));
         }
-        
+
         [Test]
         public void TestToString()
         {
             var validValue = "qwerf4bmkjbvg673vghhjjmb4xcxszz2349896544645adfvbjkmjkj";
             kwum.TryParse(validValue, out var parsedValue);
-            
+
             Assert.AreEqual(validValue, parsedValue.ToString());
         }
     }

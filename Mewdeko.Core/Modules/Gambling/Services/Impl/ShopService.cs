@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Modules.Gambling.Services
 {
@@ -17,14 +18,6 @@ namespace Mewdeko.Core.Modules.Gambling.Services
         {
             _db = db;
         }
-
-        private IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId) =>
-            uow.GuildConfigs.ForId(
-                    guildId,
-                    set => set.Include(x => x.ShopEntries).ThenInclude(x => x.Items)
-                )
-                .ShopEntries
-                .ToIndexed();
 
         public async Task<bool> ChangeEntryPriceAsync(ulong guildId, int index, int newPrice)
         {
@@ -101,6 +94,17 @@ namespace Mewdeko.Core.Modules.Gambling.Services
 
             await uow.SaveChangesAsync();
             return true;
+        }
+
+        private IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId)
+        {
+            return uow.GuildConfigs.ForId(
+                    guildId,
+                    set => set.Include(x => x.ShopEntries)
+                        .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items)
+                )
+                .ShopEntries
+                .ToIndexed();
         }
     }
 }

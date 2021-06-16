@@ -1,11 +1,12 @@
-﻿using Discord;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using CodeHollow.FeedReader;
+using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Serilog;
 
 namespace Mewdeko.Modules.Searches
@@ -15,19 +16,22 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class FeedCommands : MewdekoSubmodule<FeedsService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task Feed(string url, [Leftover] ITextChannel channel = null)
             {
                 var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
-                    (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+                              (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
                 if (success)
                 {
-                    channel = channel ?? (ITextChannel)ctx.Channel;
+                    channel = channel ?? (ITextChannel) ctx.Channel;
                     try
                     {
-                        var feeds = await CodeHollow.FeedReader.FeedReader.ReadAsync(url).ConfigureAwait(false);
+                        var feeds = await FeedReader.ReadAsync(url).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
@@ -49,20 +53,24 @@ namespace Mewdeko.Modules.Searches
                 await ReplyErrorLocalizedAsync("feed_not_valid").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task FeedRemove(int index)
             {
                 if (_service.RemoveFeed(ctx.Guild.Id, --index))
-                {
                     await ReplyConfirmLocalizedAsync("feed_removed").ConfigureAwait(false);
-                }
                 else
                     await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task FeedList()
@@ -72,23 +80,22 @@ namespace Mewdeko.Modules.Searches
                 if (!feeds.Any())
                 {
                     await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
-                        .WithDescription(GetText("feed_no_feed")))
+                            .WithOkColor()
+                            .WithDescription(GetText("feed_no_feed")))
                         .ConfigureAwait(false);
                     return;
                 }
 
-                await ctx.SendPaginatedConfirmAsync(0, (cur) =>
+                await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
                     var embed = new EmbedBuilder()
-                       .WithOkColor();
+                        .WithOkColor();
                     var i = 0;
                     var fs = string.Join("\n", feeds.Skip(cur * 10)
                         .Take(10)
-                        .Select(x => $"`{(cur * 10) + (++i)}.` <#{x.ChannelId}> {x.Url}"));
+                        .Select(x => $"`{cur * 10 + ++i}.` <#{x.ChannelId}> {x.Url}"));
 
                     return embed.WithDescription(fs);
-
                 }, feeds.Count, 10).ConfigureAwait(false);
             }
         }

@@ -1,20 +1,20 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mewdeko.Core.Common.TypeReaders.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -32,7 +32,10 @@ namespace Mewdeko.Modules.Utility
                 _db = db;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task RepeatInvoke(int index)
@@ -53,14 +56,24 @@ namespace Mewdeko.Modules.Utility
                     await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
                     return;
                 }
+
                 var repeater = repList[index];
                 repeater.Value.Reset();
                 await repeater.Value.Trigger().ConfigureAwait(false);
 
-                try { await ctx.Message.AddReactionAsync(new Emoji("🔄")).ConfigureAwait(false); } catch { }
+                try
+                {
+                    await ctx.Message.AddReactionAsync(new Emoji("🔄")).ConfigureAwait(false);
+                }
+                catch
+                {
+                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task RepeatRemove(int index)
@@ -82,11 +95,11 @@ namespace Mewdeko.Modules.Utility
                 }
 
                 var repeater = repeaterList[index];
-                
+
                 // wat
                 if (!guildRepeaters.TryRemove(repeater.Value.Repeater.Id, out var runner))
                     return;
-                
+
                 // take description before stopping just in case
                 var description = GetRepeaterInfoString(runner);
                 runner.Stop();
@@ -101,6 +114,7 @@ namespace Mewdeko.Modules.Utility
                         guildConfig.GuildRepeaters.Remove(item);
                         uow._context.Remove(item);
                     }
+
                     await uow.SaveChangesAsync();
                 }
 
@@ -110,17 +124,20 @@ namespace Mewdeko.Modules.Utility
                     .WithDescription(description));
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task RepeatRedundant(int index)
             {
                 if (!_service.RepeaterReady)
                     return;
-                
+
                 if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
                     return;
-                
+
                 var repeaterList = guildRepeaters.ToList();
 
                 if (--index < 0 || index >= repeaterList.Count)
@@ -136,79 +153,90 @@ namespace Mewdeko.Modules.Utility
                     var guildConfig = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                     var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
-                    if (item != null)
-                    {
-                        item.NoRedundant = newValue;
-                    }
+                    if (item != null) item.NoRedundant = newValue;
 
                     await uow.SaveChangesAsync();
                 }
 
                 if (newValue)
-                {
                     await ReplyConfirmLocalizedAsync("repeater_redundant_no", index + 1);
-                }
                 else
-                {
-                    await ReplyConfirmLocalizedAsync("repeater_redundant_yes" ,index + 1);
-                }
+                    await ReplyConfirmLocalizedAsync("repeater_redundant_yes", index + 1);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(-1)]
-            public Task Repeat([Leftover]string message)
-                => Repeat(null, null, message);
-            
-            [MewdekoCommand, Usage, Description, Aliases]
+            public Task Repeat([Leftover] string message)
+            {
+                return Repeat(null, null, message);
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
-            public Task Repeat(StoopidTime interval, [Leftover]string message)
-                => Repeat(null, interval, message);
+            public Task Repeat(StoopidTime interval, [Leftover] string message)
+            {
+                return Repeat(null, interval, message);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(1)]
             public Task Repeat(GuildDateTime dt, [Leftover] string message)
-                => Repeat(dt, null, message);
+            {
+                return Repeat(dt, null, message);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(2)]
-            public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Leftover]string message)
+            public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Leftover] string message)
             {
                 if (!_service.RepeaterReady)
                     return;
 
                 var startTimeOfDay = dt?.InputTimeUtc.TimeOfDay;
                 // if interval not null, that means user specified it (don't change it)
-                
+
                 // if interval is null set the default to:
                 // if time of day is specified: 1 day
                 // else 5 minutes
-                var realInterval = interval?.Time ?? (startTimeOfDay is null 
-                    ? TimeSpan.FromMinutes(5) 
+                var realInterval = interval?.Time ?? (startTimeOfDay is null
+                    ? TimeSpan.FromMinutes(5)
                     : TimeSpan.FromDays(1));
-                
-                if (string.IsNullOrWhiteSpace(message)
-                    || (interval != null &&
-                        (interval.Time > TimeSpan.FromMinutes(25000) || interval.Time < TimeSpan.FromMinutes(1))))
-                {
-                    return;
-                }
 
-                var toAdd = new Repeater()
+                if (string.IsNullOrWhiteSpace(message)
+                    || interval != null &&
+                    (interval.Time > TimeSpan.FromMinutes(25000) || interval.Time < TimeSpan.FromMinutes(1)))
+                    return;
+
+                var toAdd = new Repeater
                 {
                     ChannelId = ctx.Channel.Id,
                     GuildId = ctx.Guild.Id,
                     Interval = realInterval,
-                    Message = ((IGuildUser) ctx.User).GuildPermissions.MentionEveryone ? message : message.SanitizeMentions(true),
+                    Message = ((IGuildUser) ctx.User).GuildPermissions.MentionEveryone
+                        ? message
+                        : message.SanitizeMentions(true),
                     NoRedundant = false,
-                    StartTimeOfDay = startTimeOfDay,
+                    StartTimeOfDay = startTimeOfDay
                 };
 
                 using (var uow = _db.GetDbContext())
@@ -222,14 +250,15 @@ namespace Mewdeko.Modules.Utility
                     await uow.SaveChangesAsync();
                 }
 
-                var runner = new RepeatRunner(_client, (SocketGuild)ctx.Guild, toAdd, _service);
+                var runner = new RepeatRunner(_client, (SocketGuild) ctx.Guild, toAdd, _service);
 
                 _service.Repeaters.AddOrUpdate(ctx.Guild.Id,
-                    new ConcurrentDictionary<int, RepeatRunner>(new[] { new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner) }), (key, old) =>
-                  {
-                      old.TryAdd(runner.Repeater.Id, runner);
-                      return old;
-                  });
+                    new ConcurrentDictionary<int, RepeatRunner>(new[]
+                        {new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)}), (key, old) =>
+                    {
+                        old.TryAdd(runner.Repeater.Id, runner);
+                        return old;
+                    });
 
                 var description = GetRepeaterInfoString(runner);
                 await ctx.Channel.EmbedAsync(new EmbedBuilder()
@@ -238,7 +267,10 @@ namespace Mewdeko.Modules.Utility
                     .WithDescription(description));
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task RepeatList()
@@ -257,11 +289,8 @@ namespace Mewdeko.Modules.Utility
                     .WithTitle(GetText("list_of_repeaters"))
                     .WithOkColor();
 
-                if (replist.Count == 0)
-                {
-                    embed.WithDescription(GetText("no_active_repeaters"));
-                }
-                
+                if (replist.Count == 0) embed.WithDescription(GetText("no_active_repeaters"));
+
                 for (var i = 0; i < replist.Count; i++)
                 {
                     var (_, runner) = replist[i];
@@ -284,16 +313,14 @@ namespace Mewdeko.Modules.Utility
                 var executesInString = Format.Bold(executesIn.ToPrettyStringHM());
                 var message = Format.Sanitize(runner.Repeater.Message.TrimTo(50));
 
-                string description = "";
+                var description = "";
                 if (runner.Repeater.NoRedundant)
-                {
                     description = Format.Underline(Format.Bold(GetText("no_redundant:"))) + "\n\n";
-                }
-                
+
                 description += $"<#{runner.Repeater.ChannelId}>\n" +
-                                  $"`{GetText("interval:")}` {intervalString}\n" +
-                                  $"`{GetText("executes_in:")}` {executesInString}\n" +
-                                  $"`{GetText("message:")}` {message}";
+                               $"`{GetText("interval:")}` {intervalString}\n" +
+                               $"`{GetText("executes_in:")}` {executesInString}\n" +
+                               $"`{GetText("message:")}` {message}";
 
                 return description;
             }

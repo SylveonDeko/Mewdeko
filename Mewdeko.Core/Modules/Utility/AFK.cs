@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Humanizer;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
-using Humanizer;
+
 namespace Mewdeko.Modules.Utility
 {
     public partial class Utility
@@ -47,11 +48,13 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("You don't have any disabled Afk channels.");
                     return;
                 }
+
                 foreach (var i in e)
                 {
                     var role = await ctx.Guild.GetTextChannelAsync(Convert.ToUInt64(i));
                     mentions.Add(role.Mention);
                 }
+
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
                     return new EmbedBuilder().WithOkColor()
@@ -59,6 +62,7 @@ namespace Mewdeko.Modules.Utility
                         .WithDescription(string.Join("\n", mentions.ToArray().Skip(cur * 20).Take(20)));
                 }, mentions.ToArray().Length, 20).ConfigureAwait(false);
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -88,7 +92,6 @@ namespace Mewdeko.Modules.Utility
                             "Afk will only be disableable by the user themselves (unless an admin uses the afkrm command)");
                     }
                         break;
-
                 }
             }
 
@@ -103,7 +106,7 @@ namespace Mewdeko.Modules.Utility
                 switch (ehm)
                 {
                     case 3:
-                        await AfkType("onmessage"); 
+                        await AfkType("onmessage");
                         break;
                     case 2:
                         await AfkType("ontype");
@@ -143,18 +146,13 @@ namespace Mewdeko.Modules.Utility
                 var toremove = new List<string>();
                 var chans = _service.GetDisabledAfkChannels(ctx.Guild.Id);
                 var e = chans.Split(",");
-                foreach (var i in e)
-                {
-                    list.Add(i);
-                }
+                foreach (var i in e) list.Add(i);
                 foreach (var i in chan)
-                {
                     if (e.Contains(i.Id.ToString()))
                     {
                         toremove.Add(i.Id.ToString());
                         mentions.Add(i.Mention);
                     }
-                }
 
                 if (!mentions.Any())
                 {
@@ -168,9 +166,12 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendConfirmAsync("Mewdeko will no longer ignore afk in any channel.");
                     return;
                 }
+
                 await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list.Except(toremove)));
-                await ctx.Channel.SendConfirmAsync($"Succesfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
+                await ctx.Channel.SendConfirmAsync(
+                    $"Succesfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -197,10 +198,7 @@ namespace Mewdeko.Modules.Utility
                 {
                     var e = _service.GetDisabledAfkChannels(ctx.Guild.Id);
                     var w = e.Split(",");
-                    foreach (var i in w)
-                    {
-                        list.Add(i);
-                    }
+                    foreach (var i in w) list.Add(i);
 
                     foreach (var i in chan)
                     {
@@ -212,17 +210,20 @@ namespace Mewdeko.Modules.Utility
 
                         newchans.Add(i.Id.ToString());
                     }
+
                     if (mentions.Count() == 0)
                     {
                         await ctx.Channel.SendErrorAsync(
                             "No channels were added because the channels you specified are already in the list.");
                         return;
                     }
+
                     await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
                     await ctx.Channel.SendConfirmAsync(
                         $"Added {string.Join(",", mentions)} to the list of channels AFK ignores.");
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -233,13 +234,12 @@ namespace Mewdeko.Modules.Utility
                 var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message).Last();
                 if (afkmsg == "")
                 {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _");
+                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "_ _");
                     await ctx.Channel.SendConfirmAsync("Afk message enabled!");
-                    return;
                 }
                 else
                 {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "");
+                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "");
                     await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
                 }
             }

@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ayu.Discord.Voice;
 using Mewdeko.Common;
-using Mewdeko.Core.Modules.Music.Common;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Music;
@@ -19,30 +18,19 @@ namespace Mewdeko.Core.Modules.Music
 {
     public sealed class MusicPlayer : IMusicPlayer
     {
-        private delegate void AdjustVolumeDelegate(Span<byte> data, float volume);
-
-        private AdjustVolumeDelegate AdjustVolume;
-        private readonly VoiceClient _vc;
-
-        public bool IsKilled { get; private set; }
-        public bool IsStopped { get; private set; }
-        public bool IsPaused { get; private set; }
-        public PlayerRepeatType Repeat { get; private set; }
-
-        public int CurrentIndex => _queue.Index;
-
-        public float Volume => _volume;
-        private float _volume = 1.0f;
+        private readonly IVoiceProxy _proxy;
 
         private readonly IMusicQueue _queue;
-        private readonly ITrackResolveProvider _trackResolveProvider;
-        private readonly IVoiceProxy _proxy;
+        private readonly Random _rng;
         private readonly ISongBuffer _songBuffer;
+        private readonly Thread _thread;
+        private readonly ITrackResolveProvider _trackResolveProvider;
+        private readonly VoiceClient _vc;
+        private int? _forceIndex;
 
         private bool _skipped;
-        private int? _forceIndex;
-        private readonly Thread _thread;
-        private readonly Random _rng;
+
+        private readonly AdjustVolumeDelegate AdjustVolume;
 
         public MusicPlayer(
             IMusicQueue queue,
@@ -63,29 +51,190 @@ namespace Mewdeko.Core.Modules.Music
 
             _songBuffer = new PoopyBufferImmortalized(_vc.InputLength);
 
-            _thread = new Thread(async () =>
-            {
-                await PlayLoop();
-            });
+            _thread = new Thread(async () => { await PlayLoop(); });
             _thread.Start();
         }
 
-        private static VoiceClient GetVoiceClient(QualityPreset qualityPreset)
-            => qualityPreset switch
+        public bool IsKilled { get; private set; }
+        public bool IsStopped { get; private set; }
+        public bool IsPaused { get; private set; }
+        public PlayerRepeatType Repeat { get; private set; }
+
+        public int CurrentIndex => _queue.Index;
+
+        public float Volume { get; private set; } = 1.0f;
+
+        public async Task<(IQueuedTrackInfo? QueuedTrack, int Index)> TryEnqueueTrackAsync(
+            string query,
+            string queuer,
+            bool asNext,
+            MusicPlatform? forcePlatform = null)
+        {
+            var song = await _trackResolveProvider.QuerySongAsync(query, forcePlatform);
+            if (song is null)
+                return default;
+
+            int index;
+
+            if (asNext)
+                return (_queue.EnqueueNext(song, queuer, out index), index);
+
+            return (_queue.Enqueue(song, queuer, out index), index);
+        }
+
+        public async Task EnqueueManyAsync(IEnumerable<(string Query, MusicPlatform Platform)> queries, string queuer)
+        {
+            var errorCount = 0;
+            foreach (var chunk in queries.Chunk(5))
             {
-                QualityPreset.Highest => new VoiceClient(
-                    SampleRate._48k,
-                    Bitrate._192k,
-                    Channels.Two,
-                    FrameDelay.Delay20,
-                    BitDepthEnum.Float32
-                ),
+                if (IsKilled)
+                    break;
+
+                var queueTasks = chunk.Select(async data =>
+                {
+                    var (query, platform) = data;
+                    try
+                    {
+                        await TryEnqueueTrackAsync(query, queuer, false, platform).ConfigureAwait(false);
+                        errorCount = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Warning(ex, "Error resolving {MusicPlatform} Track {TrackQuery}", platform, query);
+                        ++errorCount;
+                    }
+                });
+
+                await Task.WhenAll(queueTasks);
+                await Task.Delay(1000);
+
+                // > 10 errors in a row = kill
+                if (errorCount > 10)
+                    break;
+            }
+        }
+
+        public void EnqueueTrack(ITrackInfo track, string queuer)
+        {
+            _queue.Enqueue(track, queuer, out _);
+        }
+
+        public void EnqueueTracks(IEnumerable<ITrackInfo> tracks, string queuer)
+        {
+            _queue.EnqueueMany(tracks, queuer);
+        }
+
+        public void SetRepeat(PlayerRepeatType type)
+        {
+            Repeat = type;
+        }
+
+        public void ShuffleQueue()
+        {
+            _queue.Shuffle(_rng);
+        }
+
+        public void Stop()
+        {
+            IsStopped = true;
+        }
+
+        public void Clear()
+        {
+            _queue.Clear();
+            _skipped = true;
+        }
+
+        public IReadOnlyCollection<IQueuedTrackInfo> GetQueuedTracks()
+        {
+            return _queue.List();
+        }
+
+        public IQueuedTrackInfo? GetCurrentTrack(out int index)
+        {
+            return _queue.GetCurrent(out index);
+        }
+
+        public void Next()
+        {
+            _skipped = true;
+            IsStopped = false;
+            IsPaused = false;
+        }
+
+        public bool MoveTo(int index)
+        {
+            if (_queue.SetIndex(index))
+            {
+                _forceIndex = index;
+                _skipped = true;
+                IsStopped = false;
+                IsPaused = false;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SetVolume(int newVolume)
+        {
+            var normalizedVolume = newVolume / 100f;
+            if (normalizedVolume < 0f || normalizedVolume > 1f)
+                throw new ArgumentOutOfRangeException(nameof(newVolume), "Volume must be in range 0-100");
+
+            Volume = normalizedVolume;
+        }
+
+        public void Kill()
+        {
+            IsKilled = true;
+            IsStopped = true;
+            IsPaused = false;
+            _skipped = true;
+        }
+
+        public bool TryRemoveTrackAt(int index, out IQueuedTrackInfo? trackInfo)
+        {
+            if (!_queue.TryRemoveAt(index, out trackInfo, out var isCurrent))
+                return false;
+
+            if (isCurrent)
+                _skipped = true;
+
+            return true;
+        }
+
+        public bool TogglePause()
+        {
+            return IsPaused = !IsPaused;
+        }
+
+        public IQueuedTrackInfo? MoveTrack(int from, int to)
+        {
+            return _queue.MoveTrack(from, to);
+        }
+
+        public void Dispose()
+        {
+            IsKilled = true;
+            OnCompleted = null;
+            OnStarted = null;
+            OnQueueStopped = null;
+            _queue.Clear();
+            _songBuffer.Dispose();
+            _vc.Dispose();
+        }
+
+        private static VoiceClient GetVoiceClient(QualityPreset qualityPreset)
+        {
+            return qualityPreset switch
+            {
+                QualityPreset.Highest => new VoiceClient(),
                 QualityPreset.High => new VoiceClient(
                     SampleRate._48k,
                     Bitrate._128k,
                     Channels.Two,
-                    FrameDelay.Delay40,
-                    BitDepthEnum.Float32
+                    FrameDelay.Delay40
                 ),
                 QualityPreset.Medium => new VoiceClient(
                     SampleRate._48k,
@@ -103,6 +252,7 @@ namespace Mewdeko.Core.Modules.Music
                 ),
                 _ => throw new ArgumentOutOfRangeException(nameof(qualityPreset), qualityPreset, null)
             };
+        }
 
         private async Task PlayLoop()
         {
@@ -112,7 +262,7 @@ namespace Mewdeko.Core.Modules.Music
             {
                 // wait until a song is available in the queue
                 // or until the queue is resumed
-                var track = _queue.GetCurrent(out int index);
+                var track = _queue.GetCurrent(out var index);
 
                 if (track is null || IsStopped)
                 {
@@ -298,7 +448,8 @@ namespace Mewdeko.Core.Modules.Music
                     HandleQueuePostTrack();
                     _skipped = false;
 
-                    _ = _proxy.StopSpeakingAsync(); ;
+                    _ = _proxy.StopSpeakingAsync();
+                    ;
 
                     await Task.Delay(100);
                 }
@@ -310,12 +461,9 @@ namespace Mewdeko.Core.Modules.Music
             var data = sb.Read(vc.InputLength, out var length);
 
             // if nothing is read from the buffer, song is finished
-            if (data.Length == 0)
-            {
-                return null;
-            }
+            if (data.Length == 0) return null;
 
-            AdjustVolume(data, _volume);
+            AdjustVolume(data, Volume);
             return _proxy.SendPcmFrame(vc, data, length);
         }
 
@@ -353,7 +501,6 @@ namespace Mewdeko.Core.Modules.Music
         }
 
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void AdjustVolumeInt16(Span<byte> audioSamples, float volume)
         {
@@ -364,7 +511,7 @@ namespace Mewdeko.Core.Modules.Music
             for (var i = 0; i < samples.Length; i++)
             {
                 ref var sample = ref samples[i];
-                sample = (short)(sample * volume);
+                sample = (short) (sample * volume);
             }
         }
 
@@ -378,162 +525,14 @@ namespace Mewdeko.Core.Modules.Music
             for (var i = 0; i < samples.Length; i++)
             {
                 ref var sample = ref samples[i];
-                sample = (float)(sample * volume);
+                sample = sample * volume;
             }
-        }
-
-        public async Task<(IQueuedTrackInfo? QueuedTrack, int Index)> TryEnqueueTrackAsync(
-            string query,
-            string queuer,
-            bool asNext,
-            MusicPlatform? forcePlatform = null)
-        {
-            var song = await _trackResolveProvider.QuerySongAsync(query, forcePlatform);
-            if (song is null)
-                return default;
-
-            int index;
-
-            if (asNext)
-                return (_queue.EnqueueNext(song, queuer, out index), index);
-
-            return (_queue.Enqueue(song, queuer, out index), index);
-        }
-
-        public async Task EnqueueManyAsync(IEnumerable<(string Query, MusicPlatform Platform)> queries, string queuer)
-        {
-            var errorCount = 0;
-            foreach (var chunk in queries.Chunk(5))
-            {
-                if (IsKilled)
-                    break;
-
-                var queueTasks = chunk.Select(async data =>
-                {
-                    var (query, platform) = data;
-                    try
-                    {
-                        await TryEnqueueTrackAsync(query, queuer, false, forcePlatform: platform).ConfigureAwait(false);
-                        errorCount = 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Warning(ex, "Error resolving {MusicPlatform} Track {TrackQuery}", platform, query);
-                        ++errorCount;
-                    }
-                });
-
-                await Task.WhenAll(queueTasks);
-                await Task.Delay(1000);
-
-                // > 10 errors in a row = kill
-                if (errorCount > 10)
-                    break;
-            }
-        }
-
-        public void EnqueueTrack(ITrackInfo track, string queuer)
-        {
-            _queue.Enqueue(track, queuer, out _);
-        }
-
-        public void EnqueueTracks(IEnumerable<ITrackInfo> tracks, string queuer)
-        {
-            _queue.EnqueueMany(tracks, queuer);
-        }
-
-        public void SetRepeat(PlayerRepeatType type)
-        {
-            Repeat = type;
-        }
-
-        public void ShuffleQueue()
-        {
-            _queue.Shuffle(_rng);
-        }
-
-        public void Stop()
-        {
-            IsStopped = true;
-        }
-
-        public void Clear()
-        {
-            _queue.Clear();
-            _skipped = true;
-        }
-
-        public IReadOnlyCollection<IQueuedTrackInfo> GetQueuedTracks()
-            => _queue.List();
-
-        public IQueuedTrackInfo? GetCurrentTrack(out int index)
-            => _queue.GetCurrent(out index);
-
-        public void Next()
-        {
-            _skipped = true;
-            IsStopped = false;
-            IsPaused = false;
-        }
-
-        public bool MoveTo(int index)
-        {
-            if (_queue.SetIndex(index))
-            {
-                _forceIndex = index;
-                _skipped = true;
-                IsStopped = false;
-                IsPaused = false;
-                return true;
-            }
-
-            return false;
-        }
-
-        public void SetVolume(int newVolume)
-        {
-            var normalizedVolume = newVolume / 100f;
-            if (normalizedVolume < 0f || normalizedVolume > 1f)
-                throw new ArgumentOutOfRangeException(nameof(newVolume), "Volume must be in range 0-100");
-
-            _volume = normalizedVolume;
-        }
-
-        public void Kill()
-        {
-            IsKilled = true;
-            IsStopped = true;
-            IsPaused = false;
-            _skipped = true;
-        }
-
-        public bool TryRemoveTrackAt(int index, out IQueuedTrackInfo? trackInfo)
-        {
-            if (!_queue.TryRemoveAt(index, out trackInfo, out var isCurrent))
-                return false;
-
-            if (isCurrent)
-                _skipped = true;
-
-            return true;
-        }
-
-        public bool TogglePause() => IsPaused = !IsPaused;
-        public IQueuedTrackInfo? MoveTrack(int from, int to) => _queue.MoveTrack(from, to);
-
-        public void Dispose()
-        {
-            IsKilled = true;
-            OnCompleted = null;
-            OnStarted = null;
-            OnQueueStopped = null;
-            _queue.Clear();
-            _songBuffer.Dispose();
-            _vc.Dispose();
         }
 
         public event Func<IMusicPlayer, IQueuedTrackInfo, Task>? OnCompleted;
         public event Func<IMusicPlayer, IQueuedTrackInfo, int, Task>? OnStarted;
         public event Func<IMusicPlayer, Task>? OnQueueStopped;
+
+        private delegate void AdjustVolumeDelegate(Span<byte> data, float volume);
     }
 }

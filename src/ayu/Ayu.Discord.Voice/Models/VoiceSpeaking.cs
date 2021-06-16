@@ -1,19 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Ayu.Discord.Voice.Models
 {
     public sealed class VoiceSpeaking
     {
-        [JsonProperty("speaking")]
-        public int Speaking { get; set; }
-
-        [JsonProperty("delay")]
-        public int Delay { get; set; }
-
-        [JsonProperty("ssrc")]
-        public uint Ssrc { get; set; }
-
         [Flags]
         public enum State
         {
@@ -22,5 +13,11 @@ namespace Ayu.Discord.Voice.Models
             Soundshare = 1 << 1,
             Priority = 1 << 2
         }
+
+        [JsonProperty("speaking")] public int Speaking { get; set; }
+
+        [JsonProperty("delay")] public int Delay { get; set; }
+
+        [JsonProperty("ssrc")] public uint Ssrc { get; set; }
     }
 }

@@ -4,7 +4,6 @@ namespace Ayu.Discord.Voice.Models
 {
     public sealed class VoiceHello
     {
-        [JsonProperty("heartbeat_interval")]
-        public int HeartbeatInterval { get; set; }
+        [JsonProperty("heartbeat_interval")] public int HeartbeatInterval { get; set; }
     }
 }

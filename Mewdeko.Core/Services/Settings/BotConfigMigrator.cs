@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Common.Configs;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -10,8 +10,8 @@ namespace Mewdeko.Core.Services
 {
     public sealed class BotConfigMigrator : IConfigMigrator
     {
-        private readonly DbService _db;
         private readonly BotConfigService _bss;
+        private readonly DbService _db;
 
         public BotConfigMigrator(DbService dbService, BotConfigService bss)
         {
@@ -23,7 +23,7 @@ namespace Mewdeko.Core.Services
         {
             using var uow = _db.GetDbContext();
             using var conn = uow._context.Database.GetDbConnection();
-            
+
             // check if bot config exists
             using (var checkTableCommand = conn.CreateCommand())
             {
@@ -34,7 +34,7 @@ namespace Mewdeko.Core.Services
                 if (!checkReader.HasRows)
                     return;
             }
-            
+
             MigrateBotConfig(conn);
 
             using var dropBlockedTable = conn.CreateCommand();
@@ -44,8 +44,6 @@ namespace Mewdeko.Core.Services
 
         private void MigrateBotConfig(DbConnection conn)
         {
-            
-
             using (var checkMigratedCommand = conn.CreateCommand())
             {
                 checkMigratedCommand.CommandText =
@@ -60,7 +58,7 @@ namespace Mewdeko.Core.Services
             var blockedCommands = new HashSet<string>();
             using (var cmdCom = conn.CreateCommand())
             {
-                cmdCom.CommandText = $"SELECT Name from BlockedCmdOrMdl WHERE BotConfigId is not NULL";
+                cmdCom.CommandText = "SELECT Name from BlockedCmdOrMdl WHERE BotConfigId is not NULL";
                 var cmdReader = cmdCom.ExecuteReader();
                 while (cmdReader.Read())
                     blockedCommands.Add(cmdReader.GetString(0));
@@ -69,14 +67,14 @@ namespace Mewdeko.Core.Services
             var blockedModules = new HashSet<string>();
             using (var mdlCom = conn.CreateCommand())
             {
-                mdlCom.CommandText = $"SELECT Name from BlockedCmdOrMdl WHERE BotConfigId is NULL";
+                mdlCom.CommandText = "SELECT Name from BlockedCmdOrMdl WHERE BotConfigId is NULL";
                 var mdlReader = mdlCom.ExecuteReader();
                 while (mdlReader.Read())
                     blockedModules.Add(mdlReader.GetString(0));
             }
 
             using var com = conn.CreateCommand();
-            com.CommandText = $@"SELECT DefaultPrefix, ForwardMessages, ForwardToAllOwners,
+            com.CommandText = @"SELECT DefaultPrefix, ForwardMessages, ForwardToAllOwners,
 OkColor, ErrorColor, ConsoleOutputType, DMHelpString, HelpString, RotatingStatuses, Locale, GroupGreets
 FROM BotConfig";
 
@@ -84,19 +82,19 @@ FROM BotConfig";
             if (!reader.Read())
                 return;
 
-            _bss.ModifyConfig((x) =>
+            _bss.ModifyConfig(x =>
             {
                 x.Prefix = reader.GetString(0);
                 x.ForwardMessages = reader.GetBoolean(1);
                 x.ForwardToAllOwners = reader.GetBoolean(2);
-                x.Color = new ColorConfig()
+                x.Color = new ColorConfig
                 {
                     Ok = Rgba32.TryParseHex(reader.GetString(3), out var okColor)
                         ? okColor
                         : Rgba32.ParseHex("00e584"),
                     Error = Rgba32.TryParseHex(reader.GetString(4), out var errorColor)
                         ? errorColor
-                        : Rgba32.ParseHex("ee281f"),
+                        : Rgba32.ParseHex("ee281f")
                 };
                 x.ConsoleOutputType = (ConsoleOutputType) reader.GetInt32(5);
                 x.DmHelpText = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);

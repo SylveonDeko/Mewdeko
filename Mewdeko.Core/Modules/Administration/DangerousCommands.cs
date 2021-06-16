@@ -1,17 +1,16 @@
-﻿using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Modules.Administration.Services;
-using System.Linq;
+using Mewdeko.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using System.Diagnostics;
-
 
 #if !GLOBAL_Mewdeko
 namespace Mewdeko.Modules.Administration
@@ -28,6 +27,7 @@ namespace Mewdeko.Modules.Administration
             {
                 _client = client;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -85,6 +85,7 @@ namespace Mewdeko.Modules.Administration
                     process.WaitForExit();
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -108,7 +109,7 @@ namespace Mewdeko.Modules.Administration
                 };
                 var msg = await ctx.Channel.SendMessageAsync("", embed: embed.Build());
 
-                var globals = new EvaluationEnvironment((CommandContext)Context);
+                var globals = new EvaluationEnvironment((CommandContext) Context);
                 var sopts = ScriptOptions.Default
                     .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
                         "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
@@ -195,6 +196,7 @@ namespace Mewdeko.Modules.Administration
 
                 await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
             }
+
             private async Task InternalExecSql(string sql, params object[] reps)
             {
                 sql = string.Format(sql, reps);
@@ -204,10 +206,7 @@ namespace Mewdeko.Modules.Administration
                         .WithTitle(GetText("sql_confirm_exec"))
                         .WithDescription(Format.Code(sql));
 
-                    if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
-                    {
-                        return;
-                    }
+                    if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
 
                     var res = await _service.ExecuteSql(sql).ConfigureAwait(false);
                     await ctx.Channel.SendConfirmAsync(res.ToString()).ConfigureAwait(false);
@@ -218,73 +217,109 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task SqlSelect([Leftover]string sql)
+            public Task SqlSelect([Leftover] string sql)
             {
                 var result = _service.SelectSql(sql);
 
-                return ctx.SendPaginatedConfirmAsync(0, (cur) =>
+                return ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
                     var items = result.Results.Skip(cur * 20).Take(20);
 
                     if (!items.Any())
-                    {
                         return new EmbedBuilder()
                             .WithErrorColor()
                             .WithFooter(sql)
                             .WithDescription("-");
-                    }
 
                     return new EmbedBuilder()
                         .WithOkColor()
                         .WithFooter(sql)
                         .WithTitle(string.Join(" ║ ", result.ColumnNames))
                         .WithDescription(string.Join('\n', items.Select(x => string.Join(" ║ ", x))));
-
                 }, result.Results.Count, 20);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task SqlExec([Leftover]string sql) =>
-                InternalExecSql(sql);
+            public Task SqlExec([Leftover] string sql)
+            {
+                return InternalExecSql(sql);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task DeleteWaifus() =>
-                SqlExec(DangerousCommandsService.WaifusDeleteSql);
+            public Task DeleteWaifus()
+            {
+                return SqlExec(DangerousCommandsService.WaifusDeleteSql);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task DeleteWaifu(IUser user) =>
-                DeleteWaifu(user.Id);
+            public Task DeleteWaifu(IUser user)
+            {
+                return DeleteWaifu(user.Id);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task DeleteWaifu(ulong userId) =>
-                InternalExecSql(DangerousCommandsService.WaifuDeleteSql, userId);
+            public Task DeleteWaifu(ulong userId)
+            {
+                return InternalExecSql(DangerousCommandsService.WaifuDeleteSql, userId);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task DeleteCurrency() =>
-                SqlExec(DangerousCommandsService.CurrencyDeleteSql);
+            public Task DeleteCurrency()
+            {
+                return SqlExec(DangerousCommandsService.CurrencyDeleteSql);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task DeletePlaylists() =>
-                SqlExec(DangerousCommandsService.MusicPlaylistDeleteSql);
+            public Task DeletePlaylists()
+            {
+                return SqlExec(DangerousCommandsService.MusicPlaylistDeleteSql);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
-            public Task DeleteXp() =>
-                SqlExec(DangerousCommandsService.XpDeleteSql);
+            public Task DeleteXp()
+            {
+                return SqlExec(DangerousCommandsService.XpDeleteSql);
+            }
 
             //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
             //public Task DeleteUnusedCrnQ() =>
             //    SqlExec(DangerousCommandsService.DeleteUnusedCustomReactionsAndQuotes);
         }
+
         public sealed class EvaluationEnvironment
         {
             public EvaluationEnvironment(CommandContext ctx)
@@ -298,7 +333,7 @@ namespace Mewdeko.Modules.Administration
             public IMessageChannel Channel => ctx.Channel;
             public IGuild Guild => ctx.Guild;
             public IUser User => ctx.User;
-            public IGuildUser Member => (IGuildUser)ctx.User;
+            public IGuildUser Member => (IGuildUser) ctx.User;
             public IDiscordClient Client => ctx.Client;
         }
     }

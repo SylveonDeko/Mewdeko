@@ -5,11 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common.Collections;
-using Mewdeko.Extensions;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
@@ -23,24 +23,22 @@ namespace Mewdeko.Modules.Administration.Services
 
     public class MuteService : INService
     {
-        public string[] uroles;
-        public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
-        public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
-
-        public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> Un_Timers { get; }
-            = new ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>>();
-
-        public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
-        public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
+        public enum TimerType
+        {
+            Mute,
+            Ban,
+            AddRole
+        }
 
         private static readonly OverwritePermissions denyOverwrite =
-            new OverwritePermissions(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
+            new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
                 attachFiles: PermValue.Deny);
+
+        private readonly Mewdeko _bot;
 
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly Mewdeko _bot;
-        private ConcurrentDictionary<ulong, int> _removerolesonmute { get; } = new();
+        public string[] uroles;
 
         public MuteService(DiscordSocketClient client, DbService db, Mewdeko bot)
         {
@@ -132,11 +130,22 @@ namespace Mewdeko.Modules.Administration.Services
             UserUnmuted += OnUserUnmuted;
         }
 
+        public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+        public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
+
+        public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> Un_Timers { get; }
+            = new();
+
+        private ConcurrentDictionary<ulong, int> _removerolesonmute { get; } = new();
+
+        public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
+        public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
+
         private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
         {
             if (string.IsNullOrWhiteSpace(reason))
                 return;
-            
+
             var _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
                 .WithDescription($"You've been muted in {user.Guild} server")
                 .AddField("Mute Type", type.ToString())
@@ -149,7 +158,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             if (string.IsNullOrWhiteSpace(reason))
                 return;
-        
+
             var _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
                 .WithDescription($"You've been unmuted in {user.Guild} server")
                 .AddField("Unmute Type", type.ToString())
@@ -162,7 +171,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             try
             {
-                MutedUsers.TryGetValue(usr.Guild.Id, out ConcurrentHashSet<ulong> muted);
+                MutedUsers.TryGetValue(usr.Guild.Id, out var muted);
 
                 if (muted == null || !muted.Contains(usr.Id))
                     return Task.CompletedTask;
@@ -172,6 +181,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 Log.Warning(ex, "Error in MuteService UserJoined event");
             }
+
             return Task.CompletedTask;
         }
 
@@ -249,6 +259,7 @@ namespace Mewdeko.Modules.Administration.Services
                 UserMuted(usr, mod, MuteType.Chat, reason);
             }
         }
+
         public int GetRemoveOnMute(ulong? id)
         {
             if (id == null || !_removerolesonmute.TryGetValue(id.Value, out var removeroles))
@@ -256,6 +267,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             return removeroles;
         }
+
         public async Task removeonmute(IGuild guild, string yesnt)
         {
             var yesno = -1;
@@ -278,6 +290,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             _removerolesonmute.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
         }
+
         public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,
             string reason = "")
         {
@@ -419,16 +432,18 @@ namespace Mewdeko.Modules.Administration.Services
             return muteRole;
         }
 
-        public async Task TimedMute(IGuildUser user, IUser mod, TimeSpan after, MuteType muteType = MuteType.All, string reason = "")
+        public async Task TimedMute(IGuildUser user, IUser mod, TimeSpan after, MuteType muteType = MuteType.All,
+            string reason = "")
         {
-            await MuteUser(user, mod, muteType, reason).ConfigureAwait(false); // mute the user. This will also remove any previous unmute timers
+            await MuteUser(user, mod, muteType, reason)
+                .ConfigureAwait(false); // mute the user. This will also remove any previous unmute timers
             using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(user.GuildId, set => set.Include(x => x.UnmuteTimers));
-                config.UnmuteTimers.Add(new UnmuteTimer()
+                config.UnmuteTimers.Add(new UnmuteTimer
                 {
                     UserId = user.Id,
-                    UnmuteAt = DateTime.UtcNow + after,
+                    UnmuteAt = DateTime.UtcNow + after
                 }); // add teh unmute timer to the database
                 uow.SaveChanges();
             }
@@ -442,10 +457,10 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(guild.Id, set => set.Include(x => x.UnbanTimer));
-                config.UnbanTimer.Add(new UnbanTimer()
+                config.UnbanTimer.Add(new UnbanTimer
                 {
                     UserId = user.Id,
-                    UnbanAt = DateTime.UtcNow + after,
+                    UnbanAt = DateTime.UtcNow + after
                 }); // add teh unmute timer to the database
                 uow.SaveChanges();
             }
@@ -459,7 +474,7 @@ namespace Mewdeko.Modules.Administration.Services
             using (var uow = _db.GetDbContext())
             {
                 var config = uow.GuildConfigs.ForId(user.GuildId, set => set.Include(x => x.UnroleTimer));
-                config.UnroleTimer.Add(new UnroleTimer()
+                config.UnroleTimer.Add(new UnroleTimer
                 {
                     UserId = user.Id,
                     UnbanAt = DateTime.UtcNow + after,
@@ -467,10 +482,10 @@ namespace Mewdeko.Modules.Administration.Services
                 }); // add teh unmute timer to the database
                 uow.SaveChanges();
             }
+
             StartUn_Timer(user.GuildId, user.Id, after, TimerType.AddRole, role.Id); // start the timer
         }
 
-        public enum TimerType { Mute, Ban, AddRole }
         public void StartUn_Timer(ulong guildId, ulong userId, TimeSpan after, TimerType type, ulong? roleId = null)
         {
             //load the unmute timers for this guild
@@ -480,24 +495,18 @@ namespace Mewdeko.Modules.Administration.Services
             var toAdd = new Timer(async _ =>
             {
                 if (type == TimerType.Ban)
-                {
                     try
                     {
                         RemoveTimerFromDb(guildId, userId, type);
                         StopTimer(guildId, userId, type);
                         var guild = _client.GetGuild(guildId); // load the guild
-                        if (guild != null)
-                        {
-                            await guild.RemoveBanAsync(userId).ConfigureAwait(false);
-                        }
+                        if (guild != null) await guild.RemoveBanAsync(userId).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
                         Log.Warning(ex, "Couldn't unban user {0} in guild {1}", userId, guildId);
                     }
-                }
                 else if (type == TimerType.AddRole)
-                {
                     try
                     {
                         RemoveTimerFromDb(guildId, userId, type);
@@ -506,32 +515,28 @@ namespace Mewdeko.Modules.Administration.Services
                         var user = guild?.GetUser(userId);
                         var role = guild.GetRole(roleId.Value);
                         if (guild != null && user != null && user.Roles.Contains(role))
-                        {
                             await user.RemoveRoleAsync(role).ConfigureAwait(false);
-                        }
                     }
                     catch (Exception ex)
                     {
                         Log.Warning(ex, "Couldn't remove role from user {0} in guild {1}", userId, guildId);
                     }
-                }
                 else
-                {
                     try
                     {
                         // unmute the user, this will also remove the timer from the db
-                        await UnmuteUser(guildId, userId, _client.CurrentUser, reason: "Timed mute expired").ConfigureAwait(false);
+                        await UnmuteUser(guildId, userId, _client.CurrentUser, reason: "Timed mute expired")
+                            .ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
                         RemoveTimerFromDb(guildId, userId, type); // if unmute errored, just remove unmute from db
                         Log.Warning(ex, "Couldn't unmute user {0} in guild {1}", userId, guildId);
                     }
-                }
             }, null, after, Timeout.InfiniteTimeSpan);
 
             //add it, or stop the old one and add this one
-            userUnTimers.AddOrUpdate((userId, type), (key) => toAdd, (key, old) =>
+            userUnTimers.AddOrUpdate((userId, type), key => toAdd, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return toAdd;
@@ -540,13 +545,11 @@ namespace Mewdeko.Modules.Administration.Services
 
         public void StopTimer(ulong guildId, ulong userId, TimerType type)
         {
-            if (!Un_Timers.TryGetValue(guildId, out ConcurrentDictionary<(ulong, TimerType), Timer> userTimer))
+            if (!Un_Timers.TryGetValue(guildId, out var userTimer))
                 return;
 
-            if (userTimer.TryRemove((userId, type), out Timer removed))
-            {
+            if (userTimer.TryRemove((userId, type), out var removed))
                 removed.Change(Timeout.Infinite, Timeout.Infinite);
-            }
         }
 
         private void RemoveTimerFromDb(ulong guildId, ulong userId, TimerType type)
@@ -564,10 +567,8 @@ namespace Mewdeko.Modules.Administration.Services
                     var config = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.UnbanTimer));
                     toDelete = config.UnbanTimer.FirstOrDefault(x => x.UserId == userId);
                 }
-                if (toDelete != null)
-                {
-                    uow._context.Remove(toDelete);
-                }
+
+                if (toDelete != null) uow._context.Remove(toDelete);
                 uow.SaveChanges();
             }
         }

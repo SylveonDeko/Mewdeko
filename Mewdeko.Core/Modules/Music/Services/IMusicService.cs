@@ -11,13 +11,13 @@ namespace Mewdeko.Modules.Music.Services
     public interface IMusicService : IPlaceholderProvider
     {
         /// <summary>
-        /// Leave voice channel in the specified guild if it's connected to one
+        ///     Leave voice channel in the specified guild if it's connected to one
         /// </summary>
         /// <param name="guildId">Id of the guild</param>
         public Task LeaveVoiceChannelAsync(ulong guildId);
 
         /// <summary>
-        /// Joins the voice channel with the specified id
+        ///     Joins the voice channel with the specified id
         /// </summary>
         /// <param name="guildId">Id of the guild where the voice channel is</param>
         /// <param name="voiceChannelId">Id of the voice channel</param>

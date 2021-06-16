@@ -5,20 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class VcRoleService : INService
     {
-        private readonly DbService _db;
         private readonly DiscordSocketClient _client;
-
-        public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
-        public ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
+        private readonly DbService _db;
 
         public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
         {
@@ -38,7 +35,7 @@ namespace Mewdeko.Modules.Administration.Services
                     .Include(x => x.VcRoleInfos)
                     .Where(x => guildIds.Contains(x.GuildId))
                     .ToList();
-                
+
                 Task.WhenAll(configs.Select(InitializeVcRole));
             }
 
@@ -54,16 +51,24 @@ namespace Mewdeko.Modules.Administration.Services
                             if (add)
                             {
                                 if (!user.RoleIds.Contains(role.Id))
-                                {
-                                    try { await user.AddRoleAsync(role).ConfigureAwait(false); } catch { }
-                                }
+                                    try
+                                    {
+                                        await user.AddRoleAsync(role).ConfigureAwait(false);
+                                    }
+                                    catch
+                                    {
+                                    }
                             }
                             else
                             {
                                 if (user.RoleIds.Contains(role.Id))
-                                {
-                                    try { await user.RemoveRoleAsync(role).ConfigureAwait(false); } catch { }
-                                }
+                                    try
+                                    {
+                                        await user.RemoveRoleAsync(role).ConfigureAwait(false);
+                                    }
+                                    catch
+                                    {
+                                    }
                             }
 
                             await Task.Delay(250).ConfigureAwait(false);
@@ -77,6 +82,9 @@ namespace Mewdeko.Modules.Administration.Services
             _client.LeftGuild += _client_LeftGuild;
             bot.JoinedGuild += Bot_JoinedGuild;
         }
+
+        public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
+        public ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
 
         private Task Bot_JoinedGuild(GuildConfig arg)
         {
@@ -124,14 +132,12 @@ namespace Mewdeko.Modules.Administration.Services
             }
 
             if (missingRoles.Any())
-            {
                 using (var uow = _db.GetDbContext())
                 {
                     Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
                     uow._context.RemoveRange(missingRoles);
                     await uow.SaveChangesAsync();
                 }
-            }
         }
 
         public void AddVcRole(ulong guildId, IRole role, ulong vcId)
@@ -146,14 +152,11 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
                 var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
-                if(toDelete != null)
-                {
-                    uow._context.Remove(toDelete);
-                }
-                conf.VcRoleInfos.Add(new VcRoleInfo()
+                if (toDelete != null) uow._context.Remove(toDelete);
+                conf.VcRoleInfos.Add(new VcRoleInfo
                 {
                     VoiceChannelId = vcId,
-                    RoleId = role.Id,
+                    RoleId = role.Id
                 }); // add new one
                 uow.SaveChanges();
             }
@@ -181,7 +184,6 @@ namespace Mewdeko.Modules.Administration.Services
         private Task ClientOnUserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState,
             SocketVoiceState newState)
         {
-
             var gusr = usr as SocketGuildUser;
             if (gusr == null)
                 return Task.CompletedTask;
@@ -197,19 +199,13 @@ namespace Mewdeko.Modules.Administration.Services
                         ulong guildId;
                         guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
 
-                        if (VcRoles.TryGetValue(guildId, out ConcurrentDictionary<ulong, IRole> guildVcRoles))
+                        if (VcRoles.TryGetValue(guildId, out var guildVcRoles))
                         {
                             //remove old
-                            if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out IRole role))
-                            {
+                            if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out var role))
                                 Assign(false, gusr, role);
-                            }
                             //add new
-                            if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role))
-                            {
-                                Assign(true, gusr, role);
-                            }
-
+                            if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role)) Assign(true, gusr, role);
                         }
                     }
                 }

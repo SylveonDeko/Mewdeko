@@ -1,25 +1,22 @@
-﻿using Discord;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class AdministrationService : INService
     {
-        public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
-        public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
-
         private readonly DbService _db;
         private readonly LogCommandService _logService;
 
@@ -40,6 +37,9 @@ namespace Mewdeko.Modules.Administration.Services
 
             cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
+
+        public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
+        public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
 
         public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
         {
@@ -65,14 +65,27 @@ namespace Mewdeko.Modules.Administration.Services
                     if (state && cmd.Name != "prune" && cmd.Name != "pick")
                     {
                         _logService.AddDeleteIgnore(msg.Id);
-                        try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+                        try
+                        {
+                            await msg.DeleteAsync().ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                        }
                     }
                     //if state is false, that means do not do it
                 }
-                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune" && cmd.Name != "pick")
+                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune" &&
+                         cmd.Name != "pick")
                 {
                     _logService.AddDeleteIgnore(msg.Id);
-                    try { await msg.DeleteAsync().ConfigureAwait(false); } catch { }
+                    try
+                    {
+                        await msg.DeleteAsync().ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
                 }
             });
             return Task.CompletedTask;
@@ -88,6 +101,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                 uow.SaveChanges();
             }
+
             return enabled;
         }
 
@@ -111,7 +125,7 @@ namespace Mewdeko.Modules.Administration.Services
                 {
                     if (old is null)
                     {
-                        old = new DelMsgOnCmdChannel { ChannelId = chId };
+                        old = new DelMsgOnCmdChannel {ChannelId = chId};
                         conf.DelMsgOnCmdChannels.Add(old);
                     }
 
@@ -140,7 +154,6 @@ namespace Mewdeko.Modules.Administration.Services
             if (!users.Any())
                 return;
             foreach (var u in users)
-            {
                 try
                 {
                     await u.ModifyAsync(usr => usr.Deaf = value).ConfigureAwait(false);
@@ -149,7 +162,6 @@ namespace Mewdeko.Modules.Administration.Services
                 {
                     // ignored
                 }
-            }
         }
 
         public async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string text)
@@ -160,8 +172,8 @@ namespace Mewdeko.Modules.Administration.Services
                 return;
 
             var rep = new ReplacementBuilder()
-                    .WithDefault(context)
-                    .Build();
+                .WithDefault(context)
+                .Build();
 
             if (CREmbed.TryParse(text, out var crembed))
             {

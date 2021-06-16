@@ -8,22 +8,11 @@ namespace Ayu.Discord.Voice
 {
     public sealed class PoopyBufferImmortalized : ISongBuffer
     {
-        private readonly int _frameSize;
         private readonly byte[] _buffer;
+        private readonly int _frameSize;
         private readonly byte[] _outputArray;
         private CancellationToken _cancellationToken;
         private bool _isStopped;
-
-        public int ReadPosition { get; private set; }
-        public int WritePosition { get; private set; }
-
-        public int ContentLength => WritePosition >= ReadPosition
-            ? WritePosition - ReadPosition
-            : (_buffer.Length - ReadPosition) + WritePosition;
-
-        public int FreeSpace => _buffer.Length - ContentLength;
-
-        public bool Stopped => _cancellationToken.IsCancellationRequested || _isStopped;
 
         public PoopyBufferImmortalized(int frameSize)
         {
@@ -34,6 +23,17 @@ namespace Ayu.Discord.Voice
             ReadPosition = 0;
             WritePosition = 0;
         }
+
+        public int ReadPosition { get; private set; }
+        public int WritePosition { get; private set; }
+
+        public int ContentLength => WritePosition >= ReadPosition
+            ? WritePosition - ReadPosition
+            : _buffer.Length - ReadPosition + WritePosition;
+
+        public int FreeSpace => _buffer.Length - ContentLength;
+
+        public bool Stopped => _cancellationToken.IsCancellationRequested || _isStopped;
 
         public void Stop()
         {
@@ -75,22 +75,6 @@ namespace Ayu.Discord.Voice
             return bufferingCompleted.Task;
         }
 
-        private void Write(byte[] input, int writeCount)
-        {
-            if (WritePosition + writeCount < _buffer.Length)
-            {
-                Buffer.BlockCopy(input, 0, _buffer, WritePosition, writeCount);
-                WritePosition += writeCount;
-                return;
-            }
-
-            var wroteNormally = _buffer.Length - WritePosition;
-            Buffer.BlockCopy(input, 0, _buffer, WritePosition, wroteNormally);
-            var wroteFromStart = writeCount - wroteNormally;
-            Buffer.BlockCopy(input, wroteNormally, _buffer, 0, wroteFromStart);
-            WritePosition = wroteFromStart;
-        }
-
         public Span<byte> Read(int count, out int length)
         {
             var toRead = Math.Min(ContentLength, count);
@@ -108,7 +92,7 @@ namespace Ayu.Discord.Voice
                 // writer never writes until the end,
                 // but leaves a single chunk free
                 Span<byte> toReturn = _outputArray;
-                ((Span<byte>)_buffer).Slice(ReadPosition, toRead).CopyTo(toReturn);
+                ((Span<byte>) _buffer).Slice(ReadPosition, toRead).CopyTo(toReturn);
                 ReadPosition += toRead;
                 length = toRead;
                 return toReturn;
@@ -117,7 +101,7 @@ namespace Ayu.Discord.Voice
             {
                 Span<byte> toReturn = _outputArray;
                 var toEnd = _buffer.Length - ReadPosition;
-                var bufferSpan = (Span<byte>)_buffer;
+                var bufferSpan = (Span<byte>) _buffer;
 
                 bufferSpan.Slice(ReadPosition, toEnd).CopyTo(toReturn);
                 var fromStart = toRead - toEnd;
@@ -137,6 +121,22 @@ namespace Ayu.Discord.Voice
         {
             ReadPosition = 0;
             WritePosition = 0;
+        }
+
+        private void Write(byte[] input, int writeCount)
+        {
+            if (WritePosition + writeCount < _buffer.Length)
+            {
+                Buffer.BlockCopy(input, 0, _buffer, WritePosition, writeCount);
+                WritePosition += writeCount;
+                return;
+            }
+
+            var wroteNormally = _buffer.Length - WritePosition;
+            Buffer.BlockCopy(input, 0, _buffer, WritePosition, wroteNormally);
+            var wroteFromStart = writeCount - wroteNormally;
+            Buffer.BlockCopy(input, wroteNormally, _buffer, 0, wroteFromStart);
+            WritePosition = wroteFromStart;
         }
     }
 }

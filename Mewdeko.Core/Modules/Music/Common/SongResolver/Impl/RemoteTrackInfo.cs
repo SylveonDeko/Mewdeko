@@ -6,12 +6,6 @@ namespace Mewdeko.Core.Modules.Music
 {
     public sealed class RemoteTrackInfo : ITrackInfo
     {
-        public string Title { get; }
-        public string Url { get; }
-        public string Thumbnail { get; }
-        public TimeSpan Duration { get; }
-        public MusicPlatform Platform { get; }
-
         private readonly Func<Task<string?>> _streamFactory;
 
         public RemoteTrackInfo(string title, string url, string thumbnail, TimeSpan duration, MusicPlatform platform,
@@ -25,6 +19,15 @@ namespace Mewdeko.Core.Modules.Music
             Platform = platform;
         }
 
-        public async ValueTask<string?> GetStreamUrl() => await _streamFactory();
+        public string Title { get; }
+        public string Url { get; }
+        public string Thumbnail { get; }
+        public TimeSpan Duration { get; }
+        public MusicPlatform Platform { get; }
+
+        public async ValueTask<string?> GetStreamUrl()
+        {
+            return await _streamFactory();
+        }
     }
 }

@@ -7,11 +7,11 @@ namespace Mewdeko.Core.Modules.Music
 {
     public sealed class TrackResolveProvider : ITrackResolveProvider
     {
-        private readonly IYoutubeResolver _ytResolver;
         private readonly ILocalTrackResolver _localResolver;
-        private readonly ISoundcloudResolver _soundcloudResolver;
         private readonly IRadioResolver _radioResolver;
+        private readonly ISoundcloudResolver _soundcloudResolver;
         private readonly ISpotifyResolver _sResolver;
+        private readonly IYoutubeResolver _ytResolver;
 
         public TrackResolveProvider(IYoutubeResolver ytResolver, ILocalTrackResolver localResolver,
             ISoundcloudResolver soundcloudResolver, IRadioResolver radioResolver, ISpotifyResolver sResolver)
@@ -54,14 +54,16 @@ namespace Mewdeko.Core.Modules.Music
                     return Task.FromResult<ITrackInfo?>(null);
             }
         }
-        
-        public static bool IsRadioLink(string query) =>
-            (query.StartsWith("http", StringComparison.InvariantCulture) ||
-             query.StartsWith("ww", StringComparison.InvariantCulture))
-            &&
-            (query.Contains(".pls") ||
-             query.Contains(".m3u") ||
-             query.Contains(".asx") ||
-             query.Contains(".xspf"));
+
+        public static bool IsRadioLink(string query)
+        {
+            return (query.StartsWith("http", StringComparison.InvariantCulture) ||
+                    query.StartsWith("ww", StringComparison.InvariantCulture))
+                   &&
+                   (query.Contains(".pls") ||
+                    query.Contains(".m3u") ||
+                    query.Contains(".asx") ||
+                    query.Contains(".xspf"));
+        }
     }
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Extensions;
-using StackExchange.Redis;
 using Serilog;
+using StackExchange.Redis;
 
 namespace Mewdeko.Core.Services.Impl
 {
@@ -158,7 +158,7 @@ namespace Mewdeko.Core.Services.Impl
 
         public string Library => "Discord.Net 2.4.1";
 
-        public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
+        public string Heap => Math.Round((double) GC.GetTotalMemory(false) / 1.MiB(), 2)
             .ToString(CultureInfo.InvariantCulture);
 
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;

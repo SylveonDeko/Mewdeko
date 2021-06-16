@@ -1,5 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Amazon.S3;
+using Amazon.S3.Model;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
@@ -10,17 +19,6 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Threading.Tasks;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Discord.WebSocket;
-using Mewdeko.Core.Common.Attributes;
 
 namespace Mewdeko.Modules.Help
 {
@@ -28,14 +26,14 @@ namespace Mewdeko.Modules.Help
     {
         public const string PatreonUrl = "https://patreon.com/Mewdeko";
         public const string PaypalUrl = "https://paypal.me/Kwoth";
-        private readonly CommandService _cmds;
         private readonly BotConfigService _bss;
-        private readonly GlobalPermissionService _perms;
-        private readonly IServiceProvider _services;
         private readonly DiscordSocketClient _client;
-        private readonly IBotStrings _strings;
+        private readonly CommandService _cmds;
 
         private readonly AsyncLazy<ulong> _lazyClientId;
+        private readonly GlobalPermissionService _perms;
+        private readonly IServiceProvider _services;
+        private readonly IBotStrings _strings;
 
         public Help(GlobalPermissionService perms, CommandService cmds, BotConfigService bss,
             IServiceProvider services, DiscordSocketClient client, IBotStrings strings)
@@ -55,7 +53,7 @@ namespace Mewdeko.Modules.Help
             var botSettings = _bss.Data;
             if (string.IsNullOrWhiteSpace(botSettings.HelpText) || botSettings.HelpText == "-")
                 return default;
-            
+
             var clientId = await _lazyClientId.Value;
             var r = new ReplacementBuilder()
                 .WithDefault(Context)
@@ -70,7 +68,7 @@ namespace Mewdeko.Modules.Help
             if (!CREmbed.TryParse(botSettings.HelpText, out var embed))
             {
                 var eb = new EmbedBuilder().WithOkColor()
-                    .WithDescription(String.Format(botSettings.HelpText, clientId, Prefix));
+                    .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
                 return ("", eb);
             }
 
@@ -154,7 +152,10 @@ namespace Mewdeko.Modules.Help
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [MewdekoOptions(typeof(CommandsOptions))]
         public async Task Commands(string module = null, params string[] args)
         {
@@ -172,10 +173,12 @@ namespace Mewdeko.Modules.Help
             // Find commands for that module
             // don't show commands which are blocked
             // order by name
-            var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module, StringComparison.InvariantCulture))
-                                                .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
-                                                  .OrderBy(c => c.Aliases[0])
-                                                  .Distinct(new CommandTextEqualityComparer());
+            var cmds = _cmds.Commands.Where(c =>
+                    c.Module.GetTopLevelModule().Name.ToUpperInvariant()
+                        .StartsWith(module, StringComparison.InvariantCulture))
+                .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+                .OrderBy(c => c.Aliases[0])
+                .Distinct(new CommandTextEqualityComparer());
 
 
             // check preconditions for all commands, but only if it's not 'all'
@@ -184,21 +187,20 @@ namespace Mewdeko.Modules.Help
             if (opts.View != CommandsOptions.ViewType.All)
             {
                 succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
-                {
-                    var pre = (await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false));
-                    return (Cmd: x, Succ: pre.IsSuccess);
-                })).ConfigureAwait(false))
+                    {
+                        var pre = await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false);
+                        return (Cmd: x, Succ: pre.IsSuccess);
+                    })).ConfigureAwait(false))
                     .Where(x => x.Succ)
                     .Select(x => x.Cmd));
 
                 if (opts.View == CommandsOptions.ViewType.Hide)
-                {
                     // if hidden is specified, completely remove these commands from the list
                     cmds = cmds.Where(x => succ.Contains(x));
-                }
             }
 
-            var cmdsWithGroup = cmds.GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
+            var cmdsWithGroup = cmds
+                .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
                 .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
 
             if (!cmds.Any())
@@ -209,6 +211,7 @@ namespace Mewdeko.Modules.Help
                     await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
                 return;
             }
+
             var i = 0;
             var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
             var embed = new EmbedBuilder().WithOkColor();
@@ -221,9 +224,8 @@ namespace Mewdeko.Modules.Help
                     {
                         //if cross is specified, and the command doesn't satisfy the requirements, cross it out
                         if (opts.View == CommandsOptions.ViewType.Cross)
-                        {
-                            return $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
-                        }
+                            return
+                                $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
                         return $"{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
                     });
 
@@ -237,13 +239,14 @@ namespace Mewdeko.Modules.Help
                             {
                                 if (x.Count() == 1)
                                     return $"{x.First()}";
-                                else
-                                    return String.Concat(x);
+                                return string.Concat(x);
                             });
                     }
+
                     embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
                 }
             }
+
             embed.WithFooter(GetText("commands_instr", Prefix));
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
@@ -266,7 +269,10 @@ namespace Mewdeko.Modules.Help
             await ReplyErrorLocalizedAsync("command_not_found").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [Priority(1)]
         public async Task H([Leftover] CommandInfo com = null)
         {
@@ -274,8 +280,8 @@ namespace Mewdeko.Modules.Help
 
             if (com == null)
             {
-                IMessageChannel ch = channel is ITextChannel
-                    ? await ((IGuildUser)ctx.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
+                var ch = channel is ITextChannel
+                    ? await ((IGuildUser) ctx.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
                     : channel;
                 try
                 {
@@ -283,21 +289,31 @@ namespace Mewdeko.Modules.Help
                     if (data == default)
                         return;
                     var (plainText, helpEmbed) = data;
-                    await ch.EmbedAsync(helpEmbed, msg: plainText ?? "").ConfigureAwait(false);
-                    try{ await ctx.OkAsync(); } catch { } // ignore if bot can't react
+                    await ch.EmbedAsync(helpEmbed, plainText ?? "").ConfigureAwait(false);
+                    try
+                    {
+                        await ctx.OkAsync();
+                    }
+                    catch
+                    {
+                    } // ignore if bot can't react
                 }
                 catch (Exception)
                 {
                     await ReplyErrorLocalizedAsync("cant_dm").ConfigureAwait(false);
                 }
+
                 return;
             }
 
             var embed = _service.GetCommandHelp(com, ctx.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
-        
-        [MewdekoCommand, Usage, Description, Aliases]
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [OwnerOnly]
         public async Task GenCmdList([Leftover] string path = null)
         {
@@ -316,12 +332,10 @@ namespace Mewdeko.Modules.Help
                         {
                             var module = com.Module.GetTopLevelModule();
                             List<string> optHelpStr = null;
-                            var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))?.OptionType;
-                            if (opt != null)
-                            {
-                                optHelpStr = HelpService.GetCommandOptionHelpList(opt);
-                            }
-                            
+                            var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x =>
+                                x is MewdekoOptionsAttribute))?.OptionType;
+                            if (opt != null) optHelpStr = HelpService.GetCommandOptionHelpList(opt);
+
                             return new CommandJsonObject
                             {
                                 Aliases = com.Aliases.Select(alias => Prefix + alias).ToArray(),
@@ -330,7 +344,7 @@ namespace Mewdeko.Modules.Help
                                 Submodule = com.Module.Name,
                                 Module = com.Module.GetTopLevelModule().Name,
                                 Options = optHelpStr,
-                                Requirements = HelpService.GetCommandRequirements(com),
+                                Requirements = HelpService.GetCommandRequirements(com)
                             };
                         })
                         .ToList()
@@ -353,7 +367,7 @@ namespace Mewdeko.Modules.Help
                 var config = new AmazonS3Config {ServiceURL = serviceUrl};
                 using (var client = new AmazonS3Client(accessKey, secretAcccessKey, config))
                 {
-                    var res = await client.PutObjectAsync(new PutObjectRequest()
+                    var res = await client.PutObjectAsync(new PutObjectRequest
                     {
                         BucketName = "Mewdeko-pictures",
                         ContentType = "application/json",
@@ -368,11 +382,15 @@ namespace Mewdeko.Modules.Help
             // also send the file, but indented one, to chat
             using (var rDataStream = new MemoryStream(Encoding.ASCII.GetBytes(readableData)))
             {
-                await ctx.Channel.SendFileAsync(rDataStream, "cmds.json", GetText("commandlist_regen")).ConfigureAwait(false);
+                await ctx.Channel.SendFileAsync(rDataStream, "cmds.json", GetText("commandlist_regen"))
+                    .ConfigureAwait(false);
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Guide()
         {
             await ConfirmLocalizedAsync("guide",
@@ -380,7 +398,10 @@ namespace Mewdeko.Modules.Help
                 "http://Mewdeko.readthedocs.io/en/latest/").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         public async Task Donate()
         {
             await ReplyConfirmLocalizedAsync("donate", PatreonUrl, PaypalUrl).ConfigureAwait(false);
@@ -389,10 +410,15 @@ namespace Mewdeko.Modules.Help
 
     public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
     {
-        public bool Equals(CommandInfo x, CommandInfo y) => x.Aliases[0] == y.Aliases[0];
+        public bool Equals(CommandInfo x, CommandInfo y)
+        {
+            return x.Aliases[0] == y.Aliases[0];
+        }
 
-        public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
-
+        public int GetHashCode(CommandInfo obj)
+        {
+            return obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
+        }
     }
 
     internal class CommandJsonObject

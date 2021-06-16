@@ -1,17 +1,17 @@
-﻿using Discord;
+﻿using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common.Connect4;
 using Mewdeko.Modules.Gambling.Services;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mewdeko.Core.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -20,9 +20,15 @@ namespace Mewdeko.Modules.Gambling
         [Group]
         public class Connect4Commands : GamblingSubmodule<GamblingService>
         {
+            private static readonly string[] numbers =
+                {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
+
             private readonly DiscordSocketClient _client;
             private readonly ICurrencyService _cs;
-            private static readonly string[] numbers = new string[] { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:" };
+
+            private int _repostCounter;
+
+            private IUserMessage msg;
 
             public Connect4Commands(DiscordSocketClient client, ICurrencyService cs, GamblingConfigService gamb)
                 : base(gamb)
@@ -31,7 +37,21 @@ namespace Mewdeko.Modules.Gambling
                 _cs = cs;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            private int RepostCounter
+            {
+                get => _repostCounter;
+                set
+                {
+                    if (value < 0 || value > 7)
+                        _repostCounter = 0;
+                    else _repostCounter = value;
+                }
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [MewdekoOptionsAttribute(typeof(Connect4Game.Options))]
             public async Task Connect4(params string[] args)
@@ -54,7 +74,6 @@ namespace Mewdeko.Modules.Gambling
                 }
 
                 if (options.Bet > 0)
-                {
                     if (!await _cs.RemoveAsync(ctx.User.Id, "Connect4-bet", options.Bet, true).ConfigureAwait(false))
                     {
                         await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
@@ -62,7 +81,6 @@ namespace Mewdeko.Modules.Gambling
                         game.Dispose();
                         return;
                     }
-                }
 
                 game.OnGameStateUpdated += Game_OnGameStateUpdated;
                 game.OnGameFailedToStart += Game_OnGameFailedToStart;
@@ -71,13 +89,10 @@ namespace Mewdeko.Modules.Gambling
 
                 game.Initialize();
                 if (options.Bet == 0)
-                {
                     await ReplyConfirmLocalizedAsync("connect4_created").ConfigureAwait(false);
-                }
                 else
-                {
-                    await ReplyConfirmLocalizedAsync("connect4_created_bet", options.Bet + CurrencySign).ConfigureAwait(false);
-                }
+                    await ReplyConfirmLocalizedAsync("connect4_created_bet", options.Bet + CurrencySign)
+                        .ConfigureAwait(false);
 
                 Task _client_MessageReceived(SocketMessage arg)
                 {
@@ -86,24 +101,35 @@ namespace Mewdeko.Modules.Gambling
 
                     var _ = Task.Run(async () =>
                     {
-                        bool success = false;
+                        var success = false;
                         if (int.TryParse(arg.Content, out var col))
-                        {
                             success = await game.Input(arg.Author.Id, col).ConfigureAwait(false);
-                        }
 
                         if (success)
-                            try { await arg.DeleteAsync().ConfigureAwait(false); } catch { }
+                        {
+                            try
+                            {
+                                await arg.DeleteAsync().ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                            }
+                        }
                         else
                         {
                             if (game.CurrentPhase == Connect4Game.Phase.Joining
                                 || game.CurrentPhase == Connect4Game.Phase.Ended)
-                            {
                                 return;
-                            }
                             RepostCounter++;
                             if (RepostCounter == 0)
-                                try { msg = await ctx.Channel.SendMessageAsync("", embed: (Embed)msg.Embeds.First()).ConfigureAwait(false); } catch { }
+                                try
+                                {
+                                    msg = await ctx.Channel.SendMessageAsync("", embed: (Embed) msg.Embeds.First())
+                                        .ConfigureAwait(false);
+                                }
+                                catch
+                                {
+                                }
                         }
                     });
                     return Task.CompletedTask;
@@ -116,6 +142,7 @@ namespace Mewdeko.Modules.Gambling
                         _client.MessageReceived -= _client_MessageReceived;
                         toDispose.Dispose();
                     }
+
                     return ErrorLocalizedAsync("connect4_failed_to_start");
                 }
 
@@ -129,13 +156,11 @@ namespace Mewdeko.Modules.Gambling
 
                     string title;
                     if (result == Connect4Game.Result.CurrentPlayerWon)
-                    {
-                        title = GetText("connect4_won", Format.Bold(arg.CurrentPlayer.Username), Format.Bold(arg.OtherPlayer.Username));
-                    }
+                        title = GetText("connect4_won", Format.Bold(arg.CurrentPlayer.Username),
+                            Format.Bold(arg.OtherPlayer.Username));
                     else if (result == Connect4Game.Result.OtherPlayerWon)
-                    {
-                        title = GetText("connect4_won", Format.Bold(arg.OtherPlayer.Username), Format.Bold(arg.CurrentPlayer.Username));
-                    }
+                        title = GetText("connect4_won", Format.Bold(arg.OtherPlayer.Username),
+                            Format.Bold(arg.CurrentPlayer.Username));
                     else
                         title = GetText("connect4_draw");
 
@@ -144,20 +169,6 @@ namespace Mewdeko.Modules.Gambling
                         .WithDescription(GetGameStateText(game))
                         .WithOkColor()
                         .Build());
-                }
-            }
-
-            private IUserMessage msg;
-
-            private int _repostCounter = 0;
-            private int RepostCounter
-            {
-                get => _repostCounter;
-                set
-                {
-                    if (value < 0 || value > 7)
-                        _repostCounter = 0;
-                    else _repostCounter = value;
                 }
             }
 
@@ -183,11 +194,11 @@ namespace Mewdeko.Modules.Gambling
                     game.CurrentPhase == Connect4Game.Phase.P2Move)
                     sb.AppendLine(GetText("connect4_player_to_move", Format.Bold(game.CurrentPlayer.Username)));
 
-                for (int i = Connect4Game.NumberOfRows; i > 0; i--)
+                for (var i = Connect4Game.NumberOfRows; i > 0; i--)
                 {
-                    for (int j = 0; j < Connect4Game.NumberOfColumns; j++)
+                    for (var j = 0; j < Connect4Game.NumberOfColumns; j++)
                     {
-                        var cur = game.GameState[i + (j * Connect4Game.NumberOfRows) - 1];
+                        var cur = game.GameState[i + j * Connect4Game.NumberOfRows - 1];
 
                         if (cur == Connect4Game.Field.Empty)
                             sb.Append("⚫"); //black circle
@@ -196,13 +207,11 @@ namespace Mewdeko.Modules.Gambling
                         else
                             sb.Append("🔵"); //blue circle
                     }
+
                     sb.AppendLine();
                 }
 
-                for (int i = 0; i < Connect4Game.NumberOfColumns; i++)
-                {
-                    sb.Append(numbers[i]);
-                }
+                for (var i = 0; i < Connect4Game.NumberOfColumns; i++) sb.Append(numbers[i]);
                 return sb.ToString();
             }
         }

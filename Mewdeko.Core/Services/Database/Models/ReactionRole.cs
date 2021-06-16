@@ -4,8 +4,6 @@ namespace Mewdeko.Core.Services.Database.Models
 {
     public class ReactionRoleMessage : DbEntity, IIndexed
     {
-        public int Index { get; set; }
-
         public int GuildConfigId { get; set; }
         public GuildConfig GuildConfig { get; set; }
 
@@ -14,6 +12,7 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public List<ReactionRole> ReactionRoles { get; set; }
         public bool Exclusive { get; set; }
+        public int Index { get; set; }
     }
 
     public class ReactionRole : DbEntity

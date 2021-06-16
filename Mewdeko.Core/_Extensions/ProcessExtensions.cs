@@ -34,10 +34,7 @@ namespace Mewdeko.Extensions
             {
                 var children = new HashSet<int>();
                 GetAllChildIdsUnix(process.Id, children, timeout);
-                foreach (var childId in children)
-                {
-                    KillProcessUnix(childId, timeout);
-                }
+                foreach (var childId in children) KillProcessUnix(childId, timeout);
                 KillProcessUnix(process.Id, timeout);
             }
         }
@@ -51,16 +48,12 @@ namespace Mewdeko.Extensions
                 out var stdout);
 
             if (exitCode == 0 && !string.IsNullOrEmpty(stdout))
-            {
                 using (var reader = new StringReader(stdout))
                 {
                     while (true)
                     {
                         var text = reader.ReadLine();
-                        if (text == null)
-                        {
-                            return;
-                        }
+                        if (text == null) return;
 
                         if (int.TryParse(text, out var id))
                         {
@@ -70,7 +63,6 @@ namespace Mewdeko.Extensions
                         }
                     }
                 }
-            }
         }
 
         private static void KillProcessUnix(int processId, TimeSpan timeout)
@@ -82,7 +74,8 @@ namespace Mewdeko.Extensions
                 out var stdout);
         }
 
-        private static int RunProcessAndWaitForExit(string fileName, string arguments, TimeSpan timeout, out string stdout)
+        private static int RunProcessAndWaitForExit(string fileName, string arguments, TimeSpan timeout,
+            out string stdout)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -95,14 +88,10 @@ namespace Mewdeko.Extensions
             var process = Process.Start(startInfo);
 
             stdout = null;
-            if (process.WaitForExit((int)timeout.TotalMilliseconds))
-            {
+            if (process.WaitForExit((int) timeout.TotalMilliseconds))
                 stdout = process.StandardOutput.ReadToEnd();
-            }
             else
-            {
                 process.Kill();
-            }
 
             return process.ExitCode;
         }

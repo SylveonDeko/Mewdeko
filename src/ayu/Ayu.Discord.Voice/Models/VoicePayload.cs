@@ -5,13 +5,11 @@ namespace Discord.Models.Gateway
 {
     public sealed class VoicePayload
     {
-        [JsonProperty("op")]
-        public VoiceOpCode OpCode { get; set; }
+        [JsonProperty("op")] public VoiceOpCode OpCode { get; set; }
 
-        [JsonProperty("d")]
-        public JToken Data { get; set; }
+        [JsonProperty("d")] public JToken Data { get; set; }
     }
-    
+
     public enum VoiceOpCode
     {
         Identify = 0,
@@ -24,6 +22,6 @@ namespace Discord.Models.Gateway
         Resume = 7,
         Hello = 8,
         Resumed = 9,
-        ClientDisconnect = 13,
+        ClientDisconnect = 13
     }
 }

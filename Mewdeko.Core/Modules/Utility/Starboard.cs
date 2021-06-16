@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -27,6 +26,7 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendMessageAsync("Starboard has been disabled.");
                     return;
                 }
+
                 await _service.SetStarboardChannel(ctx.Guild, chn.Id);
                 await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}");
             }

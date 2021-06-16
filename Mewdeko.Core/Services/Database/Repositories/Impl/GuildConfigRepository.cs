@@ -1,15 +1,16 @@
-﻿using Mewdeko.Core.Services.Database.Models;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
+using Mewdeko.Core.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
     public static class MusicPlayerSettingsExtensions
     {
-        public static async Task<MusicPlayerSettings> ForGuildAsync(this DbSet<MusicPlayerSettings> settings, ulong guildId)
+        public static async Task<MusicPlayerSettings> ForGuildAsync(this DbSet<MusicPlayerSettings> settings,
+            ulong guildId)
         {
             var toReturn = await settings
                 .AsQueryable()
@@ -17,7 +18,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
 
             if (toReturn is null)
             {
-                var newSettings = new MusicPlayerSettings()
+                var newSettings = new MusicPlayerSettings
                 {
                     GuildId = guildId,
                     PlayerRepeat = PlayerRepeatType.Queue
@@ -38,42 +39,30 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         }
 
         private List<WarningPunishment> DefaultWarnPunishments =>
-            new List<WarningPunishment>() {
-                new WarningPunishment() {
+            new()
+            {
+                new()
+                {
                     Count = 3,
                     Punishment = PunishmentAction.Kick
                 },
-                new WarningPunishment() {
+                new()
+                {
                     Count = 5,
                     Punishment = PunishmentAction.Ban
                 }
             };
 
-        public IEnumerable<GuildConfig> GetAllGuildConfigs(List<ulong> availableGuilds) =>
-            IncludeEverything()
+        public IEnumerable<GuildConfig> GetAllGuildConfigs(List<ulong> availableGuilds)
+        {
+            return IncludeEverything()
                 .AsNoTracking()
                 .Where(x => availableGuilds.Contains(x.GuildId))
                 .ToList();
-
-        private IQueryable<GuildConfig> IncludeEverything()
-        {
-            return _set
-                .AsQueryable()
-                .Include(gc => gc.CommandCooldowns)
-                .Include(gc => gc.GuildRepeaters)
-                .Include(gc => gc.FollowedStreams)
-                .Include(gc => gc.StreamRole)
-                .Include(gc => gc.NsfwBlacklistedTags)
-                .Include(gc => gc.XpSettings)
-                    .ThenInclude(x => x.ExclusionList)
-                .Include(gc => gc.DelMsgOnCmdChannels)
-                .Include(gc => gc.ReactionRoleMessages)
-                    .ThenInclude(x => x.ReactionRoles)
-                ;
         }
 
         /// <summary>
-        /// Gets and creates if it doesn't exist a config for a guild.
+        ///     Gets and creates if it doesn't exist a config for a guild.
         /// </summary>
         /// <param name="guildId">For which guild</param>
         /// <param name="includes">Use to manipulate the set however you want</param>
@@ -95,13 +84,13 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
 
             if (config == null)
             {
-                _set.Add((config = new GuildConfig
+                _set.Add(config = new GuildConfig
                 {
                     GuildId = guildId,
                     Permissions = Permissionv2.GetDefaultPermlist,
                     WarningsInitialized = true,
-                    WarnPunishments = DefaultWarnPunishments,
-                }));
+                    WarnPunishments = DefaultWarnPunishments
+                });
                 _context.SaveChanges();
             }
 
@@ -119,18 +108,18 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
             var config = _set
                 .AsQueryable()
                 .Include(gc => gc.LogSetting)
-                    .ThenInclude(gc => gc.IgnoredChannels)
+                .ThenInclude(gc => gc.IgnoredChannels)
                 .FirstOrDefault(x => x.GuildId == guildId);
 
             if (config == null)
             {
-                _set.Add((config = new GuildConfig
+                _set.Add(config = new GuildConfig
                 {
                     GuildId = guildId,
                     Permissions = Permissionv2.GetDefaultPermlist,
                     WarningsInitialized = true,
-                    WarnPunishments = DefaultWarnPunishments,
-                }));
+                    WarnPunishments = DefaultWarnPunishments
+                });
                 _context.SaveChanges();
             }
 
@@ -139,6 +128,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                 config.WarningsInitialized = true;
                 config.WarnPunishments = DefaultWarnPunishments;
             }
+
             return config;
         }
 
@@ -160,11 +150,11 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
 
             if (config == null) // if there is no guildconfig, create new one
             {
-                _set.Add((config = new GuildConfig
+                _set.Add(config = new GuildConfig
                 {
                     GuildId = guildId,
                     Permissions = Permissionv2.GetDefaultPermlist
-                }));
+                });
                 _context.SaveChanges();
             }
             else if (config.Permissions == null || !config.Permissions.Any()) // if no perms, add default ones
@@ -208,11 +198,11 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
             var gc = ForId(guildId,
                 set => set.Include(x => x.XpSettings)
-                          .ThenInclude(x => x.RoleRewards)
-                          .Include(x => x.XpSettings)
-                          .ThenInclude(x => x.CurrencyRewards)
-                          .Include(x => x.XpSettings)
-                          .ThenInclude(x => x.ExclusionList));
+                    .ThenInclude(x => x.RoleRewards)
+                    .Include(x => x.XpSettings)
+                    .ThenInclude(x => x.CurrencyRewards)
+                    .Include(x => x.XpSettings)
+                    .ThenInclude(x => x.ExclusionList));
 
             if (gc.XpSettings == null)
                 gc.XpSettings = new XpSettings();
@@ -227,12 +217,29 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                 .Include(x => x.GenerateCurrencyChannelIds)
                 .Where(x => x.GenerateCurrencyChannelIds.Any())
                 .SelectMany(x => x.GenerateCurrencyChannelIds)
-                .Select(x => new GeneratingChannel()
+                .Select(x => new GeneratingChannel
                 {
                     ChannelId = x.ChannelId,
                     GuildId = x.GuildConfig.GuildId
                 })
                 .ToArray();
+        }
+
+        private IQueryable<GuildConfig> IncludeEverything()
+        {
+            return _set
+                    .AsQueryable()
+                    .Include(gc => gc.CommandCooldowns)
+                    .Include(gc => gc.GuildRepeaters)
+                    .Include(gc => gc.FollowedStreams)
+                    .Include(gc => gc.StreamRole)
+                    .Include(gc => gc.NsfwBlacklistedTags)
+                    .Include(gc => gc.XpSettings)
+                    .ThenInclude(x => x.ExclusionList)
+                    .Include(gc => gc.DelMsgOnCmdChannels)
+                    .Include(gc => gc.ReactionRoleMessages)
+                    .ThenInclude<GuildConfig, ReactionRoleMessage, List<ReactionRole>>(x => x.ReactionRoles)
+                ;
         }
     }
 }

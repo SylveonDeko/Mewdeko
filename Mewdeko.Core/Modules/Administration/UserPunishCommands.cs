@@ -1,20 +1,20 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
-using Mewdeko.Core.Services;
 using Mewdeko.Core.Common.TypeReaders.Models;
+using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
-using Humanizer;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -23,9 +23,15 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class UserPunishCommands : MewdekoSubmodule<UserPunishService>
         {
-            private readonly MuteService _mute;
+            public enum AddRole
+            {
+                AddRole
+            }
+
             private readonly BlacklistService _blacklistService;
+            private readonly MuteService _mute;
             public DbService _db;
+
             public UserPunishCommands(MuteService mute, BlacklistService blacklistService, DbService db)
             {
                 _mute = mute;
@@ -43,14 +49,16 @@ namespace Mewdeko.Modules.Administration
                 // bot can't punish a user who is higher in the hierarchy. Discord will return 403
                 // moderator can be owner, in which case role hierarchy doesn't matter
                 // otherwise, moderator has to have a higher role
-                if ((botMaxRole <= targetMaxRole || (Context.User.Id != ownerId && targetMaxRole >= modMaxRole)) || target.Id == ownerId)
+                if (botMaxRole <= targetMaxRole || Context.User.Id != ownerId && targetMaxRole >= modMaxRole ||
+                    target.Id == ownerId)
                 {
                     await ReplyErrorLocalizedAsync("hierarchy");
                     return false;
                 }
-                
+
                 return true;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -111,7 +119,11 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.SendConfirmAsync("Your warnlog channel has been changed from " +
                                                    oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             public async Task Warn(IGuildUser user, [Leftover] string reason = null)
@@ -122,10 +134,11 @@ namespace Mewdeko.Modules.Administration
                 var dmFailed = false;
                 try
                 {
-                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder().WithErrorColor()
-                                     .WithDescription(GetText("warned_on", ctx.Guild.ToString()))
-                                     .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
-                                     .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
+                    await (await user.GetOrCreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
+                            .WithErrorColor()
+                            .WithDescription(GetText("warned_on", ctx.Guild.ToString()))
+                            .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
+                            .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
                         .ConfigureAwait(false);
                 }
                 catch
@@ -144,12 +157,9 @@ namespace Mewdeko.Modules.Administration
                     var errorEmbed = new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription(GetText("cant_apply_punishment"));
-                    
-                    if (dmFailed)
-                    {
-                        errorEmbed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
-                    }
-                    
+
+                    if (dmFailed) errorEmbed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+
                     await ctx.Channel.EmbedAsync(errorEmbed);
                     return;
                 }
@@ -157,20 +167,13 @@ namespace Mewdeko.Modules.Administration
                 var embed = new EmbedBuilder()
                     .WithOkColor();
                 if (punishment == null)
-                {
                     embed.WithDescription(GetText("user_warned",
                         Format.Bold(user.ToString())));
-                }
                 else
-                {
                     embed.WithDescription(GetText("user_warned_and_punished", Format.Bold(user.ToString()),
                         Format.Bold(punishment.Punishment.ToString())));
-                }
 
-                if (dmFailed)
-                {
-                    embed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
-                }
+                if (dmFailed) embed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
 
                 await ctx.Channel.EmbedAsync(embed);
                 if (WarnlogChannel != 0)
@@ -196,17 +199,10 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            public class WarnExpireOptions : IMewdekoCommandOptions
-            {
-                [Option('d', "delete", Default = false, HelpText = "Delete warnings instead of clearing them.")]
-                public bool Delete { get; set; } = false;
-                public void NormalizeOptions()
-                {
-
-                }
-            }
-
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [MewdekoOptions(typeof(WarnExpireOptions))]
@@ -221,52 +217,70 @@ namespace Mewdeko.Modules.Administration
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
                 await _service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
-                if(days == 0)
+                if (days == 0)
                 {
                     await ReplyConfirmLocalizedAsync("warn_expire_reset").ConfigureAwait(false);
                     return;
                 }
 
                 if (opts.Delete)
-                {
-                    await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString())).ConfigureAwait(false);
-                }
+                    await ReplyConfirmLocalizedAsync("warn_expire_set_delete", Format.Bold(days.ToString()))
+                        .ConfigureAwait(false);
                 else
-                {
-                    await ReplyConfirmLocalizedAsync("warn_expire_set_clear", Format.Bold(days.ToString())).ConfigureAwait(false);
-                }
+                    await ReplyConfirmLocalizedAsync("warn_expire_set_clear", Format.Bold(days.ToString()))
+                        .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [Priority(2)]
             public Task Warnlog(int page, IGuildUser user)
-                => Warnlog(page, user.Id);
+            {
+                return Warnlog(page, user.Id);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(3)]
             public Task Warnlog(IGuildUser user = null)
             {
                 if (user == null)
-                    user = (IGuildUser)ctx.User;
-                return ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.BanMembers ? Warnlog(user.Id) : Task.CompletedTask;
+                    user = (IGuildUser) ctx.User;
+                return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.BanMembers
+                    ? Warnlog(user.Id)
+                    : Task.CompletedTask;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [Priority(0)]
             public Task Warnlog(int page, ulong userId)
-                => InternalWarnlog(userId, page - 1);
+            {
+                return InternalWarnlog(userId, page - 1);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [Priority(1)]
             public Task Warnlog(ulong userId)
-                => InternalWarnlog(userId, 0);
+            {
+                return InternalWarnlog(userId, 0);
+            }
 
             private async Task InternalWarnlog(ulong userId, int page)
             {
@@ -279,7 +293,8 @@ namespace Mewdeko.Modules.Administration
                     .ToArray();
 
                 var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("warnlog_for", (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
+                    .WithTitle(GetText("warnlog_for",
+                        (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
                     .WithFooter(efb => efb.WithText(GetText("page", page + 1)));
 
                 if (!warnings.Any())
@@ -292,7 +307,8 @@ namespace Mewdeko.Modules.Administration
                     foreach (var w in warnings)
                     {
                         i++;
-                        var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"), w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
+                        var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"),
+                            w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
                         if (w.Forgiven)
                             name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
@@ -305,7 +321,10 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             public async Task WarnlogAll(int page = 1)
@@ -314,7 +333,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 var warnings = _service.WarnlogAll(ctx.Guild.Id);
 
-                await ctx.SendPaginatedConfirmAsync(page, (curPage) =>
+                await ctx.SendPaginatedConfirmAsync(page, curPage =>
                 {
                     var ws = warnings.Skip(curPage * 15)
                         .Take(15)
@@ -324,7 +343,7 @@ namespace Mewdeko.Modules.Administration
                             var all = x.Count();
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
-                            var usr = ((SocketGuild)ctx.Guild).GetUser(x.Key);
+                            var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
                             return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
                         });
 
@@ -334,13 +353,21 @@ namespace Mewdeko.Modules.Administration
                 }, warnings.Length, 15).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             public Task Warnclear(IGuildUser user, int index = 0)
-                => Warnclear(user.Id, index);
+            {
+                return Warnclear(user.Id, index);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             public async Task Warnclear(ulong userId, int index = 0)
@@ -356,23 +383,17 @@ namespace Mewdeko.Modules.Administration
                 else
                 {
                     if (success)
-                    {
                         await ReplyConfirmLocalizedAsync("warning_cleared", Format.Bold(index.ToString()), userStr)
                             .ConfigureAwait(false);
-                    }
                     else
-                    {
                         await ReplyErrorLocalizedAsync("warning_clear_fail").ConfigureAwait(false);
-                    }
                 }
             }
 
-            public enum AddRole
-            {
-                AddRole
-            }
-
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [Priority(1)]
@@ -385,21 +406,20 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 if (time is null)
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString())).ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString()),
                         Format.Bold(time.Input)).ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             public async Task WarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
@@ -414,35 +434,34 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 if (time is null)
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString())).ConfigureAwait(false);
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("warn_punish_set_timed",
                         Format.Bold(punish.ToString()),
                         Format.Bold(number.ToString()),
                         Format.Bold(time.Input)).ConfigureAwait(false);
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             public async Task WarnPunish(int number)
             {
-                if (!_service.WarnPunishRemove(ctx.Guild.Id, number))
-                {
-                    return;
-                }
+                if (!_service.WarnPunishRemove(ctx.Guild.Id, number)) return;
 
                 await ReplyConfirmLocalizedAsync("warn_punish_rem",
                     Format.Bold(number.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task WarnPunishList()
             {
@@ -450,20 +469,20 @@ namespace Mewdeko.Modules.Administration
 
                 string list;
                 if (ps.Any())
-                {
-
-                    list = string.Join("\n", ps.Select(x => $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : x.Time.ToString() + "m")} "));
-                }
+                    list = string.Join("\n",
+                        ps.Select(x =>
+                            $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : x.Time + "m")} "));
                 else
-                {
                     list = GetText("warnpl_none");
-                }
                 await ctx.Channel.SendConfirmAsync(
                     GetText("warn_punish_list"),
                     list).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -473,7 +492,8 @@ namespace Mewdeko.Modules.Administration
                 if (time.Time > TimeSpan.FromDays(49))
                     return;
 
-                var guildUser = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
+                var guildUser =
+                    await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
 
                 if (guildUser != null && !await CheckRoleHierarchy(guildUser))
                     return;
@@ -481,7 +501,6 @@ namespace Mewdeko.Modules.Administration
                 var dmFailed = false;
 
                 if (guildUser != null)
-                {
                     try
                     {
                         var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
@@ -496,36 +515,39 @@ namespace Mewdeko.Modules.Administration
                     {
                         dmFailed = true;
                     }
-                }
 
-                await _mute.TimedBan(Context.Guild, user, time.Time, ctx.User.ToString() + " | " + msg).ConfigureAwait(false);
+                await _mute.TimedBan(Context.Guild, user, time.Time, ctx.User + " | " + msg).ConfigureAwait(false);
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle("⛔️ " + GetText("banned_user"))
                     .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName(GetText("duration")).WithValue($"{time.Time.Days}d {time.Time.Hours}h {time.Time.Minutes}m").WithIsInline(true));
+                    .AddField(efb =>
+                        efb.WithName(GetText("duration"))
+                            .WithValue($"{time.Time.Days}d {time.Time.Hours}h {time.Time.Minutes}m")
+                            .WithIsInline(true));
 
-                if (dmFailed)
-                {
-                    toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
-                }
+                if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
 
                 await ctx.Channel.EmbedAsync(toSend)
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(0)]
             public async Task Ban(ulong userId, [Leftover] string msg = null)
             {
-                var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, userId);
+                var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
+                    userId);
                 if (user is null)
                 {
-                    await ctx.Guild.AddBanAsync(userId, 7, ctx.User.ToString() + " | " + msg);
-                    
+                    await ctx.Guild.AddBanAsync(userId, 7, ctx.User + " | " + msg);
+
                     await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle("⛔️ " + GetText("banned_user"))
                             .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)))
@@ -537,7 +559,10 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -564,23 +589,23 @@ namespace Mewdeko.Modules.Administration
                     dmFailed = true;
                 }
 
-                await ctx.Guild.AddBanAsync(user, 7, ctx.User.ToString() + " | " + msg).ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(user, 7, ctx.User + " | " + msg).ConfigureAwait(false);
 
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle("⛔️ " + GetText("banned_user"))
                     .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
 
-                if (dmFailed)
-                {
-                    toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
-                }
-                
+                if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+
                 await ctx.Channel.EmbedAsync(toSend)
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -598,12 +623,15 @@ namespace Mewdeko.Modules.Administration
                     await Context.Channel.SendConfirmAsync(template);
                     return;
                 }
-                
+
                 _service.SetBanTemplate(Context.Guild.Id, message);
                 await ctx.OkAsync();
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -613,28 +641,38 @@ namespace Mewdeko.Modules.Administration
                 await ctx.OkAsync();
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(0)]
             public Task BanMessageTest([Leftover] string reason = null)
-                => InternalBanMessageTest(reason, null);
-            
-            [MewdekoCommand, Usage, Description, Aliases]
+            {
+                return InternalBanMessageTest(reason, null);
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(1)]
             public Task BanMessageTest(StoopidTime duration, [Leftover] string reason = null)
-                => InternalBanMessageTest(reason, duration.Time);
-            
+            {
+                return InternalBanMessageTest(reason, duration.Time);
+            }
+
             private async Task InternalBanMessageTest(string reason, TimeSpan? duration)
             {
                 var dmChannel = await ctx.User.GetOrCreateDMChannelAsync();
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
                 var crEmbed = _service.GetBanUserDmEmbed(Context,
-                    (IGuildUser)Context.User,
+                    (IGuildUser) Context.User,
                     defaultMessage,
                     reason,
                     duration);
@@ -659,7 +697,10 @@ namespace Mewdeko.Modules.Administration
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -678,7 +719,10 @@ namespace Mewdeko.Modules.Administration
                 await UnbanInternal(bun.User).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -704,26 +748,35 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("unbanned_user", Format.Bold(user.ToString())).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.KickMembers | GuildPerm.ManageMessages)]
             [BotPerm(GuildPerm.BanMembers)]
             public Task Softban(IGuildUser user, [Leftover] string msg = null)
-                => SoftbanInternal(user, msg);
+            {
+                return SoftbanInternal(user, msg);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.KickMembers | GuildPerm.ManageMessages)]
             [BotPerm(GuildPerm.BanMembers)]
             public async Task Softban(ulong userId, [Leftover] string msg = null)
             {
-                var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, userId);
+                var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
+                    userId);
                 if (user is null)
                     return;
 
                 await SoftbanInternal(user);
             }
-            
+
             private async Task SoftbanInternal(IGuildUser user, [Leftover] string msg = null)
             {
                 if (!await CheckRoleHierarchy(user))
@@ -735,48 +788,60 @@ namespace Mewdeko.Modules.Administration
                 {
                     await user.SendErrorAsync(GetText("sbdm", Format.Bold(ctx.Guild.Name), msg)).ConfigureAwait(false);
                 }
-                    catch
+                catch
                 {
                     dmFailed = true;
                 }
 
-                await ctx.Guild.AddBanAsync(user, 7, "Softban | " + ctx.User.ToString() + " | " + msg).ConfigureAwait(false);
-                try { await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
-                catch { await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false); }
+                await ctx.Guild.AddBanAsync(user, 7, "Softban | " + ctx.User + " | " + msg).ConfigureAwait(false);
+                try
+                {
+                    await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
+                }
 
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle("☣ " + GetText("sb_user"))
                     .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
-                
-                if (dmFailed)
-                {
-                    toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
-                }
-                
+
+                if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+
                 await ctx.Channel.EmbedAsync(toSend)
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.KickMembers)]
             [BotPerm(GuildPerm.KickMembers)]
             [Priority(1)]
             public Task Kick(IGuildUser user, [Leftover] string msg = null)
-                => KickInternal(user, msg);
+            {
+                return KickInternal(user, msg);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.KickMembers)]
             [BotPerm(GuildPerm.KickMembers)]
             [Priority(0)]
             public async Task Kick(ulong userId, [Leftover] string msg = null)
             {
-                var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, userId);
+                var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
+                    userId);
                 if (user is null)
                     return;
-                
+
                 await KickInternal(user, msg);
             }
 
@@ -793,27 +858,27 @@ namespace Mewdeko.Modules.Administration
                         .ConfigureAwait(false);
                 }
                 catch
-                {                        
+                {
                     dmFailed = true;
                 }
-            
-                await user.KickAsync(ctx.User.ToString() + " | " + msg).ConfigureAwait(false);
-                
+
+                await user.KickAsync(ctx.User + " | " + msg).ConfigureAwait(false);
+
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("kicked_user"))
                     .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                     .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
 
-                if (dmFailed)
-                {
-                    toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
-                }
-                
+                if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+
                 await ctx.Channel.EmbedAsync(toSend)
                     .ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
@@ -823,7 +888,7 @@ namespace Mewdeko.Modules.Administration
                 if (string.IsNullOrWhiteSpace(people))
                     return;
 
-                var (bans, missing) = _service.MassKill((SocketGuild)ctx.Guild, people);
+                var (bans, missing) = _service.MassKill((SocketGuild) ctx.Guild, people);
 
                 var missStr = string.Join("\n", missing);
                 if (string.IsNullOrWhiteSpace(missStr))
@@ -837,11 +902,11 @@ namespace Mewdeko.Modules.Administration
 
                 //do the banning
                 await Task.WhenAll(bans
-                    .Where(x => x.Id.HasValue)
-                    .Select(x => ctx.Guild.AddBanAsync(x.Id.Value, 7, x.Reason, new RequestOptions()
-                    {
-                        RetryMode = RetryMode.AlwaysRetry,
-                    })))
+                        .Where(x => x.Id.HasValue)
+                        .Select(x => ctx.Guild.AddBanAsync(x.Id.Value, 7, x.Reason, new RequestOptions
+                        {
+                            RetryMode = RetryMode.AlwaysRetry
+                        })))
                     .ConfigureAwait(false);
 
                 //wait for the message and edit it
@@ -852,6 +917,16 @@ namespace Mewdeko.Modules.Administration
                     .AddField(GetText("invalid", missing), missStr)
                     .WithOkColor()
                     .Build()).ConfigureAwait(false);
+            }
+
+            public class WarnExpireOptions : IMewdekoCommandOptions
+            {
+                [Option('d', "delete", Default = false, HelpText = "Delete warnings instead of clearing them.")]
+                public bool Delete { get; set; } = false;
+
+                public void NormalizeOptions()
+                {
+                }
             }
         }
     }

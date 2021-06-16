@@ -1,9 +1,9 @@
-﻿using Mewdeko.Common.Collections;
-using Mewdeko.Core.Services.Database.Models;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mewdeko.Common.Collections;
+using Mewdeko.Core.Services.Database.Models;
+using NUnit.Framework;
 
 namespace Mewdeko.Tests
 {
@@ -51,8 +51,10 @@ namespace Mewdeko.Tests
             CheckIndices(collection);
 
             // RemoveAt out of range
-            Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(999), $"No exception thrown when removing from index 999 in a collection of size {collection.Count}.");
-            Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(-3), $"No exception thrown when removing from negative index -3.");
+            Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(999),
+                $"No exception thrown when removing from index 999 in a collection of size {collection.Count}.");
+            Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(-3),
+                "No exception thrown when removing from negative index -3.");
         }
 
         [Test]
@@ -62,7 +64,8 @@ namespace Mewdeko.Tests
             collection.Clear();
 
             Assert.IsTrue(collection.Count == 0, "Collection has not been cleared.");
-            Assert.Throws<ArgumentOutOfRangeException>(() => collection.Contains(collection[0]), "Collection has not been cleared.");
+            Assert.Throws<ArgumentOutOfRangeException>(() => collection.Contains(collection[0]),
+                "Collection has not been cleared.");
         }
 
         [Test]
@@ -98,8 +101,8 @@ namespace Mewdeko.Tests
             var collection = GetCollectionSample<ShopEntry>();
 
             // Insert items at indices 5 and 7
-            collection.Insert(5, new ShopEntry() { Id = 555 });
-            collection.Insert(7, new ShopEntry() { Id = 777 });
+            collection.Insert(5, new ShopEntry {Id = 555});
+            collection.Insert(7, new ShopEntry {Id = 777});
 
             Assert.AreEqual(12, collection.Count);
             Assert.AreEqual(555, collection[5].Id);
@@ -108,23 +111,25 @@ namespace Mewdeko.Tests
             CheckIndices(collection);
 
             // Insert out of range
-            Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(999, new ShopEntry() { Id = 999 }), $"No exception thrown when inserting at index 999 in a collection of size {collection.Count}.");
-            Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(-3, new ShopEntry() { Id = -3 }), $"No exception thrown when inserting at negative index -3.");
+            Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(999, new ShopEntry {Id = 999}),
+                $"No exception thrown when inserting at index 999 in a collection of size {collection.Count}.");
+            Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(-3, new ShopEntry {Id = -3}),
+                "No exception thrown when inserting at negative index -3.");
         }
 
         [Test]
         public void ContainsTest()
         {
-            var subCol = new ShopEntry[]
+            var subCol = new[]
             {
-                new ShopEntry() { Id = 111 },
-                new ShopEntry() { Id = 222 },
-                new ShopEntry() { Id = 333 }
+                new() {Id = 111},
+                new ShopEntry {Id = 222},
+                new ShopEntry {Id = 333}
             };
 
             var collection = GetCollectionSample(
                 Enumerable.Range(0, 10)
-                    .Select(x => new ShopEntry() { Id = x })
+                    .Select(x => new ShopEntry {Id = x})
                     .Concat(subCol)
             );
 
@@ -154,8 +159,8 @@ namespace Mewdeko.Tests
         {
             var collection = GetCollectionSample<ShopEntry>();
 
-            collection[4] = new ShopEntry() { Id = 444 };
-            collection[7] = new ShopEntry() { Id = 777 };
+            collection[4] = new ShopEntry {Id = 444};
+            collection[7] = new ShopEntry {Id = 777};
             CheckIndices(collection);
 
             Assert.AreEqual(444, collection[4].Id);
@@ -163,7 +168,7 @@ namespace Mewdeko.Tests
         }
 
         /// <summary>
-        /// Checks whether all indices of the items are properly ordered.
+        ///     Checks whether all indices of the items are properly ordered.
         /// </summary>
         /// <typeparam name="T">An indexed, reference type.</typeparam>
         /// <param name="collection">The indexed collection to be checked.</param>
@@ -174,12 +179,16 @@ namespace Mewdeko.Tests
         }
 
         /// <summary>
-        /// Gets an <see cref="IndexedCollection{T}"/> from the specified <paramref name="sample"/> or a collection with 10 shop entries if none is provided.
+        ///     Gets an <see cref="IndexedCollection{T}" /> from the specified <paramref name="sample" /> or a collection with 10
+        ///     shop entries if none is provided.
         /// </summary>
         /// <typeparam name="T">An indexed, database entity type.</typeparam>
         /// <param name="sample">A sample collection to be added as an indexed collection.</param>
-        /// <returns>An indexed collection of <typeparamref name="T"/>.</returns>
-        private IndexedCollection<T> GetCollectionSample<T>(IEnumerable<T> sample = default) where T : DbEntity, IIndexed, new()
-            => new IndexedCollection<T>(sample ?? Enumerable.Range(0, 10).Select(x => new T() { Id = x }));
+        /// <returns>An indexed collection of <typeparamref name="T" />.</returns>
+        private IndexedCollection<T> GetCollectionSample<T>(IEnumerable<T> sample = default)
+            where T : DbEntity, IIndexed, new()
+        {
+            return new(sample ?? Enumerable.Range(0, 10).Select(x => new T {Id = x}));
+        }
     }
 }

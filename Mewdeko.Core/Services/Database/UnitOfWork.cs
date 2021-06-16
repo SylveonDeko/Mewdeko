@@ -8,9 +8,9 @@ namespace Mewdeko.Core.Services.Database
     public sealed class UnitOfWork : IUnitOfWork
     {
         private IAFKRepository _AFK;
-        
+
         private IClubRepository _clubs;
-        
+
         private ICustomReactionRepository _customReactions;
 
         private IDiscordUserRepository _discordUsers;
@@ -47,7 +47,7 @@ namespace Mewdeko.Core.Services.Database
 
         public MewdekoContext _context { get; }
         public IQuoteRepository Quotes => _quotes ?? (_quotes = new QuoteRepository(_context));
-        
+
 
         public IGuildConfigRepository GuildConfigs =>
             _guildConfigs ?? (_guildConfigs = new GuildConfigRepository(_context));

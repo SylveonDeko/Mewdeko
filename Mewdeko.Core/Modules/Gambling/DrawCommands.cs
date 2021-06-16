@@ -1,17 +1,17 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
-using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using Mewdeko.Core.Services;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -20,7 +20,7 @@ namespace Mewdeko.Modules.Gambling
         [Group]
         public class DrawCommands : MewdekoSubmodule
         {
-            private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new ConcurrentDictionary<IGuild, Deck>();
+            private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new();
             private readonly IImageCache _images;
 
             public DrawCommands(IDataCache data)
@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Gambling
                 if (num < 1 || num > 10)
                     throw new ArgumentOutOfRangeException(nameof(num));
 
-                Deck cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, (s) => new Deck());
+                var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, s => new Deck());
                 var images = new List<Image<Rgba32>>();
                 var cardObjects = new List<Deck.Card>();
                 for (var i = 0; i < num; i++)
@@ -48,18 +48,19 @@ namespace Mewdeko.Modules.Gambling
                         {
                             // ignored
                         }
+
                         break;
                     }
+
                     var currentCard = cards.Draw();
                     cardObjects.Add(currentCard);
-                    images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant().Replace(' ', '_'))));
+                    images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant()
+                        .Replace(' ', '_'))));
                 }
+
                 using (var img = images.Merge())
                 {
-                    foreach (var i in images)
-                    {
-                        i.Dispose();
-                    }
+                    foreach (var i in images) i.Dispose();
 
                     var toSend = $"{Format.Bold(ctx.User.ToString())}";
                     if (cardObjects.Count == 5)
@@ -72,7 +73,10 @@ namespace Mewdeko.Modules.Gambling
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Draw(int num = 1)
             {
@@ -88,7 +92,10 @@ namespace Mewdeko.Modules.Gambling
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task DrawNew(int num = 1)
             {
                 if (num < 1)
@@ -103,19 +110,22 @@ namespace Mewdeko.Modules.Gambling
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task DeckShuffle()
             {
                 //var channel = (ITextChannel)ctx.Channel;
 
                 _allDecks.AddOrUpdate(ctx.Guild,
-                        (g) => new Deck(),
-                        (g, c) =>
-                        {
-                            c.Restart();
-                            return c;
-                        });
+                    g => new Deck(),
+                    (g, c) =>
+                    {
+                        c.Restart();
+                        return c;
+                    });
 
                 await ReplyConfirmLocalizedAsync("deck_reshuffled").ConfigureAwait(false);
             }

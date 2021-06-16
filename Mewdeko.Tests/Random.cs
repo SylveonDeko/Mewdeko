@@ -12,7 +12,7 @@ namespace Mewdeko.Tests
         {
             Console.OutputEncoding = Encoding.UTF8;
         }
-        
+
         [Test]
         public void Utf8CodepointsToEmoji()
         {

@@ -1,8 +1,8 @@
-﻿using Discord;
+﻿using System.Threading.Tasks;
+using Discord;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Modules.Searches.Services;
 using Mewdeko.Extensions;
-using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -10,7 +10,10 @@ namespace Mewdeko.Modules.Searches
     {
         public class CryptoCommands : MewdekoSubmodule<CryptoService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Crypto(string name)
             {
                 name = name?.ToUpperInvariant();
@@ -23,13 +26,10 @@ namespace Mewdeko.Modules.Searches
                 if (nearest != null)
                 {
                     var embed = new EmbedBuilder()
-                            .WithTitle(GetText("crypto_not_found"))
-                            .WithDescription(GetText("did_you_mean", Format.Bold($"{nearest.Name} ({nearest.Symbol})")));
+                        .WithTitle(GetText("crypto_not_found"))
+                        .WithDescription(GetText("did_you_mean", Format.Bold($"{nearest.Name} ({nearest.Symbol})")));
 
-                    if (await PromptUserConfirmAsync(embed).ConfigureAwait(false))
-                    {
-                        crypto = nearest;
-                    }
+                    if (await PromptUserConfirmAsync(embed).ConfigureAwait(false)) crypto = nearest;
                 }
 
                 if (crypto == null)
@@ -39,23 +39,24 @@ namespace Mewdeko.Modules.Searches
                 }
 
                 var sevenDay = decimal.TryParse(crypto.Quote.Usd.Percent_Change_7d, out var sd)
-                        ? sd.ToString("F2")
-                        : crypto.Quote.Usd.Percent_Change_7d;
+                    ? sd.ToString("F2")
+                    : crypto.Quote.Usd.Percent_Change_7d;
 
                 var lastDay = decimal.TryParse(crypto.Quote.Usd.Percent_Change_24h, out var ld)
-                        ? ld.ToString("F2")
-                        : crypto.Quote.Usd.Percent_Change_24h;
+                    ? ld.ToString("F2")
+                    : crypto.Quote.Usd.Percent_Change_24h;
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle($"{crypto.Name} ({crypto.Symbol})")
-                    .WithUrl($"https://coinmarketcap.com/currencies/{crypto.Slug}/")
-                    .WithThumbnailUrl($"https://s3.coinmarketcap.com/static/img/coins/128x128/{crypto.Id}.png")
-                    .AddField(GetText("market_cap"), $"${crypto.Quote.Usd.Market_Cap:n0}", true)
-                    .AddField(GetText("price"), $"${crypto.Quote.Usd.Price}", true)
-                    .AddField(GetText("volume_24h"), $"${crypto.Quote.Usd.Volume_24h:n0}", true)
-                    .AddField(GetText("change_7d_24h"), $"{sevenDay}% / {lastDay}%", true)
-                    .WithImageUrl($"https://s3.coinmarketcap.com/generated/sparklines/web/7d/usd/{crypto.Id}.png")).ConfigureAwait(false);
+                        .WithOkColor()
+                        .WithTitle($"{crypto.Name} ({crypto.Symbol})")
+                        .WithUrl($"https://coinmarketcap.com/currencies/{crypto.Slug}/")
+                        .WithThumbnailUrl($"https://s3.coinmarketcap.com/static/img/coins/128x128/{crypto.Id}.png")
+                        .AddField(GetText("market_cap"), $"${crypto.Quote.Usd.Market_Cap:n0}", true)
+                        .AddField(GetText("price"), $"${crypto.Quote.Usd.Price}", true)
+                        .AddField(GetText("volume_24h"), $"${crypto.Quote.Usd.Volume_24h:n0}", true)
+                        .AddField(GetText("change_7d_24h"), $"{sevenDay}% / {lastDay}%", true)
+                        .WithImageUrl($"https://s3.coinmarketcap.com/generated/sparklines/web/7d/usd/{crypto.Id}.png"))
+                    .ConfigureAwait(false);
             }
         }
     }

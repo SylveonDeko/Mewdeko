@@ -10,6 +10,12 @@ namespace Mewdeko.Core.Modules.Music
     {
         private sealed class QueuedTrackInfo : IQueuedTrackInfo
         {
+            public QueuedTrackInfo(ITrackInfo trackInfo, string queuer)
+            {
+                TrackInfo = trackInfo;
+                Queuer = queuer;
+            }
+
             public ITrackInfo TrackInfo { get; }
             public string Queuer { get; }
 
@@ -19,20 +25,25 @@ namespace Mewdeko.Core.Modules.Music
             public TimeSpan Duration => TrackInfo.Duration;
             public MusicPlatform Platform => TrackInfo.Platform;
 
-
-            public QueuedTrackInfo(ITrackInfo trackInfo, string queuer)
+            public ValueTask<string?> GetStreamUrl()
             {
-                TrackInfo = trackInfo;
-                Queuer = queuer;
+                return TrackInfo.GetStreamUrl();
             }
-
-            public ValueTask<string?> GetStreamUrl() => TrackInfo.GetStreamUrl();
         }
     }
 
     public sealed partial class MusicQueue : IMusicQueue
     {
+        private readonly object locker = new();
+
+        private int _index;
         private LinkedList<QueuedTrackInfo> _tracks;
+
+        public MusicQueue()
+        {
+            _index = 0;
+            _tracks = new LinkedList<QueuedTrackInfo>();
+        }
 
         public int Index
         {
@@ -47,8 +58,6 @@ namespace Mewdeko.Core.Modules.Music
             }
         }
 
-        private int _index;
-
         public int Count
         {
             get
@@ -58,14 +67,6 @@ namespace Mewdeko.Core.Modules.Music
                     return _tracks.Count;
                 }
             }
-        }
-
-        private readonly object locker = new object();
-
-        public MusicQueue()
-        {
-            _index = 0;
-            _tracks = new LinkedList<QueuedTrackInfo>();
         }
 
         public IQueuedTrackInfo Enqueue(ITrackInfo trackInfo, string queuer, out int index)
@@ -83,17 +84,12 @@ namespace Mewdeko.Core.Modules.Music
         {
             lock (locker)
             {
-                if (_tracks.Count == 0)
-                {
-                    return Enqueue(trackInfo, queuer, out index);
-                }
+                if (_tracks.Count == 0) return Enqueue(trackInfo, queuer, out index);
 
                 LinkedListNode<QueuedTrackInfo> currentNode = _tracks.First;
                 int i;
                 for (i = 1; i <= _index; i++)
-                {
                     currentNode = currentNode.Next!; // can't be null because index is always in range of the count
-                }
 
                 var added = new QueuedTrackInfo(trackInfo, queuer);
                 index = i;
@@ -160,34 +156,6 @@ namespace Mewdeko.Core.Modules.Music
                 _index = index;
                 return true;
             }
-        }
-
-        private void RemoveAtInternal(int index, out IQueuedTrackInfo trackInfo)
-        {
-            var removedNode = _tracks.First;
-            int i;
-            for (i = 0; i < index; i++)
-            {
-                removedNode = removedNode.Next!;
-            }
-
-            trackInfo = removedNode.Value;
-            _tracks.Remove(removedNode);
-
-            if (i <= _index)
-                --_index;
-
-            if (_index < 0)
-                _index = Count;
-
-            // if it was the last song in the queue
-            // // wrap back to start
-            // if (_index == Count)
-            //     _index = 0;
-            // else if (i <= _index)
-            //     if (_index == 0)
-            //         _index = Count;
-            //     else --_index;
         }
 
         public void RemoveCurrent()
@@ -309,15 +277,37 @@ namespace Mewdeko.Core.Modules.Music
                 if (index < 0 || index >= _tracks.Count)
                     return false;
 
-                if (index == _index)
-                {
-                    isCurrent = true;
-                }
+                if (index == _index) isCurrent = true;
 
                 RemoveAtInternal(index, out trackInfo);
 
                 return true;
             }
+        }
+
+        private void RemoveAtInternal(int index, out IQueuedTrackInfo trackInfo)
+        {
+            var removedNode = _tracks.First;
+            int i;
+            for (i = 0; i < index; i++) removedNode = removedNode.Next!;
+
+            trackInfo = removedNode.Value;
+            _tracks.Remove(removedNode);
+
+            if (i <= _index)
+                --_index;
+
+            if (_index < 0)
+                _index = Count;
+
+            // if it was the last song in the queue
+            // // wrap back to start
+            // if (_index == Count)
+            //     _index = 0;
+            // else if (i <= _index)
+            //     if (_index == 0)
+            //         _index = Count;
+            //     else --_index;
         }
     }
 }

@@ -11,16 +11,16 @@ namespace Mewdeko.Modules.Music.Services
 {
     public sealed class AyuVoiceStateService : INService
     {
+        private readonly DiscordSocketClient _client;
+        private readonly ulong _currentUserId;
+        private readonly object _dnetApiClient;
+        private readonly MethodInfo _sendVoiceStateUpdateMethodInfo;
+
+        private readonly ConcurrentDictionary<ulong, SemaphoreSlim> _voiceGatewayLocks = new();
         // public delegate Task VoiceProxyUpdatedDelegate(ulong guildId, IVoiceProxy proxy);
         // public event VoiceProxyUpdatedDelegate OnVoiceProxyUpdate = delegate { return Task.CompletedTask; };
-        
-        private readonly ConcurrentDictionary<ulong, IVoiceProxy> _voiceProxies = new ConcurrentDictionary<ulong, IVoiceProxy>();
-        private readonly ConcurrentDictionary<ulong, SemaphoreSlim> _voiceGatewayLocks = new ConcurrentDictionary<ulong, SemaphoreSlim>();
-        
-        private readonly DiscordSocketClient _client;
-        private readonly MethodInfo _sendVoiceStateUpdateMethodInfo;
-        private readonly object _dnetApiClient;
-        private readonly ulong _currentUserId;
+
+        private readonly ConcurrentDictionary<ulong, IVoiceProxy> _voiceProxies = new();
 
         public AyuVoiceStateService(DiscordSocketClient client)
         {
@@ -32,7 +32,7 @@ namespace Mewdeko.Modules.Music.Services
                 .First(x => x.Name == "ApiClient" && x.PropertyType.Name == "DiscordSocketApiClient");
             _dnetApiClient = prop.GetValue(_client, null);
             _sendVoiceStateUpdateMethodInfo = _dnetApiClient.GetType().GetMethod("SendVoiceStateUpdateAsync");
-            
+
             _client.LeftGuild += ClientOnLeftGuild;
         }
 
@@ -47,31 +47,39 @@ namespace Mewdeko.Modules.Music.Services
             return Task.CompletedTask;
         }
 
-        private Task InvokeSendVoiceStateUpdateAsync(ulong guildId, ulong? channelId = null, bool isDeafened = false, bool isMuted = false)
+        private Task InvokeSendVoiceStateUpdateAsync(ulong guildId, ulong? channelId = null, bool isDeafened = false,
+            bool isMuted = false)
         {
             // return _voiceStateUpdate(guildId, channelId, isDeafened, isMuted);
-            return (Task) _sendVoiceStateUpdateMethodInfo.Invoke(_dnetApiClient, new object[] {guildId, channelId, isMuted, isDeafened, null});
+            return (Task) _sendVoiceStateUpdateMethodInfo.Invoke(_dnetApiClient,
+                new object[] {guildId, channelId, isMuted, isDeafened, null});
         }
 
         private Task SendLeaveVoiceChannelInternalAsync(ulong guildId)
-            => InvokeSendVoiceStateUpdateAsync(guildId);
+        {
+            return InvokeSendVoiceStateUpdateAsync(guildId);
+        }
 
         private Task SendJoinVoiceChannelInternalAsync(ulong guildId, ulong channelId)
-            => InvokeSendVoiceStateUpdateAsync(guildId, channelId);
-        
-        private SemaphoreSlim GetVoiceGatewayLock(ulong guildId) => _voiceGatewayLocks.GetOrAdd(guildId, new SemaphoreSlim(1, 1));
-        
+        {
+            return InvokeSendVoiceStateUpdateAsync(guildId, channelId);
+        }
+
+        private SemaphoreSlim GetVoiceGatewayLock(ulong guildId)
+        {
+            return _voiceGatewayLocks.GetOrAdd(guildId, new SemaphoreSlim(1, 1));
+        }
+
         private async Task LeaveVoiceChannelInternalAsync(ulong guildId)
         {
             var complete = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
             Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState oldState, SocketVoiceState newState)
             {
                 if (user is SocketGuildUser guildUser
                     && guildUser.Guild.Id == guildId
                     && newState.VoiceChannel?.Id is null)
-                {
                     complete.TrySetResult(true);
-                }
 
                 return Task.CompletedTask;
             }
@@ -94,6 +102,7 @@ namespace Mewdeko.Modules.Music.Services
                 _client.UserVoiceStateUpdated -= OnUserVoiceStateUpdated;
             }
         }
+
         public async Task LeaveVoiceChannel(ulong guildId)
         {
             var gwLock = GetVoiceGatewayLock(guildId);
@@ -110,8 +119,10 @@ namespace Mewdeko.Modules.Music.Services
 
         private async Task<IVoiceProxy> InternalConnectToVcAsync(ulong guildId, ulong channelId)
         {
-            var voiceStateUpdatedSource = new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
-            var voiceServerUpdatedSource = new TaskCompletionSource<SocketVoiceServer>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var voiceStateUpdatedSource =
+                new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var voiceServerUpdatedSource =
+                new TaskCompletionSource<SocketVoiceServer>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             Task OnUserVoiceStateUpdated(SocketUser user, SocketVoiceState oldState, SocketVoiceState newState)
             {
@@ -128,14 +139,11 @@ namespace Mewdeko.Modules.Music.Services
 
             Task OnVoiceServerUpdated(SocketVoiceServer data)
             {
-                if (data.Guild.Id == guildId)
-                {
-                    voiceServerUpdatedSource.TrySetResult(data);
-                }
+                if (data.Guild.Id == guildId) voiceServerUpdatedSource.TrySetResult(data);
 
                 return Task.CompletedTask;
             }
-            
+
             try
             {
                 _client.VoiceServerUpdated += OnVoiceServerUpdated;
@@ -154,10 +162,8 @@ namespace Mewdeko.Modules.Music.Services
                 // wait for both to end (max 1s) and check if either of them is a delay task
                 var results = await Task.WhenAll(maybeUpdateTask, maybeServerTask);
                 if (results[0] == delayTask || results[1] == delayTask)
-                {
                     // if either is delay, return null - connection unsuccessful
                     return null;
-                }
 
                 // if both are succesful, that means we can safely get
                 // the values from  completion sources
@@ -169,19 +175,21 @@ namespace Mewdeko.Modules.Music.Services
                     return null;
 
                 var voiceServerData = await voiceServerUpdatedSource.Task;
-                
-                VoiceGateway CreateVoiceGatewayLocal() =>
-                    new VoiceGateway(
+
+                VoiceGateway CreateVoiceGatewayLocal()
+                {
+                    return new(
                         guildId,
                         _currentUserId,
                         session,
                         voiceServerData.Token,
                         voiceServerData.Endpoint
                     );
+                }
 
                 var current = _voiceProxies.AddOrUpdate(
                     guildId,
-                    (gid) => new VoiceProxy(CreateVoiceGatewayLocal()),
+                    gid => new VoiceProxy(CreateVoiceGatewayLocal()),
                     (gid, currentProxy) =>
                     {
                         _ = currentProxy.StopGateway();
@@ -216,6 +224,8 @@ namespace Mewdeko.Modules.Music.Services
         }
 
         public bool TryGetProxy(ulong guildId, out IVoiceProxy proxy)
-            => _voiceProxies.TryGetValue(guildId, out proxy);
+        {
+            return _voiceProxies.TryGetValue(guildId, out proxy);
+        }
     }
 }

@@ -13,7 +13,7 @@
         public override bool Equals(object obj)
         {
             return obj is DelMsgOnCmdChannel x
-                && x.ChannelId == ChannelId;
+                   && x.ChannelId == ChannelId;
         }
     }
 }

@@ -7,18 +7,13 @@ namespace Mewdeko.Common.Collections
 {
     public class IndexedCollection<T> : IList<T> where T : class, IIndexed
     {
-        public List<T> Source { get; }
-        private readonly object _locker = new object();
-
-        public int Count => Source.Count;
-        public bool IsReadOnly => false;
-        public int IndexOf(T item) => item.Index;
+        private readonly object _locker = new();
 
         public IndexedCollection()
         {
             Source = new List<T>();
         }
-        
+
         public IndexedCollection(IEnumerable<T> source)
         {
             lock (_locker)
@@ -28,28 +23,25 @@ namespace Mewdeko.Common.Collections
             }
         }
 
-        public void UpdateIndexes()
+        public List<T> Source { get; }
+
+        public int Count => Source.Count;
+        public bool IsReadOnly => false;
+
+        public int IndexOf(T item)
         {
-            lock (_locker)
-            {
-                for (var i = 0; i < Source.Count; i++)
-                {
-                    if (Source[i].Index != i)
-                        Source[i].Index = i;
-                }
-            }
+            return item.Index;
         }
 
-        public static implicit operator List<T>(IndexedCollection<T> x) =>
-            x.Source;
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Source.GetEnumerator();
+        }
 
-        public List<T> ToList() => Source.ToList();
-
-        public IEnumerator<T> GetEnumerator() =>
-            Source.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() =>
-            Source.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Source.GetEnumerator();
+        }
 
         public void Add(T item)
         {
@@ -90,14 +82,11 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 if (removed = Source.Remove(item))
-                {
-                    for (int i = 0; i < Source.Count; i++)
-                    {
+                    for (var i = 0; i < Source.Count; i++)
                         if (Source[i].Index != i)
                             Source[i].Index = i;
-                    }
-                }
             }
+
             return removed;
         }
 
@@ -106,10 +95,7 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 Source.Insert(index, item);
-                for (int i = index; i < Source.Count; i++)
-                {
-                    Source[i].Index = i;
-                }
+                for (var i = index; i < Source.Count; i++) Source[i].Index = i;
             }
         }
 
@@ -118,16 +104,13 @@ namespace Mewdeko.Common.Collections
             lock (_locker)
             {
                 Source.RemoveAt(index);
-                for (int i = index; i < Source.Count; i++)
-                {
-                    Source[i].Index = i;
-                }
+                for (var i = index; i < Source.Count; i++) Source[i].Index = i;
             }
         }
 
         public virtual T this[int index]
         {
-            get { return Source[index]; }
+            get => Source[index];
             set
             {
                 lock (_locker)
@@ -136,6 +119,26 @@ namespace Mewdeko.Common.Collections
                     Source[index] = value;
                 }
             }
+        }
+
+        public void UpdateIndexes()
+        {
+            lock (_locker)
+            {
+                for (var i = 0; i < Source.Count; i++)
+                    if (Source[i].Index != i)
+                        Source[i].Index = i;
+            }
+        }
+
+        public static implicit operator List<T>(IndexedCollection<T> x)
+        {
+            return x.Source;
+        }
+
+        public List<T> ToList()
+        {
+            return Source.ToList();
         }
     }
 }

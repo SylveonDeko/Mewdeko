@@ -23,17 +23,25 @@ namespace Mewdeko.Core.Modules.Music
         }
 
         public static string PrettyVolume(this IMusicPlayer mp)
-            => $"🔉 {(int) (mp.Volume * 100)}%";
-        
+        {
+            return $"🔉 {(int) (mp.Volume * 100)}%";
+        }
+
         public static string PrettyName(this ITrackInfo trackInfo)
-            => $"**[{trackInfo.Title.TrimTo(60).Replace("[", "\\[").Replace("]", "\\]")}]({trackInfo.Url})**";
+        {
+            return $"**[{trackInfo.Title.TrimTo(60).Replace("[", "\\[").Replace("]", "\\]")}]({trackInfo.Url})**";
+        }
 
         public static string PrettyInfo(this IQueuedTrackInfo trackInfo)
-            => $"{trackInfo.PrettyTotalTime()} | {trackInfo.Platform} | {trackInfo.Queuer}";
+        {
+            return $"{trackInfo.PrettyTotalTime()} | {trackInfo.Platform} | {trackInfo.Queuer}";
+        }
 
         public static string PrettyFullName(this IQueuedTrackInfo trackInfo)
-            => $@"{trackInfo.PrettyName()}
+        {
+            return $@"{trackInfo.PrettyName()}
 		`{trackInfo.PrettyTotalTime()} | {trackInfo.Platform} | {Format.Sanitize(trackInfo.Queuer.TrimTo(15))}`";
+        }
 
         public static string PrettyTotalTime(this ITrackInfo trackInfo)
         {
@@ -48,7 +56,8 @@ namespace Mewdeko.Core.Modules.Music
         }
 
         public static ICachableTrackData ToCachedData(this ITrackInfo trackInfo, string id)
-            => new CachableTrackData()
+        {
+            return new CachableTrackData
             {
                 TotalDurationMs = trackInfo.Duration.TotalMilliseconds,
                 Id = id,
@@ -57,5 +66,6 @@ namespace Mewdeko.Core.Modules.Music
                 Platform = trackInfo.Platform,
                 Title = trackInfo.Title
             };
+        }
     }
 }

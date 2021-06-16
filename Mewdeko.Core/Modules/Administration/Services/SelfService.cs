@@ -1,46 +1,46 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
-using StackExchange.Redis;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Newtonsoft.Json;
 using Mewdeko.Common.ShardCom;
-using Microsoft.EntityFrameworkCore;
+using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
-using System.Threading;
-using System.Collections.Concurrent;
-using System;
-using System.Net.Http;
+using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Serilog;
+using StackExchange.Redis;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public sealed class SelfService : ILateExecutor, IReadyExecutor, INService
     {
-        private readonly ConnectionMultiplexer _redis;
-        private readonly CommandHandler _cmdHandler;
-        private readonly DbService _db;
-        private readonly IBotStrings _strings;
+        private readonly BotConfigService _bss;
+
+        private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
+        private readonly CommandHandler _cmdHandler;
 
         private readonly IBotCredentials _creds;
+        private readonly DbService _db;
+        private readonly IHttpClientFactory _httpFactory;
+        private readonly IImageCache _imgs;
+        private readonly ConnectionMultiplexer _redis;
+        private readonly IBotStrings _strings;
+
+        private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands =
+            new();
 
         private ImmutableDictionary<ulong, IDMChannel> ownerChannels =
             new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
-
-        private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands =
-            new ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>>();
-
-        private readonly IDataCache _cache;
-        private readonly IImageCache _imgs;
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly BotConfigService _bss;
 
         public SelfService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
             IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
@@ -59,10 +59,8 @@ namespace Mewdeko.Modules.Administration.Services
 
             var sub = _redis.GetSubscriber();
             if (_client.ShardId == 0)
-            {
                 sub.Subscribe(_creds.RedisKey() + "_reload_images",
                     delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
-            }
 
             sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (ch, v) =>
             {
@@ -74,10 +72,7 @@ namespace Mewdeko.Modules.Administration.Services
                     var server = _client.Guilds.FirstOrDefault(g => g.Id.ToString() == guildStr) ??
                                  _client.Guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == guildStr);
 
-                    if (server == null)
-                    {
-                        return;
-                    }
+                    if (server == null) return;
 
                     if (server.OwnerId != _client.CurrentUser.Id)
                     {
@@ -94,6 +89,53 @@ namespace Mewdeko.Modules.Administration.Services
                 {
                 }
             }, CommandFlags.FireAndForget);
+        }
+
+        // forwards dms
+        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        {
+            var bs = _bss.Data;
+            if (msg.Channel is IDMChannel && _bss.Data.ForwardMessages && ownerChannels.Any())
+            {
+                var title = _strings.GetText("dm_from") +
+                            $" [{msg.Author}]({msg.Author.Id})";
+
+                var attachamentsTxt = _strings.GetText("attachments");
+
+                var toSend = msg.Content;
+
+                if (msg.Attachments.Count > 0)
+                    toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
+                              string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
+
+                if (bs.ForwardToAllOwners)
+                {
+                    var allOwnerChannels = ownerChannels.Values;
+
+                    foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
+                        try
+                        {
+                            await ownerCh.SendConfirmAsync(title, toSend).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            Log.Warning("Can't contact owner with id {0}", ownerCh.Recipient.Id);
+                        }
+                }
+                else
+                {
+                    var firstOwnerChannel = ownerChannels.Values.First();
+                    if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
+                        try
+                        {
+                            await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                }
+            }
         }
 
         public async Task OnReadyAsync()
@@ -113,7 +155,6 @@ namespace Mewdeko.Modules.Administration.Services
 
             var startupCommands = uow._context.AutoCommands.AsNoTracking().Where(x => x.Interval == 0);
             foreach (var cmd in startupCommands)
-            {
                 try
                 {
                     await ExecuteCommand(cmd).ConfigureAwait(false);
@@ -121,17 +162,13 @@ namespace Mewdeko.Modules.Administration.Services
                 catch
                 {
                 }
-            }
 
-            if (_client.ShardId == 0)
-            {
-                await LoadOwnerChannels().ConfigureAwait(false);
-            }
+            if (_client.ShardId == 0) await LoadOwnerChannels().ConfigureAwait(false);
         }
 
         private Timer TimerFromAutoCommand(AutoCommand x)
         {
-            return new Timer(async (obj) => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
+            return new(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
                 x,
                 x.Interval * 1000,
                 x.Interval * 1000);
@@ -188,7 +225,7 @@ namespace Mewdeko.Modules.Administration.Services
                 .OrderBy(x => x.Id)
                 .ToList();
         }
-        
+
         public IEnumerable<AutoCommand> GetAutoCommands()
         {
             using var uow = _db.GetDbContext();
@@ -219,7 +256,8 @@ namespace Mewdeko.Modules.Administration.Services
                 Log.Warning(
                     "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
             else
-                Log.Information($"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
+                Log.Information(
+                    $"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
         }
 
         public Task LeaveGuild(string guildStr)
@@ -228,66 +266,10 @@ namespace Mewdeko.Modules.Administration.Services
             return sub.PublishAsync(_creds.RedisKey() + "_leave_guild", guildStr);
         }
 
-        // forwards dms
-        public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
-        {
-            var bs = _bss.Data;
-            if (msg.Channel is IDMChannel && _bss.Data.ForwardMessages && ownerChannels.Any())
-            {
-                var title = _strings.GetText("dm_from") +
-                            $" [{msg.Author}]({msg.Author.Id})";
-
-                var attachamentsTxt = _strings.GetText("attachments");
-
-                var toSend = msg.Content;
-
-                if (msg.Attachments.Count > 0)
-                {
-                    toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
-                              string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
-                }
-
-                if (bs.ForwardToAllOwners)
-                {
-                    var allOwnerChannels = ownerChannels.Values;
-
-                    foreach (var ownerCh in allOwnerChannels.Where(ch => ch.Recipient.Id != msg.Author.Id))
-                    {
-                        try
-                        {
-                            await ownerCh.SendConfirmAsync(title, toSend).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            Log.Warning("Can't contact owner with id {0}", ownerCh.Recipient.Id);
-                        }
-                    }
-                }
-                else
-                {
-                    var firstOwnerChannel = ownerChannels.Values.First();
-                    if (firstOwnerChannel.Recipient.Id != msg.Author.Id)
-                    {
-                        try
-                        {
-                            await firstOwnerChannel.SendConfirmAsync(title, toSend).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
-                }
-            }
-        }
-
         public bool RestartBot()
         {
             var cmd = _creds.RestartCommand;
-            if (string.IsNullOrWhiteSpace(cmd?.Cmd))
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(cmd?.Cmd)) return false;
 
             Restart();
             return true;
@@ -313,7 +295,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             return false;
         }
-        
+
         public bool RemoveAutoCommand(int index, out AutoCommand cmd)
         {
             using (var uow = _db.GetDbContext())

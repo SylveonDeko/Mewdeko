@@ -20,15 +20,16 @@ namespace Mewdeko.Core.Modules.Music
         [Group]
         public sealed class PlaylistCommands : MewdekoModule<IMusicService>
         {
-            private readonly DbService _db;
+            private static readonly SemaphoreSlim _playlistLock = new(1, 1);
             private readonly IBotCredentials _creds;
+            private readonly DbService _db;
 
             public PlaylistCommands(DbService db, IBotCredentials creds)
             {
                 _db = db;
                 _creds = creds;
             }
-            
+
             private async Task EnsureBotInVoiceChannelAsync(ulong voiceChannelId, IGuildUser botUser = null)
             {
                 botUser ??= await ctx.Guild.GetCurrentUserAsync();
@@ -44,7 +45,10 @@ namespace Mewdeko.Core.Modules.Music
                 }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Playlists([Leftover] int num = 1)
             {
@@ -66,7 +70,10 @@ namespace Mewdeko.Core.Modules.Music
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task DeletePlaylist([Leftover] int id)
             {
@@ -78,14 +85,12 @@ namespace Mewdeko.Core.Modules.Music
                         var pl = uow.MusicPlaylists.GetById(id);
 
                         if (pl != null)
-                        {
                             if (_creds.IsOwner(ctx.User) || pl.AuthorId == ctx.User.Id)
                             {
                                 uow.MusicPlaylists.Remove(pl);
                                 await uow.SaveChangesAsync();
                                 success = true;
                             }
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -99,7 +104,10 @@ namespace Mewdeko.Core.Modules.Music
                     await ReplyConfirmLocalizedAsync("playlist_deleted").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task PlaylistShow(int id, int page = 1)
             {
@@ -112,7 +120,7 @@ namespace Mewdeko.Core.Modules.Music
                     mpl = uow.MusicPlaylists.GetWithSongs(id);
                 }
 
-                await ctx.SendPaginatedConfirmAsync(page, (cur) =>
+                await ctx.SendPaginatedConfirmAsync(page, cur =>
                 {
                     var i = 0;
                     var str = string.Join("\n", mpl.Songs
@@ -126,7 +134,10 @@ namespace Mewdeko.Core.Modules.Music
                 }, mpl.Songs.Count, 20).ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Save([Leftover] string name)
             {
@@ -137,12 +148,12 @@ namespace Mewdeko.Core.Modules.Music
                 }
 
                 var songs = mp.GetQueuedTracks()
-                    .Select(s => new PlaylistSong()
+                    .Select(s => new PlaylistSong
                     {
                         Provider = s.Platform.ToString(),
-                        ProviderType = (MusicType)s.Platform,
+                        ProviderType = (MusicType) s.Platform,
                         Title = s.Title,
-                        Query = s.Url,
+                        Query = s.Url
                     }).ToList();
 
                 MusicPlaylist playlist;
@@ -153,7 +164,7 @@ namespace Mewdeko.Core.Modules.Music
                         Name = name,
                         Author = ctx.User.Username,
                         AuthorId = ctx.User.Id,
-                        Songs = songs.ToList(),
+                        Songs = songs.ToList()
                     };
                     uow.MusicPlaylists.Add(playlist);
                     await uow.SaveChangesAsync();
@@ -166,20 +177,20 @@ namespace Mewdeko.Core.Modules.Music
                     .ConfigureAwait(false);
             }
 
-
-            private static readonly SemaphoreSlim _playlistLock = new SemaphoreSlim(1, 1);
-            
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             public async Task Load([Leftover] int id)
             {
                 // expensive action, 1 at a time
                 await _playlistLock.WaitAsync();
                 try
-                {                    
+                {
                     var user = (IGuildUser) Context.User;
                     var voiceChannelId = user.VoiceChannel?.Id;
-        
+
                     if (voiceChannelId is null)
                     {
                         await ReplyErrorLocalizedAsync("must_be_in_voice");
@@ -187,23 +198,23 @@ namespace Mewdeko.Core.Modules.Music
                     }
 
                     _ = ctx.Channel.TriggerTypingAsync();
-        
+
                     var botUser = await ctx.Guild.GetCurrentUserAsync();
                     await EnsureBotInVoiceChannelAsync(voiceChannelId!.Value, botUser);
-        
+
                     if (botUser.VoiceChannel?.Id != voiceChannelId)
                     {
                         await ReplyErrorLocalizedAsync("not_with_bot_in_voice");
                         return;
                     }
 
-                    var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+                    var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel) Context.Channel);
                     if (mp is null)
                     {
                         await ReplyErrorLocalizedAsync("no_player");
                         return;
                     }
-                    
+
                     MusicPlaylist mpl;
                     using (var uow = _db.GetDbContext())
                     {
@@ -232,10 +243,7 @@ namespace Mewdeko.Core.Modules.Music
                         ctx.User.ToString()
                     );
 
-                    if (msg != null)
-                    {
-                        await msg.ModifyAsync(m => m.Content = GetText("playlist_queue_complete"));
-                    }
+                    if (msg != null) await msg.ModifyAsync(m => m.Content = GetText("playlist_queue_complete"));
                 }
                 finally
                 {

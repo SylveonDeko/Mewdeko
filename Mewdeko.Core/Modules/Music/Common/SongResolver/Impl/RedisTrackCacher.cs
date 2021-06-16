@@ -18,7 +18,7 @@ namespace Mewdeko.Core.Modules.Music
         {
             _multiplexer = multiplexer;
         }
-        
+
         public async Task<string?> GetOrCreateStreamLink(
             string id,
             MusicPlatform platform,
@@ -26,9 +26,9 @@ namespace Mewdeko.Core.Modules.Music
         )
         {
             var trackStreamKey = CreateStreamKey(id, platform);
-            
+
             var value = await GetStreamFromCacheInternalAsync(trackStreamKey);
-            
+
             // if there is no cached value
             if (value == default)
             {
@@ -36,21 +36,117 @@ namespace Mewdeko.Core.Modules.Music
                 var success = await CreateAndCacheStreamUrlAsync(trackStreamKey, streamUrlFactory);
                 if (!success)
                     return null;
-                
+
                 return await GetOrCreateStreamLink(id, platform, streamUrlFactory);
             }
 
             // cache new one for future use
             _ = Task.Run(() => CreateAndCacheStreamUrlAsync(trackStreamKey, streamUrlFactory));
-            
+
             return value;
         }
-        
-        
+
+        public Task CacheStreamUrlAsync(string id, MusicPlatform platform, string url, TimeSpan expiry)
+        {
+            return CacheStreamUrlInternalAsync(CreateStreamKey(id, platform), url, expiry);
+        }
+
+        public Task CacheTrackDataAsync(ICachableTrackData data)
+        {
+            var db = _multiplexer.GetDatabase();
+
+            var trackDataKey = CreateCachedDataKey(data.Id, data.Platform);
+            var dataString = JsonSerializer.Serialize((object) data);
+            // cache for 1 day
+            return db.StringSetAsync(trackDataKey, dataString, TimeSpan.FromDays(1));
+        }
+
+        public async Task<ICachableTrackData?> GetCachedDataByIdAsync(string id, MusicPlatform platform)
+        {
+            var db = _multiplexer.GetDatabase();
+
+            var trackDataKey = CreateCachedDataKey(id, platform);
+            var data = await db.StringGetAsync(trackDataKey);
+            if (data == default)
+                return null;
+
+            return JsonSerializer.Deserialize<CachableTrackData>(data);
+        }
+
+        public async Task<ICachableTrackData?> GetCachedDataByQueryAsync(string query, MusicPlatform platform)
+        {
+            query = Uri.EscapeDataString(query.Trim());
+
+            var db = _multiplexer.GetDatabase();
+            var queryDataKey = CreateCachedQueryDataKey(query, platform);
+
+            var trackId = await db.StringGetAsync(queryDataKey);
+            if (trackId == default)
+                return null;
+
+            return await GetCachedDataByIdAsync(trackId, platform);
+        }
+
+        public async Task CacheTrackDataByQueryAsync(string query, ICachableTrackData data)
+        {
+            query = Uri.EscapeDataString(query.Trim());
+
+            // first cache the data
+            await CacheTrackDataAsync(data);
+
+            // then map the query to cached data's id
+            var db = _multiplexer.GetDatabase();
+
+            var queryDataKey = CreateCachedQueryDataKey(query, data.Platform);
+            await db.StringSetAsync(queryDataKey, data.Id, TimeSpan.FromDays(7));
+        }
+
+        public async Task<IReadOnlyCollection<string>> GetPlaylistTrackIdsAsync(string playlistId,
+            MusicPlatform platform)
+        {
+            var db = _multiplexer.GetDatabase();
+            var key = CreateCachedPlaylistKey(playlistId, platform);
+            var vals = await db.ListRangeAsync(key);
+            if (vals == default || vals.Length == 0)
+                return Array.Empty<string>();
+
+            return vals.Select(x => x.ToString()).ToList();
+        }
+
+        public async Task CachePlaylistTrackIdsAsync(string playlistId, MusicPlatform platform, IEnumerable<string> ids)
+        {
+            var db = _multiplexer.GetDatabase();
+            var key = CreateCachedPlaylistKey(playlistId, platform);
+            await db.ListRightPushAsync(key, ids.Select(x => (RedisValue) x).ToArray());
+            await db.KeyExpireAsync(key, TimeSpan.FromDays(7));
+        }
+
+        public Task CachePlaylistIdByQueryAsync(string query, MusicPlatform platform, string playlistId)
+        {
+            query = Uri.EscapeDataString(query.Trim());
+            var key = CreateCachedPlaylistQueryKey(query, platform);
+            var db = _multiplexer.GetDatabase();
+            return db.StringSetAsync(key, playlistId, TimeSpan.FromDays(7));
+        }
+
+        public async Task<string?> GetPlaylistIdByQueryAsync(string query, MusicPlatform platform)
+        {
+            query = Uri.EscapeDataString(query.Trim());
+            var key = CreateCachedPlaylistQueryKey(query, platform);
+
+            var val = await _multiplexer.GetDatabase().StringGetAsync(key);
+            if (val == default)
+                return null;
+
+            return val;
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string CreateStreamKey(string id, MusicPlatform platform)
-            => $"track:stream:{platform}:{id}";
+        {
+            return $"track:stream:{platform}:{id}";
+        }
 
         private async Task<bool> CreateAndCacheStreamUrlAsync(
             string trackStreamKey,
@@ -72,19 +168,16 @@ namespace Mewdeko.Core.Modules.Music
             }
         }
 
-        public Task CacheStreamUrlAsync(string id, MusicPlatform platform, string url, TimeSpan expiry)
-            => CacheStreamUrlInternalAsync(CreateStreamKey(id, platform), url, expiry);
-
         private async Task CacheStreamUrlInternalAsync(string trackStreamKey, string url, TimeSpan expiry)
         {
             // keys need to be expired after an hour
             // to make sure client doesn't get an expired stream url
             // to achieve this, track keys will be just pointers to real data
             // but that data will expire
-            
+
             var db = _multiplexer.GetDatabase();
             var dataKey = $"entry:{Guid.NewGuid()}:{trackStreamKey}";
-            await db.StringSetAsync(dataKey, url, expiry: expiry);
+            await db.StringSetAsync(dataKey, url, expiry);
             await db.ListRightPushAsync(trackStreamKey, dataKey);
         }
 
@@ -94,7 +187,7 @@ namespace Mewdeko.Core.Modules.Music
             // from the list of cached trackurls until it finds a non-expired key
 
             var db = _multiplexer.GetDatabase();
-            while(true)
+            while (true)
             {
                 string? dataKey = await db.ListLeftPopAsync(trackStreamKey);
                 if (dataKey == default)
@@ -110,104 +203,26 @@ namespace Mewdeko.Core.Modules.Music
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string CreateCachedDataKey(string id, MusicPlatform platform)
-            => $"track:data:{platform}:{id}";
-        
-        public Task CacheTrackDataAsync(ICachableTrackData data)
         {
-            var db = _multiplexer.GetDatabase();
-
-            var trackDataKey = CreateCachedDataKey(data.Id, data.Platform);
-            var dataString = JsonSerializer.Serialize((object)data);
-            // cache for 1 day
-            return db.StringSetAsync(trackDataKey, dataString, expiry: TimeSpan.FromDays(1));
-        }
-
-        public async Task<ICachableTrackData?> GetCachedDataByIdAsync(string id, MusicPlatform platform)
-        {
-            var db = _multiplexer.GetDatabase();
-            
-            var trackDataKey = CreateCachedDataKey(id, platform);
-            var data = await db.StringGetAsync(trackDataKey);
-            if (data == default)
-                return null;
-
-            return JsonSerializer.Deserialize<CachableTrackData>(data);
+            return $"track:data:{platform}:{id}";
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string CreateCachedQueryDataKey(string query, MusicPlatform platform)
-            => $"track:query_to_id:{platform}:{query}";
-        public async Task<ICachableTrackData?> GetCachedDataByQueryAsync(string query, MusicPlatform platform)
         {
-            query = Uri.EscapeDataString(query.Trim());
-            
-            var db = _multiplexer.GetDatabase();
-            var queryDataKey = CreateCachedQueryDataKey(query, platform);
-
-            var trackId = await db.StringGetAsync(queryDataKey);
-            if (trackId == default)
-                return null;
-
-            return await GetCachedDataByIdAsync(trackId, platform);
+            return $"track:query_to_id:{platform}:{query}";
         }
 
-        public async Task CacheTrackDataByQueryAsync(string query, ICachableTrackData data)
-        {
-            query = Uri.EscapeDataString(query.Trim());
-
-            // first cache the data
-            await CacheTrackDataAsync(data);
-            
-            // then map the query to cached data's id
-            var db = _multiplexer.GetDatabase();
-
-            var queryDataKey = CreateCachedQueryDataKey(query, data.Platform);
-            await db.StringSetAsync(queryDataKey, data.Id, TimeSpan.FromDays(7));
-        }
-        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string CreateCachedPlaylistKey(string playlistId, MusicPlatform platform)
-            => $"playlist:{platform}:{playlistId}";
-        public async Task<IReadOnlyCollection<string>> GetPlaylistTrackIdsAsync(string playlistId, MusicPlatform platform)
         {
-            var db = _multiplexer.GetDatabase();
-            var key = CreateCachedPlaylistKey(playlistId, platform);
-            var vals = await db.ListRangeAsync(key);
-            if (vals == default || vals.Length == 0)
-                return Array.Empty<string>();
-
-            return vals.Select(x => x.ToString()).ToList();
-        }
-
-        public async Task CachePlaylistTrackIdsAsync(string playlistId, MusicPlatform platform, IEnumerable<string> ids)
-        {
-            var db = _multiplexer.GetDatabase();
-            var key = CreateCachedPlaylistKey(playlistId, platform);
-            await db.ListRightPushAsync(key, ids.Select(x => (RedisValue) x).ToArray());
-            await db.KeyExpireAsync(key, TimeSpan.FromDays(7));
+            return $"playlist:{platform}:{playlistId}";
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string CreateCachedPlaylistQueryKey(string query, MusicPlatform platform)
-            => $"playlist:query:{platform}:{query}";
-        public Task CachePlaylistIdByQueryAsync(string query, MusicPlatform platform, string playlistId)
         {
-            query = Uri.EscapeDataString(query.Trim());
-            var key = CreateCachedPlaylistQueryKey(query, platform);
-            var db = _multiplexer.GetDatabase();
-            return db.StringSetAsync(key, playlistId, TimeSpan.FromDays(7));
-        }
-
-        public async Task<string?> GetPlaylistIdByQueryAsync(string query, MusicPlatform platform)
-        {
-            query = Uri.EscapeDataString(query.Trim());
-            var key = CreateCachedPlaylistQueryKey(query, platform);
-
-            var val = await _multiplexer.GetDatabase().StringGetAsync(key);
-            if (val == default)
-                return null;
-
-            return val;
+            return $"playlist:query:{platform}:{query}";
         }
     }
 }

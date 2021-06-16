@@ -50,12 +50,12 @@ namespace Mewdeko.Modules.Searches
                 {
                     var er = await reader.ReadToEndAsync();
                     var stuff = JsonConvert.DeserializeObject<Root>(er,
-                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                        new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
                     var ert = stuff.Docs.FirstOrDefault();
                     if (ert.TitleEnglish is null)
                         await ctx.Channel.SendErrorAsync(
                             "No results found. Please try a different image/, or avoid cropping the current one.");
-                    var image = await c2.GetMediaByMalId((int)ert.MalId);
+                    var image = await c2.GetMediaByMalId((int) ert.MalId);
                     var eb = new EmbedBuilder
                     {
                         ImageUrl = image.CoverImageLarge,
@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Searches
                     .AddField(efb => efb.WithName(GetText("status")).WithValue(novelData.Status).WithIsInline(true))
                     .AddField(efb =>
                         efb.WithName(GetText("genres"))
-                            .WithValue(string.Join(" ", novelData.Genres.Any() ? novelData.Genres : new[] { "none" }))
+                            .WithValue(string.Join(" ", novelData.Genres.Any() ? novelData.Genres : new[] {"none"}))
                             .WithIsInline(true))
                     .WithFooter(efb => efb.WithText(GetText("score") + " " + novelData.Score));
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -159,7 +159,7 @@ namespace Mewdeko.Modules.Searches
                 {
                     var imageElem = document.QuerySelector(
                         "body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
-                    var imageUrl = ((IHtmlImageElement)imageElem)?.Source ??
+                    var imageUrl = ((IHtmlImageElement) imageElem)?.Source ??
                                    "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
 
                     var stats = document.QuerySelectorAll(
@@ -175,7 +175,7 @@ namespace Mewdeko.Modules.Searches
                             .Take(3)
                             .Select(x =>
                             {
-                                var elem = (IHtmlAnchorElement)x;
+                                var elem = (IHtmlAnchorElement) x;
                                 return $"[{elem.InnerHtml}]({elem.Href})";
                             }));
 

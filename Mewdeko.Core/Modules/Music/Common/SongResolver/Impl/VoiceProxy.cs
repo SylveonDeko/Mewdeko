@@ -14,9 +14,17 @@ namespace Mewdeko.Modules.Music
             Started,
             Stopped
         }
-        
+
         private const int MAX_ERROR_COUNT = 20;
         private const int DELAY_ON_ERROR_MILISECONDS = 200;
+
+
+        private VoiceGateway _gateway;
+
+        public VoiceProxy(VoiceGateway initial)
+        {
+            _gateway = initial;
+        }
 
         public VoiceProxyState State
             => _gateway switch
@@ -25,24 +33,13 @@ namespace Mewdeko.Modules.Music
                 {Stopped: false} => VoiceProxyState.Created,
                 _ => VoiceProxyState.Stopped
             };
-            
-        
-        private VoiceGateway _gateway;
-
-        public VoiceProxy(VoiceGateway initial)
-        {
-            _gateway = initial;
-        }
 
         public bool SendPcmFrame(VoiceClient vc, Span<byte> data, int length)
         {
             try
             {
                 var gw = _gateway;
-                if (gw is null || gw.Stopped || !gw.Started)
-                {
-                    return false;
-                }
+                if (gw is null || gw.Stopped || !gw.Started) return false;
 
                 vc.SendPcmFrame(gw, data, 0, length);
                 return true;
@@ -53,15 +50,40 @@ namespace Mewdeko.Modules.Music
             }
         }
 
+        public void SetGateway(VoiceGateway gateway)
+        {
+            _gateway = gateway;
+        }
+
+        public Task StartSpeakingAsync()
+        {
+            return RunGatewayAction(gw => gw.SendSpeakingAsync(VoiceSpeaking.State.Microphone));
+        }
+
+        public Task StopSpeakingAsync()
+        {
+            return RunGatewayAction(gw => gw.SendSpeakingAsync(VoiceSpeaking.State.None));
+        }
+
+        public async Task StartGateway()
+        {
+            await _gateway.Start();
+        }
+
+        public Task StopGateway()
+        {
+            if (_gateway is VoiceGateway gw)
+                return gw.StopAsync();
+
+            return Task.CompletedTask;
+        }
+
         public async Task<bool> RunGatewayAction(Func<VoiceGateway, Task> action)
         {
             var errorCount = 0;
             do
             {
-                if (State == VoiceProxyState.Stopped)
-                {
-                    break;
-                }
+                if (State == VoiceProxyState.Stopped) break;
 
                 try
                 {
@@ -86,34 +108,6 @@ namespace Mewdeko.Modules.Music
             } while (errorCount > 0 && errorCount <= MAX_ERROR_COUNT);
 
             return State != VoiceProxyState.Stopped && errorCount <= MAX_ERROR_COUNT;
-        }
-
-        public void SetGateway(VoiceGateway gateway)
-        {
-            _gateway = gateway;
-        }
-
-        public Task StartSpeakingAsync()
-        {
-            return RunGatewayAction((gw) => gw.SendSpeakingAsync(VoiceSpeaking.State.Microphone));
-        }
-
-        public Task StopSpeakingAsync()
-        {
-            return RunGatewayAction((gw) => gw.SendSpeakingAsync(VoiceSpeaking.State.None));
-        }
-
-        public async Task StartGateway()
-        {
-            await _gateway.Start();
-        }
-
-        public Task StopGateway()
-        {
-            if(_gateway is VoiceGateway gw)
-                return gw.StopAsync();
-
-            return Task.CompletedTask;
         }
     }
 }

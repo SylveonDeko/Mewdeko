@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
-using Mewdeko.Extensions;
 using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
 {
     public class GameVoiceChannelService : INService
     {
-        public ConcurrentHashSet<ulong> GameVoiceChannels { get; } = new ConcurrentHashSet<ulong>();
+        private readonly DiscordSocketClient _client;
 
         private readonly DbService _db;
-        private readonly DiscordSocketClient _client;
 
         public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko bot)
         {
@@ -23,11 +23,13 @@ namespace Mewdeko.Modules.Administration.Services
 
             GameVoiceChannels = new ConcurrentHashSet<ulong>(
                 bot.AllGuildConfigs.Where(gc => gc.GameVoiceChannel != null)
-                                         .Select(gc => gc.GameVoiceChannel.Value));
+                    .Select(gc => gc.GameVoiceChannel.Value));
 
             _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
             _client.GuildMemberUpdated += _client_GuildMemberUpdated;
         }
+
+        public ConcurrentHashSet<ulong> GameVoiceChannels { get; } = new();
 
         private Task _client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
         {
@@ -43,12 +45,9 @@ namespace Mewdeko.Modules.Administration.Services
                     //if the activity has changed, and is a playing activity
                     if (before.Activity != after.Activity
                         && after.Activity != null
-                        && after.Activity.Type == Discord.ActivityType.Playing)
-                    {
+                        && after.Activity.Type == ActivityType.Playing)
                         //trigger gvc
                         await TriggerGvc(after, after.Activity.Name);
-                    }
-
                 }
                 catch (Exception ex)
                 {
@@ -80,6 +79,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                 uow.SaveChanges();
             }
+
             return id;
         }
 

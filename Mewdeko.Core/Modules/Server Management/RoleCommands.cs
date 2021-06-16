@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.ServerManagement.Services;
 
@@ -153,6 +155,83 @@ namespace Mewdeko.Modules.ServerManagement
 
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
             }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            public async Task AddToUsersOver(StoopidTime time, IRole role)
+            {
+                var guild = ctx.Guild as SocketGuild;
+                var users = guild.Users.Where(c =>
+                    !c.Roles.Contains(role) && !c.IsBot &&
+                    DateTimeOffset.Now.Subtract(c.JoinedAt.Value) >= time.Time);
+                var count = users.Count();
+                if (users.Count() == 0)
+                {
+                    await ctx.Channel.SendErrorAsync("All users at this account age already have this role!");
+                    return;
+                }
+
+                var count2 = 0;
+                await ctx.Channel.SendConfirmAsync(
+                    $"Adding {role.Mention} to {count} users who have acounts that are equal to or older than {time.Time.Humanize()} old..\nThis will take about {users.Count()}s.");
+                using (ctx.Channel.EnterTypingState())
+                {
+                    foreach (var i in users)
+                        try
+                        {
+                            await i.AddRoleAsync(role);
+                            count2++;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                }
+
+                await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            public async Task AddToUsersUnder(StoopidTime time, IRole role)
+            {
+                var guild = ctx.Guild as SocketGuild;
+                var users = guild.Users.Where(c =>
+                    !c.Roles.Contains(role) && !c.IsBot &&
+                    DateTimeOffset.Now.Subtract(c.JoinedAt.Value) < time.Time);
+                var count = users.Count();
+                if (users.Count() == 0)
+                {
+                    await ctx.Channel.SendErrorAsync("All users at this account age already have this role!");
+                    return;
+                }
+
+                var count2 = 0;
+                await ctx.Channel.SendConfirmAsync(
+                    $"Adding {role.Mention} to {count} users who have acounts that are less than {time.Time.Humanize()} old..\nThis will take about {users.Count()}s.");
+                using (ctx.Channel.EnterTypingState())
+                {
+                    foreach (var i in users)
+                        try
+                        {
+                            await i.AddRoleAsync(role);
+                            count2++;
+                        }
+                        catch (Exception)
+                        {
+                        }
+                }
+
+                await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
+            }
+
 
             [MewdekoCommand]
             [Usage]
@@ -365,45 +444,6 @@ namespace Mewdeko.Modules.ServerManagement
 
                 await ctx.Channel.SendConfirmAsync(
                     $"Added {role2.Mention} to {count2} users and removed {role.Mention}.");
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task OnlineInfo([Remainder] IRole role = null)
-            {
-                string e;
-                SocketGuildUser[] users;
-                if (string.IsNullOrWhiteSpace(role?.ToString()))
-                {
-                    e = "Online stats in the server:";
-                    users = ((SocketGuild) ctx.Guild).Users.ToArray();
-                }
-                else
-                {
-                    e = $"Online stats in the role {role.Name}";
-                    users = ((SocketGuild) ctx.Guild).Users.Where(x => x.Roles.Contains(role)).ToArray();
-                }
-
-                var online = users.Count(x => x.Status == UserStatus.Online);
-                var offline = users.Count(x => x.Status == UserStatus.Offline);
-                var dnd = users.Count(x => x.Status == UserStatus.DoNotDisturb);
-                var invisible = users.Count(x => x.Status == UserStatus.Invisible);
-                var afk = users.Count(x => x.Status == UserStatus.AFK);
-                var em = new EmbedBuilder
-                {
-                    Title = e,
-                    Description =
-                        $@"<:online:313956277808005120> Online Users: {online}
-<:offline:313956277237710868> Offline Users: {offline}
-<:away:313956277220802560> AFK Users: {afk}
-<:dnd:313956276893646850> DND Users: {dnd}
-<:invisible:313956277107556352> Invisible Users: {invisible}",
-                    Color = Mewdeko.OkColor
-                };
-                await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
     }

@@ -17,12 +17,10 @@ namespace Mewdeko.Core.Modules.Gambling.Common
             Timely = new TimelyConfig();
             Decay = new DecayConfig();
         }
-        
-        [Comment(@"DO NOT CHANGE")]
-        public int Version { get; set; } = 1;
-        
-        [Comment(@"Currency settings")]
-        public CurrencyConfig Currency { get; set; }
+
+        [Comment(@"DO NOT CHANGE")] public int Version { get; set; } = 1;
+
+        [Comment(@"Currency settings")] public CurrencyConfig Currency { get; set; }
 
         [Comment(@"Minimum amount users can bet (>=0)")]
         public int MinBet { get; set; } = 0;
@@ -30,27 +28,29 @@ namespace Mewdeko.Core.Modules.Gambling.Common
         [Comment(@"Maximum amount users can bet
 Set 0 for unlimited")]
         public int MaxBet { get; set; } = 0;
-        
+
         [Comment(@"Settings for betflip command")]
         public BetFlipConfig BetFlip { get; set; }
 
         [Comment(@"Settings for betroll command")]
         public BetRollConfig BetRoll { get; set; }
-        
+
         [Comment(@"Automatic currency generation settings.")]
         public GenerationConfig Generation { get; set; }
-        
+
         [Comment(@"Settings for timely command 
 (letting people claim X amount of currency every Y hours)")]
         public TimelyConfig Timely { get; set; }
 
         [Comment(@"How much will each user's owned currency decay over time.")]
         public DecayConfig Decay { get; set; }
+
         [Comment(@"Settings for Wheel Of Fortune command.")]
         public WheelOfFortuneSettings WheelOfFortune { get; set; }
+
         [Comment(@"Settings related to waifus")]
         public WaifuConfig Waifu { get; set; }
-        
+
         [Comment(@"Amount of currency selfhosters will get PER pledged dollar CENT.
 1 = 100 currency per $. Used almost exclusively on public Mewdeko.")]
         public decimal PatreonCurrencyPerCent { get; set; } = 1;
@@ -59,7 +59,7 @@ Set 0 for unlimited")]
         {
             [Comment(@"What is the emoji/character which represents the currency")]
             public string Sign { get; set; } = "🌸";
-            
+
             [Comment(@"What is the name of the currency")]
             public string Name { get; set; } = "Mewdeko Flower";
         }
@@ -83,31 +83,25 @@ setting to 0 or less will disable this feature")]
 
         public class BetRollConfig
         {
+            public BetRollConfig()
+            {
+                Pairs = new[]
+                {
+                    new(99, 10),
+                    new Pair(90, 4),
+                    new Pair(66, 2)
+                };
+            }
+
             [Comment(@"When betroll is played, user will roll a number 0-100.
 This setting will describe which multiplier is used for when the roll is higher than the given number.
 Doesn't have to be ordered.")]
             public Pair[] Pairs { get; set; } = Array.Empty<Pair>();
 
-            public BetRollConfig()
-            {
-                Pairs = new BetRollConfig.Pair[]
-                {
-                    new BetRollConfig.Pair(99, 10),
-                    new BetRollConfig.Pair(90, 4),
-                    new BetRollConfig.Pair(66, 2)
-                };
-            }
-
             public class Pair
             {
-                
-                public int WhenAbove { get; set; }
-                
-                public float MultiplyBy { get; set; }
-
                 public Pair()
                 {
-
                 }
 
                 public Pair(int threshold, int multiplier)
@@ -115,9 +109,13 @@ Doesn't have to be ordered.")]
                     WhenAbove = threshold;
                     MultiplyBy = multiplier;
                 }
+
+                public int WhenAbove { get; set; }
+
+                public float MultiplyBy { get; set; }
             }
         }
-        
+
         public class GenerationConfig
         {
             [Comment(@"when currency is generated, should it also have a random password
@@ -159,12 +157,9 @@ default is 0.02, which is 2%")]
 
         public class WheelOfFortuneSettings
         {
-            [Comment(@"Self-Explanatory. Has to have 8 values, otherwise the command won't work.")]
-            public decimal[] Multipliers { get; set; }
-
             public WheelOfFortuneSettings()
             {
-                Multipliers = new decimal[]
+                Multipliers = new[]
                 {
                     1.7M,
                     1.5M,
@@ -173,62 +168,66 @@ default is 0.02, which is 2%")]
                     0.3M,
                     0.5M,
                     1.2M,
-                    2.4M,
+                    2.4M
                 };
             }
+
+            [Comment(@"Self-Explanatory. Has to have 8 values, otherwise the command won't work.")]
+            public decimal[] Multipliers { get; set; }
         }
 
         public class WaifuConfig
         {
-            [Comment(@"Minimum price a waifu can have")]
-            public int MinPrice { get; set; } = 50;
-            public MultipliersData Multipliers { get; set; } = new MultipliersData();
-
-            [Comment(@"List of items available for gifting.")]
-            public List<WaifuItemModel> Items { get; set; } = new List<WaifuItemModel>();
-
             public WaifuConfig()
             {
-                Items = new List<WaifuItemModel>()
+                Items = new List<WaifuItemModel>
                 {
-                    new WaifuItemModel("🥔", 5, "Potato"),
-                    new WaifuItemModel("🍪", 10, "Cookie"),
-                    new WaifuItemModel("🥖", 20, "Bread"),
-                    new WaifuItemModel("🍭", 30, "Lollipop"),
-                    new WaifuItemModel("🌹", 50, "Rose"),
-                    new WaifuItemModel("🍺", 70, "Beer"),
-                    new WaifuItemModel("🌮", 85, "Taco"),
-                    new WaifuItemModel("💌", 100, "LoveLetter"),
-                    new WaifuItemModel("🥛", 125, "Milk"),
-                    new WaifuItemModel("🍕", 150, "Pizza"),
-                    new WaifuItemModel("🍫", 200, "Chocolate"),
-                    new WaifuItemModel("🍦", 250, "Icecream"),
-                    new WaifuItemModel("🍣", 300, "Sushi"),
-                    new WaifuItemModel("🍚", 400, "Rice"),
-                    new WaifuItemModel("🍉", 500, "Watermelon"),
-                    new WaifuItemModel("🍱", 600, "Bento"),
-                    new WaifuItemModel("🎟", 800, "MovieTicket"),
-                    new WaifuItemModel("🍰", 1000, "Cake"),
-                    new WaifuItemModel("📔", 1500, "Book"),
-                    new WaifuItemModel("🐱", 2000, "Cat"),
-                    new WaifuItemModel("🐶", 2001, "Dog"),
-                    new WaifuItemModel("🐼", 2500, "Panda"),
-                    new WaifuItemModel("💄", 3000, "Lipstick"),
-                    new WaifuItemModel("👛", 3500, "Purse"),
-                    new WaifuItemModel("📱", 4000, "iPhone"),
-                    new WaifuItemModel("👗", 4500, "Dress"),
-                    new WaifuItemModel("💻", 5000, "Laptop"),
-                    new WaifuItemModel("🎻", 7500, "Violin"),
-                    new WaifuItemModel("🎹", 8000, "Piano"),
-                    new WaifuItemModel("🚗", 9000, "Car"),
-                    new WaifuItemModel("💍", 10000, "Ring"),
-                    new WaifuItemModel("🛳", 12000, "Ship"),
-                    new WaifuItemModel("🏠", 15000, "House"),
-                    new WaifuItemModel("🚁", 20000, "Helicopter"),
-                    new WaifuItemModel("🚀", 30000, "Spaceship"),
-                    new WaifuItemModel("🌕", 50000, "Moon")
+                    new("🥔", 5, "Potato"),
+                    new("🍪", 10, "Cookie"),
+                    new("🥖", 20, "Bread"),
+                    new("🍭", 30, "Lollipop"),
+                    new("🌹", 50, "Rose"),
+                    new("🍺", 70, "Beer"),
+                    new("🌮", 85, "Taco"),
+                    new("💌", 100, "LoveLetter"),
+                    new("🥛", 125, "Milk"),
+                    new("🍕", 150, "Pizza"),
+                    new("🍫", 200, "Chocolate"),
+                    new("🍦", 250, "Icecream"),
+                    new("🍣", 300, "Sushi"),
+                    new("🍚", 400, "Rice"),
+                    new("🍉", 500, "Watermelon"),
+                    new("🍱", 600, "Bento"),
+                    new("🎟", 800, "MovieTicket"),
+                    new("🍰", 1000, "Cake"),
+                    new("📔", 1500, "Book"),
+                    new("🐱", 2000, "Cat"),
+                    new("🐶", 2001, "Dog"),
+                    new("🐼", 2500, "Panda"),
+                    new("💄", 3000, "Lipstick"),
+                    new("👛", 3500, "Purse"),
+                    new("📱", 4000, "iPhone"),
+                    new("👗", 4500, "Dress"),
+                    new("💻", 5000, "Laptop"),
+                    new("🎻", 7500, "Violin"),
+                    new("🎹", 8000, "Piano"),
+                    new("🚗", 9000, "Car"),
+                    new("💍", 10000, "Ring"),
+                    new("🛳", 12000, "Ship"),
+                    new("🏠", 15000, "House"),
+                    new("🚁", 20000, "Helicopter"),
+                    new("🚀", 30000, "Spaceship"),
+                    new("🌕", 50000, "Moon")
                 };
             }
+
+            [Comment(@"Minimum price a waifu can have")]
+            public int MinPrice { get; set; } = 50;
+
+            public MultipliersData Multipliers { get; set; } = new();
+
+            [Comment(@"List of items available for gifting.")]
+            public List<WaifuItemModel> Items { get; set; } = new();
 
 
             public class MultipliersData
@@ -267,18 +266,11 @@ Example: If a waifu is worth 1000, and she receives a gift worth 100, her new va
             }
         }
     }
-    
+
     public class WaifuItemModel
     {
-        public string ItemEmoji { get; set; }
-        
-        public int Price { get; set; }
-        
-        public string Name { get; set; }
-
         public WaifuItemModel()
         {
-
         }
 
         public WaifuItemModel(string itemEmoji, int price, string name)
@@ -288,6 +280,15 @@ Example: If a waifu is worth 1000, and she receives a gift worth 100, her new va
             Name = name;
         }
 
-        public override string ToString() => Name;
+        public string ItemEmoji { get; set; }
+
+        public int Price { get; set; }
+
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

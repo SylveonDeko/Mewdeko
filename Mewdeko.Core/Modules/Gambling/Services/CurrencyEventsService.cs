@@ -1,34 +1,31 @@
-﻿using Mewdeko.Core.Services;
-using Mewdeko.Core.Modules.Gambling.Common.Events;
+﻿using System;
 using System.Collections.Concurrent;
-using Mewdeko.Modules.Gambling.Common;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using System.Threading.Tasks;
-using System;
-using Mewdeko.Core.Services.Database.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Linq;
+using Mewdeko.Core.Modules.Gambling.Common.Events;
 using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Modules.Gambling.Common;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Services
 {
     public class CurrencyEventsService : INService
     {
-        public class VoteModel
-        {
-            public ulong User { get; set; }
-            public long Date { get; set; }
-        }
         private readonly DiscordSocketClient _client;
-        private readonly ICurrencyService _cs;
-        private readonly IBotCredentials _creds;
-        private readonly IHttpClientFactory _http;
         private readonly GamblingConfigService _configService;
+        private readonly IBotCredentials _creds;
+        private readonly ICurrencyService _cs;
+
         private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
-            new ConcurrentDictionary<ulong, ICurrencyEvent>();
+            new();
+
+        private readonly IHttpClientFactory _http;
 
         public CurrencyEventsService(DiscordSocketClient client,
             IBotCredentials creds, ICurrencyService cs,
@@ -39,10 +36,10 @@ namespace Mewdeko.Modules.Gambling.Services
             _creds = creds;
             _http = http;
             _configService = configService;
-            
+
             if (_client.ShardId == 0)
             {
-                Task t = BotlistUpvoteLoop();
+                var t = BotlistUpvoteLoop();
             }
         }
 
@@ -73,11 +70,14 @@ namespace Mewdeko.Modules.Gambling.Services
                             Log.Warning("Botlist API not reached.");
                             return;
                         }
+
                         var resStr = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
                         var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
                             .Select(x => x.User)
                             .Distinct();
-                        await _cs.AddBulkAsync(ids, ids.Select(x => "Voted - <https://top.gg/bot/752236274261426212/vote>"), ids.Select(x => 50L), true).ConfigureAwait(false);
+                        await _cs.AddBulkAsync(ids,
+                            ids.Select(x => "Voted - <https://top.gg/bot/752236274261426212/vote>"),
+                            ids.Select(x => 50L), true).ConfigureAwait(false);
                         Log.Information($"Vote currency given to {ids.Count()} users.");
                     }
                 }
@@ -91,29 +91,22 @@ namespace Mewdeko.Modules.Gambling.Services
         public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, CurrencyEvent.Type type,
             EventOptions opts, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embed)
         {
-            SocketGuild g = _client.GetGuild(guildId);
-            SocketTextChannel ch = g?.GetChannel(channelId) as SocketTextChannel;
+            var g = _client.GetGuild(guildId);
+            var ch = g?.GetChannel(channelId) as SocketTextChannel;
             if (ch == null)
                 return false;
 
             ICurrencyEvent ce;
 
             if (type == CurrencyEvent.Type.Reaction)
-            {
                 ce = new ReactionEvent(_client, _cs, g, ch, opts, _configService.Data, embed);
-            }
             else if (type == CurrencyEvent.Type.GameStatus)
-            {
                 ce = new GameStatusEvent(_client, _cs, g, ch, opts, embed);
-            }
             else
-            {
                 return false;
-            }
 
             var added = _events.TryAdd(guildId, ce);
             if (added)
-            {
                 try
                 {
                     ce.OnEnded += OnEventEnded;
@@ -125,7 +118,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     _events.TryRemove(guildId, out ce);
                     return false;
                 }
-            }
+
             return added;
         }
 
@@ -133,6 +126,12 @@ namespace Mewdeko.Modules.Gambling.Services
         {
             _events.TryRemove(gid, out _);
             return Task.CompletedTask;
+        }
+
+        public class VoteModel
+        {
+            public ulong User { get; set; }
+            public long Date { get; set; }
         }
     }
 }

@@ -1,21 +1,25 @@
-﻿using Discord.Commands;
-using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
-using Mewdeko.Core.Services;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
+using NCalc;
 
 namespace Mewdeko.Core.Common.TypeReaders
 {
     public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
     {
+        private static readonly Regex percentRegex = new(@"^((?<num>100|\d{1,2})%)$", RegexOptions.Compiled);
+
         public ShmartNumberTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
         {
         }
 
-        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider services)
+        public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
+            IServiceProvider services)
         {
             await Task.Yield();
 
@@ -32,9 +36,9 @@ namespace Mewdeko.Core.Common.TypeReaders
                 return TypeReaderResult.FromSuccess(new ShmartNumber(num, i));
             try
             {
-                var expr = new NCalc.Expression(i, NCalc.EvaluateOptions.IgnoreCase);
+                var expr = new Expression(i, EvaluateOptions.IgnoreCase);
                 expr.EvaluateParameter += (str, ev) => EvaluateParam(str, ev, context, services);
-                var lon = (long)(decimal.Parse(expr.Evaluate().ToString()));
+                var lon = (long) decimal.Parse(expr.Evaluate().ToString());
                 return TypeReaderResult.FromSuccess(new ShmartNumber(lon, input));
             }
             catch (Exception)
@@ -43,7 +47,7 @@ namespace Mewdeko.Core.Common.TypeReaders
             }
         }
 
-        private static void EvaluateParam(string name, NCalc.ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
+        private static void EvaluateParam(string name, ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
         {
             switch (name.ToUpperInvariant())
             {
@@ -63,12 +67,8 @@ namespace Mewdeko.Core.Common.TypeReaders
                 case "MAX":
                     args.Result = Max(svc, ctx);
                     break;
-                default:
-                    break;
             }
         }
-
-        private static readonly Regex percentRegex = new Regex(@"^((?<num>100|\d{1,2})%)$", RegexOptions.Compiled);
 
         private static long Cur(IServiceProvider services, ICommandContext ctx)
         {
@@ -79,6 +79,7 @@ namespace Mewdeko.Core.Common.TypeReaders
                 cur = uow.DiscordUsers.GetUserCurrency(ctx.User.Id);
                 uow.SaveChanges();
             }
+
             return cur;
         }
 
@@ -91,7 +92,8 @@ namespace Mewdeko.Core.Common.TypeReaders
                 : max;
         }
 
-        private static bool TryHandlePercentage(IServiceProvider services, ICommandContext ctx, string input, out long num)
+        private static bool TryHandlePercentage(IServiceProvider services, ICommandContext ctx, string input,
+            out long num)
         {
             num = 0;
             var m = percentRegex.Match(input);
@@ -100,9 +102,10 @@ namespace Mewdeko.Core.Common.TypeReaders
                 if (!long.TryParse(m.Groups["num"].ToString(), out var percent))
                     return false;
 
-                num = (long)(Cur(services, ctx) * (percent / 100.0f));
+                num = (long) (Cur(services, ctx) * (percent / 100.0f));
                 return true;
             }
+
             return false;
         }
     }

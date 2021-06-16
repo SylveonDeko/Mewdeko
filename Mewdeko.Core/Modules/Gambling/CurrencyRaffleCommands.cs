@@ -1,12 +1,12 @@
-﻿using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Modules.Gambling.Services;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Extensions;
-using System.Linq;
 using Discord.Commands;
-using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
+using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -14,32 +14,46 @@ namespace Mewdeko.Modules.Gambling
     {
         public class CurrencyRaffleCommands : GamblingSubmodule<CurrencyRaffleService>
         {
-            public enum Mixed { Mixed }
+            public enum Mixed
+            {
+                Mixed
+            }
 
             public CurrencyRaffleCommands(GamblingConfigService gamblingConfService) : base(gamblingConfService)
             {
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(0)]
-            public Task RaffleCur(Mixed _, ShmartNumber amount) =>
-                RaffleCur(amount, true);
+            public Task RaffleCur(Mixed _, ShmartNumber amount)
+            {
+                return RaffleCur(amount, true);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
             public async Task RaffleCur(ShmartNumber amount, bool mixed = false)
             {
                 if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                     return;
+
                 async Task OnEnded(IUser arg, long won)
                 {
-                    await ctx.Channel.SendConfirmAsync(GetText("rafflecur_ended", CurrencyName, Format.Bold(arg.ToString()), won + CurrencySign)).ConfigureAwait(false);
+                    await ctx.Channel.SendConfirmAsync(GetText("rafflecur_ended", CurrencyName,
+                        Format.Bold(arg.ToString()), won + CurrencySign)).ConfigureAwait(false);
                 }
+
                 var res = await _service.JoinOrCreateGame(ctx.Channel.Id,
-                    ctx.User, amount, mixed, OnEnded)
-                        .ConfigureAwait(false);
+                        ctx.User, amount, mixed, OnEnded)
+                    .ConfigureAwait(false);
 
                 if (res.Item1 != null)
                 {

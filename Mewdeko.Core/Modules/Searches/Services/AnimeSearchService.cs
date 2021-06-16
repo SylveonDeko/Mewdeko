@@ -1,12 +1,12 @@
-﻿using AngleSharp;
+﻿using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using AngleSharp;
 using AngleSharp.Html.Dom;
 using Mewdeko.Core.Services;
 using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Serilog;
 
 namespace Mewdeko.Modules.Searches.Services
@@ -28,8 +28,8 @@ namespace Mewdeko.Modules.Searches.Services
                 throw new ArgumentNullException(nameof(query));
             try
             {
-
-                var link = "https://aniapi.Mewdeko.bot/anime/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
+                var link = "https://aniapi.Mewdeko.bot/anime/" +
+                           Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)
@@ -38,6 +38,7 @@ namespace Mewdeko.Modules.Searches.Services
                     {
                         data = await http.GetStringAsync(link).ConfigureAwait(false);
                     }
+
                     await _cache.SetAnimeDataAsync(link, data).ConfigureAwait(false);
                 }
 
@@ -58,7 +59,8 @@ namespace Mewdeko.Modules.Searches.Services
             query = query.Replace(" ", "-", StringComparison.InvariantCulture);
             try
             {
-                var link = "http://www.novelupdates.com/series/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
+                var link = "http://www.novelupdates.com/series/" +
+                           Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetNovelDataAsync(link).ConfigureAwait(false);
                 if (!ok)
@@ -69,7 +71,7 @@ namespace Mewdeko.Modules.Searches.Services
                         var imageElem = document.QuerySelector("div.seriesimg > img");
                         if (imageElem == null)
                             return null;
-                        var imageUrl = ((IHtmlImageElement)imageElem).Source;
+                        var imageUrl = ((IHtmlImageElement) imageElem).Source;
 
                         var descElem = document.QuerySelector("div#editdescription > p");
                         var desc = descElem.InnerHtml;
@@ -88,8 +90,8 @@ namespace Mewdeko.Modules.Searches.Services
                             .Select(x => $"[{x.InnerHtml}]({x.Href})")
                             .ToArray();
 
-                        var score = ((IHtmlSpanElement)document
-                            .QuerySelector("h5.seriesother > span.uvotes"))
+                        var score = ((IHtmlSpanElement) document
+                                .QuerySelector("h5.seriesother > span.uvotes"))
                             .InnerHtml;
 
                         var status = document
@@ -99,7 +101,7 @@ namespace Mewdeko.Modules.Searches.Services
                             .QuerySelector("div.w-blog-content > div.seriestitlenu")
                             .InnerHtml;
 
-                        var obj = new NovelResult()
+                        var obj = new NovelResult
                         {
                             Description = desc,
                             Authors = authors,
@@ -108,7 +110,7 @@ namespace Mewdeko.Modules.Searches.Services
                             Link = link,
                             Score = score,
                             Status = status,
-                            Title = title,
+                            Title = title
                         };
 
                         await _cache.SetNovelDataAsync(link,
@@ -133,8 +135,8 @@ namespace Mewdeko.Modules.Searches.Services
                 throw new ArgumentNullException(nameof(query));
             try
             {
-
-                var link = "https://aniapi.Mewdeko.bot/manga/" + Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
+                var link = "https://aniapi.Mewdeko.bot/manga/" +
+                           Uri.EscapeDataString(query.Replace("/", " ", StringComparison.InvariantCulture));
                 link = link.ToLowerInvariant();
                 var (ok, data) = await _cache.TryGetAnimeDataAsync(link).ConfigureAwait(false);
                 if (!ok)
@@ -143,6 +145,7 @@ namespace Mewdeko.Modules.Searches.Services
                     {
                         data = await http.GetStringAsync(link).ConfigureAwait(false);
                     }
+
                     await _cache.SetAnimeDataAsync(link, data).ConfigureAwait(false);
                 }
 

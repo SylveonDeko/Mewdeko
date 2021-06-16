@@ -1,14 +1,12 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -19,28 +17,42 @@ namespace Mewdeko.Modules.Utility
         {
             private readonly BotConfigService _bss;
             private readonly SelfService _selfService;
-            
+
             private readonly IEnumerable<IConfigService> _settingServices;
 
-            public ConfigCommands(BotConfigService bss, SelfService selfService, IEnumerable<IConfigService> settingServices)
+            public ConfigCommands(BotConfigService bss, SelfService selfService,
+                IEnumerable<IConfigService> settingServices)
             {
                 _settingServices = settingServices;
                 _bss = bss;
                 _selfService = selfService;
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public Task BotConfigEdit()
-                => Config("bot");
+            {
+                return Config("bot");
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [Priority(0)]
             [OwnerOnly]
             public Task BotConfigEdit(string prop, [Leftover] string newValue = null)
-                => Config("bot", prop, newValue);
+            {
+                return Config("bot", prop, newValue);
+            }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task ConfigReload(string name)
             {
@@ -62,13 +74,16 @@ namespace Mewdeko.Modules.Utility
                 setting.Reload();
                 await ctx.OkAsync();
             }
-            
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [OwnerOnly]
             public async Task Config(string name = null, string prop = null, [Leftover] string value = null)
             {
                 var configNames = _settingServices.Select(x => x.Name);
-                
+
                 // if name is not provided, print available configs
                 name = name?.ToLowerInvariant();
                 if (string.IsNullOrWhiteSpace(name))
@@ -115,7 +130,7 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
                 // if the prop is invalid -> print error and list of 
-                
+
                 var exists = propNames.Any(x => x == prop);
 
                 if (!exists)
@@ -129,16 +144,13 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.EmbedAsync(propErrorEmbed);
                     return;
                 }
-                
+
                 // if prop is sent, but value is not, then we have to check
                 // if prop is valid -> 
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     value = setting.GetSetting(prop);
-                    if (prop != "currency.sign")
-                    {
-                        Format.Code(Format.Sanitize(value?.TrimTo(1000)), "json");
-                    }
+                    if (prop != "currency.sign") Format.Code(Format.Sanitize(value?.TrimTo(1000)), "json");
 
                     if (string.IsNullOrWhiteSpace(value))
                         value = "-";
@@ -177,9 +189,9 @@ namespace Mewdeko.Modules.Utility
                         val = val?.TrimTo(28);
                     return val?.Replace("\n", "") ?? "-";
                 });
-                
+
                 var strings = names.Zip(propValues, (name, value) =>
-                    $"{name, -25} = {value}\n");
+                    $"{name,-25} = {value}\n");
 
                 return Format.Code(string.Concat(strings), "hs");
             }

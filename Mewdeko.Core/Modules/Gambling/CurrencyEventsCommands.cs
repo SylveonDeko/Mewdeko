@@ -1,15 +1,15 @@
-﻿using Discord;
-using Discord.Commands;
-using Mewdeko.Extensions;
+﻿using System;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Core.Common;
-using Mewdeko.Core.Services.Database.Models;
-using Mewdeko.Core.Modules.Gambling.Common.Events;
-using System;
 using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Core.Modules.Gambling.Common.Events;
 using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Core.Services.Database.Models;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -27,7 +27,10 @@ namespace Mewdeko.Modules.Gambling
             {
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [MewdekoOptionsAttribute(typeof(EventOptions))]
             [OwnerOnly]
@@ -39,11 +42,8 @@ namespace Mewdeko.Modules.Gambling
                     ev,
                     opts,
                     GetEmbed
-                    ).ConfigureAwait(false))
-                {
+                ).ConfigureAwait(false))
                     await ReplyErrorLocalizedAsync("start_event_fail").ConfigureAwait(false);
-                    return;
-                }
             }
 
             private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot)
@@ -62,32 +62,31 @@ namespace Mewdeko.Modules.Gambling
                             .WithTitle(GetText("event_title", type.ToString()))
                             .WithDescription(GetGameStatusDescription(opts.Amount, currentPot))
                             .WithFooter(GetText("event_duration_footer", opts.Hours));
-                    default:
-                        break;
                 }
+
                 throw new ArgumentOutOfRangeException(nameof(type));
             }
 
             private string GetReactionDescription(long amount, long potSize)
             {
-                string potSizeStr = Format.Bold(potSize == 0
+                var potSizeStr = Format.Bold(potSize == 0
                     ? "∞" + CurrencySign
-                    : potSize.ToString() + CurrencySign);
+                    : potSize + CurrencySign);
                 return GetText("new_reaction_event",
-                                   CurrencySign,
-                                   Format.Bold(amount + CurrencySign),
-                                   potSizeStr);
+                    CurrencySign,
+                    Format.Bold(amount + CurrencySign),
+                    potSizeStr);
             }
 
             private string GetGameStatusDescription(long amount, long potSize)
             {
-                string potSizeStr = Format.Bold(potSize == 0
+                var potSizeStr = Format.Bold(potSize == 0
                     ? "∞" + CurrencySign
-                    : potSize.ToString() + CurrencySign);
+                    : potSize + CurrencySign);
                 return GetText("new_gamestatus_event",
-                                   CurrencySign,
-                                   Format.Bold(amount + CurrencySign),
-                                   potSizeStr);
+                    CurrencySign,
+                    Format.Bold(amount + CurrencySign),
+                    potSizeStr);
             }
         }
     }
