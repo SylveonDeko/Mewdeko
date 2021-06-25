@@ -281,7 +281,7 @@ namespace Mewdeko.Modules.Gambling.Services
 
                     if (amount > 0)
                         // give the picked currency to the user
-                        await _cs.AddAsync(uid, "Picked currency", amount, false);
+                        await _cs.AddAsync(uid, "Picked currency", amount);
                     uow.SaveChanges();
                 }
 
@@ -347,14 +347,14 @@ namespace Mewdeko.Modules.Gambling.Services
                 return false;
 
             // remove currency from the user who's planting
-            if (await _cs.RemoveAsync(uid, "Planted currency", amount, false))
+            if (await _cs.RemoveAsync(uid, "Planted currency", amount))
             {
                 // try to send the message with the currency image
                 var msgId = await SendPlantMessageAsync(gid, ch, user, amount, pass).ConfigureAwait(false);
                 if (msgId == null)
                 {
                     // if it fails it will return null, if it returns null, refund
-                    await _cs.AddAsync(uid, "Planted currency refund", amount, false);
+                    await _cs.AddAsync(uid, "Planted currency refund", amount);
                     return false;
                 }
 

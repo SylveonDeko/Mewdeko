@@ -16,6 +16,7 @@ namespace Mewdeko.Core.Services.Impl
 
         private readonly object timelyLock = new();
 
+        [Obsolete]
         public RedisCache(IBotCredentials creds, int shardId)
         {
             var conf = ConfigurationOptions.Parse(creds.RedisOptions);

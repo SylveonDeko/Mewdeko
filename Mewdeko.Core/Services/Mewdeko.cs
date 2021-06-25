@@ -37,6 +37,7 @@ namespace Mewdeko
         private readonly DbService _db;
         private readonly string _token = "95dd4f5d54692fc533bd1da43f1cab773c71d894";
 
+        [Obsolete]
         public Mewdeko(int shardId, int parentProcessId)
         {
             if (shardId < 0)

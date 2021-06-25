@@ -301,15 +301,11 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
                 u.Cards.Add(Deck.Draw());
 
                 if (u.GetHandValue() == 21)
-                {
                     //blackjack
                     u.State = User.UserState.Blackjack;
-                }
                 else if (u.GetHandValue() > 21)
-                {
                     // user busted
                     u.State = User.UserState.Bust;
-                }
 
                 _currentUserMove.TrySetResult(true);
 

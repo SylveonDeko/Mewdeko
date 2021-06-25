@@ -19,10 +19,10 @@
     <Compile Remove="credentials.json" />
     <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <PackageReference Include="Anilist4Net" Version="1.2.0" />
-    <PackageReference Include="Humanizer" Version="2.10.1" />
+    <PackageReference Include="Humanizer" Version="2.11.10" />
     <PackageReference Include="KSoftNet" Version="3.0.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.10.0-1.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.10.0" />
     <PackageReference Include="NHentai.NET" Version="3.2.0" />
     <PackageReference Include="SpotifyAPI.Web" Version="6.2.0" />
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.0" />

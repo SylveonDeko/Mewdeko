@@ -77,7 +77,9 @@ namespace Mewdeko.Modules.Music.Services
 
         public bool TryGetMusicPlayer(ulong guildId, out IMusicPlayer musicPlayer)
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             return _players.TryGetValue(guildId, out musicPlayer);
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
 
         public async Task<int> EnqueueYoutubePlaylistAsync(IMusicPlayer mp, string query, string queuer)

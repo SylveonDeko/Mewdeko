@@ -47,6 +47,8 @@ namespace Mewdeko.Core.Services.Impl
 
                 OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))
                     .ToImmutableArray();
+                OfficialMods = data.GetSection("OfficialMods").GetChildren().Select(c => ulong.Parse(c.Value))
+                    .ToImmutableArray();
                 GoogleApiKey = data[nameof(GoogleApiKey)];
                 MashapeKey = data[nameof(MashapeKey)];
                 OsuApiKey = data[nameof(OsuApiKey)];
@@ -127,6 +129,7 @@ namespace Mewdeko.Core.Services.Impl
         public string Token { get; }
 
         public ImmutableArray<ulong> OwnerIds { get; }
+        public ImmutableArray<ulong> OfficialMods { get; }
 
         public string OsuApiKey { get; }
         public string CleverbotApiKey { get; }
@@ -154,6 +157,10 @@ namespace Mewdeko.Core.Services.Impl
         {
             return OwnerIds.Contains(u.Id);
         }
+        public bool IsOfficialMod(IUser u)
+        {
+            return OfficialMods.Contains(u.Id);
+        }
 
         /// <summary>
         ///     No idea why this thing exists
@@ -162,7 +169,11 @@ namespace Mewdeko.Core.Services.Impl
         {
             public ulong[] OwnerIds { get; set; } =
             {
-                105635576866156544
+                280835732728184843
+            };
+            public ulong[] OfficialMods { get; set; } =
+            {
+                280835732728184843
             };
 
             public string SoundCloudClientId { get; set; } = "";
@@ -193,10 +204,15 @@ namespace Mewdeko.Core.Services.Impl
             public string CoinmarketcapApiKey { get; set; }
 
             [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OwnerIds => throw new NotImplementedException();
+            [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OfficialMods => throw new NotImplementedException();
 
             [JsonIgnore] RestartConfig IBotCredentials.RestartCommand => throw new NotImplementedException();
 
             public bool IsOwner(IUser u)
+            {
+                throw new NotImplementedException();
+            }
+            public bool IsOfficialMod(IUser u)
             {
                 throw new NotImplementedException();
             }

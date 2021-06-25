@@ -8,6 +8,7 @@ namespace Mewdeko.Core.Services
         string Token { get; }
         string GoogleApiKey { get; }
         ImmutableArray<ulong> OwnerIds { get; }
+        ImmutableArray<ulong> OfficialMods { get; }
         string MashapeKey { get; }
         string PatreonAccessToken { get; }
         string CarbonKey { get; }
@@ -30,6 +31,7 @@ namespace Mewdeko.Core.Services
         string CoinmarketcapApiKey { get; }
 
         bool IsOwner(IUser u);
+        bool IsOfficialMod(IUser u);
     }
 
     public class RestartConfig

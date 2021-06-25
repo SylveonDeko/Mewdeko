@@ -89,6 +89,18 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
+            [Priority(2)]
+            public async Task Mute(IGuildUser user, StoopidTime time, string reason = "")
+            {
+                await Mute(time, user, reason);
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
             [Priority(1)]
             public async Task Mute(StoopidTime time, IGuildUser user, [Leftover] string reason = "")
             {
@@ -136,6 +148,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
+            [Priority(0)]
             public async Task ChatMute(IGuildUser user, [Leftover] string reason = "")
             {
                 try
@@ -174,13 +187,56 @@ namespace Mewdeko.Modules.Administration
                     await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
                 }
             }
+            [MewdekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.MuteMembers)]
+            [Priority(1)]
+            public async Task VoiceMute(StoopidTime time, IGuildUser user, [Leftover] string reason = "")
+            {
+                if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(49))
+                    return;
+                try
+                {
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                        return;
 
+                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason: reason).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_voice_mute_time", Format.Bold(user.ToString()), (int)time.Time.TotalMinutes).ConfigureAwait(false);
+                }
+                catch
+                {
+                    await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
+                }
+            }
+            [MewdekoCommand, Usage, Description, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [Priority(1)]
+            public async Task ChatMute(StoopidTime time, IGuildUser user, [Leftover] string reason = "")
+            {
+                if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(49))
+                    return;
+                try
+                {
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                        return;
+
+                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason: reason).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_chat_mute_time", Format.Bold(user.ToString()), (int)time.Time.TotalMinutes).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex.ToString());
+                    await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
+            [Priority(1)]
             public async Task VoiceMute(IGuildUser user, [Leftover] string reason = "")
             {
                 try

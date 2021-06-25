@@ -400,6 +400,11 @@ setbanner:
   desc: "Sets the server banner, only works if you have enough boosts. " 
   args: 
   - "url"
+syncroletoall:
+ desc: "Allows you to sync role perms that re in this channel to all channels."
+ args:
+ - "@role"
+ - "roleid"
 seticon:
   desc: "Sets the server icon" 
   args: 
@@ -413,9 +418,9 @@ setsplash:
   args: 
   - "url"
 steal:
-  desc: "Steals one or mroe emotes you mention. " 
+  desc: "Steals one or more emotes you mention. " 
   args: 
-  - "emote emote emmote"
+  - "emote emote emote"
 allowperm:
   desc: "Allows a permission for a user/role " 
   args: 
@@ -423,6 +428,35 @@ allowperm:
   - "channel perm role"
   - "category perm user"
   - "category perm role"
+rep+:
+ desc: "Gives a user a positive review, limit 30 per server."
+ args:
+ - "@user"
+ - "@user Good Mod!"
+rep-:
+ desc: "Gives a user a negative review, limit 30 per server per day to avoid abuse."
+ args:
+ - "@user"
+ - "@user Shitty Mod!"
+reviews:
+ desc: "Allows you to view an overview of yours or someone elses reputation. You can specify negative or positive to see each review of that type for yourself or another user."
+ args:
+ - "@user"
+ - "@user Positive"
+ - "@user Negative"
+ - ""
+ - "Negative"
+ - "Positive"
+moveto:
+ desc: "Moves you to a vc you name. ***You must already be in a vc for this to work.***"
+ args:
+ - "calls"
+moveuserto:
+ desc: "Moves a user you mention to a different vc. ***The user must already be in a vc.***"
+ args:
+ - "@Yuno Gasai calls"
+grab:
+ desc: "Moves the user you mention to your vc. ***The user you mention must already be in a vc.***"
 denyperm:
   desc: "Denies a permission for a user/role " 
   args: 
@@ -452,7 +486,7 @@ greet:
   args:
     - ""
 greetmsg:
-  desc: "Sets a new join announcement message which will be shown in the server's channel. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://eb.nadeko.bot/> instead of a regular text, if you want the message to be embedded."
+  desc: "Sets a new join announcement message which will be shown in the server's channel. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded."
   args:
     - "Welcome, %user.mention%."
 bye:
@@ -460,7 +494,7 @@ bye:
   args:
     - ""
 byemsg:
-  desc: "Sets a new leave announcement message. Type `%user.mention%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://eb.nadeko.bot/> instead of a regular text, if you want the message to be embedded."
+  desc: "Sets a new leave announcement message. Type `%user.mention%` if you want to show the name the user who left. Type `%id%` to show id. Using this command with no message will show the current bye message. You can use embed json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the message to be embedded."
   args:
     - "%user.mention% has left."
 byedel:
@@ -620,7 +654,7 @@ autoassignrole:
     - ""
     - "RoleName"
 leave:
-  desc: "Makes Nadeko leave the server. Either server name or server ID is required."
+  desc: "Makes Mewdeko leave the server. Either server name or server ID is required."
   args:
     - "123123123331"
 delmsgoncmd:
@@ -730,7 +764,7 @@ setchanlname:
   args:
     - "NewName"
 prune:
-  desc: "`{0}prune` removes all Nadeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned. You can use the `-nb` / `--nobots` paramater to clear around bots. You can use the `-ob` / `--onlybots` paramater to clear only bots."
+  desc: "`{0}prune` removes all Mewdeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned. You can use the `-nb` / `--nobots` paramater to clear around bots. You can use the `-ob` / `--onlybots` paramater to clear only bots."
   args:
     - ""
     - "-s"
@@ -814,7 +848,7 @@ checkperms:
     - "me"
     - "bot"
 stats:
-  desc: "Shows some basic stats for Nadeko."
+  desc: "Shows some basic stats for Mewdeko."
   args:
     - ""
 userid:
@@ -1118,7 +1152,7 @@ choose:
   args:
     - "Get up;Sleep;Sleep more"
 rps:
-  desc: "Play a game of Rocket-Paperclip-Scissors with Nadeko. You can bet on it. Multiplier is the same as on betflip."
+  desc: "Play a game of Rocket-Paperclip-Scissors with Mewdeko. You can bet on it. Multiplier is the same as on betflip."
   args:
     - "r 100"
     - "scissors"
@@ -1486,7 +1520,7 @@ delallquotes:
   args:
     - "kek"
 greetdmmsg:
-  desc: "Sets a new join announcement message which will be sent to the user who joined. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://eb.nadeko.bot> instead of a regular text, if you want the message to be embedded."
+  desc: "Sets a new join announcement message which will be sent to the user who joined. Type `%user.mention%` if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from <https://eb.Mewdeko.bot> instead of a regular text, if you want the message to be embedded."
   args:
     - "Welcome to the server, %user.mention%"
 cash:
@@ -1551,26 +1585,32 @@ antispam:
     - "5 Ban 3h30m"
     - ""
 chatmute:
-  desc: "Prevents a mentioned user from chatting in text channels. You can optionally specify a reason."
+  desc: "Prevents a mentioned user from chatting in text channels. You can also specify time string for how long the user should be muted. You can optionally specify a reason."
   args:
     - "@Someone"
     - "@Someone stop writing"
+    - "15m @Someone"
+    - "1h30m @Someone"
+    - "1h @Someone silence"
 voicemute:
-  desc: "Prevents a mentioned user from speaking in voice channels. User has to be in a voice channel in order for the command to have an effect. You can optionally specify a reason."
+  desc: "Prevents a mentioned user from speaking in voice channels. User has to be in a voice channel in order for the command to have an effect. You can also specify time string for how long the user should be muted. You can You can optionally specify a reason."
   args:
     - "@Someone"
     - "@Someone stop talking"
+    - "15m @Someone"
+    - "1h30m @Someone"
+    - "1h @Someone silence"
 konachan:
   desc: "Shows a random hentai image from konachan with a given tag. Tag is optional but preferred."
   args:
     - "yuri"
 muterole:
-  desc: "Sets a name of the role which will be assigned to people who should be muted. Provide no arguments to see currently set mute role. Default is nadeko-mute."
+  desc: "Sets a name of the role which will be assigned to people who should be muted. Provide no arguments to see currently set mute role. Default is Mewdeko-mute."
   args:
     - ""
     - "Silenced"
 adsarm:
-  desc: "Toggles the automatic deletion of the user's message and Nadeko's confirmations for `{0}iam` and `{0}iamn` commands."
+  desc: "Toggles the automatic deletion of the user's message and Mewdeko's confirmations for `{0}iam` and `{0}iamn` commands."
   args:
     - ""
 setstream:
@@ -1736,7 +1776,7 @@ antispamignore:
   args:
     - ""
 eventstart:
-  desc: "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`"
+  desc: "Starts one of the events seen on public Mewdeko. Events: `reaction`, `gamestatus`"
   args:
     - "reaction"
     - "reaction -d 1 -a 50 --pot-size 1500"
@@ -1749,7 +1789,7 @@ slottest:
   args:
     - "1000"
 slot:
-  desc: "Play Nadeko slots. 1 second cooldown per user."
+  desc: "Play Mewdeko slots. 1 second cooldown per user."
   args:
     - "5"
 affinity:
@@ -1880,7 +1920,7 @@ aliaslist:
     - ""
     - "3"
 alias:
-  desc: "Create a custom alias for a certain Nadeko command. Provide no alias to remove the existing one."
+  desc: "Create a custom alias for a certain Mewdeko command. Provide no alias to remove the existing one."
   args:
     - "allin {0}bf all h"
     - "\"linux thingy\" >loonix Spyware Windows"

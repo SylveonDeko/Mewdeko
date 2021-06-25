@@ -22,10 +22,10 @@ namespace Mewdeko.Modules.Games.Common.Nunchi
         private const int _nextRoundTimeout = 5 * 1000;
 
         private readonly SemaphoreSlim _locker = new(1, 1);
+        private readonly HashSet<(ulong Id, string Name)> _passed = new();
         private Timer _killTimer;
 
         private HashSet<(ulong Id, string Name)> _participants = new();
-        private readonly HashSet<(ulong Id, string Name)> _passed = new();
 
         public NunchiGame(ulong creatorId, string creatorName)
         {

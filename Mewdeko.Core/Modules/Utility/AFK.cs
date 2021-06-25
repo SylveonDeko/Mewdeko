@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Utility
                 await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
             }
-
+            [Priority(0)]
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -231,8 +231,8 @@ namespace Mewdeko.Modules.Utility
             [Priority(1)]
             public async Task Afk()
             {
-                var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message).Last();
-                if (afkmsg == "")
+                var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
+                if (!afkmsg.Any() || afkmsg.Last() == "")
                 {
                     await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "_ _");
                     await ctx.Channel.SendConfirmAsync("Afk message enabled!");

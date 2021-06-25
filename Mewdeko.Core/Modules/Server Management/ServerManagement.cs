@@ -308,9 +308,5 @@ namespace Mewdeko.Modules.ServerManagement
             if (errored.Any()) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
             await msg.ModifyAsync(x => { x.Embed = b.Build(); });
         }
-
-        public struct Optional<T>
-        {
-        }
     }
 }

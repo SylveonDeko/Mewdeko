@@ -30,16 +30,37 @@ autodisconnect:
 - autodc
 antialt:
 - antialt
+syncroletoall:
+- syncroletoall
+- synctoall
 addtousersover:
 - atuo
 - addtousersover
 addtousersunder:
 - atuu
 - addtousersunder
+grab:
+- grab
+- getoverhere
+moveto:
+- moveto
+moveuserto:
+- moveuserto
+- moveuto
+repplus:
+- rep+
+repnegative:
+- rep-
 createcatvcchans:
 - ccvc
 stealforrole:
 - sfr
+reviews:
+- reviews
+- rep
+stealemotes:
+- steal
+- stealemotes
 nhentaisearch:
 - nhentaisearch
 - nhsearch

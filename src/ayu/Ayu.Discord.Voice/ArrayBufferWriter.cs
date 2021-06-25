@@ -177,10 +177,10 @@ namespace Ayu.Discord.Voice
 
                 var newSize = currentLength + growBy;
 
-                if ((uint) newSize > int.MaxValue)
+                if ((uint)newSize > int.MaxValue)
                 {
                     // Attempt to grow to ArrayMaxLength.
-                    var needed = (uint) (currentLength - FreeCapacity + sizeHint);
+                    var needed = (uint)(currentLength - FreeCapacity + sizeHint);
                     Debug.Assert(needed > currentLength);
 
                     if (needed > ArrayMaxLength) ThrowOutOfMemoryException(needed);

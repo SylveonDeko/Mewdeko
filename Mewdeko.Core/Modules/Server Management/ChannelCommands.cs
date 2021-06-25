@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
@@ -14,6 +7,13 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.ServerManagement.Services;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Modules.ServerManagement
 {
@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.ServerManagement
                     "Making sure role permissions don't get in the way of lockdown...");
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
                     x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                    ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     foreach (var i in roles)
@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.ServerManagement
             {
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
                     x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                    ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     await ctx.Channel.SendErrorAsync(
@@ -92,7 +92,65 @@ namespace Mewdeko.Modules.ServerManagement
                     await ctx.Channel.SendConfirmAsync("Server has been locked down!");
                 }
             }
-
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task MoveTo(IVoiceChannel channel)
+            {
+                var use = ctx.User as IGuildUser;
+                if(use.VoiceChannel == null)
+                {
+                    await ctx.Channel.SendErrorAsync("You need to be in a voice channel for this!");
+                    return;
+                }
+                await use.ModifyAsync(x =>
+                {
+                    x.Channel = new Optional<IVoiceChannel>(channel);
+                });
+                await ctx.Channel.SendConfirmAsync($"Succesfully moved you to {Format.Bold(channel.Name)}");
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageChannels)]
+            public async Task MoveUserTo(IGuildUser user, IVoiceChannel channel)
+            {
+                if (user.VoiceChannel == null)
+                {
+                    await ctx.Channel.SendErrorAsync("The user must be in a voice channel for this!");
+                    return;
+                }
+                await user.ModifyAsync(x =>
+                {
+                    x.Channel = new Optional<IVoiceChannel>(channel);
+                });
+                await ctx.Channel.SendConfirmAsync($"Succesfully moved {user.Mention} to {Format.Bold(channel.Name)}");
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            public async Task Grab(IGuildUser user)
+            {
+                var vc = ((IGuildUser)ctx.User).VoiceChannel;
+                if (vc == null)
+                {
+                    await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!");
+                    return;
+                }
+                if(user.VoiceChannel == null)
+                {
+                    await ctx.Channel.SendErrorAsync($"{user.Mention} needs to be in a voice channel for this to work!");
+                    return;
+                }
+                await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(vc));
+                await ctx.Channel.SendConfirmAsync($"Grabbed {user.Mention} from {user.VoiceChannel.Name} to your VC!");
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -205,14 +263,14 @@ namespace Mewdeko.Modules.ServerManagement
                 if (TTicketCategory == 0)
                 {
                     await _service.SetTicketCategoryId(ctx.Guild, channel);
-                    var TicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                    var TicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
                     await ctx.Channel.SendConfirmAsync("Your ticket category has been set to " + TicketCategory);
                     return;
                 }
 
-                var oldTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                var oldTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await _service.SetTicketCategoryId(ctx.Guild, channel);
-                var newTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                var newTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await ctx.Channel.SendConfirmAsync("Your ticket category has been changed from " + oldTicketCategory +
                                                    " to " + newTicketCategory);
             }
@@ -500,7 +558,7 @@ namespace Mewdeko.Modules.ServerManagement
             [Priority(1)]
             public async Task Slowmode(int interval)
             {
-                await Slowmode(interval, (ITextChannel) ctx.Channel);
+                await Slowmode(interval, (ITextChannel)ctx.Channel);
             }
 
             [MewdekoCommand]
@@ -527,7 +585,7 @@ namespace Mewdeko.Modules.ServerManagement
             [Priority(4)]
             public async Task Slowmode()
             {
-                await Slowmode((ITextChannel) ctx.Channel);
+                await Slowmode((ITextChannel)ctx.Channel);
             }
 
             [MewdekoCommand]
@@ -579,7 +637,7 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
             {
                 var embeds = new List<Embed>();
-                var splits = urls.Split(new[] {'\n', '\r', ' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
+                var splits = urls.Split(new[] { '\n', '\r', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var i in splits)
                 {
                     var ur = new Uri(i);

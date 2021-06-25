@@ -185,7 +185,7 @@ namespace Mewdeko.Modules.Utility.Services
             };
             var afk = aFK;
             using var uow = _db.GetDbContext();
-            uow.AFK.Add(afk);
+            uow.AFK.Update(afk);
             await uow.SaveChangesAsync();
         }
 

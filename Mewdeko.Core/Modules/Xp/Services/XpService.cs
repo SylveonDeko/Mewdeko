@@ -156,7 +156,7 @@ namespace Mewdeko.Modules.Xp.Services
                         foreach (var item in group)
                         {
                             var xp = item.Sum(x => x.XpAmount);
-
+                                
                             //1. Mass query discord users and userxpstats and get them from local dict
                             //2. (better but much harder) Move everything to the database, and get old and new xp
                             // amounts for every user (in order to give rewards)

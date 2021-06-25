@@ -430,10 +430,7 @@ namespace Mewdeko.Core.Modules.Music
                 return;
 
             var success = await _service.PlayAsync(Context.Guild.Id, ((IGuildUser) Context.User).VoiceChannel.Id);
-            if (!success)
-            {
-                await ReplyErrorLocalizedAsync("no_player");
-            }
+            if (!success) await ReplyErrorLocalizedAsync("no_player");
         }
 
         // list queue, relevant page

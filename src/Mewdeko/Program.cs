@@ -7,6 +7,7 @@ namespace Mewdeko
 {
     public sealed class Program
     {
+        [Obsolete]
         public static async Task Main(string[] args)
         {
             var pid = Process.GetCurrentProcess().Id;
