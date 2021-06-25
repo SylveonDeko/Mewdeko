@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -26,11 +27,11 @@ namespace Mewdeko.Core.Modules.Music
         private readonly Thread _thread;
         private readonly ITrackResolveProvider _trackResolveProvider;
         private readonly VoiceClient _vc;
+
+        private readonly AdjustVolumeDelegate AdjustVolume;
         private int? _forceIndex;
 
         private bool _skipped;
-
-        private readonly AdjustVolumeDelegate AdjustVolume;
 
         public MusicPlayer(
             IMusicQueue queue,

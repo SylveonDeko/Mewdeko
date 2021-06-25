@@ -86,7 +86,9 @@ namespace Mewdeko.Core.Modules.Music
             {
                 if (_tracks.Count == 0) return Enqueue(trackInfo, queuer, out index);
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 LinkedListNode<QueuedTrackInfo> currentNode = _tracks.First;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                 int i;
                 for (i = 1; i <= _index; i++)
                     currentNode = currentNode.Next!; // can't be null because index is always in range of the count

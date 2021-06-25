@@ -34,7 +34,33 @@ namespace Mewdeko.Modules.ServerManagement
                     new OverwritePermissions(viewChannel: PermValue.Allow));
                 await ctx.Channel.SendConfirmAsync("Succesfully set " + channel.Mention + " as the mute channel!");
             }
-
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            public async Task SyncRoleToAll(IRole role)
+            {
+                var ch = ctx.Channel as ITextChannel;
+                var perms = ch.GetPermissionOverwrite(role);
+                if(perms is null)
+                {
+                    await ctx.Channel.SendErrorAsync("This role doesnt have perms setup in this channel!");
+                    return;
+                }
+                var msg = await ctx.Channel.SendConfirmAsync($"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()}...");
+                foreach (var i in (await ctx.Guild.GetTextChannelsAsync()))
+                {
+                    if (perms != null) await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                }
+                var eb = new EmbedBuilder()
+                {
+                    Color = Mewdeko.OkColor,
+                    Description = $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels!"
+                };
+                await msg.ModifyAsync(x => x.Embed = eb.Build());
+            }
             [MewdekoCommand]
             [Usage]
             [Description]

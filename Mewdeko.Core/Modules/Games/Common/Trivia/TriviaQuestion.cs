@@ -14,10 +14,10 @@ namespace Mewdeko.Modules.Games.Common.Trivia
         //represents the min size to judge levDistance with
         private static readonly HashSet<Tuple<int, int>> strictness = new()
         {
-            new(9, 0),
-            new(14, 1),
-            new(19, 2),
-            new(22, 3)
+            new Tuple<int, int>(9, 0),
+            new Tuple<int, int>(14, 1),
+            new Tuple<int, int>(19, 2),
+            new Tuple<int, int>(22, 3)
         };
 
         private string _cleanAnswer;

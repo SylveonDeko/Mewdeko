@@ -23,13 +23,13 @@ namespace Mewdeko.Core.Modules.Music
         private static readonly Regex _simplePlaylistRegex
             = new(@"&list=(?<id>[\w\-]{12,})", RegexOptions.Compiled);
 
+        private readonly IGoogleApiService _google;
+
         private readonly ITrackCacher _trackCacher;
         private readonly YtdlOperation _ytdlIdOperation;
 
         private readonly YtdlOperation _ytdlPlaylistOperation;
         private readonly YtdlOperation _ytdlSearchOperation;
-
-        private readonly IGoogleApiService _google;
 
         public YtdlYoutubeResolver(ITrackCacher trackCacher, IGoogleApiService google)
         {

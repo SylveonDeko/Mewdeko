@@ -13,10 +13,10 @@ namespace Mewdeko.Modules.Administration.Services
     {
         private readonly LogCommandService _logService;
 
-        private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
-
         //channelids where prunes are currently occuring
         private readonly ConcurrentHashSet<ulong> _pruningGuilds = new();
+
+        private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
         public PruneService(LogCommandService logService)
         {

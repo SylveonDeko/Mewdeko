@@ -16,6 +16,7 @@ namespace Mewdeko.Core.Services.Database
         IMusicPlaylistRepository MusicPlaylists { get; }
         IWaifuRepository Waifus { get; }
         IDiscordUserRepository DiscordUsers { get; }
+        IReputationRepository Reputation { get; }
         IWarningsRepository Warnings { get; }
         IXpRepository Xp { get; }
         IClubRepository Clubs { get; }

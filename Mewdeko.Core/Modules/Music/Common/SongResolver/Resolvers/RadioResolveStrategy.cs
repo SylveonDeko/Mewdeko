@@ -110,19 +110,19 @@ namespace Mewdeko.Modules.Music.Resolvers
                             <trackList>
                                 <track><location>file:///mp3s/song_1.mp3</location></track>
                     */
-                    try
-                    {
-                        var m = xspfRegex.Match(file);
-                        var res = m.Groups["url"]?.ToString();
-                        return res?.Trim();
-                    }
-                    catch
-                    {
-                        Log.Warning($"Failed reading .xspf:\n{file}");
-                        return null;
-                    }
+                try
+                {
+                    var m = xspfRegex.Match(file);
+                    var res = m.Groups["url"]?.ToString();
+                    return res?.Trim();
+                }
+                catch
+                {
+                    Log.Warning($"Failed reading .xspf:\n{file}");
+                    return null;
+                }
 
-                return query;
-                }
-                }
-                }
+            return query;
+        }
+    }
+}

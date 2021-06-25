@@ -42,19 +42,17 @@ namespace Mewdeko.Modules.Utility
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [BotPerm(ChannelPerm.ManageChannel)]
-            [UserPerm(ChannelPerm.ManageChannel)]
-            public async Task InviteList(int page = 1, [Leftover] ITextChannel ch = null)
+            public async Task InviteList(int page = 1)
             {
                 if (--page < 0)
                     return;
-                var channel = ch ?? (ITextChannel) ctx.Channel;
 
-                var invites = await channel.GetInvitesAsync().ConfigureAwait(false);
+                var invites = await ctx.Guild.GetInvitesAsync().ConfigureAwait(false);
 
                 await ctx.SendPaginatedConfirmAsync(page, cur =>
                 {
                     var i = 1;
-                    var invs = invites.Skip(cur * 9).Take(9);
+                    var invs = invites.OrderByDescending(x => x.Uses).Skip(cur * 9).Take(9);
                     if (!invs.Any())
                         return new EmbedBuilder()
                             .WithErrorColor()
