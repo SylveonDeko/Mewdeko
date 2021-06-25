@@ -111,6 +111,12 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
+            public async Task Reviews(string e)
+                => await Reviews(null, e); 
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             public async Task Reviews (IUser user = null, string type = null)
             {
                 IUser use = null;
