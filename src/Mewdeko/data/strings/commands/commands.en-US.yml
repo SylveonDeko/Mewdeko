@@ -457,6 +457,8 @@ moveuserto:
  - "@Yuno Gasai calls"
 grab:
  desc: "Moves the user you mention to your vc. ***The user you mention must already be in a vc.***"
+ args:
+ - "@user"
 denyperm:
   desc: "Denies a permission for a user/role " 
   args: 
