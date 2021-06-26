@@ -244,7 +244,7 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendErrorAsync("You can't rep yourself!");
                     return false;
                 }
-                if (DateTimeOffset.Now.Subtract(((IGuildUser)user).JoinedAt.Value) > TimeSpan.FromDays(30))
+                if (DateTimeOffset.Now.Subtract(((IGuildUser)user).CreatedAt) < TimeSpan.FromDays(30))
                 {
                     await ctx.Channel.SendErrorAsync("Your account is too young to rep a user!");
                     return false;
