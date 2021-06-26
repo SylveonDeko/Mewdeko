@@ -466,6 +466,23 @@ denyperm:
   - "channel perm role"
   - "category perm user"
   - "category perm role"
+staffrole:
+ desc: "sets a staff role that is used for the bot to ignore users when filtered links, invites, words, or autobanwords are enabled. May be used for more in the future."
+ args:
+ - "role"
+ - ""
+staffroledisable:
+ desc: "Disables the staff role, if set."
+ args:
+ - ""
+autobanword:
+ desc: "Sets a word that the autobans a user when said. Use the word again to remove it."
+ args:
+ - "fuck"
+autobanwordlist:
+ desc: "Lists all autoban words."
+ args:
+ - ""
 neutralperm:
  desc: "Allows a permission for a user/role " 
  args: 
