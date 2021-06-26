@@ -23,7 +23,50 @@ namespace Mewdeko.Modules.Permissions
             {
                 _db = db;
             }
-
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [UserPerm(GuildPerm.Administrator)]
+            [RequireContext(ContextType.Guild)]
+            public async Task AutoBanWord(string word)
+            {
+                if (_service._blacklist.Where(x => x.Word == word && x.GuildId == ctx.Guild.Id).Count() == 1)
+                {
+                    _service.UnBlacklist(word, ctx.Guild.Id);
+                    await ctx.Channel.SendConfirmAsync($"Removed {word} from the auto bans word list!");
+                    return;
+                }
+                else
+                {
+                    _service.Blacklist(word, ctx.Guild.Id);
+                    await ctx.Channel.SendConfirmAsync($"Added {word} to the auto ban words list!");
+                }
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [UserPerm(GuildPerm.Administrator)]
+            [RequireContext(ContextType.Guild)]
+            public async Task AutoBanWordList(int page = 0)
+            {
+                var words = _service._blacklist.Where(x => x.GuildId == ctx.Guild.Id);
+                if (words.Count() == 0)
+                {
+                    await ctx.Channel.SendErrorAsync("No AutoBanWords set.");
+                    return;
+                }
+                else
+                {
+                    await ctx.SendPaginatedConfirmAsync(page,
+                    curPage => new EmbedBuilder()
+                        .WithTitle(GetText("filter_word_list"))
+                        .WithDescription(string.Join("\n", words.Select(x => x.Word).Skip(curPage * 10).Take(10)))
+                        .WithOkColor()
+                    , words.Count(), 10).ConfigureAwait(false);
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]

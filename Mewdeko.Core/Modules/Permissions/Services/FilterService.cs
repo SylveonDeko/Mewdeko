@@ -1,4 +1,6 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -6,6 +8,7 @@ using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Core.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
@@ -18,15 +21,28 @@ namespace Mewdeko.Modules.Permissions.Services
     public class FilterService : IEarlyBehavior, INService
     {
         private readonly Mewdeko _bot;
+        private readonly CultureInfo _CultureInfo = new("en-US");
+        public IBotStrings Strings { get; set; }
         private readonly DbService _db;
         private readonly DiscordSocketClient Client;
         public UserPunishService upun;
+        public AdministrationService ASS;
+        private readonly IPubSub _pubSub;
 
-        public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot)
+        private readonly TypedKey<AutoBanEntry[]> blPubKey = new("autobanword.reload");
+        public IReadOnlyList<AutoBanEntry> _blacklist;
+
+        public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot, IBotStrings strng, AdministrationService ass, UserPunishService upun2, IPubSub pubSub)
         {
+            upun = upun2;
+            _pubSub = pubSub;
             _db = db;
             _bot = bot;
             Client = client;
+            Strings = strng;
+            Reload(false);
+            _pubSub.Sub(blPubKey, OnReload);
+            ASS = ass;
             using (var uow = db.GetDbContext())
             {
                 var ids = client.GetGuildIds();
@@ -84,7 +100,41 @@ namespace Mewdeko.Modules.Permissions.Services
                 return Task.CompletedTask;
             };
         }
+        private ValueTask OnReload(AutoBanEntry[] blacklist)
+        {
+            _blacklist = blacklist;
+            return default;
+        }
+        public void Reload(bool publish = true)
+        {
+            using var uow = _db.GetDbContext();
+            var toPublish = uow._context.AutoBanWords.AsNoTracking().ToArray();
+            _blacklist = toPublish;
+            if (publish) _pubSub.Pub(blPubKey, toPublish);
+        }
+        public void Blacklist(string id, ulong id2)
+        {
+            using var uow = _db.GetDbContext();
+            var item = new AutoBanEntry { Word = id, GuildId = id2 };
+            uow._context.AutoBanWords.Add(item);
+            uow.SaveChanges();
 
+            Reload();
+        }
+
+        public void UnBlacklist(string id, ulong id2)
+        {
+            using var uow = _db.GetDbContext();
+            var toRemove = uow._context.AutoBanWords
+                .FirstOrDefault(bi => bi.Word == id && bi.GuildId == id2);
+
+            if (!(toRemove is null))
+                uow._context.AutoBanWords.Remove(toRemove);
+
+            uow.SaveChanges();
+
+            Reload();
+        }
         public ConcurrentHashSet<ulong> InviteFilteringChannels { get; }
         public ConcurrentHashSet<ulong> InviteFilteringServers { get; }
 
@@ -108,12 +158,37 @@ namespace Mewdeko.Modules.Permissions.Services
             return
                 !(msg.Author is IGuildUser gu) //it's never filtered outside of guilds, and never block administrators
                     ? false
-                    : !gu.GuildPermissions.Administrator &&
+                    : !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.GuildPermissions.Administrator &&
                       (await FilterInvites(guild, msg).ConfigureAwait(false)
                        || await FilterWords(guild, msg).ConfigureAwait(false)
-                       || await FilterLinks(guild, msg).ConfigureAwait(false));
+                       || await FilterLinks(guild, msg).ConfigureAwait(false)
+                       || await FilterBannedWords(guild, msg).ConfigureAwait(false));
         }
-
+        protected string GetText(string key, params object[] args)
+        {
+            return Strings.GetText(key, _CultureInfo, args);
+        }
+        public async Task<bool> FilterBannedWords(IGuild guild, IUserMessage msg)
+        {
+            if (guild is null)
+                return false;
+            if (msg is null)
+                return false;
+            var bannedwords = _blacklist.Where(x => x.GuildId == guild.Id);
+            foreach (var i in bannedwords.Select(x => x.Word))
+            {
+                if (msg.Content.Contains(i))
+                {
+                    await msg.DeleteAsync();
+                    var defaultMessage = GetText("bandm", Format.Bold(guild.Name), $"Banned for saying autoban word {i}");
+                    var embed = upun.GetBanUserDmEmbed(Client, guild as SocketGuild, Client.CurrentUser as IGuildUser, msg.Author as IGuildUser, defaultMessage, $"Banned for saying autoban word {i}", null);
+                    await msg.Author.GetOrCreateDMChannelAsync().Result.SendMessageAsync(embed: embed.ToEmbed().Build());
+                    await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected");
+                    return true;
+                }
+            }
+            return false;
+        }
         public ConcurrentHashSet<string> FilteredWordsForChannel(ulong channelId, ulong guildId)
         {
             var words = new ConcurrentHashSet<string>();
