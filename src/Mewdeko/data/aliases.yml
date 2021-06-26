@@ -28,6 +28,12 @@ byemsg:
 autodisconnect:
 - autodisconnect
 - autodc
+autobanword:
+- autobanword
+- autobanw
+autobanwordlist:
+- autobanwordlist
+- autobwlist
 antialt:
 - antialt
 syncroletoall:
