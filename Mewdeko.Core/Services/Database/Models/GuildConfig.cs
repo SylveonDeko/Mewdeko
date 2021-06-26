@@ -8,7 +8,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong GuildId { get; set; }
 
         public string Prefix { get; set; } = null;
-
+        public ulong StaffRole { get; set; }
         public bool DeleteMessageOnCommand { get; set; }
         public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
         public string AutoAssignRoleId { get; set; } = 0.ToString();

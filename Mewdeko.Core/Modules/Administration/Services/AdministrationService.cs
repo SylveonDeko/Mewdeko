@@ -23,6 +23,9 @@ namespace Mewdeko.Modules.Administration.Services
         public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
             LogCommandService logService)
         {
+            _StaffRole = bot.AllGuildConfigs
+               .ToDictionary(x => x.GuildId, x => x.StaffRole)
+               .ToConcurrent();
             _db = db;
             _logService = logService;
 
@@ -37,10 +40,25 @@ namespace Mewdeko.Modules.Administration.Services
 
             cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
-
+        private ConcurrentDictionary<ulong, ulong> _StaffRole { get; } = new();
         public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
         public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
+        public async Task StaffRoleSet(IGuild guild, ulong role)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.StaffRole = role;
+                await uow.SaveChangesAsync();
+            }
 
+            _StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+        }
+        public ulong GetStaffRole(ulong? id)
+        {
+            _StaffRole.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
         public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
         {
             using (var uow = _db.GetDbContext())

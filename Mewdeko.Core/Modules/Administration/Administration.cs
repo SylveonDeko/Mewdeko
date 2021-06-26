@@ -38,7 +38,63 @@ namespace Mewdeko.Modules.Administration
             Disable,
             Inherit
         }
-
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.Administrator)]
+        public async Task StaffRole([Remainder] IRole role = null)
+        {
+            var rol = _service.GetStaffRole(ctx.Guild.Id);
+            if (rol is 0 && role != null)
+            {
+                await _service.StaffRoleSet(ctx.Guild, role.Id);
+                await ctx.Channel.SendConfirmAsync($"Staff role has been set to {role.Mention}");
+            }
+            if (rol != 0 && role != null && rol == role.Id)
+            {
+                await ctx.Channel.SendErrorAsync("This is already your staff role!");
+                return;
+            }
+            if (rol is 0 && role == null)
+            {
+                await ctx.Channel.SendErrorAsync("No staff role set!");
+                return;
+            }
+            if (rol != 0 && role is null)
+            {
+                var r = ctx.Guild.GetRole(rol);
+                await ctx.Channel.SendConfirmAsync($"Your current staff role is {r.Mention}");
+                return;
+            }
+            if (role != null && rol is not 0)
+            {
+                var oldrole = ctx.Guild.GetRole(rol);
+                await _service.StaffRoleSet(ctx.Guild, role.Id);
+                await ctx.Channel.SendConfirmAsync($"Your staff role has been switched from {oldrole.Mention} to {role.Mention}");
+            }
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.Administrator)]
+        public async Task StaffRoleDisable()
+        {
+            var r = _service.GetStaffRole(ctx.Guild.Id);
+            if (r == 0)
+            {
+                await ctx.Channel.SendErrorAsync("No staff role set!");
+                return;
+            }
+            else
+            {
+                await _service.StaffRoleSet(ctx.Guild, 0);
+                await ctx.Channel.SendConfirmAsync("Staff role disabled!");
+            }
+        }
 
         [MewdekoCommand]
         [Usage]
