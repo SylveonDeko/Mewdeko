@@ -34,13 +34,13 @@ namespace Mewdeko.Modules.Permissions
                 if (_service._blacklist.Where(x => x.Word == word && x.GuildId == ctx.Guild.Id).Count() == 1)
                 {
                     _service.UnBlacklist(word, ctx.Guild.Id);
-                    await ctx.Channel.SendConfirmAsync($"Removed {word} from the auto bans word list!");
+                    await ctx.Channel.SendConfirmAsync($"Removed {Format.Code(word)} from the auto bans word list!");
                     return;
                 }
                 else
                 {
                     _service.Blacklist(word, ctx.Guild.Id);
-                    await ctx.Channel.SendConfirmAsync($"Added {word} to the auto ban words list!");
+                    await ctx.Channel.SendConfirmAsync($"Added {Format.Code(word)} to the auto ban words list!");
                 }
             }
             [MewdekoCommand]
@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.Permissions
                 {
                     await ctx.SendPaginatedConfirmAsync(page,
                     curPage => new EmbedBuilder()
-                        .WithTitle(GetText("filter_word_list"))
+                        .WithTitle("AutoBanWords")
                         .WithDescription(string.Join("\n", words.Select(x => x.Word).Skip(curPage * 10).Take(10)))
                         .WithOkColor()
                     , words.Count(), 10).ConfigureAwait(false);
