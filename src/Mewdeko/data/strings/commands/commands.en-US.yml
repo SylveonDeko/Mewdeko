@@ -690,11 +690,11 @@ restart:
 setrole:
   desc: "Gives a role to a user. The role you specify has to be lower in the role hierarchy than your highest role."
   args:
-    - "@User Guest"
+    - "Role @User"
 removerole:
   desc: "Removes a role from a user. The role you specify has to be lower in the role hierarchy than your highest role."
   args:
-    - "@User Admin"
+    - "Role @User"
 renamerole:
   desc: "Renames a role. The role you specify has to be lower in the role hierarchy than your highest role."
   args:
