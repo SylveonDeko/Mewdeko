@@ -199,7 +199,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task SetRole(IGuildUser targetUser, [Leftover] IRole roleToAdd)
+            public async Task SetRole(IRole roleToAdd, [Remainder]IGuildUser targetUser)
             {
                 var runnerUser = (IGuildUser) ctx.User;
                 var runnerMaxRolePosition = runnerUser.GetRoles().Max(x => x.Position);
@@ -227,7 +227,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task RemoveRole(IGuildUser targetUser, [Leftover] IRole roleToRemove)
+            public async Task RemoveRole(IRole roleToRemove, [Remainder] IGuildUser targetUser)
             {
                 var runnerUser = (IGuildUser) ctx.User;
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
