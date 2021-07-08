@@ -216,7 +216,7 @@ namespace Mewdeko.Modules.ServerManagement
         {
             var eb = new EmbedBuilder
             {
-                Description = "<a:loading:834915210967253013> Adding Emotes...",
+                Description = "<a:loading:847706744741691402> Adding Emotes...",
                 Color = Mewdeko.OkColor
             };
             var errored = new List<string>();
@@ -267,7 +267,7 @@ namespace Mewdeko.Modules.ServerManagement
         {
             var eb = new EmbedBuilder
             {
-                Description = $"<a:loading:834915210967253013> Adding Emotes to {role.Mention}...",
+                Description = $"<a:loading:847706744741691402> Adding Emotes to {role.Mention}...",
                 Color = Mewdeko.OkColor
             };
             var list = new Discord.Optional<IEnumerable<IRole>>(new[] {role});

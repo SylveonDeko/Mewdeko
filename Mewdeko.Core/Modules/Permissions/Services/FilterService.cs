@@ -291,7 +291,7 @@ namespace Mewdeko.Modules.Permissions.Services
                         await msg.DeleteAsync();
                         var defaultMessage = GetText("bandm", Format.Bold(guild.Name), $"Banned for saying autoban word {i}");
                         var embed = upun.GetBanUserDmEmbed(Client, guild as SocketGuild, Client.CurrentUser as IGuildUser, msg.Author as IGuildUser, defaultMessage, $"Banned for saying autoban word {i}", null);
-                        await msg.Author.GetOrCreateDMChannelAsync().Result.SendMessageAsync(embed: embed.ToEmbed().Build());
+                        await msg.Author.CreateDMChannelAsync().Result.SendMessageAsync(embed: embed.ToEmbed().Build());
                         await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected");
                         return true;
                     }
@@ -327,7 +327,7 @@ namespace Mewdeko.Modules.Permissions.Services
                             {
                                 await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser,
                                     "Warned for Filtered Word");
-                                var user = await usrMsg.Author.GetOrCreateDMChannelAsync();
+                                var user = await usrMsg.Author.CreateDMChannelAsync();
                                 await user.SendErrorAsync(
                                     "You have been warned for using the word " + Format.Code(word));
                             }
@@ -360,7 +360,7 @@ namespace Mewdeko.Modules.Permissions.Services
                     if (GetInvWarn(guild.Id) != 0)
                     {
                         await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser, "Warned for Posting Invite");
-                        var user = await usrMsg.Author.GetOrCreateDMChannelAsync();
+                        var user = await usrMsg.Author.CreateDMChannelAsync();
                         await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!");
                     }
 

@@ -54,12 +54,6 @@ namespace Mewdeko.Modules.Administration
                         var reader = process.StandardOutput;
 
                         var output = await reader.ReadToEndAsync();
-                        var omewdeko = "pm2 restart Mewdeko";
-                        var testdeko = "pm2 restart Mewtest";
-                        var mewdekoclone = "pm2 restart MewdekoClone";
-                        if (message == omewdeko) await ctx.Channel.SendMessageAsync("Restarting Main Mewdeko");
-                        if (message == testdeko) await ctx.Channel.SendMessageAsync("Restarting Testing Mewdeko");
-                        if (message == mewdekoclone) await ctx.Channel.SendMessageAsync("Restarting MewdekoV2");
                         if (output.Length > 2000)
                         {
                             var chunkSize = 1988;
@@ -67,8 +61,7 @@ namespace Mewdeko.Modules.Administration
                             for (var i = 0; i < stringLength; i += chunkSize)
                             {
                                 if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                                await ctx.Channel.SendMessageAsync("```bash\n" + output.Substring(i, chunkSize) +
-                                                                   "```");
+                                await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```");
                                 process.WaitForExit();
                             }
                         }

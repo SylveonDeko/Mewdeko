@@ -23,6 +23,12 @@ bye:
 musicquality:
 - musicquality
 - mquality
+rolejobs:
+- rj
+- rolejobs
+stopjob:
+- sj
+- stopjob
 byemsg:
 - byemsg
 autodisconnect:
@@ -669,7 +675,6 @@ yomama:
 - ym
 randjoke:
 - randjoke
-- rj
 chucknorris:
 - chucknorris
 - cn

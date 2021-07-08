@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -34,7 +35,6 @@ namespace Mewdeko.Modules.Searches
 {
     public partial class Searches : MewdekoModule<SearchesService>
     {
-        private static readonly MewdekoRandom _rng = new();
 
         private static readonly ConcurrentDictionary<string, string> cachedShortenedLinks = new();
         private readonly IMemoryCache _cache;
@@ -200,27 +200,69 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task Pat(IUser user)
         {
-            var res = await _google.GetImageAsync("Anime Pat .gif");
+            var patarray = new List<string>()
+            {
+                "https://media3.giphy.com/media/ARSp9T7wwxNcs/200.gif",
+                "https://media.tenor.com/images/da8431374a530ae516c0cc8f966d1c2b/tenor.gif",
+                "https://media.tenor.com/images/ad8357e58d35c1d63b570ab7e587f212/tenor.gif",
+                "https://media.tenor.com/images/a671268253717ff877474fd019ef73e9/tenor.gif",
+                "https://media.tenor.com/images/ad8357e58d35c1d63b570ab7e587f212/tenor.gif",
+                "https://media1.tenor.com/images/6151c42c94df654b1c7de2fdebaa6bd1/tenor.gif?itemid=16456868",
+                "https://i.pinimg.com/originals/1a/94/61/1a9461f15bb5ae752680d99195f9b944.gif",
+                "https://i.imgur.com/UWbKpx8.gif",
+                "https://thumbs.gfycat.com/BlushingDeepBlacknorwegianelkhound-size_restricted.gif",
+                "https://66.media.tumblr.com/a72dd82535f3e7accd827c202dacc09a/tumblr_pfyiqz0pFL1th206io1_640.gif",
+                "https://i.imgur.com/2lacG7l.gif",
+                "https://community.gamepress.gg/uploads/default/original/3X/7/e/7edae228fce7c05b1a1c9c27f78e0fb668ef2c65.gif",
+                "https://i.pinimg.com/originals/c2/34/cd/c234cdcb3af7bed21ccbba2293470b8c.gif",
+                "https://i.gifer.com/7MOk.gif",
+                "https://66.media.tumblr.com/c078d8f0bd36f6d4520d9cb9f5c164ac/tumblr_p2kzogLOZU1vajq0ro7_500.gif",
+                "https://i.pinimg.com/originals/ec/b8/7f/ecb87fb2827a022884d5165046f6608a.gif",
+                "https://thumbs.gfycat.com/NauticalDampJerboa-max-1mb.gif",
+                "https://media1.giphy.com/media/N0CIxcyPLputW/giphy.gif",
+                "http://i.imgur.com/eUKM3Ay.gif",
+                "https://i.imgur.com/Uq85eQI.gif",
+                "https://i.imgur.com/ApevdXO.gif",
+                "https://giffiles.alphacoders.com/932/93206.gif"
+            };
+            var rand = new Random();
+            var index = rand.Next(patarray.Count);
             var em = new EmbedBuilder
             {
-                Description = $"{ctx.User.Mention} gave pats to {user.Mention}",
-                ImageUrl = res.Link,
+                Description = $"{ctx.User.Mention} gave pattus to {user.Mention}",
+                ImageUrl = patarray[index],
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
-
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         public async Task Shoot(IUser user)
         {
-            var res = await _google.GetImageAsync("Anime gun .gif");
+            var shootarray = new List<string>()
+            {
+                "https://media.tenor.com/images/05085e9bc817361e783ad92a248ef318/tenor.gif",
+                "https://media1.tenor.com/images/a0caaaec7f3f48fbcf037dd9e6a89c51/tenor.gif?itemid=12545029",
+                "https://i.gifer.com/nin.gif",
+                "https://i.imgflip.com/4fq6gm.gif",
+                "https://cdn.myanimelist.net/s/common/uploaded_files/1448410154-7ba874393492485cf61797451b67a3be.gif",
+                "https://thumbs.gfycat.com/DisguisedSimpleAmmonite-size_restricted.gif",
+                "https://media0.giphy.com/media/a5OCMAro7MGQg/giphy.gif",
+                "https://media1.tenor.com/images/e9f33b7ded139a73590878cf3f9d59a4/tenor.gif?itemid=16999058",
+                "http://i.imgur.com/ygeo65P.gif",
+                "https://gifimage.net/wp-content/uploads/2017/09/anime-shooting-gif-4.gif",
+                "https://media0.giphy.com/media/rq8vsqrQmB128/giphy.gif",
+                "https://pa1.narvii.com/6122/e688de863dc18f51f56cd5aabc677f7371a83701_hq.gif",
+                "https://i2.wp.com/i.pinimg.com/originals/22/bb/ad/22bbade48e2ffa2c50968c635445b6a1.gif"
+            };
+            var rand = new Random();
+            var index = rand.Next(shootarray.Count);
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} shot {user.Mention}",
-                ImageUrl = res.Link,
+                ImageUrl = shootarray[index],
                 Color = Mewdeko.ErrorColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -243,7 +285,30 @@ namespace Mewdeko.Modules.Searches
                 Description = $"Title: {image.Title}\n[Source]({image.Source})",
                 Footer = new EmbedFooterBuilder
                 {
-                    Text = $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit}"
+                    Text = $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
+                },
+                ImageUrl = image.ImageUrl,
+                Color = Mewdeko.OkColor
+            };
+            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task RandomAww()
+        {
+            var image = await _kSoftAPI.imagesAPI.RandomAww();
+            var em = new EmbedBuilder
+            {
+                Author = new EmbedAuthorBuilder
+                {
+                    Name = image.Author
+                },
+                Description = $"Title: {image.Title}\n[Source]({image.Source})",
+                Footer = new EmbedFooterBuilder
+                {
+                    Text = $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
                 },
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor
@@ -257,8 +322,7 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task RandomReddit(string subreddit)
         {
-            var chan = ctx.Channel as ITextChannel;
-            var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "20");
+            var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
 
             var em = new EmbedBuilder
             {

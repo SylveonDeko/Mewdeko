@@ -151,7 +151,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
             return _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
         }
 
-        private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, ISocketMessageChannel _)
+        private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, Cacheable<IMessageChannel, ulong> _)
         {
             if (msg.Id == _msg.Id) await StopEvent().ConfigureAwait(false);
         }

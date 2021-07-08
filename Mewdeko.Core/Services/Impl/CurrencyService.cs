@@ -38,7 +38,7 @@ namespace Mewdeko.Core.Services
                 try
                 {
                     var sign = _gss.Data.Currency.Sign;
-                    await (await user.GetOrCreateDMChannelAsync())
+                    await (await user.CreateDMChannelAsync())
                         .EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
                             .WithTitle("Received Currency")

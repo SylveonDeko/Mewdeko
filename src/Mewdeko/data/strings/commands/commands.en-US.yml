@@ -691,6 +691,14 @@ setrole:
   desc: "Gives a role to a user. The role you specify has to be lower in the role hierarchy than your highest role."
   args:
     - "Role @User"
+sj:
+ desc: "Stops a massrole job with the given number."
+ args:
+ - "1"
+rj:
+  desc: "Lists the current running massrole jobs"
+  args:
+  - ""
 removerole:
   desc: "Removes a role from a user. The role you specify has to be lower in the role hierarchy than your highest role."
   args:

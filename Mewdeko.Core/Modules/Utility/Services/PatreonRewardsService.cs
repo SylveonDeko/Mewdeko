@@ -213,7 +213,7 @@ namespace Mewdeko.Modules.Utility.Services
                 if (user is null)
                     return;
 
-                var channel = await user.GetOrCreateDMChannelAsync();
+                var channel = await user.CreateDMChannelAsync();
                 await channel.SendConfirmAsync(message);
             }
             catch

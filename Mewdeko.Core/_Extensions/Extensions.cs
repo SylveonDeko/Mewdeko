@@ -344,7 +344,7 @@ namespace Mewdeko.Extensions
 
         public static async Task<IMessage> SendMessageToOwnerAsync(this IGuild guild, string message)
         {
-            var ownerPrivate = await (await guild.GetOwnerAsync().ConfigureAwait(false)).GetOrCreateDMChannelAsync()
+            var ownerPrivate = await (await guild.GetOwnerAsync().ConfigureAwait(false)).CreateDMChannelAsync()
                 .ConfigureAwait(false);
 
             return await ownerPrivate.SendMessageAsync(message).ConfigureAwait(false);
