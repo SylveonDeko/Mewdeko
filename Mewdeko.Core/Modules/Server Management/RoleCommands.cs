@@ -197,7 +197,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
             }
 
@@ -274,7 +274,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode != System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} bots!");
             }
 
@@ -351,7 +351,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode != System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
             }
 
@@ -430,7 +430,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
             }
 
@@ -587,7 +587,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} members!");
             }
 
@@ -664,7 +664,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} users!");
             }
 
@@ -741,7 +741,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} bots!");
             }
 
@@ -819,7 +819,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Added {role2.Mention} to {count2} users.");
             }
 
@@ -893,7 +893,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role2.Mention} from {count2} users.");
             }
 
@@ -965,7 +965,7 @@ namespace Mewdeko.Modules.ServerManagement
                             if (e.HttpCode == System.Net.HttpStatusCode.NotFound) continue;
                         }
                 }
-
+                await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync(
                     $"Added {role2.Mention} to {count2} users and removed {role.Mention}.");
             }
