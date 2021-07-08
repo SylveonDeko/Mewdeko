@@ -281,7 +281,7 @@ namespace Mewdeko.Modules.Help
             if (com == null)
             {
                 var ch = channel is ITextChannel
-                    ? await ((IGuildUser) ctx.User).GetOrCreateDMChannelAsync().ConfigureAwait(false)
+                    ? await ((IGuildUser) ctx.User).CreateDMChannelAsync().ConfigureAwait(false)
                     : channel;
                 try
                 {

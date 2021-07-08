@@ -60,7 +60,7 @@ namespace Mewdeko
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
                 AlwaysDownloadUsers = false,
-                ExclusiveBulkDelete = true
+                GatewayIntents = GatewayIntents.All
             });
 
             CommandService = new CommandService(new CommandServiceConfig

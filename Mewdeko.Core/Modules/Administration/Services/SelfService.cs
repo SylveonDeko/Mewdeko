@@ -245,7 +245,7 @@ namespace Mewdeko.Modules.Administration.Services
                 if (user == null)
                     return Task.FromResult<IDMChannel>(null);
 
-                return user.GetOrCreateDMChannelAsync();
+                return user.CreateDMChannelAsync();
             })).ConfigureAwait(false);
 
             ownerChannels = channels.Where(x => x != null)

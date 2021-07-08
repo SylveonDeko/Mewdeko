@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Utility.Services
             return Task.CompletedTask;
         }
 
-        private Task Client_GuildMemberUpdated(SocketGuildUser before, SocketGuildUser after)
+        private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> before, SocketGuildUser after)
         {
             var _ = Task.Run(async () =>
             {

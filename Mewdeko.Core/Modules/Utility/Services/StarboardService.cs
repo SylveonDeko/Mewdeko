@@ -116,10 +116,10 @@ namespace Mewdeko.Modules.Utility.Services
         }
 
         // all code here was used by Builderb's old Starboat source code (pls give him love <3)
-        private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel,
+        private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel,
             SocketReaction reaction)
         {
-            if (channel is IGuildChannel chane)
+            if (channel.Value is IGuildChannel chane)
             {
                 var guild = (SocketGuild) chane.Guild;
                 if (reaction.User.Value.IsBot) return;
@@ -232,10 +232,10 @@ namespace Mewdeko.Modules.Utility.Services
             // do some epic jeff
         }
 
-        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel,
+        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel,
             SocketReaction reaction)
         {
-            if (channel is IGuildChannel chane)
+            if (channel.Value is IGuildChannel chane)
             {
                 var guild = (SocketGuild) chane.Guild;
                 if (reaction.User.Value.IsBot) return;

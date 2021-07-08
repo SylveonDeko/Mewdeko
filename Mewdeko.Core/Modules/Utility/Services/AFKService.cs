@@ -40,11 +40,11 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, int> _AfkTimeout { get; } = new();
         private ConcurrentDictionary<ulong, string> _AfkDisabledChannels { get; } = new();
 
-        public Task UserTyping(SocketUser user, ISocketMessageChannel chan)
+        public Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
         {
             _ = Task.Run(async () =>
             {
-                if (user is IGuildUser use)
+                if (user.Value is IGuildUser use)
                     if (GetAfkType(use.GuildId) == 2)
                         if (IsAfk(use.Guild, use))
                         {
@@ -52,8 +52,8 @@ namespace Mewdeko.Modules.Utility.Services
                             if (t.DateAdded.Value.ToLocalTime() < DateTime.Now.AddSeconds(-GetAfkTimeout(use.GuildId)))
                             {
                                 await AFKSet(use.Guild, use, "");
-                                await chan.SendMessageAsync(
-                                    $"Welcome back {user.Mention}! I noticed you typing so I disabled your afk.");
+                                await chan.Value.SendMessageAsync(
+                                    $"Welcome back {user.Value.Mention}! I noticed you typing so I disabled your afk.");
                             }
                         }
             });

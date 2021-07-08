@@ -174,11 +174,11 @@ namespace Mewdeko.Modules.Utility.Services
             _snipeset.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
         }
 
-        private Task MsgStore(Cacheable<IMessage, ulong> optMsg, ISocketMessageChannel ch)
+        private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
         {
             _ = Task.Run(async () =>
             {
-                if (GetSnipeSet(((SocketTextChannel) ch).Guild.Id) == 0) return;
+                if (GetSnipeSet(((SocketTextChannel) ch.Value).Guild.Id) == 0) return;
 
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                 if (msg is null || msg.Author.IsBot) return;
@@ -187,7 +187,7 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     var snipemsg = new SnipeStore
                     {
-                        GuildId = ((SocketTextChannel) ch).Guild.Id,
+                        GuildId = ((SocketTextChannel) ch.Value).Guild.Id,
                         ChannelId = ch.Id,
                         Message = msg.Content,
                         UserId = msg.Author.Id,
@@ -210,7 +210,7 @@ namespace Mewdeko.Modules.Utility.Services
                 if (GetSnipeSet(((SocketTextChannel) ch).Guild.Id) == 0) return;
 
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
-                if (msg is not null && msg.Author.IsBot) return;
+                if (msg is null || msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(msg.Author.Id);
                 if (!user.IsBot)
                 {

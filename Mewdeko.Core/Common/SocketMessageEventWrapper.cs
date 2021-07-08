@@ -35,13 +35,13 @@ namespace Mewdeko.Common
         public event Action<SocketReaction> OnReactionRemoved = delegate { };
         public event Action OnReactionsCleared = delegate { };
 
-        private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel)
+        private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan)
         {
             Task.Run(() =>
             {
                 try
                 {
-                    if (msg.Id == Message.Id)
+                    if (msg.Value.Id == Message.Id)
                         OnReactionsCleared?.Invoke();
                 }
                 catch
@@ -52,7 +52,7 @@ namespace Mewdeko.Common
             return Task.CompletedTask;
         }
 
-        private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel,
+        private Task Discord_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
             SocketReaction reaction)
         {
             Task.Run(() =>
@@ -70,7 +70,7 @@ namespace Mewdeko.Common
             return Task.CompletedTask;
         }
 
-        private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel channel,
+        private Task Discord_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
             SocketReaction reaction)
         {
             Task.Run(() =>

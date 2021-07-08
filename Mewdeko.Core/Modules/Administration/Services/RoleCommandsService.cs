@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Administration.Services
 #endif
         }
 
-        private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel chan,
+        private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
             SocketReaction reaction)
         {
             var _ = Task.Run(async () =>
@@ -46,7 +46,7 @@ namespace Mewdeko.Modules.Administration.Services
                         !(reaction.User.Value is SocketGuildUser gusr))
                         return;
 
-                    if (!(chan is SocketGuildChannel gch))
+                    if (!(chan.Value is SocketGuildChannel gch))
                         return;
 
                     if (!_models.TryGetValue(gch.Guild.Id, out var confs))
@@ -121,7 +121,7 @@ namespace Mewdeko.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, ISocketMessageChannel chan,
+        private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
             SocketReaction reaction)
         {
             var _ = Task.Run(async () =>
@@ -133,7 +133,7 @@ namespace Mewdeko.Modules.Administration.Services
                         !(reaction.User.Value is SocketGuildUser gusr))
                         return;
 
-                    if (!(chan is SocketGuildChannel gch))
+                    if (!(chan.Value is SocketGuildChannel gch))
                         return;
 
                     if (!_models.TryGetValue(gch.Guild.Id, out var confs))
