@@ -247,9 +247,9 @@ namespace Mewdeko.Modules.Utility.Services
             {
                     Emote.TryParse("<:upvote:863122283283742791>", out var emote);
                     Emote.TryParse("<:D_downvote:863122244527980613>", out var emote2);
-                    Task.Delay(200);
+                    await Task.Delay(200);
                     await msg.AddReactionAsync(emote);
-                    Task.Delay(200);
+                    await Task.Delay(200);
                     await msg.AddReactionAsync(emote2);
                     }
         }
