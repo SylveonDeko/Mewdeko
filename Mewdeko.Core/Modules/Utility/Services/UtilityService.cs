@@ -244,12 +244,14 @@ namespace Mewdeko.Modules.Utility.Services
             var guild = ((SocketGuildChannel) msg.Channel).Guild.Id;
             var id = GetReactChans(guild);
             if (msg.Channel.Id == id)
+            {
                     Emote.TryParse("<:upvote:863122283283742791>", out var emote);
                     Emote.TryParse("<:D_downvote:863122244527980613>", out var emote2);
                     Task.Delay(200);
                     await msg.AddReactionAsync(emote);
                     Task.Delay(200);
                     await msg.AddReactionAsync(emote2);
+                    }
         }
 
         public async Task MsgReciev(SocketMessage msg)
