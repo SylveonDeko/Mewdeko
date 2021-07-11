@@ -943,7 +943,6 @@ namespace Mewdeko.Modules.Xp.Services
                             img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
                                 _fonts.UniSans.CreateFont(_template.User.Xp.Guild.FontSize, FontStyle.Bold),
                                 Brushes.Solid(_template.User.Xp.Guild.Color),
-                                pen,
                                 new PointF(_template.User.Xp.Guild.Pos.X, _template.User.Xp.Guild.Pos.Y)));
 
                         if (stats.FullGuildStats.AwardedXp != 0 && _template.User.Xp.Awarded.Show)
