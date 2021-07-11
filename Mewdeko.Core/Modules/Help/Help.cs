@@ -98,8 +98,8 @@ namespace Mewdeko.Modules.Help
                     .WithDescription(
                         "Invite me using this link:\nhttps://mewdeko.tech/invite\nIf you need help setting up the bot join the support server:\nhttps://mewdeko.tech/support");
 
-                var localModules = topLevelModules.Skip(12 * cur)
-                    .Take(12)
+                var localModules = topLevelModules.Skip(5 * cur)
+                    .Take(5)
                     .ToList();
 
                 if (!localModules.Any())
@@ -114,10 +114,10 @@ namespace Mewdeko.Modules.Help
                     .ForEach(module => embed.AddField($"{GetModuleEmoji(module.Name)} {module.Name}",
                         GetText($"module_description_{module.Name.ToLowerInvariant()}") + "\n" +
                         Format.Code(GetText("module_footer", Prefix, module.Name.ToLowerInvariant())),
-                        true));
+                        false));
 
                 return embed;
-            }, topLevelModules.Count(), 12, false);
+            }, topLevelModules.Count(), 5, false);
         }
 
         private string GetModuleEmoji(string moduleName)
