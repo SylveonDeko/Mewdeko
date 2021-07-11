@@ -39,13 +39,196 @@ namespace Mewdeko.Modules.Xp
 
         private readonly GamblingConfigService _gss;
         private readonly DownloadTracker _tracker;
+        private readonly XpConfigService _xpConfig;
 
-        public Xp(DownloadTracker tracker, GamblingConfigService gss)
+        public Xp(DownloadTracker tracker, GamblingConfigService gss, XpConfigService xpconfig)
         {
+            _xpConfig = xpconfig;
             _tracker = tracker;
             _gss = gss;
         }
+        private class XpStuffs
+        {
+            public string setting { get; set; }
+            public string value { get; set; }
+        }
 
+        private async Task SendXpSettings(ITextChannel chan)
+        {
+
+            var list = new List<XpStuffs>();
+            if (_service.GetTxtXpRate(ctx.Guild.Id) == 0)
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "xptextrate",
+                    value = $"{_xpConfig.Data.XpPerMessage} (Global Default)"
+                };
+                list.Add(toadd);
+            }
+            else
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "xptextrate",
+                    value = $"{_service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
+                };
+                list.Add(toadd);
+            }
+
+            if (_service.GetVoiceXpRate(ctx.Guild.Id) == 0)
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "voicexprate",
+                    value = $"{_xpConfig.Data.VoiceXpPerMinute} (Global Default)"
+                };
+                list.Add(toadd);
+            }
+            else
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "xpvoicerate",
+                    value = $"{_service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
+                };
+                list.Add(toadd);
+            }
+
+            if (_service.GetXpTimeout(ctx.Guild.Id) == 0)
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "txtxptimeout",
+                    value = $"{_xpConfig.Data.MessageXpCooldown} (Global Default)"
+                };
+                list.Add(toadd);
+            }
+            else
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "txtxptimeout",
+                    value = $"{_service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                };
+                list.Add(toadd);
+            }
+
+            if (_service.GetVoiceXpTimeout(ctx.Guild.Id) == 0)
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "voiceminutestimeout",
+                    value = $"{_xpConfig.Data.VoiceMaxMinutes} (Global Default)"
+                };
+                list.Add(toadd);
+            }
+            else
+            {
+                var toadd = new XpStuffs()
+                {
+                    setting = "voiceminutestimeout",
+                    value = $"{_service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                };
+                list.Add(toadd);
+            }
+
+            var strings = new List<string>();
+            foreach (var i in list)
+            {
+                strings.Add($"{i.setting,-25} = {i.value}\n");
+            }
+
+            await chan.SendConfirmAsync(Format.Code(string.Concat(strings), "hs"));
+
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageGuild)]
+        public async Task XpSetting(string setting = null, int value = 999999999)
+        {
+            if (value < 0) return;
+            if (setting is null)
+            {
+                await SendXpSettings(ctx.Channel as ITextChannel);
+                return;
+            }
+            if (setting != null && setting.ToLower() == "xptextrate")
+            {
+
+                if (value != 999999999 && value != 0)
+                {
+                    await _service.XpTxtRateSet(ctx.Guild, value);
+                    await ctx.Channel.SendConfirmAsync($"Users will now recieve {value} xp per message.");
+                }
+                if (value == 999999999 || value == 0)
+                {
+                    await _service.XpTxtRateSet(ctx.Guild, 0);
+                    await ctx.Channel.SendConfirmAsync("User xp per message will now be the global default.");
+                }
+                return;
+            }
+            if (setting != null && setting.ToLower() == "txtxptimeout")
+            {
+                if (value != 999999999 && value != 0)
+                {
+                    await _service.XpTxtTimeoutSet(ctx.Guild, value);
+                    await ctx.Channel.SendConfirmAsync($"Message XP will be given every {value} minutes.");
+                }
+                if (value == 999999999 || value == 0)
+                {
+                    await _service.XpTxtTimeoutSet(ctx.Guild, 0);
+                    await ctx.Channel.SendConfirmAsync("XP Timeout will now follow the global default.");
+                }
+
+                return;
+            }
+            if (setting != null && setting.ToLower() == "xpvoicerate")
+            {
+                if (value != 999999999 && value != 0)
+                {
+                    await _service.XpVoiceRateSet(ctx.Guild, value);
+                    await ctx.Channel.SendConfirmAsync($"Users will now recieve {value} every minute they are in voice. Make sure to set voiceminutestimeout or this is usless.");
+                }
+
+                if (value == 999999999 || value == 0)
+                {
+                    await _service.XpVoiceRateSet(ctx.Guild, 0);
+                    await _service.XpVoiceTimeoutSet(ctx.Guild, 0);
+                    await ctx.Channel.SendConfirmAsync("Voice XP Disabled.");
+                }
+
+                return;
+            }
+            if (setting != null && setting.ToLower() == "voiceminutestimeout")
+            {
+
+                if (value != 999999999 && value != 0)
+                {
+                    await _service.XpVoiceTimeoutSet(ctx.Guild, value);
+                    await ctx.Channel.SendConfirmAsync($"XP will now stop being given in vc after {value} minutes. Make sure to set voicexprate or this is useless.");
+                }
+
+                if (value == 999999999 || value == 0)
+                {
+                    await _service.XpVoiceRateSet(ctx.Guild, 0);
+                    await _service.XpVoiceTimeoutSet(ctx.Guild, 0);
+                    await ctx.Channel.SendConfirmAsync("Voice XP Disabled.");
+                }
+                return;
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("The setting name you provided does not exist! The available settings and their descriptions:\n\n" +
+                    "`xptextrate`: Alows you to set the xp per message rate.\n" +
+                    "`txtxptimeout`: Allows you to set after how many minutes xp is given so users cant spam for xp.\n" +
+                    "`xpvoicerate`: Allows you to set how much xp a person gets in vc per minute.\n" +
+                    "`voiceminutestimeout`: Allows you to set the maximum time a user can remain in vc while gaining xp.");
+            }
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -360,35 +543,6 @@ namespace Mewdeko.Modules.Xp
 
                 return embed;
             }, 900, 9, false);
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        public async Task XpGlobalLeaderboard(int page = 1)
-        {
-            if (--page < 0 || page > 99)
-                return;
-            var users = _service.GetUserXps(page);
-
-            var embed = new EmbedBuilder()
-                .WithTitle(GetText("global_leaderboard"))
-                .WithOkColor();
-
-            if (!users.Any())
-                embed.WithDescription("-");
-            else
-                for (var i = 0; i < users.Length; i++)
-                {
-                    var user = users[i];
-                    embed.AddField(
-                        $"#{i + 1 + page * 9} {user}",
-                        $"{GetText("level_x", new LevelStats(users[i].TotalXp).Level)} - {users[i].TotalXp}xp");
-                }
-
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
         [MewdekoCommand]

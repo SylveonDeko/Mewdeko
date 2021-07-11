@@ -16,6 +16,12 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong MiniWarnlogChannelId { get; set; } = 0;
         public ulong TicketCategory { get; set; } = 0;
         public ulong snipeset { get; set; }
+        public int AfkLength { get; set; }
+        public int AfkMessageType { get; set; }
+        public int XpTxtTimeout { get; set; }
+        public int XpTxtRate { get; set; }
+        public int XpVoiceRate { get; set; }
+        public int XpVoiceTimeout { get; set; }
         public ulong SuggestRole { get; set; }
         public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
         public ulong Stars { get; set; }
