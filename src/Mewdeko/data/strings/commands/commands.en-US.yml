@@ -687,6 +687,25 @@ restart:
   desc: "Restarts the bot. Might not work."
   args:
     - ""
+xpsetting:
+  desc: "Allows you to change server xp settings. Provide no paramters to view current settings. Provide no parameters on a setting to reset it to its default.\nSettings and what they do:\n\n`xptextrate`: Alows you to set the xp per message rate.\n`txtxptimeout`: Allows you to set after how many minutes xp is given so users cant spam for xp.\n`xpvoicerate`: Allows you to set how much xp a person gets in vc per minute.\n`voiceminutestimeout`: Allows you to set the maximum time a user can remain in vc while gaining xp."
+  args:
+  - ""
+  - "xptextrate 4"
+  - "xptextrate"
+timedafk:
+ desc: "Allows you to set a timed afk that auto removes itself and pings you when it does. Afktimeout ignores timed AFKs."
+ args:
+ - "2m Test"
+afkmessagetype:
+ desc: "Allows you to set your servers afk message type.\nAFK Message Types:\n\n1 - AFK is entierely embedded (this is the default option)\n2 - Afk is Text Only\n3 - User who is afk and for how long is in text, message is in an embed\n4 - User who is AFK is embedded while the message is regular text."
+ args:
+ - "1"
+ - "2"
+afklength:
+ desc: "Allows you to set the servers max message length for afk messages. Limited to 4096 due to discord limits"
+ args:
+ - "2098"
 setrole:
   desc: "Gives a role to a user. The role you specify has to be lower in the role hierarchy than your highest role."
   args:

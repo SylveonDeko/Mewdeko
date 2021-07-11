@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Modules.Xp;
@@ -42,6 +43,10 @@ namespace Mewdeko.Modules.Xp.Services
         private readonly ICurrencyService _cs;
 
         private readonly DbService _db;
+        private ConcurrentDictionary<ulong, int> _XpTxtRates { get; } = new();
+        private ConcurrentDictionary<ulong, int> _XpVoiceRates { get; } = new();
+        private ConcurrentDictionary<ulong, int> _XpTxtTimeouts { get; } = new();
+        private ConcurrentDictionary<ulong, int> _XpVoiceTimeouts { get; } = new();
 
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedChannels;
 
@@ -87,7 +92,18 @@ namespace Mewdeko.Modules.Xp.Services
             var allGuildConfigs = bot.AllGuildConfigs
                 .Where(x => x.XpSettings != null)
                 .ToList();
-
+            _XpTxtRates = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.XpTxtRate)
+                .ToConcurrent();
+            _XpTxtTimeouts = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.XpTxtTimeout)
+                .ToConcurrent();
+            _XpVoiceRates = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.XpVoiceRate)
+                .ToConcurrent();
+            _XpVoiceTimeouts = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout)
+                .ToConcurrent();
             _excludedChannels = allGuildConfigs
                 .ToDictionary(
                     x => x.GuildId,
@@ -509,11 +525,34 @@ namespace Mewdeko.Modules.Xp.Services
         {
             var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
             var value = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-            _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(_xpConfig.Data.VoiceMaxMinutes),
+            int e;
+            if (GetVoiceXpTimeout(user.Guild.Id) == 0)
+                e = _xpConfig.Data.VoiceMaxMinutes;
+            else
+                e = GetVoiceXpTimeout(user.Guild.Id);
+            _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e),
                 When.NotExists);
         }
-
+        public int GetXpTimeout(ulong? id)
+        {
+            _XpTxtTimeouts.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public int GetTxtXpRate(ulong? id)
+        {
+            _XpTxtRates.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public double GetVoiceXpRate(ulong? id)
+        {
+            _XpVoiceRates.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public int GetVoiceXpTimeout(ulong? id)
+        {
+            _XpVoiceTimeouts.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
         private void UserLeftVoiceChannel(SocketGuildUser user, SocketVoiceChannel channel)
         {
             var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
@@ -529,7 +568,12 @@ namespace Mewdeko.Modules.Xp.Services
             var dateStart = DateTimeOffset.FromUnixTimeSeconds(startUnixTime);
             var dateEnd = DateTimeOffset.UtcNow;
             var minutes = (dateEnd - dateStart).TotalMinutes;
-            var xp = _xpConfig.Data.VoiceXpPerMinute * minutes;
+            double ten;
+            if (GetVoiceXpRate(user.Guild.Id) == 0)
+                ten = _xpConfig.Data.VoiceXpPerMinute;
+            else 
+                ten = GetVoiceXpRate(user.Guild.Id);
+            var xp = ten * minutes;
             var actualXp = (int) Math.Floor(xp);
 
             if (actualXp > 0)
@@ -568,15 +612,18 @@ namespace Mewdeko.Modules.Xp.Services
                 if (!arg.Content.Contains(' ') && arg.Content.Length < 5)
                     return;
 
-                if (!SetUserRewarded(user.Id))
+                if (!SetUserRewarded(user))
                     return;
-
+                int e;
+                if (GetTxtXpRate(user.Guild.Id) == 0)
+                    e = _xpConfig.Data.XpPerMessage;
+                else e = GetTxtXpRate(user.Guild.Id);
                 _addMessageXp.Enqueue(new UserCacheItem
                 {
                     Guild = user.Guild,
                     Channel = arg.Channel,
                     User = user,
-                    XpAmount = _xpConfig.Data.XpPerMessage
+                    XpAmount = e
                 });
             });
             return Task.CompletedTask;
@@ -606,7 +653,50 @@ namespace Mewdeko.Modules.Xp.Services
                 uow.SaveChanges();
             }
         }
+        public async Task XpTxtRateSet(IGuild guild, int num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.XpTxtRate = num;
+                await uow.SaveChangesAsync();
+            }
 
+            _XpTxtRates.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
+        public async Task XpTxtTimeoutSet(IGuild guild, int num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.XpTxtTimeout = num;
+                await uow.SaveChangesAsync();
+            }
+
+            _XpTxtTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
+        public async Task XpVoiceRateSet(IGuild guild, int num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.XpVoiceRate = num;
+                await uow.SaveChangesAsync();
+            }
+
+            _XpVoiceRates.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
+        public async Task XpVoiceTimeoutSet(IGuild guild, int num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.XpVoiceTimeout = num;
+                await uow.SaveChangesAsync();
+            }
+
+            _XpVoiceTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
         public bool IsServerExcluded(ulong id)
         {
             return _excludedServers.Contains(id);
@@ -628,14 +718,18 @@ namespace Mewdeko.Modules.Xp.Services
             return Enumerable.Empty<ulong>();
         }
 
-        private bool SetUserRewarded(ulong userId)
+        private bool SetUserRewarded(SocketGuildUser userId)
         {
             var r = _cache.Redis.GetDatabase();
-            var key = $"{_creds.RedisKey()}_user_xp_gain_{userId}";
-
+            var key = $"{_creds.RedisKey()}_user_xp_gain_{userId.Id}";
+            int e;
+            if (GetXpTimeout(userId.Guild.Id) == 0)
+                e = _xpConfig.Data.MessageXpCooldown;
+            else
+                e = GetXpTimeout(userId.Guild.Id);
             return r.StringSet(key,
                 true,
-                TimeSpan.FromMinutes(_xpConfig.Data.MessageXpCooldown),
+                TimeSpan.FromMinutes(e),
                 When.NotExists);
         }
 
@@ -788,8 +882,8 @@ namespace Mewdeko.Modules.Xp.Services
                     {
                         TextOptions = new TextOptions
                         {
-                            HorizontalAlignment = HorizontalAlignment.Right,
-                            VerticalAlignment = VerticalAlignment.Top
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                            VerticalAlignment = VerticalAlignment.Center
                         }
                     }.WithFallbackFonts(_fonts.FallBackFonts);
 
@@ -798,11 +892,11 @@ namespace Mewdeko.Modules.Xp.Services
                         if (_template.User.Name.Show)
                         {
                             var fontSize = (int) (_template.User.Name.FontSize * 0.9);
-                            var username = stats.User.ToString();
+                            var username = stats.User.Username;
                             var usernameFont = _fonts.NotoSans
                                 .CreateFont(fontSize, FontStyle.Bold);
 
-                            var size = TextMeasurer.Measure($"@{username}", new RendererOptions(usernameFont));
+                            var size = TextMeasurer.Measure($"{username}", new RendererOptions(usernameFont));
                             var scale = 400f / size.Width;
                             if (scale < 1)
                                 usernameFont = _fonts.NotoSans
@@ -811,7 +905,7 @@ namespace Mewdeko.Modules.Xp.Services
                             img.Mutate(x =>
                             {
                                 x.DrawText(usernameTextOptions,
-                                    "@" + username,
+                                    username,
                                     usernameFont,
                                     _template.User.Name.Color,
                                     new PointF(_template.User.Name.Pos.X, _template.User.Name.Pos.Y + 8));
@@ -820,31 +914,6 @@ namespace Mewdeko.Modules.Xp.Services
 
                         //club name
 
-                        if (_template.Club.Name.Show)
-                        {
-                            var clubName = stats.User.Club?.ToString() ?? "-";
-
-                            var clubFont = _fonts.NotoSans
-                                .CreateFont(_template.Club.Name.FontSize, FontStyle.Regular);
-
-                            img.Mutate(x => x.DrawText(clubTextOptions,
-                                clubName,
-                                clubFont,
-                                _template.Club.Name.Color,
-                                new PointF(_template.Club.Name.Pos.X + 50, _template.Club.Name.Pos.Y - 8))
-                            );
-                        }
-
-                        if (_template.User.GlobalLevel.Show)
-                            img.Mutate(x =>
-                            {
-                                x.DrawText(
-                                    stats.Global.Level.ToString(),
-                                    _fonts.NotoSans.CreateFont(_template.User.GlobalLevel.FontSize, FontStyle.Bold),
-                                    _template.User.GlobalLevel.Color,
-                                    new PointF(_template.User.GlobalLevel.Pos.X, _template.User.GlobalLevel.Pos.Y)
-                                ); //level
-                            });
 
                         if (_template.User.GuildLevel.Show)
                             img.Mutate(x =>
@@ -866,22 +935,13 @@ namespace Mewdeko.Modules.Xp.Services
                         //xp bar
                         if (_template.User.Xp.Bar.Show)
                         {
-                            var xpPercent = global.LevelXp / (float) global.RequiredXp;
-                            DrawXpBar(xpPercent, _template.User.Xp.Bar.Global, img);
-                            xpPercent = guild.LevelXp / (float) guild.RequiredXp;
+                            var xpPercent = guild.LevelXp / (float) guild.RequiredXp;
                             DrawXpBar(xpPercent, _template.User.Xp.Bar.Guild, img);
                         }
 
-                        if (_template.User.Xp.Global.Show)
-                            img.Mutate(x => x.DrawText($"{global.LevelXp}/{global.RequiredXp}",
-                                _fonts.NotoSans.CreateFont(_template.User.Xp.Global.FontSize, FontStyle.Bold),
-                                Brushes.Solid(_template.User.Xp.Global.Color),
-                                pen,
-                                new PointF(_template.User.Xp.Global.Pos.X, _template.User.Xp.Global.Pos.Y)));
-
                         if (_template.User.Xp.Guild.Show)
                             img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
-                                _fonts.NotoSans.CreateFont(_template.User.Xp.Guild.FontSize, FontStyle.Bold),
+                                _fonts.UniSans.CreateFont(_template.User.Xp.Guild.FontSize, FontStyle.Bold),
                                 Brushes.Solid(_template.User.Xp.Guild.Color),
                                 pen,
                                 new PointF(_template.User.Xp.Guild.Pos.X, _template.User.Xp.Guild.Pos.Y)));
@@ -902,11 +962,6 @@ namespace Mewdeko.Modules.Xp.Services
                         }
 
                         //ranking
-                        if (_template.User.GlobalRank.Show)
-                            img.Mutate(x => x.DrawText(stats.GlobalRanking.ToString(),
-                                _fonts.UniSans.CreateFont(_template.User.GlobalRank.FontSize, FontStyle.Bold),
-                                _template.User.GlobalRank.Color,
-                                new PointF(_template.User.GlobalRank.Pos.X, _template.User.GlobalRank.Pos.Y)));
 
                         if (_template.User.GuildRank.Show)
                             img.Mutate(x => x.DrawText(stats.GuildRanking.ToString(),
@@ -919,24 +974,15 @@ namespace Mewdeko.Modules.Xp.Services
                         string GetTimeSpent(DateTime time, string format)
                         {
                             var offset = DateTime.UtcNow - time;
-                            return string.Format(format, offset.Days, offset.Hours, offset.Minutes);
+                            return $"{offset.Humanize()} ago";
                         }
 
-                        if (_template.User.TimeOnLevel.Global.Show)
-                            img.Mutate(x =>
-                                x.DrawText(GetTimeSpent(stats.User.LastLevelUp, _template.User.TimeOnLevel.Format),
-                                    _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Global.FontSize,
-                                        FontStyle.Bold),
-                                    _template.User.TimeOnLevel.Global.Color,
-                                    new PointF(_template.User.TimeOnLevel.Global.Pos.X,
-                                        _template.User.TimeOnLevel.Global.Pos.Y)));
 
                         if (_template.User.TimeOnLevel.Guild.Show)
                             img.Mutate(x =>
                                 x.DrawText(
                                     GetTimeSpent(stats.FullGuildStats.LastLevelUp, _template.User.TimeOnLevel.Format),
-                                    _fonts.NotoSans.CreateFont(_template.User.TimeOnLevel.Guild.FontSize,
-                                        FontStyle.Bold),
+                                    _fonts.UniSans.CreateFont(_template.User.TimeOnLevel.Guild.FontSize),
                                     _template.User.TimeOnLevel.Guild.Color,
                                     new PointF(_template.User.TimeOnLevel.Guild.Pos.X,
                                         _template.User.TimeOnLevel.Guild.Pos.Y)));
@@ -987,7 +1033,6 @@ namespace Mewdeko.Modules.Xp.Services
                             }
 
                         //club image
-                        if (_template.Club.Icon.Show) await DrawClubImage(img, stats);
 
                         img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
                         return ((Stream) img.ToStream(imageFormat), imageFormat);

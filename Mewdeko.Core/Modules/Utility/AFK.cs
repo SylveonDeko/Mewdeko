@@ -24,14 +24,32 @@ namespace Mewdeko.Modules.Utility
             [Priority(0)]
             public async Task Afk([Remainder] string message)
             {
-                if (message.Length > 250)
+                if (message.Length > _service.GetAfkLength(ctx.Guild.Id))
                 {
-                    await ctx.Channel.SendErrorAsync("Thats too long!");
+                    await ctx.Channel.SendErrorAsync($"Thats too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
                     return;
                 }
-
-                await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message);
+                if(_service.GetAfkMessageType(ctx.Guild.Id) == 2 || _service.GetAfkMessageType(ctx.Guild.Id) == 4)
+                {
+                    if (ctx.Message.MentionedUserIds.Count >= 3)
+                    {
+                        await ctx.Channel.SendErrorAsync("Nice try there, but you cant mention more then 3 users with afk type 2 or 4 to prevent raids.");
+                        return;
+                    }
+                }
+                await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
+            public async Task TimedAfk(StoopidTime time, [Remainder] string message)
+            {
+                await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}");
+                await _service.TimedAfk(ctx.Guild, ctx.User, message, time.Time);
+                await ctx.Channel.SendMessageAsync($"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
             }
             [Priority(0)]
             [MewdekoCommand]
@@ -62,7 +80,37 @@ namespace Mewdeko.Modules.Utility
                         .WithDescription(string.Join("\n", mentions.ToArray().Skip(cur * 20).Take(20)));
                 }, mentions.ToArray().Length, 20).ConfigureAwait(false);
             }
-
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task AfkMessageType(int num)
+            {
+                if (num > 4) return;
+                await _service.AfkMessageTypeSet(ctx.Guild, num);
+                await ctx.Channel.SendConfirmAsync($"Sucessfully set AfkMessageType to {num}");
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task AfkLength(int num)
+            {
+                if (num > 4096)
+                {
+                    await ctx.Channel.SendErrorAsync("The Maximum Length is 4096 per Discord limits. Please put a number lower than that.");
+                    return;
+                }
+                else
+                {
+                    await _service.AfkLengthSet(ctx.Guild, num);
+                    await ctx.Channel.SendConfirmAsync($"AFK Length Sucessfully Set To {num} Characters");
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -234,12 +282,12 @@ namespace Mewdeko.Modules.Utility
                 var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
                 if (!afkmsg.Any() || afkmsg.Last() == "")
                 {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "_ _");
+                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
                     await ctx.Channel.SendConfirmAsync("Afk message enabled!");
                 }
                 else
                 {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "");
+                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "", 0);
                     await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
                 }
             }
@@ -257,7 +305,7 @@ namespace Mewdeko.Modules.Utility
                     try
                     {
                         var afkmsg = _service.AfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
-                        await _service.AFKSet(ctx.Guild, i, "");
+                        await _service.AFKSet(ctx.Guild, i, "", 0);
                         users++;
                     }
                     catch (Exception)
@@ -282,7 +330,7 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                await _service.AFKSet(ctx.Guild, user, "");
+                await _service.AFKSet(ctx.Guild, user, "", 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message for {user.Mention} has been disabled!");
             }
         }
