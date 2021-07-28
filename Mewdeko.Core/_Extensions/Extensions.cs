@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Discord.Rest;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
@@ -240,6 +241,25 @@ namespace Mewdeko.Extensions
         }
 
         public static IMessage DeleteAfter(this IUserMessage msg, int seconds, LogCommandService logService = null)
+        {
+            if (msg is null)
+                return null;
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(seconds * 1000).ConfigureAwait(false);
+                if (logService != null) logService.AddDeleteIgnore(msg.Id);
+                try
+                {
+                    await msg.DeleteAsync().ConfigureAwait(false);
+                }
+                catch
+                {
+                }
+            });
+            return msg;
+        }
+        public static RestInteractionMessage DeleteResponseAfter(this RestInteractionMessage msg, int seconds, LogCommandService logService = null)
         {
             if (msg is null)
                 return null;

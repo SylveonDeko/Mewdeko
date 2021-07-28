@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Mewdeko.Modules.Administration.Services
+namespace Mewdeko.Modules.Moderation.Services
 {
     public class UserPunishService : INService
     {

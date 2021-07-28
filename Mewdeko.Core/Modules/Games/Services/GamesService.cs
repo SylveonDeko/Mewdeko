@@ -96,7 +96,7 @@ namespace Mewdeko.Modules.Games.Services
             using (var http = _httpFactory.CreateClient())
             {
                 var text = await http.GetStringAsync(
-                    "https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
+                    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
                 return JsonConvert.DeserializeObject<RatingTexts>(text);
             }
         }

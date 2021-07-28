@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -174,7 +173,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 var gc = uow.GuildConfigs.ForId(id, set => set
                     .Include(x => x.ReactionRoleMessages)
-                    .ThenInclude<GuildConfig, ReactionRoleMessage, List<ReactionRole>>(x => x.ReactionRoles));
+                    .ThenInclude(x => x.ReactionRoles));
                 gc.ReactionRoleMessages.Add(rrm);
                 _models.AddOrUpdate(id,
                     gc.ReactionRoleMessages,
@@ -191,7 +190,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 var gc = uow.GuildConfigs.ForId(id,
                     set => set.Include(x => x.ReactionRoleMessages)
-                        .ThenInclude<GuildConfig, ReactionRoleMessage, List<ReactionRole>>(x => x.ReactionRoles));
+                        .ThenInclude(x => x.ReactionRoles));
                 uow._context.Set<ReactionRole>()
                     .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
                 gc.ReactionRoleMessages.RemoveAt(index);

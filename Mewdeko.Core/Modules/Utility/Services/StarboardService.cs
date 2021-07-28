@@ -116,7 +116,8 @@ namespace Mewdeko.Modules.Utility.Services
         }
 
         // all code here was used by Builderb's old Starboat source code (pls give him love <3)
-        private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel,
+        private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
+            Cacheable<IMessageChannel, ulong> channel,
             SocketReaction reaction)
         {
             if (channel.Value is IGuildChannel chane)
@@ -232,7 +233,8 @@ namespace Mewdeko.Modules.Utility.Services
             // do some epic jeff
         }
 
-        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel,
+        private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message,
+            Cacheable<IMessageChannel, ulong> channel,
             SocketReaction reaction)
         {
             if (channel.Value is IGuildChannel chane)

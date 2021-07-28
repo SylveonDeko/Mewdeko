@@ -1,19 +1,20 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.Webhook;
-using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.ServerManagement.Services;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.Webhook;
+using Discord.WebSocket;
+using Google.Apis.YouTube.v3.Data;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
+using Mewdeko.Modules.ServerManagement.Services;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.ServerManagement
 {
@@ -28,6 +29,7 @@ namespace Mewdeko.Modules.ServerManagement
             {
                 _httpFactory = httpfact;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -40,7 +42,7 @@ namespace Mewdeko.Modules.ServerManagement
                     "<a:loading:847706744741691402> Making sure role permissions don't get in the way of lockdown...");
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
                     x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                    ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     foreach (var i in roles)
@@ -50,13 +52,18 @@ namespace Mewdeko.Modules.ServerManagement
                         await i.ModifyAsync(x => { x.Permissions = newperms; });
                     }
 
-                    await msg.ModifyAsync(x => { x.Content = "<a:checkfragutil:854536148411744276> Roles checked! You may now run the lockdown command."; });
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Content =
+                            "<a:checkfragutil:854536148411744276> Roles checked! You may now run the lockdown command.";
+                    });
                 }
                 else
                 {
                     await msg.ModifyAsync(x =>
                     {
-                        x.Content = "<a:checkfragutil:854536148411744276> Roles checked! No roles are in the way of the lockdown command.";
+                        x.Content =
+                            "<a:checkfragutil:854536148411744276> Roles checked! No roles are in the way of the lockdown command.";
                     });
                 }
             }
@@ -71,7 +78,7 @@ namespace Mewdeko.Modules.ServerManagement
             {
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
                     x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                    ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     await ctx.Channel.SendErrorAsync(
@@ -81,7 +88,8 @@ namespace Mewdeko.Modules.ServerManagement
 
                 if (ctx.Guild.EveryoneRole.Permissions.SendMessages == false)
                 {
-                    await ctx.Channel.SendErrorAsync("<a:crossfragutil:854536474098663434> Server is already in lockdown!");
+                    await ctx.Channel.SendErrorAsync(
+                        "<a:crossfragutil:854536474098663434> Server is already in lockdown!");
                 }
                 else
                 {
@@ -91,6 +99,7 @@ namespace Mewdeko.Modules.ServerManagement
                     await ctx.Channel.SendConfirmAsync("Server has been locked down!");
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -99,17 +108,17 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task MoveTo(IVoiceChannel channel)
             {
                 var use = ctx.User as IGuildUser;
-                if(use.VoiceChannel == null)
+                if (use.VoiceChannel == null)
                 {
-                    await ctx.Channel.SendErrorAsync("<a:checkfragutil:854536148411744276> You need to be in a voice channel for this!");
+                    await ctx.Channel.SendErrorAsync(
+                        "<a:checkfragutil:854536148411744276> You need to be in a voice channel for this!");
                     return;
                 }
-                await use.ModifyAsync(x =>
-                {
-                    x.Channel = new Optional<IVoiceChannel>(channel);
-                });
+
+                await use.ModifyAsync(x => { x.Channel = new Optional<IVoiceChannel>(channel); });
                 await ctx.Channel.SendConfirmAsync($"Succesfully moved you to {Format.Bold(channel.Name)}");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -123,12 +132,11 @@ namespace Mewdeko.Modules.ServerManagement
                     await ctx.Channel.SendErrorAsync("The user must be in a voice channel for this!");
                     return;
                 }
-                await user.ModifyAsync(x =>
-                {
-                    x.Channel = new Optional<IVoiceChannel>(channel);
-                });
+
+                await user.ModifyAsync(x => { x.Channel = new Optional<IVoiceChannel>(channel); });
                 await ctx.Channel.SendConfirmAsync($"Succesfully moved {user.Mention} to {Format.Bold(channel.Name)}");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -136,20 +144,24 @@ namespace Mewdeko.Modules.ServerManagement
             [RequireContext(ContextType.Guild)]
             public async Task Grab(IGuildUser user)
             {
-                var vc = ((IGuildUser)ctx.User).VoiceChannel;
+                var vc = ((IGuildUser) ctx.User).VoiceChannel;
                 if (vc == null)
                 {
                     await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!");
                     return;
                 }
-                if(user.VoiceChannel == null)
+
+                if (user.VoiceChannel == null)
                 {
-                    await ctx.Channel.SendErrorAsync($"{user.Mention} needs to be in a voice channel for this to work!");
+                    await ctx.Channel.SendErrorAsync(
+                        $"{user.Mention} needs to be in a voice channel for this to work!");
                     return;
                 }
+
                 await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(vc));
                 await ctx.Channel.SendConfirmAsync($"Grabbed {user.Mention} from {user.VoiceChannel.Name} to your VC!");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -194,7 +206,7 @@ namespace Mewdeko.Modules.ServerManagement
                 {
                     x.Position = chan.Position;
                     x.Topic = chan.Topic;
-                    x.PermissionOverwrites = new Discord.Optional<IEnumerable<Overwrite>>(chan.PermissionOverwrites);
+                    x.PermissionOverwrites = new Optional<IEnumerable<Overwrite>>(chan.PermissionOverwrites);
                     x.IsNsfw = chan.IsNsfw;
                     x.CategoryId = chan.CategoryId;
                     x.SlowModeInterval = chan.SlowModeInterval;
@@ -262,14 +274,14 @@ namespace Mewdeko.Modules.ServerManagement
                 if (TTicketCategory == 0)
                 {
                     await _service.SetTicketCategoryId(ctx.Guild, channel);
-                    var TicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
+                    var TicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
                     await ctx.Channel.SendConfirmAsync("Your ticket category has been set to " + TicketCategory);
                     return;
                 }
 
-                var oldTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
+                var oldTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await _service.SetTicketCategoryId(ctx.Guild, channel);
-                var newTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
+                var newTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await ctx.Channel.SendConfirmAsync("Your ticket category has been changed from " + oldTicketCategory +
                                                    " to " + newTicketCategory);
             }
@@ -404,7 +416,8 @@ namespace Mewdeko.Modules.ServerManagement
                                        new OverwritePermissions();
                     await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                         currentPerms.Modify(sendMessages: PermValue.Deny));
-                    await ctx.Channel.SendMessageAsync("<a:checkfragutil:854536148411744276> Locked down " + tch.Mention);
+                    await ctx.Channel.SendMessageAsync(
+                        "<a:checkfragutil:854536148411744276> Locked down " + tch.Mention);
                 }
                 else
                 {
@@ -434,7 +447,7 @@ namespace Mewdeko.Modules.ServerManagement
 
                 var eb2 = new EmbedBuilder();
                 eb2.WithDescription($"Created the category {CatName} with {Channels.Count()} Text Channels!");
-                eb2.WithOkColor();
+eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
 
@@ -525,7 +538,8 @@ namespace Mewdeko.Modules.ServerManagement
                                        new OverwritePermissions();
                     await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                         currentPerms.Modify(sendMessages: PermValue.Inherit));
-                    await ctx.Channel.SendMessageAsync("<a:checkfragutil:854536148411744276> Unlocked " + channel.Mention);
+                    await ctx.Channel.SendMessageAsync("<a:checkfragutil:854536148411744276> Unlocked " +
+                                                       channel.Mention);
                 }
             }
 
@@ -544,7 +558,8 @@ namespace Mewdeko.Modules.ServerManagement
                         await ctx.Channel.SendMessageAsync(
                             $"<a:checkfragutil:854536148411744276> Slowmode has been enabled in {channel.Mention} for {TimeSpan.FromSeconds(interval)}");
                     else
-                        await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Slowmode has been disabled in {channel.Mention}");
+                        await ctx.Channel.SendMessageAsync(
+                            $"<a:checkfragutil:854536148411744276> Slowmode has been disabled in {channel.Mention}");
                 }
             }
 
@@ -557,7 +572,7 @@ namespace Mewdeko.Modules.ServerManagement
             [Priority(1)]
             public async Task Slowmode(int interval)
             {
-                await Slowmode(interval, (ITextChannel)ctx.Channel);
+                await Slowmode(interval, (ITextChannel) ctx.Channel);
             }
 
             [MewdekoCommand]
@@ -584,7 +599,7 @@ namespace Mewdeko.Modules.ServerManagement
             [Priority(4)]
             public async Task Slowmode()
             {
-                await Slowmode((ITextChannel)ctx.Channel);
+                await Slowmode((ITextChannel) ctx.Channel);
             }
 
             [MewdekoCommand]
@@ -636,7 +651,7 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
             {
                 var embeds = new List<Embed>();
-                var splits = urls.Split(new[] { '\n', '\r', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                var splits = urls.Split(new[] {'\n', '\r', ' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var i in splits)
                 {
                     var ur = new Uri(i);

@@ -41,12 +41,12 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         private List<WarningPunishment> DefaultWarnPunishments =>
             new()
             {
-                new()
+                new WarningPunishment
                 {
                     Count = 3,
                     Punishment = PunishmentAction.Kick
                 },
-                new()
+                new WarningPunishment()
                 {
                     Count = 5,
                     Punishment = PunishmentAction.Ban
@@ -238,7 +238,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                     .ThenInclude(x => x.ExclusionList)
                     .Include(gc => gc.DelMsgOnCmdChannels)
                     .Include(gc => gc.ReactionRoleMessages)
-                    .ThenInclude<GuildConfig, ReactionRoleMessage, List<ReactionRole>>(x => x.ReactionRoles)
+                    .ThenInclude(x => x.ReactionRoles)
                 ;
         }
     }

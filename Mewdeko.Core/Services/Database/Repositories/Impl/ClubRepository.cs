@@ -28,9 +28,9 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
             return _set
                        .Include(x => x.Bans)
-                       .ThenInclude<ClubInfo, ClubBans, DiscordUser>(x => x.User)
+                       .ThenInclude(x => x.User)
                        .Include(x => x.Applicants)
-                       .ThenInclude<ClubInfo, ClubApplicants, DiscordUser>(x => x.User)
+                       .ThenInclude(x => x.User)
                        .Include(x => x.Owner)
                        .Include(x => x.Users)
                        .FirstOrDefault(x => x.Owner.UserId == userId) ??
@@ -39,10 +39,10 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                        .ThenInclude(x => x.Users)
                        .Include(x => x.Club)
                        .ThenInclude(x => x.Bans)
-                       .ThenInclude<DiscordUser, ClubBans, DiscordUser>(x => x.User)
+                       .ThenInclude(x => x.User)
                        .Include(x => x.Club)
                        .ThenInclude(x => x.Applicants)
-                       .ThenInclude<DiscordUser, ClubApplicants, DiscordUser>(x => x.User)
+                       .ThenInclude(x => x.User)
                        .Include(x => x.Club)
                        .ThenInclude(x => x.Owner)
                        .FirstOrDefault(x => x.UserId == userId && x.IsClubAdmin)

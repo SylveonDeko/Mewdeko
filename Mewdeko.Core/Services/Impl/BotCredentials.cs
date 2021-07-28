@@ -157,6 +157,7 @@ namespace Mewdeko.Core.Services.Impl
         {
             return OwnerIds.Contains(u.Id);
         }
+
         public bool IsOfficialMod(IUser u)
         {
             return OfficialMods.Contains(u.Id);
@@ -171,6 +172,7 @@ namespace Mewdeko.Core.Services.Impl
             {
                 280835732728184843
             };
+
             public ulong[] OfficialMods { get; set; } =
             {
                 280835732728184843
@@ -212,6 +214,7 @@ namespace Mewdeko.Core.Services.Impl
             {
                 throw new NotImplementedException();
             }
+
             public bool IsOfficialMod(IUser u)
             {
                 throw new NotImplementedException();

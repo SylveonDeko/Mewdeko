@@ -12,13 +12,13 @@ using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
 
-namespace Mewdeko.Modules.Administration
+namespace Mewdeko.Modules.Moderation
 {
-    public partial class Administration
+    public partial class Moderation : MewdekoModule
     {
         [Group]
         public class UserPunishCommands : MewdekoSubmodule<UserPunishService>
@@ -912,7 +912,7 @@ namespace Mewdeko.Modules.Administration
                 //wait for the message and edit it
                 var banningMessage = await banningMessageTask.ConfigureAwait(false);
 
-                await banningMessage.ModifyAsync(x => x.Embed = new EmbedBuilder()
+                await banningMessage.ModifyAsync(x => x.Embed =new EmbedBuilder()
                     .WithDescription(GetText("mass_kill_completed", bans.Count()))
                     .AddField(GetText("invalid", missing), missStr)
                     .WithOkColor()

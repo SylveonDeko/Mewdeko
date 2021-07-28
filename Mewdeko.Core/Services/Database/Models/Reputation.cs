@@ -1,5 +1,4 @@
-﻿
-namespace Mewdeko.Core.Services.Database.Models
+﻿namespace Mewdeko.Core.Services.Database.Models
 {
     public class Reputation : DbEntity
     {

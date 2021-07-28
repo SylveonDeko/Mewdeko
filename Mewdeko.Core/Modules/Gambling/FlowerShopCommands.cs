@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Gambling
                 using var uow = _db.GetDbContext();
                 var entries = uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
-                            .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items)).ShopEntries
+                            .ThenInclude(x => x.Items)).ShopEntries
                     .ToIndexed();
                 return ctx.SendPaginatedConfirmAsync(page, curPage =>
                 {
@@ -103,7 +103,7 @@ namespace Mewdeko.Modules.Gambling
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
                         .Include(x => x.ShopEntries)
-                        .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items));
+                        .ThenInclude(x => x.Items));
                     var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
                     entry = entries.ElementAtOrDefault(index);
                     uow.SaveChanges();
@@ -206,7 +206,7 @@ namespace Mewdeko.Modules.Gambling
                             {
                                 var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                                         set => set.Include(x => x.ShopEntries)
-                                            .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items))
+                                            .ThenInclude(x => x.Items))
                                     .ShopEntries);
                                 entry = entries.ElementAtOrDefault(index);
                                 if (entry != null)
@@ -254,7 +254,7 @@ namespace Mewdeko.Modules.Gambling
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
-                            .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items)).ShopEntries)
+                            .ThenInclude(x => x.Items)).ShopEntries)
                     {
                         entry
                     };
@@ -286,7 +286,7 @@ namespace Mewdeko.Modules.Gambling
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
-                            .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items)).ShopEntries)
+                            .ThenInclude(x => x.Items)).ShopEntries)
                     {
                         entry
                     };
@@ -320,7 +320,7 @@ namespace Mewdeko.Modules.Gambling
                 {
                     var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
                         set => set.Include(x => x.ShopEntries)
-                            .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items)).ShopEntries);
+                            .ThenInclude(x => x.Items)).ShopEntries);
                     entry = entries.ElementAtOrDefault(index);
                     if (entry != null && (rightType = entry.Type == ShopEntryType.List))
                         if (added = entry.Items.Add(item))
@@ -353,7 +353,7 @@ namespace Mewdeko.Modules.Gambling
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
                         .Include(x => x.ShopEntries)
-                        .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items));
+                        .ThenInclude(x => x.Items));
 
                     var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
                     removed = entries.ElementAtOrDefault(index);

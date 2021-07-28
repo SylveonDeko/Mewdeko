@@ -35,7 +35,6 @@ namespace Mewdeko.Modules.Searches
 {
     public partial class Searches : MewdekoModule<SearchesService>
     {
-
         private static readonly ConcurrentDictionary<string, string> cachedShortenedLinks = new();
         private readonly IMemoryCache _cache;
         private readonly IBotCredentials _creds;
@@ -200,7 +199,7 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task Pat(IUser user)
         {
-            var patarray = new List<string>()
+            var patarray = new List<string>
             {
                 "https://media3.giphy.com/media/ARSp9T7wwxNcs/200.gif",
                 "https://media.tenor.com/images/da8431374a530ae516c0cc8f966d1c2b/tenor.gif",
@@ -235,13 +234,14 @@ namespace Mewdeko.Modules.Searches
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         public async Task Shoot(IUser user)
         {
-            var shootarray = new List<string>()
+            var shootarray = new List<string>
             {
                 "https://media.tenor.com/images/05085e9bc817361e783ad92a248ef318/tenor.gif",
                 "https://media1.tenor.com/images/a0caaaec7f3f48fbcf037dd9e6a89c51/tenor.gif?itemid=12545029",
@@ -285,13 +285,15 @@ namespace Mewdeko.Modules.Searches
                 Description = $"Title: {image.Title}\n[Source]({image.Source})",
                 Footer = new EmbedFooterBuilder
                 {
-                    Text = $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
+                    Text =
+                        $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
                 },
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -308,7 +310,8 @@ namespace Mewdeko.Modules.Searches
                 Description = $"Title: {image.Title}\n[Source]({image.Source})",
                 Footer = new EmbedFooterBuilder
                 {
-                    Text = $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
+                    Text =
+                        $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
                 },
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor

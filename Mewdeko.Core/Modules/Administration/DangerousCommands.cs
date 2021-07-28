@@ -140,7 +140,7 @@ namespace Mewdeko.Modules.Administration
                     if (csc.Length > 3)
                         embed.AddField("Some errors ommited",
                             string.Concat((csc.Length - 3).ToString("#,##0"), " more errors not displayed"));
-                    await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
+                    await msg.ModifyAsync(x => x.Embed = embed.Build());
                     return;
                 }
 

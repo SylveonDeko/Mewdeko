@@ -6,24 +6,25 @@ using Discord;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Administration.Services;
 
-namespace Mewdeko.Modules.Administration.Services
+namespace Mewdeko.Modules.Moderation.Services
 {
-    public class PruneService : INService
+    public class PurgeService : INService
     {
         private readonly LogCommandService _logService;
 
-        //channelids where prunes are currently occuring
+        //channelids where Purges are currently occuring
         private readonly ConcurrentHashSet<ulong> _pruningGuilds = new();
 
         private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
-        public PruneService(LogCommandService logService)
+        public PurgeService(LogCommandService logService)
         {
             _logService = logService;
         }
 
-        public async Task PruneWhere(ITextChannel channel, int amount, Func<IMessage, bool> predicate)
+        public async Task PurgeWhere(ITextChannel channel, int amount, Func<IMessage, bool> predicate)
         {
             channel.ThrowIfNull(nameof(channel));
             if (amount <= 0)

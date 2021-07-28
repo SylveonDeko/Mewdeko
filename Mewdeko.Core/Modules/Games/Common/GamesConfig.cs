@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Games.Common
             new RaceAnimal {Icon = "🐬", Name = "Dolphin"},
             new RaceAnimal {Icon = "🐞", Name = "Ladybird"},
             new RaceAnimal {Icon = "🦀", Name = "Crab"},
-            new RaceAnimal() {Icon = "🦄", Name = "Unicorn"}
+            new RaceAnimal {Icon = "🦄", Name = "Unicorn"}
         };
     }
 

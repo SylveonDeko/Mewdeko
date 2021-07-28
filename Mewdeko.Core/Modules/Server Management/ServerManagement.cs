@@ -270,10 +270,10 @@ namespace Mewdeko.Modules.ServerManagement
                 Description = $"<a:loading:847706744741691402> Adding Emotes to {role.Mention}...",
                 Color = Mewdeko.OkColor
             };
-            var list = new Discord.Optional<IEnumerable<IRole>>(new[] {role});
+            var list = new Optional<IEnumerable<IRole>>(new[] { role });
             var errored = new List<string>();
             var emotes = new List<string>();
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value);
             if (!tags.Any()) return;
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
 

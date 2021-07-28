@@ -43,11 +43,11 @@ namespace Mewdeko.Core.Services
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commandService;
         private readonly DbService _db;
+        private readonly IServiceProvider _services;
         private IEnumerable<IEarlyBehavior> _earlyBehaviors;
         private IEnumerable<IInputTransformer> _inputTransformers;
         private IEnumerable<ILateBlocker> _lateBlockers;
         private IEnumerable<ILateExecutor> _lateExecutors;
-        private readonly IServiceProvider _services;
 
         public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
             BotConfigService bss, Mewdeko bot, IServiceProvider services)

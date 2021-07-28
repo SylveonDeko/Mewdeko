@@ -193,12 +193,12 @@ namespace Mewdeko.Modules.Permissions
                         var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
-                        var fromFound = @from < permsCol.Count;
+                        var fromFound = from < permsCol.Count;
                         var toFound = to < permsCol.Count;
 
                         if (!fromFound)
                         {
-                            await ReplyErrorLocalizedAsync("not_found", ++@from);
+                            await ReplyErrorLocalizedAsync("not_found", ++from);
                             return;
                         }
 
@@ -208,9 +208,9 @@ namespace Mewdeko.Modules.Permissions
                             return;
                         }
 
-                        fromPerm = permsCol[@from];
+                        fromPerm = permsCol[from];
 
-                        permsCol.RemoveAt(@from);
+                        permsCol.RemoveAt(from);
                         permsCol.Insert(to, fromPerm);
                         await uow.SaveChangesAsync();
                         _service.UpdateCache(config);
@@ -218,7 +218,7 @@ namespace Mewdeko.Modules.Permissions
 
                     await ReplyConfirmLocalizedAsync("moved_permission",
                             Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild) ctx.Guild)),
-                            ++@from,
+                            ++from,
                             ++to)
                         .ConfigureAwait(false);
                     return;

@@ -19,13 +19,15 @@ namespace Mewdeko.Modules.Administration.Services
     {
         private readonly DbService _db;
         private readonly LogCommandService _logService;
+        private readonly DiscordSocketClient client;
 
         public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
-            LogCommandService logService)
+            LogCommandService logService, DiscordSocketClient _client)
         {
+            client = _client;
             _StaffRole = bot.AllGuildConfigs
-               .ToDictionary(x => x.GuildId, x => x.StaffRole)
-               .ToConcurrent();
+                .ToDictionary(x => x.GuildId, x => x.StaffRole)
+                .ToConcurrent();
             _db = db;
             _logService = logService;
 
@@ -37,12 +39,24 @@ namespace Mewdeko.Modules.Administration.Services
                 .SelectMany(x => x.DelMsgOnCmdChannels)
                 .ToDictionary(x => x.ChannelId, x => x.State)
                 .ToConcurrent());
-
+            client.JoinedGuild += SendHelp;
             cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
+
         private ConcurrentDictionary<ulong, ulong> _StaffRole { get; } = new();
         public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
         public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
+        public async Task SendHelp(SocketGuild guild)
+        {
+            var e = guild.DefaultChannel;
+            var eb = new EmbedBuilder();
+            eb.Description = "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command.";
+            eb.AddField("How to look for commands", "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
+            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link:https://mewdeko.tech/invite");
+            eb.WithThumbnailUrl("https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
+            eb.WithOkColor();
+            await e.SendMessageAsync(embed: eb.Build());
+        }
         public async Task StaffRoleSet(IGuild guild, ulong role)
         {
             using (var uow = _db.GetDbContext())
@@ -54,11 +68,13 @@ namespace Mewdeko.Modules.Administration.Services
 
             _StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
         }
+
         public ulong GetStaffRole(ulong? id)
         {
             _StaffRole.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
         {
             using (var uow = _db.GetDbContext())
@@ -80,7 +96,7 @@ namespace Mewdeko.Modules.Administration.Services
                 //wat ?!
                 if (DeleteMessagesOnCommandChannels.TryGetValue(channel.Id, out var state))
                 {
-                    if (state && cmd.Name != "prune" && cmd.Name != "pick")
+                    if (state && cmd.Name != "Purge" && cmd.Name != "pick")
                     {
                         _logService.AddDeleteIgnore(msg.Id);
                         try
@@ -93,7 +109,7 @@ namespace Mewdeko.Modules.Administration.Services
                     }
                     //if state is false, that means do not do it
                 }
-                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "prune" &&
+                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
                          cmd.Name != "pick")
                 {
                     _logService.AddDeleteIgnore(msg.Id);

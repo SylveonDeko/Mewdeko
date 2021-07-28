@@ -13,6 +13,7 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
+using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -208,7 +209,6 @@ namespace Mewdeko.Modules.Administration.Services
                 await uow.SaveChangesAsync();
             }
         }
-
         private Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
         {
             var _ = Task.Run(async () =>
@@ -579,7 +579,8 @@ namespace Mewdeko.Modules.Administration.Services
                         {
                             if (before.Value.Roles.Count < after.Roles.Count)
                             {
-                                var diffRoles = after.Roles.Where(r => !before.Value.Roles.Contains(r)).Select(r => r.Name);
+                                var diffRoles = after.Roles.Where(r => !before.Value.Roles.Contains(r))
+                                    .Select(r => r.Name);
                                 embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(logChannel.Guild, "user_role_add")))
                                     .WithDescription(string.Join(", ", diffRoles));
 
@@ -623,7 +624,8 @@ namespace Mewdeko.Modules.Administration.Services
                                     return list;
                                 });
                         }
-                        else if (before.Value.Activities.FirstOrDefault()?.Name != after.Activities.FirstOrDefault()?.Name)
+                        else if (before.Value.Activities.FirstOrDefault()?.Name !=
+                                 after.Activities.FirstOrDefault()?.Name)
                         {
                             var str =
                                 $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activities.FirstOrDefault()?.Name ?? "-"}**.";

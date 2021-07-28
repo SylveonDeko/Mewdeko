@@ -246,9 +246,10 @@ settopic:
 setchanlname:
 - setchanlname
 - schn
-prune:
-- prune
+purge:
+- purge
 - clear
+- prune
 die:
 - die
 setname:

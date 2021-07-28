@@ -12,7 +12,7 @@ using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-namespace Mewdeko.Modules.Administration.Services
+namespace Mewdeko.Modules.Moderation.Services
 {
     public enum MuteType
     {

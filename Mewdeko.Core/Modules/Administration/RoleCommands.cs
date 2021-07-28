@@ -199,7 +199,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task SetRole(IRole roleToAdd, [Remainder]IGuildUser targetUser)
+            public async Task SetRole(IRole roleToAdd, [Remainder] IGuildUser targetUser)
             {
                 var runnerUser = (IGuildUser) ctx.User;
                 var runnerMaxRolePosition = runnerUser.GetRoles().Max(x => x.Position);

@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Core.Services.Database.Repositories.Impl
 {
-    public class SuggestRepository : Repository<Suggestions>, ISuggestionsRepository
+    public class SuggestRepository : Repository<Suggestionse>, ISuggestionsRepository
     {
         public SuggestRepository(DbContext context) : base(context)
         {
         }
 
-        public Suggestions[] ForSuggest(ulong guildId, ulong sid, ulong MessageID)
+        public Suggestionse[] ForSuggest(ulong guildId, ulong sid, ulong MessageID)
         {
             var query = _set.AsQueryable()
                 .Where(x => x.GuildId == guildId && x.SuggestID == sid && MessageID == x.MessageID);
@@ -18,7 +18,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
             return query.ToArray();
         }
 
-        public Suggestions[] ForId(ulong guildId, ulong sugid)
+        public Suggestionse[] ForId(ulong guildId, ulong sugid)
         {
             var query = _set.AsQueryable().Where(x => x.GuildId == guildId && x.SuggestID == sugid);
 
