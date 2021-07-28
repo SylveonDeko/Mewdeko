@@ -12,6 +12,9 @@ namespace Mewdeko.Extensions
     {
         private static readonly IEmote arrow_left = new Emoji("⬅");
         private static readonly IEmote arrow_right = new Emoji("➡");
+        private static readonly IEmote stop = new Emoji("🛑");
+        private static readonly IEmote fast_foward = new Emoji("⏩");
+        private static readonly IEmote rewind = new Emoji("⏪");
 
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
         {
@@ -102,8 +105,11 @@ namespace Mewdeko.Extensions
             if (lastPage == 0 || !canPaginate)
                 return;
 
+            await msg.AddReactionAsync(rewind).ConfigureAwait(false);
             await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
+            await msg.AddReactionAsync(stop).ConfigureAwait(false);
             await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
+            await msg.AddReactionAsync(fast_foward).ConfigureAwait(false);
 
             await Task.Delay(2000).ConfigureAwait(false);
 
@@ -117,6 +123,33 @@ namespace Mewdeko.Extensions
                         return;
                     if (DateTime.UtcNow - lastPageChange < TimeSpan.FromSeconds(1))
                         return;
+                    if (r.Emote.Name == stop.Name)
+                    {
+                        await msg.DeleteAsync().ConfigureAwait(false);
+                        return;
+                    }
+                    if (r.Emote.Name == fast_foward.Name)
+                    {
+                        if (currentPage == lastPage)
+                            return;
+                        lastPageChange = DateTime.UtcNow;
+                        var toSend = await pageFunc(lastPage).ConfigureAwait(false);
+                        currentPage = lastPage;
+                        if (addPaginatedFooter)
+                            toSend.AddPaginatedFooter(currentPage, lastPage);
+                        await msg.ModifyAsync(x => x.Embed =toSend.Build()).ConfigureAwait(false);
+                    }
+                    if (r.Emote.Name == rewind.Name)
+                    {
+                        if (currentPage == 0)
+                            return;
+                        lastPageChange = DateTime.UtcNow;
+                        var toSend = await pageFunc(0).ConfigureAwait(false);
+                        currentPage = 0;
+                        if (addPaginatedFooter)
+                            toSend.AddPaginatedFooter(currentPage, lastPage);
+                        await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                    }
                     if (r.Emote.Name == arrow_left.Name)
                     {
                         if (currentPage == 0)

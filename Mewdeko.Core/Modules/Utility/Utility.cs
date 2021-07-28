@@ -1,21 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
+using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 using Newtonsoft.Json;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Humanizer;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -46,7 +48,96 @@ namespace Mewdeko.Modules.Utility
         {
             await ctx.Channel.SendConfirmAsync("Invite me using this link:\nhttps://mewdeko.tech/invite");
         }
-
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [BotPerm(GuildPerm.BanMembers)]
+        public async Task BanUnder(StoopidTime time, string option = null, params IUser[] user)
+        {
+            var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                    DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
+            if (!users.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No users at or under that account age!");
+                return;
+            }
+            if (option.ToLower() == "-p" || option.ToLower() == "preview")
+            {
+                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                {
+                    return new EmbedBuilder().WithOkColor()
+                        .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
+                        .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
+                }, users.Count(), 20).ConfigureAwait(false);
+            }
+            foreach (var i in users)
+            {
+                await ctx.Channel.SendConfirmAsync($"{i.Username}| {i.CreatedAt}");
+            }
+            int banned = 0;
+            int errored = 0;
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that account age?");
+            if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+            foreach (var i in users)
+            {
+                try
+                {
+                    await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified account age.");
+                    banned++;
+                }
+                catch
+                {
+                    errored++;
+                }
+            }
+            var eb = new EmbedBuilder().WithDescription($"Banned {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+            await message.ModifyAsync(x => x.Embed = eb.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [BotPerm(GuildPerm.BanMembers)]
+        public async Task KickUnder(StoopidTime time, string option = null)
+        {
+            var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                    DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
+            if (!users.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No users at or under that account age!");
+                return;
+            }
+            if (option.ToLower() == "-p" || option.ToLower() == "preview")
+            {
+                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                {
+                    return new EmbedBuilder().WithOkColor()
+                        .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
+                        .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
+                }, users.Count(), 20).ConfigureAwait(false);
+            }
+            int banned = 0;
+            int errored = 0;
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that account age?");
+            if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+            foreach (var i in users)
+            {
+                try
+                {
+                    await i.KickAsync(reason: $"{ctx.User}|| Kicking users under specified account age.");
+                    banned++;
+                }
+                catch
+                {
+                    errored++;
+                }
+            }
+            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+            await message.ModifyAsync(x => x.Embed = eb.Build());
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -85,19 +176,6 @@ namespace Mewdeko.Modules.Utility
                 }
             }
         }
-        //[MewdekoCommand]
-        //[Usage]
-        //[Description]
-        //[Aliases]
-        //public async Task Test()
-        //{
-        //    var audits = await ctx.Guild.GetAuditLogsAsync();
-        //    var e = audits.Where(x => x.Action == ActionType.ChannelCreated);
-        //    var t = e.Select(x => x.Data);
-        //    var ts = t.ToArray();
-        //    Console.WriteLine(t.ToJson());
-
-        //}
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -667,7 +745,7 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task Roles(IGuildUser target, int page = 1)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             var guild = channel.Guild;
 
             const int rolesPerPage = 20;
@@ -677,23 +755,23 @@ namespace Mewdeko.Modules.Utility
 
             if (target != null)
             {
-                var roles = target.GetRoles().Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+                var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                     .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
                 if (!roles.Any())
                     await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
                 else
                     await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
-                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles)).ConfigureAwait(false);
+                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles)).ConfigureAwait(false);
             }
             else
             {
-                var roles = guild.Roles.Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+                var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                     .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
                 if (!roles.Any())
                     await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
                 else
                     await channel.SendConfirmAsync(GetText("roles_all_page", page),
-                            "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles).SanitizeMentions())
+                            "\n• " + string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions())
                         .ConfigureAwait(false);
             }
         }
@@ -716,7 +794,7 @@ namespace Mewdeko.Modules.Utility
         public async Task ChannelTopic([Remainder] ITextChannel channel = null)
         {
             if (channel == null)
-                channel = (ITextChannel) ctx.Channel;
+                channel = (ITextChannel)ctx.Channel;
 
             var topic = channel.Topic;
             if (string.IsNullOrWhiteSpace(topic))
@@ -774,7 +852,7 @@ namespace Mewdeko.Modules.Utility
         public async Task
             Showemojis([Remainder] string _) // need to have the parameter so that the message.tags gets populated
         {
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote) t.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 
             var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 
@@ -875,7 +953,7 @@ namespace Mewdeko.Modules.Utility
                 msg.DeleteAfter(0);
 
                 await ctx.Channel
-                    .SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} 🏓 {(int) sw.Elapsed.TotalMilliseconds}ms")
+                    .SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} 🏓 {(int)sw.Elapsed.TotalMilliseconds}ms")
                     .ConfigureAwait(false);
             }
             finally

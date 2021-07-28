@@ -20,10 +20,10 @@ namespace Mewdeko.Core.Services
         private readonly BotCredentials _creds;
 
         private readonly int _curProcessId;
+        private readonly ShardComMessage _defaultShardState;
         private readonly string _key;
         private readonly ConnectionMultiplexer _redis;
         private readonly Process[] _shardProcesses;
-        private readonly ShardComMessage _defaultShardState;
 
         private readonly ConcurrentHashSet<int> _shardRestartWaitingList =
             new();

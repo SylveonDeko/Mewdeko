@@ -44,18 +44,18 @@ namespace Mewdeko.Modules.Searches
                 var c2 = new Client();
                 var client = new HttpClient();
                 var response = await client.PostAsync(
-                    $"https://trace.moe/api/search?url={t}", null);
+                    $"https://api.trace.moe/search?url={t}", null);
                 var responseContent = response.Content;
                 using (var reader = new StreamReader(await responseContent.ReadAsStreamAsync()))
                 {
                     var er = await reader.ReadToEndAsync();
                     var stuff = JsonConvert.DeserializeObject<Root>(er,
                         new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
-                    var ert = stuff.Docs.FirstOrDefault();
-                    if (ert.TitleEnglish is null)
+                    var ert = stuff.Result1.FirstOrDefault();
+                    if (ert.Filename is null)
                         await ctx.Channel.SendErrorAsync(
                             "No results found. Please try a different image/, or avoid cropping the current one.");
-                    var image = await c2.GetMediaByMalId((int) ert.MalId);
+                    var image = await c2.GetMediaById(ert.Anilist);
                     var eb = new EmbedBuilder
                     {
                         ImageUrl = image.CoverImageLarge,
@@ -64,15 +64,23 @@ namespace Mewdeko.Modules.Searches
                     var te = string.Empty;
                     if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
                     else te = image.SeasonInt.ToString()[2..];
-                    eb.AddField("English Title", ert.TitleEnglish);
-                    eb.AddField("Japanese Title", ert.TitleNative);
-                    eb.AddField("Romanji Title", ert.TitleRomaji);
+                    string entitle = image.EnglishTitle;
+                    if (image.EnglishTitle == null)
+                    {
+                        entitle = "None";
+                    }
+                    eb.AddField("English Title", entitle);
+                    eb.AddField("Japanese Title", image.NativeTitle);
+                    eb.AddField("Romaji Title", image.RomajiTitle);
                     eb.AddField("Air Start Date", image.AiringStartDate);
                     eb.AddField("Air End Date", image.AiringEndDate);
                     eb.AddField("Season Number", te);
-                    eb.AddField("Episode", ert.Episode);
+                    if (ert.Episode is not null)
+                    {
+                        eb.AddField("Episode", ert.Episode);
+                    }
                     eb.AddField("AniList Link", image.SiteUrl);
-                    eb.AddField("MAL Link", $"https://myanimelist.net/anime/{ert.MalId}");
+                    eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image.IdMal}");
                     eb.AddField("Score", image.MeanScore);
                     eb.AddField("Description", image.DescriptionMd.TrimTo(1024));
                     _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
@@ -320,8 +328,8 @@ namespace Mewdeko.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Manga([Remainder] string query)
             {
-                await ctx.Channel.SendErrorAsync(
-                    $"This command is under reconstruction! Join the support server using {Prefix}help for more info!");
+                var client = new Client();
+              
             }
         }
     }

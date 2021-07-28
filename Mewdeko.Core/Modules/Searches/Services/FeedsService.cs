@@ -35,7 +35,7 @@ namespace Mewdeko.Modules.Searches.Services
                     .AsQueryable()
                     .Where(x => guildConfigIds.Contains(x.Id))
                     .Include(x => x.FeedSubs)
-                    .ThenInclude<GuildConfig, FeedSub, GuildConfig>(x => x.GuildConfig)
+                    .ThenInclude(x => x.GuildConfig)
                     .ToList()
                     .SelectMany(x => x.FeedSubs)
                     .GroupBy(x => x.Url.ToLower())
@@ -163,7 +163,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 return uow.GuildConfigs.ForId(guildId,
                         set => set.Include(x => x.FeedSubs)
-                            .ThenInclude<GuildConfig, FeedSub, GuildConfig>(x => x.GuildConfig))
+                            .ThenInclude(x => x.GuildConfig))
                     .FeedSubs
                     .OrderBy(x => x.Id)
                     .ToList();
@@ -184,7 +184,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 var gc = uow.GuildConfigs.ForId(guildId,
                     set => set.Include(x => x.FeedSubs)
-                        .ThenInclude<GuildConfig, FeedSub, GuildConfig>(x => x.GuildConfig));
+                        .ThenInclude(x => x.GuildConfig));
 
                 if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
                     return false;

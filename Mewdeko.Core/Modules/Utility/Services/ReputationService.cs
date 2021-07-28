@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using Discord.WebSocket;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
@@ -20,20 +17,22 @@ namespace Mewdeko.Modules.Utility.Services
 
         private readonly TypedKey<RepBlacklistEntry[]> blPubKey = new("repblacklist.reload");
         public IReadOnlyList<RepBlacklistEntry> _blacklist;
-        public ReputationService (DbService db, IPubSub pubSub)
+
+        public ReputationService(DbService db, IPubSub pubSub)
         {
             _db = db;
             _pubSub = pubSub;
 
             Reload(false);
             _pubSub.Sub(blPubKey, OnReload);
-
         }
+
         private ValueTask OnReload(RepBlacklistEntry[] blacklist)
         {
             _blacklist = blacklist;
             return default;
         }
+
         public async Task AddRep(IGuild guild, IGuildUser user, IGuildUser reviewer, string message, int reptype)
         {
             var aFK = new Reputation
@@ -51,6 +50,7 @@ namespace Mewdeko.Modules.Utility.Services
             uow.Reputation.Add(afk);
             await uow.SaveChangesAsync();
         }
+
         public void Reload(bool publish = true)
         {
             using var uow = _db.GetDbContext();
@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Utility.Services
         public void Blacklist(ulong id)
         {
             using var uow = _db.GetDbContext();
-            var item = new RepBlacklistEntry { ItemId = id };
+            var item = new RepBlacklistEntry {ItemId = id};
             uow._context.RepBlacklist.Add(item);
             uow.SaveChanges();
 
@@ -82,16 +82,19 @@ namespace Mewdeko.Modules.Utility.Services
 
             Reload();
         }
+
         public Reputation[] Reputations(ulong uid)
         {
             using var uow = _db.GetDbContext();
             return uow.Reputation.ForUserId(uid);
         }
+
         public Reputation[] ServerReputations(ulong gid)
         {
             using var uow = _db.GetDbContext();
             return uow.Reputation.ForGuildId(gid);
         }
+
         public Reputation[] ReviewerReps(ulong uid)
         {
             using var uow = _db.GetDbContext();

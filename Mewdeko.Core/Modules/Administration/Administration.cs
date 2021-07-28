@@ -20,7 +20,7 @@ namespace Mewdeko.Modules.Administration
             Chnl,
             Chan
         }
-
+        
         public enum List
         {
             List = 0,
@@ -38,6 +38,7 @@ namespace Mewdeko.Modules.Administration
             Disable,
             Inherit
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -52,29 +53,50 @@ namespace Mewdeko.Modules.Administration
                 await _service.StaffRoleSet(ctx.Guild, role.Id);
                 await ctx.Channel.SendConfirmAsync($"Staff role has been set to {role.Mention}");
             }
+
             if (rol != 0 && role != null && rol == role.Id)
             {
                 await ctx.Channel.SendErrorAsync("This is already your staff role!");
                 return;
             }
+
             if (rol is 0 && role == null)
             {
                 await ctx.Channel.SendErrorAsync("No staff role set!");
                 return;
             }
+
             if (rol != 0 && role is null)
             {
                 var r = ctx.Guild.GetRole(rol);
                 await ctx.Channel.SendConfirmAsync($"Your current staff role is {r.Mention}");
                 return;
             }
+
             if (role != null && rol is not 0)
             {
                 var oldrole = ctx.Guild.GetRole(rol);
                 await _service.StaffRoleSet(ctx.Guild, role.Id);
-                await ctx.Channel.SendConfirmAsync($"Your staff role has been switched from {oldrole.Mention} to {role.Mention}");
+                await ctx.Channel.SendConfirmAsync(
+                    $"Your staff role has been switched from {oldrole.Mention} to {role.Mention}");
             }
         }
+        //[MewdekoCommand]
+        //[Usage]
+        //[Description]
+        //[Aliases]
+        //public async Task Test()
+        //{
+
+        //    var e = guild.DefaultChannel;
+        //    var eb = new EmbedBuilder();
+        //    eb.Description = "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command.";
+        //    eb.AddField("How to look for commands", "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
+        //    eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link:https://mewdeko.tech/invite");
+        //    eb.WithThumbnailUrl("https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
+        //    eb.WithOkColor();
+        //    await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        //}
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -87,7 +109,6 @@ namespace Mewdeko.Modules.Administration
             if (r == 0)
             {
                 await ctx.Channel.SendErrorAsync("No staff role set!");
-                return;
             }
             else
             {

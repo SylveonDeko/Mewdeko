@@ -35,7 +35,8 @@ namespace Mewdeko.Common
         public event Action<SocketReaction> OnReactionRemoved = delegate { };
         public event Action OnReactionsCleared = delegate { };
 
-        private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan)
+        private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg,
+            Cacheable<IMessageChannel, ulong> chan)
         {
             Task.Run(() =>
             {

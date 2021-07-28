@@ -34,6 +34,11 @@ snipe:
  - "#channel"
  - "@user"
  - "#channel @user"
+snipeset:
+ desc: "Enables or Disables Sniping"
+ args:
+  - "enable"
+  - "disable"
 antialt:
   desc: "Applies a punishment action to any user whose account is younger than the specified threshold. Specify time after the punishment to have a timed punishment (not all punishments support timers)."
   args:
@@ -352,7 +357,7 @@ lock:
   args: 
   - ""
 nuke:
-  desc: "Completely deletes the current channel and remakes it as it was. Useful for quick channel purges. Can be sued directly in channel or by mentioning one." 
+  desc: "Completely deletes the current channel and remakes it as it was. Useful for quick channel purges. Can be used directly in channel or by mentioning one." 
   args: 
   - "#channel"
 slowmode:
@@ -801,6 +806,26 @@ creatxtchanl:
   desc: "Creates a new text channel with a given name."
   args:
     - "TextChannelName"
+acceptmessage:
+  desc: "Allows you to set the message sent when a suggestion is accepted."
+  args:
+  - "embedcodehere"
+implementmessage:
+  desc: "Allows you to set the message sent when a suggestion is implemented."
+  args:
+  - "embedcodehere"
+considermessage:
+  desc: "Allows you to set the message sent when a suggestion is considered."
+  args:
+  - "embedcodehere"
+denymessage:
+  desc: "Allows you to set the message sent when a suggestion is denied."
+  args:
+  - "embedcodehere"
+suggestmessage:
+  desc: "Allows you to set the message sent when a suggestion is accepted."
+  args:
+  - "embedcodehere"
 settopic:
   desc: "Sets a topic on the current channel."
   args:
@@ -809,8 +834,8 @@ setchanlname:
   desc: "Changes the name of the current channel."
   args:
     - "NewName"
-prune:
-  desc: "`{0}prune` removes all Mewdeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned. You can use the `-nb` / `--nobots` paramater to clear around bots. You can use the `-ob` / `--onlybots` paramater to clear only bots."
+purge:
+  desc: "`{0}Purge` removes all Mewdeko's messages in the last 100 messages. `{0}Purge X` removes last `X` number of messages from the channel (up to 100). `{0}Purge @Someone` removes all Someone's messages in the last 100 messages. `{0}Purge @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only Purge messages that are not pinned. You can use the `-nb` / `--nobots` paramater to clear around bots. You can use the `-ob` / `--onlybots` paramater to clear only bots."
   args:
     - ""
     - "-s"
@@ -1990,7 +2015,7 @@ scadd:
 acadd:
   desc: "Adds a command to the list of commands which will be executed automatically every X seconds."
   args:
-    - "60 {0}prune 1000"
+    - "60 {0}Purge 1000"
 scrm:
   desc: "Removes a startup command on the specified index."
   args:
@@ -2364,8 +2389,8 @@ deletexp:
 dpo:
   desc: "Overrides required user permissions that the command has with the specified ones. You can only use server-level permissions. This action will make the bot ignore user permission requirements which command has by default. Provide no permissions to reset to default."
   args:
-    - "{0}prune ManageMessages BanMembers"
-    - "{0}prune"
+    - "{0}Purge ManageMessages BanMembers"
+    - "{0}Purge"
 dpol:
   desc: "Lists all discord permission overrides on this server."
   args:

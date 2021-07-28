@@ -22,10 +22,10 @@ namespace Mewdeko.Core.Services.Database
         private IPlantedCurrencyRepository _planted;
 
         private IPollsRepository _polls;
-
+        private ITicketRepository _tickets;
         private IQuoteRepository _quotes;
-        private IReputationRepository _reputation;
         private IReminderRepository _reminders;
+        private IReputationRepository _reputation;
 
         private ISelfAssignedRolesRepository _selfAssignedRoles;
         private ISnipeStoreRepository _snipestore;
@@ -57,7 +57,7 @@ namespace Mewdeko.Core.Services.Database
         public ISelfAssignedRolesRepository SelfAssignedRoles =>
             _selfAssignedRoles ?? (_selfAssignedRoles = new SelfAssignedRolesRepository(_context));
 
-
+        public ITicketRepository Tickets => _tickets ?? (_tickets = new TicketRepository(_context));
         public IMusicPlaylistRepository MusicPlaylists =>
             _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));
 

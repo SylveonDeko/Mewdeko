@@ -7,12 +7,12 @@ using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 
-namespace Mewdeko.Modules.Administration
+namespace Mewdeko.Modules.Moderation
 {
-    public partial class Administration
+    public partial class Moderation
     {
         [Group]
         public class MuteCommands : MewdekoSubmodule<MuteService>
@@ -187,7 +187,11 @@ namespace Mewdeko.Modules.Administration
                     await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
                 }
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.MuteMembers)]
             [Priority(1)]
@@ -197,18 +201,23 @@ namespace Mewdeko.Modules.Administration
                     return;
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
                         return;
 
-                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_voice_mute_time", Format.Bold(user.ToString()), (int)time.Time.TotalMinutes).ConfigureAwait(false);
+                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_voice_mute_time", Format.Bold(user.ToString()),
+                        (int) time.Time.TotalMinutes).ConfigureAwait(false);
                 }
                 catch
                 {
                     await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
                 }
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
@@ -218,11 +227,12 @@ namespace Mewdeko.Modules.Administration
                     return;
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
                         return;
 
-                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason: reason).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("user_chat_mute_time", Format.Bold(user.ToString()), (int)time.Time.TotalMinutes).ConfigureAwait(false);
+                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("user_chat_mute_time", Format.Bold(user.ToString()),
+                        (int) time.Time.TotalMinutes).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -230,6 +240,7 @@ namespace Mewdeko.Modules.Administration
                     await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]

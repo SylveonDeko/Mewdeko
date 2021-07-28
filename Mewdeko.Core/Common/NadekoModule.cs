@@ -6,7 +6,9 @@ using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.ServerManagement.Services;
+using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules

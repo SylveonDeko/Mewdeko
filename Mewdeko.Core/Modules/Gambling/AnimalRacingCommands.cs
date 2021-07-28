@@ -126,7 +126,7 @@ namespace Mewdeko.Modules.Gambling
                             .WithTitle(GetText("animal_race"))
                             .WithDescription(text)
                             .WithOkColor()
-                            .Build())
+                            .Build() )
                         .ConfigureAwait(false);
             }
 

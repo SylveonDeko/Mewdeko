@@ -16,7 +16,17 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong MiniWarnlogChannelId { get; set; } = 0;
         public ulong TicketCategory { get; set; } = 0;
         public ulong snipeset { get; set; }
-        public int AfkLength { get; set; }
+        public string SuggestEmotes { get; set; }
+        public int AfkLength { get; set; } = 250;
+        public string SuggestMessage { get; set; } = "";
+        public string AcceptSuggestDmMessage { get; set; } = "";
+        public string DenySuggestDmMessage { get; set; } = "";
+        public string ImplementSuggestDmMessage { get; set; } = "";
+        public string ConsiderSuggestDmMessage { get; set; } = "";
+        public string DenyMessage { get; set; } = "";
+        public string AcceptMessage { get; set; } = "";
+        public string ImplementMessage { get; set; } = "";
+        public string ConsiderMessage { get; set; } = "";
         public int AfkMessageType { get; set; }
         public int XpTxtTimeout { get; set; }
         public int XpTxtRate { get; set; }
@@ -24,12 +34,12 @@ namespace Mewdeko.Core.Services.Database.Models
         public int XpVoiceTimeout { get; set; }
         public ulong SuggestRole { get; set; }
         public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
-        public ulong Stars { get; set; }
-        public int AfkType { get; set; }
+        public ulong Stars { get; set; } = 3;
+        public int AfkType { get; set; } = 2;
         public AntiAltSetting AntiAltSetting { get; set; }
         public string AfkDisabledChannels { get; set; }
 
-        public int AfkTimeout { get; set; }
+        public int AfkTimeout { get; set; } = 5;
         //public int TLogType { get; set; }
         //public ulong TLogChan { get; set; }
         //public ulong TPingRole { get; set; }

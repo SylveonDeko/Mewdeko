@@ -8,20 +8,10 @@ namespace Mewdeko.Modules.ServerManagement.Services
 {
     public class RoleCommandsService : INService
     {
-        public class RoleJobs
-        {
-            public IGuildUser StartedBy { get; set; }
-            public ulong GuildId { get; set; }
-            public int JobId { get; set; } = 0;
-            public int AddedTo { get; set; }
-            public int TotalUsers { get; set; }
-            public string JobType { get; set; }
-            public IRole Role1 { get; set; }
-            public IRole Role2 { get; set; }
-            public string StoppedOrNot { get; set; }
-        }
-        public HashSet<RoleJobs> jobslist = new HashSet<RoleJobs>();
-        public Task AddToList(IGuild guild, IGuildUser user, int JobId, int TotalUsers, string JobType, IRole role, IRole role2 = null)
+        public HashSet<RoleJobs> jobslist = new();
+
+        public Task AddToList(IGuild guild, IGuildUser user, int JobId, int TotalUsers, string JobType, IRole role,
+            IRole role2 = null)
         {
             var add = new RoleJobs
             {
@@ -38,10 +28,11 @@ namespace Mewdeko.Modules.ServerManagement.Services
             jobslist.Add(add);
             return Task.CompletedTask;
         }
+
         public Task UpdateCount(IGuild guild, int JobId, int AddedTo)
         {
             var list1 = jobslist.Where(x => x.GuildId == guild.Id && x.JobId == JobId).FirstOrDefault();
-            var add = new RoleJobs()
+            var add = new RoleJobs
             {
                 StartedBy = list1.StartedBy,
                 GuildId = list1.GuildId,
@@ -57,14 +48,16 @@ namespace Mewdeko.Modules.ServerManagement.Services
             jobslist.Add(add);
             return Task.CompletedTask;
         }
+
         public RoleJobs[] JobCheck(IGuild guild, int job)
         {
             return jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
         }
-        public async Task StopJob (ITextChannel ch, int jobId, IGuild guild)
+
+        public async Task StopJob(ITextChannel ch, int jobId, IGuild guild)
         {
             var list1 = jobslist.Where(x => x.GuildId == guild.Id && x.JobId == jobId).FirstOrDefault();
-            var add = new RoleJobs()
+            var add = new RoleJobs
             {
                 StartedBy = list1.StartedBy,
                 GuildId = list1.GuildId,
@@ -78,18 +71,33 @@ namespace Mewdeko.Modules.ServerManagement.Services
             };
             jobslist.Remove(list1);
             jobslist.Add(add);
-            var eb = new EmbedBuilder()
+            var eb = new EmbedBuilder
             {
-                Description = $"Stopping Job {jobId}\nTask: {Format.Bold(list1.JobType)}\nProgress: {list1.AddedTo}/{list1.TotalUsers}\nStarted By: {list1.StartedBy.Mention}",
+                Description =
+                    $"Stopping Job {jobId}\nTask: {Format.Bold(list1.JobType)}\nProgress: {list1.AddedTo}/{list1.TotalUsers}\nStarted By: {list1.StartedBy.Mention}",
                 Color = Mewdeko.ErrorColor
             };
-            await ch.SendMessageAsync(embed:eb.Build());
+            await ch.SendMessageAsync(embed: eb.Build());
         }
+
         public Task RemoveJob(IGuild guild, int job)
         {
             var list = jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).FirstOrDefault();
             jobslist.Remove(list);
             return Task.CompletedTask;
+        }
+
+        public class RoleJobs
+        {
+            public IGuildUser StartedBy { get; set; }
+            public ulong GuildId { get; set; }
+            public int JobId { get; set; }
+            public int AddedTo { get; set; }
+            public int TotalUsers { get; set; }
+            public string JobType { get; set; }
+            public IRole Role1 { get; set; }
+            public IRole Role2 { get; set; }
+            public string StoppedOrNot { get; set; }
         }
     }
 }

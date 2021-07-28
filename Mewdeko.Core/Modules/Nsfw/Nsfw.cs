@@ -6,6 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
+using Interactivity.Pagination;
+using Interactivity;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -17,18 +20,21 @@ using Newtonsoft.Json.Linq;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Serilog;
+using System.Runtime.ConstrainedExecution;
 
 namespace Mewdeko.Modules.NSFW
 {
     // thanks to halitalf for adding autoboob and autobutt features :D
     public class NSFW : MewdekoModule<SearchesService>
     {
+        public InteractivityService Interactivity;
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
         private readonly IHttpClientFactory _httpFactory;
         public KSoftAPI ksoftapi;
 
-        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi)
+        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractivityService inte)
         {
+            Interactivity = inte;
             _httpFactory = factory;
             ksoftapi = kSoftApi;
         }
@@ -112,13 +118,32 @@ namespace Mewdeko.Modules.NSFW
                 return;
             }
 
-            await ctx.SendPaginatedConfirmAsync(page, cur =>
+            //await ctx.SendPaginatedConfirmAsync(page, cur =>
+            //{
+            //    var enumerable = pages as string[] ?? pages.ToArray();
+            //    return new EmbedBuilder().WithOkColor()
+            //        .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
+            //        .WithImageUrl(pages.Skip(cur).FirstOrDefault());
+            //}, pages.ToArray().Length, 1).ConfigureAwait(false);
+            var paginator = new LazyPaginatorBuilder()
+                .WithUsers(ctx.User as SocketUser)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(pages.Count())
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
                 var enumerable = pages as string[] ?? pages.ToArray();
-                return new EmbedBuilder().WithOkColor()
+                return Task.FromResult(new PageBuilder()
+                    .WithText((page + 1).ToString())
                     .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
-                    .WithImageUrl(pages.Skip(cur).FirstOrDefault());
-            }, pages.ToArray().Length, 1).ConfigureAwait(false);
+                    .WithImageUrl(pages.Skip(page).FirstOrDefault())
+                    .WithColor(System.Drawing.Color.FromArgb(page * 1500)));
+            }
         }
 
         public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular",

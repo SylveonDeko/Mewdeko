@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
@@ -101,7 +100,7 @@ namespace Mewdeko.Core.Modules.Gambling.Services
             return uow.GuildConfigs.ForId(
                     guildId,
                     set => set.Include(x => x.ShopEntries)
-                        .ThenInclude<GuildConfig, ShopEntry, HashSet<ShopEntryItem>>(x => x.Items)
+                        .ThenInclude(x => x.Items)
                 )
                 .ShopEntries
                 .ToIndexed();

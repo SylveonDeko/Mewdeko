@@ -16,12 +16,14 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
 
             return query.ToArray();
         }
+
         public Reputation[] ForGuildId(ulong gid)
         {
             var query = _set.AsQueryable().Where(x => x.GuildId == gid);
 
             return query.ToArray();
         }
+
         public Reputation[] ForReviewerId(ulong uid)
         {
             var query = _set.AsQueryable().Where(x => x.ReviewerId == uid);

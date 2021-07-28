@@ -1073,19 +1073,19 @@
       "{0}schn NewName"
     ]
   },
-  "prune": {
-    "Cmd": "prune clear",
+  "Purge": {
+    "Cmd": "Purge clear",
     "Desc":
-      "`{0}prune` removes all Mewdeko's messages in the last 100 messages. `{0}prune X` removes last `X` number of messages from the channel (up to 100). `{0}prune @Someone` removes all Someone's messages in the last 100 messages. `{0}prune @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only prune messages that are not pinned.",
+      "`{0}Purge` removes all Mewdeko's messages in the last 100 messages. `{0}Purge X` removes last `X` number of messages from the channel (up to 100). `{0}Purge @Someone` removes all Someone's messages in the last 100 messages. `{0}Purge @Someone X` removes last `X` number of 'Someone's' messages in the channel. You can use the `-s` / `--safe` parameter at the end to only Purge messages that are not pinned.",
     "Usage": [
-      "{0}prune",
-      "{0}prune -s",
-      "{0}prune 5",
-      "{0}prune 5 --safe",
-      "{0}prune @Someone",
-      "{0}prune @Someone --safe",
-      "{0}prune @Someone X",
-      "{0}prune @Someone X -s"
+      "{0}Purge",
+      "{0}Purge -s",
+      "{0}Purge 5",
+      "{0}Purge 5 --safe",
+      "{0}Purge @Someone",
+      "{0}Purge @Someone --safe",
+      "{0}Purge @Someone X",
+      "{0}Purge @Someone X -s"
     ]
   },
   "die": {
@@ -2653,8 +2653,8 @@
     "desc":
       "Overrides required user permissions that the command has with the specified ones. You can only use channel permissions. This action will make the bot ignore permission requirements which command has by default. Provide no permissions to reset to default.",
     "usage": [
-      "{0}dpo .prune ManageMessages ManageChannel",
-      "{0}dpo .prune"
+      "{0}dpo .Purge ManageMessages ManageChannel",
+      "{0}dpo .Purge"
     ]
   },
   "discordpermoverridelist": {
@@ -3435,7 +3435,7 @@
     "Cmd": "autocmdadd",
     "Desc": "Adds a command to the list of commands which will be executed automatically every X seconds.",
     "Usage": [
-      "{0}autocmdadd 60 {0}prune 1000"
+      "{0}autocmdadd 60 {0}Purge 1000"
     ]
   },
   "startupcommandremove": {

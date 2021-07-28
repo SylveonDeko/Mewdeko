@@ -127,7 +127,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
                     true).ConfigureAwait(false);
 
                 if (_isPotLimited)
-                    await _msg.ModifyAsync(m => { m.Embed = GetEmbed(PotSize).Build(); },
+                    await _msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
                         new RequestOptions {RetryMode = RetryMode.AlwaysRetry}).ConfigureAwait(false);
 
                 Log.Information("Awarded {0} users {1} currency.{2}",

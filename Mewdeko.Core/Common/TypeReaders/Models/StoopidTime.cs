@@ -42,7 +42,7 @@ namespace Mewdeko.Core.Common.TypeReaders.Models
                 output += m.Groups[groupName].Value + " " + groupName + " ";
             }
 
-            var ts = new TimeSpan(356 * namesAndValues["years"] +
+            var ts = new TimeSpan(365 * namesAndValues["years"] +
                                   30 * namesAndValues["months"] +
                                   7 * namesAndValues["weeks"] +
                                   namesAndValues["days"],

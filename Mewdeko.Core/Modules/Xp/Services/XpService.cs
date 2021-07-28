@@ -43,10 +43,6 @@ namespace Mewdeko.Modules.Xp.Services
         private readonly ICurrencyService _cs;
 
         private readonly DbService _db;
-        private ConcurrentDictionary<ulong, int> _XpTxtRates { get; } = new();
-        private ConcurrentDictionary<ulong, int> _XpVoiceRates { get; } = new();
-        private ConcurrentDictionary<ulong, int> _XpTxtTimeouts { get; } = new();
-        private ConcurrentDictionary<ulong, int> _XpVoiceTimeouts { get; } = new();
 
         private readonly ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> _excludedChannels;
 
@@ -140,6 +136,11 @@ namespace Mewdeko.Modules.Xp.Services
             updateXpTask = Task.Run(UpdateLoop);
         }
 
+        private ConcurrentDictionary<ulong, int> _XpTxtRates { get; } = new();
+        private ConcurrentDictionary<ulong, int> _XpVoiceRates { get; } = new();
+        private ConcurrentDictionary<ulong, int> _XpTxtTimeouts { get; } = new();
+        private ConcurrentDictionary<ulong, int> _XpVoiceTimeouts { get; } = new();
+
         public Task Unload()
         {
             _cmd.OnMessageNoTrigger -= _cmd_OnMessageNoTrigger;
@@ -172,7 +173,7 @@ namespace Mewdeko.Modules.Xp.Services
                         foreach (var item in group)
                         {
                             var xp = item.Sum(x => x.XpAmount);
-                                
+
                             //1. Mass query discord users and userxpstats and get them from local dict
                             //2. (better but much harder) Move everything to the database, and get old and new xp
                             // amounts for every user (in order to give rewards)
@@ -533,26 +534,31 @@ namespace Mewdeko.Modules.Xp.Services
             _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e),
                 When.NotExists);
         }
+
         public int GetXpTimeout(ulong? id)
         {
             _XpTxtTimeouts.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         public int GetTxtXpRate(ulong? id)
         {
             _XpTxtRates.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         public double GetVoiceXpRate(ulong? id)
         {
             _XpVoiceRates.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         public int GetVoiceXpTimeout(ulong? id)
         {
             _XpVoiceTimeouts.TryGetValue(id.Value, out var snum);
             return snum;
         }
+
         private void UserLeftVoiceChannel(SocketGuildUser user, SocketVoiceChannel channel)
         {
             var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
@@ -571,7 +577,7 @@ namespace Mewdeko.Modules.Xp.Services
             double ten;
             if (GetVoiceXpRate(user.Guild.Id) == 0)
                 ten = _xpConfig.Data.VoiceXpPerMinute;
-            else 
+            else
                 ten = GetVoiceXpRate(user.Guild.Id);
             var xp = ten * minutes;
             var actualXp = (int) Math.Floor(xp);
@@ -653,6 +659,7 @@ namespace Mewdeko.Modules.Xp.Services
                 uow.SaveChanges();
             }
         }
+
         public async Task XpTxtRateSet(IGuild guild, int num)
         {
             using (var uow = _db.GetDbContext())
@@ -664,6 +671,7 @@ namespace Mewdeko.Modules.Xp.Services
 
             _XpTxtRates.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public async Task XpTxtTimeoutSet(IGuild guild, int num)
         {
             using (var uow = _db.GetDbContext())
@@ -675,6 +683,7 @@ namespace Mewdeko.Modules.Xp.Services
 
             _XpTxtTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public async Task XpVoiceRateSet(IGuild guild, int num)
         {
             using (var uow = _db.GetDbContext())
@@ -686,6 +695,7 @@ namespace Mewdeko.Modules.Xp.Services
 
             _XpVoiceRates.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public async Task XpVoiceTimeoutSet(IGuild guild, int num)
         {
             using (var uow = _db.GetDbContext())
@@ -697,6 +707,7 @@ namespace Mewdeko.Modules.Xp.Services
 
             _XpVoiceTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+
         public bool IsServerExcluded(ulong id)
         {
             return _excludedServers.Contains(id);

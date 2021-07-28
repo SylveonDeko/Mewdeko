@@ -12,12 +12,12 @@ using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 
-namespace Mewdeko.Modules.Administration
+namespace Mewdeko.Modules.Moderation
 {
-    public partial class Administration
+    public partial class Moderation
     {
         [Group]
         public class UserPunishCommands2 : MewdekoSubmodule<UserPunishService2>

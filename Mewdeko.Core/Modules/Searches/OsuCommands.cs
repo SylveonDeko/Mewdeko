@@ -200,7 +200,7 @@ namespace Mewdeko.Modules.Searches
                         .WithTitle($"Top 5 plays for {user}");
 
                     var mapData = await Task.WhenAll(mapTasks);
-                    foreach (var (title, desc) in mapData.Where(x => x != default)) eb.AddField(title, desc, false);
+                    foreach (var (title, desc) in mapData.Where(x => x != default)) eb.AddField(title, desc);
 
                     await channel.EmbedAsync(eb).ConfigureAwait(false);
                 }

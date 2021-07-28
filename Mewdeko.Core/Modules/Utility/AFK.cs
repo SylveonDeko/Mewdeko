@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.Net;
+using Discord.WebSocket;
 using Humanizer;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -22,24 +25,55 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [Priority(0)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task RegisterAfkCommands()
+            {
+                try
+                {
+                    var guildcommands = new SlashCommandBuilder();
+                    guildcommands.WithName("afk");
+                    guildcommands.WithDescription("Allows you to enable and disable your afk.");
+                    guildcommands.AddOption(new SlashCommandOptionBuilder()
+                    {
+                        Name = "message",
+                        Description = "Set an optional afk message",
+                        Type = ApplicationCommandOptionType.String
+                    });
+                    var client = ctx.Client as DiscordSocketClient;
+                    await client.Rest.CreateGuildCommand(guildcommands.Build(), ctx.Guild.Id);
+                }
+                catch (ApplicationCommandException exception)
+                {
+                    var json = JsonConvert.SerializeObject(exception.Error, Formatting.Indented);
+                    Console.WriteLine(json);
+                }
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
             public async Task Afk([Remainder] string message)
             {
-                if (message.Length > _service.GetAfkLength(ctx.Guild.Id))
+                if (message.Length != 0 && message.Length > _service.GetAfkLength(ctx.Guild.Id))
                 {
-                    await ctx.Channel.SendErrorAsync($"Thats too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
+                    await ctx.Channel.SendErrorAsync(
+                        $"Thats too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
                     return;
                 }
-                if(_service.GetAfkMessageType(ctx.Guild.Id) == 2 || _service.GetAfkMessageType(ctx.Guild.Id) == 4)
-                {
+
+                if (_service.GetAfkMessageType(ctx.Guild.Id) == 2 || _service.GetAfkMessageType(ctx.Guild.Id) == 4)
                     if (ctx.Message.MentionedUserIds.Count >= 3)
                     {
-                        await ctx.Channel.SendErrorAsync("Nice try there, but you cant mention more then 3 users with afk type 2 or 4 to prevent raids.");
+                        await ctx.Channel.SendErrorAsync(
+                            "Nice try there, but you cant mention more then 3 users with afk type 2 or 4 to prevent raids.");
                         return;
                     }
-                }
+
                 await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -47,10 +81,21 @@ namespace Mewdeko.Modules.Utility
             [Priority(0)]
             public async Task TimedAfk(StoopidTime time, [Remainder] string message)
             {
-                await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}");
+                if (_service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
+                {
+                    await ctx.Channel.SendErrorAsync(
+                        $"You already have a regular afk set! Please disable it by doing {Prefix}afk anf try again");
+                    return;
+                }
+
+                await ctx.Channel.SendConfirmAsync(
+                    $"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}");
                 await _service.TimedAfk(ctx.Guild, ctx.User, message, time.Time);
-                await ctx.Channel.SendMessageAsync($"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
+                if (_service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
+                    await ctx.Channel.SendMessageAsync(
+                        $"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
             }
+
             [Priority(0)]
             [MewdekoCommand]
             [Usage]
@@ -80,6 +125,7 @@ namespace Mewdeko.Modules.Utility
                         .WithDescription(string.Join("\n", mentions.ToArray().Skip(cur * 20).Take(20)));
                 }, mentions.ToArray().Length, 20).ConfigureAwait(false);
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -92,6 +138,7 @@ namespace Mewdeko.Modules.Utility
                 await _service.AfkMessageTypeSet(ctx.Guild, num);
                 await ctx.Channel.SendConfirmAsync($"Sucessfully set AfkMessageType to {num}");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -102,8 +149,8 @@ namespace Mewdeko.Modules.Utility
             {
                 if (num > 4096)
                 {
-                    await ctx.Channel.SendErrorAsync("The Maximum Length is 4096 per Discord limits. Please put a number lower than that.");
-                    return;
+                    await ctx.Channel.SendErrorAsync(
+                        "The Maximum Length is 4096 per Discord limits. Please put a number lower than that.");
                 }
                 else
                 {
@@ -111,6 +158,7 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendConfirmAsync($"AFK Length Sucessfully Set To {num} Characters");
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]

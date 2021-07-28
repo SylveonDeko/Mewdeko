@@ -15,6 +15,7 @@ namespace Mewdeko.Core.Services.Database
         ICustomReactionRepository CustomReactions { get; }
         IMusicPlaylistRepository MusicPlaylists { get; }
         IWaifuRepository Waifus { get; }
+        ITicketRepository Tickets { get; }
         IDiscordUserRepository DiscordUsers { get; }
         IReputationRepository Reputation { get; }
         IWarningsRepository Warnings { get; }

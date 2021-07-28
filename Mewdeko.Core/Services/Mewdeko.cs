@@ -12,6 +12,7 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
+using Interactivity;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
@@ -59,7 +60,7 @@ namespace Mewdeko
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
-                AlwaysDownloadUsers = false,
+                AlwaysDownloadUsers = true,
                 GatewayIntents = GatewayIntents.All
             });
 
@@ -158,6 +159,8 @@ namespace Mewdeko
                 .AddSingleton<ISeria, JsonSeria>()
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
+                .AddSingleton<InteractivityService>()
+                .AddSingleton(new InteractivityConfig { DefaultTimeout = TimeSpan.FromSeconds(20) })
                 .AddBotStringsServices()
                 .AddConfigServices()
                 .AddConfigMigrators()
