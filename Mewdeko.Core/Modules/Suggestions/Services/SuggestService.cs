@@ -19,10 +19,13 @@ namespace Mewdeko.Modules.Suggestions.Services
 
         public CommandHandler CmdHandler;
         public DiscordSocketClient _client;
-        public SuggestService(DbService db, Mewdeko bot, CommandHandler cmd, DiscordSocketClient client)
+        public Administration.Services.AdministrationService adminserv;
+        public SuggestService(DbService db, Mewdeko bot, CommandHandler cmd, DiscordSocketClient client, Administration.Services.AdministrationService aserv)
         {
+            adminserv = aserv;
             CmdHandler = cmd;
             _client = client;
+            _client.MessageReceived += MessageRecieved;
             _db = db;
             _snum = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.sugnum)
@@ -68,7 +71,9 @@ namespace Mewdeko.Modules.Suggestions.Services
             var Prefix = CmdHandler.GetPrefix(Guild);
             if (msg.Channel.Id == GetSuggestionChannel(Guild.Id) && msg.Author.IsBot == false &&
                 !msg.Content.StartsWith(Prefix))
-{
+{               
+                var guser = msg.Author as IGuildUser;
+                if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id))) return;
                 await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content);
             }
         }
@@ -300,18 +305,18 @@ namespace Mewdeko.Modules.Suggestions.Services
                 var sugnum1 = GetSNum(guild.Id);
                 var suguse = await guild.GetUserAsync(suggest.UserID);
                 var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
+                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
                 .WithOverride("%suggest.number%", () => sugnum1.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
-                .WithOverride("$suggest.accepter.user%", () => user.ToString())
-                .WithOverride("$suggest.accepter.avatar%", () => user.RealAvatarUrl(2048).ToString())
-                .WithOverride("$suggest.accepter.name%", () => user.Username)
-                .WithOverride("$suggest.accepter.message%", () => rs)
-                .WithOverride("$suggest.accepter.Id%", () => user.Id.ToString())
+                .WithOverride("%suggest.mod.user%", () => user.ToString())
+                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl(2048).ToString())
+                .WithOverride("%suggest.mod.name%", () => user.Username)
+                .WithOverride("%suggest.mod.message%", () => rs)
+                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
                 CREmbed.TryParse(GetSuggestionMessage(guild), out crEmbed);
                 replacer.Replace(crEmbed);
@@ -436,11 +441,11 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.number%", () => sugnum1.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
-                .WithOverride("$suggest.accepter.user%", () => user.ToString())
-                .WithOverride("$suggest.accepter.avatar%", () => user.RealAvatarUrl(2048).ToString())
-                .WithOverride("$suggest.accepter.name%", () => user.Username)
-                .WithOverride("$suggest.accepter.message%", () => rs)
-                .WithOverride("$suggest.accepter.Id%", () => user.Id.ToString())
+                .WithOverride("%suggest.mod.user%", () => user.ToString())
+                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl(2048).ToString())
+                .WithOverride("%suggest.mod.name%", () => user.Username)
+                .WithOverride("%suggest.mod.message%", () => rs)
+                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
                 CREmbed.TryParse(GetSuggestionMessage(guild), out crEmbed);
                 replacer.Replace(crEmbed);
@@ -557,18 +562,18 @@ namespace Mewdeko.Modules.Suggestions.Services
                 var sugnum1 = GetSNum(guild.Id);
                 var suguse = await guild.GetUserAsync(suggest.UserID);
                 var replacer = new ReplacementBuilder()
-                .WithServer(client, guild as SocketGuild)
+                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
                 .WithOverride("%suggest.number%", () => sugnum1.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
-                .WithOverride("%suggest.accepter.user%", () => user.ToString())
-                .WithOverride("%suggest.accepter.avatar%", () => user.RealAvatarUrl(2048).ToString())
-                .WithOverride("%suggest.accepter.name%", () => user.Username)
-                .WithOverride("%suggest.accepter.Id%", () => user.Id.ToString())
-                .WithOverride("%suggest.accepter.message%", () => rs)
+                .WithOverride("%suggest.mod.user%", () => user.ToString())
+                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl(2048).ToString())
+                .WithOverride("%suggest.mod.name%", () => user.Username)
+                .WithOverride("%suggest.mod.message%", () => rs)
+                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
                 CREmbed.TryParse(GetAcceptMessage(guild), out crEmbed);
                 replacer.Replace(crEmbed);
@@ -685,19 +690,19 @@ namespace Mewdeko.Modules.Suggestions.Services
                 CREmbed crEmbed = null;
                 var sugnum1 = GetSNum(guild.Id);
                 var suguse = await guild.GetUserAsync(suggest.UserID);
-                var replacer = new ReplacementBuilder()  
-                .WithServer(client, guild as SocketGuild)
+                var replacer = new ReplacementBuilder()
+                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
                 .WithOverride("%suggest.number%", () => sugnum1.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
-                .WithOverride("%suggest.accepter.user%", () => user.ToString())
-                .WithOverride("%suggest.accepter.avatar%", () => user.RealAvatarUrl(2048).ToString())
-                .WithOverride("%suggest.accepter.name%", () => user.Username)
-                .WithOverride("%suggest.accepter.Id%", () => user.Id.ToString())
-                .WithOverride("%suggest.accepter.message%", () => rs)
+                .WithOverride("%suggest.mod.user%", () => user.ToString())
+                .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl(2048).ToString())
+                .WithOverride("%suggest.mod.name%", () => user.Username)
+                .WithOverride("%suggest.mod.message%", () => rs)
+                .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
                 CREmbed.TryParse(GetAcceptMessage(guild), out crEmbed);
                 replacer.Replace(crEmbed);
