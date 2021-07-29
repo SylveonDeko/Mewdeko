@@ -9,6 +9,7 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Suggestions.Services
 {
@@ -16,9 +17,12 @@ namespace Mewdeko.Modules.Suggestions.Services
     {
         public readonly DbService _db;
 
-
-        public SuggestService(DbService db, Mewdeko bot)
+        public CommandHandler CmdHandler;
+        public DiscordSocketClient _client;
+        public SuggestService(DbService db, Mewdeko bot, CommandHandler cmd, DiscordSocketClient client)
         {
+            CmdHandler = cmd;
+            _client = client;
             _db = db;
             _snum = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.sugnum)
@@ -57,7 +61,17 @@ namespace Mewdeko.Modules.Suggestions.Services
         private ConcurrentDictionary<ulong, string> _denymsgs { get; } = new();
         private ConcurrentDictionary<ulong, string> _implementmsgs { get; } = new();
         private ConcurrentDictionary<ulong, string> _considermsgs { get; } = new();
-
+        public async Task MessageRecieved(SocketMessage msg)
+        {
+            if (msg.Channel is not SocketGuildChannel chan) return;
+            var Guild = (msg.Channel as IGuildChannel).Guild;
+            var Prefix = CmdHandler.GetPrefix(Guild);
+            if (msg.Channel.Id == GetSuggestionChannel(Guild.Id) && msg.Author.IsBot == false &&
+                !msg.Content.StartsWith(Prefix))
+{
+                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content);
+            }
+        }
         public ulong GetSNum(ulong? id)
         {
             _snum.TryGetValue(id.Value, out var snum);

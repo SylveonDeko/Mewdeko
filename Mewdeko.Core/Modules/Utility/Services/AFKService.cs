@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 if (command.Channel is ITextChannel chan)
                 {
-                    if (command.Data.Options.Count == 1)
+                    if (command.Data.Options?.Count == 1)
                     {
                         if (GetAfkLength(chan.Guild.Id) != 0  && command.Data.Options.FirstOrDefault().Value.ToString().Length > GetAfkLength(chan.Guild.Id))
                         {
@@ -83,7 +83,7 @@ namespace Mewdeko.Modules.Utility.Services
                             return;
                         }
                         await AFKSet(chan.Guild, command.User as IGuildUser, command.Data.Options.FirstOrDefault().Value.ToString(), 0);
-                        await command.RespondAsync($"I have succesfully enabled your afk and set it to {command.Data.Options.FirstOrDefault().Value}");
+                        await command.RespondAsync($"I have succesfully enabled your afk and set it to {command.Data.Options.FirstOrDefault().Value.ToString().SanitizeAllMentions()}");
                         return;
                     }
                     if (IsAfk(chan.Guild, command.User as IGuildUser))

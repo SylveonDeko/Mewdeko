@@ -21,26 +21,13 @@ namespace Mewdeko.Modules.Suggestions
         [Group]
         public class SuggestCommands : MewdekoModule<SuggestService>
         {
-            public InteractivityService Interactivity;
             public DiscordSocketClient _client;
 
-            public SuggestCommands(DiscordSocketClient client, InteractivityService inte)
+            public SuggestCommands(DiscordSocketClient client)
             {
-                Interactivity = inte;
                 _client = client;
-                _client.MessageReceived += MessageRecieved;
             }
-            public async Task MessageRecieved(SocketMessage msg)
-            {
-                if (msg.Channel is not SocketGuildChannel chan) return;
-                var Guild = (msg.Channel as IGuildChannel).Guild;
-                var Prefix = CmdHandler.GetPrefix(Guild);
-                if (msg.Channel.Id == _service.GetSuggestionChannel(Guild.Id) && msg.Author.IsBot == false &&
-                    !msg.Content.StartsWith(Prefix))
-                {
-                    await _service.SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content);
-                }
-            }
+            
             [MewdekoCommand]
             [Usage]
             [Description]

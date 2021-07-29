@@ -38,7 +38,6 @@ namespace Mewdeko.Modules.Help
         private readonly IBotStrings _strings;
         private readonly InteractivityService Interactivity;
         private IList<ModuleInfo> list1;
-        private IList<HelpInfo> list31;
 
         public Help(GlobalPermissionService perms, CommandService cmds, BotConfigService bss,
 IServiceProvider services, DiscordSocketClient client, IBotStrings strings, InteractivityService inte, CommandHandler c)
@@ -50,86 +49,11 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
             _perms = perms;
             _services = services;
             _client = client;
-            _client.MessageReceived += HandlePing;
-            _client.InteractionCreated += HandleModules;
             _strings = strings;
             _lazyClientId = new AsyncLazy<ulong>(async () => (await _client.GetApplicationInfoAsync()).Id);
         }
-        public async Task HandleModules(SocketInteraction ine)
-        {
-            var parsedArg = (SocketMessageComponent)ine;
-            if (!list3.Any()) return;
-            var ta = list3.Where(x => x.chan == parsedArg.Channel as ITextChannel).First().msg;
-            var context = new CommandContext(_client, ta);
-            var module = parsedArg.Data.CustomId?.Trim().ToUpperInvariant();
-            var cmds = _cmds.Commands.Where(c =>
-                        c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                            .StartsWith(module, StringComparison.InvariantCulture))
-                    .OrderBy(c => c.Aliases[0])
-                    .Distinct(new CommandTextEqualityComparer());
-            // check preconditions for all commands, but only if it's not 'all'
-            // because all will show all commands anyway, no need to check
-            var succ = new HashSet<CommandInfo>();
-            succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
-            {
-                var pre = await x.CheckPreconditionsAsync(context, _services).ConfigureAwait(false);
-                return (Cmd: x, Succ: pre.IsSuccess);
-            })).ConfigureAwait(false))
-                .Where(x => x.Succ)
-                .Select(x => x.Cmd));
-
-            var cmdsWithGroup = cmds
-                .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-                .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
-
-
-            var i = 0;
-            var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
-            var embed = new EmbedBuilder().WithOkColor();
-            foreach (var g in groups)
-            {
-                var last = g.Count();
-                for (i = 0; i < last; i++)
-                {
-                    var transformed = g.ElementAt(i).Select(x =>
-                    {
-                        //if cross is specified, and the command doesn't satisfy the requirements, cross it out
-                        return
-                        $"{(succ.Contains(x) ? "✅" : "❌")}{cmd.GetPrefix((parsedArg.Channel as ITextChannel).Guild) + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
-                    });
-
-                    if (i == last - 1 && (i + 1) % 2 != 0)
-                    {
-                        var grp = 0;
-                        var count = transformed.Count();
-                        transformed = transformed
-                            .GroupBy(x => grp++ % count / 2)
-                            .Select(x =>
-                            {
-                                if (x.Count() == 1)
-                                    return $"{x.First()}";
-                                return string.Concat(x);
-                            });
-                    }
-                    embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
-                }
-            }
-            if (parsedArg.User.Id == ta.Author.Id)
-            {
-                await parsedArg.Message.ModifyAsync(x => x.Embed = embed.Build());
-            }
-            else
-            {
-                await parsedArg.FollowupAsync(text: "This isnt your help embed but heres the result anyway", embed: embed.Build(), ephemeral: true);
-            }
-        }
-        private class HelpInfo
-        {
-            public IUser user { get; set; }
-            public IUserMessage msg { get; set; }
-            public ITextChannel chan { get; set; }
-            public DateTime time { get; set; }
-        }
+        
+        
         private class ModuleInfo
         {
             public string Name { get; set; }
@@ -143,24 +67,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
             public string Description { get; set; }
         }
         private static IList<ModuleInfo> list = new List<ModuleInfo>();
-        private static IList<HelpInfo> list3 = new List<HelpInfo>();
-        private async Task HandlePing(SocketMessage msg)
-        {
-            if (msg.MentionedUsers.Select(x => x.Id).Contains(_client.CurrentUser.Id))
-            {
-                if (msg.Channel is ITextChannel chan)
-                {
-                    var eb = new EmbedBuilder();
-                    eb.WithOkColor();
-                    eb.WithDescription(
-                        $"Hi there! To see my command categories do `{cmd.GetPrefix(chan.Guild)}cmds`\n My current Prefix is `{cmd.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!\n\n I hope you have a great day!");
-                    eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/866321565393748008.png?size=2048");
-                    eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username)
-                        .WithIconUrl(_client.CurrentUser.RealAvatarUrl(2048).ToString()));
-                    await chan.SendMessageAsync(embed: eb.Build());
-                }
-            }
-        }
+        
         public async Task<(string plainText, EmbedBuilder embed)> GetHelpStringEmbed()
         {
             var botSettings = _bss.Data;
@@ -196,45 +103,91 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
         [Aliases]
         public async Task Modules(int page = 1)
         {
-            var toadd = new HelpInfo
+            var toadd = new HelpService.HelpInfo
             {
                 user = ctx.User,
                 msg = ctx.Message,
                 time = DateTime.Now,
                 chan = ctx.Channel as ITextChannel
             };
-            list3.Add(toadd);
+            _service.UpdateHash(toadd);
             var builder = new ComponentBuilder()
-                .WithButton(" ", "admin", ButtonStyle.Secondary, Emote.Parse("<:nekohayay:866315028989739048>"), row: 0)
-                .WithButton(" ", "Mod", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_ok:866616128443645952>"), row: 0)
-                .WithButton(" ", "util", ButtonStyle.Secondary, Emote.Parse("<:Nekohacry:866615973834391553>"), row: 0)
-                .WithButton(" ", "sug", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_sleep:866321311886344202>"), row: 0)
-                .WithButton(" ", "server", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_Yawn:866320872003076136>"), row: 0)
-                .WithButton(" ", "perm", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_angy:866321279929024582>"), row: 0)
-                .WithButton(" ", "xp", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_huh:866615758032994354>"), row: 0)
-                .WithButton(" ", "nsfw", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_Flushed:866321565393748008>"), row: 1)
-                .WithButton(" ", "mus", ButtonStyle.Secondary, Emote.Parse("<:Nekohacheer:866614949895077900>"), row: 1)
-                .WithButton(" ", "gamb", ButtonStyle.Secondary, Emote.Parse("<:Nekohapoke:866613862468026368>"), row: 1)
-                .WithButton(" ", "sear", ButtonStyle.Secondary, Emote.Parse("<:nekoha_slam:866316199317864458>"), row: 1)
-                .WithButton(" ", "game", ButtonStyle.Secondary, Emote.Parse("<:Nekoha_wave:866321165538164776>"), row: 1)
-                .WithButton(" ", "he", ButtonStyle.Secondary, Emote.Parse("<:Nekohaquestion:866616825750749184>"), row: 1)
-                .WithButton(" ", "custom", ButtonStyle.Secondary, Emote.Parse("<:nekoha_stare:866316293179572264>"), row: 1);
-  //          var builder2 = new ComponentBuilder()
-  //.WithSelectMenu(new SelectMenuBuilder()
-  //.WithCustomId("id_2")
-  //.WithPlaceholder("This is a placeholder")
-  //.WithOptions(new List<SelectMenuOptionBuilder>()
-  //{
-  //  new SelectMenuOptionBuilder()
-  //    .WithLabel("Option A")
-  //    .WithEmote(Emote.Parse("<:evanpog:810017136814194698>"))
-  //    .WithDescription("Evan pog champ")
-  //    .WithValue("value1"),
-  //  new SelectMenuOptionBuilder()
-  //    .WithLabel("Option B")
-  //    .WithDescription("Option B is poggers")
-  //    .WithValue("value2")
-  //}));
+            .WithSelectMenu(new SelectMenuBuilder()
+            .WithCustomId("id_2")
+            .WithPlaceholder("Select your category here")
+            .WithOptions(new List<SelectMenuOptionBuilder>()
+            {
+            new SelectMenuOptionBuilder()
+                .WithLabel("Administration")
+                .WithEmote(Emote.Parse("<:nekohayay:866315028989739048>"))
+                .WithDescription("Prefix, Autoroles, and other admin related stuff.")
+                .WithValue("admin"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Moderation")
+                .WithEmote(Emote.Parse("<:Nekoha_ok:866616128443645952>"))
+                .WithDescription("Warns, Purging, and Banning stuffs")
+                .WithValue("mod"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Utility")
+                .WithDescription("Sniping, Starboard and other useful stuff.")
+                .WithEmote(Emote.Parse("<:Nekohacry:866615973834391553>"))
+                .WithValue("util"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Suggestions")
+                .WithEmote(Emote.Parse("<:Nekoha_sleep:866321311886344202>"))
+                .WithDescription("The most cusomizable suggestions you'll find.")
+                .WithValue("sug"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Server Management")
+                .WithEmote(Emote.Parse("<:Nekoha_Yawn:866320872003076136>"))
+                .WithDescription("Mass role, channel perms, and vc stuffs.")
+                .WithValue("server"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Permissions")
+                .WithEmote(Emote.Parse("<:Nekoha_angy:866321279929024582>"))
+                .WithDescription("Manage command and category perms.")
+                .WithValue("perm"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Xp")
+                .WithEmote(Emote.Parse("<:Nekoha_huh:866615758032994354>"))
+                .WithDescription("View ranks and set xp config.")
+                .WithValue("xp"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("NSFW")
+                .WithEmote(Emote.Parse("<:Nekoha_Flushed:866321565393748008>"))
+                .WithDescription("Read NHentai in discord, no incognito!")
+                .WithValue("nsfw"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Music")
+                .WithEmote(Emote.Parse("<:Nekohacheer:866614949895077900>"))
+                .WithDescription("What is love, baby dont hurt me..")
+                .WithValue("Music"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Gambling")
+                .WithEmote(Emote.Parse("<:Nekohapoke:866613862468026368>"))
+                .WithDescription("Currency based games, these are global.")
+                .WithValue("gamb"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Searches")
+                .WithEmote(Emote.Parse("<:nekoha_slam:866316199317864458>"))
+                .WithDescription("Huggin, anime searches, and memes.")
+                .WithValue("search"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Games")
+                .WithEmote(Emote.Parse("<:nekohayay:866315028989739048>"))
+                .WithDescription("What do you expect, legend of zelda?")
+                .WithValue("game"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Help")
+                .WithEmote(Emote.Parse("<:Nekoha_wave:866321165538164776>"))
+                .WithDescription("pls send help")
+                .WithValue("help"),
+            new SelectMenuOptionBuilder()
+                .WithLabel("Custom Reactions")
+                .WithEmote(Emote.Parse("<:nekoha_stare:866316293179572264>"))
+                .WithDescription("Make the bot say stuff based on triggers.")
+                .WithValue("cust")
+            }));
             var embed = new EmbedBuilder();
             embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl(2048).ToString()).WithName("Mewdeko Help Menu"));
             embed.WithColor(Mewdeko.OkColor);
