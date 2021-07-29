@@ -239,13 +239,11 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                 return;
             }
 
-            IEnumerable<CommandInfo> cmds;
+            var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module, StringComparison.InvariantCulture))
+                                               .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+                                                 .OrderBy(c => c.Aliases[0])
+                                                 .Distinct(new CommandTextEqualityComparer());
 
-            cmds = _cmds.Commands.Where(c =>
-                    c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                        .StartsWith(module, StringComparison.InvariantCulture))
-                .OrderBy(c => c.Aliases[0])
-                .Distinct(new CommandTextEqualityComparer());
             if (cmds.Count() == 0)
             {
                 await ctx.Channel.SendErrorAsync("Category not found, double check its name and try again.");
@@ -262,10 +260,8 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                 .Where(x => x.Succ)
                 .Select(x => x.Cmd));
 
-            var cmdsWithGroup = cmds
-                .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-                .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
-
+            var cmdsWithGroup = cmds.GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
+                 .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
 
             var i = 0;
             var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
@@ -316,7 +312,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
         public async Task H([Leftover] string fail)
         {
             var prefixless =
-                _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant().StartsWith(fail)));
+                _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
             if (prefixless != null)
             {
                 await H(prefixless).ConfigureAwait(false);
