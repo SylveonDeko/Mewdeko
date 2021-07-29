@@ -9,6 +9,7 @@ using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
+using Humanizer;
 
 namespace Mewdeko.Modules.Moderation
 {
@@ -30,7 +31,56 @@ namespace Mewdeko.Modules.Moderation
 
                 return true;
             }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.MuteMembers)]
+            [Priority(1)]
+            public async Task STFU(StoopidTime time, IUser user)
+            {
+                await STFU(user, time);
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.MuteMembers)]
+            [Priority(0)]
+            public async Task STFU(IUser user, StoopidTime time = null)
+            {
+                var channel = ctx.Channel as SocketGuildChannel;
+                var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
+                await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
+                if (time is null)
+                    await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel!");
+                if (time != null)
+                {
+                    await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel for {time.Time.Humanize()}!");
+                    await Task.Delay(time.Time.Milliseconds);
+                }
+                try
+                {
+                    await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
+                }
+                catch { }
+            }
 
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.MuteMembers)]
+            public async Task UNSTFU(IUser user)
+            {
+                var channel = ctx.Channel as SocketGuildChannel;
+                var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
+                await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
+                await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!");
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -113,7 +163,7 @@ namespace Mewdeko.Modules.Moderation
 
                     await _service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_muted_time", Format.Bold(user.ToString()),
-                        (int) time.Time.TotalMinutes).ConfigureAwait(false);
+                        time.Time.Humanize()).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -206,7 +256,7 @@ namespace Mewdeko.Modules.Moderation
 
                     await _service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_voice_mute_time", Format.Bold(user.ToString()),
-                        (int) time.Time.TotalMinutes).ConfigureAwait(false);
+                        time.Time.Humanize()).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -232,7 +282,7 @@ namespace Mewdeko.Modules.Moderation
 
                     await _service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_chat_mute_time", Format.Bold(user.ToString()),
-                        (int) time.Time.TotalMinutes).ConfigureAwait(false);
+                        time.Time.Humanize()).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

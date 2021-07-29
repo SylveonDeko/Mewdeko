@@ -71,10 +71,11 @@ namespace Mewdeko.Modules.Suggestions.Services
             var Prefix = CmdHandler.GetPrefix(Guild);
             if (msg.Channel.Id == GetSuggestionChannel(Guild.Id) && msg.Author.IsBot == false &&
                 !msg.Content.StartsWith(Prefix))
-{               
+            {               
                 var guser = msg.Author as IGuildUser;
                 if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id))) return;
                 await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content);
+                try { await msg.DeleteAsync(); } catch { } 
             }
         }
         public ulong GetSNum(ulong? id)

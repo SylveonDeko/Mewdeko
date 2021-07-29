@@ -64,34 +64,6 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.MuteMembers)]
-            public async Task STFU(IUser user)
-            {
-                var channel = ctx.Channel as SocketGuildChannel;
-                var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
-                await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
-                await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel!");
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.MuteMembers)]
-            public async Task UNSTFU(IUser user)
-            {
-                var channel = ctx.Channel as SocketGuildChannel;
-                var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
-                await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!");
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
             public async Task SetWarnChannel([Remainder] ITextChannel channel)

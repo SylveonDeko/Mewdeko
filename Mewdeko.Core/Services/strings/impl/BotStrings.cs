@@ -63,7 +63,8 @@ namespace Mewdeko.Core.Services
                     return new CommandStrings
                     {
                         Args = new[] {""},
-                        Desc = "?"
+                        Desc = "?",
+                        Image = ""
                     };
                 }
 
@@ -112,5 +113,6 @@ namespace Mewdeko.Core.Services
         [YamlMember(Alias = "desc")] public string Desc { get; set; }
 
         [YamlMember(Alias = "args")] public string[] Args { get; set; }
+        [YamlMember(Alias = "image")] public string Image { get; set; }
     }
 }
