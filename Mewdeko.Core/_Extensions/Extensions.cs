@@ -176,6 +176,10 @@ namespace Mewdeko.Extensions
             return Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
                 arg => GetFullUsage(cmd.Name, arg, prefix));
         }
+        public static string GetCommandImage(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix)
+        {
+            return strings.GetCommandStrings(cmd.MethodName(), guildId).Image;
+        }
 
         public static string MethodName(this CommandInfo cmd)
         {

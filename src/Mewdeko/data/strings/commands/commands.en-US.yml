@@ -807,23 +807,28 @@ creatxtchanl:
   args:
     - "TextChannelName"
 acceptmessage:
-  desc: "Allows you to set the message sent when a suggestion is accepted."
+  desc: "Allows you to set the message sent when a suggestion is accepted. Use the embed builder at https://eb.mewdeko.tech and the placeholders at https://mewdeko.tech/placeholders."
   args:
   - "embedcodehere"
 implementmessage:
-  desc: "Allows you to set the message sent when a suggestion is implemented."
+  desc: "Allows you to set the message sent when a suggestion is implemented. Use the embed builder at https://eb.mewdeko.tech and the placeholders at https://mewdeko.tech/placeholders."
   args:
   - "embedcodehere"
+suggestmotes:
+  desc: "Allows you to set up to 5 emotes the bot will react with when a suggestion is sent. ***Must be a emote in the current server***"
+  args:
+  - "emote1 emote2"
 considermessage:
-  desc: "Allows you to set the message sent when a suggestion is considered."
+  desc: "Allows you to set the message sent when a suggestion is considered.Use the embed builder at https://eb.mewdeko.tech and the placeholders at https://mewdeko.tech/placeholders."
   args:
   - "embedcodehere"
+  image: "https://media.discordapp.net/attachments/866308739334406174/870301575371948082/imgonline-com-ua-twotoone-IHpgQIykBfw.png"
 denymessage:
-  desc: "Allows you to set the message sent when a suggestion is denied."
+  desc: "Allows you to set the message sent when a suggestion is denied. Use the embed builder at https://eb.mewdeko.tech and the placeholders at https://mewdeko.tech/placeholders."
   args:
   - "embedcodehere"
 suggestmessage:
-  desc: "Allows you to set the message sent when a suggestion is accepted."
+  desc: "Allows you to set the message sent when a suggestion is sent."
   args:
   - "embedcodehere"
 settopic:

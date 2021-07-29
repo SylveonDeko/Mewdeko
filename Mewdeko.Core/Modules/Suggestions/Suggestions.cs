@@ -64,6 +64,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             public async Task AcceptMessage([Remainder] string embed)
             {
 
@@ -72,7 +73,7 @@ namespace Mewdeko.Modules.Suggestions
                 if (embed == "-")
                 {
                     await _service.SetAcceptMessage(ctx.Guild, embed);
-                    await ctx.Channel.SendConfirmAsync("Suggestions will now have the default look.");
+                    await ctx.Channel.SendConfirmAsync("Accepted Suggestions will now have the default look.");
                     return;
                 }
                 else
@@ -95,15 +96,16 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task DenyMessage([Remainder] string embed)
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task ImplementMessage([Remainder] string embed)
             {
 
                 CREmbed crEmbed;
                 CREmbed.TryParse(embed, out crEmbed);
                 if (embed == "-")
                 {
-                    await _service.SetDenyMessage(ctx.Guild, embed);
-                    await ctx.Channel.SendConfirmAsync("Suggestions will now have the default look.");
+                    await _service.SetImplementMessage(ctx.Guild, embed);
+                    await ctx.Channel.SendConfirmAsync(" Implemented Suggestions will now have the default look.");
                     return;
                 }
                 else
@@ -116,7 +118,7 @@ namespace Mewdeko.Modules.Suggestions
                     else
                     {
                         await _service.SetAcceptMessage(ctx.Guild, embed);
-                        await ctx.Channel.SendMessageAsync("Sucessfully updated deny suggestion message!");
+                        await ctx.Channel.SendMessageAsync("Sucessfully updated implement suggestion message!");
                     }
                 }
 
@@ -126,6 +128,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             public async Task ConsiderMessage([Remainder] string embed)
             {
 
@@ -279,7 +282,7 @@ namespace Mewdeko.Modules.Suggestions
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task Implemented(ulong sid, [Remainder] string reason = null)
             {
-                await _service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid, ctx.Channel as ITextChannel, reason);
+                await _service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid, ctx.Channel as ITextChannel, reason);
             }
 
             [MewdekoCommand]
@@ -297,6 +300,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             public async Task SuggestMotes([Remainder] string _ = null)
             {
                 if (_ == null)
