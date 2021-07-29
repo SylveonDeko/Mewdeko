@@ -739,7 +739,7 @@ namespace Mewdeko.Modules.Suggestions.Services
             var tdown = new Emoji("\uD83D\uDC4E");
             var emotes = new List<Emote>();
             var em = GetEmotes(guild.Id);
-            if (em != "disable")
+            if (em != null && em != "disable")
             {
                 var te = em.Split(",");
                 foreach (var emote in te)
@@ -771,7 +771,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                         .WithOkColor(), n);
                 
                 IEmote[] reacts = { tup, tdown };
-                if (GetEmotes(guild.Id) == "disable")
+                if (em == null || em == "disabled")
                     foreach (var i in reacts) await t.AddReactionAsync(i);
                 else
                     foreach (var ei in emotes) await t.AddReactionAsync(ei);
@@ -797,7 +797,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true), embed: crEmbed.ToEmbed().Build());
                     IEmote[] reacts = { tup, tdown };
-                    if (GetEmotes(guild.Id) == "disable")
+                    if (em == null || em == "disabled")
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
@@ -807,7 +807,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     var t = await chan.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
                     IEmote[] reacts = { tup, tdown };
-                    if (GetEmotes(guild.Id) == "disable")
+                    if (em == null || em == "disabled")
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
@@ -817,7 +817,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
                     IEmote[] reacts = { tup, tdown };
-                    if (GetEmotes(guild.Id) == "disable")
+                    if (em == null || em == "disabled")
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
