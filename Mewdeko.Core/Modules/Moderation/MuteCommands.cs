@@ -47,6 +47,29 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task RemoveOnMute(string yesnt)
+            {
+                if (yesnt.StartsWith("n"))
+                {
+                    await _service.removeonmute(ctx.Guild, "n");
+                    await ctx.Channel.SendConfirmAsync("Removing roles on mute has been disabled!");
+                }
+                if (yesnt.StartsWith("y"))
+                {
+                    await _service.removeonmute(ctx.Guild, "y");
+                    await ctx.Channel.SendConfirmAsync("Removing roles on mute has been enabled!");
+                }
+                else
+                {
+                    await ctx.Channel.SendErrorAsync("Hey! Its either yes or no, Not that I care anyway, hmph.");
+                }
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.MuteMembers)]
             [Priority(0)]
             public async Task STFU(IUser user, StoopidTime time = null)
