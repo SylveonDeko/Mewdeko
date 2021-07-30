@@ -17,6 +17,7 @@ namespace Mewdeko.Core.Services
         Task SetAnimeDataAsync(string link, string data);
         Task SetNovelDataAsync(string link, string data);
         TimeSpan? AddTimelyClaim(ulong id, int period);
+        TimeSpan? AddVoteClaim(ulong id, int period);
         TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn);
         void RemoveAllTimelyClaims();
         bool TryAddAffinityCooldown(ulong userId, out TimeSpan? time);

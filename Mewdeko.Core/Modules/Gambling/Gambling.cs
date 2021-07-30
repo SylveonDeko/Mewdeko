@@ -17,6 +17,9 @@ using Mewdeko.Core.Services.Database;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Services;
+using DiscordBotsList.Api;
+using KSoftNet.KSoft;
+using KSoftNet;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -48,13 +51,15 @@ namespace Mewdeko.Modules.Gambling
         private readonly DbService _db;
         private readonly NumberFormatInfo _enUsCulture;
         private readonly DownloadTracker _tracker;
+        public KSoftAPI _ksoft;
 
         private IUserMessage rdMsg;
 
         public Gambling(DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client,
-            DownloadTracker tracker, GamblingConfigService configService) : base(configService)
+            DownloadTracker tracker, GamblingConfigService configService, KSoftAPI ks) : base(configService)
         {
+            _ksoft = ks;
             _db = db;
             _cs = currency;
             _cache = cache;
@@ -78,7 +83,14 @@ namespace Mewdeko.Modules.Gambling
                 return n(uow.DiscordUsers.GetUserCurrency(id));
             }
         }
-
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task Test()
+        {
+            _service.GetVoted(ctx.User.Id);
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -130,6 +142,31 @@ namespace Mewdeko.Modules.Gambling
             await _cs.AddAsync(ctx.User.Id, "Timely claim", val).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("timely", n(val) + CurrencySign, period).ConfigureAwait(false);
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task VoteClaim()
+        {
+            var val = 25000;
+            var period = 3;
+            TimeSpan? rem;
+            if (!await _service.GetVoted(ctx.User.Id))
+            {
+                await ctx.Channel.SendErrorAsync("You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
+                return;
+            }
+            if ((rem = _cache.AddTimelyClaim(ctx.User.Id, period)) != null)
+            {
+                await ReplyErrorLocalizedAsync("vote_already_claimed", rem?.ToString(@"dd\d\ hh\h\ mm\m\ ss\s"))
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            await _cs.AddAsync(ctx.User.Id, "Vote Claim https://top.gg/bot/752236274261426212/vote", val).ConfigureAwait(false);
+
+            await ctx.Channel.SendConfirmAsync("Vote currency claimed!");
         }
 
         [MewdekoCommand]

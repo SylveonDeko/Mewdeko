@@ -22,6 +22,7 @@
     <PackageReference Include="Discord.Net.Labs.Core" Version="2.4.9" />
     <PackageReference Include="Discord.Net.Labs.Rest" Version="2.4.8" />
     <PackageReference Include="Discord.Net.Labs.WebSocket" Version="2.4.11" />
+    <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.52.0.2378" />
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084" />
