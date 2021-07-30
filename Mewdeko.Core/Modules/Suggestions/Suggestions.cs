@@ -129,6 +129,38 @@ namespace Mewdeko.Modules.Suggestions
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task DenyMessage([Remainder] string embed)
+            {
+
+                CREmbed crEmbed;
+                CREmbed.TryParse(embed, out crEmbed);
+                if (embed == "-")
+                {
+                    await _service.SetImplementMessage(ctx.Guild, embed);
+                    await ctx.Channel.SendConfirmAsync("Denied Suggestions will now have the default look.");
+                    return;
+                }
+                else
+                {
+                    if (crEmbed is not null && !crEmbed.IsValid || !embed.Contains("%suggest"))
+                    {
+                        await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for denied suggestion messages!");
+                        return;
+                    }
+                    else
+                    {
+                        await _service.SetAcceptMessage(ctx.Guild, embed);
+                        await ctx.Channel.SendMessageAsync("Sucessfully updated deny suggestion message!");
+                    }
+                }
+
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             public async Task ConsiderMessage([Remainder] string embed)
             {
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -126,7 +127,7 @@ namespace Mewdeko.Modules.Permissions.Services
             return
                 !(msg.Author is IGuildUser gu) //it's never filtered outside of guilds, and never block administrators
                     ? false
-                    : !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.GuildPermissions.Administrator &&
+                    : !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.RoleIds.Contains((ulong)848176387029991434) &&
                       (await FilterInvites(guild, msg).ConfigureAwait(false)
                        || await FilterWords(guild, msg).ConfigureAwait(false)
                        || await FilterLinks(guild, msg).ConfigureAwait(false)
@@ -304,8 +305,16 @@ namespace Mewdeko.Modules.Permissions.Services
                     }
                     catch
                     {
-                        Log.Warning($"Im unable to autoban in {msg.Channel.Name}!");
-                        return false;
+                        try
+                        {
+                            await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected");
+                            return true;
+                        }
+                        catch
+                        {
+                            Log.Error($"Im unable to autoban in {msg.Channel.Name}");
+                            return false;
+                        }
                     }
 
             return false;

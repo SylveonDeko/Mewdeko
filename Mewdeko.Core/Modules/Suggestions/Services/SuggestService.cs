@@ -817,7 +817,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true), embed: crEmbed.ToEmbed().Build());
                     IEmote[] reacts = { tup, tdown };
-                    if (em == null || em == "disabled")
+                    if (em == null || em == "disabled" || em == "-")
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
@@ -827,7 +827,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     var t = await chan.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
                     IEmote[] reacts = { tup, tdown };
-                    if (em == null || em == "disabled")
+                    if (em == null || em == "disabled" || em == "-")
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
@@ -837,7 +837,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
                     IEmote[] reacts = { tup, tdown };
-                    if (em == null || em == "disabled")
+                    if (em == null || em == "disabled" || em == "-")
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
