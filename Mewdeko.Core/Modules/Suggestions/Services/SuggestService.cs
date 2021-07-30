@@ -782,7 +782,6 @@ namespace Mewdeko.Modules.Suggestions.Services
                 }
 
                 var sugnum1 = GetSNum(guild.Id);
-                await sugnum(guild, sugnum1 + 1);
                 var t = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).EmbedAsync(
                     new EmbedBuilder()
                         .WithAuthor(user)
@@ -796,12 +795,12 @@ namespace Mewdeko.Modules.Suggestions.Services
                 else
                     foreach (var ei in emotes) await t.AddReactionAsync(ei);
                 await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
+                await sugnum(guild, sugnum1 + 1);
             }
             else
             {
                 CREmbed crEmbed = null;
                 var sugnum1 = GetSNum(guild.Id);
-                await sugnum(guild, sugnum1 + 1);
                 var replacer = new ReplacementBuilder()
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => user.ToString())
@@ -822,6 +821,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
                     await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
+                    await sugnum(guild, sugnum1 + 1);
                 }
                 if (crEmbed.PlainText is null)
                 {
@@ -832,6 +832,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
                     await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
+                    await sugnum(guild, sugnum1 + 1);
                 }
                 if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
                 {
@@ -842,6 +843,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
                     await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
+                    await sugnum(guild, sugnum1 + 1);
                 }
                 
             }

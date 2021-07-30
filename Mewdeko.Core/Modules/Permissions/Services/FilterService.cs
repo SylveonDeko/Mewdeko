@@ -127,7 +127,7 @@ namespace Mewdeko.Modules.Permissions.Services
             return
                 !(msg.Author is IGuildUser gu) //it's never filtered outside of guilds, and never block administrators
                     ? false
-                    : !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.RoleIds.Contains((ulong)848176387029991434) &&
+                    : !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.GuildPermissions.Administrator &&
                       (await FilterInvites(guild, msg).ConfigureAwait(false)
                        || await FilterWords(guild, msg).ConfigureAwait(false)
                        || await FilterLinks(guild, msg).ConfigureAwait(false)
