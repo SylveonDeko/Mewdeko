@@ -213,7 +213,7 @@ namespace Mewdeko.Modules.Utility
 
             var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
             {
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
                     return;
@@ -221,6 +221,8 @@ namespace Mewdeko.Modules.Utility
 
                 var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message)
                     .First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.DateAdded)
+                   .First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId)
                     .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
@@ -236,7 +238,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Snipe requested by {ctx.User}"
+                        Text = $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -261,7 +263,7 @@ namespace Mewdeko.Modules.Utility
 
             var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
             {
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for this user!");
                     return;
@@ -271,6 +273,8 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -284,7 +288,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"User specific snipe requested by {ctx.User}"
+                        Text = $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -309,7 +313,7 @@ namespace Mewdeko.Modules.Utility
 
             var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
             {
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
                     return;
@@ -318,6 +322,8 @@ namespace Mewdeko.Modules.Utility
                 var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message)
                     .First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId)
+                    .First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.DateAdded)
                     .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
@@ -332,7 +338,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Channel specific snipe requested by {ctx.User}"
+                        Text = $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -357,7 +363,7 @@ namespace Mewdeko.Modules.Utility
 
             var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
             {
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!");
                     return;
@@ -367,6 +373,8 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -380,7 +388,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Channel and user specific snipe requested by {ctx.User}"
+                        Text = $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -425,7 +433,7 @@ namespace Mewdeko.Modules.Utility
 
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
                     return;
@@ -435,6 +443,8 @@ namespace Mewdeko.Modules.Utility
                     .First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId)
                     .First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.DateAdded)
+                   .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -448,7 +458,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User}"
+                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -473,7 +483,7 @@ namespace Mewdeko.Modules.Utility
 
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
                     return;
@@ -483,6 +493,8 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -496,7 +508,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User}"
+                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -521,7 +533,7 @@ namespace Mewdeko.Modules.Utility
 
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
                     return;
@@ -530,6 +542,8 @@ namespace Mewdeko.Modules.Utility
                 var msg = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.Message)
                     .First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId)
+                    .First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.DateAdded)
                     .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
@@ -544,7 +558,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User}"
+                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -569,7 +583,7 @@ namespace Mewdeko.Modules.Utility
 
             {
                 var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id).Where(x => x.UserId == user1.Id);
-                if (!msgs.Any())
+                if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user or channel!");
                     return;
@@ -579,6 +593,8 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.Message).First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
+                var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
+                    .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -592,7 +608,7 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User}"
+                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };

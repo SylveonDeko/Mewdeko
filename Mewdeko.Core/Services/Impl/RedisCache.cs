@@ -15,6 +15,7 @@ namespace Mewdeko.Core.Services.Impl
         private readonly string _redisKey;
 
         private readonly object timelyLock = new();
+        private readonly object voteLock = new();
 
         [Obsolete]
         public RedisCache(IBotCredentials creds, int shardId)
@@ -92,6 +93,23 @@ namespace Mewdeko.Core.Services.Impl
                 }
 
                 return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
+            }
+        }
+        public TimeSpan? AddVoteClaim(ulong id, int period)
+        {
+            if (period == 0)
+                return null;
+            lock (voteLock)
+            {
+                var time = TimeSpan.FromHours(period);
+                var _db = Redis.GetDatabase();
+                if ((bool?)_db.StringGet($"{_redisKey}_voteclaim_{id}") == null)
+                {
+                    _db.StringSet($"{_redisKey}_voteclaim_{id}", true, time);
+                    return null;
+                }
+
+                return _db.KeyTimeToLive($"{_redisKey}_voteclaim_{id}");
             }
         }
 

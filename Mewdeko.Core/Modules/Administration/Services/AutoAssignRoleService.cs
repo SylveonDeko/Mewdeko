@@ -78,9 +78,9 @@ namespace Mewdeko.Modules.Administration.Services
 
                         await DisableAarAsync(user.Guild.Id);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        Log.Warning(ex, "Error in aar. Probably one of the roles doesn't exist");
+                        Log.Warning("Error in aar. Probably one of the roles doesn't exist");
                     }
                 }
             });
