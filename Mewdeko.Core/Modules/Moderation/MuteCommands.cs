@@ -83,7 +83,7 @@ namespace Mewdeko.Modules.Moderation
                 {
                     await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
                     await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel for {time.Time.Humanize()}!");
-                    await Task.Delay(time.Time.Milliseconds);
+                    await Task.Delay(time.Time.TotalMilliseconds);
                     try
                     {
                        await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
