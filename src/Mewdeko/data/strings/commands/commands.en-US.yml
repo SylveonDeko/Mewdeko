@@ -2473,6 +2473,7 @@ reactionroleslist:
   desc: "Lists all ReactionRole messages on this channel and their indexes."
   args:
     - ""
+  image: "https://media.discordapp.net/attachments/870854253793644585/870996601911525407/Screenshot_20210731-154849.jpg"
 reactionrolesremove:
   desc: "Removed a ReactionRole message on the specified index."
   args:
