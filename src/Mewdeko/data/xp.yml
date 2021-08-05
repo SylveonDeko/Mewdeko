@@ -5,6 +5,6 @@ xpPerMessage: 6
 # How often can the users receive XP in minutes
 messageXpCooldown: 3
 # Average amount of xp earned per minute in VC
-voiceXpPerMinute: 2
+voiceXpPerMinute: 0
 # The maximum amount of minutes the bot will keep track of a user in a voice channel
 voiceMaxMinutes: 60

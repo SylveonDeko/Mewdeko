@@ -246,6 +246,11 @@ namespace Mewdeko.Modules.Suggestions.Services
             else
                 rs = reason;
             var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            if (suggest is null)
+            {
+                await channel.SendErrorAsync("That suggestion number doesnt exist! Please double check it exists and try again.");
+                return;
+            }
             var eb = new EmbedBuilder();
             var e = GetDenyMessage(guild);
             if (GetDenyMessage(guild) == "-" || GetDenyMessage(guild) == "" || GetDenyMessage(guild) == null)
@@ -254,7 +259,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     eb = new EmbedBuilder()
                             .WithAuthor(user)
-                            .WithTitle($"Suggestion #{GetSNum(guild.Id)} Denied")
+                            .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied")
                             .WithDescription(suggest.Suggestion)
                             .WithOkColor()
                             .AddField("Reason", rs);
@@ -264,13 +269,13 @@ namespace Mewdeko.Modules.Suggestions.Services
                     var desc = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result.GetMessageAsync(suggest.MessageID);
                     eb = new EmbedBuilder()
                            .WithAuthor(user)
-                           .WithTitle($"Suggestion #{GetSNum(guild.Id)} Denied")
+                           .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied")
                            .WithDescription(desc.Embeds.FirstOrDefault().Description)
                            .WithOkColor()
                            .AddField("Reason", rs);
                 }
                 var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-                var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
+                var message = chan.GetMessageAsync(suggest.MessageID, CacheMode.AllowDownload).Result as IUserMessage;
                 try { await message.RemoveAllReactionsAsync(); } catch { }
                 await message.ModifyAsync(x =>
                 {
@@ -280,7 +285,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Denied");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Denied By", user);
@@ -310,7 +315,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
-                .WithOverride("%suggest.number%", () => sugnum1.ToString())
+                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
                 .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -353,7 +358,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Denied");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Accepted By", user);
@@ -375,6 +380,11 @@ namespace Mewdeko.Modules.Suggestions.Services
             else
                 rs = reason;
             var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            if (suggest is null)
+            {
+                await channel.SendErrorAsync("That suggestion number doesnt exist! Please double check it exists and try again.");
+                return;
+            }
             var eb = new EmbedBuilder();
             var e = GetConsiderMessage(guild);
             if (GetConsiderMessage(guild) == "-" || GetConsiderMessage(guild) == "" || GetConsiderMessage(guild) == null)
@@ -383,7 +393,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     eb = new EmbedBuilder()
                             .WithAuthor(user)
-                            .WithTitle($"Suggestion #{GetSNum(guild.Id)} Considering")
+                            .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering")
                             .WithDescription(suggest.Suggestion)
                             .WithOkColor()
                             .AddField("Reason", rs);
@@ -393,7 +403,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     var desc = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result.GetMessageAsync(suggest.MessageID);
                     eb = new EmbedBuilder()
                            .WithAuthor(user)
-                           .WithTitle($"Suggestion #{GetSNum(guild.Id)} Considering")
+                           .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering")
                            .WithDescription(desc.Embeds.FirstOrDefault().Description)
                            .WithOkColor()
                            .AddField("Reason", rs);
@@ -409,7 +419,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Considering");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Denied By", user);
@@ -439,7 +449,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
-                .WithOverride("%suggest.number%", () => sugnum1.ToString())
+                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
                 .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -482,7 +492,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Considering");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Considered by", user);
@@ -504,6 +514,11 @@ namespace Mewdeko.Modules.Suggestions.Services
             else
                 rs = reason;
             var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            if (suggest is null)
+            {
+                await channel.SendErrorAsync("That suggestion number doesnt exist! Please double check it exists and try again.");
+                return;
+            }
             var eb = new EmbedBuilder();
             if (GetImplementMessage(guild) == "-" || GetImplementMessage(guild) == "" || GetImplementMessage(guild) == null)
             {
@@ -511,7 +526,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     eb = new EmbedBuilder()
                             .WithAuthor(user)
-                            .WithTitle($"Suggestion #{GetSNum(guild.Id)} Implemented")
+                            .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented")
                             .WithDescription(suggest.Suggestion)
                             .WithOkColor()
                             .AddField("Reason", rs);
@@ -521,7 +536,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     var desc = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result.GetMessageAsync(suggest.MessageID);
                     eb = new EmbedBuilder()
                            .WithAuthor(user)
-                           .WithTitle($"Suggestion #{GetSNum(guild.Id)} Implemented")
+                           .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented")
                            .WithDescription(desc.Embeds.FirstOrDefault().Description)
                            .WithOkColor()
                            .AddField("Reason", rs);
@@ -537,7 +552,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Implemented");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Implemented By", user);
@@ -567,7 +582,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
-                .WithOverride("%suggest.number%", () => sugnum1.ToString())
+                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
                 .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -610,7 +625,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Implemented");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Implemented By", user);
@@ -632,6 +647,11 @@ namespace Mewdeko.Modules.Suggestions.Services
             else
                 rs = reason;
             var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            if (suggest is null)
+            {
+                await channel.SendErrorAsync("That suggestion number doesnt exist! Please double check it exists and try again.");
+                return;
+            }
             var eb = new EmbedBuilder();
             var e = GetAcceptMessage(guild);
             if (GetAcceptMessage(guild) == "-" || GetAcceptMessage(guild) == "" || GetAcceptMessage(guild) == null)
@@ -640,7 +660,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 {
                     eb = new EmbedBuilder()
                             .WithAuthor(user)
-                            .WithTitle($"Suggestion #{GetSNum(guild.Id)} Accepted")
+                            .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted")
                             .WithDescription(suggest.Suggestion)
                             .WithOkColor()
                             .AddField("Reason", rs);
@@ -650,7 +670,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     var desc = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result.GetMessageAsync(suggest.MessageID);
                     eb = new EmbedBuilder()
                            .WithAuthor(user)
-                           .WithTitle($"Suggestion #{GetSNum(guild.Id)} Accepted")
+                           .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted")
                            .WithDescription(desc.Embeds.FirstOrDefault().Description)
                            .WithOkColor()
                            .AddField("Reason", rs);
@@ -666,7 +686,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Accepted");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Accepted By", user);
@@ -696,7 +716,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug)
-                .WithOverride("%suggest.number%", () => sugnum1.ToString())
+                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl(2048).ToString())
                 .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -739,7 +759,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 try
                 {
                     var emb = new EmbedBuilder();
-                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id)} Accepted");
+                    emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
                     emb.AddField("Accepted By", user);
@@ -794,8 +814,8 @@ namespace Mewdeko.Modules.Suggestions.Services
                     foreach (var i in reacts) await t.AddReactionAsync(i);
                 else
                     foreach (var ei in emotes) await t.AddReactionAsync(ei);
-                await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
                 await sugnum(guild, sugnum1 + 1);
+                await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             }
             else
             {
@@ -805,7 +825,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => user.ToString())
                 .WithOverride("%suggest.message%", () => suggestion)
-                .WithOverride("%suggest.number%", () => sugnum1++.ToString())
+                .WithOverride("%suggest.number%", () => sugnum1.ToString())
                 .WithOverride("%suggest.user.name%", () => user.Username)
                 .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl(2048).ToString())
                 .Build();
@@ -820,8 +840,8 @@ namespace Mewdeko.Modules.Suggestions.Services
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
-                    await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
                     await sugnum(guild, sugnum1 + 1);
+                    await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
                 }
                 if (crEmbed.PlainText is null)
                 {
@@ -831,8 +851,8 @@ namespace Mewdeko.Modules.Suggestions.Services
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
-                    await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
                     await sugnum(guild, sugnum1 + 1);
+                    await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
                 }
                 if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
                 {
@@ -842,8 +862,8 @@ namespace Mewdeko.Modules.Suggestions.Services
                         foreach (var i in reacts) await t.AddReactionAsync(i);
                     else
                         foreach (var ei in emotes) await t.AddReactionAsync(ei);
-                    await Suggest(guild, sugnum1 + 1, t.Id, user.Id, suggestion);
                     await sugnum(guild, sugnum1 + 1);
+                    await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
                 }
                 
             }
