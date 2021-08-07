@@ -105,7 +105,7 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
 
         public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
         public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
-        public async Task<bool> GetVoted(ulong Id)
+        public bool GetVoted(ulong Id)
         {
             var url = $"https://top.gg/api/bots/752236274261426212/check?userId={Id}";
 

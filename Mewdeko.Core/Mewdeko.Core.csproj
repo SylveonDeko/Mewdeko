@@ -18,10 +18,9 @@
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
     <PackageReference Include="Discord.InteractivityAddon.Labs" Version="2.4.1-labs-20210709.1" />
-    <PackageReference Include="Discord.Net.Labs" Version="2.4.9" />
-    <PackageReference Include="Discord.Net.Labs.Core" Version="2.4.9" />
-    <PackageReference Include="Discord.Net.Labs.Rest" Version="2.4.8" />
-    <PackageReference Include="Discord.Net.Labs.WebSocket" Version="2.4.11" />
+    <PackageReference Include="Discord.Net.Labs.Core" Version="3.0.1-pre" />
+    <PackageReference Include="Discord.Net.Labs.Rest" Version="3.0.2-pre" />
+    <PackageReference Include="Discord.Net.Labs.WebSocket" Version="3.0.1-pre" />
     <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.52.0.2378" />
@@ -61,19 +60,12 @@
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="YoutubeExplode" Version="6.0.4" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Modules\Gambling\Common\CurrencyEvents\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\src\ayu\Ayu.Discord.Voice\Ayu.Discord.Voice.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Discord.Net.Rest.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">

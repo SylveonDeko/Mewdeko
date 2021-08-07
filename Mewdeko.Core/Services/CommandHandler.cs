@@ -53,16 +53,14 @@ namespace Mewdeko.Core.Services
             BotConfigService bss, Mewdeko bot, IServiceProvider services)
         {
             _client = client;
+            _client.ThreadCreated += AttemptJoinThread;
             _commandService = commandService;
             _bss = bss;
             _bot = bot;
             _db = db;
             _services = services;
-
-
             _clearUsersOnShortCooldown = new Timer(_ => { UsersOnShortCooldown.Clear(); }, null, GlobalCommandsCooldown,
                 GlobalCommandsCooldown);
-
             _prefixes = bot.AllGuildConfigs
                 .Where(x => x.Prefix != null)
                 .ToDictionary(x => x.GuildId, x => x.Prefix)
@@ -107,7 +105,14 @@ namespace Mewdeko.Core.Services
 
             return prefix;
         }
-
+        public async Task AttemptJoinThread(SocketThreadChannel chan)
+        {
+            try
+            {
+                await chan.JoinAsync();
+            }
+            catch { }
+        }
         public string SetPrefix(IGuild guild, string prefix)
         {
             if (string.IsNullOrWhiteSpace(prefix))

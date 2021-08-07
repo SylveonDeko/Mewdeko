@@ -18,6 +18,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Humanizer;
+using System.Net;
+using System.IO;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -39,7 +42,10 @@ namespace Mewdeko.Modules.Utility
             _bot = Mewdeko;
             _tracker = tracker;
         }
+        public async Task GetShopInfo()
+        {
 
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -47,6 +53,28 @@ namespace Mewdeko.Modules.Utility
         public async Task Invite()
         {
             await ctx.Channel.SendConfirmAsync("Invite me using this link:\nhttps://mewdeko.tech/invite");
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task TestSite(string url)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+
+                string content = await response.Content.ReadAsStringAsync();
+                var statusCode = response.StatusCode;
+                if (statusCode.ToString() == "Forbidden")
+                {
+                    await ctx.Channel.SendErrorAsync("Sites down m8");
+                }
+                else
+                {
+                    await ctx.Channel.SendConfirmAsync("Sites ok m8");
+                }
+            }
         }
         [MewdekoCommand]
         [Usage]

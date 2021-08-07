@@ -91,7 +91,7 @@ namespace Mewdeko.Core.Modules.Music
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                 int i;
                 for (i = 1; i <= _index; i++)
-                    currentNode = currentNode.Next!; // can't be null because index is always in range of the count
+                    currentNode = currentNode?.Next!; // can't be null because index is always in range of the count
 
                 var added = new QueuedTrackInfo(trackInfo, queuer);
                 index = i;
@@ -212,6 +212,7 @@ namespace Mewdeko.Core.Modules.Music
                 // get the node which needs to be moved
                 var fromNode = _tracks.First;
                 for (var i = 0; i < from; i++)
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     fromNode = fromNode.Next!;
 
                 // remove it from the queue
