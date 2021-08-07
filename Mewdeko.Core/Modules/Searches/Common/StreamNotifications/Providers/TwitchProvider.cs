@@ -71,7 +71,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         // get id based on the username
                         var idsStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/users?login={login}");
                         var userData = JsonConvert.DeserializeObject<TwitchUsersResponseV5>(idsStr);
-                        var user = userData.Users.FirstOrDefault();
+                        var user = userData?.Users.FirstOrDefault();
 
                         // if user can't be found, skip, it means there is no such user
                         if (user is null)
@@ -83,7 +83,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                             JsonConvert.DeserializeAnonymousType(str, new {Stream = new TwitchResponseV5.Stream()});
 
                         // if stream is null, user is not streaming
-                        if (resObj.Stream is null)
+                        if (resObj?.Stream is null)
                         {
                             // if user is not streaming, get his offline banner
                             var chStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/channels/{user.Id}");
@@ -92,8 +92,8 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                             toReturn.Add(new StreamData
                             {
                                 StreamType = FollowedStream.FType.Twitch,
-                                Name = ch.DisplayName,
-                                UniqueName = ch.Name,
+                                Name = ch?.DisplayName,
+                                UniqueName = ch?.Name,
                                 Title = ch.Status,
                                 IsLive = false,
                                 AvatarUrl = ch.Logo,

@@ -87,14 +87,6 @@ namespace Mewdeko.Modules.Gambling
         [Usage]
         [Description]
         [Aliases]
-        public async Task Test()
-        {
-            _service.GetVoted(ctx.User.Id);
-        }
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
         public async Task Economy()
         {
             var ec = _service.GetEconomy();
@@ -152,7 +144,7 @@ namespace Mewdeko.Modules.Gambling
             var val = 25000;
             var period = 3;
             TimeSpan? rem;
-            if (!await _service.GetVoted(ctx.User.Id))
+            if (!_service.GetVoted(ctx.User.Id))
             {
                 await ctx.Channel.SendErrorAsync("You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
                 return;

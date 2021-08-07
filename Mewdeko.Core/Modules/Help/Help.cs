@@ -14,15 +14,12 @@ using Interactivity;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Help.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Newtonsoft.Json;
-using System.Runtime.ConstrainedExecution;
-using Amazon;
 
 namespace Mewdeko.Modules.Help
 {
@@ -37,8 +34,6 @@ namespace Mewdeko.Modules.Help
         private readonly IServiceProvider _services;
         private readonly IBotStrings _strings;
         private readonly InteractivityService Interactivity;
-        private IList<ModuleInfo> list1;
-
         public Help(GlobalPermissionService perms, CommandService cmds, BotConfigService bss,
 IServiceProvider services, DiscordSocketClient client, IBotStrings strings, InteractivityService inte, CommandHandler c)
         {
@@ -211,7 +206,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                     .WithDeletion(DeletionOptions.None)
                     .Build();
 
-                Interactivity.SendPaginatorAsync(paginator, chan, TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, chan, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -301,7 +296,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
             }
 
 
-            PaginateCommands(ctx.Channel);
+            await PaginateCommands(ctx.Channel);
         }
 
         [MewdekoCommand]

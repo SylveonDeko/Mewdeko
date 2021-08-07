@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -103,6 +104,15 @@ namespace Mewdeko.Core.Modules.Music
         [Priority(0)]
         public async Task Play([Leftover] string query)
         {
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             if (query is not null && query.StartsWith("https://open.spotify.com/track"))
             {
                 await Spotify(query);
@@ -216,6 +226,14 @@ namespace Mewdeko.Core.Modules.Music
             {
                 if (botUser.VoiceChannel?.Id is null || !_service.TryGetMusicPlayer(Context.Guild.Id, out _))
                     await _service.JoinVoiceChannelAsync(ctx.Guild.Id, voiceChannelId);
+                if(botUser.VoiceChannel is IStageChannel channel)
+                {
+                    try
+                    {
+                        await channel.BecomeSpeakerAsync();
+                    }
+                    catch { }
+                }
             }
             finally
             {
@@ -314,7 +332,6 @@ namespace Mewdeko.Core.Modules.Music
 
             mp.MoveTo(index);
         }
-        // join vc
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -323,16 +340,34 @@ namespace Mewdeko.Core.Modules.Music
         public async Task Join()
         {
             var user = (IGuildUser)Context.User;
-
+            var channel = user?.VoiceChannel;
             ulong voiceChannelId = user.VoiceChannel.Id;
-
             if (voiceChannelId is 0)
             {
                 await ReplyErrorLocalizedAsync("must_be_in_voice");
                 return;
             }
-
+            if (channel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             await _service.JoinVoiceChannelAsync(user.GuildId, voiceChannelId);
+            if (channel is SocketStageChannel chan1)
+            {
+                try
+                {
+                    await chan1.BecomeSpeakerAsync();
+                }
+                catch
+                {
+                    await ctx.Channel.SendErrorAsync("Ive joined the stage channel but was unable to make myself a speaker! Please fix permissions or add me manually.");
+                }
+            }
+
         }
 
         // leave vc (destroy)
@@ -343,11 +378,20 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Destroy()
         {
+            var user = ctx.User as IGuildUser;
             var valid = await ValidateAsync();
             if (!valid)
                 return;
-
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             await _service.LeaveVoiceChannelAsync(Context.Guild.Id);
+            await ctx.Channel.SendConfirmAsync("Succesfully stopped the player and cleared the queue!");
         }
 
         // play - no args = next
@@ -359,6 +403,15 @@ namespace Mewdeko.Core.Modules.Music
         [Priority(2)]
         public Task Play()
         {
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return Task.CompletedTask;
+                }
+            }
             return Next();
         }
 
@@ -371,6 +424,15 @@ namespace Mewdeko.Core.Modules.Music
         [Priority(1)]
         public Task Play(int index)
         {
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return Task.CompletedTask;
+                }
+            }
             return MoveToIndex(index);
         }
 
@@ -381,6 +443,15 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task Queue([Leftover] string query)
         {
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return Task.CompletedTask;
+                }
+            }
             return QueueByQuery(query);
         }
 
@@ -391,6 +462,15 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task QueueNext([Leftover] string query)
         {
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return Task.CompletedTask;
+                }
+            }
             return QueueByQuery(query, true);
         }
 
@@ -410,7 +490,15 @@ namespace Mewdeko.Core.Modules.Music
             var valid = await ValidateAsync();
             if (!valid)
                 return;
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             await _service.SetVolumeAsync(ctx.Guild.Id, vol);
             await ReplyConfirmLocalizedAsync("volume_set", vol);
         }
@@ -425,7 +513,15 @@ namespace Mewdeko.Core.Modules.Music
             var valid = await ValidateAsync();
             if (!valid)
                 return;
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             var success = await _service.PlayAsync(Context.Guild.Id, ((IGuildUser)Context.User).VoiceChannel.Id);
             if (!success) await ReplyErrorLocalizedAsync("no_player");
         }
@@ -537,6 +633,15 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task QueueSearch([Leftover] string query)
         {
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is not null && user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             _ = ctx.Channel.TriggerTypingAsync();
 
             var videos = await _service.SearchVideosAsync(query);
@@ -607,7 +712,15 @@ namespace Mewdeko.Core.Modules.Music
             var valid = await ValidateAsync();
             if (!valid)
                 return;
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -646,7 +759,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx .Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             mp.Clear();
             await ReplyConfirmLocalizedAsync("queue_cleared").ConfigureAwait(false);
         }
@@ -678,7 +799,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             mp.Stop();
         }
 
@@ -703,7 +832,15 @@ namespace Mewdeko.Core.Modules.Music
             var valid = await ValidateAsync();
             if (!valid)
                 return;
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             await _service.SetRepeatAsync(ctx.Guild.Id, InputToDbType(type));
 
             if (type == InputRepeatType.None)
@@ -741,7 +878,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             mp.TogglePause();
         }
 
@@ -785,7 +930,14 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("must_be_in_voice");
                 return;
             }
-
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             _ = ctx.Channel.TriggerTypingAsync();
 
             var botUser = await ctx.Guild.GetCurrentUserAsync();
@@ -832,7 +984,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             var track = mp.MoveTrack(from, to);
             if (track is null)
             {
@@ -885,7 +1045,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             _ = ctx.Channel.TriggerTypingAsync();
 
             await _service.EnqueueSoundcloudPlaylistAsync(mp, playlist, ctx.User.ToString());
@@ -913,7 +1081,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             _ = Context.Channel.TriggerTypingAsync();
 
 
@@ -972,7 +1148,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
-
+            var user = ctx.User as IGuildUser;
+            if (user.VoiceChannel is SocketStageChannel chan)
+            {
+                if (!chan.Speakers.Contains(user))
+                {
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    return;
+                }
+            }
             mp.ShuffleQueue();
             await ReplyConfirmLocalizedAsync("queue_shuffled");
         }
