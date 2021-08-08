@@ -113,9 +113,9 @@ namespace Mewdeko.Modules.Administration
             }
             int banned = 0;
             int errored = 0;
-            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that account age?");
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to kick {users.Count()} users that are under that account age?");
             if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
-            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+            var message = await ctx.Channel.SendConfirmAsync($"Kicking {users.Count()} users..");
             foreach (var i in users)
             {
                 try
@@ -128,7 +128,7 @@ namespace Mewdeko.Modules.Administration
                     errored++;
                 }
             }
-            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed kicks please check the bots top role and try again.").WithOkColor();
             await message.ModifyAsync(x => x.Embed = eb.Build());
         }
         [MewdekoCommand]
