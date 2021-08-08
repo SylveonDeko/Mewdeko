@@ -95,7 +95,7 @@ namespace Mewdeko.Modules.Utility
         [Aliases]
         [UserPerm(GuildPerm.Administrator)]
         [BotPerm(GuildPerm.BanMembers)]
-        public async Task BanUnder(StoopidTime time, string option = null, params IUser[] user)
+        public async Task BanUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
                     DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
