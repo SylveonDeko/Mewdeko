@@ -10,8 +10,12 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong? LogOtherId { get; set; } = null;
         public ulong? MessageUpdatedId { get; set; } = null;
         public ulong? MessageDeletedId { get; set; } = null;
+        //public ulong? ThreadCreatedId { get; set; } = null;
+        //public ulong? ThreadDeletedId { get; set; } = null;
+        //public ulong? ThreadArchivedId { get; set; } = null;
 
         public ulong? UserJoinedId { get; set; } = null;
+
         public ulong? UserLeftId { get; set; } = null;
         public ulong? UserBannedId { get; set; } = null;
         public ulong? UserUnbannedId { get; set; } = null;

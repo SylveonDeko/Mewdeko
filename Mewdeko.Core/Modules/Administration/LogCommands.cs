@@ -174,6 +174,12 @@ namespace Mewdeko.Modules.Administration
                         return l.LogVoicePresenceTTSId;
                     case LogType.UserMuted:
                         return l.UserMutedId;
+                    //case LogType.ThreadCreated:
+                    //    return l.ThreadCreatedId;
+                    //case LogType.ThreadArchived:
+                    //    return l.ThreadArchivedId;
+                    //case LogType.ThreadDeleted:
+                    //    return l.ThreadDeletedId;
                     default:
                         return null;
                 }
