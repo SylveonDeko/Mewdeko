@@ -286,8 +286,8 @@ namespace Mewdeko.Core.Services
                         Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
                             usrMsg.Content, beh.GetType().Name);
                     else if (beh.BehaviorType == ModuleBehaviorType.Executor)
-                        Log.Information("User [{0}] executed [{1}] in [{2}]", usrMsg.Author, usrMsg.Content,
-                            beh.GetType().Name);
+                        Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author, usrMsg.Content,
+                            beh.GetType().Name, usrMsg.Author.Id);
 
                     return;
                 }

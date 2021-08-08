@@ -38,6 +38,9 @@ namespace Mewdeko.Modules.Administration.Services
             VoicePresence,
             VoicePresenceTTS,
             UserMuted
+            //ThreadArchived,
+            //ThreadCreated,
+            //ThreadDeleted
         }
 
         private readonly Timer _clearTimer;
@@ -120,7 +123,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             _mute.UserMuted += MuteCommands_UserMuted;
             _mute.UserUnmuted += MuteCommands_UserUnmuted;
-
+            //_client.ThreadCreated += ThreadCreated;
             _prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
 
             _clearTimer = new Timer(_ => { _ignoreMessageIds.Clear(); }, null, TimeSpan.FromHours(1),
@@ -204,6 +207,9 @@ namespace Mewdeko.Modules.Administration.Services
                                                                 logSetting.LogVoicePresenceId =
                                                                     logSetting.UserMutedId =
                                                                         logSetting.LogVoicePresenceTTSId =
+                                                                            //logSetting.ThreadCreatedId =
+                                                                            //    logSetting.ThreadArchivedId =
+                                                                            //        logSetting.ThreadDeletedId =
                                                                             value ? channelId : null;
 
                 await uow.SaveChangesAsync();
@@ -329,6 +335,18 @@ namespace Mewdeko.Modules.Administration.Services
                         channelId = logSetting.LogVoicePresenceTTSId =
                             logSetting.LogVoicePresenceTTSId == null ? cid : default;
                         break;
+                    //case LogType.ThreadDeleted:
+                    //    channelId = logSetting.ThreadDeletedId =
+                    //        logSetting.ThreadDeletedId == null ? cid : default;
+                    //    break;
+                    //case LogType.ThreadArchived:
+                    //    channelId = logSetting.ThreadArchivedId =
+                    //        logSetting.ThreadArchivedId == null ? cid : default;
+                    //    break;
+                    //case LogType.ThreadCreated:
+                    //    channelId = logSetting.ThreadCreatedId =
+                    //        logSetting.ThreadCreatedId == null ? cid : default;
+                        //break;
                 }
 
                 uow.SaveChanges();
@@ -336,7 +354,37 @@ namespace Mewdeko.Modules.Administration.Services
 
             return channelId != null;
         }
+        //private Task ThreadCreated(SocketThreadChannel chan)
+        //{
+        //    var _ = Task.Run(async () =>
+        //    {
+        //        if (!GuildLogSettings.TryGetValue(chan.Guild.Id, out var logSetting)
+        //                || logSetting.ThreadCreatedId == null)
+        //            return;
 
+        //        ITextChannel logChannel;
+        //        if ((logChannel = await TryGetLogChannel(chan.Guild, logSetting, LogType.ThreadCreated)
+        //            .ConfigureAwait(false)) == null)
+        //            return;
+        //        string own;
+        //        if (chan.Owner is null)
+        //        {
+        //            own = "Unknown";
+        //        }
+        //        else
+        //        {
+        //            own = chan.Owner.ToString();
+        //        }
+        //        await logChannel.EmbedAsync(new EmbedBuilder()
+        //                .WithOkColor()
+        //                .WithTitle("🆕 Thread Created")
+        //                .WithDescription($"{chan.Name} | {chan.Id}")
+        //                .AddField("Created By", own)
+        //                .WithFooter(efb => efb.WithText(CurrentTime(chan.Guild)))).ConfigureAwait(false);
+
+        //    });
+        //    return Task.CompletedTask;
+        //}
         private Task _client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
         {
             var _ = Task.Run(async () =>
@@ -1186,6 +1234,15 @@ namespace Mewdeko.Modules.Administration.Services
                 case LogType.UserMuted:
                     id = logSetting.UserMutedId;
                     break;
+                //case LogType.ThreadCreated:
+                //    id = logSetting.ThreadCreatedId;
+                //    break;
+                //case LogType.ThreadArchived:
+                //    id = logSetting.ThreadArchivedId;
+                //    break;
+                //case LogType.ThreadDeleted:
+                //    id = logSetting.ThreadDeletedId;
+                //    break;
             }
 
             if (!id.HasValue || id == 0)
