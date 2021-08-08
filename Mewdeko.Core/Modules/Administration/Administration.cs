@@ -8,6 +8,7 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using Humanizer;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -38,7 +39,98 @@ namespace Mewdeko.Modules.Administration
             Disable,
             Inherit
         }
-
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.BanMembers)]
+        public async Task BanUnder(StoopidTime time, string option = null)
+        {
+            var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                    DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
+            if (!users.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No users at or under that account age!");
+                return;
+            }
+            if (option.ToLower() == "-p" || option.ToLower() == "preview")
+            {
+                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                {
+                    return new EmbedBuilder().WithOkColor()
+                        .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
+                        .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
+                }, users.Count(), 20).ConfigureAwait(false);
+            }
+            foreach (var i in users)
+            {
+                await ctx.Channel.SendConfirmAsync($"{i.Username}| {i.CreatedAt}");
+            }
+            int banned = 0;
+            int errored = 0;
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that account age?");
+            if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+            foreach (var i in users)
+            {
+                try
+                {
+                    await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified account age.");
+                    banned++;
+                }
+                catch
+                {
+                    errored++;
+                }
+            }
+            var eb = new EmbedBuilder().WithDescription($"Banned {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+            await message.ModifyAsync(x => x.Embed = eb.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.KickMembers)]
+        public async Task KickUnder(StoopidTime time, string option = null)
+        {
+            var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
+                    DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
+            if (!users.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No users at or under that account age!");
+                return;
+            }
+            if (option.ToLower() == "-p" || option.ToLower() == "preview")
+            {
+                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                {
+                    return new EmbedBuilder().WithOkColor()
+                        .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
+                        .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
+                }, users.Count(), 20).ConfigureAwait(false);
+            }
+            int banned = 0;
+            int errored = 0;
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that account age?");
+            if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+            foreach (var i in users)
+            {
+                try
+                {
+                    await i.KickAsync(reason: $"{ctx.User}|| Kicking users under specified account age.");
+                    banned++;
+                }
+                catch
+                {
+                    errored++;
+                }
+            }
+            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+            await message.ModifyAsync(x => x.Embed = eb.Build());
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
