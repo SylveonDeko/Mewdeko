@@ -80,6 +80,20 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
+        public async Task Request ([Remainder]string _)
+        {
+            var list = new List<string>();
+            list.Add("No piransi");
+            list.Add("<:omegalul2:873626819331498024>");
+            var random = new Random();
+            int index = random.Next(list.Count());
+            await ctx.Channel.SendErrorAsync(list[index]);
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [UserPerm(GuildPerm.Administrator)]
         [BotPerm(GuildPerm.BanMembers)]
         public async Task BanUnder(StoopidTime time, string option = null, params IUser[] user)
         {
@@ -127,7 +141,8 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
-        [BotPerm(GuildPerm.BanMembers)]
+        [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.KickMembers)]
         public async Task KickUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>

@@ -122,7 +122,7 @@ namespace Mewdeko.Modules.Help.Services
         }
         private async Task HandlePing(SocketMessage msg)
         {
-            if (msg.MentionedUsers.Select(x => x.Id).Contains(_client.CurrentUser.Id))
+            if (msg.Content == _client.CurrentUser.Mention && !msg.Author.IsBot)
             {
                 if (msg.Channel is ITextChannel chan)
                 {
