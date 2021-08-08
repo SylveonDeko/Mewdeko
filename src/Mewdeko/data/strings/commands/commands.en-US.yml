@@ -34,6 +34,16 @@ snipe:
  - "#channel"
  - "@user"
  - "#channel @user"
+banunder:
+  desc: "Allows you to ban users under a certain server join age in the server. Use -p after the time to preview the users that will be banned."
+  args:
+  - "2y"
+  - "2m -p"
+kickunder:
+  desc: "Allows you to ban users under a certain server join age in the server. Use -p after the time to preview the users that will be banned."
+  args:
+  - "2y"
+  - "2m -p"
 snipeset:
  desc: "Enables or Disables Sniping"
  args:
