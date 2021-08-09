@@ -83,11 +83,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;DNETLABS</DefineConstants>
+    <DefineConstants>TRACE;DNETLABS</DefineConstants>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>
+    <DefineConstants>TRACE;DNETLABS</DefineConstants>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
 </Project>
