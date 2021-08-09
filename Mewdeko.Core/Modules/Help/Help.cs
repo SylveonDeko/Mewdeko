@@ -9,8 +9,8 @@ using Amazon.S3.Model;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Interactivity.Pagination;
-using Interactivity;
+using Mewdeko.Interactive.Pagination;
+using Mewdeko.Interactive;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
@@ -20,6 +20,7 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Newtonsoft.Json;
+using Mewdeko.Core.Common;
 
 namespace Mewdeko.Modules.Help
 {
@@ -33,12 +34,12 @@ namespace Mewdeko.Modules.Help
         private readonly GlobalPermissionService _perms;
         private readonly IServiceProvider _services;
         private readonly IBotStrings _strings;
-        private readonly InteractivityService Interactivity;
+        private readonly InteractiveService _interactive;
         public Help(GlobalPermissionService perms, CommandService cmds, BotConfigService bss,
-IServiceProvider services, DiscordSocketClient client, IBotStrings strings, InteractivityService inte, CommandHandler c)
+IServiceProvider services, DiscordSocketClient client, IBotStrings strings, CommandHandler c, InteractiveService serv)
         {
+            _interactive = serv;
             cmd = c;
-            Interactivity = inte;
             _cmds = cmds;
             _bss = bss;
             _perms = perms;
@@ -194,7 +195,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
 
         }
 
-        private Task PaginateCommands(IMessageChannel chan)
+        private Task PaginateCommands(IMessageChannel chan, IUser user)
         {
             _ = Task.Run(async () =>
             {
@@ -204,18 +205,19 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                     .WithMaxPageIndex(list.Count() - 1)
                     .WithDefaultEmotes()
                     .WithDeletion(DeletionOptions.None)
+                    .AddUser(user)
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, chan, TimeSpan.FromMinutes(60));
+                await _interactive.SendPaginatorAsync(paginator, chan, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
                     return Task.FromResult(new PageBuilder()
                         .WithTitle(list.Select(x => x.Name).Skip(page).FirstOrDefault())
                         .WithFooter(
-                            "✅ Represents commands you have permission to use. ❌ Are commands you dont have the correct permissions for")
+                            "If you don't see a command, or want to see all commands in this module do the same command but append -v 1 to it, it'll show all commands as well as show if you can use them or not.")
                         .WithDescription(list.Select(x => x.Text).Skip(page).FirstOrDefault())
-                        .WithColor(System.Drawing.Color.FromArgb(((int)Mewdeko.OkColor.RawValue) * page)));
+                        .WithColor((Color)System.Drawing.Color.FromArgb(((int)Mewdeko.OkColor.RawValue) * page * 2)));
                 }
             });
             return Task.CompletedTask;
@@ -225,8 +227,11 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
         [Description]
         [Aliases]
         [MewdekoOptions(typeof(CommandsOptions))]
-        public async Task Commands(string module = null)
+        public async Task Commands(string module = null, params string[] args)
         {
+            var channel = ctx.Channel;
+
+
             module = module?.Trim().ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(module))
             {
@@ -234,30 +239,48 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                 return;
             }
 
-            var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module, StringComparison.InvariantCulture))
-                                               .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
-                                                 .OrderBy(c => c.Aliases[0])
-                                                 .Distinct(new CommandTextEqualityComparer());
+            var (opts, _) = OptionsParser.ParseFrom(new CommandsOptions(), args);
 
-            if (cmds.Count() == 0)
-            {
-                await ctx.Channel.SendErrorAsync("Category not found, double check its name and try again.");
-                return;
-            }
+            // Find commands for that module
+            // don't show commands which are blocked
+            // order by name
+            var cmds = _cmds.Commands.Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant().StartsWith(module, StringComparison.InvariantCulture))
+                                                .Where(c => !_perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
+                                                  .OrderBy(c => c.Aliases[0])
+                                                  .Distinct(new CommandTextEqualityComparer());
+
+
             // check preconditions for all commands, but only if it's not 'all'
             // because all will show all commands anyway, no need to check
             var succ = new HashSet<CommandInfo>();
-            succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
+            if (opts.View != CommandsOptions.ViewType.All)
+            {
+                succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
                 {
-                    var pre = await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false);
+                    var pre = (await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false));
                     return (Cmd: x, Succ: pre.IsSuccess);
                 })).ConfigureAwait(false))
-                .Where(x => x.Succ)
-                .Select(x => x.Cmd));
+                    .Where(x => x.Succ)
+                    .Select(x => x.Cmd));
+
+                if (opts.View == CommandsOptions.ViewType.Hide)
+                {
+                    // if hidden is specified, completely remove these commands from the list
+                    cmds = cmds.Where(x => succ.Contains(x));
+                }
+            }
 
             var cmdsWithGroup = cmds.GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-                 .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
+                .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
 
+            if (!cmds.Any())
+            {
+                if (opts.View != CommandsOptions.ViewType.Hide)
+                    await ReplyErrorLocalizedAsync("module_not_found").ConfigureAwait(false);
+                else
+                    await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
+                return;
+            }
             var i = 0;
             var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
             var embed = new EmbedBuilder().WithOkColor();
@@ -269,8 +292,11 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                     var transformed = g.ElementAt(i).Select(x =>
                     {
                         //if cross is specified, and the command doesn't satisfy the requirements, cross it out
-                        return
-                    $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
+                        if (opts.View == CommandsOptions.ViewType.Cross)
+                        {
+                            return $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
+                        }
+                        return $"{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
                     });
 
                     if (i == last - 1 && (i + 1) % 2 != 0)
@@ -283,23 +309,22 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Inte
                             {
                                 if (x.Count() == 1)
                                     return $"{x.First()}";
-                                return string.Concat(x);
+                                else
+                                    return String.Concat(x);
                             });
                     }
                     var toadd = new ModuleInfo
                     {
                         Name = g.ElementAt(i).Key,
-                        Text = $"```css\n{string.Join("\n", transformed)}\n```"
+                        Text = "```css\n" + string.Join("\n", transformed) + "\n```"
                     };
                     list.Add(toadd);
                 }
             }
-
-
-            await PaginateCommands(ctx.Channel);
+            await PaginateCommands(ctx.Channel, ctx.User);
         }
 
-        [MewdekoCommand]
+    [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]

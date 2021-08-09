@@ -18,9 +18,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Humanizer;
-using System.Net;
-using System.IO;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Utility
 {

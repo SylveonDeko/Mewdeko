@@ -12,7 +12,7 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
-using Interactivity;
+using Mewdeko.Interactive;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
@@ -61,8 +61,9 @@ namespace Mewdeko
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
                 AlwaysDownloadUsers = true,
-                GatewayIntents = GatewayIntents.All
-            });
+                GatewayIntents = GatewayIntents.All,
+                AlwaysAcknowledgeInteractions = false
+            }); ;
 
             CommandService = new CommandService(new CommandServiceConfig
             {
@@ -159,8 +160,7 @@ namespace Mewdeko
                 .AddSingleton<ISeria, JsonSeria>()
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
-                .AddSingleton<InteractivityService>()
-                .AddSingleton(new InteractivityConfig { DefaultTimeout = TimeSpan.FromSeconds(20) })
+                .AddSingleton<InteractiveService>()
                 .AddBotStringsServices()
                 .AddConfigServices()
                 .AddConfigMigrators()

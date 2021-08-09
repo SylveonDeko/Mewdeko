@@ -92,83 +92,81 @@ namespace Mewdeko.Extensions
 
             var canPaginate = true;
             var sg = ctx.Guild as SocketGuild;
-            if (!(sg is null) && !sg.CurrentUser.GetPermissions((IGuildChannel) ctx.Channel).AddReactions)
-                canPaginate = false;
+            embed.AddPaginatedFooter(currentPage, lastPage);
+            var builder = new ComponentBuilder()
+                .WithButton(label: " ", customId: "rewind", emote: rewind)
+                .WithButton(label: " ", customId: "left", emote: arrow_left)
+                .WithButton(label: " ", customId: "stop", emote: stop)
+                .WithButton(label: " ", customId: "right", emote: arrow_right)
+                .WithButton(label: " ", customId: "fastforward", emote: fast_foward);
 
-            if (!canPaginate)
-                embed.WithFooter("⚠️ AddReaction permission required for pagination.");
-            else if (addPaginatedFooter)
-                embed.AddPaginatedFooter(currentPage, lastPage);
-
-            var msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: builder.Build()).ConfigureAwait(false);
 
             if (lastPage == 0 || !canPaginate)
                 return;
 
-            await msg.AddReactionAsync(rewind).ConfigureAwait(false);
-            await msg.AddReactionAsync(arrow_left).ConfigureAwait(false);
-            await msg.AddReactionAsync(stop).ConfigureAwait(false);
-            await msg.AddReactionAsync(arrow_right).ConfigureAwait(false);
-            await msg.AddReactionAsync(fast_foward).ConfigureAwait(false);
-
-            await Task.Delay(2000).ConfigureAwait(false);
-
             var lastPageChange = DateTime.MinValue;
 
-            async Task changePage(SocketReaction r)
+            async Task changePage(SocketInteraction r)
             {
                 try
                 {
-                    if (r.UserId != ctx.User.Id)
-                        return;
-                    if (DateTime.UtcNow - lastPageChange < TimeSpan.FromSeconds(1))
-                        return;
-                    if (r.Emote.Name == stop.Name)
+                    if (r is SocketMessageComponent e)
                     {
-                        await msg.DeleteAsync().ConfigureAwait(false);
-                        return;
-                    }
-                    if (r.Emote.Name == fast_foward.Name)
-                    {
-                        if (currentPage == lastPage)
+                        if (e.User.Id != ctx.User.Id)
                             return;
-                        lastPageChange = DateTime.UtcNow;
-                        var toSend = await pageFunc(lastPage).ConfigureAwait(false);
-                        currentPage = lastPage;
-                        if (addPaginatedFooter)
-                            toSend.AddPaginatedFooter(currentPage, lastPage);
-                        await msg.ModifyAsync(x => x.Embed =toSend.Build()).ConfigureAwait(false);
-                    }
-                    if (r.Emote.Name == rewind.Name)
-                    {
-                        if (currentPage == 0)
+                        if (DateTime.UtcNow - lastPageChange < TimeSpan.FromSeconds(1))
                             return;
-                        lastPageChange = DateTime.UtcNow;
-                        var toSend = await pageFunc(0).ConfigureAwait(false);
-                        currentPage = 0;
-                        if (addPaginatedFooter)
-                            toSend.AddPaginatedFooter(currentPage, lastPage);
-                        await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
-                    }
-                    if (r.Emote.Name == arrow_left.Name)
-                    {
-                        if (currentPage == 0)
-                            return;
-                        lastPageChange = DateTime.UtcNow;
-                        var toSend = await pageFunc(--currentPage).ConfigureAwait(false);
-                        if (addPaginatedFooter)
-                            toSend.AddPaginatedFooter(currentPage, lastPage);
-                        await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
-                    }
-                    else if (r.Emote.Name == arrow_right.Name)
-                    {
-                        if (lastPage > currentPage)
+                        if (e.Data.CustomId == "stop")
                         {
+                            await msg.DeleteAsync().ConfigureAwait(false);
+                            return;
+                        }
+                        if (e.Data.CustomId == "fastforward")
+                        {
+                            if (currentPage == lastPage)
+                                return;
                             lastPageChange = DateTime.UtcNow;
-                            var toSend = await pageFunc(++currentPage).ConfigureAwait(false);
+                            var toSend = await pageFunc(lastPage).ConfigureAwait(false);
+                            currentPage = lastPage;
                             if (addPaginatedFooter)
                                 toSend.AddPaginatedFooter(currentPage, lastPage);
-                            await msg.ModifyAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                            await e.UpdateAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                            return;
+                        }
+                        if (e.Data.CustomId == "rewind")
+                        {
+                            if (currentPage == 0)
+                                return;
+                            lastPageChange = DateTime.UtcNow;
+                            var toSend = await pageFunc(0).ConfigureAwait(false);
+                            currentPage = 0;
+                            if (addPaginatedFooter)
+                                toSend.AddPaginatedFooter(currentPage, lastPage);
+                            await e.UpdateAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                            return;
+                        }
+                        if (e.Data.CustomId == "left")
+                        {
+                            if (currentPage == 0)
+                                return;
+                            lastPageChange = DateTime.UtcNow;
+                            var toSend = await pageFunc(--currentPage).ConfigureAwait(false);
+                            if (addPaginatedFooter)
+                                toSend.AddPaginatedFooter(currentPage, lastPage);
+                            await e.UpdateAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                        }
+                        else if (e.Data.CustomId == "right")
+                        {
+                            if (lastPage > currentPage)
+                            {
+                                lastPageChange = DateTime.UtcNow;
+                                var toSend = await pageFunc(++currentPage).ConfigureAwait(false);
+                                if (addPaginatedFooter)
+                                    toSend.AddPaginatedFooter(currentPage, lastPage);
+                                await e.UpdateAsync(x => x.Embed = toSend.Build()).ConfigureAwait(false);
+                                return;
+                            }
                         }
                     }
                 }
@@ -177,24 +175,11 @@ namespace Mewdeko.Extensions
                     //ignored
                 }
             }
+            
 
-            using (msg.OnReaction((DiscordSocketClient) ctx.Client, changePage, changePage))
+            using (msg.OnClick((DiscordSocketClient) ctx.Client, changePage))
             {
                 await Task.Delay(3000000).ConfigureAwait(false);
-            }
-
-            try
-            {
-                if (msg.Channel is ITextChannel &&
-                    ((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
-                    await msg.RemoveAllReactionsAsync().ConfigureAwait(false);
-                else
-                    await Task.WhenAll(msg.Reactions.Where(x => x.Value.IsMe)
-                        .Select(x => msg.RemoveReactionAsync(x.Key, ctx.Client.CurrentUser)));
-            }
-            catch
-            {
-                // ignored
             }
         }
 

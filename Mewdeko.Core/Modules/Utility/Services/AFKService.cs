@@ -68,6 +68,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             _ = Task.Run(async () =>
             {
+                await command.DeferAsync();
                 if (command.Channel is ITextChannel chan)
                 {
                     if (command.Data.Options?.Count == 1)
@@ -86,17 +87,24 @@ namespace Mewdeko.Modules.Utility.Services
                         await command.RespondAsync($"I have succesfully enabled your afk and set it to {command.Data.Options.FirstOrDefault().Value.ToString().SanitizeAllMentions()}");
                         return;
                     }
-                    if (IsAfk(chan.Guild, command.User as IGuildUser))
+                    else if(IsAfk(chan.Guild, command.User as IGuildUser))
                     {
                         await AFKSet(chan.Guild, command.User as IGuildUser, "", 0);
-                        await command.RespondAsync($"I have disabled your afk.");
+                        try
+                        {
+                            await command.FollowupAsync($"I have disabled your afk.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.Write(ex);
+                        }
                         var msg = await command.GetOriginalResponseAsync();
                         msg.DeleteAfter(5);
                     }
                     else
                     {
                         await AFKSet(chan.Guild, command.User as IGuildUser, "_ _", 0);
-                        await command.RespondAsync($"I have enabled your afk!");
+                        await command.FollowupAsync($"I have enabled your afk!");
                         var msg = await command.GetOriginalResponseAsync();
                         msg.DeleteAfter(5);
                     }

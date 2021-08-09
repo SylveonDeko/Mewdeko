@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -53,7 +54,8 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _joined { get; } = new();
         private ConcurrentDictionary<ulong, ulong> _left { get; } = new();
 
-        public async Task JoinedSet(IGuild guild, ulong num)
+
+    public async Task JoinedSet(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
             {
