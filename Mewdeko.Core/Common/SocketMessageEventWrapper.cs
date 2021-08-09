@@ -19,6 +19,7 @@ namespace Mewdeko.Common
             _client.ReactionAdded += Discord_ReactionAdded;
             _client.ReactionRemoved += Discord_ReactionRemoved;
             _client.ReactionsCleared += Discord_ReactionsCleared;
+            _client.InteractionCreated += Discord_InteractionCreated;
         }
 
         public IUserMessage Message { get; }
@@ -34,6 +35,7 @@ namespace Mewdeko.Common
         public event Action<SocketReaction> OnReactionAdded = delegate { };
         public event Action<SocketReaction> OnReactionRemoved = delegate { };
         public event Action OnReactionsCleared = delegate { };
+        public event Action<SocketInteraction> InteractionCreated = delegate { };
 
         private Task Discord_ReactionsCleared(Cacheable<IUserMessage, ulong> msg,
             Cacheable<IMessageChannel, ulong> chan)
@@ -44,6 +46,21 @@ namespace Mewdeko.Common
                 {
                     if (msg.Value.Id == Message.Id)
                         OnReactionsCleared?.Invoke();
+                }
+                catch
+                {
+                }
+            });
+
+            return Task.CompletedTask;
+        }
+        private Task Discord_InteractionCreated(SocketInteraction inte)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                        InteractionCreated?.Invoke(inte);
                 }
                 catch
                 {

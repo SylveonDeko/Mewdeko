@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Interactivity.Pagination;
-using Interactivity;
+using Mewdeko.Interactive.Pagination;
+using Mewdeko.Interactive;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -27,12 +27,12 @@ namespace Mewdeko.Modules.NSFW
     // thanks to halitalf for adding autoboob and autobutt features :D
     public class NSFW : MewdekoModule<SearchesService>
     {
-        public InteractivityService Interactivity;
+        public InteractiveService Interactivity;
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
         private readonly IHttpClientFactory _httpFactory;
         public KSoftAPI ksoftapi;
 
-        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractivityService inte)
+        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractiveService inte)
         {
             Interactivity = inte;
             _httpFactory = factory;
@@ -118,15 +118,8 @@ namespace Mewdeko.Modules.NSFW
                 return;
             }
 
-            //await ctx.SendPaginatedConfirmAsync(page, cur =>
-            //{
-            //    var enumerable = pages as string[] ?? pages.ToArray();
-            //    return new EmbedBuilder().WithOkColor()
-            //        .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
-            //        .WithImageUrl(pages.Skip(cur).FirstOrDefault());
-            //}, pages.ToArray().Length, 1).ConfigureAwait(false);
             var paginator = new LazyPaginatorBuilder()
-                .WithUsers(ctx.User as SocketUser)
+                .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
                 .WithMaxPageIndex(pages.Count())
@@ -142,7 +135,7 @@ namespace Mewdeko.Modules.NSFW
                     .WithText((page + 1).ToString())
                     .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
                     .WithImageUrl(pages.Skip(page).FirstOrDefault())
-                    .WithColor(System.Drawing.Color.FromArgb(page * 1500)));
+                    .WithColor((Color)System.Drawing.Color.FromArgb(page * 1500)));
             }
         }
 

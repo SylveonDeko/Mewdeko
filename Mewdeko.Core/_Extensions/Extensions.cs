@@ -40,8 +40,12 @@ namespace Mewdeko.Extensions
         {
             return Array.ConvertAll(arr, x => f(x));
         }
-
-        public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
+        public static void AddSafe(this Dictionary<int, string> dictionary, int key, string value)
+        {
+            if (!dictionary.ContainsKey(key))
+                dictionary.Add(key, value);
+        }
+    public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
             bool sanitizeAll = false)
         {
             var plainText = sanitizeAll
@@ -226,6 +230,19 @@ namespace Mewdeko.Extensions
             wrap.OnReactionRemoved += r =>
             {
                 var _ = Task.Run(() => reactionRemoved(r));
+            };
+            return wrap;
+        }
+        public static ReactionEventWrapper OnClick(this IUserMessage msg, DiscordSocketClient client,
+            Func<SocketInteraction, Task> reactionAdded)
+        {
+            if (reactionAdded == null)
+                reactionAdded = _ => Task.CompletedTask;
+
+            var wrap = new ReactionEventWrapper(client, msg);
+            wrap.InteractionCreated += r =>
+            {
+                var _ = Task.Run(() => reactionAdded(r));
             };
             return wrap;
         }

@@ -45,71 +45,75 @@ namespace Mewdeko.Modules.Help.Services
         }
         public async Task HandleModules(SocketInteraction ine)
         {
-            var parsedArg = (SocketMessageComponent)ine;
-            var selectedValue = parsedArg.Data.Values.First();
-            if (!list3.Any()) return;
-            var ta = list3.Where(x => x.chan == parsedArg.Channel as ITextChannel).First().msg;
-            var context = new CommandContext(_client, ta);
-            var module = selectedValue.Trim().ToUpperInvariant();
-            var cmds = _cmds.Commands.Where(c =>
-                        c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                            .StartsWith(module, StringComparison.InvariantCulture))
-                    .OrderBy(c => c.Aliases[0])
-                    .Distinct(new CommandTextEqualityComparer());
-            // check preconditions for all commands, but only if it's not 'all'
-            // because all will show all commands anyway, no need to check
-            var succ = new HashSet<CommandInfo>();
-            succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
+            if (ine is SocketMessageComponent parsedArg)
             {
-                var pre = await x.CheckPreconditionsAsync(context, _services).ConfigureAwait(false);
-                return (Cmd: x, Succ: pre.IsSuccess);
-            })).ConfigureAwait(false))
-                .Where(x => x.Succ)
-                .Select(x => x.Cmd));
-
-            var cmdsWithGroup = cmds
-                .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-                .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
-
-
-            var i = 0;
-            var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
-            var embed = new EmbedBuilder().WithOkColor();
-            foreach (var g in groups)
-            {
-                var last = g.Count();
-                for (i = 0; i < last; i++)
+                if (parsedArg.Data.Values == null)
+                    return;
+                var selectedValue = parsedArg.Data.Values?.First();
+                if (!list3.Any()) return;
+                var ta = list3.Where(x => x.chan == parsedArg.Channel as ITextChannel).Last().msg;
+                var context = new CommandContext(_client, ta);
+                var module = selectedValue.Trim().ToUpperInvariant();
+                var cmds = _cmds.Commands.Where(c =>
+                            c.Module.GetTopLevelModule().Name.ToUpperInvariant()
+                                .StartsWith(module, StringComparison.InvariantCulture))
+                        .OrderBy(c => c.Aliases[0])
+                        .Distinct(new CommandTextEqualityComparer());
+                // check preconditions for all commands, but only if it's not 'all'
+                // because all will show all commands anyway, no need to check
+                var succ = new HashSet<CommandInfo>();
+                succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
                 {
-                    var transformed = g.ElementAt(i).Select(x =>
+                    var pre = await x.CheckPreconditionsAsync(context, _services).ConfigureAwait(false);
+                    return (Cmd: x, Succ: pre.IsSuccess);
+                })).ConfigureAwait(false))
+                    .Where(x => x.Succ)
+                    .Select(x => x.Cmd));
+
+                var cmdsWithGroup = cmds
+                    .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
+                    .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
+
+
+                var i = 0;
+                var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
+                var embed = new EmbedBuilder().WithOkColor();
+                foreach (var g in groups)
+                {
+                    var last = g.Count();
+                    for (i = 0; i < last; i++)
                     {
+                        var transformed = g.ElementAt(i).Select(x =>
+                        {
                         //if cross is specified, and the command doesn't satisfy the requirements, cross it out
                         return
-                        $"{(succ.Contains(x) ? "✅" : "❌")}{_ch.GetPrefix((parsedArg.Channel as ITextChannel).Guild) + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
-                    });
+                            $"{(succ.Contains(x) ? "✅" : "❌")}{_ch.GetPrefix((parsedArg.Channel as ITextChannel).Guild) + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
+                        });
 
-                    if (i == last - 1 && (i + 1) % 2 != 0)
-                    {
-                        var grp = 0;
-                        var count = transformed.Count();
-                        transformed = transformed
-                            .GroupBy(x => grp++ % count / 2)
-                            .Select(x =>
-                            {
-                                if (x.Count() == 1)
-                                    return $"{x.First()}";
-                                return string.Concat(x);
-                            });
+                        if (i == last - 1 && (i + 1) % 2 != 0)
+                        {
+                            var grp = 0;
+                            var count = transformed.Count();
+                            transformed = transformed
+                                .GroupBy(x => grp++ % count / 2)
+                                .Select(x =>
+                                {
+                                    if (x.Count() == 1)
+                                        return $"{x.First()}";
+                                    return string.Concat(x);
+                                });
+                        }
+                        embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
                     }
-                    embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
                 }
-            }
-            if (parsedArg.User.Id == ta.Author.Id)
-            {
-                await parsedArg.Message.ModifyAsync(x => x.Embed = embed.Build());
-            }
-            else
-            {
-                await parsedArg.FollowupAsync(text: "This isnt your help embed but heres the result anyway", embed: embed.Build(), ephemeral: true);
+                if (parsedArg.User.Id == ta.Author.Id)
+                {
+                    await parsedArg.Message.ModifyAsync(x => x.Embed = embed.Build());
+                }
+                else
+                {
+                    await parsedArg.FollowupAsync(text: "This isnt your help embed but heres the result anyway", embed: embed.Build(), ephemeral: true);
+                }
             }
         }
         
