@@ -86,4 +86,8 @@
     <DefineConstants>TRACE;DEBUG;DNETLABS</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>
+  </PropertyGroup>
+
 </Project>
