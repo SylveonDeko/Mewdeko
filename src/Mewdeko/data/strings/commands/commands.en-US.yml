@@ -39,6 +39,10 @@ banunder:
   args:
   - "2y"
   - "2m -p"
+addroletolist:
+  desc: "Allows you to add a role to userIDs in a list. Provide one ID per line in the txt file."
+  args:
+  - "role"
 kickunder:
   desc: "Allows you to ban users under a certain server join age in the server. Use -p after the time to preview the users that will be banned."
   args:
