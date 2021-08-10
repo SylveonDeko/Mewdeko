@@ -172,7 +172,7 @@ namespace Mewdeko.Modules.ServerManagement
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => !c.Roles.Contains(role));
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All users already have this role!");
                     return;
