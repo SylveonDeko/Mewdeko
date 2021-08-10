@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -182,6 +184,109 @@ namespace Mewdeko.Modules.ServerManagement
                 else
                     JobId = _service.jobslist.FirstOrDefault().JobId + 1;
                 await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users and Bots",
+                    role);
+                var count2 = 0;
+                await ctx.Channel.SendConfirmAsync(
+                    $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count()}s.");
+                using (ctx.Channel.EnterTypingState())
+                {
+                    foreach (var i in users)
+                        try
+                        {
+                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var t = e == "Stopped";
+                            if (t)
+                            {
+                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await ctx.Channel.SendConfirmAsync(
+                                    $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} members before stopped.");
+                                return;
+                            }
+
+                            await i.AddRoleAsync(role);
+                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            count2++;
+                        }
+                        catch (HttpException e)
+                        {
+                            if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        }
+                }
+
+                await _service.RemoveJob(ctx.Guild, JobId);
+                await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
+            public async Task AddRoleToList(IRole role)
+            {
+                if (!ctx.Message.Attachments.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("You must attach a file for this to work.");
+                    return;
+                }
+                var file = ctx.Message.Attachments.First();
+                if (!file.Filename.EndsWith(".txt"))
+                {
+                    await ctx.Channel.SendErrorAsync("The file attached must be a txt file!");
+                    return;
+                }
+                var users = new List<IGuildUser>();
+                using (var client = new WebClient())
+                {
+                    var content = client.DownloadData(file.Url);
+                    using (var stream = new MemoryStream(content))
+                    {
+                        StreamReader file1 = new StreamReader(stream);
+                        string line;
+                        while ((line = file1.ReadLine()) != null)
+                        {
+                            var user = await ctx.Guild.GetUserAsync(Convert.ToUInt64(line));
+                            users.Add(user);
+                        }
+                    }
+                }
+                var runnerUser = (IGuildUser)ctx.User;
+                var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+                if (ctx.User.Id != runnerUser.Guild.OwnerId &&
+                    runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
+                {
+                    await ctx.Channel.SendErrorAsync("You cannot manage this role!");
+                    return;
+                }
+
+                if (currentUser.GetRoles().Max(x => x.Position) <= role.Position)
+                {
+                    await ctx.Channel.SendErrorAsync("I cannot manage this role!");
+                    return;
+                }
+
+                if (_service.jobslist.Count() == 5)
+                {
+                    await ctx.Channel.SendErrorAsync(
+                        $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
+                    return;
+                }
+
+                var guild = ctx.Guild as SocketGuild;
+                var count = users.Count();
+                if (users.Count() == 0)
+                {
+                    await ctx.Channel.SendErrorAsync("All users already have this role!");
+                    return;
+                }
+
+                var JobId = 0;
+                if (_service.jobslist.FirstOrDefault() is null)
+                    JobId = 1;
+                else
+                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
+                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding a role to a provided user list",
                     role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
