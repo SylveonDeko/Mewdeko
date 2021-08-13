@@ -402,6 +402,23 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task AutoPlay()
+        {
+            var e = await _service.ToggleAutoPlay(ctx.Guild.Id);
+            if (e)
+            {
+                await ctx.Channel.SendConfirmAsync("Enabled AutoPlay");
+            }
+            else
+            {
+                await ctx.Channel.SendConfirmAsync("Disabled AutoPlay");
+            }
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Join()
         {
             var user = (IGuildUser)Context.User;

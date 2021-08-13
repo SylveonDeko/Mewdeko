@@ -11,7 +11,10 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Database.Repositories.Impl;
 using Mewdeko.Extensions;
+using SpotifyAPI.Web;
 using Serilog;
+using YoutubeExplode.Search;
+using System.Web;
 
 namespace Mewdeko.Modules.Music.Services
 {
@@ -24,6 +27,7 @@ namespace Mewdeko.Modules.Music.Services
         private readonly ConcurrentDictionary<ulong, (ITextChannel Default, ITextChannel? Override)> _outputChannels;
 
         private readonly ConcurrentDictionary<ulong, IMusicPlayer> _players;
+        private readonly ConcurrentDictionary<ulong, (int Default, int Override)> _autoplay;
         private readonly ISoundcloudResolver _scResolver;
         private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
         private readonly IBotStrings _strings;
@@ -51,6 +55,7 @@ namespace Mewdeko.Modules.Music.Services
             _players = new ConcurrentDictionary<ulong, IMusicPlayer>();
             _outputChannels = new ConcurrentDictionary<ulong, (ITextChannel, ITextChannel?)>();
             _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
+            _autoplay = new ConcurrentDictionary<ulong, (int Default, int Override)>();
 
             _client.LeftGuild += ClientOnLeftGuild;
         }
@@ -122,7 +127,6 @@ namespace Mewdeko.Modules.Music.Services
 
             return i;
         }
-
         public async Task<QualityPreset> GetMusicQualityAsync(ulong guildId)
         {
             using var uow = _db.GetDbContext();
@@ -306,8 +310,22 @@ namespace Mewdeko.Modules.Music.Services
                     .WithAuthor(eab => eab.WithName(GetText(guildId, "playing_song", index + 1)).WithMusicIcon())
                     .WithDescription(trackInfo.PrettyName())
                     .WithFooter(ef => ef.WithText($"{mp.PrettyVolume()} | {trackInfo.PrettyInfo()}"));
-
                 lastPlayingMessage = await SendToOutputAsync(guildId, embed);
+                if (_settings.TryGetValue(guildId, out var settings))
+                    if (settings.AutoPlay == 1)
+                    {
+                        if (mp.GetQueuedTracks().Count - 1 == index)
+                        {
+                            var uri = new Uri(trackInfo.Url);
+                            var query = HttpUtility.ParseQueryString(uri.Query);
+                            var videoid = query["v"];
+                            var rand = new Random();
+                            var e = _googleApiService.GetRelatedVideosAsync(videoid, 15).Result.ToList();
+                            var inde = rand.Next(e.Count());
+                                await mp.TryEnqueueTrackAsync(e[inde], "Mewdeko Autoplay", true, MusicPlatform.Spotify);
+                        }
+
+                    };
             };
         }
 
@@ -386,6 +404,28 @@ namespace Mewdeko.Modules.Music.Services
                 (key, old) => (old.Default, channel));
 
             return true;
+        }
+        public async Task<bool> ToggleAutoPlay(ulong GuildId)
+        {
+            _settings.TryGetValue(GuildId, out var settings);
+            if (settings is null)
+            {
+                await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; }, 1);
+                _autoplay.AddOrUpdate(GuildId, (1, 1), (key, old) => (old.Default, 1));
+                return true;
+            }
+            if (settings is not null && settings.AutoPlay == 0)
+            {
+                await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; }, 1);
+                _autoplay.AddOrUpdate(GuildId, (1, 1), (key, old) => (old.Default, 1));
+                return true;
+            }
+            else
+            {
+                await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; }, 0);
+                _autoplay.AddOrUpdate(GuildId, (0, 0), (key, old) => (old.Default, 0));
+                return false;
+            }
         }
 
         public async Task UnsetMusicChannelAsync(ulong guildId)
