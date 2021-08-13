@@ -54,7 +54,14 @@ namespace Mewdeko.Modules.Suggestions
                     else
                     {
                         await _service.SetSuggestionMessage(ctx.Guild, embed);
-                        await ctx.Channel.SendMessageAsync("Sucessfully updated suggestion message!");
+                        var ebe = CREmbed.TryParse(_service.GetSuggestionMessage(ctx.Guild), out crEmbed);
+                        if (ebe is false)
+                        {
+                            await _service.SetSuggestionMessage(ctx.Guild, "-");
+                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the suggest message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                            return;
+                        }
+                        await ctx.Channel.SendConfirmAsync("Sucessfully updated suggestion message!");
                     }
                 }
 
@@ -86,7 +93,14 @@ namespace Mewdeko.Modules.Suggestions
                     else
                     {
                         await _service.SetAcceptMessage(ctx.Guild, embed);
-                        await ctx.Channel.SendMessageAsync("Sucessfully updated accepted suggestion message!");
+                        var ebe = CREmbed.TryParse(_service.GetAcceptMessage(ctx.Guild), out crEmbed);
+                        if (ebe is false)
+                        {
+                            await _service.SetAcceptMessage(ctx.Guild, "-");
+                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the accept message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                            return;
+                        }
+                        await ctx.Channel.SendConfirmAsync("Sucessfully updated accepted suggestion message!");
                     }
                 }
 
@@ -105,20 +119,27 @@ namespace Mewdeko.Modules.Suggestions
                 if (embed == "-")
                 {
                     await _service.SetImplementMessage(ctx.Guild, embed);
-                    await ctx.Channel.SendConfirmAsync(" Implemented Suggestions will now have the default look.");
+                    await ctx.Channel.SendConfirmAsync("Implemented Suggestions will now have the default look.");
                     return;
                 }
                 else
                 {
                     if (crEmbed is not null && !crEmbed.IsValid || !embed.Contains("%suggest"))
                     {
-                        await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for accepted suggestion messages!");
+                        await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for implemented suggestion messages!");
                         return;
                     }
                     else
                     {
                         await _service.SetImplementMessage(ctx.Guild, embed);
-                        await ctx.Channel.SendMessageAsync("Sucessfully updated implement suggestion message!");
+                        var ebe = CREmbed.TryParse(_service.GetImplementMessage(ctx.Guild), out crEmbed);
+                        if (ebe is false)
+                        {
+                            await _service.SetImplementMessage(ctx.Guild, "-");
+                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the implemented message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                            return;
+                        }
+                        await ctx.Channel.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
                     }
                 }
 
@@ -150,7 +171,14 @@ namespace Mewdeko.Modules.Suggestions
                     else
                     {
                         await _service.SetDenyMessage(ctx.Guild, embed);
-                        await ctx.Channel.SendMessageAsync("Sucessfully updated deny suggestion message!");
+                        var ebe = CREmbed.TryParse(_service.GetDenyMessage(ctx.Guild), out crEmbed);
+                        if (ebe is false)
+                        {
+                            await _service.SetDenyMessage(ctx.Guild, "-");
+                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the deny message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                            return;
+                        }
+                        await ctx.Channel.SendConfirmAsync("Sucessfully updated denied suggestion message!");
                     }
                 }
 
@@ -182,7 +210,14 @@ namespace Mewdeko.Modules.Suggestions
                     else
                     {
                         await _service.SetConsiderMessage(ctx.Guild, embed);
-                        await ctx.Channel.SendMessageAsync("Sucessfully updated considered suggestion message!");
+                        var ebe = CREmbed.TryParse(_service.GetConsiderMessage(ctx.Guild), out crEmbed);
+                        if(ebe is false)
+                        {
+                            await _service.SetConsiderMessage(ctx.Guild, "-");
+                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the Consider message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                            return;
+                        }
+                        await ctx.Channel.SendConfirmAsync("Sucessfully updated considered suggestion message!");
                     }
                 }
 
@@ -281,7 +316,7 @@ namespace Mewdeko.Modules.Suggestions
                     return;
                 }
 
-                await _service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient, suggestion);
+                await _service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient, suggestion, ctx.Channel as ITextChannel);
             }
 
             [MewdekoCommand]

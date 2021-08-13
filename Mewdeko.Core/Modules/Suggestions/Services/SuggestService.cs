@@ -74,7 +74,7 @@ namespace Mewdeko.Modules.Suggestions.Services
             {               
                 var guser = msg.Author as IGuildUser;
                 if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id))) return;
-                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content);
+                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content, msg.Channel as ITextChannel);
                 try { await msg.DeleteAsync(); } catch { } 
             }
         }
@@ -326,7 +326,12 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-                CREmbed.TryParse(GetDenyMessage(guild), out crEmbed);
+                var ebe = CREmbed.TryParse(GetDenyMessage(guild), out crEmbed);
+                if (ebe is false)
+                {
+                    await channel.SendErrorAsync("The deny message is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    return;
+                }
                 replacer.Replace(crEmbed);
                 if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
                 {
@@ -364,7 +369,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied");
                     emb.WithDescription(suggest.Suggestion);
                     emb.AddField("Reason", rs);
-                    emb.AddField("Accepted By", user);
+                    emb.AddField("Denied By", user);
                     emb.WithOkColor();
                     await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
                     await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!");
@@ -463,7 +468,13 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-                CREmbed.TryParse(GetConsiderMessage(guild), out crEmbed);
+                var ebe = CREmbed.TryParse(GetConsiderMessage(guild), out crEmbed);
+                if (ebe is false)
+                {
+                    await channel.SendErrorAsync("The consider embed is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await SetConsiderMessage(guild, "-");
+                    return;
+                }
                 replacer.Replace(crEmbed);
                 if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
                 {
@@ -491,7 +502,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 }
                 if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
                 {
-                    await channel.SendErrorAsync("The consider message is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await channel.SendErrorAsync("The consider message set is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     return;
                 }
                 try
@@ -599,7 +610,13 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-                CREmbed.TryParse(GetImplementMessage(guild), out crEmbed);
+                var ebe = CREmbed.TryParse(GetImplementMessage(guild), out crEmbed);
+                if (ebe is false)
+                {
+                    await channel.SendErrorAsync("The implement message set is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await SetImplementMessage(guild, "-");
+                    return;
+                }
                 replacer.Replace(crEmbed);
                 if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
                 {
@@ -736,7 +753,13 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-                CREmbed.TryParse(GetAcceptMessage(guild), out crEmbed);
+                var ebe = CREmbed.TryParse(GetAcceptMessage(guild), out crEmbed);
+                if (ebe is false)
+                {
+                    await channel.SendErrorAsync("The accept message set is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await SetAcceptMessage(guild, "-");
+                    return;
+                }
                 replacer.Replace(crEmbed);
                 if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
                 {
@@ -785,8 +808,14 @@ namespace Mewdeko.Modules.Suggestions.Services
                 }
             }
         }
-        public async Task SendSuggestion(IGuild guild, IGuildUser user, DiscordSocketClient client, string suggestion)
+        public async Task SendSuggestion(IGuild guild, IGuildUser user, DiscordSocketClient client, string suggestion, ITextChannel channel)
         {
+            if(GetSuggestionChannel(guild.Id) == 0)
+            {
+                var msg = await channel.SendErrorAsync("There is no suggestion channel set! Have an admin set it using `setsuggestchannel` and try again!");
+                msg.DeleteAfter(3);
+                return;
+            }
             var tup = new Emoji("\uD83D\uDC4D");
             var tdown = new Emoji("\uD83D\uDC4E");
             var emotes = new List<Emote>();
@@ -799,7 +828,6 @@ namespace Mewdeko.Modules.Suggestions.Services
                     emotes.Add(Emote.Parse(emote));
                 }
             }
-            var r = GetSuggestionMessage(guild);
             if (GetSuggestionMessage(guild) == "-" || GetSuggestionMessage(guild) == "")
             {
                 string n;
@@ -841,7 +869,13 @@ namespace Mewdeko.Modules.Suggestions.Services
                 .WithOverride("%suggest.user.name%", () => user.Username)
                 .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl(2048).ToString())
                 .Build();
-                CREmbed.TryParse(GetSuggestionMessage(guild), out crEmbed);
+                var ebe = CREmbed.TryParse(GetSuggestionMessage(guild), out crEmbed);
+                if (ebe is false)
+                {
+                    await channel.SendErrorAsync("The suggest message set is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await SetSuggestionMessage(guild, "-");
+                    return;
+                }
                 replacer.Replace(crEmbed);
                 var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
                 if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
