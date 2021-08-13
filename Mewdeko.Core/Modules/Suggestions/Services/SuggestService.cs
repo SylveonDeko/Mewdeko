@@ -329,7 +329,8 @@ namespace Mewdeko.Modules.Suggestions.Services
                 var ebe = CREmbed.TryParse(GetDenyMessage(guild), out crEmbed);
                 if (ebe is false)
                 {
-                    await channel.SendErrorAsync("The deny message is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await channel.SendErrorAsync("The deny message is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await SetDenyMessage(guild, "-");
                     return;
                 }
                 replacer.Replace(crEmbed);
@@ -471,7 +472,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 var ebe = CREmbed.TryParse(GetConsiderMessage(guild), out crEmbed);
                 if (ebe is false)
                 {
-                    await channel.SendErrorAsync("The consider embed is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                    await channel.SendErrorAsync("The consider message is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     await SetConsiderMessage(guild, "-");
                     return;
                 }
