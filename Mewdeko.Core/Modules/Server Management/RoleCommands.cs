@@ -21,6 +21,11 @@ namespace Mewdeko.Modules.ServerManagement
         [Group]
         public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
         {
+            public class RoleShit
+            {
+                public string Mention { get; set; }
+                public int UserCount { get; set; }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -39,19 +44,134 @@ namespace Mewdeko.Modules.ServerManagement
                 }
 
                 var msg = await ctx.Channel.SendConfirmAsync(
-                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels...");
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels and {await ctx.Guild.GetCategoriesAsync()} Categories.....");
                 foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                     if (perms != null)
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                foreach (var i in await ctx.Guild.GetCategoriesAsync())
+                    if (perms != null)
+                        await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
                 var eb = new EmbedBuilder
                 {
                     Color = Mewdeko.OkColor,
                     Description =
-                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels!"
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels and {await ctx.Guild.GetCategoriesAsync()} Categories!!"
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build() );
             }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageChannels)]
+            [BotPerm(GuildPerm.ManageChannels)]
+            public async Task SyncRoleToAllChannels(IRole role)
+            {
+                var ch = ctx.Channel as ITextChannel;
+                var perms = ch.GetPermissionOverwrite(role);
+                if (perms is null)
+                {
+                    await ctx.Channel.SendErrorAsync("This role doesnt have perms setup in this channel!");
+                    return;
+                }
 
+                var msg = await ctx.Channel.SendConfirmAsync(
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels.....");
+                foreach (var i in await ctx.Guild.GetTextChannelsAsync())
+                    if (perms != null)
+                        await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
+                var eb = new EmbedBuilder
+                {
+                    Color = Mewdeko.OkColor,
+                    Description =
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels!"
+                };
+                await msg.ModifyAsync(x => x.Embed = eb.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageChannels)]
+            [BotPerm(GuildPerm.ManageChannels)]
+            public async Task SyncRoleToAllCategories(IRole role)
+            {
+                var ch = ctx.Channel as ITextChannel;
+                var perms = ch.GetPermissionOverwrite(role);
+                if (perms is null)
+                {
+                    await ctx.Channel.SendErrorAsync("This role doesnt have perms setup in this channel!");
+                    return;
+                }
+
+                var msg = await ctx.Channel.SendConfirmAsync(
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count()} Categories.....");
+                foreach (var i in await ctx.Guild.GetCategoriesAsync())
+                    if (perms != null)
+                        await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
+                var eb = new EmbedBuilder
+                {
+                    Color = Mewdeko.OkColor,
+                    Description =
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count()} Categories!"
+                };
+                await msg.ModifyAsync(x => x.Embed = eb.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
+            public async Task DeleteRoles(params IRole[] roles)
+            {
+                if (roles.Where(x => !x.IsManaged).Count() is 0)
+                {
+                    await ctx.Channel.SendErrorAsync("You cannot delete bot roles or boost roles!");
+                    return;
+                }
+                var secondlist = new List<string>();
+                var runnerUser = (IGuildUser)ctx.User;
+                var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+                foreach ( var i in roles.Where(x => !x.IsManaged))
+                {   
+                    if (ctx.User.Id != runnerUser.Guild.OwnerId &&
+                        runnerUser.GetRoles().Max(x => x.Position) <= i.Position)
+                    {
+                        await ctx.Channel.SendErrorAsync($"You cannot manage {i.Mention}");
+                        return;
+                    }
+                    if (currentUser.GetRoles().Max(x => x.Position) <= i.Position)
+                    {
+                        await ctx.Channel.SendErrorAsync($"I cannot manage {i.Mention}");
+                        return;
+                    }
+                    secondlist.Add($"{i.Mention} - { ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.Contains(i.Id)).Count()} Users");
+                };
+                var embed = new EmbedBuilder()
+                {
+                    Title = "Are you sure you want to delete these roles?",
+                    Description = $"{string.Join("\n", secondlist)}"
+                };
+                if (await PromptUserConfirmAsync(embed))
+                {
+                    var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Count()} roles...");
+                    var emb = msg.Embeds.First();
+                    foreach(var i in roles)
+                    {
+                        await i.DeleteAsync();
+                    }
+                    var newemb = new EmbedBuilder()
+                    {
+                        Description = $"Succesfully deleted {roles.Count()} roles!",
+                        Color = Mewdeko.OkColor
+                    };
+                    await msg.ModifyAsync(x => x.Embed = newemb.Build());
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
