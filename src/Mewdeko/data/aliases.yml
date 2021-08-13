@@ -20,6 +20,17 @@ greetmsg:
 - greetmsg
 bye:
 - bye
+syncroletoallcategories:
+- syncroletoallcategories
+- srtc
+- srtac
+syncroletoallchannels:
+- syncroletoallchannels
+- srtch
+- srtach
+deleteroles:
+- deleteroles
+- drs
 musicquality:
 - musicquality
 - mquality

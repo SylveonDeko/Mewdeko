@@ -117,7 +117,7 @@ namespace Mewdeko.Modules.Suggestions
                     }
                     else
                     {
-                        await _service.SetAcceptMessage(ctx.Guild, embed);
+                        await _service.SetImplementMessage(ctx.Guild, embed);
                         await ctx.Channel.SendMessageAsync("Sucessfully updated implement suggestion message!");
                     }
                 }
@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Suggestions
                 CREmbed.TryParse(embed, out crEmbed);
                 if (embed == "-")
                 {
-                    await _service.SetImplementMessage(ctx.Guild, embed);
+                    await _service.SetDenyMessage(ctx.Guild, embed);
                     await ctx.Channel.SendConfirmAsync("Denied Suggestions will now have the default look.");
                     return;
                 }
@@ -149,7 +149,7 @@ namespace Mewdeko.Modules.Suggestions
                     }
                     else
                     {
-                        await _service.SetAcceptMessage(ctx.Guild, embed);
+                        await _service.SetDenyMessage(ctx.Guild, embed);
                         await ctx.Channel.SendMessageAsync("Sucessfully updated deny suggestion message!");
                     }
                 }
@@ -168,7 +168,7 @@ namespace Mewdeko.Modules.Suggestions
                 CREmbed.TryParse(embed, out crEmbed);
                 if (embed == "-")
                 {
-                    await _service.SetDenyMessage(ctx.Guild, embed);
+                    await _service.SetConsiderMessage(ctx.Guild, embed);
                     await ctx.Channel.SendConfirmAsync("Considered Suggestions will now have the default look.");
                     return;
                 }
@@ -181,7 +181,7 @@ namespace Mewdeko.Modules.Suggestions
                     }
                     else
                     {
-                        await _service.SetAcceptMessage(ctx.Guild, embed);
+                        await _service.SetConsiderMessage(ctx.Guild, embed);
                         await ctx.Channel.SendMessageAsync("Sucessfully updated considered suggestion message!");
                     }
                 }

@@ -118,6 +118,11 @@ namespace Mewdeko.Core.Modules.Music
                 await Spotify(query);
                 return;
             }
+            if (query is not null && query.StartsWith("https://open.spotify.com/album"))
+            {
+                await SpotifyAlbum(query);
+                return;
+            }
 
             if (query is not null && query.StartsWith("https://open.spotify.com/playlist"))
                 await SpotifyPlaylist(query);
@@ -162,28 +167,101 @@ namespace Mewdeko.Core.Modules.Music
 
             var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
             var e = new Uri(url);
-            if (!e.Host.Contains("open.spotify.com"))
-            {
-                await ctx.Channel.SendErrorAsync("This is not a valid spotify link!");
-                return;
-            }
-
             var t = e.Segments;
             var playlist = await spotify.Playlists.Get(t[2]);
-            var count = playlist.Tracks.Total;
-            var msg = await ctx.Channel
-                .SendMessageAsync($"<a:loading:834915210967253013> Queueing {count} Spotify Songs...")
-                .ConfigureAwait(false);
-            foreach (var item in playlist.Tracks.Items)
+            int songs;
+            if (playlist.Tracks.Items.Count > 100)
+            {
+                songs = 100;
+            }
+            else
+            {
+                songs = playlist.Tracks.Items.Count;
+            }
+            var embed = new EmbedBuilder()
+            {
+                Author = new EmbedAuthorBuilder()
+                {
+                    IconUrl = "http://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png",
+                    Name = playlist.Owner.DisplayName
+                },
+                Description = $"<a:loading:847706744741691402> Attempting to queue {songs} songs from this playlist...",
+                Footer = new EmbedFooterBuilder()
+                {
+                    Text = "Spotify Playlist"
+                },
+                ImageUrl = playlist.Images.FirstOrDefault().Url,
+                Color = Mewdeko.OkColor
+            };
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
+            foreach (var item in playlist.Tracks.Items.Take(100))
             {
                 if (item.Track is FullTrack track)
                     await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
                         ctx.User.ToString(), true, MusicPlatform.Spotify);
-
-                await msg.ModifyAsync(m =>
-                        m.Content = $"<a:check_animated:780103746432139274> Successfully queued {count} Songs!")
-                    .ConfigureAwait(false);
             }
+            var em = new EmbedBuilder()
+            {
+                Author = embed.Author,
+                Description = $"<a:checkfragutil:854536148411744276> Succesfully queued {songs} Tracks from this album!",
+                Footer = embed.Footer,
+                ImageUrl = embed.ImageUrl,
+                Color = Mewdeko.OkColor
+            };
+            await msg.ModifyAsync(x => x.Embed = em.Build());
+        }
+        private async Task SpotifyAlbum(string url = null)
+        {
+            var succ = await QueuePreconditionInternalAsync();
+            if (!succ) return;
+            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            if (mp is null)
+            {
+                await ReplyErrorLocalizedAsync("no_player");
+                return;
+            }
+
+            var config = SpotifyClientConfig.CreateDefault();
+
+            var request =
+                new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+            var response = await new OAuthClient(config).RequestToken(request);
+
+            var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
+            var e = new Uri(url);
+            var t = e.Segments;
+            var playlist = await spotify.Albums.Get(t[2]);
+            var embed = new EmbedBuilder()
+            {
+                Author = new EmbedAuthorBuilder()
+                {
+                    IconUrl = "http://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png",
+                    Name = playlist.Artists.FirstOrDefault().Name
+                },
+                Description = $"<a:loading:847706744741691402> Attempting to queue {playlist.TotalTracks} songs from this album...",
+                Footer = new EmbedFooterBuilder()
+                {
+                    Text = "Spotify Album"
+                },
+                ImageUrl = playlist.Images.FirstOrDefault().Url,
+                Color = Mewdeko.OkColor
+            };
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
+            foreach (var item in playlist.Tracks.Items.Take(100))
+            {
+                if (item is SimpleTrack track)
+                    await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
+                        ctx.User.ToString(), true, MusicPlatform.Spotify);
+            }
+            var em = new EmbedBuilder()
+            {
+                Author = embed.Author,
+                Description = $"<a:checkfragutil:854536148411744276> Succesfully queued {playlist.TotalTracks} Tracks from this album!",
+                Footer = embed.Footer,
+                ImageUrl = embed.ImageUrl,
+                Color = Mewdeko.OkColor
+            };
+            await msg.ModifyAsync(x => x.Embed = em.Build());
         }
 
         private async Task Spotify(string url = null)
@@ -198,24 +276,11 @@ namespace Mewdeko.Core.Modules.Music
             var response = await new OAuthClient(config).RequestToken(request);
             var spotify = new SpotifyClient(config.WithToken(response.AccessToken));
             var e = new Uri(url);
-            if (!e.Host.Contains("open.spotify.com"))
-            {
-                await ctx.Channel.SendErrorAsync("This is not a valid spotify link!");
-                return;
-            }
-
             var t = e.Segments;
             var track = await spotify.Tracks.Get(t[2]);
-            try
-            {
                 await QueueByQuery($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
                     false,
                     MusicPlatform.Spotify);
-            }
-            catch (Exception ex)
-            {
-                await ctx.Channel.SendMessageAsync(ex.ToString());
-            }
         }
 
         private async Task EnsureBotInVoiceChannelAsync(ulong voiceChannelId, IGuildUser botUser = null)

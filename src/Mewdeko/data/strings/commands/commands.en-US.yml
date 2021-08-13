@@ -39,6 +39,14 @@ banunder:
   args:
   - "2y"
   - "2m -p"
+syncroletoallcategories:
+  desc: 'Syncs a roles permissions from the current channel to all categories, channels excluded unless they are synced.'
+  args:
+  - "@role"
+syncroletoallcchannels:
+  desc: 'Syncs a roles permissions from the current channel to all channels, categories excluded.'
+  args:
+  - "@role"
 addroletolist:
   desc: "Allows you to add a role to userIDs in a list. Provide one ID per line in the txt file."
   args:
@@ -415,12 +423,17 @@ setafktimeout:
   desc: "Sets the afk timeout for the afk vc." 
   args: 
   - ""
+deleteroles:
+  desc: "Deletes a set of roles you mention. Must be below your highest role and the bots highest for it to work."
+  args:
+  - "@role @role"
+  - "roleid roleid"
 setbanner:
   desc: "Sets the server banner, only works if you have enough boosts. " 
   args: 
   - "url"
 syncroletoall:
- desc: "Allows you to sync role perms that re in this channel to all channels."
+ desc: "Allows you to sync role perms that are in this channel to all channels and categories."
  args:
  - "@role"
  - "roleid"

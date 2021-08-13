@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
                 return;
             }
-            if (option.ToLower() == "-p" || option.ToLower() == "preview")
+            if (option is not null && option.ToLower() == "-p" || option.ToLower() == "preview")
             {
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
@@ -62,10 +62,6 @@ namespace Mewdeko.Modules.Administration
                         .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
                         .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
                 }, users.Count(), 20).ConfigureAwait(false);
-            }
-            foreach (var i in users)
-            {
-                await ctx.Channel.SendConfirmAsync($"{i.Username}| {i.CreatedAt}");
             }
             int banned = 0;
             int errored = 0;
@@ -102,7 +98,7 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
                 return;
             }
-            if (option.ToLower() == "-p" || option.ToLower() == "preview")
+            if (option is not null && option.ToLower() == "-p" || option.ToLower() == "preview")
             {
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
