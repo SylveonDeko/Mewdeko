@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.ServerManagement
                 }
 
                 var msg = await ctx.Channel.SendConfirmAsync(
-                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels and {await ctx.Guild.GetCategoriesAsync()} Categories.....");
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories.....");
                 foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                     if (perms != null)
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
@@ -55,7 +55,7 @@ namespace Mewdeko.Modules.ServerManagement
                 {
                     Color = Mewdeko.OkColor,
                     Description =
-                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels and {await ctx.Guild.GetCategoriesAsync()} Categories!!"
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories!!"
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build() );
             }
