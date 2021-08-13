@@ -52,8 +52,8 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0010" />
-    <PackageReference Include="SpotifyAPI.Web" Version="6.2.0" />
-    <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.0" />
+    <PackageReference Include="SpotifyAPI.Web" Version="6.2.1" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.62" />
     <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
@@ -83,7 +83,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DNETLABS</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>
     <Optimize>true</Optimize>
   </PropertyGroup>
 

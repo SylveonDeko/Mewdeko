@@ -45,6 +45,7 @@ namespace Mewdeko.Core.Modules.Music
                                   "-e " +
                                   "--get-url " +
                                   "--get-id " +
+                                  "--cookies /home/rootish/cookies.txt " +
                                   "--get-thumbnail " +
                                   "--get-duration " +
                                   "--no-check-certificate " +
@@ -58,6 +59,7 @@ namespace Mewdeko.Core.Modules.Music
                                   "--encoding UTF8 " +
                                   "-f bestaudio " +
                                   "-e " +
+                                  "--cookies /home/rootish/cookies.txt " +
                                   "--get-url " +
                                   "--get-id " +
                                   "--get-thumbnail " +
@@ -71,6 +73,7 @@ namespace Mewdeko.Core.Modules.Music
                                   "--encoding UTF8 " +
                                   "-f bestaudio " +
                                   "-e " +
+                                  "--cookies /home/rootish/cookies.txt " +
                                   "--get-url " +
                                   "--get-id " +
                                   "--get-thumbnail " +

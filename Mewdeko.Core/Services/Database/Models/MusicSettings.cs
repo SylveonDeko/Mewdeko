@@ -32,6 +32,7 @@
         ///     This only has effect if
         /// </summary>
         public bool AutoDisconnect { get; set; } = false;
+        public int AutoPlay { get; set; } = 0;
 
         /// <summary>
         ///     Selected quality preset for the music player
