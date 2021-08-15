@@ -52,7 +52,11 @@ namespace Mewdeko.Modules.Searches.Services
             IsKeepingSourceReferences = false,
             IsNotSupportingFrames = true
         });
-
+        public class RedditCache
+        {
+            public IGuild Guild { get; set; }
+            public string Url { get; set; }
+        }
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new();
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
@@ -66,6 +70,7 @@ namespace Mewdeko.Modules.Searches.Services
         private readonly IImageCache _imgs;
         private readonly MewdekoRandom _rng;
         private readonly List<string> _yomamaJokes;
+        private readonly List<string> _nsfwreddits;
 
         private readonly object yomamaLock = new();
         private int yomamaJokeIndex;
@@ -149,10 +154,11 @@ namespace Mewdeko.Modules.Searches.Services
                     .Shuffle()
                     .ToList();
             }
-            else
+            if (File.Exists("data/ultimatelist.txt"))
             {
-                _yomamaJokes = new List<string>();
-                Log.Warning("data/yomama.txt is missing. .yomama command won't work");
+                _nsfwreddits = File.ReadAllLines("data/ultimatelist.txt")
+                    .Shuffle()
+                    .ToList();
             }
         }
 
@@ -163,6 +169,7 @@ namespace Mewdeko.Modules.Searches.Services
 
         public List<WoWJoke> WowJokes { get; } = new();
         public List<MagicItem> MagicItems { get; } = new();
+        public static List<RedditCache> cache {get; set;} = new();
 
         public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
         public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
@@ -180,7 +187,29 @@ namespace Mewdeko.Modules.Searches.Services
             _imageCacher.Clear();
             return Task.CompletedTask;
         }
-
+        public bool CheckIfAlreadyPosted(IGuild guild, string url)
+        {
+            var e = new RedditCache
+            {
+                Guild = guild,
+                Url = url
+            };
+            if (!cache.Any())
+            {
+                cache.Add(e);
+                return false;
+            }
+            if(!cache.Contains(e))
+            {
+                cache.Add(e);
+                return false;
+            }
+            if(cache.Contains(e))
+            {
+                return true;
+            }
+            return true;
+        }
         public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
         {
             var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
@@ -381,7 +410,7 @@ namespace Mewdeko.Modules.Searches.Services
                     break;
             }
 
-            return $"https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
+            return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
                    _rng.Next(1, max).ToString("000") + ".png";
         }
 
@@ -471,7 +500,12 @@ namespace Mewdeko.Modules.Searches.Services
         {
             foreach (var c in _imageCacher) c.Value?.Clear();
         }
-
+        public bool NsfwCheck(string reddit)
+        {
+            if (_nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase))
+                return true;
+            else return false;
+        }
         public Task<string> GetYomamaJoke()
         {
             string joke;

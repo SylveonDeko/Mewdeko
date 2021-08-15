@@ -275,7 +275,12 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task Meme()
         {
+            var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
             var image = await _kSoftAPI.imagesAPI.RandomMeme();
+            while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            {
+                image = await _kSoftAPI.imagesAPI.RandomMeme();
+            }
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -291,7 +296,7 @@ namespace Mewdeko.Modules.Searches
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await msg.ModifyAsync(x => x.Embed = em.Build());        
         }
 
         [MewdekoCommand]
@@ -325,8 +330,22 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task RandomReddit(string subreddit)
         {
+            var msg = await ctx.Channel.SendConfirmAsync("Checking if the subreddit is nsfw...");
+            if(_service.NsfwCheck(subreddit))
+            {
+                var emt = new EmbedBuilder()
+                {
+                    Description = "This subreddit is nsfw!",
+                    Color = Mewdeko.ErrorColor
+                };
+                await msg.ModifyAsync(x => x.Embed = emt.Build());
+                return;
+            }
             var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
-
+            while(_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            {
+                image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
+            }
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -336,12 +355,12 @@ namespace Mewdeko.Modules.Searches
                 Description = $"Title: {image.Title}\n[Source]({image.Source})",
                 Footer = new EmbedFooterBuilder
                 {
-                    Text = $"{image.Upvotes} Upvotes! | {image.Subreddit}"
+                    Text = $"{image.Upvotes} Upvotes! | {image.Subreddit} Powered by KSoft.si"
                 },
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await msg.ModifyAsync(x => x.Embed = em.Build());
         }
 
         //for anonymasen :^)

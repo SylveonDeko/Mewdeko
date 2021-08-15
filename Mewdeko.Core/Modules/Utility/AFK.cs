@@ -41,11 +41,11 @@ namespace Mewdeko.Modules.Utility
                     });
                     var client = ctx.Client as DiscordSocketClient;
                     await client.Rest.CreateGuildCommand(guildcommands.Build(), ctx.Guild.Id);
+                    await ctx.Channel.SendConfirmAsync("Succesfully added afk slash commands");
                 }
-                catch (ApplicationCommandException exception)
+                catch
                 {
-                    var json = JsonConvert.SerializeObject(exception.Error, Formatting.Indented);
-                    Console.WriteLine(json);
+                    await ctx.Channel.SendErrorAsync("The bot does not have permission to add slash commands!, Please reauthrorize it using the link at https://mewdeko.tech/invite");
                 }
             }
             [MewdekoCommand]

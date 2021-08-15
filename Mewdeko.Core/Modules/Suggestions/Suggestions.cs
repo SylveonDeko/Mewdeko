@@ -307,14 +307,7 @@ namespace Mewdeko.Modules.Suggestions
             [RequireContext(ContextType.Guild)]
             public async Task Suggest([Remainder] string suggestion)
             {
-                var media = ctx.Message.Attachments.FirstOrDefault();
                 await ctx.Message.DeleteAsync();
-                if (SuggestChannel == 0)
-                {
-                    await ctx.Channel.SendErrorAsync(
-                        $"A suggestion channel has not been set! Please have someone with the manage messages or Administration perm set one using {CmdHandler.GetPrefix(ctx.Guild)}setsuggestchannel #channel.");
-                    return;
-                }
 
                 await _service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient, suggestion, ctx.Channel as ITextChannel);
             }
