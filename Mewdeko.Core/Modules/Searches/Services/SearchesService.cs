@@ -52,7 +52,7 @@ namespace Mewdeko.Modules.Searches.Services
             IsKeepingSourceReferences = false,
             IsNotSupportingFrames = true
         });
-        public class RedditCache
+        public record RedditCache
         {
             public IGuild Guild { get; set; }
             public string Url { get; set; }

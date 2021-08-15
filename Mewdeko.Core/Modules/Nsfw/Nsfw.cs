@@ -32,7 +32,7 @@ namespace Mewdeko.Modules.NSFW
         private readonly IHttpClientFactory _httpFactory;
         public KSoftAPI ksoftapi;
         public static List<RedditCache> cache { get; set; } = new();
-        public class RedditCache
+        public record RedditCache
         {
             public IGuild Guild { get; set; }
             public string Url { get; set; }
