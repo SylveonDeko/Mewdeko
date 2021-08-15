@@ -31,14 +31,41 @@ namespace Mewdeko.Modules.NSFW
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
         private readonly IHttpClientFactory _httpFactory;
         public KSoftAPI ksoftapi;
-
+        public static List<RedditCache> cache { get; set; } = new();
+        public class RedditCache
+        {
+            public IGuild Guild { get; set; }
+            public string Url { get; set; }
+        }
+        public bool CheckIfAlreadyPosted(IGuild guild, string url)
+        {
+            var e = new RedditCache
+            {
+                Guild = guild,
+                Url = url
+            };
+            if (!cache.Any())
+            {
+                cache.Add(e);
+                return false;
+            }
+            if (!cache.Contains(e))
+            {
+                cache.Add(e);
+                return false;
+            }
+            if (cache.Contains(e))
+            {
+                return true;
+            }
+            return true;
+        }
         public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractiveService inte)
         {
             Interactivity = inte;
             _httpFactory = factory;
             ksoftapi = kSoftApi;
         }
-
         private async Task InternalHentai(IMessageChannel channel, string tag)
         {
             // create a random number generator
@@ -89,6 +116,10 @@ namespace Mewdeko.Modules.NSFW
         public async Task RedditNSFW(string subreddit)
         {
             var image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
+            while(CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            {
+                image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
+            }
             var eb = new EmbedBuilder
             {
                 Description = $"[{image.Title}]({image.Source})",
