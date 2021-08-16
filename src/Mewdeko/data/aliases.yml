@@ -18,6 +18,9 @@ greet:
 - greet
 greetmsg:
 - greetmsg
+autoassignbotrole:
+- autoassignbotrole
+- aabr
 bye:
 - bye
 syncroletoallcategories:

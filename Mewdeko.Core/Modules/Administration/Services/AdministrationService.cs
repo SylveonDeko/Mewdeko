@@ -28,6 +28,9 @@ namespace Mewdeko.Modules.Administration.Services
             _StaffRole = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.StaffRole)
                 .ToConcurrent();
+            _MemberRole = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.MemberRole)
+                .ToConcurrent();
             _db = db;
             _logService = logService;
 
@@ -44,6 +47,7 @@ namespace Mewdeko.Modules.Administration.Services
         }
 
         private ConcurrentDictionary<ulong, ulong> _StaffRole { get; } = new();
+        private ConcurrentDictionary<ulong, ulong> _MemberRole { get; } = new();
         public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
         public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
         public async Task SendHelp(SocketGuild guild)
@@ -68,10 +72,26 @@ namespace Mewdeko.Modules.Administration.Services
 
             _StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
         }
+        public async Task MemberRoleSet(IGuild guild, ulong role)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.MemberRole = role;
+                await uow.SaveChangesAsync();
+            }
+
+            _MemberRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+        }
 
         public ulong GetStaffRole(ulong? id)
         {
             _StaffRole.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public ulong GetMemberRole(ulong? id)
+        {
+            _MemberRole.TryGetValue(id.Value, out var snum);
             return snum;
         }
 

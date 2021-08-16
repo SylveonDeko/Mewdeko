@@ -133,6 +133,117 @@ namespace Mewdeko.Modules.Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
+        [BotPerm(GuildPerm.ManageGuild)]
+        public async Task PruneMembers(StoopidTime time, string e = "no")
+        {
+            if (e == "no")
+            {
+                var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
+                if (toprune == 0)
+                {
+                    await ctx.Channel.SendErrorAsync($"No users to prune, if you meant to prune users inyour member role please set it with {Prefix}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
+                    return;
+                }
+                var eb = new EmbedBuilder()
+                {
+                    Description = $"Are you sure you want to prune {toprune} Members?",
+                    Color = Mewdeko.OkColor
+                };
+                if(!await PromptUserConfirmAsync(eb))
+                {
+                    await ctx.Channel.SendConfirmAsync($"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {Prefix}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
+                }
+                else
+                {
+                    var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
+                    await ctx.Guild.PruneUsersAsync(time.Time.Days);
+                    var ebi = new EmbedBuilder()
+                    {
+                        Description = $"Pruned {toprune} members.",
+                        Color = Mewdeko.OkColor
+                    };
+                    await msg.ModifyAsync(x => x.Embed = ebi.Build());
+                }
+            }
+            else
+            {
+                    var role = ctx.Guild.GetRole(_service.GetMemberRole(ctx.Guild.Id));
+                    var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true, includeRoleIds: new ulong[] {_service.GetMemberRole(ctx.Guild.Id)});
+                    if (toprune == 0)
+                    {
+                        await ctx.Channel.SendErrorAsync($"No users to prune.");
+                        return;
+                    }
+                    var eb = new EmbedBuilder()
+                    {
+                        Description = $"Are you sure you want to prune {toprune} Members?",
+                        Color = Mewdeko.OkColor
+                    };
+                    if (!await PromptUserConfirmAsync(eb))
+                    {
+                        await ctx.Channel.SendConfirmAsync($"Canceled prune.");
+                    }
+                    else
+                    {
+                        var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
+                        await ctx.Guild.PruneUsersAsync(time.Time.Days, includeRoleIds: new ulong[] { _service.GetMemberRole(ctx.Guild.Id) });
+                        var ebi = new EmbedBuilder()
+                        {
+                            Description = $"Pruned {toprune} members.",
+                            Color = Mewdeko.OkColor
+                        };
+                        await msg.ModifyAsync(x => x.Embed = ebi.Build());
+                    }
+            }
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.Administrator)]
+        public async Task MemberRole(IRole role)
+        {
+            var rol = _service.GetMemberRole(ctx.Guild.Id);
+            if (rol is 0 && role != null)
+            {
+                await _service.MemberRoleSet(ctx.Guild, role.Id);
+                await ctx.Channel.SendConfirmAsync($"Member role has been set to {role.Mention}");
+            }
+
+            if (rol != 0 && role != null && rol == role.Id)
+            {
+                await ctx.Channel.SendErrorAsync("This is already your Member role!");
+                return;
+            }
+
+            if (rol is 0 && role == null)
+            {
+                await ctx.Channel.SendErrorAsync("No Member role set!");
+                return;
+            }
+
+            if (rol != 0 && role is null)
+            {
+                var r = ctx.Guild.GetRole(rol);
+                await ctx.Channel.SendConfirmAsync($"Your current Member role is {r.Mention}");
+                return;
+            }
+
+            if (role != null && rol is not 0)
+            {
+                var oldrole = ctx.Guild.GetRole(rol);
+                await _service.MemberRoleSet(ctx.Guild, role.Id);
+                await ctx.Channel.SendConfirmAsync(
+                    $"Your Member role has been switched from {oldrole.Mention} to {role.Mention}");
+            }
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.Administrator)]
         public async Task StaffRole([Remainder] IRole role = null)
         {
             var rol = _service.GetStaffRole(ctx.Guild.Id);

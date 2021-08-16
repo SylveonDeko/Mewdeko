@@ -700,7 +700,12 @@ aliasesclear:
   args:
     - ""
 autoassignrole:
-  desc: "Automaticaly assigns a specified role to every user who joins the server. Only one role per server. Provide no parameters to disable."
+  desc: "Toggles the role which will be assigned to every bot who joins the server. You can run this command multiple times to add multiple roles (up to 10). Specifying the role that is already added will remove that role from the list. Provide no parameters to list current roles."
+  args:
+    - ""
+    - "RoleName"
+autoassignbotrole:
+  desc: "Toggles the role which will be assigned to every bot who joins the server. You can run this command multiple times to add multiple roles (up to 10). Specifying the role that is already added will remove that role from the list. Provide no parameters to list current roles."
   args:
     - ""
     - "RoleName"

@@ -11,7 +11,9 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong StaffRole { get; set; }
         public bool DeleteMessageOnCommand { get; set; }
         public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
-        public string AutoAssignRoleId { get; set; } = 0.ToString();
+        public string AutoAssignRoleId { get; set; }
+        public string AutoBotRoleIds { get; set; }
+        public ulong MemberRole { get; set; } = 0;
         public ulong WarnlogChannelId { get; set; } = 0;
         public ulong MiniWarnlogChannelId { get; set; } = 0;
         public ulong TicketCategory { get; set; } = 0;

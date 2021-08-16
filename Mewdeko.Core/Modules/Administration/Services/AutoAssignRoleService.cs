@@ -21,6 +21,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         //guildid/roleid
         private readonly ConcurrentDictionary<ulong, IReadOnlyList<ulong>> _autoAssignableRoles;
+        private readonly ConcurrentDictionary<ulong, string> _autoBotRoles;
 
         private Channel<SocketGuildUser> _assignQueue = Channel.CreateBounded<SocketGuildUser>(
             new BoundedChannelOptions(100)
@@ -29,7 +30,11 @@ namespace Mewdeko.Modules.Administration.Services
                 SingleReader = true,
                 SingleWriter = false,
             });
-
+        public string GetAutoBotRoles(ulong? id)
+        {
+            _autoBotRoles.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
         public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
         {
             _client = client;
@@ -39,6 +44,9 @@ namespace Mewdeko.Modules.Administration.Services
                     .Where(x => !string.IsNullOrWhiteSpace(x.AutoAssignRoleId))
                     .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId, v => v.GetAutoAssignableRoles())
                     .ToConcurrent();
+            _autoBotRoles = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.AutoAssignRoleId)
+                .ToConcurrent();
 
             _ = Task.Run(async () =>
             {
@@ -57,6 +65,8 @@ namespace Mewdeko.Modules.Administration.Services
 
                         if (roleIds.Any())
                         {
+                            if (string.IsNullOrWhiteSpace(GetAutoBotRoles(user.Guild.Id)) && user.IsBot)
+                                return;
                             await user.AddRolesAsync(roleIds).ConfigureAwait(false);
                             await Task.Delay(250).ConfigureAwait(false);
                         }
@@ -152,7 +162,7 @@ namespace Mewdeko.Modules.Administration.Services
             => _autoAssignableRoles.TryGetValue(guildId, out roles);
     }
 
-    public static class GuildConfigExtensions
+    public static class GuildConfigExtensions2
     {
         public static List<ulong> GetAutoAssignableRoles(this GuildConfig gc)
         {
