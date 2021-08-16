@@ -21,7 +21,8 @@ namespace Mewdeko.Modules.Administration.Services
 
         //guildid/roleid
         private readonly ConcurrentDictionary<ulong, IReadOnlyList<ulong>> _autoAssignableRoles;
-        private readonly ConcurrentDictionary<ulong, string> _autoBotRoles;
+        private readonly ConcurrentDictionary<ulong, IReadOnlyList<ulong>> _autoAssignableBotRoles;
+        private readonly ConcurrentDictionary<ulong, string> brcheck;
 
         private Channel<SocketGuildUser> _assignQueue = Channel.CreateBounded<SocketGuildUser>(
             new BoundedChannelOptions(100)
@@ -30,9 +31,9 @@ namespace Mewdeko.Modules.Administration.Services
                 SingleReader = true,
                 SingleWriter = false,
             });
-        public string GetAutoBotRoles(ulong? id)
+        public string GetStaffRole(ulong? id)
         {
-            _autoBotRoles.TryGetValue(id.Value, out var snum);
+            brcheck.TryGetValue(id.Value, out var snum);
             return snum;
         }
         public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
@@ -44,53 +45,105 @@ namespace Mewdeko.Modules.Administration.Services
                     .Where(x => !string.IsNullOrWhiteSpace(x.AutoAssignRoleId))
                     .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId, v => v.GetAutoAssignableRoles())
                     .ToConcurrent();
-            _autoBotRoles = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.AutoAssignRoleId)
+            _autoAssignableBotRoles = bot.AllGuildConfigs
+                    .Where(x => !string.IsNullOrWhiteSpace(x.AutoBotRoleIds))
+                    .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId, v => v.GetAutoAssignableBotRoles())
+                    .ToConcurrent();
+             brcheck = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.AutoBotRoleIds)
                 .ToConcurrent();
-
             _ = Task.Run(async () =>
             {
                 while (true)
                 {
                     var user = await _assignQueue.Reader.ReadAsync();
-                    if (!_autoAssignableRoles.TryGetValue(user.Guild.Id, out var savedRoleIds))
-                        continue;
-
-                    try
+                    if (user.IsBot && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out var savedRoleIds))
                     {
-                        var roleIds = savedRoleIds
-                            .Select(roleId => user.Guild.GetRole(roleId))
-                            .Where(x => !(x is null))
-                            .ToList();
 
-                        if (roleIds.Any())
+                        try
                         {
-                            if (string.IsNullOrWhiteSpace(GetAutoBotRoles(user.Guild.Id)) && user.IsBot)
-                                return;
-                            await user.AddRolesAsync(roleIds).ConfigureAwait(false);
-                            await Task.Delay(250).ConfigureAwait(false);
+                            var roleIds = savedRoleIds
+                                .Select(roleId => user.Guild.GetRole(roleId))
+                                .Where(x => !(x is null))
+                                .ToList();
+
+                            if (roleIds.Any())
+                            {
+                                await user.AddRolesAsync(roleIds).ConfigureAwait(false);
+                                await Task.Delay(250).ConfigureAwait(false);
+                                continue;
+                            }
+                            else
+                            {
+                                Log.Warning(
+                                    "Disabled 'Auto assign bot role' feature on {GuildName} [{GuildId}] server the roles dont exist",
+                                    user.Guild.Name,
+                                    user.Guild.Id);
+
+                                await DisableAabrAsync(user.Guild.Id);
+                                continue;
+                            }
                         }
-                        else
+                        catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
                         {
-                            Log.Warning(
-                                "Disabled 'Auto assign role' feature on {GuildName} [{GuildId}] server the roles dont exist",
+                            Log.Warning("Disabled 'Auto assign bot role' feature on {GuildName} [{GuildId}] server because I don't have role management permissions",
+                                user.Guild.Name,
+                                user.Guild.Id);
+
+                            await DisableAabrAsync(user.Guild.Id);
+                            continue;
+                        }
+                        catch
+                        {
+                            Log.Warning("Error in aar. Probably one of the roles doesn't exist");
+                            continue;
+                        }
+                    }
+                    if (_autoAssignableRoles.TryGetValue(user.Guild.Id, out var savedRoleIds1))
+                    {
+
+                        try
+                        {
+                            var roleIds = savedRoleIds1
+                                .Select(roleId => user.Guild.GetRole(roleId))
+                                .Where(x => !(x is null))
+                                .ToList();
+
+                            if (roleIds.Any())
+                            {
+                                await user.AddRolesAsync(roleIds).ConfigureAwait(false);
+                                await Task.Delay(250).ConfigureAwait(false);
+                                continue;
+                            }
+                            else
+                            {
+                                Log.Warning(
+                                    "Disabled 'Auto assign  role' feature on {GuildName} [{GuildId}] server the roles dont exist",
+                                    user.Guild.Name,
+                                    user.Guild.Id);
+
+                                await DisableAarAsync(user.Guild.Id);
+                                continue;
+                            }
+                        }
+                        catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                        {
+                            Log.Warning("Disabled 'Auto assign bot role' feature on {GuildName} [{GuildId}] server because I don't have role management permissions",
                                 user.Guild.Name,
                                 user.Guild.Id);
 
                             await DisableAarAsync(user.Guild.Id);
+                            continue;
+                        }
+                        catch
+                        {
+                            Log.Warning("Error in aar. Probably one of the roles doesn't exist");
+                            continue;
                         }
                     }
-                    catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+                    else
                     {
-                        Log.Warning("Disabled 'Auto assign role' feature on {GuildName} [{GuildId}] server because I don't have role management permissions",
-                            user.Guild.Name,
-                            user.Guild.Id);
-
-                        await DisableAarAsync(user.Guild.Id);
-                    }
-                    catch
-                    {
-                        Log.Warning("Error in aar. Probably one of the roles doesn't exist");
+                        continue;
                     }
                 }
             });
@@ -106,10 +159,17 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 await ToggleAarAsync(role.Guild.Id, role.Id);
             }
+            if (_autoAssignableBotRoles.TryGetValue(role.Guild.Id, out var broles)
+                && broles.Contains(role.Id))
+            {
+                await ToggleAabrAsync(role.Guild.Id, role.Id);
+            }
         }
 
         private async Task OnClientOnUserJoined(SocketGuildUser user)
         {
+            if(user.IsBot && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out _))
+                await _assignQueue.Writer.WriteAsync(user);
             if (_autoAssignableRoles.TryGetValue(user.Guild.Id, out _))
                 await _assignQueue.Writer.WriteAsync(user);
         }
@@ -132,7 +192,6 @@ namespace Mewdeko.Modules.Administration.Services
 
             return roles;
         }
-
         public async Task DisableAarAsync(ulong guildId)
         {
             using var uow = _db.GetDbContext();
@@ -147,7 +206,47 @@ namespace Mewdeko.Modules.Administration.Services
 
             await uow.SaveChangesAsync();
         }
+         public async Task SetAabrRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
+        {
+            using var uow = _db.GetDbContext();
 
+            var gc = uow.GuildConfigs.ForId(guildId, set => set);
+            gc.SetAutoAssignableBotRoles(newRoles);
+
+            await uow.SaveChangesAsync();
+        }
+        public async Task<IReadOnlyList<ulong>> ToggleAabrAsync(ulong guildId, ulong roleId)
+        {
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set);
+            var roles = gc.GetAutoAssignableBotRoles();
+            if (!roles.Remove(roleId) && roles.Count < 10)
+                roles.Add(roleId);
+
+            gc.SetAutoAssignableBotRoles(roles);
+            await uow.SaveChangesAsync();
+
+            if (roles.Count > 0)
+                _autoAssignableBotRoles[guildId] = roles;
+            else
+                _autoAssignableBotRoles.TryRemove(guildId, out _);
+
+            return roles;
+        }
+         public async Task DisableAabrAsync(ulong guildId)
+        {
+            using var uow = _db.GetDbContext();
+
+            await uow._context
+                .GuildConfigs
+                .AsNoTracking()
+                .Where(x => x.GuildId == guildId)
+                .UpdateAsync(_ => new GuildConfig() { AutoBotRoleIds = null });
+
+            _autoAssignableBotRoles.TryRemove(guildId, out _);
+
+            await uow.SaveChangesAsync();
+        }
         public async Task SetAarRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
         {
             using var uow = _db.GetDbContext();
@@ -158,11 +257,13 @@ namespace Mewdeko.Modules.Administration.Services
             await uow.SaveChangesAsync();
         }
 
-        public bool TryGetRoles(ulong guildId, out IReadOnlyList<ulong> roles)
+        public bool TryGetNormalRoles(ulong guildId, out IReadOnlyList<ulong> roles)
             => _autoAssignableRoles.TryGetValue(guildId, out roles);
+        public bool TryGetBotRoles(ulong guildId, out IReadOnlyList<ulong> roles)
+            => _autoAssignableBotRoles.TryGetValue(guildId, out roles);
     }
 
-    public static class GuildConfigExtensions2
+    public static class GuildConfigExtensions
     {
         public static List<ulong> GetAutoAssignableRoles(this GuildConfig gc)
         {
@@ -175,6 +276,18 @@ namespace Mewdeko.Modules.Administration.Services
         public static void SetAutoAssignableRoles(this GuildConfig gc, IEnumerable<ulong> roles)
         {
             gc.AutoAssignRoleId = roles.JoinWith(' ');
+        }
+        public static List<ulong> GetAutoAssignableBotRoles(this GuildConfig gc)
+        {
+            if (string.IsNullOrWhiteSpace(gc.AutoBotRoleIds))
+                return new List<ulong>();
+
+            return gc.AutoBotRoleIds.Split(' ').Select(ulong.Parse).ToList();
+        }
+
+        public static void SetAutoAssignableBotRoles(this GuildConfig gc, IEnumerable<ulong> roles)
+        {
+            gc.AutoBotRoleIds = roles.JoinWith(' ');
         }
     }
 }
