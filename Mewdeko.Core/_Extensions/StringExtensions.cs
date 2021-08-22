@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Mewdeko.Common.Yml;
 
 namespace Mewdeko.Extensions
 {
@@ -19,6 +20,20 @@ namespace Mewdeko.Extensions
         private static readonly Regex filterRegex =
             new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |
                 RegexOptions.IgnoreCase);
+
+        private static readonly Regex CodePointRegex
+            = new Regex(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
+                RegexOptions.Compiled);
+        
+        public static string UnescapeUnicodeCodePoints(this string input)
+        { 
+            return CodePointRegex.Replace(input, me =>
+            {
+                var str = me.Groups["code"].Value;
+                var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
+                return newString;
+            });
+        }
 
         public static T MapJson<T>(this string str)
         {

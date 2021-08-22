@@ -29,8 +29,9 @@ namespace Mewdeko.Core.Services.Database
         public MewdekoContext(DbContextOptions<MewdekoContext> options) : base(options)
         {
         }
-
+    
         public DbSet<GuildConfig> GuildConfigs { get; set; }
+        // public DbSet<SwitchShops> SwitchShops {get; set;}
         public DbSet<Suggestionse> Suggestions { get; set; }
         public DbSet<SnipeStore> SnipeStore { get; set; }
         public DbSet<Warning2> Warnings2 { get; set; }

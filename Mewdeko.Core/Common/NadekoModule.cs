@@ -103,7 +103,7 @@ namespace Mewdeko.Modules
             {
                 dsc.MessageReceived += MessageReceived;
 
-                if (await Task.WhenAny(userInputTask.Task, Task.Delay(10000)).ConfigureAwait(false) !=
+                if (await Task.WhenAny(userInputTask.Task, Task.Delay(100000)).ConfigureAwait(false) !=
                     userInputTask.Task) return null;
 
                 return await userInputTask.Task.ConfigureAwait(false);

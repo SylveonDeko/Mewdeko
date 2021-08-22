@@ -695,6 +695,14 @@ fwclear:
   desc: "Deletes all filtered words on this server."
   args:
     - ""
+crsimport:
+  desc: "Upload the file or send the raw .yml data with this command to import all custom reactions from the specified string or file into the current server (or as global custom reactions in dm)"
+  args:
+    - "<upload .yml file>"
+crsexport:
+  desc: "Exports custom reactions from the current server (or global custom reactions in DMs) into a .yml file"
+  args:
+    - ""
 aliasesclear:
   desc: "Deletes all aliases on this server."
   args:

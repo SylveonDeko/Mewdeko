@@ -26,6 +26,7 @@ namespace Mewdeko.Core.Services.Database
         private IQuoteRepository _quotes;
         private IReminderRepository _reminders;
         private IReputationRepository _reputation;
+        // private ISwitchShopsRepository _switchshops;
 
         private ISelfAssignedRolesRepository _selfAssignedRoles;
         private ISnipeStoreRepository _snipestore;
@@ -51,7 +52,7 @@ namespace Mewdeko.Core.Services.Database
 
         public IGuildConfigRepository GuildConfigs =>
             _guildConfigs ?? (_guildConfigs = new GuildConfigRepository(_context));
-
+        // public ISwitchShopsRepository SwitchShops => _switchshops ?? (_switchshops = new SwitchShopsRepository(_context));
         public IReminderRepository Reminders => _reminders ?? (_reminders = new ReminderRepository(_context));
 
         public ISelfAssignedRolesRepository SelfAssignedRoles =>
