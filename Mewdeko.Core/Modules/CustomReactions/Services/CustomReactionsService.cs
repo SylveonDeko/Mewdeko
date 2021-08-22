@@ -17,6 +17,9 @@ using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Mewdeko.Common.Yml;
+using YamlDotNet.Serialization;
+
 
 namespace Mewdeko.Modules.CustomReactions.Services
 {
@@ -84,6 +87,78 @@ namespace Mewdeko.Modules.CustomReactions.Services
 
         public int Priority => -1;
         public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
+         private static readonly ISerializer _exportSerializer = new SerializerBuilder()
+            .WithEventEmitter(args => new MultilineScalarFlowStyleEmitter(args))
+            .WithNamingConvention(YamlDotNet.Serialization.NamingConventions.CamelCaseNamingConvention.Instance)
+            .WithIndentedSequences()
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
+            .DisableAliases()
+            .Build();
+
+        private const string _prependExport =
+            @"# Keys are triggers, Each key has a LIST of custom reactions in the following format:
+# - res: Response string
+#   react: 
+#     - <List
+#     -  of
+#     - reactions>
+#   at: Whether custom reaction allows targets (see .h .crat) 
+#   ca: Whether custom reaction expects trigger anywhere (see .h .crca) 
+#   dm: Whether custom reaction DMs the response (see .h .crdm) 
+#   ad: Whether custom reaction automatically deletes triggering message (see .h .crad) 
+
+";
+        public string ExportCrs(ulong? guildId)
+        {
+            var crs = GetCustomReactionsFor(guildId);
+
+            var crsDict = crs
+                .GroupBy(x => x.Trigger)
+                .ToDictionary(x => x.Key, x => x.Select(ExportedExpr.FromModel));
+            
+            return _prependExport + _exportSerializer
+                .Serialize(crsDict)
+                .UnescapeUnicodeCodePoints();
+        }
+
+        public async Task<bool> ImportCrsAsync(ulong? guildId, string input)
+        {
+            Dictionary<string, List<ExportedExpr>> data;
+            try
+            {
+                data = Yaml.Deserializer.Deserialize<Dictionary<string, List<ExportedExpr>>>(input);
+                if (data.Sum(x => x.Value.Count) == 0)
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+            using var uow = _db.GetDbContext();
+            foreach (var entry in data)
+            {
+                var trigger = entry.Key;
+                await uow._context.CustomReactions.AddRangeAsync(entry.Value
+                    .Where(cr => !string.IsNullOrWhiteSpace(cr.Res))
+                    .Select(cr => new CustomReaction()
+                    {
+                        GuildId = guildId,
+                        Response = cr.Res,
+                        Reactions = cr.React?.JoinWith("@@@"),
+                        Trigger = trigger,
+                        AllowTarget = cr.At,
+                        ContainsAnywhere = cr.Ca,
+                        DmResponse = cr.Dm,
+                        AutoDeleteTrigger = cr.Ad,
+                    }));
+            }
+
+            await uow.SaveChangesAsync();
+            await TriggerReloadCustomReactions();
+            return true;
+        }
+
 
         public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {

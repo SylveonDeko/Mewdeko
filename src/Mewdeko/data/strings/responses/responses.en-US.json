@@ -18,6 +18,8 @@
   "aar_none": "Users don't receive any roles when they join this server.",
   "aar_roles": "The following roles are applied to users that join this server: {0}",
   "aar_role_removed": "Users will no longer receive {0} role when they join this server.",
+  "expr_import_no_input": "Invalid input. No valid file upload or input text found.",
+  "expr_import_invalid_data": "Unable to parse the file. Make sure it's a valid .yml file",
   "aabr_none": "Bots will receive regular roles when they join.",
   "aabr_roles": "The following roles are applied to bots that join this server: {0}",
   "aabr_role_removed": "Bots will no longer receive {0} role when they join this server.",

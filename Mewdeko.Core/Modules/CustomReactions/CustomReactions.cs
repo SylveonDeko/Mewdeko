@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -23,43 +24,83 @@ namespace Mewdeko.Modules.CustomReactions
 
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
-        private readonly DbService _db;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public CustomReactions(IBotCredentials creds, DbService db,
-            DiscordSocketClient client)
+        public CustomReactions(IBotCredentials creds, 
+            DiscordSocketClient client, IHttpClientFactory clientFactory)
         {
             _creds = creds;
-            _db = db;
             _client = client;
+            _clientFactory = clientFactory;
         }
 
         private bool AdminInGuildOrOwnerInDm()
         {
             return ctx.Guild == null && _creds.IsOwner(ctx.User)
-                   || ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator;
+                   || (ctx.Guild != null && ((IGuildUser)ctx.User).GuildPermissions.Administrator);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task ImportCRs()
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.Administrator)]
+        public async Task CrsExport()
         {
-            var file = ctx.Message.Attachments.FirstOrDefault();
-            if (file is null) return;
+            if (!AdminInGuildOrOwnerInDm())
+            {
+                await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
+                return;
+            }
+            
+            _ = ctx.Channel.TriggerTypingAsync();
 
-            var wc = new WebClient();
-            using var stream = new MemoryStream(wc.DownloadData(file.Url));
-            var reader = new StreamReader(stream);
-            var text = await reader.ReadToEndAsync();
-            var stuff = JsonConvert.DeserializeObject<List<CRs>>(text);
-            if (stuff.FirstOrDefault().Trigger is null) return;
-            var msg = await ctx.Channel.SendMessageAsync(
-                "<a:loading:834915210967253013> Importing Custom Reactions...");
-            foreach (var i in stuff)
-            foreach (var f in i.Responses)
-                await _service.AddAsync(ctx.Guild.Id, i.Trigger, f.text);
-            await msg.ModifyAsync(x => { x.Content = "<a:cuscheck:835404667328004126> Reactions Imported!"; });
+            var serialized = _service.ExportCrs(ctx.Guild?.Id);
+            using var stream = await serialized.ToStream();
+            await ctx.Channel.SendFileAsync(stream, "crs-export.yml", text: null);
+        }
+
+        [MewdekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.Administrator)]
+        
+        public async Task CrsImport([Leftover]string input = null)
+        {
+            if (!AdminInGuildOrOwnerInDm())
+            {
+                await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
+                return;
+            }
+
+            input = input?.Trim();
+
+            _ = ctx.Channel.TriggerTypingAsync();
+
+            if (input is null)
+            {
+                var attachment = ctx.Message.Attachments.FirstOrDefault();
+                if (attachment is null)
+                {
+                    await ReplyErrorLocalizedAsync("expr_import_no_input");
+                    return;
+                }
+
+                using var client = _clientFactory.CreateClient();
+                input = await client.GetStringAsync(attachment.Url);
+
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    await ReplyErrorLocalizedAsync("expr_import_no_input");
+                    return;
+                }
+            }
+
+            var succ = await _service.ImportCrsAsync(ctx.Guild?.Id, input);
+            if (!succ)
+            {
+                await ReplyErrorLocalizedAsync("expr_import_invalid_data");
+                return;
+            }
+            
+            await ctx.OkAsync();
         }
 
         [MewdekoCommand]
