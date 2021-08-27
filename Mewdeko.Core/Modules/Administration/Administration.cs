@@ -48,10 +48,10 @@ namespace Mewdeko.Modules.Administration
         public async Task BanUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                    DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
+                    DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
             if (!users.Any())
             {
-                await ctx.Channel.SendErrorAsync("No users at or under that account age!");
+                await ctx.Channel.SendErrorAsync("No users at or under that server join age!");
                 return;
             }
             if (option is not null && option.ToLower() == "-p")
@@ -59,20 +59,20 @@ namespace Mewdeko.Modules.Administration
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
                     return new EmbedBuilder().WithOkColor()
-                        .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
+                        .WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
                         .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
                 }, users.Count(), 20).ConfigureAwait(false);
             }
             int banned = 0;
             int errored = 0;
-            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that account age?");
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that server join age?");
             if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
             var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
             foreach (var i in users)
             {
                 try
                 {
-                    await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified account age.");
+                    await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified server join age.");
                     banned++;
                 }
                 catch
@@ -80,7 +80,7 @@ namespace Mewdeko.Modules.Administration
                     errored++;
                 }
             }
-            var eb = new EmbedBuilder().WithDescription($"Banned {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+            var eb = new EmbedBuilder().WithDescription($"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
             await message.ModifyAsync(x => x.Embed = eb.Build());
         }
         [MewdekoCommand]
@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Administration
         public async Task KickUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                    DateTimeOffset.Now.Subtract(c.CreatedAt) <= time.Time);
+                    DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
             if (!users.Any())
             {
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
@@ -103,20 +103,20 @@ namespace Mewdeko.Modules.Administration
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
                     return new EmbedBuilder().WithOkColor()
-                        .WithTitle($"Previewing {users.Count()} users who's accounts are under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} old")
+                        .WithTitle($"Previewing {users.Count()} users who joined {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
                         .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
                 }, users.Count(), 20).ConfigureAwait(false);
             }
             int banned = 0;
             int errored = 0;
-            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to kick {users.Count()} users that are under that account age?");
+            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to kick {users.Count()} users that joined under that time?");
             if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
             var message = await ctx.Channel.SendConfirmAsync($"Kicking {users.Count()} users..");
             foreach (var i in users)
             {
                 try
                 {
-                    await i.KickAsync(reason: $"{ctx.User}|| Kicking users under specified account age.");
+                    await i.KickAsync(reason: $"{ctx.User}|| Kicking users under specified join time.");
                     banned++;
                 }
                 catch
@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Administration
                     errored++;
                 }
             }
-            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that account age, and was unable to ban {errored} users.\nIf there were any failed kicks please check the bots top role and try again.").WithOkColor();
+            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed kicks please check the bots top role and try again.").WithOkColor();
             await message.ModifyAsync(x => x.Embed = eb.Build());
         }
         [MewdekoCommand]
