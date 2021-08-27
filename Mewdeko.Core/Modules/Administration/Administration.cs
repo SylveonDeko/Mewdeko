@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
                 return;
             }
-            if (option is not null && option.ToLower() == "-p" || option.ToLower() == "preview")
+            if (option is not null && option.ToLower() == "-p")
             {
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
@@ -98,7 +98,7 @@ namespace Mewdeko.Modules.Administration
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
                 return;
             }
-            if (option is not null && option.ToLower() == "-p" || option.ToLower() == "preview")
+            if (option is not null && option.ToLower() == "-p")
             {
                 await ctx.SendPaginatedConfirmAsync(0, cur =>
                 {
