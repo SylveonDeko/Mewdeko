@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Music.Resolvers
             playlist = Uri.EscapeDataString(playlist);
 
             using var http = _httpFactory.CreateClient();
-            var responseString = await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={playlist}");
+            var responseString = await http.GetStringAsync($"https://scapi.nadeko.bot/resolve?url={playlist}");
             var scvids = JObject.Parse(responseString)["tracks"]?.ToObject<SoundCloudVideo[]>();
             if (scvids is null) yield break;
 
