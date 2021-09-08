@@ -3,9 +3,9 @@ version: 1
 # Currency settings
 currency:
 # What is the emoji/character which represents the currency
-  sign: <:nekohapat:836243666162942032>
+  sign: <:pearl:881167762641256489>
   # What is the name of the currency
-  name: NekohaPat
+  name: NekohaPats
 # Minimum amount users can bet (>=0)
 minBet: 0
 # Maximum amount users can bet
@@ -49,7 +49,7 @@ generation:
 timely:
 # How much currency will the users get every time they run .timely command
 # setting to 0 or less will disable this feature
-  amount: 100
+  amount: 200
   # How often (in hours) can users claim currency with .timely command
 # setting to 0 or less will disable this feature
   cooldown: 1

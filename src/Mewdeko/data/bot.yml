@@ -8,7 +8,7 @@ version: 1
 # and copy the hex code fo your selected color (marked as #)
 color:
 # Color used for embed responses when command successfully executes
-  ok: cff2ff
+  ok: 93bfe6
   # Color used for embed responses when command has an error
   error: ee281f
   # Color used for embed responses while command is doing work or is in progress
@@ -27,13 +27,15 @@ forwardToAllOwners: true
 # they will receive this message. Leave empty for no response. The string which will be sent whenever someone DMs the bot.
 # Supports embeds. How it looks: https://puu.sh/B0BLV.png
 dmHelpText: |-
-  test
+  {"description": "Mewdeko is a multi function bot that brings many bots into one!\n\nHeres a rundown of how to see its Modules/Commands and info about the Commands.\n\n> Use ``.modules`` to see a list of the types of commands Mewdeko has\n> Use ``.cmds modulename`` to see what commands that module has, keep in mind the name of the module has to be the same as listed in .modules\n> Use ``.h command`` to see more about that command, and its usage.\n> use .h by itself to see this message.\n\nIf you have any more questions please join the official support server and i or another staff will help you as soon as possible!\n\n[Bot Invite Link](https://mewdeko.tech/invite)\n\n[Official Mewdeko Support and Games Server](https://discord.gg/6n3aa9Xapf)\n\nStay Tuned for a Wiki!", "author": { "name": "I see you have triggered the help text.... or did you?" }, "color": 9359868, "image": "https://media.discordapp.net/attachments/774304724870103040/824457845126332436/anime-anime-girls-nekoha-shizuku-amashiro-natsuki-cat-girl-hd-wallpaper-preview-140954ea-8d0b-11eb-8.jpg" }
 # This is the response for the .h command
 helpText: |-
-  { "description": "Mewdeko is a multi function bot, it's based off of MewdekoBot, or built using rather.\n\nHeres a rundown of how to see its Modules/Commands and info about the Commands.\n\n> Use ``.modules`` to see a list of the types of commands Mewdeko has\n> Use ``.cmds modulename`` to see what commands that module has, keep in mind the name of the module has to be the same as listed in .modules\n> Use ``.h command`` to see more about that command, and its usage.\n> use .h by itself to see this message.\n\nIf you have any more questions please join the official support server and i or another staff will help you as soon as possible!\n\n[Bot Invite Link](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)\n\n[Official Mewdeko Support and Games Server](https://discord.gg/6n3aa9Xapf)\n\nStay Tuned for a Wiki!", "author": { "name": "I see you have triggered the help text.... or did you?" }, "color": 9359868, "image": "https://media.discordapp.net/attachments/774304724870103040/824457845126332436/anime-anime-girls-nekoha-shizuku-amashiro-natsuki-cat-girl-hd-wallpaper-preview-140954ea-8d0b-11eb-8.jpg" }
+  {"description": "Mewdeko is a multi function bot that brings many bots into one!\n\nHeres a rundown of how to see its Modules/Commands and info about the Commands.\n\n> Use ``.modules`` to see a list of the types of commands Mewdeko has\n> Use ``.cmds modulename`` to see what commands that module has, keep in mind the name of the module has to be the same as listed in .modules\n> Use ``.h command`` to see more about that command, and its usage.\n> use .h by itself to see this message.\n\nIf you have any more questions please join the official support server and i or another staff will help you as soon as possible!\n\n[Bot Invite Link](https://mewdeko.tech/invite)\n\n[Official Mewdeko Support and Games Server](https://discord.gg/6n3aa9Xapf)\n\nStay Tuned for a Wiki!", "author": { "name": "I see you have triggered the help text.... or did you?" }, "color": 9359868, "image": "https://media.discordapp.net/attachments/774304724870103040/824457845126332436/anime-anime-girls-nekoha-shizuku-amashiro-natsuki-cat-girl-hd-wallpaper-preview-140954ea-8d0b-11eb-8.jpg" }
 # List of modules and commands completely blocked on the bot
 blocked:
-  commands: []
+  commands:
+    - donate
+    - internalboobs
   modules: []
 # Which string will be used to recognize the commands
 prefix: .
@@ -50,4 +52,4 @@ groupGreets: false
 # Whether the bot will rotate through all specified statuses.
 # This setting can be changed via .rots command.
 # See RotatingStatuses submodule in Administration.
-rotateStatuses: false
+rotateStatuses: true
