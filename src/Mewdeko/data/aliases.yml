@@ -23,6 +23,9 @@ autoassignbotrole:
 - aabr
 bye:
 - bye
+customafkmessage:
+- customafkmessage
+- afkmessage
 syncroletoallcategories:
 - syncroletoallcategories
 - srtc
