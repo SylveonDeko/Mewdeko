@@ -12,6 +12,8 @@ using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
@@ -31,9 +33,11 @@ namespace Mewdeko.Modules.Moderation
             private readonly BlacklistService _blacklistService;
             private readonly MuteService _mute;
             public DbService _db;
+            private InteractiveService Interactivity;
 
-            public UserPunishCommands(MuteService mute, BlacklistService blacklistService, DbService db)
+            public UserPunishCommands(MuteService mute, BlacklistService blacklistService, DbService db, InteractiveService serv)
             {
+                Interactivity = serv;
                 _mute = mute;
                 _blacklistService = blacklistService;
                 _db = db;
@@ -305,24 +309,36 @@ namespace Mewdeko.Modules.Moderation
                     return;
                 var warnings = _service.WarnlogAll(ctx.Guild.Id);
 
-                await ctx.SendPaginatedConfirmAsync(page, curPage =>
-                {
-                    var ws = warnings.Skip(curPage * 15)
-                        .Take(15)
-                        .ToArray()
-                        .Select(x =>
-                        {
-                            var all = x.Count();
-                            var forgiven = x.Count(y => y.Forgiven);
-                            var total = all - forgiven;
-                            var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
-                            return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
-                        });
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(warnings.Count() / 15)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                    return new EmbedBuilder().WithOkColor()
-                        .WithTitle(GetText("warnings_list"))
-                        .WithDescription(string.Join("\n", ws));
-                }, warnings.Length, 15).ConfigureAwait(false);
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    {
+                        var ws = warnings.Skip(page * 15)
+                            .Take(15)
+                            .ToArray()
+                            .Select(x =>
+                            {
+                                var all = x.Count();
+                                var forgiven = x.Count(y => y.Forgiven);
+                                var total = all - forgiven;
+                                var usr = ((SocketGuild)ctx.Guild).GetUser(x.Key);
+                                return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
+                            });
+
+                        return Task.FromResult(new PageBuilder().WithOkColor()
+                            .WithTitle(GetText("warnings_list"))
+                            .WithDescription(string.Join("\n", ws)));
+                    }
+                }
             }
 
             [MewdekoCommand]

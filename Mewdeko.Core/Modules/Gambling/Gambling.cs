@@ -20,6 +20,8 @@ using Mewdeko.Modules.Gambling.Services;
 using DiscordBotsList.Api;
 using KSoftNet.KSoft;
 using KSoftNet;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -44,6 +46,7 @@ namespace Mewdeko.Modules.Gambling
             Draw
         }
 
+        private InteractiveService Interactivity;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
         private readonly GamblingConfigService _configService;
@@ -57,8 +60,9 @@ namespace Mewdeko.Modules.Gambling
 
         public Gambling(DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client,
-            DownloadTracker tracker, GamblingConfigService configService, KSoftAPI ks) : base(configService)
+            DownloadTracker tracker, GamblingConfigService configService, KSoftAPI ks, InteractiveService serv) : base(configService)
         {
+            Interactivity = serv;
             _ksoft = ks;
             _db = db;
             _cs = currency;
@@ -653,9 +657,18 @@ namespace Mewdeko.Modules.Gambling
                 }
             }
 
-            await Context.SendPaginatedConfirmAsync(page, curPage =>
+            var paginator = new LazyPaginatorBuilder()
+               .AddUser(ctx.User)
+               .WithPageFactory(PageFactory)
+               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+               .WithMaxPageIndex(cleanRichest.Count() / 9)
+               .WithDefaultEmotes()
+               .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            Task<PageBuilder> PageFactory(int page)
             {
-                var embed = new EmbedBuilder()
+                var embed = new PageBuilder()
                     .WithOkColor()
                     .WithTitle(CurrencySign + " " + GetText("leaderboard"));
 
@@ -663,15 +676,15 @@ namespace Mewdeko.Modules.Gambling
                 if (!opts.Clean)
                     using (var uow = _db.GetDbContext())
                     {
-                        toSend = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, curPage);
+                        toSend = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page);
                     }
                 else
-                    toSend = cleanRichest.Skip(curPage * 9).Take(9).ToList();
+                    toSend = cleanRichest.Skip(page * 9).Take(9).ToList();
 
                 if (!toSend.Any())
                 {
                     embed.WithDescription(GetText("no_user_on_this_page"));
-                    return embed;
+                    return Task.FromResult(embed);
                 }
 
                 for (var i = 0; i < toSend.Count; i++)
@@ -680,13 +693,13 @@ namespace Mewdeko.Modules.Gambling
                     var usrStr = x.ToString().TrimTo(20, true);
 
                     var j = i;
-                    embed.AddField(efb => efb.WithName("#" + (9 * curPage + j + 1) + " " + usrStr)
+                    embed.AddField(efb => efb.WithName("#" + (9 * page + j + 1) + " " + usrStr)
                         .WithValue(n(x.CurrencyAmount) + " " + CurrencySign)
                         .WithIsInline(true));
                 }
 
-                return embed;
-            }, opts.Clean ? cleanRichest.Count() : 9000, 9, opts.Clean);
+                return Task.FromResult(embed);
+            }
         }
 
         [MewdekoCommand]

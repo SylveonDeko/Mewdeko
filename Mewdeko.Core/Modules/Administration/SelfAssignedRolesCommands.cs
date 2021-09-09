@@ -6,6 +6,8 @@ using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Modules.Administration.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -14,6 +16,11 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class SelfAssignedRolesCommands : MewdekoSubmodule<SelfAssignedRolesService>
         {
+            private InteractiveService Interactivity;
+            public SelfAssignedRolesCommands(InteractiveService serv)
+            {
+                Interactivity = serv;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -119,13 +126,22 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 var (exclusive, roles, groups) = _service.GetRoles(ctx.Guild);
+                var paginator = new LazyPaginatorBuilder()
+               .AddUser(ctx.User)
+               .WithPageFactory(PageFactory)
+               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+               .WithMaxPageIndex(roles.Count() - 1)
+               .WithDefaultEmotes()
+               .Build();
 
-                await ctx.SendPaginatedConfirmAsync(page, cur =>
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
                     var rolesStr = new StringBuilder();
                     var roleGroups = roles
                         .OrderBy(x => x.Model.Group)
-                        .Skip(cur * 20)
+                        .Skip(page * 20)
                         .Take(20)
                         .GroupBy(x => x.Model.Group)
                         .OrderBy(x => x.Key);
@@ -155,13 +171,13 @@ namespace Mewdeko.Modules.Administration
                         rolesStr.AppendLine();
                     }
 
-                    return new EmbedBuilder().WithOkColor()
+                    return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
                         .WithTitle(Format.Bold(GetText("self_assign_list", roles.Count())))
                         .WithDescription(rolesStr.ToString())
                         .WithFooter(exclusive
                             ? GetText("self_assign_are_exclusive")
-                            : GetText("self_assign_are_not_exclusive"));
-                }, roles.Count(), 20).ConfigureAwait(false);
+                            : GetText("self_assign_are_not_exclusive"))); 
+                }
             }
 
             [MewdekoCommand]

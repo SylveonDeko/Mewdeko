@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using Humanizer;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -31,10 +33,12 @@ namespace Mewdeko.Modules.Utility
         private readonly IBotCredentials _creds;
         private readonly IStatsService _stats;
         private readonly DownloadTracker _tracker;
+        private InteractiveService Interactivity;
 
         public Utility(Mewdeko Mewdeko, DiscordSocketClient client,
-            IStatsService stats, IBotCredentials creds, DownloadTracker tracker)
+            IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv)
         {
+            Interactivity = serv;
             _client = client;
             _stats = stats;
             _creds = creds;
@@ -628,12 +632,23 @@ namespace Mewdeko.Modules.Utility
                 .Select(u => u.ToString())
                 .ToArray();
 
-            await ctx.SendPaginatedConfirmAsync(0, cur =>
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(roleUsers.Length / 20)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
-                return new EmbedBuilder().WithOkColor()
+                return Task.FromResult(new PageBuilder().WithOkColor()
                     .WithTitle(Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
-                    .WithDescription(string.Join("\n", roleUsers.Skip(cur * 20).Take(20)));
-            }, roleUsers.Length, 20).ConfigureAwait(false);
+                    .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20))));
+            }
         }
 
         [MewdekoCommand]
@@ -645,19 +660,29 @@ namespace Mewdeko.Modules.Utility
         {
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
             await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
-
             var users = await ctx.Guild.GetUsersAsync();
             var roleUsers = users
                 .Where(u => u.RoleIds.Contains(role.Id) && u.RoleIds.Contains(role2.Id))
                 .Select(u => u.ToString())
                 .ToArray();
 
-            await ctx.SendPaginatedConfirmAsync(0, cur =>
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(roleUsers.Length / 20)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
-                return new EmbedBuilder().WithOkColor()
+                return Task.FromResult(new PageBuilder().WithOkColor()
                     .WithTitle(Format.Bold($"Users in the roles: {role.Name} | {role2.Name} - {roleUsers.Count()}"))
-                    .WithDescription(string.Join("\n", roleUsers.Skip(cur * 20).Take(20)));
-            }, roleUsers.Length, 20).ConfigureAwait(false);
+                    .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20))));
+            }
         }
 
         [MewdekoCommand]

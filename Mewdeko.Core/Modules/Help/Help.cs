@@ -9,7 +9,6 @@ using Amazon.S3.Model;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Interactive;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -50,20 +49,6 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
         }
         
         
-        private class ModuleInfo
-        {
-            public string Name { get; set; }
-            public string Text { get; set; }
-        }
-
-        private class FullCommands
-        {
-            public string Module { get; set; }
-            public string Command { get; set; }
-            public string Description { get; set; }
-        }
-        private static IList<ModuleInfo> list = new List<ModuleInfo>();
-        
         public async Task<(string plainText, EmbedBuilder embed)> GetHelpStringEmbed()
         {
             var botSettings = _bss.Data;
@@ -99,16 +84,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
         [Aliases]
         public async Task Modules(int page = 1)
         {
-            var toadd = new HelpService.HelpInfo
-            {
-                user = ctx.User,
-                msg = ctx.Message,
-                time = DateTime.Now,
-                chan = ctx.Channel as ITextChannel
-            };
-            _service.UpdateHash(toadd);
-            var builder = new ComponentBuilder()
-            .WithSelectMenu(new SelectMenuBuilder()
+            var builder = new SelectMenuBuilder()
             .WithCustomId("id_2")
             .WithPlaceholder("Select your category here")
             .WithOptions(new List<SelectMenuOptionBuilder>()
@@ -117,32 +93,32 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
                 .WithLabel("Administration")
                 .WithEmote(Emote.Parse("<:nekohayay:866315028989739048>"))
                 .WithDescription("Prefix, Autoroles, and other admin related stuff.")
-                .WithValue("admin"),
+                .WithValue("administration"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Moderation")
                 .WithEmote(Emote.Parse("<:Nekoha_ok:866616128443645952>"))
-                .WithDescription("Warns, Purging, and Banning stuffs")
-                .WithValue("mod"),
+                .WithDescription("Warns, Purging, and Banning stAuffs")
+                .WithValue("moderation"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Utility")
                 .WithDescription("Sniping, Starboard and other useful stuff.")
                 .WithEmote(Emote.Parse("<:Nekohacry:866615973834391553>"))
-                .WithValue("util"),
+                .WithValue("utility"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Suggestions")
                 .WithEmote(Emote.Parse("<:Nekoha_sleep:866321311886344202>"))
                 .WithDescription("The most cusomizable suggestions you'll find.")
-                .WithValue("sug"),
+                .WithValue("suggestions"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Server Management")
                 .WithEmote(Emote.Parse("<:Nekoha_Yawn:866320872003076136>"))
                 .WithDescription("Mass role, channel perms, and vc stuffs.")
-                .WithValue("server"),
+                .WithValue("servermanage"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Permissions")
                 .WithEmote(Emote.Parse("<:Nekoha_angy:866321279929024582>"))
                 .WithDescription("Manage command and category perms.")
-                .WithValue("perm"),
+                .WithValue("permissions"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Xp")
                 .WithEmote(Emote.Parse("<:Nekoha_huh:866615758032994354>"))
@@ -162,17 +138,17 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
                 .WithLabel("Gambling")
                 .WithEmote(Emote.Parse("<:Nekohapoke:866613862468026368>"))
                 .WithDescription("Currency based games, these are global.")
-                .WithValue("gamb"),
+                .WithValue("gambling"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Searches")
                 .WithEmote(Emote.Parse("<:nekoha_slam:866316199317864458>"))
                 .WithDescription("Huggin, anime searches, and memes.")
-                .WithValue("search"),
+                .WithValue("searches"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Games")
                 .WithEmote(Emote.Parse("<:nekohayay:866315028989739048>"))
                 .WithDescription("What do you expect, legend of zelda?")
-                .WithValue("game"),
+                .WithValue("games"),
             new SelectMenuOptionBuilder()
                 .WithLabel("Help")
                 .WithEmote(Emote.Parse("<:Nekoha_wave:866321165538164776>"))
@@ -182,8 +158,17 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
                 .WithLabel("Custom Reactions")
                 .WithEmote(Emote.Parse("<:nekoha_stare:866316293179572264>"))
                 .WithDescription("Make the bot say stuff based on triggers.")
-                .WithValue("cust")
-            }));
+                .WithValue("custom")
+            });
+            var toadd = new HelpService.HelpInfo
+            {
+                user = ctx.User,
+                msg = ctx.Message,
+                chan = ctx.Channel as ITextChannel,
+                Builder = builder
+            };
+            _service.UpdateHash(toadd);
+            var builder2 = new ComponentBuilder().WithSelectMenu(builder);
             var embed = new EmbedBuilder();
             embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl(2048).ToString()).WithName("Mewdeko Help Menu"));
             embed.WithColor(Mewdeko.OkColor);
@@ -191,37 +176,10 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
             embed.AddField("<:Nekoha_Oooo:866320687810740234> **Categories**", "> <:nekohayay:866315028989739048> Administration\n> <:Nekoha_ok:866616128443645952> Moderation\n> <:Nekohacry:866615973834391553> Utility\n> <:Nekoha_sleep:866321311886344202> Suggestions\n> <:Nekoha_Yawn:866320872003076136> Server Management\n> <:Nekoha_angy:866321279929024582> Permissions\n> <:Nekoha_huh:866615758032994354> Xp", true);
             embed.AddField("_ _", "> <:Nekoha_Flushed:866321565393748008> NSFW\n> <:Nekohacheer:866614949895077900> Music\n> <:Nekohapoke:866613862468026368> Gambling\n> <:nekoha_slam:866316199317864458> Searches\n> <:Nekoha_wave:866321165538164776> Games\n> <:Nekohaquestion:866616825750749184> Help\n> <:nekoha_stare:866316293179572264> Custom Reactions", true);
             embed.AddField("<:Nekohapeek:866614585992937482> Links", "[Website](https://mewdeko.tech) | [Support](https://discord.gg/6n3aa9Xapf) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212)");
-            await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: builder.Build());
+            await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: builder2.Build());
 
         }
 
-        private Task PaginateCommands(IMessageChannel chan, IUser user)
-        {
-            _ = Task.Run(async () =>
-            {
-                var paginator = new LazyPaginatorBuilder()
-                    .WithPageFactory(PageFactory)
-                    .WithFooter(PaginatorFooter.None)
-                    .WithMaxPageIndex(list.Count() - 1)
-                    .WithDefaultEmotes()
-                    .WithDeletion(DeletionOptions.None)
-                    .AddUser(user)
-                    .Build();
-
-                await _interactive.SendPaginatorAsync(paginator, chan, TimeSpan.FromMinutes(60));
-
-                Task<PageBuilder> PageFactory(int page)
-                {
-                    return Task.FromResult(new PageBuilder()
-                        .WithTitle(list.Select(x => x.Name).Skip(page).FirstOrDefault())
-                        .WithFooter(
-                            "If you don't see a command, or want to see all commands in this module do the same command but append -v 1 to it, it'll show all commands as well as show if you can use them or not.")
-                        .WithDescription(list.Select(x => x.Text).Skip(page).FirstOrDefault())
-                        .WithColor((Color)System.Drawing.Color.FromArgb(((int)Mewdeko.OkColor.RawValue) * page * 2)));
-                }
-            });
-            return Task.CompletedTask;
-        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -313,26 +271,22 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
                                     return String.Concat(x);
                             });
                     }
-                    var toadd = new ModuleInfo
-                    {
-                        Name = g.ElementAt(i).Key,
-                        Text = "```css\n" + string.Join("\n", transformed) + "\n```"
-                    };
-                    list.Add(toadd);
+                    embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
                 }
             }
-            await PaginateCommands(ctx.Channel, ctx.User);
+            embed.WithFooter(GetText("commands_instr", Prefix));
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+
         }
 
-    [MewdekoCommand]
+        [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [Priority(0)]
         public async Task H([Leftover] string fail)
         {
-            var prefixless =
-                _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
+            var prefixless = _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
             if (prefixless != null)
             {
                 await H(prefixless).ConfigureAwait(false);
@@ -340,6 +294,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
             }
 
             await ReplyErrorLocalizedAsync("command_not_found").ConfigureAwait(false);
+
         }
 
         [MewdekoCommand]
@@ -354,6 +309,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
             if (com == null)
             {
                 await Modules();
+                return;
             }
 
             var embed = _service.GetCommandHelp(com, ctx.Guild);

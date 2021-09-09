@@ -6,6 +6,8 @@ using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Searches.Services;
 using Serilog;
 
@@ -16,6 +18,12 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class FeedCommands : MewdekoSubmodule<FeedsService>
         {
+            private InteractiveService Interactivity;
+
+            public FeedCommands(InteractiveService serv)
+            {
+                Interactivity = serv;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -86,17 +94,29 @@ namespace Mewdeko.Modules.Searches
                     return;
                 }
 
-                await ctx.SendPaginatedConfirmAsync(0, cur =>
-                {
-                    var embed = new EmbedBuilder()
-                        .WithOkColor();
-                    var i = 0;
-                    var fs = string.Join("\n", feeds.Skip(cur * 10)
-                        .Take(10)
-                        .Select(x => $"`{cur * 10 + ++i}.` <#{x.ChannelId}> {x.Url}"));
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(feeds.Count / 10)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                    return embed.WithDescription(fs);
-                }, feeds.Count, 10).ConfigureAwait(false);
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    {
+                        var embed = new PageBuilder()
+                            .WithOkColor();
+                        var i = 0;
+                        var fs = string.Join("\n", feeds.Skip(page * 10)
+                            .Take(10)
+                            .Select(x => $"`{page * 10 + ++i}.` <#{x.ChannelId}> {x.Url}"));
+
+                        return Task.FromResult(embed.WithDescription(fs));
+                    }
+                };
             }
         }
     }

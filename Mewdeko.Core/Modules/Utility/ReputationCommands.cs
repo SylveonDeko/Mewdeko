@@ -8,6 +8,8 @@ using Discord.Webhook;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -17,6 +19,12 @@ namespace Mewdeko.Modules.Utility
     {
         public class Reputation : MewdekoSubmodule<ReputationService>
         {
+            private InteractiveService Interactivity;
+
+            public Reputation(InteractiveService serv)
+            {
+                Interactivity = serv;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -181,16 +189,27 @@ namespace Mewdeko.Modules.Utility
                     else
                     {
                         var revs = _service.Reputations(use.Id).Where(x => x.ReviewType == 1);
-                        await ctx.SendPaginatedConfirmAsync(0, cur =>
+                        var paginator = new LazyPaginatorBuilder()
+                            .AddUser(ctx.User)
+                            .WithPageFactory(PageFactory)
+                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                            .WithMaxPageIndex(revs.Count() - 1)
+                            .WithDefaultEmotes()
+                            .Build();
+
+                        await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                            System.TimeSpan.FromMinutes(60));
+
+                        Task<PageBuilder> PageFactory(int page)
                         {
-                            return new EmbedBuilder().WithOkColor()
+                            return Task.FromResult(new PageBuilder().WithOkColor()
                                 .WithAuthor(x =>
-                                    x.WithIconUrl(revs.ToArray().Skip(cur).Take(1).FirstOrDefault().ReviewerAv)
-                                        .WithName(revs.ToArray().Skip(cur).Take(1).FirstOrDefault().ReviewerUsername))
+                                    x.WithIconUrl(revs.ToArray().Skip(page).Take(1).FirstOrDefault().ReviewerAv)
+                                        .WithName(revs.ToArray().Skip(page).Take(1).FirstOrDefault().ReviewerUsername))
                                 .WithDescription(string.Join("\n",
-                                    revs.ToArray().Skip(cur).Take(1).FirstOrDefault().ReviewMessage))
-                                .WithTimestamp(revs.ToArray().Skip(cur).Take(1).FirstOrDefault().DateAdded.Value);
-                        }, revs.ToArray().Length, 1).ConfigureAwait(false);
+                                    revs.ToArray().Skip(page).Take(1).FirstOrDefault().ReviewMessage))
+                                .WithTimestamp(revs.ToArray().Skip(page).Take(1).FirstOrDefault().DateAdded.Value));
+                        }
                     }
                 }
 
@@ -210,16 +229,27 @@ namespace Mewdeko.Modules.Utility
                     else
                     {
                         var revs = _service.Reputations(use.Id).Where(x => x.ReviewType == 0);
-                        await ctx.SendPaginatedConfirmAsync(0, cur =>
+                        var paginator = new LazyPaginatorBuilder()
+                            .AddUser(ctx.User)
+                            .WithPageFactory(PageFactory)
+                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                            .WithMaxPageIndex(revs.Count() - 1)
+                            .WithDefaultEmotes()
+                            .Build();
+
+                        await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                            System.TimeSpan.FromMinutes(60));
+
+                        Task<PageBuilder> PageFactory(int page)
                         {
-                            return new EmbedBuilder().WithOkColor()
+                            return Task.FromResult(new PageBuilder().WithOkColor()
                                 .WithAuthor(x =>
-                                    x.WithIconUrl(revs.ToArray().Skip(cur).Take(1).FirstOrDefault().ReviewerAv)
-                                        .WithName(revs.ToArray().Skip(cur).Take(1).FirstOrDefault().ReviewerUsername))
+                                    x.WithIconUrl(revs.ToArray().Skip(page).Take(1).FirstOrDefault().ReviewerAv)
+                                        .WithName(revs.ToArray().Skip(page).Take(1).FirstOrDefault().ReviewerUsername))
                                 .WithDescription(string.Join("\n",
-                                    revs.ToArray().Skip(cur).Take(1).FirstOrDefault().ReviewMessage))
-                                .WithTimestamp(revs.ToArray().Skip(cur).Take(1).FirstOrDefault().DateAdded.Value);
-                        }, revs.ToArray().Length, 1).ConfigureAwait(false);
+                                    revs.ToArray().Skip(page).Take(1).FirstOrDefault().ReviewMessage))
+                                .WithTimestamp(revs.ToArray().Skip(page).Take(1).FirstOrDefault().DateAdded.Value));
+                        }
                     }
                 }
             }

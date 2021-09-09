@@ -19,7 +19,7 @@ namespace Mewdeko.Modules
         public IBotStrings Strings { get; set; }
         public CommandHandler CmdHandler { get; set; }
         public ILocalization Localization { get; set; }
-        public SuggestService SugServ { get; set; }
+        public SuggestionsService SugServ { get; set; }
         public UserPunishService UPun { get; set; }
         public ServerManagementService SMS { get; set; }
         public UserPunishService2 UPun2 { get; set; }

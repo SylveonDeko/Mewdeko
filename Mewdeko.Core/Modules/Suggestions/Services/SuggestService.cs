@@ -13,14 +13,14 @@ using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Suggestions.Services
 {
-    public class SuggestService : INService
+    public class SuggestionsService : INService
     {
         public readonly DbService _db;
 
         public CommandHandler CmdHandler;
         public DiscordSocketClient _client;
         public Administration.Services.AdministrationService adminserv;
-        public SuggestService(DbService db, Mewdeko bot, CommandHandler cmd, DiscordSocketClient client, Administration.Services.AdministrationService aserv)
+        public SuggestionsService(DbService db, Mewdeko bot, CommandHandler cmd, DiscordSocketClient client, Administration.Services.AdministrationService aserv)
         {
             adminserv = aserv;
             CmdHandler = cmd;

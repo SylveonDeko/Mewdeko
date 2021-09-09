@@ -9,6 +9,8 @@ using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp
@@ -40,12 +42,14 @@ namespace Mewdeko.Modules.Xp
         private readonly GamblingConfigService _gss;
         private readonly DownloadTracker _tracker;
         private readonly XpConfigService _xpConfig;
+        private InteractiveService Interactivity;
 
-        public Xp(DownloadTracker tracker, GamblingConfigService gss, XpConfigService xpconfig)
+        public Xp(DownloadTracker tracker, GamblingConfigService gss, XpConfigService xpconfig, InteractiveService serv)
         {
             _xpConfig = xpconfig;
             _tracker = tracker;
             _gss = gss;
+            Interactivity = serv;
         }
 
         private async Task SendXpSettings(ITextChannel chan)
@@ -251,12 +255,12 @@ namespace Mewdeko.Modules.Xp
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task XpLevelUpRewards(int page = 1)
+        public async Task XpLevelUpRewards(int page = 1)
         {
             page--;
 
             if (page < 0 || page > 100)
-                return Task.CompletedTask;
+                return;
 
             var allRewards = _service.GetRoleRewards(ctx.Guild.Id)
                 .OrderBy(x => x.Level)
@@ -275,26 +279,36 @@ namespace Mewdeko.Modules.Xp
                 .OrderBy(x => x.Key)
                 .ToList();
 
-            return Context.SendPaginatedConfirmAsync(page, cur =>
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(allRewards.Count / 9)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
-                var embed = new EmbedBuilder()
+                var embed = new PageBuilder()
                     .WithTitle(GetText("level_up_rewards"))
                     .WithOkColor();
 
                 var localRewards = allRewards
-                    .Skip(cur * 9)
+                    .Skip(page * 9)
                     .Take(9)
                     .ToList();
 
                 if (!localRewards.Any())
-                    return embed.WithDescription(GetText("no_level_up_rewards"));
+                    return Task.FromResult(embed.WithDescription(GetText("no_level_up_rewards")));
 
                 foreach (var reward in localRewards)
                     embed.AddField(GetText("level_x", reward.Key),
                         string.Join("\n", reward.Select(y => y.Item2)));
 
-                return embed;
-            }, allRewards.Count, 9);
+                return Task.FromResult(embed);
+            }
         }
 
         [MewdekoCommand]
@@ -457,15 +471,25 @@ namespace Mewdeko.Modules.Xp
             desc += "\n\n" + rolesStr + chansStr;
 
             var lines = desc.Split('\n');
-            await ctx.SendPaginatedConfirmAsync(0, curpage =>
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(lines.Length / 15)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
-                var embed = new EmbedBuilder()
+                var embed = new PageBuilder()
                     .WithTitle(GetText("exclusion_list"))
-                    .WithDescription(string.Join('\n', lines.Skip(15 * curpage).Take(15)))
+                    .WithDescription(string.Join('\n', lines.Skip(15 * page).Take(15)))
                     .WithOkColor();
 
-                return embed;
-            }, lines.Length, 15);
+                return Task.FromResult(embed);
+            }
         }
 
         [MewdekoCommand]
@@ -508,19 +532,29 @@ namespace Mewdeko.Modules.Xp
                     .ToList();
             }
 
-            await ctx.SendPaginatedConfirmAsync(page, curPage =>
+            var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(allUsers.Count / 9)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
             {
-                var embed = new EmbedBuilder()
+                var embed = new PageBuilder()
                     .WithTitle(GetText("server_leaderboard"))
                     .WithOkColor();
 
                 List<UserXpStats> users;
                 if (opts.Clean)
-                    users = allUsers.Skip(curPage * 9).Take(9).ToList();
+                    users = allUsers.Skip(page * 9).Take(9).ToList();
                 else
-                    users = _service.GetUserXps(ctx.Guild.Id, curPage);
+                    users = _service.GetUserXps(ctx.Guild.Id, page);
 
-                if (!users.Any()) return embed.WithDescription("-");
+                if (!users.Any()) return Task.FromResult(embed.WithDescription("-"));
 
                 for (var i = 0; i < users.Count; i++)
                 {
@@ -536,12 +570,12 @@ namespace Mewdeko.Modules.Xp
                         awardStr = $"({userXpData.AwardedXp})";
 
                     embed.AddField(
-                        $"#{i + 1 + curPage * 9} {user?.ToString() ?? users[i].UserId.ToString()}",
+                        $"#{i + 1 + page * 9} {user?.ToString() ?? users[i].UserId.ToString()}",
                         $"{GetText("level_x", levelStats.Level)} - {levelStats.TotalXp}xp {awardStr}");
                 }
 
-                return embed;
-            }, 900, 9, false);
+                return Task.FromResult(embed);
+            }
         }
 
         [MewdekoCommand]

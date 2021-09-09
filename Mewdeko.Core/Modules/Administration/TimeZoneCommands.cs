@@ -5,6 +5,8 @@ using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
@@ -14,6 +16,11 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class TimeZoneCommands : MewdekoSubmodule<GuildTimezoneService>
         {
+            private InteractiveService Interactivity;
+            public TimeZoneCommands(InteractiveService serv)
+            {
+                Interactivity = serv;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -46,15 +53,25 @@ namespace Mewdeko.Modules.Administration
                         return $"{Format.Code(offset)} {nameStr}";
                     });
 
+                var paginator = new LazyPaginatorBuilder()
+               .AddUser(ctx.User)
+               .WithPageFactory(PageFactory)
+               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+               .WithMaxPageIndex(timezones.Length - 1)
+               .WithDefaultEmotes()
+               .Build();
 
-                await ctx.SendPaginatedConfirmAsync(page,
-                    curPage => new EmbedBuilder()
-                        .WithOkColor()
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    return Task.FromResult(new PageBuilder()
+                        .WithColor(Mewdeko.OkColor)
                         .WithTitle(GetText("timezones_available"))
                         .WithDescription(string.Join("\n", timezoneStrings
-                            .Skip(curPage * timezonesPerPage)
-                            .Take(timezonesPerPage))),
-                    timezones.Length, timezonesPerPage).ConfigureAwait(false);
+                            .Skip(page * timezonesPerPage)
+                            .Take(timezonesPerPage))));
+                }
             }
 
             [MewdekoCommand]

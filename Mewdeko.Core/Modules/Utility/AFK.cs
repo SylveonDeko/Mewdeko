@@ -7,9 +7,12 @@ using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Utility.Services;
 using Newtonsoft.Json;
 
@@ -20,6 +23,12 @@ namespace Mewdeko.Modules.Utility
     {
         public class AFK : MewdekoSubmodule<AFKService>
         {
+            private InteractiveService Interactivity;
+
+            public AFK(InteractiveService serv)
+            {
+                Interactivity = serv;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -61,15 +70,6 @@ namespace Mewdeko.Modules.Utility
                         $"Thats too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
                     return;
                 }
-
-                if (_service.GetAfkMessageType(ctx.Guild.Id) == 2 || _service.GetAfkMessageType(ctx.Guild.Id) == 4)
-                    if (ctx.Message.MentionedUserIds.Count >= 3)
-                    {
-                        await ctx.Channel.SendErrorAsync(
-                            "Nice try there, but you cant mention more then 3 users with afk type 2 or 4 to prevent raids.");
-                        return;
-                    }
-
                 await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
             }
@@ -95,6 +95,90 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendMessageAsync(
                         $"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
             }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireUserPermission(GuildPermission.Administrator)]
+            public async Task CustomAfkMessage([Remainder]string embed)
+            {
+                CREmbed crEmbed;
+                CREmbed.TryParse(embed, out crEmbed);
+                if (embed == "-")
+                {
+                    await _service.SetCustomAfkMessage(ctx.Guild, embed);
+                    await ctx.Channel.SendConfirmAsync("Afk messages will now have the default look.");
+                    return;
+                }
+                else
+                {
+                    if (crEmbed is not null && !crEmbed.IsValid || !embed.Contains("%afk"))
+                    {
+                        await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
+                        return;
+                    }
+                    else
+                    {
+                        await _service.SetCustomAfkMessage(ctx.Guild, embed);
+                        var ebe = CREmbed.TryParse(_service.GetCustomAfkMessage(ctx.Guild.Id), out crEmbed);
+                        if (ebe is false)
+                        {
+                            await _service.SetCustomAfkMessage(ctx.Guild, "-");
+                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the afk message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                            return;
+                        }
+                        await ctx.Channel.SendConfirmAsync("Sucessfully updated afk message!");
+                    }
+                }
+            }
+
+            //[MewdekoCommand]
+            //[Usage]
+            //[Description]
+            //[Aliases]
+            //[Priority(0)]
+            //public async Task ListActiveAfks()
+            //{
+            //    var msg = await ctx.Channel.SendConfirmAsync("Finding all users that have afk enabled...");
+            //    var list = new List<string>();
+            //    var g = ctx.Guild as SocketGuild;
+            //    var users = g.Users;
+            //    foreach (var i in users)
+            //    {
+            //        if (_service.IsAfk(ctx.Guild, i))
+            //        {
+            //            list.Add($"{i} {i.Id}");
+            //        }
+            //    }
+
+            //    await msg.DeleteAsync();
+            //    if (list.Any())
+            //    {
+            //        var paginator = new LazyPaginatorBuilder()
+            //            .AddUser(ctx.User)
+            //            .WithPageFactory(PageFactory)
+            //            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            //            .WithMaxPageIndex(list.Count / 10)
+            //            .WithDefaultEmotes()
+            //            .Build();
+
+            //        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            //        Task<PageBuilder> PageFactory(int page)
+            //        {
+            //            {
+            //                return Task.FromResult(new PageBuilder()
+            //                    .WithOkColor()
+            //                    .WithTitle($"Listing {list.Count} users that are afk")
+            //                    .WithDescription(string.Join("/n", list.Take(10))));
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        await ctx.Channel.SendErrorAsync("There are no afk users!");
+            //    }
+            //}
 
             [Priority(0)]
             [MewdekoCommand]
@@ -118,25 +202,24 @@ namespace Mewdeko.Modules.Utility
                     mentions.Add(role.Mention);
                 }
 
-                await ctx.SendPaginatedConfirmAsync(0, cur =>
-                {
-                    return new EmbedBuilder().WithOkColor()
-                        .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
-                        .WithDescription(string.Join("\n", mentions.ToArray().Skip(cur * 20).Take(20)));
-                }, mentions.ToArray().Length, 20).ConfigureAwait(false);
-            }
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(mentions.ToArray().Length / 20)
+                    .WithDefaultEmotes()
+                    .Build();
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [Priority(0)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task AfkMessageType(int num)
-            {
-                if (num > 4) return;
-                await _service.AfkMessageTypeSet(ctx.Guild, num);
-                await ctx.Channel.SendConfirmAsync($"Sucessfully set AfkMessageType to {num}");
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    {
+                        return Task.FromResult(new PageBuilder().WithOkColor()
+                            .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
+                            .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20))));
+                    }
+                }
             }
 
             [MewdekoCommand]
@@ -226,7 +309,7 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                await _service.AfkTimeoutSet(ctx.Guild, time.Time.Seconds);
+                await _service.AfkTimeoutSet(ctx.Guild, Convert.ToInt32(time.Time.TotalSeconds));
                 await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
             }
 

@@ -8,6 +8,8 @@ using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches
@@ -30,9 +32,11 @@ namespace Mewdeko.Modules.Searches
             }.ToImmutableDictionary();
 
             private readonly IHttpClientFactory _httpFactory;
+            private InteractiveService Interactivity;
 
-            public MemegenCommands(IHttpClientFactory factory)
+            public MemegenCommands(IHttpClientFactory factory, InteractiveService serv)
             {
+                Interactivity = serv;
                 _httpFactory = factory;
             }
 
@@ -54,17 +58,27 @@ namespace Mewdeko.Modules.Searches
 
                     var data = JsonConvert.DeserializeObject<List<MemegenTemplate>>(rawJson);
 
-                    await ctx.SendPaginatedConfirmAsync(page, curPage =>
+                    var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(data.Count / 15)
+                        .WithDefaultEmotes()
+                        .Build();
+
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                    Task<PageBuilder> PageFactory(int page)
                     {
                         var templates = "";
-                        foreach (var template in data.Skip(curPage * 15).Take(15))
+                        foreach (var template in data.Skip(page * 15).Take(15))
                             templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
-                        var embed = new EmbedBuilder()
+                        var embed = new PageBuilder()
                             .WithOkColor()
                             .WithDescription(templates);
 
-                        return embed;
-                    }, data.Count, 15).ConfigureAwait(false);
+                        return Task.FromResult(embed);
+                    }
                 }
             }
 

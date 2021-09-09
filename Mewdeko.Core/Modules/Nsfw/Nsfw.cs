@@ -192,20 +192,30 @@ namespace Mewdeko.Modules.NSFW
                 return;
             }
 
-            await ctx.SendPaginatedConfirmAsync(0, cur =>
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(result.Books.Count -1)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
                 var list = new List<string>();
-                foreach (var i in result.Books.Skip(cur).FirstOrDefault().Tags)
+                foreach (var i in result.Books.Skip(page).FirstOrDefault().Tags)
                     list.Add($"[{i.Name}](https://nhentai.net{i.Url})");
-                return new EmbedBuilder().WithOkColor()
-                    .WithTitle(result.Books.Skip(cur).FirstOrDefault().Titles.English)
+                return Task.FromResult(new PageBuilder().WithOkColor()
+                    .WithTitle(result.Books.Skip(page).FirstOrDefault().Titles.English)
                     .WithDescription(string.Join("|", list.Take(20)))
-                    .AddField("NHentai Magic Number", result.Books.Skip(cur).FirstOrDefault().Id)
+                    .AddField("NHentai Magic Number", result.Books.Skip(page).FirstOrDefault().Id)
                     .AddField("NHentai Magic URL",
-                        $"https://nhentai.net/g/{result.Books.Skip(cur).FirstOrDefault().Id}")
-                    .AddField("Pages", result.Books.Skip(cur).FirstOrDefault().PagesCount)
-                    .WithImageUrl(result.Books.Skip(cur).FirstOrDefault().GetCover());
-            }, result.Books.ToArray().Length, 1).ConfigureAwait(false);
+                        $"https://nhentai.net/g/{result.Books.Skip(page).FirstOrDefault().Id}")
+                    .AddField("Pages", result.Books.Skip(page).FirstOrDefault().PagesCount)
+                    .WithImageUrl(result.Books.Skip(page).FirstOrDefault().GetCover()));
+            }
         }
 
         [MewdekoCommand]

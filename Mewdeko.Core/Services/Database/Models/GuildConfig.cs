@@ -29,7 +29,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public string AcceptMessage { get; set; } = "";
         public string ImplementMessage { get; set; } = "";
         public string ConsiderMessage { get; set; } = "";
-        public int AfkMessageType { get; set; }
+        public string AfkMessage { get; set; } = "-";
         public int XpTxtTimeout { get; set; }
         public int XpTxtRate { get; set; }
         public int XpVoiceRate { get; set; }

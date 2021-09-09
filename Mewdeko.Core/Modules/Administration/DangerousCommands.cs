@@ -7,7 +7,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Modules.Administration.Services;
-using Mewdeko.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -190,122 +189,7 @@ namespace Mewdeko.Modules.Administration
                 await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
             }
 
-            private async Task InternalExecSql(string sql, params object[] reps)
-            {
-                sql = string.Format(sql, reps);
-                try
-                {
-                    var embed = new EmbedBuilder()
-                        .WithTitle(GetText("sql_confirm_exec"))
-                        .WithDescription(Format.Code(sql));
 
-                    if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
-
-                    var res = await _service.ExecuteSql(sql).ConfigureAwait(false);
-                    await ctx.Channel.SendConfirmAsync(res.ToString()).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    await ctx.Channel.SendErrorAsync(ex.ToString()).ConfigureAwait(false);
-                }
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task SqlSelect([Leftover] string sql)
-            {
-                var result = _service.SelectSql(sql);
-
-                return ctx.SendPaginatedConfirmAsync(0, cur =>
-                {
-                    var items = result.Results.Skip(cur * 20).Take(20);
-
-                    if (!items.Any())
-                        return new EmbedBuilder()
-                            .WithErrorColor()
-                            .WithFooter(sql)
-                            .WithDescription("-");
-
-                    return new EmbedBuilder()
-                        .WithOkColor()
-                        .WithFooter(sql)
-                        .WithTitle(string.Join(" ║ ", result.ColumnNames))
-                        .WithDescription(string.Join('\n', items.Select(x => string.Join(" ║ ", x))));
-                }, result.Results.Count, 20);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task SqlExec([Leftover] string sql)
-            {
-                return InternalExecSql(sql);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeleteWaifus()
-            {
-                return SqlExec(DangerousCommandsService.WaifusDeleteSql);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeleteWaifu(IUser user)
-            {
-                return DeleteWaifu(user.Id);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeleteWaifu(ulong userId)
-            {
-                return InternalExecSql(DangerousCommandsService.WaifuDeleteSql, userId);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeleteCurrency()
-            {
-                return SqlExec(DangerousCommandsService.CurrencyDeleteSql);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeletePlaylists()
-            {
-                return SqlExec(DangerousCommandsService.MusicPlaylistDeleteSql);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task DeleteXp()
-            {
-                return SqlExec(DangerousCommandsService.XpDeleteSql);
-            }
 
             //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
