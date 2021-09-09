@@ -34,7 +34,6 @@ helpText: |-
 # List of modules and commands completely blocked on the bot
 blocked:
   commands:
-    - donate
     - internalboobs
   modules: []
 # Which string will be used to recognize the commands

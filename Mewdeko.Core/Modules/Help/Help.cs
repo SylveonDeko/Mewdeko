@@ -175,11 +175,20 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
             embed.WithDescription($"{Prefix}cmds `category` to see whats in that category.\n{Prefix}help `command` to see a description of that command\nYou can also click one of the buttons below to see the full unpaginated list of commands for each category!");
             embed.AddField("<:Nekoha_Oooo:866320687810740234> **Categories**", "> <:nekohayay:866315028989739048> Administration\n> <:Nekoha_ok:866616128443645952> Moderation\n> <:Nekohacry:866615973834391553> Utility\n> <:Nekoha_sleep:866321311886344202> Suggestions\n> <:Nekoha_Yawn:866320872003076136> Server Management\n> <:Nekoha_angy:866321279929024582> Permissions\n> <:Nekoha_huh:866615758032994354> Xp", true);
             embed.AddField("_ _", "> <:Nekoha_Flushed:866321565393748008> NSFW\n> <:Nekohacheer:866614949895077900> Music\n> <:Nekohapoke:866613862468026368> Gambling\n> <:nekoha_slam:866316199317864458> Searches\n> <:Nekoha_wave:866321165538164776> Games\n> <:Nekohaquestion:866616825750749184> Help\n> <:nekoha_stare:866316293179572264> Custom Reactions", true);
-            embed.AddField("<:Nekohapeek:866614585992937482> Links", "[Website](https://mewdeko.tech) | [Support](https://discord.gg/6n3aa9Xapf) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212)");
+            embed.AddField("<:Nekohapeek:866614585992937482> Links", "[Website](https://mewdeko.tech) | [Support](https://discord.gg/6n3aa9Xapf) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Ko-Fi](https://ko-fi.com/mewdeko) | [Patreon](https://patreon.com/mewdeko)");
             await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: builder2.Build());
 
         }
 
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task Donate()
+        {
+            await ctx.Channel.SendConfirmAsync(
+                "If you would like to support the project, heres how:\nKo-Fi: https://ko-fi.com/mewdeko \nPatreon: https://patreon.com/mewdeko \nI appreciate any donations as they will help improve Mewdeko for the better!");
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
