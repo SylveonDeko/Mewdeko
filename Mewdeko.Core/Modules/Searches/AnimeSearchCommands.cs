@@ -14,6 +14,9 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
 using Newtonsoft.Json;
+using JikanDotNet;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -22,6 +25,11 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class AnimeSearchCommands : MewdekoSubmodule<AnimeSearchService>
         {
+            private InteractiveService Interactivity;
+            public AnimeSearchCommands(InteractiveService service)
+            {
+                Interactivity = service;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -328,8 +336,33 @@ namespace Mewdeko.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Manga([Remainder] string query)
             {
-                var client = new Client();
-              
+                var msg = await ctx.Channel.SendConfirmAsync($"<a:loading:847706744741691402> Getting results for {query}...");
+                IJikan jikan = new Jikan(true);
+                MangaSearchResult Result = await jikan.SearchManga(query);
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(Result.Results.Count()-1)
+                    .WithDefaultCanceledPage()
+                    .WithDefaultEmotes()
+                    .Build();
+                await msg.DeleteAsync();
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    return Task.FromResult(new PageBuilder()
+                        .WithTitle(Format.Bold($"{Result.Results.Skip(page).FirstOrDefault().Title}"))
+                        .AddField("First Publish Date", Result.Results.Skip(page).FirstOrDefault().StartDate)
+                        .AddField("Volumes", Result.Results.Skip(page).FirstOrDefault().Volumes)
+                        .AddField("Is Still Active", Result.Results.Skip(page).FirstOrDefault().Publishing)
+                        .AddField("Score", Result.Results.Skip(page).FirstOrDefault().Score)
+                        .AddField("Url", Result.Results.Skip(page).FirstOrDefault().URL)
+                        .WithDescription(Result.Results.Skip(page).FirstOrDefault().Description)
+                        .WithImageUrl(Result.Results.Skip(page).FirstOrDefault().ImageURL)
+                        .WithColor(Mewdeko.OkColor));
+                }
             }
         }
     }

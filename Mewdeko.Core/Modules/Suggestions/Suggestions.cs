@@ -1,10 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Interactivity;
-using Interactivity.Confirmation;
-using Interactivity.Pagination;
-using Interactivity.Selection;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
@@ -19,11 +15,11 @@ namespace Mewdeko.Modules.Suggestions
     public partial class Suggestions
     {
         [Group]
-        public class SuggestCommands : MewdekoModule<SuggestService>
+        public class SuggestionsCommands : MewdekoModule<SuggestionsService>
         {
             public DiscordSocketClient _client;
 
-            public SuggestCommands(DiscordSocketClient client)
+            public SuggestionsCommands(DiscordSocketClient client)
             {
                 _client = client;
             }
@@ -33,6 +29,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
+            [RequireUserPermission(GuildPermission.Administrator)]
             public async Task SuggestMessage([Remainder] string embed)
             {
 

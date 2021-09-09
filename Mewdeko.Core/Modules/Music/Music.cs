@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
+
 namespace Mewdeko.Core.Modules.Music
 {
     [NoPublicBot]
@@ -39,14 +42,15 @@ namespace Mewdeko.Core.Modules.Music
             Playlist = 2,
             Pl = 2
         }
-
+        private InteractiveService Interactivity;
         private const int LQ_ITEMS_PER_PAGE = 9;
         private static readonly SemaphoreSlim voiceChannelLock = new(1, 1);
         private readonly LogCommandService _logService;
         public KSoftAPI _ksoft;
 
-        public Music(LogCommandService _logService, KSoftAPI ksoft)
+        public Music(LogCommandService _logService, KSoftAPI ksoft, InteractiveService serv)
         {
+            Interactivity = serv;
             _ksoft = ksoft;
             this._logService = _logService;
         }
@@ -137,15 +141,23 @@ namespace Mewdeko.Core.Modules.Music
         public async Task Lyrics([Remainder] string songname = null)
         {
             var lyrics = await _ksoft.musicAPI.SearchLyrics(songname, true, 30);
-            await ctx.SendPaginatedConfirmAsync(0,
-                    cur =>
-                    {
-                        return new EmbedBuilder().WithOkColor()
-                            .WithTitle(Format.Bold(
-                                $"{lyrics.Data.Skip(cur).FirstOrDefault().Artist} - {lyrics.Data.Skip(cur).FirstOrDefault().Name}"))
-                            .WithDescription(lyrics.Data.Skip(cur).FirstOrDefault().Lyrics);
-                    }, lyrics.Data.ToArray().Length, 1)
-                .ConfigureAwait(false);
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(lyrics.Total - 1)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
+            {
+                return Task.FromResult(new PageBuilder().WithOkColor()
+                    .WithTitle(Format.Bold(
+                        $"{lyrics.Data.Skip(page).FirstOrDefault().Artist} - {lyrics.Data.Skip(page).FirstOrDefault().Name}"))
+                    .WithDescription(lyrics.Data.Skip(page).FirstOrDefault().Lyrics));
+            }
         }
 
         private async Task SpotifyPlaylist(string url = null)
@@ -644,67 +656,71 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             }
 
-            EmbedBuilder printAction(int curPage)
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(tracks.Count() / 9)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
             {
-                var desc = string.Empty;
-                var current = mp.GetCurrentTrack(out var currentIndex);
-                if (!(current is null)) desc = $"`🔊` {current.PrettyFullName()}\n\n" + desc;
-
-                var repeatType = mp.Repeat;
-                var add = "";
-                if (mp.IsStopped)
-                    add += Format.Bold(GetText("queue_stopped", Format.Code(Prefix + "play"))) + "\n";
-                // var mps = mp.MaxPlaytimeSeconds;
-                // if (mps > 0)
-                //     add += Format.Bold(GetText("song_skips_after", TimeSpan.FromSeconds(mps).ToString("HH\\:mm\\:ss"))) + "\n";
-                if (repeatType == PlayerRepeatType.Track)
                 {
-                    add += "🔂 " + GetText("repeating_track") + "\n";
-                }
-                else
-                {
-                    // if (mp.Autoplay)
-                    //     add += "↪ " + GetText("autoplaying") + "\n";
-                    // if (mp.FairPlay && !mp.Autoplay)
-                    //     add += " " + GetText("fairplay") + "\n";
-                    if (repeatType == PlayerRepeatType.Queue)
-                        add += "🔁 " + GetText("repeating_queue") + "\n";
-                }
+                    var desc = string.Empty;
+                    var current = mp.GetCurrentTrack(out var currentIndex);
+                    if (!(current is null)) desc = $"`🔊` {current.PrettyFullName()}\n\n" + desc;
 
-
-                desc += tracks
-                    .Skip(LQ_ITEMS_PER_PAGE * curPage)
-                    .Take(LQ_ITEMS_PER_PAGE)
-                    .Select((v, index) =>
+                    var repeatType = mp.Repeat;
+                    var add = "";
+                    if (mp.IsStopped)
+                        add += Format.Bold(GetText("queue_stopped", Format.Code(Prefix + "play"))) + "\n";
+                    // var mps = mp.MaxPlaytimeSeconds;
+                    // if (mps > 0)
+                    //     add += Format.Bold(GetText("song_skips_after", TimeSpan.FromSeconds(mps).ToString("HH\\:mm\\:ss"))) + "\n";
+                    if (repeatType == PlayerRepeatType.Track)
                     {
-                        index += LQ_ITEMS_PER_PAGE * curPage;
-                        if (index == currentIndex)
-                            return $"**⇒**`{index + 1}.` {v.PrettyFullName()}";
+                        add += "🔂 " + GetText("repeating_track") + "\n";
+                    }
+                    else
+                    {
+                        // if (mp.Autoplay)
+                        //     add += "↪ " + GetText("autoplaying") + "\n";
+                        // if (mp.FairPlay && !mp.Autoplay)
+                        //     add += " " + GetText("fairplay") + "\n";
+                        if (repeatType == PlayerRepeatType.Queue)
+                            add += "🔁 " + GetText("repeating_queue") + "\n";
+                    }
 
-                        return $"`{index + 1}.` {v.PrettyFullName()}";
-                    })
-                    .JoinWith('\n');
 
-                if (!string.IsNullOrWhiteSpace(add))
-                    desc = add + "\n" + desc;
+                    desc += tracks
+                        .Skip(LQ_ITEMS_PER_PAGE * page)
+                        .Take(LQ_ITEMS_PER_PAGE)
+                        .Select((v, index) =>
+                        {
+                            index += LQ_ITEMS_PER_PAGE * page;
+                            if (index == currentIndex)
+                                return $"**⇒**`{index + 1}.` {v.PrettyFullName()}";
 
-                var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab
-                        .WithName(GetText("player_queue", curPage + 1, tracks.Count / LQ_ITEMS_PER_PAGE + 1))
-                        .WithMusicIcon())
-                    .WithDescription(desc)
-                    .WithFooter($"  {mp.PrettyVolume()}  |  🎶 {tracks.Count}  |  ⌛ {mp.PrettyTotalTime()}  ")
-                    .WithOkColor();
+                            return $"`{index + 1}.` {v.PrettyFullName()}";
+                        })
+                        .JoinWith('\n');
 
-                return embed;
+                    if (!string.IsNullOrWhiteSpace(add))
+                        desc = add + "\n" + desc;
+
+                    return Task.FromResult(new PageBuilder()
+                        .WithAuthor(eab => eab
+                            .WithName(GetText("player_queue", page + 1, tracks.Count / LQ_ITEMS_PER_PAGE + 1))
+                            .WithMusicIcon())
+                        .WithDescription(desc)
+                        .WithFooter($"  {mp.PrettyVolume()}  |  🎶 {tracks.Count}  |  ⌛ {mp.PrettyTotalTime()}  ")
+                        .WithOkColor());
+                }
             }
 
-            await ctx.SendPaginatedConfirmAsync(
-                page,
-                printAction,
-                tracks.Count,
-                LQ_ITEMS_PER_PAGE,
-                false);
         }
 
         // search

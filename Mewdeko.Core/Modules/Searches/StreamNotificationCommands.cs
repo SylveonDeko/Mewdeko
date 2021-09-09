@@ -8,6 +8,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Searches.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +21,11 @@ namespace Mewdeko.Modules.Searches
         public class StreamNotificationCommands : MewdekoSubmodule<StreamNotificationService>
         {
             private readonly DbService _db;
+            private InteractiveService Interactivity;
 
-            public StreamNotificationCommands(DbService db)
+            public StreamNotificationCommands(DbService db, InteractiveService serv)
             {
+                Interactivity = serv;
                 _db = db;
             }
 
@@ -109,30 +113,42 @@ namespace Mewdeko.Modules.Searches
                     }
                 }
 
-                await ctx.SendPaginatedConfirmAsync(page, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(streams.Count / 12)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var elements = streams.Skip(cur * 12).Take(12)
-                        .ToList();
-
-                    if (elements.Count == 0)
-                        return new EmbedBuilder()
-                            .WithDescription(GetText("streams_none"))
-                            .WithErrorColor();
-
-                    var eb = new EmbedBuilder()
-                        .WithTitle(GetText("streams_follow_title"))
-                        .WithOkColor();
-                    for (var index = 0; index < elements.Count; index++)
                     {
-                        var elem = elements[index];
-                        eb.AddField(
-                            $"**#{index + 1 + 12 * cur}** {elem.Username.ToLower()}",
-                            $"【{elem.Type}】\n<#{elem.ChannelId}>\n{elem.Message?.TrimTo(50)}",
-                            true);
-                    }
+                        var elements = streams.Skip(page * 12).Take(12)
+                            .ToList();
 
-                    return eb;
-                }, streams.Count, 12).ConfigureAwait(false);
+                        if (elements.Count == 0)
+                            return Task.FromResult(new PageBuilder()
+                                .WithDescription(GetText("streams_none"))
+                                .WithErrorColor());
+
+                        var eb = new PageBuilder()
+                            .WithTitle(GetText("streams_follow_title"))
+                            .WithOkColor();
+                        for (var index = 0; index < elements.Count; index++)
+                        {
+                            var elem = elements[index];
+                            eb.AddField(
+                                $"**#{index + 1 + 12 * page}** {elem.Username.ToLower()}",
+                                $"【{elem.Type}】\n<#{elem.ChannelId}>\n{elem.Message?.TrimTo(50)}",
+                                true);
+                        }
+
+                        return Task.FromResult(eb);
+                    }
+                }
             }
 
             [MewdekoCommand]

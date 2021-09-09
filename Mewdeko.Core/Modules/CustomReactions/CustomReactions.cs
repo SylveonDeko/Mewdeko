@@ -10,6 +10,8 @@ using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.CustomReactions.Services;
 using Newtonsoft.Json;
 
@@ -25,10 +27,12 @@ namespace Mewdeko.Modules.CustomReactions
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _clientFactory;
+        private InteractiveService Interactivity;
 
         public CustomReactions(IBotCredentials creds, 
-            DiscordSocketClient client, IHttpClientFactory clientFactory)
+            DiscordSocketClient client, IHttpClientFactory clientFactory, InteractiveService serv)
         {
+            Interactivity = serv;
             _creds = creds;
             _client = client;
             _clientFactory = clientFactory;
@@ -180,11 +184,22 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
             }
 
-            await ctx.SendPaginatedConfirmAsync(page, curPage =>
-                    new EmbedBuilder().WithOkColor()
+            var paginator = new LazyPaginatorBuilder()
+              .AddUser(ctx.User)
+              .WithPageFactory(PageFactory)
+              .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+              .WithMaxPageIndex(customReactions.Count()/20)
+              .WithDefaultEmotes()
+              .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
+            {
+                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
                         .WithTitle(GetText("custom_reactions"))
                         .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
-                            .Skip(curPage * 20)
+                            .Skip(page * 20)
                             .Take(20)
                             .Select(cr =>
                             {
@@ -195,42 +210,10 @@ namespace Mewdeko.Modules.CustomReactions
                                 if (reactions.Any()) str = str + " // " + string.Join(" ", reactions);
 
                                 return str;
-                            }))), customReactions.Count(), 20)
-                .ConfigureAwait(false);
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(0)]
-        public async Task ListCustReact(All _)
-        {
-            var customReactions = _service.GetCustomReactionsFor(ctx.Guild?.Id);
-
-            if (customReactions == null || !customReactions.Any())
-            {
-                await ReplyErrorLocalizedAsync("no_found").ConfigureAwait(false);
-                return;
-            }
-
-            using (var txtStream = await customReactions.GroupBy(cr => cr.Trigger)
-                .OrderBy(cr => cr.Key)
-                .Select(cr => new
-                    {Trigger = cr.Key, Responses = cr.Select(y => new {id = y.Id, text = y.Response}).ToList()})
-                .ToJson()
-                .ToStream()
-                .ConfigureAwait(false))
-            {
-                if (ctx.Guild == null) // its a private one, just send back
-                    await ctx.Channel.SendFileAsync(txtStream, "customreactions.txt", GetText("list_all"))
-                        .ConfigureAwait(false);
-                else
-                    await ((IGuildUser) ctx.User)
-                        .SendFileAsync(txtStream, "customreactions.txt", GetText("list_all"), false)
-                        .ConfigureAwait(false);
+                            }))));
             }
         }
+
 
         [MewdekoCommand]
         [Usage]
@@ -253,14 +236,25 @@ namespace Mewdeko.Modules.CustomReactions
                     .OrderBy(cr => cr.Key)
                     .ToList();
 
-                await ctx.SendPaginatedConfirmAsync(page, curPage =>
-                        new EmbedBuilder().WithOkColor()
-                            .WithTitle(GetText("name"))
+                var paginator = new LazyPaginatorBuilder()
+               .AddUser(ctx.User)
+               .WithPageFactory(PageFactory)
+               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+               .WithMaxPageIndex(customReactions.Count()/20)
+               .WithDefaultEmotes()
+               .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
+                           .WithTitle(GetText("name"))
                             .WithDescription(string.Join("\r\n", ordered
-                                .Skip(curPage * 20)
+                                .Skip(page * 20)
                                 .Take(20)
-                                .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))),
-                    ordered.Count, 20).ConfigureAwait(false);
+                                .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))));
+                }
             }
         }
 

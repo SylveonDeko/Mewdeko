@@ -11,6 +11,8 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
 
@@ -32,9 +34,11 @@ namespace Mewdeko.Modules.Administration
             private readonly Mewdeko _bot;
             private readonly DiscordSocketClient _client;
             private readonly IBotStrings _strings;
+            private InteractiveService Interactivity;
 
-            public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings)
+            public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings, InteractiveService serv)
             {
+                Interactivity = serv;
                 _client = client;
                 _bot = bot;
                 _strings = strings;
@@ -314,19 +318,31 @@ namespace Mewdeko.Modules.Administration
                     })
                     .ToArray();
 
-                await ctx.SendPaginatedConfirmAsync(page, curPage =>
+                var paginator = new LazyPaginatorBuilder()
+              .AddUser(ctx.User)
+              .WithPageFactory(PageFactory)
+              .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+              .WithMaxPageIndex(allShardStrings.Length - 1)
+              .WithDefaultEmotes()
+              .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var str = string.Join("\n", allShardStrings.Skip(25 * curPage).Take(25));
+                    {
+                        var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
 
-                    if (string.IsNullOrWhiteSpace(str))
-                        str = GetText("no_shards_on_page");
+                        if (string.IsNullOrWhiteSpace(str))
+                            str = GetText("no_shards_on_page");
 
-                    return new EmbedBuilder()
-                        .WithAuthor(a => a.WithName(GetText("shard_stats")))
-                        .WithTitle(status)
-                        .WithOkColor()
-                        .WithDescription(str);
-                }, allShardStrings.Length, 25).ConfigureAwait(false);
+                        return Task.FromResult(new PageBuilder()
+                            .WithAuthor(a => a.WithName(GetText("shard_stats")))
+                            .WithTitle(status)
+                            .WithColor(Mewdeko.OkColor)
+                            .WithDescription(str));
+                    }
+                }
             }
 
             [MewdekoCommand]

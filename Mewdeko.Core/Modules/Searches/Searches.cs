@@ -17,6 +17,8 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
@@ -42,11 +44,13 @@ namespace Mewdeko.Modules.Searches
         private readonly IHttpClientFactory _httpFactory;
         private readonly KSoftAPI _kSoftAPI;
         private readonly GuildTimezoneService _tzSvc;
+        private InteractiveService Interactivity;
 
         public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
             GuildTimezoneService tzSvc,
-            KSoftAPI kSoftAPI)
+            KSoftAPI kSoftAPI, InteractiveService serv)
         {
+            Interactivity = serv;
             _kSoftAPI = kSoftAPI;
             _creds = creds;
             _google = google;
@@ -897,16 +901,26 @@ namespace Mewdeko.Modules.Searches
                     var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
                     if (items.Any())
                     {
-                        await ctx.SendPaginatedConfirmAsync(0, p =>
+                        var paginator = new LazyPaginatorBuilder()
+                            .AddUser(ctx.User)
+                            .WithPageFactory(PageFactory)
+                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                            .WithMaxPageIndex(items.Length - 1)
+                            .WithDefaultEmotes()
+                            .Build();
+
+                        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                        Task<PageBuilder> PageFactory(int page)
                         {
-                            var item = items[p];
-                            return new EmbedBuilder().WithOkColor()
+
+                            var item = items[page];
+                            return Task.FromResult(new PageBuilder().WithOkColor()
                                 .WithUrl(item.Permalink)
                                 .WithAuthor(
                                     eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
-                                .WithDescription(item.Definition);
-                        }, items.Length, 1).ConfigureAwait(false);
-                        return;
+                                .WithDescription(item.Definition));
+                        }
                     }
                 }
                 catch
@@ -965,21 +979,33 @@ namespace Mewdeko.Modules.Searches
 
                     Log.Information($"Sending {col.Count} definition for: {word}");
 
-                    await ctx.SendPaginatedConfirmAsync(0, page =>
+                    var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(col.Count() -1)
+                        .WithDefaultEmotes()
+                        .Build();
+
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                    Task<PageBuilder> PageFactory(int page)
                     {
-                        var data = col.Skip(page).First();
-                        var embed = new EmbedBuilder()
-                            .WithDescription(ctx.User.Mention)
-                            .AddField(GetText("word"), data.Word, true)
-                            .AddField(GetText("class"), data.WordType, true)
-                            .AddField(GetText("definition"), data.Definition)
-                            .WithOkColor();
+                        {
+                            var data = col.Skip(page).First();
+                            var embed = new PageBuilder()
+                                .WithDescription(ctx.User.Mention)
+                                .AddField(GetText("word"), data.Word, true)
+                                .AddField(GetText("class"), data.WordType, true)
+                                .AddField(GetText("definition"), data.Definition)
+                                .WithOkColor();
 
-                        if (!string.IsNullOrWhiteSpace(data.Example))
-                            embed.AddField(efb => efb.WithName(GetText("example")).WithValue(data.Example));
+                            if (!string.IsNullOrWhiteSpace(data.Example))
+                                embed.AddField(efb => efb.WithName(GetText("example")).WithValue(data.Example));
 
-                        return embed;
-                    }, col.Count, 1);
+                            return Task.FromResult(embed);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

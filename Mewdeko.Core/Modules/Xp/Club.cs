@@ -5,6 +5,8 @@ using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp
@@ -15,10 +17,12 @@ namespace Mewdeko.Modules.Xp
         public class Club : MewdekoSubmodule<ClubService>
         {
             private readonly XpService _xps;
+            private InteractiveService Interactivity;
 
-            public Club(XpService xps)
+            public Club(XpService xps, InteractiveService serv)
             {
                 _xps = xps;
+                Interactivity = serv;
             }
 
             [MewdekoCommand]
@@ -148,9 +152,19 @@ namespace Mewdeko.Modules.Xp
                         return l;
                     });
 
-                await ctx.SendPaginatedConfirmAsync(0, page =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(club.Users.Count / 10)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var embed = new EmbedBuilder()
+                    var embed = new PageBuilder()
                         .WithOkColor()
                         .WithTitle($"{club}")
                         .WithDescription(GetText("level_x", lvl.Level) + $" ({club.Xp} xp)")
@@ -172,43 +186,56 @@ namespace Mewdeko.Modules.Xp
                             })));
 
                     if (Uri.IsWellFormedUriString(club.ImageUrl, UriKind.Absolute))
-                        return embed.WithThumbnailUrl(club.ImageUrl);
+                        return Task.FromResult(embed.WithThumbnailUrl(club.ImageUrl));
 
-                    return embed;
-                }, club.Users.Count, 10).ConfigureAwait(false);
+                    return Task.FromResult(embed);
+                }
             }
 
             [MewdekoCommand]
             [Usage]
             [Description]
             [Aliases]
-            public Task ClubBans(int page = 1)
+            public async Task ClubBans(int page = 1)
             {
                 if (--page < 0)
-                    return Task.CompletedTask;
+                    return;
 
                 var club = _service.GetClubWithBansAndApplications(ctx.User.Id);
                 if (club == null)
-                    return ReplyErrorLocalizedAsync("club_not_exists_owner");
+                {
+                    await ReplyErrorLocalizedAsync("club_not_exists_owner");
+                    return;
+                }
 
                 var bans = club
                     .Bans
                     .Select(x => x.User)
                     .ToArray();
 
-                return ctx.SendPaginatedConfirmAsync(page,
-                    curPage =>
-                    {
-                        var toShow = string.Join("\n", bans
-                            .Skip(page * 10)
-                            .Take(10)
-                            .Select(x => x.ToString()));
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(bans.Length / 10)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                        return new EmbedBuilder()
-                            .WithTitle(GetText("club_bans_for", club.ToString()))
-                            .WithDescription(toShow)
-                            .WithOkColor();
-                    }, bans.Length, 10);
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    var toShow = string.Join("\n", bans
+                        .Skip(page * 10)
+                        .Take(10)
+                        .Select(x => x.ToString()));
+
+                    return Task.FromResult(new PageBuilder()
+                        .WithTitle(GetText("club_bans_for", club.ToString()))
+                        .WithDescription(toShow)
+                        .WithOkColor());
+                }
+
             }
 
 
@@ -216,33 +243,45 @@ namespace Mewdeko.Modules.Xp
             [Usage]
             [Description]
             [Aliases]
-            public Task ClubApps(int page = 1)
+            public async Task ClubApps(int page = 1)
             {
                 if (--page < 0)
-                    return Task.CompletedTask;
+                    return;
 
                 var club = _service.GetClubWithBansAndApplications(ctx.User.Id);
                 if (club == null)
-                    return ReplyErrorLocalizedAsync("club_not_exists_owner");
+                {
+                    await ReplyErrorLocalizedAsync("club_not_exists_owner");
+                    return;
+                }
 
                 var apps = club
                     .Applicants
                     .Select(x => x.User)
                     .ToArray();
 
-                return ctx.SendPaginatedConfirmAsync(page,
-                    curPage =>
-                    {
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(apps.Length / 10)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
                         var toShow = string.Join("\n", apps
                             .Skip(page * 10)
                             .Take(10)
                             .Select(x => x.ToString()));
 
-                        return new EmbedBuilder()
+                        return Task.FromResult(new PageBuilder()
                             .WithTitle(GetText("club_apps_for", club.ToString()))
                             .WithDescription(toShow)
-                            .WithOkColor();
-                    }, apps.Length, 10);
+                            .WithOkColor());
+                }
             }
 
             [MewdekoCommand]

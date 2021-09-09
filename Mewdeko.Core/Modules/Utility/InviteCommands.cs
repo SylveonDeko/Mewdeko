@@ -7,6 +7,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Utility.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -15,6 +17,12 @@ namespace Mewdeko.Modules.Utility
         [Group]
         public class InviteCommands : MewdekoSubmodule<InviteService>
         {
+            private InteractiveService Interactivity;
+
+            public InviteCommands(InteractiveService serv)
+            {
+                Interactivity = serv;
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -50,20 +58,32 @@ namespace Mewdeko.Modules.Utility
 
                 var invites = await ctx.Guild.GetInvitesAsync().ConfigureAwait(false);
 
-                await ctx.SendPaginatedConfirmAsync(page, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(invites.Count() / 9)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var i = 1;
-                    var invs = invites.OrderByDescending(x => x.Uses).Skip(cur * 9).Take(9);
-                    if (!invs.Any())
-                        return new EmbedBuilder()
-                            .WithErrorColor()
-                            .WithDescription(GetText("no_invites"));
-                    return invs.Aggregate(new EmbedBuilder().WithOkColor(),
-                        (acc, inv) => acc.AddField(
-                            $"#{i++} {inv.Inviter.ToString().TrimTo(15)} " +
-                            $"({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})",
-                            inv.Url));
-                }, invites.Count, 9).ConfigureAwait(false);
+                    {
+                        var i = 1;
+                        var invs = invites.OrderByDescending(x => x.Uses).Skip(page * 9).Take(9);
+                        if (!invs.Any())
+                            return Task.FromResult(new PageBuilder()
+                                .WithErrorColor()
+                                .WithDescription(GetText("no_invites")));
+                        return Task.FromResult(invs.Aggregate(new PageBuilder().WithOkColor(),
+                            (acc, inv) => acc.AddField(
+                                $"#{i++} {inv.Inviter.ToString().TrimTo(15)} " +
+                                $"({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})",
+                                inv.Url)));
+                    }
+                }
             }
 
             [MewdekoCommand]

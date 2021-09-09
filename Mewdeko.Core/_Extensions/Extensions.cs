@@ -29,6 +29,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
+using Mewdeko.Interactive;
 
 namespace Mewdeko.Extensions
 {
@@ -212,6 +213,15 @@ namespace Mewdeko.Extensions
         }
 
         public static EmbedBuilder WithErrorColor(this EmbedBuilder eb)
+        {
+            return eb.WithColor(Mewdeko.ErrorColor);
+        }
+        public static PageBuilder WithOkColor(this PageBuilder eb)
+        {
+            return eb.WithColor(Mewdeko.OkColor);
+        }
+
+        public static PageBuilder WithErrorColor(this PageBuilder eb)
         {
             return eb.WithColor(Mewdeko.ErrorColor);
         }

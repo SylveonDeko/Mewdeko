@@ -7,6 +7,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Gambling.Services;
 
@@ -18,9 +20,11 @@ namespace Mewdeko.Modules.Games
         public class PlantPickCommands : GamblingSubmodule<PlantPickService>
         {
             private readonly LogCommandService logService;
+            private InteractiveService Interactivity;
 
-            public PlantPickCommands(LogCommandService logService, GamblingConfigService gss) : base(gss)
+            public PlantPickCommands(LogCommandService logService, GamblingConfigService gss, InteractiveService serv) : base(gss)
             {
+                Interactivity = serv;
                 this.logService = logService;
             }
 
@@ -105,23 +109,35 @@ namespace Mewdeko.Modules.Games
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [OwnerOnly]
-            public Task GenCurList(int page = 1)
+            public async Task GenCurList(int page = 1)
             {
                 if (--page < 0)
-                    return Task.CompletedTask;
+                    return;
                 var enabledIn = _service.GetAllGeneratingChannels();
 
-                return ctx.SendPaginatedConfirmAsync(page, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(enabledIn.Count() / 9)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var items = enabledIn.Skip(page * 9).Take(9);
+                    {
+                        var items = enabledIn.Skip(page * 9).Take(9);
 
-                    if (!items.Any())
-                        return new EmbedBuilder().WithErrorColor()
-                            .WithDescription("-");
+                        if (!items.Any())
+                            return Task.FromResult(new PageBuilder().WithErrorColor()
+                                .WithDescription("-"));
 
-                    return items.Aggregate(new EmbedBuilder().WithOkColor(),
-                        (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));
-                }, enabledIn.Count(), 9);
+                        return Task.FromResult(items.Aggregate(new PageBuilder().WithOkColor(),
+                            (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId)));
+                    }
+                }
             }
         }
     }

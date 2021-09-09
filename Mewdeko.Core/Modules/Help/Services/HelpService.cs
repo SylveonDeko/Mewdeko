@@ -49,10 +49,15 @@ namespace Mewdeko.Modules.Help.Services
             {
                 if (parsedArg.Data.Values == null)
                     return;
+                await parsedArg.DeferAsync();
                 var selectedValue = parsedArg.Data.Values?.First();
                 if (!list3.Any()) return;
-                var ta = list3.Where(x => x.chan == parsedArg.Channel as ITextChannel).Last().msg;
-                var context = new CommandContext(_client, ta);
+                var name = selectedValue.ToTitleCase();
+                if (selectedValue == "custom") name = "Custom Reactions";
+                if (selectedValue == "servermanage") name = "Server Management";
+                var ta = list3.Where(x => x.chan == parsedArg.Channel as ITextChannel).FirstOrDefault();
+                var selmens = ta.Builder.WithPlaceholder(name);
+                var context = new CommandContext(_client, ta.msg);
                 var module = selectedValue.Trim().ToUpperInvariant();
                 var cmds = _cmds.Commands.Where(c =>
                             c.Module.GetTopLevelModule().Name.ToUpperInvariant()
@@ -106,9 +111,9 @@ namespace Mewdeko.Modules.Help.Services
                         embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
                     }
                 }
-                if (parsedArg.User.Id == ta.Author.Id)
+                if (parsedArg.User.Id == ta.msg.Author.Id)
                 {
-                    await parsedArg.Message.ModifyAsync(x => x.Embed = embed.Build());
+                    await parsedArg.Message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = new ComponentBuilder().WithSelectMenu(selmens).Build(); });
                 }
                 else
                 {
@@ -122,7 +127,7 @@ namespace Mewdeko.Modules.Help.Services
             public IUser user { get; set; }
             public IUserMessage msg { get; set; }
             public ITextChannel chan { get; set; }
-            public DateTime time { get; set; }
+            public SelectMenuBuilder Builder { get; set; }
         }
         private async Task HandlePing(SocketMessage msg)
         {

@@ -9,6 +9,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +23,11 @@ namespace Mewdeko.Modules.Utility
         {
             private readonly DiscordSocketClient _client;
             private readonly DbService _db;
+            private InteractiveService Interactivity;
 
-            public CommandMapCommands(DbService db, DiscordSocketClient client)
+            public CommandMapCommands(DbService db, DiscordSocketClient client, InteractiveService serv)
             {
+                Interactivity = serv;
                 _db = db;
                 _client = client;
             }
@@ -146,13 +150,25 @@ namespace Mewdeko.Modules.Utility
 
                 var arr = maps.ToArray();
 
-                await ctx.SendPaginatedConfirmAsync(page, curPage =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(arr.Length / 10)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    return new EmbedBuilder().WithOkColor()
-                        .WithTitle(GetText("alias_list"))
-                        .WithDescription(string.Join("\n",
-                            arr.Skip(curPage * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
-                }, arr.Length, 10).ConfigureAwait(false);
+                    {
+                        return Task.FromResult(new PageBuilder().WithOkColor()
+                            .WithTitle(GetText("alias_list"))
+                            .WithDescription(string.Join("\n",
+                                arr.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`"))));
+                    }
+                }
             }
         }
     }

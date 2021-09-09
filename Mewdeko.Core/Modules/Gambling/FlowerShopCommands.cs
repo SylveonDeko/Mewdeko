@@ -12,6 +12,8 @@ using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -34,15 +36,17 @@ namespace Mewdeko.Modules.Gambling
 
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
+            private InteractiveService Interactivity;
 
-            public FlowerShopCommands(DbService db, ICurrencyService cs, GamblingConfigService gamblingConf)
+            public FlowerShopCommands(DbService db, ICurrencyService cs, GamblingConfigService gamblingConf, InteractiveService serv)
                 : base(gamblingConf)
             {
+                Interactivity = serv;
                 _db = db;
                 _cs = cs;
             }
 
-            private Task ShopInternalAsync(int page = 0)
+            private async Task ShopInternalAsync(int page = 0)
             {
                 if (page < 0)
                     throw new ArgumentOutOfRangeException(nameof(page));
@@ -52,27 +56,39 @@ namespace Mewdeko.Modules.Gambling
                         set => set.Include(x => x.ShopEntries)
                             .ThenInclude(x => x.Items)).ShopEntries
                     .ToIndexed();
-                return ctx.SendPaginatedConfirmAsync(page, curPage =>
+                var paginator = new LazyPaginatorBuilder()
+               .AddUser(ctx.User)
+               .WithPageFactory(PageFactory)
+               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+               .WithMaxPageIndex(entries.Count()/9)
+               .WithDefaultEmotes()
+               .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var theseEntries = entries.Skip(curPage * 9).Take(9).ToArray();
-
-                    if (!theseEntries.Any())
-                        return new EmbedBuilder().WithErrorColor()
-                            .WithDescription(GetText("shop_none"));
-                    var embed = new EmbedBuilder().WithOkColor()
-                        .WithTitle(GetText("shop", CurrencySign));
-
-                    for (var i = 0; i < theseEntries.Length; i++)
                     {
-                        var entry = theseEntries[i];
-                        embed.AddField(
-                            $"#{curPage * 9 + i + 1} - {entry.Price}{CurrencySign}",
-                            EntryToString(entry),
-                            true);
-                    }
+                        var theseEntries = entries.Skip(page * 9).Take(9).ToArray();
 
-                    return embed;
-                }, entries.Count, 9);
+                        if (!theseEntries.Any())
+                            return Task.FromResult(new PageBuilder().WithErrorColor()
+                                .WithDescription(GetText("shop_none")));
+                        var embed = new PageBuilder().WithOkColor()
+                            .WithTitle(GetText("shop", CurrencySign));
+
+                        for (var i = 0; i < theseEntries.Length; i++)
+                        {
+                            var entry = theseEntries[i];
+                            embed.AddField(
+                                $"#{page * 9 + i + 1} - {entry.Price}{CurrencySign}",
+                                EntryToString(entry),
+                                true);
+                        }
+
+                        return Task.FromResult(embed);
+                    }
+                }
             }
 
             [MewdekoCommand]

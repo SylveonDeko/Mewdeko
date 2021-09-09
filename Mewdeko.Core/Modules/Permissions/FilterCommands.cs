@@ -7,6 +7,8 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,9 +20,10 @@ namespace Mewdeko.Modules.Permissions
         public class FilterCommands : MewdekoSubmodule<FilterService>
         {
             private readonly DbService _db;
-
-            public FilterCommands(DbService db)
+            private InteractiveService Interactivity;
+            public FilterCommands(DbService db, InteractiveService serv)
             {
+                Interactivity = serv;
                 _db = db;
             }
 
@@ -56,12 +59,25 @@ namespace Mewdeko.Modules.Permissions
                 if (!words.Any())
                     await ctx.Channel.SendErrorAsync("No AutoBanWords set.");
                 else
-                    await ctx.SendPaginatedConfirmAsync(page,
-                        curPage => new EmbedBuilder()
+                {
+                    var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(words.Count()/10)
+                        .WithDefaultEmotes()
+                        .Build();
+
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                    Task<PageBuilder> PageFactory(int page)
+                    {
+                        return Task.FromResult(new PageBuilder()
                             .WithTitle("AutoBanWords")
-                            .WithDescription(string.Join("\n", words.Select(x => x.Word).Skip(curPage * 10).Take(10)))
-                            .WithOkColor()
-                        , words.Count(), 10).ConfigureAwait(false);
+                            .WithDescription(string.Join("\n", words.Select(x => x.Word).Skip(page * 10).Take(10)))
+                            .WithOkColor());
+                    }
+                }
             }
 
             [MewdekoCommand]
@@ -383,12 +399,24 @@ namespace Mewdeko.Modules.Permissions
 
                 var fws = fwHash.ToArray();
 
-                await ctx.SendPaginatedConfirmAsync(page,
-                    curPage => new EmbedBuilder()
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(fws.Length / 10)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    return Task.FromResult(new PageBuilder()
                         .WithTitle(GetText("filter_word_list"))
-                        .WithDescription(string.Join("\n", fws.Skip(curPage * 10).Take(10)))
-                        .WithOkColor()
-                    , fws.Length, 10).ConfigureAwait(false);
+                        .WithDescription(string.Join("\n", fws.Skip(page * 10).Take(10)))
+                        .WithOkColor());
+                }
+
             }
         }
     }

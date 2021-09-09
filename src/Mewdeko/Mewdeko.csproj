@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Remove="credentials.json" />
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <None Update="data\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

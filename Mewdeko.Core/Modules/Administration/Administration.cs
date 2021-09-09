@@ -9,11 +9,14 @@ using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Humanizer;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Modules.Administration
 {
     public partial class Administration : MewdekoModule<AdministrationService>
     {
+        private InteractiveService Interactivity;
         public enum Channel
         {
             Channel,
@@ -39,6 +42,10 @@ namespace Mewdeko.Modules.Administration
             Disable,
             Inherit
         }
+        public Administration(InteractiveService serv)
+        {
+            Interactivity = serv;
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -56,12 +63,22 @@ namespace Mewdeko.Modules.Administration
             }
             if (option is not null && option.ToLower() == "-p")
             {
-                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(users.Count() - 1)
+                    .WithDefaultCanceledPage()
+                    .WithDefaultEmotes()
+                    .Build();
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    return new EmbedBuilder().WithOkColor()
+                    return Task.FromResult(new PageBuilder()
                         .WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
-                        .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
-                }, users.Count(), 20).ConfigureAwait(false);
+                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
+                }
             }
             int banned = 0;
             int errored = 0;
@@ -100,12 +117,22 @@ namespace Mewdeko.Modules.Administration
             }
             if (option is not null && option.ToLower() == "-p")
             {
-                await ctx.SendPaginatedConfirmAsync(0, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                     .AddUser(ctx.User)
+                     .WithPageFactory(PageFactory)
+                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                     .WithMaxPageIndex(users.Count() - 1)
+                     .WithDefaultCanceledPage()
+                     .WithDefaultEmotes()
+                     .Build();
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    return new EmbedBuilder().WithOkColor()
-                        .WithTitle($"Previewing {users.Count()} users who joined {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
-                        .WithDescription(string.Join("\n", users.Skip(cur * 20).Take(20)));
-                }, users.Count(), 20).ConfigureAwait(false);
+                    return Task.FromResult(new PageBuilder()
+                        .WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
+                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
+                }
             }
             int banned = 0;
             int errored = 0;
@@ -280,22 +307,7 @@ namespace Mewdeko.Modules.Administration
                     $"Your staff role has been switched from {oldrole.Mention} to {role.Mention}");
             }
         }
-        //[MewdekoCommand]
-        //[Usage]
-        //[Description]
-        //[Aliases]
-        //public async Task Test()
-        //{
 
-        //    var e = guild.DefaultChannel;
-        //    var eb = new EmbedBuilder();
-        //    eb.Description = "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command.";
-        //    eb.AddField("How to look for commands", "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
-        //    eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link:https://mewdeko.tech/invite");
-        //    eb.WithThumbnailUrl("https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
-        //    eb.WithOkColor();
-        //    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-        //}
         [MewdekoCommand]
         [Usage]
         [Description]

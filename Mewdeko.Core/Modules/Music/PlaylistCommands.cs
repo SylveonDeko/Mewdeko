@@ -9,6 +9,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules;
 using Mewdeko.Modules.Music.Services;
 using Serilog;
@@ -23,9 +25,11 @@ namespace Mewdeko.Core.Modules.Music
             private static readonly SemaphoreSlim _playlistLock = new(1, 1);
             private readonly IBotCredentials _creds;
             private readonly DbService _db;
+            private InteractiveService Interactivity;
 
-            public PlaylistCommands(DbService db, IBotCredentials creds)
+            public PlaylistCommands(DbService db, IBotCredentials creds, InteractiveService serv)
             {
+                Interactivity = serv;
                 _db = db;
                 _creds = creds;
             }
@@ -120,18 +124,30 @@ namespace Mewdeko.Core.Modules.Music
                     mpl = uow.MusicPlaylists.GetWithSongs(id);
                 }
 
-                await ctx.SendPaginatedConfirmAsync(page, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(mpl.Songs.Count() / 20)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var i = 0;
-                    var str = string.Join("\n", mpl.Songs
-                        .Skip(cur * 20)
-                        .Take(20)
-                        .Select(x => $"`{++i}.` [{x.Title.TrimTo(45)}]({x.Query}) `{x.Provider}`"));
-                    return new EmbedBuilder()
-                        .WithTitle($"\"{mpl.Name}\" by {mpl.Author}")
-                        .WithOkColor()
-                        .WithDescription(str);
-                }, mpl.Songs.Count, 20).ConfigureAwait(false);
+                    {
+                        var i = 0;
+                        var str = string.Join("\n", mpl.Songs
+                            .Skip(page * 20)
+                            .Take(20)
+                            .Select(x => $"`{++i}.` [{x.Title.TrimTo(45)}]({x.Query}) `{x.Provider}`"));
+                        return Task.FromResult(new PageBuilder()
+                            .WithTitle($"\"{mpl.Name}\" by {mpl.Author}")
+                            .WithOkColor()
+                            .WithDescription(str));
+                    }
+                }
             }
 
             [MewdekoCommand]

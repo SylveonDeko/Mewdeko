@@ -8,6 +8,8 @@ using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Core.Modules.Gambling.Common.Waifu;
 using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling
@@ -17,8 +19,10 @@ namespace Mewdeko.Modules.Gambling
         [Group]
         public class WaifuClaimCommands : GamblingSubmodule<WaifuService>
         {
-            public WaifuClaimCommands(GamblingConfigService gamblingConfService) : base(gamblingConfService)
+            private InteractiveService Interactivity;
+            public WaifuClaimCommands(GamblingConfigService gamblingConfService, InteractiveService serv) : base(gamblingConfService)
             {
+                Interactivity = serv;
             }
 
             [MewdekoCommand]
@@ -321,50 +325,62 @@ namespace Mewdeko.Modules.Gambling
                     return;
 
                 var waifuItems = _service.GetWaifuItems();
-                await ctx.SendPaginatedConfirmAsync(page, cur =>
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(waifuItems.Count / 9)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var embed = new EmbedBuilder()
-                        .WithTitle(GetText("waifu_gift_shop"))
-                        .WithOkColor();
+                    {
+                        var embed = new PageBuilder()
+                            .WithTitle(GetText("waifu_gift_shop"))
+                            .WithOkColor();
 
-                    waifuItems
-                        .OrderBy(x => x.Price)
-                        .Skip(9 * cur)
-                        .Take(9)
-                        .ForEach(x => embed.AddField($"{x.ItemEmoji} {x.Name}", x.Price, true));
+                        waifuItems
+                            .OrderBy(x => x.Price)
+                            .Skip(9 * page)
+                            .Take(9)
+                            .ForEach(x => embed.AddField($"{x.ItemEmoji} {x.Name}", x.Price, true));
 
-                    return embed;
-                }, waifuItems.Count, 9);
+                        return Task.FromResult(embed);
+                    }
+                }
             }
 
             [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [Priority(0)]
-            public async Task WaifuGift(string itemName, [Leftover] IUser waifu)
-            {
-                if (waifu.Id == ctx.User.Id)
-                    return;
-
-                var allItems = _service.GetWaifuItems();
-                var item = allItems.FirstOrDefault(x => x.Name.ToLowerInvariant() == itemName.ToLowerInvariant());
-                if (item is null)
+                [Usage]
+                [Description]
+                [Aliases]
+                [RequireContext(ContextType.Guild)]
+                [Priority(0)]
+                public async Task WaifuGift(string itemName, [Leftover] IUser waifu)
                 {
-                    await ReplyErrorLocalizedAsync("waifu_gift_not_exist");
-                    return;
+                    if (waifu.Id == ctx.User.Id)
+                        return;
+
+                    var allItems = _service.GetWaifuItems();
+                    var item = allItems.FirstOrDefault(x => x.Name.ToLowerInvariant() == itemName.ToLowerInvariant());
+                    if (item is null)
+                    {
+                        await ReplyErrorLocalizedAsync("waifu_gift_not_exist");
+                        return;
+                    }
+
+                    var sucess = await _service.GiftWaifuAsync(ctx.User, waifu, item);
+
+                    if (sucess)
+                        await ReplyConfirmLocalizedAsync("waifu_gift",
+                            Format.Bold(item + " " + item.ItemEmoji),
+                            Format.Bold(waifu.ToString()));
+                    else
+                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
                 }
-
-                var sucess = await _service.GiftWaifuAsync(ctx.User, waifu, item);
-
-                if (sucess)
-                    await ReplyConfirmLocalizedAsync("waifu_gift",
-                        Format.Bold(item + " " + item.ItemEmoji),
-                        Format.Bold(waifu.ToString()));
-                else
-                    await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
-            }
         }
     }
 }
