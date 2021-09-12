@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Mewdeko.Core.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Mewdeko
 {
@@ -18,19 +20,38 @@ namespace Mewdeko
             {
                 await new Mewdeko(shardId, parentProcessId == 0 ? pid : parentProcessId)
                     .RunAndBlockAsync();
+                //_ = Task.Run(async () =>
+                //{
+                //    await CreateHostBuilder(args).Build().RunAsync();
+                //});
             }
             else
             {
                 await new ShardsCoordinator()
                     .RunAsync()
                     .ConfigureAwait(false);
+                //_ = Task.Run(async () =>
+                //{
+                //    await CreateHostBuilder(args).Build().RunAsync();
+                //});
 #if DEBUG
                 await new Mewdeko(0, pid)
                     .RunAndBlockAsync();
+                //_ = Task.Run(async () =>
+                //{
+                //    await CreateHostBuilder(args).Build().RunAsync();
+                //});
 #else
                 await Task.Delay(-1);
 #endif
+
             }
         }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

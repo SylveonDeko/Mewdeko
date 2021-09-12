@@ -16,6 +16,11 @@ namespace Mewdeko.Core.Services.Database.Models
         public ulong MemberRole { get; set; } = 0;
         public ulong WarnlogChannelId { get; set; } = 0;
         public ulong MiniWarnlogChannelId { get; set; } = 0;
+        public bool SendBoostMessage { get; set; }
+        public string BoostMessage { get; set; } = "%user% just boosted this server!";
+        public ulong BoostMessageChannelId { get; set; }
+        public int BoostMessageDeleteAfter { get; set; }
+
         public ulong TicketCategory { get; set; } = 0;
         public ulong snipeset { get; set; }
         public string SuggestEmotes { get; set; }

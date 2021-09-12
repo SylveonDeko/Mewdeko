@@ -55,6 +55,23 @@ namespace Mewdeko.Extensions
 
             return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
         }
+    public static Task<IUserMessage> SendAsync(this IMessageChannel channel, string plainText, Embed embed, bool sanitizeAll = false)
+    {
+        plainText = sanitizeAll
+            ? plainText?.SanitizeAllMentions() ?? ""
+            : plainText?.SanitizeMentions() ?? "";
+
+        return channel.SendMessageAsync(plainText, embed: embed);
+    }
+
+    public static Task<IUserMessage> SendAsync(this IMessageChannel channel, SmartText text, bool sanitizeAll = false)
+        => text switch
+        {
+            SmartEmbedText set => channel.SendAsync(set.PlainText, set.GetEmbed().Build(), sanitizeAll),
+            SmartPlainText st => channel.SendAsync(st.Text, null, sanitizeAll),
+            _ => throw new ArgumentOutOfRangeException(nameof(text))
+        };
+
 
         public static List<ulong> GetGuildIds(this DiscordSocketClient client)
         {

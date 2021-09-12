@@ -45,9 +45,57 @@ namespace Mewdeko.Core.Services
             _webhooks = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.WebhookURL)
                 .ToConcurrent();
-        }
 
-        public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
+            _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
+        }
+        private Func<Task> TriggerBoostMessage(GreetSettings conf, SocketGuildUser user) => async () =>
+        {
+            var channel = user.Guild.GetTextChannel(conf.BoostMessageChannelId);
+            if (channel is null)
+                return;
+
+            if (string.IsNullOrWhiteSpace(conf.BoostMessage))
+                return;
+
+            var toSend = SmartText.CreateFrom(conf.BoostMessage);
+            var rep = new ReplacementBuilder()
+                .WithDefault(user, channel, user.Guild, _client)
+                .Build();
+
+            try
+            {
+                var toDelete = await channel.SendAsync(rep.Replace(toSend));
+                if (conf.BoostMessageDeleteAfter > 0)
+                {
+                    toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error sending boost message.");
+            }
+        };
+
+            private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong > oldUser, SocketGuildUser newUser)
+            {
+                // if user is a new booster
+                // or boosted again the same server
+                if ((oldUser.Value is { PremiumSince: null } && newUser is { PremiumSince: not null })
+                    || (oldUser.Value.PremiumSince is DateTimeOffset oldDate
+                        && newUser.PremiumSince is DateTimeOffset newDate
+                        && newDate > oldDate))
+                {
+                    var conf = GetOrAddSettingsForGuild(newUser.Guild.Id);
+                    if (!conf.SendBoostMessage) return Task.CompletedTask;
+
+                    _ = Task.Run(TriggerBoostMessage(conf, newUser));
+                }
+
+                return Task.CompletedTask;
+            }
+
+
+            public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
         private ConcurrentDictionary<ulong, int> _webgreets { get; } = new();
         private ConcurrentDictionary<ulong, string> _webhooks { get; } = new();
         public bool GroupGreets => _bss.Data.GroupGreets;
@@ -112,6 +160,48 @@ namespace Mewdeko.Core.Services
             });
             return Task.CompletedTask;
         }
+        public bool SetBoostMessage(ulong guildId, ref string message)
+        {
+            message = message?.SanitizeMentions();
+
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.BoostMessage = message;
+
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
+
+            uow.SaveChanges();
+            return conf.SendBoostMessage;
+        }
+
+        public async Task SetBoostDel(ulong guildId, int timer)
+        {
+            if (timer < 0 || timer > 600)
+                throw new ArgumentOutOfRangeException(nameof(timer));
+
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.BoostMessageDeleteAfter = timer;
+
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
+
+            await uow.SaveChangesAsync();
+        }
+
+        public async Task<bool> ToggleBoost(ulong guildId, ulong channelId)
+        {
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.SendBoostMessage = !conf.SendBoostMessage;
+            await uow.SaveChangesAsync();
+
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
+            return conf.SendBoostMessage;
+        }
+
 
         public async Task SetWebGreet(IGuild guild, int channel)
         {
@@ -678,6 +768,11 @@ namespace Mewdeko.Core.Services
 
     public class GreetSettings
     {
+        public bool SendBoostMessage { get; set; }
+        public string BoostMessage { get; set; }
+        public int BoostMessageDeleteAfter { get; set; }
+        public ulong BoostMessageChannelId { get; set; }
+
         public int AutoDeleteGreetMessagesTimer { get; set; }
         public int AutoDeleteByeMessagesTimer { get; set; }
 

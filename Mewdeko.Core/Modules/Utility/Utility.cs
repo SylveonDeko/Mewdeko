@@ -79,6 +79,16 @@ namespace Mewdeko.Modules.Utility
                 }
             }
         }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task SetBoostChannel(ITextChannel chan)
+        {
+            if ((ctx.Guild.SystemChannelFlags & SystemChannelMessageDeny.GuildBoost) != 0) return;
+            var role = ctx.Guild.Roles.Where(x => x.Tags.IsPremiumSubscriberRole);
+        }
         [MewdekoCommand]
         [Usage]
         [Description]

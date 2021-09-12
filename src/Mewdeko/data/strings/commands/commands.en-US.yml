@@ -27,6 +27,23 @@ atuu:
   desc: "Adds a role to users under a specified server join age"
   args:
   - "7d role"
+boost:
+  desc: "Toggles anouncements on the current channel when someone boosts the server."
+  args:
+    - ""
+boostmsg:
+  desc: Sets a new boost announcement message. 
+    Type `%user.mention%` if you want to show the name the user who left. 
+    Full list of placeholders can be found here <https://mewdeko.tech/placeholders/>
+    Using this command with no message will show the current boost message. 
+    You can use embed json from <https://eb.mewdeko.tech/> instead of a regular text, if you want the message to be embedded.
+  args:
+    - "%user.mention% has boosted the server!!!"
+boostdel:
+  desc: "Sets the time it takes (in seconds) for boost messages to be auto-deleted. Set it to `0` to disable automatic deletion."
+  args:
+    - "0"
+    - "30"
 customafkmessage:
   desc: "Allows you to set a custom message when a user is pinged with afk enabled."
   args:

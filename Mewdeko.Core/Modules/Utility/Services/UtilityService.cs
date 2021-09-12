@@ -9,6 +9,7 @@ using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Swan;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -26,6 +27,7 @@ namespace Mewdeko.Modules.Utility.Services
             client.MessageUpdated += MsgStore2;
             client.MessageReceived += MsgReciev;
             client.MessageReceived += MsgReciev2;
+            client.MessageReceived += BoostTest;
             client.UserJoined += CountUpdate;
             client.UserLeft += CountUpdate2;
             _joined = bot.AllGuildConfigs
@@ -55,6 +57,11 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _left { get; } = new();
 
 
+        public async Task BoostTest(SocketMessage msg)
+        {
+            if (msg.Channel.Id != 884455526086377522) return;
+            Console.WriteLine(msg.Author.Id);
+        }
     public async Task JoinedSet(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
