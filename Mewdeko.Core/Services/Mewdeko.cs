@@ -130,12 +130,6 @@ namespace Mewdeko
             return Client.Guilds.Select(x => x.Id).ToList();
         }
 
-        public IEnumerable<GuildConfig> GetCurrentGuildConfigs()
-        {
-            using var uow = _db.GetDbContext();
-            return uow.GuildConfigs.GetAllGuildConfigs(GetCurrentGuildIds()).ToImmutableArray();
-        }
-
         private void AddServices()
         {
             var startingGuildIdList = GetCurrentGuildIds();
@@ -451,13 +445,6 @@ namespace Mewdeko
             var obj = new {Name = game, Activity = type};
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
-        }
-
-        public Task SetStreamAsync(string name, string link)
-        {
-            var obj = new {Name = name, Url = link};
-            var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-            return sub.PublishAsync(Client.CurrentUser.Id + "_status.stream_set", JsonConvert.SerializeObject(obj));
         }
     }
 }

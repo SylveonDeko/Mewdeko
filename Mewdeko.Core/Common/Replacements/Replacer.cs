@@ -15,6 +15,57 @@ namespace Mewdeko.Common.Replacements
             _replacements = replacements;
             _regex = regex;
         }
+        public SmartText Replace(SmartText data)
+            => data switch
+            {
+                SmartEmbedText embedData => Replace(embedData),
+                SmartPlainText plain => Replace(plain),
+                _ => throw new ArgumentOutOfRangeException(nameof(data), "Unsupported argument type")
+            };
+
+        public SmartPlainText Replace(SmartPlainText plainText)
+            => Replace(plainText.Text);
+
+        public SmartEmbedText Replace(SmartEmbedText embedData)
+        {
+            var newEmbedData = new SmartEmbedText();
+            newEmbedData.PlainText = Replace(embedData.PlainText);
+            newEmbedData.Description = Replace(embedData.Description);
+            newEmbedData.Title = Replace(embedData.Title);
+            newEmbedData.Thumbnail = Replace(embedData.Thumbnail);
+            newEmbedData.Image = Replace(embedData.Image);
+            if (embedData.Author != null)
+            {
+                newEmbedData.Author = new SmartTextEmbedAuthor();
+                newEmbedData.Author.Name = Replace(embedData.Author.Name);
+                newEmbedData.Author.IconUrl = Replace(embedData.Author.IconUrl);
+            }
+
+            if (embedData.Fields != null)
+            {
+                var fields = new List<SmartTextEmbedField>();
+                foreach (var f in embedData.Fields)
+                {
+                    var newF = new SmartTextEmbedField();
+                    newF.Name = Replace(f.Name);
+                    newF.Value = Replace(f.Value);
+                    fields.Add(newF);
+                }
+
+                newEmbedData.Fields = fields.ToArray();
+            }
+
+            if (embedData.Footer != null)
+            {
+                newEmbedData.Footer = new SmartTextEmbedFooter();
+                newEmbedData.Footer.Text = Replace(embedData.Footer.Text);
+                newEmbedData.Footer.IconUrl = Replace(embedData.Footer.IconUrl);
+            }
+
+            newEmbedData.Color = embedData.Color;
+
+            return newEmbedData;
+        }
 
         public string Replace(string input)
         {

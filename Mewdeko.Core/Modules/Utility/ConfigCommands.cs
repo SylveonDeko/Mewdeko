@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
@@ -26,53 +27,6 @@ namespace Mewdeko.Modules.Utility
                 _settingServices = settingServices;
                 _bss = bss;
                 _selfService = selfService;
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public Task BotConfigEdit()
-            {
-                return Config("bot");
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [Priority(0)]
-            [OwnerOnly]
-            public Task BotConfigEdit(string prop, [Leftover] string newValue = null)
-            {
-                return Config("bot", prop, newValue);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public async Task ConfigReload(string name)
-            {
-                var setting = _settingServices.FirstOrDefault(x =>
-                    x.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase));
-
-                if (setting is null)
-                {
-                    var configNames = _settingServices.Select(x => x.Name);
-                    var embed = new EmbedBuilder()
-                        .WithErrorColor()
-                        .WithDescription(GetText("config_not_found", Format.Code(name)))
-                        .AddField(GetText("config_list"), string.Join("\n", configNames));
-
-                    await ctx.Channel.EmbedAsync(embed);
-                    return;
-                }
-
-                setting.Reload();
-                await ctx.OkAsync();
             }
 
             [MewdekoCommand]

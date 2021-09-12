@@ -42,6 +42,52 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("greetdel_off").ConfigureAwait(false);
             }
 
+
+            [MewdekoCommand, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageGuild)]
+            public async Task Boost()
+            {
+                var enabled = await _service.ToggleBoost(ctx.Guild.Id, ctx.Channel.Id);
+
+                if (enabled)
+                    await ReplyConfirmLocalizedAsync("boost_on").ConfigureAwait(false);
+                else
+                    await ReplyConfirmLocalizedAsync("boost_off").ConfigureAwait(false);
+            }
+            
+            [MewdekoCommand, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageGuild)]
+            public async Task BoostDel(int timer = 30)
+            {
+                if (timer < 0 || timer > 600)
+                {
+                    await ctx.Channel.SendErrorAsync("The max delete time is 600 seconds!");
+                    return;
+                }
+
+                await _service.SetBoostDel(ctx.Guild.Id, timer);
+
+                if (timer > 0)
+                    await ReplyConfirmLocalizedAsync("boostdel_on",timer);
+                else
+                    await ReplyConfirmLocalizedAsync("boostdel_off").ConfigureAwait(false);
+            }
+
+            [MewdekoCommand, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageGuild)]
+            public async Task BoostMsg([Leftover] string text)
+            {
+                var sendBoostEnabled = _service.SetBoostMessage(ctx.Guild.Id, ref text);
+
+                await ReplyConfirmLocalizedAsync("boostmsg_new").ConfigureAwait(false);
+                if (!sendBoostEnabled)
+                    await ReplyConfirmLocalizedAsync("boostmsg_enable)", $"{Prefix}boost");
+            }
+
+
             [MewdekoCommand]
             [Usage]
             [Description]
