@@ -11,7 +11,7 @@ namespace Mewdeko.Core.Common.TypeReaders.Models
             ,
             RegexOptions.Compiled | RegexOptions.Multiline);
 
-        private StoopidTime()
+        public StoopidTime()
         {
         }
 
