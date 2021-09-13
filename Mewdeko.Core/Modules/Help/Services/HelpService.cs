@@ -55,7 +55,7 @@ namespace Mewdeko.Modules.Help.Services
                 var name = selectedValue.ToTitleCase();
                 if (selectedValue == "custom") name = "Custom Reactions";
                 if (selectedValue == "servermanage") name = "Server Management";
-                var ta = list3.Where(x => x.chan == parsedArg.Channel as ITextChannel).FirstOrDefault();
+                var ta = list3.FirstOrDefault(x => x.chan == parsedArg.Channel);
                 var selmens = ta.Builder.WithPlaceholder(name);
                 var context = new CommandContext(_client, ta.msg);
                 var module = selectedValue.Trim().ToUpperInvariant();
@@ -122,11 +122,11 @@ namespace Mewdeko.Modules.Help.Services
             }
         }
         
-        public class HelpInfo
+        public record HelpInfo
         {
             public IUser user { get; set; }
             public IUserMessage msg { get; set; }
-            public ITextChannel chan { get; set; }
+            public IChannel chan { get; set; }
             public SelectMenuBuilder Builder { get; set; }
         }
         private async Task HandlePing(SocketMessage msg)

@@ -80,15 +80,30 @@ namespace Mewdeko.Modules.Utility
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task SetBoostChannel(ITextChannel chan)
-        {
-            if ((ctx.Guild.SystemChannelFlags & SystemChannelMessageDeny.GuildBoost) != 0) return;
-            var role = ctx.Guild.Roles.Where(x => x.Tags.IsPremiumSubscriberRole);
-        }
+        //[MewdekoCommand]
+        //[Usage]
+        //[Description]
+        //[Aliases]
+        //public async Task GStart()
+        //{
+        //    var time = new StoopidTime();
+        //    var msg = await ctx.Channel.SendConfirmAsync("How long would the giveaway last?");
+        //    var e = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id);
+        //    try
+        //    {
+        //        time = StoopidTime.FromInput(e);
+        //    }
+        //    catch (ArgumentException)
+        //    {
+        //        await msg.DeleteAsync();
+        //        await ctx.Channel.SendErrorAsync("The time must be more than one second!");
+        //        return;
+        //    }
+
+        //    var msg2 = await ctx.Channel.SendConfirmAsync("What would be the prize for this giveaway?");
+        //    var e2 = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id);
+
+        //}
         [MewdekoCommand]
         [Usage]
         [Description]

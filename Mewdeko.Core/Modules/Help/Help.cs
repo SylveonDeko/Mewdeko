@@ -164,7 +164,7 @@ IServiceProvider services, DiscordSocketClient client, IBotStrings strings, Comm
             {
                 user = ctx.User,
                 msg = ctx.Message,
-                chan = ctx.Channel as ITextChannel,
+                chan = ctx.Channel,
                 Builder = builder
             };
             _service.UpdateHash(toadd);

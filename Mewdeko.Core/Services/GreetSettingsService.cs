@@ -189,6 +189,11 @@ namespace Mewdeko.Core.Services
 
             await uow.SaveChangesAsync();
         }
+        public string GetBoostMessage(ulong gid)
+        {
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.ForId(gid, set => set).BoostMessage;
+        }
 
         public async Task<bool> ToggleBoost(ulong guildId, ulong channelId)
         {
@@ -196,7 +201,7 @@ namespace Mewdeko.Core.Services
             var conf = uow.GuildConfigs.ForId(guildId, set => set);
             conf.SendBoostMessage = !conf.SendBoostMessage;
             await uow.SaveChangesAsync();
-
+            conf.BoostMessageChannelId = channelId;
             var toAdd = GreetSettings.Create(conf);
             GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
             return conf.SendBoostMessage;

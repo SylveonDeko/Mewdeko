@@ -61,7 +61,7 @@ namespace Mewdeko.Extensions
         }
 
         // This method is used by everything that fetches the avatar from a user
-        public static Uri RealAvatarUrl(this IUser usr, ushort size = 128)
+        public static Uri RealAvatarUrl(this IUser usr, ushort size = 2048)
         {
             return usr.AvatarId == null
                 ? new Uri(usr.GetDefaultAvatarUrl())
@@ -74,8 +74,8 @@ namespace Mewdeko.Extensions
             return usr.AvatarId == null
                 ? null
                 : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
-                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif"
-                    : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png");
+                    ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif?size=2048"
+                    : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png?size=2048");
         }
     }
 }
