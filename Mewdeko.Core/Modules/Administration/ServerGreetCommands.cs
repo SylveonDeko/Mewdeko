@@ -4,7 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Replacements;
 using Mewdeko.Core.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
@@ -371,6 +374,41 @@ namespace Mewdeko.Modules.Administration
                 if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
             }
 
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPerm.ManageGuild)]
+            [Ratelimit(5)]
+            public async Task BoostTest()
+            {
+                var replacer = new ReplacementBuilder()
+                    .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild)
+                    .WithUser(ctx.User)
+                    .Build();
+                if (CREmbed.TryParse(_service.GetBoostMessage(ctx.Guild.Id), out var crEmbed))
+                {
+                    replacer.Replace(crEmbed);
+                    if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
+                    {
+                        await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true), embed: crEmbed.ToEmbed().Build());
+                    }
+                    if (crEmbed.PlainText is null)
+                    {
+                        await ctx.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
+                    }
+                    if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
+                    {
+                       await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
+                    }
+                }
+                else
+                {
+                    await ctx.Channel.SendErrorAsync("Either the boostmsg is invalid or you dont have one set.");
+                }
+
+            }
             [MewdekoCommand]
             [Usage]
             [Description]

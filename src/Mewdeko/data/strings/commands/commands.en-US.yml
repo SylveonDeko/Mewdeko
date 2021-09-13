@@ -23,6 +23,10 @@ mwarn:
   desc: 'Gives a user a Minor Warn '
   args:
     - '@user'
+boosttest:
+  desc: 'Tests the current set boost message '
+  args:
+    - ''
 atuo:
   desc: Adds a role to users over or at a specified server join age
   args:
