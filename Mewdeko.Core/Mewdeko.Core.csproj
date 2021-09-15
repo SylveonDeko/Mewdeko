@@ -18,7 +18,7 @@
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
-    <PackageReference Include="Discord.Net.Labs" Version="3.0.4" />
+    <PackageReference Include="Discord.Net.Labs" Version="3.0.3" />
     <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
     <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.52.0.2378" />
