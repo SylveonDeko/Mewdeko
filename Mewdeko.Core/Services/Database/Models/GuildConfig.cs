@@ -148,7 +148,7 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public List<ShopEntry> ShopEntries { get; set; }
         public ulong? GameVoiceChannel { get; set; } = null;
-        public bool VerboseErrors { get; set; } = false;
+        public bool VerboseErrors { get; set; } = true;
 
         public StreamRoleSettings StreamRole { get; set; }
 
