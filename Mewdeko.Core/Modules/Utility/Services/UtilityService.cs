@@ -28,8 +28,6 @@ namespace Mewdeko.Modules.Utility.Services
             client.MessageReceived += MsgReciev;
             client.MessageReceived += MsgReciev2;
             client.MessageReceived += BoostTest;
-            client.UserJoined += CountUpdate;
-            client.UserLeft += CountUpdate2;
             _joined = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.Joins)
                 .ToConcurrent();
@@ -74,41 +72,6 @@ namespace Mewdeko.Modules.Utility.Services
             _joined.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
 
-        public ulong GetJoined(ulong? id)
-        {
-            _joined.TryGetValue(id.Value, out var snum);
-            return snum;
-        }
-
-        public async Task CountUpdate(SocketGuildUser user)
-        {
-            var e = GetJoined(user.Guild.Id);
-            await JoinedSet(user.Guild, e + 1);
-        }
-
-        public async Task LeftSet(IGuild guild, ulong num)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.Leaves = num;
-                await uow.SaveChangesAsync();
-            }
-
-            _left.AddOrUpdate(guild.Id, num, (key, old) => num);
-        }
-
-        public ulong GetLeft(ulong? id)
-        {
-            _left.TryGetValue(id.Value, out var snum);
-            return snum;
-        }
-
-        public async Task CountUpdate2(SocketGuildUser user)
-        {
-            var e = GetLeft(user.Guild.Id);
-            await LeftSet(user.Guild, e + 1);
-        }
 
         public int GetPLinks(ulong? id)
         {

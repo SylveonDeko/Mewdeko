@@ -31,6 +31,7 @@ namespace Mewdeko.Modules.Music.Services
         Task<IUserMessage?> SendToOutputAsync(ulong guildId, EmbedBuilder embed);
         Task<QualityPreset> GetMusicQualityAsync(ulong guildId);
         Task SetMusicQualityAsync(ulong guildId, QualityPreset preset);
+        public bool CheckServerCount();
 
         Task<bool> PlayAsync(ulong guildId, ulong voiceChannelId);
         Task<IList<(string Title, string Url)>> SearchVideosAsync(string query);

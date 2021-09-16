@@ -186,6 +186,14 @@ namespace Mewdeko.Modules.Music.Services
             return Array.Empty<(string, string)>();
         }
 
+        public bool CheckServerCount()
+        {
+            var count = _players
+                .Select(x => x.Value.GetCurrentTrack(out _))
+                .Count(x => !(x is null));
+            if (count == 10) return true;
+            return false;
+        }
         public IEnumerable<(string Name, Func<string> Func)> GetPlaceholders()
         {
             // random song that's playing
