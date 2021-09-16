@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,29 +66,30 @@ namespace Mewdeko.Modules.Utility
                 var voicechn = guild.VoiceChannels.Count();
 
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
-                var features = string.Join("\n", guild.Features);
-                if (string.IsNullOrWhiteSpace(features))
-                    features = "-";
+                var list = new List<string>();
+                foreach (var i in guild.Features)
+                {
+                    var e = i.Replace("_", " ");
+                    list.Add(e.ToTitleCase());
+                }
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName(GetText("server_info")))
                     .WithTitle(guild.Name)
-                    .AddField(fb => fb.WithName(GetText("id")).WithValue(guild.Id.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("owner")).WithValue(ownername.Mention).WithIsInline(true))
+                    .AddField(fb => fb.WithName(GetText("id")).WithValue(guild.Id.ToString()))
+                    .AddField(fb => fb.WithName(GetText("owner")).WithValue(ownername.Mention))
                     .AddField(fb =>
-                        fb.WithName(GetText("members")).WithValue(guild.MemberCount.ToString()).WithIsInline(true))
+                        fb.WithName(GetText("members")).WithValue(guild.MemberCount.ToString()))
                     .AddField(fb =>
-                        fb.WithName(GetText("text_channels")).WithValue(textchn.ToString()).WithIsInline(true))
+                        fb.WithName(GetText("text_channels")).WithValue(textchn.ToString()))
                     .AddField(fb =>
-                        fb.WithName(GetText("voice_channels")).WithValue(voicechn.ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName("Joins").WithValue(_service.GetJoined(ctx.Guild.Id)).WithIsInline(true))
-                    .AddField(fb => fb.WithName("Leaves").WithValue(_service.GetLeft(ctx.Guild.Id)).WithIsInline(true))
+                        fb.WithName(GetText("voice_channels")).WithValue(voicechn.ToString()))
                     .AddField(fb =>
-                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}")
+                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}"))
+                    .AddField(fb =>
+                        fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()))
+                    .AddField(fb =>
+                        fb.WithName(GetText("features")).WithValue($"```\n{string.Join("\n", list)}```")
                             .WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("region")).WithValue(guild.VoiceRegionId).WithIsInline(true))
-                    .AddField(fb =>
-                        fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()).WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("features")).WithValue(features).WithIsInline(true))
                     .WithImageUrl($"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=4096")
                     .WithColor(Mewdeko.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
