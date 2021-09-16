@@ -33,14 +33,14 @@ namespace Mewdeko.Modules.Administration
                 _services = services;
             }
 
-            public async Task InternalReactionRoles(bool exclusive, params string[] input)
+            public async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
             {
-                var msgs = await ((SocketTextChannel) ctx.Channel).GetMessagesAsync().FlattenAsync()
-                    .ConfigureAwait(false);
-                var prev = (IUserMessage) msgs.FirstOrDefault(x => x is IUserMessage && x.Id != ctx.Message.Id);
+                var target = messageId is ulong msgId
+                    ? await ctx.Channel.GetMessageAsync(msgId).ConfigureAwait(false)
+                    : (await ctx.Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false))
+                    .Skip(1)
+                    .FirstOrDefault();
 
-                if (prev == null)
-                    return;
 
                 if (input.Length % 2 != 0)
                     return;
@@ -77,7 +77,7 @@ namespace Mewdeko.Modules.Administration
                 {
                     try
                     {
-                        await prev.AddReactionAsync(x.emote, new RequestOptions
+                        await target.AddReactionAsync(x.emote, new RequestOptions
                         {
                             RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
                         }).ConfigureAwait(false);
@@ -94,8 +94,8 @@ namespace Mewdeko.Modules.Administration
                 if (_service.Add(ctx.Guild.Id, new ReactionRoleMessage
                 {
                     Exclusive = exclusive,
-                    MessageId = prev.Id,
-                    ChannelId = prev.Channel.Id,
+                    MessageId = target.Id,
+                    ChannelId = target.Channel.Id,
                     ReactionRoles = all.Select(x =>
                     {
                         return new ReactionRole
@@ -110,6 +110,23 @@ namespace Mewdeko.Modules.Administration
                     await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
             }
 
+            [MewdekoCommand, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [NoPublicBot]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
+            [Priority(0)]
+            public Task ReactionRoles(ulong messageId, params string[] input) =>
+                InternalReactionRoles(false, messageId, input);
+
+            [MewdekoCommand, Aliases]
+            [RequireContext(ContextType.Guild)]
+            [NoPublicBot]
+            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPerm.ManageRoles)]
+            [Priority(1)]
+            public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) =>
+                InternalReactionRoles(true, messageId, input);
 
             [MewdekoCommand]
             [Usage]
@@ -122,7 +139,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public Task ReactionRoles(params string[] input)
             {
-                return InternalReactionRoles(false, input);
+                return InternalReactionRoles(false, null, input);
             }
 
             [MewdekoCommand]
@@ -136,7 +153,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public Task ReactionRoles(Exclude _, params string[] input)
             {
-                return InternalReactionRoles(true, input);
+                return InternalReactionRoles(true, null,  input);
             }
 
             [MewdekoCommand]
