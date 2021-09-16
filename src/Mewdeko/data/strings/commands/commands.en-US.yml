@@ -3279,10 +3279,11 @@ reactionroles:
     will then add those emojis to the previous message in the channel, and users
     will be able to get the roles by clicking on the emoji. You can set 'excl'
     as the first parameter to make them exclusive. You can have up to 5 of these
-    enabled on one server at a time.
+    enabled on one server at a time You can optionally use a message ID before specifying roles.
   args:
     - 'Gamer :SomeServerEmoji: Streamer :Other: Watcher :Other2:'
     - 'excl Horde :Horde: Alliance :Alliance:'
+    - '866309699531702302 Gamer :Nekoha_Yay:'
 reactionroleslist:
   desc: Lists all ReactionRole messages on this channel and their indexes.
   args:

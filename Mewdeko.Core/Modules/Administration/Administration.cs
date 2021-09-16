@@ -54,6 +54,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPerm.BanMembers)]
         public async Task BanUnder(StoopidTime time, string option = null)
         {
+
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
                     DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
             if (!users.Any())
