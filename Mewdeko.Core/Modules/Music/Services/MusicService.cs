@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -15,6 +16,7 @@ using SpotifyAPI.Web;
 using Serilog;
 using YoutubeExplode.Search;
 using System.Web;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Mewdeko.Modules.Music.Services
 {
@@ -35,6 +37,7 @@ namespace Mewdeko.Modules.Music.Services
         private readonly AyuVoiceStateService _voiceStateService;
         private readonly YtLoader _ytLoader;
         private readonly IYoutubeResolver _ytResolver;
+        private static int MusicServers;
 
         public MusicService(AyuVoiceStateService voiceStateService, ITrackResolveProvider trackResolveProvider,
             DbService db, IYoutubeResolver ytResolver, ILocalTrackResolver localResolver,
@@ -66,6 +69,61 @@ namespace Mewdeko.Modules.Music.Services
             await _voiceStateService.LeaveVoiceChannel(guildId);
         }
 
+        public async Task SetMusicCount(IGuild guild, bool addremove)
+        {
+            var list = new List<string>();
+            using (var process = new Process())
+            {
+                process.StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c redis-cli get MusicServers",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                    process.Start();
+
+                    // Synchronously read the standard output of the spawned process.
+                    var reader = process.StandardOutput;
+
+                    var output = await reader.ReadToEndAsync();
+                    if (output is "(nil)")
+                    {
+                        MusicServers = 1;
+                    }
+                    else
+                    {
+                        list.AddRange(output.Split(","));
+                        if (addremove)
+                        {
+                            if (list.Contains(guild.Id.ToString())) return;
+                            list.Add(guild.Id.ToString());
+                        }
+                        else
+                            list.Remove(guild.Id.ToString());
+
+                            using (var process2 = new Process())
+                            {
+                                process.StartInfo = new ProcessStartInfo
+                                {
+                                    FileName = "/bin/bash",
+                                    Arguments = $"-c redis-cli set MusicServers {string.Join(",", list)}",
+                                    RedirectStandardOutput = true,
+                                    UseShellExecute = false,
+                                    CreateNoWindow = true
+                                };
+                                await process2.WaitForExitAsync();
+                                MusicServers = list.Count;
+                            }
+                    }
+                    process.WaitForExit();
+            }
+        }
+
+        public int GetMusicTask()
+            => MusicServers;
         public Task JoinVoiceChannelAsync(ulong guildId, ulong voiceChannelId)
         {
             return _voiceStateService.JoinVoiceChannel(guildId, voiceChannelId);
