@@ -221,8 +221,7 @@
   "commands_instr": "输入\u0060{0}h CommandName\u0060可查看该指定命令的帮助。 例如 \u0060{0} h\u003E 8ball\u0060",
   "command_not_found": "我找不到该命令。 请再次尝试之前验证该命令是否存在。",
   "desc": "描述",
-  "donate":
-    "你可以在：\nPatreon \u003C{0}\u003E或\nPaypal \u003C{1}\u003E\n上支持Mewdeko项目\n不要忘记在邮件中留下你的discord名字或ID。\n\n**谢谢**♥️",
+  "donate": "你可以在：\nPatreon \u003C{0}\u003E或\nPaypal \u003C{1}\u003E\n上支持Mewdeko项目\n不要忘记在邮件中留下你的discord名字或ID。\n\n**谢谢**♥️",
   "guide": "**命令列表**：\u003C{0}\u003E\n**主机指南和文档可以在这里找到**：\u003C{1}\u003E",
   "list_of_commands": "命令列表",
   "list_of_modules": "组件列表",
@@ -641,8 +640,7 @@
   "clpa_fail": "因下列原因无法领取奖励：",
   "clpa_fail_already": "你已领取本月奖励。除非你增加赞助金额，否则一个月只能领取一次奖励。",
   "clpa_fail_already_title": "已被奖励",
-  "clpa_fail_conn":
-    "你的discord账户可能未与Patreon连接。如果你不清楚该如何连接，请到 [Patreon account settings page] (https://patreon.com/settings/account) 然后点击\u0027Connect to discord\u0027 的按钮。 ",
+  "clpa_fail_conn": "你的discord账户可能未与Patreon连接。如果你不清楚该如何连接，请到 [Patreon account settings page] (https://patreon.com/settings/account) 然后点击\u0027Connect to discord\u0027 的按钮。 ",
   "clpa_fail_conn_title": "Discord账号没有连接",
   "clpa_fail_sup": "你必须要在patreon赞助该项目才有资格领取奖励。你可以使用命令 {0} 取得网址。",
   "clpa_fail_sup_title": "无法支援",

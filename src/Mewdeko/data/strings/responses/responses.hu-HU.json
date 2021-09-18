@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Reakcióstatisztikák nullázva.",
   "deleted": "Egyedi reakció törölve.",
-  "insuff_perms":
-    "Alkalmatlan engedély. A bot birtoklása szükséges az egyedi globális reakciókhoz, és adminisztrátori jogosultság az egyedi szerver reakcióihoz.",
+  "insuff_perms": "Alkalmatlan engedély. A bot birtoklása szükséges az egyedi globális reakciókhoz, és adminisztrátori jogosultság az egyedi szerver reakcióihoz.",
   "list_all": "Minden egyedi reakció listája.",
   "new_cust_react": "Új egyedi reakció.",
   "no_found": "Nem található egyedi reakció.",
@@ -60,8 +59,7 @@
   "greetmsg_new": "Új üdvözlő üzenet beállítva.",
   "greet_off": "Üdvözlő bejelentések kikapcsolva.",
   "greet_on": "Üdvözlő bejelentések bekapcsolva ezen a csatornán.",
-  "hierarchy":
-    "Ezt a parancsot nem használhatod felhasználókon, akik a tiédnél nagyobb vagy azonos szereppel rendelkeznek a hierarchiában.",
+  "hierarchy": "Ezt a parancsot nem használhatod felhasználókon, akik a tiédnél nagyobb vagy azonos szereppel rendelkeznek a hierarchiában.",
   "invalid_format": "Nem megfelelő beviteli formátum.",
   "invalid_params": "Nem megfelelő paraméterek.",
   "kickdm": "Ki lettél rúgva {0} szerverről.\nOk: {1}",
@@ -133,8 +131,7 @@
   "self_assign_not": "Ez a rang nem egyénileg választható.",
   "self_assign_not_have": "Nincs {0} rangod.",
   "self_assign_no_excl": "Az egyénileg adható rangok mostantól nem ekszkluzívak!",
-  "self_assign_perms":
-    "Nem tudom neked adni a rangot. Nem adhatok rangot tulajdonosnak vagy a sajátomnál magasabb rendű rangot.",
+  "self_assign_perms": "Nem tudom neked adni a rangot. Nem adhatok rangot tulajdonosnak vagy a sajátomnál magasabb rendű rangot.",
   "self_assign_rem": "{0} eltávolítva az egyénileg választható rangok listájáról.",
   "self_assign_remove": "Most már nincs {0} rangod.",
   "self_assign_success": "{0} rang hozzáadva",
@@ -154,8 +151,7 @@
   "soft_banned_pl": "enyhén-kitiltva",
   "spam_ignore": "{0} nem vonatkozik erre a szobára.",
   "spam_not_ignore": "{0} figyelembe veszi ezt a szobát is.",
-  "spam_stats":
-    "Ha valaki {0} alkalommal küldi el egymás után ugyanazt az üzenetet, {1}-t kapnak. __Kivételt képező szobák__: {2}",
+  "spam_stats": "Ha valaki {0} alkalommal küldi el egymás után ugyanazt az üzenetet, {1}-t kapnak. __Kivételt képező szobák__: {2}",
   "text_chan_created": "Chat szoba létrehozva",
   "text_chan_destroyed": "Chat szoba törölve",
   "undeafen": "Némítás sikeresen feloldva.",
@@ -181,12 +177,9 @@
   "voice_chan_destroyed": "Beszélgetőszoba törölve",
   "vt_disabled": "Beszélgető \u002B szöveges funkció letiltva.",
   "vt_enabled": "Beszélgető \u002B szöveges funkció engedélyezve.",
-  "vt_exit":
-    "Nincs **manage roles** és/vagy **manage channels** engedélyem, ezért nem tudom futtatni a \u0060voice\u002Btext\u0060-t a {0} szerveren.",
-  "vt_no_admin":
-    "Jelenleg engedélyezed/letiltod ezt a funkciót, miközben **nem rendelkezem ADMINISZTRÁTORI engedélyekkel**. Ez okozhat némi problémát, és lehet, hogy később magadnak kell majd törölnöd a nem használt szöveges szobákat.",
-  "vt_perms":
-    "Minimum **rangkezelő** és **szobakezelő** jogokra van szükségem ennek a funkciónak az engedélyezéséhez (admin jog preferálva).",
+  "vt_exit": "Nincs **manage roles** és/vagy **manage channels** engedélyem, ezért nem tudom futtatni a \u0060voice\u002Btext\u0060-t a {0} szerveren.",
+  "vt_no_admin": "Jelenleg engedélyezed/letiltod ezt a funkciót, miközben **nem rendelkezem ADMINISZTRÁTORI engedélyekkel**. Ez okozhat némi problémát, és lehet, hogy később magadnak kell majd törölnöd a nem használt szöveges szobákat.",
+  "vt_perms": "Minimum **rangkezelő** és **szobakezelő** jogokra van szükségem ennek a funkciónak az engedélyezéséhez (admin jog preferálva).",
   "xmuted_text": "{0} egy szöveges szobából",
   "xmuted_text_and_voice": "{0} egy szöveges és beszélgető szobából",
   "xmuted_voice": "{0} egy beszélgető szobából",
@@ -225,14 +218,11 @@
   "cmdlist_donate": "Támogathatod a projektet patreonon: \u003C{0}\u003E vagy paypalon: \u003C{1}\u003E",
   "cmd_and_alias": "Parancsok és helyettesítőszavak",
   "commandlist_regen": "Parancslista újragenerálva.",
-  "commands_instr":
-    "\u0060{0}h parancsnév\u0060 részletes leírást ad az adott parancsról. Pl.: \u0060{0}h {0}8ball\u0060",
+  "commands_instr": "\u0060{0}h parancsnév\u0060 részletes leírást ad az adott parancsról. Pl.: \u0060{0}h {0}8ball\u0060",
   "command_not_found": "Nem találtam ilyen parancsot. Kérlek, ellenőrizd, hogy biztos jót adtál meg.",
   "desc": "Leírás",
-  "donate":
-    "A Mewdeko projektet támogathatod:\nPatreonon \u003C{0}\u003E vagy\nPaypallal \u003C{1}\u003E\nNe felejtsd el megadni a discord nevedet vagy az azonosítódat az üzenetben.\n\n**Köszi** ♥️",
-  "guide":
-    "**Parancsok listája**: \u003C{0}\u003E\n**Saját bot működtetéséhez segítséget itt találsz**: \u003C{1}\u003E",
+  "donate": "A Mewdeko projektet támogathatod:\nPatreonon \u003C{0}\u003E vagy\nPaypallal \u003C{1}\u003E\nNe felejtsd el megadni a discord nevedet vagy az azonosítódat az üzenetben.\n\n**Köszi** ♥️",
+  "guide": "**Parancsok listája**: \u003C{0}\u003E\n**Saját bot működtetéséhez segítséget itt találsz**: \u003C{1}\u003E",
   "list_of_commands": "Parancsok listája",
   "list_of_modules": "Modulok listája",
   "modules_footer": "\u0060{0}cmds modulnév\u0060 listázza az adott modul parancsait. Pl.: \u0060{0}cmds games\u0060",
@@ -264,10 +254,8 @@
   "likes": "Vonzódás",
   "waifus_none": "Még senki sem birtokol waifut.",
   "waifus_top_waifus": "Legjobb waifuk",
-  "waifu_affinity_already":
-    "az affinitásod már megadtad ehhez a waifuhoz vagy próbálod eltávolítani az affinitásodat, miközben nincs beállítva senki, akit kedvelnél.",
-  "waifu_affinity_changed":
-    "mostantól {0} helyett {1} felhasználót kedveli.\n\n*Ez erkölcsileg megkérdőjelezhető.*\uD83E\uDD14",
+  "waifu_affinity_already": "az affinitásod már megadtad ehhez a waifuhoz vagy próbálod eltávolítani az affinitásodat, miközben nincs beállítva senki, akit kedvelnél.",
+  "waifu_affinity_changed": "mostantól {0} helyett {1} felhasználót kedveli.\n\n*Ez erkölcsileg megkérdőjelezhető.*\uD83E\uDD14",
   "waifu_affinity_cooldown": "{0} órát és {1} percet kell várnod, mielőtt ismét változtathatsz az affinitásodon.",
   "waifu_affinity_reset": "Affinitás alaphelyzetbe állítva. Jelenleg nincs kedvelt személyed.",
   "waifu_affinity_set": "szeretne {0} waifuja lenni. Óóó \u003C3",
@@ -373,8 +361,7 @@
   "resumed": "Zenelejátszás folytatva.",
   "rpl_disabled": "Lejátszási lista ismétlése kikapcsolva.",
   "rpl_enabled": "Lejátszási lista ismétlése bekapcsolva.",
-  "set_music_channel":
-    "Mostantól ebbe a szobába írom a lejátszva lévő, befejezett, szüneteltetett és eltávolított számokat.",
+  "set_music_channel": "Mostantól ebbe a szobába írom a lejátszva lévő, befejezett, szüneteltetett és eltávolított számokat.",
   "skipped_to": "Ugorva \u0060{0}:{1}\u0060-hoz/-hez/-höz",
   "song_moved": "Zene áthelyezve",
   "time_format": "{0} óra {1} perc {2} másodperc",
@@ -432,8 +419,7 @@
   "word_filter_server_on": "Szószűrés engedélyezve ezen a szerveren.",
   "abilities": "Képességek",
   "anime_no_fav": "Nincs még kedvenc anime",
-  "atl_ad_started":
-    "Automatikus üzenetfordítás elkezdve ebben a szobában. Felhasználói üzenetek automatikusan ki lesznek törölve.",
+  "atl_ad_started": "Automatikus üzenetfordítás elkezdve ebben a szobában. Felhasználói üzenetek automatikusan ki lesznek törölve.",
   "atl_removed": "az automatikus fordítás nyelved el lett távolítva.",
   "atl_set": "Az automatikus fordítás nyelved {0}\u003E{1}-ra/-re lett állítva.",
   "atl_started": "Üzenetek automatikus fordítása elkezdve ebben a szobában.",
@@ -541,8 +527,7 @@
   "features": "Jellemzők",
   "index_out_of_range": "Helytelen sorszám.",
   "inrole_list": "Felhasználók listája {0} szerepben",
-  "inrole_not_allowed":
-    "Nincs engedélyed használni ezt a parancsot olyan szerepen, amit sok felhasználó használ visszaélések megelőzéséért.",
+  "inrole_not_allowed": "Nincs engedélyed használni ezt a parancsot olyan szerepen, amit sok felhasználó használ visszaélések megelőzéséért.",
   "invalid_value": "Érvénytelen {0} érték.",
   "listservers": "Azonosító: {0}\nTagok: {1}\nTulajdonos azonosítója: {2}",
   "listservers_none": "Az oldalon nem található szerver.",
@@ -653,14 +638,11 @@
   "slowmodewl_user_start": "Lassú mód mostantól figyelmen kívül fogja hagyni {0} felhasználót.",
   "slowmodewl_user_stop": "Lassú mód mostantól nem fogja figyelmen kívül hagyni {0} felhasználót.",
   "clpa_fail": "Hibás igénylés a jutalmakra a következő ok(ok) miatt:",
-  "clpa_fail_already":
-    "Talán már megkaptad a jutalmad a hónapra. Havonta csak egyszer kaphatsz jutalmakat kivéve ha növeled a felajánlást.",
+  "clpa_fail_already": "Talán már megkaptad a jutalmad a hónapra. Havonta csak egyszer kaphatsz jutalmakat kivéve ha növeled a felajánlást.",
   "clpa_fail_already_title": "Már jutalmazva",
-  "clpa_fail_conn":
-    "A discord felhasználód nincs csatlakoztatva a Patreonhoz. Ha nem vagy biztos benne mit jelent ez, vagy nem tudod hogyan csatlakoztasd - Menj a [Patreon account settings oldalra] (https://patreon.com/settings/account) és kattints a \u0027Connect to discord\u0027 gombra.",
+  "clpa_fail_conn": "A discord felhasználód nincs csatlakoztatva a Patreonhoz. Ha nem vagy biztos benne mit jelent ez, vagy nem tudod hogyan csatlakoztasd - Menj a [Patreon account settings oldalra] (https://patreon.com/settings/account) és kattints a \u0027Connect to discord\u0027 gombra.",
   "clpa_fail_conn_title": "Discord fiók nincs csatlakoztatva",
-  "clpa_fail_sup":
-    "Hogy jogosult legyél jutalmakra, támogatnod kell a projektet patreonon. Használd a {0} parancsot a linkért!",
+  "clpa_fail_sup": "Hogy jogosult legyél jutalmakra, támogatnod kell a projektet patreonon. Használd a {0} parancsot a linkért!",
   "clpa_fail_sup_title": "Nem támogatod",
   "clpa_fail_wait": "Várnod kell pár óráta felajánlás után, ha nem vártál, próbálkozz újra később.",
   "clpa_fail_wait_title": "Várj kis időt",
@@ -743,8 +725,7 @@
   "nunchi_ended_no_winner": "A nunchi játék győztes nélkül ért véget.",
   "nunchi_started": "A nunchi játék elkezdődött {0} résztvevővel.",
   "nunchi_round_ended": "Nunchi kör vége. {0} kiesett a játékból.",
-  "nunchi_round_ended_boot":
-    "Nunchi kör véget ért játékosok időtúllépése miatt. Ezek a játékosok vannak még játékban: {0}",
+  "nunchi_round_ended_boot": "Nunchi kör véget ért játékosok időtúllépése miatt. Ezek a játékosok vannak még játékban: {0}",
   "nunchi_round_started": "Nunchi kör elkezdődött {0} játékossal. Kezdjétek a számolást {1} számtól.",
   "nunchi_next_number": "Szám regisztrálva. Utolsó szám {1} volt.",
   "nunchi_failed_to_start": "Nunchi kör elindítása sikertelen nem elég résztvevő miatt.",
@@ -786,13 +767,11 @@
   "server_leaderboard": "Szerver szint ranglista",
   "global_leaderboard": "Globális szint ranglista",
   "modified": "A {0} felhasználó szerver szintje {1} xpvel változott.",
-  "club_create_error":
-    "Klub létrehozása sikertelen. Bizonyosodj meg arról, hogy 5. szint felett vagy, és nem vagy klub tagja.",
+  "club_create_error": "Klub létrehozása sikertelen. Bizonyosodj meg arról, hogy 5. szint felett vagy, és nem vagy klub tagja.",
   "club_created": "Klub {0} sikeresen létrehozva.",
   "club_not_exists": "Ez a klub nem létezik.",
   "club_applied": "Jelentkeztél tagnak a {0} klubba.",
-  "club_apply_error":
-    "Hiba a jelentkezéssel. Vagy a klub tagja vagy már, nem éred el a minimum szintet, vagy ki vagy tiltva ebből a klubból.",
+  "club_apply_error": "Hiba a jelentkezéssel. Vagy a klub tagja vagy már, nem éred el a minimum szintet, vagy ki vagy tiltva ebből a klubból.",
   "club_accepted": "Felhasználó {0} csatlakozása elfogadva a klubba.",
   "club_accept_error": "Nem talált felhasználó",
   "club_left": "Kiléptél a klubból.",
@@ -802,8 +781,7 @@
   "club_user_banned": "Felhasználó {0} kitiltva {1} klubból.",
   "club_user_ban_fail": "Hiba a kitiltással. Vagy nem vagy klub tulajdonos, vagy a felhasználó nincs a klubban.",
   "club_user_unbanned": "Felhasználó {0} kitiltása visszavonva {1} klubból.",
-  "club_user_unban_fail":
-    "Unbanolás sikertelen. Vagy nem vagy a klub tulajdonos, a felhasználó nincs a klubbodban vagy nem jelentkezett.",
+  "club_user_unban_fail": "Unbanolás sikertelen. Vagy nem vagy a klub tulajdonos, a felhasználó nincs a klubbodban vagy nem jelentkezett.",
   "club_level_req_changed": "Klub szint követelménye megváltoztatva {0} szintre.",
   "club_level_req_change_error": "Szint követelmény megváltoztatása sikertelen.",
   "club_disbanded": "Klub {0} feloszlatásra került.",
@@ -825,8 +803,7 @@
   "started": "Elindítva. Újraküldés minden {0} másodpercben.",
   "stopped": "Újraküldés leállítva.",
   "feed_added": "Hírcsatorna hozzáadva",
-  "feed_not_valid":
-    "Érvénytelen link, vagy már követed ezt a hírcsatornát ezen a szerveren, vagy elérted a megengedett maximális hírcsatornát.",
+  "feed_not_valid": "Érvénytelen link, vagy már követed ezt a hírcsatornát ezen a szerveren, vagy elérted a megengedett maximális hírcsatornát.",
   "feed_out_of_range": "Az index a tartományon kívül.",
   "feed_removed": "Hírcsatorna eltávolítva.",
   "feed_no_feed": "Nem iratkoztál fel egyetlen hírcsatornára sem ezen a szerveren.",
@@ -847,8 +824,7 @@
   "timely_set": "A felhasználók képes lesz megkapni a(z) {0} minden {1} óra eltelte után",
   "timely_set_none": "Felhasználók nem lesznek képesek megkapni az időbeni valutát.",
   "timely_reset": "Az összes felhasználó képes lesz újra megkapni az időbeni valutát.",
-  "waifu_transfer_fail":
-    "Nem vagy az a waifu tulajdonosa, vagy nem engedheted meg magadnak. Alternatívaként a beviteled érvénytelen.",
+  "waifu_transfer_fail": "Nem vagy az a waifu tulajdonosa, vagy nem engedheted meg magadnak. Alternatívaként a beviteled érvénytelen.",
   "waifu_transfer_success": "{0} igényelése át lett transzferálva innen {1} ide {2}",
   "authors": "Szerzők",
   "sql_confirm_exec": "Erősítsd meg a következő SQL parancs végrehajtását",
@@ -867,14 +843,11 @@
   "level_up_rewards": "Szintlépés jutalmak",
   "role_reward": "{0} szint",
   "no_level_up_rewards": "Ezen az oldalon nincs szintlépés jutalom.",
-  "failed_finding_novel":
-    "Nem található meg a regény. Győződj meg róla, hogy pontosan a teljes nevet adtad meg és létezik a novelupdates.com oldalon",
+  "failed_finding_novel": "Nem található meg a regény. Győződj meg róla, hogy pontosan a teljes nevet adtad meg és létezik a novelupdates.com oldalon",
   "remove_roles": "a rangjuk törlésre került",
   "delmsg_channel_off": "Soha nem fogok olyan üzeneteket törölni amik sikeren kiviteleztek parancsokat a csatornán.",
-  "delmsg_channel_on":
-    "Mindig törlök olyan üzeneteket mik sikeren kiviteleztek parancsokat a csatornán függetlenül a szerver beállítástól.",
-  "delmsg_channel_inherit":
-    "Mindig törlök olyan üzeneteket mik sikeren kiviteleztek parancsokat a csatornán ha ez a funkció engedélyezve van a szerveren.",
+  "delmsg_channel_on": "Mindig törlök olyan üzeneteket mik sikeren kiviteleztek parancsokat a csatornán függetlenül a szerver beállítástól.",
+  "delmsg_channel_inherit": "Mindig törlök olyan üzeneteket mik sikeren kiviteleztek parancsokat a csatornán ha ez a funkció engedélyezve van a szerveren.",
   "server_delmsgoncmd": "Szerver beállítás",
   "channel_delmsgoncmd": "Csatorna-specifikus beállítás",
   "options": "Opciók",
@@ -885,8 +858,7 @@
   "city_not_found": "A város nem található.",
   "bot_config_reloaded": "A Bot beállítása újratöltésre került.",
   "club_transfered": "{0} klub tulajdonjoga átkerült hozzá: {1}",
-  "club_transfer_failed":
-    "Az átvitel nem sikerült. A klub tulajdonosának kell lenned. Az illető tagja kell legyen a klubnak.",
+  "club_transfer_failed": "Az átvitel nem sikerült. A klub tulajdonosának kell lenned. Az illető tagja kell legyen a klubnak.",
   "roll_duel_challenge": "kihívta {1} a pörgettyű párbajra erre: {1}",
   "roll_duel": "Pörgettyű párbaj",
   "roll_duel_no_funds": "Neked vagy az ellenfelednek nincs elég pénze.",
@@ -897,8 +869,7 @@
   "rps_draw": "Döntetlen! Mindketten választották {0}",
   "rps_win": "{0} nyert! {1} leverte {2} tagot",
   "roleid": "{0} szerep {1} - {2}",
-  "warning_clear_fail":
-    "A figyelmeztetés nincs törölve. Vagy az adott index figyelmeztetése nem létezik, vagy már törölve.",
+  "warning_clear_fail": "A figyelmeztetés nincs törölve. Vagy az adott index figyelmeztetése nem létezik, vagy már törölve.",
   "warning_cleared": "{0} figyelmeztetés törölve lett {1} számára.",
   "club_desc_updated": "Frissítve a klubleírása: {0}",
   "club_desc_update_failed": "A klub leírásának megváltoztatása nem sikerült.",
@@ -917,10 +888,8 @@
   "bj_created": "létrehozott egy új BlackJack játékot ebben a csatornában.",
   "bj_joined": "csatlakozott a BlackJack játékhoz",
   "reset": "Xp visszaállítása",
-  "reset_server_confirm":
-    "Biztos vagy benne, hogy vissza akarod állítani a szerveren lévő összes felhasználójának XP-ét?",
-  "reset_user_confirm":
-    "Biztos vagy benne, hogy vissza szeretnéd állítani az adott felhasználó XP-jét ezen a szerveren?",
+  "reset_server_confirm": "Biztos vagy benne, hogy vissza akarod állítani a szerveren lévő összes felhasználójának XP-ét?",
+  "reset_user_confirm": "Biztos vagy benne, hogy vissza szeretnéd állítani az adott felhasználó XP-jét ezen a szerveren?",
   "reset_user": "A(z) {0} azonosítóval rendelkező felhasználó XP-je visszaállítva a szervert.",
   "reset_server": "A szerver összes felhasználójának XP-je vissza lett állítva.",
   "distance": "A {0} és {1} közötti távolság {2} km",

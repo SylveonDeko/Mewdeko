@@ -1,27 +1,25 @@
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Core.Services;
-using Mewdeko.Core.Services.Impl;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Utility.Services;
-using Newtonsoft.Json;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
 using Humanizer;
-using System.Net.Http;
-using System.Text.RegularExpressions;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Core.Common;
+using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Impl;
+using Mewdeko.Extensions;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
+using Mewdeko.Modules.Utility.Services;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -33,7 +31,7 @@ namespace Mewdeko.Modules.Utility
         private readonly IBotCredentials _creds;
         private readonly IStatsService _stats;
         private readonly DownloadTracker _tracker;
-        private InteractiveService Interactivity;
+        private readonly InteractiveService Interactivity;
 
         public Utility(Mewdeko Mewdeko, DiscordSocketClient client,
             IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv)
@@ -57,26 +55,23 @@ namespace Mewdeko.Modules.Utility
         {
             await ctx.Channel.SendConfirmAsync("Invite me using this link:\nhttps://mewdeko.tech/invite");
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         public async Task TestSite(string url)
         {
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
-                HttpResponseMessage response = await client.GetAsync(url);
+                var response = await client.GetAsync(url);
 
-                string content = await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();
                 var statusCode = response.StatusCode;
                 if (statusCode.ToString() == "Forbidden")
-                {
                     await ctx.Channel.SendErrorAsync("Sites down m8");
-                }
                 else
-                {
                     await ctx.Channel.SendConfirmAsync("Sites ok m8");
-                }
             }
         }
 
@@ -108,15 +103,16 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
-        public async Task Request ([Remainder]string _)
+        public async Task Request([Remainder] string _)
         {
             var list = new List<string>();
             list.Add("No piransi");
             list.Add("<:omegalul2:873626819331498024>");
             var random = new Random();
-            int index = random.Next(list.Count());
+            var index = random.Next(list.Count());
             await ctx.Channel.SendErrorAsync(list[index]);
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -155,6 +151,7 @@ namespace Mewdeko.Modules.Utility
                 }
             }
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -201,7 +198,7 @@ namespace Mewdeko.Modules.Utility
                 var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.Message)
                     .First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.DateAdded)
-                   .First();
+                    .First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId)
                     .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
@@ -217,7 +214,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -267,7 +265,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -317,7 +316,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -367,7 +367,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -423,7 +424,7 @@ namespace Mewdeko.Modules.Utility
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.UserId)
                     .First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.DateAdded)
-                   .First();
+                    .First();
                 var user = await ctx.Channel.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
@@ -437,7 +438,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -487,7 +489,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -537,7 +540,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -587,7 +591,8 @@ namespace Mewdeko.Modules.Utility
                     Footer = new EmbedFooterBuilder
                     {
                         IconUrl = ctx.User.GetAvatarUrl(),
-                        Text = $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
+                        Text =
+                            $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
                     Color = Mewdeko.OkColor
                 };
@@ -666,7 +671,7 @@ namespace Mewdeko.Modules.Utility
                 .Build();
 
             await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                System.TimeSpan.FromMinutes(60));
+                TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -700,7 +705,7 @@ namespace Mewdeko.Modules.Utility
                 .Build();
 
             await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                System.TimeSpan.FromMinutes(60));
+                TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

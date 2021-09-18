@@ -40,7 +40,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && !(perm is null))
             {
-                var result = await new RequireUserPermissionAttribute((GuildPermission) perm)
+                var result = await new RequireUserPermissionAttribute((GuildPermission)perm)
                     .CheckPermissionsAsync(context, command, _services);
 
                 return !result.IsSuccess;
@@ -65,7 +65,7 @@ namespace Mewdeko.Modules.Administration.Services
         public Task<PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
             GuildPerm perms, IServiceProvider services)
         {
-            var rupa = new RequireUserPermissionAttribute((GuildPermission) perms);
+            var rupa = new RequireUserPermissionAttribute((GuildPermission)perms);
             return rupa.CheckPermissionsAsync(ctx, command, services);
         }
 

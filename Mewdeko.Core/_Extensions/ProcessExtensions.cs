@@ -88,7 +88,7 @@ namespace Mewdeko.Extensions
             var process = Process.Start(startInfo);
 
             stdout = null;
-            if (process.WaitForExit((int) timeout.TotalMilliseconds))
+            if (process.WaitForExit((int)timeout.TotalMilliseconds))
                 stdout = process.StandardOutput.ReadToEnd();
             else
                 process.Kill();

@@ -17,7 +17,7 @@ namespace Mewdeko.Core.Modules.Searches.Common
 
         public StreamDataKey CreateKey()
         {
-            return new(StreamType, UniqueName.ToLower());
+            return new StreamDataKey(StreamType, UniqueName.ToLower());
         }
     }
 }

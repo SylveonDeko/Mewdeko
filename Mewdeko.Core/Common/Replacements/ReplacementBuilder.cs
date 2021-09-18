@@ -35,7 +35,7 @@ namespace Mewdeko.Common.Replacements
 
         public ReplacementBuilder WithDefault(ICommandContext ctx)
         {
-            return WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient) ctx.Client);
+            return WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
         }
 
         public ReplacementBuilder WithMention(DiscordSocketClient client)
@@ -143,7 +143,7 @@ namespace Mewdeko.Common.Replacements
             // _reps.TryAdd("%user.created_date%", () => user.CreatedAt.ToString("dd.MM.yyyy"));
             // _reps.TryAdd("%user.joined_time%", () => (user as IGuildUser)?.JoinedAt?.ToString("HH:mm") ?? "-");
             // _reps.TryAdd("%user.joined_date%", () => (user as IGuildUser)?.JoinedAt?.ToString("dd.MM.yyyy") ?? "-");
-            WithManyUsers(new[] {user});
+            WithManyUsers(new[] { user });
             return this;
         }
 
@@ -224,7 +224,8 @@ namespace Mewdeko.Common.Replacements
 
         public Replacer Build()
         {
-            return new(_reps.Select(x => (x.Key, x.Value)).ToArray(), _regex.Select(x => (x.Key, x.Value)).ToArray());
+            return new Replacer(_reps.Select(x => (x.Key, x.Value)).ToArray(),
+                _regex.Select(x => (x.Key, x.Value)).ToArray());
         }
 
         public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)

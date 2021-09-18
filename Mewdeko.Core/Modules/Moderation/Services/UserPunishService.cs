@@ -303,7 +303,7 @@ WHERE GuildId={guildId}
                 {
                     Count = number,
                     Punishment = punish,
-                    Time = (int?) time?.Time.TotalMinutes ?? 0,
+                    Time = (int?)time?.Time.TotalMinutes ?? 0,
                     RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
                 });
                 uow.SaveChanges();
@@ -428,9 +428,9 @@ WHERE GuildId={guildId}
             string banReason, TimeSpan? duration)
         {
             return GetBanUserDmEmbed(
-                (DiscordSocketClient) context.Client,
-                (SocketGuild) context.Guild,
-                (IGuildUser) context.User,
+                (DiscordSocketClient)context.Client,
+                (SocketGuild)context.Guild,
+                (IGuildUser)context.User,
                 target,
                 defaultMessage,
                 banReason,

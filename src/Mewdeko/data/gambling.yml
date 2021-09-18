@@ -2,7 +2,7 @@
 version: 1
 # Currency settings
 currency:
-# What is the emoji/character which represents the currency
+  # What is the emoji/character which represents the currency
   sign: <:pearl:881167762641256489>
   # What is the name of the currency
   name: NekohaPats
@@ -13,13 +13,13 @@ minBet: 0
 maxBet: 0
 # Settings for betflip command
 betFlip:
-# Bet multiplier if user guesses correctly
+  # Bet multiplier if user guesses correctly
   multiplier: 2
 # Settings for betroll command
 betRoll:
-# When betroll is played, user will roll a number 0-100.
-# This setting will describe which multiplier is used for when the roll is higher than the given number.
-# Doesn't have to be ordered.
+  # When betroll is played, user will roll a number 0-100.
+  # This setting will describe which multiplier is used for when the roll is higher than the given number.
+  # Doesn't have to be ordered.
   pairs:
     - whenAbove: 99
       multiplyBy: 10
@@ -29,34 +29,34 @@ betRoll:
       multiplyBy: 2
 # Automatic currency generation settings.
 generation:
-# when currency is generated, should it also have a random password
-# associated with it which users have to type after the .pick command
-# in order to get it
+  # when currency is generated, should it also have a random password
+  # associated with it which users have to type after the .pick command
+  # in order to get it
   hasPassword: false
   # Every message sent has a certain % chance to generate the currency
-# specify the percentage here (1 being 100%, 0 being 0% - for example
-# default is 0.02, which is 2%
+  # specify the percentage here (1 being 100%, 0 being 0% - for example
+  # default is 0.02, which is 2%
   chance: 0.0199999995529652
   # How many seconds have to pass for the next message to have a chance to spawn currency
   genCooldown: 10
   # Minimum amount of currency that can spawn
   minAmount: 1
   # Maximum amount of currency that can spawn.
-#  Set to the same value as MinAmount to always spawn the same amount
+  #  Set to the same value as MinAmount to always spawn the same amount
   maxAmount: 200
 # Settings for timely command 
 # (letting people claim X amount of currency every Y hours)
 timely:
-# How much currency will the users get every time they run .timely command
-# setting to 0 or less will disable this feature
+  # How much currency will the users get every time they run .timely command
+  # setting to 0 or less will disable this feature
   amount: 200
   # How often (in hours) can users claim currency with .timely command
-# setting to 0 or less will disable this feature
+  # setting to 0 or less will disable this feature
   cooldown: 1
 # How much will each user's owned currency decay over time.
 decay:
-# Percentage of user's current currency which will be deducted every 24h. 
-# 0 - 1 (1 is 100%, 0.5 50%, 0 disabled)
+  # Percentage of user's current currency which will be deducted every 24h. 
+  # 0 - 1 (1 is 100%, 0.5 50%, 0 disabled)
   percent: 0
   # Maximum amount of user's currency that can decay at each interval. 0 for unlimited.
   maxDecay: 0
@@ -66,7 +66,7 @@ decay:
   hourInterval: 24
 # Settings for Wheel Of Fortune command.
 wheelOfFortune:
-# Self-Explanatory. Has to have 8 values, otherwise the command won't work.
+  # Self-Explanatory. Has to have 8 values, otherwise the command won't work.
   multipliers:
     - 1.7
     - 1.5
@@ -78,34 +78,34 @@ wheelOfFortune:
     - 2.4
 # Settings related to waifus
 waifu:
-# Minimum price a waifu can have
+  # Minimum price a waifu can have
   minPrice: 50
   multipliers:
-  # Multiplier for waifureset. Default 150.
-# Formula (at the time of writing this): 
-# price = (waifu_price * 1.25f) + ((number_of_divorces + changes_of_heart + 2) * WaifuReset) rounded up
+    # Multiplier for waifureset. Default 150.
+    # Formula (at the time of writing this): 
+    # price = (waifu_price * 1.25f) + ((number_of_divorces + changes_of_heart + 2) * WaifuReset) rounded up
     waifuReset: 150
     # The minimum amount of currency that you have to pay 
-# in order to buy a waifu who doesn't have a crush on you.
-# Default is 1.1
-# Example: If a waifu is worth 100, you will have to pay at least 100 * NormalClaim currency to claim her.
-# (100 * 1.1 = 110)
+    # in order to buy a waifu who doesn't have a crush on you.
+    # Default is 1.1
+    # Example: If a waifu is worth 100, you will have to pay at least 100 * NormalClaim currency to claim her.
+    # (100 * 1.1 = 110)
     normalClaim: 1.1
     # The minimum amount of currency that you have to pay 
-# in order to buy a waifu that has a crush on you.
-# Default is 0.88
-# Example: If a waifu is worth 100, you will have to pay at least 100 * CrushClaim currency to claim her.
-# (100 * 0.88 = 88)
+    # in order to buy a waifu that has a crush on you.
+    # Default is 0.88
+    # Example: If a waifu is worth 100, you will have to pay at least 100 * CrushClaim currency to claim her.
+    # (100 * 0.88 = 88)
     crushClaim: 0.88
     # When divorcing a waifu, her new value will be her current value multiplied by this number.
-# Default 0.75 (meaning will lose 25% of her value)
+    # Default 0.75 (meaning will lose 25% of her value)
     divorceNewValue: 0.75
     # All gift prices will be multiplied by this number.
-# Default 1 (meaning no effect)
+    # Default 1 (meaning no effect)
     allGiftPrices: 1
     # What percentage of the value of the gift will a waifu gain when she's gifted.
-# Default 0.95 (meaning 95%)
-# Example: If a waifu is worth 1000, and she receives a gift worth 100, her new value will be 1095)
+    # Default 0.95 (meaning 95%)
+    # Example: If a waifu is worth 1000, and she receives a gift worth 100, her new value will be 1095)
     giftEffect: 0.95
   # List of items available for gifting.
   items:

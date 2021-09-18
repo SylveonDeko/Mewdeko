@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
@@ -13,7 +12,6 @@ using Mewdeko.Extensions;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.CustomReactions.Services;
-using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.CustomReactions
 {
@@ -25,11 +23,11 @@ namespace Mewdeko.Modules.CustomReactions
         }
 
         private readonly DiscordSocketClient _client;
-        private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _clientFactory;
-        private InteractiveService Interactivity;
+        private readonly IBotCredentials _creds;
+        private readonly InteractiveService Interactivity;
 
-        public CustomReactions(IBotCredentials creds, 
+        public CustomReactions(IBotCredentials creds,
             DiscordSocketClient client, IHttpClientFactory clientFactory, InteractiveService serv)
         {
             Interactivity = serv;
@@ -41,10 +39,13 @@ namespace Mewdeko.Modules.CustomReactions
         private bool AdminInGuildOrOwnerInDm()
         {
             return ctx.Guild == null && _creds.IsOwner(ctx.User)
-                   || (ctx.Guild != null && ((IGuildUser)ctx.User).GuildPermissions.Administrator);
+                   || ctx.Guild != null && ((IGuildUser)ctx.User).GuildPermissions.Administrator;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         public async Task CrsExport()
@@ -54,19 +55,21 @@ namespace Mewdeko.Modules.CustomReactions
                 await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
                 return;
             }
-            
+
             _ = ctx.Channel.TriggerTypingAsync();
 
             var serialized = _service.ExportCrs(ctx.Guild?.Id);
             using var stream = await serialized.ToStream();
-            await ctx.Channel.SendFileAsync(stream, "crs-export.yml", text: null);
+            await ctx.Channel.SendFileAsync(stream, "crs-export.yml", null);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
-        
-        public async Task CrsImport([Leftover]string input = null)
+        public async Task CrsImport([Leftover] string input = null)
         {
             if (!AdminInGuildOrOwnerInDm())
             {
@@ -103,7 +106,7 @@ namespace Mewdeko.Modules.CustomReactions
                 await ReplyErrorLocalizedAsync("expr_import_invalid_data");
                 return;
             }
-            
+
             await ctx.OkAsync();
         }
 
@@ -146,7 +149,7 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
 
             if (channel == null && !_creds.IsOwner(ctx.User) ||
-                channel != null && !((IGuildUser) ctx.User).GuildPermissions.Administrator)
+                channel != null && !((IGuildUser)ctx.User).GuildPermissions.Administrator)
             {
                 await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
                 return;
@@ -185,32 +188,32 @@ namespace Mewdeko.Modules.CustomReactions
             }
 
             var paginator = new LazyPaginatorBuilder()
-              .AddUser(ctx.User)
-              .WithPageFactory(PageFactory)
-              .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-              .WithMaxPageIndex(customReactions.Count()/20)
-              .WithDefaultEmotes()
-              .Build();
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(customReactions.Count() / 20)
+                .WithDefaultEmotes()
+                .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
                 return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
-                        .WithTitle(GetText("custom_reactions"))
-                        .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
-                            .Skip(page * 20)
-                            .Take(20)
-                            .Select(cr =>
-                            {
-                                var str = $"`#{cr.Id}` {cr.Trigger}";
-                                if (cr.AutoDeleteTrigger) str = "🗑" + str;
-                                if (cr.DmResponse) str = "📪" + str;
-                                var reactions = cr.GetReactions();
-                                if (reactions.Any()) str = str + " // " + string.Join(" ", reactions);
+                    .WithTitle(GetText("custom_reactions"))
+                    .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
+                        .Skip(page * 20)
+                        .Take(20)
+                        .Select(cr =>
+                        {
+                            var str = $"`#{cr.Id}` {cr.Trigger}";
+                            if (cr.AutoDeleteTrigger) str = "🗑" + str;
+                            if (cr.DmResponse) str = "📪" + str;
+                            var reactions = cr.GetReactions();
+                            if (reactions.Any()) str = str + " // " + string.Join(" ", reactions);
 
-                                return str;
-                            }))));
+                            return str;
+                        }))));
             }
         }
 
@@ -237,23 +240,23 @@ namespace Mewdeko.Modules.CustomReactions
                     .ToList();
 
                 var paginator = new LazyPaginatorBuilder()
-               .AddUser(ctx.User)
-               .WithPageFactory(PageFactory)
-               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-               .WithMaxPageIndex(customReactions.Count()/20)
-               .WithDefaultEmotes()
-               .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(customReactions.Count() / 20)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
                     return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
-                           .WithTitle(GetText("name"))
-                            .WithDescription(string.Join("\r\n", ordered
-                                .Skip(page * 20)
-                                .Take(20)
-                                .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))));
+                        .WithTitle(GetText("name"))
+                        .WithDescription(string.Join("\r\n", ordered
+                            .Skip(page * 20)
+                            .Take(20)
+                            .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))));
                 }
             }
         }
@@ -341,7 +344,7 @@ namespace Mewdeko.Modules.CustomReactions
                     await Task.Delay(100).ConfigureAwait(false);
                     succ.Add(emojiStr);
 
-                    if (succ.Count >= 3)
+                    if (succ.Count >= 6)
                         break;
                 }
                 catch
@@ -369,6 +372,14 @@ namespace Mewdeko.Modules.CustomReactions
         public Task CrCa(int id)
         {
             return InternalCrEdit(id, CustomReactionsService.CrField.ContainsAnywhere);
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public Task Rtt(int id)
+        {
+            return InternalCrEdit(id, CustomReactionsService.CrField.ReactToTrigger);
         }
 
         [MewdekoCommand]

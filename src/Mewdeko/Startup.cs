@@ -1,15 +1,14 @@
 using System;
 using System.IO;
-using Mewdeko.Core.Services;
+using Mewdeko.Core.Services.Database;
+using Mewdeko.Core.Services.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Mewdeko.Core.Services.Database;
-using Mewdeko.Core.Services.Impl;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko
 {
@@ -18,7 +17,7 @@ namespace Mewdeko
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }   
+        }
 
         public IConfiguration Configuration { get; }
 
@@ -38,10 +37,7 @@ namespace Mewdeko
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
 
@@ -49,10 +45,7 @@ namespace Mewdeko
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Mewdeko.Core.Common
 
         public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
         {
-            Func<object, ValueTask> localAction = obj => action((TData) obj);
+            Func<object, ValueTask> localAction = obj => action((TData)obj);
             lock (locker)
             {
                 Dictionary<Delegate, List<Func<object, ValueTask>>> keyActions;

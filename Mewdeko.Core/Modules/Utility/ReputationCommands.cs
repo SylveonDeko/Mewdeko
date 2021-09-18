@@ -19,12 +19,13 @@ namespace Mewdeko.Modules.Utility
     {
         public class Reputation : MewdekoSubmodule<ReputationService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public Reputation(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -76,7 +77,7 @@ namespace Mewdeko.Modules.Utility
             [OfficialServerMod]
             public async Task RepBlacklist(ulong Id)
             {
-                var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(Id);
+                var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(Id);
                 if (user is null)
                 {
                     await ctx.Channel.SendErrorAsync("Are you sure you got the right ID? No user exists with this ID.");
@@ -100,7 +101,7 @@ namespace Mewdeko.Modules.Utility
             [OfficialServerMod]
             public async Task RepUnBlacklist(ulong Id)
             {
-                var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(Id);
+                var user = await ((DiscordSocketClient)ctx.Client).Rest.GetUserAsync(Id);
                 if (user is null)
                 {
                     await ctx.Channel.SendErrorAsync("Are you sure you got the right ID? No user exists with this ID.");
@@ -164,7 +165,7 @@ namespace Mewdeko.Modules.Utility
                     eb.AddField("Negative Reviews", _service.Reputations(use.Id).Where(x => x.ReviewType == 0).Count());
                     eb.AddField("Latest Review Type", $"{ReviewType(use.Id)}");
                     eb.AddField("Latest Review", GetLastReview(use.Id));
-                    eb.ThumbnailUrl = use.RealAvatarUrl(2048).ToString();
+                    eb.ThumbnailUrl = use.RealAvatarUrl().ToString();
                     eb.Color = Mewdeko.OkColor;
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 }
@@ -198,7 +199,7 @@ namespace Mewdeko.Modules.Utility
                             .Build();
 
                         await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                            System.TimeSpan.FromMinutes(60));
+                            TimeSpan.FromMinutes(60));
 
                         Task<PageBuilder> PageFactory(int page)
                         {
@@ -238,7 +239,7 @@ namespace Mewdeko.Modules.Utility
                             .Build();
 
                         await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
-                            System.TimeSpan.FromMinutes(60));
+                            TimeSpan.FromMinutes(60));
 
                         Task<PageBuilder> PageFactory(int page)
                         {
@@ -291,7 +292,7 @@ namespace Mewdeko.Modules.Utility
                     return false;
                 }
 
-                if (DateTimeOffset.Now.Subtract(((IGuildUser) user).CreatedAt) < TimeSpan.FromDays(30))
+                if (DateTimeOffset.Now.Subtract(((IGuildUser)user).CreatedAt) < TimeSpan.FromDays(30))
                 {
                     await ctx.Channel.SendErrorAsync("Your account is too young to rep a user!");
                     return false;
@@ -328,13 +329,13 @@ namespace Mewdeko.Modules.Utility
                 eb.Color = Mewdeko.OkColor;
                 eb.Description = s;
                 eb.Author = new EmbedAuthorBuilder
-                    {IconUrl = user.RealAvatarUrl().ToString(), Name = $"{user.Username}|{user.Id}"};
+                    { IconUrl = user.RealAvatarUrl().ToString(), Name = $"{user.Username}|{user.Id}" };
                 eb.Footer = new EmbedFooterBuilder
                 {
                     IconUrl = reviewer.RealAvatarUrl().ToString(),
                     Text = $"Reviewed by: {reviewer.Username}|{reviewer.Id}"
                 };
-                var ebs = new List<Embed> {eb.WithCurrentTimestamp().Build()};
+                var ebs = new List<Embed> { eb.WithCurrentTimestamp().Build() };
                 await webhook.SendMessageAsync($"A {type} reputation was given!", embeds: ebs);
             }
         }

@@ -8,7 +8,7 @@
 
         public CurrencyTransaction Clone()
         {
-            return new()
+            return new CurrencyTransaction
             {
                 Amount = Amount,
                 Reason = Reason,

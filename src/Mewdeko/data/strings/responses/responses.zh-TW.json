@@ -640,8 +640,7 @@
   "clpa_fail": "因下列因素而無法領獎:",
   "clpa_fail_already": "您一個月只能領一次獎勵，除非您的贊助金額有提升。",
   "clpa_fail_already_title": "獎勵已發送",
-  "clpa_fail_conn":
-    "您的Discord帳號可能未與Patreon帳戶連結。若您不確定，或不知道如何連結的話，請至您的[Patreon帳戶設定](https://patreon.com/settings/account)並點選\u0027連節至Discord\u0027按鈕。",
+  "clpa_fail_conn": "您的Discord帳號可能未與Patreon帳戶連結。若您不確定，或不知道如何連結的話，請至您的[Patreon帳戶設定](https://patreon.com/settings/account)並點選\u0027連節至Discord\u0027按鈕。",
   "clpa_fail_conn_title": "尚未連接Discord帳號",
   "clpa_fail_sup": "您必須要與Patreon連結您的Discord帳戶才符合領獎資格。您可以使用 {0} 指令來取得連結。",
   "clpa_fail_sup_title": "無法支援",

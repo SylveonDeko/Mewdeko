@@ -1,7 +1,6 @@
 ﻿using System;
 using Discord;
 using Mewdeko.Extensions;
-using Mewdeko.Core.Services;
 
 namespace Mewdeko
 {
@@ -26,8 +25,8 @@ namespace Mewdeko
             !string.IsNullOrWhiteSpace(Url) ||
             !string.IsNullOrWhiteSpace(Thumbnail) ||
             !string.IsNullOrWhiteSpace(Image) ||
-            (Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
-            (Fields != null && Fields.Length > 0);
+            Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl)) ||
+            Fields != null && Fields.Length > 0;
 
         public EmbedBuilder GetEmbed()
         {
@@ -44,14 +43,12 @@ namespace Mewdeko
                 embed.WithUrl(Url);
 
             if (Footer != null)
-            {
                 embed.WithFooter(efb =>
                 {
                     efb.WithText(Footer.Text);
                     if (Uri.IsWellFormedUriString(Footer.IconUrl, UriKind.Absolute))
                         efb.WithIconUrl(Footer.IconUrl);
                 });
-            }
 
             if (Thumbnail != null && Uri.IsWellFormedUriString(Thumbnail, UriKind.Absolute))
                 embed.WithThumbnailUrl(Thumbnail);
@@ -70,13 +67,9 @@ namespace Mewdeko
             }
 
             if (Fields != null)
-            {
                 foreach (var f in Fields)
-                {
                     if (!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
                         embed.AddField(f.Name, f.Value, f.Inline);
-                }
-            }
 
             return embed;
         }
@@ -84,13 +77,11 @@ namespace Mewdeko
         public void NormalizeFields()
         {
             if (Fields != null && Fields.Length > 0)
-            {
                 foreach (var f in Fields)
                 {
                     f.Name = f.Name.TrimTo(256);
                     f.Value = f.Value.TrimTo(1024);
                 }
-            }
         }
     }
 }

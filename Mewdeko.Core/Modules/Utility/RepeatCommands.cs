@@ -232,7 +232,7 @@ namespace Mewdeko.Modules.Utility
                     ChannelId = ctx.Channel.Id,
                     GuildId = ctx.Guild.Id,
                     Interval = realInterval,
-                    Message = ((IGuildUser) ctx.User).GuildPermissions.MentionEveryone
+                    Message = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone
                         ? message
                         : message.SanitizeMentions(true),
                     NoRedundant = false,
@@ -250,11 +250,11 @@ namespace Mewdeko.Modules.Utility
                     await uow.SaveChangesAsync();
                 }
 
-                var runner = new RepeatRunner(_client, (SocketGuild) ctx.Guild, toAdd, _service);
+                var runner = new RepeatRunner(_client, (SocketGuild)ctx.Guild, toAdd, _service);
 
                 _service.Repeaters.AddOrUpdate(ctx.Guild.Id,
                     new ConcurrentDictionary<int, RepeatRunner>(new[]
-                        {new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)}), (key, old) =>
+                        { new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner) }), (key, old) =>
                     {
                         old.TryAdd(runner.Repeater.Id, runner);
                         return old;

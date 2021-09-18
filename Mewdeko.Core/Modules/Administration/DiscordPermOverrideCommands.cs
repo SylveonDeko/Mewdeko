@@ -17,11 +17,13 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class DiscordPermOverrideCommands : MewdekoSubmodule<DiscordPermOverrideService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
+
             public DiscordPermOverrideCommands(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             // override stats, it should require that the user has managessages guild permission
             // .po 'stats' add user guild managemessages
             [MewdekoCommand]
@@ -87,18 +89,20 @@ namespace Mewdeko.Modules.Administration
                     .WithDefaultEmotes()
                     .Build();
                 await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
                 Task<PageBuilder> PageFactory(int page)
                 {
                     var thisPageOverrides = overrides
-                       .Skip(9 * page)
-                       .Take(9)
-                       .ToList();
+                        .Skip(9 * page)
+                        .Take(9)
+                        .ToList();
                     if (thisPageOverrides.Count == 0)
-                        return Task.FromResult(new PageBuilder().WithDescription(GetText("perm_override_page_none")).WithColor(Mewdeko.ErrorColor));
-                    else
-                     return Task.FromResult(new PageBuilder()
+                        return Task.FromResult(new PageBuilder().WithDescription(GetText("perm_override_page_none"))
+                            .WithColor(Mewdeko.ErrorColor));
+                    return Task.FromResult(new PageBuilder()
                         .WithDescription(string.Join("\n",
-                            thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}"))).WithColor(Mewdeko.OkColor));
+                            thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}")))
+                        .WithColor(Mewdeko.OkColor));
                 }
             }
         }

@@ -5,7 +5,7 @@ using Discord.WebSocket;
 namespace Mewdeko.Interactive
 {
     /// <summary>
-    /// Represents an event handler with a filter.
+    ///     Represents an event handler with a filter.
     /// </summary>
     /// <typeparam name="TInput">The type of the incoming inputs.</typeparam>
     internal class FilteredCallback<TInput> : IInteractiveCallback<TInput>
@@ -22,30 +22,33 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets the filter.
+        ///     Gets the filter.
         /// </summary>
         public Func<TInput, bool> Filter { get; }
 
         /// <summary>
-        /// Gets the action which gets executed to incoming inputs.
+        ///     Gets the action which gets executed to incoming inputs.
         /// </summary>
         public Func<TInput, bool, Task> Action { get; }
 
         /// <summary>
-        /// Gets the <see cref="TimeoutTaskCompletionSource{TResult}"/> used to set the result of the callback.
+        ///     Gets the <see cref="TimeoutTaskCompletionSource{TResult}" /> used to set the result of the callback.
         /// </summary>
         public TimeoutTaskCompletionSource<(TInput, InteractiveStatus)> TimeoutTaskSource { get; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public DateTimeOffset StartTime { get; }
 
-        /// <inheritdoc/>
-        public void Cancel() => TimeoutTaskSource.TryCancel();
+        /// <inheritdoc />
+        public void Cancel()
+        {
+            TimeoutTaskSource.TryCancel();
+        }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public async Task ExecuteAsync(TInput input)
         {
-            bool success = Filter(input);
+            var success = Filter(input);
             await Action(input, success).ConfigureAwait(false);
 
             if (success)
@@ -55,53 +58,44 @@ namespace Mewdeko.Interactive
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public Task ExecuteAsync(SocketMessage message)
         {
-            if (message is TInput input)
-            {
-                return ExecuteAsync(input);
-            }
+            if (message is TInput input) return ExecuteAsync(input);
 
             throw new InvalidOperationException("Cannot execute this callback using a message.");
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public Task ExecuteAsync(SocketReaction reaction)
         {
-            if (reaction is TInput input)
-            {
-                return ExecuteAsync(input);
-            }
+            if (reaction is TInput input) return ExecuteAsync(input);
 
             throw new InvalidOperationException("Cannot execute this callback using a reaction.");
         }
 
 #if DNETLABS
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public Task ExecuteAsync(SocketInteraction interaction)
         {
-            if (interaction is TInput input)
-            {
-                return ExecuteAsync(input);
-            }
+            if (interaction is TInput input) return ExecuteAsync(input);
 
             throw new InvalidOperationException("Cannot execute this callback using a reaction.");
         }
 #endif
 
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed) return;
-            if (disposing)
-            {
-                TimeoutTaskSource.TryDispose();
-            }
+            if (disposing) TimeoutTaskSource.TryDispose();
 
             _disposed = true;
         }
-
-        /// <inheritdoc/>
-        public void Dispose() => Dispose(true);
     }
 }

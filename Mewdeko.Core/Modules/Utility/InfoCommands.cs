@@ -51,11 +51,11 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task ServerInfo(string guildName = null)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 guildName = guildName?.ToUpperInvariant();
                 SocketGuild guild;
                 if (string.IsNullOrWhiteSpace(guildName))
-                    guild = (SocketGuild) channel.Guild;
+                    guild = (SocketGuild)channel.Guild;
                 else
                     guild = _client.Guilds.FirstOrDefault(
                         g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
@@ -72,6 +72,7 @@ namespace Mewdeko.Modules.Utility
                     var e = i.Replace("_", " ");
                     list.Add(e.ToTitleCase());
                 }
+
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName(GetText("server_info")))
                     .WithTitle(guild.Name)
@@ -112,7 +113,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task ChannelInfo(ITextChannel channel = null)
             {
-                var ch = channel ?? (ITextChannel) ctx.Channel;
+                var ch = channel ?? (ITextChannel)ctx.Channel;
                 if (ch == null)
                     return;
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);

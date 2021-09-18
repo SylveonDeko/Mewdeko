@@ -62,7 +62,7 @@ namespace Mewdeko.Core.Services
 
                     return new CommandStrings
                     {
-                        Args = new[] {""},
+                        Args = new[] { "" },
                         Desc = "?",
                         Image = ""
                     };

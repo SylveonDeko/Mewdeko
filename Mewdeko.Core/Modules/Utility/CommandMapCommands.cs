@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Mewdeko.Modules.Utility
         {
             private readonly DiscordSocketClient _client;
             private readonly DbService _db;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public CommandMapCommands(DbService db, DiscordSocketClient client, InteractiveService serv)
             {
@@ -52,7 +53,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task Alias(string trigger, [Leftover] string mapping = null)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (string.IsNullOrWhiteSpace(trigger))
                     return;
@@ -101,7 +102,7 @@ namespace Mewdeko.Modules.Utility
 
                     return new ConcurrentDictionary<string, string>(new Dictionary<string, string>
                     {
-                        {trigger.Trim().ToLowerInvariant(), mapping.ToLowerInvariant()}
+                        { trigger.Trim().ToLowerInvariant(), mapping.ToLowerInvariant() }
                     });
                 }, (_, map) =>
                 {
@@ -136,7 +137,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task AliasList(int page = 1)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 page -= 1;
 
                 if (page < 0)
@@ -158,7 +159,7 @@ namespace Mewdeko.Modules.Utility
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {

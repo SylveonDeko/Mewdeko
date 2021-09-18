@@ -21,11 +21,6 @@ namespace Mewdeko.Modules.ServerManagement
         [Group]
         public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
         {
-            public class RoleShit
-            {
-                public string Mention { get; set; }
-                public int UserCount { get; set; }
-            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -47,7 +42,7 @@ namespace Mewdeko.Modules.ServerManagement
                     $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories.....");
                 foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                     if (perms != null)
-                        await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
+                        await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
                 foreach (var i in await ctx.Guild.GetCategoriesAsync())
                     if (perms != null)
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
@@ -57,8 +52,9 @@ namespace Mewdeko.Modules.ServerManagement
                     Description =
                         $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories!!"
                 };
-                await msg.ModifyAsync(x => x.Embed = eb.Build() );
+                await msg.ModifyAsync(x => x.Embed = eb.Build());
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -89,6 +85,7 @@ namespace Mewdeko.Modules.ServerManagement
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build());
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -119,6 +116,7 @@ namespace Mewdeko.Modules.ServerManagement
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build());
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -133,25 +131,31 @@ namespace Mewdeko.Modules.ServerManagement
                     await ctx.Channel.SendErrorAsync("You cannot delete bot roles or boost roles!");
                     return;
                 }
+
                 var secondlist = new List<string>();
                 var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
-                foreach ( var i in roles.Where(x => !x.IsManaged))
-                {   
+                foreach (var i in roles.Where(x => !x.IsManaged))
+                {
                     if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                         runnerUser.GetRoles().Max(x => x.Position) <= i.Position)
                     {
                         await ctx.Channel.SendErrorAsync($"You cannot manage {i.Mention}");
                         return;
                     }
+
                     if (currentUser.GetRoles().Max(x => x.Position) <= i.Position)
                     {
                         await ctx.Channel.SendErrorAsync($"I cannot manage {i.Mention}");
                         return;
                     }
-                    secondlist.Add($"{i.Mention} - { ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.Contains(i.Id)).Count()} Users");
-                };
-                var embed = new EmbedBuilder()
+
+                    secondlist.Add(
+                        $"{i.Mention} - {ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.Contains(i.Id)).Count()} Users");
+                }
+
+                ;
+                var embed = new EmbedBuilder
                 {
                     Title = "Are you sure you want to delete these roles?",
                     Description = $"{string.Join("\n", secondlist)}"
@@ -160,11 +164,8 @@ namespace Mewdeko.Modules.ServerManagement
                 {
                     var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Count()} roles...");
                     var emb = msg.Embeds.First();
-                    foreach(var i in roles)
-                    {
-                        await i.DeleteAsync();
-                    }
-                    var newemb = new EmbedBuilder()
+                    foreach (var i in roles) await i.DeleteAsync();
+                    var newemb = new EmbedBuilder
                     {
                         Description = $"Succesfully deleted {roles.Count()} roles!",
                         Color = Mewdeko.OkColor
@@ -172,6 +173,7 @@ namespace Mewdeko.Modules.ServerManagement
                     await msg.ModifyAsync(x => x.Embed = newemb.Build());
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -267,7 +269,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddToAll(IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -336,6 +338,7 @@ namespace Mewdeko.Modules.ServerManagement
                 await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -350,19 +353,21 @@ namespace Mewdeko.Modules.ServerManagement
                     await ctx.Channel.SendErrorAsync("You must attach a file for this to work.");
                     return;
                 }
+
                 var file = ctx.Message.Attachments.First();
                 if (!file.Filename.EndsWith(".txt"))
                 {
                     await ctx.Channel.SendErrorAsync("The file attached must be a txt file!");
                     return;
                 }
+
                 var users = new List<IGuildUser>();
                 using (var client = new WebClient())
                 {
                     var content = client.DownloadData(file.Url);
                     using (var stream = new MemoryStream(content))
                     {
-                        StreamReader file1 = new StreamReader(stream);
+                        var file1 = new StreamReader(stream);
                         string line;
                         while ((line = file1.ReadLine()) != null)
                         {
@@ -371,6 +376,7 @@ namespace Mewdeko.Modules.ServerManagement
                         }
                     }
                 }
+
                 var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
@@ -406,7 +412,8 @@ namespace Mewdeko.Modules.ServerManagement
                     JobId = 1;
                 else
                     JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding a role to a provided user list",
+                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    "Adding a role to a provided user list",
                     role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -449,7 +456,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddToAllBots(IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -527,7 +534,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddToAllUsers(IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -605,7 +612,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddToUsersOver(StoopidTime time, IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -686,7 +693,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddToUsersUnder(StoopidTime time, IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -767,7 +774,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RemoveFromAll(IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -846,7 +853,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RemoveFromAllUsers(IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -925,7 +932,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RemoveFromAllBots(IRole role)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -1004,7 +1011,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddRoleToRole(IRole role, IRole role2)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role2.Position ||
@@ -1086,7 +1093,7 @@ namespace Mewdeko.Modules.ServerManagement
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RemoveFromRole(IRole role, IRole role2)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role2.Position ||
@@ -1162,7 +1169,7 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task AddThenRemove(IRole role, IRole role2)
             {
                 var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= role2.Position ||
                     runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -1225,6 +1232,12 @@ namespace Mewdeko.Modules.ServerManagement
                 await _service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync(
                     $"Added {role2.Mention} to {count2} users and removed {role.Mention}.");
+            }
+
+            public class RoleShit
+            {
+                public string Mention { get; set; }
+                public int UserCount { get; set; }
             }
         }
     }

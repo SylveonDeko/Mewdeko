@@ -28,10 +28,10 @@ namespace Mewdeko.Modules.Moderation
 
                 if (parameter == "-s" || parameter == "--safe")
                     await _service
-                        .PurgeWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
+                        .PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
                         .ConfigureAwait(false);
                 else
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id)
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id)
                         .ConfigureAwait(false);
                 ctx.Message.DeleteAfter(3);
             }
@@ -55,23 +55,23 @@ namespace Mewdeko.Modules.Moderation
 
                 if (parameter == "-s" || parameter == "--safe")
                 {
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.IsPinned)
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.IsPinned)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 if (parameter == "-nb" || parameter == "--nobots")
                 {
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.Author.IsBot)
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.Author.IsBot)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 if (parameter == "-ob" || parameter == "--onlybots")
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => x.Author.IsBot)
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Author.IsBot)
                         .ConfigureAwait(false);
                 else
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => true).ConfigureAwait(false);
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
             }
 
             //Purge @user [x]
@@ -109,11 +109,11 @@ namespace Mewdeko.Modules.Moderation
                     count = 1000;
 
                 if (parameter == "-s" || parameter == "--safe")
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, count,
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count,
                             m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks && !m.IsPinned)
                         .ConfigureAwait(false);
                 else
-                    await _service.PurgeWhere((ITextChannel) ctx.Channel, count,
+                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count,
                         m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks).ConfigureAwait(false);
             }
         }

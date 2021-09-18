@@ -225,7 +225,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                     if (textChannel == null || textChannel.Guild != Guild)
                         return;
 
-                    var guildUser = (IGuildUser) umsg.Author;
+                    var guildUser = (IGuildUser)umsg.Author;
 
                     var guess = false;
                     await _guessLock.WaitAsync().ConfigureAwait(false);

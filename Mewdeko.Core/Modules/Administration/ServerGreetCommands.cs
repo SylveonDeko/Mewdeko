@@ -45,16 +45,18 @@ namespace Mewdeko.Modules.Administration
                     await ReplyConfirmLocalizedAsync("greetdel_off").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Aliases]
+            [MewdekoCommand]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             public Task BoostMsg()
             {
                 var boostMessage = _service.GetBoostMessage(ctx.Guild.Id);
-                return ReplyConfirmLocalizedAsync("boostmsg_cur",boostMessage?.SanitizeMentions());
+                return ReplyConfirmLocalizedAsync("boostmsg_cur", boostMessage?.SanitizeMentions());
             }
 
-            [MewdekoCommand, Aliases]
+            [MewdekoCommand]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             public async Task Boost()
@@ -66,8 +68,9 @@ namespace Mewdeko.Modules.Administration
                 else
                     await ReplyConfirmLocalizedAsync("boost_off").ConfigureAwait(false);
             }
-            
-            [MewdekoCommand, Aliases]
+
+            [MewdekoCommand]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             public async Task BoostDel(int timer = 30)
@@ -81,12 +84,13 @@ namespace Mewdeko.Modules.Administration
                 await _service.SetBoostDel(ctx.Guild.Id, timer);
 
                 if (timer > 0)
-                    await ReplyConfirmLocalizedAsync("boostdel_on",timer);
+                    await ReplyConfirmLocalizedAsync("boostdel_on", timer);
                 else
                     await ReplyConfirmLocalizedAsync("boostdel_off").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Aliases]
+            [MewdekoCommand]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             public async Task BoostMsg([Leftover] string text)
@@ -367,9 +371,9 @@ namespace Mewdeko.Modules.Administration
             [Ratelimit(5)]
             public async Task ByeTest([Leftover] IGuildUser user = null)
             {
-                user = user ?? (IGuildUser) Context.User;
+                user = user ?? (IGuildUser)Context.User;
 
-                await _service.ByeTest((ITextChannel) Context.Channel, user);
+                await _service.ByeTest((ITextChannel)Context.Channel, user);
                 var enabled = _service.GetByeEnabled(Context.Guild.Id);
                 if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
             }
@@ -391,24 +395,18 @@ namespace Mewdeko.Modules.Administration
                 {
                     replacer.Replace(crEmbed);
                     if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
-                    {
-                        await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true), embed: crEmbed.ToEmbed().Build());
-                    }
-                    if (crEmbed.PlainText is null)
-                    {
-                        await ctx.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
-                    }
+                        await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true),
+                            embed: crEmbed.ToEmbed().Build());
+                    if (crEmbed.PlainText is null) await ctx.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
                     if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                    {
-                       await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
-                    }
+                        await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
                 }
                 else
                 {
                     await ctx.Channel.SendErrorAsync("Either the boostmsg is invalid or you dont have one set.");
                 }
-
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -418,9 +416,9 @@ namespace Mewdeko.Modules.Administration
             [Ratelimit(5)]
             public async Task GreetTest([Leftover] IGuildUser user = null)
             {
-                user = user ?? (IGuildUser) Context.User;
+                user = user ?? (IGuildUser)Context.User;
 
-                await _service.GreetTest((ITextChannel) Context.Channel, user);
+                await _service.GreetTest((ITextChannel)Context.Channel, user);
                 var enabled = _service.GetGreetEnabled(Context.Guild.Id);
                 if (!enabled)
                     await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
@@ -435,7 +433,7 @@ namespace Mewdeko.Modules.Administration
             [Ratelimit(5)]
             public async Task GreetDmTest([Leftover] IGuildUser user = null)
             {
-                user = user ?? (IGuildUser) Context.User;
+                user = user ?? (IGuildUser)Context.User;
 
                 var channel = await user.CreateDMChannelAsync();
                 var success = await _service.GreetDmTest(channel, user);

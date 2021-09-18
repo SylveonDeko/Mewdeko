@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Mewdeko.Common.Yml;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Extensions
 {
@@ -15,18 +15,18 @@ namespace Mewdeko.Extensions
         private static readonly HashSet<char> lettersAndDigits = new(Enumerable.Range(48, 10)
             .Concat(Enumerable.Range(65, 26))
             .Concat(Enumerable.Range(97, 26))
-            .Select(x => (char) x));
+            .Select(x => (char)x));
 
         private static readonly Regex filterRegex =
             new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |
                 RegexOptions.IgnoreCase);
 
         private static readonly Regex CodePointRegex
-            = new Regex(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
+            = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
                 RegexOptions.Compiled);
-        
+
         public static string UnescapeUnicodeCodePoints(this string input)
-        { 
+        {
             return CodePointRegex.Replace(input, me =>
             {
                 var str = me.Groups["code"].Value;
@@ -64,7 +64,7 @@ namespace Mewdeko.Extensions
 
         public static string ToTitleCase(this string str)
         {
-            var tokens = str.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+            var tokens = str.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
             for (var i = 0; i < tokens.Length; i++)
             {
                 var token = tokens[i];

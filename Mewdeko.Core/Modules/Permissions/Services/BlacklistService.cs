@@ -66,7 +66,7 @@ namespace Mewdeko.Modules.Permissions.Services
         public void Blacklist(BlacklistType type, ulong id)
         {
             using var uow = _db.GetDbContext();
-            var item = new BlacklistEntry {ItemId = id, Type = type};
+            var item = new BlacklistEntry { ItemId = id, Type = type };
             uow._context.Blacklist.Add(item);
             uow.SaveChanges();
 

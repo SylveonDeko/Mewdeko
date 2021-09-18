@@ -5,11 +5,9 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.ServerManagement.Services;
 using Mewdeko.Modules.Suggestions.Services;
-using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules
 {
@@ -98,7 +96,7 @@ namespace Mewdeko.Modules
         public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
         {
             var userInputTask = new TaskCompletionSource<string>();
-            var dsc = (DiscordSocketClient) ctx.Client;
+            var dsc = (DiscordSocketClient)ctx.Client;
             try
             {
                 dsc.MessageReceived += MessageReceived;

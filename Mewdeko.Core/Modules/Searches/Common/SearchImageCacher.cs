@@ -152,7 +152,7 @@ namespace Mewdeko.Modules.Searches.Common
                     if (type == DapiSearchType.E621)
                     {
                         var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeAnonymousType(data, new {posts = new List<E621Object>()})
+                        return JsonConvert.DeserializeAnonymousType(data, new { posts = new List<E621Object>() })
                             .posts
                             .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
                             .Select(x => new ImageCacherObject(x.File.Url,

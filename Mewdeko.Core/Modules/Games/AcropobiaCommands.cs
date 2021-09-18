@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Games
             public async Task Acrophobia(params string[] args)
             {
                 var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 var game = new AcrophobiaGame(options);
                 if (_service.AcrophobiaGames.TryAdd(channel.Id, game))

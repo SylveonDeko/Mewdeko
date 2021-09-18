@@ -86,7 +86,7 @@ namespace Mewdeko.Core.Services
 
         private CurrencyTransaction GetCurrencyTransaction(ulong userId, string reason, long amount)
         {
-            return new()
+            return new CurrencyTransaction
             {
                 Amount = amount,
                 UserId = userId,

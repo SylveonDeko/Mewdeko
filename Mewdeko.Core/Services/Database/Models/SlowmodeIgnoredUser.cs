@@ -9,7 +9,7 @@
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            return ((SlowmodeIgnoredUser) obj).UserId == UserId;
+            return ((SlowmodeIgnoredUser)obj).UserId == UserId;
         }
 
         // override object.GetHashCode

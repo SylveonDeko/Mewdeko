@@ -37,6 +37,7 @@ namespace Mewdeko.Modules.Administration.Services
             UserPresence,
             VoicePresence,
             VoicePresenceTTS,
+
             UserMuted
             //ThreadArchived,
             //ThreadCreated,
@@ -89,7 +90,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                 await Task.WhenAll(keys.Select(key =>
                 {
-                    if (!((SocketGuild) key.Guild).CurrentUser.GetPermissions(key).SendMessages)
+                    if (!((SocketGuild)key.Guild).CurrentUser.GetPermissions(key).SendMessages)
                         return Task.CompletedTask;
                     if (PresenceUpdates.TryRemove(key, out var msgs))
                     {
@@ -151,7 +152,7 @@ namespace Mewdeko.Modules.Administration.Services
                 config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
                 if (removed == 0)
                 {
-                    var toAdd = new IgnoredLogChannel {ChannelId = cid};
+                    var toAdd = new IgnoredLogChannel { ChannelId = cid };
                     logSetting.IgnoredChannels.Add(toAdd);
                     config.LogSetting.IgnoredChannels.Add(toAdd);
                 }
@@ -215,6 +216,7 @@ namespace Mewdeko.Modules.Administration.Services
                 await uow.SaveChangesAsync();
             }
         }
+
         private Task _client_UserUpdated(SocketUser before, SocketUser uAfter)
         {
             var _ = Task.Run(async () =>
@@ -253,11 +255,11 @@ namespace Mewdeko.Modules.Administration.Services
                             .WithFooter(fb => fb.WithText(CurrentTime(g)))
                             .WithOkColor();
 
-                        var bav = before.RealAvatarUrl(2048);
+                        var bav = before.RealAvatarUrl();
                         if (bav != null && bav.IsAbsoluteUri)
                             embed.WithThumbnailUrl(bav.ToString());
 
-                        var aav = after.RealAvatarUrl(2048);
+                        var aav = after.RealAvatarUrl();
                         if (aav != null && aav.IsAbsoluteUri)
                             embed.WithImageUrl(aav.ToString());
                     }
@@ -346,7 +348,7 @@ namespace Mewdeko.Modules.Administration.Services
                     //case LogType.ThreadCreated:
                     //    channelId = logSetting.ThreadCreatedId =
                     //        logSetting.ThreadCreatedId == null ? cid : default;
-                        //break;
+                    //break;
                 }
 
                 uow.SaveChanges();
@@ -666,7 +668,7 @@ namespace Mewdeko.Modules.Administration.Services
                                           "👤" + Format.Bold(after.Username),
                                           Format.Bold(after.Status.ToString()));
                             PresenceUpdates.AddOrUpdate(logChannel,
-                                new List<string> {str}, (id, list) =>
+                                new List<string> { str }, (id, list) =>
                                 {
                                     list.Add(str);
                                     return list;
@@ -678,7 +680,7 @@ namespace Mewdeko.Modules.Administration.Services
                             var str =
                                 $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activities.FirstOrDefault()?.Name ?? "-"}**.";
                             PresenceUpdates.AddOrUpdate(logChannel,
-                                new List<string> {str}, (id, list) =>
+                                new List<string> { str }, (id, list) =>
                                 {
                                     list.Add(str);
                                     return list;
@@ -703,7 +705,7 @@ namespace Mewdeko.Modules.Administration.Services
                     if (!(cbefore is IGuildChannel before))
                         return;
 
-                    var after = (IGuildChannel) cafter;
+                    var after = (IGuildChannel)cafter;
 
                     if (!GuildLogSettings.TryGetValue(before.Guild.Id, out var logSetting)
                         || logSetting.ChannelUpdatedId == null
@@ -867,7 +869,7 @@ namespace Mewdeko.Modules.Administration.Services
                             Format.Bold(beforeVch.Name ?? ""));
 
                     if (!string.IsNullOrWhiteSpace(str))
-                        PresenceUpdates.AddOrUpdate(logChannel, new List<string> {str}, (id, list) =>
+                        PresenceUpdates.AddOrUpdate(logChannel, new List<string> { str }, (id, list) =>
                         {
                             list.Add(str);
                             return list;
@@ -1101,7 +1103,7 @@ namespace Mewdeko.Modules.Administration.Services
                     var resolvedMessage = msg.Resolve(TagHandling.FullName);
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel) msg.Channel).Name))
+                        .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel).Name))
                         .WithDescription(msg.Author.ToString())
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "content"))
@@ -1159,7 +1161,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                     var embed = new EmbedBuilder()
                         .WithOkColor()
-                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel) after.Channel).Name))
+                        .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel).Name))
                         .WithDescription(after.Author.ToString())
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "old_msg"))

@@ -129,12 +129,12 @@ namespace Mewdeko.Modules.Administration.Services
 
             if (raid != null)
             {
-                var raidStats = new AntiRaidStats {AntiRaidSettings = raid};
+                var raidStats = new AntiRaidStats { AntiRaidSettings = raid };
                 _antiRaidGuilds[gc.GuildId] = raidStats;
             }
 
             if (spam != null)
-                _antiSpamGuilds[gc.GuildId] = new AntiSpamStats {AntiSpamSettings = spam};
+                _antiSpamGuilds[gc.GuildId] = new AntiSpamStats { AntiSpamSettings = spam };
 
             var alt = gc.AntiAltSetting;
             if (!(alt is null))
@@ -234,7 +234,7 @@ namespace Mewdeko.Modules.Administration.Services
                             stats.Dispose();
                             var settings = spamSettings.AntiSpamSettings;
                             await PunishUsers(settings.Action, ProtectionType.Spamming, settings.MuteTime,
-                                    settings.RoleId, (IGuildUser) msg.Author)
+                                    settings.RoleId, (IGuildUser)msg.Author)
                                 .ConfigureAwait(false);
                         }
                 }
@@ -474,7 +474,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             using var uow = _db.GetDbContext();
             var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiAltSetting));
-            gc.AntiSpamSetting = null;
+            gc.AntiAltSetting = null;
             await uow.SaveChangesAsync();
             return true;
         }

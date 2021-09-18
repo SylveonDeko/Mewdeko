@@ -101,7 +101,7 @@ namespace Mewdeko.Core.Services.Impl
                     await _db.StringSetAsync(Directory.GetFiles(_cardsPath)
                             .ToDictionary(
                                 x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
-                                x => (RedisValue) File
+                                x => (RedisValue)File
                                     .ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
                             .ToArray())
                         .ConfigureAwait(false);
@@ -187,7 +187,7 @@ namespace Mewdeko.Core.Services.Impl
                     prefix + "rip",
                     prefix + "rip_overlay"
                 }
-                .Select(x => (RedisKey) x).ToArray());
+                .Select(x => (RedisKey)x).ToArray());
 
             File.WriteAllText(Path.Combine(_basePath, "images.json"),
                 JsonConvert.SerializeObject(urls, Formatting.Indented));
@@ -207,9 +207,9 @@ namespace Mewdeko.Core.Services.Impl
 
             var replacementTable = new Dictionary<Uri, Uri>
             {
-                {new Uri(baseStr + "0.jpg"), new Uri(baseStr + "0.png")},
-                {new Uri(baseStr + "1.jpg"), new Uri(baseStr + "1.png")},
-                {new Uri(baseStr + "2.jpg"), new Uri(baseStr + "2.png")}
+                { new Uri(baseStr + "0.jpg"), new Uri(baseStr + "0.png") },
+                { new Uri(baseStr + "1.jpg"), new Uri(baseStr + "1.png") },
+                { new Uri(baseStr + "2.jpg"), new Uri(baseStr + "2.png") }
             };
 
             if (replacementTable.Keys.Any(x => urls.Currency.Contains(x)))
@@ -272,7 +272,7 @@ namespace Mewdeko.Core.Services.Impl
 
         public RedisImageArray GetByteArrayData(string key)
         {
-            return new(GetKey(key), _con);
+            return new RedisImageArray(GetKey(key), _con);
         }
 
         public RedisImageArray GetByteArrayData(ImageKey key)

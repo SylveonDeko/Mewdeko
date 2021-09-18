@@ -38,7 +38,7 @@ namespace Mewdeko.Core.Common.TypeReaders
             {
                 var expr = new Expression(i, EvaluateOptions.IgnoreCase);
                 expr.EvaluateParameter += (str, ev) => EvaluateParam(str, ev, context, services);
-                var lon = (long) decimal.Parse(expr.Evaluate().ToString());
+                var lon = (long)decimal.Parse(expr.Evaluate().ToString());
                 return TypeReaderResult.FromSuccess(new ShmartNumber(lon, input));
             }
             catch (Exception)
@@ -102,7 +102,7 @@ namespace Mewdeko.Core.Common.TypeReaders
                 if (!long.TryParse(m.Groups["num"].ToString(), out var percent))
                     return false;
 
-                num = (long) (Cur(services, ctx) * (percent / 100.0f));
+                num = (long)(Cur(services, ctx) * (percent / 100.0f));
                 return true;
             }
 

@@ -63,7 +63,7 @@ namespace Mewdeko.Modules.Utility
             [Priority(0)]
             public async Task Remind(ITextChannel channel, [Leftover] string remindString)
             {
-                var perms = ((IGuildUser) ctx.User).GetPermissions(channel);
+                var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
                 if (!perms.SendMessages || !perms.ViewChannel)
                 {
                     await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
@@ -110,7 +110,7 @@ namespace Mewdeko.Modules.Utility
                         var when = rem.When;
                         var diff = when - DateTime.UtcNow;
                         embed.AddField(
-                            $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int) diff.TotalHours}h {diff.Minutes}m)",
+                            $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
                             $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
 `TargetId:` {rem.ChannelId}
 `Message:` {rem.Message?.TrimTo(50)}");
@@ -165,7 +165,7 @@ namespace Mewdeko.Modules.Utility
 
                 if (ctx.Guild != null)
                 {
-                    var perms = ((IGuildUser) ctx.User).GetPermissions((IGuildChannel) ctx.Channel);
+                    var perms = ((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel);
                     if (!perms.MentionEveryone) message = message.SanitizeAllMentions();
                 }
 

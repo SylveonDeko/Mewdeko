@@ -69,7 +69,7 @@ namespace Mewdeko.Modules.Searches.Services
                                                                      ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate
                                                                      ?.ToUniversalTime()))
                             .Where(data => !(data.LastUpdate is null))
-                            .Select(data => (data.Item, LastUpdate: (DateTime) data.LastUpdate))
+                            .Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate))
                             .OrderByDescending(data => data.LastUpdate)
                             .Reverse() // start from the oldest
                             .ToList();
@@ -194,7 +194,7 @@ namespace Mewdeko.Modules.Searches.Services
                 uow.SaveChanges();
                 //adding all, in case bot wasn't on this guild when it started
                 foreach (var feed in gc.FeedSubs)
-                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (k, old) =>
+                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> { feed }, (k, old) =>
                     {
                         old.Add(feed);
                         return old;

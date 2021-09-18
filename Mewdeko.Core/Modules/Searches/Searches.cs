@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.Searches
         private readonly IHttpClientFactory _httpFactory;
         private readonly KSoftAPI _kSoftAPI;
         private readonly GuildTimezoneService _tzSvc;
-        private InteractiveService Interactivity;
+        private readonly InteractiveService Interactivity;
 
         public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
             GuildTimezoneService tzSvc,
@@ -282,9 +282,7 @@ namespace Mewdeko.Modules.Searches
             var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
             var image = await _kSoftAPI.imagesAPI.RandomMeme();
             while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-            {
                 image = await _kSoftAPI.imagesAPI.RandomMeme();
-            }
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -300,7 +298,7 @@ namespace Mewdeko.Modules.Searches
                 ImageUrl = image.ImageUrl,
                 Color = Mewdeko.OkColor
             };
-            await msg.ModifyAsync(x => x.Embed = em.Build());        
+            await msg.ModifyAsync(x => x.Embed = em.Build());
         }
 
         [MewdekoCommand]
@@ -335,9 +333,9 @@ namespace Mewdeko.Modules.Searches
         public async Task RandomReddit(string subreddit)
         {
             var msg = await ctx.Channel.SendConfirmAsync("Checking if the subreddit is nsfw...");
-            if(_service.NsfwCheck(subreddit))
+            if (_service.NsfwCheck(subreddit))
             {
-                var emt = new EmbedBuilder()
+                var emt = new EmbedBuilder
                 {
                     Description = "This subreddit is nsfw!",
                     Color = Mewdeko.ErrorColor
@@ -345,11 +343,10 @@ namespace Mewdeko.Modules.Searches
                 await msg.ModifyAsync(x => x.Embed = emt.Build());
                 return;
             }
+
             var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
-            while(_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-            {
+            while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
                 image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
-            }
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -402,13 +399,13 @@ namespace Mewdeko.Modules.Searches
                 return;
 
             var rep = new ReplacementBuilder()
-                .WithDefault(ctx.User, channel, (SocketGuild) ctx.Guild, (DiscordSocketClient) ctx.Client)
+                .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
                 .Build();
 
             if (CREmbed.TryParse(message, out var embedData))
             {
                 rep.Replace(embedData);
-                await channel.EmbedAsync(embedData, !((IGuildUser) Context.User).GuildPermissions.MentionEveryone)
+                await channel.EmbedAsync(embedData, !((IGuildUser)Context.User).GuildPermissions.MentionEveryone)
                     .ConfigureAwait(false);
             }
             else
@@ -427,7 +424,7 @@ namespace Mewdeko.Modules.Searches
         [Priority(0)]
         public Task Say([Leftover] string message)
         {
-            return Say((ITextChannel) ctx.Channel, message);
+            return Say((ITextChannel)ctx.Channel, message);
         }
 
         // done in 3.0
@@ -743,7 +740,7 @@ namespace Mewdeko.Modules.Searches
                     {
                         var formData = new MultipartFormDataContent
                         {
-                            {new StringContent(query), "url"}
+                            { new StringContent(query), "url" }
                         };
                         req.Content = formData;
 
@@ -909,11 +906,10 @@ namespace Mewdeko.Modules.Searches
                             .WithDefaultEmotes()
                             .Build();
 
-                        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                         Task<PageBuilder> PageFactory(int page)
                         {
-
                             var item = items[page];
                             return Task.FromResult(new PageBuilder().WithOkColor()
                                 .WithUrl(item.Permalink)
@@ -969,7 +965,7 @@ namespace Mewdeko.Modules.Searches
                     var col = datas.Select(data => (
                         Definition: data.Sense.Definition is string
                             ? data.Sense.Definition.ToString()
-                            : ((JArray) JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
+                            : ((JArray)JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
                         Example: data.Sense.Examples is null || data.Sense.Examples.Count == 0
                             ? string.Empty
                             : data.Sense.Examples[0].Text,
@@ -983,11 +979,11 @@ namespace Mewdeko.Modules.Searches
                         .AddUser(ctx.User)
                         .WithPageFactory(PageFactory)
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(col.Count() -1)
+                        .WithMaxPageIndex(col.Count() - 1)
                         .WithDefaultEmotes()
                         .Build();
 
-                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                     Task<PageBuilder> PageFactory(int page)
                     {
@@ -1041,7 +1037,7 @@ namespace Mewdeko.Modules.Searches
         public async Task Revav([Leftover] IGuildUser usr = null)
         {
             if (usr == null)
-                usr = (IGuildUser) ctx.User;
+                usr = (IGuildUser)ctx.User;
 
             var av = usr.RealAvatarUrl();
             if (av == null)
@@ -1138,7 +1134,7 @@ namespace Mewdeko.Modules.Searches
         public async Task Avatar([Remainder] IGuildUser usr = null)
         {
             if (usr == null)
-                usr = (IGuildUser) ctx.User;
+                usr = (IGuildUser)ctx.User;
 
             var avatarUrl = usr.GetAvatarUrl(ImageFormat.Auto, 2048);
 

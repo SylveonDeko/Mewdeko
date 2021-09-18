@@ -20,7 +20,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.MoveMembers)]
             public async Task GameVoiceChannel()
             {
-                var vch = ((IGuildUser) ctx.User).VoiceChannel;
+                var vch = ((IGuildUser)ctx.User).VoiceChannel;
 
                 if (vch == null)
                 {

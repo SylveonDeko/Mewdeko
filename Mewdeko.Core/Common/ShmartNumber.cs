@@ -15,7 +15,7 @@ namespace Mewdeko.Core.Common
 
         public static implicit operator ShmartNumber(long num)
         {
-            return new(num);
+            return new ShmartNumber(num);
         }
 
         public static implicit operator long(ShmartNumber num)
@@ -25,7 +25,7 @@ namespace Mewdeko.Core.Common
 
         public static implicit operator ShmartNumber(int num)
         {
-            return new(num);
+            return new ShmartNumber(num);
         }
 
         public override string ToString()

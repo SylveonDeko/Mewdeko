@@ -33,7 +33,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
         private readonly char[] _sneakyGameStatusChars = Enumerable.Range(48, 10)
             .Concat(Enumerable.Range(65, 26))
             .Concat(Enumerable.Range(97, 26))
-            .Select(x => (char) x)
+            .Select(x => (char)x)
             .ToArray();
 
         private readonly Timer _t;
@@ -128,7 +128,7 @@ namespace Mewdeko.Core.Modules.Gambling.Common.Events
 
                 if (_isPotLimited)
                     await _msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
-                        new RequestOptions {RetryMode = RetryMode.AlwaysRetry}).ConfigureAwait(false);
+                        new RequestOptions { RetryMode = RetryMode.AlwaysRetry }).ConfigureAwait(false);
 
                 Log.Information("Awarded {0} users {1} currency.{2}",
                     toAward.Count,

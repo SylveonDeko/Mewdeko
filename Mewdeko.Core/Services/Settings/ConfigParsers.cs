@@ -46,7 +46,7 @@ namespace Mewdeko.Core.Services
 
         public static string Color(Rgba32 color)
         {
-            return ((uint) ((color.B << 0) | (color.G << 8) | (color.R << 16))).ToString("X6");
+            return ((uint)((color.B << 0) | (color.G << 8) | (color.R << 16))).ToString("X6");
         }
     }
 }

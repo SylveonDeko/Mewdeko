@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
@@ -15,7 +13,10 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class AutoAssignRoleCommands : MewdekoSubmodule<AutoAssignRoleService>
         {
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task AutoAssignRole([Leftover] IRole role)
@@ -33,20 +34,17 @@ namespace Mewdeko.Modules.Administration
 
                 var roles = await _service.ToggleAarAsync(ctx.Guild.Id, role.Id);
                 if (roles.Count == 0)
-                {
                     await ReplyConfirmLocalizedAsync("aar_disabled");
-                }
                 else if (roles.Contains(role.Id))
-                {
                     await AutoAssignRole();
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("aar_role_removed", Format.Bold(role.Mention));
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task AutoAssignRole()
@@ -61,15 +59,17 @@ namespace Mewdeko.Modules.Administration
                     .ToList();
 
                 if (existing.Count != roles.Count)
-                {
                     await _service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
-                }
 
                 await ReplyConfirmLocalizedAsync("aar_roles",
                     '\n' + existing.Select(x => Format.Bold(x.Mention))
                         .JoinWith("\n"));
             }
-            [MewdekoCommand, Usage, Description, Aliases]
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task AutoAssignBotRole([Leftover] IRole role)
@@ -87,20 +87,17 @@ namespace Mewdeko.Modules.Administration
 
                 var roles = await _service.ToggleAabrAsync(ctx.Guild.Id, role.Id);
                 if (roles.Count == 0)
-                {
                     await ReplyConfirmLocalizedAsync("aabr_disabled");
-                }
                 else if (roles.Contains(role.Id))
-                {
                     await AutoAssignBotRole();
-                }
                 else
-                {
                     await ReplyConfirmLocalizedAsync("aabr_role_removed", Format.Bold(role.Mention));
-                }
             }
 
-            [MewdekoCommand, Usage, Description, Aliases]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task AutoAssignBotRole()
@@ -115,15 +112,12 @@ namespace Mewdeko.Modules.Administration
                     .ToList();
 
                 if (existing.Count != roles.Count)
-                {
                     await _service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
-                }
 
                 await ReplyConfirmLocalizedAsync("aabr_roles",
                     '\n' + existing.Select(x => Format.Bold(x.Mention))
                         .JoinWith("\n"));
             }
-
         }
     }
 }

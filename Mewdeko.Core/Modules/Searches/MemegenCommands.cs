@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
@@ -21,18 +21,18 @@ namespace Mewdeko.Modules.Searches
         {
             private static readonly ImmutableDictionary<char, string> _map = new Dictionary<char, string>
             {
-                {'?', "~q"},
-                {'%', "~p"},
-                {'#', "~h"},
-                {'/', "~s"},
-                {' ', "-"},
-                {'-', "--"},
-                {'_', "__"},
-                {'"', "''"}
+                { '?', "~q" },
+                { '%', "~p" },
+                { '#', "~h" },
+                { '/', "~s" },
+                { ' ', "-" },
+                { '-', "--" },
+                { '_', "__" },
+                { '"', "''" }
             }.ToImmutableDictionary();
 
             private readonly IHttpClientFactory _httpFactory;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public MemegenCommands(IHttpClientFactory factory, InteractiveService serv)
             {
@@ -66,7 +66,7 @@ namespace Mewdeko.Modules.Searches
                         .WithDefaultEmotes()
                         .Build();
 
-                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                     Task<PageBuilder> PageFactory(int page)
                     {

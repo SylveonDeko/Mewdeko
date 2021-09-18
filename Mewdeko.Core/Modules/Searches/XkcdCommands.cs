@@ -105,7 +105,7 @@ namespace Mewdeko.Modules.Searches
                         await sent.ModifyAsync(m =>
                                 m.Embed = embed
                                     .AddField(efb => efb.WithName("Alt").WithValue(comic.Alt).WithIsInline(false))
-                                    .Build() )
+                                    .Build())
                             .ConfigureAwait(false);
                     }
                 }

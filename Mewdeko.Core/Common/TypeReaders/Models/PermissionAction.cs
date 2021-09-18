@@ -16,7 +16,7 @@
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            return Value == ((PermissionAction) obj).Value;
+            return Value == ((PermissionAction)obj).Value;
         }
 
         public override int GetHashCode()

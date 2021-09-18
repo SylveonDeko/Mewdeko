@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Alle speciale reactiestatistieken zijn verwijderd.",
   "deleted": "Speciale Reactie verwijderd.",
-  "insuff_perms":
-    "Onvoldoende rechten. Bot Eigendom is nodig voor globale speciale reacties, en Administrator voor speciale server-reacties.",
+  "insuff_perms": "Onvoldoende rechten. Bot Eigendom is nodig voor globale speciale reacties, en Administrator voor speciale server-reacties.",
   "list_all": "Lijst van alle zelf gemaakte reacties",
   "new_cust_react": "Nieuwe Speciale Reacties",
   "no_found": "Geen aangepaste reacties gevonden.",
@@ -60,8 +59,7 @@
   "greetmsg_new": "Nieuwe begroeting ingesteld.",
   "greet_off": "Begroetingen uitgeschakeld.",
   "greet_on": "Begroetingen uitschakeld op dit kanaal.",
-  "hierarchy":
-    "Je kunt geen commando gebruiken op gebruikers met een hogere of eenzelfde rol als die van jouw in de rollenhiërarchie.",
+  "hierarchy": "Je kunt geen commando gebruiken op gebruikers met een hogere of eenzelfde rol als die van jouw in de rollenhiërarchie.",
   "invalid_format": "Ongeldig invoerformaat.",
   "invalid_params": "Ongeldige parameters.",
   "kickdm": "Je bent gekickt van {0}.\nReden: {1}",
@@ -133,8 +131,7 @@
   "self_assign_not": "Deze rol is niet zelf-toewijsbaar.",
   "self_assign_not_have": "Je hebt rol {0} niet.",
   "self_assign_no_excl": "Zelf-toegewezen rollen zijn nu niet exclusief!",
-  "self_assign_perms":
-    "Ik kan deze rol niet aan je toevoegen. \u0060Ik kan geen rollen toevoegen aan eigenaren of andere rollen die boven mij staan in de rol-hiërarchie.\u0060",
+  "self_assign_perms": "Ik kan deze rol niet aan je toevoegen. \u0060Ik kan geen rollen toevoegen aan eigenaren of andere rollen die boven mij staan in de rol-hiërarchie.\u0060",
   "self_assign_rem": "{0} is verwijderd van de lijst met zelf toewijsbare rollen.",
   "self_assign_remove": "Je hebt de {0} rol niet meer.",
   "self_assign_success": "Je hebt nu de {0} rol.",
@@ -180,12 +177,9 @@
   "voice_chan_destroyed": "Voice-kanaal verwijderd",
   "vt_disabled": "Spraak \u002B tekst mogelijkheid uitgezet.",
   "vt_enabled": "Spraak \u002B tekst mogelijkheid aangezet.",
-  "vt_exit":
-    "Ik heb geen **Rol Beheer** en/of **Kanaal Beheer** toestemmingen, dus ik kan geen \u0060stem\u002Btext\u0060 gebruiken op de {0} server.",
-  "vt_no_admin":
-    "Deze eigenschap wordt door jou ingeschakeld/uitgeschakeld maar **Ik heb geen ADMINISTRATIEVE toestemmingen**. Hierdoor kunnen er mogelijk problemen ontstaan, en je zal daarna de tekst-kanalen zelf moeten opruimen.",
-  "vt_perms":
-    "Ik heb tenminste **Rollen Beheren** en **Kanalen Beheren** toestemmingen nodig om deze functie in te schakelen. (Gelieve administratieve rechten)",
+  "vt_exit": "Ik heb geen **Rol Beheer** en/of **Kanaal Beheer** toestemmingen, dus ik kan geen \u0060stem\u002Btext\u0060 gebruiken op de {0} server.",
+  "vt_no_admin": "Deze eigenschap wordt door jou ingeschakeld/uitgeschakeld maar **Ik heb geen ADMINISTRATIEVE toestemmingen**. Hierdoor kunnen er mogelijk problemen ontstaan, en je zal daarna de tekst-kanalen zelf moeten opruimen.",
+  "vt_perms": "Ik heb tenminste **Rollen Beheren** en **Kanalen Beheren** toestemmingen nodig om deze functie in te schakelen. (Gelieve administratieve rechten)",
   "xmuted_text": "Gebruiker {0} van tekstkanaal",
   "xmuted_text_and_voice": "Gebruiker {0} van tekst- en spraakkanaal",
   "xmuted_voice": "Gebruiker {0} van spraakkanaal",
@@ -224,25 +218,19 @@
   "cmdlist_donate": "Je kan het project steunen op Patreon: \u003C{0}\u003E of PayPal: \u003C{1}\u003E",
   "cmd_and_alias": "Commando\u0027s en aliassen",
   "commandlist_regen": "Commandolijst gegenereerd.",
-  "commands_instr":
-    "Typ \u0060{0}h CommandoNaam\u0060 om de uitleg te zien voor dat specifieke commando. b.v \u0060{0}h {0}8bal\u0060",
-  "command_not_found":
-    "Ik kan het commando niet vinden. Verifieer of dit commando echt bestaat voordat je het opnieuw probeert.",
+  "commands_instr": "Typ \u0060{0}h CommandoNaam\u0060 om de uitleg te zien voor dat specifieke commando. b.v \u0060{0}h {0}8bal\u0060",
+  "command_not_found": "Ik kan het commando niet vinden. Verifieer of dit commando echt bestaat voordat je het opnieuw probeert.",
   "desc": "Beschrijving",
-  "donate":
-    "Je kan het Mewdeko project steunen op\nPatreon \u003C{0}\u003E of\nPayPal \u003C{1}\u003E\nVergeet niet je discord naam en id in het bericht te zetten.\n\n**Hartelijk bedankt** ♥️",
-  "guide":
-    "**Lijst met commando\u0027s**: \u003C{0}\u003E\n**Hosting tutorials en documenten kunnen hier gevonden worden**: \u003C{1}\u003E",
+  "donate": "Je kan het Mewdeko project steunen op\nPatreon \u003C{0}\u003E of\nPayPal \u003C{1}\u003E\nVergeet niet je discord naam en id in het bericht te zetten.\n\n**Hartelijk bedankt** ♥️",
+  "guide": "**Lijst met commando\u0027s**: \u003C{0}\u003E\n**Hosting tutorials en documenten kunnen hier gevonden worden**: \u003C{1}\u003E",
   "list_of_commands": "Lijst met commando\u0027s",
   "list_of_modules": "Lijst met modules",
-  "modules_footer":
-    "Typ \u0060{0}cmds ModuleNaam\u0060 om een lijst van commando\u0027s te krijgen voor die module. bv \u0060{0}cmds games\u0060",
+  "modules_footer": "Typ \u0060{0}cmds ModuleNaam\u0060 om een lijst van commando\u0027s te krijgen voor die module. bv \u0060{0}cmds games\u0060",
   "module_not_found": "Deze module bestaat niet.",
   "server_permission": "Heeft {0} server rechten nodig.",
   "table_of_contents": "Inhoudsopgave",
   "usage": "Gebruik",
-  "autohentai_started":
-    "Autohentai gestart. Er wordt elke {0} seconden een foto geplaatst met de volgende labels:\n{1}",
+  "autohentai_started": "Autohentai gestart. Er wordt elke {0} seconden een foto geplaatst met de volgende labels:\n{1}",
   "tag": "Label",
   "animal_race": "Dierenrace",
   "animal_race_failed": "Gefaald om te starten omdat er niet genoeg deelnemers zijn.",
@@ -266,25 +254,20 @@
   "likes": "Likes",
   "waifus_none": "Er zijn nog geen waifus geclaimed.",
   "waifus_top_waifus": "Top Waifus",
-  "waifu_affinity_already":
-    "Jouw affiniteit is al ingesteld op een waifu, of je probeert om je affiniteit weg te halen terwijl je geen hebt.",
-  "waifu_affinity_changed":
-    "Affiniteit veranderd van {0} naar {1}\n\n*Dit is moreel gezien twijfelachtig.*\uD83E\uDD14",
+  "waifu_affinity_already": "Jouw affiniteit is al ingesteld op een waifu, of je probeert om je affiniteit weg te halen terwijl je geen hebt.",
+  "waifu_affinity_changed": "Affiniteit veranderd van {0} naar {1}\n\n*Dit is moreel gezien twijfelachtig.*\uD83E\uDD14",
   "waifu_affinity_cooldown": "Je moet {0} uren en {1} minuten wachten om je affiniteit weer te veranderen.",
   "waifu_affinity_reset": "Je affiniteit is gereset. Je hebt geen persoon meer die je leuk vindt.",
   "waifu_affinity_set": "wil {0}\u0027s waifu zijn. Aww \u003C3",
   "waifu_claimed": "heeft {0} geclaimed als hun waifu voor {1}!",
-  "waifu_divorced_like":
-    "Je bent gescheiden met een waifu die jou leuk vindt. Jij harteloos monster.\n{0} ontvangen {1} als compensatie.",
+  "waifu_divorced_like": "Je bent gescheiden met een waifu die jou leuk vindt. Jij harteloos monster.\n{0} ontvangen {1} als compensatie.",
   "waifu_egomaniac": "Je kunt geen affiniteit voor jezelf instellen, jij opgeblazen egoist.",
   "waifu_fulfilled": "\uD83C\uDF89Hun liefde overvloeit! \uD83C\uDF89\n{0}\u0027s nieuwe waarde is {1}!",
-  "waifu_isnt_cheap":
-    "Geen enkele waifu is zo goedkoop. Je moet tenminste {0} betalen om een waifu te krijgen, ook al is hun echte waarde lager.",
+  "waifu_isnt_cheap": "Geen enkele waifu is zo goedkoop. Je moet tenminste {0} betalen om een waifu te krijgen, ook al is hun echte waarde lager.",
   "waifu_not_enough": "Je moet tenminste {0} betalen om die waifu te nemen!",
   "waifu_not_yours": "Die waifu is niet van jou.",
   "waifu_not_yourself": "Je kunt jezelf niet als waifu nemen.",
-  "waifu_recent_divorce":
-    "Je bent kort geleden gescheiden. Je moet {0} uren en {1} minuten wachten om weer te scheiden.",
+  "waifu_recent_divorce": "Je bent kort geleden gescheiden. Je moet {0} uren en {1} minuten wachten om weer te scheiden.",
   "nobody": "Niemand",
   "waifu_divorced_notlike": "Je bent gescheiden met een waifu die jou niet leuk vindt. Je krijgt {0} terug.",
   "8ball": "8ball",
@@ -361,8 +344,7 @@
   "playlists": "\u0060#{0}\u0060 - **{1}** van *{2}* ({3} tracks) ",
   "playlists_page": "Pagina {0} van opgeslagen afspeellijsten\n",
   "playlist_deleted": "Afspeellijst verwijderd.",
-  "playlist_delete_fail":
-    "Fout bij het verwijderen van de afspeellijst. De afspeellijst bestaat niet of jij bent niet de eigenaar.",
+  "playlist_delete_fail": "Fout bij het verwijderen van de afspeellijst. De afspeellijst bestaat niet of jij bent niet de eigenaar.",
   "playlist_id_not_found": "Afspeellijst met dat ID bestaat niet.",
   "playlist_queue_complete": "Afspeellijst wachtrij afgerond.",
   "playlist_saved": "Afspeellijst opgeslagen",
@@ -379,8 +361,7 @@
   "resumed": "Nummer word hervat.",
   "rpl_disabled": "Herhalende afspeellijst uitgeschakeld.",
   "rpl_enabled": "Herhalende afspeellijst ingeschakeld.",
-  "set_music_channel":
-    "Tracks die worden afgespeeld, aflopen, gepauzeerd worden en worden verwijderd laat ik in dit kanaal zien.",
+  "set_music_channel": "Tracks die worden afgespeeld, aflopen, gepauzeerd worden en worden verwijderd laat ik in dit kanaal zien.",
   "skipped_to": "Overslaan naar \u0060{0}:{1}\u0060",
   "song_moved": "Track verzet",
   "time_format": "{0}u {1}m {2}s",
@@ -438,8 +419,7 @@
   "word_filter_server_on": "Woordfilter geactiveerd in deze server.",
   "abilities": "Begaafdheid",
   "anime_no_fav": "Nog geen favoriete anime",
-  "atl_ad_started":
-    "Gestart met het automatisch vertalen van berichten op dit kanaal. Berichten van gebruikers worden automatisch verwijderd.",
+  "atl_ad_started": "Gestart met het automatisch vertalen van berichten op dit kanaal. Berichten van gebruikers worden automatisch verwijderd.",
   "atl_removed": "Jouw automatisch translatie taal is verwijderd.",
   "atl_set": "Jouw automatisch translatie taal is aangepast naar {0}\u003E{1}",
   "atl_started": "Gestart met het automatisch vertalen van berichten op dit kanaal.",
@@ -547,8 +527,7 @@
   "features": "Kenmerken",
   "index_out_of_range": "Index buiten bereik.",
   "inrole_list": "Lijst van gebruikers met rol {0}",
-  "inrole_not_allowed":
-    "Om misbruik te voorkomen ben je niet gemachtigd om dit commando te gebruiken op rollen met veel gebruikers.",
+  "inrole_not_allowed": "Om misbruik te voorkomen ben je niet gemachtigd om dit commando te gebruiken op rollen met veel gebruikers.",
   "invalid_value": "Ongeldige {0} waarde.",
   "listservers": "ID: {0}\nLeden: {1}\nEigenaar ID: {2}",
   "listservers_none": "Geen servers gevonden op die pagina.",
@@ -659,17 +638,13 @@
   "slowmodewl_user_start": "Slowmotion modus wordt genegeerd door gebruiker {0}.",
   "slowmodewl_user_stop": "Slowmotion modus wordt niet langer genegeerd door genegeerde gebruiker {0}.",
   "clpa_fail": "Mislukt om beloningen te claimen door een van de volgende redenen:",
-  "clpa_fail_already":
-    "Misschien heb je al je beloningen gekregen deze maand. Je krijgt beloningen maar een keer per maand tenzij je je ",
+  "clpa_fail_already": "Misschien heb je al je beloningen gekregen deze maand. Je krijgt beloningen maar een keer per maand tenzij je je ",
   "clpa_fail_already_title": "Al beloond",
-  "clpa_fail_conn":
-    "Jouw discord account is nog niet verbonden met Patreon. Als je onzeker bent wat dit betekend, of niet weet hoe je dit moet doen - ga dan naar [Patreon account settings page](https://patreon.com/settings/account) en click dan op \u0027Verbind met discord\u0027.",
+  "clpa_fail_conn": "Jouw discord account is nog niet verbonden met Patreon. Als je onzeker bent wat dit betekend, of niet weet hoe je dit moet doen - ga dan naar [Patreon account settings page](https://patreon.com/settings/account) en click dan op \u0027Verbind met discord\u0027.",
   "clpa_fail_conn_title": "Discord account nog niet verbonden",
-  "clpa_fail_sup":
-    "Om in aanmerking te komen voor de beloning, moet je eerst een donatie doen voor het project bij patreon. Je kunt {0} commando gebruiken om de link te krijgen.",
+  "clpa_fail_sup": "Om in aanmerking te komen voor de beloning, moet je eerst een donatie doen voor het project bij patreon. Je kunt {0} commando gebruiken om de link te krijgen.",
   "clpa_fail_sup_title": "Niet ondersteund",
-  "clpa_fail_wait":
-    "Je moet een aantal uren wachten na het plaatsen van je donatie, als je het nog niet hebt gedaan, probeer later dan opnieuw.",
+  "clpa_fail_wait": "Je moet een aantal uren wachten na het plaatsen van je donatie, als je het nog niet hebt gedaan, probeer later dan opnieuw.",
   "clpa_fail_wait_title": "Wacht nog even",
   "clpa_success": "Je ontvangt {0} Hartelijk bedankt voor het steunen van het project!",
   "clpa_too_early": "Beloningen kunnen worden geclaimd op of na elke 5de van de maand.",
@@ -716,8 +691,7 @@
   "bot_nick": "De bijnaam van de bot is veranderd naar {0}",
   "user_nick": "Bijnaam van de gebruiker {0} is veranderd naar {1}",
   "timezone_guild": "Tijdzone van deze guild is \u0060{0}\u0060",
-  "timezone_not_found":
-    "Tijdzone niet gevonden. Gebruik \u0022tijdzones\u0022commando om de lijst te zien van alle tijdzones.",
+  "timezone_not_found": "Tijdzone niet gevonden. Gebruik \u0022tijdzones\u0022commando om de lijst te zien van alle tijdzones.",
   "timezones_available": "Beschikbare Tijdzones",
   "song_not_found": "Liedje niet gevonden.",
   "define_unknown": "Kan de definitie van die term niet vinden.",
@@ -751,15 +725,13 @@
   "nunchi_ended_no_winner": "Nunchi spel geëindigd zonder winnaar.",
   "nunchi_started": "Nunchi spel begonnen met {0} deelnemers.",
   "nunchi_round_ended": "Nunchi ronde is geëindigd. {0} is uit het spel.",
-  "nunchi_round_ended_boot":
-    "Nunchi ronde is afgelopen wegens een time-out van sommige gebruikers. Deze gebruikers zijn nog steeds in het spel: {0}",
+  "nunchi_round_ended_boot": "Nunchi ronde is afgelopen wegens een time-out van sommige gebruikers. Deze gebruikers zijn nog steeds in het spel: {0}",
   "nunchi_round_started": "Nunchi ronde begonnen met {0} gebruikers. Begint met het nummer {1} te tellen.",
   "nunchi_next_number": "Nummer geregistreerd. Laatste nummer was {0}.",
   "nunchi_failed_to_start": "Nunchi kon niet starten omdat er niet genoeg deelnemers waren.",
   "nunchi_created": "Nunchi spel is aangemaakt. Wachten op gebruikers om mee te spelen.",
   "sad_enabled": "Liedjes worden verwijderd uit de muziekwachtrij wanneer ze afgelopen zijn.",
-  "sad_disabled":
-    "Liedjes worden niet langer meer uit de muziekwachtrij verwijderd wanneer ze klaar zijn met afspelen.",
+  "sad_disabled": "Liedjes worden niet langer meer uit de muziekwachtrij verwijderd wanneer ze klaar zijn met afspelen.",
   "stream_role_enabled": "Wanneer een gebruiker van {0} rol begint te streaming, zal ik ze {1} rol geven.",
   "stream_role_disabled": "Stream rol functie is nu uitgeschakeld.",
   "stream_role_kw_set": "Streamers moeten nu {0} zoekwoord gebruiken om de rol te kunnen ontvangen.",
@@ -768,15 +740,13 @@
   "stream_role_bl_add_fail": "Gebruiker {0} staat al op de zwarte lijst.",
   "stream_role_bl_rem": "Gebruiker {0} staat niet langer meer op de zwarte lijst.",
   "stream_role_bl_rem_fail": "Gebruiker {0} staat niet op de zwarte lijst.",
-  "stream_role_wl_add":
-    "Gebruiker {0} ontvangt de streamingrol, zelfs als ze het zoekwoord niet hebben in de streamtitel.",
+  "stream_role_wl_add": "Gebruiker {0} ontvangt de streamingrol, zelfs als ze het zoekwoord niet hebben in de streamtitel.",
   "stream_role_wl_add_fail": "Gebruiker {0} staat al op de witte lijst.",
   "stream_role_wl_rem": "Gebruiker {0} staat niet langer meer op de witte lijst.",
   "stream_role_wl_rem_fail": "Gebruiker {0} staat niet op de witte lijst.",
   "bot_config_edit_fail": "Mislukt bij het instellen van {0} naar de waarde {1}",
   "bot_config_edit_success": "De waarde van {0} is ingesteld op {1}",
-  "crca_disabled":
-    "Aangepaste reactie met id {0} zal niet langer worden geactiveerd, tenzij het triggerwoord in het begin van een zin staat.",
+  "crca_disabled": "Aangepaste reactie met id {0} zal niet langer worden geactiveerd, tenzij het triggerwoord in het begin van een zin staat.",
   "crca_enabled": "Aangepaste reactie met id {0} wordt nu geactiveerd als het ergens in de zin voorkomt.",
   "server_level": "Server niveau",
   "club": "Vereniging",
@@ -797,13 +767,11 @@
   "server_leaderboard": "Server XP Scorebord",
   "global_leaderboard": "Global XP Scorebord",
   "modified": "Aangepaste server XP van de gebruiker {0} met {1}",
-  "club_create_error":
-    "Mislukt bij het maken van een club. Zorg ervoor dat je boven level 5 bent en niet al lid bent van een club.",
+  "club_create_error": "Mislukt bij het maken van een club. Zorg ervoor dat je boven level 5 bent en niet al lid bent van een club.",
   "club_created": "Club {0} succesvol gemaakt!",
   "club_not_exists": "Die club bestaat niet.",
   "club_applied": "Je hebt je aangemeld om lid te worden bij {0} club.",
-  "club_apply_error":
-    "Fout bij aanmelden. Je bent al lid van de club of je voldoet niet aan het minimumniveau, of je bent bij deze club verbannen.",
+  "club_apply_error": "Fout bij aanmelden. Je bent al lid van de club of je voldoet niet aan het minimumniveau, of je bent bij deze club verbannen.",
   "club_accepted": "Gebruiker geaccepteerde bij {0} club.",
   "club_accept_error": "Gebruiker niet gevonden",
   "club_left": "Je hebt de club verlaten.",
@@ -811,11 +779,9 @@
   "club_user_kick": "Gebruiker {0} gekicked van {1} club.",
   "club_user_kick_fail": "Fout bij kicken. Je bent ook niet de club eigenaar, of die gebruiker zit niet in je club.",
   "club_user_banned": "Gebruiker {0} van {1} club verbannen.",
-  "club_user_ban_fail":
-    "Kan niet verbannen. Je bent ook niet de eigenaar van de club, of die gebruiker zit niet in jouw club of heeft nog niet gesolliciteerd.",
+  "club_user_ban_fail": "Kan niet verbannen. Je bent ook niet de eigenaar van de club, of die gebruiker zit niet in jouw club of heeft nog niet gesolliciteerd.",
   "club_user_unbanned": "Gebruiker {0} van {1} club verbanning opgeheven.",
-  "club_user_unban_fail":
-    "Mislukt om verbanning op te heffen. Je bent niet de eigenaar van de club, of die gebruiker zit niet in jouw club, of heeft nog niet gesolliciteerd.",
+  "club_user_unban_fail": "Mislukt om verbanning op te heffen. Je bent niet de eigenaar van de club, of die gebruiker zit niet in jouw club, of heeft nog niet gesolliciteerd.",
   "club_level_req_changed": "Veranderd clubvereisten naar {0}",
   "club_level_req_change_error": "Vereiste niveau veranderen mislukt",
   "club_disbanded": "Club {0} is ontbonden",
@@ -837,8 +803,7 @@
   "started": "Gestart. Reposten elk {0}seconden.",
   "stopped": "Gestopt met reposten.",
   "feed_added": "Feed toegevoegd.",
-  "feed_not_valid":
-    "Invalide link, of je volgt al deze feed op deze server, of je hebt het maximaal aantal feeds toegestaan bereikt.",
+  "feed_not_valid": "Invalide link, of je volgt al deze feed op deze server, of je hebt het maximaal aantal feeds toegestaan bereikt.",
   "feed_out_of_range": "Index buiten bereik.",
   "feed_removed": "Feed verwijdert.",
   "feed_no_feed": "Je bent nog niet geabonneerd op een van de feeds van deze server.",
@@ -859,8 +824,7 @@
   "timely_set": "Gebruikers kunnen claimen {0} elk {1}h",
   "timely_set_none": "Gebruikers kunnen niet langer meer timely valuta claimen.",
   "timely_reset": "Alle gebruikers kunnen weer timely valuta claimen.",
-  "waifu_transfer_fail":
-    "Je bent niet de eigenaar van die waifu, of je kunt het niet betalen. Het kan zo zijn dat de input incorrect is.",
+  "waifu_transfer_fail": "Je bent niet de eigenaar van die waifu, of je kunt het niet betalen. Het kan zo zijn dat de input incorrect is.",
   "waifu_transfer_success": "Claim op {0} is overgebracht van {1} naar {2}",
   "authors": "Auteurs",
   "sql_confirm_exec": "Bevestig de uitvoering van de volgende SQL-opdracht",
@@ -879,28 +843,22 @@
   "level_up_rewards": "Level Up Belongingen",
   "role_reward": "{0} rol",
   "no_level_up_rewards": "Geen level up beloningen op deze pagina.",
-  "failed_finding_novel":
-    "Ik kan die roman niet vinden. Zorg ervoor dat je de exacte volledige naam typt en dat deze bestaat op novelupdates.com",
+  "failed_finding_novel": "Ik kan die roman niet vinden. Zorg ervoor dat je de exacte volledige naam typt en dat deze bestaat op novelupdates.com",
   "remove_roles": "hebben hun rollen verwijderd",
-  "delmsg_channel_off":
-    "Ik zal nooit berichten automatisch verwijderen die met succes opdrachten in dit kanaal uitvoeren.",
-  "delmsg_channel_on":
-    "Ik zal altijd automatisch berichten verwijderen die met succes opdrachten op dit kanaal uitvoeren, ongeacht de serverinstelling.",
-  "delmsg_channel_inherit":
-    "Ik zal berichten automatisch verwijderen die met succes opdrachten op dit kanaal uitvoeren als deze functie op de server is ingeschakeld.",
+  "delmsg_channel_off": "Ik zal nooit berichten automatisch verwijderen die met succes opdrachten in dit kanaal uitvoeren.",
+  "delmsg_channel_on": "Ik zal altijd automatisch berichten verwijderen die met succes opdrachten op dit kanaal uitvoeren, ongeacht de serverinstelling.",
+  "delmsg_channel_inherit": "Ik zal berichten automatisch verwijderen die met succes opdrachten op dit kanaal uitvoeren als deze functie op de server is ingeschakeld.",
   "server_delmsgoncmd": "Server Opties",
   "channel_delmsgoncmd": "Kanaal-Specifieke Opties",
   "options": "Opties",
   "waifu_reset": "Jou waifu gegevens zijn gereset",
   "waifu_reset_fail": "Resetten waifu instellingen mislukt. Controleer of je genoeg valuta hebt.",
   "waifu_reset_confirm": "Dit reset jou waifu gegevens",
-  "unset_music_channel":
-    "Vanaf nu toon ik spelende, voltooide, gepauzeerde, en verwijderde nummers uit in het kanaal waar de muziek is gestart.",
+  "unset_music_channel": "Vanaf nu toon ik spelende, voltooide, gepauzeerde, en verwijderde nummers uit in het kanaal waar de muziek is gestart.",
   "city_not_found": "Stad niet gevonden.",
   "bot_config_reloaded": "Bot configuratie is herladen.",
   "club_transfered": "Eigenaarschap van club {0} is gemigreerd naar {1}",
-  "club_transfer_failed":
-    "Migratie mislukt. Je moet club eigenaar zijn. De ontvanger van dit recht moet een lid van jou club zijn.",
+  "club_transfer_failed": "Migratie mislukt. Je moet club eigenaar zijn. De ontvanger van dit recht moet een lid van jou club zijn.",
   "roll_duel_challenge": "{1} is uitgedaagd voor een dobbel duel voor {2}",
   "roll_duel": "Duel Dobbelen",
   "roll_duel_no_funds": "Jij of jou tegenstander heeft niet genoeg valuta.",
@@ -911,8 +869,7 @@
   "rps_draw": "Gelijk spel! Beiden spelers hadden {0}",
   "rps_win": "{0} heeft gewonnen! {1} verslaat {2}",
   "roleid": "{0} van de rol {1} is {2}",
-  "warning_clear_fail":
-    "Waarschuwing niet verwijderd. De waarschuwing op deze index bestaat niet, of is al verwijdert.",
+  "warning_clear_fail": "Waarschuwing niet verwijderd. De waarschuwing op deze index bestaat niet, of is al verwijdert.",
   "warning_cleared": "Waarschuwing {0} is verwijdert van {1}.",
   "club_desc_updated": "Club descriptie is geüpdatet naar {0}",
   "club_desc_update_failed": "Club descriptie aanpassen mislukt.",
@@ -946,8 +903,7 @@
   "anti_spam_not_running": "Anti-Spam functie is niet ingeschakeld.",
   "adsarm_enable": "Automatische verwijdering van \u0060{0}iam\u0060 en \u0060{0}iamn\u0060 reacties is ingeschakeld.",
   "adsarm_disable": "De bot zal niet langer \u0060{0}iam\u0060 en \u0060{0}iamn\u0060 reacties verwijderen.",
-  "module_not_found_or_cant_exec":
-    "Ofwel de module bestaat niet, of je kunt geen van de commando\u0027s in de gespecificeerde module uitvoeren.",
+  "module_not_found_or_cant_exec": "Ofwel de module bestaat niet, of je kunt geen van de commando\u0027s in de gespecificeerde module uitvoeren.",
   "requires": "Vereist",
   "permrole_not_set": "Toestemmings-rol is niet ingesteld.",
   "permrole_reset": "Toestemmings-rol is ge-reset",
@@ -960,15 +916,13 @@
   "autocmd_add": "Het {0} commando zal elke {1} seconden uitgevoerd worden in dit kanaal.",
   "autocmdlist_none": "Geen automatische commando\u0027s op deze pagina.",
   "connect4_created": "4 Op Een Rij spel aangemaakt. Er wordt gewacht op een andere speler.",
-  "connect4_created_bet":
-    "Een 4 Op Een Rij spel aangemaakt en {0} ingezet. Er wordt gewacht op een andere speler met dezelfde inzet.",
+  "connect4_created_bet": "Een 4 Op Een Rij spel aangemaakt en {0} ingezet. Er wordt gewacht op een andere speler met dezelfde inzet.",
   "connect4_player_to_move": "Speler maakt zet: {0}",
   "connect4_failed_to_start": "Het 4 Op Een Rij spel kon niet starten omdat niemand meedeed.",
   "connect4_draw": "Het 4 Op Een Rij spel is met een gelijkspel beëindigd.",
   "connect4_won": "{0} won het 4 Op Een Rij spel tegen {1}.",
   "new_reaction_event": "Voeg {0} reactie toe aan dit bericht om {1} te krijgen\nNog {2} over om weg te geven.",
-  "start_event_fail":
-    "Evenement starten mislukt. Een ander evenement loopt al, of er was een fout bij het starten van het evenement.",
+  "start_event_fail": "Evenement starten mislukt. Een ander evenement loopt al, of er was een fout bij het starten van het evenement.",
   "waifu": "Waifu",
   "remind_too_long": "Herinner-tijd heeft het maximum overschreden.",
   "updates_check_set": "Controleren op updates is op {0} gezet.",

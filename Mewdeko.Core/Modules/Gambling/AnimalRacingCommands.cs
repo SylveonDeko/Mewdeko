@@ -112,7 +112,7 @@ namespace Mewdeko.Modules.Gambling
 {
     var index = race.FinishedUsers.IndexOf(p);
     var extra = index == -1 ? "" : $"#{index + 1} {(index == 0 ? "🏆" : "")}";
-    return $"{(int) (p.Progress / 60f * 100),-2}%|{new string('‣', p.Progress) + p.Animal.Icon + extra}";
+    return $"{(int)(p.Progress / 60f * 100),-2}%|{new string('‣', p.Progress) + p.Animal.Icon + extra}";
 }))}
 |🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🏁🔚|";
 
@@ -126,7 +126,7 @@ namespace Mewdeko.Modules.Gambling
                             .WithTitle(GetText("animal_race"))
                             .WithDescription(text)
                             .WithOkColor()
-                            .Build() )
+                            .Build())
                         .ConfigureAwait(false);
             }
 

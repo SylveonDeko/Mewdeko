@@ -49,7 +49,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         public override async Task<StreamData?> GetStreamDataAsync(string id)
         {
-            var data = await GetStreamDataAsync(new List<string> {id});
+            var data = await GetStreamDataAsync(new List<string> { id });
 
             return data.FirstOrDefault();
         }
@@ -80,7 +80,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
                         // get stream data
                         var str = await http.GetStringAsync($"https://api.twitch.tv/kraken/streams/{user.Id}");
                         var resObj =
-                            JsonConvert.DeserializeAnonymousType(str, new {Stream = new TwitchResponseV5.Stream()});
+                            JsonConvert.DeserializeAnonymousType(str, new { Stream = new TwitchResponseV5.Stream() });
 
                         // if stream is null, user is not streaming
                         if (resObj?.Stream is null)
@@ -119,7 +119,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         private StreamData ToStreamData(TwitchResponseV5.Stream stream)
         {
-            return new()
+            return new StreamData
             {
                 StreamType = FollowedStream.FType.Twitch,
                 Name = stream.Channel.DisplayName,

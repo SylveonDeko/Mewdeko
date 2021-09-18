@@ -51,8 +51,8 @@ namespace Mewdeko.Modules.Music.Services
             bool isMuted = false)
         {
             // return _voiceStateUpdate(guildId, channelId, isDeafened, isMuted);
-            return (Task) _sendVoiceStateUpdateMethodInfo.Invoke(_dnetApiClient,
-                new object[] {guildId, channelId, isMuted, isDeafened, null});
+            return (Task)_sendVoiceStateUpdateMethodInfo.Invoke(_dnetApiClient,
+                new object[] { guildId, channelId, isMuted, isDeafened, null });
         }
 
         private Task SendLeaveVoiceChannelInternalAsync(ulong guildId)
@@ -178,7 +178,7 @@ namespace Mewdeko.Modules.Music.Services
 
                 VoiceGateway CreateVoiceGatewayLocal()
                 {
-                    return new(
+                    return new VoiceGateway(
                         guildId,
                         _currentUserId,
                         session,

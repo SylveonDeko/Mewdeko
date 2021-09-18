@@ -144,7 +144,7 @@ namespace Mewdeko.Modules.Xp.Services
                 return false;
 
             //incase club has # in it
-            var name = string.Concat(arr.Except(new[] {arr[arr.Length - 1]}));
+            var name = string.Concat(arr.Except(new[] { arr[arr.Length - 1] }));
 
             if (string.IsNullOrWhiteSpace(name))
                 return false;

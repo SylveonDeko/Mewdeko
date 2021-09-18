@@ -72,13 +72,13 @@ namespace Mewdeko.Extensions
         public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
             this IEnumerable<KeyValuePair<TKey, TValue>> dict)
         {
-            return new(dict);
+            return new ConcurrentDictionary<TKey, TValue>(dict);
         }
 
         public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
             where T : class, IIndexed
         {
-            return new(enumerable);
+            return new IndexedCollection<T>(enumerable);
         }
 
         // Licensed to the .NET Foundation under one or more agreements.

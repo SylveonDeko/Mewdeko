@@ -7,29 +7,29 @@ namespace Mewdeko.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "BoostMessage",
-                table: "GuildConfigs",
-                type: "TEXT",
+                "BoostMessage",
+                "GuildConfigs",
+                "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<ulong>(
-                name: "BoostMessageChannelId",
-                table: "GuildConfigs",
-                type: "INTEGER",
+                "BoostMessageChannelId",
+                "GuildConfigs",
+                "INTEGER",
                 nullable: false,
                 defaultValue: 0ul);
 
             migrationBuilder.AddColumn<int>(
-                name: "BoostMessageDeleteAfter",
-                table: "GuildConfigs",
-                type: "INTEGER",
+                "BoostMessageDeleteAfter",
+                "GuildConfigs",
+                "INTEGER",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<bool>(
-                name: "SendBoostMessage",
-                table: "GuildConfigs",
-                type: "INTEGER",
+                "SendBoostMessage",
+                "GuildConfigs",
+                "INTEGER",
                 nullable: false,
                 defaultValue: false);
         }
@@ -37,20 +37,20 @@ namespace Mewdeko.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "BoostMessage",
-                table: "GuildConfigs");
+                "BoostMessage",
+                "GuildConfigs");
 
             migrationBuilder.DropColumn(
-                name: "BoostMessageChannelId",
-                table: "GuildConfigs");
+                "BoostMessageChannelId",
+                "GuildConfigs");
 
             migrationBuilder.DropColumn(
-                name: "BoostMessageDeleteAfter",
-                table: "GuildConfigs");
+                "BoostMessageDeleteAfter",
+                "GuildConfigs");
 
             migrationBuilder.DropColumn(
-                name: "SendBoostMessage",
-                table: "GuildConfigs");
+                "SendBoostMessage",
+                "GuildConfigs");
         }
     }
 }

@@ -19,8 +19,10 @@ namespace Mewdeko.Modules.Gambling
         [Group]
         public class WaifuClaimCommands : GamblingSubmodule<WaifuService>
         {
-            private InteractiveService Interactivity;
-            public WaifuClaimCommands(GamblingConfigService gamblingConfService, InteractiveService serv) : base(gamblingConfService)
+            private readonly InteractiveService Interactivity;
+
+            public WaifuClaimCommands(GamblingConfigService gamblingConfService, InteractiveService serv) : base(
+                gamblingConfService)
             {
                 Interactivity = serv;
             }
@@ -167,7 +169,7 @@ namespace Mewdeko.Modules.Gambling
                     await ReplyErrorLocalizedAsync("waifu_not_yours");
                 else
                     await ReplyErrorLocalizedAsync("waifu_recent_divorce",
-                        Format.Bold(((int) remaining?.TotalHours).ToString()),
+                        Format.Bold(((int)remaining?.TotalHours).ToString()),
                         Format.Bold(remaining?.Minutes.ToString()));
             }
 
@@ -189,7 +191,7 @@ namespace Mewdeko.Modules.Gambling
                 {
                     if (remaining != null)
                         await ReplyErrorLocalizedAsync("waifu_affinity_cooldown",
-                            Format.Bold(((int) remaining?.TotalHours).ToString()),
+                            Format.Bold(((int)remaining?.TotalHours).ToString()),
                             Format.Bold(remaining?.Minutes.ToString()));
                     else
                         await ReplyErrorLocalizedAsync("waifu_affinity_already");
@@ -333,7 +335,7 @@ namespace Mewdeko.Modules.Gambling
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -354,33 +356,33 @@ namespace Mewdeko.Modules.Gambling
             }
 
             [MewdekoCommand]
-                [Usage]
-                [Description]
-                [Aliases]
-                [RequireContext(ContextType.Guild)]
-                [Priority(0)]
-                public async Task WaifuGift(string itemName, [Leftover] IUser waifu)
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [Priority(0)]
+            public async Task WaifuGift(string itemName, [Leftover] IUser waifu)
+            {
+                if (waifu.Id == ctx.User.Id)
+                    return;
+
+                var allItems = _service.GetWaifuItems();
+                var item = allItems.FirstOrDefault(x => x.Name.ToLowerInvariant() == itemName.ToLowerInvariant());
+                if (item is null)
                 {
-                    if (waifu.Id == ctx.User.Id)
-                        return;
-
-                    var allItems = _service.GetWaifuItems();
-                    var item = allItems.FirstOrDefault(x => x.Name.ToLowerInvariant() == itemName.ToLowerInvariant());
-                    if (item is null)
-                    {
-                        await ReplyErrorLocalizedAsync("waifu_gift_not_exist");
-                        return;
-                    }
-
-                    var sucess = await _service.GiftWaifuAsync(ctx.User, waifu, item);
-
-                    if (sucess)
-                        await ReplyConfirmLocalizedAsync("waifu_gift",
-                            Format.Bold(item + " " + item.ItemEmoji),
-                            Format.Bold(waifu.ToString()));
-                    else
-                        await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
+                    await ReplyErrorLocalizedAsync("waifu_gift_not_exist");
+                    return;
                 }
+
+                var sucess = await _service.GiftWaifuAsync(ctx.User, waifu, item);
+
+                if (sucess)
+                    await ReplyConfirmLocalizedAsync("waifu_gift",
+                        Format.Bold(item + " " + item.ItemEmoji),
+                        Format.Bold(waifu.ToString()));
+                else
+                    await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
+            }
         }
     }
 }

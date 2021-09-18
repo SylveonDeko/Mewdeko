@@ -14,7 +14,7 @@ namespace Mewdeko.Core.Common
         {
             if (!IsValidChar(c))
                 throw new ArgumentException("Character needs to be a valid kwum character.", nameof(c));
-            _data = new[] {c};
+            _data = new[] { c };
         }
 
         public kwum(in ReadOnlySpan<char> input)
@@ -82,7 +82,7 @@ namespace Mewdeko.Core.Common
 
         public override string ToString()
         {
-            return new(_data);
+            return new string(_data);
         }
 
         public override bool Equals(object obj)

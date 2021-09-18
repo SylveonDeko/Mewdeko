@@ -300,7 +300,7 @@ WHERE GuildId={guildId}
                 {
                     Count = number,
                     Punishment = punish,
-                    Time = (int?) time?.Time.TotalMinutes ?? 0,
+                    Time = (int?)time?.Time.TotalMinutes ?? 0,
                     RoleId = punish == PunishmentAction.AddRole ? role.Id : default(ulong?)
                 });
                 uow.SaveChanges();

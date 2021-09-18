@@ -51,12 +51,12 @@ namespace Mewdeko.Modules.Gambling.Services
                 {
                     if (!await _cs.RemoveAsync(owner.Id,
                             "Waifu Transfer - affinity penalty",
-                            (int) (waifu.Price * 0.6),
+                            (int)(waifu.Price * 0.6),
                             true))
                         // unable to pay 60% penalty
                         return false;
 
-                    waifu.Price = (int) (waifu.Price * 0.7); // half of 60% = 30% price reduction
+                    waifu.Price = (int)(waifu.Price * 0.7); // half of 60% = 30% price reduction
                     if (waifu.Price < settings.Waifu.MinPrice)
                         waifu.Price = settings.Waifu.MinPrice;
                 }
@@ -64,7 +64,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 {
                     if (!await _cs.RemoveAsync(owner.Id, "Waifu Transfer", waifu.Price / 10, true)) return false;
 
-                    waifu.Price = (int) (waifu.Price * 0.95); // half of 10% = 5% price reduction
+                    waifu.Price = (int)(waifu.Price * 0.95); // half of 10% = 5% price reduction
                     if (waifu.Price < settings.Waifu.MinPrice)
                         waifu.Price = settings.Waifu.MinPrice;
                 }
@@ -101,7 +101,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     .GroupBy(x => x.New)
                     .Count();
 
-                return (int) Math.Ceiling(waifu.Price * 1.25f) +
+                return (int)Math.Ceiling(waifu.Price * 1.25f) +
                        (divorces + affs + 2) * settings.Waifu.Multipliers.WaifuReset;
             }
         }
@@ -330,7 +330,7 @@ namespace Mewdeko.Modules.Gambling.Services
                     if (w.Affinity?.UserId == user.Id)
                     {
                         await _cs.AddAsync(w.Waifu.UserId, "Waifu Compensation", amount, true);
-                        w.Price = (int) Math.Floor(w.Price * _gss.Data.Waifu.Multipliers.DivorceNewValue);
+                        w.Price = (int)Math.Floor(w.Price * _gss.Data.Waifu.Multipliers.DivorceNewValue);
                         result = DivorceResult.SucessWithPenalty;
                     }
                     else
@@ -383,7 +383,7 @@ namespace Mewdeko.Modules.Gambling.Services
                 });
 
                 if (w.Claimer?.UserId == from.Id)
-                    w.Price += (int) (itemObj.Price * _gss.Data.Waifu.Multipliers.GiftEffect);
+                    w.Price += (int)(itemObj.Price * _gss.Data.Waifu.Multipliers.GiftEffect);
                 else
                     w.Price += itemObj.Price / 2;
 
@@ -489,7 +489,7 @@ namespace Mewdeko.Modules.Gambling.Services
             var conf = _gss.Data;
             return _gss.Data.Waifu.Items
                 .Select(x =>
-                    new WaifuItemModel(x.ItemEmoji, (int) (x.Price * conf.Waifu.Multipliers.AllGiftPrices), x.Name))
+                    new WaifuItemModel(x.ItemEmoji, (int)(x.Price * conf.Waifu.Multipliers.AllGiftPrices), x.Name))
                 .ToList();
         }
 

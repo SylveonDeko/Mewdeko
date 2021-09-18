@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
-using Humanizer;
 
 namespace Mewdeko.Modules.Moderation
 {
@@ -31,6 +31,7 @@ namespace Mewdeko.Modules.Moderation
 
                 return true;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -42,6 +43,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 await STFU(user, time);
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -55,6 +57,7 @@ namespace Mewdeko.Modules.Moderation
                     await _service.removeonmute(ctx.Guild, "n");
                     await ctx.Channel.SendConfirmAsync("Removing roles on mute has been disabled!");
                 }
+
                 if (yesnt.StartsWith("y"))
                 {
                     await _service.removeonmute(ctx.Guild, "y");
@@ -65,6 +68,7 @@ namespace Mewdeko.Modules.Moderation
                     await ctx.Channel.SendErrorAsync("Hey! Its either yes or no, Not that I care anyway, hmph.");
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -82,15 +86,18 @@ namespace Mewdeko.Modules.Moderation
                 if (time != null)
                 {
                     await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Deny));
-                    await ctx.Channel.SendConfirmAsync($"{user} has been muted in this channel for {time.Time.Humanize()}!");
+                    await ctx.Channel.SendConfirmAsync(
+                        $"{user} has been muted in this channel for {time.Time.Humanize()}!");
                     await Task.Delay((int)time.Time.TotalMilliseconds);
                     try
                     {
-                       await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
+                        await channel.AddPermissionOverwriteAsync(user,
+                            currentPerms.Modify(sendMessages: PermValue.Inherit));
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
-                
             }
 
             [MewdekoCommand]
@@ -106,6 +113,7 @@ namespace Mewdeko.Modules.Moderation
                 await channel.AddPermissionOverwriteAsync(user, currentPerms.Modify(sendMessages: PermValue.Inherit));
                 await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -122,7 +130,7 @@ namespace Mewdeko.Modules.Moderation
                 }
 
                 if (Context.User.Id != Context.Guild.OwnerId &&
-                    role.Position >= ((SocketGuildUser) Context.User).Roles.Max(x => x.Position))
+                    role.Position >= ((SocketGuildUser)Context.User).Roles.Max(x => x.Position))
                 {
                     await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);
                     return;
@@ -144,7 +152,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, target))
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, target))
                         return;
 
                     await _service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
@@ -183,7 +191,7 @@ namespace Mewdeko.Modules.Moderation
                     return;
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
                     await _service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
@@ -228,7 +236,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
                     await _service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
@@ -276,7 +284,7 @@ namespace Mewdeko.Modules.Moderation
                     return;
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
                     await _service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
@@ -302,7 +310,7 @@ namespace Mewdeko.Modules.Moderation
                     return;
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
                     await _service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
@@ -327,7 +335,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 try
                 {
-                    if (!await VerifyMutePermissions((IGuildUser) ctx.User, user))
+                    if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
                     await _service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);

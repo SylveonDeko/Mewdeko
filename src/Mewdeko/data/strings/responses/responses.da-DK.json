@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Alle brugerdefinerede reaktionsstatistikker er blevet nulstillet.",
   "deleted": "Brugerdefineret reaktion slettet.",
-  "insuff_perms":
-    "Utilstrækkelige rettigheder. Kræver Bot ejerskab for globale brugerdefinerede reaktioner, og Administrator for server brugerdefinerede reaktioner.",
+  "insuff_perms": "Utilstrækkelige rettigheder. Kræver Bot ejerskab for globale brugerdefinerede reaktioner, og Administrator for server brugerdefinerede reaktioner.",
   "list_all": "Liste på alle brugerdefinerede reaktioner.",
   "new_cust_react": "Ny brugerdefineret reaktion",
   "no_found": "Ingen brugedefineret reaktion blev fundet.",
@@ -60,8 +59,7 @@
   "greetmsg_new": "Ny velkomstbesked sat.",
   "greet_off": "Velkomstmeddelelser slået fra.",
   "greet_on": "Velkomstmeddelelser slået til i denne kanal.",
-  "hierarchy":
-    "Du kan ikke bruge denne kommando på brugere der har en rolle der er højere end eller lige med din egen i rolle-hierakiet.",
+  "hierarchy": "Du kan ikke bruge denne kommando på brugere der har en rolle der er højere end eller lige med din egen i rolle-hierakiet.",
   "invalid_format": "Ugyldigt input format",
   "invalid_params": "Forkerte parametre",
   "kickdm": "Du er blevet fjernet fra følgende server: {0}\nBegrundelse: {1}",
@@ -133,8 +131,7 @@
   "self_assign_not": "Denne rolle er ikke selvoverdragelig.",
   "self_assign_not_have": "Du har ikke rollen {0}.",
   "self_assign_no_excl": "Selvoverdragelige roller er ikke længere eksklusive!",
-  "self_assign_perms":
-    "Jeg kan ikke give denne rolle til dig. \u0060Jeg kan ikke give roller til ejere eller andre roller højere end min i rollehierakiet.\u0060",
+  "self_assign_perms": "Jeg kan ikke give denne rolle til dig. \u0060Jeg kan ikke give roller til ejere eller andre roller højere end min i rollehierakiet.\u0060",
   "self_assign_rem": "{0} er blevet fjernet fra listen over selvoverdragelige roller.",
   "self_assign_remove": "Du har ikke længere rollen {0}.",
   "self_assign_success": "Du har nu rollen {0}.",
@@ -180,12 +177,9 @@
   "voice_chan_destroyed": "Stemmekanal slettet",
   "vt_disabled": "Stemme \u002B tekst funktionen er blevet slået fra.",
   "vt_enabled": "Stemme \u002B tekst funktionen er blevet slået til.",
-  "vt_exit":
-    "Jeg har hverken **administrér roller** og/eller **administrér kanaler** tilladelserne, så jeg kan ikke køre \u0060.voice\u002Btext\u0060 på serveren {0}.",
-  "vt_no_admin":
-    "Du er i gang med at slå denne funktion til/fra, og **jeg har ikke ADMINISTRATOR tilladelser**. Dette kan forsage problemer, og du vil blive nødt til at slette tekstkanaler selv.",
-  "vt_perms":
-    "Jeg har brug for minimum **Administrèr Roller** eller **Administrèr Kanaler** for at kunne slå denne funktion til (Administratortilladelser ville være bedst)",
+  "vt_exit": "Jeg har hverken **administrér roller** og/eller **administrér kanaler** tilladelserne, så jeg kan ikke køre \u0060.voice\u002Btext\u0060 på serveren {0}.",
+  "vt_no_admin": "Du er i gang med at slå denne funktion til/fra, og **jeg har ikke ADMINISTRATOR tilladelser**. Dette kan forsage problemer, og du vil blive nødt til at slette tekstkanaler selv.",
+  "vt_perms": "Jeg har brug for minimum **Administrèr Roller** eller **Administrèr Kanaler** for at kunne slå denne funktion til (Administratortilladelser ville være bedst)",
   "xmuted_text": "Bruger {0} fra tekst chat",
   "xmuted_text_and_voice": "Bruger {0} fra tekst og stemme chat",
   "xmuted_voice": "Bruger {0} fra stemme chat",
@@ -224,17 +218,14 @@
   "cmdlist_donate": "Du kan støtte projektet på patreon: \u003C{0}\u003E eller paypal: \u003C{1}\u003E",
   "cmd_and_alias": "Kommandoer og aliaser",
   "commandlist_regen": "Kommandoliste regeneret.",
-  "commands_instr":
-    "Tast \u0060{0}h KommandoNavn\u0060 for at se hvordan man bruger den specificerede kommando, f.eks. \u0060{0}h \u003E8ball\u0060",
+  "commands_instr": "Tast \u0060{0}h KommandoNavn\u0060 for at se hvordan man bruger den specificerede kommando, f.eks. \u0060{0}h \u003E8ball\u0060",
   "command_not_found": "Jeg kan ikke finde den kommando. Tjek at kommandoen eksisterer før du prøver igen.",
   "desc": "Beskrivelse",
-  "donate":
-    "Du kan støtte Mewdeko projektet på\nPatreon \u003C{0}\u003E eller\nPaypal \u003C{1}\u003E\nHusk at tilføje dit Discord navn eller ID i beskeden\n\n**Tak** ♥️ ",
+  "donate": "Du kan støtte Mewdeko projektet på\nPatreon \u003C{0}\u003E eller\nPaypal \u003C{1}\u003E\nHusk at tilføje dit Discord navn eller ID i beskeden\n\n**Tak** ♥️ ",
   "guide": "**Kommando liste**: \u003C{0}\u003E\n**Hosting guides og dokumenter kan findes her:** \u003C{1}\u003E",
   "list_of_commands": "Kommandoliste",
   "list_of_modules": "Modulliste",
-  "modules_footer":
-    "Tast \u0060{0}cmds ModulNavn\u0060 for at få en liste af kommandoerne i det modul, f.eks. \u0060{0}cmds games\u0060",
+  "modules_footer": "Tast \u0060{0}cmds ModulNavn\u0060 for at få en liste af kommandoerne i det modul, f.eks. \u0060{0}cmds games\u0060",
   "module_not_found": "Det modul findes ikke.",
   "server_permission": "Kræver {0} server tilladelse.",
   "table_of_contents": "Indholdsfortegnelse",
@@ -263,20 +254,16 @@
   "likes": "Lider",
   "waifus_none": "Der er ikke blevet gjort krav på nogen waifus endnu.",
   "waifus_top_waifus": "Top Waifus",
-  "waifu_affinity_already":
-    "dit tilførsforhold er allerede sat til denne waifu eller du prøver at fjerne dit tilhørsforhold uden at have et.",
-  "waifu_affinity_changed":
-    "ændrede deres tilhørsforhold fra {0} til {1}.\n\n*Dette er moralsk tvivlsomt* \uD83E\uDD14",
+  "waifu_affinity_already": "dit tilførsforhold er allerede sat til denne waifu eller du prøver at fjerne dit tilhørsforhold uden at have et.",
+  "waifu_affinity_changed": "ændrede deres tilhørsforhold fra {0} til {1}.\n\n*Dette er moralsk tvivlsomt* \uD83E\uDD14",
   "waifu_affinity_cooldown": "Du skal vente {0} timer og {1} minutter for at kunne ændre dit tilhørsforhold igen.",
   "waifu_affinity_reset": "Dit tilhørsforhold er blevet nulstillet. Du har ikke længere en person du kan lide.",
   "waifu_affinity_set": "vil gerne være {0}s waifu. Aww \u003C3",
   "waifu_claimed": "gjorde grav på {0} som deres waifu for {1}!",
-  "waifu_divorced_like":
-    "Du er blevet skilt fra en waifu der kan lide dig. Dit hjerteløse monster. {0} fik {1} som kompensation.",
+  "waifu_divorced_like": "Du er blevet skilt fra en waifu der kan lide dig. Dit hjerteløse monster. {0} fik {1} som kompensation.",
   "waifu_egomaniac": "du kan ikke sætte dit tilhørsforhold til dig selv, din egoman.",
   "waifu_fulfilled": "\uD83C\uDF89 Deres kærlighed er fuldbyrdet! \uD83C\uDF89\n{0}s nye værdi er {1}!",
-  "waifu_isnt_cheap":
-    "Ingen waifu er så billig. Du bliver nødt til at betale i hvert fald {0}for at få en waifu, også selvom deres værdi er mindre.",
+  "waifu_isnt_cheap": "Ingen waifu er så billig. Du bliver nødt til at betale i hvert fald {0}for at få en waifu, også selvom deres værdi er mindre.",
   "waifu_not_enough": "Du skal betale {0} eller mere for at gøre krav på denne waifu!",
   "waifu_not_yours": "Det er ikke din waifu.",
   "waifu_not_yourself": "Du kan ikke gøre krav på dig selv.",
@@ -357,8 +344,7 @@
   "playlists": "\u0060#{0}\u0060 - **{1}** af *{2}* ({3} sange)",
   "playlists_page": "Side {0} af gemte spillelister",
   "playlist_deleted": "Afspilningsliste slettet.",
-  "playlist_delete_fail":
-    "Kunne ikke slette denne afspilningsliste. Enten eksisterer den ikke, eller du er ikke dens indehaver.",
+  "playlist_delete_fail": "Kunne ikke slette denne afspilningsliste. Enten eksisterer den ikke, eller du er ikke dens indehaver.",
   "playlist_id_not_found": "Der findes ikke en afspilningsliste med det ID.",
   "playlist_queue_complete": "Afspilningslistens kø færdigspillet.",
   "playlist_saved": "Afspilningsliste gemt",
@@ -394,8 +380,7 @@
   "aum_enable": "Slog brugen af ALLE MODULER til for brugeren {0}",
   "blacklisted": "Sortlistede {0} med ID {1}",
   "cmdcd_add": "Kommandoen {0} har nu en {1}s afkølings periode.",
-  "cmdcd_cleared":
-    "Kommandoen {0} har nu ingen afkølings periode, og alle eksisterende afkølings perioder er blevet slettet.",
+  "cmdcd_cleared": "Kommandoen {0} har nu ingen afkølings periode, og alle eksisterende afkølings perioder er blevet slettet.",
   "cmdcd_none": "Ingen afkølingsperioder for kommandoer er sat.",
   "command_costs": "Kommando pris",
   "cx_disable": "Slog brugen af {0} {1} fra i kanalen {2}",
@@ -434,8 +419,7 @@
   "word_filter_server_on": "Ord filter slået til på denne server.",
   "abilities": "Evner",
   "anime_no_fav": "Ingen yndlingsanime endnu",
-  "atl_ad_started":
-    "Startede automatisk oversættelse af beskeder i denne kanal. Brugernes beskeder vil automatisk blive slettet.",
+  "atl_ad_started": "Startede automatisk oversættelse af beskeder i denne kanal. Brugernes beskeder vil automatisk blive slettet.",
   "atl_removed": "dit sprog til automatisk oversættelse er blevet fjernet.",
   "atl_set": "Dit auto-oversæt sprog er blevet sat til {0}\u003E{1}",
   "atl_started": "Påbegyndte automatisk oversættelse af beskeder i denne kanal.",
@@ -654,14 +638,11 @@
   "slowmodewl_user_start": "Slowmode vil nu ignorere brugeren {0}.",
   "slowmodewl_user_stop": "Slowmode vil ikke længere ignorere brugeren {0}.",
   "clpa_fail": "Belønningen fejlede grundet en af følgende grunde:",
-  "clpa_fail_already":
-    "Måske har du allerede fået din belønning for den her måned. Du kan kun få belønninger en gang om måneden med mindre at du øger din støtte.",
+  "clpa_fail_already": "Måske har du allerede fået din belønning for den her måned. Du kan kun få belønninger en gang om måneden med mindre at du øger din støtte.",
   "clpa_fail_already_title": "Belønningen er allerede givet",
-  "clpa_fail_conn":
-    "Din discord-profil er muligvis ikke forbundet til Patreon. Hvis du ikke ved hvad dette betyder, eller ikke ved hvordan man forbinder den - så skal du gå til [Patreon account settings page] (https://patreon.com/settings/account) og klikke \u0027Connect to discord\u0027 knappen.",
+  "clpa_fail_conn": "Din discord-profil er muligvis ikke forbundet til Patreon. Hvis du ikke ved hvad dette betyder, eller ikke ved hvordan man forbinder den - så skal du gå til [Patreon account settings page] (https://patreon.com/settings/account) og klikke \u0027Connect to discord\u0027 knappen.",
   "clpa_fail_conn_title": "Discord kontoen er ikke forbundet",
-  "clpa_fail_sup":
-    "For at kunne få denne belønning skal du støtte projektet på patreon. Du kan bruge {0} kommandoen for at få et link.",
+  "clpa_fail_sup": "For at kunne få denne belønning skal du støtte projektet på patreon. Du kan bruge {0} kommandoen for at få et link.",
   "clpa_fail_sup_title": "Ikke understøttende",
   "clpa_fail_wait": "Du skal vente et par timer efter at du har støttet, hvis du ikke har så prøv igen senere. ",
   "clpa_fail_wait_title": "Vent og prøv igen",
@@ -710,8 +691,7 @@
   "bot_nick": "Bots kaldenavn er ændret til {0}",
   "user_nick": "Kaldenavn på brugeren {0} ændres til {1}",
   "timezone_guild": "Tidszonen for dette laug er \u0060{1}\u0060",
-  "timezone_not_found":
-    "Tidszone ikke fundet. Brug \u0022tidszoner\u0022 kommando for at se listen over tilgængelige tidszoner.",
+  "timezone_not_found": "Tidszone ikke fundet. Brug \u0022tidszoner\u0022 kommando for at se listen over tilgængelige tidszoner.",
   "timezones_available": "Tilgængelige Tidszoner",
   "song_not_found": "Ingen sang fundet.",
   "define_unknown": "Definitionen for dette udtryk kunne ikke findes.",
@@ -745,8 +725,7 @@
   "nunchi_ended_no_winner": "Nunchi spil afsluttet med ingen vinder.",
   "nunchi_started": "Nunchi spil startet med {0} deltagere.",
   "nunchi_round_ended": "Nunchi runde afsluttet. {0} er ude af spillet.",
-  "nunchi_round_ended_boot":
-    "Nunchi runde afsluttet pga. timeout hos nogle brugere. Disse brugere er stadig i spillet: {0}",
+  "nunchi_round_ended_boot": "Nunchi runde afsluttet pga. timeout hos nogle brugere. Disse brugere er stadig i spillet: {0}",
   "nunchi_round_started": "Nunchi runde started med {0} brugere. Begynd at tælle fra tallet {1}.",
   "nunchi_next_number": "Nummer registreret. Sidste nummer var {0}.",
   "nunchi_failed_to_start": "Nunchi kunne ikke startes fordi der ikke var nok deltagere.",
@@ -767,8 +746,7 @@
   "stream_role_wl_rem_fail": "Bruger {0} er ikke positivlistet.",
   "bot_config_edit_fail": "Kunne ikke sætte {0} til værdien {1}",
   "bot_config_edit_success": "Værdien af {0} er sat til {1}",
-  "crca_disabled":
-    "Brugerdefineret reaktion med id {0} vil ikke længere udløses med mindre dens udløsningsord står i begyndelsen af sætningen.",
+  "crca_disabled": "Brugerdefineret reaktion med id {0} vil ikke længere udløses med mindre dens udløsningsord står i begyndelsen af sætningen.",
   "crca_enabled": "Brugerdefineret reaktion med id {0} vil nu udløses hvis det er hvor som helst i sætningen.",
   "server_level": "Serverniveau",
   "club": "Klub",
@@ -789,13 +767,11 @@
   "server_leaderboard": "Server XP Scoretavle",
   "global_leaderboard": "Globalt XP Scoretavle",
   "modified": "Modificeret server XP af brugeren {0} ved {1}",
-  "club_create_error":
-    "Oprettelse af klubben fejlede. Sikre dig at du er over level 5 og ikke medlem af en klub i forvejen.",
+  "club_create_error": "Oprettelse af klubben fejlede. Sikre dig at du er over level 5 og ikke medlem af en klub i forvejen.",
   "club_created": "Klub {0} oprettet succesfuldt!",
   "club_not_exists": "Klubben findes ikke.",
   "club_applied": "Du har henvendt dig for medlemskabs i {0} klub.",
-  "club_apply_error":
-    "Fejl ved applikation. Du er allerede medlem at denne klub eller har du ikke level specifikationen. Det kan også være at du er blevet bandlyst fra klubben.",
+  "club_apply_error": "Fejl ved applikation. Du er allerede medlem at denne klub eller har du ikke level specifikationen. Det kan også være at du er blevet bandlyst fra klubben.",
   "club_accepted": "Accepteret bruger {0} til klubben.",
   "club_accept_error": "Bruger blev ikke fundet",
   "club_left": "Du har forladt klubben.",
@@ -803,11 +779,9 @@
   "club_user_kick": "Bruger {0} smidt ud fra {1} klub.",
   "club_user_kick_fail": "Fejl ved udsmidelse. Du er ikke klub ejer eller kan det være at brugeren ikke er i din klub.",
   "club_user_banned": "Bandlyst bruger {0} fra {1} klub.",
-  "club_user_ban_fail":
-    "Bandlysning fejlede. Du er ikke ejer af klubben, eller er brugeren ikke i klubben eller henvendt sig til den.",
+  "club_user_ban_fail": "Bandlysning fejlede. Du er ikke ejer af klubben, eller er brugeren ikke i klubben eller henvendt sig til den.",
   "club_user_unbanned": "Fjernelse af bandlysning bruger {0} i {1} klub.",
-  "club_user_unban_fail":
-    "Bandlysning fejlede. Du er ikke ejer af klubben, eller er brugeren ikke i klubben eller henvendt sig til den.",
+  "club_user_unban_fail": "Bandlysning fejlede. Du er ikke ejer af klubben, eller er brugeren ikke i klubben eller henvendt sig til den.",
   "club_level_req_changed": "Klubbens minimums krab blev ændret til {0}",
   "club_level_req_change_error": "Fejl ved ændring af level krav.",
   "club_disbanded": "Klub {0} er blevet forladt",

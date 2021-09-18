@@ -36,9 +36,10 @@ namespace Mewdeko.Modules.Gambling
 
             private readonly ICurrencyService _cs;
             private readonly DbService _db;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
-            public FlowerShopCommands(DbService db, ICurrencyService cs, GamblingConfigService gamblingConf, InteractiveService serv)
+            public FlowerShopCommands(DbService db, ICurrencyService cs, GamblingConfigService gamblingConf,
+                InteractiveService serv)
                 : base(gamblingConf)
             {
                 Interactivity = serv;
@@ -57,14 +58,14 @@ namespace Mewdeko.Modules.Gambling
                             .ThenInclude(x => x.Items)).ShopEntries
                     .ToIndexed();
                 var paginator = new LazyPaginatorBuilder()
-               .AddUser(ctx.User)
-               .WithPageFactory(PageFactory)
-               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-               .WithMaxPageIndex(entries.Count()/9)
-               .WithDefaultEmotes()
-               .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(entries.Count() / 9)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -133,7 +134,7 @@ namespace Mewdeko.Modules.Gambling
 
                 if (entry.Type == ShopEntryType.Role)
                 {
-                    var guser = (IGuildUser) ctx.User;
+                    var guser = (IGuildUser)ctx.User;
                     var role = ctx.Guild.GetRole(entry.RoleId);
 
                     if (role == null)
@@ -245,7 +246,7 @@ namespace Mewdeko.Modules.Gambling
 
             private static long GetProfitAmount(int price)
             {
-                return (int) Math.Ceiling(0.90 * price);
+                return (int)Math.Ceiling(0.90 * price);
             }
 
             [MewdekoCommand]

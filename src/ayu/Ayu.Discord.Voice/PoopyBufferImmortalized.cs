@@ -92,7 +92,7 @@ namespace Ayu.Discord.Voice
                 // writer never writes until the end,
                 // but leaves a single chunk free
                 Span<byte> toReturn = _outputArray;
-                ((Span<byte>) _buffer).Slice(ReadPosition, toRead).CopyTo(toReturn);
+                ((Span<byte>)_buffer).Slice(ReadPosition, toRead).CopyTo(toReturn);
                 ReadPosition += toRead;
                 length = toRead;
                 return toReturn;
@@ -101,7 +101,7 @@ namespace Ayu.Discord.Voice
             {
                 Span<byte> toReturn = _outputArray;
                 var toEnd = _buffer.Length - ReadPosition;
-                var bufferSpan = (Span<byte>) _buffer;
+                var bufferSpan = (Span<byte>)_buffer;
 
                 bufferSpan.Slice(ReadPosition, toEnd).CopyTo(toReturn);
                 var fromStart = toRead - toEnd;

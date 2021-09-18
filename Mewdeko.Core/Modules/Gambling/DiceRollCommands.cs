@@ -25,7 +25,7 @@ namespace Mewdeko.Modules.Gambling
 
             private static readonly Regex fudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
-            private static readonly char[] _fateRolls = {'-', ' ', '+'};
+            private static readonly char[] _fateRolls = { '-', ' ', '+' };
             private readonly IImageCache _images;
 
             public DiceRollCommands(IDataCache data)
@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Gambling
 
                 using (var img1 = GetDice(num1))
                 using (var img2 = GetDice(num2))
-                using (var img = new[] {img1, img2}.Merge(out var format))
+                using (var img = new[] { img1, img2 }.Merge(out var format))
                 using (var ms = img.ToStream(format))
                 {
                     await ctx.Channel.SendFileAsync(ms,
@@ -237,7 +237,7 @@ namespace Mewdeko.Modules.Gambling
                     using (var imgOne = Image.Load(images[1]))
                     using (var imgZero = Image.Load(images[0]))
                     {
-                        return new[] {imgOne, imgZero}.Merge();
+                        return new[] { imgOne, imgZero }.Merge();
                     }
                 }
 

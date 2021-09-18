@@ -26,7 +26,7 @@ namespace Mewdeko.Core.Modules.Music
 
         public ValueTask<string?> GetStreamUrl()
         {
-            return new(StreamUrl);
+            return new ValueTask<string?>(StreamUrl);
         }
     }
 }

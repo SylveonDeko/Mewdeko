@@ -45,7 +45,7 @@ namespace Ayu.Discord.Gateway
                         bufferWriter.Advance(result.Count);
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
-                            var closeMessage = CloseCodes.GetErrorCodeMessage((int?) _ws.CloseStatus ?? 0).Message;
+                            var closeMessage = CloseCodes.GetErrorCodeMessage((int?)_ws.CloseStatus ?? 0).Message;
                             error =
                                 $"Websocket closed ({_ws.CloseStatus}): {_ws.CloseStatusDescription} {closeMessage}";
                             break;

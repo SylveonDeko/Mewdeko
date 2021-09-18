@@ -78,7 +78,7 @@ namespace Mewdeko.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Pollend()
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 Poll p;
                 if ((p = _service.StopPoll(ctx.Guild.Id)) == null)

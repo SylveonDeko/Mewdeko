@@ -15,6 +15,10 @@ donate:
   desc: Instructions for helping the project financially.
   args:
     - ''
+rtt:
+  desc: 'Toggles whether the bot responds to the response of a custom reaction or the trigger.'
+  args:
+    - '420'
 modules:
   desc: Lists all bot modules.
   args:

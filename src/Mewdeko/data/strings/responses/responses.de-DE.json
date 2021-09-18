@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Reaktionsstatistiken gelöscht.",
   "deleted": "Benutzerdefinierte Reaktion gelöscht.",
-  "insuff_perms":
-    "Unzureichende Rechte. Dies erfordert das Sie den Bot besitzen für globale Reaktionen, und Administratorrechte für serverseitige Reaktionen.",
+  "insuff_perms": "Unzureichende Rechte. Dies erfordert das Sie den Bot besitzen für globale Reaktionen, und Administratorrechte für serverseitige Reaktionen.",
   "list_all": "Liste aller benutzerdefinierten Reaktionen",
   "new_cust_react": "Neue benutzerdefinierte Reaktion",
   "no_found": "Keine benutzerdefinierten Reaktionen gefunden.",
@@ -60,8 +59,7 @@
   "greetmsg_new": "Neue Begrüßungsnachricht wurde gesetzt.",
   "greet_off": "Begrüßungsankündigungen wurden deaktiviert.",
   "greet_on": "Begrüßungsankündigungen wurden für diesen Kanal aktiviert.",
-  "hierarchy":
-    "Sie können diesen befehl nicht an Benutzern mit einer Rolle über oder gleich zu Ihrer in der Rangordnung benutzen.",
+  "hierarchy": "Sie können diesen befehl nicht an Benutzern mit einer Rolle über oder gleich zu Ihrer in der Rangordnung benutzen.",
   "invalid_format": "Ungültiges Eingabeformat.",
   "invalid_params": "Ungültige Übergabevariable.",
   "kickdm": "Sie haben {0} von dem Server gekickt.\nGrund: {1}",
@@ -133,8 +131,7 @@
   "self_assign_not": "Diese Rolle kann man sich nicht selbst zuweisen.",
   "self_assign_not_have": "Sie haben die Rolle {0} nicht.",
   "self_assign_no_excl": "Selbst zugewiesene Rollen sind nicht länger exklusiv!",
-  "self_assign_perms":
-    "Ich kann Ihnen diese Rolle nicht zuweisen. \u0060Ich kann keine Rollen zu Besitzern oder andere Rollen die höher als meine in der Rangordnung sind hinzufügen.\u0060",
+  "self_assign_perms": "Ich kann Ihnen diese Rolle nicht zuweisen. \u0060Ich kann keine Rollen zu Besitzern oder andere Rollen die höher als meine in der Rangordnung sind hinzufügen.\u0060",
   "self_assign_rem": "{0} wurde von der Liste der selbst zuweisbaren Rollen entfernt.",
   "self_assign_remove": "Sie haben nicht länger die Rolle {0}.",
   "self_assign_success": "Sie haben nun die Rolle {0}.",
@@ -180,12 +177,9 @@
   "voice_chan_destroyed": "Sprachkanal zerstört",
   "vt_disabled": "Text- und Sprachfunktion deaktiviert.",
   "vt_enabled": "Text- und Sprachfunktion aktiviert.",
-  "vt_exit":
-    "Ich habe keine **Rollenmanagement**- und/oder **Kanalmanagement**-Rechte, sodass ich \u0060voice\u002Btext\u0060 auf dem Server {0} nicht ausführen kann.",
-  "vt_no_admin":
-    "Sie schalten diese Funktion ein bzw. aus und **ich habe keine ADMINISTRATORRECHTE**. Dies könnte einige Probleme hervorrufen, sodass sie ihre Textkanäle eventuell selber aufräumen müssen.",
-  "vt_perms":
-    "Ich benötige mindestens **Rollenmanagement**- und **Kanalmanagement**-Rechte um diese Funktion zu aktivieren. (Bevorzugt Administratorrechte)",
+  "vt_exit": "Ich habe keine **Rollenmanagement**- und/oder **Kanalmanagement**-Rechte, sodass ich \u0060voice\u002Btext\u0060 auf dem Server {0} nicht ausführen kann.",
+  "vt_no_admin": "Sie schalten diese Funktion ein bzw. aus und **ich habe keine ADMINISTRATORRECHTE**. Dies könnte einige Probleme hervorrufen, sodass sie ihre Textkanäle eventuell selber aufräumen müssen.",
+  "vt_perms": "Ich benötige mindestens **Rollenmanagement**- und **Kanalmanagement**-Rechte um diese Funktion zu aktivieren. (Bevorzugt Administratorrechte)",
   "xmuted_text": "Benutzer {0} vom Textchat",
   "xmuted_text_and_voice": "Benutzer {0} vom Text- und Sprachchat",
   "xmuted_voice": "Benutzer {0} vom Sprachchat",
@@ -224,25 +218,19 @@
   "cmdlist_donate": "Sie können das Projekt auf Patreon: \u003C{0}\u003E oder Paypal: \u003C{1}\u003E unterstützen.",
   "cmd_and_alias": "Befehle und Alias",
   "commandlist_regen": "Befehlsliste neu generiert.",
-  "commands_instr":
-    "Gebe \u0060{0}h NameDesBefehls\u0060 ein, um die Hilfestellung für diesen Befehl zu sehen. Z.B. \u0060{0}h {0}8ball\u0060",
-  "command_not_found":
-    "Ich konnte diesen Befehl nicht finden. Bitte stelle sicher das dieser Befehl existiert bevor Sie es erneut versuchen.",
+  "commands_instr": "Gebe \u0060{0}h NameDesBefehls\u0060 ein, um die Hilfestellung für diesen Befehl zu sehen. Z.B. \u0060{0}h {0}8ball\u0060",
+  "command_not_found": "Ich konnte diesen Befehl nicht finden. Bitte stelle sicher das dieser Befehl existiert bevor Sie es erneut versuchen.",
   "desc": "Beschreibung",
-  "donate":
-    "Sie können das Mewdeko-Projekt über \nPatreon \u003C{0}\u003E oder \nPayPal \u003C{1}\u003E unterstützen.\nVergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu hinterlassen.\n\n**Vielen Dank**♥️",
-  "guide":
-    "**Liste der Befehle**: \u003C{0}\u003E\n**Hosting Anleitungen und Dokumentationen können hier gefunden werden**: \u003C{1}\u003E",
+  "donate": "Sie können das Mewdeko-Projekt über \nPatreon \u003C{0}\u003E oder \nPayPal \u003C{1}\u003E unterstützen.\nVergessen Sie bitte nicht, Ihren Discord-Namen oder Ihre ID in der Nachricht zu hinterlassen.\n\n**Vielen Dank**♥️",
+  "guide": "**Liste der Befehle**: \u003C{0}\u003E\n**Hosting Anleitungen und Dokumentationen können hier gefunden werden**: \u003C{1}\u003E",
   "list_of_commands": "Liste der Befehle",
   "list_of_modules": "Liste der Module",
-  "modules_footer":
-    "Schreibe \u0060{0}cmds ModuleName\u0060 um eine Liste aller Befehle dieses Moduls zu erhalten. z.B. \u0060{0}cmds games\u0060",
+  "modules_footer": "Schreibe \u0060{0}cmds ModuleName\u0060 um eine Liste aller Befehle dieses Moduls zu erhalten. z.B. \u0060{0}cmds games\u0060",
   "module_not_found": "Dieses Modul existiert nicht.",
   "server_permission": "Benötigt Serverrecht {0}.",
   "table_of_contents": "Inhaltsverzeichnis",
   "usage": "Verwendung",
-  "autohentai_started":
-    "Autohentai wurde gestartet. Es wird alle {0} Sekunden etwas mit einem der folgenden Stichwörtern gepostet: {1}",
+  "autohentai_started": "Autohentai wurde gestartet. Es wird alle {0} Sekunden etwas mit einem der folgenden Stichwörtern gepostet: {1}",
   "tag": "Stichwort",
   "animal_race": "Tierrennen",
   "animal_race_failed": "Das Rennen konnte nicht gestartet werden, da es nicht genügend Teilnehmer gibt.",
@@ -266,28 +254,22 @@
   "likes": "Mag",
   "waifus_none": "Keine Waifus wurden bisher beansprucht.",
   "waifus_top_waifus": "Top Waifus",
-  "waifu_affinity_already":
-    "Ihre Neigung ist bereits zu dieser Waifu gesetzt oder Sie versuchsen Ihre Neigung zu entfernen während Sie keine gesetzt haben.",
-  "waifu_affinity_changed":
-    "hat seine Neigung von {0} zu {1} geändert.\n\n*Das ist moralisch nicht vertretbar.*\uD83E\uDD14",
+  "waifu_affinity_already": "Ihre Neigung ist bereits zu dieser Waifu gesetzt oder Sie versuchsen Ihre Neigung zu entfernen während Sie keine gesetzt haben.",
+  "waifu_affinity_changed": "hat seine Neigung von {0} zu {1} geändert.\n\n*Das ist moralisch nicht vertretbar.*\uD83E\uDD14",
   "waifu_affinity_cooldown": "Sie müssen {0} Stunden und {1} Minuten warten bevor Sie Ihre Neigung ändern können.",
   "waifu_affinity_reset": "Ihre Neigung wurde zurückgesetzt. Sie haben keine Person mehr die Sie mögen.",
   "waifu_affinity_set": "will {0}s Waifu sein. Aww \u003C3",
   "waifu_claimed": "hat {0} als seine/Ihre Waifu für {1} beansprucht!",
-  "waifu_divorced_like":
-    "Sie haben sich von Ihrer Waifu die Sie mochte scheiden lassen. Du herzloses Monster. {0} hat {1} als Kompensation erhalten.",
+  "waifu_divorced_like": "Sie haben sich von Ihrer Waifu die Sie mochte scheiden lassen. Du herzloses Monster. {0} hat {1} als Kompensation erhalten.",
   "waifu_egomaniac": "Sie können deine Neigung nicht zu Ihnen selbst setzen, Sie egomanische Person.",
   "waifu_fulfilled": "\uD83C\uDF89 Ihre Liebe ist besiegelt! \uD83C\uDF89\n{0}\u0027s neuer Wert ist {1}!",
-  "waifu_isnt_cheap":
-    "Keine Waifu ist so billig. Sie müssen wenigstens {0} bezahlen um diese Waifu zu beanspruchen, selbst wenn Ihr tatsächlicher Wert geringer ist.",
+  "waifu_isnt_cheap": "Keine Waifu ist so billig. Sie müssen wenigstens {0} bezahlen um diese Waifu zu beanspruchen, selbst wenn Ihr tatsächlicher Wert geringer ist.",
   "waifu_not_enough": "Sie müssen {0} oder mehr bezahlen um diese Waifu zu beanspruchen!",
   "waifu_not_yours": "Diese Waifu gehört nicht Ihnen.",
   "waifu_not_yourself": "Sie können sich nicht selbst beanspruchen.",
-  "waifu_recent_divorce":
-    "Sie haben sich vor kurzem scheiden lassen. Sie müssen {0} Stunden und {1} Minuten warten bevor Sie sich erneut scheiden lassen können.",
+  "waifu_recent_divorce": "Sie haben sich vor kurzem scheiden lassen. Sie müssen {0} Stunden und {1} Minuten warten bevor Sie sich erneut scheiden lassen können.",
   "nobody": "Niemand",
-  "waifu_divorced_notlike":
-    "Sie haben sich von einer Waifu scheiden lassen die Sie nicht mochte, Du erhältst {0} zurück.",
+  "waifu_divorced_notlike": "Sie haben sich von einer Waifu scheiden lassen die Sie nicht mochte, Du erhältst {0} zurück.",
   "8ball": "8ball",
   "acrophobia": "Acrophobie",
   "acro_ended_no_sub": "Spiel wurde beendet ohne Einsendungen.",
@@ -362,8 +344,7 @@
   "playlists": "\u0060#{0}\u0060 - **{1}** by *{2}* ({3} Lieder)",
   "playlists_page": "Seite {0} der gespeicherten Playlists",
   "playlist_deleted": "Playlist gelöscht.",
-  "playlist_delete_fail":
-    "Playlist konnte nicht gelöscht werden. Entweder es existiert nicht oder es gehört nicht Ihnen.",
+  "playlist_delete_fail": "Playlist konnte nicht gelöscht werden. Entweder es existiert nicht oder es gehört nicht Ihnen.",
   "playlist_id_not_found": "Es gibt keine Playlist mit dieser ID.",
   "playlist_queue_complete": "Playlist wurde an die Warteschlange angehängt.",
   "playlist_saved": "Playlist gespeichert",
@@ -438,8 +419,7 @@
   "word_filter_server_on": "Filterung für Wörter auf diesem Server aktiviert.",
   "abilities": "Fähigkeiten",
   "anime_no_fav": "Keine favorisierten anime",
-  "atl_ad_started":
-    "Startete die Automatische Übersetzung der Nachrichten auf diesem Kanal. Nachrichten von Benutzern werden automatisch gelöscht.",
+  "atl_ad_started": "Startete die Automatische Übersetzung der Nachrichten auf diesem Kanal. Nachrichten von Benutzern werden automatisch gelöscht.",
   "atl_removed": "Ihre Automatische-Übersetzungs Sprache wurde entfernt.",
   "atl_set": "Ihre Automatische-Übersetzungs Sprache wurde zu {0}\u003E{1} gesetzt",
   "atl_started": "Automatische Übersetzung der Nachrichten wurde auf diesem kanal gestartet.",
@@ -477,8 +457,7 @@
   "location": "Standort",
   "magicitems_not_loaded": "Magic Items nicht geladen.",
   "mal_profile": "{0}s MAL Profil",
-  "mashape_api_missing":
-    "Der Besitzer des Bots hat keinen MashapeApi-Schlüssel angegeben. Sie können diese Funktion nicht benutzen.",
+  "mashape_api_missing": "Der Besitzer des Bots hat keinen MashapeApi-Schlüssel angegeben. Sie können diese Funktion nicht benutzen.",
   "min_max": "Min/Max",
   "no_channel_found": "Keine Kanäle gefunden.",
   "on_hold": "Pausierte",
@@ -486,8 +465,7 @@
   "osu_api_key": "Ein osu! API-Schlüssel wird benötigt.",
   "osu_failed": "osu! Signatur konnte nicht geholt werden.",
   "over_x": "Über {0} Bilder gefunden. Zeige zufälliges {0}.",
-  "ow_user_not_found":
-    "Benutzer nicht gefunden! Bitte überprüfe die Region und den BattleTag bevor erneuten Versuchen.",
+  "ow_user_not_found": "Benutzer nicht gefunden! Bitte überprüfe die Region und den BattleTag bevor erneuten Versuchen.",
   "plan_to_watch": "Vermerkte",
   "platform": "Plattform",
   "pokemon_ability_none": "Keine Fähigkeit gefunden.",
@@ -549,8 +527,7 @@
   "features": "Funktionalitäten",
   "index_out_of_range": "Index außer Reichweite.",
   "inrole_list": "Hier ist eine Liste mit Nutzern in Rolle {0} :",
-  "inrole_not_allowed":
-    "Sie haben keine Berechtigung diesen Befehl auf Rollen mit vielen Nutzern zu benutzen um Missbrauch zu verhindern.",
+  "inrole_not_allowed": "Sie haben keine Berechtigung diesen Befehl auf Rollen mit vielen Nutzern zu benutzen um Missbrauch zu verhindern.",
   "invalid_value": "Ungültiger {0} Wert.",
   "listservers": "ID: {0}\nMitglieder: {1}\nID des Besitzers: {2}",
   "listservers_none": "Keine Server auf dieser Seite gefunden.",
@@ -621,8 +598,7 @@
   "vcrole_added": "Benutzer die dem Sprachkanal {0} beitreten werden der Rolle {1} zugeweist.",
   "vcrole_removed": "Benutzer die den Sprachkanal {0} beitreten werden nicht länger einer Rolle zugeweist.",
   "vc_role_list": "Rollen für Sprachkanäle",
-  "crad_disabled":
-    "Auslösende Nachricht der benutzerdefinierten Reaktion mit der ID {0} wird nicht automatisch gelöscht.",
+  "crad_disabled": "Auslösende Nachricht der benutzerdefinierten Reaktion mit der ID {0} wird nicht automatisch gelöscht.",
   "crad_enabled": "Auslösende Nachricht der benutzerdefinierten Reaktion mit der ID {0} wird automatisch gelöscht.",
   "crdm_disabled": "Reaktionsnachricht für die benutzerdefinierte Reaktion mit der ID {0} wird nicht als DN gesendet.",
   "crdm_enabled": "Reaktionsnachricht für die benutzerdefinierte Reaktion mit der ID {0} wird als DN gesendet.",
@@ -662,17 +638,13 @@
   "slowmodewl_user_start": "Slow mod witrd jetzt den Benutzer {0} ignorieren.",
   "slowmodewl_user_stop": "Slow mod witrd nicht mehr Benutzer {0} ignorieren.",
   "clpa_fail": "Belohnungen konnten nicht beansprucht werden wegen einer dieser Gründe:",
-  "clpa_fail_already":
-    "Eventuell haben Sie ihre Belohnung für diesen Monat schon bekommen. Sie können Belohnungen nur einmal pro Monat beanspruchen, außer sie erhören ihre Unterstützung.",
+  "clpa_fail_already": "Eventuell haben Sie ihre Belohnung für diesen Monat schon bekommen. Sie können Belohnungen nur einmal pro Monat beanspruchen, außer sie erhören ihre Unterstützung.",
   "clpa_fail_already_title": "Belohnung schon beansprucht",
-  "clpa_fail_conn":
-    "Ihr Discord Account ist eventuell nicht mit Patreon verbunden. Wenn Sie unsicher sind was dies bedeutet, oder nicht wissen wie man es verbinded - Sie müssen zu der [Patreon Account Einstellungs Seite](https://patreon.com/settings/account) gehen und den \u0027Zu Discord verbinden\u0027 Knopf betätigen.",
+  "clpa_fail_conn": "Ihr Discord Account ist eventuell nicht mit Patreon verbunden. Wenn Sie unsicher sind was dies bedeutet, oder nicht wissen wie man es verbinded - Sie müssen zu der [Patreon Account Einstellungs Seite](https://patreon.com/settings/account) gehen und den \u0027Zu Discord verbinden\u0027 Knopf betätigen.",
   "clpa_fail_conn_title": "Discord Account nicht verbunden",
-  "clpa_fail_sup":
-    "Um berechtigt für die Belohnung zu sein, müssen Sie das Projekt auf Patreon unterstützen. Sie können den Befehl {0} benutzen um den Link zu kriegen.",
+  "clpa_fail_sup": "Um berechtigt für die Belohnung zu sein, müssen Sie das Projekt auf Patreon unterstützen. Sie können den Befehl {0} benutzen um den Link zu kriegen.",
   "clpa_fail_sup_title": "Keine Unterstützung",
-  "clpa_fail_wait":
-    "Sie müssen ein paar Stunden warten nachdem sie ihre Unterstützung zusagenl, falls Sie das nicht getan haben, versuchen Sie es später erneut.",
+  "clpa_fail_wait": "Sie müssen ein paar Stunden warten nachdem sie ihre Unterstützung zusagenl, falls Sie das nicht getan haben, versuchen Sie es später erneut.",
   "clpa_fail_wait_title": "Bitte warten Sie eine weile",
   "clpa_success": "Sie haben {0} erhalten. Danke für das unterstützen des Projektes!",
   "clpa_too_early": "Belohnungen können am or nach dem fünften tag jedes Monats beansprucht werden.",
@@ -719,8 +691,7 @@
   "bot_nick": "Bots Nickname wurde zu {0} geändert",
   "user_nick": "Nickname des Benutzer {0} wurde zu {1} geändert",
   "timezone_guild": "Die Zeitzone für die Gilde ist \u0060{0}\u0060",
-  "timezone_not_found":
-    "Zeitzone nicht gefunden. Benutze \u0022timezones\u0022 Befehl um eine liste der Verfügbaren Zeitzonen zu sehen.",
+  "timezone_not_found": "Zeitzone nicht gefunden. Benutze \u0022timezones\u0022 Befehl um eine liste der Verfügbaren Zeitzonen zu sehen.",
   "timezones_available": "Verfügbare Zeitzonen",
   "song_not_found": "Kein Lied gefunden",
   "define_unknown": "Konnte keine Definition für diesen Term finden.",
@@ -754,15 +725,13 @@
   "nunchi_ended_no_winner": "Nunchi Spiel hat ohne Gewinner geendet.",
   "nunchi_started": "Nunchi Spiel startet mit {0} Teilnehmern.",
   "nunchi_round_ended": "Nunchi Runde ist beendet. {0} ist aus dem Spiel.",
-  "nunchi_round_ended_boot":
-    "Nunchi Runde endet aufgrund von Zeitüberschreitung einiger Nutzer. Diese Nutzer sind noch im Spiel: {0}",
+  "nunchi_round_ended_boot": "Nunchi Runde endet aufgrund von Zeitüberschreitung einiger Nutzer. Diese Nutzer sind noch im Spiel: {0}",
   "nunchi_round_started": "Nunchi Runde startete mit {0} Nutzern. Beginnt ab Nummer {1} zu zählen.",
   "nunchi_next_number": "Nummer registriert. Die letzte Nummer war {0}.",
   "nunchi_failed_to_start": "Nunchi Spiel konnte nicht starten, da es nicht genügend Teilnehmer gibt.",
   "nunchi_created": "Nunchi Spiel erstellt. Warte auf das Beitreten von Nutzern.",
   "sad_enabled": "Lieder werden von der Musik-Warteschlange gelöscht sobald die Wiedergabe beendet wurde.",
-  "sad_disabled":
-    "Lieder werden nun nicht mehr von der Musik-Warteschlange gelöscht sobald die Wiedergabe beendet wurde.",
+  "sad_disabled": "Lieder werden nun nicht mehr von der Musik-Warteschlange gelöscht sobald die Wiedergabe beendet wurde.",
   "stream_role_enabled": "Wenn ein Benutzer mit der {0} Rolle anfängt zu streamen, werde ich ihm die {1} Rolle geben.",
   "stream_role_disabled": "Das Stream Rollen Funtion wurde deaktiviert.",
   "stream_role_kw_set": "Streamer benötigen nun {0} Stichwort um die Rolle zu erhalten",
@@ -771,17 +740,14 @@
   "stream_role_bl_add_fail": "Nutzer {0} ist bereits auf der Sperrliste.",
   "stream_role_bl_rem": "Nutzer {0} ist nicht mehr auf der Sperrliste.",
   "stream_role_bl_rem_fail": "Nutzer {0} ist nicht auf der Sperrliste.",
-  "stream_role_wl_add":
-    "Benutzer {0} wird nun die Stream Rolle erhalten, auch wenn das Stichwort nicht im Stream Titel ist.",
+  "stream_role_wl_add": "Benutzer {0} wird nun die Stream Rolle erhalten, auch wenn das Stichwort nicht im Stream Titel ist.",
   "stream_role_wl_add_fail": "Nutzer {0} ist bereits auf der weißen Liste.",
   "stream_role_wl_rem": "Nutzer {0} ist nicht mehr auf der weißen Liste.",
   "stream_role_wl_rem_fail": "Nutzer {0} ist nicht auf der weißen Liste.",
   "bot_config_edit_fail": "Fehlschlag der Änderung {0} zu dem Wert {1}",
   "bot_config_edit_success": "Der Wert von {0} wurde auf {1} gestellt",
-  "crca_disabled":
-    "Benutzerdefinierte Reaktion mit der ID {0} wird nicht mehr auslösen, außer der Auslöser ist am Anfang des Satzes.",
-  "crca_enabled":
-    "Benutzerdefinierte Reaktion mit der ID {0} wird nun auslösen wenn der Auslöser ein Teil des Satzes ist.",
+  "crca_disabled": "Benutzerdefinierte Reaktion mit der ID {0} wird nicht mehr auslösen, außer der Auslöser ist am Anfang des Satzes.",
+  "crca_enabled": "Benutzerdefinierte Reaktion mit der ID {0} wird nun auslösen wenn der Auslöser ein Teil des Satzes ist.",
   "server_level": "Server Level",
   "club": "Club",
   "xp": "Erfahrungspunkte",
@@ -801,26 +767,21 @@
   "server_leaderboard": "Server XP Bestenliste",
   "global_leaderboard": "Global XP Bestenliste",
   "modified": "Die Server XP dieses Nutzers wurde von {0} auf {1} eingestellt",
-  "club_create_error":
-    "Gründung des Clubs fehlgeschlagen. Stelle sicher, dass du mindestens Level 5 und nicht bereits Mitglied eines Clubs bist.",
+  "club_create_error": "Gründung des Clubs fehlgeschlagen. Stelle sicher, dass du mindestens Level 5 und nicht bereits Mitglied eines Clubs bist.",
   "club_created": "Club {0} wurde erfolgreich erstellt!",
   "club_not_exists": "Diesen Club gibt es nicht.",
   "club_applied": "Du hast dich für eine Mitgliedschaft im {0} Club beworben.",
-  "club_apply_error":
-    "Fehler beim Bewerben. Du bist entweder bereits ein Mitglied eines Clubs, oder du erfüllst nicht die Level-Anforderung, oder du wurdest vom Club gebannt.",
+  "club_apply_error": "Fehler beim Bewerben. Du bist entweder bereits ein Mitglied eines Clubs, oder du erfüllst nicht die Level-Anforderung, oder du wurdest vom Club gebannt.",
   "club_accepted": "Nutzer {0} wurde in den Club aufgenommen.",
   "club_accept_error": "Nutzer nicht gefunden",
   "club_left": "Du hast den Club verlassen.",
   "club_not_in_club": "Du bist nicht in einem Club oder du versuchst den Club zu verlassen den du besitzt.",
   "club_user_kick": "Nutzer {0} von {1} Club gekickt.",
-  "club_user_kick_fail":
-    "Fehler bei Kicken. Du bist entweder nicht Club-Besitzer oder dieser Nutzer ist nicht in deinem Club.",
+  "club_user_kick_fail": "Fehler bei Kicken. Du bist entweder nicht Club-Besitzer oder dieser Nutzer ist nicht in deinem Club.",
   "club_user_banned": "Nutzer {0} wurde von {1} Club gebannt.",
-  "club_user_ban_fail":
-    "Bann fehlgeschlagen. Entweder bist du nicht Club-Besitzer, oder der Nutzer ist nicht im Club oder hat sich beworben.",
+  "club_user_ban_fail": "Bann fehlgeschlagen. Entweder bist du nicht Club-Besitzer, oder der Nutzer ist nicht im Club oder hat sich beworben.",
   "club_user_unbanned": "Der Bann des Nutzers {0} im {1} Club wurde aufgehoben.",
-  "club_user_unban_fail":
-    "Entbannung fehlgeschlagen. Du bist entweder nicht der Besitzer des Clubs, oder der Nutzer ist nicht in deinem Club oder hat sich nicht beworben.",
+  "club_user_unban_fail": "Entbannung fehlgeschlagen. Du bist entweder nicht der Besitzer des Clubs, oder der Nutzer ist nicht in deinem Club oder hat sich nicht beworben.",
   "club_level_req_changed": "Änderte Level Anforderung des Clubs auf {0}",
   "club_level_req_change_error": "Änderung der Level Voraussetzung fehlgeschlagen.",
   "club_disbanded": "Club {0} wurde aufgelöst",
@@ -842,8 +803,7 @@
   "started": "Gestartet. Wiederhole Nachricht alle {0}s.",
   "stopped": "Wiederholung gestoppt.",
   "feed_added": "Feed hinzugefügt.",
-  "feed_not_valid":
-    "Ungültiger Link, oder du folgst bereits dem Feed dieses Servers, oder du hast bereits die maximale erlaubte Anzahl an Feeds erreicht.",
+  "feed_not_valid": "Ungültiger Link, oder du folgst bereits dem Feed dieses Servers, oder du hast bereits die maximale erlaubte Anzahl an Feeds erreicht.",
   "feed_out_of_range": "Index außer Reichweite.",
   "feed_removed": "Feed entfernt.",
   "feed_no_feed": "Du hast keine Feeds auf diesem Server abonniert.",
@@ -854,8 +814,7 @@
   "followers": "Anhänger",
   "rafflecur": "{0} Währungs-Gewinnspiel",
   "rafflecur_joined": "Benutzer {0} ist dem Gewinnspiel beigetreten.",
-  "rafflecur_already_joined":
-    "Du bist bereits diesem Gewinnspiel beigetreten oder der Betrag den du eingegeben hast ist nicht gültig.",
+  "rafflecur_already_joined": "Du bist bereits diesem Gewinnspiel beigetreten oder der Betrag den du eingegeben hast ist nicht gültig.",
   "rafflecur_ended": "{0} Gewinnspiel beendet. {1} hat {2} gewonnen!",
   "autodc_enable": "Ich werde mich vom Voice Channel trennen wenn es keine Songs mehr zu spielen gibt.",
   "autodc_disable": "Ich werde mich nicht mehr vom Voice Channel trennen wenn es keine Songs mehr zu spielen gibt.",
@@ -865,8 +824,7 @@
   "timely_set": "Benutzer kann {0} alle {1}Stunden erhalten.",
   "timely_set_none": "Benutzer können keine Belohnungen mehr erhalten.",
   "timely_reset": "Alle Benutzer könne wieder Belohnungen erhalten.",
-  "waifu_transfer_fail":
-    "Du besitzt diese Waifu nicht oder du kannst sie dir nicht leisten. Alternativ kann der Input falsch sein. ",
+  "waifu_transfer_fail": "Du besitzt diese Waifu nicht oder du kannst sie dir nicht leisten. Alternativ kann der Input falsch sein. ",
   "waifu_transfer_success": "Beanspruchung auf {0} wurde von {1} zu {2} übertragen",
   "authors": "Autoren",
   "sql_confirm_exec": "Bestätige Ausführung des folgenden SQL Befehls",
@@ -885,27 +843,22 @@
   "level_up_rewards": "Level Belohnungen",
   "role_reward": "Rolle {0}",
   "no_level_up_rewards": "Keine Level Belohnungen auf dieser Seite.",
-  "failed_finding_novel":
-    "Ich kann diese Novel nicht finden. Stelle sicher das du den richtigen vollen Namen eingegeben hast, der auch auf novelupdates.com existiert.",
+  "failed_finding_novel": "Ich kann diese Novel nicht finden. Stelle sicher das du den richtigen vollen Namen eingegeben hast, der auch auf novelupdates.com existiert.",
   "remove_roles": "Rollen wurden gelöscht",
   "delmsg_channel_off": "Ich werde keine Nachrichten nach erfolgreich ausgeführten Befehlen in diesem Channel löschen.",
-  "delmsg_channel_on":
-    "Ich werde immer automatisch die Nachrichten nach erfolgreichen Befehlen in diesem Channel löschen, unabhängig davon ob das Feature auf diesem Server erlaubt wurde.",
-  "delmsg_channel_inherit":
-    "Ich werde automatisch die Nachrichten nach erfolgreichen Befehlen löschen, jedoch nur in diesem Channel und nur wenn das Feature auf diesem Server erlaubt wurde.",
+  "delmsg_channel_on": "Ich werde immer automatisch die Nachrichten nach erfolgreichen Befehlen in diesem Channel löschen, unabhängig davon ob das Feature auf diesem Server erlaubt wurde.",
+  "delmsg_channel_inherit": "Ich werde automatisch die Nachrichten nach erfolgreichen Befehlen löschen, jedoch nur in diesem Channel und nur wenn das Feature auf diesem Server erlaubt wurde.",
   "server_delmsgoncmd": "Server Einstellungen",
   "channel_delmsgoncmd": "Channel-Spezifische Einstellungen",
   "options": "Optionen",
   "waifu_reset": "Deine Waifu Stats wurden zurückgesetzt.",
   "waifu_reset_fail": "Konnte Waifu Stats nicht zurücksetzen. Stelle sicher das du genug Währung besitzt.",
   "waifu_reset_confirm": "Deine Waifu Stats werden zurückgesetzt.",
-  "unset_music_channel":
-    "Ich werde nun die Songs die momentan spielen, abgeschlossen, pausiert oder gelöscht sind in dem Channel schreiben in dem die Musik gestartet wurde.",
+  "unset_music_channel": "Ich werde nun die Songs die momentan spielen, abgeschlossen, pausiert oder gelöscht sind in dem Channel schreiben in dem die Musik gestartet wurde.",
   "city_not_found": "Stadt nicht gefunden.",
   "bot_config_reloaded": "Bot Einstellungen wurden neu geladen.",
   "club_transfered": "Der Club {0} gehört nun {1}",
-  "club_transfer_failed":
-    "Übertrag gescheitert. Du musst der Club Besitzer sein. Ziel muss ein Mitglied deines Clubs sein.",
+  "club_transfer_failed": "Übertrag gescheitert. Du musst der Club Besitzer sein. Ziel muss ein Mitglied deines Clubs sein.",
   "roll_duel_challenge": "Du hast {1} zu einem Roll Duell herausgefordert für {2}",
   "roll_duel": "Roll Duell",
   "roll_duel_no_funds": "Entweder du oder dein Gegner haben nicht genug Währung.",
@@ -916,8 +869,7 @@
   "rps_draw": "Unentschieden! Beide haben {0} gewählt",
   "rps_win": "{0} hat gewonnen! {1} besiegt {2}",
   "roleid": "{0} der Rolle {1} ist {2}",
-  "warning_clear_fail":
-    "Warnung nicht gelöscht. Entweder die Warnung existiert nicht im Verzeichnis oder wurde bereits entfernt.",
+  "warning_clear_fail": "Warnung nicht gelöscht. Entweder die Warnung existiert nicht im Verzeichnis oder wurde bereits entfernt.",
   "warning_cleared": "Warnung {0} wurde für {1} gelöscht.",
   "club_desc_updated": "Club Beschreibung aktualisiert {0}",
   "club_desc_update_failed": "Konnte Club Beschreibung nicht ändern.",
@@ -928,8 +880,7 @@
   "reaction_roles_message": "**Rollen:** {0}\n**Inhalt:** {1}",
   "no_reaction_roles": "In diesem Server gibt es keine Reaktions Rollen.",
   "reaction_role_removed": "Reaktions Rolle #{0} wurde gelöscht.",
-  "reaction_roles_full":
-    "Du hast das Limit für Reaktions-Rollen erreicht. Du musst daher einige löschen um fortzufahren.",
+  "reaction_roles_full": "Du hast das Limit für Reaktions-Rollen erreicht. Du musst daher einige löschen um fortzufahren.",
   "reminder_list": "Liste von Erinnerungen.",
   "reminder_deleted": "Erinnerung  #{0} wurde gelöscht.",
   "reminder_not_exist": "Erinnerung existiert nicht in diesem Verzeichnis.",

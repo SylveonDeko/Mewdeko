@@ -4,15 +4,17 @@ namespace Mewdeko.Modules.CustomReactions
 {
     public class ExportedExpr
     {
+        public string[] React;
         public string Res { get; set; }
         public bool Ad { get; set; }
         public bool Dm { get; set; }
         public bool At { get; set; }
         public bool Ca { get; set; }
-        public string[] React;
+        public bool Rtt { get; set; }
 
         public static ExportedExpr FromModel(CustomReaction cr)
-            => new ExportedExpr()
+        {
+            return new()
             {
                 Res = cr.Response,
                 Ad = cr.AutoDeleteTrigger,
@@ -22,6 +24,8 @@ namespace Mewdeko.Modules.CustomReactions
                 React = string.IsNullOrWhiteSpace(cr.Reactions)
                     ? null
                     : cr.GetReactions(),
+                Rtt = cr.ReactToTrigger
             };
+        }
     }
 }

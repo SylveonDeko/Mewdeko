@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Administration
             private readonly Mewdeko _bot;
             private readonly DiscordSocketClient _client;
             private readonly IBotStrings _strings;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings, InteractiveService serv)
             {
@@ -56,7 +56,7 @@ namespace Mewdeko.Modules.Administration
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
 
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
                 var cmd = new AutoCommand
                 {
                     CommandText = cmdText,
@@ -95,7 +95,7 @@ namespace Mewdeko.Modules.Administration
                 if (interval < 5)
                     return;
 
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
                 var cmd = new AutoCommand
                 {
                     CommandText = cmdText,
@@ -319,14 +319,14 @@ namespace Mewdeko.Modules.Administration
                     .ToArray();
 
                 var paginator = new LazyPaginatorBuilder()
-              .AddUser(ctx.User)
-              .WithPageFactory(PageFactory)
-              .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-              .WithMaxPageIndex(allShardStrings.Length - 1)
-              .WithDefaultEmotes()
-              .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(allShardStrings.Length - 1)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -462,7 +462,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public async Task SetNick(IGuildUser gu, [Leftover] string newNick = null)
             {
-                var sg = (SocketGuild) Context.Guild;
+                var sg = (SocketGuild)Context.Guild;
                 if (sg.OwnerId == gu.Id ||
                     gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
                 {

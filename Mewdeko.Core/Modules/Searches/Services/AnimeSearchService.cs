@@ -71,7 +71,7 @@ namespace Mewdeko.Modules.Searches.Services
                         var imageElem = document.QuerySelector("div.seriesimg > img");
                         if (imageElem == null)
                             return null;
-                        var imageUrl = ((IHtmlImageElement) imageElem).Source;
+                        var imageUrl = ((IHtmlImageElement)imageElem).Source;
 
                         var descElem = document.QuerySelector("div#editdescription > p");
                         var desc = descElem.InnerHtml;
@@ -90,7 +90,7 @@ namespace Mewdeko.Modules.Searches.Services
                             .Select(x => $"[{x.InnerHtml}]({x.Href})")
                             .ToArray();
 
-                        var score = ((IHtmlSpanElement) document
+                        var score = ((IHtmlSpanElement)document
                                 .QuerySelector("h5.seriesother > span.uvotes"))
                             .InnerHtml;
 

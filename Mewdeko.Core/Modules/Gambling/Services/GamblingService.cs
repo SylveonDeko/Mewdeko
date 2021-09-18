@@ -105,13 +105,15 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
 
         public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
         public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
+
         public bool GetVoted(ulong Id)
         {
             var url = $"https://top.gg/api/bots/752236274261426212/check?userId={Id}";
 
             var request = WebRequest.Create(url);
             request.Method = "GET";
-            request.Headers.Add("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
+            request.Headers.Add("Authorization",
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
             using var webResponse = request.GetResponse();
             using var webStream = webResponse.GetResponseStream();
 
@@ -119,8 +121,9 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
             var data = reader.ReadToEnd();
             if (data.Contains("{\"voted\":1}"))
                 return true;
-            else return false;
+            return false;
         }
+
         public EconomyResult GetEconomy()
         {
             if (_cache.TryGetEconomy(out var data))

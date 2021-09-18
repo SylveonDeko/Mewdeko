@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             try
             {
-                var state = (TimerState) objState;
+                var state = (TimerState)objState;
 
                 if (!_bss.Data.RotateStatuses) return;
 
@@ -96,7 +96,7 @@ namespace Mewdeko.Modules.Administration.Services
         public async Task AddPlaying(ActivityType t, string status)
         {
             using var uow = _db.GetDbContext();
-            var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
+            var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
             uow._context.Add(toAdd);
             await uow.SaveChangesAsync();
         }

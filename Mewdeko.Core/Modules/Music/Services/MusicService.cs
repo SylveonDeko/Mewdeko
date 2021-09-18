@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Core.Modules.Music;
@@ -12,16 +13,14 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Database.Repositories.Impl;
 using Mewdeko.Extensions;
-using SpotifyAPI.Web;
 using Serilog;
-using YoutubeExplode.Search;
-using System.Web;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Mewdeko.Modules.Music.Services
 {
     public sealed class MusicService : IMusicService
     {
+        private static int MusicServers;
+        private readonly ConcurrentDictionary<ulong, (int Default, int Override)> _autoplay;
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
         private readonly IGoogleApiService _googleApiService;
@@ -29,7 +28,6 @@ namespace Mewdeko.Modules.Music.Services
         private readonly ConcurrentDictionary<ulong, (ITextChannel Default, ITextChannel? Override)> _outputChannels;
 
         private readonly ConcurrentDictionary<ulong, IMusicPlayer> _players;
-        private readonly ConcurrentDictionary<ulong, (int Default, int Override)> _autoplay;
         private readonly ISoundcloudResolver _scResolver;
         private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
         private readonly IBotStrings _strings;
@@ -37,7 +35,6 @@ namespace Mewdeko.Modules.Music.Services
         private readonly AyuVoiceStateService _voiceStateService;
         private readonly YtLoader _ytLoader;
         private readonly IYoutubeResolver _ytResolver;
-        private static int MusicServers;
 
         public MusicService(AyuVoiceStateService voiceStateService, ITrackResolveProvider trackResolveProvider,
             DbService db, IYoutubeResolver ytResolver, ILocalTrackResolver localResolver,
@@ -69,75 +66,33 @@ namespace Mewdeko.Modules.Music.Services
             await _voiceStateService.LeaveVoiceChannel(guildId);
         }
 
-        public async Task SetMusicCount(IGuild guild, bool addremove)
-        {
-            var list = new List<string>();
-            using (var process = new Process())
-            {
-                process.StartInfo = new ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c redis-cli get MusicServers",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+       
 
-                    process.Start();
-
-                    // Synchronously read the standard output of the spawned process.
-                    var reader = process.StandardOutput;
-
-                    var output = await reader.ReadToEndAsync();
-                    if (output is "(nil)")
-                    {
-                        MusicServers = 1;
-                    }
-                    else
-                    {
-                        list.AddRange(output.Split(","));
-                        if (addremove)
-                        {
-                            if (list.Contains(guild.Id.ToString())) return;
-                            list.Add(guild.Id.ToString());
-                        }
-                        else
-                            list.Remove(guild.Id.ToString());
-
-                            using (var process2 = new Process())
-                            {
-                                process.StartInfo = new ProcessStartInfo
-                                {
-                                    FileName = "/bin/bash",
-                                    Arguments = $"-c redis-cli set MusicServers {string.Join(",", list)}",
-                                    RedirectStandardOutput = true,
-                                    UseShellExecute = false,
-                                    CreateNoWindow = true
-                                };
-                                await process2.WaitForExitAsync();
-                                MusicServers = list.Count;
-                            }
-                    }
-                    process.WaitForExit();
-            }
-        }
-
-        public int GetMusicTask()
-            => MusicServers;
         public Task JoinVoiceChannelAsync(ulong guildId, ulong voiceChannelId)
         {
+// #pragma warning disable 4014
+//             SetMusicCount(guildId, true);
+// #pragma warning restore 4014
             return _voiceStateService.JoinVoiceChannel(guildId, voiceChannelId);
         }
 
         public async Task<IMusicPlayer?> GetOrCreateMusicPlayerAsync(ITextChannel contextChannel)
         {
+            // await SetMusicCount(contextChannel.GuildId, true);
             var newPLayer = await CreateMusicPlayerInternalAsync(contextChannel.GuildId, contextChannel);
             if (newPLayer is null)
                 return null;
 
             return _players.GetOrAdd(contextChannel.GuildId, newPLayer);
         }
-
+        public bool CheckServerCount()
+        {
+            var count = _players
+                .Select(x => x.Value.GetCurrentTrack(out _))
+                .Count(x => !(x is null));
+            if (count == 10) return true;
+            return false;
+        }
         public bool TryGetMusicPlayer(ulong guildId, out IMusicPlayer musicPlayer)
         {
 #pragma warning disable CS8601 // Possible null reference assignment.
@@ -244,14 +199,6 @@ namespace Mewdeko.Modules.Music.Services
             return Array.Empty<(string, string)>();
         }
 
-        public bool CheckServerCount()
-        {
-            var count = _players
-                .Select(x => x.Value.GetCurrentTrack(out _))
-                .Count(x => !(x is null));
-            if (count == 10) return true;
-            return false;
-        }
         public IEnumerable<(string Name, Func<string> Func)> GetPlaceholders()
         {
             // random song that's playing
@@ -291,6 +238,51 @@ namespace Mewdeko.Modules.Music.Services
                 );
         }
 
+        // public async Task SetMusicCount(ulong guildid, bool addremove)
+        // {
+        //     var list = new List<string>();
+        //     using var process = new Process();
+        //     process.StartInfo = new ProcessStartInfo
+        //     {
+        //         FileName = "/bin/bash",
+        //         Arguments = "-c redis-cli get MusicServers",
+        //         RedirectStandardOutput = true,
+        //         UseShellExecute = false,
+        //         CreateNoWindow = true
+        //     };
+        //
+        //     process.Start();
+        //
+        //     // Synchronously read the standard output of the spawned process.
+        //     var reader = process.StandardOutput;
+        //
+        //     var output = await reader.ReadToEndAsync();
+        //     if (!string.IsNullOrEmpty(output))
+        //         list.AddRange(output.Split(","));
+        //     if (addremove)
+        //     {
+        //         if (list.Contains(guildid.ToString())) return;
+        //         list.Add(guildid.ToString());
+        //     }
+        //     else
+        //     {
+        //         list.Remove(guildid.ToString());
+        //     }
+        //
+        //     using var process2 = new Process();
+        //     process.StartInfo = new ProcessStartInfo
+        //     {
+        //         FileName = "/bin/bash",
+        //         Arguments = $"-c redis-cli set MusicServers {string.Join(",", list)}",
+        //         RedirectStandardOutput = true,
+        //         UseShellExecute = false,
+        //         CreateNoWindow = true
+        //     };
+        //     await process2.WaitForExitAsync();
+        //     MusicServers = list.Count;
+        //     process.WaitForExit();
+        // }
+
         private void DisposeMusicPlayer(IMusicPlayer musicPlayer)
         {
             musicPlayer.Kill();
@@ -299,12 +291,14 @@ namespace Mewdeko.Modules.Music.Services
 
         private void RemoveMusicPlayer(ulong guildId)
         {
+            // SetMusicCount(guildId, false);
             _outputChannels.TryRemove(guildId, out _);
             if (_players.TryRemove(guildId, out var mp)) DisposeMusicPlayer(mp);
         }
 
         private Task ClientOnLeftGuild(SocketGuild guild)
         {
+            // SetMusicCount(guild.Id, false);
             RemoveMusicPlayer(guild.Id);
             return Task.CompletedTask;
         }
@@ -328,6 +322,7 @@ namespace Mewdeko.Modules.Music.Services
             }
 
             _outputChannels[guildId] = (defaultChannel, overrideChannel);
+            // await SetMusicCount(guildId, true);
 
             var mp = new MusicPlayer(
                 queue,
@@ -379,7 +374,6 @@ namespace Mewdeko.Modules.Music.Services
                 lastPlayingMessage = await SendToOutputAsync(guildId, embed);
                 if (_settings.TryGetValue(guildId, out var settings))
                     if (settings.AutoPlay == 1)
-                    {
                         if (mp.GetQueuedTracks().Count - 1 == index)
                         {
                             var uri = new Uri(trackInfo.Url);
@@ -388,10 +382,10 @@ namespace Mewdeko.Modules.Music.Services
                             var rand = new Random();
                             var e = _googleApiService.GetRelatedVideosAsync(videoid, 15).Result.ToList();
                             var inde = rand.Next(e.Count());
-                                await mp.TryEnqueueTrackAsync(e[inde], "Mewdeko Autoplay", true, MusicPlatform.Spotify);
+                            await mp.TryEnqueueTrackAsync(e[inde], "Mewdeko Autoplay", true, MusicPlatform.Spotify);
                         }
 
-                    };
+                ;
             };
         }
 
@@ -471,33 +465,36 @@ namespace Mewdeko.Modules.Music.Services
 
             return true;
         }
+
         public async Task<bool> ToggleAutoPlay(ulong GuildId)
         {
             _settings.TryGetValue(GuildId, out var settings);
             if (settings is null)
             {
-                await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; }, 1);
+                await ModifySettingsInternalAsync(GuildId,
+                    (settings, currentval) => { settings.AutoPlay = currentval; }, 1);
                 _autoplay.AddOrUpdate(GuildId, (1, 1), (key, old) => (old.Default, 1));
                 return true;
             }
+
             if (settings is not null && settings.AutoPlay == 0)
             {
-                await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; }, 1);
+                await ModifySettingsInternalAsync(GuildId,
+                    (settings, currentval) => { settings.AutoPlay = currentval; }, 1);
                 _autoplay.AddOrUpdate(GuildId, (1, 1), (key, old) => (old.Default, 1));
                 return true;
             }
-            else
-            {
-                await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; }, 0);
-                _autoplay.AddOrUpdate(GuildId, (0, 0), (key, old) => (old.Default, 0));
-                return false;
-            }
+
+            await ModifySettingsInternalAsync(GuildId, (settings, currentval) => { settings.AutoPlay = currentval; },
+                0);
+            _autoplay.AddOrUpdate(GuildId, (0, 0), (key, old) => (old.Default, 0));
+            return false;
         }
 
         public async Task UnsetMusicChannelAsync(ulong guildId)
         {
             await ModifySettingsInternalAsync(guildId, (settings, _) => { settings.MusicChannelId = null; },
-                (ulong?) null);
+                (ulong?)null);
 
             if (_outputChannels.TryGetValue(guildId, out var old))
                 _outputChannels[guildId] = (old.Default, null);

@@ -46,7 +46,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
                     Count = 3,
                     Punishment = PunishmentAction.Kick
                 },
-                new WarningPunishment()
+                new WarningPunishment
                 {
                     Count = 5,
                     Punishment = PunishmentAction.Ban

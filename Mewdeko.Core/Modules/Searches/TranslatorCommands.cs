@@ -78,7 +78,7 @@ namespace Mewdeko.Modules.Searches
             [OwnerOnly]
             public async Task AutoTranslate(AutoDeleteAutoTranslate autoDelete = AutoDeleteAutoTranslate.Nodel)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (autoDelete == AutoDeleteAutoTranslate.Del)
                 {

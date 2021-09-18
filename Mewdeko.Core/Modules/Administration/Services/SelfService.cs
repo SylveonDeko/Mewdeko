@@ -168,7 +168,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         private Timer TimerFromAutoCommand(AutoCommand x)
         {
-            return new(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
+            return new Timer(async obj => await ExecuteCommand((AutoCommand)obj).ConfigureAwait(false),
                 x,
                 x.Interval * 1000,
                 x.Interval * 1000);
@@ -181,7 +181,7 @@ namespace Mewdeko.Modules.Administration.Services
                 if (cmd.GuildId is null)
                     return;
 
-                var guildShard = (int) ((cmd.GuildId.Value >> 22) % (ulong) _creds.TotalShards);
+                var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)_creds.TotalShards);
                 if (guildShard != _client.ShardId)
                     return;
                 var prefix = _cmdHandler.GetPrefix(cmd.GuildId);

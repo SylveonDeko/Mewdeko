@@ -11,12 +11,12 @@ namespace Discord
     {
         public UserPermAttribute(GuildPerm permission)
         {
-            UserPermissionAttribute = new RequireUserPermissionAttribute((GuildPermission) permission);
+            UserPermissionAttribute = new RequireUserPermissionAttribute((GuildPermission)permission);
         }
 
         public UserPermAttribute(ChannelPerm permission)
         {
-            UserPermissionAttribute = new RequireUserPermissionAttribute((ChannelPermission) permission);
+            UserPermissionAttribute = new RequireUserPermissionAttribute((ChannelPermission)permission);
         }
 
         public RequireUserPermissionAttribute UserPermissionAttribute { get; }

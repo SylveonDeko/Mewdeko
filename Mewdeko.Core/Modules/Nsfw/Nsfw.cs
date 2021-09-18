@@ -6,37 +6,39 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
-using Mewdeko.Interactive.Pagination;
-using Mewdeko.Interactive;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
 using Newtonsoft.Json.Linq;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Serilog;
-using System.Runtime.ConstrainedExecution;
 
 namespace Mewdeko.Modules.NSFW
 {
     // thanks to halitalf for adding autoboob and autobutt features :D
     public class NSFW : MewdekoModule<SearchesService>
     {
-        public InteractiveService Interactivity;
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
         private readonly IHttpClientFactory _httpFactory;
+        public InteractiveService Interactivity;
         public KSoftAPI ksoftapi;
-        public static List<RedditCache> cache { get; set; } = new();
-        public record RedditCache
+
+        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractiveService inte)
         {
-            public IGuild Guild { get; set; }
-            public string Url { get; set; }
+            Interactivity = inte;
+            _httpFactory = factory;
+            ksoftapi = kSoftApi;
         }
+
+        public static List<RedditCache> cache { get; set; } = new();
+
         public bool CheckIfAlreadyPosted(IGuild guild, string url)
         {
             var e = new RedditCache
@@ -49,23 +51,17 @@ namespace Mewdeko.Modules.NSFW
                 cache.Add(e);
                 return false;
             }
+
             if (!cache.Contains(e))
             {
                 cache.Add(e);
                 return false;
             }
-            if (cache.Contains(e))
-            {
-                return true;
-            }
+
+            if (cache.Contains(e)) return true;
             return true;
         }
-        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractiveService inte)
-        {
-            Interactivity = inte;
-            _httpFactory = factory;
-            ksoftapi = kSoftApi;
-        }
+
         private async Task InternalHentai(IMessageChannel channel, string tag)
         {
             // create a random number generator
@@ -116,10 +112,8 @@ namespace Mewdeko.Modules.NSFW
         public async Task RedditNSFW(string subreddit)
         {
             var image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
-            while(CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-            {
+            while (CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
                 image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
-            }
             var eb = new EmbedBuilder
             {
                 Description = $"[{image.Title}]({image.Source})",
@@ -196,11 +190,11 @@ namespace Mewdeko.Modules.NSFW
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(result.Books.Count -1)
+                .WithMaxPageIndex(result.Books.Count - 1)
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -555,6 +549,12 @@ namespace Mewdeko.Modules.NSFW
 
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
+        }
+
+        public record RedditCache
+        {
+            public IGuild Guild { get; set; }
+            public string Url { get; set; }
         }
 
 #if !GLOBAL_Mewdeko

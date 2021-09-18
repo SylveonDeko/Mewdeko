@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using Discord.WebSocket;
 using Discord.Commands;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
@@ -17,12 +17,13 @@ namespace Mewdeko.Modules.Utility
         [Group]
         public class InviteCommands : MewdekoSubmodule<InviteService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public InviteCommands(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -37,7 +38,7 @@ namespace Mewdeko.Modules.Utility
                 if (!success)
                     return;
 
-                var ch = (ITextChannel) ctx.Channel;
+                var ch = (ITextChannel)ctx.Channel;
                 var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, opts.Temporary, opts.Unique)
                     .ConfigureAwait(false);
 
@@ -66,7 +67,7 @@ namespace Mewdeko.Modules.Utility
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -97,7 +98,7 @@ namespace Mewdeko.Modules.Utility
             {
                 if (--index < 0)
                     return;
-                var ch = (ITextChannel) ctx.Channel;
+                var ch = (ITextChannel)ctx.Channel;
 
                 var invites = await ch.GetInvitesAsync().ConfigureAwait(false);
 

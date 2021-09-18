@@ -33,9 +33,10 @@ namespace Mewdeko.Modules.Moderation
             private readonly BlacklistService _blacklistService;
             private readonly MuteService _mute;
             public DbService _db;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
-            public UserPunishCommands(MuteService mute, BlacklistService blacklistService, DbService db, InteractiveService serv)
+            public UserPunishCommands(MuteService mute, BlacklistService blacklistService, DbService db,
+                InteractiveService serv)
             {
                 Interactivity = serv;
                 _mute = mute;
@@ -45,9 +46,9 @@ namespace Mewdeko.Modules.Moderation
 
             private async Task<bool> CheckRoleHierarchy(IGuildUser target)
             {
-                var curUser = ((SocketGuild) ctx.Guild).CurrentUser;
+                var curUser = ((SocketGuild)ctx.Guild).CurrentUser;
                 var ownerId = Context.Guild.OwnerId;
-                var modMaxRole = ((IGuildUser) ctx.User).GetRoles().Max(r => r.Position);
+                var modMaxRole = ((IGuildUser)ctx.User).GetRoles().Max(r => r.Position);
                 var targetMaxRole = target.GetRoles().Max(r => r.Position);
                 var botMaxRole = curUser.GetRoles().Max(r => r.Position);
                 // bot can't punish a user who is higher in the hierarchy. Discord will return 403
@@ -228,8 +229,8 @@ namespace Mewdeko.Modules.Moderation
             public Task Warnlog(IGuildUser user = null)
             {
                 if (user == null)
-                    user = (IGuildUser) ctx.User;
-                return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.BanMembers
+                    user = (IGuildUser)ctx.User;
+                return ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.BanMembers
                     ? Warnlog(user.Id)
                     : Task.CompletedTask;
             }
@@ -317,7 +318,7 @@ namespace Mewdeko.Modules.Moderation
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -481,7 +482,7 @@ namespace Mewdeko.Modules.Moderation
                     return;
 
                 var guildUser =
-                    await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
+                    await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id, user.Id);
 
                 if (guildUser != null && !await CheckRoleHierarchy(guildUser))
                     return;
@@ -530,7 +531,7 @@ namespace Mewdeko.Modules.Moderation
             [Priority(0)]
             public async Task Ban(ulong userId, [Leftover] string msg = null)
             {
-                var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
+                var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
                     userId);
                 if (user is null)
                 {
@@ -660,7 +661,7 @@ namespace Mewdeko.Modules.Moderation
                 var dmChannel = await ctx.User.CreateDMChannelAsync();
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
                 var crEmbed = _service.GetBanUserDmEmbed(Context,
-                    (IGuildUser) Context.User,
+                    (IGuildUser)Context.User,
                     defaultMessage,
                     reason,
                     duration);
@@ -757,7 +758,7 @@ namespace Mewdeko.Modules.Moderation
             [BotPerm(GuildPerm.BanMembers)]
             public async Task Softban(ulong userId, [Leftover] string msg = null)
             {
-                var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
+                var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
                     userId);
                 if (user is null)
                     return;
@@ -825,7 +826,7 @@ namespace Mewdeko.Modules.Moderation
             [Priority(0)]
             public async Task Kick(ulong userId, [Leftover] string msg = null)
             {
-                var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
+                var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
                     userId);
                 if (user is null)
                     return;
@@ -876,7 +877,7 @@ namespace Mewdeko.Modules.Moderation
                 if (string.IsNullOrWhiteSpace(people))
                     return;
 
-                var (bans, missing) = _service.MassKill((SocketGuild) ctx.Guild, people);
+                var (bans, missing) = _service.MassKill((SocketGuild)ctx.Guild, people);
 
                 var missStr = string.Join("\n", missing);
                 if (string.IsNullOrWhiteSpace(missStr))
@@ -900,7 +901,7 @@ namespace Mewdeko.Modules.Moderation
                 //wait for the message and edit it
                 var banningMessage = await banningMessageTask.ConfigureAwait(false);
 
-                await banningMessage.ModifyAsync(x => x.Embed =new EmbedBuilder()
+                await banningMessage.ModifyAsync(x => x.Embed = new EmbedBuilder()
                     .WithDescription(GetText("mass_kill_completed", bans.Count()))
                     .AddField(GetText("invalid", missing), missStr)
                     .WithOkColor()

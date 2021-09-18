@@ -11,7 +11,7 @@
 
         public static implicit operator TypedKey<TData>(in string input)
         {
-            return new(input);
+            return new TypedKey<TData>(input);
         }
 
         public static implicit operator string(in TypedKey<TData> input)

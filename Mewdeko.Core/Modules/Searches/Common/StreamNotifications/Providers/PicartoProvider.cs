@@ -50,7 +50,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         public override async Task<StreamData?> GetStreamDataAsync(string id)
         {
-            var data = await GetStreamDataAsync(new List<string> {id});
+            var data = await GetStreamDataAsync(new List<string> { id });
 
             return data.FirstOrDefault();
         }
@@ -93,7 +93,7 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
 
         private StreamData ToStreamData(PicartoChannelResponse stream)
         {
-            return new()
+            return new StreamData
             {
                 StreamType = FollowedStream.FType.Picarto,
                 Name = stream.Name,

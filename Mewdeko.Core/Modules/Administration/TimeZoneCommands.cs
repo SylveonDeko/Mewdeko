@@ -16,11 +16,13 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class TimeZoneCommands : MewdekoSubmodule<GuildTimezoneService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
+
             public TimeZoneCommands(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -54,14 +56,14 @@ namespace Mewdeko.Modules.Administration
                     });
 
                 var paginator = new LazyPaginatorBuilder()
-               .AddUser(ctx.User)
-               .WithPageFactory(PageFactory)
-               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-               .WithMaxPageIndex(timezones.Length - 1)
-               .WithDefaultEmotes()
-               .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(timezones.Length - 1)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {

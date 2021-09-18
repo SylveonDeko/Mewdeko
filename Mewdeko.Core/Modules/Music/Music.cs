@@ -1,4 +1,9 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using KSoftNet;
@@ -6,17 +11,12 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
+using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Music.Services;
 using SpotifyAPI.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 
 namespace Mewdeko.Core.Modules.Music
 {
@@ -42,11 +42,12 @@ namespace Mewdeko.Core.Modules.Music
             Playlist = 2,
             Pl = 2
         }
-        private InteractiveService Interactivity;
+
         private const int LQ_ITEMS_PER_PAGE = 9;
         private static readonly SemaphoreSlim voiceChannelLock = new(1, 1);
         private readonly LogCommandService _logService;
         public KSoftAPI _ksoft;
+        private readonly InteractiveService Interactivity;
 
         public Music(LogCommandService _logService, KSoftAPI ksoft, InteractiveService serv)
         {
@@ -114,20 +115,21 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             if (query is not null && query.StartsWith("https://open.spotify.com/track"))
             {
                 await Spotify(query);
                 return;
             }
+
             if (query is not null && query.StartsWith("https://open.spotify.com/album"))
             {
                 await SpotifyAlbum(query);
@@ -155,7 +157,7 @@ namespace Mewdeko.Core.Modules.Music
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -170,7 +172,7 @@ namespace Mewdeko.Core.Modules.Music
         {
             var succ = await QueuePreconditionInternalAsync();
             if (!succ) return;
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel) Context.Channel);
+            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -189,22 +191,18 @@ namespace Mewdeko.Core.Modules.Music
             var playlist = await spotify.Playlists.Get(t[2]);
             int songs;
             if (playlist.Tracks.Items.Count > 100)
-            {
                 songs = 100;
-            }
             else
-            {
                 songs = playlist.Tracks.Items.Count;
-            }
-            var embed = new EmbedBuilder()
+            var embed = new EmbedBuilder
             {
-                Author = new EmbedAuthorBuilder()
+                Author = new EmbedAuthorBuilder
                 {
                     IconUrl = "http://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png",
                     Name = playlist.Owner.DisplayName
                 },
                 Description = $"<a:loading:847706744741691402> Attempting to queue {songs} songs from this playlist...",
-                Footer = new EmbedFooterBuilder()
+                Footer = new EmbedFooterBuilder
                 {
                     Text = "Spotify Playlist"
                 },
@@ -213,21 +211,21 @@ namespace Mewdeko.Core.Modules.Music
             };
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
             foreach (var item in playlist.Tracks.Items.Take(100))
-            {
                 if (item.Track is FullTrack track)
                     await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
                         ctx.User.ToString(), true, MusicPlatform.Spotify);
-            }
-            var em = new EmbedBuilder()
+            var em = new EmbedBuilder
             {
                 Author = embed.Author,
-                Description = $"<a:checkfragutil:854536148411744276> Succesfully queued {songs} Tracks from this album!",
+                Description =
+                    $"<a:checkfragutil:854536148411744276> Succesfully queued {songs} Tracks from this album!",
                 Footer = embed.Footer,
                 ImageUrl = embed.ImageUrl,
                 Color = Mewdeko.OkColor
             };
             await msg.ModifyAsync(x => x.Embed = em.Build());
         }
+
         private async Task SpotifyAlbum(string url = null)
         {
             var succ = await QueuePreconditionInternalAsync();
@@ -249,15 +247,16 @@ namespace Mewdeko.Core.Modules.Music
             var e = new Uri(url);
             var t = e.Segments;
             var playlist = await spotify.Albums.Get(t[2]);
-            var embed = new EmbedBuilder()
+            var embed = new EmbedBuilder
             {
-                Author = new EmbedAuthorBuilder()
+                Author = new EmbedAuthorBuilder
                 {
                     IconUrl = "http://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png",
                     Name = playlist.Artists.FirstOrDefault().Name
                 },
-                Description = $"<a:loading:847706744741691402> Attempting to queue {playlist.TotalTracks} songs from this album...",
-                Footer = new EmbedFooterBuilder()
+                Description =
+                    $"<a:loading:847706744741691402> Attempting to queue {playlist.TotalTracks} songs from this album...",
+                Footer = new EmbedFooterBuilder
                 {
                     Text = "Spotify Album"
                 },
@@ -266,15 +265,14 @@ namespace Mewdeko.Core.Modules.Music
             };
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
             foreach (var item in playlist.Tracks.Items.Take(100))
-            {
                 if (item is SimpleTrack track)
                     await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
                         ctx.User.ToString(), true, MusicPlatform.Spotify);
-            }
-            var em = new EmbedBuilder()
+            var em = new EmbedBuilder
             {
                 Author = embed.Author,
-                Description = $"<a:checkfragutil:854536148411744276> Succesfully queued {playlist.TotalTracks} Tracks from this album!",
+                Description =
+                    $"<a:checkfragutil:854536148411744276> Succesfully queued {playlist.TotalTracks} Tracks from this album!",
                 Footer = embed.Footer,
                 ImageUrl = embed.ImageUrl,
                 Color = Mewdeko.OkColor
@@ -296,9 +294,9 @@ namespace Mewdeko.Core.Modules.Music
             var e = new Uri(url);
             var t = e.Segments;
             var track = await spotify.Tracks.Get(t[2]);
-                await QueueByQuery($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
-                    false,
-                    MusicPlatform.Spotify);
+            await QueueByQuery($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
+                false,
+                MusicPlatform.Spotify);
         }
 
         private async Task EnsureBotInVoiceChannelAsync(ulong voiceChannelId, IGuildUser botUser = null)
@@ -309,14 +307,14 @@ namespace Mewdeko.Core.Modules.Music
             {
                 if (botUser.VoiceChannel?.Id is null || !_service.TryGetMusicPlayer(Context.Guild.Id, out _))
                     await _service.JoinVoiceChannelAsync(ctx.Guild.Id, voiceChannelId);
-                if(botUser.VoiceChannel is IStageChannel channel)
-                {
+                if (botUser.VoiceChannel is IStageChannel channel)
                     try
                     {
                         await channel.BecomeSpeakerAsync();
                     }
-                    catch { }
-                }
+                    catch
+                    {
+                    }
             }
             finally
             {
@@ -415,6 +413,7 @@ namespace Mewdeko.Core.Modules.Music
 
             mp.MoveTo(index);
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -428,16 +427,14 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             var e = await _service.ToggleAutoPlay(ctx.Guild.Id);
             if (e)
-            {
                 await ctx.Channel.SendConfirmAsync("Enabled AutoPlay");
-            }
             else
-            {
                 await ctx.Channel.SendConfirmAsync("Disabled AutoPlay");
-            }
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -451,35 +448,34 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             var user = (IGuildUser)Context.User;
             var channel = user?.VoiceChannel;
-            ulong voiceChannelId = user.VoiceChannel.Id;
+            var voiceChannelId = user.VoiceChannel.Id;
             if (voiceChannelId is 0)
             {
                 await ReplyErrorLocalizedAsync("must_be_in_voice");
                 return;
             }
+
             if (channel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             await _service.JoinVoiceChannelAsync(user.GuildId, voiceChannelId);
             if (channel is SocketStageChannel chan1)
-            {
                 try
                 {
                     await chan1.BecomeSpeakerAsync();
                 }
                 catch
                 {
-                    await ctx.Channel.SendErrorAsync("Ive joined the stage channel but was unable to make myself a speaker! Please fix permissions or add me manually.");
+                    await ctx.Channel.SendErrorAsync(
+                        "Ive joined the stage channel but was unable to make myself a speaker! Please fix permissions or add me manually.");
                 }
-            }
-
         }
 
         // leave vc (destroy)
@@ -495,13 +491,12 @@ namespace Mewdeko.Core.Modules.Music
             if (!valid)
                 return;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             await _service.LeaveVoiceChannelAsync(Context.Guild.Id);
             await ctx.Channel.SendConfirmAsync("Succesfully stopped the player and cleared the queue!");
         }
@@ -521,15 +516,15 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return Task.CompletedTask;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return Task.CompletedTask;
                 }
-            }
+
             return Next();
         }
 
@@ -548,15 +543,15 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return Task.CompletedTask;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return Task.CompletedTask;
                 }
-            }
+
             return MoveToIndex(index);
         }
 
@@ -573,15 +568,15 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return Task.CompletedTask;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return Task.CompletedTask;
                 }
-            }
+
             return QueueByQuery(query);
         }
 
@@ -598,15 +593,15 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return Task.CompletedTask;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return Task.CompletedTask;
                 }
-            }
+
             return QueueByQuery(query, true);
         }
 
@@ -628,13 +623,12 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             await _service.SetVolumeAsync(ctx.Guild.Id, vol);
             await ReplyConfirmLocalizedAsync("volume_set", vol);
         }
@@ -652,18 +646,18 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             var valid = await ValidateAsync();
             if (!valid)
                 return;
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             var success = await _service.PlayAsync(Context.Guild.Id, ((IGuildUser)Context.User).VoiceChannel.Id);
             if (!success) await ReplyErrorLocalizedAsync("no_player");
         }
@@ -712,7 +706,7 @@ namespace Mewdeko.Core.Modules.Music
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -768,7 +762,6 @@ namespace Mewdeko.Core.Modules.Music
                         .WithOkColor());
                 }
             }
-
         }
 
         // search
@@ -785,15 +778,15 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is not null && user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             _ = ctx.Channel.TriggerTypingAsync();
 
             var videos = await _service.SearchVideosAsync(query);
@@ -866,13 +859,12 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -911,15 +903,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
-                    await ctx .Channel.SendErrorAsync("You must be a speaker to do this!");
+                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             mp.Clear();
             await ReplyConfirmLocalizedAsync("queue_cleared").ConfigureAwait(false);
         }
@@ -951,15 +943,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             mp.Stop();
         }
 
@@ -986,13 +978,12 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             await _service.SetRepeatAsync(ctx.Guild.Id, InputToDbType(type));
 
             if (type == InputRepeatType.None)
@@ -1030,15 +1021,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             mp.TogglePause();
         }
 
@@ -1055,6 +1046,7 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return Task.CompletedTask;
             }
+
             return QueueByQuery(radioLink, false, MusicPlatform.Radio);
         }
 
@@ -1088,14 +1080,14 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("must_be_in_voice");
                 return;
             }
+
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             _ = ctx.Channel.TriggerTypingAsync();
 
             var botUser = await ctx.Guild.GetCurrentUserAsync();
@@ -1142,15 +1134,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             var track = mp.MoveTrack(from, to);
             if (track is null)
             {
@@ -1186,6 +1178,7 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return Task.CompletedTask;
             }
+
             return QueueByQuery(query, false, MusicPlatform.SoundCloud);
         }
 
@@ -1202,6 +1195,7 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             if (string.IsNullOrWhiteSpace(playlist))
                 return;
 
@@ -1215,15 +1209,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             _ = ctx.Channel.TriggerTypingAsync();
 
             await _service.EnqueueSoundcloudPlaylistAsync(mp, playlist, ctx.User.ToString());
@@ -1244,6 +1238,7 @@ namespace Mewdeko.Core.Modules.Music
                     $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
                 return;
             }
+
             if (string.IsNullOrWhiteSpace(playlistQuery))
                 return;
 
@@ -1257,15 +1252,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             _ = Context.Channel.TriggerTypingAsync();
 
 
@@ -1324,15 +1319,15 @@ namespace Mewdeko.Core.Modules.Music
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
+
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
-            {
                 if (!chan.Speakers.Contains(user))
                 {
                     await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
                     return;
                 }
-            }
+
             mp.ShuffleQueue();
             await ReplyConfirmLocalizedAsync("queue_shuffled");
         }

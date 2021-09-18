@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Gambling
                 string str;
                 if (guess == result)
                 {
-                    var toWin = (long) (amount * _config.BetFlip.Multiplier);
+                    var toWin = (long)(amount * _config.BetFlip.Multiplier);
                     str = Format.Bold(ctx.User.ToString()) + " " + GetText("flip_guess", toWin + CurrencySign);
                     await _cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, true).ConfigureAwait(false);
                 }

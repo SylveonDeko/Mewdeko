@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.Searches.Services
                     .ToList();
 
                 _shardTrackedStreams = followedStreams
-                    .GroupBy(x => new {x.Type, Name = x.Username.ToLower()})
+                    .GroupBy(x => new { x.Type, Name = x.Username.ToLower() })
                     .ToList()
                     .ToDictionary(
                         x => new StreamDataKey(x.Key.Type, x.Key.Name.ToLower()),
@@ -87,7 +87,7 @@ namespace Mewdeko.Modules.Searches.Services
                     foreach (var fs in allFollowedStreams) _streamTracker.CacheAddData(fs.CreateKey(), null, false);
 
                     _trackCounter = allFollowedStreams
-                        .GroupBy(x => new {x.Type, Name = x.Username.ToLower()})
+                        .GroupBy(x => new { x.Type, Name = x.Username.ToLower() })
                         .ToDictionary(
                             x => new StreamDataKey(x.Key.Type, x.Key.Name),
                             x => x.Select(fs => fs.GuildId).ToHashSet());
@@ -165,7 +165,7 @@ namespace Mewdeko.Modules.Searches.Services
             {
                 var info = JsonConvert.DeserializeAnonymousType(
                     val.ToString(),
-                    new {Key = default(StreamDataKey), GuildId = 0ul});
+                    new { Key = default(StreamDataKey), GuildId = 0ul });
 
                 _streamTracker.CacheAddData(info.Key, null, false);
                 lock (_shardLock)
@@ -192,7 +192,7 @@ namespace Mewdeko.Modules.Searches.Services
             Task.Run(() =>
             {
                 var info = JsonConvert.DeserializeAnonymousType(val.ToString(),
-                    new {Key = default(StreamDataKey), GuildId = 0ul});
+                    new { Key = default(StreamDataKey), GuildId = 0ul });
 
                 lock (_shardLock)
                 {
@@ -380,14 +380,14 @@ namespace Mewdeko.Modules.Searches.Services
         {
             var sub = _multi.GetSubscriber();
             sub.Publish($"{_creds.RedisKey()}_unfollow_stream",
-                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), fs.GuildId}));
+                JsonConvert.SerializeObject(new { Key = fs.CreateKey(), fs.GuildId }));
         }
 
         private void PublishFollowStream(FollowedStream fs)
         {
             var sub = _multi.GetSubscriber();
             sub.Publish($"{_creds.RedisKey()}_follow_stream",
-                JsonConvert.SerializeObject(new {Key = fs.CreateKey(), fs.GuildId}),
+                JsonConvert.SerializeObject(new { Key = fs.CreateKey(), fs.GuildId }),
                 CommandFlags.FireAndForget);
         }
 
@@ -500,7 +500,7 @@ namespace Mewdeko.Modules.Searches.Services
 
             _shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>
             {
-                {guildId, new HashSet<FollowedStream>()}
+                { guildId, new HashSet<FollowedStream>() }
             };
             return _shardTrackedStreams[key][guildId];
         }

@@ -105,14 +105,18 @@ namespace Mewdeko.Core.Services
 
             return prefix;
         }
+
         public async Task AttemptJoinThread(SocketThreadChannel chan)
         {
             try
             {
                 await chan.JoinAsync();
             }
-            catch { }
+            catch
+            {
+            }
         }
+
         public string SetPrefix(IGuild guild, string prefix)
         {
             if (string.IsNullOrWhiteSpace(prefix))
@@ -171,7 +175,7 @@ namespace Mewdeko.Core.Services
                 try
                 {
                     IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
-                    msg = (IUserMessage) await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
+                    msg = (IUserMessage)await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
                     await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
                     //msg.DeleteAfter(5);
                 }
@@ -286,7 +290,8 @@ namespace Mewdeko.Core.Services
                         Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
                             usrMsg.Content, beh.GetType().Name);
                     else if (beh.BehaviorType == ModuleBehaviorType.Executor)
-                        Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author, usrMsg.Content,
+                        Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
+                            usrMsg.Content,
                             beh.GetType().Name, usrMsg.Author.Id);
 
                     return;
@@ -457,7 +462,7 @@ namespace Mewdeko.Core.Services
 
             //If we get this far, at least one parse was successful. Execute the most likely overload.
             var chosenOverload = successfulParses[0];
-            var execResult = (ExecuteResult) await chosenOverload.Key
+            var execResult = (ExecuteResult)await chosenOverload.Key
                 .ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
 
             if (execResult.Exception != null &&

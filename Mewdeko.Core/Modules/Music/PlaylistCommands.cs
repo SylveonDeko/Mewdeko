@@ -25,7 +25,7 @@ namespace Mewdeko.Core.Modules.Music
             private static readonly SemaphoreSlim _playlistLock = new(1, 1);
             private readonly IBotCredentials _creds;
             private readonly DbService _db;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public PlaylistCommands(DbService db, IBotCredentials creds, InteractiveService serv)
             {
@@ -132,7 +132,7 @@ namespace Mewdeko.Core.Modules.Music
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -167,7 +167,7 @@ namespace Mewdeko.Core.Modules.Music
                     .Select(s => new PlaylistSong
                     {
                         Provider = s.Platform.ToString(),
-                        ProviderType = (MusicType) s.Platform,
+                        ProviderType = (MusicType)s.Platform,
                         Title = s.Title,
                         Query = s.Url
                     }).ToList();
@@ -204,7 +204,7 @@ namespace Mewdeko.Core.Modules.Music
                 await _playlistLock.WaitAsync();
                 try
                 {
-                    var user = (IGuildUser) Context.User;
+                    var user = (IGuildUser)Context.User;
                     var voiceChannelId = user.VoiceChannel?.Id;
 
                     if (voiceChannelId is null)
@@ -224,7 +224,7 @@ namespace Mewdeko.Core.Modules.Music
                         return;
                     }
 
-                    var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel) Context.Channel);
+                    var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
                     if (mp is null)
                     {
                         await ReplyErrorLocalizedAsync("no_player");
@@ -255,7 +255,7 @@ namespace Mewdeko.Core.Modules.Music
                     }
 
                     await mp.EnqueueManyAsync(
-                        mpl.Songs.Select(x => (x.Query, (MusicPlatform) x.ProviderType)),
+                        mpl.Songs.Select(x => (x.Query, (MusicPlatform)x.ProviderType)),
                         ctx.User.ToString()
                     );
 

@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Statistika všech vlastních reakcí byla vyčištěna.",
   "deleted": "Vlastní reakce smazána",
-  "insuff_perms":
-    "Nedostatečná oprávnění. Potřebuješ vlastnictví bota pro globální vlastní reakce a oprávnění Administrátor pro vlastní reakce na svém serveru.",
+  "insuff_perms": "Nedostatečná oprávnění. Potřebuješ vlastnictví bota pro globální vlastní reakce a oprávnění Administrátor pro vlastní reakce na svém serveru.",
   "list_all": "Seznam všech vlastních reakcí",
   "new_cust_react": "Nová vlastní reakce",
   "no_found": "Žádná vlastní reakce nebyla nalezena.",
@@ -132,8 +131,7 @@
   "self_assign_not": "Tuto roli není sebepřiřaditelná.",
   "self_assign_not_have": "Nemáš roli {0}.",
   "self_assign_no_excl": "Role, které si můžeš přidat sám sobě, nyní nejsou exkluzivní.",
-  "self_assign_perms":
-    "Nemohu ti přidat tuto roli. \u0060Nemohu bohužel přidat role vlastníkům serveru nebo rolím, které jsou v hiearchii serveru výše než je moje role\u0060",
+  "self_assign_perms": "Nemohu ti přidat tuto roli. \u0060Nemohu bohužel přidat role vlastníkům serveru nebo rolím, které jsou v hiearchii serveru výše než je moje role\u0060",
   "self_assign_rem": "Role {0} byla odstraněna ze seznamu sebepřiřaditelných rolí",
   "self_assign_remove": "Již nemáš roli {0}.",
   "self_assign_success": "Nyní máš roli {0}.",
@@ -179,12 +177,9 @@
   "voice_chan_destroyed": "Hlasový kanál smazán",
   "vt_disabled": "Vypnutá hlasová \u002B textová funkce",
   "vt_enabled": "Zapnutá hlasová \u002B textová funkce",
-  "vt_exit":
-    "Nemám oprávnění **Spravovat role a **Spravovat kanály**, a tak nemohu používat \u0060hlas\u002Btext\u0060 na serveru {0}.",
-  "vt_no_admin":
-    "Vypínáš/zapínáš tuto funkci a **Já nemám oprávnění ADMINISTRÁTOR**. To může způsobit problémy a bude třeba ručně vyčistit textové kanály.",
-  "vt_perms":
-    "Potřebuji alespoň oprávnění ** Spravovat role** a **Spravovat kanály** k zapnutí této funkce. (oprávnění administrátora je ale preferované)",
+  "vt_exit": "Nemám oprávnění **Spravovat role a **Spravovat kanály**, a tak nemohu používat \u0060hlas\u002Btext\u0060 na serveru {0}.",
+  "vt_no_admin": "Vypínáš/zapínáš tuto funkci a **Já nemám oprávnění ADMINISTRÁTOR**. To může způsobit problémy a bude třeba ručně vyčistit textové kanály.",
+  "vt_perms": "Potřebuji alespoň oprávnění ** Spravovat role** a **Spravovat kanály** k zapnutí této funkce. (oprávnění administrátora je ale preferované)",
   "xmuted_text": "Uživatel {0} z textového kanálu",
   "xmuted_text_and_voice": "Uživatel {0} z textového a hlasového kanálu",
   "xmuted_voice": "Uživatel {0} z hlasového kanálu",
@@ -223,18 +218,14 @@
   "cmdlist_donate": "Můžeš podpořit tento projekt na Patreonu: \u003C{0}\u003E nebo Paypalu: \u003C{1}\u003E",
   "cmd_and_alias": "Příkazy a aliasy",
   "commandlist_regen": "Seznam příkazů znovunačten.",
-  "commands_instr":
-    "Napiš  \u0060{0}h Jméno příkazu\u0060, abys viděl pomoc pro daný příkaz. např. \u0060{0}h \u003E8ball\u0060",
-  "command_not_found":
-    "Nemohu najít tento příkaz. Ujisti se prosím, zda tento příkaz opravdu existuje, a poté ho zkus znovu.",
+  "commands_instr": "Napiš  \u0060{0}h Jméno příkazu\u0060, abys viděl pomoc pro daný příkaz. např. \u0060{0}h \u003E8ball\u0060",
+  "command_not_found": "Nemohu najít tento příkaz. Ujisti se prosím, zda tento příkaz opravdu existuje, a poté ho zkus znovu.",
   "desc": "Popis",
-  "donate":
-    "Můžeš podpořit projekt Mewdeko na\nPatreonu \u003C{0}\u003E nebo\nPaypalu \u003C{1}\u003E\nNezapomeň ve zprávě zanechat své discord jméno nebo ID.\n\n**Děkuji ** ♥️",
+  "donate": "Můžeš podpořit projekt Mewdeko na\nPatreonu \u003C{0}\u003E nebo\nPaypalu \u003C{1}\u003E\nNezapomeň ve zprávě zanechat své discord jméno nebo ID.\n\n**Děkuji ** ♥️",
   "guide": "**Seznam příkazů**: \u003C{0}\u003E\n**Návody a dokumentaci můžeš nalézt zde**: \u003C{1}\u003E",
   "list_of_commands": "Seznam příkazů",
   "list_of_modules": "Seznam modulů",
-  "modules_footer":
-    "Napiš \u0060{0}cmds Jméno modulu\u0060, abys získal seznam příkazů v daném modulu. např. \u0060{0}cmds games\u0060",
+  "modules_footer": "Napiš \u0060{0}cmds Jméno modulu\u0060, abys získal seznam příkazů v daném modulu. např. \u0060{0}cmds games\u0060",
   "module_not_found": "Tento modul neexistuje.",
   "server_permission": "Toto potřebuje serverové povolení {0}.",
   "table_of_contents": "Obsah",
@@ -263,8 +254,7 @@
   "likes": "Má ráda:",
   "waifus_none": "Nikdo ještě nezískal žádnou waifu.",
   "waifus_top_waifus": "Nejlepší Waifus",
-  "waifu_affinity_already":
-    "tvoje náklonnost se už soustředí na tuto waifu nebo se snažíš odstranit náklonnost, kterou nemáš.",
+  "waifu_affinity_already": "tvoje náklonnost se už soustředí na tuto waifu nebo se snažíš odstranit náklonnost, kterou nemáš.",
   "waifu_affinity_changed": "změnil(a) svou náklonnost k {0} na {1}.\n\n*Tvoje morálka je velmi sporná *\uD83E\uDD14",
   "waifu_affinity_cooldown": "Musíš počkat {0} hodin(u) a {1} minut(u), abys mohl znovu změnit svou náklonnost.",
   "waifu_affinity_reset": "Tvoje náklonnost se resetovala. Již nemáš rád nikoho.",
@@ -273,8 +263,7 @@
   "waifu_divorced_like": "Rozvedl ses s waifu, která tě má ráda. Bezcitné monstrum! {0} dostal(a) {1} jako kompenzaci.",
   "waifu_egomaniac": "nemůžeš nastavit náklonnost sám k sobě. Egomaniaku.",
   "waifu_fulfilled": "\uD83C\uDF89 Jejich láska je naplněna! \uD83C\uDF89\nNová hodnota waifu {0} je {1}!",
-  "waifu_isnt_cheap":
-    "Žádná waifu není tak levná. Musíš zaplatit alespoň {0}, abys získal waifu, i v případě, že její skutečná hodnota je menší.",
+  "waifu_isnt_cheap": "Žádná waifu není tak levná. Musíš zaplatit alespoň {0}, abys získal waifu, i v případě, že její skutečná hodnota je menší.",
   "waifu_not_enough": "Musíš zaplatit {0}, abys získal tuto waifu.",
   "waifu_not_yours": "Tahle waifu ti nepatří.",
   "waifu_not_yourself": "Nemůžeš získat sám sebe.",
@@ -430,8 +419,7 @@
   "word_filter_server_on": "Filtrování slov bylo vypnuto na tomto serveru.",
   "abilities": "Schopnosti",
   "anime_no_fav": "Zatím žádné oblíbené anime",
-  "atl_ad_started":
-    "Započalo automatické překládání zpráv na tomto kanále. Zprávy uživatelů budou automaticky smazány.",
+  "atl_ad_started": "Započalo automatické překládání zpráv na tomto kanále. Zprávy uživatelů budou automaticky smazány.",
   "atl_removed": "tvůj jazyk automatického překladu byl odstraněn.",
   "atl_set": "Tvůj jazyk automatického překladu byl nastaven na {0}\u003E{1}",
   "atl_started": "Začalo automatické překládání zpráv na tomto kanálu.",
@@ -650,14 +638,11 @@
   "slowmodewl_user_start": "Pomalý režim bude nyní ignorovat uživatele {0}.",
   "slowmodewl_user_stop": "Pomalý režim již nebude ignorovat uživatele {0}.",
   "clpa_fail": "Nepodařilo se získat odměnu kvůli jednomu z následujících důvodů:",
-  "clpa_fail_already":
-    "Možná už jsi tento měsíc získal svou odměnu. Můžeš dostat pouze jednu odměnu měsíčně, dokud nezvýšíš příspěvek.",
+  "clpa_fail_already": "Možná už jsi tento měsíc získal svou odměnu. Můžeš dostat pouze jednu odměnu měsíčně, dokud nezvýšíš příspěvek.",
   "clpa_fail_already_title": "Již odměněn",
-  "clpa_fail_conn":
-    "Tvůj Discord účet nemusí být připojen k Patreonu. Pokud si nejseš jistý nebo nevíš jak je propojit - musíš jít na [účet na Patreonu, stránka Nastavení](https://patreon.com/settings/account) and kliknout na tlačítko \u0027Connect to discord\u0027.",
+  "clpa_fail_conn": "Tvůj Discord účet nemusí být připojen k Patreonu. Pokud si nejseš jistý nebo nevíš jak je propojit - musíš jít na [účet na Patreonu, stránka Nastavení](https://patreon.com/settings/account) and kliknout na tlačítko \u0027Connect to discord\u0027.",
   "clpa_fail_conn_title": "Účet Discordu není připojen.",
-  "clpa_fail_sup":
-    "Aby si mohl dostat odměnu, musíš podpořit tento projekt na Patreonu. Můžeš použít příkaz {0}, abys získal odkaz.",
+  "clpa_fail_sup": "Aby si mohl dostat odměnu, musíš podpořit tento projekt na Patreonu. Můžeš použít příkaz {0}, abys získal odkaz.",
   "clpa_fail_sup_title": "Nepodporuješ",
   "clpa_fail_wait": "Musíš počkat několik hodin po svém příspěvku, pokud jsi tak neudělal, zkus to později.",
   "clpa_fail_wait_title": "Počkej nějaký čas",
@@ -706,8 +691,7 @@
   "bot_nick": "Přezdívka bota změněna na {0}",
   "user_nick": "Přezdívka uživatele {0} byla změněna na {1}",
   "timezone_guild": "Časové pásmo pro tento server je \u0060{0}\u0060",
-  "timezone_not_found":
-    "Časové pásmo nebylo nalezeno. Použij příkaz \u0022timezones\u0022 pro seznam všech dostupných časových pásem.",
+  "timezone_not_found": "Časové pásmo nebylo nalezeno. Použij příkaz \u0022timezones\u0022 pro seznam všech dostupných časových pásem.",
   "timezones_available": "Dostupná časová pásma",
   "song_not_found": "Žádná píseň nebyla nalezena.",
   "define_unknown": "Nepodařilo se najít definici daného výrazu.",
@@ -741,8 +725,7 @@
   "nunchi_ended_no_winner": "Nunchi hra skončila bez vítěze.",
   "nunchi_started": "Nunchi hra začala s {0} účastníky",
   "nunchi_round_ended": "Kolo hry Nunchi skončilo. {0} je mimo hru.",
-  "nunchi_round_ended_boot":
-    "Kolo hry Nunchi skončilo kvůli vypršení času pro některé uživatele. Tito uživatelé stále ještě hrají: {0}",
+  "nunchi_round_ended_boot": "Kolo hry Nunchi skončilo kvůli vypršení času pro některé uživatele. Tito uživatelé stále ještě hrají: {0}",
   "nunchi_round_started": "Kolo hry Nunchi začalo s {0} uživateli. Začni počítat od čísla {1}.",
   "nunchi_next_number": "Číslo registrováno. Poslední číslo bylo {0}.",
   "nunchi_failed_to_start": "Hru Nunchi se nepodařilo spustit z důvodu nedostatku účastníků.",
@@ -784,13 +767,11 @@
   "server_leaderboard": "Serverový XP žebříček",
   "global_leaderboard": "Globální XP žebříček",
   "modified": "Upraveno serverové XP uživatele {0} o {1}",
-  "club_create_error":
-    "Nepodařilo se založit klub. Ujisti se, že tvoje úroveň je alespoň 5, a že již nejsi členem jiného klubu.",
+  "club_create_error": "Nepodařilo se založit klub. Ujisti se, že tvoje úroveň je alespoň 5, a že již nejsi členem jiného klubu.",
   "club_created": "Klub {0} byl úspěšně vytvořen.",
   "club_not_exists": "Tento klub neexistuje.",
   "club_applied": "Ucházíš se o místo v klubu {0}.",
-  "club_apply_error":
-    "Nezdařila se tvá žádost o přijetí. Buď již jsi členem klubu nebo nesplňuješ minimální úroveň k přijetí nebo jsi z tohoto klubu byl zabanován.",
+  "club_apply_error": "Nezdařila se tvá žádost o přijetí. Buď již jsi členem klubu nebo nesplňuješ minimální úroveň k přijetí nebo jsi z tohoto klubu byl zabanován.",
   "club_accepted": "Uživatel {0} byl přijat do klubu.",
   "club_accept_error": "Uživatel nenalezen.",
   "club_left": "Opustil jsi klub.",
@@ -798,11 +779,9 @@
   "club_user_kick": "Uživatel {0} byl vyhozen z klubu {1}.",
   "club_user_kick_fail": "Nepodařilo se vyhodit. Buď nejsi majitelem klubu nebo tento uživatel není ve tvém klubu.",
   "club_user_banned": "Uživatel {0} byl zabanován v klubu {1}.",
-  "club_user_ban_fail":
-    "Nepodařilo se zabanovat. Buď nejsi majitelem klubu nebo tento uživatel není ve tvém klubu, ani se o něj neuchází.",
+  "club_user_ban_fail": "Nepodařilo se zabanovat. Buď nejsi majitelem klubu nebo tento uživatel není ve tvém klubu, ani se o něj neuchází.",
   "club_user_unbanned": "Uživatel {0} byl odbanován v klubu {1}.",
-  "club_user_unban_fail":
-    "Nepodařilo se odbanovat. Buď nejsi majitelem klubu nebo tento uživatel není ve tvém klubu, ani se o něj neuchází.",
+  "club_user_unban_fail": "Nepodařilo se odbanovat. Buď nejsi majitelem klubu nebo tento uživatel není ve tvém klubu, ani se o něj neuchází.",
   "club_level_req_changed": "Požadovaná úroveň pro vstup do klubu byla změněna na {0}",
   "club_level_req_change_error": "Nepodařilo se změnit požadovanou úroveň pro vstup.",
   "club_disbanded": "Klub {0} byl rozpuštěn.",
@@ -824,8 +803,7 @@
   "started": "Začátek. Reposílání každých {0}s.",
   "stopped": "Konec reposílání.",
   "feed_added": "Feed přidán.",
-  "feed_not_valid":
-    "Neplatný odkaz nebo již tento feed máš na tomto serveru nebo jsi dosáhl maximálního počtu povolených feedů.",
+  "feed_not_valid": "Neplatný odkaz nebo již tento feed máš na tomto serveru nebo jsi dosáhl maximálního počtu povolených feedů.",
   "feed_out_of_range": "Index mimo dosah.",
   "feed_removed": "Feed odebrán.",
   "feed_no_feed": "Neodebíráš žádný feed na tomto serveru.",
@@ -865,27 +843,22 @@
   "level_up_rewards": "Odměny za dosažení vyšší úrovně",
   "role_reward": "{0} role",
   "no_level_up_rewards": "Na této stránce nejsou žádné odměny za dosažení vyšší úrovně.",
-  "failed_finding_novel":
-    "Nemohla jsem najít tento román. Ujisti se, že jsi napsal přesné celé jméno a že tento román existuje na stránce novelupdates.com",
+  "failed_finding_novel": "Nemohla jsem najít tento román. Ujisti se, že jsi napsal přesné celé jméno a že tento román existuje na stránce novelupdates.com",
   "remove_roles": "jejich role byly odstraněny.",
   "delmsg_channel_off": "Nikdy nebudu mazat žádné zprávy, které úspěšné provedou příkazy na tomto kanále.",
-  "delmsg_channel_on":
-    "Budu mazat všechny zprávy, které úspěšné provedou příkazy na tomto kanále, nezávisle na nastavení serveru.",
-  "delmsg_channel_inherit":
-    "Budu mazat všechny zprávy, které úspěšné provedou příkazy na tomto kanále, pouze pokud je tato funkce zapnuta na tomto serveru.",
+  "delmsg_channel_on": "Budu mazat všechny zprávy, které úspěšné provedou příkazy na tomto kanále, nezávisle na nastavení serveru.",
+  "delmsg_channel_inherit": "Budu mazat všechny zprávy, které úspěšné provedou příkazy na tomto kanále, pouze pokud je tato funkce zapnuta na tomto serveru.",
   "server_delmsgoncmd": "Nastavení serveru",
   "channel_delmsgoncmd": "Kanál-specifická nastavení",
   "options": "Možnosti",
   "waifu_reset": "Tvé waifu statistiky byly vyresetovány.",
   "waifu_reset_fail": "Nepodařilo se resetovat waifu statistiky. Ujisti se, že máš dostatek měny.",
   "waifu_reset_confirm": "Tato akce vyresetuje tvoje waifu statistiky.",
-  "unset_music_channel":
-    "Nyní budu hrát skladby, dokončeno, pozastaveno a odstraněno skladeb z kanálu, z něhož byla hudba spuštěna.",
+  "unset_music_channel": "Nyní budu hrát skladby, dokončeno, pozastaveno a odstraněno skladeb z kanálu, z něhož byla hudba spuštěna.",
   "city_not_found": "Město nebylo nalezeno.",
   "bot_config_reloaded": "Konfigurace bota byla načtena znovu.",
   "club_transfered": "Vlastnictví klubu {0} bylo převedeno na {1}",
-  "club_transfer_failed":
-    "Převod nezdařen. Musíš být stávající majitel klubu. Nový majitel musí být členem tvého klubu.",
+  "club_transfer_failed": "Převod nezdařen. Musíš být stávající majitel klubu. Nový majitel musí být členem tvého klubu.",
   "roll_duel_challenge": "vyzval jsi {1} na roll duel za {2}",
   "roll_duel": "Roll Duel",
   "roll_duel_no_funds": "Buď ty anebo tvůj protivník nemá dostatečné množství financí.",
@@ -930,8 +903,7 @@
   "anti_spam_not_running": "Anti-Spam funkce není zapnuta.",
   "adsarm_enable": "Automatické mazání odpovědí \u0060{0}iam\u0060 and \u0060{0}iamn\u0060 bylo zapnuto.",
   "adsarm_disable": "Bot nyní nebude mazat \u0060{0}iam\u0060 and \u0060{0}iamn\u0060 odpovědi.",
-  "module_not_found_or_cant_exec":
-    "Buď tento modul neexistuje nebo nemůžeš spustit žádný příkaz ve specifikovaném modulu.",
+  "module_not_found_or_cant_exec": "Buď tento modul neexistuje nebo nemůžeš spustit žádný příkaz ve specifikovaném modulu.",
   "requires": "Vyžaduje",
   "permrole_not_set": "Role oprávnění není nastavena.",
   "permrole_reset": "Role oprávnění je resetována.",
@@ -944,15 +916,13 @@
   "autocmd_add": "Příkaz {0} se spustí každých {1}s na tomto kanálu.",
   "autocmdlist_none": "Žádné automatické příkazy na této stránce.",
   "connect4_created": "Byla vytvořena hra Connect4. Čeká se na připojení hráče.",
-  "connect4_created_bet":
-    "Byla vytvořena hra Connect4 a bylo vsazeno {0}. Čeká se na připojení hráče se stejnou sázkou.",
+  "connect4_created_bet": "Byla vytvořena hra Connect4 a bylo vsazeno {0}. Čeká se na připojení hráče se stejnou sázkou.",
   "connect4_player_to_move": "Tah hráče: {0}",
   "connect4_failed_to_start": "Hra Connect4 se nepodařilo zapnout, protože se nikdo nepřihlásil.",
   "connect4_draw": "Hra Connect4 skončila remízou.",
   "connect4_won": "{0} vyhrál hru Connect4 proti {1}.",
   "new_reaction_event": "Dej reakci {0} k této zprávě pro zisk {1}\n{2} zbývá k udělení.",
-  "start_event_fail":
-    "Nepodařilo se zapnout událost. Jiná událost již probíhá anebo se vyskytla chyba uprostřed zapínání.",
+  "start_event_fail": "Nepodařilo se zapnout událost. Jiná událost již probíhá anebo se vyskytla chyba uprostřed zapínání.",
   "waifu": "Waifu",
   "remind_too_long": "Možný čas upomínky dosáhl maxima.",
   "updates_check_set": "Kontrola změn byla nastavena na {0}.",

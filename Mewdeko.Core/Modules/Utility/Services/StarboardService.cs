@@ -122,7 +122,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             if (channel.Value is IGuildChannel chane)
             {
-                var guild = (SocketGuild) chane.Guild;
+                var guild = (SocketGuild)chane.Guild;
                 if (reaction.User.Value.IsBot) return;
                 Emoji star1 = null;
                 Emote star = null;
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Utility.Services
                         },
                         Description = $"[Jump to message]({msg.GetJumpUrl()})",
                         Color = Mewdeko.OkColor,
-                        Footer = new EmbedFooterBuilder {Text = "Message Posted Date"}
+                        Footer = new EmbedFooterBuilder { Text = "Message Posted Date" }
                     };
                     if (msg.Author.IsBot is true && msg.Embeds.Any())
                     {
@@ -239,7 +239,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             if (channel.Value is IGuildChannel chane)
             {
-                var guild = (SocketGuild) chane.Guild;
+                var guild = (SocketGuild)chane.Guild;
                 if (reaction.User.Value.IsBot) return;
                 Emoji star1 = null;
                 Emote star = null;

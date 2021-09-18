@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Utility.Services
 
             if (client.ShardId == 0)
                 _currencyUpdater = new Timer(
-                    async shouldLoad => await UpdateCurrency((bool) shouldLoad).ConfigureAwait(false),
+                    async shouldLoad => await UpdateCurrency((bool)shouldLoad).ConfigureAwait(false),
                     client.ShardId == 0,
                     TimeSpan.Zero,
                     _updateInterval);
@@ -68,13 +68,13 @@ namespace Mewdeko.Modules.Utility.Services
                     var currencyRates = await GetCurrencyRates().ConfigureAwait(false);
                     var baseType = new ConvertUnit
                     {
-                        Triggers = new[] {currencyRates.Base},
+                        Triggers = new[] { currencyRates.Base },
                         Modifier = decimal.One,
                         UnitType = unitTypeString
                     };
                     var range = currencyRates.ConversionRates.Select(u => new ConvertUnit
                     {
-                        Triggers = new[] {u.Key},
+                        Triggers = new[] { u.Key },
                         Modifier = u.Value,
                         UnitType = unitTypeString
                     }).ToArray();

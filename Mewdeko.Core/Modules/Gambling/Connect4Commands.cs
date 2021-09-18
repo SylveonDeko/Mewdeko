@@ -21,7 +21,7 @@ namespace Mewdeko.Modules.Gambling
         public class Connect4Commands : GamblingSubmodule<GamblingService>
         {
             private static readonly string[] numbers =
-                {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:"};
+                { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:" };
 
             private readonly DiscordSocketClient _client;
             private readonly ICurrencyService _cs;
@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Gambling
                             if (RepostCounter == 0)
                                 try
                                 {
-                                    msg = await ctx.Channel.SendMessageAsync("", embed: (Embed) msg.Embeds.First())
+                                    msg = await ctx.Channel.SendMessageAsync("", embed: (Embed)msg.Embeds.First())
                                         .ConfigureAwait(false);
                                 }
                                 catch

@@ -17,17 +17,18 @@ namespace Mewdeko.Modules.Help.Services
 {
     public class HelpService : ILateExecutor, INService
     {
+        public static HashSet<HelpInfo> list3 = new();
         private readonly BotConfigService _bss;
         private readonly CommandHandler _ch;
-        private readonly IServiceProvider _services;
-        private readonly DiscordPermOverrideService _dpos;
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmds;
-        public static HashSet<HelpInfo> list3 = new();
+        private readonly DiscordPermOverrideService _dpos;
+        private readonly IServiceProvider _services;
         private readonly IBotStrings _strings;
 
         public HelpService(CommandHandler ch, IBotStrings strings,
-            DiscordPermOverrideService dpos, BotConfigService bss, IServiceProvider prov, CommandService cmds, DiscordSocketClient client)
+            DiscordPermOverrideService dpos, BotConfigService bss, IServiceProvider prov, CommandService cmds,
+            DiscordSocketClient client)
         {
             _client = client;
             _cmds = cmds;
@@ -39,10 +40,29 @@ namespace Mewdeko.Modules.Help.Services
             _client.MessageReceived += HandlePing;
             _client.InteractionCreated += HandleModules;
         }
+
+        public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+        {
+            var settings = _bss.Data;
+            if (guild == null)
+            {
+                if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
+                    return Task.CompletedTask;
+
+                if (CREmbed.TryParse(settings.DmHelpText, out var embed))
+                    return msg.Channel.EmbedAsync(embed);
+
+                return msg.Channel.SendMessageAsync(settings.DmHelpText);
+            }
+
+            return Task.CompletedTask;
+        }
+
         public void UpdateHash(HelpInfo info)
         {
             list3.Add(info);
         }
+
         public async Task HandleModules(SocketInteraction ine)
         {
             if (ine is SocketMessageComponent parsedArg)
@@ -60,18 +80,18 @@ namespace Mewdeko.Modules.Help.Services
                 var context = new CommandContext(_client, ta.msg);
                 var module = selectedValue.Trim().ToUpperInvariant();
                 var cmds = _cmds.Commands.Where(c =>
-                            c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                                .StartsWith(module, StringComparison.InvariantCulture))
-                        .OrderBy(c => c.Aliases[0])
-                        .Distinct(new CommandTextEqualityComparer());
+                        c.Module.GetTopLevelModule().Name.ToUpperInvariant()
+                            .StartsWith(module, StringComparison.InvariantCulture))
+                    .OrderBy(c => c.Aliases[0])
+                    .Distinct(new CommandTextEqualityComparer());
                 // check preconditions for all commands, but only if it's not 'all'
                 // because all will show all commands anyway, no need to check
                 var succ = new HashSet<CommandInfo>();
                 succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
-                {
-                    var pre = await x.CheckPreconditionsAsync(context, _services).ConfigureAwait(false);
-                    return (Cmd: x, Succ: pre.IsSuccess);
-                })).ConfigureAwait(false))
+                    {
+                        var pre = await x.CheckPreconditionsAsync(context, _services).ConfigureAwait(false);
+                        return (Cmd: x, Succ: pre.IsSuccess);
+                    })).ConfigureAwait(false))
                     .Where(x => x.Succ)
                     .Select(x => x.Cmd));
 
@@ -90,9 +110,9 @@ namespace Mewdeko.Modules.Help.Services
                     {
                         var transformed = g.ElementAt(i).Select(x =>
                         {
-                        //if cross is specified, and the command doesn't satisfy the requirements, cross it out
-                        return
-                            $"{(succ.Contains(x) ? "✅" : "❌")}{_ch.GetPrefix((parsedArg.Channel as ITextChannel).Guild) + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
+                            //if cross is specified, and the command doesn't satisfy the requirements, cross it out
+                            return
+                                $"{(succ.Contains(x) ? "✅" : "❌")}{_ch.GetPrefix((parsedArg.Channel as ITextChannel).Guild) + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
                         });
 
                         if (i == last - 1 && (i + 1) % 2 != 0)
@@ -108,31 +128,26 @@ namespace Mewdeko.Modules.Help.Services
                                     return string.Concat(x);
                                 });
                         }
+
                         embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
                     }
                 }
+
                 if (parsedArg.User.Id == ta.msg.Author.Id)
-                {
-                    await parsedArg.Message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = new ComponentBuilder().WithSelectMenu(selmens).Build(); });
-                }
+                    await parsedArg.Message.ModifyAsync(x =>
+                    {
+                        x.Embed = embed.Build();
+                        x.Components = new ComponentBuilder().WithSelectMenu(selmens).Build();
+                    });
                 else
-                {
-                    await parsedArg.FollowupAsync(text: "This isnt your help embed but heres the result anyway", embed: embed.Build(), ephemeral: true);
-                }
+                    await parsedArg.FollowupAsync("This isnt your help embed but heres the result anyway",
+                        embed: embed.Build(), ephemeral: true);
             }
         }
-        
-        public record HelpInfo
-        {
-            public IUser user { get; set; }
-            public IUserMessage msg { get; set; }
-            public IChannel chan { get; set; }
-            public SelectMenuBuilder Builder { get; set; }
-        }
+
         private async Task HandlePing(SocketMessage msg)
         {
             if (msg.Content == _client.CurrentUser.Mention && !msg.Author.IsBot)
-            {
                 if (msg.Channel is ITextChannel chan)
                 {
                     var eb = new EmbedBuilder();
@@ -141,26 +156,9 @@ namespace Mewdeko.Modules.Help.Services
                         $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\n My current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!\n\n I hope you have a great day!");
                     eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/866321565393748008.png?size=2048");
                     eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username)
-                        .WithIconUrl(_client.CurrentUser.RealAvatarUrl(2048).ToString()));
+                        .WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                     await chan.SendMessageAsync(embed: eb.Build());
                 }
-            }
-        }
-        public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
-        {
-            var settings = _bss.Data;
-            if (guild == null)
-            {
-                if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
-                    return Task.CompletedTask;
-
-                if (CREmbed.TryParse(settings.DmHelpText, out var embed))
-                    return msg.Channel.EmbedAsync(embed);
-
-                return msg.Channel.SendMessageAsync(settings.DmHelpText);
-            }
-
-            return Task.CompletedTask;
         }
 
         public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
@@ -191,7 +189,7 @@ namespace Mewdeko.Modules.Help.Services
                 .WithImageUrl(com.GetCommandImage(_strings, guild?.Id, prefix))
                 .WithColor(Mewdeko.OkColor);
 
-            var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
+            var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
                 ?.OptionType;
             if (opt != null)
             {
@@ -239,16 +237,16 @@ namespace Mewdeko.Modules.Help.Services
             if (cmd.Preconditions.Any(x => x is OwnerOnlyAttribute))
                 toReturn.Add("Bot Owner Only");
 
-            var userPerm = (UserPermAttribute) cmd.Preconditions
+            var userPerm = (UserPermAttribute)cmd.Preconditions
                 .FirstOrDefault(ca => ca is UserPermAttribute);
 
             var userPermString = string.Empty;
             if (!(userPerm is null))
             {
                 if (userPerm.UserPermissionAttribute.ChannelPermission is ChannelPermission cPerm)
-                    userPermString = GetPreconditionString((ChannelPerm) cPerm);
+                    userPermString = GetPreconditionString((ChannelPerm)cPerm);
                 if (userPerm.UserPermissionAttribute.GuildPermission is GuildPermission gPerm)
-                    userPermString = GetPreconditionString((GuildPerm) gPerm);
+                    userPermString = GetPreconditionString((GuildPerm)gPerm);
             }
 
             if (overrides is null)
@@ -282,6 +280,14 @@ namespace Mewdeko.Modules.Help.Services
         private string GetText(string text, IGuild guild, params object[] replacements)
         {
             return _strings.GetText(text, guild?.Id, replacements);
+        }
+
+        public record HelpInfo
+        {
+            public IUser user { get; set; }
+            public IUserMessage msg { get; set; }
+            public IChannel chan { get; set; }
+            public SelectMenuBuilder Builder { get; set; }
         }
     }
 }

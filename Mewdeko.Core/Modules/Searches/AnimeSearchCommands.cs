@@ -10,13 +10,13 @@ using Anilist4Net;
 using Anilist4Net.Enums;
 using Discord;
 using Discord.Commands;
+using JikanDotNet;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Searches.Services;
-using Newtonsoft.Json;
-using JikanDotNet;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
+using Mewdeko.Modules.Searches.Services;
+using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -25,11 +25,13 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class AnimeSearchCommands : MewdekoSubmodule<AnimeSearchService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
+
             public AnimeSearchCommands(InteractiveService service)
             {
                 Interactivity = service;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -58,7 +60,7 @@ namespace Mewdeko.Modules.Searches
                 {
                     var er = await reader.ReadToEndAsync();
                     var stuff = JsonConvert.DeserializeObject<Root>(er,
-                        new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                     var ert = stuff.Result1.FirstOrDefault();
                     if (ert.Filename is null)
                         await ctx.Channel.SendErrorAsync(
@@ -72,21 +74,15 @@ namespace Mewdeko.Modules.Searches
                     var te = string.Empty;
                     if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
                     else te = image.SeasonInt.ToString()[2..];
-                    string entitle = image.EnglishTitle;
-                    if (image.EnglishTitle == null)
-                    {
-                        entitle = "None";
-                    }
+                    var entitle = image.EnglishTitle;
+                    if (image.EnglishTitle == null) entitle = "None";
                     eb.AddField("English Title", entitle);
                     eb.AddField("Japanese Title", image.NativeTitle);
                     eb.AddField("Romaji Title", image.RomajiTitle);
                     eb.AddField("Air Start Date", image.AiringStartDate);
                     eb.AddField("Air End Date", image.AiringEndDate);
                     eb.AddField("Season Number", te);
-                    if (ert.Episode is not null)
-                    {
-                        eb.AddField("Episode", ert.Episode);
-                    }
+                    if (ert.Episode is not null) eb.AddField("Episode", ert.Episode);
                     eb.AddField("AniList Link", image.SiteUrl);
                     eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image.IdMal}");
                     eb.AddField("Score", image.MeanScore);
@@ -152,7 +148,7 @@ namespace Mewdeko.Modules.Searches
                     .AddField(efb => efb.WithName(GetText("status")).WithValue(novelData.Status).WithIsInline(true))
                     .AddField(efb =>
                         efb.WithName(GetText("genres"))
-                            .WithValue(string.Join(" ", novelData.Genres.Any() ? novelData.Genres : new[] {"none"}))
+                            .WithValue(string.Join(" ", novelData.Genres.Any() ? novelData.Genres : new[] { "none" }))
                             .WithIsInline(true))
                     .WithFooter(efb => efb.WithText(GetText("score") + " " + novelData.Score));
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -175,7 +171,7 @@ namespace Mewdeko.Modules.Searches
                 {
                     var imageElem = document.QuerySelector(
                         "body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
-                    var imageUrl = ((IHtmlImageElement) imageElem)?.Source ??
+                    var imageUrl = ((IHtmlImageElement)imageElem)?.Source ??
                                    "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
 
                     var stats = document.QuerySelectorAll(
@@ -191,7 +187,7 @@ namespace Mewdeko.Modules.Searches
                             .Take(3)
                             .Select(x =>
                             {
-                                var elem = (IHtmlAnchorElement) x;
+                                var elem = (IHtmlAnchorElement)x;
                                 return $"[{elem.InnerHtml}]({elem.Href})";
                             }));
 
@@ -336,14 +332,15 @@ namespace Mewdeko.Modules.Searches
             [RequireContext(ContextType.Guild)]
             public async Task Manga([Remainder] string query)
             {
-                var msg = await ctx.Channel.SendConfirmAsync($"<a:loading:847706744741691402> Getting results for {query}...");
+                var msg = await ctx.Channel.SendConfirmAsync(
+                    $"<a:loading:847706744741691402> Getting results for {query}...");
                 IJikan jikan = new Jikan(true);
-                MangaSearchResult Result = await jikan.SearchManga(query);
+                var Result = await jikan.SearchManga(query);
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(Result.Results.Count()-1)
+                    .WithMaxPageIndex(Result.Results.Count() - 1)
                     .WithDefaultCanceledPage()
                     .WithDefaultEmotes()
                     .Build();

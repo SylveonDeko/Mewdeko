@@ -35,7 +35,7 @@ namespace Mewdeko.Core.Services.Database.Models
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
-            return ((ShopEntryItem) obj).Text == Text;
+            return ((ShopEntryItem)obj).Text == Text;
         }
 
         public override int GetHashCode()

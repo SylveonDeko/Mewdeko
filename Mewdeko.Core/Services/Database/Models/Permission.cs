@@ -21,7 +21,7 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public Permissionv2 Tov2()
         {
-            return new()
+            return new Permissionv2
             {
                 PrimaryTarget = PrimaryTarget,
                 PrimaryTargetId = PrimaryTargetId,

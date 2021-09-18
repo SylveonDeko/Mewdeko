@@ -512,7 +512,7 @@ namespace Mewdeko.Core.Modules.Music
             for (var i = 0; i < samples.Length; i++)
             {
                 ref var sample = ref samples[i];
-                sample = (short) (sample * volume);
+                sample = (short)(sample * volume);
             }
         }
 

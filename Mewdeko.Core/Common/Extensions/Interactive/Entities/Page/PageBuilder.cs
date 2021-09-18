@@ -6,14 +6,14 @@ using Mewdeko.Interactive.Pagination;
 namespace Mewdeko.Interactive
 {
     /// <summary>
-    /// Represents a <see cref="Page"/> builder.
+    ///     Represents a <see cref="Page" /> builder.
     /// </summary>
     public class PageBuilder
     {
-        private readonly EmbedBuilder _builder = new EmbedBuilder();
+        private readonly EmbedBuilder _builder = new();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="PageBuilder" /> class.
         /// </summary>
         public PageBuilder()
         {
@@ -31,13 +31,13 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the text of a <see cref="Page"/>.
+        ///     Gets or sets the text of a <see cref="Page" />.
         /// </summary>
         /// <returns>The text of the page.</returns>
         public string Text { get; set; }
 
         /// <summary>
-        /// Gets or sets the title of a <see cref="Page"/>.
+        ///     Gets or sets the title of a <see cref="Page" />.
         /// </summary>
         /// <returns>The title of the page.</returns>
         public string Title
@@ -47,7 +47,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the description of a <see cref="Page"/>.
+        ///     Gets or sets the description of a <see cref="Page" />.
         /// </summary>
         /// <returns>The description of the page.</returns>
         public string Description
@@ -57,7 +57,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the URL of a <see cref="Page"/>.
+        ///     Gets or sets the URL of a <see cref="Page" />.
         /// </summary>
         /// <returns>The URL of the page.</returns>
         public string Url
@@ -67,7 +67,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the thumbnail URL of a <see cref="Page"/>.
+        ///     Gets or sets the thumbnail URL of a <see cref="Page" />.
         /// </summary>
         /// <returns>The thumbnail URL of the page.</returns>
         public string ThumbnailUrl
@@ -77,7 +77,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the image URL of a <see cref="Page"/>.
+        ///     Gets or sets the image URL of a <see cref="Page" />.
         /// </summary>
         /// <returns>The image URL of the page.</returns>
         public string ImageUrl
@@ -87,9 +87,9 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="PageBuilder"/> of a <see cref="Page"/>.
+        ///     Gets or sets the list of <see cref="PageBuilder" /> of a <see cref="Page" />.
         /// </summary>
-        /// <returns>The list of existing <see cref="EmbedFieldBuilder"/>.</returns>
+        /// <returns>The list of existing <see cref="EmbedFieldBuilder" />.</returns>
         public List<EmbedFieldBuilder> Fields
         {
             get => _builder.Fields;
@@ -97,7 +97,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the timestamp of a <see cref="Page"/>.
+        ///     Gets or sets the timestamp of a <see cref="Page" />.
         /// </summary>
         /// <returns>The timestamp of the page, or <c>null</c> if none is set.</returns>
         public DateTimeOffset? Timestamp
@@ -107,7 +107,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the sidebar color of a <see cref="Page"/>.
+        ///     Gets or sets the sidebar color of a <see cref="Page" />.
         /// </summary>
         /// <returns>The color of the page, or <c>null</c> if none is set.</returns>
         public Color? Color
@@ -117,7 +117,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="EmbedAuthorBuilder"/> of a <see cref="Page"/>.
+        ///     Gets or sets the <see cref="EmbedAuthorBuilder" /> of a <see cref="Page" />.
         /// </summary>
         /// <returns>The author field builder of the page, or <c>null</c> if none is set.</returns>
         public EmbedAuthorBuilder Author
@@ -127,7 +127,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="EmbedFooterBuilder"/> of a <see cref="Page"/>.
+        ///     Gets or sets the <see cref="EmbedFooterBuilder" /> of a <see cref="Page" />.
         /// </summary>
         /// <returns>The footer field builder of the page, or <c>null</c> if none is set.</returns>
         public EmbedFooterBuilder Footer
@@ -137,39 +137,46 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Gets the total length of all embed properties.
+        ///     Gets the total length of all embed properties.
         /// </summary>
         /// <returns>
-        /// The combined length of <see cref="Title"/>, <see cref="EmbedAuthor.Name"/>,
-        /// <see cref="Description"/>, <see cref="EmbedFooter.Text"/>, <see cref="EmbedField.Name"/>, and <see cref="EmbedField.Value"/>.
+        ///     The combined length of <see cref="Title" />, <see cref="EmbedAuthor.Name" />,
+        ///     <see cref="Description" />, <see cref="EmbedFooter.Text" />, <see cref="EmbedField.Name" />, and
+        ///     <see cref="EmbedField.Value" />.
         /// </returns>
         public int Length => _builder.Length;
 
         /// <summary>
-        /// Creates a new <see cref="PageBuilder"/> from an <see cref="IEmbed"/>.
+        ///     Creates a new <see cref="PageBuilder" /> from an <see cref="IEmbed" />.
         /// </summary>
-        /// <param name="embed">The <see cref="IEmbed"/>.</param>
-        /// <returns>A <see cref="PageBuilder"/>.</returns>
+        /// <param name="embed">The <see cref="IEmbed" />.</param>
+        /// <returns>A <see cref="PageBuilder" />.</returns>
         public static PageBuilder FromEmbed(IEmbed embed)
-            => FromEmbedBuilder(embed.ToEmbedBuilder());
+        {
+            return FromEmbedBuilder(embed.ToEmbedBuilder());
+        }
 
         /// <summary>
-        /// Creates a new <see cref="PageBuilder"/> from an <see cref="EmbedBuilder"/>.
+        ///     Creates a new <see cref="PageBuilder" /> from an <see cref="EmbedBuilder" />.
         /// </summary>
-        /// <param name="builder">The <see cref="EmbedBuilder"/>.</param>
-        /// <returns>A <see cref="PageBuilder"/>.</returns>
+        /// <param name="builder">The <see cref="EmbedBuilder" />.</param>
+        /// <returns>A <see cref="PageBuilder" />.</returns>
         public static PageBuilder FromEmbedBuilder(EmbedBuilder builder)
-            => new PageBuilder(builder);
+        {
+            return new(builder);
+        }
 
         /// <summary>
-        /// Builds this builder to an immutable <see cref="Page"/>.
+        ///     Builds this builder to an immutable <see cref="Page" />.
         /// </summary>
-        /// <returns>A <see cref="Page"/>.</returns>
+        /// <returns>A <see cref="Page" />.</returns>
         public Page Build()
-            => new Page(Text, _builder);
+        {
+            return new(Text, _builder);
+        }
 
         /// <summary>
-        /// Sets the text of a <see cref="Page"/>.
+        ///     Sets the text of a <see cref="Page" />.
         /// </summary>
         /// <param name="text">The text to be set.</param>
         /// <returns>The current builder.</returns>
@@ -180,7 +187,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the title of a <see cref="Page"/>.
+        ///     Sets the title of a <see cref="Page" />.
         /// </summary>
         /// <param name="title">The title to be set.</param>
         /// <returns>The current builder.</returns>
@@ -191,7 +198,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the description of a <see cref="Page"/>.
+        ///     Sets the description of a <see cref="Page" />.
         /// </summary>
         /// <param name="description"> The description to be set.</param>
         /// <returns>The current builder.</returns>
@@ -202,7 +209,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the URL of a <see cref="Page"/>.
+        ///     Sets the URL of a <see cref="Page" />.
         /// </summary>
         /// <param name="url"> The URL to be set.</param>
         /// <returns>The current builder.</returns>
@@ -213,7 +220,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the thumbnail URL of a <see cref="Page"/>.
+        ///     Sets the thumbnail URL of a <see cref="Page" />.
         /// </summary>
         /// <param name="thumbnailUrl"> The thumbnail URL to be set.</param>
         /// <returns>The current builder.</returns>
@@ -224,7 +231,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the image URL of a <see cref="Page"/>.
+        ///     Sets the image URL of a <see cref="Page" />.
         /// </summary>
         /// <param name="imageUrl">The image URL to be set.</param>
         /// <returns>The current builder.</returns>
@@ -235,7 +242,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the timestamp of a <see cref="Page"/> to the current time.
+        ///     Sets the timestamp of a <see cref="Page" /> to the current time.
         /// </summary>
         /// <returns>The current builder.</returns>
         public PageBuilder WithCurrentTimestamp()
@@ -245,7 +252,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the timestamp of a <see cref="Page"/>.
+        ///     Sets the timestamp of a <see cref="Page" />.
         /// </summary>
         /// <param name="dateTimeOffset">The timestamp to be set.</param>
         /// <returns>The current builder.</returns>
@@ -256,7 +263,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the sidebar color of a <see cref="Page"/>.
+        ///     Sets the sidebar color of a <see cref="Page" />.
         /// </summary>
         /// <param name="color">The color to be set.</param>
         /// <returns>The current builder.</returns>
@@ -267,7 +274,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the <see cref="EmbedAuthorBuilder"/> of a <see cref="Page"/>.
+        ///     Sets the <see cref="EmbedAuthorBuilder" /> of a <see cref="Page" />.
         /// </summary>
         /// <param name="author">The author builder class containing the author field properties.</param>
         /// <returns>The current builder.</returns>
@@ -278,7 +285,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the author field of a <see cref="Page"/> with the provided properties.
+        ///     Sets the author field of a <see cref="Page" /> with the provided properties.
         /// </summary>
         /// <param name="action">The delegate containing the author field properties.</param>
         /// <returns>The current builder.</returns>
@@ -289,7 +296,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the author field of a <see cref="Page"/> with the provided name, icon URL, and URL.
+        ///     Sets the author field of a <see cref="Page" /> with the provided name, icon URL, and URL.
         /// </summary>
         /// <param name="name">The title of the author field.</param>
         /// <param name="iconUrl">The icon URL of the author field.</param>
@@ -302,15 +309,17 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Fills the page author field with the provided user's full username and avatar URL.
+        ///     Fills the page author field with the provided user's full username and avatar URL.
         /// </summary>
         /// <param name="user">The user to put into the author.</param>
         /// <returns>The current builder.</returns>
         public PageBuilder WithAuthor(IUser user)
-            => WithAuthor(user.ToString(), user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl());
+        {
+            return WithAuthor(user.ToString(), user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl());
+        }
 
         /// <summary>
-        /// Sets the <see cref="EmbedFooterBuilder"/> of a <see cref="Page"/>.
+        ///     Sets the <see cref="EmbedFooterBuilder" /> of a <see cref="Page" />.
         /// </summary>
         /// <param name="footer">The footer builder class containing the footer field properties.</param>
         /// <returns>The current builder.</returns>
@@ -321,7 +330,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the footer field of a <see cref="Page"/> with the provided properties.
+        ///     Sets the footer field of a <see cref="Page" /> with the provided properties.
         /// </summary>
         /// <param name="action">The delegate containing the footer field properties.</param>
         /// <returns>The current builder.</returns>
@@ -331,7 +340,7 @@ namespace Mewdeko.Interactive
             return this;
         }
 
-        /// <summary>Sets the footer field of a <see cref="Page"/> with the provided name, icon URL.</summary>
+        /// <summary>Sets the footer field of a <see cref="Page" /> with the provided name, icon URL.</summary>
         /// <param name="text">The title of the footer field.</param>
         /// <param name="iconUrl">The icon URL of the footer field.</param>
         /// <returns>The current builder.</returns>
@@ -342,7 +351,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the fields of the <see cref="Page"/>.
+        ///     Sets the fields of the <see cref="Page" />.
         /// </summary>
         /// <param name="fields">The fields.</param>
         public PageBuilder WithFields(params EmbedFieldBuilder[] fields)
@@ -352,7 +361,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Sets the fields of the <see cref="Page"/>.
+        ///     Sets the fields of the <see cref="Page" />.
         /// </summary>
         /// <param name="fields">The fields.</param>
         public PageBuilder WithFields(IEnumerable<EmbedFieldBuilder> fields)
@@ -362,7 +371,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Adds an <see cref="Page"/> field with the provided name and value.
+        ///     Adds an <see cref="Page" /> field with the provided name and value.
         /// </summary>
         /// <param name="name">The title of the field.</param>
         /// <param name="value">The value of the field.</param>
@@ -375,7 +384,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Adds a field with the provided <see cref="PageBuilder"/> to an <see cref="Page"/>.
+        ///     Adds a field with the provided <see cref="PageBuilder" /> to an <see cref="Page" />.
         /// </summary>
         /// <param name="field">The field builder class containing the field properties.</param>
         /// <returns>The current builder.</returns>
@@ -386,7 +395,7 @@ namespace Mewdeko.Interactive
         }
 
         /// <summary>
-        /// Adds an <see cref="Page"/> field with the provided properties.
+        ///     Adds an <see cref="Page" /> field with the provided properties.
         /// </summary>
         /// <param name="action">The delegate containing the field properties.</param>
         /// <returns>The current builder.</returns>
@@ -398,10 +407,7 @@ namespace Mewdeko.Interactive
 
         internal PageBuilder WithPaginatorFooter(PaginatorFooter footer, int page, int totalPages, IList<IUser> users)
         {
-            if (footer == PaginatorFooter.None)
-            {
-                return this;
-            }
+            if (footer == PaginatorFooter.None) return this;
 
             Footer = new EmbedFooterBuilder();
             if (footer.HasFlag(PaginatorFooter.Users))
@@ -422,10 +428,8 @@ namespace Mewdeko.Interactive
                     Footer.Text += $"Interactors: {string.Join(", ", users)}";
                 }
             }
-            if (footer.HasFlag(PaginatorFooter.PageNumber))
-            {
-                Footer.Text += $"Page {page + 1}/{totalPages + 1}";
-            }
+
+            if (footer.HasFlag(PaginatorFooter.PageNumber)) Footer.Text += $"Page {page + 1}/{totalPages + 1}";
 
             return this;
         }

@@ -77,7 +77,7 @@ namespace Mewdeko.Modules.Games.Services
                 return null;
 
             var col = new IndexedCollection<PollAnswer>(data.Skip(1)
-                .Select(x => new PollAnswer {Text = x}));
+                .Select(x => new PollAnswer { Text = x }));
 
             return new Poll
             {

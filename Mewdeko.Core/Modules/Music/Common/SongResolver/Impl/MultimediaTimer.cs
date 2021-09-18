@@ -20,7 +20,7 @@ namespace Mewdeko.Core.Modules.Music.Common
             _state = state;
 
             _lpTimeProc = CallbackInternal;
-            _eventId = timeSetEvent((uint) period, 1, _lpTimeProc, 0, TimerMode.Periodic);
+            _eventId = timeSetEvent((uint)period, 1, _lpTimeProc, 0, TimerMode.Periodic);
         }
 
         public void Dispose()

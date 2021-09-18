@@ -118,7 +118,7 @@ namespace Mewdeko.Core.Services.Impl
                 {
                     Cmd = key,
                     Desc = key,
-                    Usage = new[] {key}
+                    Usage = new[] { key }
                 };
 
             return toReturn;

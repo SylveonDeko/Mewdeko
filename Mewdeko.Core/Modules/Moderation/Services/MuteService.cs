@@ -213,7 +213,7 @@ namespace Mewdeko.Modules.Moderation.Services
                     var config = uow.GuildConfigs.ForId(usr.Guild.Id,
                         set => set.Include(gc => gc.MutedUsers)
                             .Include(gc => gc.UnmuteTimers));
-                    var roles = usr.GetRoles().Where(p => p.Tags == null).Except(new[] {usr.Guild.EveryoneRole});
+                    var roles = usr.GetRoles().Where(p => p.Tags == null).Except(new[] { usr.Guild.EveryoneRole });
                     var uroles = string.Join(" ", roles.Select(x => x.Id));
                     if (GetRemoveOnMute(usr.Guild.Id) == 0)
                         config.MutedUsers.Add(new MutedUserId
