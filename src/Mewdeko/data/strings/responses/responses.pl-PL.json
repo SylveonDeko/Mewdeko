@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Wszystkie statystyki niestandardowych reakcji zostały wyczyszczone.",
   "deleted": "Niestandardowe reakcje zostały usunięte",
-  "insuff_perms":
-    "Brak wystarczających uprawnień. Wymagane są uprawnienia właściciela dla globalnych niestandardowych reakcji lub uprawnienia administratora dla serwerowych niestandardowych reakcji.",
+  "insuff_perms": "Brak wystarczających uprawnień. Wymagane są uprawnienia właściciela dla globalnych niestandardowych reakcji lub uprawnienia administratora dla serwerowych niestandardowych reakcji.",
   "list_all": "Lista wszystkich niestandardowych reakcji",
   "new_cust_react": "Nowe niestandardowe reakcje",
   "no_found": "Nie znaleziono żadnych niestandardowych reakcji",
@@ -42,8 +41,7 @@
   "deltextchan": "Kanał tekstowy {0} został usunięty.",
   "delvoich": "Kanał głosowy {0} został usunięty.",
   "dm_from": "Prywatna wiadomość od",
-  "donadd":
-    "Z powodzeniem dodano nowego darczyńcę. Łączna darowizna przekazana przez tego użytkownika wynosi: {0} \uD83D\uDC51",
+  "donadd": "Z powodzeniem dodano nowego darczyńcę. Łączna darowizna przekazana przez tego użytkownika wynosi: {0} \uD83D\uDC51",
   "donators": "Dziękuję ludziom wypisanym na dole za pomoc w realizacji tego projektu!",
   "fwall_start": "Wyślę prywatne wiadomości do wszystkich właścicieli.",
   "fwall_stop": "Wyślę prywatną wiadomość tylko do pierwszego właściciela.",
@@ -133,8 +131,7 @@
   "self_assign_not": "Tej roli nie możesz nadać sobie sam.",
   "self_assign_not_have": "Nie posiadasz roli {0}.",
   "self_assign_no_excl": "Można teraz mieć więcej niż jedną rolę przypisywaną samodzielnie!",
-  "self_assign_perms":
-    "Nie jestem w stanie nadać ci tej roli. \u0060Nie mogę nadawać ról właścicielom oraz osobom wyższych w hierarchii niż ja.\u0060",
+  "self_assign_perms": "Nie jestem w stanie nadać ci tej roli. \u0060Nie mogę nadawać ról właścicielom oraz osobom wyższych w hierarchii niż ja.\u0060",
   "self_assign_rem": "Rola {0} została usunięta z listy ról, które użytkownik może sobie nadać sam.",
   "self_assign_remove": "Nie masz już roli {0}.",
   "self_assign_success": "Masz teraz rolę {0}.",
@@ -180,12 +177,9 @@
   "voice_chan_destroyed": "Kanał głosowy usunięty",
   "vt_disabled": "Wyłączono funkcję głos \u002B tekst.",
   "vt_enabled": "Włączono funkcję głos \u002B tekst.",
-  "vt_exit":
-    "Nie mam uprawnień: **zarządzanie rolami** i **zarządzanie kanałami**, więc nie mogę uruchomić funkcji \u0060głos\u002Btekst\u0060 na serwerze {0}.",
-  "vt_no_admin":
-    "Włączasz/Wyłączasz tą funkcję a ja **nie mam uprawnień ADMINISTRATORA**. Może to spowodować problemy i będziesz musiał czyścić kanały tekstowe sam.",
-  "vt_perms":
-    "By włączyć tą funkcję, muszę posiadać uprawnienia: **zarządzanie rolami** i **zarządzanie kanałami**. (Zalecane uprawnienia administratora)",
+  "vt_exit": "Nie mam uprawnień: **zarządzanie rolami** i **zarządzanie kanałami**, więc nie mogę uruchomić funkcji \u0060głos\u002Btekst\u0060 na serwerze {0}.",
+  "vt_no_admin": "Włączasz/Wyłączasz tą funkcję a ja **nie mam uprawnień ADMINISTRATORA**. Może to spowodować problemy i będziesz musiał czyścić kanały tekstowe sam.",
+  "vt_perms": "By włączyć tą funkcję, muszę posiadać uprawnienia: **zarządzanie rolami** i **zarządzanie kanałami**. (Zalecane uprawnienia administratora)",
   "xmuted_text": "Użytkownik {0} z tekstowego czatu",
   "xmuted_text_and_voice": "Użytkownik {0} z tekstowego i głosowego czatu",
   "xmuted_voice": "Użytkownik {0} z czatu głosowego",
@@ -224,17 +218,14 @@
   "cmdlist_donate": "Możesz wspierać ten projekt na patreonie: \u003C{0}\u003E albo poprzez paypala: \u003C{1}\u003E",
   "cmd_and_alias": "Komendy i aliasy",
   "commandlist_regen": "Lista komend została wygenerowana na nowo.",
-  "commands_instr":
-    "Wpisz \u0060{0}h NazwaKomendy\u0060 aby otrzymać pomoc dla danej komendy, np. \u0060{0}h \u003E8ball\u0060 ",
+  "commands_instr": "Wpisz \u0060{0}h NazwaKomendy\u0060 aby otrzymać pomoc dla danej komendy, np. \u0060{0}h \u003E8ball\u0060 ",
   "command_not_found": "Nie mogę znaleźć komendy. Proszę sprawdź czy komenda istnieje, zanim jej użyjesz.",
   "desc": "Opis",
-  "donate":
-    "Możesz wspierać projekt Mewdeko na\nPatreonie \u003C{0}\u003E albo\nPaypalu \u003C{1}\u003E\nNie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomości.\n\n**Dziękujemy** ♥️ ",
+  "donate": "Możesz wspierać projekt Mewdeko na\nPatreonie \u003C{0}\u003E albo\nPaypalu \u003C{1}\u003E\nNie zapomnij zostawić swojej discordowej nazwy użytkownika albo ID w wiadomości.\n\n**Dziękujemy** ♥️ ",
   "guide": "**Lista komend**:\u003C{0}\u003E\n**Poradniki hostowania i dokumenty znajdziesz tutaj**:\u003C{1}\u003E",
   "list_of_commands": "Lista komend",
   "list_of_modules": "Lista modułów",
-  "modules_footer":
-    "Napisz \u0060{0}cmds NazwaModułu\u0060 aby dostać listę komend w tym module, na przykład \u0060{0}cmds games\u0060",
+  "modules_footer": "Napisz \u0060{0}cmds NazwaModułu\u0060 aby dostać listę komend w tym module, na przykład \u0060{0}cmds games\u0060",
   "module_not_found": "Ten moduł nie istnieje.",
   "server_permission": "Wymaga {0} uprawnień na serwerze.",
   "table_of_contents": "Spis treści",
@@ -263,19 +254,16 @@
   "likes": "Lubi",
   "waifus_none": "Nie zdobyłeś jeszcze żadnej waifu.",
   "waifus_top_waifus": "Ranking",
-  "waifu_affinity_already":
-    "Twoje zamiłowanie jest już ustawione do tego waifu albo próbujesz usunąć twoje zamiłowanie kiedy nie masz takiego.",
+  "waifu_affinity_already": "Twoje zamiłowanie jest już ustawione do tego waifu albo próbujesz usunąć twoje zamiłowanie kiedy nie masz takiego.",
   "waifu_affinity_changed": "lubi teraz {0} zamiast {1}.\n\n*Czy to aby na pewno moralne?*",
   "waifu_affinity_cooldown": "Musisz poczekać {0} godzin i {1} minut aby zmienić swój obiekt westchnień.",
   "waifu_affinity_reset": "Twoje zamiłowanie jest zresetowane. Nie ma już osoby którą lubisz.",
   "waifu_affinity_set": "chce być zdobyta przez {0}. Aww \u003C3",
   "waifu_claimed": "zdobył waifu {0} za {1}!",
-  "waifu_divorced_like":
-    "Rozwiodłeś się z waifu, która cię lubi. Ty bezduszny potworze!\n{0} odtrzymał {1} jako rekompensatę.",
+  "waifu_divorced_like": "Rozwiodłeś się z waifu, która cię lubi. Ty bezduszny potworze!\n{0} odtrzymał {1} jako rekompensatę.",
   "waifu_egomaniac": "nie możesz ustawić zamiłowania do samego siebie, ty egomaniaku.",
   "waifu_fulfilled": "\uD83C\uDF89 To prawdziwa miłość! \uD83C\uDF89 \nNowa wartość {0} to {1}!",
-  "waifu_isnt_cheap":
-    "Żadna waifu nie jest taka tania. Musisz zapłacić co najmniej {0} aby zdobyć waifu, nawet jeśli nie jest tyle warta.",
+  "waifu_isnt_cheap": "Żadna waifu nie jest taka tania. Musisz zapłacić co najmniej {0} aby zdobyć waifu, nawet jeśli nie jest tyle warta.",
   "waifu_not_enough": "Musisz zapłacić {0} albo więcej aby zdobyć tą waifu.",
   "waifu_not_yours": "Ta waifu nie jest twoja.",
   "waifu_not_yourself": "Nie możesz zdobyć siebie.",
@@ -431,8 +419,7 @@
   "word_filter_server_on": "Filtrowanie słów włączone na tym serwerze.",
   "abilities": "Zdolności",
   "anime_no_fav": "Brak ulubionego anime",
-  "atl_ad_started":
-    "Zaczęto automatyczne tłumaczenie wiadomości na tym kanale. Wiadomości użytkowników będą automatycznie usuwane.",
+  "atl_ad_started": "Zaczęto automatyczne tłumaczenie wiadomości na tym kanale. Wiadomości użytkowników będą automatycznie usuwane.",
   "atl_removed": "twój auto-tłumaczący język został usunięty.",
   "atl_set": "twój auto-tłumaczący język został ustawiony {0}\u003E{1}",
   "atl_started": "Zaczęto automatyczne tłumaczenie wiadomości na tym kanale.",
@@ -540,8 +527,7 @@
   "features": "Funkcje",
   "index_out_of_range": "Indeks poza zakresem",
   "inrole_list": "Lista użytkowników w roli {0}",
-  "inrole_not_allowed":
-    "Używanie tej komendy nie jest dozwolone na rolach z dużą ilością użytkowników aby uniknąć nadużywania jej",
+  "inrole_not_allowed": "Używanie tej komendy nie jest dozwolone na rolach z dużą ilością użytkowników aby uniknąć nadużywania jej",
   "invalid_value": "Niepoprawna wartość {0}",
   "listservers": "ID: {0}\nCzłonkowie: {1}\nID właściciela: {2}",
   "listservers_none": "Nie znaleziono serwerów na tej stronie.",
@@ -652,17 +638,13 @@
   "slowmodewl_user_start": "Tryb powolny nie będzie dotyczył użytkownika {0}.",
   "slowmodewl_user_stop": "Tryb powolny już nie będzie dotyczyć użytkownika {0}.",
   "clpa_fail": "Błąd odbioru nagrody z jednego z następujących powodów",
-  "clpa_fail_already":
-    "Możliwe że już odebrałeś swoją nagrodę w tym miesiącu. Możesz odbierać nagrody tylko raz na miesiąc, chyba że powiększysz swoją darowiznę",
+  "clpa_fail_already": "Możliwe że już odebrałeś swoją nagrodę w tym miesiącu. Możesz odbierać nagrody tylko raz na miesiąc, chyba że powiększysz swoją darowiznę",
   "clpa_fail_already_title": "Już wynagrodzony\n",
-  "clpa_fail_conn":
-    "Twoje konto Discord może nie być połączone z Patreon\u0027em. Jeśli nie jesteś pewien co to oznacza lub nie wiesz jak je połączyć - otwórz [stonę z ustawieniami konta Patreon](https://patreon.com/settings/account) i kliknij przycisk \u0022Connect to discord\u0022 (połącz z Discord).",
+  "clpa_fail_conn": "Twoje konto Discord może nie być połączone z Patreon\u0027em. Jeśli nie jesteś pewien co to oznacza lub nie wiesz jak je połączyć - otwórz [stonę z ustawieniami konta Patreon](https://patreon.com/settings/account) i kliknij przycisk \u0022Connect to discord\u0022 (połącz z Discord).",
   "clpa_fail_conn_title": "Konto Discord nie połączone z Patreon",
-  "clpa_fail_sup":
-    "Aby móc odebrać nagrodę musisz wesprzeć projekt Mewdeko na Parteon. Możesz użyć komendy {0} żeby dostać link.",
+  "clpa_fail_sup": "Aby móc odebrać nagrodę musisz wesprzeć projekt Mewdeko na Parteon. Możesz użyć komendy {0} żeby dostać link.",
   "clpa_fail_sup_title": "Nie wspierasz",
-  "clpa_fail_wait":
-    "Musisz poczekać kilka godzin po ofiarowaniu darowizny, jeśli tego nie zrobiłeś/aś, spróbuj ponownie później.",
+  "clpa_fail_wait": "Musisz poczekać kilka godzin po ofiarowaniu darowizny, jeśli tego nie zrobiłeś/aś, spróbuj ponownie później.",
   "clpa_fail_wait_title": "Poczekaj chwilę",
   "clpa_success": "Otrzymałeś {0}. Dziękujemy, że wspierasz projekt!",
   "clpa_too_early": "Nagrody mogą zostać odebrane piątego dnia każdego miesiąca lub później",
@@ -709,8 +691,7 @@
   "bot_nick": "Nickname bota został zmieniony na {0}",
   "user_nick": "Nickname użytkowanika {0} został zmieniony na {1}",
   "timezone_guild": "Strefa czasowa tej gildii to {0}",
-  "timezone_not_found":
-    "Strefa czasowa nie znaleziona. Użyj komendy \u0022timezones\u0022 aby zobaczyć listę dostepnych stref czasowych.",
+  "timezone_not_found": "Strefa czasowa nie znaleziona. Użyj komendy \u0022timezones\u0022 aby zobaczyć listę dostepnych stref czasowych.",
   "timezones_available": "Dostępne strefy czasowe.",
   "song_not_found": "Nie znaleziono piosenki.",
   "define_unknown": "Nie można znaleźć definicji tego terminu.",
@@ -744,8 +725,7 @@
   "nunchi_ended_no_winner": "Gra w nunchi zakończyła się bez wygranej",
   "nunchi_started": "Rozpoczęto rozgrywkę Nunchi z {0} uczestnikami.",
   "nunchi_round_ended": "Zakończono rundę Nunchi. {0} odpada z gry.",
-  "nunchi_round_ended_boot":
-    "Zakończono rundę Nunchi ze względu na koniec czasu na ruch niektórych użytkowników. Gracze wciąż w grze: {0}",
+  "nunchi_round_ended_boot": "Zakończono rundę Nunchi ze względu na koniec czasu na ruch niektórych użytkowników. Gracze wciąż w grze: {0}",
   "nunchi_round_started": "Runda Nunchi rozpoczęta z {0} użytkownikami. Zacznijcie liczyć od {1}.",
   "nunchi_next_number": "Numer zarejestrowany. Ostatnim numerem był {0}.",
   "nunchi_failed_to_start": "Nieudało się zacząć gry w nunchi ponieważ nie było wystarczająco uczestników.",
@@ -760,17 +740,14 @@
   "stream_role_bl_add_fail": "Użytkownik {0} już jest na czarnej liście.",
   "stream_role_bl_rem": "Użytkownik {0} został zdjęty z czarnej listy.",
   "stream_role_bl_rem_fail": "Użytkownik {0} nie jest na czarnej liście.",
-  "stream_role_wl_add":
-    "Użytkownik {0} otrzyma rolę streamera nawet jeśli nie mają oni słowa kluczonego w tytule streamu.",
+  "stream_role_wl_add": "Użytkownik {0} otrzyma rolę streamera nawet jeśli nie mają oni słowa kluczonego w tytule streamu.",
   "stream_role_wl_add_fail": "Użytkownik {0} już jest na białej liście.",
   "stream_role_wl_rem": "Użytkownik {0} został zdjęty z białej listy.",
   "stream_role_wl_rem_fail": "Użytkownik {0} nie jest na białej liście.",
   "bot_config_edit_fail": "Nie udało się ustawić wartości {0} na {1}",
   "bot_config_edit_success": "Wartość {0} została ustawiona na {1}",
-  "crca_disabled":
-    "Niestandardowe reakcje o ID {0} nie będą od teraz wywoływane chyba że słowo wyzwalające jest na początku wiadomości.",
-  "crca_enabled":
-    "Niestandardowe reakcje o ID {0} będą od teraz wywoływane jeśli są one zawarte gdziekolwiek w wiadomości.",
+  "crca_disabled": "Niestandardowe reakcje o ID {0} nie będą od teraz wywoływane chyba że słowo wyzwalające jest na początku wiadomości.",
+  "crca_enabled": "Niestandardowe reakcje o ID {0} będą od teraz wywoływane jeśli są one zawarte gdziekolwiek w wiadomości.",
   "server_level": "Poziom serwerowy",
   "club": "Klub",
   "xp": "Doświadczenie",
@@ -790,26 +767,21 @@
   "server_leaderboard": "Tablica wyników XP serwera",
   "global_leaderboard": "Globalna tablica wyników XP",
   "modified": "Zmieniono serwerowe XP użytkownika {0} o {1}",
-  "club_create_error":
-    "Nie udało się utworzyć klubu. Upewnij się że masz poziom 5 lub wyższy i nie jesteś w żadnym klubie.",
+  "club_create_error": "Nie udało się utworzyć klubu. Upewnij się że masz poziom 5 lub wyższy i nie jesteś w żadnym klubie.",
   "club_created": "Klub {0} został pomyślnie utworzony!",
   "club_not_exists": "Ten klub nie istnieje",
   "club_applied": "Zaaplikowano o członkostwo w klubie {0}.",
-  "club_apply_error":
-    "Błąd podczas aplikowania. Jesteś już członkiem tego klubu, nie spełniasz wymagania poziomu, lub jesteś z niego zbanowany.",
+  "club_apply_error": "Błąd podczas aplikowania. Jesteś już członkiem tego klubu, nie spełniasz wymagania poziomu, lub jesteś z niego zbanowany.",
   "club_accepted": "Przyjęto użytkownika {0} do klubu.",
   "club_accept_error": "Nie znaleziono użytkownika.",
   "club_left": "Wyszedłeś z klubu",
   "club_not_in_club": "Nie jesteś w żadnym klubie, lub próbujesz opuścić klub którego jesteś właścicielem.",
   "club_user_kick": "Użytkownik {0} został wyrzucony z klubu {1}.",
-  "club_user_kick_fail":
-    "Błąd podczas wyrzucania. Nie jesteś właścicielem klubu, lub ten użytkownik nie jest w twoim klubie.",
+  "club_user_kick_fail": "Błąd podczas wyrzucania. Nie jesteś właścicielem klubu, lub ten użytkownik nie jest w twoim klubie.",
   "club_user_banned": "Zbanowano użytkownika {0} z klubu {1}.",
-  "club_user_ban_fail":
-    "Błąd podczas banowania. Nie jesteś właścicielem klubu, użytkownik nie jest w twoim klubie lub nigdy do niego nie aplikował.",
+  "club_user_ban_fail": "Błąd podczas banowania. Nie jesteś właścicielem klubu, użytkownik nie jest w twoim klubie lub nigdy do niego nie aplikował.",
   "club_user_unbanned": "Odbanowano użytkownika {0} w klubie {1}.",
-  "club_user_unban_fail":
-    "Błąd podczas odbanowania. Nie jesteś właścicielem klubu albo ten użytkownik nie jest w nim ani do niego nie aplikuje.",
+  "club_user_unban_fail": "Błąd podczas odbanowania. Nie jesteś właścicielem klubu albo ten użytkownik nie jest w nim ani do niego nie aplikuje.",
   "club_level_req_changed": "Zmieniono wymagania poziomu klubu na {0}",
   "club_level_req_change_error": "Nie udało się zmienić wymagań poziomu.",
   "club_disbanded": "Klub {0} został rozwiązany.",
@@ -831,8 +803,7 @@
   "started": "",
   "stopped": "",
   "feed_added": "Dodano kanał.",
-  "feed_not_valid":
-    "Nieprawidłowy link, już obserwujesz ten kanał na tym serwerze, lub osiągnąłeś limit dozwolonych obserwowanych kanałów.",
+  "feed_not_valid": "Nieprawidłowy link, już obserwujesz ten kanał na tym serwerze, lub osiągnąłeś limit dozwolonych obserwowanych kanałów.",
   "feed_out_of_range": "Nieosiągalny indeks.",
   "feed_removed": "Usunięto kanał.",
   "feed_no_feed": "Nie subskrybujesz żadnych kanałów na tym serwerze.",

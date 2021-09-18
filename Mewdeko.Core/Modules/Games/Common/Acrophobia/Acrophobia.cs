@@ -123,8 +123,8 @@ namespace Mewdeko.Modules.Games.Common.Acrophobia
 
             for (var i = 0; i < wordCount; i++)
             {
-                var randChar = (char) _rng.Next(65, 91);
-                lettersArr[i] = randChar == 'X' ? (char) _rng.Next(65, 88) : randChar;
+                var randChar = (char)_rng.Next(65, 91);
+                lettersArr[i] = randChar == 'X' ? (char)_rng.Next(65, 88) : randChar;
             }
 
             StartingLetters = lettersArr.ToImmutableArray();

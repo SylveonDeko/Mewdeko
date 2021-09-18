@@ -96,7 +96,7 @@ FROM BotConfig";
                         ? errorColor
                         : Rgba32.ParseHex("ee281f")
                 };
-                x.ConsoleOutputType = (ConsoleOutputType) reader.GetInt32(5);
+                x.ConsoleOutputType = (ConsoleOutputType)reader.GetInt32(5);
                 x.DmHelpText = reader.IsDBNull(6) ? string.Empty : reader.GetString(6);
                 x.HelpText = reader.IsDBNull(7) ? string.Empty : reader.GetString(7);
                 x.RotateStatuses = reader.GetBoolean(8);

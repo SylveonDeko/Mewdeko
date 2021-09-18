@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Mewdeko.Core.Services.Database;
 using Mewdeko.Core.Services.Database.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Controllers
 {
@@ -43,10 +42,7 @@ namespace Mewdeko.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGuildConfig(int id, GuildConfig guildConfig)
         {
-            if (id != guildConfig.Id)
-            {
-                return BadRequest();
-            }
+            if (id != guildConfig.Id) return BadRequest();
 
             _context.Entry(guildConfig).State = EntityState.Modified;
 
@@ -57,13 +53,8 @@ namespace Mewdeko.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!GuildConfigExists(id))
-                {
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -85,10 +76,7 @@ namespace Mewdeko.Controllers
         public async Task<IActionResult> DeleteGuildConfig(int id)
         {
             var guildConfig = await _context.GuildConfigs.FindAsync(id);
-            if (guildConfig == null)
-            {
-                return NotFound();
-            }
+            if (guildConfig == null) return NotFound();
 
             _context.GuildConfigs.Remove(guildConfig);
             await _context.SaveChangesAsync();

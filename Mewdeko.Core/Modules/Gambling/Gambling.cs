@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
@@ -16,12 +17,9 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Gambling.Services;
-using DiscordBotsList.Api;
-using KSoftNet.KSoft;
-using KSoftNet;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
+using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling
 {
@@ -46,7 +44,6 @@ namespace Mewdeko.Modules.Gambling
             Draw
         }
 
-        private InteractiveService Interactivity;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
         private readonly GamblingConfigService _configService;
@@ -56,11 +53,14 @@ namespace Mewdeko.Modules.Gambling
         private readonly DownloadTracker _tracker;
         public KSoftAPI _ksoft;
 
+        private readonly InteractiveService Interactivity;
+
         private IUserMessage rdMsg;
 
         public Gambling(DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client,
-            DownloadTracker tracker, GamblingConfigService configService, KSoftAPI ks, InteractiveService serv) : base(configService)
+            DownloadTracker tracker, GamblingConfigService configService, KSoftAPI ks, InteractiveService serv) : base(
+            configService)
         {
             Interactivity = serv;
             _ksoft = ks;
@@ -87,6 +87,7 @@ namespace Mewdeko.Modules.Gambling
                 return n(uow.DiscordUsers.GetUserCurrency(id));
             }
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -101,13 +102,13 @@ namespace Mewdeko.Modules.Gambling
             // [21:03] Bob Page: Kinda remids me of US economy
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("economy_state"))
-                .AddField(GetText("currency_owned"), (BigInteger) (ec.Cash - ec.Bot) + CurrencySign)
+                .AddField(GetText("currency_owned"), (BigInteger)(ec.Cash - ec.Bot) + CurrencySign)
                 .AddField(GetText("currency_one_percent"), (onePercent * 100).ToString("F2") + "%")
-                .AddField(GetText("currency_planted"), (BigInteger) ec.Planted + CurrencySign)
-                .AddField(GetText("owned_waifus_total"), (BigInteger) ec.Waifus + CurrencySign)
+                .AddField(GetText("currency_planted"), (BigInteger)ec.Planted + CurrencySign)
+                .AddField(GetText("owned_waifus_total"), (BigInteger)ec.Waifus + CurrencySign)
                 .AddField(GetText("bot_currency"), ec.Bot + CurrencySign)
                 .AddField(GetText("total"),
-                    ((BigInteger) (ec.Cash + ec.Planted + ec.Waifus)).ToString("N", _enUsCulture) + CurrencySign)
+                    ((BigInteger)(ec.Cash + ec.Planted + ec.Waifus)).ToString("N", _enUsCulture) + CurrencySign)
                 .WithOkColor();
             // ec.Cash already contains ec.Bot as it's the total of all values in the CurrencyAmount column of the DiscordUser table
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -139,6 +140,7 @@ namespace Mewdeko.Modules.Gambling
 
             await ReplyConfirmLocalizedAsync("timely", n(val) + CurrencySign, period).ConfigureAwait(false);
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -150,9 +152,11 @@ namespace Mewdeko.Modules.Gambling
             TimeSpan? rem;
             if (!_service.GetVoted(ctx.User.Id))
             {
-                await ctx.Channel.SendErrorAsync("You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
+                await ctx.Channel.SendErrorAsync(
+                    "You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
                 return;
             }
+
             if ((rem = _cache.AddTimelyClaim(ctx.User.Id, period)) != null)
             {
                 await ReplyErrorLocalizedAsync("vote_already_claimed", rem?.ToString(@"dd\d\ hh\h\ mm\m\ ss\s"))
@@ -160,7 +164,8 @@ namespace Mewdeko.Modules.Gambling
                 return;
             }
 
-            await _cs.AddAsync(ctx.User.Id, "Vote Claim https://top.gg/bot/752236274261426212/vote", val).ConfigureAwait(false);
+            await _cs.AddAsync(ctx.User.Id, "Vote Claim https://top.gg/bot/752236274261426212/vote", val)
+                .ConfigureAwait(false);
 
             await ctx.Channel.SendConfirmAsync("Vote currency claimed!");
         }
@@ -291,7 +296,7 @@ namespace Mewdeko.Modules.Gambling
 
             var embed = new EmbedBuilder()
                 .WithTitle(GetText("transactions",
-                    ((SocketGuild) ctx.Guild)?.GetUser(userId)?.ToString() ?? $"{userId}"))
+                    ((SocketGuild)ctx.Guild)?.GetUser(userId)?.ToString() ?? $"{userId}"))
                 .WithOkColor();
 
             var desc = "";
@@ -329,7 +334,7 @@ namespace Mewdeko.Modules.Gambling
             if (amount <= 0 || ctx.User.Id == receiver.Id || receiver.IsBot)
                 return;
             var success = await _cs
-                .RemoveAsync((IGuildUser) ctx.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount)
+                .RemoveAsync((IGuildUser)ctx.User, $"Gift to {receiver.Username} ({receiver.Id}).", amount)
                 .ConfigureAwait(false);
             if (!success)
             {
@@ -542,7 +547,7 @@ namespace Mewdeko.Modules.Gambling
                             ? ctx.User
                             : u;
                         embed.Description +=
-                            $"\n**{winner}** Won {n((long) (rdGame.Amount * 2 * 0.98)) + CurrencySign}";
+                            $"\n**{winner}** Won {n((long)(rdGame.Amount * 2 * 0.98)) + CurrencySign}";
                         await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
                             .ConfigureAwait(false);
                     }
@@ -581,7 +586,7 @@ namespace Mewdeko.Modules.Gambling
             var str = Format.Bold(ctx.User.ToString()) + Format.Code(GetText("roll", result.Roll));
             if (result.Multiplier > 0)
             {
-                var win = (long) (amount * result.Multiplier);
+                var win = (long)(amount * result.Multiplier);
                 str += GetText("br_win",
                     n(win) + CurrencySign,
                     result.Threshold + (result.Roll == 100 ? " 👑" : ""));
@@ -645,7 +650,7 @@ namespace Mewdeko.Modules.Gambling
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
-                var sg = (SocketGuild) Context.Guild;
+                var sg = (SocketGuild)Context.Guild;
                 cleanRichest = cleanRichest.Where(x => sg.GetUser(x.UserId) != null)
                     .ToList();
             }
@@ -658,14 +663,15 @@ namespace Mewdeko.Modules.Gambling
             }
 
             var paginator = new LazyPaginatorBuilder()
-               .AddUser(ctx.User)
-               .WithPageFactory(PageFactory)
-               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-               .WithMaxPageIndex(cleanRichest.Count() / 9)
-               .WithDefaultEmotes()
-               .Build();
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(cleanRichest.Count() / 9)
+                .WithDefaultEmotes()
+                .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
             Task<PageBuilder> PageFactory(int page)
             {
                 var embed = new PageBuilder()
@@ -727,7 +733,7 @@ namespace Mewdeko.Modules.Gambling
 
             var embed = new EmbedBuilder();
 
-            var MewdekoPick = (RpsPick) new MewdekoRandom().Next(0, 3);
+            var MewdekoPick = (RpsPick)new MewdekoRandom().Next(0, 3);
 
             if (amount > 0)
                 if (!await _cs.RemoveAsync(ctx.User.Id,
@@ -749,7 +755,7 @@ namespace Mewdeko.Modules.Gambling
                      pick == RpsPick.Rock && MewdekoPick == RpsPick.Scissors ||
                      pick == RpsPick.Scissors && MewdekoPick == RpsPick.Paper)
             {
-                amount = (long) (amount * _config.BetFlip.Multiplier);
+                amount = (long)(amount * _config.BetFlip.Multiplier);
                 await _cs.AddAsync(ctx.User.Id,
                     "Rps-win", amount, true).ConfigureAwait(false);
                 embed.WithOkColor();

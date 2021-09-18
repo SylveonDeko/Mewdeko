@@ -12,7 +12,6 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko.Interactive;
 using KSoftNet;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
@@ -24,6 +23,7 @@ using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
+using Mewdeko.Interactive;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.CustomReactions.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,7 +63,8 @@ namespace Mewdeko
                 AlwaysDownloadUsers = true,
                 GatewayIntents = GatewayIntents.All,
                 AlwaysAcknowledgeInteractions = false
-            }); ;
+            });
+            ;
 
             CommandService = new CommandService(new CommandServiceConfig
             {
@@ -222,7 +223,7 @@ namespace Mewdeko
             var toReturn = new List<object>();
             foreach (var ft in filteredTypes)
             {
-                var x = (TypeReader) Activator.CreateInstance(ft, Client, CommandService);
+                var x = (TypeReader)Activator.CreateInstance(ft, Client, CommandService);
                 var baseType = ft.BaseType;
                 var typeArgs = baseType.GetGenericArguments();
                 CommandService.AddTypeReader(typeArgs[0], x);
@@ -415,7 +416,7 @@ namespace Mewdeko
             {
                 try
                 {
-                    var obj = new {Name = default(string), Activity = ActivityType.Playing};
+                    var obj = new { Name = default(string), Activity = ActivityType.Playing };
                     obj = JsonConvert.DeserializeAnonymousType(game, obj);
                     await Client.SetGameAsync(obj.Name, type: obj.Activity).ConfigureAwait(false);
                 }
@@ -429,7 +430,7 @@ namespace Mewdeko
             {
                 try
                 {
-                    var obj = new {Name = "", Url = ""};
+                    var obj = new { Name = "", Url = "" };
                     obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
                     await Client.SetGameAsync(obj.Name, obj.Url, ActivityType.Streaming).ConfigureAwait(false);
                 }
@@ -442,7 +443,7 @@ namespace Mewdeko
 
         public Task SetGameAsync(string game, ActivityType type)
         {
-            var obj = new {Name = game, Activity = type};
+            var obj = new { Name = game, Activity = type };
             var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
             return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
         }

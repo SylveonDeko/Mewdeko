@@ -29,7 +29,7 @@ namespace Mewdeko.Modules.Games
             [UserPerm(GuildPerm.ManageMessages)]
             public async Task Cleverbot()
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (_service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
                 {

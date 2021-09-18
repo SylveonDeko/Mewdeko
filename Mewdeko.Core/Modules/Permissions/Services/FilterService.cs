@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,6 +9,7 @@ using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Core.Common;
+using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
@@ -125,13 +125,11 @@ namespace Mewdeko.Modules.Permissions.Services
         public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage msg)
         {
             return
-                !(msg.Author is IGuildUser gu) //it's never filtered outside of guilds, and never block administrators
-                    ? false
-                    : !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.GuildPermissions.Administrator &&
-                      (await FilterInvites(guild, msg).ConfigureAwait(false)
-                       || await FilterWords(guild, msg).ConfigureAwait(false)
-                       || await FilterLinks(guild, msg).ConfigureAwait(false)
-                       || await FilterBannedWords(guild, msg).ConfigureAwait(false));
+                msg.Author is IGuildUser gu && (!gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) && !gu.GuildPermissions.Administrator &&
+                                                (await FilterInvites(guild, msg).ConfigureAwait(false)
+                                                 || await FilterWords(guild, msg).ConfigureAwait(false)
+                                                 || await FilterLinks(guild, msg).ConfigureAwait(false)
+                                                 || await FilterBannedWords(guild, msg).ConfigureAwait(false)));
         }
 
         private ValueTask OnReload(AutoBanEntry[] blacklist)
@@ -151,7 +149,7 @@ namespace Mewdeko.Modules.Permissions.Services
         public void Blacklist(string id, ulong id2)
         {
             using var uow = _db.GetDbContext();
-            var item = new AutoBanEntry {Word = id, GuildId = id2};
+            var item = new AutoBanEntry { Word = id, GuildId = id2 };
             uow._context.AutoBanWords.Add(item);
             uow.SaveChanges();
 
@@ -332,9 +330,8 @@ namespace Mewdeko.Modules.Permissions.Services
             var filteredServerWords = FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
             var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
             if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
-                foreach (var word in wordsInMessage)
-                    if (filteredChannelWords.Contains(word) ||
-                        filteredServerWords.Contains(word))
+                foreach (var word in filteredChannelWords)
+                    if (usrMsg.Content.Contains(word))
                     {
                         try
                         {
@@ -356,6 +353,33 @@ namespace Mewdeko.Modules.Permissions.Services
 
                         return true;
                     }
+
+            foreach (var word in filteredServerWords)
+            {
+                if (usrMsg.Content.Contains(word))
+                {
+                    try
+                    {
+                        await usrMsg.DeleteAsync().ConfigureAwait(false);
+                        if (GetFW(guild.Id) != 0)
+                        {
+                            await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser,
+                                "Warned for Filtered Word");
+                            var user = await usrMsg.Author.CreateDMChannelAsync();
+                            await user.SendErrorAsync(
+                                "You have been warned for using the word " + Format.Code(word));
+                        }
+                    }
+                    catch (HttpException ex)
+                    {
+                        Log.Warning(
+                            "I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
+                    }
+
+                    return true;
+                }
+                    
+            }
 
             return false;
         }

@@ -6,68 +6,73 @@ using Discord;
 namespace Mewdeko.Interactive.Selection
 {
     /// <summary>
-    /// Represents the base of the selection builders. Custom selection builders should inherit this class to allow fluent interface usage.
+    ///     Represents the base of the selection builders. Custom selection builders should inherit this class to allow fluent
+    ///     interface usage.
     /// </summary>
     /// <typeparam name="TSelection">The type of the built selection.</typeparam>
     /// <typeparam name="TOption">The type of the options the selection will have.</typeparam>
     /// <typeparam name="TBuilder">The type of this builder.</typeparam>
-    public abstract class BaseSelectionBuilder<TSelection, TOption, TBuilder> : IInteractiveBuilder<TSelection, TOption, TBuilder>
+    public abstract class
+        BaseSelectionBuilder<TSelection, TOption, TBuilder> : IInteractiveBuilder<TSelection, TOption, TBuilder>
         where TSelection : BaseSelection<TOption>
         where TBuilder : BaseSelectionBuilder<TSelection, TOption, TBuilder>
     {
         /// <summary>
-        /// Gets whether the selection is restricted to <see cref="Users"/>.
+        ///     Gets whether the selection is restricted to <see cref="Users" />.
         /// </summary>
         public virtual bool IsUserRestricted => Users.Count > 0;
 
         /// <summary>
-        /// Gets or sets a function that returns an <see cref="IEmote"/> representation of a <typeparamref name="TOption"/>.
+        ///     Gets or sets a function that returns an <see cref="IEmote" /> representation of a <typeparamref name="TOption" />.
         /// </summary>
         /// <remarks>
-        /// Requirements for each input type:<br/><br/>
-        /// Reactions: Required.<br/>
-        /// Messages: Unused.<br/>
-        /// Buttons: Required (for emotes) unless a <see cref="StringConverter"/> is provided (for labels).<br/>
-        /// Select menus: Optional.
+        ///     Requirements for each input type:<br /><br />
+        ///     Reactions: Required.<br />
+        ///     Messages: Unused.<br />
+        ///     Buttons: Required (for emotes) unless a <see cref="StringConverter" /> is provided (for labels).<br />
+        ///     Select menus: Optional.
         /// </remarks>
         public virtual Func<TOption, IEmote> EmoteConverter { get; set; }
 
         /// <summary>
-        /// Gets or sets a function that returns a <see cref="string"/> representation of a <typeparamref name="TOption"/>.
+        ///     Gets or sets a function that returns a <see cref="string" /> representation of a <typeparamref name="TOption" />.
         /// </summary>
         /// <remarks>
-        /// Requirements for each input type:<br/><br/>
-        /// Reactions: Unused.<br/>
-        /// Messages: Required. If not set, defaults to <see cref="object.ToString()"/>.<br/>
-        /// Buttons: Required (for labels) unless a <see cref="EmoteConverter"/> is provided (for emotes). Defaults to <see cref="object.ToString()"/> if neither are set.<br/>
-        /// Select menus: Required. If not set, defaults to <see cref="object.ToString()"/>.
+        ///     Requirements for each input type:<br /><br />
+        ///     Reactions: Unused.<br />
+        ///     Messages: Required. If not set, defaults to <see cref="object.ToString()" />.<br />
+        ///     Buttons: Required (for labels) unless a <see cref="EmoteConverter" /> is provided (for emotes). Defaults to
+        ///     <see cref="object.ToString()" /> if neither are set.<br />
+        ///     Select menus: Required. If not set, defaults to <see cref="object.ToString()" />.
         /// </remarks>
         public virtual Func<TOption, string> StringConverter { get; set; }
 
         /// <summary>
-        /// Gets or sets the equality comparer of <typeparamref name="TOption"/>s.
+        ///     Gets or sets the equality comparer of <typeparamref name="TOption" />s.
         /// </summary>
         public virtual IEqualityComparer<TOption> EqualityComparer { get; set; } = EqualityComparer<TOption>.Default;
 
         /// <summary>
-        /// Gets or sets whether the <see cref="BaseSelection{TOption}"/> allows for cancellation.
+        ///     Gets or sets whether the <see cref="BaseSelection{TOption}" /> allows for cancellation.
         /// </summary>
-        /// <remarks>When this value is <see langword="true"/>, the last element in <see cref="Options"/>
-        /// will be used to cancel the <see cref="BaseSelection{TOption}"/>.</remarks>
+        /// <remarks>
+        ///     When this value is <see langword="true" />, the last element in <see cref="Options" />
+        ///     will be used to cancel the <see cref="BaseSelection{TOption}" />.
+        /// </remarks>
         public virtual bool AllowCancel { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="Page"/> which is sent into the channel.
+        ///     Gets or sets the <see cref="Page" /> which is sent into the channel.
         /// </summary>
         public virtual PageBuilder SelectionPage { get; set; }
 
         /// <summary>
-        /// Gets or sets the users who can interact with the <see cref="BaseSelection{TOption}"/>.
+        ///     Gets or sets the users who can interact with the <see cref="BaseSelection{TOption}" />.
         /// </summary>
         public virtual IList<IUser> Users { get; set; } = new List<IUser>();
 
         /// <summary>
-        /// Gets or sets the options to select from.
+        ///     Gets or sets the options to select from.
         /// </summary>
         public virtual ICollection<TOption> Options { get; set; } = new List<TOption>();
 
@@ -78,8 +83,8 @@ namespace Mewdeko.Interactive.Selection
         public virtual PageBuilder TimeoutPage { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="Page"/> which the <see cref="BaseSelection{TOption}"/>
-        /// gets modified to after a valid input is received (except cancellation inputs).
+        ///     Gets or sets the <see cref="Page" /> which the <see cref="BaseSelection{TOption}" />
+        ///     gets modified to after a valid input is received (except cancellation inputs).
         /// </summary>
         public virtual PageBuilder SuccessPage { get; set; }
 
@@ -101,11 +106,11 @@ namespace Mewdeko.Interactive.Selection
         public virtual ActionOnStop ActionOnTimeout { get; set; }
 
         /// <summary>
-        /// Gets or sets the action that will be done after valid input is received (except cancellation inputs).
+        ///     Gets or sets the action that will be done after valid input is received (except cancellation inputs).
         /// </summary>
         public virtual ActionOnStop ActionOnSuccess { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         ICollection<IUser> IInteractiveBuilder<TSelection, TOption, TBuilder>.Users
         {
             get => Users;
@@ -116,14 +121,14 @@ namespace Mewdeko.Interactive.Selection
         public abstract TSelection Build();
 
         /// <summary>
-        /// Sets a function that returns an <see cref="IEmote"/> representation of a <typeparamref name="TOption"/>.
+        ///     Sets a function that returns an <see cref="IEmote" /> representation of a <typeparamref name="TOption" />.
         /// </summary>
         /// <remarks>
-        /// Requirements for each input type:<br/><br/>
-        /// Reactions: Required.<br/>
-        /// Messages: Unused.<br/>
-        /// Buttons: Required (for emotes) unless a <see cref="StringConverter"/> is provided (for labels).<br/>
-        /// Select menus: Optional.
+        ///     Requirements for each input type:<br /><br />
+        ///     Reactions: Required.<br />
+        ///     Messages: Unused.<br />
+        ///     Buttons: Required (for emotes) unless a <see cref="StringConverter" /> is provided (for labels).<br />
+        ///     Select menus: Optional.
         /// </remarks>
         public virtual TBuilder WithEmoteConverter(Func<TOption, IEmote> emoteConverter)
         {
@@ -132,14 +137,15 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets a function that returns a <see cref="string"/> representation of a <typeparamref name="TOption"/>.
+        ///     Sets a function that returns a <see cref="string" /> representation of a <typeparamref name="TOption" />.
         /// </summary>
         /// <remarks>
-        /// Requirements for each input type:<br/><br/>
-        /// Reactions: Unused.<br/>
-        /// Messages: Required. If not set, defaults to <see cref="object.ToString()"/>.<br/>
-        /// Buttons: Required (for labels) unless a <see cref="EmoteConverter"/> is provided (for emotes). Defaults to <see cref="object.ToString()"/> if neither are set.<br/>
-        /// Select menus: Required. If not set, defaults to <see cref="object.ToString()"/>.
+        ///     Requirements for each input type:<br /><br />
+        ///     Reactions: Unused.<br />
+        ///     Messages: Required. If not set, defaults to <see cref="object.ToString()" />.<br />
+        ///     Buttons: Required (for labels) unless a <see cref="EmoteConverter" /> is provided (for emotes). Defaults to
+        ///     <see cref="object.ToString()" /> if neither are set.<br />
+        ///     Select menus: Required. If not set, defaults to <see cref="object.ToString()" />.
         /// </remarks>
         public virtual TBuilder WithStringConverter(Func<TOption, string> stringConverter)
         {
@@ -148,7 +154,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the equality comparer of <typeparamref name="TOption"/>s.
+        ///     Sets the equality comparer of <typeparamref name="TOption" />s.
         /// </summary>
         /// <returns>This builder.</returns>
         public virtual TBuilder WithEqualityComparer(IEqualityComparer<TOption> equalityComparer)
@@ -158,10 +164,12 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets whether the <see cref="BaseSelection{TOption}"/> allows for cancellation.
+        ///     Sets whether the <see cref="BaseSelection{TOption}" /> allows for cancellation.
         /// </summary>
-        /// <remarks>When this value is <see langword="true"/>, the last element in <see cref="Options"/>
-        /// will be used to cancel the <see cref="BaseSelection{TOption}"/>.</remarks>
+        /// <remarks>
+        ///     When this value is <see langword="true" />, the last element in <see cref="Options" />
+        ///     will be used to cancel the <see cref="BaseSelection{TOption}" />.
+        /// </remarks>
         /// <returns>This builder.</returns>
         public virtual TBuilder WithAllowCancel(bool allowCancel)
         {
@@ -170,7 +178,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the <see cref="Page"/> which is sent into the channel.
+        ///     Sets the <see cref="Page" /> which is sent into the channel.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>This builder.</returns>
@@ -181,7 +189,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the users who can interact with the <see cref="BaseSelection{TOption}"/>.
+        ///     Sets the users who can interact with the <see cref="BaseSelection{TOption}" />.
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>This builder.</returns>
@@ -192,7 +200,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the users who can interact with the <see cref="BaseSelection{TOption}"/>.
+        ///     Sets the users who can interact with the <see cref="BaseSelection{TOption}" />.
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>This builder.</returns>
@@ -203,7 +211,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Adds a user who can interact with the <see cref="BaseSelection{TOption}"/>.
+        ///     Adds a user who can interact with the <see cref="BaseSelection{TOption}" />.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>This builder.</returns>
@@ -213,14 +221,14 @@ namespace Mewdeko.Interactive.Selection
             return (TBuilder)this;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual TBuilder WithOptions(ICollection<TOption> options)
         {
             Options = options;
             return (TBuilder)this;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual TBuilder AddOption(TOption option)
         {
             Options.Add(option);
@@ -228,7 +236,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the <see cref="Page"/> which the <see cref="BaseSelection{TOption}"/> gets modified to after a cancellation.
+        ///     Sets the <see cref="Page" /> which the <see cref="BaseSelection{TOption}" /> gets modified to after a cancellation.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>This builder.</returns>
@@ -239,7 +247,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the <see cref="Page"/> which the <see cref="BaseSelection{TOption}"/> gets modified to after a timeout.
+        ///     Sets the <see cref="Page" /> which the <see cref="BaseSelection{TOption}" /> gets modified to after a timeout.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>This builder.</returns>
@@ -250,7 +258,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets what type of inputs the <see cref="BaseSelection{TOption}"/> should delete.
+        ///     Sets what type of inputs the <see cref="BaseSelection{TOption}" /> should delete.
         /// </summary>
         /// <param name="deletion">The deletion options.</param>
         /// <returns>This builder.</returns>
@@ -261,7 +269,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets input type, that is, what is used to interact with the <see cref="BaseSelection{TOption}"/>.
+        ///     Sets input type, that is, what is used to interact with the <see cref="BaseSelection{TOption}" />.
         /// </summary>
         /// <param name="type">The input type.</param>
         /// <returns>This builder.</returns>
@@ -271,14 +279,14 @@ namespace Mewdeko.Interactive.Selection
             return (TBuilder)this;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual TBuilder WithActionOnCancellation(ActionOnStop action)
         {
             ActionOnCancellation = action;
             return (TBuilder)this;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual TBuilder WithActionOnTimeout(ActionOnStop action)
         {
             ActionOnTimeout = action;
@@ -286,7 +294,7 @@ namespace Mewdeko.Interactive.Selection
         }
 
         /// <summary>
-        /// Sets the action that will be done after valid input is received (except cancellation inputs).
+        ///     Sets the action that will be done after valid input is received (except cancellation inputs).
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>This builder.</returns>

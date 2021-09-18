@@ -12,7 +12,7 @@ namespace Mewdeko.Common.ShardCom
 
         public ShardComMessage Clone()
         {
-            return new()
+            return new ShardComMessage
             {
                 ShardId = ShardId,
                 ConnectionState = ConnectionState,

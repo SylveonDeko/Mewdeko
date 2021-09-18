@@ -59,12 +59,12 @@ namespace Mewdeko.Modules.Administration
                             return null;
                         }
 
-                        var role = (IRole) roleResult.BestMatch;
-                        if (role.Position > ((IGuildUser) ctx.User).GetRoles().Select(r => r.Position).Max()
+                        var role = (IRole)roleResult.BestMatch;
+                        if (role.Position > ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max()
                             && ctx.User.Id != ctx.Guild.OwnerId)
                             return null;
                         var emote = x.Last().ToIEmote();
-                        return new {role, emote};
+                        return new { role, emote };
                     })
                     .Where(x => x != null);
 
@@ -110,23 +110,29 @@ namespace Mewdeko.Modules.Administration
                     await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
             }
 
-            [MewdekoCommand, Aliases]
+            [MewdekoCommand]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
-            public Task ReactionRoles(ulong messageId, params string[] input) =>
-                InternalReactionRoles(false, messageId, input);
+            public Task ReactionRoles(ulong messageId, params string[] input)
+            {
+                return InternalReactionRoles(false, messageId, input);
+            }
 
-            [MewdekoCommand, Aliases]
+            [MewdekoCommand]
+            [Aliases]
             [RequireContext(ContextType.Guild)]
             [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
-            public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) =>
-                InternalReactionRoles(true, messageId, input);
+            public Task ReactionRoles(ulong messageId, Exclude _, params string[] input)
+            {
+                return InternalReactionRoles(true, messageId, input);
+            }
 
             [MewdekoCommand]
             [Usage]
@@ -153,7 +159,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public Task ReactionRoles(Exclude _, params string[] input)
             {
-                return InternalReactionRoles(true, null,  input);
+                return InternalReactionRoles(true, null, input);
             }
 
             [MewdekoCommand]
@@ -174,7 +180,7 @@ namespace Mewdeko.Modules.Administration
                 }
                 else
                 {
-                    var g = (SocketGuild) ctx.Guild;
+                    var g = (SocketGuild)ctx.Guild;
                     foreach (var rr in rrs)
                     {
                         var ch = g.GetTextChannel(rr.ChannelId);
@@ -218,7 +224,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task SetRole(IRole roleToAdd, [Remainder] IGuildUser targetUser)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 var runnerMaxRolePosition = runnerUser.GetRoles().Max(x => x.Position);
                 if (ctx.User.Id != ctx.Guild.OwnerId && runnerMaxRolePosition <= roleToAdd.Position)
                     return;
@@ -246,7 +252,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RemoveRole(IRole roleToRemove, [Remainder] IGuildUser targetUser)
             {
-                var runnerUser = (IGuildUser) ctx.User;
+                var runnerUser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
                     runnerUser.GetRoles().Max(x => x.Position) <= roleToRemove.Position)
                     return;
@@ -271,7 +277,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RenameRole(IRole roleToEdit, [Leftover] string newname)
             {
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= roleToEdit.Position)
                     return;
                 try
@@ -301,7 +307,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task RemoveAllRoles([Leftover] IGuildUser user)
             {
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
 
                 var userRoles = user.GetRoles()
                     .Where(x => !x.IsManaged && x != x.Guild.EveryoneRole)
@@ -346,7 +352,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task DeleteRole([Leftover] IRole role)
             {
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId
                     && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;

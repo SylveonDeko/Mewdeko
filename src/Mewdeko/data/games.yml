@@ -1,9 +1,9 @@
 # Trivia related settings (.t command)
 trivia:
-# The amount of currency awarded to the winner of the trivia game.
+  # The amount of currency awarded to the winner of the trivia game.
   currencyReward: 0
   # Users won't be able to start trivia games which have 
-# a smaller win requirement than the one specified by this setting.
+  # a smaller win requirement than the one specified by this setting.
   minimumWinReq: 1
 # List of responses for the .8ball command. A random one will be selected every time
 eightBallResponses:

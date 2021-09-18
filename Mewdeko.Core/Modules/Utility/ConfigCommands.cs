@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Extensions;

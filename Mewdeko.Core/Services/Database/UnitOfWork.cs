@@ -22,9 +22,9 @@ namespace Mewdeko.Core.Services.Database
         private IPlantedCurrencyRepository _planted;
 
         private IPollsRepository _polls;
-        private ITicketRepository _tickets;
         private IQuoteRepository _quotes;
         private IReminderRepository _reminders;
+
         private IReputationRepository _reputation;
         // private ISwitchShopsRepository _switchshops;
 
@@ -32,6 +32,7 @@ namespace Mewdeko.Core.Services.Database
         private ISnipeStoreRepository _snipestore;
         private IStarboardRepository _Starboard;
         private ISuggestionsRepository _suggestions;
+        private ITicketRepository _tickets;
 
         private IWaifuRepository _waifus;
 
@@ -52,6 +53,7 @@ namespace Mewdeko.Core.Services.Database
 
         public IGuildConfigRepository GuildConfigs =>
             _guildConfigs ?? (_guildConfigs = new GuildConfigRepository(_context));
+
         // public ISwitchShopsRepository SwitchShops => _switchshops ?? (_switchshops = new SwitchShopsRepository(_context));
         public IReminderRepository Reminders => _reminders ?? (_reminders = new ReminderRepository(_context));
 
@@ -59,6 +61,7 @@ namespace Mewdeko.Core.Services.Database
             _selfAssignedRoles ?? (_selfAssignedRoles = new SelfAssignedRolesRepository(_context));
 
         public ITicketRepository Tickets => _tickets ?? (_tickets = new TicketRepository(_context));
+
         public IMusicPlaylistRepository MusicPlaylists =>
             _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));
 

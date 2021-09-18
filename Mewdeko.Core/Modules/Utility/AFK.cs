@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.Net;
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko.Common;
@@ -14,7 +13,6 @@ using Mewdeko.Extensions;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Utility.Services;
-using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -23,12 +21,13 @@ namespace Mewdeko.Modules.Utility
     {
         public class AFK : MewdekoSubmodule<AFKService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public AFK(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -42,7 +41,7 @@ namespace Mewdeko.Modules.Utility
                     var guildcommands = new SlashCommandBuilder();
                     guildcommands.WithName("afk");
                     guildcommands.WithDescription("Allows you to enable and disable your afk.");
-                    guildcommands.AddOption(new SlashCommandOptionBuilder()
+                    guildcommands.AddOption(new SlashCommandOptionBuilder
                     {
                         Name = "message",
                         Description = "Set an optional afk message",
@@ -54,9 +53,11 @@ namespace Mewdeko.Modules.Utility
                 }
                 catch
                 {
-                    await ctx.Channel.SendErrorAsync("The bot does not have permission to add slash commands!, Please reauthrorize it using the link at https://mewdeko.tech/invite");
+                    await ctx.Channel.SendErrorAsync(
+                        "The bot does not have permission to add slash commands!, Please reauthrorize it using the link at https://mewdeko.tech/invite");
                 }
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -70,7 +71,8 @@ namespace Mewdeko.Modules.Utility
                         $"Thats too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
                     return;
                 }
-                await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
+
+                await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, message, 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
             }
 
@@ -95,12 +97,13 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendMessageAsync(
                         $"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
             [Aliases]
             [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task CustomAfkMessage([Remainder]string embed)
+            public async Task CustomAfkMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
                 CREmbed.TryParse(embed, out crEmbed);
@@ -110,26 +113,24 @@ namespace Mewdeko.Modules.Utility
                     await ctx.Channel.SendConfirmAsync("Afk messages will now have the default look.");
                     return;
                 }
-                else
+
+                if (crEmbed is not null && !crEmbed.IsValid || !embed.Contains("%afk"))
                 {
-                    if (crEmbed is not null && !crEmbed.IsValid || !embed.Contains("%afk"))
-                    {
-                        await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
-                        return;
-                    }
-                    else
-                    {
-                        await _service.SetCustomAfkMessage(ctx.Guild, embed);
-                        var ebe = CREmbed.TryParse(_service.GetCustomAfkMessage(ctx.Guild.Id), out crEmbed);
-                        if (ebe is false)
-                        {
-                            await _service.SetCustomAfkMessage(ctx.Guild, "-");
-                            await ctx.Channel.SendErrorAsync("There was an error checking the embed, it may be invalid, so I set the afk message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-                            return;
-                        }
-                        await ctx.Channel.SendConfirmAsync("Sucessfully updated afk message!");
-                    }
+                    await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
+                    return;
                 }
+
+                await _service.SetCustomAfkMessage(ctx.Guild, embed);
+                var ebe = CREmbed.TryParse(_service.GetCustomAfkMessage(ctx.Guild.Id), out crEmbed);
+                if (ebe is false)
+                {
+                    await _service.SetCustomAfkMessage(ctx.Guild, "-");
+                    await ctx.Channel.SendErrorAsync(
+                        "There was an error checking the embed, it may be invalid, so I set the afk message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
+                    return;
+                }
+
+                await ctx.Channel.SendConfirmAsync("Sucessfully updated afk message!");
             }
 
             //[MewdekoCommand]
@@ -210,7 +211,7 @@ namespace Mewdeko.Modules.Utility
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -413,12 +414,12 @@ namespace Mewdeko.Modules.Utility
                 var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
                 if (!afkmsg.Any() || afkmsg.Last() == "")
                 {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
+                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
                     await ctx.Channel.SendConfirmAsync("Afk message enabled!");
                 }
                 else
                 {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "", 0);
+                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
                     await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
                 }
             }

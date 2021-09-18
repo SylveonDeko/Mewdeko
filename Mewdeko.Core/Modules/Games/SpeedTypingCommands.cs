@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Games
             public async Task TypeStart(params string[] args)
             {
                 var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 var game = _service.RunningContests.GetOrAdd(channel.Guild.Id,
                     id => new TypingGame(_games, _client, channel, Prefix, options));
@@ -55,7 +55,7 @@ namespace Mewdeko.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task TypeStop()
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (_service.RunningContests.TryRemove(channel.Guild.Id, out var game))
                 {
                     await game.Stop().ConfigureAwait(false);
@@ -74,7 +74,7 @@ namespace Mewdeko.Modules.Games
             [OwnerOnly]
             public async Task Typeadd([Leftover] string text)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (string.IsNullOrWhiteSpace(text))
                     return;
 
@@ -90,7 +90,7 @@ namespace Mewdeko.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task Typelist(int page = 1)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 if (page < 1)
                     return;

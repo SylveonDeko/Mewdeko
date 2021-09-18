@@ -16,6 +16,7 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
 
             return query.ToArray();
         }
+
         public SwitchShops[] GetAll(ulong e = 0)
         {
             var query = _set.AsQueryable();

@@ -56,7 +56,7 @@ namespace Mewdeko.Core.Modules.Music
             var db = _multiplexer.GetDatabase();
 
             var trackDataKey = CreateCachedDataKey(data.Id, data.Platform);
-            var dataString = JsonSerializer.Serialize((object) data);
+            var dataString = JsonSerializer.Serialize((object)data);
             // cache for 1 day
             return db.StringSetAsync(trackDataKey, dataString, TimeSpan.FromDays(1));
         }
@@ -117,7 +117,7 @@ namespace Mewdeko.Core.Modules.Music
         {
             var db = _multiplexer.GetDatabase();
             var key = CreateCachedPlaylistKey(playlistId, platform);
-            await db.ListRightPushAsync(key, ids.Select(x => (RedisValue) x).ToArray());
+            await db.ListRightPushAsync(key, ids.Select(x => (RedisValue)x).ToArray());
             await db.KeyExpireAsync(key, TimeSpan.FromDays(7));
         }
 

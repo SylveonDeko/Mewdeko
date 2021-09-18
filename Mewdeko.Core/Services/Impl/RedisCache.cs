@@ -86,7 +86,7 @@ namespace Mewdeko.Core.Services.Impl
             {
                 var time = TimeSpan.FromHours(period);
                 var _db = Redis.GetDatabase();
-                if ((bool?) _db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
+                if ((bool?)_db.StringGet($"{_redisKey}_timelyclaim_{id}") == null)
                 {
                     _db.StringSet($"{_redisKey}_timelyclaim_{id}", true, time);
                     return null;
@@ -95,6 +95,7 @@ namespace Mewdeko.Core.Services.Impl
                 return _db.KeyTimeToLive($"{_redisKey}_timelyclaim_{id}");
             }
         }
+
         public TimeSpan? AddVoteClaim(ulong id, int period)
         {
             if (period == 0)
@@ -196,14 +197,14 @@ namespace Mewdeko.Core.Services.Impl
                 return obj;
             }
 
-            return (TOut) JsonConvert.DeserializeObject(data, typeof(TOut));
+            return (TOut)JsonConvert.DeserializeObject(data, typeof(TOut));
         }
 
         public DateTime GetLastCurrencyDecay()
         {
             var db = Redis.GetDatabase();
 
-            var str = (string) db.StringGet($"{_redisKey}_last_currency_decay");
+            var str = (string)db.StringGet($"{_redisKey}_last_currency_decay");
             if (string.IsNullOrEmpty(str))
                 return DateTime.MinValue;
 

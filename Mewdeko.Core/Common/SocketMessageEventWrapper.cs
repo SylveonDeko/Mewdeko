@@ -54,13 +54,14 @@ namespace Mewdeko.Common
 
             return Task.CompletedTask;
         }
+
         private Task Discord_InteractionCreated(SocketInteraction inte)
         {
             Task.Run(() =>
             {
                 try
                 {
-                        InteractionCreated?.Invoke(inte);
+                    InteractionCreated?.Invoke(inte);
                 }
                 catch
                 {

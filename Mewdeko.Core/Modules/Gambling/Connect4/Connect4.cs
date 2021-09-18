@@ -370,7 +370,7 @@ namespace Mewdeko.Modules.Gambling.Common.Connect4
             }
 
             if (winId != null)
-                _cs.AddAsync(winId.Value, "Connnect4-win", (long) (_options.Bet * 1.98), true);
+                _cs.AddAsync(winId.Value, "Connnect4-win", (long)(_options.Bet * 1.98), true);
         }
 
         private Field GetPlayerPiece(ulong userId)

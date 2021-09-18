@@ -118,39 +118,39 @@ FROM BotConfig";
         {
             return realConfig =>
             {
-                realConfig.Currency.Sign = (string) reader["CurrencySign"];
-                realConfig.Currency.Name = (string) reader["CurrencyName"];
-                realConfig.MinBet = (int) (long) reader["MinBet"];
-                realConfig.MaxBet = (int) (long) reader["MaxBet"];
+                realConfig.Currency.Sign = (string)reader["CurrencySign"];
+                realConfig.Currency.Name = (string)reader["CurrencyName"];
+                realConfig.MinBet = (int)(long)reader["MinBet"];
+                realConfig.MaxBet = (int)(long)reader["MaxBet"];
                 realConfig.BetFlip = new GamblingConfig.BetFlipConfig
                 {
-                    Multiplier = (decimal) (double) reader["BetflipMultiplier"]
+                    Multiplier = (decimal)(double)reader["BetflipMultiplier"]
                 };
                 realConfig.Generation = new GamblingConfig.GenerationConfig
                 {
-                    MaxAmount = (int) (reader["CurrencyDropAmountMax"] as long? ?? (long) reader["CurrencyDropAmount"]),
-                    MinAmount = (int) (long) reader["CurrencyDropAmount"],
-                    Chance = (decimal) (double) reader["CurrencyGenerationChance"],
-                    GenCooldown = (int) (long) reader["CurrencyGenerationCooldown"],
+                    MaxAmount = (int)(reader["CurrencyDropAmountMax"] as long? ?? (long)reader["CurrencyDropAmount"]),
+                    MinAmount = (int)(long)reader["CurrencyDropAmount"],
+                    Chance = (decimal)(double)reader["CurrencyGenerationChance"],
+                    GenCooldown = (int)(long)reader["CurrencyGenerationCooldown"],
                     HasPassword = reader.GetBoolean(4)
                 };
                 realConfig.Timely = new GamblingConfig.TimelyConfig
                 {
-                    Amount = (int) (long) reader["TimelyCurrency"],
-                    Cooldown = (int) (long) reader["TimelyCurrencyPeriod"]
+                    Amount = (int)(long)reader["TimelyCurrency"],
+                    Cooldown = (int)(long)reader["TimelyCurrencyPeriod"]
                 };
                 realConfig.Decay = new GamblingConfig.DecayConfig
-                    {Percent = (decimal) (double) reader["DailyCurrencyDecay"]};
+                    { Percent = (decimal)(double)reader["DailyCurrencyDecay"] };
                 realConfig.Waifu = new GamblingConfig.WaifuConfig
                 {
-                    MinPrice = (int) (long) reader["MinWaifuPrice"],
+                    MinPrice = (int)(long)reader["MinWaifuPrice"],
                     Multipliers = new GamblingConfig.WaifuConfig.MultipliersData
                     {
-                        AllGiftPrices = (long) reader["WaifuGiftMultiplier"],
-                        WaifuReset = (int) (long) reader["DivorcePriceMultiplier"]
+                        AllGiftPrices = (long)reader["WaifuGiftMultiplier"],
+                        WaifuReset = (int)(long)reader["DivorcePriceMultiplier"]
                     }
                 };
-                realConfig.PatreonCurrencyPerCent = (decimal) (double) reader["PatreonCurrencyPerCent"];
+                realConfig.PatreonCurrencyPerCent = (decimal)(double)reader["PatreonCurrencyPerCent"];
             };
         }
     }

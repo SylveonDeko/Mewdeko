@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
@@ -16,11 +17,13 @@ namespace Mewdeko.Modules.Administration
         [Group]
         public class SelfAssignedRolesCommands : MewdekoSubmodule<SelfAssignedRolesService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
+
             public SelfAssignedRolesCommands(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -61,7 +64,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public async Task Asar(int group, [Leftover] IRole role)
             {
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;
 
@@ -84,7 +87,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public async Task Sargn(int group, [Leftover] string name = null)
             {
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
 
                 var set = await _service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
 
@@ -104,7 +107,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task Rsar([Leftover] IRole role)
             {
-                var guser = (IGuildUser) ctx.User;
+                var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;
 
@@ -127,14 +130,14 @@ namespace Mewdeko.Modules.Administration
 
                 var (exclusive, roles, groups) = _service.GetRoles(ctx.Guild);
                 var paginator = new LazyPaginatorBuilder()
-               .AddUser(ctx.User)
-               .WithPageFactory(PageFactory)
-               .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-               .WithMaxPageIndex(roles.Count() - 1)
-               .WithDefaultEmotes()
-               .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(roles.Count() - 1)
+                    .WithDefaultEmotes()
+                    .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -176,7 +179,7 @@ namespace Mewdeko.Modules.Administration
                         .WithDescription(rolesStr.ToString())
                         .WithFooter(exclusive
                             ? GetText("self_assign_are_exclusive")
-                            : GetText("self_assign_are_not_exclusive"))); 
+                            : GetText("self_assign_are_not_exclusive")));
                 }
             }
 
@@ -228,7 +231,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Iam([Leftover] IRole role)
             {
-                var guildUser = (IGuildUser) ctx.User;
+                var guildUser = (IGuildUser)ctx.User;
 
                 var (result, autoDelete, extra) = await _service.Assign(guildUser, role).ConfigureAwait(false);
 
@@ -261,7 +264,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Iamnot([Leftover] IRole role)
             {
-                var guildUser = (IGuildUser) ctx.User;
+                var guildUser = (IGuildUser)ctx.User;
 
                 var (result, autoDelete) = await _service.Remove(guildUser, role).ConfigureAwait(false);
 

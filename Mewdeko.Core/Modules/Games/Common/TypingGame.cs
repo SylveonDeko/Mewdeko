@@ -67,7 +67,7 @@ namespace Mewdeko.Modules.Games.Common
             if (IsActive) return; // can't start running game
             IsActive = true;
             CurrentSentence = GetRandomSentence();
-            var i = (int) (CurrentSentence.Length / WORD_VALUE * 1.7f);
+            var i = (int)(CurrentSentence.Length / WORD_VALUE * 1.7f);
             try
             {
                 await Channel

@@ -15,7 +15,7 @@ namespace Mewdeko.Core.Modules.Music
     public sealed class YtdlYoutubeResolver : IYoutubeResolver
     {
         private static readonly string[] durationFormats =
-            {"ss", "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss"};
+            { "ss", "m\\:ss", "mm\\:ss", "h\\:mm\\:ss", "hh\\:mm\\:ss", "hhh\\:mm\\:ss" };
 
         private static readonly Regex expiryRegex = new(@"(?:[\?\&]expire\=(?<timestamp>\d+))");
 

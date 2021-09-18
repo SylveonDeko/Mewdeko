@@ -144,7 +144,7 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task Osu5(string user, [Leftover] string mode = null)
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
                 {
                     await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);

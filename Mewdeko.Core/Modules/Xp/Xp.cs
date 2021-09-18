@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -42,7 +43,7 @@ namespace Mewdeko.Modules.Xp
         private readonly GamblingConfigService _gss;
         private readonly DownloadTracker _tracker;
         private readonly XpConfigService _xpConfig;
-        private InteractiveService Interactivity;
+        private readonly InteractiveService Interactivity;
 
         public Xp(DownloadTracker tracker, GamblingConfigService gss, XpConfigService xpconfig, InteractiveService serv)
         {
@@ -241,7 +242,7 @@ namespace Mewdeko.Modules.Xp
         {
             user = user ?? ctx.User;
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            var (img, fmt) = await _service.GenerateXpImageAsync((IGuildUser) user).ConfigureAwait(false);
+            var (img, fmt) = await _service.GenerateXpImageAsync((IGuildUser)user).ConfigureAwait(false);
             using (img)
             {
                 await ctx.Channel.SendFileAsync(img,
@@ -287,7 +288,7 @@ namespace Mewdeko.Modules.Xp
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -479,7 +480,7 @@ namespace Mewdeko.Modules.Xp
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -520,7 +521,7 @@ namespace Mewdeko.Modules.Xp
 
             await Context.Channel.TriggerTypingAsync();
 
-            var socketGuild = (SocketGuild) ctx.Guild;
+            var socketGuild = (SocketGuild)ctx.Guild;
             var allUsers = new List<UserXpStats>();
             if (opts.Clean)
             {
@@ -533,16 +534,16 @@ namespace Mewdeko.Modules.Xp
             }
 
             var paginator = new LazyPaginatorBuilder()
-                    .AddUser(ctx.User)
-                    .WithPageFactory(PageFactory)
-                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(allUsers.Count / 9)
-                    .WithDefaultEmotes()
-                    .Build();
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(allUsers.Count / 9)
+                .WithDefaultEmotes()
+                .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+            Task<PageBuilder> PageFactory(int page)
             {
                 var embed = new PageBuilder()
                     .WithTitle(GetText("server_leaderboard"))
@@ -559,7 +560,7 @@ namespace Mewdeko.Modules.Xp
                 for (var i = 0; i < users.Count; i++)
                 {
                     var levelStats = new LevelStats(users[i].Xp + users[i].AwardedXp);
-                    var user = ((SocketGuild) ctx.Guild).GetUser(users[i].UserId);
+                    var user = ((SocketGuild)ctx.Guild).GetUser(users[i].UserId);
 
                     var userXpData = users[i];
 
@@ -590,7 +591,7 @@ namespace Mewdeko.Modules.Xp
                 return;
 
             _service.AddXp(userId, ctx.Guild.Id, amount);
-            var usr = ((SocketGuild) ctx.Guild).GetUser(userId)?.ToString()
+            var usr = ((SocketGuild)ctx.Guild).GetUser(userId)?.ToString()
                       ?? userId.ToString();
             await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString()))
                 .ConfigureAwait(false);

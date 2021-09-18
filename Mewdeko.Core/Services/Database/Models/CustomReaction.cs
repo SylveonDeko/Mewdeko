@@ -17,15 +17,17 @@ namespace Mewdeko.Core.Services.Database.Models
         public string Trigger { get; set; }
 
         public bool AutoDeleteTrigger { get; set; }
+        public bool ReactToTrigger { get; set; }
         public bool DmResponse { get; set; }
         public bool ContainsAnywhere { get; set; }
         public bool AllowTarget { get; set; }
         public string Reactions { get; set; }
 
         public string[] GetReactions()
-        {
-            return Array.Empty<string>();
-        }
+        => string.IsNullOrWhiteSpace(Reactions)
+                ? Array.Empty<string>()
+                : Reactions.Split("@@@");
+                
 
         public bool IsGlobal()
         {

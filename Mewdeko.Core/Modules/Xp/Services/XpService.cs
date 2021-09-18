@@ -580,7 +580,7 @@ namespace Mewdeko.Modules.Xp.Services
             else
                 ten = GetVoiceXpRate(user.Guild.Id);
             var xp = ten * minutes;
-            var actualXp = (int) Math.Floor(xp);
+            var actualXp = (int)Math.Floor(xp);
 
             if (actualXp > 0)
                 _addMessageXp.Enqueue(new UserCacheItem
@@ -778,7 +778,7 @@ namespace Mewdeko.Modules.Xp.Services
             var lvl = 1;
             while (true)
             {
-                required = (int) (baseXp + baseXp / 4.0 * (lvl - 1));
+                required = (int)(baseXp + baseXp / 4.0 * (lvl - 1));
 
                 if (required + totalXp > stats.Xp)
                     break;
@@ -902,7 +902,7 @@ namespace Mewdeko.Modules.Xp.Services
                     {
                         if (_template.User.Name.Show)
                         {
-                            var fontSize = (int) (_template.User.Name.FontSize * 0.9);
+                            var fontSize = (int)(_template.User.Name.FontSize * 0.9);
                             var username = stats.User.Username;
                             var usernameFont = _fonts.NotoSans
                                 .CreateFont(fontSize, FontStyle.Bold);
@@ -946,7 +946,7 @@ namespace Mewdeko.Modules.Xp.Services
                         //xp bar
                         if (_template.User.Xp.Bar.Show)
                         {
-                            var xpPercent = guild.LevelXp / (float) guild.RequiredXp;
+                            var xpPercent = guild.LevelXp / (float)guild.RequiredXp;
                             DrawXpBar(xpPercent, _template.User.Xp.Bar.Guild, img);
                         }
 
@@ -1045,7 +1045,7 @@ namespace Mewdeko.Modules.Xp.Services
                         //club image
 
                         img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
-                        return ((Stream) img.ToStream(imageFormat), imageFormat);
+                        return ((Stream)img.ToStream(imageFormat), imageFormat);
                     }
                 });
         }

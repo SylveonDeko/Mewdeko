@@ -39,7 +39,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Leftover] IRole role = null)
             {
-                var user = (IGuildUser) ctx.User;
+                var user = (IGuildUser)ctx.User;
 
                 var vc = user.VoiceChannel;
 
@@ -69,7 +69,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task VcRoleList()
             {
-                var guild = (SocketGuild) ctx.Guild;
+                var guild = (SocketGuild)ctx.Guild;
                 string text;
                 if (_service.VcRoles.TryGetValue(ctx.Guild.Id, out var roles))
                 {

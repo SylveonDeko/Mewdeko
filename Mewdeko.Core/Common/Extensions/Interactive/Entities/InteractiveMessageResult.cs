@@ -4,23 +4,23 @@ using Discord;
 namespace Mewdeko.Interactive
 {
     /// <summary>
-    /// Represents a generic result from an interactive action containing a message associated with the action.
+    ///     Represents a generic result from an interactive action containing a message associated with the action.
     /// </summary>
     public class InteractiveMessageResult<T> : InteractiveResult<T>, IInteractiveMessageResult
     {
         internal InteractiveMessageResult(T value, TimeSpan elapsed,
             InteractiveStatus status = InteractiveStatus.Success, IUserMessage message = null)
-            : base (value, elapsed, status)
+            : base(value, elapsed, status)
         {
             Message = message;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public IUserMessage Message { get; }
     }
 
     /// <summary>
-    /// Represents a non-generic result from an interactive action containing a message associated with the action.
+    ///     Represents a non-generic result from an interactive action containing a message associated with the action.
     /// </summary>
     public class InteractiveMessageResult : InteractiveResult, IInteractiveMessageResult
     {
@@ -31,7 +31,7 @@ namespace Mewdeko.Interactive
             Message = message;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public IUserMessage Message { get; }
     }
 }

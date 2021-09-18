@@ -5,7 +5,7 @@ using Discord;
 namespace Mewdeko.Interactive.Pagination
 {
     /// <summary>
-    /// Represents an abstract paginator builder.
+    ///     Represents an abstract paginator builder.
     /// </summary>
     public abstract class PaginatorBuilder<TPaginator, TBuilder>
         : IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>
@@ -13,37 +13,38 @@ namespace Mewdeko.Interactive.Pagination
         where TBuilder : PaginatorBuilder<TPaginator, TBuilder>
     {
         /// <summary>
-        /// Gets whether the paginator is restricted to <see cref="Users"/>.
+        ///     Gets whether the paginator is restricted to <see cref="Users" />.
         /// </summary>
         public virtual bool IsUserRestricted => Users?.Count > 0;
 
         /// <summary>
-        /// Gets or sets the footer format in the <see cref="Embed"/> of the <typeparamref name="TPaginator"/>.
+        ///     Gets or sets the footer format in the <see cref="Embed" /> of the <typeparamref name="TPaginator" />.
         /// </summary>
-        /// <remarks>Setting this to other than <see cref="PaginatorFooter.None"/> will override any other footer in the pages.</remarks>
+        /// <remarks>Setting this to other than <see cref="PaginatorFooter.None" /> will override any other footer in the pages.</remarks>
         public virtual PaginatorFooter Footer { get; set; } = PaginatorFooter.PageNumber;
 
         /// <summary>
-        /// Gets or sets the users who can interact with the <typeparamref name="TPaginator"/>.
+        ///     Gets or sets the users who can interact with the <typeparamref name="TPaginator" />.
         /// </summary>
         public virtual IList<IUser> Users { get; set; } = new List<IUser>();
 
         /// <summary>
-        /// Gets or sets the emotes and their related actions of the <typeparamref name="TPaginator"/>.
+        ///     Gets or sets the emotes and their related actions of the <typeparamref name="TPaginator" />.
         /// </summary>
-        public virtual IDictionary<IEmote, PaginatorAction> Options { get; set; } = new Dictionary<IEmote, PaginatorAction>();
+        public virtual IDictionary<IEmote, PaginatorAction> Options { get; set; } =
+            new Dictionary<IEmote, PaginatorAction>();
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual PageBuilder CanceledPage { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual PageBuilder TimeoutPage { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         /// <remarks>This property is ignored in button-based paginators.</remarks>
         public virtual DeletionOptions Deletion { get; set; } = DeletionOptions.Valid | DeletionOptions.Invalid;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual InputType InputType { get; set; }
 #if DNETLABS
             = InputType.Buttons;
@@ -51,16 +52,17 @@ namespace Mewdeko.Interactive.Pagination
             = InputType.Reactions;
 #endif
 
-        /// <inheritdoc/>
-        /// <remarks>The default value is <see cref="ActionOnStop.ModifyMessage"/>.</remarks>
+        /// <inheritdoc />
+        /// <remarks>The default value is <see cref="ActionOnStop.ModifyMessage" />.</remarks>
         public virtual ActionOnStop ActionOnCancellation { get; set; } = ActionOnStop.ModifyMessage;
 
-        /// <inheritdoc/>
-        /// <remarks>The default value is <see cref="ActionOnStop.ModifyMessage"/>.</remarks>
+        /// <inheritdoc />
+        /// <remarks>The default value is <see cref="ActionOnStop.ModifyMessage" />.</remarks>
         public virtual ActionOnStop ActionOnTimeout { get; set; } = ActionOnStop.ModifyMessage;
 
-        /// <inheritdoc/>
-        ICollection<KeyValuePair<IEmote, PaginatorAction>> IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.Options
+        /// <inheritdoc />
+        ICollection<KeyValuePair<IEmote, PaginatorAction>>
+            IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.Options
         {
             get => Options;
             set => Options = new Dictionary<IEmote, PaginatorAction>(value);
@@ -73,16 +75,16 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Builds the <see cref="PaginatorBuilder{TPaginator, TBuilder}"/> to an immutable paginator.
+        ///     Builds the <see cref="PaginatorBuilder{TPaginator, TBuilder}" /> to an immutable paginator.
         /// </summary>
         /// <param name="startPageIndex">The index of the page the paginator should start.</param>
-        /// <returns>A <typeparamref name="TPaginator"/>.</returns>
+        /// <returns>A <typeparamref name="TPaginator" />.</returns>
         public abstract TPaginator Build(int startPageIndex = 0);
 
         /// <summary>
-        /// Gets the footer format in the <see cref="Embed"/> of the <typeparamref name="TPaginator"/>.
+        ///     Gets the footer format in the <see cref="Embed" /> of the <typeparamref name="TPaginator" />.
         /// </summary>
-        /// <remarks>Setting this to other than <see cref="PaginatorFooter.None"/> will override any other footer in the pages.</remarks>
+        /// <remarks>Setting this to other than <see cref="PaginatorFooter.None" /> will override any other footer in the pages.</remarks>
         public virtual TBuilder WithFooter(PaginatorFooter footer)
         {
             Footer = footer;
@@ -90,7 +92,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the users who can interact with the <typeparamref name="TPaginator"/>.
+        ///     Sets the users who can interact with the <typeparamref name="TPaginator" />.
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>This builder.</returns>
@@ -101,7 +103,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the users who can interact with the <typeparamref name="TPaginator"/>.
+        ///     Sets the users who can interact with the <typeparamref name="TPaginator" />.
         /// </summary>
         /// <param name="users">The users.</param>
         /// <returns>This builder.</returns>
@@ -112,7 +114,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Adds a user who can interact with the <typeparamref name="TPaginator"/>.
+        ///     Adds a user who can interact with the <typeparamref name="TPaginator" />.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>This builder.</returns>
@@ -123,7 +125,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the emotes and their related paginator actions.
+        ///     Sets the emotes and their related paginator actions.
         /// </summary>
         /// <param name="emotes">A dictionary of emotes and paginator actions.</param>
         public virtual TBuilder WithOptions(IDictionary<IEmote, PaginatorAction> emotes)
@@ -133,14 +135,16 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Adds an emote related to a paginator action.
+        ///     Adds an emote related to a paginator action.
         /// </summary>
         /// <param name="pair">The pair of emote and action.</param>
         public virtual TBuilder AddOption(KeyValuePair<IEmote, PaginatorAction> pair)
-            => AddOption(pair.Key, pair.Value);
+        {
+            return AddOption(pair.Key, pair.Value);
+        }
 
         /// <summary>
-        /// Adds an emote related to a paginator action.
+        ///     Adds an emote related to a paginator action.
         /// </summary>
         /// <param name="emote">The emote.</param>
         /// <param name="action">The paginator action.</param>
@@ -151,7 +155,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the <see cref="Page"/> which the <typeparamref name="TPaginator"/> gets modified to after a cancellation.
+        ///     Sets the <see cref="Page" /> which the <typeparamref name="TPaginator" /> gets modified to after a cancellation.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>This builder.</returns>
@@ -162,7 +166,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the <see cref="Page"/> which the <typeparamref name="TPaginator"/> gets modified to after a timeout.
+        ///     Sets the <see cref="Page" /> which the <typeparamref name="TPaginator" /> gets modified to after a timeout.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <returns>This builder.</returns>
@@ -173,7 +177,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets what type of inputs the <typeparamref name="TPaginator"/> should delete.
+        ///     Sets what type of inputs the <typeparamref name="TPaginator" /> should delete.
         /// </summary>
         /// <param name="deletion">The deletion options.</param>
         /// <returns>This builder.</returns>
@@ -184,7 +188,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets input type, that is, what is used to interact with the <typeparamref name="TPaginator"/>.
+        ///     Sets input type, that is, what is used to interact with the <typeparamref name="TPaginator" />.
         /// </summary>
         /// <param name="type">The input type.</param>
         /// <returns>This builder.</returns>
@@ -194,14 +198,14 @@ namespace Mewdeko.Interactive.Pagination
             return (TBuilder)this;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual TBuilder WithActionOnCancellation(ActionOnStop action)
         {
             ActionOnCancellation = action;
             return (TBuilder)this;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public virtual TBuilder WithActionOnTimeout(ActionOnStop action)
         {
             ActionOnTimeout = action;
@@ -209,7 +213,8 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Clears all existing emote-action pairs and adds the default emote-action pairs of the <typeparamref name="TPaginator"/>.
+        ///     Clears all existing emote-action pairs and adds the default emote-action pairs of the
+        ///     <typeparamref name="TPaginator" />.
         /// </summary>
         public virtual TBuilder WithDefaultEmotes()
         {
@@ -225,22 +230,32 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the default canceled page.
+        ///     Sets the default canceled page.
         /// </summary>
         public virtual TBuilder WithDefaultCanceledPage()
-            => WithCanceledPage(new PageBuilder().WithColor(Color.Orange).WithTitle("Canceled! 👍"));
+        {
+            return WithCanceledPage(new PageBuilder().WithColor(Color.Orange).WithTitle("Canceled! 👍"));
+        }
 
         /// <summary>
-        /// Sets the default timeout page.
+        ///     Sets the default timeout page.
         /// </summary>
         public virtual TBuilder WithDefaultTimeoutPage()
-            => WithTimeoutPage(new PageBuilder().WithColor(Color.Red).WithTitle("Timed out! ⏰"));
+        {
+            return WithTimeoutPage(new PageBuilder().WithColor(Color.Red).WithTitle("Timed out! ⏰"));
+        }
 
-        /// <inheritdoc/>
-        TPaginator IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.Build() => Build();
+        /// <inheritdoc />
+        TPaginator IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.Build()
+        {
+            return Build();
+        }
 
-        /// <inheritdoc/>
-        TBuilder IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.WithOptions(ICollection<KeyValuePair<IEmote, PaginatorAction>> options)
-            => WithOptions(new Dictionary<IEmote, PaginatorAction>(options));
+        /// <inheritdoc />
+        TBuilder IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.WithOptions(
+            ICollection<KeyValuePair<IEmote, PaginatorAction>> options)
+        {
+            return WithOptions(new Dictionary<IEmote, PaginatorAction>(options));
+        }
     }
 }

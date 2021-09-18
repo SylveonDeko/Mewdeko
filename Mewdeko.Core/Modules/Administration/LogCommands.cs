@@ -67,7 +67,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public async Task LogIgnore()
             {
-                var channel = (ITextChannel) ctx.Channel;
+                var channel = (ITextChannel)ctx.Channel;
 
                 var removed = _service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
 

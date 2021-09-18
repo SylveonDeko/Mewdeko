@@ -130,9 +130,9 @@ namespace Mewdeko.Core.Services.Impl
                             using (var content = new FormUrlEncodedContent(
                                 new Dictionary<string, string>
                                 {
-                                    {"shard_count", _creds.TotalShards.ToString()},
-                                    {"shard_id", client.ShardId.ToString()},
-                                    {"server_count", _bot.GuildCount.ToString()}
+                                    { "shard_count", _creds.TotalShards.ToString() },
+                                    { "shard_id", client.ShardId.ToString() },
+                                    { "server_count", _bot.GuildCount.ToString() }
                                 }))
                             {
                                 content.Headers.Clear();
@@ -158,7 +158,7 @@ namespace Mewdeko.Core.Services.Impl
 
         public string Library => "Discord.Net 2.4.1";
 
-        public string Heap => Math.Round((double) GC.GetTotalMemory(false) / 1.MiB(), 2)
+        public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
             .ToString(CultureInfo.InvariantCulture);
 
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;

@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Alla anpassade emojis uppgifter borttagna.",
   "deleted": "Anpassad emoji har blivit raderad",
-  "insuff_perms":
-    "Otillräckliga behörigheter. Kräver Bot ägande för globala anpassade reaktioner, och administratör för server anpassade reaktioner.",
+  "insuff_perms": "Otillräckliga behörigheter. Kräver Bot ägande för globala anpassade reaktioner, och administratör för server anpassade reaktioner.",
   "list_all": "Lista av alla egengjorda reaktioner",
   "new_cust_react": "Nya egengjorda Reaktioner",
   "no_found": "Inga custom reaktioner hittades.",
@@ -60,8 +59,7 @@
   "greetmsg_new": "Ny hälsning skapad.",
   "greet_off": "Hälsningar har blivit avaktiverade.",
   "greet_on": "Hälsningar har blivit aktiverade på denna kanal.",
-  "hierarchy":
-    "Du kan inte använda detta kommando på användare med högre eller likastående rank till din egna enligt rankerna.",
+  "hierarchy": "Du kan inte använda detta kommando på användare med högre eller likastående rank till din egna enligt rankerna.",
   "invalid_format": "Ogiltig inmatnings format.",
   "invalid_params": "Ogiltiga parametrar.",
   "kickdm": "Du har blivit kickad från {0} server.\nAnledning: {1}",
@@ -133,8 +131,7 @@
   "self_assign_not": "Den rollen är inte möjlig att egentilldela.",
   "self_assign_not_have": "Du har inte {0} roll.",
   "self_assign_no_excl": "Egentilldelade roller är nu inte exklusiva!",
-  "self_assign_perms":
-    "Jag är oförmögen att lägga den rollen för dig. \u0027Jag kan inte lägga till roller till ägare eller andra roller högre än min roll i roll hierarkin.\u0060 \n\n",
+  "self_assign_perms": "Jag är oförmögen att lägga den rollen för dig. \u0027Jag kan inte lägga till roller till ägare eller andra roller högre än min roll i roll hierarkin.\u0060 \n\n",
   "self_assign_rem": "{0} har tagits bort från listan av egentilldelade roller.",
   "self_assign_remove": "Du har inte längre {0} roll.",
   "self_assign_success": "Du har nu {0} roll.",
@@ -154,8 +151,7 @@
   "soft_banned_pl": "mjukt-bannad (kickad)",
   "spam_ignore": "{0} kommer ignorera denna kanal.",
   "spam_not_ignore": "{0} kommer inte längre att ignorera denna kanal.",
-  "spam_stats":
-    "Om en användare skriver {0} samma meddelanden på en gång so kommer jag {1} dom.\n__IgnoreradeKannaler_: {2}",
+  "spam_stats": "Om en användare skriver {0} samma meddelanden på en gång so kommer jag {1} dom.\n__IgnoreradeKannaler_: {2}",
   "text_chan_created": "Textkanal skapad.",
   "text_chan_destroyed": "Text kanal förstörd.",
   "undeafen": "Borttagning av dövning lyckats.",
@@ -181,12 +177,9 @@
   "voice_chan_destroyed": "Röstkanal Förstörd",
   "vt_disabled": "Avaktiverat röst \u002B text funktion.",
   "vt_enabled": "Aktiverat röst \u002B text funktion.",
-  "vt_exit":
-    "Jag har inte **hantera roller** och / eller **hantera kanaler** tillstånd, så jag kan inte köra \u0060röst \u002B text\u0060 på {0} server.",
-  "vt_no_admin":
-    "Du aktiverar / inaktiverar funktionen och **Jag har inte administratörsbehörighet**. Detta kan orsaka vissa problem, och du kommer själv att behöva städa upp textkanaler efteråt.",
-  "vt_perms":
-    "Jag behöver minst **hantera roller** och **hantera kanaler** behörighet att aktivera den här funktionen. (Föredrar Administration tillåtelse)",
+  "vt_exit": "Jag har inte **hantera roller** och / eller **hantera kanaler** tillstånd, så jag kan inte köra \u0060röst \u002B text\u0060 på {0} server.",
+  "vt_no_admin": "Du aktiverar / inaktiverar funktionen och **Jag har inte administratörsbehörighet**. Detta kan orsaka vissa problem, och du kommer själv att behöva städa upp textkanaler efteråt.",
+  "vt_perms": "Jag behöver minst **hantera roller** och **hantera kanaler** behörighet att aktivera den här funktionen. (Föredrar Administration tillåtelse)",
   "xmuted_text": "Användare {0} från text chat",
   "xmuted_text_and_voice": "Användare {0} från text och röst chat.",
   "xmuted_voice": "Användare {0} från röst kanal",
@@ -225,19 +218,14 @@
   "cmdlist_donate": "Du kan stödja projektet på patreon: \u003C{0}\u003E eööer paypal: \u003C{1}\u003E",
   "cmd_and_alias": "Kommando och alias",
   "commandlist_regen": "Kommando lista regenereras.",
-  "commands_instr":
-    "Skriv \u0060{0}h CommandName\u0060 för att se hjälp för det specifika kommandot. t.ex. \u0060{0}h \u003E8ball\u0060",
-  "command_not_found":
-    "Jag kan inte hitta det  kommandot. Var snäll och verifiera om det kommandot existerar innan du provar igen.",
+  "commands_instr": "Skriv \u0060{0}h CommandName\u0060 för att se hjälp för det specifika kommandot. t.ex. \u0060{0}h \u003E8ball\u0060",
+  "command_not_found": "Jag kan inte hitta det  kommandot. Var snäll och verifiera om det kommandot existerar innan du provar igen.",
   "desc": "Beskrivning",
-  "donate":
-    "Du kan stödja Mewdeko projektet på\nPatreon \u003C{0}\u003E eller\nPaypal \u003C{1}\u003E\nGlömm inte att lämna ditt discord namn eller id i meddelandet.\n\n**Tack så mycket** ♥️ ",
-  "guide":
-    "**Lista av kommandon**. \u003C{0}\u003E\n**Värd guider och dokument kan bli hittade här*\u0027:  \u003C{1}\u003E",
+  "donate": "Du kan stödja Mewdeko projektet på\nPatreon \u003C{0}\u003E eller\nPaypal \u003C{1}\u003E\nGlömm inte att lämna ditt discord namn eller id i meddelandet.\n\n**Tack så mycket** ♥️ ",
+  "guide": "**Lista av kommandon**. \u003C{0}\u003E\n**Värd guider och dokument kan bli hittade här*\u0027:  \u003C{1}\u003E",
   "list_of_commands": "Kommandolista",
   "list_of_modules": "Modullista",
-  "modules_footer":
-    "Skriv \u0060{0}cmds ModuleName\u0060 för att få en lista av kommandon i den modulen. t.ex.  \u0060{0}cmds games\u0060 ",
+  "modules_footer": "Skriv \u0060{0}cmds ModuleName\u0060 för att få en lista av kommandon i den modulen. t.ex.  \u0060{0}cmds games\u0060 ",
   "module_not_found": "Modulen existerar inte.",
   "server_permission": "Kräver {0} server tillåtelse.",
   "table_of_contents": "Innehållsförteckning",
@@ -266,19 +254,16 @@
   "likes": "Gillar",
   "waifus_none": "Inga waifus har blivit tagna hittls.",
   "waifus_top_waifus": "Top Waifus",
-  "waifu_affinity_already":
-    "din affinitet är redan inställd på den waifun eller så försöker du att ta bort din affinitet utan att ha en.",
+  "waifu_affinity_already": "din affinitet är redan inställd på den waifun eller så försöker du att ta bort din affinitet utan att ha en.",
   "waifu_affinity_changed": "ändrat sin affinitet från {0} till {1}.\n\n* Detta är moraliskt tveksamt. * \uD83E\uDD14",
   "waifu_affinity_cooldown": "Du måste vänta {0} timmar och {1} minuter för att byta affinitet igen.",
   "waifu_affinity_reset": "Din affinitet återställs. Du har inte en person som du gillar längre.",
   "waifu_affinity_set": "vill vara {0}s waifu. Aww \u003C3 ",
   "waifu_claimed": "har tagit {0} som deras waifu för {1}!",
-  "waifu_divorced_like":
-    "Du har skilt dig från en waifu som gillar dig. Ditt hjärtlösa monster.\n{0} har fått {1} som kompensation.",
+  "waifu_divorced_like": "Du har skilt dig från en waifu som gillar dig. Ditt hjärtlösa monster.\n{0} har fått {1} som kompensation.",
   "waifu_egomaniac": "du kan inte ställa affinitet till dig själv, din egoist.",
   "waifu_fulfilled": "\uD83C\uDF89 Deras kärlek är uppfyllt! \uD83C\uDF89\n{0} s nya värdet är {1}!",
-  "waifu_isnt_cheap":
-    "Ingen waifu är så billig. Du måste betala minst {0} för att få en waifu, även om deras riktiga värde är lägre.",
+  "waifu_isnt_cheap": "Ingen waifu är så billig. Du måste betala minst {0} för att få en waifu, även om deras riktiga värde är lägre.",
   "waifu_not_enough": "Du måste betala {0} eller mer för att ta den waifun!",
   "waifu_not_yours": "Denna waifun är inte din.",
   "waifu_not_yourself": "Du kan inte göra anspråk på sig själv.",
@@ -359,8 +344,7 @@
   "playlists": " \u0060#{0}\u0060 - **{1}** by *{2}* ({3} låtar)",
   "playlists_page": "Sida {0} av Sparade Spellistor",
   "playlist_deleted": "Spelllista borttagen.",
-  "playlist_delete_fail":
-    "Kunde ej ta bort den låtlistan. Antingen finns den ej eller så är det inte du som skapat den.",
+  "playlist_delete_fail": "Kunde ej ta bort den låtlistan. Antingen finns den ej eller så är det inte du som skapat den.",
   "playlist_id_not_found": "Spellista med det ID existerar inte.",
   "playlist_queue_complete": "Spellista komplett.",
   "playlist_saved": "Spellista Sparad",
@@ -435,8 +419,7 @@
   "word_filter_server_on": "Ord filtrering aktiverat på denna server.",
   "abilities": "Förmågor",
   "anime_no_fav": "Ingen favoritanime än",
-  "atl_ad_started":
-    "Började automatisk översättning av meddelanden på denna kanal. Användarmeddelanden kommer att automatiskt tas bort.",
+  "atl_ad_started": "Började automatisk översättning av meddelanden på denna kanal. Användarmeddelanden kommer att automatiskt tas bort.",
   "atl_removed": "ditt automatiska översätta-språk har tagits bort.",
   "atl_set": "ditt automatiska översätta-språk har blivit satt till {0}\u003E{1} ",
   "atl_started": "Började automatisk översättning av meddelanden på denna kanal.",
@@ -544,8 +527,7 @@
   "features": "Funktioner",
   "index_out_of_range": "Index utom räckhåll",
   "inrole_list": "Lista över användare i {0}-rollen",
-  "inrole_not_allowed":
-    "Du är inte tillåten att använda detta kommando på roller med många användare i dem för att förhindra missbruk.",
+  "inrole_not_allowed": "Du är inte tillåten att använda detta kommando på roller med många användare i dem för att förhindra missbruk.",
   "invalid_value": "Ogiltigt {0} värde.",
   "listservers": "ID: {0}\nMedlemmar: {1}\nÄgarID: {2}",
   "listservers_none": "Inga servrar funna på den sidan.",
@@ -656,14 +638,11 @@
   "slowmodewl_user_start": "Långsam läge kommer nu ignorera användaren {0}",
   "slowmodewl_user_stop": "Långsam läge kommer inte längre ignorera användaren {0}",
   "clpa_fail": "Misslyckad anpråk av pris på grund av följande anledningar:",
-  "clpa_fail_already":
-    "Du har kanske redan mottagit din pris för denna månaden. Du kan bara motta priser en gång per månad om inte du ökar din pledge.",
+  "clpa_fail_already": "Du har kanske redan mottagit din pris för denna månaden. Du kan bara motta priser en gång per månad om inte du ökar din pledge.",
   "clpa_fail_already_title": "Redan belönat",
-  "clpa_fail_conn":
-    "Din discord konto är kanske inte ansluten till Patreon. Om du inte är säker om vad det betyder, eller inte vet hur du skall ansluta det - du måse då gå till [Patreon account settings page]\n(https://patreon.com/settings/account) och klicka på \u0027Connect to discord\u0027 knappen.",
+  "clpa_fail_conn": "Din discord konto är kanske inte ansluten till Patreon. Om du inte är säker om vad det betyder, eller inte vet hur du skall ansluta det - du måse då gå till [Patreon account settings page]\n(https://patreon.com/settings/account) och klicka på \u0027Connect to discord\u0027 knappen.",
   "clpa_fail_conn_title": "Discord konto är icke ansluten.",
-  "clpa_fail_sup":
-    "För att vara berättigad till priset så måste du stödja projektet på patreon. Du kan använda {0} kommandot för att få länken.",
+  "clpa_fail_sup": "För att vara berättigad till priset så måste du stödja projektet på patreon. Du kan använda {0} kommandot för att få länken.",
   "clpa_fail_sup_title": "Ingen stöd",
   "clpa_fail_wait": "Du måste vänta några timmer efter din pledge, om du inte har gjort det, prova igen senare.",
   "clpa_fail_wait_title": "Vänta en stund",
@@ -712,8 +691,7 @@
   "bot_nick": "Botens smeknamn ändrat till {0}",
   "user_nick": "Smeknamnet på användare {0} ändrat till {1}",
   "timezone_guild": "Tidszon för denna guild är \u0060{0}\u0060",
-  "timezone_not_found":
-    "Tidszonen inte funnen. Använd \u0022timezones\u0022 kommandot för att se listan över tillgängliga tidszoner.",
+  "timezone_not_found": "Tidszonen inte funnen. Använd \u0022timezones\u0022 kommandot för att se listan över tillgängliga tidszoner.",
   "timezones_available": "Tillgängliga tidszoner",
   "song_not_found": "Hittar inte låten",
   "define_unknown": "Kan inte hitta definitionen av det ordet",
@@ -747,8 +725,7 @@
   "nunchi_ended_no_winner": "Nunchi avslutat utan någon vinnare",
   "nunchi_started": "Nunchi har startat med {0} deltagare",
   "nunchi_round_ended": "Nunchi runda avslutad. {0} är ute ur spelet",
-  "nunchi_round_ended_boot":
-    "Nunchi rundan avslutad på grund av att vissa användare använt för mycket tid. Dessa användare är fortfarande med i spelet: {0}",
+  "nunchi_round_ended_boot": "Nunchi rundan avslutad på grund av att vissa användare använt för mycket tid. Dessa användare är fortfarande med i spelet: {0}",
   "nunchi_round_started": "Nunchi runda startade med {0} deltagare. Börja räkna från nummer {1}.",
   "nunchi_next_number": "Nummer registrerat. Senaste numret var {0}",
   "nunchi_failed_to_start": "Nunchi startas inte eftersom det inte fanns tillräckligt många deltagare",
@@ -769,8 +746,7 @@
   "stream_role_wl_rem_fail": "Användare {0} är inte vitlistad",
   "bot_config_edit_fail": "Misslyckades att ändra {0} till {1}",
   "bot_config_edit_success": "Värdet {0} är ändrat till {1}",
-  "crca_disabled":
-    "Anpassade emojis med id {0} kommer inte längre att aktiveras förutom om det finns i början av meningen.",
+  "crca_disabled": "Anpassade emojis med id {0} kommer inte längre att aktiveras förutom om det finns i början av meningen.",
   "crca_enabled": "Anpassade emojis med id {0} kommer aktiveras om det finns någonstans i meningen. ",
   "server_level": "Server nivå",
   "club": "Klubb",
@@ -791,26 +767,21 @@
   "server_leaderboard": "Server erfarenhetstopplista",
   "global_leaderboard": "Global erfarenhetstopplista",
   "modified": "Servererfarenhet modifierad av {0} av {1}",
-  "club_create_error":
-    "Misslyckades med att skapa klubben. Säkerställ att du är över nivå 5 och att du inte redan är medlem i en klubb.",
+  "club_create_error": "Misslyckades med att skapa klubben. Säkerställ att du är över nivå 5 och att du inte redan är medlem i en klubb.",
   "club_created": "Klubb {0} har framgångsrikt skapats",
   "club_not_exists": "Den klubben finns inte",
   "club_applied": "Du har ansökt om medlemskap till {0} klubben",
-  "club_apply_error":
-    "Fel vid ansökan. Du är antingen redan medlem, eller så når du inte minimikravet eller så är du bannad från den här klubben.",
+  "club_apply_error": "Fel vid ansökan. Du är antingen redan medlem, eller så når du inte minimikravet eller så är du bannad från den här klubben.",
   "club_accepted": "Användare {0} accepterad till klubben",
   "club_accept_error": "Hittar inte användaren",
   "club_left": "Du har lämnat klubben",
   "club_not_in_club": "Du är inte i en klubb eller så försöker du lämna en klubb du inte är ägare till",
   "club_user_kick": "Användare {0} har blivit sparkad från {1} klubben.",
-  "club_user_kick_fail":
-    "Fel vid utsparkning. Du är antingen inte klubbens ägare eller så är inte användaren med i din klubb.",
+  "club_user_kick_fail": "Fel vid utsparkning. Du är antingen inte klubbens ägare eller så är inte användaren med i din klubb.",
   "club_user_banned": "Bannad användare {0} från klubben {1}",
-  "club_user_ban_fail":
-    "Misslyckat försök att banna. Du är antingen inte ägaren till klubben eller så är inte användaren i din klubb eller ens har sökt till den.",
+  "club_user_ban_fail": "Misslyckat försök att banna. Du är antingen inte ägaren till klubben eller så är inte användaren i din klubb eller ens har sökt till den.",
   "club_user_unbanned": "Användare {0} är inte längre avstängd från {1} klubben.",
-  "club_user_unban_fail":
-    "Misslyckades att ta bort avstängningen. Du är antingen inte klubbens ägare eller så är användaren inte med i din klubb eller ens har sökt till den. ",
+  "club_user_unban_fail": "Misslyckades att ta bort avstängningen. Du är antingen inte klubbens ägare eller så är användaren inte med i din klubb eller ens har sökt till den. ",
   "club_level_req_changed": "Ändrade klubbens nivåkrav till {0}",
   "club_level_req_change_error": "Misslyckades med att ändra nivåkravet",
   "club_disbanded": "Klubb {0} är nu upplöst",

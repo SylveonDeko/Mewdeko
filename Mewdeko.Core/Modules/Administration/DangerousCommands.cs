@@ -101,7 +101,7 @@ namespace Mewdeko.Modules.Administration
                 };
                 var msg = await ctx.Channel.SendMessageAsync("", embed: embed.Build());
 
-                var globals = new EvaluationEnvironment((CommandContext) Context);
+                var globals = new EvaluationEnvironment((CommandContext)Context);
                 var sopts = ScriptOptions.Default
                     .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
                         "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
@@ -190,7 +190,6 @@ namespace Mewdeko.Modules.Administration
             }
 
 
-
             //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
             //public Task DeleteUnusedCrnQ() =>
@@ -210,7 +209,7 @@ namespace Mewdeko.Modules.Administration
             public IMessageChannel Channel => ctx.Channel;
             public IGuild Guild => ctx.Guild;
             public IUser User => ctx.User;
-            public IGuildUser Member => (IGuildUser) ctx.User;
+            public IGuildUser Member => (IGuildUser)ctx.User;
             public IDiscordClient Client => ctx.Client;
         }
     }

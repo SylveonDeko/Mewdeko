@@ -11,10 +11,6 @@ namespace Mewdeko.Core.Common.TypeReaders.Models
             ,
             RegexOptions.Compiled | RegexOptions.Multiline);
 
-        public StoopidTime()
-        {
-        }
-
         public string Input { get; set; }
         public TimeSpan Time { get; set; }
 

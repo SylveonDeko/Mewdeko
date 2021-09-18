@@ -48,57 +48,58 @@ namespace Mewdeko.Core.Services
 
             _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
         }
-        private Func<Task> TriggerBoostMessage(GreetSettings conf, SocketGuildUser user) => async () =>
-        {
-            var channel = user.Guild.GetTextChannel(conf.BoostMessageChannelId);
-            if (channel is null)
-                return;
-
-            if (string.IsNullOrWhiteSpace(conf.BoostMessage))
-                return;
-
-            var toSend = SmartText.CreateFrom(conf.BoostMessage);
-            var rep = new ReplacementBuilder()
-                .WithDefault(user, channel, user.Guild, _client)
-                .Build();
-
-            try
-            {
-                var toDelete = await channel.SendAsync(rep.Replace(toSend));
-                if (conf.BoostMessageDeleteAfter > 0)
-                {
-                    toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error sending boost message.");
-            }
-        };
-
-            private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong > oldUser, SocketGuildUser newUser)
-            {
-                // if user is a new booster
-                // or boosted again the same server
-                if ((oldUser.Value is { PremiumSince: null } && newUser is { PremiumSince: not null })
-                    || (oldUser.Value.PremiumSince is DateTimeOffset oldDate
-                        && newUser.PremiumSince is DateTimeOffset newDate
-                        && newDate > oldDate))
-                {
-                    var conf = GetOrAddSettingsForGuild(newUser.Guild.Id);
-                    if (!conf.SendBoostMessage) return Task.CompletedTask;
-
-                    _ = Task.Run(TriggerBoostMessage(conf, newUser));
-                }
-
-                return Task.CompletedTask;
-            }
 
 
-            public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
+        public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
         private ConcurrentDictionary<ulong, int> _webgreets { get; } = new();
         private ConcurrentDictionary<ulong, string> _webhooks { get; } = new();
         public bool GroupGreets => _bss.Data.GroupGreets;
+
+        private Func<Task> TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
+        {
+            return async () =>
+            {
+                var channel = user.Guild.GetTextChannel(conf.BoostMessageChannelId);
+                if (channel is null)
+                    return;
+
+                if (string.IsNullOrWhiteSpace(conf.BoostMessage))
+                    return;
+
+                var toSend = SmartText.CreateFrom(conf.BoostMessage);
+                var rep = new ReplacementBuilder()
+                    .WithDefault(user, channel, user.Guild, _client)
+                    .Build();
+
+                try
+                {
+                    var toDelete = await channel.SendAsync(rep.Replace(toSend));
+                    if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error sending boost message.");
+                }
+            };
+        }
+
+        private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> oldUser, SocketGuildUser newUser)
+        {
+            // if user is a new booster
+            // or boosted again the same server
+            if (oldUser.Value is { PremiumSince: null } && newUser is { PremiumSince: not null }
+                || oldUser.Value.PremiumSince is DateTimeOffset oldDate
+                && newUser.PremiumSince is DateTimeOffset newDate
+                && newDate > oldDate)
+            {
+                var conf = GetOrAddSettingsForGuild(newUser.Guild.Id);
+                if (!conf.SendBoostMessage) return Task.CompletedTask;
+
+                _ = Task.Run(TriggerBoostMessage(conf, newUser));
+            }
+
+            return Task.CompletedTask;
+        }
 
         private Task _client_LeftGuild(SocketGuild arg)
         {
@@ -138,7 +139,7 @@ namespace Mewdeko.Core.Services
                         if (byes.CreateOrAdd(user.GuildId, user))
                         {
                             // greet single user
-                            await ByeUsers(conf, channel, new[] {user});
+                            await ByeUsers(conf, channel, new[] { user });
                             var groupClear = false;
                             while (!groupClear)
                             {
@@ -150,7 +151,7 @@ namespace Mewdeko.Core.Services
                     }
                     else
                     {
-                        await ByeUsers(conf, channel, new[] {user});
+                        await ByeUsers(conf, channel, new[] { user });
                     }
                 }
                 catch
@@ -160,6 +161,7 @@ namespace Mewdeko.Core.Services
             });
             return Task.CompletedTask;
         }
+
         public bool SetBoostMessage(ulong guildId, ref string message)
         {
             message = message?.SanitizeMentions();
@@ -189,6 +191,7 @@ namespace Mewdeko.Core.Services
 
             await uow.SaveChangesAsync();
         }
+
         public string GetBoostMessage(ulong gid)
         {
             using var uow = _db.GetDbContext();
@@ -262,7 +265,7 @@ namespace Mewdeko.Core.Services
 
         private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user)
         {
-            return ByeUsers(conf, channel, new[] {user});
+            return ByeUsers(conf, channel, new[] { user });
         }
 
         private async Task ByeUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IUser> users)
@@ -273,7 +276,7 @@ namespace Mewdeko.Core.Services
             var rep = new ReplacementBuilder()
                 .WithChannel(channel)
                 .WithClient(_client)
-                .WithServer(_client, (SocketGuild) channel.Guild)
+                .WithServer(_client, (SocketGuild)channel.Guild)
                 .WithManyUsers(users)
                 .Build();
 
@@ -338,7 +341,7 @@ namespace Mewdeko.Core.Services
 
         private Task GreetUsers(GreetSettings conf, ITextChannel channel, IGuildUser user)
         {
-            return GreetUsers(conf, channel, new[] {user});
+            return GreetUsers(conf, channel, new[] { user });
         }
 
         private async Task GreetUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IGuildUser> users)
@@ -349,7 +352,7 @@ namespace Mewdeko.Core.Services
             var rep = new ReplacementBuilder()
                 .WithChannel(channel)
                 .WithClient(_client)
-                .WithServer(_client, (SocketGuild) channel.Guild)
+                .WithServer(_client, (SocketGuild)channel.Guild)
                 .WithManyUsers(users)
                 .Build();
 
@@ -416,7 +419,7 @@ namespace Mewdeko.Core.Services
         private async Task<bool> GreetDmUser(GreetSettings conf, IDMChannel channel, IGuildUser user)
         {
             var rep = new ReplacementBuilder()
-                .WithDefault(user, channel, (SocketGuild) user.Guild, _client)
+                .WithDefault(user, channel, (SocketGuild)user.Guild, _client)
                 .Build();
 
             if (CREmbed.TryParse(conf.DmGreetMessageText, out var embedData))
@@ -469,7 +472,7 @@ namespace Mewdeko.Core.Services
                                 if (greets.CreateOrAdd(user.GuildId, user))
                                 {
                                     // greet single user
-                                    await GreetUsers(conf, channel, new[] {user});
+                                    await GreetUsers(conf, channel, new[] { user });
                                     var groupClear = false;
                                     while (!groupClear)
                                     {
@@ -481,7 +484,7 @@ namespace Mewdeko.Core.Services
                             }
                             else
                             {
-                                await GreetUsers(conf, channel, new[] {user});
+                                await GreetUsers(conf, channel, new[] { user });
                             }
                         }
                     }
@@ -795,7 +798,7 @@ namespace Mewdeko.Core.Services
 
         public static GreetSettings Create(GuildConfig g)
         {
-            return new()
+            return new GreetSettings
             {
                 AutoDeleteByeMessagesTimer = g.AutoDeleteByeMessagesTimer,
                 AutoDeleteGreetMessagesTimer = g.AutoDeleteGreetMessagesTimer,

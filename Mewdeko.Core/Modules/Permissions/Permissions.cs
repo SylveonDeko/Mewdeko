@@ -68,7 +68,7 @@ namespace Mewdeko.Modules.Permissions
             {
                 var cache = _service.GetCacheFor(ctx.Guild.Id);
                 if (!ulong.TryParse(cache.PermRole, out var roleId) ||
-                    (role = ((SocketGuild) ctx.Guild).GetRole(roleId)) == null)
+                    (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
                     await ReplyConfirmLocalizedAsync("permrole_not_set", Format.Bold(cache.PermRole))
                         .ConfigureAwait(false);
                 else
@@ -132,7 +132,7 @@ namespace Mewdeko.Modules.Permissions
                     .Select(p =>
                     {
                         var str =
-                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild) ctx.Guild))}";
+                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
                         if (p.Index == 0)
                             str += $" [{GetText("uneditable")}]";
                         return str;
@@ -167,7 +167,7 @@ namespace Mewdeko.Modules.Permissions
 
                 await ReplyConfirmLocalizedAsync("removed",
                     index + 1,
-                    Format.Code(p.GetCommand(Prefix, (SocketGuild) ctx.Guild))).ConfigureAwait(false);
+                    Format.Code(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))).ConfigureAwait(false);
             }
             catch (IndexOutOfRangeException)
             {
@@ -217,7 +217,7 @@ namespace Mewdeko.Modules.Permissions
                     }
 
                     await ReplyConfirmLocalizedAsync("moved_permission",
-                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild) ctx.Guild)),
+                            Format.Code(fromPerm.GetCommand(Prefix, (SocketGuild)ctx.Guild)),
                             ++from,
                             ++to)
                         .ConfigureAwait(false);

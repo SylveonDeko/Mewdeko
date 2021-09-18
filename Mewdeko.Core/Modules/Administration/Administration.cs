@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
+using Humanizer.Localisation;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common.TypeReaders.Models;
 using Mewdeko.Extensions;
-using Mewdeko.Modules.Administration.Services;
-using Humanizer;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
+using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
 {
     public partial class Administration : MewdekoModule<AdministrationService>
     {
-        private InteractiveService Interactivity;
         public enum Channel
         {
             Channel,
@@ -24,7 +24,7 @@ namespace Mewdeko.Modules.Administration
             Chnl,
             Chan
         }
-        
+
         public enum List
         {
             List = 0,
@@ -42,10 +42,14 @@ namespace Mewdeko.Modules.Administration
             Disable,
             Inherit
         }
+
+        private readonly InteractiveService Interactivity;
+
         public Administration(InteractiveService serv)
         {
             Interactivity = serv;
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -54,14 +58,14 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPerm.BanMembers)]
         public async Task BanUnder(StoopidTime time, string option = null)
         {
-
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                    DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
+                DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
             if (!users.Any())
             {
                 await ctx.Channel.SendErrorAsync("No users at or under that server join age!");
                 return;
             }
+
             if (option is not null && option.ToLower() == "-p")
             {
                 var paginator = new LazyPaginatorBuilder()
@@ -77,17 +81,20 @@ namespace Mewdeko.Modules.Administration
                 Task<PageBuilder> PageFactory(int page)
                 {
                     return Task.FromResult(new PageBuilder()
-                        .WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
+                        .WithTitle(
+                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
                         .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
                 }
             }
-            int banned = 0;
-            int errored = 0;
-            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to ban {users.Count()} users that are under that server join age?");
+
+            var banned = 0;
+            var errored = 0;
+            var embed = new EmbedBuilder().WithErrorColor()
+                .WithDescription(
+                    $"Are you sure you want to ban {users.Count()} users that are under that server join age?");
             if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
             var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
             foreach (var i in users)
-            {
                 try
                 {
                     await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified server join age.");
@@ -97,10 +104,14 @@ namespace Mewdeko.Modules.Administration
                 {
                     errored++;
                 }
-            }
-            var eb = new EmbedBuilder().WithDescription($"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.").WithOkColor();
+
+            var eb = new EmbedBuilder()
+                .WithDescription(
+                    $"Banned {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed bans please check the bots top role and try again.")
+                .WithOkColor();
             await message.ModifyAsync(x => x.Embed = eb.Build());
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -110,51 +121,58 @@ namespace Mewdeko.Modules.Administration
         public async Task KickUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                    DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
+                DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
             if (!users.Any())
             {
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
                 return;
             }
+
             if (option is not null && option.ToLower() == "-p")
             {
                 var paginator = new LazyPaginatorBuilder()
-                     .AddUser(ctx.User)
-                     .WithPageFactory(PageFactory)
-                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                     .WithMaxPageIndex(users.Count() - 1)
-                     .WithDefaultCanceledPage()
-                     .WithDefaultEmotes()
-                     .Build();
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(users.Count() - 1)
+                    .WithDefaultCanceledPage()
+                    .WithDefaultEmotes()
+                    .Build();
                 await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
                     return Task.FromResult(new PageBuilder()
-                        .WithTitle($"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: Humanizer.Localisation.TimeUnit.Year)} ago")
+                        .WithTitle(
+                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
                         .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
                 }
             }
-            int banned = 0;
-            int errored = 0;
-            var embed = new EmbedBuilder().WithErrorColor().WithDescription($"Are you sure you want to kick {users.Count()} users that joined under that time?");
+
+            var banned = 0;
+            var errored = 0;
+            var embed = new EmbedBuilder().WithErrorColor()
+                .WithDescription($"Are you sure you want to kick {users.Count()} users that joined under that time?");
             if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
             var message = await ctx.Channel.SendConfirmAsync($"Kicking {users.Count()} users..");
             foreach (var i in users)
-            {
                 try
                 {
-                    await i.KickAsync(reason: $"{ctx.User}|| Kicking users under specified join time.");
+                    await i.KickAsync($"{ctx.User}|| Kicking users under specified join time.");
                     banned++;
                 }
                 catch
                 {
                     errored++;
                 }
-            }
-            var eb = new EmbedBuilder().WithDescription($"Kicked {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed kicks please check the bots top role and try again.").WithOkColor();
+
+            var eb = new EmbedBuilder()
+                .WithDescription(
+                    $"Kicked {banned} users under that server join age, and was unable to ban {errored} users.\nIf there were any failed kicks please check the bots top role and try again.")
+                .WithOkColor();
             await message.ModifyAsync(x => x.Embed = eb.Build());
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -169,23 +187,26 @@ namespace Mewdeko.Modules.Administration
                 var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
                 if (toprune == 0)
                 {
-                    await ctx.Channel.SendErrorAsync($"No users to prune, if you meant to prune users inyour member role please set it with {Prefix}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
+                    await ctx.Channel.SendErrorAsync(
+                        $"No users to prune, if you meant to prune users inyour member role please set it with {Prefix}memberrole role, and rerun the command but specify -y after the time. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
                     return;
                 }
-                var eb = new EmbedBuilder()
+
+                var eb = new EmbedBuilder
                 {
                     Description = $"Are you sure you want to prune {toprune} Members?",
                     Color = Mewdeko.OkColor
                 };
-                if(!await PromptUserConfirmAsync(eb))
+                if (!await PromptUserConfirmAsync(eb))
                 {
-                    await ctx.Channel.SendConfirmAsync($"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {Prefix}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
+                    await ctx.Channel.SendConfirmAsync(
+                        $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {Prefix}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
                 }
                 else
                 {
                     var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
                     await ctx.Guild.PruneUsersAsync(time.Time.Days);
-                    var ebi = new EmbedBuilder()
+                    var ebi = new EmbedBuilder
                     {
                         Description = $"Pruned {toprune} members.",
                         Color = Mewdeko.OkColor
@@ -195,35 +216,39 @@ namespace Mewdeko.Modules.Administration
             }
             else
             {
-                    var role = ctx.Guild.GetRole(_service.GetMemberRole(ctx.Guild.Id));
-                    var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true, includeRoleIds: new ulong[] {_service.GetMemberRole(ctx.Guild.Id)});
-                    if (toprune == 0)
+                var role = ctx.Guild.GetRole(_service.GetMemberRole(ctx.Guild.Id));
+                var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
+                    includeRoleIds: new[] { _service.GetMemberRole(ctx.Guild.Id) });
+                if (toprune == 0)
+                {
+                    await ctx.Channel.SendErrorAsync("No users to prune.");
+                    return;
+                }
+
+                var eb = new EmbedBuilder
+                {
+                    Description = $"Are you sure you want to prune {toprune} Members?",
+                    Color = Mewdeko.OkColor
+                };
+                if (!await PromptUserConfirmAsync(eb))
+                {
+                    await ctx.Channel.SendConfirmAsync("Canceled prune.");
+                }
+                else
+                {
+                    var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
+                    await ctx.Guild.PruneUsersAsync(time.Time.Days,
+                        includeRoleIds: new[] { _service.GetMemberRole(ctx.Guild.Id) });
+                    var ebi = new EmbedBuilder
                     {
-                        await ctx.Channel.SendErrorAsync($"No users to prune.");
-                        return;
-                    }
-                    var eb = new EmbedBuilder()
-                    {
-                        Description = $"Are you sure you want to prune {toprune} Members?",
+                        Description = $"Pruned {toprune} members.",
                         Color = Mewdeko.OkColor
                     };
-                    if (!await PromptUserConfirmAsync(eb))
-                    {
-                        await ctx.Channel.SendConfirmAsync($"Canceled prune.");
-                    }
-                    else
-                    {
-                        var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
-                        await ctx.Guild.PruneUsersAsync(time.Time.Days, includeRoleIds: new ulong[] { _service.GetMemberRole(ctx.Guild.Id) });
-                        var ebi = new EmbedBuilder()
-                        {
-                            Description = $"Pruned {toprune} members.",
-                            Color = Mewdeko.OkColor
-                        };
-                        await msg.ModifyAsync(x => x.Embed = ebi.Build());
-                    }
+                    await msg.ModifyAsync(x => x.Embed = ebi.Build());
+                }
             }
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -266,6 +291,7 @@ namespace Mewdeko.Modules.Administration
                     $"Your Member role has been switched from {oldrole.Mention} to {role.Mention}");
             }
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -338,12 +364,12 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(ChannelPerm.ManageChannel)]
         public async Task Slowmode(StoopidTime time = null)
         {
-            var seconds = (int?) time?.Time.TotalSeconds ?? 0;
+            var seconds = (int?)time?.Time.TotalSeconds ?? 0;
             if (!(time is null) && (time.Time < TimeSpan.FromSeconds(0) || time.Time > TimeSpan.FromHours(6)))
                 return;
 
 
-            await ((ITextChannel) Context.Channel).ModifyAsync(tcp => { tcp.SlowModeInterval = seconds; });
+            await ((ITextChannel)Context.Channel).ModifyAsync(tcp => { tcp.SlowModeInterval = seconds; });
 
             await Context.OkAsync();
         }
@@ -358,7 +384,7 @@ namespace Mewdeko.Modules.Administration
         [Priority(2)]
         public async Task Delmsgoncmd(List _)
         {
-            var guild = (SocketGuild) ctx.Guild;
+            var guild = (SocketGuild)ctx.Guild;
             var (enabled, channels) = _service.GetDelMsgOnCmdData(ctx.Guild.Id);
 
             var embed = new EmbedBuilder()
@@ -516,6 +542,7 @@ namespace Mewdeko.Modules.Administration
             var txtCh = await ctx.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createtextchan", Format.Bold(txtCh.Name)).ConfigureAwait(false);
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -525,7 +552,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPerm.ManageChannels)]
         public async Task SetTopic([Leftover] string topic = null)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             topic = topic ?? "";
             await channel.ModifyAsync(c => c.Topic = topic).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("set_topic").ConfigureAwait(false);
@@ -540,7 +567,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPerm.ManageChannels)]
         public async Task SetChanlName([Leftover] string name)
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("set_channel_name").ConfigureAwait(false);
         }
@@ -554,7 +581,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPerm.ManageChannels)]
         public async Task NsfwToggle()
         {
-            var channel = (ITextChannel) ctx.Channel;
+            var channel = (ITextChannel)ctx.Channel;
             var isEnabled = channel.IsNsfw;
 
             await channel.ModifyAsync(c => c.IsNsfw = !isEnabled).ConfigureAwait(false);
@@ -574,7 +601,7 @@ namespace Mewdeko.Modules.Administration
         [Priority(0)]
         public Task Edit(ulong messageId, [Leftover] string text)
         {
-            return Edit((ITextChannel) ctx.Channel, messageId, text);
+            return Edit((ITextChannel)ctx.Channel, messageId, text);
         }
 
         [MewdekoCommand]
@@ -585,8 +612,8 @@ namespace Mewdeko.Modules.Administration
         [Priority(1)]
         public async Task Edit(ITextChannel channel, ulong messageId, [Leftover] string text)
         {
-            var userPerms = ((SocketGuildUser) ctx.User).GetPermissions(channel);
-            var botPerms = ((SocketGuild) ctx.Guild).CurrentUser.GetPermissions(channel);
+            var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
+            var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);
             if (!userPerms.Has(ChannelPermission.ManageMessages))
             {
                 await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);
@@ -611,7 +638,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(ChannelPerm.ManageMessages)]
         public Task Delete(ulong messageId, StoopidTime time = null)
         {
-            return Delete((ITextChannel) ctx.Channel, messageId, time);
+            return Delete((ITextChannel)ctx.Channel, messageId, time);
         }
 
         [MewdekoCommand]
@@ -627,8 +654,8 @@ namespace Mewdeko.Modules.Administration
         private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime time,
             Func<IMessage, Task> func)
         {
-            var userPerms = ((SocketGuildUser) ctx.User).GetPermissions(channel);
-            var botPerms = ((SocketGuild) ctx.Guild).CurrentUser.GetPermissions(channel);
+            var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
+            var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);
             if (!userPerms.Has(ChannelPermission.ManageMessages))
             {
                 await ReplyErrorLocalizedAsync("insuf_perms_u").ConfigureAwait(false);

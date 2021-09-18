@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -20,9 +21,10 @@ namespace Mewdeko.Modules.Games
         public class PlantPickCommands : GamblingSubmodule<PlantPickService>
         {
             private readonly LogCommandService logService;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
-            public PlantPickCommands(LogCommandService logService, GamblingConfigService gss, InteractiveService serv) : base(gss)
+            public PlantPickCommands(LogCommandService logService, GamblingConfigService gss,
+                InteractiveService serv) : base(gss)
             {
                 Interactivity = serv;
                 this.logService = logService;
@@ -37,7 +39,7 @@ namespace Mewdeko.Modules.Games
             {
                 if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
-                var picked = await _service.PickAsync(ctx.Guild.Id, (ITextChannel) ctx.Channel, ctx.User.Id, pass);
+                var picked = await _service.PickAsync(ctx.Guild.Id, (ITextChannel)ctx.Channel, ctx.User.Id, pass);
 
                 if (picked > 0)
                 {
@@ -46,7 +48,7 @@ namespace Mewdeko.Modules.Games
                     msg.DeleteAfter(10);
                 }
 
-                if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                     try
                     {
                         logService.AddDeleteIgnore(ctx.Message.Id);
@@ -77,7 +79,7 @@ namespace Mewdeko.Modules.Games
                     return;
                 }
 
-                if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
+                if (((SocketGuild)ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                 {
                     logService.AddDeleteIgnore(ctx.Message.Id);
                     await ctx.Message.DeleteAsync().ConfigureAwait(false);
@@ -123,7 +125,7 @@ namespace Mewdeko.Modules.Games
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {

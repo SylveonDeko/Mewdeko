@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Games.Common
         private readonly SemaphoreSlim _moveLock;
 
         private readonly string[] _numbers =
-            {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:"};
+            { ":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:" };
 
         private readonly Options _options;
         private readonly int?[,] _state;
@@ -40,12 +40,12 @@ namespace Mewdeko.Modules.Games.Common
             _client = client;
             _options = options;
 
-            _users = new[] {firstUser, null};
+            _users = new[] { firstUser, null };
             _state = new int?[,]
             {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                { null, null, null },
+                { null, null, null },
+                { null, null, null }
             };
 
             _phase = Phase.Starting;

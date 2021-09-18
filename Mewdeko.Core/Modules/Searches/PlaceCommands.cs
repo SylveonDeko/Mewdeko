@@ -75,10 +75,10 @@ namespace Mewdeko.Modules.Searches
 
                 var rng = new MewdekoRandom();
                 if (width <= 0 || width > 1000)
-                    width = (uint) rng.Next(250, 850);
+                    width = (uint)rng.Next(250, 850);
 
                 if (height <= 0 || height > 1000)
-                    height = (uint) rng.Next(250, 850);
+                    height = (uint)rng.Next(250, 850);
 
                 url += $"/{width}/{height}";
 

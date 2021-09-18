@@ -52,7 +52,7 @@ namespace Mewdeko.Core.Services.Common
                 {
                     try
                     {
-                        return await GetImageData((Uri) x).ConfigureAwait(false);
+                        return await GetImageData((Uri)x).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -69,7 +69,7 @@ namespace Mewdeko.Core.Services.Common
             await _db.KeyDeleteAsync(GetKey(key)).ConfigureAwait(false);
             await _db.ListRightPushAsync(GetKey(key),
                 vals.Where(x => x != null)
-                    .Select(x => (RedisValue) x)
+                    .Select(x => (RedisValue)x)
                     .ToArray()).ConfigureAwait(false);
 
             if (arr.Count != vals.Length)
@@ -110,17 +110,17 @@ namespace Mewdeko.Core.Services.Common
                 // return task<byte[][]> aka an array of all images' bytes
                 if (kvp.Value.Type == JTokenType.Array)
                 {
-                    t = HandleJArray((JArray) kvp.Value, GetParentString() + kvp.Key);
+                    t = HandleJArray((JArray)kvp.Value, GetParentString() + kvp.Key);
                     tasks.Add(t);
                 }
                 else if (kvp.Value.Type == JTokenType.String)
                 {
-                    var uriTask = HandleUri((Uri) kvp.Value, GetParentString() + kvp.Key);
+                    var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
                     uriTasks.Add(uriTask);
                 }
                 else if (kvp.Value.Type == JTokenType.Object)
                 {
-                    t = HandleJObject((JObject) kvp.Value, GetParentString() + kvp.Key);
+                    t = HandleJObject((JObject)kvp.Value, GetParentString() + kvp.Key);
                     tasks.Add(t);
                 }
 

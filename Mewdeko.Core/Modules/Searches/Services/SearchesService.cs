@@ -52,11 +52,7 @@ namespace Mewdeko.Modules.Searches.Services
             IsKeepingSourceReferences = false,
             IsNotSupportingFrames = true
         });
-        public record RedditCache
-        {
-            public IGuild Guild { get; set; }
-            public string Url { get; set; }
-        }
+
         private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new();
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
@@ -68,9 +64,9 @@ namespace Mewdeko.Modules.Searches.Services
 
         private readonly ConcurrentDictionary<ulong, SearchImageCacher> _imageCacher = new();
         private readonly IImageCache _imgs;
+        private readonly List<string> _nsfwreddits;
         private readonly MewdekoRandom _rng;
         private readonly List<string> _yomamaJokes;
-        private readonly List<string> _nsfwreddits;
 
         private readonly object yomamaLock = new();
         private int yomamaJokeIndex;
@@ -149,17 +145,13 @@ namespace Mewdeko.Modules.Searches.Services
                 Log.Warning("data/magicitems.json is missing. Magic items are not loaded.");
 
             if (File.Exists("data/yomama.txt"))
-            {
                 _yomamaJokes = File.ReadAllLines("data/yomama.txt")
                     .Shuffle()
                     .ToList();
-            }
             if (File.Exists("data/ultimatelist.txt"))
-            {
                 _nsfwreddits = File.ReadAllLines("data/ultimatelist.txt")
                     .Shuffle()
                     .ToList();
-            }
         }
 
         public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new();
@@ -169,7 +161,7 @@ namespace Mewdeko.Modules.Searches.Services
 
         public List<WoWJoke> WowJokes { get; } = new();
         public List<MagicItem> MagicItems { get; } = new();
-        public static List<RedditCache> cache {get; set;} = new();
+        public static List<RedditCache> cache { get; set; } = new();
 
         public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
         public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
@@ -187,6 +179,7 @@ namespace Mewdeko.Modules.Searches.Services
             _imageCacher.Clear();
             return Task.CompletedTask;
         }
+
         public bool CheckIfAlreadyPosted(IGuild guild, string url)
         {
             var e = new RedditCache
@@ -199,17 +192,17 @@ namespace Mewdeko.Modules.Searches.Services
                 cache.Add(e);
                 return false;
             }
-            if(!cache.Contains(e))
+
+            if (!cache.Contains(e))
             {
                 cache.Add(e);
                 return false;
             }
-            if(cache.Contains(e))
-            {
-                return true;
-            }
+
+            if (cache.Contains(e)) return true;
             return true;
         }
+
         public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
         {
             var data = await _cache.GetOrAddCachedDataAsync($"Mewdeko_rip_{text}_{imgUrl}",
@@ -230,7 +223,7 @@ namespace Mewdeko.Modules.Searches.Services
             var (text, avatarUrl) = arg;
             using (var bg = Image.Load<Rgba32>(_imgs.Rip.ToArray()))
             {
-                var (succ, data) = (false, (byte[]) null); //await _cache.TryGetImageDataAsync(avatarUrl);
+                var (succ, data) = (false, (byte[])null); //await _cache.TryGetImageDataAsync(avatarUrl);
                 if (!succ)
                     using (var http = _httpFactory.CreateClient())
                     {
@@ -500,12 +493,14 @@ namespace Mewdeko.Modules.Searches.Services
         {
             foreach (var c in _imageCacher) c.Value?.Clear();
         }
+
         public bool NsfwCheck(string reddit)
         {
             if (_nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase))
                 return true;
-            else return false;
+            return false;
         }
+
         public Task<string> GetYomamaJoke()
         {
             string joke;
@@ -536,7 +531,7 @@ namespace Mewdeko.Modules.Searches.Services
             using (var http = _httpFactory.CreateClient())
             {
                 var res = await http.GetStringAsync("https://official-joke-api.appspot.com/random_joke");
-                var resObj = JsonConvert.DeserializeAnonymousType(res, new {setup = "", punchline = ""});
+                var resObj = JsonConvert.DeserializeAnonymousType(res, new { setup = "", punchline = "" });
                 return (resObj.setup, resObj.punchline);
             }
         }
@@ -722,7 +717,7 @@ namespace Mewdeko.Modules.Searches.Services
                     var gamesStr = await http.GetStringAsync("https://api.steampowered.com/ISteamApps/GetAppList/v2/")
                         .ConfigureAwait(false);
                     var apps = JsonConvert
-                        .DeserializeAnonymousType(gamesStr, new {applist = new {apps = new List<SteamGameId>()}})
+                        .DeserializeAnonymousType(gamesStr, new { applist = new { apps = new List<SteamGameId>() } })
                         .applist.apps;
 
                     return apps
@@ -825,6 +820,12 @@ namespace Mewdeko.Modules.Searches.Services
                 results.AsReadOnly(),
                 fullQueryLink,
                 totalResults);
+        }
+
+        public record RedditCache
+        {
+            public IGuild Guild { get; set; }
+            public string Url { get; set; }
         }
 
         //private async Task<SteamGameData> SteamGameDataFactory(int appid)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -21,7 +22,7 @@ namespace Mewdeko.Modules.Searches
         public class StreamNotificationCommands : MewdekoSubmodule<StreamNotificationService>
         {
             private readonly DbService _db;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public StreamNotificationCommands(DbService db, InteractiveService serv)
             {
@@ -106,7 +107,7 @@ namespace Mewdeko.Modules.Searches
                     for (var index = all.Count - 1; index >= 0; index--)
                     {
                         var fs = all[index];
-                        if (((SocketGuild) ctx.Guild).GetTextChannel(fs.ChannelId) is null)
+                        if (((SocketGuild)ctx.Guild).GetTextChannel(fs.ChannelId) is null)
                             await _service.UnfollowStreamAsync(fs.GuildId, index);
                         else
                             streams.Insert(0, fs);
@@ -121,7 +122,7 @@ namespace Mewdeko.Modules.Searches
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {

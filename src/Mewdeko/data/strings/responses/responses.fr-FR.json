@@ -1,8 +1,7 @@
 {
   "all_stats_cleared": "Toutes les statistiques de réactions personnalisées ont été effacées.",
   "deleted": "Réaction personnalisée supprimée",
-  "insuff_perms":
-    "Permissions insuffisantes. Vous devez être Propriétaire du Bot pour utiliser les réactions personnalisées globales et Administrateur pour les réactions personnalisées du serveur.",
+  "insuff_perms": "Permissions insuffisantes. Vous devez être Propriétaire du Bot pour utiliser les réactions personnalisées globales et Administrateur pour les réactions personnalisées du serveur.",
   "list_all": "Liste de toutes les réactions personnalisées",
   "new_cust_react": "Nouvelle réaction personnalisée",
   "no_found": "Aucune réaction personnalisée trouvée.",
@@ -12,10 +11,8 @@
   "stats_cleared": "Statistiques effacées pour {0} réactions personnalisées.",
   "stats_not_found": "Aucune statistique pour ce déclencheur trouvée, aucune action effectuée.",
   "autohentai_stopped": "Autohentai arrêté.",
-  "aar_disabled":
-    "**L\u0027affectation automatique de rôle** à l\u0027arrivée d\u0027un nouvel utilisateur est désormais **désactivée**.",
-  "aar_enabled":
-    "**L\u0027affectation automatique de rôle** à l\u0027arrivée d\u0027un nouvel utilisateur est désormais **activée**.",
+  "aar_disabled": "**L\u0027affectation automatique de rôle** à l\u0027arrivée d\u0027un nouvel utilisateur est désormais **désactivée**.",
+  "aar_enabled": "**L\u0027affectation automatique de rôle** à l\u0027arrivée d\u0027un nouvel utilisateur est désormais **activée**.",
   "attachments": "Pièces jointes",
   "avatar_changed": "Avatar modifié",
   "bandm": "Vous avez été banni du serveur {0}.\nRaison : {1}",
@@ -62,8 +59,7 @@
   "greetmsg_new": "Nouveau message de bienvenue défini.",
   "greet_off": "Messages de bienvenue désactivés.",
   "greet_on": "Messages de bienvenue activés sur ce salon.",
-  "hierarchy":
-    "Vous ne pouvez pas utiliser cette commande sur des utilisateurs dont le rôle est supérieur ou égal au vôtre dans la hiérarchie.",
+  "hierarchy": "Vous ne pouvez pas utiliser cette commande sur des utilisateurs dont le rôle est supérieur ou égal au vôtre dans la hiérarchie.",
   "invalid_format": "Format d\u0027entrée invalide.",
   "invalid_params": "Paramètres invalides.",
   "kickdm": "Vous avez été expulsé du serveur {0}.\nRaison : {1}",
@@ -135,8 +131,7 @@
   "self_assign_not": "Ce rôle n\u0027est pas auto-attribuable.",
   "self_assign_not_have": "Vous ne possédez pas le rôle {0}.",
   "self_assign_no_excl": "Les rôles auto-attribuables ne sont désormais plus exclusifs !",
-  "self_assign_perms":
-    "Je suis incapable de vous ajouter ce rôle. \u0060Je ne peux pas ajouter de rôles aux propriétaires et aux autres rôles plus haut que le mien dans la hiérarchie.\u0060",
+  "self_assign_perms": "Je suis incapable de vous ajouter ce rôle. \u0060Je ne peux pas ajouter de rôles aux propriétaires et aux autres rôles plus haut que le mien dans la hiérarchie.\u0060",
   "self_assign_rem": "{0} a été supprimé de la liste des rôles auto-attribuables.",
   "self_assign_remove": "Vous n\u0027avez plus le rôle {0}.",
   "self_assign_success": "Vous avez désormais le rôle {0}.",
@@ -182,12 +177,9 @@
   "voice_chan_destroyed": "Salon vocal supprimé.",
   "vt_disabled": "Fonctionnalités vocales et textuelles désactivées.",
   "vt_enabled": "Fonctionnalités vocales et textuelles activées.",
-  "vt_exit":
-    "Je n\u0027ai pas la permission **Gérer les rôles** et/ou **Gérer les salons**, je ne peux donc pas utiliser \u0060voice\u002Btext\u0060 sur le serveur {0}.",
-  "vt_no_admin":
-    "Vous activez/désactivez cette fonctionnalité et **je n\u0027ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après cela.",
-  "vt_perms":
-    "Je nécessite au minimum les permissions **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)",
+  "vt_exit": "Je n\u0027ai pas la permission **Gérer les rôles** et/ou **Gérer les salons**, je ne peux donc pas utiliser \u0060voice\u002Btext\u0060 sur le serveur {0}.",
+  "vt_no_admin": "Vous activez/désactivez cette fonctionnalité et **je n\u0027ai pas la permission ADMINISTRATEUR**. Cela pourrait causer des dysfonctionnements, et vous devrez nettoyer les salons textuels vous-même après cela.",
+  "vt_perms": "Je nécessite au minimum les permissions **Gérer les rôles** et **Gérer les salons** pour activer cette fonctionnalité. (Permission Administrateur de préférence)",
   "xmuted_text": "Utilisateur {0} depuis un salon textuel.",
   "xmuted_text_and_voice": "Utilisateur {0} depuis salon textuel et vocal.",
   "xmuted_voice": "Utilisateur {0} depuis un salon vocal.",
@@ -226,25 +218,19 @@
   "cmdlist_donate": "Vous pouvez supporter ce projet sur Patreon \u003C{0}\u003E ou via Paypal \u003C{1}\u003E",
   "cmd_and_alias": "Commandes et alias",
   "commandlist_regen": "Liste des commandes rafraîchie.",
-  "commands_instr":
-    "Écrivez \u0060{0}h NomDeLaCommande\u0060 pour voir l\u0027aide spécifique à cette commande. Ex. : \u0060{0}h {0}8ball\u0060",
-  "command_not_found":
-    "Impossible de trouver cette commande. Veuillez vérifier qu\u0027elle existe avant de réessayer.",
+  "commands_instr": "Écrivez \u0060{0}h NomDeLaCommande\u0060 pour voir l\u0027aide spécifique à cette commande. Ex. : \u0060{0}h {0}8ball\u0060",
+  "command_not_found": "Impossible de trouver cette commande. Veuillez vérifier qu\u0027elle existe avant de réessayer.",
   "desc": "Description",
-  "donate":
-    "Vous pouvez supporter le projet Mewdeko\nsur Patreon \u003C{0}\u003E\npar Paypal \u003C{1}\u003E\nN\u0027oubliez pas de mettre votre nom discord ou ID dans le message.\n\n**Merci** ♥️",
-  "guide":
-    "**Liste des Commandes** : \u003C{0}\u003E\n**La liste des guides et tous les documents peuvent être trouvés ici** : \u003C{1}\u003E",
+  "donate": "Vous pouvez supporter le projet Mewdeko\nsur Patreon \u003C{0}\u003E\npar Paypal \u003C{1}\u003E\nN\u0027oubliez pas de mettre votre nom discord ou ID dans le message.\n\n**Merci** ♥️",
+  "guide": "**Liste des Commandes** : \u003C{0}\u003E\n**La liste des guides et tous les documents peuvent être trouvés ici** : \u003C{1}\u003E",
   "list_of_commands": "Liste des commandes",
   "list_of_modules": "Liste des modules",
-  "modules_footer":
-    "Entrez \u0060{0}cmds NomDuModule\u0060 pour avoir la liste des commandes de ce module. ex \u0060{0}cmds games\u0060",
+  "modules_footer": "Entrez \u0060{0}cmds NomDuModule\u0060 pour avoir la liste des commandes de ce module. ex \u0060{0}cmds games\u0060",
   "module_not_found": "Ce module n\u0027existe pas.",
   "server_permission": "Permission serveur {0} requise.",
   "table_of_contents": "Table des matières",
   "usage": "Usage",
-  "autohentai_started":
-    "Démarrage de l\u0027Autohentai. Publie toutes les {0}s avec l\u0027un des tags suivants :\n{1}",
+  "autohentai_started": "Démarrage de l\u0027Autohentai. Publie toutes les {0}s avec l\u0027un des tags suivants :\n{1}",
   "tag": "Tag",
   "animal_race": "Course d\u0027animaux",
   "animal_race_failed": "Pas assez de participants pour commencer.",
@@ -268,25 +254,20 @@
   "likes": "Aime",
   "waifus_none": "Aucune waifu n\u0027a été revendiquée pour l\u0027instant.",
   "waifus_top_waifus": "Top Waifus",
-  "waifu_affinity_already":
-    "Votre affinité est déjà liée à cette waifu ou vous êtes en train de retirer votre affinité avec quelqu\u0027un alors que vous n\u0027en possédez pas.",
+  "waifu_affinity_already": "Votre affinité est déjà liée à cette waifu ou vous êtes en train de retirer votre affinité avec quelqu\u0027un alors que vous n\u0027en possédez pas.",
   "waifu_affinity_changed": "Affinité changée de {0} à {1}.\n\n*C\u0027est moralement discutable.* \uD83E\uDD14",
-  "waifu_affinity_cooldown":
-    "Vous devez attendre {0} heures et {1} minutes avant de pouvoir changer de nouveau votre affinité.",
+  "waifu_affinity_cooldown": "Vous devez attendre {0} heures et {1} minutes avant de pouvoir changer de nouveau votre affinité.",
   "waifu_affinity_reset": "Votre affinité a été réinitialisée. Vous n\u0027aimez plus personne désormais.",
   "waifu_affinity_set": "veut être la waifu de {0}. Aww \u003C3",
   "waifu_claimed": "a revendiqué {0} comme sa waifu pour {1} !",
-  "waifu_divorced_like":
-    "Vous avez divorcé d\u0027une waifu qui vous aimait. Monstre sans cœur. {0} a reçu {1} en guise de compensation.",
+  "waifu_divorced_like": "Vous avez divorcé d\u0027une waifu qui vous aimait. Monstre sans cœur. {0} a reçu {1} en guise de compensation.",
   "waifu_egomaniac": "vous ne pouvez pas vous lier d\u0027affinité avec vous-même, espèce d\u0027égocentrique.",
   "waifu_fulfilled": "\uD83C\uDF89Leur amour est comblé !\uD83C\uDF89\nLa nouvelle valeur de {0} est {1} !",
-  "waifu_isnt_cheap":
-    "Aucune waifu n\u0027est à ce prix. Tu dois payer au moins {0} pour avoir une waifu, même si sa vraie valeur est inférieure.",
+  "waifu_isnt_cheap": "Aucune waifu n\u0027est à ce prix. Tu dois payer au moins {0} pour avoir une waifu, même si sa vraie valeur est inférieure.",
   "waifu_not_enough": "Tu dois payer {0} ou plus pour avoir cette waifu !",
   "waifu_not_yours": "Cette waifu ne t\u0027appartient pas.",
   "waifu_not_yourself": "Tu ne peux pas t\u0027acquérir toi-même.",
-  "waifu_recent_divorce":
-    "Vous avez récemment divorcé. Vous devez attendre {0} heures et {1} minutes pour divorcer à nouveau.",
+  "waifu_recent_divorce": "Vous avez récemment divorcé. Vous devez attendre {0} heures et {1} minutes pour divorcer à nouveau.",
   "nobody": "Personne",
   "waifu_divorced_notlike": "Vous avez divorcé d\u0027une waifu qui ne vous aimait pas. Vous recevez {0} en retour.",
   "8ball": "8ball",
@@ -363,8 +344,7 @@
   "playlists": "\u0060#{0}\u0060 - **{1}** par *{2}* ({3} pistes)",
   "playlists_page": "Page {0} des listes de lecture sauvegardées",
   "playlist_deleted": "Liste de lecture supprimée.",
-  "playlist_delete_fail":
-    "Impossible de supprimer cette liste de lecture. Soit elle n\u0027existe pas, soit vous n\u0027en êtes pas le créateur.",
+  "playlist_delete_fail": "Impossible de supprimer cette liste de lecture. Soit elle n\u0027existe pas, soit vous n\u0027en êtes pas le créateur.",
   "playlist_id_not_found": "Aucune liste de lecture ne correspond a cet ID.",
   "playlist_queue_complete": "Liste de lecture ajoutée à la file d\u0027attente.",
   "playlist_saved": "Liste de lecture sauvegardée",
@@ -381,8 +361,7 @@
   "resumed": "Reprise de la lecture.",
   "rpl_disabled": "Lecture en boucle désactivée.",
   "rpl_enabled": "Lecture en boucle activée.",
-  "set_music_channel":
-    "Je vais désormais afficher les pistes en cours, en pause, terminées et supprimées dans ce salon.",
+  "set_music_channel": "Je vais désormais afficher les pistes en cours, en pause, terminées et supprimées dans ce salon.",
   "skipped_to": "Saut à \u0060{0}:{1}\u0060",
   "song_moved": "Piste déplacée",
   "time_format": "{0}h {1}m {2}s",
@@ -401,8 +380,7 @@
   "aum_enable": "Activation de TOUS LES MODULES pour l\u0027utilisateur {0}.",
   "blacklisted": "{0} sur liste noire avec l\u0027ID {1}",
   "cmdcd_add": "La commande {0} a désormais {1}s de temps de recharge.",
-  "cmdcd_cleared":
-    "La commande {0} n\u0027a plus de temps de recharge et tous les temps de recharge ont été réinitialisés.",
+  "cmdcd_cleared": "La commande {0} n\u0027a plus de temps de recharge et tous les temps de recharge ont été réinitialisés.",
   "cmdcd_none": "Aucune commande n\u0027a de temps de recharge.",
   "command_costs": "Coût de la commande :",
   "cx_disable": "Désactivation: {1} {0} sur le salon {2}.",
@@ -441,8 +419,7 @@
   "word_filter_server_on": "Filtrage des mots activé sur le serveur.",
   "abilities": "Capacités",
   "anime_no_fav": "Pas encore d\u0027anime préféré",
-  "atl_ad_started":
-    "Traduction automatique des messages activée sur ce salon. Les messages utilisateur vont désormais être automatiquement supprimés.",
+  "atl_ad_started": "Traduction automatique des messages activée sur ce salon. Les messages utilisateur vont désormais être automatiquement supprimés.",
   "atl_removed": "Votre langue de traduction automatique à été supprimée.",
   "atl_set": "Votre langue de traduction automatique a été changée de {0} à {1}",
   "atl_started": "Traduction automatique des messages commencée sur ce salon.",
@@ -480,8 +457,7 @@
   "location": "Emplacement",
   "magicitems_not_loaded": "Les objets magiques se sont pas chargés.",
   "mal_profile": "Profil MAL de {0}",
-  "mashape_api_missing":
-    "Le propriétaire du Bot n\u0027a pas spécifié de clé d\u0027API Mashape (MashapeApiKey). Fonctionnalité indisponible.",
+  "mashape_api_missing": "Le propriétaire du Bot n\u0027a pas spécifié de clé d\u0027API Mashape (MashapeApiKey). Fonctionnalité indisponible.",
   "min_max": "Min/Max",
   "no_channel_found": "Aucun salon trouvé.",
   "on_hold": "En attente",
@@ -489,8 +465,7 @@
   "osu_api_key": "Une clé d\u0027API osu! est nécessaire.",
   "osu_failed": "Impossible de récupérer la signature osu!.",
   "over_x": "Trouvé dans {0} images. Affichage aléatoire de {0} d\u0027entre elles.",
-  "ow_user_not_found":
-    "Utilisateur introuvable ! Veuillez vérifier la région ainsi que le BattleTag avant de réessayer.",
+  "ow_user_not_found": "Utilisateur introuvable ! Veuillez vérifier la région ainsi que le BattleTag avant de réessayer.",
   "plan_to_watch": "À regarder",
   "platform": "Plateforme",
   "pokemon_ability_none": "Attaque non trouvée.",
@@ -552,8 +527,7 @@
   "features": "Fonctionnalités",
   "index_out_of_range": "Index hors limites.",
   "inrole_list": "Liste des utilisateurs ayant le rôle {0}:",
-  "inrole_not_allowed":
-    "Vous ne pouvez pas utiliser cette commande sur les rôles associés à beaucoup d\u0027utilisateurs afin d\u0027éviter les abus.",
+  "inrole_not_allowed": "Vous ne pouvez pas utiliser cette commande sur les rôles associés à beaucoup d\u0027utilisateurs afin d\u0027éviter les abus.",
   "invalid_value": "Valeur {0} invalide.",
   "listservers": "ID: {0}\nMembres: {1}\nID du propriétaire: {2}",
   "listservers_none": "Aucun serveur trouvée sur cette page.",
@@ -624,8 +598,7 @@
   "vcrole_added": "Les utilisateurs rejoignant le salon vocal {0} obtiendront le rôle {1}.",
   "vcrole_removed": "Les utilisateurs rejoignant le salon vocal {0} n’obtiendront plus de rôle.",
   "vc_role_list": "Rôles du salon vocal",
-  "crad_disabled":
-    "Le message déclenchant la réaction personnalisée avec l\u0027ID {0} ne sera pas automatiquement effacé.",
+  "crad_disabled": "Le message déclenchant la réaction personnalisée avec l\u0027ID {0} ne sera pas automatiquement effacé.",
   "crad_enabled": "Le message déclenchant la réaction personnalisée avec l\u0027ID {0} sera  automatiquement effacé.",
   "crdm_disabled": "Le message de réponse pour la réaction personnalisée avec l\u0027ID {0} ne sera pas envoyé en MP.",
   "crdm_enabled": "Le message de réponse pour la réaction personnalisée avec l\u0027ID {0} sera envoyé en MP.",
@@ -665,17 +638,13 @@
   "slowmodewl_user_start": "Le mode lent ignorera l\u0027utilisateur {0}.",
   "slowmodewl_user_stop": "Le mode lent n\u0027ignorera plus l\u0027utilisateur {0}.",
   "clpa_fail": "Échec de la réclamation des récompenses à cause d\u0027une des raisons suivantes:",
-  "clpa_fail_already":
-    "Vous avez peut-être déjà reçu votre récompense mensuelle. Vous ne pouvez recevoir qu\u0027une récompense mensuelle sauf si vous augmentez votre engagement.",
+  "clpa_fail_already": "Vous avez peut-être déjà reçu votre récompense mensuelle. Vous ne pouvez recevoir qu\u0027une récompense mensuelle sauf si vous augmentez votre engagement.",
   "clpa_fail_already_title": "Déjà récompensé",
-  "clpa_fail_conn":
-    "Votre compte Discord n\u0027est peut-être pas connecté à Patreon. Si vous n\u0027êtes pas sur de ce que cela signifie, ou ne savez pas comment le faire, rendez-vous sur la [page de configuration de votre compte Patreon](https://patreon.com/settings/account) et cliquez sur \u0027Connect to discord\u0027.",
+  "clpa_fail_conn": "Votre compte Discord n\u0027est peut-être pas connecté à Patreon. Si vous n\u0027êtes pas sur de ce que cela signifie, ou ne savez pas comment le faire, rendez-vous sur la [page de configuration de votre compte Patreon](https://patreon.com/settings/account) et cliquez sur \u0027Connect to discord\u0027.",
   "clpa_fail_conn_title": "Compte Discord non connecté",
-  "clpa_fail_sup":
-    "Pour être éligible à la récompense, vous devez supporter le projet sur Patreon. Vous pouvez utiliser la commande {0} afin d\u0027avoir le lien.",
+  "clpa_fail_sup": "Pour être éligible à la récompense, vous devez supporter le projet sur Patreon. Vous pouvez utiliser la commande {0} afin d\u0027avoir le lien.",
   "clpa_fail_sup_title": "Pas un Patreon",
-  "clpa_fail_wait":
-    "Vous devez attendre quelques heures après avoir fait votre engagement. Si ce n\u0027est pas le cas, réessayez plus tard.",
+  "clpa_fail_wait": "Vous devez attendre quelques heures après avoir fait votre engagement. Si ce n\u0027est pas le cas, réessayez plus tard.",
   "clpa_fail_wait_title": "Veuillez patienter",
   "clpa_success": "Vous avez reçu {0}. Merci de supporter le projet!",
   "clpa_too_early": "Les récompenses peuvent être réclamées le 5 du mois ou après.",
@@ -722,8 +691,7 @@
   "bot_nick": "Le surnom du bot est maintenant {0}.",
   "user_nick": "Le surnom de l’utilisateur {0} est maintenant {1}.",
   "timezone_guild": "Le fuseau horaire de cette guilde est \u0027{0}\u0027",
-  "timezone_not_found":
-    "Fuseau horaire introuvable. Utilisez la commande \u0022timezones\u0022 pour voir la liste des fuseaux disponibles.",
+  "timezone_not_found": "Fuseau horaire introuvable. Utilisez la commande \u0022timezones\u0022 pour voir la liste des fuseaux disponibles.",
   "timezones_available": "Fuseaux horaires disponibles",
   "song_not_found": "Aucune chanson trouvée.",
   "define_unknown": "La définition de ce terme est introuvable.",
@@ -757,8 +725,7 @@
   "nunchi_ended_no_winner": "La partie de Nunchi s\u0027est terminée sans gagnant.",
   "nunchi_started": "Partie de Nunchi démarrée avec {0} participants.",
   "nunchi_round_ended": "Tour de Nunchi est terminé. {0} est hors de la partie.",
-  "nunchi_round_ended_boot":
-    "Le tour de Nunchi est terminé dut à l\u0027inactivité de quelques joueurs. Ces joueurs sont toujours dans la partie: {0}",
+  "nunchi_round_ended_boot": "Le tour de Nunchi est terminé dut à l\u0027inactivité de quelques joueurs. Ces joueurs sont toujours dans la partie: {0}",
   "nunchi_round_started": "Tour de Nunchi démarré avec {0} joueurs. Commencez à compter a partir du nombre {1}",
   "nunchi_next_number": "Nombre enregistré. Le dernier nombre était {0}.",
   "nunchi_failed_to_start": "La partie de Nunchi n\u0027a pas pu démarré car il n\u0027y a pas assez de participants.",
@@ -773,17 +740,14 @@
   "stream_role_bl_add_fail": "L\u0027utilisateur {0} est déjà sur liste noire.",
   "stream_role_bl_rem": "L\u0027utilisateur {0} n\u0027est désormais plus sur liste noire.",
   "stream_role_bl_rem_fail": "L\u0027utilisateur {0} n\u0027est pas sur liste noire.",
-  "stream_role_wl_add":
-    "L\u0027utilisateur {0} recevra le rôle streameur même s\u0027ils n\u0027ont pas le mot-clé dans le titre sur stream.",
+  "stream_role_wl_add": "L\u0027utilisateur {0} recevra le rôle streameur même s\u0027ils n\u0027ont pas le mot-clé dans le titre sur stream.",
   "stream_role_wl_add_fail": "L\u0027utilisateur {0} est déjà sur liste blanche.",
   "stream_role_wl_rem": "L\u0027utilisateur {0} n\u0027est désormais plus sur liste blanche.",
   "stream_role_wl_rem_fail": "L\u0027utilisateur {0} n\u0027est pas sur liste blanche.",
   "bot_config_edit_fail": "Le réglage {0} à échoué à la valeur {1}",
   "bot_config_edit_success": "La valeur de {0} a été mise à {1}",
-  "crca_disabled":
-    "La réaction personnalisée avec l\u0027id {0} ne se déclenchera plus sauf si le mot déclencheur est au début de la phrase.",
-  "crca_enabled":
-    "La réaction personnalisée avec l\u0027id {0} se déclenchera si elle est à n\u0027importe quel endroit dans la phrase.",
+  "crca_disabled": "La réaction personnalisée avec l\u0027id {0} ne se déclenchera plus sauf si le mot déclencheur est au début de la phrase.",
+  "crca_enabled": "La réaction personnalisée avec l\u0027id {0} se déclenchera si elle est à n\u0027importe quel endroit dans la phrase.",
   "server_level": "Niveau sur le serveur",
   "club": "Club",
   "xp": "Expérience",
@@ -803,53 +767,43 @@
   "server_leaderboard": "Tableau de classement de l\u0027XP serveur",
   "global_leaderboard": "Tableau de classement de l\u0027XP global",
   "modified": "L\u0027XP serveur a été modifiée pour l\u0027utilisateur {0} par {1}",
-  "club_create_error":
-    "Échec de la création du club. Vérifiez que vous êtes supérieur au niveau 5 et n\u0027êtes pas déjà membre d\u0027un club.",
+  "club_create_error": "Échec de la création du club. Vérifiez que vous êtes supérieur au niveau 5 et n\u0027êtes pas déjà membre d\u0027un club.",
   "club_created": "Le club {0} a été créé avec succès!",
   "club_not_exists": "Ce club n\u0027existe pas.",
   "club_applied": "Vous avez postulé pour être membre dans le club {0}.",
-  "club_apply_error":
-    "Erreur lors de la postulation. Vous êtes soit déjà membre du club, soit vous n\u0027avez pas le niveau minimum requis pour postuler, soit vous avez été bannis de celui-ci.",
+  "club_apply_error": "Erreur lors de la postulation. Vous êtes soit déjà membre du club, soit vous n\u0027avez pas le niveau minimum requis pour postuler, soit vous avez été bannis de celui-ci.",
   "club_accepted": "L\u0027utilisateur {0} a été accepté dans le club.",
   "club_accept_error": "Utilisateur non trouvé",
   "club_left": "Vous avez quitté le club.",
-  "club_not_in_club":
-    "Vous n\u0027êtes pas dans un club, ou vous essayez de quitter le club dont vous êtes le propriétaire.",
+  "club_not_in_club": "Vous n\u0027êtes pas dans un club, ou vous essayez de quitter le club dont vous êtes le propriétaire.",
   "club_user_kick": "L\u0027utilisateur {0} a été expulsé du club {1}",
-  "club_user_kick_fail":
-    "Erreur lors de l\u0027expulsion. Vous n\u0027êtes soit pas le propriétaire du club, soit l\u0027utilisateur n\u0027est pas dans votre club.",
+  "club_user_kick_fail": "Erreur lors de l\u0027expulsion. Vous n\u0027êtes soit pas le propriétaire du club, soit l\u0027utilisateur n\u0027est pas dans votre club.",
   "club_user_banned": "L\u0027utilisateur {0} a été banni du club {1}",
-  "club_user_ban_fail":
-    "Échec du bannissement. Vous n\u0027êtes soit pas le propriétaire du club, soit l\u0027utilisateur n\u0027est pas dans votre club ou n\u0027y a pas postulé.",
+  "club_user_ban_fail": "Échec du bannissement. Vous n\u0027êtes soit pas le propriétaire du club, soit l\u0027utilisateur n\u0027est pas dans votre club ou n\u0027y a pas postulé.",
   "club_user_unbanned": "L\u0027utilisateur {0} a été débanni du club {0}",
-  "club_user_unban_fail":
-    "Échec du débann. Vous n\u0027êtes soit pas le propriétaire du club, soit l\u0027utilisateur n\u0027est pas dans votre club ou n\u0027y a pas postulé.",
+  "club_user_unban_fail": "Échec du débann. Vous n\u0027êtes soit pas le propriétaire du club, soit l\u0027utilisateur n\u0027est pas dans votre club ou n\u0027y a pas postulé.",
   "club_level_req_changed": "Changement du niveau requis pour le club à {0}",
   "club_level_req_change_error": "Échec dans le changement du niveau requis.",
   "club_disbanded": "Le club {0} a été dissous",
   "club_disband_error": "Erreur. Vous n\u0027êtes soit pas dans un club, soit pas le propriétaire de votre club.",
-  "club_icon_error":
-    "L\u0027url de l\u0027image n\u0027est pas valide ou vous n\u0027êtes pas le propriétaire du club.",
+  "club_icon_error": "L\u0027url de l\u0027image n\u0027est pas valide ou vous n\u0027êtes pas le propriétaire du club.",
   "club_icon_set": "Nouvelle icône du club définie.",
   "club_bans_for": "Bannis du club {0}",
   "club_apps_for": "Postulants pour le club {0}",
   "club_leaderboard": "Tableau de classement du club - page {0}",
   "edited_cust_react": "Réaction personnalisée éditée",
   "self_assign_are_exclusive": "Vous ne pouvez choisir qu\u00271 rôle pour chaque groupe.",
-  "self_assign_are_not_exclusive":
-    "Vous pouvez choisir n\u0027importe quel nombre de rôles pour n\u0027importe quel groupe.",
+  "self_assign_are_not_exclusive": "Vous pouvez choisir n\u0027importe quel nombre de rôles pour n\u0027importe quel groupe.",
   "self_assign_group": "Groupe {0}",
   "poll_closed": "Sondage fermé !",
   "club_not_exists_owner": "Vous n\u0027êtes pas le propriétaire ou l\u0027administrateur de ce club.",
   "club_admin_add": "{0} est maintenant un administrateur du club.",
   "club_admin_remove": "{0} n\u0027est plus un administrateur du club.",
-  "club_admin_error":
-    "Erreur. Vous n\u0027êtes soit pas le propriétaire du club, soit cet utilisateur n\u0027est pas dans votre club.",
+  "club_admin_error": "Erreur. Vous n\u0027êtes soit pas le propriétaire du club, soit cet utilisateur n\u0027est pas dans votre club.",
   "started": "Mise en route. Envoi automatique toutes les {0} secondes.",
   "stopped": "Arrêt de l\u0027envoi automatique.",
   "feed_added": "Flux ajouté.",
-  "feed_not_valid":
-    "Soit le lien est invalide soit vous suivez déjà ce flux sur ce serveur soit vous avez atteint le maximum de flux autorisés.",
+  "feed_not_valid": "Soit le lien est invalide soit vous suivez déjà ce flux sur ce serveur soit vous avez atteint le maximum de flux autorisés.",
   "feed_out_of_range": "Non indexé.",
   "feed_removed": "Flux retiré.",
   "feed_no_feed": "Vous ne vous êtes abonnés à aucun flux sur ce serveur.",
@@ -860,20 +814,17 @@
   "followers": "Abonnés",
   "rafflecur": "{0} loterie monétaire",
   "rafflecur_joined": "L\u0027utilisateur {0} a rejoint la loterie",
-  "rafflecur_already_joined":
-    "Vous avez déjà rejoins cette loterie ou la valeur que vous avez utilisée n\u0027est pas valide.",
+  "rafflecur_already_joined": "Vous avez déjà rejoins cette loterie ou la valeur que vous avez utilisée n\u0027est pas valide.",
   "rafflecur_ended": "La loterie {0} s\u0027est terminée. Le parieur {1} a gagné {2}!",
   "autodc_enable": "Je me déconnecterai du salon vocal quand tous les sons aurons été joués.",
   "autodc_disable": "Je ne me déconnecterai plus du salon vocal quand tous les sons aurons été joués.",
   "timely_none": "Le propriétaire de ce bot n\u0027a pas spécifié de récompense récurrente.\n",
-  "timely_already_claimed":
-    "Vous avez déjà obtenu votre récompense récurrente. Vous pourrez l\u0027obtenir de nouveau dans {0}.",
+  "timely_already_claimed": "Vous avez déjà obtenu votre récompense récurrente. Vous pourrez l\u0027obtenir de nouveau dans {0}.",
   "timely": "Vous venez de réclamer votre {0}. Vous pourrez le réclamer à nouveau dans {1}h.",
   "timely_set": "Les utilisateurs pourront réclamer {0} toutes les {1}h.",
   "timely_set_none": "Les utilisateurs ne pourront réclamer aucune monnaie récurrente.",
   "timely_reset": "Tous les utilisateurs peuvent réclamer leur monnaie récurrente de nouveau.",
-  "waifu_transfer_fail":
-    "Vous n\u0027êtes soit pas le propriétaire de cette waifu, ou vous ne pouvez pas vous la permettre. Alternativement votre commande est invalide.",
+  "waifu_transfer_fail": "Vous n\u0027êtes soit pas le propriétaire de cette waifu, ou vous ne pouvez pas vous la permettre. Alternativement votre commande est invalide.",
   "waifu_transfer_success": "Le prétendant de {0} n\u0027est plus {1} mais {2}.",
   "authors": "Auteurs",
   "sql_confirm_exec": "Exécution confirmés de la commande SQL suivante",
@@ -892,24 +843,18 @@
   "level_up_rewards": "Récompense au niveau supérieur",
   "role_reward": "Rôle {0}",
   "no_level_up_rewards": "Aucune récompense au niveau supérieur sur cette page.",
-  "failed_finding_novel":
-    "Impossible de trouver ce roman. Vérifiez que vous avez tapé le nom entier exact et qu\u0027il existe sur novelupdates.com",
+  "failed_finding_novel": "Impossible de trouver ce roman. Vérifiez que vous avez tapé le nom entier exact et qu\u0027il existe sur novelupdates.com",
   "remove_roles": "ont eu leurs rôles enlevés",
-  "delmsg_channel_off":
-    "Je ne supprimerai jamais automatiquement les messages qui ont réussi à exécuter une commande dans ce salon.",
-  "delmsg_channel_on":
-    "Je supprimerai toujours automatiquement les messages qui ont réussi à exécuter une commande dans ce salon, quelques soient les réglages du serveur.",
-  "delmsg_channel_inherit":
-    "Je supprimerai toujours automatiquement les messages qui ont réussi à exécuter une commande dans ce salon, seulement si cette fonctionnalité est activée sur le serveur.",
+  "delmsg_channel_off": "Je ne supprimerai jamais automatiquement les messages qui ont réussi à exécuter une commande dans ce salon.",
+  "delmsg_channel_on": "Je supprimerai toujours automatiquement les messages qui ont réussi à exécuter une commande dans ce salon, quelques soient les réglages du serveur.",
+  "delmsg_channel_inherit": "Je supprimerai toujours automatiquement les messages qui ont réussi à exécuter une commande dans ce salon, seulement si cette fonctionnalité est activée sur le serveur.",
   "server_delmsgoncmd": "Paramètre du serveur",
   "channel_delmsgoncmd": "Paramètres spécifique au salon",
   "options": "Options",
   "waifu_reset": "Vos stats waifu ont été réinitialisées.",
-  "waifu_reset_fail":
-    "Échec dans la réinitialisation des stats waifu. Vérifiez que vous avez suffisamment d\u0027argent.",
+  "waifu_reset_fail": "Échec dans la réinitialisation des stats waifu. Vérifiez que vous avez suffisamment d\u0027argent.",
   "waifu_reset_confirm": "Ceci réinitialisera vos stats waifu",
-  "unset_music_channel":
-    "Je jouerai, stopperai, mettrai en pause et effacerai les musiques dans le channel dans lequel la musique a débutéé.",
+  "unset_music_channel": "Je jouerai, stopperai, mettrai en pause et effacerai les musiques dans le channel dans lequel la musique a débutéé.",
   "city_not_found": "Ville introuvable.",
   "bot_config_reloaded": "Les configurations du bot ont été rechargées.",
   "club_transfered": "La propriété du club {0} a été transféré à {1}.",
@@ -924,16 +869,14 @@
   "rps_draw": "Égalité ! Les deux ont choisi {0}",
   "rps_win": "{0} a gagné ! {1} bat {2}",
   "roleid": "{0} du rôle {1} est {2}",
-  "warning_clear_fail":
-    "Avertissement non effacé. Soit l\u0027avertissement à cet index n\u0027existe pas, soit il a déjà été effacé.",
+  "warning_clear_fail": "Avertissement non effacé. Soit l\u0027avertissement à cet index n\u0027existe pas, soit il a déjà été effacé.",
   "warning_cleared": "L\u0027avertissement {0} a été effacé pour {1}.",
   "club_desc_updated": "Description du club modifiée en {0}",
   "club_desc_update_failed": "La modification de la description du club a échouée.",
   "account_not_found": "Le compte n\u0027existe pas ou est privé.",
   "ninja_not_found": "La monnaie avec ce nom n\u0027a pas été trouvée ou un nom de ligue invalide a été fourni.",
   "leagues_not_found": "Impossible de trouver les données depuis l\u0027API de Path of Exile.",
-  "pog_not_found":
-    "Impossible de trouver les données depuis le Wiki de Path of Exile ou l\u0027objet unique n\u0027est pas valide.",
+  "pog_not_found": "Impossible de trouver les données depuis le Wiki de Path of Exile ou l\u0027objet unique n\u0027est pas valide.",
   "reaction_roles_message": "**Rôles :** {0}\n**Contenu :** {1}",
   "no_reaction_roles": "La fonction ReactionRole n\u0027est pas activée sur ce serveur.",
   "reaction_role_removed": "Message #{0} de ReactionRole supprimé",
@@ -960,15 +903,12 @@
   "anti_spam_not_running": "La fonctionnalité Anti-spam n\u0027est pas activée.",
   "adsarm_enable": "La suppression automatique des réponses \u0060{0}iam\u0060 et \u0060{0}iamn\u0060a été activée.",
   "adsarm_disable": "Le bot ne supprimera plus les réponses \u0060{0}iam\u0060 et \u0060{0}iamn\u0060.",
-  "module_not_found_or_cant_exec":
-    "Soit la commande n\u0027existe pas, soit vous ne pouvez exécuter aucunes des commandes du module spécifié.",
+  "module_not_found_or_cant_exec": "Soit la commande n\u0027existe pas, soit vous ne pouvez exécuter aucunes des commandes du module spécifié.",
   "requires": "Requiert",
   "permrole_not_set": "Le rôle permission n\u0027est pas défini.",
   "permrole_reset": "Le rôle permission est réinitialisé.",
-  "stream_off_enabled":
-    "Les notifications de diffusion apparaîtront désormais lorsqu\u0027une diffusion s\u0027arrêtera.",
-  "stream_off_disabled":
-    "Les notifications de diffusion n\u0027apparaîtront plus lorsqu\u0027une diffusion s\u0027arrêtera.",
+  "stream_off_enabled": "Les notifications de diffusion apparaîtront désormais lorsqu\u0027une diffusion s\u0027arrêtera.",
+  "stream_off_disabled": "Les notifications de diffusion n\u0027apparaîtront plus lorsqu\u0027une diffusion s\u0027arrêtera.",
   "stream_message_reset": "Le message d\u0027annonce pour la diffusion de {0} a été réinitialisé.",
   "stream_message_set": "Le message d\u0027annonce lorsque la diffusion de {0} commence a été défini.",
   "stream_not_following": "Vous ne suivez pas cette diffusion sur ce serveur",
@@ -976,15 +916,13 @@
   "autocmd_add": "La commande {0} s\u0027exécutera toutes les {1}s dans ce salon.",
   "autocmdlist_none": "Aucune commande automatique sur cette page.",
   "connect4_created": "Partie de Puissance 4 créée. En attente d\u0027un joueur supplémentaire.",
-  "connect4_created_bet":
-    "Partie de Puissance 4 créée et pari à {0}. En attente d\u0027un joueur supplémentaire avec la même mise.",
+  "connect4_created_bet": "Partie de Puissance 4 créée et pari à {0}. En attente d\u0027un joueur supplémentaire avec la même mise.",
   "connect4_player_to_move": "Joueur à déplacer : {0}",
   "connect4_failed_to_start": "La partie de Puissance 4 n\u0027a pas pu se lancer car personne n\u0027a rejoint.",
   "connect4_draw": "La partie de Puissance 4 s\u0027est finie sur une égalité.",
   "connect4_won": "{0} a gagné la partie de Puissance 4 contre {1}",
   "new_reaction_event": "Ajoutez la réaction {X} à ce message pour avoir {1}\n{2} restants à être récompensés.",
-  "start_event_fail":
-    "L\u0027événement n\u0027a pas pu se lancer. Un autre événement est en cours ou il y a eu une erreur au lancement de l\u0027événement.",
+  "start_event_fail": "L\u0027événement n\u0027a pas pu se lancer. Un autre événement est en cours ou il y a eu une erreur au lancement de l\u0027événement.",
   "waifu": "Waifu",
   "remind_too_long": "Le temps restant a dépassé le maximum.",
   "updates_check_set": "La recherche de mise à jour a été définie à {0}.",
@@ -992,8 +930,7 @@
   "flip_results": "A jeté {0} pièces. {1} faces, {2} pile.",
   "cards_left": "{0} cartes restantes dans le paquet.",
   "template_reloaded": "Le modèle Xp a été rechargé.",
-  "new_gamestatus_event":
-    "Écrivez le code secret dans n\u0027importe quel salon pour recevoir {1}\n{2} restants à être récompensés.",
+  "new_gamestatus_event": "Écrivez le code secret dans n\u0027importe quel salon pour recevoir {1}\n{2} restants à être récompensés.",
   "event_duration_footer": "Cet événement est actif pendant encore {0} heures.",
   "event_title": "L\u0027événement {0} a démarré !"
 }

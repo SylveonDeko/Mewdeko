@@ -9,7 +9,6 @@ using Discord;
 using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
-using Google.Apis.YouTube.v3.Data;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Extensions;
@@ -42,7 +41,7 @@ namespace Mewdeko.Modules.ServerManagement
                     "<a:loading:847706744741691402> Making sure role permissions don't get in the way of lockdown...");
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
                     x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                    ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     foreach (var i in roles)
@@ -78,7 +77,7 @@ namespace Mewdeko.Modules.ServerManagement
             {
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
                     x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                    ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
+                    ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
                 if (roles.Any())
                 {
                     await ctx.Channel.SendErrorAsync(
@@ -144,7 +143,7 @@ namespace Mewdeko.Modules.ServerManagement
             [RequireContext(ContextType.Guild)]
             public async Task Grab(IGuildUser user)
             {
-                var vc = ((IGuildUser) ctx.User).VoiceChannel;
+                var vc = ((IGuildUser)ctx.User).VoiceChannel;
                 if (vc == null)
                 {
                     await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!");
@@ -274,14 +273,14 @@ namespace Mewdeko.Modules.ServerManagement
                 if (TTicketCategory == 0)
                 {
                     await _service.SetTicketCategoryId(ctx.Guild, channel);
-                    var TicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                    var TicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
                     await ctx.Channel.SendConfirmAsync("Your ticket category has been set to " + TicketCategory);
                     return;
                 }
 
-                var oldTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                var oldTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await _service.SetTicketCategoryId(ctx.Guild, channel);
-                var newTicketCategory = ((SocketGuild) ctx.Guild).GetCategoryChannel(TTicketCategory);
+                var newTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
                 await ctx.Channel.SendConfirmAsync("Your ticket category has been changed from " + oldTicketCategory +
                                                    " to " + newTicketCategory);
             }
@@ -447,7 +446,7 @@ namespace Mewdeko.Modules.ServerManagement
 
                 var eb2 = new EmbedBuilder();
                 eb2.WithDescription($"Created the category {CatName} with {Channels.Count()} Text Channels!");
-eb2.WithOkColor();
+                eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
 
@@ -572,7 +571,7 @@ eb2.WithOkColor();
             [Priority(1)]
             public async Task Slowmode(int interval)
             {
-                await Slowmode(interval, (ITextChannel) ctx.Channel);
+                await Slowmode(interval, (ITextChannel)ctx.Channel);
             }
 
             [MewdekoCommand]
@@ -599,7 +598,7 @@ eb2.WithOkColor();
             [Priority(4)]
             public async Task Slowmode()
             {
-                await Slowmode((ITextChannel) ctx.Channel);
+                await Slowmode((ITextChannel)ctx.Channel);
             }
 
             [MewdekoCommand]
@@ -651,7 +650,7 @@ eb2.WithOkColor();
             public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
             {
                 var embeds = new List<Embed>();
-                var splits = urls.Split(new[] {'\n', '\r', ' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
+                var splits = urls.Split(new[] { '\n', '\r', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var i in splits)
                 {
                     var ur = new Uri(i);

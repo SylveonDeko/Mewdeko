@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -44,14 +43,14 @@ namespace Mewdeko.Modules.Administration
             public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
                 [Leftover] StoopidTime punishTime = null)
             {
-                var minAgeMinutes = (int) minAge.Time.TotalMinutes;
-                var punishTimeMinutes = (int?) punishTime?.Time.TotalMinutes ?? 0;
+                var minAgeMinutes = (int)minAge.Time.TotalMinutes;
+                var punishTimeMinutes = (int?)punishTime?.Time.TotalMinutes ?? 0;
 
                 if (minAgeMinutes < 1 || punishTimeMinutes < 0)
                     return;
 
                 await _service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
-                    (int?) punishTime?.Time.TotalMinutes ?? 0);
+                    (int?)punishTime?.Time.TotalMinutes ?? 0);
 
                 await ctx.OkAsync();
             }
@@ -64,7 +63,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.Administrator)]
             public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Leftover] IRole role)
             {
-                var minAgeMinutes = (int) minAge.Time.TotalMinutes;
+                var minAgeMinutes = (int)minAge.Time.TotalMinutes;
 
                 if (minAgeMinutes < 1)
                     return;
@@ -137,7 +136,7 @@ namespace Mewdeko.Modules.Administration
                     if (!_service.IsDurationAllowed(action))
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
-                var time = (int?) punishTime?.Time.TotalMinutes ?? 0;
+                var time = (int?)punishTime?.Time.TotalMinutes ?? 0;
                 if (time < 0 || time > 60 * 24)
                     return;
 
@@ -213,7 +212,7 @@ namespace Mewdeko.Modules.Administration
                     if (!_service.IsDurationAllowed(action))
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
-                var time = (int?) timeData?.Time.TotalMinutes ?? 0;
+                var time = (int?)timeData?.Time.TotalMinutes ?? 0;
                 if (time < 0 || time > 60 * 24)
                     return;
 

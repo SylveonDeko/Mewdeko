@@ -14,10 +14,10 @@ namespace Mewdeko.Modules.Gambling.Common
             for (var j = 1; j < 14; j++)
             for (var i = 1; i < 5; i++)
             {
-                CardPool.Add(new Card((CardSuit) i, j));
-                CardPool.Add(new Card((CardSuit) i, j));
-                CardPool.Add(new Card((CardSuit) i, j));
-                CardPool.Add(new Card((CardSuit) i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
             }
         }
     }
@@ -34,19 +34,19 @@ namespace Mewdeko.Modules.Gambling.Common
 
         private static readonly Dictionary<int, string> cardNames = new()
         {
-            {1, "Ace"},
-            {2, "Two"},
-            {3, "Three"},
-            {4, "Four"},
-            {5, "Five"},
-            {6, "Six"},
-            {7, "Seven"},
-            {8, "Eight"},
-            {9, "Nine"},
-            {10, "Ten"},
-            {11, "Jack"},
-            {12, "Queen"},
-            {13, "King"}
+            { 1, "Ace" },
+            { 2, "Two" },
+            { 3, "Three" },
+            { 4, "Four" },
+            { 5, "Five" },
+            { 6, "Six" },
+            { 7, "Seven" },
+            { 8, "Eight" },
+            { 9, "Nine" },
+            { 10, "Ten" },
+            { 11, "Jack" },
+            { 12, "Queen" },
+            { 13, "King" }
         };
 
         private static Dictionary<string, Func<List<Card>, bool>> handValues;
@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Gambling.Common
                 //generate a card of that suit and number and add it to the pool
 
                 // the pool will go from ace of spades,hears,diamonds,clubs all the way to the king of spades. hearts, ...
-                CardPool.Add(new Card((CardSuit) i, j));
+                CardPool.Add(new Card((CardSuit)i, j));
         }
 
         /// <summary>
@@ -215,15 +215,15 @@ namespace Mewdeko.Modules.Gambling.Common
 
             handValues = new Dictionary<string, Func<List<Card>, bool>>
             {
-                {"Royal Flush", isRoyalFlush},
-                {"Straight Flush", isStraightFlush},
-                {"Four Of A Kind", isFourOfKind},
-                {"Full House", isFullHouse},
-                {"Flush", isFlush},
-                {"Straight", isStraight},
-                {"Three Of A Kind", isThreeOfKind},
-                {"Two Pairs", isTwoPair},
-                {"A Pair", isPair}
+                { "Royal Flush", isRoyalFlush },
+                { "Straight Flush", isStraightFlush },
+                { "Four Of A Kind", isFourOfKind },
+                { "Full House", isFullHouse },
+                { "Flush", isFlush },
+                { "Straight", isStraight },
+                { "Three Of A Kind", isThreeOfKind },
+                { "Two Pairs", isTwoPair },
+                { "A Pair", isPair }
             };
         }
 
@@ -241,40 +241,40 @@ namespace Mewdeko.Modules.Gambling.Common
             private static readonly IReadOnlyDictionary<CardSuit, string> _suitToSuitChar =
                 new Dictionary<CardSuit, string>
                 {
-                    {CardSuit.Diamonds, "♦"},
-                    {CardSuit.Clubs, "♣"},
-                    {CardSuit.Spades, "♠"},
-                    {CardSuit.Hearts, "♥"}
+                    { CardSuit.Diamonds, "♦" },
+                    { CardSuit.Clubs, "♣" },
+                    { CardSuit.Spades, "♠" },
+                    { CardSuit.Hearts, "♥" }
                 };
 
             private static readonly IReadOnlyDictionary<string, CardSuit> _suitCharToSuit =
                 new Dictionary<string, CardSuit>
                 {
-                    {"♦", CardSuit.Diamonds},
-                    {"d", CardSuit.Diamonds},
-                    {"♣", CardSuit.Clubs},
-                    {"c", CardSuit.Clubs},
-                    {"♠", CardSuit.Spades},
-                    {"s", CardSuit.Spades},
-                    {"♥", CardSuit.Hearts},
-                    {"h", CardSuit.Hearts}
+                    { "♦", CardSuit.Diamonds },
+                    { "d", CardSuit.Diamonds },
+                    { "♣", CardSuit.Clubs },
+                    { "c", CardSuit.Clubs },
+                    { "♠", CardSuit.Spades },
+                    { "s", CardSuit.Spades },
+                    { "♥", CardSuit.Hearts },
+                    { "h", CardSuit.Hearts }
                 };
 
             private static readonly IReadOnlyDictionary<char, int> _numberCharToNumber = new Dictionary<char, int>
             {
-                {'a', 1},
-                {'2', 2},
-                {'3', 3},
-                {'4', 4},
-                {'5', 5},
-                {'6', 6},
-                {'7', 7},
-                {'8', 8},
-                {'9', 9},
-                {'t', 10},
-                {'j', 11},
-                {'q', 12},
-                {'k', 13}
+                { 'a', 1 },
+                { '2', 2 },
+                { '3', 3 },
+                { '4', 4 },
+                { '5', 5 },
+                { '6', 6 },
+                { '7', 7 },
+                { '8', 8 },
+                { '9', 9 },
+                { 't', 10 },
+                { 'j', 11 },
+                { 'q', 12 },
+                { 'k', 13 }
             };
 
             private readonly string[] _regIndicators =
@@ -320,7 +320,7 @@ namespace Mewdeko.Modules.Gambling.Common
             public int CompareTo(object obj)
             {
                 if (!(obj is Card)) return 0;
-                var c = (Card) obj;
+                var c = (Card)obj;
                 return Number - c.Number;
             }
 

@@ -248,7 +248,7 @@ namespace Mewdeko.Modules.Utility.Common
         {
             return $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} " +
                    (Repeater.NoRedundant ? "| ✍" : "") +
-                   $"| {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
+                   $"| {(int)Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
                    $"| {Repeater.Message.TrimTo(33)}";
         }
     }

@@ -30,7 +30,7 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ChannelId, Username, (int) Type);
+            return HashCode.Combine(ChannelId, Username, (int)Type);
         }
 
         public override bool Equals(object obj)
@@ -38,12 +38,12 @@ namespace Mewdeko.Core.Services.Database.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((FollowedStream) obj);
+            return Equals((FollowedStream)obj);
         }
 
         public StreamDataKey CreateKey()
         {
-            return new(Type, Username.ToLower());
+            return new StreamDataKey(Type, Username.ToLower());
         }
     }
 }

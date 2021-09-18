@@ -7,10 +7,7 @@ namespace Mewdeko.Interactive
     {
         public static void NotNull<T>(T obj, string argumentName) where T : class
         {
-            if (obj is null)
-            {
-                throw new ArgumentNullException(argumentName);
-            }
+            if (obj is null) throw new ArgumentNullException(argumentName);
         }
 
         public static void MessageFromCurrentUser(IDiscordClient client, IUserMessage message)
@@ -18,22 +15,17 @@ namespace Mewdeko.Interactive
             if (message is null) return;
 
             if (message.Author.Id != client.CurrentUser.Id)
-            {
                 throw new ArgumentException("Message author must be the current user.", nameof(message));
-            }
         }
 
         public static void DeleteAndDisableInputNotSet(ActionOnStop action, string parameterName)
         {
-            if (action.HasFlag(ActionOnStop.DeleteMessage))
-            {
-                return;
-            }
+            if (action.HasFlag(ActionOnStop.DeleteMessage)) return;
 
             if (action.HasFlag(ActionOnStop.DeleteInput | ActionOnStop.DisableInput))
-            {
-                throw new ArgumentException($"{ActionOnStop.DeleteInput} and {ActionOnStop.DisableInput} are mutually exclusive.", parameterName);
-            }
+                throw new ArgumentException(
+                    $"{ActionOnStop.DeleteInput} and {ActionOnStop.DisableInput} are mutually exclusive.",
+                    parameterName);
         }
 
 #if !DNETLABS

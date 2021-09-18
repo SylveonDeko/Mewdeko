@@ -22,6 +22,7 @@ namespace Mewdeko.Modules.Music.Services
         /// <param name="guildId">Id of the guild where the voice channel is</param>
         /// <param name="voiceChannelId">Id of the voice channel</param>
         public Task JoinVoiceChannelAsync(ulong guildId, ulong voiceChannelId);
+
         public Task<bool> ToggleAutoPlay(ulong guildid);
         Task<IMusicPlayer?> GetOrCreateMusicPlayerAsync(ITextChannel contextChannel);
         bool TryGetMusicPlayer(ulong guildId, out IMusicPlayer musicPlayer);

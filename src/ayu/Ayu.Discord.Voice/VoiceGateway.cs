@@ -323,7 +323,7 @@ namespace Ayu.Discord.Voice
                 {
                     Delay = 0,
                     Ssrc = Ssrc,
-                    Speaking = (int) speaking
+                    Speaking = (int)speaking
                 })
             });
         }

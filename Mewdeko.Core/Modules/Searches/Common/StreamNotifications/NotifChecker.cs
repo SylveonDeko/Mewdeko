@@ -27,8 +27,8 @@ namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications
             _key = $"{uniqueCacheKey}_followed_streams_data";
             _streamProviders = new Dictionary<FollowedStream.FType, Provider>
             {
-                {FollowedStream.FType.Twitch, new TwitchProvider(httpClientFactory)},
-                {FollowedStream.FType.Picarto, new PicartoProvider(httpClientFactory)}
+                { FollowedStream.FType.Twitch, new TwitchProvider(httpClientFactory) },
+                { FollowedStream.FType.Picarto, new PicartoProvider(httpClientFactory) }
             };
             _offlineBuffer = new HashSet<(FollowedStream.FType, string)>();
             if (isMaster) CacheClearAllData();

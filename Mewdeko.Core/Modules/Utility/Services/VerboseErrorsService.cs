@@ -64,17 +64,17 @@ namespace Mewdeko.Modules.Utility.Services
 
                 if (enabled == null)
                     enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition
-                else gc.VerboseErrors = (bool) enabled; // New behaviour, just set it.
+                else gc.VerboseErrors = (bool)enabled; // New behaviour, just set it.
 
                 uow.SaveChanges();
             }
 
-            if ((bool) enabled) // This doesn't need to be duplicated inside the using block
+            if ((bool)enabled) // This doesn't need to be duplicated inside the using block
                 guildsEnabled.Add(guildId);
             else
                 guildsEnabled.TryRemove(guildId);
 
-            return (bool) enabled;
+            return (bool)enabled;
         }
     }
 }

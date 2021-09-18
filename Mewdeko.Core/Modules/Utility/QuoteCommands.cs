@@ -249,7 +249,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task QuoteDelete(int id)
             {
-                var isAdmin = ((IGuildUser) ctx.Message.Author).GuildPermissions.Administrator;
+                var isAdmin = ((IGuildUser)ctx.Message.Author).GuildPermissions.Administrator;
 
                 var success = false;
                 string response;

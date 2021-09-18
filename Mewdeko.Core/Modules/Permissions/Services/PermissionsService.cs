@@ -68,7 +68,7 @@ namespace Mewdeko.Modules.Permissions.Services
                     {
                         await channel.SendErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
                                 Format.Bold(
-                                    pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild) guild))))
+                                    pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
                             .ConfigureAwait(false);
                     }
                     catch

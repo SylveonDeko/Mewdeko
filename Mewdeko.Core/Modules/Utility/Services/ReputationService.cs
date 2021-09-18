@@ -43,7 +43,7 @@ namespace Mewdeko.Modules.Utility.Services
                 ReviewMessage = message,
                 ReviewType = reptype,
                 ReviewerUsername = reviewer.ToString(),
-                ReviewerAv = reviewer.RealAvatarUrl(2048).ToString()
+                ReviewerAv = reviewer.RealAvatarUrl().ToString()
             };
             var afk = aFK;
             using var uow = _db.GetDbContext();
@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Utility.Services
         public void Blacklist(ulong id)
         {
             using var uow = _db.GetDbContext();
-            var item = new RepBlacklistEntry {ItemId = id};
+            var item = new RepBlacklistEntry { ItemId = id };
             uow._context.RepBlacklist.Add(item);
             uow.SaveChanges();
 

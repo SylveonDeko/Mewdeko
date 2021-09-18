@@ -34,8 +34,8 @@ namespace Mewdeko.Modules.Games.Common
                         const int miny = 385;
                         const int length = 345;
 
-                        var pointx = (int) (minx + length * (Hot / 10));
-                        var pointy = (int) (miny - length * ((Crazy - 4) / 6));
+                        var pointx = (int)(minx + length * (Hot / 10));
+                        var pointy = (int)(miny - length * ((Crazy - 4) / 6));
 
                         using (var pointImg = Image.Load(_images.RategirlDot))
                         {

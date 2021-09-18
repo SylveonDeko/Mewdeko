@@ -85,7 +85,7 @@ namespace Mewdeko.Modules.Gambling.Services
             {
                 var guildConfig = uow.GuildConfigs.ForId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
-                var toAdd = new GCChannelId {ChannelId = cid};
+                var toAdd = new GCChannelId { ChannelId = cid };
                 if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
                 {
                     guildConfig.GenerateCurrencyChannelIds.Add(toAdd);

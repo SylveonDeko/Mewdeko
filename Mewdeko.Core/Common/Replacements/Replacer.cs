@@ -15,16 +15,21 @@ namespace Mewdeko.Common.Replacements
             _replacements = replacements;
             _regex = regex;
         }
+
         public SmartText Replace(SmartText data)
-            => data switch
+        {
+            return data switch
             {
                 SmartEmbedText embedData => Replace(embedData),
                 SmartPlainText plain => Replace(plain),
                 _ => throw new ArgumentOutOfRangeException(nameof(data), "Unsupported argument type")
             };
+        }
 
         public SmartPlainText Replace(SmartPlainText plainText)
-            => Replace(plainText.Text);
+        {
+            return Replace(plainText.Text);
+        }
 
         public SmartEmbedText Replace(SmartEmbedText embedData)
         {

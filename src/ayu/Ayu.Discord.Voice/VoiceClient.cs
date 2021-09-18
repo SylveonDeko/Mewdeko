@@ -10,9 +10,9 @@ namespace Ayu.Discord.Voice
         private readonly int bitRate;
         private readonly int channels;
 
-        private readonly int sampleRate;
-
         private readonly EncodeDelegate Encode;
+
+        private readonly int sampleRate;
 
         // https://github.com/xiph/opus/issues/42 w
         public VoiceClient(SampleRate sampleRate = SampleRate._48k,
@@ -21,13 +21,13 @@ namespace Ayu.Discord.Voice
             FrameDelay frameDelay = FrameDelay.Delay20,
             BitDepthEnum bitDepthEnum = BitDepthEnum.Float32)
         {
-            this.Delay = (int) frameDelay;
-            this.sampleRate = (int) sampleRate;
-            this.bitRate = (int) bitRate;
-            this.channels = (int) channels;
-            bitDepth = (int) bitDepthEnum;
+            Delay = (int)frameDelay;
+            this.sampleRate = (int)sampleRate;
+            this.bitRate = (int)bitRate;
+            this.channels = (int)channels;
+            bitDepth = (int)bitDepthEnum;
 
-            Encoder = new LibOpusEncoder(this.sampleRate, this.channels, this.bitRate, this.Delay);
+            Encoder = new LibOpusEncoder(this.sampleRate, this.channels, this.bitRate, Delay);
 
             Encode = bitDepthEnum switch
             {
@@ -61,7 +61,7 @@ namespace Ayu.Discord.Voice
         public int SendPcmFrame(VoiceGateway gw, Span<byte> data, int offset, int count)
         {
             var secretKey = gw.SecretKey;
-            if (secretKey.Length == 0) return (int) SendPcmError.SecretKeyUnavailable;
+            if (secretKey.Length == 0) return (int)SendPcmError.SecretKeyUnavailable;
 
             // encode using opus
             var encodeOutput = _arrayPool.Rent(LibOpusEncoder.MaxData);
@@ -79,7 +79,7 @@ namespace Ayu.Discord.Voice
         public int SendOpusFrame(VoiceGateway gw, byte[] data, int offset, int count)
         {
             var secretKey = gw.SecretKey;
-            if (secretKey is null) return (int) SendPcmError.SecretKeyUnavailable;
+            if (secretKey is null) return (int)SendPcmError.SecretKeyUnavailable;
 
             // form RTP header
             var headerLength = 1 // version + flags
@@ -99,7 +99,7 @@ namespace Ayu.Discord.Voice
             var timestampBytes = BitConverter.GetBytes(gw.Timestamp); // 4
             var ssrcBytes = BitConverter.GetBytes(gw.Ssrc); // 4
 
-            gw.Timestamp += (uint) FrameSizePerChannel;
+            gw.Timestamp += (uint)FrameSizePerChannel;
             gw.Sequence++;
             gw.NonceSequence++;
 

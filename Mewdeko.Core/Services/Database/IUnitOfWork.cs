@@ -12,7 +12,9 @@ namespace Mewdeko.Core.Services.Database
         IGuildConfigRepository GuildConfigs { get; }
         IReminderRepository Reminders { get; }
         ISelfAssignedRolesRepository SelfAssignedRoles { get; }
+
         ICustomReactionRepository CustomReactions { get; }
+
         // ISwitchShopsRepository SwitchShops {get;}
         IMusicPlaylistRepository MusicPlaylists { get; }
         IWaifuRepository Waifus { get; }

@@ -18,12 +18,13 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class FeedCommands : MewdekoSubmodule<FeedsService>
         {
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public FeedCommands(InteractiveService serv)
             {
                 Interactivity = serv;
             }
+
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -36,7 +37,7 @@ namespace Mewdeko.Modules.Searches
                               (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
                 if (success)
                 {
-                    channel = channel ?? (ITextChannel) ctx.Channel;
+                    channel = channel ?? (ITextChannel)ctx.Channel;
                     try
                     {
                         var feeds = await FeedReader.ReadAsync(url).ConfigureAwait(false);
@@ -102,7 +103,7 @@ namespace Mewdeko.Modules.Searches
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -116,7 +117,9 @@ namespace Mewdeko.Modules.Searches
 
                         return Task.FromResult(embed.WithDescription(fs));
                     }
-                };
+                }
+
+                ;
             }
         }
     }

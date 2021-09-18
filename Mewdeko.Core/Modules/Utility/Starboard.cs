@@ -52,7 +52,7 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPerm.ManageChannels)]
             public async Task SetStar(string num = null)
             {
-                var emote = ctx.Message.Tags.Where(x => x.Type == TagType.Emoji).Select(t => (Emote) t.Value);
+                var emote = ctx.Message.Tags.Where(x => x.Type == TagType.Emoji).Select(t => (Emote)t.Value);
                 try
                 {
                     if (num is not null) await ctx.Guild.GetEmoteAsync(emote.FirstOrDefault().Id);

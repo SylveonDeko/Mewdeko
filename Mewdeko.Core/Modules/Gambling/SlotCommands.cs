@@ -144,7 +144,7 @@ namespace Mewdeko.Modules.Gambling
                         var n = 0;
                         do
                         {
-                            var digit = (int) (printWon % 10);
+                            var digit = (int)(printWon % 10);
                             using (var img = Image.Load(_images.SlotNumbers[digit]))
                             {
                                 bgImage.Mutate(x =>
@@ -158,7 +158,7 @@ namespace Mewdeko.Modules.Gambling
                         n = 0;
                         do
                         {
-                            var digit = (int) (printAmount % 10);
+                            var digit = (int)(printAmount % 10);
                             using (var img = Image.Load(_images.SlotNumbers[digit]))
                             {
                                 bgImage.Mutate(x =>

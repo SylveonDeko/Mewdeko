@@ -11,7 +11,7 @@ namespace Mewdeko.Common.ModuleBehaviors
 
         public static ModuleBehaviorResult None()
         {
-            return new()
+            return new ModuleBehaviorResult
             {
                 Blocked = false,
                 NewInput = null
@@ -20,7 +20,7 @@ namespace Mewdeko.Common.ModuleBehaviors
 
         public static ModuleBehaviorResult FromBlocked(bool blocked)
         {
-            return new()
+            return new ModuleBehaviorResult
             {
                 Blocked = blocked,
                 NewInput = null

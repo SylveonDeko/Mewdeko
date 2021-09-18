@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.Utility.Services
             foreach (var gc in _bot.AllGuildConfigs)
             {
                 // don't load repeaters which don't belong on this shard
-                if ((gc.GuildId >> 22) % (ulong) _creds.TotalShards != (ulong) _client.ShardId)
+                if ((gc.GuildId >> 22) % (ulong)_creds.TotalShards != (ulong)_client.ShardId)
                     continue;
 
                 try

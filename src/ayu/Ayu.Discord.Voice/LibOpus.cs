@@ -49,11 +49,11 @@ namespace Ayu.Discord.Voice
             _frameDelay = frameDelay;
             FrameSizePerChannel = _sampleRate * _frameDelay / 1000;
 
-            _encoderPtr = LibOpus.CreateEncoder(sampleRate, channels, (int) OpusApplication.Audio, out var error);
+            _encoderPtr = LibOpus.CreateEncoder(sampleRate, channels, (int)OpusApplication.Audio, out var error);
             if (error != OpusError.OK)
                 throw new ExternalException(error.ToString());
 
-            LibOpus.EncoderCtl(_encoderPtr, OpusCtl.SetSignal, (int) OpusSignal.Music);
+            LibOpus.EncoderCtl(_encoderPtr, OpusCtl.SetSignal, (int)OpusSignal.Music);
             LibOpus.EncoderCtl(_encoderPtr, OpusCtl.SetInbandFEC, 1);
             LibOpus.EncoderCtl(_encoderPtr, OpusCtl.SetBitrate, bitRate);
             LibOpus.EncoderCtl(_encoderPtr, OpusCtl.SetPacketLossPerc, 2);

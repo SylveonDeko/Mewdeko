@@ -121,7 +121,7 @@ namespace Mewdeko.Modules.ServerManagement
             }
             else if (url.StartsWith("<"))
             {
-                var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
+                var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value);
                 var result = tags.Select(m => m.Url);
                 acturl = string.Join("", result);
             }
@@ -159,7 +159,7 @@ namespace Mewdeko.Modules.ServerManagement
         [RequireContext(ContextType.Guild)]
         public async Task RemoveEmote(string emote)
         {
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value)
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value)
                 .FirstOrDefault();
             try
             {
@@ -187,7 +187,7 @@ namespace Mewdeko.Modules.ServerManagement
                 return;
             }
 
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value)
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value)
                 .FirstOrDefault();
             try
             {
@@ -221,7 +221,7 @@ namespace Mewdeko.Modules.ServerManagement
             };
             var errored = new List<string>();
             var emotes = new List<string>();
-            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value);
+            var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value);
             if (!tags.Any()) return;
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
             foreach (var i in tags)

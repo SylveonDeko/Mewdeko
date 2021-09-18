@@ -9,7 +9,7 @@
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            return ((SlowmodeIgnoredRole) obj).RoleId == RoleId;
+            return ((SlowmodeIgnoredRole)obj).RoleId == RoleId;
         }
 
         // override object.GetHashCode

@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                         var toAdd = gusr.Guild.GetRole(reactionRole.RoleId);
                         if (toAdd != null && !gusr.Roles.Contains(toAdd))
-                            await gusr.AddRolesAsync(new[] {toAdd}).ConfigureAwait(false);
+                            await gusr.AddRolesAsync(new[] { toAdd }).ConfigureAwait(false);
                     }
                     else
                     {

@@ -138,7 +138,7 @@ namespace Mewdeko.Modules.Utility.Services
                 var totalAmount = 0;
                 foreach (var data in datas)
                 {
-                    var amount = (int) (data.Reward.attributes.amount_cents * settings.PatreonCurrencyPerCent);
+                    var amount = (int)(data.Reward.attributes.amount_cents * settings.PatreonCurrencyPerCent);
 
                     using (var uow = _db.GetDbContext())
                     {
@@ -209,7 +209,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             try
             {
-                var user = (IUser) _client.GetUser(userId) ?? await _client.Rest.GetUserAsync(userId);
+                var user = (IUser)_client.GetUser(userId) ?? await _client.Rest.GetUserAsync(userId);
                 if (user is null)
                     return;
 

@@ -10,12 +10,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Discord.Rest;
+using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko.Core.Services;
+using Mewdeko.Interactive;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -29,7 +30,6 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
-using Mewdeko.Interactive;
 
 namespace Mewdeko.Extensions
 {
@@ -41,12 +41,14 @@ namespace Mewdeko.Extensions
         {
             return Array.ConvertAll(arr, x => f(x));
         }
+
         public static void AddSafe(this Dictionary<int, string> dictionary, int key, string value)
         {
             if (!dictionary.ContainsKey(key))
                 dictionary.Add(key, value);
         }
-    public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
+
+        public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
             bool sanitizeAll = false)
         {
             var plainText = sanitizeAll
@@ -55,22 +57,27 @@ namespace Mewdeko.Extensions
 
             return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
         }
-    public static Task<IUserMessage> SendAsync(this IMessageChannel channel, string plainText, Embed embed, bool sanitizeAll = false)
-    {
-        plainText = sanitizeAll
-            ? plainText?.SanitizeAllMentions() ?? ""
-            : plainText?.SanitizeMentions() ?? "";
 
-        return channel.SendMessageAsync(plainText, embed: embed);
-    }
-
-    public static Task<IUserMessage> SendAsync(this IMessageChannel channel, SmartText text, bool sanitizeAll = false)
-        => text switch
+        public static Task<IUserMessage> SendAsync(this IMessageChannel channel, string plainText, Embed embed,
+            bool sanitizeAll = false)
         {
-            SmartEmbedText set => channel.SendAsync(set.PlainText, set.GetEmbed().Build(), sanitizeAll),
-            SmartPlainText st => channel.SendAsync(st.Text, null, sanitizeAll),
-            _ => throw new ArgumentOutOfRangeException(nameof(text))
-        };
+            plainText = sanitizeAll
+                ? plainText?.SanitizeAllMentions() ?? ""
+                : plainText?.SanitizeMentions() ?? "";
+
+            return channel.SendMessageAsync(plainText, embed: embed);
+        }
+
+        public static Task<IUserMessage> SendAsync(this IMessageChannel channel, SmartText text,
+            bool sanitizeAll = false)
+        {
+            return text switch
+            {
+                SmartEmbedText set => channel.SendAsync(set.PlainText, set.GetEmbed().Build(), sanitizeAll),
+                SmartPlainText st => channel.SendAsync(st.Text, null, sanitizeAll),
+                _ => throw new ArgumentOutOfRangeException(nameof(text))
+            };
+        }
 
 
         public static List<ulong> GetGuildIds(this DiscordSocketClient client)
@@ -88,7 +95,7 @@ namespace Mewdeko.Extensions
         {
             if (span < TimeSpan.FromMinutes(2))
                 return $"{span:mm}m {span:ss}s";
-            return $"{(int) span.TotalHours:D2}h {span:mm}m";
+            return $"{(int)span.TotalHours:D2}h {span:mm}m";
         }
 
         public static bool TryGetUrlPath(this string input, out string path)
@@ -198,6 +205,7 @@ namespace Mewdeko.Extensions
             return Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
                 arg => GetFullUsage(cmd.Name, arg, prefix));
         }
+
         public static string GetCommandImage(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix)
         {
             return strings.GetCommandStrings(cmd.MethodName(), guildId).Image;
@@ -205,7 +213,7 @@ namespace Mewdeko.Extensions
 
         public static string MethodName(this CommandInfo cmd)
         {
-            return ((MewdekoCommandAttribute) cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute))
+            return ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute))
                    ?.MethodName
                    ?? cmd.Name;
         }
@@ -233,6 +241,7 @@ namespace Mewdeko.Extensions
         {
             return eb.WithColor(Mewdeko.ErrorColor);
         }
+
         public static PageBuilder WithOkColor(this PageBuilder eb)
         {
             return eb.WithColor(Mewdeko.OkColor);
@@ -260,6 +269,7 @@ namespace Mewdeko.Extensions
             };
             return wrap;
         }
+
         public static ReactionEventWrapper OnClick(this IUserMessage msg, DiscordSocketClient client,
             Func<SocketInteraction, Task> reactionAdded)
         {
@@ -307,7 +317,9 @@ namespace Mewdeko.Extensions
             });
             return msg;
         }
-        public static RestInteractionMessage DeleteResponseAfter(this RestInteractionMessage msg, int seconds, LogCommandService logService = null)
+
+        public static RestInteractionMessage DeleteResponseAfter(this RestInteractionMessage msg, int seconds,
+            LogCommandService logService = null)
         {
             if (msg is null)
                 return null;

@@ -65,7 +65,7 @@ namespace Mewdeko.Modules.Games.Services
                     if (pc.Verbose)
                     {
                         var returnMsg = _strings.GetText("trigger", guild.Id, index + 1,
-                            Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild) guild)));
+                            Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)));
                         try
                         {
                             await usrMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
@@ -80,7 +80,7 @@ namespace Mewdeko.Modules.Games.Services
                     return true;
                 }
 
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information($@"CleverBot Executed

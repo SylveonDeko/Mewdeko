@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using Discord.WebSocket;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Database.Models;
 using Mewdeko.Extensions;
-using Swan;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -60,7 +58,8 @@ namespace Mewdeko.Modules.Utility.Services
             if (msg.Channel.Id != 884455526086377522) return;
             Console.WriteLine(msg.Author.Id);
         }
-    public async Task JoinedSet(IGuild guild, ulong num)
+
+        public async Task JoinedSet(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
             {
@@ -135,7 +134,7 @@ namespace Mewdeko.Modules.Utility.Services
 
         public async Task SnipeSet(IGuild guild, string endis)
         {
-            var yesno = (ulong) (endis == "enable" ? 1 : 0);
+            var yesno = (ulong)(endis == "enable" ? 1 : 0);
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
@@ -150,7 +149,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             _ = Task.Run(async () =>
             {
-                if (GetSnipeSet(((SocketTextChannel) ch.Value).Guild.Id) == 0) return;
+                if (GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id) == 0) return;
 
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                 if (msg is null || msg.Author.IsBot) return;
@@ -159,7 +158,7 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     var snipemsg = new SnipeStore
                     {
-                        GuildId = ((SocketTextChannel) ch.Value).Guild.Id,
+                        GuildId = ((SocketTextChannel)ch.Value).Guild.Id,
                         ChannelId = ch.Id,
                         Message = msg.Content,
                         UserId = msg.Author.Id,
@@ -179,7 +178,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             _ = Task.Run(async () =>
             {
-                if (GetSnipeSet(((SocketTextChannel) ch).Guild.Id) == 0) return;
+                if (GetSnipeSet(((SocketTextChannel)ch).Guild.Id) == 0) return;
 
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                 if (msg is null || msg.Author.IsBot) return;
@@ -188,7 +187,7 @@ namespace Mewdeko.Modules.Utility.Services
                 {
                     var snipemsg = new SnipeStore
                     {
-                        GuildId = ((SocketTextChannel) ch).Guild.Id,
+                        GuildId = ((SocketTextChannel)ch).Guild.Id,
                         ChannelId = ch.Id,
                         Message = msg.Content,
                         UserId = msg.Author.Id,
@@ -213,7 +212,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             if (msg.Author.IsBot) return;
             if (msg.Channel is SocketDMChannel) return;
-            var guild = ((SocketGuildChannel) msg.Channel).Guild.Id;
+            var guild = ((SocketGuildChannel)msg.Channel).Guild.Id;
             var id = GetReactChans(guild);
             if (msg.Channel.Id == id)
             {
@@ -258,7 +257,7 @@ namespace Mewdeko.Modules.Utility.Services
                                     guild = gid;
                                 }
 
-                                var em = await ((IGuild) guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
+                                var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
                                 if (em == null) return;
                                 var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
                                 if (msg2 is null) return;
@@ -272,8 +271,8 @@ namespace Mewdeko.Modules.Utility.Services
                                     },
                                     Footer = new EmbedFooterBuilder
                                     {
-                                        IconUrl = ((IGuild) guild).IconUrl,
-                                        Text = $"{((IGuild) guild).Name}: {em.Name}"
+                                        IconUrl = ((IGuild)guild).IconUrl,
+                                        Text = $"{((IGuild)guild).Name}: {em.Name}"
                                     }
                                 };
                                 if (msg2.Embeds.Any())

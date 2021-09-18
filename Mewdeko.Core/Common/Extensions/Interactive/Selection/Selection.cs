@@ -5,7 +5,7 @@ using Discord;
 namespace Mewdeko.Interactive.Selection
 {
     /// <summary>
-    /// Represents a selection of values.
+    ///     Represents a selection of values.
     /// </summary>
     /// <typeparam name="TOption">The type of the options.</typeparam>
     public class Selection<TOption> : BaseSelection<TOption>

@@ -17,7 +17,7 @@ namespace Mewdeko.Modules.Xp
         public class Club : MewdekoSubmodule<ClubService>
         {
             private readonly XpService _xps;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public Club(XpService xps, InteractiveService serv)
             {
@@ -160,7 +160,7 @@ namespace Mewdeko.Modules.Xp
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -221,7 +221,7 @@ namespace Mewdeko.Modules.Xp
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -235,7 +235,6 @@ namespace Mewdeko.Modules.Xp
                         .WithDescription(toShow)
                         .WithOkColor());
                 }
-
             }
 
 
@@ -268,19 +267,19 @@ namespace Mewdeko.Modules.Xp
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
-                        var toShow = string.Join("\n", apps
-                            .Skip(page * 10)
-                            .Take(10)
-                            .Select(x => x.ToString()));
+                    var toShow = string.Join("\n", apps
+                        .Skip(page * 10)
+                        .Take(10)
+                        .Select(x => x.ToString()));
 
-                        return Task.FromResult(new PageBuilder()
-                            .WithTitle(GetText("club_apps_for", club.ToString()))
-                            .WithDescription(toShow)
-                            .WithOkColor());
+                    return Task.FromResult(new PageBuilder()
+                        .WithTitle(GetText("club_apps_for", club.ToString()))
+                        .WithDescription(toShow)
+                        .WithOkColor());
                 }
             }
 

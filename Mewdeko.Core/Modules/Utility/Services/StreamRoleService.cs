@@ -233,7 +233,7 @@ namespace Mewdeko.Modules.Utility.Services
 
         private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
         {
-            var g = (StreamingGame) user.Activities
+            var g = (StreamingGame)user.Activities
                 .FirstOrDefault(a => a is StreamingGame &&
                                      (string.IsNullOrWhiteSpace(setting.Keyword)
                                       || a.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())

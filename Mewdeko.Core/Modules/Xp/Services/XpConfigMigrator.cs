@@ -62,10 +62,10 @@ FROM BotConfig";
         {
             return config =>
             {
-                config.XpPerMessage = (int) (long) reader["XpPerMessage"];
-                config.MessageXpCooldown = (int) (long) reader["XpMinutesTimeout"];
-                config.VoiceMaxMinutes = (int) (long) reader["MaxXpMinutes"];
-                config.VoiceXpPerMinute = (double) reader["VoiceXpPerMinute"];
+                config.XpPerMessage = (int)(long)reader["XpPerMessage"];
+                config.MessageXpCooldown = (int)(long)reader["XpMinutesTimeout"];
+                config.VoiceMaxMinutes = (int)(long)reader["MaxXpMinutes"];
+                config.VoiceXpPerMinute = (double)reader["VoiceXpPerMinute"];
             };
         }
     }

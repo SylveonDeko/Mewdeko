@@ -7,35 +7,33 @@ using Discord;
 namespace Mewdeko.Interactive.Pagination
 {
     /// <summary>
-    /// Represents a builder class for making a <see cref="LazyPaginator"/>.
+    ///     Represents a builder class for making a <see cref="LazyPaginator" />.
     /// </summary>
     public sealed class LazyPaginatorBuilder : PaginatorBuilder<LazyPaginator, LazyPaginatorBuilder>
     {
         /// <summary>
-        /// Gets or sets the method used to load the pages of the paginator lazily.
+        ///     Gets or sets the method used to load the pages of the paginator lazily.
         /// </summary>
         public Func<int, Task<PageBuilder>> PageFactory { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum page index of the paginator.
+        ///     Gets or sets the maximum page index of the paginator.
         /// </summary>
         public int MaxPageIndex { get; set; }
 
         /// <summary>
-        /// Gets or sets whether to cache loaded pages. The default value is <see langword="true"/>.
+        ///     Gets or sets whether to cache loaded pages. The default value is <see langword="true" />.
         /// </summary>
         public bool CacheLoadedPages { get; set; } = true;
 
         public override LazyPaginator Build(int startPageIndex = 0)
         {
-            if (Options.Count == 0)
-            {
-                WithDefaultEmotes();
-            }
+            if (Options.Count == 0) WithDefaultEmotes();
 
             return new LazyPaginator(
                 Users?.ToArray() ?? Array.Empty<IUser>(),
-                new ReadOnlyDictionary<IEmote, PaginatorAction>(Options), // TODO: Find a way to create an ImmutableDictionary without getting the contents reordered.
+                new ReadOnlyDictionary<IEmote, PaginatorAction>(
+                    Options),
                 CanceledPage?.Build(),
                 TimeoutPage?.Build(),
                 Deletion,
@@ -52,12 +50,12 @@ namespace Mewdeko.Interactive.Pagination
                 var builder = await PageFactory(page).ConfigureAwait(false);
 
                 return builder?.WithPaginatorFooter(Footer, page, MaxPageIndex, Users)
-                               .Build();
+                    .Build();
             }
         }
 
         /// <summary>
-        /// Sets the <see cref="PageFactory"/> of the paginator.
+        ///     Sets the <see cref="PageFactory" /> of the paginator.
         /// </summary>
         public LazyPaginatorBuilder WithPageFactory(Func<int, Task<PageBuilder>> pageFactory)
         {
@@ -66,7 +64,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets the maximum page index of the paginator.
+        ///     Sets the maximum page index of the paginator.
         /// </summary>
         public LazyPaginatorBuilder WithMaxPageIndex(int maxPageIndex)
         {
@@ -75,7 +73,7 @@ namespace Mewdeko.Interactive.Pagination
         }
 
         /// <summary>
-        /// Sets whether to cache loaded pages.
+        ///     Sets whether to cache loaded pages.
         /// </summary>
         public LazyPaginatorBuilder WithCacheLoadedPages(bool cacheLoadedPages)
         {

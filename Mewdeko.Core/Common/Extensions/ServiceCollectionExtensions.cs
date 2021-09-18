@@ -28,7 +28,7 @@ namespace Mewdeko.Extensions
                 if (type.BaseType?.IsGenericType == true && type.BaseType.GetGenericTypeDefinition() == baseType)
                 {
                     services.AddSingleton(type);
-                    services.AddSingleton(x => (IConfigService) x.GetRequiredService(type));
+                    services.AddSingleton(x => (IConfigService)x.GetRequiredService(type));
                 }
 
             return services;

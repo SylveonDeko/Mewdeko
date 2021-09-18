@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 
 namespace Mewdeko.Extensions
 {
@@ -19,7 +18,7 @@ namespace Mewdeko.Extensions
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
         {
             return ch.SendMessageAsync(msg, embed: embed.Build(),
-                options: new RequestOptions {RetryMode = RetryMode.AlwaysRetry});
+                options: new RequestOptions { RetryMode = RetryMode.AlwaysRetry });
         }
 
         public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string title, string error,

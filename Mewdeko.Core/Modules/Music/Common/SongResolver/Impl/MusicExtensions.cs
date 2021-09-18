@@ -24,7 +24,7 @@ namespace Mewdeko.Core.Modules.Music
 
         public static string PrettyVolume(this IMusicPlayer mp)
         {
-            return $"🔉 {(int) (mp.Volume * 100)}%";
+            return $"🔉 {(int)(mp.Volume * 100)}%";
         }
 
         public static string PrettyName(this ITrackInfo trackInfo)

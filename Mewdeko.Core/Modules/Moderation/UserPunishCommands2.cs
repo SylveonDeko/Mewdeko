@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Moderation
 
             private readonly DbService _db;
             private readonly MuteService _mute;
-            private InteractiveService Interactivity;
+            private readonly InteractiveService Interactivity;
 
             public UserPunishCommands2(MuteService mute, DbService db, InteractiveService serv)
             {
@@ -84,7 +84,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (ctx.User.Id != user.Guild.OwnerId
                     && user.GetRoles().Select(r => r.Position).Max() >=
-                    ((IGuildUser) ctx.User).GetRoles().Select(r => r.Position).Max())
+                    ((IGuildUser)ctx.User).GetRoles().Select(r => r.Position).Max())
                 {
                     await ReplyErrorLocalizedAsync("hierarchy").ConfigureAwait(false);
                     return;
@@ -196,8 +196,8 @@ namespace Mewdeko.Modules.Moderation
             public Task MWarnlog(IGuildUser user = null)
             {
                 if (user == null)
-                    user = (IGuildUser) ctx.User;
-                return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.MuteMembers
+                    user = (IGuildUser)ctx.User;
+                return ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.MuteMembers
                     ? MWarnlog(user.Id)
                     : Task.CompletedTask;
             }
@@ -285,7 +285,7 @@ namespace Mewdeko.Modules.Moderation
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {

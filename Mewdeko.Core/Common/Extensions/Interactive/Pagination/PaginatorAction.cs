@@ -1,28 +1,32 @@
 namespace Mewdeko.Interactive.Pagination
 {
     /// <summary>
-    /// Specifies the paginator actions related to emotes.
+    ///     Specifies the paginator actions related to emotes.
     /// </summary>
     public enum PaginatorAction
     {
         /// <summary>
-        /// Go to the next page.
+        ///     Go to the next page.
         /// </summary>
         Forward,
+
         /// <summary>
-        /// Go to the previous page.
+        ///     Go to the previous page.
         /// </summary>
         Backward,
+
         /// <summary>
-        /// Skip to the end.
+        ///     Skip to the end.
         /// </summary>
         SkipToEnd,
+
         /// <summary>
-        /// Skip to the start.
+        ///     Skip to the start.
         /// </summary>
         SkipToStart,
+
         /// <summary>
-        /// Exit the paginator.
+        ///     Exit the paginator.
         /// </summary>
         Exit
     }

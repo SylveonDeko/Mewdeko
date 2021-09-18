@@ -29,8 +29,8 @@ namespace Mewdeko.Modules.Music
         public VoiceProxyState State
             => _gateway switch
             {
-                {Started: true, Stopped: false} => VoiceProxyState.Started,
-                {Stopped: false} => VoiceProxyState.Created,
+                { Started: true, Stopped: false } => VoiceProxyState.Started,
+                { Stopped: false } => VoiceProxyState.Created,
                 _ => VoiceProxyState.Stopped
             };
 
