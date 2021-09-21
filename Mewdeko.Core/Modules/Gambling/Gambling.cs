@@ -51,7 +51,7 @@ namespace Mewdeko.Modules.Gambling
         private readonly DbService _db;
         private readonly NumberFormatInfo _enUsCulture;
         private readonly DownloadTracker _tracker;
-        public KSoftAPI _ksoft;
+        public KSoftApi _ksoft;
 
         private readonly InteractiveService Interactivity;
 
@@ -59,7 +59,7 @@ namespace Mewdeko.Modules.Gambling
 
         public Gambling(DbService db, ICurrencyService currency,
             IDataCache cache, DiscordSocketClient client,
-            DownloadTracker tracker, GamblingConfigService configService, KSoftAPI ks, InteractiveService serv) : base(
+            DownloadTracker tracker, GamblingConfigService configService, KSoftApi ks, InteractiveService serv) : base(
             configService)
         {
             Interactivity = serv;

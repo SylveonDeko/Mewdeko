@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using KSoftNet;
+using KSoftNet.Enums;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
@@ -28,9 +29,9 @@ namespace Mewdeko.Modules.NSFW
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
         private readonly IHttpClientFactory _httpFactory;
         public InteractiveService Interactivity;
-        public KSoftAPI ksoftapi;
+        public KSoftApi ksoftapi;
 
-        public NSFW(IHttpClientFactory factory, KSoftAPI kSoftApi, InteractiveService inte)
+        public NSFW(IHttpClientFactory factory, KSoftApi kSoftApi, InteractiveService inte)
         {
             Interactivity = inte;
             _httpFactory = factory;
@@ -111,16 +112,26 @@ namespace Mewdeko.Modules.NSFW
         [RequireNsfw]
         public async Task RedditNSFW(string subreddit)
         {
-            var image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
-            while (CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-                image = await ksoftapi.imagesAPI.RandomReddit(subreddit, false, "year");
-            var eb = new EmbedBuilder
+            try
             {
-                Description = $"[{image.Title}]({image.Source})",
-                ImageUrl = image.ImageUrl,
-                Color = Mewdeko.OkColor
-            };
-            await ctx.Channel.SendMessageAsync("", embed: eb.Build());
+                var image = await ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
+                while (CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+                    image = await ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
+                var eb = new EmbedBuilder
+                {
+                    Description = $"[{image.Title}]({image.Source})",
+                    ImageUrl = image.ImageUrl,
+                    Color = Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: eb.Build());
+            }
+            catch (Refit.ApiException)
+            {
+                await ctx.Channel.SendErrorAsync(
+                    $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {Prefix}vote.");
+            }
+           
+           
         }
 
         [MewdekoCommand]

@@ -11,6 +11,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using KSoftNet;
+using KSoftNet.Enums;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
@@ -42,13 +43,13 @@ namespace Mewdeko.Modules.Searches
         private readonly IBotCredentials _creds;
         private readonly IGoogleApiService _google;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly KSoftAPI _kSoftAPI;
+        private readonly KSoftApi _kSoftAPI;
         private readonly GuildTimezoneService _tzSvc;
         private readonly InteractiveService Interactivity;
 
         public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
             GuildTimezoneService tzSvc,
-            KSoftAPI kSoftAPI, InteractiveService serv)
+            KSoftApi kSoftAPI, InteractiveService serv)
         {
             Interactivity = serv;
             _kSoftAPI = kSoftAPI;
@@ -280,9 +281,9 @@ namespace Mewdeko.Modules.Searches
         public async Task Meme()
         {
             var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
-            var image = await _kSoftAPI.imagesAPI.RandomMeme();
+            var image = await _kSoftAPI.ImagesApi.GetRandomMeme();
             while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-                image = await _kSoftAPI.imagesAPI.RandomMeme();
+                image = await _kSoftAPI.ImagesApi.GetRandomMeme();
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -307,7 +308,7 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task RandomAww()
         {
-            var image = await _kSoftAPI.imagesAPI.RandomAww();
+            var image = await _kSoftAPI.ImagesApi.GetRandomAww();
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -344,9 +345,9 @@ namespace Mewdeko.Modules.Searches
                 return;
             }
 
-            var image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
+            var image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
             while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-                image = await _kSoftAPI.imagesAPI.RandomReddit(subreddit, true, "year");
+                image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder

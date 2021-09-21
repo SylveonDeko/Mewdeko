@@ -57,7 +57,7 @@ namespace Mewdeko.Modules.Utility
                         "The bot does not have permission to add slash commands!, Please reauthrorize it using the link at https://mewdeko.tech/invite");
                 }
             }
-
+            
             [MewdekoCommand]
             [Usage]
             [Description]

@@ -25,7 +25,6 @@ namespace Mewdeko.Modules.Utility.Services
             client.MessageUpdated += MsgStore2;
             client.MessageReceived += MsgReciev;
             client.MessageReceived += MsgReciev2;
-            client.MessageReceived += BoostTest;
             _joined = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.Joins)
                 .ToConcurrent();
@@ -52,12 +51,7 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _joined { get; } = new();
         private ConcurrentDictionary<ulong, ulong> _left { get; } = new();
 
-
-        public async Task BoostTest(SocketMessage msg)
-        {
-            if (msg.Channel.Id != 884455526086377522) return;
-            Console.WriteLine(msg.Author.Id);
-        }
+        
 
         public async Task JoinedSet(IGuild guild, ulong num)
         {
@@ -154,6 +148,7 @@ namespace Mewdeko.Modules.Utility.Services
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                 if (msg is null || msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
+                if (user is null) return;
                 if (!user.IsBot)
                 {
                     var snipemsg = new SnipeStore
@@ -183,6 +178,7 @@ namespace Mewdeko.Modules.Utility.Services
                 var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
                 if (msg is null || msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(msg.Author.Id);
+                if (user is null) return;
                 if (!user.IsBot)
                 {
                     var snipemsg = new SnipeStore

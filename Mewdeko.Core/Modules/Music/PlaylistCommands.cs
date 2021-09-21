@@ -37,7 +37,7 @@ namespace Mewdeko.Core.Modules.Music
             private async Task EnsureBotInVoiceChannelAsync(ulong voiceChannelId, IGuildUser botUser = null)
             {
                 botUser ??= await ctx.Guild.GetCurrentUserAsync();
-                await voiceChannelLock.WaitAsync();
+                await VoiceChannelLock.WaitAsync();
                 try
                 {
                     if (botUser.VoiceChannel?.Id is null || !_service.TryGetMusicPlayer(Context.Guild.Id, out _))
@@ -45,7 +45,7 @@ namespace Mewdeko.Core.Modules.Music
                 }
                 finally
                 {
-                    voiceChannelLock.Release();
+                    VoiceChannelLock.Release();
                 }
             }
 

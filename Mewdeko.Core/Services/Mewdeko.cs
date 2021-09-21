@@ -150,7 +150,7 @@ namespace Mewdeko
                 .AddSingleton(CommandService)
                 .AddSingleton(this)
                 .AddSingleton(Cache)
-                .AddSingleton(new KSoftAPI(_token))
+                .AddSingleton(new KSoftApi(_token))
                 .AddSingleton(Cache.Redis)
                 .AddSingleton<ISeria, JsonSeria>()
                 .AddSingleton<IPubSub, RedisPubSub>()

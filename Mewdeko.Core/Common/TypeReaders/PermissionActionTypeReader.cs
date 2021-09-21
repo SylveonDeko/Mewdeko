@@ -41,7 +41,7 @@ namespace Mewdeko.Common.TypeReaders
                     return Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable));
                 default:
                     return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed,
-                        "Did not receive a valid boolean value"));
+                        "Must be either deny or allow."));
             }
         }
     }

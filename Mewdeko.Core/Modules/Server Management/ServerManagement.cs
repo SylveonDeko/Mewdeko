@@ -28,6 +28,69 @@ namespace Mewdeko.Modules.ServerManagement
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task PermView()
+        {
+            var perms = ((IGuildUser)ctx.User).GuildPermissions;
+            var eb = new EmbedBuilder();
+            eb.WithTitle("List of allowed perms");
+            eb.WithOkColor();
+            var allowed = new List<string>();
+            foreach (var i in perms.ToList())
+            {
+                allowed.Add($"**{i}**");
+            }
+
+            eb.WithDescription(string.Join("\n", allowed));
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(0)]
+        public async Task PermView(IGuildUser user)
+        {
+            var perms = user.GuildPermissions;
+            var eb = new EmbedBuilder();
+            eb.WithTitle($"List of allowed perms for {user}");
+            eb.WithOkColor();
+            var allowed = new List<string>();
+            foreach (var i in perms.ToList())
+            {
+                allowed.Add($"**{i}**");
+            }
+
+            eb.WithDescription(string.Join("\n", allowed));
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public async Task PermView(IRole user)
+        {
+            var perms = user.Permissions;
+            var eb = new EmbedBuilder();
+            eb.WithTitle($"List of allowed perms for {user}");
+            eb.WithOkColor();
+            var allowed = new List<string>();
+            foreach (var i in perms.ToList())
+            {
+                allowed.Add($"**{i}**");
+            }
+
+            eb.WithDescription(string.Join("\n", allowed));
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         public async Task SetSplash(string img)
         {
@@ -84,7 +147,7 @@ namespace Mewdeko.Modules.ServerManagement
                 using (var imgStream = imgData.ToStream())
                 {
                     await guild.ModifyAsync(x => x.Banner = new Image(imgStream)).ConfigureAwait(false);
-                    await ctx.Channel.SendMessageAsync("New server banner has been set!");
+                    await ctx.Channel.SendConfirmAsync("New server banner has been set!");
                 }
             }
         }
@@ -99,7 +162,7 @@ namespace Mewdeko.Modules.ServerManagement
         {
             var guild = ctx.Guild;
             await guild.ModifyAsync(x => { x.Name = name; });
-            await ctx.Channel.SendMessageAsync("Succesfuly set server name to" + name);
+            await ctx.Channel.SendConfirmAsync("Succesfuly set server name to " + name);
         }
 
         [MewdekoCommand]

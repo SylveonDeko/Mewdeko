@@ -92,8 +92,7 @@ namespace Mewdeko.Modules.Moderation.Services
 
                 warnings += uow.Warnings
                     .ForId(guildId, userId)
-                    .Where(w => !w.Forgiven && w.UserId == userId)
-                    .Count();
+                    .Count(w => !w.Forgiven && w.UserId == userId);
 
                 uow.Warnings.Add(warn);
 
