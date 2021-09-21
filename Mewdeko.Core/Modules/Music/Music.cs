@@ -43,16 +43,16 @@ namespace Mewdeko.Core.Modules.Music
             Pl = 2
         }
 
-        private const int LQ_ITEMS_PER_PAGE = 9;
-        private static readonly SemaphoreSlim voiceChannelLock = new(1, 1);
+        private const int LqItemsPerPage = 9;
+        private static readonly SemaphoreSlim VoiceChannelLock = new(1, 1);
         private readonly LogCommandService _logService;
-        public KSoftAPI _ksoft;
+        public KSoftApi Ksoft;
         private readonly InteractiveService Interactivity;
 
-        public Music(LogCommandService _logService, KSoftAPI ksoft, InteractiveService serv)
+        public Music(LogCommandService _logService, KSoftApi ksoft, InteractiveService serv)
         {
             Interactivity = serv;
-            _ksoft = ksoft;
+            Ksoft = ksoft;
             this._logService = _logService;
         }
 
@@ -148,24 +148,7 @@ namespace Mewdeko.Core.Modules.Music
         [Aliases]
         public async Task Lyrics([Remainder] string songname = null)
         {
-            var lyrics = await _ksoft.musicAPI.SearchLyrics(songname, true, 30);
-            var paginator = new LazyPaginatorBuilder()
-                .AddUser(ctx.User)
-                .WithPageFactory(PageFactory)
-                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(lyrics.Total - 1)
-                .WithDefaultEmotes()
-                .Build();
-
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
-
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder().WithOkColor()
-                    .WithTitle(Format.Bold(
-                        $"{lyrics.Data.Skip(page).FirstOrDefault().Artist} - {lyrics.Data.Skip(page).FirstOrDefault().Name}"))
-                    .WithDescription(lyrics.Data.Skip(page).FirstOrDefault().Lyrics));
-            }
+            await ctx.Channel.SendErrorAsync("Disabled until i find a lyrics provider that isnt ksoft.net");
         }
 
         private async Task SpotifyPlaylist(string url = null)
@@ -302,7 +285,7 @@ namespace Mewdeko.Core.Modules.Music
         private async Task EnsureBotInVoiceChannelAsync(ulong voiceChannelId, IGuildUser botUser = null)
         {
             botUser ??= await ctx.Guild.GetCurrentUserAsync();
-            await voiceChannelLock.WaitAsync();
+            await VoiceChannelLock.WaitAsync();
             try
             {
                 if (botUser.VoiceChannel?.Id is null || !_service.TryGetMusicPlayer(Context.Guild.Id, out _))
@@ -318,7 +301,7 @@ namespace Mewdeko.Core.Modules.Music
             }
             finally
             {
-                voiceChannelLock.Release();
+                VoiceChannelLock.Release();
             }
         }
 
@@ -677,7 +660,7 @@ namespace Mewdeko.Core.Modules.Music
                 return;
             }
 
-            await ListQueue(mp.CurrentIndex / LQ_ITEMS_PER_PAGE + 1);
+            await ListQueue(mp.CurrentIndex / LqItemsPerPage + 1);
         }
 
         // list queue, specify page
@@ -738,11 +721,11 @@ namespace Mewdeko.Core.Modules.Music
 
 
                     desc += tracks
-                        .Skip(LQ_ITEMS_PER_PAGE * page)
-                        .Take(LQ_ITEMS_PER_PAGE)
+                        .Skip(LqItemsPerPage * page)
+                        .Take(LqItemsPerPage)
                         .Select((v, index) =>
                         {
-                            index += LQ_ITEMS_PER_PAGE * page;
+                            index += LqItemsPerPage * page;
                             if (index == currentIndex)
                                 return $"**⇒**`{index + 1}.` {v.PrettyFullName()}";
 
@@ -755,7 +738,7 @@ namespace Mewdeko.Core.Modules.Music
 
                     return Task.FromResult(new PageBuilder()
                         .WithAuthor(eab => eab
-                            .WithName(GetText("player_queue", page + 1, tracks.Count / LQ_ITEMS_PER_PAGE + 1))
+                            .WithName(GetText("player_queue", page + 1, tracks.Count / LqItemsPerPage + 1))
                             .WithMusicIcon())
                         .WithDescription(desc)
                         .WithFooter($"  {mp.PrettyVolume()}  |  🎶 {tracks.Count}  |  ⌛ {mp.PrettyTotalTime()}  ")

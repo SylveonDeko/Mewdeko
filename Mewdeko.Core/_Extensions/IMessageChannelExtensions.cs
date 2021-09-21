@@ -9,11 +9,6 @@ namespace Mewdeko.Extensions
 {
     public static class IMessageChannelExtensions
     {
-        private static readonly IEmote arrow_left = new Emoji("⬅");
-        private static readonly IEmote arrow_right = new Emoji("➡");
-        private static readonly IEmote stop = new Emoji("🛑");
-        private static readonly IEmote fast_foward = new Emoji("⏩");
-        private static readonly IEmote rewind = new Emoji("⏪");
 
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
         {

@@ -46,7 +46,7 @@ namespace Mewdeko.Core.Services
                 .ToDictionary(x => x.GuildId, x => x.WebhookURL)
                 .ToConcurrent();
 
-            _client.GuildMemberUpdated += ClientOnGuildMemberUpdated;
+            _client.MessageReceived += ClientOnGuildMemberUpdated;
         }
 
 
@@ -83,21 +83,22 @@ namespace Mewdeko.Core.Services
             };
         }
 
-        private Task ClientOnGuildMemberUpdated(Cacheable<SocketGuildUser, ulong> oldUser, SocketGuildUser newUser)
+        private Task ClientOnGuildMemberUpdated(SocketMessage msg)
         {
-            // if user is a new booster
-            // or boosted again the same server
-            if (oldUser.Value is { PremiumSince: null } && newUser is { PremiumSince: not null }
-                || oldUser.Value.PremiumSince is DateTimeOffset oldDate
-                && newUser.PremiumSince is DateTimeOffset newDate
-                && newDate > oldDate)
+            if (msg.Channel is SocketGuildChannel chan)
             {
-                var conf = GetOrAddSettingsForGuild(newUser.Guild.Id);
-                if (!conf.SendBoostMessage) return Task.CompletedTask;
+                // if user is a new booster
+                // or boosted again the same server
+                if (msg.Type.ToString() == "UserPremiumGuildSubscription")
+                {
+                    var conf = GetOrAddSettingsForGuild(chan.Guild.Id);
+                    if (!conf.SendBoostMessage) return Task.CompletedTask;
 
-                _ = Task.Run(TriggerBoostMessage(conf, newUser));
+                    _ = Task.Run(TriggerBoostMessage(conf, msg.Author as SocketGuildUser));
+
+                    return Task.CompletedTask;
+                }
             }
-
             return Task.CompletedTask;
         }
 

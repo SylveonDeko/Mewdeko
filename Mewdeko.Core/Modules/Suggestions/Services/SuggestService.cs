@@ -53,30 +53,29 @@ namespace Mewdeko.Modules.Suggestions.Services
             _considermsgs = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.ConsiderMessage)
                 .ToConcurrent();
-            _suggestemotes = bot.AllGuildConfigs
+            Suggestemotes = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.SuggestEmotes)
                 .ToConcurrent();
         }
 
-        private ConcurrentDictionary<ulong, string> _suggestemotes { get; } = new();
-        private ConcurrentDictionary<ulong, ulong> _sugchans { get; } = new();
-        private ConcurrentDictionary<ulong, ulong> _sugroles { get; } = new();
-        private ConcurrentDictionary<ulong, ulong> _snum { get; } = new();
-        private ConcurrentDictionary<ulong, string> _suggestmsgs { get; } = new();
-        private ConcurrentDictionary<ulong, string> _acceptmsgs { get; } = new();
-        private ConcurrentDictionary<ulong, string> _denymsgs { get; } = new();
-        private ConcurrentDictionary<ulong, string> _implementmsgs { get; } = new();
-        private ConcurrentDictionary<ulong, string> _considermsgs { get; } = new();
+        private ConcurrentDictionary<ulong, string> Suggestemotes { get; }
+        private ConcurrentDictionary<ulong, ulong> _sugchans { get; }
+        private ConcurrentDictionary<ulong, ulong> _sugroles { get; }
+        private ConcurrentDictionary<ulong, ulong> _snum { get; }
+        private ConcurrentDictionary<ulong, string> _suggestmsgs { get; }
+        private ConcurrentDictionary<ulong, string> _acceptmsgs { get; }
+        private ConcurrentDictionary<ulong, string> _denymsgs { get; }
+        private ConcurrentDictionary<ulong, string> _implementmsgs { get; }
+        private ConcurrentDictionary<ulong, string> _considermsgs { get; }
 
         public async Task MessageRecieved(SocketMessage msg)
         {
             if (msg.Channel is not SocketGuildChannel chan) return;
-            var Guild = (msg.Channel as IGuildChannel).Guild;
-            var Prefix = CmdHandler.GetPrefix(Guild);
-            if (msg.Channel.Id == GetSuggestionChannel(Guild.Id) && msg.Author.IsBot == false &&
-                !msg.Content.StartsWith(Prefix))
+            var guild = (msg.Channel as IGuildChannel)?.Guild;
+            var Prefix = CmdHandler.GetPrefix(guild);
+            if (guild != null && msg.Channel.Id == GetSuggestionChannel(guild.Id) && msg.Author.IsBot == false && !msg.Content.StartsWith(Prefix))
             {
-                if (msg.Channel.Id != GetSuggestionChannel(Guild.Id)) return;
+                if (msg.Channel.Id != GetSuggestionChannel(guild.Id)) return;
                 var guser = msg.Author as IGuildUser;
                 if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id))) return;
                 await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content,
@@ -99,7 +98,7 @@ namespace Mewdeko.Modules.Suggestions.Services
 
         public string GetEmotes(ulong? id)
         {
-            _suggestemotes.TryGetValue(id.Value, out var smotes);
+            Suggestemotes.TryGetValue(id.Value, out var smotes);
             return smotes;
         }
 
@@ -112,7 +111,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 await uow.SaveChangesAsync();
             }
 
-            _suggestemotes.AddOrUpdate(guild.Id, parsedEmotes, (key, old) => parsedEmotes);
+            Suggestemotes.AddOrUpdate(guild.Id, parsedEmotes, (key, old) => parsedEmotes);
         }
 
         public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
