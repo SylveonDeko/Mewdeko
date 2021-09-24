@@ -109,13 +109,6 @@ namespace Mewdeko.Core.Modules.Music
         [Priority(0)]
         public async Task Play([Leftover] string query)
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
-
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
                 if (!chan.Speakers.Contains(user))
@@ -404,12 +397,6 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task AutoPlay()
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
 
             var e = await _service.ToggleAutoPlay(ctx.Guild.Id);
             if (e)
@@ -425,12 +412,6 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Join()
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
 
             var user = (IGuildUser)Context.User;
             var channel = user?.VoiceChannel;
@@ -493,13 +474,6 @@ namespace Mewdeko.Core.Modules.Music
         [Priority(2)]
         public Task Play()
         {
-            if (_service.CheckServerCount())
-            {
-                ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return Task.CompletedTask;
-            }
-
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
                 if (!chan.Speakers.Contains(user))
@@ -520,13 +494,6 @@ namespace Mewdeko.Core.Modules.Music
         [Priority(1)]
         public Task Play(int index)
         {
-            if (_service.CheckServerCount())
-            {
-                ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return Task.CompletedTask;
-            }
-
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
                 if (!chan.Speakers.Contains(user))
@@ -545,13 +512,6 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task Queue([Leftover] string query)
         {
-            if (_service.CheckServerCount())
-            {
-                ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return Task.CompletedTask;
-            }
-
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
                 if (!chan.Speakers.Contains(user))
@@ -570,13 +530,6 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task QueueNext([Leftover] string query)
         {
-            if (_service.CheckServerCount())
-            {
-                ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return Task.CompletedTask;
-            }
-
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
                 if (!chan.Speakers.Contains(user))
@@ -623,12 +576,7 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Next()
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
+            
 
             var valid = await ValidateAsync();
             if (!valid)
@@ -755,13 +703,7 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task QueueSearch([Leftover] string query)
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
-
+            
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is not null && user.VoiceChannel is SocketStageChannel chan)
                 if (!chan.Speakers.Contains(user))
@@ -1023,12 +965,7 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task Radio(string radioLink)
         {
-            if (_service.CheckServerCount())
-            {
-                ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return Task.CompletedTask;
-            }
+           
 
             return QueueByQuery(radioLink, false, MusicPlatform.Radio);
         }
@@ -1155,12 +1092,6 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public Task SoundCloudQueue([Leftover] string query)
         {
-            if (_service.CheckServerCount())
-            {
-                ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return Task.CompletedTask;
-            }
 
             return QueueByQuery(query, false, MusicPlatform.SoundCloud);
         }
@@ -1172,13 +1103,6 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task SoundCloudPl([Leftover] string playlist)
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
-
             if (string.IsNullOrWhiteSpace(playlist))
                 return;
 
@@ -1215,14 +1139,7 @@ namespace Mewdeko.Core.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Playlist([Leftover] string playlistQuery)
         {
-            if (_service.CheckServerCount())
-            {
-                await ctx.Channel.SendErrorAsync(
-                    $"Sorry, due to high load on my hardware the max server count for music is 10! If you want to help me out and keep this project going, consider supporting me on patreon or ko-fi with {Prefix}donate! Thanks in advance and sorry for any inconvenience! \n\n***Legal Note: None of the patreon or ko-fi money is used for any premium services regarding to music.***");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(playlistQuery))
+                if (string.IsNullOrWhiteSpace(playlistQuery))
                 return;
 
             var succ = await QueuePreconditionInternalAsync();
