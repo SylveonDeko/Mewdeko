@@ -201,7 +201,7 @@ namespace Mewdeko.Modules.Utility
                     .First();
                 var userid = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.UserId)
                     .First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -252,7 +252,7 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
                     .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -303,7 +303,7 @@ namespace Mewdeko.Modules.Utility
                     .First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Select(x => x.DateAdded)
                     .First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -354,7 +354,7 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
                     .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -425,7 +425,7 @@ namespace Mewdeko.Modules.Utility
                     .First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.DateAdded)
                     .First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -476,7 +476,7 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
                     .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -527,7 +527,7 @@ namespace Mewdeko.Modules.Utility
                     .First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1).Select(x => x.DateAdded)
                     .First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
@@ -578,7 +578,7 @@ namespace Mewdeko.Modules.Utility
                     .Where(x => x.UserId == user1.Id).Select(x => x.UserId).First();
                 var tstamp = msgs.OrderByDescending(d => d.DateAdded).Where(m => m.Edited == 1)
                     .Where(x => x.UserId == user1.Id).Select(x => x.DateAdded).First();
-                var user = await ctx.Channel.GetUserAsync(userid);
+                var user = await ctx.Channel.GetUserAsync(userid) ?? await _client.Rest.GetUserAsync(userid);
 
                 var em = new EmbedBuilder
                 {
