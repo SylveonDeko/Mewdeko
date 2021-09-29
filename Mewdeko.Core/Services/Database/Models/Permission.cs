@@ -77,7 +77,8 @@ namespace Mewdeko.Core.Services.Database.Models
         User,
         Channel,
         Role,
-        Server
+        Server,
+        Category
     }
 
     public enum SecondaryPermissionType

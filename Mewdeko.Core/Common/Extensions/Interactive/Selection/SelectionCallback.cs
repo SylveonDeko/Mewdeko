@@ -168,7 +168,7 @@ namespace Mewdeko.Interactive.Selection
                         .Components
                         .FirstOrDefault()?
                         .Components
-                        .FirstOrDefault() as SelectMenu)?
+                        .FirstOrDefault() as SelectMenuComponent)?
                     .Options
                     .FirstOrDefault(x => x.Value == interaction.Data.Values.FirstOrDefault())?
                     .Value,

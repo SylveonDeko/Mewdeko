@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Rest;
 using Discord.Webhook;
 using Discord.WebSocket;
 using Mewdeko.Common;
@@ -39,11 +40,11 @@ namespace Mewdeko.Core.Services
 
             bot.JoinedGuild += Bot_JoinedGuild;
             _client.LeftGuild += _client_LeftGuild;
-            _webgreets = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.WebhookGreet)
+            _greethooks = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.GreetHook)
                 .ToConcurrent();
-            _webhooks = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.WebhookURL)
+            _leavehooks = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.LeaveHook)
                 .ToConcurrent();
 
             _client.MessageReceived += ClientOnGuildMemberUpdated;
@@ -51,8 +52,8 @@ namespace Mewdeko.Core.Services
 
 
         public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
-        private ConcurrentDictionary<ulong, int> _webgreets { get; } = new();
-        private ConcurrentDictionary<ulong, string> _webhooks { get; } = new();
+        private ConcurrentDictionary<ulong, string> _greethooks { get; } = new();
+        private ConcurrentDictionary<ulong, string> _leavehooks { get; } = new();
         public bool GroupGreets => _bss.Data.GroupGreets;
 
         private Func<Task> TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
@@ -65,15 +66,19 @@ namespace Mewdeko.Core.Services
 
                 if (string.IsNullOrWhiteSpace(conf.BoostMessage))
                     return;
-
-                var toSend = SmartText.CreateFrom(conf.BoostMessage);
+                CREmbed.TryParse(conf.ChannelByeMessageText, out var embedData);
                 var rep = new ReplacementBuilder()
                     .WithDefault(user, channel, user.Guild, _client)
                     .Build();
-
+                rep.Replace(embedData);
                 try
                 {
-                    var toDelete = await channel.SendAsync(rep.Replace(toSend));
+                    RestUserMessage toDelete = null;
+                    if (embedData.IsEmbedValid)
+                        toDelete = await channel.SendMessageAsync(embedData.PlainText ?? "",
+                            embed: embedData.ToEmbed().Build());
+                    else
+                        toDelete = await channel.SendMessageAsync(embedData.PlainText);
                     if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
                 }
                 catch (Exception ex)
@@ -212,28 +217,28 @@ namespace Mewdeko.Core.Services
         }
 
 
-        public async Task SetWebGreet(IGuild guild, int channel)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.WebhookGreet = channel;
-                await uow.SaveChangesAsync();
-            }
-
-            _webgreets.AddOrUpdate(guild.Id, channel, (key, old) => channel);
-        }
 
         public async Task SetWebGreetURL(IGuild guild, string url)
         {
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.WebhookURL = url;
+                gc.GreetHook = url;
                 await uow.SaveChangesAsync();
             }
 
-            _webhooks.AddOrUpdate(guild.Id, url, (key, old) => url);
+            _greethooks.AddOrUpdate(guild.Id, url, (key, old) => url);
+        }
+        public async Task SetWebLeaveURL(IGuild guild, string url)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.LeaveHook = url;
+                await uow.SaveChangesAsync();
+            }
+
+            _leavehooks.AddOrUpdate(guild.Id, url, (key, old) => url);
         }
 
         public string GetDmGreetMsg(ulong id)
@@ -252,18 +257,16 @@ namespace Mewdeko.Core.Services
             }
         }
 
-        public string GetWebhook(ulong? gid)
+        public string GetGreetHook(ulong? gid)
         {
-            _webhooks.TryGetValue(gid.Value, out var snum);
+            _greethooks.TryGetValue(gid.Value, out var snum);
             return snum;
         }
-
-        public int GetWebGreet(ulong? gid)
+        public string GetLeaveHook(ulong? gid)
         {
-            _webgreets.TryGetValue(gid.Value, out var snum);
+            _leavehooks.TryGetValue(gid.Value, out var snum);
             return snum;
         }
-
         private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user)
         {
             return ByeUsers(conf, channel, new[] { user });
@@ -286,14 +289,14 @@ namespace Mewdeko.Core.Services
                 rep.Replace(embedData);
                 try
                 {
-                    if (GetWebGreet(channel.GuildId) == 0)
+                    if (GetLeaveHook(channel.GuildId) == "")
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                     }
                     else
                     {
-                        var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                        var webhook = new DiscordWebhookClient(GetLeaveHook(channel.GuildId));
                         var embeds = new List<Embed>();
                         embeds.Add(embedData.ToEmbed().Build());
                         var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds)
@@ -317,14 +320,14 @@ namespace Mewdeko.Core.Services
                     return;
                 try
                 {
-                    if (GetWebGreet(channel.GuildId) == 0)
+                    if (GetLeaveHook(channel.GuildId) == "")
                     {
                         var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                     }
                     else
                     {
-                        var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                        var webhook = new DiscordWebhookClient(GetLeaveHook(channel.GuildId));
                         var toDel = await webhook.SendMessageAsync(msg.SanitizeMentions());
                         if (conf.AutoDeleteByeMessagesTimer > 0)
                         {
@@ -362,7 +365,7 @@ namespace Mewdeko.Core.Services
                 rep.Replace(embedData);
                 try
                 {
-                    if (GetWebGreet(channel.GuildId) == 0)
+                    if (GetGreetHook(channel.GuildId) == "")
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteGreetMessagesTimer > 0)
@@ -370,7 +373,7 @@ namespace Mewdeko.Core.Services
                     }
                     else
                     {
-                        var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                        var webhook = new DiscordWebhookClient(GetGreetHook(channel.GuildId));
                         var embeds = new List<Embed>();
                         embeds.Add(embedData.ToEmbed().Build());
                         var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds)
@@ -393,7 +396,7 @@ namespace Mewdeko.Core.Services
                 if (!string.IsNullOrWhiteSpace(msg))
                     try
                     {
-                        if (GetWebGreet(channel.GuildId) == 0)
+                        if (GetGreetHook(channel.GuildId) == "")
                         {
                             var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                             if (conf.AutoDeleteGreetMessagesTimer > 0)
@@ -401,7 +404,7 @@ namespace Mewdeko.Core.Services
                         }
                         else
                         {
-                            var webhook = new DiscordWebhookClient(GetWebhook(channel.GuildId));
+                            var webhook = new DiscordWebhookClient(GetGreetHook(channel.GuildId));
                             var toDel = await webhook.SendMessageAsync(msg.SanitizeMentions());
                             if (conf.AutoDeleteGreetMessagesTimer > 0)
                             {

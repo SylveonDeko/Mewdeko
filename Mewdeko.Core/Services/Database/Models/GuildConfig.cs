@@ -76,8 +76,8 @@ namespace Mewdeko.Core.Services.Database.Models
 
         public ulong GreetMessageChannelId { get; set; }
         public ulong ByeMessageChannelId { get; set; }
-        public int WebhookGreet { get; set; } = 0;
-        public string WebhookURL { get; set; } = "";
+        public string GreetHook { get; set; } = "";
+        public string LeaveHook { get; set; } = "";
 
         public bool SendDmGreetMessage { get; set; }
         public string DmGreetMessageText { get; set; } = "Welcome to the %server% server, %user%!";

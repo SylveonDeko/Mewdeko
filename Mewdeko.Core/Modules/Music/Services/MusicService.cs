@@ -19,7 +19,6 @@ namespace Mewdeko.Modules.Music.Services
 {
     public sealed class MusicService : IMusicService
     {
-        private static int MusicServers;
         private readonly ConcurrentDictionary<ulong, (int Default, int Override)> _autoplay;
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
@@ -238,50 +237,6 @@ namespace Mewdeko.Modules.Music.Services
                 );
         }
 
-        // public async Task SetMusicCount(ulong guildid, bool addremove)
-        // {
-        //     var list = new List<string>();
-        //     using var process = new Process();
-        //     process.StartInfo = new ProcessStartInfo
-        //     {
-        //         FileName = "/bin/bash",
-        //         Arguments = "-c redis-cli get MusicServers",
-        //         RedirectStandardOutput = true,
-        //         UseShellExecute = false,
-        //         CreateNoWindow = true
-        //     };
-        //
-        //     process.Start();
-        //
-        //     // Synchronously read the standard output of the spawned process.
-        //     var reader = process.StandardOutput;
-        //
-        //     var output = await reader.ReadToEndAsync();
-        //     if (!string.IsNullOrEmpty(output))
-        //         list.AddRange(output.Split(","));
-        //     if (addremove)
-        //     {
-        //         if (list.Contains(guildid.ToString())) return;
-        //         list.Add(guildid.ToString());
-        //     }
-        //     else
-        //     {
-        //         list.Remove(guildid.ToString());
-        //     }
-        //
-        //     using var process2 = new Process();
-        //     process.StartInfo = new ProcessStartInfo
-        //     {
-        //         FileName = "/bin/bash",
-        //         Arguments = $"-c redis-cli set MusicServers {string.Join(",", list)}",
-        //         RedirectStandardOutput = true,
-        //         UseShellExecute = false,
-        //         CreateNoWindow = true
-        //     };
-        //     await process2.WaitForExitAsync();
-        //     MusicServers = list.Count;
-        //     process.WaitForExit();
-        // }
 
         private void DisposeMusicPlayer(IMusicPlayer musicPlayer)
         {

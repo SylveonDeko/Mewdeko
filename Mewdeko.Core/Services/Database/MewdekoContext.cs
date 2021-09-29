@@ -37,6 +37,7 @@ namespace Mewdeko.Core.Services.Database
         public DbSet<SnipeStore> SnipeStore { get; set; }
         public DbSet<Warning2> Warnings2 { get; set; }
         public DbSet<AFK> AFK { get; set; }
+        public DbSet<Giveaways> Giveaways { get; set; }
         public DbSet<Starboard> Starboard { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Reminder> Reminders { get; set; }

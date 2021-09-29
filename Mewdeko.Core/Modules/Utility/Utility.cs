@@ -12,6 +12,7 @@ using Humanizer;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Core.Common;
+using Mewdeko.Core.Common.Attributes;
 using Mewdeko.Core.Services;
 using Mewdeko.Core.Services.Impl;
 using Mewdeko.Extensions;
@@ -839,10 +840,8 @@ namespace Mewdeko.Modules.Utility
             await ctx.Channel.EmbedAsync(
                 new EmbedBuilder().WithOkColor()
                     .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BotVersion}")
-                        .WithUrl("https://discord.gg/UTStayT6tp")
+                        .WithUrl("https://discord.gg/6n3aa9Xapf")
                         .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
-                    .WithThumbnailUrl(
-                        "https://cdn.discordapp.com/attachments/802687899350990919/822503142549225553/nayofinalihope.png")
                     .AddField(efb =>
                         efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}")
                             .WithIsInline(false))
@@ -853,17 +852,12 @@ namespace Mewdeko.Modules.Utility
                     .AddField(efb =>
                         efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString())
                             .WithIsInline(false))
-                    .AddField(efb =>
-                        efb.WithName(GetText("messages"))
-                            .WithValue($"{_stats.MessageCounter} ({_stats.MessagesPerSecond:F2}/sec)")
-                            .WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
                     .AddField(efb =>
                         efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _bot.GuildCount, _stats.TextChannels, _stats.VoiceChannels) + "\n" +
-                        guilds.Sum(x => x.MemberCount) + " Total Members").WithIsInline(false))).ConfigureAwait(false);
+                            _bot.GetCurrentGuildIds().Count, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false))).ConfigureAwait(false);
         }
 
         [MewdekoCommand]
@@ -960,9 +954,7 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
-#if GLOBAL_Mewdeko
         [Ratelimit(30)]
-#endif
         public async Task Ping()
         {
             await sem.WaitAsync(5000).ConfigureAwait(false);

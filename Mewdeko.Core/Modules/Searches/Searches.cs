@@ -922,10 +922,9 @@ namespace Mewdeko.Modules.Searches
                 }
                 catch
                 {
+                    await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
                 }
             }
-
-            await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
         }
 
         // done in 3.0

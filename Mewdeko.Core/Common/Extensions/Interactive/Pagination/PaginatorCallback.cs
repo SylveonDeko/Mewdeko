@@ -119,7 +119,13 @@ namespace Mewdeko.Interactive.Pagination
 
         public async Task ExecuteAsync(SocketMessageComponent interaction)
         {
-            if (interaction.Message.Id != Message.Id || !Paginator.CanInteract(interaction.User)) return;
+            if (interaction.Message.Id != Message.Id) return;
+            if (!Paginator.CanInteract(interaction.User))
+            {
+                await interaction.DeferAsync(true);
+                await interaction.RespondAsync("You cant use this!");
+                return;
+            }
 
             var emote = ((ButtonComponent)interaction
                     .Message
@@ -135,6 +141,7 @@ namespace Mewdeko.Interactive.Pagination
             {
                 await interaction.DeferAsync().ConfigureAwait(false);
                 Cancel();
+                await interaction.Message.DeleteAsync();
                 return;
             }
 
