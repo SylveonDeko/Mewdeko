@@ -23,6 +23,7 @@ namespace Mewdeko.Core.Services.Database
 
         private IPollsRepository _polls;
         private IQuoteRepository _quotes;
+        private IGiveawaysRepository _giveaways;
         private IReminderRepository _reminders;
 
         private IReputationRepository _reputation;
@@ -72,7 +73,7 @@ namespace Mewdeko.Core.Services.Database
 
         public IDiscordUserRepository DiscordUsers =>
             _discordUsers ?? (_discordUsers = new DiscordUserRepository(_context));
-
+        public IGiveawaysRepository Giveaways => _giveaways ?? (_giveaways = new GiveawayRepository(_context));
         public IWarningsRepository Warnings => _warnings ?? (_warnings = new WarningsRepository(_context));
         public IWarningsRepository2 Warnings2 => _warnings2 ?? (_warnings2 = new WarningsRepository2(_context));
         public ISuggestionsRepository Suggestions => _suggestions ?? (_suggestions = new SuggestRepository(_context));

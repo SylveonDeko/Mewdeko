@@ -53,6 +53,10 @@ namespace Mewdeko.Modules.Permissions.Common
                     if (perm.PrimaryTargetId == message.Channel.Id)
                         return perm.State;
                     break;
+                case PrimaryPermissionType.Category:
+                    if (perm.PrimaryTargetId == ((ITextChannel)message.Channel).CategoryId)
+                        return perm.State;
+                    break;
                 case PrimaryPermissionType.Role:
                     if (guildUser == null)
                         break;
@@ -78,6 +82,9 @@ namespace Mewdeko.Modules.Permissions.Common
                     break;
                 case PrimaryPermissionType.Channel:
                     com += "c";
+                    break;
+                case PrimaryPermissionType.Category:
+                    com += "ca";
                     break;
                 case PrimaryPermissionType.Role:
                     com += "r";
@@ -112,6 +119,9 @@ namespace Mewdeko.Modules.Permissions.Common
                     com += guild?.GetUser(perm.PrimaryTargetId)?.ToString() ?? $"<@{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Channel:
+                    com += $"<#{perm.PrimaryTargetId}>";
+                    break;
+                case PrimaryPermissionType.Category:
                     com += $"<#{perm.PrimaryTargetId}>";
                     break;
                 case PrimaryPermissionType.Role:

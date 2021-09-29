@@ -16,6 +16,13 @@ namespace Mewdeko.Extensions
             .Concat(Enumerable.Range(65, 26))
             .Concat(Enumerable.Range(97, 26))
             .Select(x => (char)x));
+        public static string PadBoth(this string str, int length)
+        {
+            int spaces = length - str.Length;
+            int padLeft = spaces / 2 + str.Length;
+            return str.PadLeft(padLeft).PadRight(length);
+        }
+
 
         private static readonly Regex filterRegex =
             new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |

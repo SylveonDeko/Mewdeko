@@ -24,7 +24,7 @@ namespace Mewdeko.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GuildConfig>>> GetGuildConfigs()
         {
-            return AsyncExtensions.ToListAsync(_context.GuildConfigs).Result;
+            return await AsyncExtensions.ToListAsync(_context.GuildConfigs);
         }
 
         // GET: api/GuildConfigs/5

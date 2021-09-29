@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Administration
             {
                 if (text is not null && text.ToLower() == "disable")
                 {
-                    await _service.SetWebGreet(ctx.Guild, 0);
+                    await _service.SetWebGreetURL(ctx.Guild, "");
                     await ctx.Channel.SendConfirmAsync("Greet webhook disabled.");
                     return;
                 }
@@ -154,7 +154,6 @@ namespace Mewdeko.Modules.Administration
                         using var imgStream = imgData.ToStream();
                         var webhook = await chan.CreateWebhookAsync(name, imgStream);
                         var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                        await _service.SetWebGreet(ctx.Guild, 1);
                         await _service.SetWebGreetURL(ctx.Guild, txt);
                         var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                         if (enabled)
@@ -177,7 +176,6 @@ namespace Mewdeko.Modules.Administration
                         using var imgStream = imgData.ToStream();
                         var webhook = await chan.CreateWebhookAsync(name, imgStream);
                         var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                        await _service.SetWebGreet(ctx.Guild, 1);
                         await _service.SetWebGreetURL(ctx.Guild, txt);
                         var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                         if (enabled)
@@ -192,7 +190,6 @@ namespace Mewdeko.Modules.Administration
                 {
                     var webhook = await chan.CreateWebhookAsync(name);
                     var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                    await _service.SetWebGreet(ctx.Guild, 1);
                     await _service.SetWebGreetURL(ctx.Guild, txt);
                     var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                     if (enabled)

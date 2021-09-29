@@ -22,6 +22,7 @@ namespace Mewdeko.Core.Services.Database
         IDiscordUserRepository DiscordUsers { get; }
         IReputationRepository Reputation { get; }
         IWarningsRepository Warnings { get; }
+        IGiveawaysRepository Giveaways { get; }
         IXpRepository Xp { get; }
         IClubRepository Clubs { get; }
         ISuggestionsRepository Suggestions { get; }

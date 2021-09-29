@@ -1,0 +1,1299 @@
+h:
+  - help
+  - h
+gencmdlist:
+  - gencmdlist
+donate:
+  - donate
+modules:
+  - modules
+  - mdls
+commands:
+  - commands
+  - cmds
+greetdel:
+  - greetdel
+  - grdel
+greet:
+  - greet
+greetmsg:
+  - greetmsg
+autoassignbotrole:
+  - autoassignbotrole
+  - aabr
+bye:
+  - bye
+customafkmessage:
+  - customafkmessage
+  - afkmessage
+syncroletoallcategories:
+  - syncroletoallcategories
+  - srtc
+  - srtac
+syncroletoallchannels:
+  - syncroletoallchannels
+  - srtch
+  - srtach
+deleteroles:
+  - deleteroles
+  - drs
+musicquality:
+  - musicquality
+  - mquality
+rolejobs:
+  - rj
+  - rolejobs
+stopjob:
+  - sj
+  - stopjob
+byemsg:
+  - byemsg
+autodisconnect:
+  - autodisconnect
+  - autodc
+autobanword:
+  - autobanword
+  - autobanw
+autobanwordlist:
+  - autobanwordlist
+  - autobwlist
+antialt:
+  - antialt
+syncroletoall:
+  - syncroletoall
+  - synctoall
+addtousersover:
+  - atuo
+  - addtousersover
+addtousersunder:
+  - atuu
+  - addtousersunder
+grab:
+  - grab
+  - getoverhere
+moveto:
+  - moveto
+moveuserto:
+  - moveuserto
+  - moveuto
+repplus:
+  - rep+
+repnegative:
+  - rep-
+createcatvcchans:
+  - ccvc
+stealforrole:
+  - sfr
+reviews:
+  - reviews
+  - rep
+stealemotes:
+  - steal
+  - stealemotes
+nhentaisearch:
+  - nhentaisearch
+  - nhsearch
+  - nhs
+nhentai:
+  - nhentai
+  - nh
+createcatandvcchannels:
+  - ccavc
+createcattxtchans:
+  - cctc
+createcatandtxtchannels:
+  - ccatc
+byedel:
+  - byedel
+greetdm:
+  - greetdm
+greettest:
+  - greettest
+greetdmtest:
+  - greetdmtest
+byetest:
+  - byetest
+logserver:
+  - logserver
+logignore:
+  - logignore
+repeatlist:
+  - repeatlist
+  - replst
+  - replist
+  - repli
+repeatremove:
+  - repeatremove
+  - reprm
+repeatinvoke:
+  - repeatinvoke
+  - repinv
+repeat:
+  - repeat
+repeatredundant:
+  - repeatredun
+  - repred
+rotateplaying:
+  - rotateplaying
+  - ropl
+addplaying:
+  - addplaying
+  - adpl
+listplaying:
+  - listplaying
+  - lipl
+removeplaying:
+  - removeplaying
+  - rmpl
+vcrolelist:
+  - vcrolelist
+vcrole:
+  - vcrole
+vcrolerm:
+  - vcrolerm
+asar:
+  - asar
+rsar:
+  - rsar
+lsar:
+  - lsar
+sargn:
+  - sargn
+togglexclsar:
+  - togglexclsar
+  - tesar
+iam:
+  - iam
+iamnot:
+  - iamnot
+  - iamn
+addcustreact:
+  - addcustreact
+  - acr
+listcustreact:
+  - listcustreact
+  - lcr
+listcustreactg:
+  - listcustreactg
+  - lcrg
+showcustreact:
+  - showcustreact
+  - scr
+delcustreact:
+  - delcustreact
+  - dcr
+crclear:
+  - crclear
+fwclear:
+  - fwclear
+aliasesclear:
+  - aliasesclear
+  - aliasclear
+autoassignrole:
+  - autoassignrole
+  - aar
+leave:
+  - leave
+slowmode:
+  - slowmode
+delmsgoncmd:
+  - delmsgoncmd
+  - dmc
+restart:
+  - restart
+setrole:
+  - setrole
+  - sr
+  - giverole
+removerole:
+  - removerole
+  - rr
+renamerole:
+  - renamerole
+  - renr
+removeallroles:
+  - removeallroles
+  - rar
+rolehoist:
+  - rolehoist
+  - rh
+createrole:
+  - createrole
+  - cr
+deleterole:
+  - deleterole
+  - dr
+rolecolor:
+  - rolecolor
+  - roleclr
+ban:
+  - ban
+  - b
+softban:
+  - softban
+  - sb
+kick:
+  - kick
+  - k
+mute:
+  - mute
+voiceunmute:
+  - voiceunmute
+deafen:
+  - deafen
+  - deaf
+undeafen:
+  - undeafen
+  - undef
+delvoichanl:
+  - delvoichanl
+  - dvch
+creatvoichanl:
+  - creatvoichanl
+  - cvch
+deltxtchanl:
+  - deltxtchanl
+  - dtch
+creatxtchanl:
+  - creatxtchanl
+  - ctch
+settopic:
+  - settopic
+  - st
+setchanlname:
+  - setchanlname
+  - schn
+purge:
+  - purge
+  - clear
+  - prune
+die:
+  - die
+setname:
+  - setname
+  - newnm
+setnick:
+  - setnick
+setavatar:
+  - setavatar
+  - setav
+setgame:
+  - setgame
+send:
+  - send
+savechat:
+  - savechat
+remind:
+  - remind
+reminddelete:
+  - reminddelete
+  - remindrm
+  - reminddel
+remindlist:
+  - remindlist
+  - remindl
+  - remindlst
+serverinfo:
+  - serverinfo
+  - sinfo
+channelinfo:
+  - channelinfo
+  - cinfo
+userinfo:
+  - userinfo
+  - uinfo
+whosplaying:
+  - whosplaying
+  - whpl
+inrole:
+  - inrole
+checkperms:
+  - checkperms
+stats:
+  - stats
+userid:
+  - userid
+  - uid
+channelid:
+  - channelid
+  - cid
+serverid:
+  - serverid
+  - sid
+roles:
+  - roles
+channeltopic:
+  - channeltopic
+  - ct
+chnlfilterinv:
+  - chnlfilterinv
+  - cfi
+srvrfilterinv:
+  - srvrfilterinv
+  - sfi
+chnlfilterlin:
+  - chnlfilterlin
+  - cfl
+srvrfilterlin:
+  - srvrfilterlin
+  - sfl
+chnlfilterwords:
+  - chnlfilterwords
+  - cfw
+filterword:
+  - filterword
+  - fw
+srvrfilterwords:
+  - srvrfilterwords
+  - sfw
+lstfilterwords:
+  - lstfilterwords
+  - lfw
+permrole:
+  - permrole
+  - pr
+verbose:
+  - verbose
+  - v
+srvrmdl:
+  - srvrmdl
+  - sm
+srvrcmd:
+  - srvrcmd
+  - sc
+rolemdl:
+  - rolemdl
+  - rm
+rolecmd:
+  - rolecmd
+  - rc
+chnlmdl:
+  - chnlmdl
+  - cm
+chnlcmd:
+  - chnlcmd
+  - cc
+usrmdl:
+  - usrmdl
+  - um
+usrcmd:
+  - usrcmd
+  - uc
+allsrvrmdls:
+  - allsrvrmdls
+  - asm
+allchnlmdls:
+  - allchnlmdls
+  - acm
+allrolemdls:
+  - allrolemdls
+  - arm
+userblacklist:
+  - userblacklist
+  - ubl
+channelblacklist:
+  - channelblacklist
+  - cbl
+serverblacklist:
+  - serverblacklist
+  - sbl
+cmdcooldown:
+  - cmdcooldown
+  - cmdcd
+allcmdcooldowns:
+  - allcmdcooldowns
+  - acmdcds
+quoteadd:
+  - quoteadd
+  - .
+quoteprint:
+  - quoteprint
+  - ..
+quoteshow:
+  - quoteshow
+  - qshow
+quotesearch:
+  - quotesearch
+  - qsearch
+quoteid:
+  - quoteid
+  - qid
+quotedelete:
+  - quotedelete
+  - qdel
+draw:
+  - draw
+drawnew:
+  - drawnew
+playlistshuffle:
+  - playlistshuffle
+  - shuffle
+  - sh
+  - plsh
+flip:
+  - flip
+betflip:
+  - betflip
+  - bf
+roll:
+  - roll
+rolluo:
+  - rolluo
+nroll:
+  - nroll
+race:
+  - race
+joinrace:
+  - joinrace
+  - jr
+nunchi:
+  - nunchi
+connect4:
+  - connect4
+  - con4
+raffle:
+  - raffle
+raffleany:
+  - raffleany
+give:
+  - give
+award:
+  - award
+take:
+  - take
+betroll:
+  - betroll
+  - br
+wheeloffortune:
+  - wheeloffortune
+  - wheel
+leaderboard:
+  - leaderboard
+  - lb
+trivia:
+  - trivia
+  - t
+tl:
+  - tl
+tq:
+  - tq
+typestart:
+  - typestart
+typestop:
+  - typestop
+typeadd:
+  - typeadd
+pollend:
+  - pollend
+pick:
+  - pick
+plant:
+  - plant
+gencurrency:
+  - gencurrency
+  - gc
+gencurlist:
+  - gencurlist
+  - gclist
+choose:
+  - choose
+rps:
+  - rps
+linux:
+  - linux
+next:
+  - next
+  - n
+play:
+  - play
+  - p
+  - start
+stop:
+  - stop
+  - s
+destroy:
+  - destroy
+  - d
+pause:
+  - pause
+queue:
+  - queue
+  - q
+  - yq
+  - enqueue
+queuenext:
+  - queuenext
+  - qn
+queuesearch:
+  - queuesearch
+  - qs
+  - yqs
+soundcloudqueue:
+  - soundcloudqueue
+  - sq
+listqueue:
+  - listqueue
+  - lq
+nowplaying:
+  - nowplaying
+  - np
+volume:
+  - volume
+  - vol
+defvol:
+  - defvol
+  - dv
+playlist:
+  - playlist
+  - pl
+soundcloudpl:
+  - soundcloudpl
+  - scpl
+localplaylist:
+  - localplaylist
+  - lopl
+radio:
+  - radio
+  - ra
+local:
+  - local
+  - lo
+join:
+  - join
+  - j
+  - move
+  - mv
+trackremove:
+  - trackremove
+  - srm
+movesong:
+  - movesong
+  - ms
+reptcursong:
+  - reptcursong
+  - rcs
+queuerepeat:
+  - queuerepeat
+  - qrp
+  - rpl
+save:
+  - save
+streamrole:
+  - streamrole
+load:
+  - load
+playlists:
+  - playlists
+  - pls
+playlistshow:
+  - playlistshow
+  - plshow
+deleteplaylist:
+  - deleteplaylist
+  - delpls
+streamadd:
+  - streamadd
+  - sta
+  - stadd
+streamremove:
+  - streamremove
+  - strm
+streamlist:
+  - streamlist
+  - stl
+  - streamslist
+streamoffline:
+  - streamoffline
+  - sto
+  - stoff
+streammessage:
+  - streammessage
+  - stm
+  - stmsg
+streamcheck:
+  - streamcheck
+  - stc
+convert:
+  - convert
+convertlist:
+  - convertlist
+wowjoke:
+  - wowjoke
+calculate:
+  - calculate
+  - calc
+osu:
+  - osu
+gatari:
+  - gatari
+osu5:
+  - osu5
+pokemon:
+  - pokemon
+  - poke
+pokemonability:
+  - pokemonability
+  - pokeab
+memelist:
+  - memelist
+memegen:
+  - memegen
+weather:
+  - weather
+  - we
+youtube:
+  - youtube
+  - yt
+anime:
+  - anime
+  - ani
+  - aq
+steam:
+  - steam
+movie:
+  - movie
+  - omdb
+  - imdb
+manga:
+  - manga
+  - mang
+  - mq
+randomcat:
+  - randomcat
+  - meow
+randomdog:
+  - randomdog
+  - woof
+randomfood:
+  - randomfood
+  - yum
+randombird:
+  - randombird
+  - birb
+  - bird
+image:
+  - image
+  - img
+  - rimg
+lmgtfy:
+  - lmgtfy
+google:
+  - google
+  - g
+hearthstone:
+  - hearthstone
+  - hs
+urbandict:
+  - urbandict
+  - ud
+catfact:
+  - catfact
+yomama:
+  - yomama
+  - ym
+randjoke:
+  - randjoke
+chucknorris:
+  - chucknorris
+  - cn
+magicitem:
+  - magicitem
+  - mi
+revav:
+  - revav
+revimg:
+  - revimg
+safebooru:
+  - safebooru
+afkremove:
+  - afkrm
+  - afkremove
+greethook:
+  - greethook
+  - webgreet
+  - webhookgreet
+lockdown:
+  - lockdown
+  - lockserver
+  - lockall
+unlockdown:
+  - unlockdown
+  - endlockdown
+wiki:
+  - wiki
+  - wikipedia
+color:
+  - color
+  - clr
+avatar:
+  - avatar
+  - av
+hentai:
+  - hentai
+danbooru:
+  - danbooru
+derpibooru:
+  - derpibooru
+  - derpi
+gelbooru:
+  - gelbooru
+rule34:
+  - rule34
+e621:
+  - e621
+boobs:
+  - boobs
+butts:
+  - butts
+  - ass
+  - butt
+translate:
+  - translate
+  - trans
+translangs:
+  - translangs
+guide:
+  - guide
+  - readme
+calcops:
+  - calcops
+delallquotes:
+  - delallquotes
+  - daq
+  - delallq
+greetdmmsg:
+  - greetdmmsg
+cash:
+  - cash
+  - $
+  - currency
+  - $$
+  - $$$
+  - cur
+currencytransactions:
+  - curtrs
+listperms:
+  - listperms
+  - lp
+allusrmdls:
+  - allusrmdls
+  - aum
+moveperm:
+  - moveperm
+  - mp
+removeperm:
+  - removeperm
+  - rp
+showemojis:
+  - showemojis
+  - se
+deckshuffle:
+  - deckshuffle
+  - dsh
+forwardmessages:
+  - forwardmessages
+  - fwmsgs
+forwardtoall:
+  - forwardtoall
+  - fwtoall
+resetperms:
+  - resetperms
+antiraid:
+  - antiraid
+antispam:
+  - antispam
+chatmute:
+  - chatmute
+voicemute:
+  - voicemute
+konachan:
+  - konachan
+muterole:
+  - muterole
+  - setmuterole
+adsarm:
+  - adsarm
+setstream:
+  - setstream
+chatunmute:
+  - chatunmute
+unmute:
+  - unmute
+xkcd:
+  - xkcd
+placelist:
+  - placelist
+place:
+  - place
+poll:
+  - poll
+  - ppoll
+autotranslang:
+  - autotranslang
+  - atl
+autotranslate:
+  - autotranslate
+  - at
+  - autotrans
+listquotes:
+  - listquotes
+  - liqu
+typedel:
+  - typedel
+typelist:
+  - typelist
+listservers:
+  - listservers
+hentaibomb:
+  - hentaibomb
+cleverbot:
+  - cleverbot
+shorten:
+  - shorten
+wikia:
+  - wikia
+  - fandom
+yandere:
+  - yandere
+magicthegathering:
+  - magicthegathering
+  - mtg
+hangmanlist:
+  - hangmanlist
+hangman:
+  - hangman
+hangmanstop:
+  - hangmanstop
+acrophobia:
+  - acrophobia
+  - acro
+logevents:
+  - logevents
+log:
+  - log
+songautodelete:
+  - songautodelete
+  - sad
+define:
+  - define
+  - def
+activity:
+  - activity
+autohentai:
+  - autohentai
+setstatus:
+  - setstatus
+invitecreate:
+  - invitecreate
+  - invcr
+invitelist:
+  - invitelist
+  - invlist
+  - invlst
+invitedelete:
+  - invitedelete
+  - invrm
+  - invdel
+pollstats:
+  - pollstats
+antilist:
+  - antilist
+  - antilst
+antispamignore:
+  - antispamignore
+eventstart:
+  - eventstart
+slotstats:
+  - slotstats
+slottest:
+  - slottest
+slot:
+  - slot
+  - slots
+affinity:
+  - affinity
+  - waifuaff
+waifuclaim:
+  - waifuclaim
+  - claim
+waifureset:
+  - waifureset
+waifutransfer:
+  - waifutransfer
+waifugift:
+  - waifugift
+  - gift
+  - gifts
+waifulb:
+  - waifulb
+  - waifus
+divorce:
+  - divorce
+waifuinfo:
+  - waifuinfo
+  - waifustats
+mal:
+  - mal
+setmusicchannel:
+  - setmusicchannel
+  - smch
+unsetmusicchannel:
+  - unsetmusicchannel
+  - usmch
+imagesreload:
+  - imagesreload
+stringsreload:
+  - stringsreload
+shardstats:
+  - shardstats
+restartshard:
+  - restartshard
+tictactoe:
+  - tictactoe
+  - ttt
+timezones:
+  - timezones
+timezone:
+  - timezone
+languagesetdefault:
+  - langsetdefault
+  - langsetd
+languageset:
+  - languageset
+  - langset
+languageslist:
+  - languageslist
+  - langli
+rategirl:
+  - rategirl
+crreact:
+  - crreact
+  - crr
+crad:
+  - crad
+crat:
+  - crat
+crdm:
+  - crdm
+crca:
+  - crca
+crsreload:
+  - crsreload
+aliaslist:
+  - aliaslist
+  - cmdmaplist
+  - aliases
+alias:
+  - alias
+  - cmdmap
+warnlog:
+  - warnlog
+warnlogall:
+  - warnlogall
+warn:
+  - warn
+startupcommandadd:
+  - scadd
+  - startcmdadd
+autocommandadd:
+  - acadd
+  - autocmdadd
+startupcommandremove:
+  - scrm
+  - startcmdrm
+autocommandremove:
+  - acrm
+  - autocmdrm
+startupcommandsclear:
+  - scclear
+  - scclr
+startupcommandslist:
+  - sclist
+  - startcmdlist
+autocommandslist:
+  - aclist
+  - autolist
+  - autocommands
+  - autocmdlist
+unban:
+  - unban
+banmessage:
+  - banmessage
+  - banmsg
+  - bantemplate
+  - bantemp
+banmessagetest:
+  - banmsgtest
+banmsgreset:
+  - banmsgreset
+wait:
+  - wait
+warnexpire:
+  - warnexpire
+  - warne
+warnclear:
+  - warnclear
+  - warnc
+warnpunishlist:
+  - warnpunishlist
+  - warnpl
+warnpunish:
+  - warnpunish
+  - warnp
+claimpatreonrewards:
+  - clparew
+  - claparew
+ping:
+  - ping
+time:
+  - time
+shop:
+  - shop
+shopadd:
+  - shopadd
+shopremove:
+  - shopremove
+  - shoprm
+shopchangeprice:
+  - shopchangeprice
+  - shopprice
+shopchangename:
+  - shopchangename
+  - shopname
+shopswap:
+  - shopswap
+shopmove:
+  - shopmove
+buy:
+  - buy
+gamevoicechannel:
+  - gamevoicechannel
+  - gvc
+shoplistadd:
+  - shoplistadd
+globalcommand:
+  - globalcommand
+  - gcmd
+globalmodule:
+  - globalmodule
+  - gmod
+globalpermlist:
+  - globalpermlist
+  - gpl
+  - lgp
+  - globalperms
+  - listglobalperms
+resetglobalperms:
+  - resetglobalperms
+prefixcommand:
+  - prefix
+defprefix:
+  - defprefix
+verboseerror:
+  - verboseerror
+  - ve
+streamrolekeyword:
+  - streamrolekeyword
+  - srkw
+streamroleblacklist:
+  - streamroleblacklist
+  - srbl
+streamrolewhitelist:
+  - streamrolewhitelist
+  - srwl
+botconfigedit:
+  - botconfigedit
+  - bce
+config:
+  - config
+  - conf
+configreload:
+  - configreload
+  - creload
+  - confreload
+  - crel
+nsfwtagblacklist:
+  - nsfwtagbl
+  - nsfwtbl
+experience:
+  - experience
+  - xp
+xptemplatereload:
+  - xptempreload
+  - xptr
+xpexclusionlist:
+  - xpexclusionlist
+  - xpexl
+xpexclude:
+  - xpexclude
+  - xpex
+xpnotify:
+  - xpnotify
+  - xpn
+xpleveluprewards:
+  - xplvluprewards
+  - xprews
+  - xpcrs
+  - xprrs
+  - xprolerewards
+  - xpcurrewards
+xprolereward:
+  - xprolereward
+  - xprr
+xpcurrencyreward:
+  - xpcurreward
+  - xpcr
+xpleaderboard:
+  - xpleaderboard
+  - xplb
+xpgloballeaderboard:
+  - xpgleaderboard
+  - xpglb
+xpadd:
+  - xpadd
+clubcreate:
+  - clubcreate
+clubtransfer:
+  - clubtransfer
+clubinformation:
+  - clubinfo
+clubapply:
+  - clubapply
+clubaccept:
+  - clubaccept
+clubleave:
+  - clubleave
+clubdisband:
+  - clubdisband
+clubkick:
+  - clubkick
+clubban:
+  - clubban
+clubunban:
+  - clubunban
+clublevelreq:
+  - clublevelreq
+clubdescription:
+  - clubdesc
+clubicon:
+  - clubicon
+clubapps:
+  - clubapps
+clubbans:
+  - clubbans
+clubleaderboard:
+  - clublb
+nsfwclearcache:
+  - nsfwcc
+clubadmin:
+  - clubadmin
+autoboobs:
+  - autoboobs
+autobutts:
+  - autobutts
+eightball:
+  - eightball
+  - 8ball
+feed:
+  - feed
+  - feedadd
+feedremove:
+  - feedremove
+  - feedrm
+  - feeddel
+feedlist:
+  - feedlist
+  - feeds
+editcustreact:
+  - editcustreact
+  - ecr
+say:
+  - say
+sqlexec:
+  - sqlexec
+sqlselect:
+  - sqlselect
+deletewaifus:
+  - deletewaifus
+deletewaifu:
+  - deletewaifu
+deletecurrency:
+  - deletecurrency
+deleteplaylists:
+  - deleteplaylists
+deletexp:
+  - deletexp
+discordpermoverride:
+  - dpo
+discordpermoverridelist:
+  - dpol
+  - dpoli
+discordpermoverridereset:
+  - dpor
+rafflecur:
+  - rafflecur
+rip:
+  - rip
+timelyset:
+  - timelyset
+timely:
+  - timely
+timelyreset:
+  - timelyreset
+novel:
+  - novel
+crypto:
+  - crypto
+  - c
+rolelevelreq:
+  - rolelevelreq
+  - rlr
+masskill:
+  - masskill
+pathofexile:
+  - pathofexile
+  - poe
+pathofexileleagues:
+  - pathofexileleagues
+  - poel
+pathofexilecurrency:
+  - pathofexilecurrency
+  - poec
+rollduel:
+  - rollduel
+reactionroles:
+  - reactionroles
+  - rero
+reactionroleslist:
+  - reactionroleslist
+  - reroli
+reactionrolesremove:
+  - reactionrolesremove
+  - rerorm
+blackjack:
+  - blackjack
+  - bj
+hit:
+  - hit
+stand:
+  - stand
+double:
+  - double
+xpreset:
+  - xpreset
+bible:
+  - bible
+edit:
+  - edit
+delete:
+  - delete
+  - del
+roleid:
+  - roleid
+  - rid
+nsfwtoggle:
+  - nsfwtoggle
+  - nsfw
+  - nsfwtgl
+economy:
+  - economy

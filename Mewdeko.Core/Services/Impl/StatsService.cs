@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
+using Humanizer.Bytes;
 using Serilog;
 using StackExchange.Redis;
 
@@ -15,7 +15,7 @@ namespace Mewdeko.Core.Services.Impl
 {
     public class StatsService : IStatsService
     {
-        public const string BotVersion = "3.10";
+        public const string BotVersion = "3.76";
         private readonly Mewdeko _bot;
 
         private readonly Timer _botlistTimer;
@@ -132,7 +132,7 @@ namespace Mewdeko.Core.Services.Impl
                                 {
                                     { "shard_count", _creds.TotalShards.ToString() },
                                     { "shard_id", client.ShardId.ToString() },
-                                    { "server_count", _bot.GuildCount.ToString() }
+                                    { "server_count", _bot.GetCurrentGuildIds().Count.ToString() }
                                 }))
                             {
                                 content.Headers.Clear();
@@ -156,11 +156,9 @@ namespace Mewdeko.Core.Services.Impl
                 }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
-        public string Library => "Discord.Net 2.4.1";
+        public string Library => "Discord.Net Labs 3.1";
 
-        public string Heap => Math.Round((double)GC.GetTotalMemory(false) / 1.MiB(), 2)
-            .ToString(CultureInfo.InvariantCulture);
-
+        public string Heap => ByteSize.FromBytes(System.Diagnostics.Process.GetCurrentProcess().WorkingSet64).Megabytes.ToString(CultureInfo.InvariantCulture);
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
         public long TextChannels => Interlocked.Read(ref _textChannels);
         public long VoiceChannels => Interlocked.Read(ref _voiceChannels);

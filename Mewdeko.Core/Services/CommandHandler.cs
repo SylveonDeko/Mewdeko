@@ -276,7 +276,7 @@ namespace Mewdeko.Core.Services
             }
         }
 
-        public async Task TryRunCommand(SocketGuild guild, ISocketMessageChannel channel, IUserMessage usrMsg)
+        public async Task TryRunCommand(SocketGuild guild, IChannel channel, IUserMessage usrMsg)
         {
             var execTime = Environment.TickCount;
 

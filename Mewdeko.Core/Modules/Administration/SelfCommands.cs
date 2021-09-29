@@ -14,6 +14,7 @@ using Mewdeko.Extensions;
 using Mewdeko.Interactive;
 using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Services;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration
@@ -35,13 +36,15 @@ namespace Mewdeko.Modules.Administration
             private readonly DiscordSocketClient _client;
             private readonly IBotStrings _strings;
             private readonly InteractiveService Interactivity;
+            private readonly ICoordinator _coord;
 
-            public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings, InteractiveService serv)
+            public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings, InteractiveService serv, ICoordinator coord)
             {
                 Interactivity = serv;
                 _client = client;
                 _bot = bot;
                 _strings = strings;
+                _coord = coord;
             }
 
             [MewdekoCommand]
@@ -298,25 +301,28 @@ namespace Mewdeko.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var statuses = _service.GetAllShardStatuses();
+                var statuses = _coord.GetAllShardStatuses();
 
-                var status = string.Join(", ", statuses
-                    .GroupBy(x => x.ConnectionState)
-                    .Select(x => $"{x.Count()} {x.Key}")
+                var status = string.Join(" : ", statuses
+                    .Select(x => (ConnectionStateToEmoji(x), x))
+                    .GroupBy(x => x.Item1)
+                    .Select(x => $"`{x.Count()} {x.Key}`")
                     .ToArray());
 
                 var allShardStrings = statuses
-                    .Select(x =>
+                    .Select(st =>
                     {
-                        var timeDiff = DateTime.UtcNow - x.Time;
-                        if (timeDiff >= TimeSpan.FromSeconds(30))
-                            return
-                                $"Shard #{Format.Bold(x.ShardId.ToString())} **UNRESPONSIVE** for {timeDiff.ToString(@"hh\:mm\:ss")}";
-                        return GetText("shard_stats_txt", x.ShardId.ToString(),
-                            Format.Bold(x.ConnectionState.ToString()), Format.Bold(x.Guilds.ToString()),
-                            timeDiff.ToString(@"hh\:mm\:ss"));
+                        var stateStr = ConnectionStateToEmoji(st);
+                        var timeDiff = DateTime.UtcNow - st.LastUpdate;
+                        var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
+                        return $"`{stateStr} " +
+                               $"| #{st.ShardId.ToString().PadBoth(3)} " +
+                               $"| {timeDiff:mm\\:ss} " +
+                               $"| {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} `";
                     })
                     .ToArray();
+
+
 
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
@@ -344,6 +350,18 @@ namespace Mewdeko.Modules.Administration
                     }
                 }
             }
+            private static string ConnectionStateToEmoji(ShardStatus status)
+            {
+                var timeDiff = DateTime.UtcNow - status.LastUpdate;
+                return status.ConnectionState switch
+                {
+                    ConnectionState.Connected => "✅",
+                    ConnectionState.Disconnected => "🔻",
+                    _ when timeDiff > TimeSpan.FromSeconds(30) => " ❗ ",
+                    _ => " ⏳"
+                };
+            }
+
 
             [MewdekoCommand]
             [Usage]
@@ -352,12 +370,15 @@ namespace Mewdeko.Modules.Administration
             [OwnerOnly]
             public async Task RestartShard(int shardId)
             {
-                var success = _service.RestartShard(shardId);
+                var success = _coord.RestartShard(shardId);
                 if (success)
-                    await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold("#" + shardId))
-                        .ConfigureAwait(false);
+                {
+                    await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold("#" + shardId)).ConfigureAwait(false);
+                }
                 else
+                {
                     await ReplyErrorLocalizedAsync("no_shard_id").ConfigureAwait(false);
+                }
             }
 
             [MewdekoCommand]
@@ -388,7 +409,7 @@ namespace Mewdeko.Modules.Administration
                 }
 
                 await Task.Delay(2000).ConfigureAwait(false);
-                _service.Die();
+                _coord.Die();
             }
 
             [MewdekoCommand]
@@ -398,7 +419,7 @@ namespace Mewdeko.Modules.Administration
             [OwnerOnly]
             public async Task Restart()
             {
-                var success = _service.RestartBot();
+                bool success = _coord.RestartBot();
                 if (!success)
                 {
                     await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);

@@ -650,19 +650,12 @@ namespace Mewdeko.Core.Modules.Music
                     var add = "";
                     if (mp.IsStopped)
                         add += Format.Bold(GetText("queue_stopped", Format.Code(Prefix + "play"))) + "\n";
-                    // var mps = mp.MaxPlaytimeSeconds;
-                    // if (mps > 0)
-                    //     add += Format.Bold(GetText("song_skips_after", TimeSpan.FromSeconds(mps).ToString("HH\\:mm\\:ss"))) + "\n";
                     if (repeatType == PlayerRepeatType.Track)
                     {
                         add += "🔂 " + GetText("repeating_track") + "\n";
                     }
                     else
                     {
-                        // if (mp.Autoplay)
-                        //     add += "↪ " + GetText("autoplaying") + "\n";
-                        // if (mp.FairPlay && !mp.Autoplay)
-                        //     add += " " + GetText("fairplay") + "\n";
                         if (repeatType == PlayerRepeatType.Queue)
                             add += "🔁 " + GetText("repeating_queue") + "\n";
                     }
@@ -1140,38 +1133,38 @@ namespace Mewdeko.Core.Modules.Music
         public async Task Playlist([Leftover] string playlistQuery)
         {
                 if (string.IsNullOrWhiteSpace(playlistQuery))
-                return;
+                    return;
 
-            var succ = await QueuePreconditionInternalAsync();
-            if (!succ)
-                return;
+                var succ = await QueuePreconditionInternalAsync();
+                if (!succ)
+                    return;
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
-            if (mp is null)
-            {
-                await ReplyErrorLocalizedAsync("no_player");
-                return;
-            }
-
-            var user = ctx.User as IGuildUser;
-            if (user.VoiceChannel is SocketStageChannel chan)
-                if (!chan.Speakers.Contains(user))
+                var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+                if (mp is null)
                 {
-                    await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                    await ReplyErrorLocalizedAsync("no_player");
                     return;
                 }
 
-            _ = Context.Channel.TriggerTypingAsync();
+                var user = ctx.User as IGuildUser;
+                if (user.VoiceChannel is SocketStageChannel chan)
+                    if (!chan.Speakers.Contains(user))
+                    {
+                        await ctx.Channel.SendErrorAsync("You must be a speaker to do this!");
+                        return;
+                    }
+
+                _ = Context.Channel.TriggerTypingAsync();
 
 
-            var queuedCount = await _service.EnqueueYoutubePlaylistAsync(mp, playlistQuery, ctx.User.ToString());
-            if (queuedCount == 0)
-            {
-                await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
-                return;
-            }
+                var queuedCount = await _service.EnqueueYoutubePlaylistAsync(mp, playlistQuery, ctx.User.ToString());
+                if (queuedCount == 0)
+                {
+                    await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
+                    return;
+                }
 
-            await ctx.OkAsync();
+                await ctx.OkAsync();
         }
 
         [MewdekoCommand]

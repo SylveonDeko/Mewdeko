@@ -29,6 +29,7 @@ using Mewdeko.Modules.CustomReactions.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
+using Mewdeko.Services;
 using StackExchange.Redis;
 
 namespace Mewdeko
@@ -37,15 +38,12 @@ namespace Mewdeko
     {
         private readonly DbService _db;
         private readonly string _token = "95dd4f5d54692fc533bd1da43f1cab773c71d894";
-
-        [Obsolete]
-        public Mewdeko(int shardId, int parentProcessId)
+        public Mewdeko(int shardId)
         {
             if (shardId < 0)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
 
-            LogSetup.SetupLogger(shardId);
-            TerribleElevatedPermissionCheck();
+
 
             Credentials = new BotCredentials();
             Cache = new RedisCache(Credentials, shardId);
@@ -55,24 +53,22 @@ namespace Mewdeko
 
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
-                MessageCacheSize = 50,
+                MessageCacheSize = 15,
                 LogLevel = LogSeverity.Warning,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
                 AlwaysDownloadUsers = true,
                 GatewayIntents = GatewayIntents.All,
-                AlwaysAcknowledgeInteractions = false
+                
             });
             ;
 
             CommandService = new CommandService(new CommandServiceConfig
             {
                 CaseSensitiveCommands = false,
-                DefaultRunMode = RunMode.Sync
+                DefaultRunMode = RunMode.Async
             });
-
-            SetupShard(parentProcessId);
 
 #if GLOBAL_Mewdeko || DEBUG
             Client.Log += Client_Log;
@@ -93,38 +89,10 @@ namespace Mewdeko
         public IServiceProvider Services { get; private set; }
         public IDataCache Cache { get; }
 
-        public int GuildCount =>
-            Cache.Redis.GetDatabase()
-                .ListRange(Credentials.RedisKey() + "_shardstats")
-                .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x))
-                .Sum(x => x.Guilds);
-
         public string Mention { get; set; }
 
         public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
-        private void StartSendingData()
-        {
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    var data = new ShardComMessage
-                    {
-                        ConnectionState = Client.ConnectionState,
-                        Guilds = Client.ConnectionState == ConnectionState.Connected ? Client.Guilds.Count : 0,
-                        ShardId = Client.ShardId,
-                        Time = DateTime.UtcNow
-                    };
-
-                    var sub = Cache.Redis.GetSubscriber();
-                    var msg = JsonConvert.SerializeObject(data);
-
-                    await sub.PublishAsync(Credentials.RedisKey() + "_shardcoord_send", msg).ConfigureAwait(false);
-                    await Task.Delay(7500).ConfigureAwait(false);
-                }
-            });
-        }
 
         public List<ulong> GetCurrentGuildIds()
         {
@@ -156,8 +124,10 @@ namespace Mewdeko
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
-                .AddBotStringsServices()
+                .AddSingleton<ICoordinator, RemoteGrpcCoordinator>()
+                .AddSingleton<IReadyExecutor>(x => (IReadyExecutor)x.GetRequiredService<ICoordinator>())
                 .AddConfigServices()
+                .AddBotStringsServices()
                 .AddConfigMigrators()
                 .AddMemoryCache()
                 .AddSingleton<IShopService, ShopService>()
@@ -289,7 +259,8 @@ namespace Mewdeko
 
         private Task Client_JoinedGuild(SocketGuild arg)
         {
-            Log.Information($"Joined server: {0} [{1}]", arg?.Name, arg?.Id);
+            arg.DownloadUsersAsync();
+            Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
             var _ = Task.Run(async () =>
             {
                 GuildConfig gc;
@@ -336,7 +307,6 @@ namespace Mewdeko
                 .ConfigureAwait(false);
 
             HandleStatusChanges();
-            StartSendingData();
             Ready.TrySetResult(true);
             _ = Task.Run(ExecuteReadySubscriptions);
             Log.Information("Shard {ShardId} ready", Client.ShardId);
@@ -377,37 +347,7 @@ namespace Mewdeko
             await Task.Delay(-1).ConfigureAwait(false);
         }
 
-        private void TerribleElevatedPermissionCheck()
-        {
-            try
-            {
-                var rng = new MewdekoRandom().Next(100000, 1000000);
-                var str = rng.ToString();
-                File.WriteAllText(str, str);
-                File.Delete(str);
-            }
-            catch
-            {
-                Log.Error("You must run the application as an ADMINISTRATOR");
-                Helpers.ReadErrorAndExit(2);
-            }
-        }
 
-        private static void SetupShard(int parentProcessId)
-        {
-            new Thread(() =>
-            {
-                try
-                {
-                    var p = Process.GetProcessById(parentProcessId);
-                    p.WaitForExit();
-                }
-                finally
-                {
-                    Environment.Exit(7);
-                }
-            }).Start();
-        }
 
         private void HandleStatusChanges()
         {

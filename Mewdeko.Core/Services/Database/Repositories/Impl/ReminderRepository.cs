@@ -11,11 +11,6 @@ namespace Mewdeko.Core.Services.Database.Repositories.Impl
         {
         }
 
-        public IEnumerable<Reminder> GetIncludedReminders(IEnumerable<ulong> guildIds)
-        {
-            return _set.AsQueryable().Where(x => guildIds.Contains(x.ServerId) || x.ServerId == 0).ToList();
-        }
-
         public IEnumerable<Reminder> RemindersFor(ulong userId, int page)
         {
             return _set.AsQueryable()

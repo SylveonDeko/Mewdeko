@@ -484,6 +484,86 @@ namespace Mewdeko.Modules.Permissions
                 await ReplyConfirmLocalizedAsync("acm_disable",
                     Format.Code(chnl.Name)).ConfigureAwait(false);
         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task CatCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] ICategoryChannel chnl)
+        {
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            {
+                PrimaryTarget = PrimaryPermissionType.Category,
+                PrimaryTargetId = chnl.Id,
+                SecondaryTarget = SecondaryPermissionType.Command,
+                SecondaryTargetName = command.Name.ToLowerInvariant(),
+                State = action.Value,
+                IsCustomCommand = command.IsCustom
+            }).ConfigureAwait(false);
+
+            if (action.Value)
+                await ReplyConfirmLocalizedAsync("cx_enable",
+                    Format.Code(command.Name),
+                    GetText("of_command"),
+                    Format.Code(chnl.Name)).ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("cx_disable",
+                    Format.Code(command.Name),
+                    GetText("of_command"),
+                    Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task CatMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] ICategoryChannel chnl)
+        {
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            {
+                PrimaryTarget = PrimaryPermissionType.Category,
+                PrimaryTargetId = chnl.Id,
+                SecondaryTarget = SecondaryPermissionType.Module,
+                SecondaryTargetName = module.Name.ToLowerInvariant(),
+                State = action.Value
+            }).ConfigureAwait(false);
+
+            if (action.Value)
+                await ReplyConfirmLocalizedAsync("cx_enable",
+                    Format.Code(module.Name),
+                    GetText("of_module"),
+                    Format.Code(chnl.Name)).ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("cx_disable",
+                    Format.Code(module.Name),
+                    GetText("of_module"),
+                    Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task AllCatMdls(PermissionAction action, [Leftover] ICategoryChannel chnl)
+        {
+            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            {
+                PrimaryTarget = PrimaryPermissionType.Category,
+                PrimaryTargetId = chnl.Id,
+                SecondaryTarget = SecondaryPermissionType.AllModules,
+                SecondaryTargetName = "*",
+                State = action.Value
+            }).ConfigureAwait(false);
+
+            if (action.Value)
+                await ReplyConfirmLocalizedAsync("acm_enable",
+                    Format.Code(chnl.Name)).ConfigureAwait(false);
+            else
+                await ReplyConfirmLocalizedAsync("acm_disable",
+                    Format.Code(chnl.Name)).ConfigureAwait(false);
+        }
 
         [MewdekoCommand]
         [Usage]
