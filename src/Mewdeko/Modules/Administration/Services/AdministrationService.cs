@@ -1,0 +1,259 @@
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Mewdeko.Common;
+using Mewdeko.Common.Collections;
+using Mewdeko.Common.Replacements;
+using Mewdeko.Services;
+using Mewdeko.Services.Database.Models;
+using Mewdeko.Extensions;
+using Microsoft.EntityFrameworkCore;
+
+namespace Mewdeko.Modules.Administration.Services
+{
+    public class AdministrationService : INService
+    {
+        private readonly DbService _db;
+        private readonly LogCommandService _logService;
+        private readonly DiscordSocketClient client;
+
+        public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
+            LogCommandService logService, DiscordSocketClient _client)
+        {
+            client = _client;
+            _StaffRole = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.StaffRole)
+                .ToConcurrent();
+            _MemberRole = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.MemberRole)
+                .ToConcurrent();
+            _db = db;
+            _logService = logService;
+
+            DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs
+                .Where(g => g.DeleteMessageOnCommand)
+                .Select(g => g.GuildId));
+
+            DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(bot.AllGuildConfigs
+                .SelectMany(x => x.DelMsgOnCmdChannels)
+                .ToDictionary(x => x.ChannelId, x => x.State)
+                .ToConcurrent());
+            client.JoinedGuild += SendHelp;
+            cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
+        }
+
+        private ConcurrentDictionary<ulong, ulong> _StaffRole { get; } = new();
+        private ConcurrentDictionary<ulong, ulong> _MemberRole { get; } = new();
+        public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
+        public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
+
+        public async Task SendHelp(SocketGuild guild)
+        {
+            var e = guild.DefaultChannel;
+            var eb = new EmbedBuilder();
+            eb.Description =
+                "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command.";
+            eb.AddField("How to look for commands",
+                "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
+            eb.AddField("Have any questions, or need my invite link?",
+                "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link:https://mewdeko.tech/invite");
+            eb.WithThumbnailUrl(
+                "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
+            eb.WithOkColor();
+            await e.SendMessageAsync(embed: eb.Build());
+        }
+
+        public async Task StaffRoleSet(IGuild guild, ulong role)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.StaffRole = role;
+                await uow.SaveChangesAsync();
+            }
+
+            _StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+        }
+
+        public async Task MemberRoleSet(IGuild guild, ulong role)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.MemberRole = role;
+                await uow.SaveChangesAsync();
+            }
+
+            _MemberRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+        }
+
+        public ulong GetStaffRole(ulong? id)
+        {
+            _StaffRole.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+
+        public ulong GetMemberRole(ulong? id)
+        {
+            _MemberRole.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+
+        public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId,
+                    set => set.Include(x => x.DelMsgOnCmdChannels));
+
+                return (conf.DeleteMessageOnCommand, conf.DelMsgOnCmdChannels);
+            }
+        }
+
+        private Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
+        {
+            var _ = Task.Run(async () =>
+            {
+                if (!(msg.Channel is SocketTextChannel channel))
+                    return;
+
+                //wat ?!
+                if (DeleteMessagesOnCommandChannels.TryGetValue(channel.Id, out var state))
+                {
+                    if (state && cmd.Name != "Purge" && cmd.Name != "pick")
+                    {
+                        _logService.AddDeleteIgnore(msg.Id);
+                        try
+                        {
+                            await msg.DeleteAsync().ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                        }
+                    }
+                    //if state is false, that means do not do it
+                }
+                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
+                         cmd.Name != "pick")
+                {
+                    _logService.AddDeleteIgnore(msg.Id);
+                    try
+                    {
+                        await msg.DeleteAsync().ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
+                }
+            });
+            return Task.CompletedTask;
+        }
+
+        public bool ToggleDeleteMessageOnCommand(ulong guildId)
+        {
+            bool enabled;
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId, set => set);
+                enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
+
+                uow.SaveChanges();
+            }
+
+            return enabled;
+        }
+
+        public async Task SetDelMsgOnCmdState(ulong guildId, ulong chId, Administration.State newState)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId,
+                    set => set.Include(x => x.DelMsgOnCmdChannels));
+
+                var old = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == chId);
+                if (newState == Administration.State.Inherit)
+                {
+                    if (!(old is null))
+                    {
+                        conf.DelMsgOnCmdChannels.Remove(old);
+                        uow._context.Remove(old);
+                    }
+                }
+                else
+                {
+                    if (old is null)
+                    {
+                        old = new DelMsgOnCmdChannel { ChannelId = chId };
+                        conf.DelMsgOnCmdChannels.Add(old);
+                    }
+
+                    old.State = newState == Administration.State.Enable;
+                    DeleteMessagesOnCommandChannels[chId] = newState == Administration.State.Enable;
+                }
+
+                await uow.SaveChangesAsync();
+            }
+
+            if (newState == Administration.State.Disable)
+            {
+            }
+            else if (newState == Administration.State.Enable)
+            {
+                DeleteMessagesOnCommandChannels[chId] = true;
+            }
+            else
+            {
+                DeleteMessagesOnCommandChannels.TryRemove(chId, out var _);
+            }
+        }
+
+        public async Task DeafenUsers(bool value, params IGuildUser[] users)
+        {
+            if (!users.Any())
+                return;
+            foreach (var u in users)
+                try
+                {
+                    await u.ModifyAsync(usr => usr.Deaf = value).ConfigureAwait(false);
+                }
+                catch
+                {
+                    // ignored
+                }
+        }
+
+        public async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string text)
+        {
+            var msg = await chanl.GetMessageAsync(messageId);
+
+            if (!(msg is IUserMessage umsg) || msg.Author.Id != context.Client.CurrentUser.Id)
+                return;
+
+            var rep = new ReplacementBuilder()
+                .WithDefault(context)
+                .Build();
+
+            if (CREmbed.TryParse(text, out var crembed))
+            {
+                rep.Replace(crembed);
+                await umsg.ModifyAsync(x =>
+                {
+                    x.Embed = crembed.ToEmbed().Build();
+                    x.Content = crembed.PlainText?.SanitizeMentions() ?? "";
+                }).ConfigureAwait(false);
+            }
+            else
+            {
+                await umsg.ModifyAsync(x =>
+                {
+                    x.Content = text.SanitizeMentions();
+                    x.Embed = null;
+                }).ConfigureAwait(false);
+            }
+        }
+    }
+}
