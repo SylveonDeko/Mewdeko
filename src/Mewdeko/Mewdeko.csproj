@@ -77,8 +77,8 @@
 		<Protobuf Include="..\Mewdeko.Coordinator\Protos\coordinator.proto" GrpcServices="Client">
 			<Link>Protos\coordinator.proto</Link>
 		</Protobuf>
-		<Compile Remove="credentials.json"/>
-		<None Include="..\..\.editorconfig" Link=".editorconfig"/>
+		<Compile Remove="credentials.json" />
+		<None Include="..\..\.editorconfig" Link=".editorconfig" />
 		<None Update="data\**\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -131,7 +131,7 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 	</PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ayu\Ayu.Discord.Voice\Ayu.Discord.Voice.csproj" />
+        <ProjectReference Include="..\Mewdeko.Voice\Mewdeko.Voice.csproj" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
