@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Administration.Services
 {
@@ -14,7 +14,7 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly DbService _db;
         private readonly ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
 
-        public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
+        public GuildTimezoneService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, DbService db)
         {
             _timezones = bot.AllGuildConfigs
                 .Select(GetTimzezoneTuple)

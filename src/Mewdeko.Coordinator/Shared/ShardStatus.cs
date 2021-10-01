@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Mewdeko.Coordinator
+namespace Mewdeko.Coordinator.Shared
 {
     public sealed record ShardStatus(
         int ShardId,

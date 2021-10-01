@@ -1,8 +1,8 @@
 using System;
 using Discord;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive
 {
     /// <summary>
     ///     Specifies the actions that will be applied to a message after a timeout or a cancellation.

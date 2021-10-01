@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -21,7 +21,7 @@ namespace Mewdeko.Modules.Utility.Services
         public DiscordSocketClient _client;
 
 
-        public AFKService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko bot)
+        public AFKService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
             _client = client;

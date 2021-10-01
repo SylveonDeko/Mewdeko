@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Gambling.Common
 {

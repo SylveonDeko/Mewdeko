@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Common.Attributes;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Administration
 {

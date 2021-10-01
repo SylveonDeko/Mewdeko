@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Mewdeko.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Core.Modules.Administration.Services
+namespace Mewdeko.Modules.Administration.Services
 {
     public class DangerousCommandsService : INService
     {

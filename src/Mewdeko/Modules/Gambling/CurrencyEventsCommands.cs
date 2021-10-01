@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Common.Events;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Common;
+using Mewdeko.Modules.Gambling.Common.Events;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling

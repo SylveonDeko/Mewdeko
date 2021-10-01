@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -15,9 +15,9 @@ namespace Mewdeko.Modules.Utility.Services
     {
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly Mewdeko bot;
+        private readonly Mewdeko.Services.Mewdeko bot;
 
-        public UtilityService(DiscordSocketClient client, DbService db, Mewdeko _bot)
+        public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko _bot)
         {
             bot = _bot;
             _client = client;
@@ -259,7 +259,7 @@ namespace Mewdeko.Modules.Utility.Services
                                 if (msg2 is null) return;
                                 var en2 = new EmbedBuilder
                                 {
-                                    Color = Mewdeko.OkColor,
+                                    Color = Mewdeko.Services.Mewdeko.OkColor,
                                     Author = new EmbedAuthorBuilder
                                     {
                                         Name = msg2.Author.Username,

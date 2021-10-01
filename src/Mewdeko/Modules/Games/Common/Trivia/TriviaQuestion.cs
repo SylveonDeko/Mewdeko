@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help
 namespace Mewdeko.Modules.Games.Common.Trivia

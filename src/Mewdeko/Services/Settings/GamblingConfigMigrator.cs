@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Common;
+using Mewdeko.Modules.Gambling.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Settings
 {
     public sealed class GamblingConfigMigrator : IConfigMigrator
     {

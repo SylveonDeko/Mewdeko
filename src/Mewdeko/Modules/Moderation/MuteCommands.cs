@@ -5,11 +5,13 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
+using PermValue = Discord.PermValue;
 
 namespace Mewdeko.Modules.Moderation
 {

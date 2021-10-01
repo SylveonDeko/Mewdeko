@@ -1,9 +1,9 @@
-﻿using Mewdeko.Core.Common;
-using Mewdeko.Core.Common.Configs;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Services;
+﻿using Mewdeko.Common.Configs;
+using Mewdeko.Common.PubSub;
+using Mewdeko.Modules.Gambling.Common;
+using Mewdeko.Services.Settings;
 
-namespace Mewdeko.Core.Modules.Gambling.Services
+namespace Mewdeko.Modules.Gambling.Services
 {
     public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
     {

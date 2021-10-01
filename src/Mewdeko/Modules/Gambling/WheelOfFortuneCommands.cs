@@ -1,14 +1,12 @@
 ﻿using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Services;
-using Wof = Mewdeko.Modules.Gambling.Common.WheelOfFortune.WheelOfFortuneGame;
+using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Gambling
 {

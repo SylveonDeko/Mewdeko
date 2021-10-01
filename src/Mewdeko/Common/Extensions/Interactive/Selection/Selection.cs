@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive.Selection
+namespace Mewdeko.Common.Extensions.Interactive.Selection
 {
     /// <summary>
     ///     Represents a selection of values.

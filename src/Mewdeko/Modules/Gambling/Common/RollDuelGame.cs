@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Mewdeko.Common;
 using Mewdeko.Services;
 
-namespace Mewdeko.Core.Modules.Gambling.Common
+namespace Mewdeko.Modules.Gambling.Common
 {
     public class RollDuelGame
     {

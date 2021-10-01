@@ -12,6 +12,12 @@ namespace Mewdeko.Migrations
                 "TEXT",
                 defaultValue: 0,
                 nullable: true);
+            migrationBuilder.AddColumn<string>(
+                "AfkDel",
+                "GuildConfigs",
+                "TEXT",
+                defaultValue: 0,
+                nullable: true);
             migrationBuilder.RenameColumn("WebhookURL", "GuildConfigs", "GreetHook");
         }
 
@@ -20,6 +26,9 @@ namespace Mewdeko.Migrations
             migrationBuilder.DropColumn(
                 "GuildConfigs",
                 "LeaveHook");
+            migrationBuilder.DropColumn(
+                "GuildConfigs",
+                "AfkDel");
         }
     }
 }

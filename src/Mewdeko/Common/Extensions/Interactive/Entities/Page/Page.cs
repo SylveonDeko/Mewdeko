@@ -1,7 +1,7 @@
 using System;
 using Discord;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities.Page
 {
     /// <summary>
     ///     Represents a message page. A page consists of a <see cref="Text" /> and an <see cref="Embed" />.

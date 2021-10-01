@@ -3,11 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
@@ -98,11 +101,11 @@ namespace Mewdeko.Modules.Administration
                         .ToList();
                     if (thisPageOverrides.Count == 0)
                         return Task.FromResult(new PageBuilder().WithDescription(GetText("perm_override_page_none"))
-                            .WithColor(Mewdeko.ErrorColor));
+                            .WithColor(Mewdeko.Services.Mewdeko.ErrorColor));
                     return Task.FromResult(new PageBuilder()
                         .WithDescription(string.Join("\n",
                             thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}")))
-                        .WithColor(Mewdeko.OkColor));
+                        .WithColor(Mewdeko.Services.Mewdeko.OkColor));
                 }
             }
         }

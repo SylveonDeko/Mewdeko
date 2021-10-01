@@ -1,4 +1,4 @@
-﻿using Mewdeko.Extensions;
+﻿using Mewdeko._Extensions;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches.Common

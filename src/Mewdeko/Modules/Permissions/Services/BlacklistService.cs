@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Core.Common;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;

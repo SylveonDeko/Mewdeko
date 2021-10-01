@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Mewdeko.Gateway
+namespace Mewdeko.Voice
 {
     public static class CloseCodes
     {

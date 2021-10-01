@@ -2,11 +2,11 @@
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Mewdeko.Core.Modules.Music;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Serilog;
 
-namespace Mewdeko.Modules.Music.Resolvers
+namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
 {
     public class RadioResolver : IRadioResolver
     {

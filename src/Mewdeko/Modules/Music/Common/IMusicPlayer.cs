@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services.Database.Models;
 
 #nullable enable
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common
 {
     public interface IMusicPlayer : IDisposable
     {

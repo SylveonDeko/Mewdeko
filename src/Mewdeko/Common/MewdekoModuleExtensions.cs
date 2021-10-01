@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Modules
+﻿namespace Mewdeko.Common
 {
     public static class MewdekoModuleExtensions
     {

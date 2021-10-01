@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Modules.ServerManagement.Services;
+using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services;
+using Mewdeko.Services.strings;
 
-namespace Mewdeko.Modules
+namespace Mewdeko.Common
 {
     public abstract class MewdekoModule : ModuleBase
     {

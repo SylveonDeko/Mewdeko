@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko.Interactive.Pagination;
-using Mewdeko.Interactive.Selection;
+using Mewdeko.Common.Extensions.Interactive.Entities;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Selection;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive
 {
     // Based on Discord.InteractivityAddon
     // https://github.com/Playwo/Discord.InteractivityAddon

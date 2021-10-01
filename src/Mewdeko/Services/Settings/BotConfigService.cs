@@ -1,10 +1,10 @@
 ﻿using System;
 using Discord;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Common.Configs;
+using Mewdeko.Common.Configs;
+using Mewdeko.Common.PubSub;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Settings
 {
     /// <summary>
     ///     Settings service for bot-wide configuration.

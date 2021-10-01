@@ -1,4 +1,4 @@
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive
 {
     /// <summary>
     ///     Specifies the types of inputs that are used to interact with the interactive elements.

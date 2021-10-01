@@ -1,6 +1,6 @@
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Modules.CustomReactions
+namespace Mewdeko.Modules.CustomReactions.Common
 {
     public class ExportedExpr
     {

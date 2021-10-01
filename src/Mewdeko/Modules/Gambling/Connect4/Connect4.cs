@@ -5,10 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using Mewdeko.Common;
-using Mewdeko.Core.Common;
 using Mewdeko.Services;
 
-namespace Mewdeko.Modules.Gambling.Common.Connect4
+namespace Mewdeko.Modules.Gambling.Connect4
 {
     public sealed class Connect4Game : IDisposable
     {

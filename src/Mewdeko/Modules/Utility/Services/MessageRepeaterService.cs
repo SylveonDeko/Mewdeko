@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -15,12 +15,12 @@ namespace Mewdeko.Modules.Utility.Services
 {
     public class MessageRepeaterService : INService
     {
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
 
-        public MessageRepeaterService(Mewdeko bot, DiscordSocketClient client, DbService db, IBotCredentials creds)
+        public MessageRepeaterService(Mewdeko.Services.Mewdeko bot, DiscordSocketClient client, DbService db, IBotCredentials creds)
         {
             _db = db;
             _creds = creds;

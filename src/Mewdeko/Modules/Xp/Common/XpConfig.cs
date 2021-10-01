@@ -1,6 +1,6 @@
 ﻿using Mewdeko.Common.Yml;
 
-namespace Mewdeko.Modules.Xp
+namespace Mewdeko.Modules.Xp.Common
 {
     public sealed class XpConfig
     {

@@ -5,7 +5,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Core.Common.Configs
+namespace Mewdeko.Common.Configs
 {
     public sealed class BotConfig
     {

@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Administration.Services;
 

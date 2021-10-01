@@ -1,4 +1,4 @@
-namespace Mewdeko.Interactive.Pagination
+namespace Mewdeko.Common.Extensions.Interactive.Pagination
 {
     /// <summary>
     ///     Specifies the paginator actions related to emotes.

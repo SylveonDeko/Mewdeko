@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Grpc.Core;
+using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Coordinator;
-using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Serilog;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Impl
 {
     public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
     {

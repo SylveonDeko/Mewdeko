@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive.Selection
+namespace Mewdeko.Common.Extensions.Interactive.Selection
 {
     /// <summary>
     ///     Represents the base of selections.

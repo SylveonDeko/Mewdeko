@@ -2,7 +2,6 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Mewdeko.Coordinator;
-using Mewdeko.Services;
 using Serilog;
 
 // Additional configuration is required to successfully run gRPC on macOS.

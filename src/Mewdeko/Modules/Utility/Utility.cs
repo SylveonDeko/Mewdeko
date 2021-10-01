@@ -9,15 +9,15 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Services;
 using Mewdeko.Services.Impl;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Utility.Services;
 using Newtonsoft.Json;
 using Serilog;
@@ -27,14 +27,14 @@ namespace Mewdeko.Modules.Utility
     public partial class Utility : MewdekoModule<UtilityService>
     {
         private static readonly SemaphoreSlim sem = new(1, 1);
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
         private readonly IStatsService _stats;
         private readonly DownloadTracker _tracker;
         private readonly InteractiveService Interactivity;
 
-        public Utility(Mewdeko Mewdeko, DiscordSocketClient client,
+        public Utility(Mewdeko.Services.Mewdeko Mewdeko, DiscordSocketClient client,
             IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv)
         {
             Interactivity = serv;
@@ -218,7 +218,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -269,7 +269,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -320,7 +320,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -371,7 +371,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -442,7 +442,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -493,7 +493,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -544,7 +544,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
@@ -595,7 +595,7 @@ namespace Mewdeko.Modules.Utility
                         Text =
                             $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - tstamp.Value).Humanize()} ago"
                     },
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }

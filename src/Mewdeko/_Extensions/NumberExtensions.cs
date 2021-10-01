@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class NumberExtensions
     {

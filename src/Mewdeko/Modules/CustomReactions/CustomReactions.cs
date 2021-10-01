@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.CustomReactions.Services;
 
 namespace Mewdeko.Modules.CustomReactions
@@ -199,7 +202,7 @@ namespace Mewdeko.Modules.CustomReactions
 
             Task<PageBuilder> PageFactory(int page)
             {
-                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
+                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                     .WithTitle(GetText("custom_reactions"))
                     .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
                         .Skip(page * 20)
@@ -251,7 +254,7 @@ namespace Mewdeko.Modules.CustomReactions
 
                 Task<PageBuilder> PageFactory(int page)
                 {
-                    return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
+                    return Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                         .WithTitle(GetText("name"))
                         .WithDescription(string.Join("\r\n", ordered
                             .Skip(page * 20)

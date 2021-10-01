@@ -1,7 +1,7 @@
 ﻿using CommandLine;
-using Mewdeko.Core.Common;
+using Mewdeko.Common;
 
-namespace Mewdeko.Core.Modules.Gambling.Common.AnimalRacing
+namespace Mewdeko.Modules.Gambling.Common.AnimalRacing
 {
     public class RaceOptions : IMewdekoCommandOptions
     {

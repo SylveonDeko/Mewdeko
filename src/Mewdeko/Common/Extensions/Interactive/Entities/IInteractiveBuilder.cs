@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities
 {
     /// <summary>
     ///     Represents a builder of interactive elements.

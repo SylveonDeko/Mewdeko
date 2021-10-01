@@ -5,17 +5,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
+using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
-using Mewdeko.Modules;
-using Mewdeko.Modules.Music.Services;
 using Serilog;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music
 {
     public sealed partial class Music
     {

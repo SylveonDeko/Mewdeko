@@ -6,14 +6,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Gambling.Common;
 using Serilog;
 
-namespace Mewdeko.Core.Modules.Gambling.Common.Events
+namespace Mewdeko.Modules.Gambling.Common.Events
 {
     public class ReactionEvent : ICurrencyEvent
     {

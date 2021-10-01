@@ -6,10 +6,13 @@ using Discord;
 using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -166,7 +169,7 @@ namespace Mewdeko.Modules.Utility
                     eb.AddField("Latest Review Type", $"{ReviewType(use.Id)}");
                     eb.AddField("Latest Review", GetLastReview(use.Id));
                     eb.ThumbnailUrl = use.RealAvatarUrl().ToString();
-                    eb.Color = Mewdeko.OkColor;
+                    eb.Color = Mewdeko.Services.Mewdeko.OkColor;
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 }
 
@@ -326,7 +329,7 @@ namespace Mewdeko.Modules.Utility
                 var webhook = new DiscordWebhookClient(
                     "https://discord.com/api/webhooks/856361973443854336/MzmEjAxO9ec3XIt3Q9RWQeoc7aOnlEPJQx2mIIvvOzz-19WiEDsY6ly7U8rmDzQ34Mfa");
                 var eb = new EmbedBuilder();
-                eb.Color = Mewdeko.OkColor;
+                eb.Color = Mewdeko.Services.Mewdeko.OkColor;
                 eb.Description = s;
                 eb.Author = new EmbedAuthorBuilder
                     { IconUrl = user.RealAvatarUrl().ToString(), Name = $"{user.Username}|{user.Id}" };

@@ -3,8 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive.Pagination
+namespace Mewdeko.Common.Extensions.Interactive.Pagination.Lazy
 {
     /// <summary>
     ///     Represents a builder class for making a <see cref="LazyPaginator" />.

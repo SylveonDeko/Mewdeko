@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class ProcessExtensions
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common.PubSub
 {
     public interface IPubSub
     {

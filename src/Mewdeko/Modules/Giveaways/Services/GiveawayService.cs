@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Giveaways.Services
                 {
                     var eb = new EmbedBuilder()
                     {
-                        Color = Mewdeko.ErrorColor,
+                        Color = Mewdeko.Services.Mewdeko.ErrorColor,
                         Description = "Nobody won because nobody else reacted!"
                     };
                     await ch.ModifyAsync(x => x.Embed = eb.Build());
@@ -112,7 +112,7 @@ namespace Mewdeko.Modules.Giveaways.Services
                     var user = users.ToList()[index];
                     var eb = new EmbedBuilder()
                     {
-                        Color = Mewdeko.OkColor,
+                        Color = Mewdeko.Services.Mewdeko.OkColor,
                         Description = $"{user.Mention} won the giveaway for {r.Item}!"
                     };
                     await ch.ModifyAsync(x => x.Embed = eb.Build());

@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mewdeko.Voice;
 using Discord.WebSocket;
+using Mewdeko.Modules.Music.Common;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Music.Services

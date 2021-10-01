@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Mewdeko.Modules.Utility.Extensions;
@@ -23,7 +23,7 @@ namespace Mewdeko.Modules.Utility.Services
         private readonly DbService _db;
         private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
 
-        public StreamRoleService(DiscordSocketClient client, DbService db, Mewdeko bot)
+        public StreamRoleService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
             _client = client;

@@ -5,10 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -34,13 +34,13 @@ namespace Mewdeko.Modules.Moderation.Services
             new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
                 attachFiles: PermValue.Deny);
 
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
 
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
         public string[] uroles;
 
-        public MuteService(DiscordSocketClient client, DbService db, Mewdeko bot)
+        public MuteService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _client = client;
             _db = db;

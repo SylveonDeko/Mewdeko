@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Core.Common.TypeReaders.Models;
+using Mewdeko._Extensions;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -19,10 +19,10 @@ namespace Mewdeko.Modules.Moderation.Services
         private readonly DbService _db;
         private readonly MuteService _mute;
         private readonly Timer _warnExpiryTimer;
-        private Mewdeko _bot;
+        private Mewdeko.Services.Mewdeko _bot;
 
 
-        public UserPunishService2(MuteService mute, DbService db, Mewdeko bot)
+        public UserPunishService2(MuteService mute, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _mute = mute;
             _db = db;

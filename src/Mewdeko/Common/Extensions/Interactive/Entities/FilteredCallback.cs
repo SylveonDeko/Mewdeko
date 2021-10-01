@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities
 {
     /// <summary>
     ///     Represents an event handler with a filter.

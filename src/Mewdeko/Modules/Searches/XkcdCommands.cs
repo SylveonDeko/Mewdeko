@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches
@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Searches
                         {
                             var res = await http.GetStringAsync($"{_xkcdUrl}/info.0.json").ConfigureAwait(false);
                             var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                            var embed = new EmbedBuilder().WithColor(Mewdeko.OkColor)
+                            var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                                 .WithImageUrl(comic.ImageLink)
                                 .WithAuthor(eab =>
                                     eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}")
@@ -86,7 +86,7 @@ namespace Mewdeko.Modules.Searches
                         var res = await http.GetStringAsync($"{_xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 
                         var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                        var embed = new EmbedBuilder().WithColor(Mewdeko.OkColor)
+                        var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                             .WithImageUrl(comic.ImageLink)
                             .WithAuthor(eab =>
                                 eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{num}")

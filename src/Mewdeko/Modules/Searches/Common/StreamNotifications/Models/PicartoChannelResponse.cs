@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Mewdeko.Core.Modules.Searches.Common
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models
 {
     public class PicartoChannelResponse
     {

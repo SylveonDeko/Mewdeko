@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Games.Common.Trivia
 {

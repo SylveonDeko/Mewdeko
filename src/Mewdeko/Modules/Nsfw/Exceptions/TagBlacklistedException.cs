@@ -1,3 +1,3 @@
-﻿namespace Mewdeko.Modules.NSFW.Exceptions
+﻿namespace Mewdeko.Modules.Nsfw.Exceptions
 {
 }

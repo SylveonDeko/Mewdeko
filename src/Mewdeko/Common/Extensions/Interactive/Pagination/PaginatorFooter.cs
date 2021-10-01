@@ -1,6 +1,6 @@
 using System;
 
-namespace Mewdeko.Interactive.Pagination
+namespace Mewdeko.Common.Extensions.Interactive.Pagination
 {
     /// <summary>
     ///     Specifies which contents should be displayed in the footer of a

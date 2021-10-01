@@ -13,12 +13,11 @@ using AngleSharp.Html.Parser;
 using Discord;
 using Discord.WebSocket;
 using Html2Markdown;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -72,7 +71,7 @@ namespace Mewdeko.Modules.Searches.Services
         private int yomamaJokeIndex;
 
         public SearchesService(DiscordSocketClient client, IGoogleApiService google,
-            DbService db, Mewdeko bot, IDataCache cache, IHttpClientFactory factory,
+            DbService db, Mewdeko.Services.Mewdeko bot, IDataCache cache, IHttpClientFactory factory,
             FontProvider fonts, IBotCredentials creds)
         {
             _httpFactory = factory;

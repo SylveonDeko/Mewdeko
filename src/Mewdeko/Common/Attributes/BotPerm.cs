@@ -1,6 +1,7 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 
-namespace Discord
+namespace Mewdeko.Common.Attributes
 {
     public class BotPermAttribute : RequireBotPermissionAttribute
     {

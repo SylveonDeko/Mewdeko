@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Services
+﻿using Mewdeko.Services.strings.impl;
+
+namespace Mewdeko.Services.strings
 {
     /// <summary>
     ///     Implemented by classes which provide localized strings in their own ways

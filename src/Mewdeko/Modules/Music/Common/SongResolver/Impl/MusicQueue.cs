@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed partial class MusicQueue
     {

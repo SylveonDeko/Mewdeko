@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Services;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common
 {
     public class DownloadTracker : INService
     {

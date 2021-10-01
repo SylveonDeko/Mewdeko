@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mewdeko.Common.Yml;
 
-namespace Mewdeko.Core.Modules.Gambling.Common
+namespace Mewdeko.Modules.Gambling.Common
 {
     public sealed class GamblingConfig
     {

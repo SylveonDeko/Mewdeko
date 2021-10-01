@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Voice;
 
-namespace Mewdeko.Modules.Music
+namespace Mewdeko.Modules.Music.Common
 {
     public interface IVoiceProxy
     {

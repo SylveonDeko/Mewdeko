@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Games.Common.Hangman
 {

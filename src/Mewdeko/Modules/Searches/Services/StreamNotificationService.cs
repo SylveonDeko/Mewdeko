@@ -6,13 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
-using Mewdeko.Core.Modules.Searches.Common;
-using Mewdeko.Core.Modules.Searches.Common.StreamNotifications;
+using Mewdeko.Modules.Searches.Common.StreamNotifications;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
+using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
@@ -42,7 +43,7 @@ namespace Mewdeko.Modules.Searches.Services
 
         public StreamNotificationService(DbService db, DiscordSocketClient client,
             IBotStrings strings, IDataCache cache, IBotCredentials creds, IHttpClientFactory httpFactory,
-            Mewdeko bot)
+            Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
             _client = client;
@@ -444,7 +445,7 @@ namespace Mewdeko.Modules.Searches.Services
                 .AddField(efb => efb.WithName(GetText(guildId, "viewers"))
                     .WithValue(status.IsLive ? status.Viewers.ToString() : "-")
                     .WithIsInline(true))
-                .WithColor(status.IsLive ? Mewdeko.OkColor : Mewdeko.ErrorColor);
+                .WithColor(status.IsLive ? Mewdeko.Services.Mewdeko.OkColor : Mewdeko.Services.Mewdeko.ErrorColor);
 
             if (!string.IsNullOrWhiteSpace(status.Title))
                 embed.WithAuthor(status.Title);

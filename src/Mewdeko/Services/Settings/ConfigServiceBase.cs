@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Mewdeko.Common.Configs;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Common.Configs;
-using CultureInfoConverter = Mewdeko.Core.Common.JsonConverters.CultureInfoConverter;
-using Rgba32Converter = Mewdeko.Core.Common.JsonConverters.Rgba32Converter;
+using CultureInfoConverter = Mewdeko.Common.JsonConverters.CultureInfoConverter;
+using Rgba32Converter = Mewdeko.Common.JsonConverters.Rgba32Converter;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Settings
 {
     /// <summary>
     ///     Base service for all settings services

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common
 {
     public interface IYoutubeResolver : IPlatformQueryResolver
     {

@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Coordinator
+﻿namespace Mewdeko.Coordinator.Shared
 {
     public readonly struct Config
     {

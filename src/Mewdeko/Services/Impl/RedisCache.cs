@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 

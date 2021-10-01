@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Music;
+using Mewdeko.Common;
+using Mewdeko.Modules.Music.Common;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Music.Services

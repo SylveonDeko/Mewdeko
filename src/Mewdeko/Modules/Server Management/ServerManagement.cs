@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.ServerManagement.Services;
+using Mewdeko.Modules.Server_Management.Services;
 
-namespace Mewdeko.Modules.ServerManagement
+namespace Mewdeko.Modules.Server_Management
 {
     public partial class ServerManagement : MewdekoModule<ServerManagementService>
     {
@@ -280,7 +281,7 @@ namespace Mewdeko.Modules.ServerManagement
             var eb = new EmbedBuilder
             {
                 Description = "<a:loading:847706744741691402> Adding Emotes...",
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var errored = new List<string>();
             var emotes = new List<string>();
@@ -312,7 +313,7 @@ namespace Mewdeko.Modules.ServerManagement
             }
 
             var b = new EmbedBuilder();
-            b.Color = Mewdeko.OkColor;
+            b.Color = Mewdeko.Services.Mewdeko.OkColor;
             if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
             if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
             await msg.ModifyAsync(x => { x.Embed = b.Build(); });
@@ -331,7 +332,7 @@ namespace Mewdeko.Modules.ServerManagement
             var eb = new EmbedBuilder
             {
                 Description = $"<a:loading:847706744741691402> Adding Emotes to {role.Mention}...",
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var list = new Optional<IEnumerable<IRole>>(new[] { role });
             var errored = new List<string>();
@@ -365,7 +366,7 @@ namespace Mewdeko.Modules.ServerManagement
             }
 
             var b = new EmbedBuilder();
-            b.Color = Mewdeko.OkColor;
+            b.Color = Mewdeko.Services.Mewdeko.OkColor;
             if (emotes.Any())
                 b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
             if (errored.Any()) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));

@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Modules.Music
+﻿namespace Mewdeko.Modules.Music.Common
 {
     public interface IQueuedTrackInfo : ITrackInfo
     {

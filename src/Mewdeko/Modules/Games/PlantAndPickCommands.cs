@@ -4,13 +4,15 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Services;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Games

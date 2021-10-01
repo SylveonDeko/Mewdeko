@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 
 namespace Mewdeko.Modules.Utility.Services
@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Utility.Services
         private readonly HelpService _hs;
         private readonly ConcurrentHashSet<ulong> guildsEnabled;
 
-        public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch, HelpService hs)
+        public VerboseErrorsService(Mewdeko.Services.Mewdeko bot, DbService db, CommandHandler ch, HelpService hs)
         {
             _db = db;
             _ch = ch;

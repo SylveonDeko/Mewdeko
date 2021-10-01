@@ -1,12 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
 using Microsoft.EntityFrameworkCore;
-using Mewdeko.Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.TypeReaders;

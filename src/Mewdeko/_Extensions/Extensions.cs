@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AngleSharp.Css.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.Rest;
@@ -16,13 +15,13 @@ using Discord.WebSocket;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services;
-using Mewdeko.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Services;
+using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
-using Scrutor;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing;
@@ -33,7 +32,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class Extensions
     {
@@ -71,17 +70,6 @@ namespace Mewdeko.Extensions
                 : plainText?.SanitizeMentions() ?? "";
 
             return channel.SendMessageAsync(plainText, embed: embed);
-        }
-
-        public static Task<IUserMessage> SendAsync(this IMessageChannel channel, SmartText text,
-            bool sanitizeAll = false)
-        {
-            return text switch
-            {
-                SmartEmbedText set => channel.SendAsync(set.PlainText, set.GetEmbed().Build(), sanitizeAll),
-                SmartPlainText st => channel.SendAsync(st.Text, null, sanitizeAll),
-                _ => throw new ArgumentOutOfRangeException(nameof(text))
-            };
         }
 
 
@@ -239,22 +227,22 @@ namespace Mewdeko.Extensions
 
         public static EmbedBuilder WithOkColor(this EmbedBuilder eb)
         {
-            return eb.WithColor(Mewdeko.OkColor);
+            return eb.WithColor(Services.Mewdeko.OkColor);
         }
 
         public static EmbedBuilder WithErrorColor(this EmbedBuilder eb)
         {
-            return eb.WithColor(Mewdeko.ErrorColor);
+            return eb.WithColor(Services.Mewdeko.ErrorColor);
         }
 
         public static PageBuilder WithOkColor(this PageBuilder eb)
         {
-            return eb.WithColor(Mewdeko.OkColor);
+            return eb.WithColor(Services.Mewdeko.OkColor);
         }
 
         public static PageBuilder WithErrorColor(this PageBuilder eb)
         {
-            return eb.WithColor(Mewdeko.ErrorColor);
+            return eb.WithColor(Services.Mewdeko.ErrorColor);
         }
 
         public static HttpClient AddFakeHeaders(this HttpClient http)

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
 using Mewdeko.Services.Database;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Core.Modules.Gambling.Services
+namespace Mewdeko.Modules.Gambling.Services.Impl
 {
     public class ShopService : IShopService
     {

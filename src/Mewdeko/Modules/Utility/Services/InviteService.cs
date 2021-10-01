@@ -1,8 +1,8 @@
 ﻿using CommandLine;
-using Mewdeko.Core.Common;
+using Mewdeko.Common;
 using Mewdeko.Services;
 
-namespace Mewdeko.Core.Modules.Utility.Services
+namespace Mewdeko.Modules.Utility.Services
 {
     public class InviteService : INService
     {

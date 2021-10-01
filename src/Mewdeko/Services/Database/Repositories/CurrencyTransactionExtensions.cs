@@ -3,7 +3,7 @@ using System.Linq;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Services.Database
+namespace Mewdeko.Services.Database.Repositories
 {
     public static class CurrencyTransactionExtensions
     {

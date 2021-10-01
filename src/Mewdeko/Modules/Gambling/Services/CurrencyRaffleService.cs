@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Services;
 
-namespace Mewdeko.Core.Modules.Gambling.Services
+namespace Mewdeko.Modules.Gambling.Services
 {
     public class CurrencyRaffleService : INService
     {

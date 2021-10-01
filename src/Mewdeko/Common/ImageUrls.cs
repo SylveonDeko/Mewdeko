@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common
 {
     public class ImageUrls
     {

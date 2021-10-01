@@ -4,11 +4,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Modules.Administration.Services;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
+using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
 {
@@ -174,7 +177,7 @@ namespace Mewdeko.Modules.Administration
                         rolesStr.AppendLine();
                     }
 
-                    return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
+                    return Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                         .WithTitle(Format.Bold(GetText("self_assign_list", roles.Count())))
                         .WithDescription(rolesStr.ToString())
                         .WithFooter(exclusive

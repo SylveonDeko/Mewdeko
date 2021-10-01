@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Moderation.Services

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Discord
+namespace Mewdeko.Common.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class UserPermAttribute : PreconditionAttribute

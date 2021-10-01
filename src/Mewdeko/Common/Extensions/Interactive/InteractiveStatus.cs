@@ -1,4 +1,6 @@
-namespace Mewdeko.Interactive
+using Mewdeko.Common.Extensions.Interactive.Entities;
+
+namespace Mewdeko.Common.Extensions.Interactive
 {
     /// <summary>
     ///     Specifies the possible status of an <see cref="IInteractiveResult" />.

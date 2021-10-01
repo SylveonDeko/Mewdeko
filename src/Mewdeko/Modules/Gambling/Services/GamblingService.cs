@@ -5,11 +5,10 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Services;
-using Mewdeko.Modules.Gambling.Common.Connect4;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
+using Mewdeko.Modules.Gambling.Connect4;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
@@ -18,7 +17,7 @@ namespace Mewdeko.Modules.Gambling.Services
 {
     public class GamblingService : INService
     {
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
         private readonly ICurrencyService _cs;
@@ -27,7 +26,7 @@ namespace Mewdeko.Modules.Gambling.Services
         private readonly Timer _decayTimer;
         private readonly GamblingConfigService _gss;
 
-        public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs,
+        public GamblingService(DbService db, Mewdeko.Services.Mewdeko bot, ICurrencyService cs,
             DiscordSocketClient client, IDataCache cache, GamblingConfigService gss)
         {
             _db = db;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 
 namespace Mewdeko.Services.Database.Models
 {

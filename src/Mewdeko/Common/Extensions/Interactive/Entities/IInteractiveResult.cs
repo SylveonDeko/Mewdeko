@@ -1,6 +1,6 @@
 using System;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities
 {
     /// <summary>
     ///     Represents a result from an interactive action.

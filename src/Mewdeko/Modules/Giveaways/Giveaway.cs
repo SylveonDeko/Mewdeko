@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Humanizer;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Services;
-using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Giveaways.Services;
+using Mewdeko.Services;
 
-namespace Mewdeko.Core.Modules.Giveaways
+namespace Mewdeko.Modules.Giveaways
 {
     public class Giveaways : MewdekoModule<GiveawayService>
     {
@@ -39,7 +35,7 @@ namespace Mewdeko.Core.Modules.Giveaways
         {
             var eb = new EmbedBuilder()
             {
-                Color = Mewdeko.OkColor,
+                Color = Mewdeko.Services.Mewdeko.OkColor,
                 Title = "Mewdeko Giveaway!",
                 Description =
                     $"Prize: {item}\nWinners: 1\nEnd Time: {ts.Humanize()}\nHost: {await ctx.Guild.GetUserAsync(host)}\n\n\nReact to <:Nekoha_nom:866616296291172353> to enter!",
@@ -50,7 +46,7 @@ namespace Mewdeko.Core.Modules.Giveaways
             var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
             await msg.AddReactionAsync(emote);
             var time = DateTime.UtcNow + ts;
-            var rem = new Services.Database.Models.Giveaways
+            var rem = new Mewdeko.Services.Database.Models.Giveaways
             {
                 ChannelId = chan.Id,
                 UserId = host,

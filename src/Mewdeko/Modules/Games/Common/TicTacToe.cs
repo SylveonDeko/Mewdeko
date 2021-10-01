@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Core.Common;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
+using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Games.Common
 {

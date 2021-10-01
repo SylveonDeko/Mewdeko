@@ -5,7 +5,7 @@
 // using System.Threading.Tasks;
 // using System.Linq;
 // using System.Runtime.InteropServices;
-// using Mewdeko.Extensions;
+// using Mewdeko._Extensions;
 // using Mewdeko.Common.Collections;
 // using Mewdeko.Modules.Music.Services;
 // using Mewdeko.Services;

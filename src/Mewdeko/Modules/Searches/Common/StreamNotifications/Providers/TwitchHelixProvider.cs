@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
+﻿namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
 {
     // public class TwitchProvider : IProvider
     // {

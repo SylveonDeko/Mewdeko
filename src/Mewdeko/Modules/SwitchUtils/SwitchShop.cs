@@ -1,5 +1,5 @@
 ﻿// using System;
-// using Mewdeko.Extensions;
+// using Mewdeko._Extensions;
 // using System.Linq;
 // using Discord;
 // using System.Text.RegularExpressions;

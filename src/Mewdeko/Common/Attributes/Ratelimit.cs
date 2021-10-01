@@ -4,7 +4,7 @@ using Discord.Commands;
 using Mewdeko.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mewdeko.Core.Common.Attributes
+namespace Mewdeko.Common.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class RatelimitAttribute : PreconditionAttribute

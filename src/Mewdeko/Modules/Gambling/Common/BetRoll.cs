@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Mewdeko.Core.Modules.Gambling.Common
+namespace Mewdeko.Modules.Gambling.Common
 {
     public class Betroll
     {

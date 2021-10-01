@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Modules.Gambling.Common
+namespace Mewdeko.Modules.Gambling.Common.Events
 {
     public interface ICurrencyEvent
     {

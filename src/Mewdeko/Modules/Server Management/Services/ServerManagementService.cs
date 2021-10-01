@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
-namespace Mewdeko.Modules.ServerManagement.Services
+namespace Mewdeko.Modules.Server_Management.Services
 {
     public class ServerManagementService : INService
     {
@@ -17,13 +17,13 @@ namespace Mewdeko.Modules.ServerManagement.Services
             new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
                 attachFiles: PermValue.Deny, viewChannel: PermValue.Deny);
 
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly DbService _db;
         public DiscordSocketClient _client;
 
         public CommandContext ctx;
 
-        public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko bot)
+        public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _client = client;
             _db = db;

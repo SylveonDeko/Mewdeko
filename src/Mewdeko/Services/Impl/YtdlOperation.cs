@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 using Serilog;
 
 namespace Mewdeko.Services.Impl

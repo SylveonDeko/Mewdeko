@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Modules.Administration.Services;
+using Mewdeko.Modules.Administration.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -106,7 +107,7 @@ namespace Mewdeko.Modules.Administration
                     .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
                         "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
                         "System.Threading.Tasks", "Discord.Net", "Discord", "Discord.WebSocket", "Mewdeko.Modules",
-                        "Mewdeko.Services", "Mewdeko.Extensions", "Mewdeko.Modules.Administration",
+                        "Mewdeko.Services", "Mewdeko._Extensions", "Mewdeko.Modules.Administration",
                         "Mewdeko.Modules.CustomReactions", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
                         "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.NSFW",
                         "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.ServerManagement")

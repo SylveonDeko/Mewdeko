@@ -9,12 +9,13 @@ using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.ServerManagement.Services;
+using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Modules.Server_Management.Services;
 
-namespace Mewdeko.Modules.ServerManagement
+namespace Mewdeko.Modules.Server_Management
 {
     public partial class ServerManagement
     {
@@ -48,7 +49,7 @@ namespace Mewdeko.Modules.ServerManagement
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description =
                         $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories!!"
                 };
@@ -79,7 +80,7 @@ namespace Mewdeko.Modules.ServerManagement
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description =
                         $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels!"
                 };
@@ -110,7 +111,7 @@ namespace Mewdeko.Modules.ServerManagement
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description =
                         $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count()} Categories!"
                 };
@@ -168,7 +169,7 @@ namespace Mewdeko.Modules.ServerManagement
                     var newemb = new EmbedBuilder
                     {
                         Description = $"Succesfully deleted {roles.Count()} roles!",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = newemb.Build());
                 }
@@ -194,7 +195,7 @@ namespace Mewdeko.Modules.ServerManagement
 
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.OkColor,
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description = "Are you sure you want to stop this job?"
                 };
                 eb.AddField(list.JobType,
@@ -242,7 +243,7 @@ namespace Mewdeko.Modules.ServerManagement
                 var eb = new EmbedBuilder
                 {
                     Title = $"{list.Count} Mass Role Operations Running",
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 foreach (var i in list)
                 {

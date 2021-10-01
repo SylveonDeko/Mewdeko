@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class IEnumerableExtensions
     {

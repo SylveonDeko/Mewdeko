@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Suggestions.Services
@@ -21,7 +21,7 @@ namespace Mewdeko.Modules.Suggestions.Services
 
         public CommandHandler CmdHandler;
 
-        public SuggestionsService(DbService db, Mewdeko bot, CommandHandler cmd, DiscordSocketClient client,
+        public SuggestionsService(DbService db, Mewdeko.Services.Mewdeko bot, CommandHandler cmd, DiscordSocketClient client,
             AdministrationService aserv)
         {
             adminserv = aserv;

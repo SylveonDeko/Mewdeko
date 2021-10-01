@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services
@@ -21,7 +21,7 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly LogCommandService _logService;
         private readonly DiscordSocketClient client;
 
-        public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
+        public AdministrationService(Mewdeko.Services.Mewdeko bot, CommandHandler cmdHandler, DbService db,
             LogCommandService logService, DiscordSocketClient _client)
         {
             client = _client;

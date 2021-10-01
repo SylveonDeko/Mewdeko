@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Mewdeko.Core.Common.Pokemon;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
+using Mewdeko.Common.Pokemon;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
 using Serilog;

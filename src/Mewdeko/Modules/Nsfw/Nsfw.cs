@@ -8,12 +8,14 @@ using Discord;
 using Discord.Commands;
 using KSoftNet;
 using KSoftNet.Enums;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
 using Newtonsoft.Json.Linq;
@@ -21,7 +23,7 @@ using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Serilog;
 
-namespace Mewdeko.Modules.NSFW
+namespace Mewdeko.Modules.Nsfw
 {
     // thanks to halitalf for adding autoboob and autobutt features :D
     public class NSFW : MewdekoModule<SearchesService>
@@ -121,7 +123,7 @@ namespace Mewdeko.Modules.NSFW
                 {
                     Description = $"[{image.Title}]({image.Source})",
                     ImageUrl = image.ImageUrl,
-                    Color = Mewdeko.OkColor
+                    Color = Services.Mewdeko.OkColor
                 };
                 await ctx.Channel.SendMessageAsync("", embed: eb.Build());
             }

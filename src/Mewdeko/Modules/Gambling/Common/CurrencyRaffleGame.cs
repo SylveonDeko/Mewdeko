@@ -3,7 +3,7 @@ using System.Linq;
 using Discord;
 using Mewdeko.Common;
 
-namespace Mewdeko.Core.Modules.Gambling.Common
+namespace Mewdeko.Modules.Gambling.Common
 {
     public class CurrencyRaffleGame
     {

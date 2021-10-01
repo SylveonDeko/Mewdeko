@@ -12,14 +12,15 @@ using Discord.Commands;
 using Discord.WebSocket;
 using KSoftNet;
 using KSoftNet.Enums;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Modules.Searches.Common;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
@@ -122,7 +123,7 @@ namespace Mewdeko.Modules.Searches
             {
                 Description = $"{ctx.User.Mention} hugged {user.Mention}",
                 ImageUrl = gifs[index],
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -193,7 +194,7 @@ namespace Mewdeko.Modules.Searches
             {
                 Description = $"{ctx.User.Mention} kissed {user.Mention}",
                 ImageUrl = gifs[index],
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -235,7 +236,7 @@ namespace Mewdeko.Modules.Searches
             {
                 Description = $"{ctx.User.Mention} gave pattus to {user.Mention}",
                 ImageUrl = patarray[index],
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -268,7 +269,7 @@ namespace Mewdeko.Modules.Searches
             {
                 Description = $"{ctx.User.Mention} shot {user.Mention}",
                 ImageUrl = shootarray[index],
-                Color = Mewdeko.ErrorColor
+                Color = Mewdeko.Services.Mewdeko.ErrorColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -297,7 +298,7 @@ namespace Mewdeko.Modules.Searches
                         $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
                 },
                 ImageUrl = image.ImageUrl,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await msg.ModifyAsync(x => x.Embed = em.Build());
         }
@@ -322,7 +323,7 @@ namespace Mewdeko.Modules.Searches
                         $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
                 },
                 ImageUrl = image.ImageUrl,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -339,7 +340,7 @@ namespace Mewdeko.Modules.Searches
                 var emt = new EmbedBuilder
                 {
                     Description = "This subreddit is nsfw!",
-                    Color = Mewdeko.ErrorColor
+                    Color = Mewdeko.Services.Mewdeko.ErrorColor
                 };
                 await msg.ModifyAsync(x => x.Embed = emt.Build());
                 return;
@@ -360,7 +361,7 @@ namespace Mewdeko.Modules.Searches
                     Text = $"{image.Upvotes} Upvotes! | {image.Subreddit} Powered by KSoft.si"
                 },
                 ImageUrl = image.ImageUrl,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await msg.ModifyAsync(x => x.Embed = em.Build());
         }
@@ -766,7 +767,7 @@ namespace Mewdeko.Modules.Searches
                 }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                    .WithColor(Mewdeko.OkColor)
+                    .WithColor(Mewdeko.Services.Mewdeko.OkColor)
                     .AddField(efb => efb.WithName(GetText("original_url"))
                         .WithValue($"<{query}>"))
                     .AddField(efb => efb.WithName(GetText("short_url"))

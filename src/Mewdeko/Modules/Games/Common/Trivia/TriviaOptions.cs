@@ -1,7 +1,7 @@
 ﻿using CommandLine;
-using Mewdeko.Core.Common;
+using Mewdeko.Common;
 
-namespace Mewdeko.Core.Modules.Games.Common.Trivia
+namespace Mewdeko.Modules.Games.Common.Trivia
 {
     public class TriviaOptions : IMewdekoCommandOptions
     {

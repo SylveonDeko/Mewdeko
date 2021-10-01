@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Modules.Gambling.Common.Waifu
+﻿namespace Mewdeko.Modules.Gambling.Common.Waifu
 {
     public enum AffinityTitle
     {

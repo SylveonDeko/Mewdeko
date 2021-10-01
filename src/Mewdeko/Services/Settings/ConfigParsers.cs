@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Settings
 {
     /// <summary>
     ///     Custom setting value parsers for types which don't have them by default

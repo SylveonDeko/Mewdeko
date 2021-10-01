@@ -3,9 +3,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Xp.Services
 {

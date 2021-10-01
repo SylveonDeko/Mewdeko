@@ -11,10 +11,13 @@ using Anilist4Net.Enums;
 using Discord;
 using Discord.Commands;
 using JikanDotNet;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Searches.Services;
 using Newtonsoft.Json;
 
@@ -69,7 +72,7 @@ namespace Mewdeko.Modules.Searches
                     var eb = new EmbedBuilder
                     {
                         ImageUrl = image.CoverImageLarge,
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     var te = string.Empty;
                     if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
@@ -114,7 +117,7 @@ namespace Mewdeko.Modules.Searches
                 eb.AddField("Native Name", te.NativeName);
                 eb.AddField("Description/Backstory", desc);
                 eb.ImageUrl = te.ImageLarge;
-                eb.Color = Mewdeko.OkColor;
+                eb.Color = Mewdeko.Services.Mewdeko.OkColor;
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
             }
 
@@ -320,7 +323,7 @@ namespace Mewdeko.Modules.Searches
                 eb.AddField("Mean Score", result.MeanScore, true);
                 eb.AddField("Is this NSFW?", result.IsAdult, true);
                 eb.Title = $"{result.EnglishTitle}";
-                eb.Color = Mewdeko.OkColor;
+                eb.Color = Mewdeko.Services.Mewdeko.OkColor;
                 eb.WithUrl(result.SiteUrl);
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
             }
@@ -358,7 +361,7 @@ namespace Mewdeko.Modules.Searches
                         .AddField("Url", Result.Results.Skip(page).FirstOrDefault().URL)
                         .WithDescription(Result.Results.Skip(page).FirstOrDefault().Description)
                         .WithImageUrl(Result.Results.Skip(page).FirstOrDefault().ImageURL)
-                        .WithColor(Mewdeko.OkColor));
+                        .WithColor(Mewdeko.Services.Mewdeko.OkColor));
                 }
             }
         }

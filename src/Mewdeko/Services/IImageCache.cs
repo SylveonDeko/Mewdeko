@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Mewdeko.Core.Common;
+using Mewdeko.Common;
 
 namespace Mewdeko.Services
 {

@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Mewdeko.Core.Modules.Music;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services.Impl;
-using Mewdeko.Extensions;
 using Newtonsoft.Json.Linq;
 
 #nullable enable
-namespace Mewdeko.Modules.Music.Resolvers
+namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
 {
     public sealed class SoundcloudResolver : ISoundcloudResolver
     {

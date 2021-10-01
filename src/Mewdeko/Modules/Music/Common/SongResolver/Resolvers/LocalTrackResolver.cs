@@ -5,12 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mewdeko.Core.Modules.Music;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Serilog;
 
 #nullable enable
-namespace Mewdeko.Modules.Music.Resolvers
+namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
 {
     public sealed class LocalTrackResolver : ILocalTrackResolver
     {

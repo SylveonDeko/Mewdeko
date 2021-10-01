@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Discord.Net;
 using Discord.WebSocket;
 using LinqToDB;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Administration.Services
                 SingleWriter = false
             });
 
-        public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
+        public AutoAssignRoleService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, DbService db)
         {
             _client = client;
             _db = db;

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive.Pagination
+namespace Mewdeko.Common.Extensions.Interactive.Pagination.Lazy
 {
     /// <summary>
     ///     Represents a lazy paginator.
