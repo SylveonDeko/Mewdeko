@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Common.TypeReaders.Models;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -23,12 +23,12 @@ namespace Mewdeko.Modules.Moderation.Services
     public class UserPunishService : INService
     {
         private readonly BlacklistService _blacklistService;
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly DbService _db;
         private readonly MuteService _mute;
         private readonly Timer _warnExpiryTimer;
 
-        public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService, Mewdeko bot)
+        public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService, Mewdeko.Services.Mewdeko bot)
         {
             _warnlogchannelids = bot.AllGuildConfigs
                 .Where(x => x.WarnlogChannelId != 0)
@@ -466,7 +466,7 @@ WHERE GuildId={guildId}
             {
                 template = JsonConvert.SerializeObject(new
                 {
-                    color = Mewdeko.ErrorColor.RawValue,
+                    color = Mewdeko.Services.Mewdeko.ErrorColor.RawValue,
                     description = defaultMessage
                 });
 
@@ -487,7 +487,7 @@ WHERE GuildId={guildId}
             {
                 template = JsonConvert.SerializeObject(new
                 {
-                    color = Mewdeko.ErrorColor.RawValue,
+                    color = Mewdeko.Services.Mewdeko.ErrorColor.RawValue,
                     description = replacer.Replace(template)
                 });
 

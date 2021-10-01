@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Mewdeko.Core.Common.TypeReaders.Models
+namespace Mewdeko.Common.TypeReaders.Models
 {
     public class StoopidTime
     {

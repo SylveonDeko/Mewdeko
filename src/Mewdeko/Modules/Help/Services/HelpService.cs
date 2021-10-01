@@ -6,12 +6,14 @@ using CommandLine;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Services.Settings;
+using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Help.Services
 {
@@ -187,7 +189,7 @@ namespace Mewdeko.Modules.Help.Services
                     .WithIsInline(false))
                 .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
                 .WithImageUrl(com.GetCommandImage(_strings, guild?.Id, prefix))
-                .WithColor(Mewdeko.OkColor);
+                .WithColor(Mewdeko.Services.Mewdeko.OkColor);
 
             var opt = ((MewdekoOptionsAttribute)com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
                 ?.OptionType;

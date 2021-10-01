@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive.Pagination
+namespace Mewdeko.Common.Extensions.Interactive.Pagination
 {
     /// <summary>
     ///     Represents an abstract immutable paginator.

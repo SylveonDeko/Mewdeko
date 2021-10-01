@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Services.Database;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Impl
 {
     public class CurrencyService : ICurrencyService
     {

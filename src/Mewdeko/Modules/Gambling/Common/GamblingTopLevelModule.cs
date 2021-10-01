@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Core.Modules.Gambling.Services;
-using Mewdeko.Modules;
+using Mewdeko.Common;
+using Mewdeko.Modules.Gambling.Services;
 
-namespace Mewdeko.Core.Modules.Gambling.Common
+namespace Mewdeko.Modules.Gambling.Common
 {
     public abstract class GamblingModule<TService> : MewdekoModule<TService>
     {

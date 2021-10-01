@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Discord.Net;
 using Serilog;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common
 {
     public class LoginErrorHandler
     {

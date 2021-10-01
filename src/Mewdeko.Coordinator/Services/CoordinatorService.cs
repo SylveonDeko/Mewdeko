@@ -2,8 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Mewdeko.Coordinator.Shared;
 
-namespace Mewdeko.Coordinator
+namespace Mewdeko.Coordinator.Services
 {
     public sealed class CoordinatorService : Coordinator.CoordinatorBase
     {

@@ -1,8 +1,9 @@
 ﻿#nullable enable
 using System;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common
 {
     public interface ITrackInfo
     {

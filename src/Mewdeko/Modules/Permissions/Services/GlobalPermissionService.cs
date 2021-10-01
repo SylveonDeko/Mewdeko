@@ -4,6 +4,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services;
+using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Permissions.Services
 {

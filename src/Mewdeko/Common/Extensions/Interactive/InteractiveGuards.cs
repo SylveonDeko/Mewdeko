@@ -1,7 +1,7 @@
 using System;
 using Discord;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive
 {
     internal static class InteractiveGuards
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Modules.Xp;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Core.Modules.Administration.Services
+namespace Mewdeko.Modules.Administration.Services
 {
     public class SelfAssignedRolesService : INService
     {

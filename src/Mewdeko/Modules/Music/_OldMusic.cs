@@ -7,7 +7,7 @@
 // using Mewdeko.Services;
 // using Mewdeko.Services.Database.Models;
 // using Mewdeko.Services.Impl;
-// using Mewdeko.Extensions;
+// using Mewdeko._Extensions;
 // using Mewdeko.Modules.Administration.Services;
 // using Mewdeko.Modules.Music.Common;
 // using Mewdeko.Modules.Music.Common.Exceptions;

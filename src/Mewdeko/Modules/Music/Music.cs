@@ -7,18 +7,21 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using KSoftNet;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
-using Mewdeko.Modules;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Music.Common;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Services.Database.Models;
 using SpotifyAPI.Web;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music
 {
     public sealed partial class Music : MewdekoModule<IMusicService>
     {
@@ -182,7 +185,7 @@ namespace Mewdeko.Core.Modules.Music
                     Text = "Spotify Playlist"
                 },
                 ImageUrl = playlist.Images.FirstOrDefault().Url,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
             foreach (var item in playlist.Tracks.Items.Take(100))
@@ -196,7 +199,7 @@ namespace Mewdeko.Core.Modules.Music
                     $"<a:checkfragutil:854536148411744276> Succesfully queued {songs} Tracks from this album!",
                 Footer = embed.Footer,
                 ImageUrl = embed.ImageUrl,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await msg.ModifyAsync(x => x.Embed = em.Build());
         }
@@ -236,7 +239,7 @@ namespace Mewdeko.Core.Modules.Music
                     Text = "Spotify Album"
                 },
                 ImageUrl = playlist.Images.FirstOrDefault().Url,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
             foreach (var item in playlist.Tracks.Items.Take(100))
@@ -250,7 +253,7 @@ namespace Mewdeko.Core.Modules.Music
                     $"<a:checkfragutil:854536148411744276> Succesfully queued {playlist.TotalTracks} Tracks from this album!",
                 Footer = embed.Footer,
                 ImageUrl = embed.ImageUrl,
-                Color = Mewdeko.OkColor
+                Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await msg.ModifyAsync(x => x.Embed = em.Build());
         }
@@ -1069,7 +1072,7 @@ namespace Mewdeko.Core.Modules.Music
                         "https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
                 .AddField(fb => fb.WithName(GetText("from_position")).WithValue($"#{from + 1}").WithIsInline(true))
                 .AddField(fb => fb.WithName(GetText("to_position")).WithValue($"#{to + 1}").WithIsInline(true))
-                .WithColor(Mewdeko.OkColor);
+                .WithColor(Mewdeko.Services.Mewdeko.OkColor);
 
             if (Uri.IsWellFormedUriString(track.Url, UriKind.Absolute))
                 embed.WithUrl(track.Url);

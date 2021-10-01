@@ -7,10 +7,12 @@ using Discord;
 using Discord.Rest;
 using Discord.Webhook;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Services.Common;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
+using Mewdeko.Services.Settings;
 using Serilog;
 
 namespace Mewdeko.Services

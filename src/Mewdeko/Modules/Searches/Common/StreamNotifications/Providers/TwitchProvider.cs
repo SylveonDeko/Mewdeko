@@ -4,12 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.Database.Models;
 using Newtonsoft.Json;
 using Serilog;
 
 #nullable enable
-namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
 {
     public class TwitchProvider : Provider
     {

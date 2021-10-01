@@ -5,10 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
+using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -16,13 +17,13 @@ namespace Mewdeko.Modules.Administration.Services
 {
     public sealed class PlayingRotateService : INService
     {
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly BotConfigService _bss;
         private readonly DbService _db;
         private readonly Replacer _rep;
         private readonly Timer _t;
 
-        public PlayingRotateService(DiscordSocketClient client, DbService db, Mewdeko bot,
+        public PlayingRotateService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot,
             BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders)
         {
             _db = db;

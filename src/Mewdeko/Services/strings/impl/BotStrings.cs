@@ -3,7 +3,7 @@ using System.Globalization;
 using Serilog;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.strings.impl
 {
     public class BotStrings : IBotStrings
     {

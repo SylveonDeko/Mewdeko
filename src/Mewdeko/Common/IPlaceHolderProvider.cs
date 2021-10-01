@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common
 {
     public interface IPlaceholderProvider
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive
 {
     /// <summary>
     ///     Specifies the type of inputs an interactive element should delete.

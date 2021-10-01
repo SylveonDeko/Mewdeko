@@ -1,7 +1,7 @@
 using System;
 using Discord;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities
 {
     /// <summary>
     ///     Represents a generic result from an interactive action containing a message associated with the action.

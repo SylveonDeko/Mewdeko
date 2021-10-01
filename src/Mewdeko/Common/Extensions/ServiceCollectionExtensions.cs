@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Music;
-using Mewdeko.Modules.Music.Resolvers;
+using Mewdeko.Modules.Help.Services.extractor;
+using Mewdeko.Modules.Music.Common;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
+using Mewdeko.Modules.Music.Common.SongResolver.Resolvers;
 using Mewdeko.Modules.Music.Services;
-using Mewdeko.Services;
+using Mewdeko.Services.Settings;
+using Mewdeko.Services.strings;
+using Mewdeko.Services.strings.impl;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {

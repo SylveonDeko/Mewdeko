@@ -5,9 +5,9 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +38,7 @@ namespace Mewdeko.Modules.Administration.Services
                 SingleWriter = false
             });
 
-        public ProtectionService(DiscordSocketClient client, Mewdeko bot,
+        public ProtectionService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot,
             MuteService mute, DbService db, UserPunishService punishService)
         {
             _client = client;

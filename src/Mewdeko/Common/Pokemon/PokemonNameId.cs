@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Common.Pokemon
+﻿namespace Mewdeko.Common.Pokemon
 {
     public class PokemonNameId
     {

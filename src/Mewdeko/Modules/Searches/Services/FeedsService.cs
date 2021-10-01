@@ -7,9 +7,9 @@ using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Searches.Services
@@ -24,7 +24,7 @@ namespace Mewdeko.Modules.Searches.Services
 
         private readonly ConcurrentDictionary<string, HashSet<FeedSub>> _subs;
 
-        public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
+        public FeedsService(Mewdeko.Services.Mewdeko bot, DbService db, DiscordSocketClient client)
         {
             _db = db;
 

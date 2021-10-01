@@ -6,16 +6,18 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
-using Mewdeko.Core.Common;
+using Mewdeko.Modules.CustomReactions.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.CustomReactions.Extensions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using YamlDotNet.Serialization;
@@ -60,7 +62,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
             .DisableAliases()
             .Build();
 
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly DiscordSocketClient _client;
         private readonly CommandHandler _cmd;
         private readonly TypedKey<bool> _crsReloadedKey = new("crs.reloaded");
@@ -88,7 +90,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
 
         private bool ready;
 
-        public CustomReactionsService(PermissionService perms, DbService db, IBotStrings strings, Mewdeko bot,
+        public CustomReactionsService(PermissionService perms, DbService db, IBotStrings strings, Mewdeko.Services.Mewdeko bot,
             DiscordSocketClient client, CommandHandler cmd, GlobalPermissionService gperm, CmdCdService cmdCds,
             IPubSub pubSub)
         {

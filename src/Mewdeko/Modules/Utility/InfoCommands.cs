@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -92,7 +93,7 @@ namespace Mewdeko.Modules.Utility
                         fb.WithName(GetText("features")).WithValue($"```\n{string.Join("\n", list)}```")
                             .WithIsInline(true))
                     .WithImageUrl($"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=4096")
-                    .WithColor(Mewdeko.OkColor);
+                    .WithColor(Mewdeko.Services.Mewdeko.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                     embed.WithThumbnailUrl(guild.IconUrl);
                 if (guild.Emotes.Any())
@@ -126,7 +127,7 @@ namespace Mewdeko.Modules.Utility
                         fb.WithName(GetText("created_at")).WithValue($"{createdAt:dd.MM.yyyy HH:mm}")
                             .WithIsInline(true))
                     .AddField(fb => fb.WithName(GetText("users")).WithValue(usercount.ToString()).WithIsInline(true))
-                    .WithColor(Mewdeko.OkColor);
+                    .WithColor(Mewdeko.Services.Mewdeko.OkColor);
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
@@ -155,7 +156,7 @@ namespace Mewdeko.Modules.Utility
                     .AddField(fb =>
                         fb.WithName(GetText("joined_discord")).WithValue($"{user.CreatedAt:MM/dd/yyyy HH:mm}")
                             .WithIsInline(true))
-                    .WithColor(Mewdeko.OkColor);
+                    .WithColor(Mewdeko.Services.Mewdeko.OkColor);
                 if (!user.GetRoles().Any())
                     embed.AddField(fb => fb.WithName(GetText("roles")).WithValue("None"));
                 else

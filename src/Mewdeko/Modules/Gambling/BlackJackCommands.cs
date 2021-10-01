@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Common.Blackjack;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Common;
+using Mewdeko.Modules.Gambling.Common;
+using Mewdeko.Modules.Gambling.Common.Blackjack;
+using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling

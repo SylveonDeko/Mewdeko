@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Modules.Searches.Services
+﻿namespace Mewdeko.Modules.Searches.Services
 {
     // public class YtTrackService : INService
     // {

@@ -1,6 +1,6 @@
 using Discord;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities
 {
     /// <summary>
     ///     Represents a result from an interactive action containing a message associated with the action.

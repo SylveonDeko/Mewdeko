@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
+using Mewdeko.Services.strings.impl;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.strings
 {
     /// <summary>
     ///     Defines methods to retrieve and reload bot strings

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mewdeko.Core.Modules.Searches.Common
+namespace Mewdeko.Modules.Searches.Common
 {
     public class MtgData
     {

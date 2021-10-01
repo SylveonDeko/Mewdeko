@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Mewdeko.Core.Modules.Xp
+namespace Mewdeko.Modules.Xp.Common
 {
     public class XpTemplate
     {

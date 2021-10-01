@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Extensions;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Games.Common.ChatterBot

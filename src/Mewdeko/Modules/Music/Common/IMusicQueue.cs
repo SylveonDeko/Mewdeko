@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common
 {
     public interface IMusicQueue
     {

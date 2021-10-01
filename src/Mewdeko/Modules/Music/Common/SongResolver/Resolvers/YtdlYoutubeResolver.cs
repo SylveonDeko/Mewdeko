@@ -5,12 +5,13 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services;
 using Mewdeko.Services.Impl;
-using Mewdeko.Extensions;
 using Serilog;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
 {
     public sealed class YtdlYoutubeResolver : IYoutubeResolver
     {

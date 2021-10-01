@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -19,7 +19,7 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
         public RoleCommandsService(DiscordSocketClient client, DbService db,
-            Mewdeko bot)
+            Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
             _client = client;

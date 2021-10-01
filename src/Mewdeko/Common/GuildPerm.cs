@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Discord
+namespace Mewdeko.Common
 {
     // just a copy paste from discord.net in order to rename it, for compatibility iwth v3 which is gonna use custom lib
 

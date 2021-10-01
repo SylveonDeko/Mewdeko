@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed class CachableTrackData : ICachableTrackData
     {

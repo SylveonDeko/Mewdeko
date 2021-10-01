@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Mewdeko.Core.Modules.Music.Common
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed class MultimediaTimer : IDisposable
     {

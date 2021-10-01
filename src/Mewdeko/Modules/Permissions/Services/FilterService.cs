@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -22,7 +22,7 @@ namespace Mewdeko.Modules.Permissions.Services
 {
     public class FilterService : IEarlyBehavior, INService
     {
-        private readonly Mewdeko _bot;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly CultureInfo _CultureInfo = new("en-US");
         private readonly DbService _db;
         private readonly IPubSub _pubSub;
@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Permissions.Services
         public AdministrationService ASS;
         public UserPunishService upun;
 
-        public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot, IPubSub pubSub,
+        public FilterService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot, IPubSub pubSub,
             UserPunishService upun2, IBotStrings strng, AdministrationService ass)
         {
             _db = db;

@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Mewdeko.Interactive.Selection
+namespace Mewdeko.Common.Extensions.Interactive.Selection
 {
     /// <summary>
     ///     Represents the default selection builder.

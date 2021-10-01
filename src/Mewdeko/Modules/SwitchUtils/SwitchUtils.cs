@@ -3,8 +3,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.SwitchUtils.Services;
 
 namespace Mewdeko.Modules.SwitchUtils

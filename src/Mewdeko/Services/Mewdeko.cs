@@ -12,23 +12,25 @@ using Discord.Net;
 using Discord.Rest;
 using Discord.WebSocket;
 using KSoftNet;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
+using Mewdeko.Common.Configs;
+using Mewdeko.Common.Extensions;
+using Mewdeko.Common.Extensions.Interactive;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Common.Configs;
-using Mewdeko.Core.Modules.Gambling.Services;
-using Mewdeko.Services;
-using Mewdeko.Services.Database.Models;
-using Mewdeko.Services.Impl;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.CustomReactions.Services;
+using Mewdeko.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Services.Impl;
+using Mewdeko.Services.Database.Models;
+using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 
-namespace Mewdeko
+namespace Mewdeko.Services
 {
     public class Mewdeko
     {

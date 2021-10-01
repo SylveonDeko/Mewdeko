@@ -1,6 +1,6 @@
 ﻿using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Core.Modules.Searches.Common
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models
 {
     public class StreamData
     {

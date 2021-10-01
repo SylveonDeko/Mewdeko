@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class IMessageChannelExtensions
     {

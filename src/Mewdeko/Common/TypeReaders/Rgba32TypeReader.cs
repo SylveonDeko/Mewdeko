@@ -4,7 +4,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using SixLabors.ImageSharp;
 
-namespace Mewdeko.Core.Common.TypeReaders
+namespace Mewdeko.Common.TypeReaders
 {
     public class Rgba32TypeReader : MewdekoTypeReader<Color>
     {

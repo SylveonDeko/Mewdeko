@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Modules.Searches.Common
+﻿namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models
 {
     //
     // public class TwitchResponse

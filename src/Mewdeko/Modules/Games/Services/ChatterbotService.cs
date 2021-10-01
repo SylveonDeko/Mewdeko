@@ -5,12 +5,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.strings;
 using Serilog;
 
 namespace Mewdeko.Modules.Games.Services
@@ -25,7 +26,7 @@ namespace Mewdeko.Modules.Games.Services
         private readonly IBotStrings _strings;
 
         public ChatterBotService(DiscordSocketClient client, PermissionService perms,
-            Mewdeko bot, CommandHandler cmd, IBotStrings strings, IHttpClientFactory factory,
+            Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IBotStrings strings, IHttpClientFactory factory,
             IBotCredentials creds)
         {
             _client = client;

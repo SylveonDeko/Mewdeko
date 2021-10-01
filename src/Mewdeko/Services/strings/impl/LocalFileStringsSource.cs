@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Serilog;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.strings.impl
 {
     /// <summary>
     ///     Loads strings from the local default filepath <see cref="_responsesPath" />

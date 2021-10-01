@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Discord;
-using Mewdeko.Modules.Gambling.Common;
 
-namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
+namespace Mewdeko.Modules.Gambling.Common.Blackjack
 {
     public abstract class Player
     {

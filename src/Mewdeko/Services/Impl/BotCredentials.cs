@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Discord;
 using Mewdeko.Common;
-using Mewdeko.Core.Common;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;

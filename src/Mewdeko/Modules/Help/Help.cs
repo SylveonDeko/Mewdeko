@@ -9,16 +9,17 @@ using Amazon.S3.Model;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Help.Common;
+using Mewdeko.Modules.Help.Common;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Settings;
+using Mewdeko.Services.strings;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Help
@@ -174,7 +175,7 @@ namespace Mewdeko.Modules.Help
             var embed = new EmbedBuilder();
             embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
                 .WithName("Mewdeko Help Menu"));
-            embed.WithColor(Mewdeko.OkColor);
+            embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
             embed.WithDescription(
                 $"{Prefix}cmds `category` to see whats in that category.\n{Prefix}help `command` to see a description of that command\nYou can also click one of the buttons below to see the full unpaginated list of commands for each category!");
             embed.AddField("<:Nekoha_Oooo:866320687810740234> **Categories**",

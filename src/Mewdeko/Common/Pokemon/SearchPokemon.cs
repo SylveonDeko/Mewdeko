@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Mewdeko.Core.Common.Pokemon
+namespace Mewdeko.Common.Pokemon
 {
     public class SearchPokemon
     {

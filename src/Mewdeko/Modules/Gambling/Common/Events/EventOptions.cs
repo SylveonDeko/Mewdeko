@@ -1,7 +1,7 @@
 ﻿using CommandLine;
-using Mewdeko.Core.Common;
+using Mewdeko.Common;
 
-namespace Mewdeko.Core.Modules.Gambling.Common.Events
+namespace Mewdeko.Modules.Gambling.Common.Events
 {
     public class EventOptions : IMewdekoCommandOptions
     {

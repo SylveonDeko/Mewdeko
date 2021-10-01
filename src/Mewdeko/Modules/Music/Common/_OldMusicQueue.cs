@@ -1,4 +1,4 @@
-﻿// using Mewdeko.Extensions;
+﻿// using Mewdeko._Extensions;
 // using Mewdeko.Modules.Music.Common.Exceptions;
 // using System;
 // using System.Collections.Generic;

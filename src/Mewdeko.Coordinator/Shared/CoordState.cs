@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mewdeko.Coordinator
+namespace Mewdeko.Coordinator.Shared
 {
     public class CoordState
     {

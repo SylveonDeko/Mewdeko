@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Serilog;
 using StackExchange.Redis;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common.PubSub
 {
     public sealed class RedisPubSub : IPubSub
     {

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
-using Mewdeko.Core.Common.Configs;
+using Mewdeko.Common.Configs;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Settings
 {
     public sealed class BotConfigMigrator : IConfigMigrator
     {

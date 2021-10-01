@@ -3,10 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.Database.Models;
 
 #nullable enable
-namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
 {
     /// <summary>
     ///     Abstract class implemented by providers of all supported platforms

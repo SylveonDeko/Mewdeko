@@ -8,18 +8,19 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using KSoftNet;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
+using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Gambling.Services;
+using Mewdeko.Services.Database.Repositories;
 
 namespace Mewdeko.Modules.Gambling
 {

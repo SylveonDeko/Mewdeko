@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class IUserExtensions
     {

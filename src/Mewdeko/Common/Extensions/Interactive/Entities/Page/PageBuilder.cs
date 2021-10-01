@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Discord;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities.Page
 {
     /// <summary>
     ///     Represents a <see cref="Page" /> builder.

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko.Core.Modules.Searches.Common;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Mewdeko.Core.Modules.Searches.Services
+namespace Mewdeko.Modules.Searches.Services
 {
     public class CryptoService : INService
     {

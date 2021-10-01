@@ -3,10 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
@@ -68,7 +71,7 @@ namespace Mewdeko.Modules.Administration
                 Task<PageBuilder> PageFactory(int page)
                 {
                     return Task.FromResult(new PageBuilder()
-                        .WithColor(Mewdeko.OkColor)
+                        .WithColor(Mewdeko.Services.Mewdeko.OkColor)
                         .WithTitle(GetText("timezones_available"))
                         .WithDescription(string.Join("\n", timezoneStrings
                             .Skip(page * timezonesPerPage)

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Discord.Models.Gateway
+namespace Mewdeko.Voice.Models
 {
     public sealed class VoicePayload
     {

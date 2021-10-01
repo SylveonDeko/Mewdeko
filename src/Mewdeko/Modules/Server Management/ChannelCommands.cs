@@ -9,13 +9,13 @@ using Discord;
 using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.ServerManagement.Services;
+using Mewdeko.Modules.Server_Management.Services;
 using Newtonsoft.Json;
 
-namespace Mewdeko.Modules.ServerManagement
+namespace Mewdeko.Modules.Server_Management
 {
     public partial class ServerManagement
     {
@@ -190,7 +190,7 @@ namespace Mewdeko.Modules.ServerManagement
             public async Task Nuke(ITextChannel chan3 = null)
             {
                 var embed = new EmbedBuilder();
-                embed.Color = Mewdeko.ErrorColor;
+                embed.Color = Mewdeko.Services.Mewdeko.ErrorColor;
                 embed.Description =
                     "Are you sure you want to nuke this channel? This will delete the entire channel and remake it.";
                 if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;

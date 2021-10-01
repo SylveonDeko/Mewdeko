@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
 
@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Games
                 return;
 
             var res = _service.GetEightballResponse(question);
-            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.OkColor)
+            await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                 .WithDescription(ctx.User.ToString())
                 .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
                 .AddField("🎱 " + GetText("8ball"), res));

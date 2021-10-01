@@ -1,6 +1,6 @@
 ﻿using Mewdeko.Modules.Xp.Services;
 
-namespace Mewdeko.Modules.Xp
+namespace Mewdeko.Modules.Xp.Common
 {
     public class LevelStats
     {

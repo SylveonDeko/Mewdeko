@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Searches
 {

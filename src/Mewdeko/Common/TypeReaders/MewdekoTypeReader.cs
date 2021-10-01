@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 
-namespace Mewdeko.Core.Common.TypeReaders
+namespace Mewdeko.Common.TypeReaders
 {
     public abstract class MewdekoTypeReader<T> : TypeReader
     {

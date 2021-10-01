@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services;
 using Mewdeko.Modules.Games.Common.ChatterBot;

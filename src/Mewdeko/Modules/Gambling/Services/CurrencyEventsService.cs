@@ -5,11 +5,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Core.Modules.Gambling.Common.Events;
-using Mewdeko.Core.Modules.Gambling.Services;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Gambling.Common;
+using Mewdeko.Modules.Gambling.Common.Events;
 using Newtonsoft.Json;
 using Serilog;
 

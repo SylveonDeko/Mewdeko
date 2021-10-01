@@ -1,8 +1,8 @@
 ﻿using System;
 using Discord;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public static class MusicExtensions
     {

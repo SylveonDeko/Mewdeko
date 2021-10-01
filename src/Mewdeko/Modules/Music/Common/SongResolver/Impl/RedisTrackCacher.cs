@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Serilog;
 using StackExchange.Redis;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed class RedisTrackCacher : ITrackCacher
     {

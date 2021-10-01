@@ -3,8 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko.Common.Extensions.Interactive.Entities;
 
-namespace Mewdeko.Interactive.Pagination
+namespace Mewdeko.Common.Extensions.Interactive.Pagination
 {
     /// <summary>
     ///     Represents an event handler for a paginator.

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Mewdeko.Services.strings.impl;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.strings
 {
     /// <summary>
     ///     Basic interface used for classes implementing strings loading mechanism

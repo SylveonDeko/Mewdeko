@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using Mewdeko.Core.Common.JsonConverters;
+using Mewdeko.Common.JsonConverters;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common.PubSub
 {
     public class JsonSeria : ISeria
     {

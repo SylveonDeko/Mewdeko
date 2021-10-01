@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Web;
 using Discord.WebSocket;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 using StackExchange.Redis;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.strings.impl
 {
     /// <summary>
     ///     Uses <see cref="IStringsSource" /> to load strings into redis hash (only on Shard 0)

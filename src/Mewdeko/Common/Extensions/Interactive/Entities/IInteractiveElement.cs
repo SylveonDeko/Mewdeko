@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive.Entities
 {
     /// <summary>
     ///     Represents an interactive element.
@@ -22,12 +23,12 @@ namespace Mewdeko.Interactive
         /// <summary>
         ///     Gets the <see cref="Page" /> which this element gets modified to after cancellation.
         /// </summary>
-        Page CanceledPage { get; }
+        Page.Page CanceledPage { get; }
 
         /// <summary>
         ///     Gets the <see cref="Page" /> which this element gets modified to after a timeout.
         /// </summary>
-        Page TimeoutPage { get; }
+        Page.Page TimeoutPage { get; }
 
         /// <summary>
         ///     Gets what type of inputs this element should delete.

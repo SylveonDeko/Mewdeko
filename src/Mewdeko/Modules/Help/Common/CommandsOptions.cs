@@ -1,7 +1,7 @@
 ﻿using CommandLine;
-using Mewdeko.Core.Common;
+using Mewdeko.Common;
 
-namespace Mewdeko.Core.Modules.Help.Common
+namespace Mewdeko.Modules.Help.Common
 {
     public class CommandsOptions : IMewdekoCommandOptions
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Services;
 
-namespace Mewdeko.Modules.ServerManagement.Services
+namespace Mewdeko.Modules.Server_Management.Services
 {
     public class RoleCommandsService : INService
     {
@@ -75,7 +75,7 @@ namespace Mewdeko.Modules.ServerManagement.Services
             {
                 Description =
                     $"Stopping Job {jobId}\nTask: {Format.Bold(list1.JobType)}\nProgress: {list1.AddedTo}/{list1.TotalUsers}\nStarted By: {list1.StartedBy.Mention}",
-                Color = Mewdeko.ErrorColor
+                Color = Mewdeko.Services.Mewdeko.ErrorColor
             };
             await ch.SendMessageAsync(embed: eb.Build());
         }

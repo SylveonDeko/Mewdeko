@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Coordinator
+﻿namespace Mewdeko.Coordinator.Shared
 {
     public class JsonStatusObject
     {

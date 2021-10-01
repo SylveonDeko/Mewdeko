@@ -9,10 +9,11 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Core.Common.Configs;
-using Mewdeko.Extensions;
+using Mewdeko.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 

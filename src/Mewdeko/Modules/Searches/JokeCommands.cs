@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
 
 namespace Mewdeko.Modules.Searches

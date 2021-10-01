@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Core.Common.TypeReaders.Models;
+using Mewdeko.Common.TypeReaders.Models;
 
-namespace Mewdeko.Core.Common.TypeReaders
+namespace Mewdeko.Common.TypeReaders
 {
     public class StoopidTimeTypeReader : MewdekoTypeReader<StoopidTime>
     {

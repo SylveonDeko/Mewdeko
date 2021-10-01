@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Mewdeko.Core.Common
+namespace Mewdeko.Common
 {
     public class OsuUserBests
     {

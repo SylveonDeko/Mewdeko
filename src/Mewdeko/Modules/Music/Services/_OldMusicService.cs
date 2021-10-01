@@ -2,7 +2,7 @@
 // using System.Linq;
 // using System.Threading.Tasks;
 // using Discord;
-// using Mewdeko.Extensions;
+// using Mewdeko._Extensions;
 // using Mewdeko.Services.Database.Models;
 // using System.IO;
 // using Discord.Commands;

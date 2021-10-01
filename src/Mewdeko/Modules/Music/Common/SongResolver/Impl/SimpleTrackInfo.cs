@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed class SimpleTrackInfo : ITrackInfo
     {

@@ -6,8 +6,7 @@ using System.Text.RegularExpressions;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Core.Common;
-using Mewdeko.Extensions;
+using Mewdeko._Extensions;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Common.Replacements

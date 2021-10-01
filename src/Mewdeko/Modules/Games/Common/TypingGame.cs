@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Core.Common;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Services;
 using Serilog;
 

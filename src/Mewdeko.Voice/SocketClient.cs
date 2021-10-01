@@ -2,10 +2,9 @@
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko.Voice;
 using Serilog;
 
-namespace Mewdeko.Gateway
+namespace Mewdeko.Voice
 {
     public class SocketClient : IDisposable
     {

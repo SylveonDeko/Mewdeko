@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -14,10 +14,10 @@ namespace Mewdeko.Modules.Utility.Services
     {
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        public Mewdeko _bot;
+        public Mewdeko.Services.Mewdeko _bot;
         public CommandHandler _CmdHandler;
 
-        public StarboardService(DiscordSocketClient client, CommandHandler cmdhandler, DbService db, Mewdeko bot)
+        public StarboardService(DiscordSocketClient client, CommandHandler cmdhandler, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _bot = bot;
             _client = client;
@@ -194,7 +194,7 @@ namespace Mewdeko.Modules.Utility.Services
                             IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, 2048)
                         },
                         Description = $"[Jump to message]({msg.GetJumpUrl()})",
-                        Color = Mewdeko.OkColor,
+                        Color = Mewdeko.Services.Mewdeko.OkColor,
                         Footer = new EmbedFooterBuilder { Text = "Message Posted Date" }
                     };
                     if (msg.Author.IsBot is true && msg.Embeds.Any())
@@ -327,7 +327,7 @@ namespace Mewdeko.Modules.Utility.Services
                             IconUrl = msg.Author.GetAvatarUrl(ImageFormat.Auto, 2048)
                         },
                     Description = $"[Jump to message]({msg.GetJumpUrl()})",
-                    Color = Mewdeko.OkColor,
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
                     Footer = new EmbedFooterBuilder
                     {
                         Text = "Message Posted Date"

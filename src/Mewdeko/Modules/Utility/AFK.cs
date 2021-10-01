@@ -6,12 +6,14 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
@@ -57,18 +59,32 @@ namespace Mewdeko.Modules.Utility
                         "The bot does not have permission to add slash commands!, Please reauthrorize it using the link at https://mewdeko.tech/invite");
                 }
             }
-            
+
             [MewdekoCommand]
             [Usage]
             [Description]
             [Aliases]
             [Priority(0)]
-            public async Task Afk([Remainder] string message)
+            public async Task Afk([Remainder]string message = null)
             {
+                if (message == null)
+                {
+                    var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
+                    if (!afkmsg.Any() || afkmsg.Last() == "")
+                    {
+                        await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
+                        await ctx.Channel.SendConfirmAsync("Afk message enabled!");
+                    }
+                    else
+                    {
+                        await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
+                        await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
+                    }
+                }
                 if (message.Length != 0 && message.Length > _service.GetAfkLength(ctx.Guild.Id))
                 {
                     await ctx.Channel.SendErrorAsync(
-                        $"Thats too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
+                        $"That's too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
                     return;
                 }
 
@@ -401,26 +417,6 @@ namespace Mewdeko.Modules.Utility
                     await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
                     await ctx.Channel.SendConfirmAsync(
                         $"Added {string.Join(",", mentions)} to the list of channels AFK ignores.");
-                }
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [Priority(1)]
-            public async Task Afk()
-            {
-                var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
-                if (!afkmsg.Any() || afkmsg.Last() == "")
-                {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
-                    await ctx.Channel.SendConfirmAsync("Afk message enabled!");
-                }
-                else
-                {
-                    await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
-                    await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
                 }
             }
 

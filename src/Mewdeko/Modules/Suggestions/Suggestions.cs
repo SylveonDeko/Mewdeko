@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Extensions;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions
@@ -221,7 +221,7 @@ namespace Mewdeko.Modules.Suggestions
                     var em = new EmbedBuilder
                     {
                         Description = "Ping on suggest has been disabled.",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await _service.SetSuggestionRole(ctx.Guild, 0);
                     await ctx.Message.ReplyAsync(embed: em.Build());
@@ -233,7 +233,7 @@ namespace Mewdeko.Modules.Suggestions
                     var em = new EmbedBuilder
                     {
                         Description = "This is already your suggestion ping!",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await ctx.Message.ReplyAsync(embed: em.Build());
                     return;
@@ -247,7 +247,7 @@ namespace Mewdeko.Modules.Suggestions
                     var em = new EmbedBuilder
                     {
                         Description = $"Switched the suggestion role from {oldrole.Mention} to {name.Mention}.",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await ctx.Message.ReplyAsync(embed: em.Build());
                     return;
@@ -258,7 +258,7 @@ namespace Mewdeko.Modules.Suggestions
                     var em = new EmbedBuilder
                     {
                         Description = $"Ping on suggest has been set to ping {name.Mention}.",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await _service.SetSuggestionRole(ctx.Guild, name.Id);
                     await ctx.Message.ReplyAsync(embed: em.Build());

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services.Common
 {
     public class GreetGrouper<T>
     {

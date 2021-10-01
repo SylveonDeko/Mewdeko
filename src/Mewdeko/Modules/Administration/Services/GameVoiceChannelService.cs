@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services
@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         private readonly DbService _db;
 
-        public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko bot)
+        public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
             _client = client;

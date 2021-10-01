@@ -8,14 +8,13 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko.Voice;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Modules.Music;
+using Mewdeko.Voice;
 using Serilog;
 
-namespace Mewdeko.Core.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed class MusicPlayer : IMusicPlayer
     {

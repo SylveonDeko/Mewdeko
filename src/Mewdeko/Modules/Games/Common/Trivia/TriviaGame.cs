@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko.Core.Modules.Games.Common.Trivia;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
-using Mewdeko.Extensions;
+using Mewdeko.Services.strings;
 using Serilog;
 
 namespace Mewdeko.Modules.Games.Common.Trivia

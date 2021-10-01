@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Mewdeko.Common.Yml;
 using Newtonsoft.Json;
 
-namespace Mewdeko.Extensions
+namespace Mewdeko._Extensions
 {
     public static class StringExtensions
     {

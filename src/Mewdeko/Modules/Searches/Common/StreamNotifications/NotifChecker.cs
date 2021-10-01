@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Mewdeko.Core.Modules.Searches.Common.StreamNotifications.Providers;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 using Mewdeko.Services.Database.Models;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 
 #nullable enable
-namespace Mewdeko.Core.Modules.Searches.Common.StreamNotifications
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications
 {
     public class NotifChecker
     {

@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Common
+﻿namespace Mewdeko.Common.PubSub
 {
     public readonly struct TypedKey<TData>
     {

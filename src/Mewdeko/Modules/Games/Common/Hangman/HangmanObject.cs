@@ -1,4 +1,4 @@
-﻿using Mewdeko.Extensions;
+﻿using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Games.Common.Hangman
 {

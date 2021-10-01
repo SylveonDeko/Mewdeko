@@ -4,7 +4,7 @@ using Mewdeko.Voice;
 using Mewdeko.Voice.Models;
 using Serilog;
 
-namespace Mewdeko.Modules.Music
+namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {
     public sealed class VoiceProxy : IVoiceProxy
     {

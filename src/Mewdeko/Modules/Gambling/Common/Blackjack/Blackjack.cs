@@ -5,10 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Services;
-using Mewdeko.Modules.Gambling.Common;
 using Serilog;
 
-namespace Mewdeko.Core.Modules.Gambling.Common.Blackjack
+namespace Mewdeko.Modules.Gambling.Common.Blackjack
 {
     public class Blackjack
     {

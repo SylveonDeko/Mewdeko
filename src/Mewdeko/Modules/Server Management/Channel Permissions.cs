@@ -1,18 +1,14 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBotsList.Api;
-using Google.Apis.Auth.OAuth2;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Common.TypeReaders;
-using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
 using PermValue = Discord.PermValue;
 
-namespace Mewdeko.Modules.ServerManagement
+namespace Mewdeko.Modules.Server_Management
 {
     public partial class ServerManagement
     {

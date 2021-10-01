@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Core.Common.Configs
+﻿namespace Mewdeko.Common.Configs
 {
     /// <summary>
     ///     Base interface for available config serializers

@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
-using Mewdeko.Core.Modules.Xp;
+using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
-using Mewdeko.Extensions;
+using Mewdeko.Services.strings;
 using Newtonsoft.Json;
 using Serilog;
 using SixLabors.Fonts;
@@ -57,7 +58,7 @@ namespace Mewdeko.Modules.Xp.Services
         private readonly Task updateXpTask;
         private XpTemplate _template;
 
-        public XpService(DiscordSocketClient client, CommandHandler cmd, Mewdeko bot, DbService db,
+        public XpService(DiscordSocketClient client, CommandHandler cmd, Mewdeko.Services.Mewdeko bot, DbService db,
             IBotStrings strings, IDataCache cache, FontProvider fonts, IBotCredentials creds,
             ICurrencyService cs, IHttpClientFactory http, XpConfigService xpConfig)
         {

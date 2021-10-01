@@ -3,12 +3,12 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Core.Modules.Gambling.Services;
+using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NCalc;
 
-namespace Mewdeko.Core.Common.TypeReaders
+namespace Mewdeko.Common.TypeReaders
 {
     public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
     {

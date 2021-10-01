@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace Mewdeko.Modules.Music.Services
+namespace Mewdeko.Modules.Help.Services.extractor
 {
     public sealed partial class YtLoader
     {

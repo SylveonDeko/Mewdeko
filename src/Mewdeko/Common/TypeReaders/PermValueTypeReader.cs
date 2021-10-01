@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Core.Common.TypeReaders;
+using Mewdeko.Common.TypeReaders;
 
 namespace Mewdeko.Common.TypeReaders
 {

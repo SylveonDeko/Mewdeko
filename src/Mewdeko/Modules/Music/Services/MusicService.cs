@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 using System.Web;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Core.Modules.Music;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Help.Services.extractor;
+using Mewdeko.Modules.Music.Common;
+using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Database.Repositories.Impl;
-using Mewdeko.Extensions;
+using Mewdeko.Services.strings;
 using Serilog;
 
 namespace Mewdeko.Modules.Music.Services

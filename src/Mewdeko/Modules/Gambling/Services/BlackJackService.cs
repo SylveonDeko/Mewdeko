@@ -1,8 +1,8 @@
 ﻿using System.Collections.Concurrent;
-using Mewdeko.Core.Modules.Gambling.Common.Blackjack;
+using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Services;
 
-namespace Mewdeko.Core.Modules.Gambling.Services
+namespace Mewdeko.Modules.Gambling.Services
 {
     public class BlackJackService : INService
     {

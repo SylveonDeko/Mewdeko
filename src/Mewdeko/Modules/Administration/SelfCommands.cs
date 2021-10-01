@@ -5,15 +5,18 @@ using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services;
+using Mewdeko.Services.strings;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration
@@ -31,13 +34,13 @@ namespace Mewdeko.Modules.Administration
                 Dnd
             }
 
-            private readonly Mewdeko _bot;
+            private readonly Mewdeko.Services.Mewdeko _bot;
             private readonly DiscordSocketClient _client;
             private readonly IBotStrings _strings;
             private readonly InteractiveService Interactivity;
             private readonly ICoordinator _coord;
 
-            public SelfCommands(DiscordSocketClient client, Mewdeko bot, IBotStrings strings, InteractiveService serv, ICoordinator coord)
+            public SelfCommands(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, IBotStrings strings, InteractiveService serv, ICoordinator coord)
             {
                 Interactivity = serv;
                 _client = client;
@@ -344,7 +347,7 @@ namespace Mewdeko.Modules.Administration
                         return Task.FromResult(new PageBuilder()
                             .WithAuthor(a => a.WithName(GetText("shard_stats")))
                             .WithTitle(status)
-                            .WithColor(Mewdeko.OkColor)
+                            .WithColor(Mewdeko.Services.Mewdeko.OkColor)
                             .WithDescription(str));
                     }
                 }

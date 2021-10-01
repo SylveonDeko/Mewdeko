@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Mewdeko.Common;
-using Mewdeko.Core.Modules.Gambling.Common;
 using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling.Common.WheelOfFortune

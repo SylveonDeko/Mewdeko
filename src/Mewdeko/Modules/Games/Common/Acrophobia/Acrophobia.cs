@@ -5,9 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Core.Common;
-using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Games.Common.Acrophobia
 {

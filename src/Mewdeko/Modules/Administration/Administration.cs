@@ -6,11 +6,14 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
 using Humanizer.Localisation;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Core.Common.TypeReaders.Models;
-using Mewdeko.Extensions;
-using Mewdeko.Interactive;
-using Mewdeko.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
@@ -195,7 +198,7 @@ namespace Mewdeko.Modules.Administration
                 var eb = new EmbedBuilder
                 {
                     Description = $"Are you sure you want to prune {toprune} Members?",
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 if (!await PromptUserConfirmAsync(eb))
                 {
@@ -209,7 +212,7 @@ namespace Mewdeko.Modules.Administration
                     var ebi = new EmbedBuilder
                     {
                         Description = $"Pruned {toprune} members.",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = ebi.Build());
                 }
@@ -228,7 +231,7 @@ namespace Mewdeko.Modules.Administration
                 var eb = new EmbedBuilder
                 {
                     Description = $"Are you sure you want to prune {toprune} Members?",
-                    Color = Mewdeko.OkColor
+                    Color = Mewdeko.Services.Mewdeko.OkColor
                 };
                 if (!await PromptUserConfirmAsync(eb))
                 {
@@ -242,7 +245,7 @@ namespace Mewdeko.Modules.Administration
                     var ebi = new EmbedBuilder
                     {
                         Description = $"Pruned {toprune} members.",
-                        Color = Mewdeko.OkColor
+                        Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = ebi.Build());
                 }

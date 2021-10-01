@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Permissions.Services
 
         public int Priority { get; } = 0;
             
-        public CmdCdService(Mewdeko bot)
+        public CmdCdService(Mewdeko.Services.Mewdeko bot)
         {
             CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
                 bot.AllGuildConfigs.ToDictionary(k => k.GuildId, 

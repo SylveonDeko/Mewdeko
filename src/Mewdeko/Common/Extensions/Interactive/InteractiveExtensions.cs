@@ -1,6 +1,7 @@
 using Discord;
+using Mewdeko.Common.Extensions.Interactive.Entities;
 
-namespace Mewdeko.Interactive
+namespace Mewdeko.Common.Extensions.Interactive
 {
     internal static class InteractiveExtensions
     {

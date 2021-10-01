@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using Discord.Models.Gateway;
-using Mewdeko.Gateway;
 using Mewdeko.Voice.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

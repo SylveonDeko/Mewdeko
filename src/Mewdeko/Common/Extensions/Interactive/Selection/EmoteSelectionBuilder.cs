@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Discord;
 
-namespace Mewdeko.Interactive.Selection
+namespace Mewdeko.Common.Extensions.Interactive.Selection
 {
     /// <summary>
     ///     Represents a variant of <see cref="SelectionBuilder{TValue}" /> that allows using emotes as input.
