@@ -29,7 +29,7 @@ namespace Mewdeko.Modules.Games
             [Aliases]
             [UserPerm(GuildPerm.ManageMessages)]
             [RequireContext(ContextType.Guild)]
-            public async Task Poll([Leftover] string arg)
+            public async Task Poll([Remainder] string arg)
             {
                 if (string.IsNullOrWhiteSpace(arg))
                     return;

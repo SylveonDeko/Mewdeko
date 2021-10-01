@@ -19,7 +19,7 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            public async Task Calculate([Leftover] string expression)
+            public async Task Calculate([Remainder] string expression)
             {
                 var expr = new Expression(expression, EvaluateOptions.IgnoreCase | EvaluateOptions.NoCache);
                 expr.EvaluateParameter += Expr_EvaluateParameter;

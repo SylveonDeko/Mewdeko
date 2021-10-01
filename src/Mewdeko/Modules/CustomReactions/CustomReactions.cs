@@ -69,7 +69,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
-        public async Task CrsImport([Leftover] string input = null)
+        public async Task CrsImport([Remainder] string input = null)
         {
             if (!AdminInGuildOrOwnerInDm())
             {
@@ -114,7 +114,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Usage]
         [Description]
         [Aliases]
-        public async Task AddCustReact(string key, [Leftover] string message)
+        public async Task AddCustReact(string key, [Remainder] string message)
         {
             var channel = ctx.Channel as ITextChannel;
             if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -142,7 +142,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Usage]
         [Description]
         [Aliases]
-        public async Task EditCustReact(int id, [Leftover] string message)
+        public async Task EditCustReact(int id, [Remainder] string message)
         {
             var channel = ctx.Channel as ITextChannel;
             if (string.IsNullOrWhiteSpace(message) || id < 0)

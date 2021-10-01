@@ -40,7 +40,7 @@ namespace Mewdeko.Modules.Games
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Hangman([Leftover] string type = "random")
+            public async Task Hangman([Remainder] string type = "random")
             {
                 Hangman hm;
                 try

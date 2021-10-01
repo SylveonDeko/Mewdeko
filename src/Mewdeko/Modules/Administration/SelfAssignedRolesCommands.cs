@@ -49,7 +49,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
-            public Task Asar([Leftover] IRole role)
+            public Task Asar([Remainder] IRole role)
             {
                 return Asar(0, role);
             }
@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
-            public async Task Asar(int group, [Leftover] IRole role)
+            public async Task Asar(int group, [Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -85,7 +85,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
-            public async Task Sargn(int group, [Leftover] string name = null)
+            public async Task Sargn(int group, [Remainder] string name = null)
             {
                 var guser = (IGuildUser)ctx.User;
 
@@ -105,7 +105,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
-            public async Task Rsar([Leftover] IRole role)
+            public async Task Rsar([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -206,7 +206,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task RoleLevelReq(int level, [Leftover] IRole role)
+            public async Task RoleLevelReq(int level, [Remainder] IRole role)
             {
                 if (level < 0)
                     return;
@@ -229,7 +229,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Iam([Leftover] IRole role)
+            public async Task Iam([Remainder] IRole role)
             {
                 var guildUser = (IGuildUser)ctx.User;
 
@@ -262,7 +262,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Iamnot([Leftover] IRole role)
+            public async Task Iamnot([Remainder] IRole role)
             {
                 var guildUser = (IGuildUser)ctx.User;
 

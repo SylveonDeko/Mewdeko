@@ -28,7 +28,7 @@ namespace Mewdeko.Services
         };
 
         private readonly TypedKey<TSettings> _changeKey;
-        protected readonly string _filePath;
+        protected readonly string FilePath;
         private readonly Dictionary<string, string> _propComments = new();
         private readonly Dictionary<string, Func<object, string>> _propPrinters = new();
         private readonly Dictionary<string, Func<object>> _propSelectors = new();
@@ -49,7 +49,7 @@ namespace Mewdeko.Services
         protected ConfigServiceBase(string filePath, IConfigSeria serializer, IPubSub pubSub,
             TypedKey<TSettings> changeKey)
         {
-            _filePath = filePath;
+            FilePath = filePath;
             _serializer = serializer;
             _pubSub = pubSub;
             _changeKey = changeKey;
@@ -133,18 +133,18 @@ namespace Mewdeko.Services
         private void Load()
         {
             // if file is deleted, regenerate it with default values
-            if (!File.Exists(_filePath))
+            if (!File.Exists(FilePath))
             {
                 _data = new TSettings();
                 Save();
             }
 
-            _data = _serializer.Deserialize<TSettings>(File.ReadAllText(_filePath));
+            _data = _serializer.Deserialize<TSettings>(File.ReadAllText(FilePath));
         }
 
         /// <summary>
         ///     Doesn't do anything by default. This method will be executed after
-        ///     <see cref="_data" /> is reloaded from <see cref="_filePath" /> or new data is recieved
+        ///     <see cref="_data" /> is reloaded from <see cref="FilePath" /> or new data is recieved
         ///     from the publish event
         /// </summary>
         protected virtual void OnStateUpdate()
@@ -163,7 +163,7 @@ namespace Mewdeko.Services
         private void Save()
         {
             var strData = _serializer.Serialize(_data);
-            File.WriteAllText(_filePath, strData);
+            File.WriteAllText(FilePath, strData);
         }
 
         protected void AddParsedProp<TProp>(

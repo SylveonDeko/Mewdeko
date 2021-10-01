@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Searches
         {
             //[MewdekoCommand, Usage, Description, Aliases]
             //[OwnerOnly]
-            //public async Task Obfuscate([Leftover] string txt)
+            //public async Task Obfuscate([Remainder] string txt)
             //{
             //    var lastItem = "en";
             //    foreach (var item in _google.Languages.Except(new[] { "en" }).Where(x => x.Length < 4))
@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Searches
             [Usage]
             [Description]
             [Aliases]
-            public async Task Translate(string langs, [Leftover] string text = null)
+            public async Task Translate(string langs, [Remainder] string text = null)
             {
                 try
                 {
@@ -102,7 +102,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task AutoTransLang([Leftover] string langs = null)
+            public async Task AutoTransLang([Remainder] string langs = null)
             {
                 var ucp = (ctx.User.Id, ctx.Channel.Id);
 

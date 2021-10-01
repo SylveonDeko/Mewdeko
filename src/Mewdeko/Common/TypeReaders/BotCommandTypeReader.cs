@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Core.Common.TypeReaders;
-using Mewdeko.Services;
 using Mewdeko.Modules.CustomReactions.Services;
+using Mewdeko.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.TypeReaders

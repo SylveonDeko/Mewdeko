@@ -20,7 +20,6 @@ using SpotifyAPI.Web;
 
 namespace Mewdeko.Core.Modules.Music
 {
-    [NoPublicBot]
     public sealed partial class Music : MewdekoModule<IMusicService>
     {
         public enum All
@@ -107,7 +106,7 @@ namespace Mewdeko.Core.Modules.Music
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public async Task Play([Leftover] string query)
+        public async Task Play([Remainder] string query)
         {
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
@@ -510,7 +509,7 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Queue([Leftover] string query)
+        public Task Queue([Remainder] string query)
         {
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
@@ -528,7 +527,7 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task QueueNext([Leftover] string query)
+        public Task QueueNext([Remainder] string query)
         {
             var user = ctx.User as IGuildUser;
             if (user.VoiceChannel is SocketStageChannel chan)
@@ -694,7 +693,7 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task QueueSearch([Leftover] string query)
+        public async Task QueueSearch([Remainder] string query)
         {
             
             var user = ctx.User as IGuildUser;
@@ -969,7 +968,7 @@ namespace Mewdeko.Core.Modules.Music
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public Task Local([Leftover] string path)
+        public Task Local([Remainder] string path)
         {
             return QueueByQuery(path, false, MusicPlatform.Local);
         }
@@ -980,7 +979,7 @@ namespace Mewdeko.Core.Modules.Music
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task LocalPlaylist([Leftover] string dirPath)
+        public async Task LocalPlaylist([Remainder] string dirPath)
         {
             if (string.IsNullOrWhiteSpace(dirPath))
                 return;
@@ -1083,7 +1082,7 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task SoundCloudQueue([Leftover] string query)
+        public Task SoundCloudQueue([Remainder] string query)
         {
 
             return QueueByQuery(query, false, MusicPlatform.SoundCloud);
@@ -1094,7 +1093,7 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task SoundCloudPl([Leftover] string playlist)
+        public async Task SoundCloudPl([Remainder] string playlist)
         {
             if (string.IsNullOrWhiteSpace(playlist))
                 return;
@@ -1130,7 +1129,7 @@ namespace Mewdeko.Core.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Playlist([Leftover] string playlistQuery)
+        public async Task Playlist([Remainder] string playlistQuery)
         {
                 if (string.IsNullOrWhiteSpace(playlistQuery))
                     return;

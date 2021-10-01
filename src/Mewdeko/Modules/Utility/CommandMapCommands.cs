@@ -51,7 +51,7 @@ namespace Mewdeko.Modules.Utility
             [Aliases]
             [UserPerm(GuildPerm.Administrator)]
             [RequireContext(ContextType.Guild)]
-            public async Task Alias(string trigger, [Leftover] string mapping = null)
+            public async Task Alias(string trigger, [Remainder] string mapping = null)
             {
                 var channel = (ITextChannel)ctx.Channel;
 

@@ -171,7 +171,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(-1)]
-            public Task Repeat([Leftover] string message)
+            public Task Repeat([Remainder] string message)
             {
                 return Repeat(null, null, message);
             }
@@ -183,7 +183,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
-            public Task Repeat(StoopidTime interval, [Leftover] string message)
+            public Task Repeat(StoopidTime interval, [Remainder] string message)
             {
                 return Repeat(null, interval, message);
             }
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(1)]
-            public Task Repeat(GuildDateTime dt, [Leftover] string message)
+            public Task Repeat(GuildDateTime dt, [Remainder] string message)
             {
                 return Repeat(dt, null, message);
             }
@@ -207,7 +207,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(2)]
-            public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Leftover] string message)
+            public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Remainder] string message)
             {
                 if (!_service.RepeaterReady)
                     return;

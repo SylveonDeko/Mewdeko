@@ -347,7 +347,7 @@ namespace Mewdeko.Modules.Permissions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task FilterWord([Leftover] string word)
+            public async Task FilterWord([Remainder] string word)
             {
                 var channel = (ITextChannel)ctx.Channel;
 

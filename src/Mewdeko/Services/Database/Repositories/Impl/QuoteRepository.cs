@@ -16,10 +16,7 @@ namespace Mewdeko.Services.Database.Repositories.Impl
         public IEnumerable<Quote> GetGroup(ulong guildId, int page, OrderType order)
         {
             var q = _set.AsQueryable().Where(x => x.GuildId == guildId);
-            if (order == OrderType.Keyword)
-                q = q.OrderBy(x => x.Keyword);
-            else
-                q = q.OrderBy(x => x.Id);
+            q = order == OrderType.Keyword ? q.OrderBy(x => x.Keyword) : q.OrderBy(x => x.Id);
 
             return q.Skip(15 * page).Take(15).ToArray();
         }

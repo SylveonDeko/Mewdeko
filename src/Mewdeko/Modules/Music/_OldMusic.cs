@@ -147,7 +147,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task Play([Leftover] string query = null)
+//         public async Task Play([Remainder] string query = null)
 //         {
 //             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 //             if (string.IsNullOrWhiteSpace(query))
@@ -171,7 +171,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public Task Queue([Leftover] string query)
+//         public Task Queue([Remainder] string query)
 //             => InternalPlay(query, forceplay: false);
 //
 //         private async Task InternalPlay(string query, bool forceplay)
@@ -187,7 +187,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task QueueNext([Leftover] string query)
+//         public async Task QueueNext([Remainder] string query)
 //         {
 //             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 //             var songInfo = await _service.ResolveSong(query, ctx.User.ToString()).ConfigureAwait(false);
@@ -200,7 +200,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task QueueSearch([Leftover] string query)
+//         public async Task QueueSearch([Remainder] string query)
 //         {
 //             var videos = (await _google.GetVideoInfosByKeywordAsync(query, 5).ConfigureAwait(false))
 //                 .ToArray();
@@ -386,7 +386,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task Defvol([Leftover] int val)
+//         public async Task Defvol([Remainder] int val)
 //         {
 //             if (val < 0 || val > 100)
 //             {
@@ -444,7 +444,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task Playlists([Leftover] int num = 1)
+//         public async Task Playlists([Remainder] int num = 1)
 //         {
 //             if (num <= 0)
 //                 return;
@@ -466,7 +466,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task DeletePlaylist([Leftover] int id)
+//         public async Task DeletePlaylist([Remainder] int id)
 //         {
 //             var success = false;
 //             try
@@ -526,7 +526,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task Save([Leftover] string name)
+//         public async Task Save([Remainder] string name)
 //         {
 //             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 //
@@ -563,7 +563,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task Load([Leftover] int id)
+//         public async Task Load([Remainder] int id)
 //         {
 //             if (!PlaylistLoadBlacklist.Add(ctx.Guild.Id))
 //                 return;
@@ -652,7 +652,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task SoundCloudQueue([Leftover] string query)
+//         public async Task SoundCloudQueue([Remainder] string query)
 //         {
 //             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 //             var song = await _service.ResolveSong(query, ctx.User.ToString(), MusicType.Soundcloud).ConfigureAwait(false);
@@ -661,7 +661,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task SoundCloudPl([Leftover] string pl)
+//         public async Task SoundCloudPl([Remainder] string pl)
 //         {
 //             pl = pl?.Trim();
 //
@@ -727,7 +727,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task Playlist([Leftover] string playlist)
+//         public async Task Playlist([Remainder] string playlist)
 //         {
 //             if (string.IsNullOrWhiteSpace(playlist))
 //                 return;
@@ -787,7 +787,7 @@
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
 //         [OwnerOnly]
-//         public async Task Local([Leftover] string path)
+//         public async Task Local([Remainder] string path)
 //         {
 //             var mp = await _service.GetOrCreatePlayer(Context).ConfigureAwait(false);
 //             var song = await _service.ResolveSong(path, ctx.User.ToString(), MusicType.Local).ConfigureAwait(false);
@@ -797,7 +797,7 @@
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
 //         [OwnerOnly]
-//         public async Task LocalPlaylist([Leftover] string dirPath)
+//         public async Task LocalPlaylist([Remainder] string dirPath)
 //         {
 //             if (string.IsNullOrWhiteSpace(dirPath))
 //                 return;
@@ -847,7 +847,7 @@
 //
 //         [MewdekoCommand, Usage, Description, Aliases]
 //         [RequireContext(ContextType.Guild)]
-//         public async Task MoveSong([Leftover] string fromto)
+//         public async Task MoveSong([Remainder] string fromto)
 //         {
 //             if (string.IsNullOrWhiteSpace(fromto))
 //                 return;

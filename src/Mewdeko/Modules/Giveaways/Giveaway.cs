@@ -32,7 +32,7 @@ namespace Mewdeko.Core.Modules.Giveaways
         [Usage]
         [Description]
         [Aliases]
-        public async Task GStart(ITextChannel chan, StoopidTime time, [Leftover] string what)
+        public async Task GStart(ITextChannel chan, StoopidTime time, [Remainder] string what)
             => await RemindInternal(chan, time.Time, what, ctx.User.Id);
 
         private async Task RemindInternal(ITextChannel chan, TimeSpan ts, string item, ulong host)

@@ -147,7 +147,7 @@ namespace Mewdeko.Modules.Help.Services
 
         private async Task HandlePing(SocketMessage msg)
         {
-            if (msg.Content == _client.CurrentUser.Mention && !msg.Author.IsBot)
+            if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>" )
                 if (msg.Channel is ITextChannel chan)
                 {
                     var eb = new EmbedBuilder();

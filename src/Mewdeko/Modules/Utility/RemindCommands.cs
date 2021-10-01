@@ -38,7 +38,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [Priority(1)]
-            public async Task Remind(MeOrHere meorhere, [Leftover] string remindString)
+            public async Task Remind(MeOrHere meorhere, [Remainder] string remindString)
             {
                 if (!_service.TryParseRemindMessage(remindString, out var remindData))
                 {
@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
             [Priority(0)]
-            public async Task Remind(ITextChannel channel, [Leftover] string remindString)
+            public async Task Remind(ITextChannel channel, [Remainder] string remindString)
             {
                 var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
                 if (!perms.SendMessages || !perms.ViewChannel)

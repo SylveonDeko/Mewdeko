@@ -48,13 +48,13 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
             //    FROM DiscordUser
             //    WHERE UserId = @p1
             //    LIMIT 1), 0);"
-            return _set.AsQueryable()
-                .Where(x => x.TotalXp > _set
+            return _set
+                .AsQueryable()
+                .Count(x => x.TotalXp > _set
                     .AsQueryable()
                     .Where(y => y.UserId == id)
                     .Select(y => y.TotalXp)
-                    .FirstOrDefault())
-                .Count() + 1;
+                    .FirstOrDefault()) + 1;
         }
 
         public DiscordUser[] GetUsersXpLeaderboardFor(int page)
@@ -130,9 +130,9 @@ WHERE UserId={userId};");
             // if it exists, sum current amount with the new one, if it doesn't
             // he just has the new amount
             var updatedUserData = !string.IsNullOrWhiteSpace(name);
-            name = name ?? "Unknown";
-            discrim = discrim ?? "????";
-            avatarId = avatarId ?? "";
+            name ??= "Unknown";
+            discrim ??= "????";
+            avatarId ??= "";
 
             // just update the amount, there is no new user data
             if (!updatedUserData)

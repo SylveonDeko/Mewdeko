@@ -49,45 +49,45 @@ namespace Mewdeko.Services.Database
         }
 
         public MewdekoContext _context { get; }
-        public IQuoteRepository Quotes => _quotes ?? (_quotes = new QuoteRepository(_context));
+        public IQuoteRepository Quotes => _quotes ??= new QuoteRepository(_context);
 
 
         public IGuildConfigRepository GuildConfigs =>
-            _guildConfigs ?? (_guildConfigs = new GuildConfigRepository(_context));
+            _guildConfigs ??= new GuildConfigRepository(_context);
 
         // public ISwitchShopsRepository SwitchShops => _switchshops ?? (_switchshops = new SwitchShopsRepository(_context));
-        public IReminderRepository Reminders => _reminders ?? (_reminders = new ReminderRepository(_context));
+        public IReminderRepository Reminders => _reminders ??= new ReminderRepository(_context);
 
         public ISelfAssignedRolesRepository SelfAssignedRoles =>
-            _selfAssignedRoles ?? (_selfAssignedRoles = new SelfAssignedRolesRepository(_context));
+            _selfAssignedRoles ??= new SelfAssignedRolesRepository(_context);
 
-        public ITicketRepository Tickets => _tickets ?? (_tickets = new TicketRepository(_context));
+        public ITicketRepository Tickets => _tickets ??= new TicketRepository(_context);
 
         public IMusicPlaylistRepository MusicPlaylists =>
-            _musicPlaylists ?? (_musicPlaylists = new MusicPlaylistRepository(_context));
+            _musicPlaylists ??= new MusicPlaylistRepository(_context);
 
         public ICustomReactionRepository CustomReactions =>
-            _customReactions ?? (_customReactions = new CustomReactionsRepository(_context));
+            _customReactions ??= new CustomReactionsRepository(_context);
 
-        public IWaifuRepository Waifus => _waifus ?? (_waifus = new WaifuRepository(_context));
+        public IWaifuRepository Waifus => _waifus ??= new WaifuRepository(_context);
 
         public IDiscordUserRepository DiscordUsers =>
-            _discordUsers ?? (_discordUsers = new DiscordUserRepository(_context));
-        public IGiveawaysRepository Giveaways => _giveaways ?? (_giveaways = new GiveawayRepository(_context));
-        public IWarningsRepository Warnings => _warnings ?? (_warnings = new WarningsRepository(_context));
-        public IWarningsRepository2 Warnings2 => _warnings2 ?? (_warnings2 = new WarningsRepository2(_context));
-        public ISuggestionsRepository Suggestions => _suggestions ?? (_suggestions = new SuggestRepository(_context));
+            _discordUsers ??= new DiscordUserRepository(_context);
+        public IGiveawaysRepository Giveaways => _giveaways ??= new GiveawayRepository(_context);
+        public IWarningsRepository Warnings => _warnings ??= new WarningsRepository(_context);
+        public IWarningsRepository2 Warnings2 => _warnings2 ??= new WarningsRepository2(_context);
+        public ISuggestionsRepository Suggestions => _suggestions ??= new SuggestRepository(_context);
 
-        public ISnipeStoreRepository SnipeStore => _snipestore ?? (_snipestore = new SnipeStoreRepository(_context));
-        public IAFKRepository AFK => _AFK ?? (_AFK = new AFKRepository(_context));
-        public IStarboardRepository Starboard => _Starboard ?? (_Starboard = new StarboardRepository(_context));
-        public IXpRepository Xp => _xp ?? (_xp = new XpRepository(_context));
-        public IClubRepository Clubs => _clubs ?? (_clubs = new ClubRepository(_context));
-        public IPollsRepository Polls => _polls ?? (_polls = new PollsRepository(_context));
-        public IReputationRepository Reputation => _reputation ?? (_reputation = new ReputationRepository(_context));
+        public ISnipeStoreRepository SnipeStore => _snipestore ??= new SnipeStoreRepository(_context);
+        public IAFKRepository AFK => _AFK ??= new AFKRepository(_context);
+        public IStarboardRepository Starboard => _Starboard ??= new StarboardRepository(_context);
+        public IXpRepository Xp => _xp ??= new XpRepository(_context);
+        public IClubRepository Clubs => _clubs ??= new ClubRepository(_context);
+        public IPollsRepository Polls => _polls ??= new PollsRepository(_context);
+        public IReputationRepository Reputation => _reputation ??= new ReputationRepository(_context);
 
         public IPlantedCurrencyRepository PlantedCurrency =>
-            _planted ?? (_planted = new PlantedCurrencyRepository(_context));
+_planted ??= new PlantedCurrencyRepository(_context);
 
         public int SaveChanges()
         {

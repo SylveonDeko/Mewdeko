@@ -103,7 +103,7 @@ namespace Mewdeko.Modules.Moderation
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
-            public async Task Warn(IGuildUser user, [Leftover] string reason = null)
+            public async Task Warn(IGuildUser user, [Remainder] string reason = null)
             {
                 if (!await CheckRoleHierarchy(user))
                     return;
@@ -476,7 +476,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(1)]
-            public async Task Ban(StoopidTime time, IUser user, [Leftover] string msg = null)
+            public async Task Ban(StoopidTime time, IUser user, [Remainder] string msg = null)
             {
                 if (time.Time > TimeSpan.FromDays(49))
                     return;
@@ -529,7 +529,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(0)]
-            public async Task Ban(ulong userId, [Leftover] string msg = null)
+            public async Task Ban(ulong userId, [Remainder] string msg = null)
             {
                 var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
                     userId);
@@ -556,7 +556,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(2)]
-            public async Task Ban(IGuildUser user, [Leftover] string msg = null)
+            public async Task Ban(IGuildUser user, [Remainder] string msg = null)
             {
                 if (!await CheckRoleHierarchy(user))
                     return;
@@ -598,7 +598,7 @@ namespace Mewdeko.Modules.Moderation
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
-            public async Task BanMessage([Leftover] string message = null)
+            public async Task BanMessage([Remainder] string message = null)
             {
                 if (message is null)
                 {
@@ -638,7 +638,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(0)]
-            public Task BanMessageTest([Leftover] string reason = null)
+            public Task BanMessageTest([Remainder] string reason = null)
             {
                 return InternalBanMessageTest(reason, null);
             }
@@ -651,7 +651,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [Priority(1)]
-            public Task BanMessageTest(StoopidTime duration, [Leftover] string reason = null)
+            public Task BanMessageTest(StoopidTime duration, [Remainder] string reason = null)
             {
                 return InternalBanMessageTest(reason, duration.Time);
             }
@@ -693,7 +693,7 @@ namespace Mewdeko.Modules.Moderation
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
-            public async Task Unban([Leftover] string user)
+            public async Task Unban([Remainder] string user)
             {
                 var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
 
@@ -744,7 +744,7 @@ namespace Mewdeko.Modules.Moderation
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.KickMembers | GuildPerm.ManageMessages)]
             [BotPerm(GuildPerm.BanMembers)]
-            public Task Softban(IGuildUser user, [Leftover] string msg = null)
+            public Task Softban(IGuildUser user, [Remainder] string msg = null)
             {
                 return SoftbanInternal(user, msg);
             }
@@ -756,7 +756,7 @@ namespace Mewdeko.Modules.Moderation
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.KickMembers | GuildPerm.ManageMessages)]
             [BotPerm(GuildPerm.BanMembers)]
-            public async Task Softban(ulong userId, [Leftover] string msg = null)
+            public async Task Softban(ulong userId, [Remainder] string msg = null)
             {
                 var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
                     userId);
@@ -766,7 +766,7 @@ namespace Mewdeko.Modules.Moderation
                 await SoftbanInternal(user);
             }
 
-            private async Task SoftbanInternal(IGuildUser user, [Leftover] string msg = null)
+            private async Task SoftbanInternal(IGuildUser user, [Remainder] string msg = null)
             {
                 if (!await CheckRoleHierarchy(user))
                     return;
@@ -811,7 +811,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.KickMembers)]
             [BotPerm(GuildPerm.KickMembers)]
             [Priority(1)]
-            public Task Kick(IGuildUser user, [Leftover] string msg = null)
+            public Task Kick(IGuildUser user, [Remainder] string msg = null)
             {
                 return KickInternal(user, msg);
             }
@@ -824,7 +824,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.KickMembers)]
             [BotPerm(GuildPerm.KickMembers)]
             [Priority(0)]
-            public async Task Kick(ulong userId, [Leftover] string msg = null)
+            public async Task Kick(ulong userId, [Remainder] string msg = null)
             {
                 var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
                     userId);
@@ -872,7 +872,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPerm.BanMembers)]
             [BotPerm(GuildPerm.BanMembers)]
             [OwnerOnly]
-            public async Task MassKill([Leftover] string people)
+            public async Task MassKill([Remainder] string people)
             {
                 if (string.IsNullOrWhiteSpace(people))
                     return;

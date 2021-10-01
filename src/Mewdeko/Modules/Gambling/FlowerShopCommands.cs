@@ -256,7 +256,7 @@ namespace Mewdeko.Modules.Gambling
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task ShopAdd(Role _, int price, [Leftover] IRole role)
+            public async Task ShopAdd(Role _, int price, [Remainder] IRole role)
             {
                 var entry = new ShopEntry
                 {
@@ -289,7 +289,7 @@ namespace Mewdeko.Modules.Gambling
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task ShopAdd(List _, int price, [Leftover] string name)
+            public async Task ShopAdd(List _, int price, [Remainder] string name)
             {
                 var entry = new ShopEntry
                 {
@@ -321,7 +321,7 @@ namespace Mewdeko.Modules.Gambling
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task ShopListAdd(int index, [Leftover] string itemText)
+            public async Task ShopListAdd(int index, [Remainder] string itemText)
             {
                 index -= 1;
                 if (index < 0)
@@ -418,7 +418,7 @@ namespace Mewdeko.Modules.Gambling
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task ShopChangeName(int index, [Leftover] string newName)
+            public async Task ShopChangeName(int index, [Remainder] string newName)
             {
                 if (--index < 0 || string.IsNullOrWhiteSpace(newName))
                     return;

@@ -173,7 +173,7 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
-            public async Task StreamMessage(int index, [Leftover] string message)
+            public async Task StreamMessage(int index, [Remainder] string message)
             {
                 if (--index < 0)
                     return;

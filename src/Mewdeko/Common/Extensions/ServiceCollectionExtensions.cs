@@ -3,9 +3,9 @@ using System.Linq;
 using System.Reflection;
 using Mewdeko.Core.Common;
 using Mewdeko.Core.Modules.Music;
-using Mewdeko.Services;
 using Mewdeko.Modules.Music.Resolvers;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Extensions

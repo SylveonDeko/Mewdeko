@@ -113,8 +113,6 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBot]
-            [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
             public Task ReactionRoles(ulong messageId, params string[] input)
@@ -125,7 +123,6 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
@@ -139,7 +136,6 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(0)]
@@ -153,7 +149,6 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [Priority(1)]
@@ -167,7 +162,6 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task ReactionRolesList()
             {
@@ -201,7 +195,6 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [NoPublicBot]
             [UserPerm(GuildPerm.ManageRoles)]
             public async Task ReactionRolesRemove(int index)
             {
@@ -275,7 +268,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task RenameRole(IRole roleToEdit, [Leftover] string newname)
+            public async Task RenameRole(IRole roleToEdit, [Remainder] string newname)
             {
                 var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= roleToEdit.Position)
@@ -305,7 +298,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task RemoveAllRoles([Leftover] IGuildUser user)
+            public async Task RemoveAllRoles([Remainder] IGuildUser user)
             {
                 var guser = (IGuildUser)ctx.User;
 
@@ -334,7 +327,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task CreateRole([Leftover] string roleName = null)
+            public async Task CreateRole([Remainder] string roleName = null)
             {
                 if (string.IsNullOrWhiteSpace(roleName))
                     return;
@@ -350,7 +343,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
-            public async Task DeleteRole([Leftover] IRole role)
+            public async Task DeleteRole([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != guser.Guild.OwnerId
@@ -385,7 +378,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [Priority(1)]
-            public async Task RoleColor([Leftover] IRole role)
+            public async Task RoleColor([Remainder] IRole role)
             {
                 await ctx.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("x6"))
                     .ConfigureAwait(false);

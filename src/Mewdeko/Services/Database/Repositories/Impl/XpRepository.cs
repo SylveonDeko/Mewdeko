@@ -62,12 +62,11 @@ namespace Mewdeko.Services.Database.Repositories.Impl
             return _set
                 .AsQueryable()
                 .AsNoTracking()
-                .Where(x => x.GuildId == guildId && x.Xp + x.AwardedXp >
+                .Count(x => x.GuildId == guildId && x.Xp + x.AwardedXp >
                     _set.AsQueryable()
                         .Where(y => y.UserId == userId && y.GuildId == guildId)
                         .Select(y => y.Xp + y.AwardedXp)
-                        .FirstOrDefault())
-                .Count() + 1;
+                        .FirstOrDefault()) + 1;
         }
 
         public void ResetGuildUserXp(ulong userId, ulong guildId)

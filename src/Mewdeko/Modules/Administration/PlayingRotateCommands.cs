@@ -30,7 +30,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task AddPlaying(ActivityType t, [Leftover] string status)
+            public async Task AddPlaying(ActivityType t, [Remainder] string status)
             {
                 await _service.AddPlaying(t, status).ConfigureAwait(false);
 

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AngleSharp.Css.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.Rest;
@@ -21,6 +22,7 @@ using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
+using Scrutor;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing;
@@ -57,7 +59,10 @@ namespace Mewdeko.Extensions
 
             return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
         }
-
+        public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab)
+        {
+            return eab.WithIconUrl("http://i.imgur.com/nhKS3PT.png");
+        }
         public static Task<IUserMessage> SendAsync(this IMessageChannel channel, string plainText, Embed embed,
             bool sanitizeAll = false)
         {
@@ -250,38 +255,6 @@ namespace Mewdeko.Extensions
         public static PageBuilder WithErrorColor(this PageBuilder eb)
         {
             return eb.WithColor(Mewdeko.ErrorColor);
-        }
-
-        public static ReactionEventWrapper OnReaction(this IUserMessage msg, DiscordSocketClient client,
-            Func<SocketReaction, Task> reactionAdded, Func<SocketReaction, Task> reactionRemoved = null)
-        {
-            if (reactionRemoved == null)
-                reactionRemoved = _ => Task.CompletedTask;
-
-            var wrap = new ReactionEventWrapper(client, msg);
-            wrap.OnReactionAdded += r =>
-            {
-                var _ = Task.Run(() => reactionAdded(r));
-            };
-            wrap.OnReactionRemoved += r =>
-            {
-                var _ = Task.Run(() => reactionRemoved(r));
-            };
-            return wrap;
-        }
-
-        public static ReactionEventWrapper OnClick(this IUserMessage msg, DiscordSocketClient client,
-            Func<SocketInteraction, Task> reactionAdded)
-        {
-            if (reactionAdded == null)
-                reactionAdded = _ => Task.CompletedTask;
-
-            var wrap = new ReactionEventWrapper(client, msg);
-            wrap.InteractionCreated += r =>
-            {
-                var _ = Task.Run(() => reactionAdded(r));
-            };
-            return wrap;
         }
 
         public static HttpClient AddFakeHeaders(this HttpClient http)

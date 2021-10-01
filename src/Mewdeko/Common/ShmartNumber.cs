@@ -35,9 +35,7 @@ namespace Mewdeko.Core.Common
 
         public override bool Equals(object obj)
         {
-            return obj is ShmartNumber sn
-                ? Equals(sn)
-                : false;
+            return obj is ShmartNumber sn && Equals(sn);
         }
 
         public bool Equals(ShmartNumber other)

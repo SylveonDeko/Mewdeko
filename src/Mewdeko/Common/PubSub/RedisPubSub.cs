@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Mewdeko.Services;
 using Mewdeko.Extensions;
+using Mewdeko.Services;
 using Serilog;
 using StackExchange.Redis;
 

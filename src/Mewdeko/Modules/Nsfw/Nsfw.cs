@@ -330,7 +330,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Hentai([Leftover] string tag = null)
+        public Task Hentai([Remainder] string tag = null)
         {
             return InternalHentai(ctx.Channel, tag);
         }
@@ -341,7 +341,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public async Task HentaiBomb([Leftover] string tag = null)
+        public async Task HentaiBomb([Remainder] string tag = null)
         {
             if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
                 return;
@@ -374,7 +374,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Yandere([Leftover] string tag = null)
+        public Task Yandere([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.Yandere, false);
         }
@@ -385,7 +385,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Konachan([Leftover] string tag = null)
+        public Task Konachan([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.Konachan, false);
         }
@@ -396,7 +396,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task E621([Leftover] string tag = null)
+        public Task E621([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.E621, false);
         }
@@ -407,7 +407,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Rule34([Leftover] string tag = null)
+        public Task Rule34([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.Rule34, false);
         }
@@ -418,7 +418,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Danbooru([Leftover] string tag = null)
+        public Task Danbooru([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
         }
@@ -429,7 +429,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Gelbooru([Leftover] string tag = null)
+        public Task Gelbooru([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
         }
@@ -440,7 +440,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        public Task Derpibooru([Leftover] string tag = null)
+        public Task Derpibooru([Remainder] string tag = null)
         {
             return InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
         }
@@ -503,7 +503,7 @@ namespace Mewdeko.Modules.NSFW
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageMessages)]
-        public async Task NsfwTagBlacklist([Leftover] string tag = null)
+        public async Task NsfwTagBlacklist([Remainder] string tag = null)
         {
             if (string.IsNullOrWhiteSpace(tag))
             {

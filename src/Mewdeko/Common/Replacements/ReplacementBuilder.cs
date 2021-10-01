@@ -76,7 +76,7 @@ namespace Mewdeko.Common.Replacements
             /*OBSOLETE*/
             _reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server%", () => g == null ? "DM" : g.Name);
-            _reps.TryAdd("%members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
+            _reps.TryAdd("%members%", () => g is { } sg ? sg.MemberCount.ToString() : "?");
             _reps.TryAdd("%server_time%", () =>
             {
                 var to = TimeZoneInfo.Local;
@@ -89,9 +89,14 @@ namespace Mewdeko.Common.Replacements
                     to).ToString("HH:mm ") + to.StandardName.GetInitials();
             });
             /*NEW*/
+            _reps.TryAdd("%server.icon%", () => g == null ? "DM" : g.IconUrl);
             _reps.TryAdd("%server.id%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server.name%", () => g == null ? "DM" : g.Name);
-            _reps.TryAdd("%server.members%", () => g != null && g is SocketGuild sg ? sg.MemberCount.ToString() : "?");
+            _reps.TryAdd("%server.members%", () => g is { } sg ? sg.MemberCount.ToString() : "?");
+            _reps.TryAdd("%server.members.online%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Online).ToString() : "?");
+            _reps.TryAdd("%server.members.offline%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Offline).ToString() : "?");
+            _reps.TryAdd("%server.members.dnd%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.DoNotDisturb).ToString() : "?");
+            _reps.TryAdd("%server.members.idle%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Idle).ToString() : "?");
             _reps.TryAdd("%server.time%", () =>
             {
                 var to = TimeZoneInfo.Local;
@@ -162,6 +167,7 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%user.mention%", () => string.Join(" ", users.Select(user => user.Mention)));
             _reps.TryAdd("%user.fullname%", () => string.Join(" ", users.Select(user => user.ToString())));
             _reps.TryAdd("%user.name%", () => string.Join(" ", users.Select(user => user.Username)));
+            _reps.TryAdd("%user.banner%", () => string.Join(" ", users.Select(user => user.GetBannerUrl().ToString())));
             _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
             _reps.TryAdd("%user.avatar%",
                 () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));

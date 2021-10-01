@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task Config(string name = null, string prop = null, [Leftover] string value = null)
+            public async Task Config(string name = null, string prop = null, [Remainder] string value = null)
             {
                 var configNames = _settingServices.Select(x => x.Name);
 

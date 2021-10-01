@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
+using Discord.Rest;
 using Discord.WebSocket;
 using KSoftNet;
 using Mewdeko.Common.ModuleBehaviors;
@@ -123,7 +124,6 @@ namespace Mewdeko
                 .AddSingleton<IReadyExecutor>(x => (IReadyExecutor)x.GetRequiredService<ICoordinator>())
                 .AddConfigServices()
                 .AddBotStringsServices()
-                .AddConfigMigrators()
                 .AddMemoryCache()
                 .AddSingleton<IShopService, ShopService>()
                 // music
@@ -143,29 +143,14 @@ namespace Mewdeko
             Services = s.BuildServiceProvider();
             var commandHandler = Services.GetService<CommandHandler>();
 
-            if (Client.ShardId == 0) ApplyConfigMigrations();
-
             //what the fluff
-            commandHandler.AddServices(s);
+            commandHandler?.AddServices(s);
             _ = LoadTypeReaders(typeof(Mewdeko).Assembly);
 
             sw.Stop();
             Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
         }
-
-        private void ApplyConfigMigrations()
-        {
-            // execute all migrators
-            var migrators = Services.GetServices<IConfigMigrator>();
-            foreach (var migrator in migrators) migrator.EnsureMigrated();
-
-            // and then drop the bot config table
-
-            // var conn = _db.GetDbContext()._context.Database.GetDbConnection();
-            // using var deleteBotConfig = conn.CreateCommand();
-            // deleteBotConfig.CommandText = "DROP TABLE IF EXISTS BotConfig;";
-            // deleteBotConfig.ExecuteNonQuery();
-        }
+        
 
         private IEnumerable<object> LoadTypeReaders(Assembly assembly)
         {
@@ -190,8 +175,8 @@ namespace Mewdeko
             {
                 var x = (TypeReader)Activator.CreateInstance(ft, Client, CommandService);
                 var baseType = ft.BaseType;
-                var typeArgs = baseType.GetGenericArguments();
-                CommandService.AddTypeReader(typeArgs[0], x);
+                var typeArgs = baseType?.GetGenericArguments();
+                if (typeArgs != null) CommandService.AddTypeReader(typeArgs[0], x);
                 toReturn.Add(x);
             }
 
@@ -248,7 +233,7 @@ namespace Mewdeko
 
         private Task Client_LeftGuild(SocketGuild arg)
         {
-            Log.Information("Left server: {0} [{1}]", arg?.Name, arg?.Id);
+            Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
             return Task.CompletedTask;
         }
 
@@ -266,6 +251,36 @@ namespace Mewdeko
 
                 await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             });
+            RestTextChannel chan;
+            try
+            {
+                chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            var eb = new EmbedBuilder();
+            eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
+            eb.AddField("Server ID", arg.Id);
+            eb.AddField("Members", arg.MemberCount);
+            eb.AddField("Boosts", arg.PremiumSubscriptionCount);
+            eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
+            eb.AddField("Text Channels", arg.TextChannels.Count);
+            eb.AddField("Voice Channels", arg.VoiceChannels.Count);
+            eb.WithThumbnailUrl("https://pbs.twimg.com/profile_images/1283027345796931584/X-qjLt4j_400x400.jpg");
+            eb.WithColor(OkColor);
+            try
+            {
+                chan.SendMessageAsync(embed: eb.Build());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
             return Task.CompletedTask;
         }
 

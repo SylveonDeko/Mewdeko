@@ -59,7 +59,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.Administrator)]
         [Priority(0)]
-        public async Task PermRole([Leftover] IRole role = null)
+        public async Task PermRole([Remainder] IRole role = null)
         {
             if (role != null && role == role.Guild.EveryoneRole)
                 return;
@@ -288,7 +288,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IGuildUser user)
+        public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -317,7 +317,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IGuildUser user)
+        public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -345,7 +345,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] IRole role)
+        public async Task RoleCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -377,7 +377,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] IRole role)
+        public async Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -409,7 +409,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] ITextChannel chnl)
+        public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -438,7 +438,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] ITextChannel chnl)
+        public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -466,7 +466,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllChnlMdls(PermissionAction action, [Leftover] ITextChannel chnl)
+        public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -489,7 +489,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task CatCmd(CommandOrCrInfo command, PermissionAction action, [Leftover] ICategoryChannel chnl)
+        public async Task CatCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ICategoryChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -518,7 +518,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task CatMdl(ModuleOrCrInfo module, PermissionAction action, [Leftover] ICategoryChannel chnl)
+        public async Task CatMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ICategoryChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -546,7 +546,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllCatMdls(PermissionAction action, [Leftover] ICategoryChannel chnl)
+        public async Task AllCatMdls(PermissionAction action, [Remainder] ICategoryChannel chnl)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
@@ -570,7 +570,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllRoleMdls(PermissionAction action, [Leftover] IRole role)
+        public async Task AllRoleMdls(PermissionAction action, [Remainder] IRole role)
         {
             if (role == role.Guild.EveryoneRole)
                 return;
@@ -597,7 +597,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task AllUsrMdls(PermissionAction action, [Leftover] IUser user)
+        public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
         {
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {

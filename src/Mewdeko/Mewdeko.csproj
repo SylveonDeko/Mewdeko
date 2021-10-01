@@ -57,6 +57,7 @@
         <PackageReference Include="Microsoft.SyndicationFeed.ReaderWriter" Version="1.0.2" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NHentai.NET" Version="3.2.0" />
+        <PackageReference Include="Scrutor" Version="3.3.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
         <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
         <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />

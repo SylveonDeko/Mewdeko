@@ -18,18 +18,6 @@ using Serilog;
 
 namespace Mewdeko.Services
 {
-    public class GuildUserComparer : IEqualityComparer<IGuildUser>
-    {
-        public bool Equals(IGuildUser x, IGuildUser y)
-        {
-            return x.Id == y.Id;
-        }
-
-        public int GetHashCode(IGuildUser obj)
-        {
-            return obj.Id.GetHashCode();
-        }
-    }
 
     public class CommandHandler : INService
     {
@@ -315,8 +303,12 @@ namespace Mewdeko.Services
             var prefix = GetPrefix(guild?.Id);
             var isPrefixCommand = messageContent.StartsWith(".prefix", StringComparison.InvariantCultureIgnoreCase);
             // execute the command and measure the time it took
-            if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || isPrefixCommand)
+            if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || isPrefixCommand || messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ")|| messageContent.StartsWith($"<@!{_client.CurrentUser.Id}>"))
             {
+                if (messageContent.StartsWith($"<@{_client.CurrentUser.Id}>"))
+                    prefix = $"<@{_client.CurrentUser.Id}> ";
+                if (messageContent.StartsWith($"<@!{_client.CurrentUser.Id}>"))
+                    prefix = $"<@!{_client.CurrentUser.Id}> ";
                 var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg),
                         messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best)
                     .ConfigureAwait(false);

@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Utility
             [BotPerm(GuildPerm.ManageRoles)]
             [UserPerm(GuildPerm.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task StreamRoleKeyword([Leftover] string keyword = null)
+            public async Task StreamRoleKeyword([Remainder] string keyword = null)
             {
                 var kw = await _service.SetKeyword(ctx.Guild, keyword).ConfigureAwait(false);
 
@@ -64,7 +64,7 @@ namespace Mewdeko.Modules.Utility
             [BotPerm(GuildPerm.ManageRoles)]
             [UserPerm(GuildPerm.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task StreamRoleBlacklist(AddRemove action, [Leftover] IGuildUser user)
+            public async Task StreamRoleBlacklist(AddRemove action, [Remainder] IGuildUser user)
             {
                 var success = await _service
                     .ApplyListAction(StreamRoleListType.Blacklist, ctx.Guild, action, user.Id, user.ToString())
@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Utility
             [BotPerm(GuildPerm.ManageRoles)]
             [UserPerm(GuildPerm.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task StreamRoleWhitelist(AddRemove action, [Leftover] IGuildUser user)
+            public async Task StreamRoleWhitelist(AddRemove action, [Remainder] IGuildUser user)
             {
                 var success = await _service
                     .ApplyListAction(StreamRoleListType.Whitelist, ctx.Guild, action, user.Id, user.ToString())
