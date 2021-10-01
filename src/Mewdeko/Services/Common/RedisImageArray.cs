@@ -39,7 +39,8 @@ namespace Mewdeko.Services.Common
         public IEnumerator<byte[]> GetEnumerator()
         {
             var actualData = _data.Value;
-            for (var i = 0; i < actualData.Length; i++) yield return actualData[i];
+            foreach (var t in actualData)
+                yield return t;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

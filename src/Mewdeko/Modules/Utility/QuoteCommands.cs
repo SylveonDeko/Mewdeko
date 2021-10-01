@@ -68,7 +68,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task QuotePrint([Leftover] string keyword)
+            public async Task QuotePrint([Remainder] string keyword)
             {
                 if (string.IsNullOrWhiteSpace(keyword))
                     return;
@@ -149,7 +149,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task QuoteSearch(string keyword, [Leftover] string text)
+            public async Task QuoteSearch(string keyword, [Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                     return;
@@ -218,7 +218,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task QuoteAdd(string keyword, [Leftover] string text)
+            public async Task QuoteAdd(string keyword, [Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
                     return;
@@ -282,7 +282,7 @@ namespace Mewdeko.Modules.Utility
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task DelAllQuotes([Leftover] string keyword)
+            public async Task DelAllQuotes([Remainder] string keyword)
             {
                 if (string.IsNullOrWhiteSpace(keyword))
                     return;

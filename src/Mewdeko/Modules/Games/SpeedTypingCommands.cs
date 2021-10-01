@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.Games
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task Typeadd([Leftover] string text)
+            public async Task Typeadd([Remainder] string text)
             {
                 var channel = (ITextChannel)ctx.Channel;
                 if (string.IsNullOrWhiteSpace(text))

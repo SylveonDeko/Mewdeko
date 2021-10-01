@@ -12,8 +12,7 @@ namespace Mewdeko.Extensions
     {
         public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string> func = null)
         {
-            if (func is null)
-                func = x => x?.ToString() ?? string.Empty;
+            func ??= x => x?.ToString() ?? string.Empty;
 
             return string.Join(separator, data.Select(func));
         }
@@ -53,9 +52,7 @@ namespace Mewdeko.Extensions
 
                 var k = boxSum % n;
                 n--;
-                var value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                (list[k], list[n]) = (list[n], list[k]);
             }
 
             return list;

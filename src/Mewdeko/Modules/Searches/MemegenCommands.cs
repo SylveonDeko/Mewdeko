@@ -86,7 +86,7 @@ namespace Mewdeko.Modules.Searches
             [Usage]
             [Description]
             [Aliases]
-            public async Task Memegen(string meme, [Leftover] string memeText = null)
+            public async Task Memegen(string meme, [Remainder] string memeText = null)
             {
                 var memeUrl = $"http://api.memegen.link/{meme}";
                 if (!string.IsNullOrWhiteSpace(memeText))

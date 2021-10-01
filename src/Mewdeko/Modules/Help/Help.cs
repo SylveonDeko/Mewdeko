@@ -303,7 +303,7 @@ namespace Mewdeko.Modules.Help
         [Description]
         [Aliases]
         [Priority(0)]
-        public async Task H([Leftover] string fail)
+        public async Task H([Remainder] string fail)
         {
             var prefixless =
                 _cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == fail));
@@ -321,7 +321,7 @@ namespace Mewdeko.Modules.Help
         [Description]
         [Aliases]
         [Priority(1)]
-        public async Task H([Leftover] CommandInfo com = null)
+        public async Task H([Remainder] CommandInfo com = null)
         {
             var channel = ctx.Channel;
 
@@ -340,7 +340,7 @@ namespace Mewdeko.Modules.Help
         [Description]
         [Aliases]
         [OwnerOnly]
-        public async Task GenCmdList([Leftover] string path = null)
+        public async Task GenCmdList([Remainder] string path = null)
         {
             _ = ctx.Channel.TriggerTypingAsync();
 

@@ -19,7 +19,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
-            public async Task AutoAssignRole([Leftover] IRole role)
+            public async Task AutoAssignRole([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
                 if (role.Id == ctx.Guild.EveryoneRole.Id)
@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageRoles)]
-            public async Task AutoAssignBotRole([Leftover] IRole role)
+            public async Task AutoAssignBotRole([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
                 if (role.Id == ctx.Guild.EveryoneRole.Id)

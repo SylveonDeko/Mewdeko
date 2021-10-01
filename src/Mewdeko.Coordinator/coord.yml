@@ -1,5 +1,5 @@
 TotalShards: 1
 RecheckIntervalMs: 5000
 ShardStartCommand: dotnet
-ShardStartArgs: run -p "..\Mewdeko\Mewdeko.csproj" --no-build -- {0} {1}
+ShardStartArgs: run -p "..\Mewdeko\Mewdeko.csproj" -- {0} {1}
 UnresponsiveSec: 30

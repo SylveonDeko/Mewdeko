@@ -53,7 +53,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task StartupCommandAdd([Leftover] string cmdText)
+            public async Task StartupCommandAdd([Remainder] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
@@ -89,7 +89,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task AutoCommandAdd(int interval, [Leftover] string cmdText)
+            public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
             {
                 if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
                     return;
@@ -222,7 +222,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [OwnerOnly]
-            public async Task AutoCommandRemove([Leftover] int index)
+            public async Task AutoCommandRemove([Remainder] int index)
             {
                 if (!_service.RemoveAutoCommand(--index, out _))
                 {
@@ -239,7 +239,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [OwnerOnly]
-            public async Task StartupCommandRemove([Leftover] int index)
+            public async Task StartupCommandRemove([Remainder] int index)
             {
                 if (!_service.RemoveStartupCommand(--index, out _))
                     await ReplyErrorLocalizedAsync("scrm_fail").ConfigureAwait(false);
@@ -385,7 +385,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public Task Leave([Leftover] string guildStr)
+            public Task Leave([Remainder] string guildStr)
             {
                 return _service.LeaveGuild(guildStr);
             }
@@ -439,7 +439,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task SetName([Leftover] string newName)
+            public async Task SetName([Remainder] string newName)
             {
                 if (string.IsNullOrWhiteSpace(newName))
                     return;
@@ -463,7 +463,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageNicknames)]
             [BotPerm(GuildPerm.ChangeNickname)]
             [Priority(0)]
-            public async Task SetNick([Leftover] string newNick = null)
+            public async Task SetNick([Remainder] string newNick = null)
             {
                 if (string.IsNullOrWhiteSpace(newNick))
                     return;
@@ -480,7 +480,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPerm.ManageNicknames)]
             [UserPerm(GuildPerm.ManageNicknames)]
             [Priority(1)]
-            public async Task SetNick(IGuildUser gu, [Leftover] string newNick = null)
+            public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
             {
                 var sg = (SocketGuild)Context.Guild;
                 if (sg.OwnerId == gu.Id ||
@@ -501,7 +501,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task SetStatus([Leftover] SettableUserStatus status)
+            public async Task SetStatus([Remainder] SettableUserStatus status)
             {
                 await _client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
 
@@ -513,7 +513,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task SetAvatar([Leftover] string img = null)
+            public async Task SetAvatar([Remainder] string img = null)
             {
                 var success = await _service.SetAvatar(img);
 
@@ -525,7 +525,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task SetGame(ActivityType type, [Leftover] string game = null)
+            public async Task SetGame(ActivityType type, [Remainder] string game = null)
             {
                 var rep = new ReplacementBuilder()
                     .WithDefault(Context)
@@ -541,7 +541,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task SetStream(string url, [Leftover] string name = null)
+            public async Task SetStream(string url, [Remainder] string name = null)
             {
                 name = name ?? "";
 
@@ -555,7 +555,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task Send(string where, [Leftover] string msg = null)
+            public async Task Send(string where, [Remainder] string msg = null)
             {
                 if (string.IsNullOrWhiteSpace(msg))
                     return;

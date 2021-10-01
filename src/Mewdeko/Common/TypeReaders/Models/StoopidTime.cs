@@ -18,7 +18,7 @@ namespace Mewdeko.Core.Common.TypeReaders.Models
         {
             var m = _regex.Match(input);
 
-            if (m.Length == 0) throw new ArgumentException("Invalid string input format.");
+            if (m.Length == 0) throw new ArgumentException("Invalid Time! Valid Example: 1h2d3m");
 
             var output = "";
             var namesAndValues = new Dictionary<string, int>();

@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Searches
             [Usage]
             [Description]
             [Aliases]
-            public async Task Osu(string user, [Leftover] string mode = null)
+            public async Task Osu(string user, [Remainder] string mode = null)
             {
                 if (string.IsNullOrWhiteSpace(user))
                     return;
@@ -96,7 +96,7 @@ namespace Mewdeko.Modules.Searches
             [Usage]
             [Description]
             [Aliases]
-            public async Task Gatari(string user, [Leftover] string mode = null)
+            public async Task Gatari(string user, [Remainder] string mode = null)
             {
                 using (var http = _httpFactory.CreateClient())
                 {
@@ -142,7 +142,7 @@ namespace Mewdeko.Modules.Searches
             [Usage]
             [Description]
             [Aliases]
-            public async Task Osu5(string user, [Leftover] string mode = null)
+            public async Task Osu5(string user, [Remainder] string mode = null)
             {
                 var channel = (ITextChannel)ctx.Channel;
                 if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))

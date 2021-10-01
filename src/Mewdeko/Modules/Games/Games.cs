@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Games
         [Usage]
         [Description]
         [Aliases]
-        public async Task Choose([Leftover] string list = null)
+        public async Task Choose([Remainder] string list = null)
         {
             if (string.IsNullOrWhiteSpace(list))
                 return;
@@ -48,7 +48,7 @@ namespace Mewdeko.Modules.Games
         [Usage]
         [Description]
         [Aliases]
-        public async Task EightBall([Leftover] string question = null)
+        public async Task EightBall([Remainder] string question = null)
         {
             if (string.IsNullOrWhiteSpace(question))
                 return;

@@ -209,7 +209,7 @@ namespace Mewdeko.Modules.Gambling
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Raffle([Leftover] IRole role = null)
+        public async Task Raffle([Remainder] IRole role = null)
         {
             role = role ?? ctx.Guild.EveryoneRole;
 
@@ -227,7 +227,7 @@ namespace Mewdeko.Modules.Gambling
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task RaffleAny([Leftover] IRole role = null)
+        public async Task RaffleAny([Remainder] IRole role = null)
         {
             role = role ?? ctx.Guild.EveryoneRole;
 
@@ -244,7 +244,7 @@ namespace Mewdeko.Modules.Gambling
         [Description]
         [Aliases]
         [Priority(1)]
-        public async Task Cash([Leftover] IUser user = null)
+        public async Task Cash([Remainder] IUser user = null)
         {
             user = user ?? ctx.User;
             await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}")
@@ -267,7 +267,7 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         [OwnerOnly]
         [Priority(0)]
-        public Task CurrencyTransactions([Leftover] IUser usr)
+        public Task CurrencyTransactions([Remainder] IUser usr)
         {
             return InternalCurrencyTransactions(usr.Id, 1);
         }
@@ -329,7 +329,7 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public async Task Give(ShmartNumber amount, IGuildUser receiver, [Leftover] string msg = null)
+        public async Task Give(ShmartNumber amount, IGuildUser receiver, [Remainder] string msg = null)
         {
             if (amount <= 0 || ctx.User.Id == receiver.Id || receiver.IsBot)
                 return;
@@ -354,7 +354,7 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public Task Give(ShmartNumber amount, [Leftover] IGuildUser receiver)
+        public Task Give(ShmartNumber amount, [Remainder] IGuildUser receiver)
         {
             return Give(amount, receiver, null);
         }
@@ -366,7 +366,7 @@ namespace Mewdeko.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(0)]
-        public Task Award(ShmartNumber amount, IGuildUser usr, [Leftover] string msg)
+        public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg)
         {
             return Award(amount, usr.Id, msg);
         }
@@ -378,7 +378,7 @@ namespace Mewdeko.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(1)]
-        public Task Award(ShmartNumber amount, [Leftover] IGuildUser usr)
+        public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr)
         {
             return Award(amount, usr.Id);
         }
@@ -389,7 +389,7 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(ShmartNumber amount, ulong usrId, [Leftover] string msg = null)
+        public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string msg = null)
         {
             if (amount <= 0)
                 return;
@@ -408,7 +408,7 @@ namespace Mewdeko.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
         [Priority(2)]
-        public async Task Award(ShmartNumber amount, [Leftover] IRole role)
+        public async Task Award(ShmartNumber amount, [Remainder] IRole role)
         {
             var users = (await ctx.Guild.GetUsersAsync().ConfigureAwait(false))
                 .Where(u => u.GetRoles().Contains(role))
@@ -433,7 +433,7 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [OwnerOnly]
-        public async Task Take(ShmartNumber amount, [Leftover] IGuildUser user)
+        public async Task Take(ShmartNumber amount, [Remainder] IGuildUser user)
         {
             if (amount <= 0)
                 return;
@@ -453,7 +453,7 @@ namespace Mewdeko.Modules.Gambling
         [Description]
         [Aliases]
         [OwnerOnly]
-        public async Task Take(ShmartNumber amount, [Leftover] ulong usrId)
+        public async Task Take(ShmartNumber amount, [Remainder] ulong usrId)
         {
             if (amount <= 0)
                 return;

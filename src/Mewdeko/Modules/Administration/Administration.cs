@@ -498,7 +498,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
-        public async Task DelVoiChanl([Leftover] IVoiceChannel voiceChannel)
+        public async Task DelVoiChanl([Remainder] IVoiceChannel voiceChannel)
         {
             await voiceChannel.DeleteAsync().ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("delvoich", Format.Bold(voiceChannel.Name)).ConfigureAwait(false);
@@ -511,7 +511,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
-        public async Task CreatVoiChanl([Leftover] string channelName)
+        public async Task CreatVoiChanl([Remainder] string channelName)
         {
             var ch = await ctx.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createvoich", Format.Bold(ch.Name)).ConfigureAwait(false);
@@ -524,7 +524,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
-        public async Task DelTxtChanl([Leftover] ITextChannel toDelete)
+        public async Task DelTxtChanl([Remainder] ITextChannel toDelete)
         {
             await toDelete.DeleteAsync().ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("deltextchan", Format.Bold(toDelete.Name)).ConfigureAwait(false);
@@ -537,7 +537,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
-        public async Task CreaTxtChanl([Leftover] string channelName)
+        public async Task CreaTxtChanl([Remainder] string channelName)
         {
             var txtCh = await ctx.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("createtextchan", Format.Bold(txtCh.Name)).ConfigureAwait(false);
@@ -550,7 +550,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
-        public async Task SetTopic([Leftover] string topic = null)
+        public async Task SetTopic([Remainder] string topic = null)
         {
             var channel = (ITextChannel)ctx.Channel;
             topic = topic ?? "";
@@ -565,7 +565,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageChannels)]
         [BotPerm(GuildPerm.ManageChannels)]
-        public async Task SetChanlName([Leftover] string name)
+        public async Task SetChanlName([Remainder] string name)
         {
             var channel = (ITextChannel)ctx.Channel;
             await channel.ModifyAsync(c => c.Name = name).ConfigureAwait(false);
@@ -599,7 +599,7 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(ChannelPerm.ManageMessages)]
         [Priority(0)]
-        public Task Edit(ulong messageId, [Leftover] string text)
+        public Task Edit(ulong messageId, [Remainder] string text)
         {
             return Edit((ITextChannel)ctx.Channel, messageId, text);
         }
@@ -610,7 +610,7 @@ namespace Mewdeko.Modules.Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public async Task Edit(ITextChannel channel, ulong messageId, [Leftover] string text)
+        public async Task Edit(ITextChannel channel, ulong messageId, [Remainder] string text)
         {
             var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
             var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);

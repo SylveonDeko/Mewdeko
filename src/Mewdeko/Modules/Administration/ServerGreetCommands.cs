@@ -93,7 +93,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
-            public async Task BoostMsg([Leftover] string text)
+            public async Task BoostMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -229,7 +229,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
-            public async Task GreetMsg([Leftover] string text)
+            public async Task GreetMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -278,7 +278,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
-            public async Task GreetDmMsg([Leftover] string text = null)
+            public async Task GreetDmMsg([Remainder] string text = null)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -327,7 +327,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
-            public async Task ByeMsg([Leftover] string text)
+            public async Task ByeMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {
@@ -366,7 +366,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             [Ratelimit(5)]
-            public async Task ByeTest([Leftover] IGuildUser user = null)
+            public async Task ByeTest([Remainder] IGuildUser user = null)
             {
                 user = user ?? (IGuildUser)Context.User;
 
@@ -411,7 +411,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             [Ratelimit(5)]
-            public async Task GreetTest([Leftover] IGuildUser user = null)
+            public async Task GreetTest([Remainder] IGuildUser user = null)
             {
                 user = user ?? (IGuildUser)Context.User;
 
@@ -428,7 +428,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageGuild)]
             [Ratelimit(5)]
-            public async Task GreetDmTest([Leftover] IGuildUser user = null)
+            public async Task GreetDmTest([Remainder] IGuildUser user = null)
             {
                 user = user ?? (IGuildUser)Context.User;
 

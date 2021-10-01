@@ -11,10 +11,8 @@ namespace Mewdeko.Services.Database.Repositories.Impl
         {
         }
 
-        public IEnumerable<Giveaways> GiveawaysFor(ulong serverId)
-        {
-            return _set.AsQueryable()
+        public IEnumerable<Giveaways> GiveawaysFor(ulong serverId) =>
+            _set.AsQueryable()
                 .Where(x => x.ServerId == serverId).ToList();
-        }
     }
 }

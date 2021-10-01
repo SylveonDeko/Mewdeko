@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
-                [Leftover] StoopidTime punishTime = null)
+                [Remainder] StoopidTime punishTime = null)
             {
                 var minAgeMinutes = (int)minAge.Time.TotalMinutes;
                 var punishTimeMinutes = (int?)punishTime?.Time.TotalMinutes ?? 0;
@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Leftover] IRole role)
+            public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Remainder] IRole role)
             {
                 var minAgeMinutes = (int)minAge.Time.TotalMinutes;
 
@@ -94,7 +94,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
             public Task AntiRaid(int userThreshold, int seconds,
-                PunishmentAction action, [Leftover] StoopidTime punishTime)
+                PunishmentAction action, [Remainder] StoopidTime punishTime)
             {
                 return InternalAntiRaid(userThreshold, seconds, action, punishTime);
             }
@@ -170,7 +170,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-            public Task AntiSpam(int messageCount, PunishmentAction action, [Leftover] IRole role)
+            public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
             {
                 if (action != PunishmentAction.AddRole)
                     return Task.CompletedTask;
@@ -185,7 +185,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(1)]
-            public Task AntiSpam(int messageCount, PunishmentAction action, [Leftover] StoopidTime punishTime)
+            public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime)
             {
                 return InternalAntiSpam(messageCount, action, punishTime);
             }

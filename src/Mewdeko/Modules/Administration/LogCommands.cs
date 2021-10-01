@@ -16,7 +16,6 @@ namespace Mewdeko.Modules.Administration
     public partial class Administration
     {
         [Group]
-        [NoPublicBot]
         public class LogCommands : MewdekoSubmodule<LogCommandService>
         {
             public enum EnableDisable

@@ -11,7 +11,7 @@
 //        // {
 //        //     [MewdekoCommand, Usage, Description, Aliases]
 //        //     [RequireContext(ContextType.Guild)]
-//        //     public async Task YtFollow(string ytChannelId, [Leftover] string uploadMessage = null)
+//        //     public async Task YtFollow(string ytChannelId, [Remainder] string uploadMessage = null)
 //        //     {
 //        //         var succ = await _service.ToggleChannelFollowAsync(Context.Guild.Id, Context.Channel.Id, ytChannelId, uploadMessage);
 //        //         if(succ)

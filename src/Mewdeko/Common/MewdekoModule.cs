@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Services;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.ServerManagement.Services;
 using Mewdeko.Modules.Suggestions.Services;
+using Mewdeko.Services;
 
 namespace Mewdeko.Modules
 {
@@ -27,7 +27,6 @@ namespace Mewdeko.Modules
         public ulong TTicketCategory => SMS.GetTicketCategory(ctx.Guild.Id);
         public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
         public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
-        public ulong sugnum => SugServ.GetSNum(ctx.Guild.Id);
 
 
         protected ICommandContext ctx => Context;

@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPerm.ManageRoles)]
             [BotPerm(GuildPerm.ManageRoles)]
             [RequireContext(ContextType.Guild)]
-            public async Task VcRole([Leftover] IRole role = null)
+            public async Task VcRole([Remainder] IRole role = null)
             {
                 var user = (IGuildUser)ctx.User;
 

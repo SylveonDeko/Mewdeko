@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-            public Task PrefixCommand(Set _, [Leftover] string prefix)
+            public Task PrefixCommand(Set _, [Remainder] string prefix)
             {
                 return PrefixCommand(prefix);
             }
@@ -45,7 +45,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
             [Priority(0)]
-            public async Task PrefixCommand([Leftover] string prefix)
+            public async Task PrefixCommand([Remainder] string prefix)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                     return;
@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [OwnerOnly]
-            public async Task DefPrefix([Leftover] string prefix = null)
+            public async Task DefPrefix([Remainder] string prefix = null)
             {
                 if (string.IsNullOrWhiteSpace(prefix))
                 {

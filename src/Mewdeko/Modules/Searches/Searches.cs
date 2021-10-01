@@ -370,7 +370,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Rip([Leftover] IGuildUser usr)
+        public async Task Rip([Remainder] IGuildUser usr)
         {
             var av = usr.RealAvatarUrl();
             if (av == null)
@@ -394,7 +394,7 @@ namespace Mewdeko.Modules.Searches
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageMessages)]
         [Priority(1)]
-        public async Task Say(ITextChannel channel, [Leftover] string message)
+        public async Task Say(ITextChannel channel, [Remainder] string message)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return;
@@ -423,7 +423,7 @@ namespace Mewdeko.Modules.Searches
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPerm.ManageMessages)]
         [Priority(0)]
-        public Task Say([Leftover] string message)
+        public Task Say([Remainder] string message)
         {
             return Say((ITextChannel)ctx.Channel, message);
         }
@@ -433,7 +433,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Weather([Leftover] string query)
+        public async Task Weather([Remainder] string query)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
@@ -504,7 +504,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Time([Leftover] string query)
+        public async Task Time([Remainder] string query)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
@@ -556,7 +556,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Youtube([Leftover] string query = null)
+        public async Task Youtube([Remainder] string query = null)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
@@ -576,7 +576,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Movie([Leftover] string query = null)
+        public async Task Movie([Remainder] string query = null)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
@@ -654,7 +654,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Image([Leftover] string query = null)
+        public async Task Image([Remainder] string query = null)
         {
             var oterms = query?.Trim();
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -711,7 +711,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Lmgtfy([Leftover] string ffs = null)
+        public async Task Lmgtfy([Remainder] string ffs = null)
         {
             if (!await ValidateQuery(ctx.Channel, ffs).ConfigureAwait(false))
                 return;
@@ -727,7 +727,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Shorten([Leftover] string query)
+        public async Task Shorten([Remainder] string query)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
@@ -779,7 +779,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Google([Leftover] string query = null)
+        public async Task Google([Remainder] string query = null)
         {
             query = query?.Trim();
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -818,7 +818,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task MagicTheGathering([Leftover] string search)
+        public async Task MagicTheGathering([Remainder] string search)
         {
             if (!await ValidateQuery(ctx.Channel, search))
                 return;
@@ -848,7 +848,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Hearthstone([Leftover] string name)
+        public async Task Hearthstone([Remainder] string name)
         {
             var arg = name;
             if (!await ValidateQuery(ctx.Channel, name).ConfigureAwait(false))
@@ -883,7 +883,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task UrbanDict([Leftover] string query = null)
+        public async Task UrbanDict([Remainder] string query = null)
         {
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
@@ -932,7 +932,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Define([Leftover] string word)
+        public async Task Define([Remainder] string word)
         {
             if (!await ValidateQuery(ctx.Channel, word).ConfigureAwait(false))
                 return;
@@ -1034,7 +1034,7 @@ namespace Mewdeko.Modules.Searches
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Revav([Leftover] IGuildUser usr = null)
+        public async Task Revav([Remainder] IGuildUser usr = null)
         {
             if (usr == null)
                 usr = (IGuildUser)ctx.User;
@@ -1052,7 +1052,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Revimg([Leftover] string imageLink = null)
+        public async Task Revimg([Remainder] string imageLink = null)
         {
             imageLink = imageLink?.Trim() ?? "";
 
@@ -1066,7 +1066,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public Task Safebooru([Leftover] string tag = null)
+        public Task Safebooru([Remainder] string tag = null)
         {
             return InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
         }
@@ -1076,7 +1076,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Wiki([Leftover] string query = null)
+        public async Task Wiki([Remainder] string query = null)
         {
             query = query?.Trim();
 
@@ -1156,7 +1156,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Wikia(string target, [Leftover] string query)
+        public async Task Wikia(string target, [Remainder] string query)
         {
             if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
             {
@@ -1238,7 +1238,7 @@ namespace Mewdeko.Modules.Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Steam([Leftover] string query)
+        public async Task Steam([Remainder] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return;

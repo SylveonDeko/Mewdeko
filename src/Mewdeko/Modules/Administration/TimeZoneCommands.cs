@@ -93,7 +93,7 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.Administrator)]
-            public async Task Timezone([Leftover] string id)
+            public async Task Timezone([Remainder] string id)
             {
                 TimeZoneInfo tz;
                 try

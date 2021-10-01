@@ -54,7 +54,7 @@ namespace Mewdeko.Core.Modules.Music
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Playlists([Leftover] int num = 1)
+            public async Task Playlists([Remainder] int num = 1)
             {
                 if (num <= 0)
                     return;
@@ -79,7 +79,7 @@ namespace Mewdeko.Core.Modules.Music
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task DeletePlaylist([Leftover] int id)
+            public async Task DeletePlaylist([Remainder] int id)
             {
                 var success = false;
                 try
@@ -155,7 +155,7 @@ namespace Mewdeko.Core.Modules.Music
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Save([Leftover] string name)
+            public async Task Save([Remainder] string name)
             {
                 if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
                 {
@@ -198,7 +198,7 @@ namespace Mewdeko.Core.Modules.Music
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            public async Task Load([Leftover] int id)
+            public async Task Load([Remainder] int id)
             {
                 // expensive action, 1 at a time
                 await _playlistLock.WaitAsync();

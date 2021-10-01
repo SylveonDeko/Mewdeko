@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPerm.ManageMessages)]
-            public async Task Feed(string url, [Leftover] ITextChannel channel = null)
+            public async Task Feed(string url, [Remainder] ITextChannel channel = null)
             {
                 var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
                               (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);

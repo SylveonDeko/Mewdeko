@@ -201,7 +201,7 @@ namespace Mewdeko.Modules.Gambling
             [Usage]
             [Description]
             [Aliases]
-            public async Task NRoll([Leftover] string range)
+            public async Task NRoll([Remainder] string range)
             {
                 int rolled;
                 if (range.Contains("-"))
