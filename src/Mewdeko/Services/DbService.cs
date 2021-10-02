@@ -48,10 +48,10 @@ namespace Mewdeko.Services
             var context = new MewdekoContext(options);
             context.Database.SetCommandTimeout(60);
             var conn = context.Database.GetDbConnection();
-            conn.Open();
+            conn.OpenAsync();
             using var com = conn.CreateCommand();
             com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
-            com.ExecuteNonQuery();
+            com.ExecuteNonQueryAsync();
 
             return context;
         }

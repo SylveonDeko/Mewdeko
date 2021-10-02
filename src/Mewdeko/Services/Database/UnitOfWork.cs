@@ -100,7 +100,7 @@ _planted ??= new PlantedCurrencyRepository(_context);
         }
 
         public void Dispose()
-        {
+        { 
             _context.Dispose();
             GC.SuppressFinalize(this);
         }

@@ -62,15 +62,6 @@ namespace Mewdeko._Extensions
         {
             return eab.WithIconUrl("http://i.imgur.com/nhKS3PT.png");
         }
-        public static Task<IUserMessage> SendAsync(this IMessageChannel channel, string plainText, Embed embed,
-            bool sanitizeAll = false)
-        {
-            plainText = sanitizeAll
-                ? plainText?.SanitizeAllMentions() ?? ""
-                : plainText?.SanitizeMentions() ?? "";
-
-            return channel.SendMessageAsync(plainText, embed: embed);
-        }
 
 
         public static List<ulong> GetGuildIds(this DiscordSocketClient client)

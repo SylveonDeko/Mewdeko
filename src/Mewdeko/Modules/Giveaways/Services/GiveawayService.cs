@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
@@ -66,7 +67,7 @@ namespace Mewdeko.Modules.Giveaways.Services
             }
         }
 
-        private async Task RemoveReminders(List<global::Mewdeko.Services.Database.Models.Giveaways> reminders)
+        private async Task RemoveReminders(List<Mewdeko.Services.Database.Models.Giveaways> reminders)
         {
             using (var uow = _db.GetDbContext())
             {
@@ -87,8 +88,40 @@ namespace Mewdeko.Modules.Giveaways.Services
                     .ToListAsync();
             }
         }
+        public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, ulong host, ulong ServerId, ITextChannel CurrentChannel, IGuild guild)
+        {
+            var eb = new EmbedBuilder()
+            {
+                Color = Mewdeko.Services.Mewdeko.OkColor,
+                Title = "Mewdeko Giveaway!",
+                Description =
+                    $"Prize: {item}\nWinners: 1\nEnd Time: {ts.Humanize()}\nHost: {await guild.GetUserAsync(host)}\n\n\nReact to <:Nekoha_nom:866616296291172353> to enter!",
+                ImageUrl = "https://cdn.discordapp.com/attachments/866315387703394314/866321920822870026/80942286_p0.png?width=1246&height=701"
+            };
+            var msg = await chan.SendMessageAsync(embed: eb.Build());
 
-        private async Task GiveawayTimerAction(global::Mewdeko.Services.Database.Models.Giveaways r)
+            var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
+            await msg.AddReactionAsync(emote);
+            var time = DateTime.UtcNow + ts;
+            var rem = new Mewdeko.Services.Database.Models.Giveaways
+            {
+                ChannelId = chan.Id,
+                UserId = host,
+                ServerId = ServerId,
+                When = time,
+                Item = item,
+                MessageId = msg.Id
+            };
+
+            using (var uow = _db.GetDbContext())
+            {
+                uow.Giveaways.Add(rem);
+                var e = uow.SaveChanges();
+                Console.WriteLine(e);
+            }
+            await CurrentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
+        }
+        public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)
         {
             var ch = await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId) as IUserMessage;
                 if (ch == null)
