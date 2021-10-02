@@ -76,44 +76,6 @@ namespace Mewdeko.Modules.Utility
             }
         }
 
-        //[MewdekoCommand]
-        //[Usage]
-        //[Description]
-        //[Aliases]
-        //public async Task GStart()
-        //{
-        //    var time = new StoopidTime();
-        //    var msg = await ctx.Channel.SendConfirmAsync("How long would the giveaway last?");
-        //    var e = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id);
-        //    try
-        //    {
-        //        time = StoopidTime.FromInput(e);
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        await msg.DeleteAsync();
-        //        await ctx.Channel.SendErrorAsync("The time must be more than one second!");
-        //        return;
-        //    }
-
-        //    var msg2 = await ctx.Channel.SendConfirmAsync("What would be the prize for this giveaway?");
-        //    var e2 = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id);
-
-        //}
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task Request([Remainder] string _)
-        {
-            var list = new List<string>();
-            list.Add("No piransi");
-            list.Add("<:omegalul2:873626819331498024>");
-            var random = new Random();
-            var index = random.Next(list.Count());
-            await ctx.Channel.SendErrorAsync(list[index]);
-        }
-
         [MewdekoCommand]
         [Usage]
         [Description]

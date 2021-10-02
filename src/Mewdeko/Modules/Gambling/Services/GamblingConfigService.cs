@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Gambling.Services
 {
     public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
     {
-        private const string FilePath = "data/gambling.yml";
+        private new const string FilePath = "data/gambling.yml";
         private static readonly TypedKey<GamblingConfig> changeKey = new("config.gambling.updated");
 
 

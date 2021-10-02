@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Games.Services
 {
     public sealed class GamesConfigService : ConfigServiceBase<GamesConfig>
     {
-        private const string FilePath = "data/games.yml";
+        private new const string FilePath = "data/games.yml";
         private static readonly TypedKey<GamesConfig> changeKey = new("config.games.updated");
 
         public GamesConfigService(IConfigSeria serializer, IPubSub pubSub)
