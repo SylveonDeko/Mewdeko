@@ -75,7 +75,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia
                 showHowToQuit = !showHowToQuit;
 
                 // load question
-                CurrentQuestion = _questionPool.GetRandomQuestion(OldQuestions, _options.IsPokemon);
+                CurrentQuestion = _questionPool.GetRandomQuestion(OldQuestions);
                 if (string.IsNullOrWhiteSpace(CurrentQuestion?.Answer) ||
                     string.IsNullOrWhiteSpace(CurrentQuestion.Question))
                 {

@@ -87,7 +87,6 @@ namespace Mewdeko.Services
         public IServiceProvider Services { get; private set; }
         public IDataCache Cache { get; }
 
-        public string Mention { get; set; }
 
         public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
@@ -122,8 +121,6 @@ namespace Mewdeko.Services
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
-                .AddSingleton<ICoordinator, RemoteGrpcCoordinator>()
-                .AddSingleton<IReadyExecutor>(x => (IReadyExecutor)x.GetRequiredService<ICoordinator>())
                 .AddConfigServices()
                 .AddBotStringsServices()
                 .AddMemoryCache()
@@ -136,6 +133,16 @@ namespace Mewdeko.Services
             {
                 AllowAutoRedirect = false
             });
+            if (Environment.GetEnvironmentVariable("MEWDEKO_IS_COORDINATED") != "1")
+            {
+                s.AddSingleton<ICoordinator, SingleProcessCoordinator>();
+            }
+            else
+            {
+                s.AddSingleton<RemoteGrpcCoordinator>()
+                    .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
+                    .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
+            }
 
             s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
 
@@ -292,7 +299,6 @@ namespace Mewdeko.Services
 
             await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
-            Mention = Client.CurrentUser.Mention;
             Log.Information("Shard {ShardId} loading services...", Client.ShardId);
             try
             {

@@ -15,26 +15,6 @@ namespace Mewdeko.Modules.Searches
         [Group]
         public class TranslateCommands : MewdekoSubmodule
         {
-            //[MewdekoCommand, Usage, Description, Aliases]
-            //[OwnerOnly]
-            //public async Task Obfuscate([Remainder] string txt)
-            //{
-            //    var lastItem = "en";
-            //    foreach (var item in _google.Languages.Except(new[] { "en" }).Where(x => x.Length < 4))
-            //    {
-            //        var txt2 = await _searches.Translate(lastItem + ">" + item, txt);
-            //        await ctx.Channel.EmbedAsync(new EmbedBuilder()
-            //            .WithOkColor()
-            //            .WithTitle(lastItem + ">" + item)
-            //            .AddField("Input", txt)
-            //            .AddField("Output", txt2));
-            //        txt = txt2;
-            //        await Task.Delay(500);
-            //        lastItem = item;
-            //    }
-            //    txt = await _searches.Translate(lastItem + ">en", txt);
-            //    await ctx.Channel.SendConfirmAsync("Final output:\n\n" + txt);
-            //}
 
             public enum AutoDeleteAutoTranslate
             {

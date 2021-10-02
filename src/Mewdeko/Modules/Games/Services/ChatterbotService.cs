@@ -84,7 +84,8 @@ namespace Mewdeko.Modules.Games.Services
                 var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
-                    Log.Information($@"CleverBot Executed
+                    Log.Information(
+$@"CleverBot Executed
 Server: {guild.Name} [{guild.Id}]
 Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
 UserId: {usrMsg.Author} [{usrMsg.Author.Id}]

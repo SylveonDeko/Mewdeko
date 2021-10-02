@@ -74,32 +74,6 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
                         uow.SaveChanges();
                     }
                 }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
-
-            //using (var uow = _db.UnitOfWork)
-            //{
-            //    //refund all of the currency users had at stake in gambling games
-            //    //at the time bot was restarted
-
-            //    var stakes = uow._context.Set<Stake>()
-            //        .ToArray();
-
-            //    var userIds = stakes.Select(x => x.UserId).ToArray();
-            //    var reasons = stakes.Select(x => "Stake-" + x.Source).ToArray();
-            //    var amounts = stakes.Select(x => x.Amount).ToArray();
-
-            //    _cs.AddBulkAsync(userIds, reasons, amounts, gamble: true).ConfigureAwait(false);
-
-            //    foreach (var s in stakes)
-            //    {
-            //        _cs.AddAsync(s.UserId, "Stake-" + s.Source, s.Amount, gamble: true)
-            //            .GetAwaiter()
-            //            .GetResult();
-            //    }
-
-            //    uow._context.Set<Stake>().RemoveRange(stakes);
-            //    uow.Complete();
-            //    Log.Information("Refunded {0} users' stakes.", stakes.Length);
-            //}
         }
 
         public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();

@@ -301,51 +301,6 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
                     // this method will return once the sufficient prebuffering is done
                     await _songBuffer.BufferAsync(source, token);
 
-                    // // Implemenation with multimedia timer. Works but a hassle because no support for switching
-                    // // vcs, as any error in copying will cancel the song. Also no idea how to use this as an option
-                    // // for selfhosters.
-                    // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    // {
-                    //     var cancelSource = new CancellationTokenSource();
-                    //     var cancelToken = cancelSource.Token;
-                    //     using var timer = new MultimediaTimer(_ =>
-                    //     {
-                    //         if (IsStopped || IsKilled)
-                    //         {
-                    //             cancelSource.Cancel();
-                    //             return;
-                    //         }
-                    //         
-                    //         if (_skipped)
-                    //         {
-                    //             _skipped = false;
-                    //             cancelSource.Cancel();
-                    //             return;
-                    //         }
-                    //
-                    //         if (IsPaused)
-                    //             return;
-                    //
-                    //         try
-                    //         {
-                    //             // this should tolerate certain number of errors
-                    //             var result = CopyChunkToOutput(_songBuffer, _vc);
-                    //             if (!result)
-                    //                 cancelSource.Cancel();
-                    //               
-                    //         }
-                    //         catch (Exception ex)
-                    //         {
-                    //             Log.Warning(ex, "Something went wrong sending voice data: {ErrorMessage}", ex.Message);
-                    //             cancelSource.Cancel();
-                    //         }
-                    //
-                    //     }, null, 20);
-                    //     
-                    //     while(true)
-                    //         await Task.Delay(1000, cancelToken);
-                    // }
-
                     // start sending data
                     var ticksPerMs = 1000f / Stopwatch.Frequency;
                     sw.Start();
@@ -397,7 +352,7 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 
                                 // and then spin out the rest
                                 while ((sw.ElapsedTicks - ticks) * ticksPerMs <= _vc.Delay - 0.1f)
-                                    Thread.SpinWait(100);
+                                    Thread.SpinWait(200);
                             }
                             else
                             {

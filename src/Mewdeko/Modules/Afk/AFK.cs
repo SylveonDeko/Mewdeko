@@ -14,11 +14,11 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Modules.Afk.Services;
 
-namespace Mewdeko.Modules.Utility
+namespace Mewdeko.Modules.Afk
 {
-    public partial class Utility
+    public partial class Afk
 
     {
         public class AFK : MewdekoSubmodule<AFKService>
@@ -28,36 +28,6 @@ namespace Mewdeko.Modules.Utility
             public AFK(InteractiveService serv)
             {
                 Interactivity = serv;
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [Priority(0)]
-            [RequireUserPermission(GuildPermission.Administrator)]
-            public async Task RegisterAfkCommands()
-            {
-                try
-                {
-                    var guildcommands = new SlashCommandBuilder();
-                    guildcommands.WithName("afk");
-                    guildcommands.WithDescription("Allows you to enable and disable your afk.");
-                    guildcommands.AddOption(new SlashCommandOptionBuilder
-                    {
-                        Name = "message",
-                        Description = "Set an optional afk message",
-                        Type = ApplicationCommandOptionType.String
-                    });
-                    var client = ctx.Client as DiscordSocketClient;
-                    await client.Rest.CreateGuildCommand(guildcommands.Build(), ctx.Guild.Id);
-                    await ctx.Channel.SendConfirmAsync("Succesfully added afk slash commands");
-                }
-                catch
-                {
-                    await ctx.Channel.SendErrorAsync(
-                        "The bot does not have permission to add slash commands!, Please reauthrorize it using the link at https://mewdeko.tech/invite");
-                }
             }
 
             [MewdekoCommand]

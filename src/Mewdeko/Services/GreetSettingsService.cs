@@ -19,7 +19,6 @@ namespace Mewdeko.Services
 {
     public class GreetSettingsService : INService
     {
-        private RatelimitManager Manager = new RatelimitManager();
         private readonly BotConfigService _bss;
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;

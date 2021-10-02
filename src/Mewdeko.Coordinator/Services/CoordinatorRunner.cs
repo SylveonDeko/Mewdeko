@@ -195,7 +195,7 @@ namespace Mewdeko.Coordinator.Services
                     _config.TotalShards),
                 EnvironmentVariables =
                 {
-                    {"NADEKOBOT_IS_COORDINATED", "1"}
+                    {"MEWDEKO_IS_COORDINATED", "1"}
                 }
                 // CreateNoWindow = true,
                 // UseShellExecute = false,

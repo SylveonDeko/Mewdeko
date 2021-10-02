@@ -12,7 +12,7 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Modules.Utility.Services
+namespace Mewdeko.Modules.Afk.Services
 {
     public class AFKService : INService
     {

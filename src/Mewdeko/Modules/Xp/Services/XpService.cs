@@ -223,21 +223,24 @@ namespace Mewdeko.Modules.Xp.Services
                                     curRewards.Add(usr.GuildId, crews);
                                 }
 
-                                var rrew = rrews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (rrew != null)
+                                for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
                                 {
-                                    var role = first.User.Guild.GetRole(rrew.RoleId);
-                                    if (role != null)
+                                    var rrew = rrews.FirstOrDefault(x => x.Level == i);
+                                    if (rrew != null)
                                     {
-                                        var __ = first.User.AddRoleAsync(role);
+                                        var role = first.User.Guild.GetRole(rrew.RoleId);
+                                        if (!(role is null))
+                                        {
+                                            _ = first.User.AddRoleAsync(role);
+                                        }
+                                    }
+                                    var crew = crews.FirstOrDefault(x => x.Level == i);
+                                    if (crew != null)
+                                    {
+                                        //give the user the reward if it exists
+                                        await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                                     }
                                 }
-
-                                //get currency reward for this level
-                                var crew = crews.FirstOrDefault(x => x.Level == newGuildLevelData.Level);
-                                if (crew != null)
-                                    //give the user the reward if it exists
-                                    await _cs.AddAsync(item.Key.User.Id, "Level-up Reward", crew.Amount);
                             }
                         }
 

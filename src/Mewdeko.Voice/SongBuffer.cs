@@ -93,9 +93,9 @@ Check the guides for your platform on how to setup ffmpeg correctly:
         private Process StartFFmpegProcess()
         {
             var args =
-                $"-err_detect ignore_err -i {_streamUrl} -f {_pcmType} -ar 48000 -vn -ac 2 pipe:1 -loglevel error";
+                $"-err_detect ignore_err -i {_streamUrl} -f {_pcmType} -ar 48000 -vn -ac 2 pipe:1 -loglevel error -c:v h264 -preset:v ultrafast";
             if (!_isLocal)
-                args = $"-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 {args}";
+                args = $"-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5  {args}";
 
             return _p = Process.Start(new ProcessStartInfo
             {

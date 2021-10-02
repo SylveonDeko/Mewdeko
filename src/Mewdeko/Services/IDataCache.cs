@@ -11,11 +11,7 @@ namespace Mewdeko.Services
         ILocalDataCache LocalData { get; }
 
         Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key);
-        Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key);
-        Task<(bool Success, string Data)> TryGetNovelDataAsync(string key);
         Task SetImageDataAsync(Uri key, byte[] data);
-        Task SetAnimeDataAsync(string link, string data);
-        Task SetNovelDataAsync(string link, string data);
         TimeSpan? AddTimelyClaim(ulong id, int period);
         TimeSpan? AddVoteClaim(ulong id, int period);
         TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn);
