@@ -264,7 +264,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
                 .ToDictionary(g => g.Key,
                     g => g.Select(x =>
                     {
-                        x.Trigger = x.Trigger.Replace(MentionPh, _bot.Mention);
+                        x.Trigger = x.Trigger.Replace(MentionPh, _client.CurrentUser.Mention);
                         return x;
                     }).ToArray())
                 .ToConcurrent();
@@ -278,7 +278,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
                     .AsEnumerable()
                     .Select(x =>
                     {
-                        x.Trigger = x.Trigger.Replace(MentionPh, _bot.Mention);
+                        x.Trigger = x.Trigger.Replace(MentionPh, _client.CurrentUser.Mention);
                         return x;
                     })
                     .ToArray();

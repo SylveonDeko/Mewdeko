@@ -158,7 +158,7 @@ namespace Mewdeko.Modules.Gambling
                 return;
             }
 
-            if ((rem = _cache.AddTimelyClaim(ctx.User.Id, period)) != null)
+            if ((rem = _cache.AddVoteClaim(ctx.User.Id, period)) != null)
             {
                 await ReplyErrorLocalizedAsync("vote_already_claimed", rem?.ToString(@"dd\d\ hh\h\ mm\m\ ss\s"))
                     .ConfigureAwait(false);

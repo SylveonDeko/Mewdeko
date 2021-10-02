@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko.Common.TypeReaders;
 using Discord;
 
 namespace Mewdeko.Common.TypeReaders
@@ -24,7 +23,10 @@ namespace Mewdeko.Common.TypeReaders
             var guild = guilds.FirstOrDefault(g => g.Id.ToString().Trim().ToUpperInvariant() == input) ?? //by id
                         guilds.FirstOrDefault(g => g.Name.Trim().ToUpperInvariant() == input); //by name
 
-            return Task.FromResult(guild != null ? TypeReaderResult.FromSuccess(guild) : TypeReaderResult.FromError(CommandError.ParseFailed, "No guild by that name or Id found"));
+            if (guild != null)
+                return Task.FromResult(TypeReaderResult.FromSuccess(guild));
+
+            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No guild by that name or Id found"));
         }
     }
 }

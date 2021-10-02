@@ -23,7 +23,6 @@ namespace Mewdeko.Services.Impl
 
             Redis = ConnectionMultiplexer.Connect(conf);
             _redisEndpoint = Redis.GetEndPoints().First();
-            Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
             LocalData = new RedisLocalDataCache(Redis, creds, shardId);
             _redisKey = creds.RedisKey();
@@ -51,31 +50,6 @@ namespace Mewdeko.Services.Impl
             return _db.StringSetAsync("image_" + key, data);
         }
 
-        public async Task<(bool Success, string Data)> TryGetAnimeDataAsync(string key)
-        {
-            var _db = Redis.GetDatabase();
-            string x = await _db.StringGetAsync("anime_" + key).ConfigureAwait(false);
-            return (x != null, x);
-        }
-
-        public Task SetAnimeDataAsync(string key, string data)
-        {
-            var _db = Redis.GetDatabase();
-            return _db.StringSetAsync("anime_" + key, data, TimeSpan.FromHours(3));
-        }
-
-        public async Task<(bool Success, string Data)> TryGetNovelDataAsync(string key)
-        {
-            var _db = Redis.GetDatabase();
-            string x = await _db.StringGetAsync("novel_" + key).ConfigureAwait(false);
-            return (x != null, x);
-        }
-
-        public Task SetNovelDataAsync(string key, string data)
-        {
-            var _db = Redis.GetDatabase();
-            return _db.StringSetAsync("novel_" + key, data, TimeSpan.FromHours(3));
-        }
 
         public TimeSpan? AddTimelyClaim(ulong id, int period)
         {
