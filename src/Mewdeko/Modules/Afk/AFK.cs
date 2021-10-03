@@ -44,11 +44,15 @@ namespace Mewdeko.Modules.Afk
                     {
                         await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
                         await ctx.Channel.SendConfirmAsync("Afk message enabled!");
+                        await ctx.Guild.DownloadUsersAsync();
+                        return;
                     }
                     else
                     {
                         await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
                         await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
+                        await ctx.Guild.DownloadUsersAsync();
+                        return;
                     }
                 }
                 if (message.Length != 0 && message.Length > _service.GetAfkLength(ctx.Guild.Id))
@@ -60,6 +64,7 @@ namespace Mewdeko.Modules.Afk
 
                 await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, message, 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
+                await ctx.Guild.DownloadUsersAsync();
             }
 
             [MewdekoCommand]
@@ -72,7 +77,7 @@ namespace Mewdeko.Modules.Afk
                 if (_service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
                 {
                     await ctx.Channel.SendErrorAsync(
-                        $"You already have a regular afk set! Please disable it by doing {Prefix}afk anf try again");
+                        $"You already have a regular afk set! Please disable it by doing {Prefix}afk and try again");
                     return;
                 }
 
@@ -118,55 +123,38 @@ namespace Mewdeko.Modules.Afk
 
                 await ctx.Channel.SendConfirmAsync("Sucessfully updated afk message!");
             }
+            [Priority(0)]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task GetActiveAfks()
+            {
+                var afks = _service.GetAfkUsers(ctx.Guild);
+                if(!afks.Any())
+                {
+                    await ctx.Channel.SendErrorAsync("There are no currently AFK users!");
+                    return;
+                }
+                var paginator = new LazyPaginatorBuilder()
+                   .AddUser(ctx.User)
+                   .WithPageFactory(PageFactory)
+                   .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                   .WithMaxPageIndex(afks.ToArray().Length / 20)
+                   .WithDefaultEmotes()
+                   .Build();
 
-            //[MewdekoCommand]
-            //[Usage]
-            //[Description]
-            //[Aliases]
-            //[Priority(0)]
-            //public async Task ListActiveAfks()
-            //{
-            //    var msg = await ctx.Channel.SendConfirmAsync("Finding all users that have afk enabled...");
-            //    var list = new List<string>();
-            //    var g = ctx.Guild as SocketGuild;
-            //    var users = g.Users;
-            //    foreach (var i in users)
-            //    {
-            //        if (_service.IsAfk(ctx.Guild, i))
-            //        {
-            //            list.Add($"{i} {i.Id}");
-            //        }
-            //    }
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            //    await msg.DeleteAsync();
-            //    if (list.Any())
-            //    {
-            //        var paginator = new LazyPaginatorBuilder()
-            //            .AddUser(ctx.User)
-            //            .WithPageFactory(PageFactory)
-            //            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            //            .WithMaxPageIndex(list.Count / 10)
-            //            .WithDefaultEmotes()
-            //            .Build();
-
-            //        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, System.TimeSpan.FromMinutes(60));
-
-            //        Task<PageBuilder> PageFactory(int page)
-            //        {
-            //            {
-            //                return Task.FromResult(new PageBuilder()
-            //                    .WithOkColor()
-            //                    .WithTitle($"Listing {list.Count} users that are afk")
-            //                    .WithDescription(string.Join("/n", list.Take(10))));
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        await ctx.Channel.SendErrorAsync("There are no afk users!");
-            //    }
-            //}
-
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    {
+                        return Task.FromResult(new PageBuilder().WithOkColor()
+                            .WithTitle(Format.Bold("Active AFKs") + $" - {afks.ToArray().Length}")
+                            .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20))));
+                    }
+                }
+            }
             [Priority(0)]
             [MewdekoCommand]
             [Usage]
