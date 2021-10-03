@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -227,9 +228,27 @@ namespace Mewdeko.Modules.Afk.Services
             });
             return Task.CompletedTask;
         }
+        public List<IGuildUser> GetAfkUsers(IGuild guild)
+        {
+            try
+            { 
+                var users = new List<IGuildUser>();
+                foreach (var f in guild.GetUsersAsync().GetAwaiter().GetResult())
+                {
+                    if (IsAfk(guild, f))
+                        users.Add(f);
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;// break point here.
+                throw;
+            }
+        }
 
         public async Task SetCustomAfkMessage(IGuild guild, string AfkMessage)
-        {
+        { 
             using (var uow = _db.GetDbContext())
             {
                 var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
@@ -249,8 +268,9 @@ namespace Mewdeko.Modules.Afk.Services
 
         public bool IsAfk(IGuild guild, IGuildUser user)
         {
-            var afkmsg = AfkMessage(guild.Id, user.Id).Last();
-            return afkmsg.Message != "";
+            var afkmsg = AfkMessage(guild.Id, user.Id);
+            var result = afkmsg != null ? afkmsg.LastOrDefault()?.Message : null;
+            return !string.IsNullOrEmpty(result);
         }
 
         public Task MessageUpdated(Cacheable<IMessage, ulong> msg, SocketMessage msg2, ISocketMessageChannel t)
@@ -353,7 +373,7 @@ namespace Mewdeko.Modules.Afk.Services
             await uow.SaveChangesAsync();
         }
 
-        public AFK[] AfkMessage(ulong gid, ulong uid)
+        public List<AFK> AfkMessage(ulong gid, ulong uid)
         {
             using var uow = _db.GetDbContext();
             return uow.AFK.ForId(gid, uid);
