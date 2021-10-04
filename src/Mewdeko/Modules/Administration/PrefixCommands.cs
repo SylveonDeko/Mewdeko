@@ -57,26 +57,6 @@ namespace Mewdeko.Modules.Administration
                 await ReplyConfirmLocalizedAsync("prefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
                     .ConfigureAwait(false);
             }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [OwnerOnly]
-            public async Task DefPrefix([Remainder] string prefix = null)
-            {
-                if (string.IsNullOrWhiteSpace(prefix))
-                {
-                    await ReplyConfirmLocalizedAsync("defprefix_current", CmdHandler.GetPrefix()).ConfigureAwait(false);
-                    return;
-                }
-
-                var oldPrefix = CmdHandler.GetPrefix();
-                var newPrefix = CmdHandler.SetDefaultPrefix(prefix);
-
-                await ReplyConfirmLocalizedAsync("defprefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
-                    .ConfigureAwait(false);
-            }
         }
     }
 }

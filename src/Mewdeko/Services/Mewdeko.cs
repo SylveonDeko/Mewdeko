@@ -23,6 +23,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.CustomReactions.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
+using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
@@ -146,7 +147,7 @@ namespace Mewdeko.Services
 
             s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
 
-            s.AddSingleton<IReadyExecutor>(x => x.GetService<SelfService>());
+            s.AddSingleton<IReadyExecutor>(x => x.GetService<OwnerOnlyService>());
             s.AddSingleton<IReadyExecutor>(x => x.GetService<CustomReactionsService>());
             //initialize Services
             Services = s.BuildServiceProvider();

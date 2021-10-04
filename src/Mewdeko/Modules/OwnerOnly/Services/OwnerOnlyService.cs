@@ -5,13 +5,17 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Common.Replacements;
 using Mewdeko.Common.ShardCom;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Settings;
@@ -21,22 +25,24 @@ using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 
-namespace Mewdeko.Modules.Administration.Services
+namespace Mewdeko.Modules.OwnerOnly.Services
 {
-    public sealed class SelfService : ILateExecutor, IReadyExecutor, INService
+    public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         private readonly BotConfigService _bss;
 
         private readonly IDataCache _cache;
         private readonly DiscordSocketClient _client;
         private readonly CommandHandler _cmdHandler;
-
+        private readonly Replacer _rep;
+        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
         private readonly IHttpClientFactory _httpFactory;
         private readonly IImageCache _imgs;
         private readonly ConnectionMultiplexer _redis;
         private readonly IBotStrings _strings;
+        private readonly Timer _t;
 
         private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands =
             new();
@@ -44,9 +50,9 @@ namespace Mewdeko.Modules.Administration.Services
         private ImmutableDictionary<ulong, IDMChannel> ownerChannels =
             new Dictionary<ulong, IDMChannel>().ToImmutableDictionary();
 
-        public SelfService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
+        public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
             IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
-            BotConfigService bss)
+            BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders,Mewdeko.Services.Mewdeko bot)
         {
             _redis = cache.Redis;
             _cmdHandler = cmdHandler;
@@ -55,10 +61,19 @@ namespace Mewdeko.Modules.Administration.Services
             _client = client;
             _creds = creds;
             _cache = cache;
+            _bot = bot;
             _imgs = cache.LocalImages;
             _httpFactory = factory;
             _bss = bss;
+            if (client.ShardId == 0)
+            {
+                _rep = new ReplacementBuilder()
+                    .WithClient(client)
+                    .WithProviders(phProviders)
+                    .Build();
 
+                _t = new Timer(RotatingStatuses, new OwnerOnlyService.TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+            }
             var sub = _redis.GetSubscriber();
             if (_client.ShardId == 0)
                 sub.Subscribe(_creds.RedisKey() + "_reload_images",
@@ -92,7 +107,84 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             }, CommandFlags.FireAndForget);
         }
+        private async void RotatingStatuses(object objState)
+        {
+            try
+            {
+                var state = (TimerState)objState;
 
+                if (!_bss.Data.RotateStatuses) return;
+
+                IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
+                using (var uow = _db.GetDbContext())
+                {
+                    rotatingStatuses = uow._context.RotatingStatus
+                        .AsNoTracking()
+                        .OrderBy(x => x.Id)
+                        .ToList();
+                }
+
+                if (rotatingStatuses.Count == 0)
+                    return;
+
+                var playingStatus = state.Index >= rotatingStatuses.Count
+                    ? rotatingStatuses[state.Index = 0]
+                    : rotatingStatuses[state.Index++];
+
+                var statusText = _rep.Replace(playingStatus.Status);
+                await _bot.SetGameAsync(statusText, playingStatus.Type);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Rotating playing status errored: {ErrorMessage}", ex.Message);
+            }
+        }
+
+        public async Task<string> RemovePlayingAsync(int index)
+        {
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            using var uow = _db.GetDbContext();
+            var toRemove = await uow._context.RotatingStatus
+                .AsQueryable()
+                .AsNoTracking()
+                .Skip(index)
+                .FirstOrDefaultAsync();
+
+            if (toRemove is null)
+                return null;
+
+            uow._context.Remove(toRemove);
+            await uow.SaveChangesAsync();
+            return toRemove.Status;
+        }
+
+        public async Task AddPlaying(ActivityType t, string status)
+        {
+            using var uow = _db.GetDbContext();
+            var toAdd = new RotatingPlayingStatus { Status = status, Type = t };
+            uow._context.Add(toAdd);
+            await uow.SaveChangesAsync();
+        }
+
+        public bool ToggleRotatePlaying()
+        {
+            var enabled = false;
+            _bss.ModifyConfig(bs => { enabled = bs.RotateStatuses = !bs.RotateStatuses; });
+            return enabled;
+        }
+
+        public IReadOnlyList<RotatingPlayingStatus> GetRotatingStatuses()
+        {
+            using var uow = _db.GetDbContext();
+            return uow._context.RotatingStatus.AsNoTracking().ToList();
+        }
+
+        private class TimerState
+        {
+            public int Index { get; set; }
+        }
         // forwards dms
         public async Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
         {
