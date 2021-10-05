@@ -158,7 +158,7 @@ namespace Mewdeko.Services.Impl
 
         public string Library => "Discord.Net Labs 3.1";
 
-        public string Heap => ByteSize.FromBytes(System.Diagnostics.Process.GetCurrentProcess().WorkingSet64).Megabytes.ToString(CultureInfo.InvariantCulture);
+        public string Heap => ByteSize.FromBytes(System.Diagnostics.Process.GetCurrentProcess().PrivateMemorySize64).Megabytes.ToString(CultureInfo.InvariantCulture);
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
         public long TextChannels => Interlocked.Read(ref _textChannels);
         public long VoiceChannels => Interlocked.Read(ref _voiceChannels);

@@ -10,6 +10,8 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Permissions.Common;
+using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Suggestions.Services
 {
@@ -18,12 +20,14 @@ namespace Mewdeko.Modules.Suggestions.Services
         public readonly DbService _db;
         public DiscordSocketClient _client;
         public AdministrationService adminserv;
+        private readonly PermissionService _perms;
 
         public CommandHandler CmdHandler;
 
         public SuggestionsService(DbService db, Mewdeko.Services.Mewdeko bot, CommandHandler cmd, DiscordSocketClient client,
-            AdministrationService aserv)
+            AdministrationService aserv, PermissionService permserv)
         {
+            _perms = permserv;
             adminserv = aserv;
             CmdHandler = cmd;
             _client = client;
@@ -70,15 +74,31 @@ namespace Mewdeko.Modules.Suggestions.Services
 
         public async Task MessageRecieved(SocketMessage msg)
         {
-            if (msg.Channel is not SocketGuildChannel chan) return;
+            if (msg.Channel is not SocketGuildChannel chan)
+                return;
             var guild = (msg.Channel as IGuildChannel)?.Guild;
             var Prefix = CmdHandler.GetPrefix(guild);
-            if (guild != null && msg.Channel.Id == GetSuggestionChannel(guild.Id) && msg.Author.IsBot == false && !msg.Content.StartsWith(Prefix))
+            if (guild != null &&
+                msg.Channel.Id == GetSuggestionChannel(guild.Id) &&
+                msg.Author.IsBot == false &&
+                !msg.Content.StartsWith(Prefix))
             {
-                if (msg.Channel.Id != GetSuggestionChannel(guild.Id)) return;
+                if (msg.Channel.Id != GetSuggestionChannel(guild.Id))
+                    return;
                 var guser = msg.Author as IGuildUser;
-                if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id))) return;
-                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content,
+                var pc = _perms.GetCacheFor(guild.Id);
+                if (pc != null &&
+                    pc.Permissions.CheckPermissions(msg as IUserMessage,
+                        "suggest",
+                        "Suggestions".ToLowerInvariant(),
+                        out var index))
+                    return;
+                if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id)))
+                    return;
+                await SendSuggestion(chan.Guild,
+                    msg.Author as IGuildUser,
+                    _client,
+                    msg.Content,
                     msg.Channel as ITextChannel);
                 try
                 {
