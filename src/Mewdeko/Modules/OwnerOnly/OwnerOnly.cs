@@ -53,6 +53,7 @@ namespace Mewdeko.Modules.OwnerOnly
             _bot = bot;
             _strings = strings;
             _coord = coord;
+            _settingServices = settingServices;
         }
         [MewdekoCommand]
         [Usage]

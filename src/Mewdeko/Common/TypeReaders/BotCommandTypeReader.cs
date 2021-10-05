@@ -23,11 +23,8 @@ namespace Mewdeko.Common.TypeReaders
             var _cmdHandler = services.GetService<CommandHandler>();
             input = input.ToUpperInvariant();
             var prefix = _cmdHandler.GetPrefix(context.Guild);
-            if (!input.StartsWith(prefix.ToUpperInvariant(), StringComparison.InvariantCulture))
-                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such command found."));
-
-            input = input.Substring(prefix.Length);
-
+            if (input.StartsWith(prefix.ToUpperInvariant()))
+                input = input.Substring(prefix.Length);
             var cmd = _cmds.Commands.FirstOrDefault(c =>
                 c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
             if (cmd == null)
@@ -63,7 +60,7 @@ namespace Mewdeko.Common.TypeReaders
             if (cmd.IsSuccess)
                 return TypeReaderResult.FromSuccess(new CommandOrCrInfo(((CommandInfo)cmd.Values.First().Value).Name,
                     CommandOrCrInfo.Type.Normal));
-            return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or cr found.");
+            return TypeReaderResult.FromError(CommandError.ParseFailed, "No such command or custom reaction found.");
         }
     }
 
