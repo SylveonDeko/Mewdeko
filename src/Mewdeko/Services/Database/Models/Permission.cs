@@ -19,17 +19,6 @@ namespace Mewdeko.Services.Database.Models
 
         public bool State { get; set; }
 
-        public Permissionv2 Tov2()
-        {
-            return new Permissionv2
-            {
-                PrimaryTarget = PrimaryTarget,
-                PrimaryTargetId = PrimaryTargetId,
-                SecondaryTarget = SecondaryTarget,
-                SecondaryTargetName = SecondaryTargetName,
-                State = State
-            };
-        }
     }
 
     public interface IIndexed

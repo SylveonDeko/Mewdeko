@@ -803,7 +803,7 @@ namespace Mewdeko.Modules.OwnerOnly
             if (ids.Length != 2)
                 return;
             var sid = ulong.Parse(ids[0]);
-            var server = _client.Guilds.FirstOrDefault(s => s.Id == sid);
+            var server = _client.Rest.GetGuildAsync(sid).Result;
 
             if (server == null)
                 return;
@@ -815,7 +815,7 @@ namespace Mewdeko.Modules.OwnerOnly
             if (ids[1].ToUpperInvariant().StartsWith("C:", StringComparison.InvariantCulture))
             {
                 var cid = ulong.Parse(ids[1].Substring(2));
-                var ch = server.TextChannels.FirstOrDefault(c => c.Id == cid);
+                var ch = server.GetTextChannelsAsync().Result.FirstOrDefault(c => c.Id == cid);
                 if (ch == null) return;
 
                 if (CREmbed.TryParse(msg, out var crembed))
@@ -831,7 +831,7 @@ namespace Mewdeko.Modules.OwnerOnly
             else if (ids[1].ToUpperInvariant().StartsWith("U:", StringComparison.InvariantCulture))
             {
                 var uid = ulong.Parse(ids[1].Substring(2));
-                var user = server.Users.FirstOrDefault(u => u.Id == uid);
+                var user = server.GetUsersAsync().FlattenAsync().Result.FirstOrDefault(u => u.Id == uid);
                 if (user == null) return;
 
                 if (CREmbed.TryParse(msg, out var crembed))
@@ -936,7 +936,7 @@ namespace Mewdeko.Modules.OwnerOnly
                     }
                     else
                     {
-                        await ctx.Channel.SendMessageAsync("```bash\n" + output + "```");
+                        await ctx.Channel.SendMessageAsync($"```bash\n{output}```");
                     }
                 }
 
@@ -1072,6 +1072,6 @@ namespace Mewdeko.Modules.OwnerOnly
         public IGuild Guild => ctx.Guild;
         public IUser User => ctx.User;
         public IGuildUser Member => (IGuildUser)ctx.User;
-        public IDiscordClient Client => ctx.Client;
+        public DiscordSocketClient Client => ctx.Client as DiscordSocketClient;
     }
 }
