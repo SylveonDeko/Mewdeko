@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Services;
@@ -24,9 +29,10 @@ namespace Mewdeko.Modules.Permissions
         }
 
         private readonly DbService _db;
-
-        public Permissions(DbService db)
+        private InteractiveService Interactivity;
+        public Permissions(DbService db, InteractiveService inter)
         {
+            Interactivity = inter;
             _db = db;
         }
 
@@ -113,10 +119,8 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task ListPerms(int page = 1)
+        public async Task ListPerms()
         {
-            if (page < 1)
-                return;
 
             IList<Permissionv2> perms;
 
@@ -124,22 +128,32 @@ namespace Mewdeko.Modules.Permissions
                 perms = permCache.Permissions.Source.ToList();
             else
                 perms = Permissionv2.GetDefaultPermlist;
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(perms.Count / 10)
+                .WithDefaultEmotes()
+                .Build();
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            Task<PageBuilder> PageFactory(int page)
+            {
+                var startPos = 20 * (page - 1);
+                return Task.FromResult(new PageBuilder().WithDescription(string.Join("\n",
+                                                                             perms
+                                                                                 .Skip(page * 10)
+                                                                                 .Take(10)
+                                                                                 .Select(p =>
+                                                                                 {
+                                                                                     var str =
+                                                                                         $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
+                                                                                     if (p.Index == 0)
+                                                                                         str +=
+                                                                                             $" [{GetText("uneditable")}]";
+                                                                                     return str;
+                                                                                 }))).WithTitle(Format.Bold(GetText("page", page + 1))).WithOkColor());
 
-            var startPos = 20 * (page - 1);
-            var toSend = Format.Bold(GetText("page", page)) + "\n\n" + string.Join("\n",
-                perms.Reverse()
-                    .Skip(startPos)
-                    .Take(20)
-                    .Select(p =>
-                    {
-                        var str =
-                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
-                        if (p.Index == 0)
-                            str += $" [{GetText("uneditable")}]";
-                        return str;
-                    }));
-
-            await ctx.Channel.SendMessageAsync(toSend).ConfigureAwait(false);
+            }
         }
 
         [MewdekoCommand]
@@ -238,6 +252,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
         {
+            
             await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,

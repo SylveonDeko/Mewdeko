@@ -638,7 +638,8 @@ namespace Mewdeko.Modules.Utility
             {
                 return Task.FromResult(new PageBuilder().WithOkColor()
                     .WithTitle(Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
-                    .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20))));
+                    .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20)))
+                    .AddField("_ _", $"Online Users: {users.Count(x => x.Status == UserStatus.Offline)}\nDND Users: {users.Count(x => x.Status == UserStatus.DoNotDisturb)}\nIdle Users: {users.Count(x => x.Status == UserStatus.Idle)}\nOffline Users: {users.Count(x => x.Status == UserStatus.Offline)}"));
             }
         }
 
