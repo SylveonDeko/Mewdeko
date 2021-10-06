@@ -5,7 +5,6 @@
 		<LangVersion>9.0</LangVersion>
 		<RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
 		<OutputType>exe</OutputType>
-		<ApplicationIcon>nadeko_icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 
