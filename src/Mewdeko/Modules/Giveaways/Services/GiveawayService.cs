@@ -20,12 +20,6 @@ namespace Mewdeko.Modules.Giveaways.Services
         private readonly IBotCredentials _creds;
         private readonly DbService _db;
 
-        private readonly Regex _regex =
-            new(
-                @"^(?:in\s?)?\s*(?:(?<mo>\d+)(?:\s?(?:months?|mos?),?))?(?:(?:\sand\s|\s*)?(?<w>\d+)(?:\s?(?:weeks?|w),?))?(?:(?:\sand\s|\s*)?(?<d>\d+)(?:\s?(?:days?|d),?))?(?:(?:\sand\s|\s*)?(?<h>\d+)(?:\s?(?:hours?|h),?))?(?:(?:\sand\s|\s*)?(?<m>\d+)(?:\s?(?:minutes?|mins?|m),?))?\s+(?:to:?\s+)?(?<what>(?:\r\n|[\r\n]|.)+)"
-                ,
-                RegexOptions.Compiled | RegexOptions.Multiline);
-
         public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds)
         {
             _client = client;

@@ -14,7 +14,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Common.ShardCom;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
@@ -502,11 +501,5 @@ namespace Mewdeko.Modules.OwnerOnly.Services
             return isToAll;
         }
 
-        public IEnumerable<ShardComMessage> GetAllShardStatuses()
-        {
-            var db = _cache.Redis.GetDatabase();
-            return db.ListRange(_creds.RedisKey() + "_shardstats")
-                .Select(x => JsonConvert.DeserializeObject<ShardComMessage>(x));
-        }
     }
 }
