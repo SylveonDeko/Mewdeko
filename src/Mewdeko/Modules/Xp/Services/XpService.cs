@@ -244,7 +244,7 @@ namespace Mewdeko.Modules.Xp.Services
                             }
                         }
 
-                        uow.SaveChanges();
+                        await uow.SaveChangesAsync();
                     }
 
                     await Task.WhenAll(toNotify.Select(async x =>

@@ -110,7 +110,7 @@ namespace Mewdeko.Modules.Giveaways.Services
             using (var uow = _db.GetDbContext())
             {
                 uow.Giveaways.Add(rem);
-                var e = uow.SaveChanges();
+                var e = await uow.SaveChangesAsync();
                 Console.WriteLine(e);
             }
             await CurrentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");

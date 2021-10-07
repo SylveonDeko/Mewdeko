@@ -720,12 +720,20 @@ namespace Mewdeko.Modules.Music
             var resultsString = videos
                 .Select((x, i) => $"`{i + 1}.`\n\t{Format.Bold(x.Title)}\n\t{x.Url}")
                 .JoinWith('\n');
-
-            var msg = await ctx.Channel.SendConfirmAsync(resultsString);
+            var buttons = new ComponentBuilder();
+            int count = 0;
+            foreach (var video in videos)
+            {
+                var button = new ButtonBuilder(customId: (count + 1).ToString(), label: (count + 1).ToString());
+                count++;
+                buttons.WithButton(button);
+            }
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(resultsString);
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), component: buttons.Build());
 
             try
             {
-                var input = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id).ConfigureAwait(false);
+                var input = await GetButtonInputAsync(ctx.User.Id, ctx.Channel.Id, msg.Id).ConfigureAwait(false);
                 if (input == null
                     || !int.TryParse(input, out var index)
                     || (index -= 1) < 0

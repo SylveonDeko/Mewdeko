@@ -32,10 +32,6 @@ namespace Mewdeko.Common
 
         protected ICommandContext ctx => Context;
 
-        protected override void BeforeExecute(CommandInfo cmd)
-        {
-            _cultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
-        }
 
         protected string GetText(string key)
         {
@@ -73,13 +69,12 @@ namespace Mewdeko.Common
 
         public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed)
         {
-            embed.WithOkColor()
-                .WithFooter("yes/no");
-
-            var msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            embed.WithOkColor();
+            var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success).WithButton("No", "no", ButtonStyle.Danger);
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: buttons.Build()).ConfigureAwait(false);
             try
             {
-                var input = await GetUserInputAsync(ctx.User.Id, ctx.Channel.Id).ConfigureAwait(false);
+                var input = await GetButtonInputAsync(ctx.User.Id, ctx.Channel.Id, ctx.Message.Id).ConfigureAwait(false);
                 input = input?.ToUpperInvariant();
 
                 if (input != "YES" && input != "Y") return false;
@@ -92,14 +87,13 @@ namespace Mewdeko.Common
             }
         }
 
-        // TypeConverter typeConverter = TypeDescriptor.GetConverter(propType); ?
-        public async Task<string> GetUserInputAsync(ulong userId, ulong channelId)
+        public async Task<string> GetButtonInputAsync(ulong userId, ulong channelId, ulong messageId)
         {
             var userInputTask = new TaskCompletionSource<string>();
             var dsc = (DiscordSocketClient)ctx.Client;
             try
             {
-                dsc.MessageReceived += MessageReceived;
+                dsc.InteractionCreated += InteractionCreated;
 
                 if (await Task.WhenAny(userInputTask.Task, Task.Delay(100000)).ConfigureAwait(false) !=
                     userInputTask.Task) return null;
@@ -108,20 +102,21 @@ namespace Mewdeko.Common
             }
             finally
             {
-                dsc.MessageReceived -= MessageReceived;
+                dsc.InteractionCreated -= InteractionCreated;
             }
 
-            Task MessageReceived(SocketMessage arg)
+            Task InteractionCreated(SocketInteraction arg)
             {
                 var _ = Task.Run(() =>
                 {
-                    if (!(arg is SocketUserMessage userMsg) ||
+                    if (!(arg is SocketMessageComponent userMsg) ||
                         !(userMsg.Channel is ITextChannel chan) ||
-                        userMsg.Author.Id != userId ||
-                        userMsg.Channel.Id != channelId)
+                        userMsg.User.Id != userId ||
+                        userMsg.Channel.Id != channelId ||
+                        userMsg.Message.Id != messageId)
                         return Task.CompletedTask;
 
-                    if (userInputTask.TrySetResult(arg.Content)) userMsg.DeleteAfter(1);
+                    if (userInputTask.TrySetResult(userMsg.Data.CustomId)) userMsg.Message.DeleteAfter(1);
                     return Task.CompletedTask;
                 });
                 return Task.CompletedTask;
