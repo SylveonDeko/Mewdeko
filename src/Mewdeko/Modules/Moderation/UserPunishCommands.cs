@@ -215,18 +215,6 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [Priority(2)]
-            public Task Warnlog(int page, IGuildUser user)
-            {
-                return Warnlog(page, user.Id);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
             [Priority(3)]
             public Task Warnlog(IGuildUser user = null)
             {
@@ -237,17 +225,6 @@ namespace Mewdeko.Modules.Moderation
                     : Task.CompletedTask;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [Priority(0)]
-            public Task Warnlog(int page, ulong userId)
-            {
-                return InternalWarnlog(userId, page - 1);
-            }
 
             [MewdekoCommand]
             [Usage]
@@ -258,46 +235,56 @@ namespace Mewdeko.Modules.Moderation
             [Priority(1)]
             public Task Warnlog(ulong userId)
             {
-                return InternalWarnlog(userId, 0);
+                return InternalWarnlog(userId);
             }
 
-            private async Task InternalWarnlog(ulong userId, int page)
+            private async Task InternalWarnlog(ulong userId)
             {
-                if (page < 0)
-                    return;
                 var warnings = _service.UserWarnings(ctx.Guild.Id, userId);
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(warnings.Length / 9)
+                    .WithDefaultCanceledPage()
+                    .WithDefaultEmotes()
+                    .Build();
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                warnings = warnings.Skip(page * 9)
-                    .Take(9)
-                    .ToArray();
-
-                var embed = new EmbedBuilder().WithOkColor()
-                    .WithTitle(GetText("warnlog_for",
-                        (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
-                    .WithFooter(efb => efb.WithText(GetText("page", page + 1)));
-
-                if (!warnings.Any())
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    embed.WithDescription(GetText("warnings_none"));
-                }
-                else
-                {
-                    var i = page * 9;
-                    foreach (var w in warnings)
+
+                    warnings = warnings.Skip(page)
+                        .Take(9)
+                        .ToArray();
+
+                    var embed = new PageBuilder().WithOkColor()
+                        .WithTitle(GetText("warnlog_for",
+                            (ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString()))
+                        .WithFooter(efb => efb.WithText(GetText("page", page + 1)));
+
+                    if (!warnings.Any())
                     {
-                        i++;
-                        var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"),
-                            w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
-                        if (w.Forgiven)
-                            name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
-
-                        embed.AddField(x => x
-                            .WithName($"#`{i}` " + name)
-                            .WithValue(w.Reason.TrimTo(1020)));
+                        embed.WithDescription(GetText("warnings_none"));
                     }
-                }
+                    else
+                    {
+                        var i = page * 9;
+                        foreach (var w in warnings)
+                        {
+                            i++;
+                            var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"),
+                                w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
+                            if (w.Forgiven)
+                                name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                            embed.AddField(x => x
+                                .WithName($"#`{i}` " + name)
+                                .WithValue(w.Reason.TrimTo(1020)));
+                        }
+                    }
+                    return Task.FromResult(embed);
+                }
             }
 
             [MewdekoCommand]

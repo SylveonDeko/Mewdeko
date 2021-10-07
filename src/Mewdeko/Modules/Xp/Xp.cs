@@ -247,10 +247,9 @@ namespace Mewdeko.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task Experience([Remainder] IUser user = null)
         {
-            user = user ?? ctx.User;
-            await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            user ??= ctx.User;
             var (img, fmt) = await _service.GenerateXpImageAsync((IGuildUser)user).ConfigureAwait(false);
-            using (img)
+            await using (img)
             {
                 await ctx.Channel.SendFileAsync(img,
                         $"{ctx.Guild.Id}_{user.Id}_xp.{fmt.FileExtensions.FirstOrDefault()}")
@@ -263,12 +262,8 @@ namespace Mewdeko.Modules.Xp
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task XpLevelUpRewards(int page = 1)
+        public async Task XpLevelUpRewards()
         {
-            page--;
-
-            if (page < 0 || page > 100)
-                return;
 
             var allRewards = _service.GetRoleRewards(ctx.Guild.Id)
                 .OrderBy(x => x.Level)

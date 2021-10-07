@@ -85,7 +85,7 @@ namespace Mewdeko.Modules.Giveaways
                 rem = rems[pageIndex];
                 await _service.GiveawayTimerAction(rem);
                 uow.Giveaways.Remove(rem);
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
         }
 
