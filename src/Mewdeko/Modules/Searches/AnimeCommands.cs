@@ -20,21 +20,192 @@ using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Searches.Services;
 using Newtonsoft.Json;
+using NekosSharp;
 
 namespace Mewdeko.Modules.Searches
 {
     public partial class Searches
     {
         [Group]
-        public class AnimeSearchCommands : MewdekoSubmodule
+        public class AnimeCommands : MewdekoSubmodule
         {
             private readonly InteractiveService Interactivity;
+            public static NekosSharp.NekoClient NekoClient = new NekoClient("Mewdeko");
 
-            public AnimeSearchCommands(InteractiveService service)
+            public AnimeCommands(InteractiveService service)
             {
                 Interactivity = service;
             }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            public async Task Hug(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.HugGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} hugged {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync(embed: em.Build());
+            }
 
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Kiss(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.KissGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} kissed {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Pat(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.PatGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} gave pattus to {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Tickle(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.TickleGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} tickled {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Slap(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.SlapGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} slapped {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Cuddle(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.CuddleGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} cuddled with {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Poke(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.PokeGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} poked {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Feed(IUser user)
+            {
+                Request Req = await NekoClient.Action_v3.FeedGif();
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} fed {user.Mention}",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task RandomNeko()
+            {
+                Request Req = await NekoClient.Image_v3.Neko();
+                var em = new EmbedBuilder
+                {
+                    Description = $"nya~",
+                    ImageUrl = Req.ImageUrl,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task Shoot(IUser user)
+            {
+                var shootarray = new List<string>
+            {
+                "https://media.tenor.com/images/05085e9bc817361e783ad92a248ef318/tenor.gif",
+                "https://media1.tenor.com/images/a0caaaec7f3f48fbcf037dd9e6a89c51/tenor.gif?itemid=12545029",
+                "https://i.gifer.com/nin.gif",
+                "https://i.imgflip.com/4fq6gm.gif",
+                "https://cdn.myanimelist.net/s/common/uploaded_files/1448410154-7ba874393492485cf61797451b67a3be.gif",
+                "https://thumbs.gfycat.com/DisguisedSimpleAmmonite-size_restricted.gif",
+                "https://media0.giphy.com/media/a5OCMAro7MGQg/giphy.gif",
+                "https://media1.tenor.com/images/e9f33b7ded139a73590878cf3f9d59a4/tenor.gif?itemid=16999058",
+                "http://i.imgur.com/ygeo65P.gif",
+                "https://gifimage.net/wp-content/uploads/2017/09/anime-shooting-gif-4.gif",
+                "https://media0.giphy.com/media/rq8vsqrQmB128/giphy.gif",
+                "https://pa1.narvii.com/6122/e688de863dc18f51f56cd5aabc677f7371a83701_hq.gif",
+                "https://i2.wp.com/i.pinimg.com/originals/22/bb/ad/22bbade48e2ffa2c50968c635445b6a1.gif"
+            };
+                var rand = new Random();
+                var index = rand.Next(shootarray.Count);
+                var em = new EmbedBuilder
+                {
+                    Description = $"{ctx.User.Mention} shot {user.Mention}",
+                    ImageUrl = shootarray[index],
+                    Color = Mewdeko.Services.Mewdeko.ErrorColor
+                };
+                await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            }
             [MewdekoCommand]
             [Usage]
             [Description]

@@ -149,10 +149,6 @@ namespace Mewdeko.Modules.Xp
         [RequireUserPermission(GuildPermission.ManageGuild)]
         public async Task XpSetting(string setting = null, int value = 999999999)
         {
-            foreach (var guild  in await ctx.Client.GetGuildsAsync())
-            {
-                await ((SocketGuild)guild).BulkOverwriteApplicationCommandAsync(new ApplicationCommandProperties[] { });
-            }
             if (value < 0) return;
             if (setting is null)
             {

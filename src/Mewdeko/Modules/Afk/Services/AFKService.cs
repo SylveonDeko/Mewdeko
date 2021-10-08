@@ -43,7 +43,6 @@ namespace Mewdeko.Modules.Afk.Services
                 .ToDictionary(x => x.GuildId, x => x.AfkMessage)
                 .ToConcurrent();
             _client.MessageReceived += MessageReceived;
-            _client.InteractionCreated += OnInteractionCreated;
             _client.MessageUpdated += MessageUpdated;
             _client.UserIsTyping += UserTyping;
         }
@@ -54,61 +53,6 @@ namespace Mewdeko.Modules.Afk.Services
         private ConcurrentDictionary<ulong, int> _AfkLengths { get; } = new();
         private ConcurrentDictionary<ulong, string> _AfkDisabledChannels { get; } = new();
 
-        private async Task OnInteractionCreated(SocketInteraction interaction)
-        {
-            if (interaction is SocketSlashCommand command)
-                switch (command.Data.Name)
-                {
-                    case "afk":
-                        await HandleAfkSlashCommands(command);
-                        break;
-                }
-            else
-                return;
-        }
-
-        private Task HandleAfkSlashCommands(SocketSlashCommand command)
-        {
-            _ = Task.Run(async () =>
-            {
-                await command.DeferAsync();
-                if (command.Channel is ITextChannel chan)
-                {
-                    if (command.Data.Options?.Count == 1)
-                    {
-                        await AFKSet(chan.Guild, command.User as IGuildUser,
-                            command.Data.Options.FirstOrDefault().Value.ToString(), 0);
-                        await command.RespondAsync(
-                            $"I have succesfully enabled your afk and set it to {command.Data.Options.FirstOrDefault().Value.ToString().SanitizeAllMentions()}");
-                        return;
-                    }
-
-                    if (IsAfk(chan.Guild, command.User as IGuildUser))
-                    {
-                        await AFKSet(chan.Guild, command.User as IGuildUser, "", 0);
-                        try
-                        {
-                            await command.FollowupAsync("I have disabled your afk.");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.Write(ex);
-                        }
-
-                        var msg = await command.GetOriginalResponseAsync();
-                        msg.DeleteAfter(5);
-                    }
-                    else
-                    {
-                        await AFKSet(chan.Guild, command.User as IGuildUser, "_ _", 0);
-                        await command.FollowupAsync("I have enabled your afk!");
-                        var msg = await command.GetOriginalResponseAsync();
-                        msg.DeleteAfter(5);
-                    }
-                }
-            });
-            return Task.CompletedTask;
-        }
 
         public Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
         {
@@ -229,9 +173,7 @@ namespace Mewdeko.Modules.Afk.Services
             return Task.CompletedTask;
         }
         public List<IGuildUser> GetAfkUsers(IGuild guild)
-        {
-            try
-            { 
+        { 
                 var users = new List<IGuildUser>();
                 foreach (var f in guild.GetUsersAsync().GetAwaiter().GetResult())
                 {
@@ -240,12 +182,6 @@ namespace Mewdeko.Modules.Afk.Services
                 }
                 return users;
             }
-            catch (Exception ex)
-            {
-                string message = ex.Message;// break point here.
-                throw;
-            }
-        }
 
         public async Task SetCustomAfkMessage(IGuild guild, string AfkMessage)
         { 

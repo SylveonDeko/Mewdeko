@@ -884,7 +884,7 @@ namespace Mewdeko.Modules.Xp.Services
             return Task.Run(
                 async () =>
                 {
-                    var usernameTextOptions = new TextGraphicsOptions
+                    var usernameTextOptions = new TextGraphicsOptions()
                     {
                         TextOptions = new TextOptions
                         {
