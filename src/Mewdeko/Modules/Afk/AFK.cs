@@ -155,6 +155,22 @@ namespace Mewdeko.Modules.Afk
                     }
                 }
             }
+
+            [Priority(0)]
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            public async Task AfkView(IGuildUser user)
+            {
+                if (_service.IsAfk(user.Guild, user))
+                {
+                    await ctx.Channel.SendErrorAsync("This user isn't afk!");
+                    return;
+                }
+                var msg = _service.AfkMessage(user.Guild.Id, user.Id).Last();
+                await ctx.Channel.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
+            }
             [Priority(0)]
             [MewdekoCommand]
             [Usage]

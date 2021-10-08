@@ -494,7 +494,7 @@ namespace Mewdeko.Modules.Moderation
                         dmFailed = true;
                     }
 
-                await _mute.TimedBan(Context.Guild, user, time.Time, ctx.User + " | " + msg).ConfigureAwait(false);
+                await _mute.TimedBan(Context.Guild, user, time.Time, $"{ctx.User} | {msg}").ConfigureAwait(false);
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle("⛔️ " + GetText("banned_user"))
                     .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))

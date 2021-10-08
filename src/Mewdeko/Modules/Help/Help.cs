@@ -273,11 +273,11 @@ namespace Mewdeko.Modules.Help
                         //if cross is specified, and the command doesn't satisfy the requirements, cross it out
                         if (opts.View == CommandsOptions.ViewType.Cross)
                             return
-                                $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
-                        return $"{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
+                                $"{(succ.Contains(x) ? "✅" : "❌")}`{Prefix + x.Aliases.First()}`";
+                        return $"{Prefix + x.Aliases.First()}";
                     });
 
-                    if (i == last - 1 && (i + 1) % 2 != 0)
+                    if (i == last - 1 && (i + 1) % 1 != 0)
                     {
                         var grp = 0;
                         var count = transformed.Count();
@@ -291,7 +291,7 @@ namespace Mewdeko.Modules.Help
                             });
                     }
 
-                    embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
+                    embed.AddField(g.ElementAt(i).Key, string.Join(", ", transformed));
                 }
             }
 

@@ -32,7 +32,10 @@ namespace Mewdeko.Common
 
         protected ICommandContext ctx => Context;
 
-
+        protected override void BeforeExecute(CommandInfo cmd)
+        {
+            _cultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
+        }
         protected string GetText(string key)
         {
             return Strings.GetText(key, _cultureInfo);

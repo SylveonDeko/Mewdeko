@@ -22,6 +22,7 @@ using Newtonsoft.Json.Linq;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Serilog;
+using NekosSharp;
 
 namespace Mewdeko.Modules.Nsfw
 {
@@ -32,6 +33,7 @@ namespace Mewdeko.Modules.Nsfw
         private readonly IHttpClientFactory _httpFactory;
         public InteractiveService Interactivity;
         public KSoftApi ksoftapi;
+        public static NekosSharp.NekoClient NekoClient = new NekoClient("Mewdeko");
 
         public NSFW(IHttpClientFactory factory, KSoftApi kSoftApi, InteractiveService inte)
         {
@@ -136,6 +138,30 @@ namespace Mewdeko.Modules.Nsfw
            
         }
 
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task LewdNeko()
+        {
+            var Request = await NekoClient.Nsfw_v3.Neko();
+            var eb = new EmbedBuilder().WithOkColor().WithImageUrl(Request.ImageUrl).WithDescription("nya~");
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        [RequireNsfw]
+        public async Task LewdNekoGif()
+        {
+            var Request = await NekoClient.Nsfw_v3.NekoGif();
+            var eb = new EmbedBuilder().WithOkColor().WithImageUrl(Request.ImageUrl).WithDescription("nya~");
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
