@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var result = await PromptUserConfirmAsync(new EmbedBuilder()
                     .WithOkColor()
-                    .WithDescription(GetText("perm_override_all_confirm")));
+                    .WithDescription(GetText("perm_override_all_confirm")), ctx.User.Id);
 
                 if (!result)
                     return;

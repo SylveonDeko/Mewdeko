@@ -196,7 +196,7 @@ namespace Mewdeko.Modules.Help
         public async Task Donate()
         {
             await ctx.Channel.SendConfirmAsync(
-                "If you would like to support the project, heres how:\nKo-Fi: https://ko-fi.com/mewdeko \nPatreon: https://patreon.com/mewdeko \nI appreciate any donations as they will help improve Mewdeko for the better!");
+                "If you would like to support the project, heres how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
         }
 
         [MewdekoCommand]
@@ -204,9 +204,8 @@ namespace Mewdeko.Modules.Help
         [Description]
         [Aliases]
         [MewdekoOptions(typeof(CommandsOptions))]
-        public async Task Commands(string module = null, params string[] args)
+        public async Task Commands(string module = null)
         {
-            var channel = ctx.Channel;
 
 
             module = module?.Trim().ToUpperInvariant();
@@ -216,7 +215,6 @@ namespace Mewdeko.Modules.Help
                 return;
             }
 
-            var (opts, _) = OptionsParser.ParseFrom(new CommandsOptions(), args);
 
             // Find commands for that module
             // don't show commands which are blocked
@@ -231,21 +229,6 @@ namespace Mewdeko.Modules.Help
 
             // check preconditions for all commands, but only if it's not 'all'
             // because all will show all commands anyway, no need to check
-            var succ = new HashSet<CommandInfo>();
-            if (opts.View != CommandsOptions.ViewType.All)
-            {
-                succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
-                    {
-                        var pre = await x.CheckPreconditionsAsync(Context, _services).ConfigureAwait(false);
-                        return (Cmd: x, Succ: pre.IsSuccess);
-                    })).ConfigureAwait(false))
-                    .Where(x => x.Succ)
-                    .Select(x => x.Cmd));
-
-                if (opts.View == CommandsOptions.ViewType.Hide)
-                    // if hidden is specified, completely remove these commands from the list
-                    cmds = cmds.Where(x => succ.Contains(x));
-            }
 
             var cmdsWithGroup = cmds
                 .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
@@ -253,10 +236,7 @@ namespace Mewdeko.Modules.Help
 
             if (!cmds.Any())
             {
-                if (opts.View != CommandsOptions.ViewType.Hide)
-                    await ReplyErrorLocalizedAsync("module_not_found").ConfigureAwait(false);
-                else
-                    await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("module_not_found_or_cant_exec").ConfigureAwait(false);
                 return;
             }
 
@@ -268,14 +248,7 @@ namespace Mewdeko.Modules.Help
                 var last = g.Count();
                 for (i = 0; i < last; i++)
                 {
-                    var transformed = g.ElementAt(i).Select(x =>
-                    {
-                        //if cross is specified, and the command doesn't satisfy the requirements, cross it out
-                        if (opts.View == CommandsOptions.ViewType.Cross)
-                            return
-                                $"{(succ.Contains(x) ? "✅" : "❌")}`{Prefix + x.Aliases.First()}`";
-                        return $"{Prefix + x.Aliases.First()}";
-                    });
+                    var transformed = g.ElementAt(i).Select(x => $"{Prefix + x.Aliases.First()}");
 
                     if (i == last - 1 && (i + 1) % 1 != 0)
                     {

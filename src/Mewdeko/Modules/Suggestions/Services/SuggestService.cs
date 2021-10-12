@@ -39,9 +39,6 @@ namespace Mewdeko.Modules.Suggestions.Services
             _sugchans = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.sugchan)
                 .ToConcurrent();
-            _sugroles = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.SuggestRole)
-                .ToConcurrent();
             _suggestmsgs = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.SuggestMessage)
                 .ToConcurrent();
@@ -64,7 +61,6 @@ namespace Mewdeko.Modules.Suggestions.Services
 
         private ConcurrentDictionary<ulong, string> Suggestemotes { get; }
         private ConcurrentDictionary<ulong, ulong> _sugchans { get; }
-        private ConcurrentDictionary<ulong, ulong> _sugroles { get; }
         private ConcurrentDictionary<ulong, ulong> _snum { get; }
         private ConcurrentDictionary<ulong, string> _suggestmsgs { get; }
         private ConcurrentDictionary<ulong, string> _acceptmsgs { get; }
@@ -106,6 +102,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 }
                 catch
                 {
+                    //ignored
                 }
             }
         }
@@ -206,18 +203,6 @@ namespace Mewdeko.Modules.Suggestions.Services
             _considermsgs.AddOrUpdate(guild.Id, message, (key, old) => message);
         }
 
-        public async Task SetSuggestionRole(IGuild guild, ulong name)
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.SuggestRole = name;
-                await uow.SaveChangesAsync();
-            }
-
-            _sugroles.AddOrUpdate(guild.Id, name, (key, old) => name);
-        }
-
         public async Task sugnum(IGuild guild, ulong num)
         {
             using (var uow = _db.GetDbContext())
@@ -276,14 +261,6 @@ namespace Mewdeko.Modules.Suggestions.Services
             if (snum == "")
                 return "";
             return snum;
-        }
-
-        public ulong GetSuggestionRole(ulong? id)
-        {
-            if (id == null || !_sugroles.TryGetValue(id.Value, out var SugRole))
-                return 0;
-
-            return SugRole;
         }
 
         public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
@@ -934,16 +911,6 @@ namespace Mewdeko.Modules.Suggestions.Services
 
             if (GetSuggestionMessage(guild) == "-" || GetSuggestionMessage(guild) == "")
             {
-                string n;
-                if (GetSuggestionRole(guild.Id) != 0)
-                {
-                    var role = guild.GetRole(GetSuggestionRole(guild.Id));
-                    n = role.Mention;
-                }
-                else
-                {
-                    n = "_ _";
-                }
 
                 var sugnum1 = GetSNum(guild.Id);
                 var t = await (await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id))).EmbedAsync(
@@ -951,7 +918,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                         .WithAuthor(user)
                         .WithTitle($"Suggestion #{GetSNum(guild.Id)}")
                         .WithDescription(suggestion)
-                        .WithOkColor(), n);
+                        .WithOkColor());
 
                 IEmote[] reacts = { tup, tdown };
                 if (em == null || em == "disabled")

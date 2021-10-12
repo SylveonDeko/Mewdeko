@@ -178,9 +178,12 @@ namespace Mewdeko.Modules.Help.Services
 
             _dpos.TryGetOverrides(guild?.Id ?? 0, com.Name, out var overrides);
             var reqs = GetCommandRequirements(com, overrides);
+            var botReqs = GetCommandBotRequirements(com);
             if (reqs.Any())
-                em.AddField(GetText("requires", guild),
+                em.AddField("You Need",
                     string.Join("\n", reqs));
+            if (botReqs.Any())
+                em.AddField("Bot Needs", string.Join("\n", botReqs));
 
             em
                 .AddField(fb => fb.WithName(GetText("usage", guild))
@@ -243,14 +246,13 @@ namespace Mewdeko.Modules.Help.Services
                 .FirstOrDefault(ca => ca is UserPermAttribute);
 
             var userPermString = string.Empty;
-            if (!(userPerm is null))
+            if (userPerm is not null)
             {
-                if (userPerm.UserPermissionAttribute.ChannelPermission is ChannelPermission cPerm)
+                if (userPerm.UserPermissionAttribute.ChannelPermission is { } cPerm)
                     userPermString = GetPreconditionString((ChannelPerm)cPerm);
-                if (userPerm.UserPermissionAttribute.GuildPermission is GuildPermission gPerm)
+                if (userPerm.UserPermissionAttribute.GuildPermission is { } gPerm)
                     userPermString = GetPreconditionString((GuildPerm)gPerm);
             }
-
             if (overrides is null)
             {
                 if (!string.IsNullOrWhiteSpace(userPermString))
@@ -263,6 +265,29 @@ namespace Mewdeko.Modules.Help.Services
 
                 toReturn.Add(GetPreconditionString(overrides.Value));
             }
+
+            return toReturn.ToArray();
+        }
+        public static string[] GetCommandBotRequirements(CommandInfo cmd)
+        {
+            var toReturn = new List<string>();
+
+            if (cmd.Preconditions.Any(x => x is OwnerOnlyAttribute))
+                toReturn.Add("Bot Owner Only");
+
+            var botPerm = (BotPermAttribute)cmd.Preconditions
+                .FirstOrDefault(ca => ca is BotPermAttribute);
+
+            var botPermString = string.Empty;
+            if (botPerm is not null)
+            {
+                if (botPerm.ChannelPermission is { } cPerm)
+                    botPermString = GetPreconditionString((ChannelPerm)cPerm);
+                if (botPerm.GuildPermission is { } gPerm)
+                    botPermString = GetPreconditionString((GuildPerm)gPerm);
+            }
+            if (!string.IsNullOrWhiteSpace(botPermString))
+                toReturn.Add(botPermString);
 
             return toReturn.ToArray();
         }

@@ -127,7 +127,7 @@ namespace Mewdeko.Modules.Server_Management
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task DeleteRoles(params IRole[] roles)
             {
-                if (roles.Where(x => !x.IsManaged).Count() is 0)
+                if (roles.Count(x => !x.IsManaged) is 0)
                 {
                     await ctx.Channel.SendErrorAsync("You cannot delete bot roles or boost roles!");
                     return;
@@ -152,7 +152,7 @@ namespace Mewdeko.Modules.Server_Management
                     }
 
                     secondlist.Add(
-                        $"{i.Mention} - {ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.Contains(i.Id)).Count()} Users");
+                        $"{i.Mention} - {ctx.Guild.GetUsersAsync().Result.Count(x => x.RoleIds.Contains(i.Id))} Users");
                 }
 
                 ;
@@ -161,14 +161,14 @@ namespace Mewdeko.Modules.Server_Management
                     Title = "Are you sure you want to delete these roles?",
                     Description = $"{string.Join("\n", secondlist)}"
                 };
-                if (await PromptUserConfirmAsync(embed))
+                if (await PromptUserConfirmAsync(embed, ctx.User.Id))
                 {
                     var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Count()} roles...");
                     var emb = msg.Embeds.First();
                     foreach (var i in roles) await i.DeleteAsync();
                     var newemb = new EmbedBuilder
                     {
-                        Description = $"Succesfully deleted {roles.Count()} roles!",
+                        Description = $"Succesfully deleted {roles.Length} roles!",
                         Color = Mewdeko.Services.Mewdeko.OkColor
                     };
                     await msg.ModifyAsync(x => x.Embed = newemb.Build());
@@ -184,8 +184,8 @@ namespace Mewdeko.Modules.Server_Management
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task StopJob(int jobnum)
             {
-                var list = _service.jobslist.Where(x => x.JobId == jobnum && x.GuildId == ctx.Guild.Id)
-                    .FirstOrDefault();
+                var list = _service.jobslist
+                    .FirstOrDefault(x => x.JobId == jobnum && x.GuildId == ctx.Guild.Id);
                 if (list == null)
                 {
                     await ctx.Channel.SendErrorAsync(
@@ -200,7 +200,7 @@ namespace Mewdeko.Modules.Server_Management
                 };
                 eb.AddField(list.JobType,
                     $"Started by {list.StartedBy.Mention}\nProgress: {list.AddedTo}/{list.TotalUsers}");
-                if (!await PromptUserConfirmAsync(eb).ConfigureAwait(false))
+                if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
                     var msg = await ctx.Channel.SendConfirmAsync("Job Stop Cancelled.");
                     msg.DeleteAfter(5);
@@ -270,6 +270,7 @@ namespace Mewdeko.Modules.Server_Management
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddToAll(IRole role)
             {
+                await Task.Delay(500);
                 var runnerUser = (IGuildUser)ctx.User;
                 var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
@@ -301,11 +302,11 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                var JobId = 0;
+                int JobId;
                 if (_service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
+                    JobId = _service.jobslist.Count + 1;
                 await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users and Bots",
                     role);
                 var count2 = 0;
@@ -402,7 +403,7 @@ namespace Mewdeko.Modules.Server_Management
 
                 var guild = ctx.Guild as SocketGuild;
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All users already have this role!");
                     return;
@@ -482,7 +483,7 @@ namespace Mewdeko.Modules.Server_Management
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => !c.Roles.Contains(role) && c.IsBot);
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All bots already have this role!");
                     return;
@@ -565,7 +566,7 @@ namespace Mewdeko.Modules.Server_Management
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => !c.Roles.Contains(role) && !c.IsBot);
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All users already have this role!");
                     return;
@@ -640,7 +641,7 @@ namespace Mewdeko.Modules.Server_Management
                     !c.Roles.Contains(role) && !c.IsBot &&
                     DateTimeOffset.Now.Subtract(c.JoinedAt.Value) >= time.Time);
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All users at this account age already have this role!");
                     return;
@@ -721,7 +722,7 @@ namespace Mewdeko.Modules.Server_Management
                     !c.Roles.Contains(role) && !c.IsBot &&
                     DateTimeOffset.Now.Subtract(c.JoinedAt.Value) < time.Time);
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All users at this account age already have this role!");
                     return;
@@ -800,7 +801,7 @@ namespace Mewdeko.Modules.Server_Management
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => c.Roles.Contains(role));
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("No users have this role!");
                     return;
@@ -879,7 +880,7 @@ namespace Mewdeko.Modules.Server_Management
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => c.Roles.Contains(role) && !c.IsBot);
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("No users have this role!");
                     return;
@@ -958,7 +959,7 @@ namespace Mewdeko.Modules.Server_Management
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => c.Roles.Contains(role) && c.IsBot);
                 var count = users.Count();
-                if (users.Count() == 0)
+                if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("No bots have this role!");
                     return;
@@ -1039,7 +1040,6 @@ namespace Mewdeko.Modules.Server_Management
                 var users = await ctx.Guild.GetUsersAsync();
                 var inrole = users.Where(x => x.GetRoles().Contains(role));
                 var inrole2 = users.Where(x => x.GetRoles().Contains(role2));
-                var gmem = await ctx.Guild.GetUsersAsync();
                 if (inrole.Count() == inrole2.Count())
                 {
                     await ctx.Channel.SendErrorAsync($"All users in {role.Mention} already have {role2.Mention}!");
@@ -1169,6 +1169,7 @@ namespace Mewdeko.Modules.Server_Management
             [BotPerm(GuildPerm.ManageRoles)]
             public async Task AddThenRemove(IRole role, IRole role2)
             {
+                await Task.Delay(500);
                 var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 var runnerUser = (IGuildUser)ctx.User;
                 if (ctx.User.Id != runnerUser.Guild.OwnerId &&
@@ -1188,7 +1189,7 @@ namespace Mewdeko.Modules.Server_Management
 
                 var users = await ctx.Guild.GetUsersAsync();
                 var inrole = users.Where(x => x.GetRoles().Contains(role2));
-                if (inrole.Count() == 0)
+                if (!inrole.Any())
                 {
                     await ctx.Channel.SendErrorAsync("No users have the role you are trying to remove!");
                     return;
@@ -1235,11 +1236,6 @@ namespace Mewdeko.Modules.Server_Management
                     $"Added {role2.Mention} to {count2} users and removed {role.Mention}.");
             }
 
-            public class RoleShit
-            {
-                public string Mention { get; set; }
-                public int UserCount { get; set; }
-            }
         }
     }
 }

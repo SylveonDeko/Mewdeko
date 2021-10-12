@@ -458,7 +458,7 @@ namespace Mewdeko.Modules.CustomReactions
         {
             if (await PromptUserConfirmAsync(new EmbedBuilder()
                 .WithTitle("Custom reaction clear")
-                .WithDescription("This will delete all custom reactions on this server.")).ConfigureAwait(false))
+                .WithDescription("This will delete all custom reactions on this server."),ctx.User.Id).ConfigureAwait(false))
             {
                 var count = _service.DeleteAllCustomReactions(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("cleared", count).ConfigureAwait(false);
