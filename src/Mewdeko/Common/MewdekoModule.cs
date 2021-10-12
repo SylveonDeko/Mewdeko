@@ -70,17 +70,16 @@ namespace Mewdeko.Common
             return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
         }
 
-        public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed)
+        public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
         {
             embed.WithOkColor();
             var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success).WithButton("No", "no", ButtonStyle.Danger);
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: buttons.Build()).ConfigureAwait(false);
             try
             {
-                var input = await GetButtonInputAsync(ctx.User.Id, ctx.Channel.Id, ctx.Message.Id).ConfigureAwait(false);
-                input = input?.ToUpperInvariant();
+                var input = await GetButtonInputAsync(msg.Channel.Id, msg.Id, userid).ConfigureAwait(false);
 
-                if (input != "YES" && input != "Y") return false;
+                if (input != "Yes") return false;
 
                 return true;
             }
@@ -90,38 +89,39 @@ namespace Mewdeko.Common
             }
         }
 
-        public async Task<string> GetButtonInputAsync(ulong userId, ulong channelId, ulong messageId)
+        public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
         {
             var userInputTask = new TaskCompletionSource<string>();
             var dsc = (DiscordSocketClient)ctx.Client;
             try
             {
-                dsc.InteractionCreated += InteractionCreated;
-
-                if (await Task.WhenAny(userInputTask.Task, Task.Delay(100000)).ConfigureAwait(false) !=
-                    userInputTask.Task) return null;
-
+                dsc.InteractionCreated += Interaction;
+                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(30000)).ConfigureAwait(false)) != userInputTask.Task)
+                {
+                    return null;
+                }
                 return await userInputTask.Task.ConfigureAwait(false);
             }
             finally
             {
-                dsc.InteractionCreated -= InteractionCreated;
+                dsc.InteractionCreated -= Interaction;
             }
-
-            Task InteractionCreated(SocketInteraction arg)
+            Task Interaction(SocketInteraction arg)
             {
-                var _ = Task.Run(() =>
-                {
-                    if (!(arg is SocketMessageComponent userMsg) ||
-                        !(userMsg.Channel is ITextChannel chan) ||
-                        userMsg.User.Id != userId ||
-                        userMsg.Channel.Id != channelId ||
-                        userMsg.Message.Id != messageId)
+                if (arg is SocketMessageComponent c)
+                    Task.Run(() =>
+                    {
+                        if (c.Channel.Id != channelId || c.Message.Id != msgId || c.User.Id != userId) { c.DeferAsync(); return Task.CompletedTask; }
+                        if (c.Data.CustomId == "yes")
+                        {
+                            c.DeferAsync();
+                            userInputTask.TrySetResult("Yes");
+                            return Task.CompletedTask;
+                        }
+                        c.DeferAsync();
+                        userInputTask.TrySetResult("No");
                         return Task.CompletedTask;
-
-                    if (userInputTask.TrySetResult(userMsg.Data.CustomId)) userMsg.Message.DeleteAfter(1);
-                    return Task.CompletedTask;
-                });
+                    });
                 return Task.CompletedTask;
             }
         }

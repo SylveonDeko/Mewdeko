@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Server_Management.Services
 {
     public class RoleCommandsService : INService
     {
-        public HashSet<RoleJobs> jobslist = new();
+        public List<RoleJobs> jobslist = new();
 
         public Task AddToList(IGuild guild, IGuildUser user, int JobId, int TotalUsers, string JobType, IRole role,
             IRole role2 = null)
@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Server_Management.Services
 
         public Task UpdateCount(IGuild guild, int JobId, int AddedTo)
         {
-            var list1 = jobslist.Where(x => x.GuildId == guild.Id && x.JobId == JobId).FirstOrDefault();
+            var list1 = jobslist.FirstOrDefault(x => x.GuildId == guild.Id && x.JobId == JobId);
             var add = new RoleJobs
             {
                 StartedBy = list1.StartedBy,
@@ -56,7 +56,7 @@ namespace Mewdeko.Modules.Server_Management.Services
 
         public async Task StopJob(ITextChannel ch, int jobId, IGuild guild)
         {
-            var list1 = jobslist.Where(x => x.GuildId == guild.Id && x.JobId == jobId).FirstOrDefault();
+            var list1 = jobslist.FirstOrDefault(x => x.GuildId == guild.Id && x.JobId == jobId);
             var add = new RoleJobs
             {
                 StartedBy = list1.StartedBy,
@@ -82,7 +82,7 @@ namespace Mewdeko.Modules.Server_Management.Services
 
         public Task RemoveJob(IGuild guild, int job)
         {
-            var list = jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).FirstOrDefault();
+            var list = jobslist.FirstOrDefault(x => x.GuildId == guild.Id && x.JobId == job);
             jobslist.Remove(list);
             return Task.CompletedTask;
         }

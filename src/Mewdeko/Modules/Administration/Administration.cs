@@ -95,7 +95,7 @@ namespace Mewdeko.Modules.Administration
             var embed = new EmbedBuilder().WithErrorColor()
                 .WithDescription(
                     $"Are you sure you want to ban {users.Count()} users that are under that server join age?");
-            if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+            if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
             var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
             foreach (var i in users)
                 try
@@ -156,7 +156,7 @@ namespace Mewdeko.Modules.Administration
             var errored = 0;
             var embed = new EmbedBuilder().WithErrorColor()
                 .WithDescription($"Are you sure you want to kick {users.Count()} users that joined under that time?");
-            if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false)) return;
+            if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
             var message = await ctx.Channel.SendConfirmAsync($"Kicking {users.Count()} users..");
             foreach (var i in users)
                 try
@@ -200,7 +200,7 @@ namespace Mewdeko.Modules.Administration
                     Description = $"Are you sure you want to prune {toprune} Members?",
                     Color = Mewdeko.Services.Mewdeko.OkColor
                 };
-                if (!await PromptUserConfirmAsync(eb))
+                if (!await PromptUserConfirmAsync(eb, ctx.User.Id))
                 {
                     await ctx.Channel.SendConfirmAsync(
                         $"Canceled prune. As a reminder if you meant to prune members in your members role, set it with {Prefix}memberrole role and run this with -y at the end of the command. You can also specify which roles you want to prune in by rerunning this with a role list at the end.");
@@ -233,7 +233,7 @@ namespace Mewdeko.Modules.Administration
                     Description = $"Are you sure you want to prune {toprune} Members?",
                     Color = Mewdeko.Services.Mewdeko.OkColor
                 };
-                if (!await PromptUserConfirmAsync(eb))
+                if (!await PromptUserConfirmAsync(eb, ctx.User.Id))
                 {
                     await ctx.Channel.SendConfirmAsync("Canceled prune.");
                 }

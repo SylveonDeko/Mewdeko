@@ -212,29 +212,34 @@ namespace Mewdeko.Services
         private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
             params int[] execPoints)
         {
-            var bss = _services.GetService<BotConfigService>();
-            if (bss.Data.ConsoleOutputType == ConsoleOutputType.Normal)
-                Log.Warning("Command Errored after " +
-                            string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) + "s\n\t" +
-                            "User: {0}\n\t" +
-                            "Server: {1}\n\t" +
-                            "Channel: {2}\n\t" +
-                            "Message: {3}\n\t" +
-                            "Error: {4}",
-                    usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-                    channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]", // {1}
-                    channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
-                    usrMsg.Content, // {3}
-                    errorMessage
-                    //exec.Result.ErrorReason // {4}
-                );
-            else
-                Log.Warning("Err | g:{0} | c: {1} | u: {2} | msg: {3}\n\tErr: {4}",
-                    channel?.Guild.Id.ToString() ?? "-",
-                    channel?.Id.ToString() ?? "-",
-                    usrMsg.Author.Id,
-                    usrMsg.Content.TrimTo(10),
-                    errorMessage);
+            var ifdm1 = channel == null ? "DMs" : $"{channel.Guild.Name} [{channel.Guild.Id}]";
+            var ifdm2 = channel == null ? "DMs" : $"{channel.Name} [{channel.Id}]";
+            var errorafter = string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3")));
+            var errorchannel = _client.Rest.GetGuildAsync(843489716674494475).Result.GetTextChannelAsync(896393500134895656).Result;
+            Log.Warning($"Command Errored after {errorafter}\n\t" +
+                        "User: {0}\n\t" +
+                        "Server: {1}\n\t" +
+                        "Channel: {2}\n\t" +
+                        "Message: {3}\n\t" +
+                        "Error: {4}",
+                $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
+                channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
+                channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
+                usrMsg.Content,
+                errorMessage);
+            var eb = new EmbedBuilder()
+            {
+                Description = $"Command Errored after {errorafter}\n\t" +
+                              $"User: {usrMsg.Author} [{usrMsg.Author.Id}]\n" +
+                              $"Channel: {ifdm2}\n\t" +
+                              $"Message: {usrMsg.Content}\n\t" +
+                              $"Error: {errorMessage}",
+                Color = Mewdeko.ErrorColor,
+                ThumbnailUrl = channel.Guild.IconUrl,
+                Title = ifdm1
+
+            };
+            errorchannel.SendMessageAsync(embed: eb.Build());
         }
 
         private async Task MessageReceivedHandler(SocketMessage msg)

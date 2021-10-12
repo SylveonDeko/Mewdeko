@@ -39,7 +39,7 @@ namespace Mewdeko.Modules.Gambling
                     .WithTitle(GetText("waifu_reset_confirm"))
                     .WithDescription(GetText("waifu_reset_price", Format.Bold(price + CurrencySign)));
 
-                if (!await PromptUserConfirmAsync(embed))
+                if (!await PromptUserConfirmAsync(embed, ctx.User.Id))
                     return;
 
                 if (await _service.TryReset(ctx.User))

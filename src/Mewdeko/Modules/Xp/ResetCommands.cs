@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Xp
                     .WithTitle(GetText("reset"))
                     .WithDescription(GetText("reset_user_confirm"));
 
-                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
+                if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
                     return;
 
                 _service.XpReset(ctx.Guild.Id, userId);
@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Xp
                     .WithTitle(GetText("reset"))
                     .WithDescription(GetText("reset_server_confirm"));
 
-                if (!await PromptUserConfirmAsync(embed).ConfigureAwait(false))
+                if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
                     return;
 
                 _service.XpReset(ctx.Guild.Id);

@@ -28,7 +28,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task SuggestMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -65,7 +65,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task AcceptMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -102,7 +102,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task ImplementMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -139,7 +139,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task DenyMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -176,7 +176,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task ConsiderMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -208,62 +208,7 @@ namespace Mewdeko.Modules.Suggestions
                 await ctx.Channel.SendConfirmAsync("Sucessfully updated considered suggestion message!");
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            public async Task SuggestRole(IRole name = null)
-            {
-                if (name is null)
-                {
-                    var em = new EmbedBuilder
-                    {
-                        Description = "Ping on suggest has been disabled.",
-                        Color = Mewdeko.Services.Mewdeko.OkColor
-                    };
-                    await _service.SetSuggestionRole(ctx.Guild, 0);
-                    await ctx.Message.ReplyAsync(embed: em.Build());
-                    return;
-                }
-
-                if (_service.GetSuggestionRole(ctx.Guild.Id) == name.Id)
-                {
-                    var em = new EmbedBuilder
-                    {
-                        Description = "This is already your suggestion ping!",
-                        Color = Mewdeko.Services.Mewdeko.OkColor
-                    };
-                    await ctx.Message.ReplyAsync(embed: em.Build());
-                    return;
-                }
-
-                if (!(_service.GetSuggestionRole(ctx.Guild.Id) == name.Id) &&
-                    !(_service.GetSuggestionRole(ctx.Guild.Id) == 0))
-                {
-                    var oldrole = ctx.Guild.GetRole(_service.GetSuggestionRole(ctx.Guild.Id));
-                    await _service.SetSuggestionRole(ctx.Guild, name.Id);
-                    var em = new EmbedBuilder
-                    {
-                        Description = $"Switched the suggestion role from {oldrole.Mention} to {name.Mention}.",
-                        Color = Mewdeko.Services.Mewdeko.OkColor
-                    };
-                    await ctx.Message.ReplyAsync(embed: em.Build());
-                    return;
-                }
-
-                if (!(name == null))
-                {
-                    var em = new EmbedBuilder
-                    {
-                        Description = $"Ping on suggest has been set to ping {name.Mention}.",
-                        Color = Mewdeko.Services.Mewdeko.OkColor
-                    };
-                    await _service.SetSuggestionRole(ctx.Guild, name.Id);
-                    await ctx.Message.ReplyAsync(embed: em.Build());
-                }
-            }
+            
 
             [MewdekoCommand]
             [Usage]
@@ -352,7 +297,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [RequireUserPermission(GuildPermission.Administrator)]
+            [UserPerm(GuildPerm.Administrator)]
             public async Task SuggestMotes([Remainder] string _ = null)
             {
                 if (_ == null)

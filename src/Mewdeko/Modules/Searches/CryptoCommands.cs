@@ -30,7 +30,7 @@ namespace Mewdeko.Modules.Searches
                         .WithTitle(GetText("crypto_not_found"))
                         .WithDescription(GetText("did_you_mean", Format.Bold($"{nearest.Name} ({nearest.Symbol})")));
 
-                    if (await PromptUserConfirmAsync(embed).ConfigureAwait(false)) crypto = nearest;
+                    if (await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) crypto = nearest;
                 }
 
                 if (crypto == null)

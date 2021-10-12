@@ -126,7 +126,6 @@ namespace Mewdeko.Services
                 .AddBotStringsServices()
                 .AddMemoryCache()
                 .AddSingleton<IShopService, ShopService>()
-                // music
                 .AddMusic();
 
             s.AddHttpClient();

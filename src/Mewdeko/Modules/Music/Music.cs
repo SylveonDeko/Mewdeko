@@ -733,7 +733,7 @@ namespace Mewdeko.Modules.Music
 
             try
             {
-                var input = await GetButtonInputAsync(ctx.User.Id, ctx.Channel.Id, msg.Id).ConfigureAwait(false);
+                var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
                 if (input == null
                     || !int.TryParse(input, out var index)
                     || (index -= 1) < 0
