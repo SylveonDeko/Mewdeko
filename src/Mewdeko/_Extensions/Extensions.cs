@@ -63,6 +63,10 @@ namespace Mewdeko._Extensions
             return eab.WithIconUrl("http://i.imgur.com/nhKS3PT.png");
         }
 
+        public static IEnumerable<ulong> RoleIds(this SocketGuildUser user)
+        {
+            return user.Roles.Select(x => x.Id);
+        }
 
         public static List<ulong> GetGuildIds(this DiscordSocketClient client)
         {
