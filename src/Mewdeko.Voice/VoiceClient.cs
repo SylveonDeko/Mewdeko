@@ -58,7 +58,7 @@ namespace Mewdeko.Voice
         }
 
         // todo 3.2 direct opus streams
-        public int SendPcmFrame(VoiceGateway gw, Span<byte> data, int offset, int count)
+        public int SendPcmFrame(VoiceGateway gw, Span<byte> data, int length, int length2)
         {
             var secretKey = gw.SecretKey;
             if (secretKey.Length == 0) return (int)SendPcmError.SecretKeyUnavailable;

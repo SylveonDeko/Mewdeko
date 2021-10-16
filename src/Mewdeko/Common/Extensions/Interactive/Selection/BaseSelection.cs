@@ -152,28 +152,6 @@ namespace Mewdeko.Common.Extensions.Interactive.Selection
                     builder.WithButton(label, emote?.ToString() ?? label, ButtonStyle.Primary, emote, null, disableAll);
                 }
             }
-            else
-            {
-                var options = new List<SelectMenuOptionBuilder>();
-
-                foreach (var selection in Options)
-                {
-                    var emote = EmoteConverter?.Invoke(selection);
-                    var label = StringConverter?.Invoke(selection);
-                    if (emote == null && label == null)
-                        throw new InvalidOperationException(
-                            "Failed to set a valid emote and label to the menu option.");
-
-                    var option = new SelectMenuOptionBuilder()
-                        .WithLabel(label)
-                        .WithEmote(emote)
-                        .WithValue(emote?.ToString() ?? label);
-
-                    options.Add(option);
-                }
-
-                builder.WithSelectMenu(null, "foobar", options);
-            }
 
             return builder.Build();
         }

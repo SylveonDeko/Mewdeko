@@ -32,7 +32,7 @@ namespace Mewdeko.Modules.Giveaways.Services
         {
             while (true)
             {
-                await Task.Delay(500);
+                await Task.Delay(2000);
                 try
                 {
                     var now = DateTime.UtcNow;
@@ -110,9 +110,18 @@ namespace Mewdeko.Modules.Giveaways.Services
             using (var uow = _db.GetDbContext())
             {
                 uow.Giveaways.Add(rem);
-                var e = await uow.SaveChangesAsync();
-                Console.WriteLine(e);
+                try
+                {
+                    var e = uow.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    throw;
+                }
+                
             }
+
             await CurrentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
         }
         public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)

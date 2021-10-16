@@ -7,9 +7,7 @@
 
         public override bool Equals(object obj)
         {
-            return obj is GCChannelId gc
-                ? gc.ChannelId == ChannelId
-                : false;
+            return obj is GCChannelId gc && gc.ChannelId == ChannelId;
         }
 
         public override int GetHashCode()

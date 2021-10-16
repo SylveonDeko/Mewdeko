@@ -75,7 +75,7 @@ namespace Mewdeko.Modules.Giveaways
         [MewdekoCommand]
         public async Task GEnd(int index)
         {
-            Mewdeko.Services.Database.Models.Giveaways rem = null;
+            Mewdeko.Services.Database.Models.Giveaways rem;
             using var uow = _db.GetDbContext();
             var rems = uow.Giveaways.GiveawaysFor(ctx.Guild.Id, index / 10)
                 .ToList();

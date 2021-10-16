@@ -27,11 +27,11 @@ namespace Mewdeko.Coordinator.Services
         private Config _config;
         private ShardStatus[] _shardStatuses;
 
-        private readonly object locker = new object();
+        private readonly object _locker = new();
         private readonly Random _rng;
         private bool _gracefulImminent;
         
-        public CoordinatorRunner(IConfiguration configuration)
+        public CoordinatorRunner()
         {
             _serializer = new();
             _deserializer = new();
@@ -44,7 +44,7 @@ namespace Mewdeko.Coordinator.Services
         
         private Config LoadConfig()
         {
-            lock (locker)
+            lock (_locker)
             {
                 return _deserializer.Deserialize<Config>(File.ReadAllText(CONFIG_PATH));
             }
@@ -52,7 +52,7 @@ namespace Mewdeko.Coordinator.Services
 
         private void SaveConfig(in Config config)
         {
-            lock (locker)
+            lock (_locker)
             {
                 var output = _serializer.Serialize(config);
                 File.WriteAllText(CONFIG_PATH, output);
@@ -61,7 +61,7 @@ namespace Mewdeko.Coordinator.Services
 
         public void ReloadConfig()
         {
-            lock (locker)
+            lock (_locker)
             {
                 var oldConfig = _config;
                 var newConfig = LoadConfig();
@@ -87,7 +87,7 @@ namespace Mewdeko.Coordinator.Services
                 try
                 {
                     bool hadAction = false;
-                    lock (locker)
+                    lock (_locker)
                     {
                         var shardIds = Enumerable.Range(0, 1) // shard 0 is always first
                             .Append((int)((117523346618318850 >> 22) % _config.TotalShards)) // then nadeko server shard
@@ -204,7 +204,7 @@ namespace Mewdeko.Coordinator.Services
 
         public bool Heartbeat(int shardId, int guildCount, ConnState state)
         {
-            lock (locker)
+            lock (_locker)
             {
                 if (shardId >= _shardStatuses.Length)
                     throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -232,7 +232,7 @@ namespace Mewdeko.Coordinator.Services
 
         public void SetShardCount(int totalShards)
         {
-            lock (locker)
+            lock (_locker)
             {
                 ref var toSave = ref _config;
                 SaveConfig(new Config(
@@ -246,7 +246,7 @@ namespace Mewdeko.Coordinator.Services
 
         public void RestartShard(int shardId, bool queue)
         {
-            lock (locker)
+            lock (_locker)
             {
                 if (shardId >= _shardStatuses.Length)
                     throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -261,7 +261,7 @@ namespace Mewdeko.Coordinator.Services
 
         public void RestartAll(bool nuke)
         {
-            lock (locker)
+            lock (_locker)
             {
                 if (nuke)
                 {
@@ -274,7 +274,7 @@ namespace Mewdeko.Coordinator.Services
 
         private void KillAll()
         {
-            lock (locker)
+            lock (_locker)
             {
                 for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
                 {
@@ -317,7 +317,7 @@ namespace Mewdeko.Coordinator.Services
         }
         private bool TryRestoreOldState()
         {
-            lock (locker)
+            lock (_locker)
             {
                 if (!File.Exists(GRACEFUL_STATE_PATH))
                     return false;
@@ -381,7 +381,7 @@ namespace Mewdeko.Coordinator.Services
 
         private void InitAll()
         {
-            lock (locker)
+            lock (_locker)
             {
                 _shardStatuses = new ShardStatus[_config.TotalShards];
                 for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
@@ -393,7 +393,7 @@ namespace Mewdeko.Coordinator.Services
 
         private void QueueAll()
         {
-            lock (locker)
+            lock (_locker)
             {
                 for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
                 {
@@ -408,7 +408,7 @@ namespace Mewdeko.Coordinator.Services
 
         public ShardStatus GetShardStatus(int shardId)
         {
-            lock (locker)
+            lock (_locker)
             {
                 if (shardId >= _shardStatuses.Length)
                     throw new ArgumentOutOfRangeException(nameof(shardId));
@@ -419,7 +419,7 @@ namespace Mewdeko.Coordinator.Services
 
         public List<ShardStatus> GetAllStatuses()
         {
-            lock (locker)
+            lock (_locker)
             {
                 var toReturn = new List<ShardStatus>(_shardStatuses.Length);
                 toReturn.AddRange(_shardStatuses);
@@ -429,7 +429,7 @@ namespace Mewdeko.Coordinator.Services
 
         public void PrepareGracefulShutdown()
         {
-            lock (locker)
+            lock (_locker)
             {
                 _gracefulImminent = true;
             }
