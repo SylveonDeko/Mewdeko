@@ -18,10 +18,7 @@ using Mewdeko.Modules.Afk.Services;
 
 namespace Mewdeko.Modules.Afk
 {
-    public partial class Afk
-
-    {
-        public class AFK : MewdekoSubmodule<AFKService>
+    public class AFK : MewdekoModule<AFKService>
         {
             private readonly InteractiveService Interactivity;
 
@@ -437,4 +434,3 @@ namespace Mewdeko.Modules.Afk
             }
         }
     }
-}

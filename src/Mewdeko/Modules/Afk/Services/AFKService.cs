@@ -296,7 +296,7 @@ namespace Mewdeko.Modules.Afk.Services
 
         public async Task AFKSet(IGuild guild, IGuildUser user, string message, int timed)
         {
-            var aFK = new AFK
+            var aFK = new Mewdeko.Services.Database.Models.AFK
             {
                 GuildId = guild.Id,
                 UserId = user.Id,
@@ -309,7 +309,7 @@ namespace Mewdeko.Modules.Afk.Services
             await uow.SaveChangesAsync();
         }
 
-        public List<AFK> AfkMessage(ulong gid, ulong uid)
+        public List<Mewdeko.Services.Database.Models.AFK> AfkMessage(ulong gid, ulong uid)
         {
             using var uow = _db.GetDbContext();
             return uow.AFK.ForId(gid, uid);

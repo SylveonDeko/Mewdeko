@@ -89,7 +89,7 @@ namespace Mewdeko.Voice
                 throw new ArgumentException(null, nameof(count));
 
             if (WrittenCount > _buffer.Length - count)
-                ThrowInvalidOperationException_AdvancedTooFar(_buffer.Length);
+                ThrowInvalidOperationException_AdvancedTooFar();
 
             WrittenCount += count;
         }
@@ -183,7 +183,7 @@ namespace Mewdeko.Voice
                     var needed = (uint)(currentLength - FreeCapacity + sizeHint);
                     Debug.Assert(needed > currentLength);
 
-                    if (needed > ArrayMaxLength) ThrowOutOfMemoryException(needed);
+                    if (needed > ArrayMaxLength) ThrowOutOfMemoryException();
 
                     newSize = ArrayMaxLength;
                 }
@@ -194,12 +194,12 @@ namespace Mewdeko.Voice
             Debug.Assert(FreeCapacity > 0 && FreeCapacity >= sizeHint);
         }
 
-        private static void ThrowInvalidOperationException_AdvancedTooFar(int capacity)
+        private static void ThrowInvalidOperationException_AdvancedTooFar()
         {
             throw new InvalidOperationException();
         }
 
-        private static void ThrowOutOfMemoryException(uint capacity)
+        private static void ThrowOutOfMemoryException()
         {
             throw new OutOfMemoryException();
         }

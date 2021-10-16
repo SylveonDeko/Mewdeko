@@ -176,6 +176,7 @@ namespace Mewdeko.Modules.Administration
             await message.ModifyAsync(x => x.Embed = eb.Build());
         }
 
+       
         [MewdekoCommand]
         [Usage]
         [Description]

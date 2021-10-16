@@ -40,7 +40,7 @@ namespace Mewdeko.Services.Database.Models
         public int AfkType { get; set; } = 2;
         public AntiAltSetting AntiAltSetting { get; set; }
         public string AfkDisabledChannels { get; set; }
-
+        public int AfkDel { get; set; }
         public int AfkTimeout { get; set; } = 5;
         public ulong Joins { get; set; }
         public ulong Leaves { get; set; }

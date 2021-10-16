@@ -14,7 +14,7 @@ namespace Mewdeko.Common
 {
     public abstract class MewdekoModule : ModuleBase
     {
-        protected CultureInfo _cultureInfo { get; set; }
+        protected CultureInfo CultureInfo { get; set; }
         public IBotStrings Strings { get; set; }
         public CommandHandler CmdHandler { get; set; }
         public ILocalization Localization { get; set; }
@@ -34,16 +34,16 @@ namespace Mewdeko.Common
 
         protected override void BeforeExecute(CommandInfo cmd)
         {
-            _cultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
+            CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
         }
         protected string GetText(string key)
         {
-            return Strings.GetText(key, _cultureInfo);
+            return Strings.GetText(key, CultureInfo);
         }
 
         protected string GetText(string key, params object[] args)
         {
-            return Strings.GetText(key, _cultureInfo, args);
+            return Strings.GetText(key, CultureInfo, args);
         }
 
         public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)

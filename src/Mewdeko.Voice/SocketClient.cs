@@ -10,7 +10,7 @@ namespace Mewdeko.Voice
     {
         private const int CHUNK_SIZE = 1024 * 16;
 
-        private readonly SemaphoreSlim _sendLock = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim _sendLock = new(1, 1);
         private ClientWebSocket? _ws;
 
         public void Dispose()
@@ -56,7 +56,7 @@ namespace Mewdeko.Voice
                             var data = bufferWriter.WrittenMemory.ToArray();
                             bufferWriter.Clear();
 
-                            if (!(pr is null)) await pr.Invoke(data);
+                            if (pr is not null) await pr.Invoke(data);
                         }
                     }
                 }

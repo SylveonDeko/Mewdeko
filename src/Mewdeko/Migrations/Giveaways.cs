@@ -33,7 +33,7 @@ namespace Mewdeko.Migrations
                 name: "IX_Giveaways_GuildId",
                 table: "Giveaways",
                 column: "ServerId",
-                unique: true);
+                unique: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

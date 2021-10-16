@@ -105,7 +105,7 @@ namespace Mewdeko.Voice
 
                 bufferSpan.Slice(ReadPosition, toEnd).CopyTo(toReturn);
                 var fromStart = toRead - toEnd;
-                bufferSpan.Slice(0, fromStart).CopyTo(toReturn.Slice(toEnd));
+                bufferSpan[..fromStart].CopyTo(toReturn.Slice(toEnd));
                 ReadPosition = fromStart;
                 length = toEnd + fromStart;
                 return toReturn;

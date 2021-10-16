@@ -53,7 +53,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             using (var http = _httpFactory.CreateClient())
             {
-                var res = await http.GetStringAsync("https://convertapi.Mewdeko.bot/latest").ConfigureAwait(false);
+                var res = await http.GetStringAsync("https://convertapi.nadeko.bot/latest").ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<Rates>(res);
             }
         }

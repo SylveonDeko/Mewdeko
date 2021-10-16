@@ -70,7 +70,6 @@ namespace Mewdeko.Common
         //     Allows for viewing of audit logs.
         ViewAuditLog = 128,
         PrioritySpeaker = 256,
-        ReadMessages = 1024,
         ViewChannel = 1024,
         SendMessages = 2048,
 

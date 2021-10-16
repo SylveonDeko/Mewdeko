@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -6,6 +7,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
 using Mewdeko.Modules.Help.Services;
+using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -15,9 +17,11 @@ namespace Mewdeko.Modules.Utility.Services
         private readonly DbService _db;
         private readonly HelpService _hs;
         private readonly ConcurrentHashSet<ulong> guildsEnabled;
+        private readonly IBotStrings _strings;
 
-        public VerboseErrorsService(Mewdeko.Services.Mewdeko bot, DbService db, CommandHandler ch, HelpService hs)
+        public VerboseErrorsService(Mewdeko.Services.Mewdeko bot, DbService db, CommandHandler ch, HelpService hs, IBotStrings strings)
         {
+            _strings = strings;
             _db = db;
             _ch = ch;
             _hs = hs;
@@ -43,10 +47,12 @@ namespace Mewdeko.Modules.Utility.Services
 
             try
             {
-                var embed = _hs.GetCommandHelp(cmd, channel.Guild)
+                var embed = new EmbedBuilder()
                     .WithTitle("Command Error")
                     .WithDescription(reason)
+                    .AddField("Usages", string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _ch.GetPrefix(channel.Guild))))
                     .WithErrorColor();
+
 
                 await channel.EmbedAsync(embed).ConfigureAwait(false);
             }

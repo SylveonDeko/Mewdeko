@@ -14,8 +14,7 @@ namespace Mewdeko.Services.Database
         {
             LogSetup.SetupLogger(-2);
             var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
-            IBotCredentials creds = new BotCredentials();
-            var builder = new SqliteConnectionStringBuilder(creds.Db.ConnectionString);
+            var builder = new SqliteConnectionStringBuilder("Data Source = data/Mewdeko.db");
             builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
             optionsBuilder.UseSqlite(builder.ToString());
             var ctx = new MewdekoContext(optionsBuilder.Options);
@@ -103,7 +102,6 @@ namespace Mewdeko.Services.Database
 
             modelBuilder.Entity<FeedSub>()
                 .HasAlternateKey(x => new { x.GuildConfigId, x.Url });
-
             modelBuilder.Entity<PlantedCurrency>()
                 .HasIndex(x => x.MessageId)
                 .IsUnique();
