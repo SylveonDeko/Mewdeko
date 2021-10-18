@@ -271,14 +271,8 @@ namespace Mewdeko.Modules.Suggestions.Services
                 rs = "none";
             else
                 rs = reason;
-            var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
             var use = await guild.GetUserAsync(suggest.UserID);
-            if (suggest is null)
-            {
-                await channel.SendErrorAsync(
-                    "That suggestion number doesnt exist! Please double check it exists and try again.");
-                return;
-            }
 
             var eb = new EmbedBuilder();
             var e = GetDenyMessage(guild);
@@ -300,7 +294,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                     eb = new EmbedBuilder()
                         .WithAuthor(use)
                         .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied")
-                        .WithDescription(desc.Embeds.FirstOrDefault().Description)
+                        .WithDescription(desc.Embeds.FirstOrDefault()?.Description)
                         .WithOkColor()
                         .AddField("Reason", rs);
                 }
@@ -368,7 +362,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (ebe is false)
                 {
                     await channel.SendErrorAsync(
-                        "The deny message is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The deny message is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     await SetDenyMessage(guild, "-");
                     return;
                 }
@@ -395,7 +389,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
                 {
                     await channel.SendErrorAsync(
-                        "The deny message is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The deny message is invalid,  Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                     return;
                 }
 
@@ -426,7 +420,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 rs = "none";
             else
                 rs = reason;
-            var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
             var use = await guild.GetUserAsync(suggest.UserID);
             if (suggest is null)
             {
@@ -525,7 +519,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (ebe is false)
                 {
                     await channel.SendErrorAsync(
-                        "The consider message is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The consider message is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     await SetConsiderMessage(guild, "-");
                     return;
                 }
@@ -584,7 +578,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 rs = "none";
             else
                 rs = reason;
-            var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
             var use = await guild.GetUserAsync(suggest.UserID);
             if (suggest is null)
             {
@@ -681,7 +675,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (ebe is false)
                 {
                     await channel.SendErrorAsync(
-                        "The implement message set is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The implement message set is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     await SetImplementMessage(guild, "-");
                     return;
                 }
@@ -739,7 +733,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 rs = "none";
             else
                 rs = reason;
-            var suggest = Suggestionse(guild.Id, suggestion).FirstOrDefault();
+            var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
             var use = await guild.GetUserAsync(suggest.UserID);
             if (suggest is null)
             {
@@ -837,7 +831,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (ebe is false)
                 {
                     await channel.SendErrorAsync(
-                        "The accept message set is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The accept message set is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     await SetAcceptMessage(guild, "-");
                     return;
                 }
@@ -864,7 +858,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
                 {
                     await channel.SendErrorAsync(
-                        "The accept message is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The accept message is invalid, please set it again and try again. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                     return;
                 }
 
@@ -946,7 +940,7 @@ namespace Mewdeko.Modules.Suggestions.Services
                 if (ebe is false)
                 {
                     await channel.SendErrorAsync(
-                        "The suggest message set is invalid, I have set it back to default to avoid further issues. Please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                        "The custom suggest message set is invalid, I have set it back to default to avoid further issues. Please suggest again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
                     await SetSuggestionMessage(guild, "-");
                     return;
                 }
@@ -1016,7 +1010,7 @@ namespace Mewdeko.Modules.Suggestions.Services
             await uow.SaveChangesAsync();
         }
 
-        public Suggestionse[] Suggestionse(ulong gid, ulong sid)
+        public Suggestionse[] Suggestions(ulong gid, ulong sid)
         {
             using var uow = _db.GetDbContext();
             return uow.Suggestions.ForId(gid, sid);

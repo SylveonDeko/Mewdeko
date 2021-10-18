@@ -11,10 +11,7 @@ using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions
 {
-    public class Suggestions
-    {
-        [Group]
-        public class SuggestionsCommands : MewdekoModule<SuggestionsService>
+    public class SuggestionsCommands : MewdekoModule<SuggestionsService>
         {
             public DiscordSocketClient _client;
 
@@ -321,8 +318,8 @@ namespace Mewdeko.Modules.Suggestions
                     return;
                 }
 
-                if (!_.Contains("disable") && ctx.Message.Tags.Where(t => t.Type == TagType.Emoji)
-                    .Select(x => (Emote)x.Value).Count() < 1)
+                if (!_.Contains("disable") && !ctx.Message.Tags.Where(t => t.Type == TagType.Emoji)
+                    .Select(x => (Emote)x.Value).Any())
                 {
                     await ctx.Channel.SendErrorAsync("You need to specify up to 5 emotes for this command to work!");
                     return;
@@ -343,54 +340,5 @@ namespace Mewdeko.Modules.Suggestions
                 await _service.SetSuggestionEmotes(ctx.Guild, string.Join(",", list));
                 await ctx.Channel.SendConfirmAsync($"Suggestions will now be reacted with {string.Join(",", list)}");
             }
-            //[MewdekoCommand]
-            //[Usage]
-            //[Description]
-            //[Aliases]
-            //[RequireContext(ContextType.Guild)]
-            //public async Task ReSuggest(ulong num, [Remainder] string suggest)
-            //{
-            //    await ctx.Message.DeleteAsync();
-            //    var sug = _service.Suggestionse(ctx.Guild.Id, num).ToArray();
-            //    foreach (var i in sug)
-            //        if (i.UserID != ctx.User.Id)
-            //        {
-            //            await ctx.Channel.SendErrorAsync("This isnt your suggestion!");
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            var chn = await ctx.Guild.GetTextChannelAsync(SuggestChannel);
-            //            var message = await chn.GetMessageAsync(i.MessageID) as IUserMessage;
-            //            var eb = message.Embed.First().ToEmbedBuilder();
-            //            if (eb.Title.Contains("Implemented") || eb.Title.Contains("Considering") ||
-            //                eb.Title.Contains("Accepted") || eb.Title.Contains("Denied"))
-            //            {
-            //                await ctx.Channel.SendErrorAsync("This suggestion has already been reviewed!");
-            //                return;
-            //            }
-
-            //            if (eb.Description.Contains("Resuggest:"))
-            //            {
-            //                var e = eb.Description.IndexOf("**Resuggest:**");
-            //                var str = eb.Description.Substring(0, e);
-            //                var eb2 = new EmbedBuilder()
-            //                    .WithAuthor(eb.Author)
-            //                    .WithTitle(eb.Title)
-            //                    .WithDescription($"{str}{Format.Bold("Resuggest:")}\n{suggest}")
-            //                    .WithOkColor();
-            //                await message.ModifyAsync(x => { x.Embed = eb2.Build(); });
-            //                return;
-            //            }
-
-            //            var eb3 = new EmbedBuilder()
-            //                .WithAuthor(eb.Author)
-            //                .WithTitle(eb.Title)
-            //                .WithDescription($"{eb.Description}\n\n{Format.Bold("Resuggest:")}\n{suggest}")
-            //                .WithOkColor();
-            //            await message.ModifyAsync(x => { x.Embed = eb3.Build(); });
-            //        }
-            //}
         }
     }
-}
