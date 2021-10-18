@@ -42,17 +42,20 @@ namespace Mewdeko.Modules.Afk.Services
             _AfkMessage = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.AfkMessage)
                 .ToConcurrent();
+           _AfkDels = bot.AllGuildConfigs
+                .ToDictionary(x => x.GuildId, x => x.AfkDel)
+                .ToConcurrent();
             _client.MessageReceived += MessageReceived;
             _client.MessageUpdated += MessageUpdated;
             _client.UserIsTyping += UserTyping;
         }
 
-        private ConcurrentDictionary<ulong, int> _AfkType { get; } = new();
-        private ConcurrentDictionary<ulong, string> _AfkMessage { get; } = new();
-        private ConcurrentDictionary<ulong, int> _AfkTimeout { get; } = new();
-        private ConcurrentDictionary<ulong, int> _AfkLengths { get; } = new();
-        private ConcurrentDictionary<ulong, string> _AfkDisabledChannels { get; } = new();
-
+        private ConcurrentDictionary<ulong, int> _AfkType { get; }
+        private ConcurrentDictionary<ulong, string> _AfkMessage { get; }
+        private ConcurrentDictionary<ulong, int> _AfkTimeout { get; }
+        private ConcurrentDictionary<ulong, int> _AfkLengths { get; }
+        private ConcurrentDictionary<ulong, string> _AfkDisabledChannels { get; }
+        private ConcurrentDictionary<ulong, int> _AfkDels { get; }
 
         public Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
         {
@@ -115,6 +118,7 @@ namespace Mewdeko.Modules.Afk.Services
                         if (msg.MentionedUsers.FirstOrDefault() is not IGuildUser mentuser) return;
                         if (IsAfk(user.Guild, mentuser))
                         {
+                            var afkdel = GetAfkDel(((ITextChannel)msg.Channel).GuildId);
                             CREmbed crEmbed = null;
                             var replacer = new ReplacementBuilder()
                                 .WithOverride("%afk.message%",
@@ -136,7 +140,7 @@ namespace Mewdeko.Modules.Afk.Services
                             if (!ebe)
                             {
                                 await SetCustomAfkMessage(user.Guild, "-");
-                                await msg.Channel.EmbedAsync(new EmbedBuilder()
+                                var a = await msg.Channel.EmbedAsync(new EmbedBuilder()
                                     .WithAuthor(eab => eab.WithName($"{mentuser} is currently away")
                                         .WithIconUrl(mentuser.GetAvatarUrl()))
                                     .WithDescription(AfkMessage(user.GuildId, mentuser.Id).Last().Message
@@ -147,25 +151,35 @@ namespace Mewdeko.Modules.Afk.Services
                                             $"AFK for {(DateTime.UtcNow - AfkMessage(user.GuildId, mentuser.Id).Last().DateAdded.Value).Humanize()}"
                                     })
                                     .WithOkColor());
+                                if (afkdel != 0)
+                                    a.DeleteAfter(afkdel);
                                 return;
                             }
 
                             replacer.Replace(crEmbed);
                             if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
                             {
-                                await msg.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeAllMentions(),
+                                var a = await msg.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeAllMentions(),
                                     embed: crEmbed.ToEmbed().Build());
+                                if (afkdel != 0)
+                                    a.DeleteAfter(afkdel);
                                 return;
                             }
 
                             if (crEmbed.PlainText is null)
                             {
-                                await msg.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
+                                var a = await msg.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
+                                if (afkdel != 0)
+                                    a.DeleteAfter(afkdel);
                                 return;
                             }
 
                             if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                                await msg.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeAllMentions());
+                            {
+                                var a = await msg.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeAllMentions());
+                                if (afkdel != 0)
+                                    a.DeleteAfter(afkdel);
+                            }
                         }
                     }
                 }
@@ -226,7 +240,17 @@ namespace Mewdeko.Modules.Afk.Services
 
             _AfkType.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
+        public async Task AfkDelSet(IGuild guild, int num)
+        {
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.AfkDel = num;
+                await uow.SaveChangesAsync();
+            }
 
+            _AfkDels.AddOrUpdate(guild.Id, num, (key, old) => num);
+        }
         public async Task AfkLengthSet(IGuild guild, int num)
         {
             using (var uow = _db.GetDbContext())
@@ -267,6 +291,11 @@ namespace Mewdeko.Modules.Afk.Services
         public string GetCustomAfkMessage(ulong? id)
         {
             _AfkMessage.TryGetValue(id.Value, out var snum);
+            return snum;
+        }
+        public int GetAfkDel(ulong? id)
+        {
+            _AfkDels.TryGetValue(id.Value, out var snum);
             return snum;
         }
 

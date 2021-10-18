@@ -6,6 +6,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
+using Humanizer.Localisation;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -26,7 +27,7 @@ namespace Mewdeko.Modules.Afk
             {
                 Interactivity = serv;
             }
-
+            
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -64,6 +65,42 @@ namespace Mewdeko.Modules.Afk
                 await ctx.Guild.DownloadUsersAsync();
             }
 
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
+            public async Task AfkDel()
+            {
+                if (_service.GetAfkDel(ctx.Guild.Id) == 0 )
+                {
+                    await ctx.Channel.SendConfirmAsync("Afk messages are currently not being deleted.");
+                    return;
+                }
+                await ctx.Channel.SendConfirmAsync(
+                    $"Your current Afk Mention Message will delete after {_service.GetAfkDel(ctx.Guild.Id)}");
+            }
+
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [Priority(0)]
+            public async Task AfkDel(int num)
+            {
+                if (num < 0)
+                    return;
+                if (num == 0)
+                {
+                    await _service.AfkDelSet(ctx.Guild, 0);
+                    await ctx.Channel.SendConfirmAsync("Deletion of the Afk Message has been disabled!");
+                }
+                else
+                {
+                    await _service.AfkDelSet(ctx.Guild, num);
+                    await ctx.Channel.SendConfirmAsync($"Afk messages will now delete after {num} seconds.");
+                }
+            }
             [MewdekoCommand]
             [Usage]
             [Description]
@@ -336,7 +373,7 @@ namespace Mewdeko.Modules.Afk
 
                 await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list.Except(toremove)));
                 await ctx.Channel.SendConfirmAsync(
-                    $"Succesfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
+                    $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
             }
 
             [MewdekoCommand]
@@ -378,7 +415,7 @@ namespace Mewdeko.Modules.Afk
                         newchans.Add(i.Id.ToString());
                     }
 
-                    if (mentions.Count() == 0)
+                    if (mentions.Any())
                     {
                         await ctx.Channel.SendErrorAsync(
                             "No channels were added because the channels you specified are already in the list.");
