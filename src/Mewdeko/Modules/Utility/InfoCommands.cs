@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -36,13 +37,45 @@ namespace Mewdeko.Modules.Utility
             public async Task Fetch(ulong id)
             {
                 var usr = await _client.Rest.GetUserAsync(id);
-                var embed = new EmbedBuilder()
-                    .WithTitle("info for fetched user")
-                    .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " +
-                                     usr.CreatedAt)
-                    .WithImageUrl(usr.RealAvatarUrl().ToString())
-                    .WithOkColor();
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                if (usr is null)
+                {
+                    IUserMessage message = null;
+                    foreach (var i in ctx.Guild.GetTextChannelsAsync().Result)
+                    {
+                        var e = await i.GetMessageAsync(id);
+                        if (e is not null)
+                            message = e as IUserMessage;
+                        continue;
+                    }
+
+                    var eb = new EmbedBuilder()
+                        .WithTitle("Message Info");
+                    if (message.Embeds.Any())
+                    {
+                        eb.AddField("Embeds", message.Embeds.Count);
+                    }
+
+                    if (!string.IsNullOrEmpty(message.Content))
+                    {
+                        eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
+                    }
+
+                    eb.WithAuthor(message.Author);
+                    eb.AddField("Time Sent", message.Timestamp);
+                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                }
+                else
+                {
+
+
+                    var embed = new EmbedBuilder()
+                        .WithTitle("info for fetched user")
+                        .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " +
+                                         usr.CreatedAt)
+                        .WithImageUrl(usr.RealAvatarUrl().ToString())
+                        .WithOkColor();
+                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                }
             }
 
             [MewdekoCommand]

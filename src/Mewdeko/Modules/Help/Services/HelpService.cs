@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using CommandLine;
 using Discord;
@@ -78,29 +79,23 @@ namespace Mewdeko.Modules.Help.Services
                 if (selectedValue == "custom") name = "Custom Reactions";
                 if (selectedValue == "servermanage") name = "Server Management";
                 var ta = list3.FirstOrDefault(x => x.chan == parsedArg.Channel);
+                var guild = ((ITextChannel)parsedArg.Channel).Guild;
+                var prefix = _ch.GetPrefix(guild);
                 var selmens = ta.Builder.WithPlaceholder(name);
-                var context = new CommandContext(_client, ta.msg);
                 var module = selectedValue.Trim().ToUpperInvariant();
                 var cmds = _cmds.Commands.Where(c =>
                         c.Module.GetTopLevelModule().Name.ToUpperInvariant()
                             .StartsWith(module, StringComparison.InvariantCulture))
                     .OrderBy(c => c.Aliases[0])
                     .Distinct(new CommandTextEqualityComparer());
+
+
                 // check preconditions for all commands, but only if it's not 'all'
                 // because all will show all commands anyway, no need to check
-                var succ = new HashSet<CommandInfo>();
-                succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
-                    {
-                        var pre = await x.CheckPreconditionsAsync(context, _services).ConfigureAwait(false);
-                        return (Cmd: x, Succ: pre.IsSuccess);
-                    })).ConfigureAwait(false))
-                    .Where(x => x.Succ)
-                    .Select(x => x.Cmd));
 
                 var cmdsWithGroup = cmds
                     .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
                     .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
-
 
                 var i = 0;
                 var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
@@ -110,14 +105,9 @@ namespace Mewdeko.Modules.Help.Services
                     var last = g.Count();
                     for (i = 0; i < last; i++)
                     {
-                        var transformed = g.ElementAt(i).Select(x =>
-                        {
-                            //if cross is specified, and the command doesn't satisfy the requirements, cross it out
-                            return
-                                $"{(succ.Contains(x) ? "✅" : "❌")}{_ch.GetPrefix((parsedArg.Channel as ITextChannel).Guild) + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}";
-                        });
+                        var transformed = g.ElementAt(i).Select(x => $"{_ch.GetPrefix(guild) + x.Aliases.First()}");
 
-                        if (i == last - 1 && (i + 1) % 2 != 0)
+                        if (i == last - 1 && (i + 1) % 1 != 0)
                         {
                             var grp = 0;
                             var count = transformed.Count();
@@ -131,10 +121,11 @@ namespace Mewdeko.Modules.Help.Services
                                 });
                         }
 
-                        embed.AddField(g.ElementAt(i).Key, "```css\n" + string.Join("\n", transformed) + "\n```", true);
+                        embed.AddField(g.ElementAt(i).Key, string.Join(", ", transformed));
                     }
                 }
 
+                embed.WithFooter(GetText("commands_instr", guild, prefix));
                 if (parsedArg.User.Id == ta.msg.Author.Id)
                     await parsedArg.Message.ModifyAsync(x =>
                     {
