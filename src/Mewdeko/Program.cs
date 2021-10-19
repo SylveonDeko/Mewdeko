@@ -1,5 +1,9 @@
 using System;
+using System.Threading.Tasks;
+using Mewdeko;
 using Mewdeko.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 var pid = System.Environment.ProcessId;
@@ -30,5 +34,15 @@ if (args.Length > 0)
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
-
+_ = Task.Run(async () =>
+{
+    CreateHostBuilder(args).Build().Run();
+});
 await new Mewdeko.Services.Mewdeko(shardId).RunAndBlockAsync();
+
+IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
