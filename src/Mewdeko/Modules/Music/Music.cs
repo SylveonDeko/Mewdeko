@@ -179,24 +179,24 @@ namespace Mewdeko.Modules.Music
                     IconUrl = "http://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png",
                     Name = playlist.Owner.DisplayName
                 },
-                Description = $"<a:loading:847706744741691402> Attempting to queue {songs} songs from this playlist...",
+                Description = $"<a:loading:847706744741691402> Queueing {songs} songs...",
                 Footer = new EmbedFooterBuilder
                 {
                     Text = "Spotify Playlist"
                 },
-                ImageUrl = playlist.Images.FirstOrDefault().Url,
+                ThumbnailUrl = playlist.Images.FirstOrDefault()?.Url,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
             foreach (var item in playlist.Tracks.Items.Take(100))
                 if (item.Track is FullTrack track)
-                    await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
+                    await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault()?.Name} Official Audio",
                         ctx.User.ToString(), true, MusicPlatform.Spotify);
             var em = new EmbedBuilder
             {
                 Author = embed.Author,
                 Description =
-                    $"<a:checkfragutil:854536148411744276> Succesfully queued {songs} Tracks from this album!",
+                    $"<a:checkfragutil:854536148411744276> Queued {songs} songs from this album!",
                 Footer = embed.Footer,
                 ImageUrl = embed.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
@@ -233,24 +233,31 @@ namespace Mewdeko.Modules.Music
                     Name = playlist.Artists.FirstOrDefault().Name
                 },
                 Description =
-                    $"<a:loading:847706744741691402> Attempting to queue {playlist.TotalTracks} songs from this album...",
+                    $"<a:loading:847706744741691402> Queuing {playlist.TotalTracks} songs...",
                 Footer = new EmbedFooterBuilder
                 {
                     Text = "Spotify Album"
                 },
-                ImageUrl = playlist.Images.FirstOrDefault().Url,
+                ThumbnailUrl = playlist.Images.FirstOrDefault().Url,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build());
             foreach (var item in playlist.Tracks.Items.Take(100))
+            {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                if (mp is null)
+                    // ReSharper disable once HeuristicUnreachableCode
+                    return;
                 if (item is SimpleTrack track)
                     await mp.TryEnqueueTrackAsync($"{track.Name} {track.Artists.FirstOrDefault().Name} Official Audio",
-                        ctx.User.ToString(), true, MusicPlatform.Spotify);
+                        ctx.User.ToString(), false, MusicPlatform.Spotify);
+
+            }
             var em = new EmbedBuilder
             {
                 Author = embed.Author,
                 Description =
-                    $"<a:checkfragutil:854536148411744276> Succesfully queued {playlist.TotalTracks} Tracks from this album!",
+                    $"<a:checkfragutil:854536148411744276> Successfully queued {playlist.TotalTracks} songs.",
                 Footer = embed.Footer,
                 ImageUrl = embed.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
@@ -292,6 +299,7 @@ namespace Mewdeko.Modules.Music
                     }
                     catch
                     {
+                        await ctx.Channel.SendErrorAsync("Seems i don't have permission to join as a speaker.");
                     }
             }
             finally

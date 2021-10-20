@@ -34,7 +34,7 @@ if (args.Length > 0)
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
-_ = Task.Run(async () =>
+_ = Task.Run(() =>
 {
     CreateHostBuilder(args).Build().Run();
 });
