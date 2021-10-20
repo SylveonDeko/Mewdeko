@@ -19,8 +19,12 @@ using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Modules.Utility.Services;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Serilog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -868,6 +872,149 @@ namespace Mewdeko.Modules.Utility
                 .ConfigureAwait(false);
         }
 
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPerm.ManageMessages)]
+        public async Task EmbedBuilder()
+        {
+                string title;
+                string description;
+                string footer;
+                string thumbnailUrl;
+                string footerUrl;
+                Discord.Color color;
+
+                //title
+                await ReplyAsync("Enter your embed title, say none if you dont want one.");
+                var response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (response != null && response != "none")
+                {
+                    title = response;
+                }
+                else if (response.ToLower() != null && response.ToLower() == "none")
+                {
+                    title = null;
+                }
+                else if (response == null)
+                {
+                    await ReplyAsync("You did not reply before the timeout");
+                    return;
+                }
+                else { return; }
+
+                //description
+                await ReplyAsync("Enter your embed description:");
+                var response1 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (response1 != null && response1.ToLower() != "none")
+                {
+                    description = response1;
+                }
+                else if (response1 != null && response1.ToLower() == "none")
+                {
+                    description = null;
+                }
+                else if (response1 == null)
+                {
+                    await ReplyAsync("You did not reply before the timeout");
+                    return;
+                }
+                else { return; }
+
+                //footer
+                await ReplyAsync("Enter your embed footer:");
+                var response2 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (response2 != null && response2.ToLower() != "none")
+                {
+                    footer = response2;
+                }
+                else if (response2 != null && response2.ToLower() == "none")
+                {
+                    footer = null;
+                }
+                else if (response2 == null)
+                {
+                    await ReplyAsync("You did not reply before the timeout");
+                    return;
+                }
+                else { return; }
+                await ReplyAsync("Enter your embed color");
+                var response5 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (response5 != null && response5.ToLower() != "none")
+                {
+                    if (Color.TryParse(response5, out var e))
+                    {
+                        var rgba32 = e.ToPixel<Rgba32>();
+                        color = new Discord.Color(rgba32.R, rgba32.G, rgba32.B);
+                    }
+                    else
+                    {
+                        color = Mewdeko.Services.Mewdeko.OkColor;
+                    }
+                } 
+                else if (response5 != null && response5.ToLower() == "none")
+                {
+                    color = Mewdeko.Services.Mewdeko.OkColor;
+                }
+                else if (response2 == null)
+                {
+                    await ReplyAsync("You did not reply before the timeout");
+                    return;
+                }
+                else { return; }
+
+
+            //thumbnail url
+            await ReplyAsync("Enter your embed thumbnail url:");
+                var response3 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (response3 != null && response3.ToLower() != "none")
+                {
+                    thumbnailUrl = response3;
+                }
+                else if (response3 != null && response3.ToLower() == "none")
+                {
+                    thumbnailUrl = null;
+                }
+                else if (response3 == null)
+                {
+                    await ReplyAsync("You did not reply before the timeout");
+                    return;
+                }
+                else { return; }
+
+                //footerUrl
+                await ReplyAsync("Enter your embed footer icon url:");
+                var response4 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (response4 != null && response4.ToLower() != "none")
+                {
+                    footerUrl = response4;
+                }
+                else if (response4 != null && response4.ToLower()  == "none")
+                {
+                    footerUrl = null;
+                }
+                else if (response4 == null)
+                {
+                    await ReplyAsync("You did not reply before the timeout");
+                    return;
+                }
+                else { return; }
+
+                var messages = await Context.Channel.GetMessagesAsync(11).FlattenAsync();
+                await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
+
+                var builder = new EmbedBuilder()
+                    .WithThumbnailUrl(thumbnailUrl)
+                    .WithTitle(title)
+                    .WithColor(color)
+                    .WithFooter(footer, iconUrl: footerUrl)
+                    .WithDescription(description);
+                var embed = builder.Build();
+                await ReplyAsync(null, false, embed);
+
+        }
 
         [MewdekoCommand]
         [Usage]
@@ -927,7 +1074,7 @@ namespace Mewdeko.Modules.Utility
                 msg.DeleteAfter(0);
 
                 await ctx.Channel
-                    .SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} 🏓 {(int)sw.Elapsed.TotalMilliseconds}ms")
+                    .SendConfirmAsync($"Bot Ping {(int)sw.Elapsed.TotalMilliseconds}ms\nBot Latency {((DiscordSocketClient)ctx.Client).Latency}ms")
                     .ConfigureAwait(false);
             }
             finally

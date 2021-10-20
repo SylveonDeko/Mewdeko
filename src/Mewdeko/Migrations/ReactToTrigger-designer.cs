@@ -846,9 +846,6 @@ namespace Mewdeko.Migrations
                     b.Property<bool>("VerbosePermissions")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("VoicePlusTextEnabled")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("WarnExpireAction")
                         .HasColumnType("INTEGER");
 

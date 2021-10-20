@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -120,6 +121,34 @@ namespace Mewdeko.Common
                         }
                         c.DeferAsync();
                         userInputTask.TrySetResult(c.Data.CustomId);
+                        return Task.CompletedTask;
+                    });
+                return Task.CompletedTask;
+            }
+        }
+        public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
+        {
+            var userInputTask = new TaskCompletionSource<string>();
+            var dsc = (DiscordSocketClient)ctx.Client;
+            try
+            {
+                dsc.MessageReceived += Interaction;
+                if ((await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false)) != userInputTask.Task)
+                {
+                    return null;
+                }
+                return await userInputTask.Task.ConfigureAwait(false);
+            }
+            finally
+            {
+                dsc.MessageReceived -= Interaction;
+            }
+            Task Interaction(SocketMessage arg)
+            { 
+                Task.Run(() =>
+                {
+                    if (arg.Author.Id != userId || arg.Channel.Id != channelId) return Task.CompletedTask;
+                        userInputTask.TrySetResult(arg.Content);
                         return Task.CompletedTask;
                     });
                 return Task.CompletedTask;
