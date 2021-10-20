@@ -119,7 +119,7 @@ namespace Mewdeko.Common
                             return Task.CompletedTask;
                         }
                         c.DeferAsync();
-                        userInputTask.TrySetResult("No");
+                        userInputTask.TrySetResult(c.Data.CustomId);
                         return Task.CompletedTask;
                     });
                 return Task.CompletedTask;
