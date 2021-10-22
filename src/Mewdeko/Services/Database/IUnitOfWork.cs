@@ -15,11 +15,11 @@ namespace Mewdeko.Services.Database
 
         ICustomReactionRepository CustomReactions { get; }
 
-        // ISwitchShopsRepository SwitchShops {get;}
         IMusicPlaylistRepository MusicPlaylists { get; }
         IWaifuRepository Waifus { get; }
         ITicketRepository Tickets { get; }
         IDiscordUserRepository DiscordUsers { get; }
+        IGlobalBansRepository GlobalBans { get; }
         IWarningsRepository Warnings { get; }
         IGiveawaysRepository Giveaways { get; }
         IXpRepository Xp { get; }

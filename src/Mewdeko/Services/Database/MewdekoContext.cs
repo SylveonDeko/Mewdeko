@@ -61,6 +61,7 @@ namespace Mewdeko.Services.Database
         public DbSet<AutoBanEntry> AutoBanWords { get; set; }
         public DbSet<RewardedUser> RewardedUsers { get; set; }
         public DbSet<Stake> Stakes { get; set; }
+        public DbSet<GlobalBans> GlobalBans { get; set; }
         public DbSet<PlantedCurrency> PlantedCurrency { get; set; }
         public DbSet<Tickets> Tickets { get; set; }
         public DbSet<BanTemplate> BanTemplates { get; set; }

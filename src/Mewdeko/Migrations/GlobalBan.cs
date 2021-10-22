@@ -24,6 +24,8 @@ namespace Mewdeko.Migrations
                 {
                     table.PrimaryKey("PK_GlobalBan", x => x.Id);
                 });
+            migrationBuilder.AddColumn<int>("GBAction", "GuildConfigs", defaultValue: 1);
+            migrationBuilder.AddColumn<int>("GBEnabled", "GuildConfigs", defaultValue: 1);
 
             migrationBuilder.CreateIndex(
                 name: "IX_GlobalBan_GuildId",
