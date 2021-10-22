@@ -57,9 +57,7 @@ namespace Mewdeko.Services.Database
 
         public DbSet<RotatingPlayingStatus> RotatingStatus { get; set; }
         public DbSet<BlacklistEntry> Blacklist { get; set; }
-        public DbSet<RepBlacklistEntry> RepBlacklist { get; set; }
         public DbSet<AutoCommand> AutoCommands { get; set; }
-        public DbSet<Reputation> Reputation { get; set; }
         public DbSet<AutoBanEntry> AutoBanWords { get; set; }
         public DbSet<RewardedUser> RewardedUsers { get; set; }
         public DbSet<Stake> Stakes { get; set; }
