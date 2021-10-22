@@ -185,7 +185,7 @@ namespace Mewdeko.Modules.Help
                 "> <:Nekoha_Flushed:866321565393748008> NSFW\n> <:Nekohacheer:866614949895077900> Music\n> <:Nekohapoke:866613862468026368> Gambling\n> <:nekoha_slam:866316199317864458> Searches\n> <:Nekoha_wave:866321165538164776> Games\n> <:Nekohaquestion:866616825750749184> Help\n> <:nekoha_stare:866316293179572264> Custom Reactions",
                 true);
             embed.AddField("<:Nekohapeek:866614585992937482> Links",
-                "[Website](https://mewdeko.tech) | [Support](https://discord.gg/6n3aa9Xapf) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Ko-Fi](https://ko-fi.com/mewdeko) | [Patreon](https://patreon.com/mewdeko)");
+                "[Website](https://mewdeko.tech) | [Support](https://discord.gg/6n3aa9Xapf) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
             await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: builder2.Build());
         }
 
@@ -248,7 +248,7 @@ namespace Mewdeko.Modules.Help
                 var last = g.Count();
                 for (i = 0; i < last; i++)
                 {
-                    var transformed = g.ElementAt(i).Select(x => $"{Prefix + x.Aliases.First()}");
+                    var transformed = g.ElementAt(i).Select(x => $"`{Prefix + x.Aliases.First()}`");
 
                     if (i == last - 1 && (i + 1) % 1 != 0)
                     {
@@ -264,7 +264,7 @@ namespace Mewdeko.Modules.Help
                             });
                     }
 
-                    embed.AddField(g.ElementAt(i).Key, string.Join(", ", transformed));
+                    embed.AddField(g.ElementAt(i).Key, string.Join(" ", transformed));
                 }
             }
 

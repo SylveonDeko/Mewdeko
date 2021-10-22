@@ -99,7 +99,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
 
             return _p = Process.Start(new ProcessStartInfo
             {
-                FileName = "ffmpeg",
+                FileName = "C:\\ffmpeg\\nightly\\bin\\ffmpeg.exe",
                 Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,

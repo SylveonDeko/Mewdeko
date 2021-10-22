@@ -5,12 +5,12 @@ namespace Mewdeko.Voice
 {
     internal static unsafe class Sodium
     {
-        private const string Libsodium = "libsodium";
+        private const string SODIUM = "libsodium";
 
-        [DllImport("SODIUM", EntryPoint = "crypto_secretbox_easy", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SODIUM, EntryPoint = "crypto_secretbox_easy", CallingConvention = CallingConvention.Cdecl)]
         private static extern int SecretBoxEasy(byte* output, byte* input, long inputLength, byte* nonce, byte* secret);
 
-        [DllImport(Libsodium, EntryPoint = "crypto_secretbox_open_easy", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(SODIUM, EntryPoint = "crypto_secretbox_open_easy", CallingConvention = CallingConvention.Cdecl)]
         private static extern int SecretBoxOpenEasy(byte* output, byte* input, ulong inputLength, byte* nonce,
             byte* secret);
 
