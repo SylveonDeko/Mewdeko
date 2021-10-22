@@ -25,8 +25,6 @@ namespace Mewdeko.Services.Database
         private IQuoteRepository _quotes;
         private IGiveawaysRepository _giveaways;
         private IReminderRepository _reminders;
-
-        private IReputationRepository _reputation;
         // private ISwitchShopsRepository _switchshops;
 
         private ISelfAssignedRolesRepository _selfAssignedRoles;
@@ -84,7 +82,6 @@ namespace Mewdeko.Services.Database
         public IXpRepository Xp => _xp ??= new XpRepository(_context);
         public IClubRepository Clubs => _clubs ??= new ClubRepository(_context);
         public IPollsRepository Polls => _polls ??= new PollsRepository(_context);
-        public IReputationRepository Reputation => _reputation ??= new ReputationRepository(_context);
 
         public IPlantedCurrencyRepository PlantedCurrency =>
 _planted ??= new PlantedCurrencyRepository(_context);

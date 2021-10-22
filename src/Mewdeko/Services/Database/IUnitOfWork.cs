@@ -20,7 +20,6 @@ namespace Mewdeko.Services.Database
         IWaifuRepository Waifus { get; }
         ITicketRepository Tickets { get; }
         IDiscordUserRepository DiscordUsers { get; }
-        IReputationRepository Reputation { get; }
         IWarningsRepository Warnings { get; }
         IGiveawaysRepository Giveaways { get; }
         IXpRepository Xp { get; }
