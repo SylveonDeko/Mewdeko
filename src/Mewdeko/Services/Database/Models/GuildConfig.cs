@@ -13,6 +13,8 @@ namespace Mewdeko.Services.Database.Models
         public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
         public string AutoAssignRoleId { get; set; }
         public string AutoBotRoleIds { get; set; }
+        public int GBEnabled { get; set; } = 1;
+        public int GBAction { get; set; } = 1;
         public ulong MemberRole { get; set; } = 0;
         public ulong WarnlogChannelId { get; set; } = 0;
         public ulong MiniWarnlogChannelId { get; set; } = 0;

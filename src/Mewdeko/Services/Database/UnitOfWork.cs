@@ -24,8 +24,8 @@ namespace Mewdeko.Services.Database
         private IPollsRepository _polls;
         private IQuoteRepository _quotes;
         private IGiveawaysRepository _giveaways;
+        private IGlobalBansRepository _globalbans;
         private IReminderRepository _reminders;
-        // private ISwitchShopsRepository _switchshops;
 
         private ISelfAssignedRolesRepository _selfAssignedRoles;
         private ISnipeStoreRepository _snipestore;
@@ -53,7 +53,8 @@ namespace Mewdeko.Services.Database
         public IGuildConfigRepository GuildConfigs =>
             _guildConfigs ??= new GuildConfigRepository(_context);
 
-        // public ISwitchShopsRepository SwitchShops => _switchshops ?? (_switchshops = new SwitchShopsRepository(_context));
+        public IGlobalBansRepository GlobalBans => _globalbans ??= new GlobalBansRepository(_context);
+        
         public IReminderRepository Reminders => _reminders ??= new ReminderRepository(_context);
 
         public ISelfAssignedRolesRepository SelfAssignedRoles =>
