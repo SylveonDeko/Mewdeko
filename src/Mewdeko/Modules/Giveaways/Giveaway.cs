@@ -25,7 +25,7 @@ namespace Mewdeko.Modules.Giveaways
             _db = db;
             _tz = tz;
         }
-
+        
         [MewdekoCommand]
         [Usage]
         [Description]

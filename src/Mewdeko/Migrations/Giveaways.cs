@@ -28,6 +28,13 @@ namespace Mewdeko.Migrations
                 {
                     table.PrimaryKey("PK_Giveaways", x => x.Id);
                 });
+            migrationBuilder.AddColumn<string>("GRolesBlacklist", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<string>("GUsersBlacklist", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<string>("AcceptMotes", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<string>("DenyMotes", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<string>("ImplementMotes", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<string>("ConsiderMotes", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<string>("BanChannelMessage", "GuildConfigs", defaultValue: "-");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Giveaways_GuildId",
