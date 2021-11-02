@@ -48,10 +48,67 @@ namespace Mewdeko.Modules.Utility
             _bot = Mewdeko;
             _tracker = tracker;
         }
-        //public async Task GetShopInfo()
-        //{
 
-        //}
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Alias]
+        public async Task EmoteList([Remainder] string emotetype = null)
+        {
+            GuildEmote[] emotes;
+            switch (emotetype)
+            {
+                case "animated":
+                    emotes = ctx.Guild.Emotes.Where(x => x.Animated).ToArray();
+                    break;
+                case "nonanimated":
+                    emotes = ctx.Guild.Emotes.Where(x => !x.Animated).ToArray();
+                    break;
+                default:
+                    emotes = ctx.Guild.Emotes.ToArray();
+                    break;
+            }
+
+            if (!emotes.Any())
+            {
+                await ctx.Channel.SendErrorAsync("No emotes found!");
+                return;
+            }
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(emotes.Length / 10)
+                .WithDefaultEmotes()
+                .Build();
+
+            await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
+            {
+                string TitleText;
+                switch (emotetype)
+                {
+                    case "animated":
+                        TitleText = $"{emotes.Length} Animated Emotes";
+                        break;
+                    case "nonanimated":
+                        TitleText = $"{emotes.Length} Non Animated Emotes";
+                        break;
+                    default:
+                        TitleText =
+                            $"{emotes.Where(x => x.Animated).Count()} Animated Emotes | {emotes.Where(x => !x.Animated).Count()} Non Animated Emotes";
+                        break;
+                }
+
+                return Task.FromResult(new PageBuilder()
+                    .WithTitle(TitleText)
+                    .WithDescription(string.Join("\n", emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10).Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
+                    .WithOkColor());
+            }
+        }
+
         [MewdekoCommand]
         [Usage]
         [Description]
