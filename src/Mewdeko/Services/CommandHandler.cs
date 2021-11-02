@@ -59,7 +59,6 @@ namespace Mewdeko.Services
         private ConcurrentDictionary<ulong, string> _prefixes { get; } = new();
 
         //userid/msg count
-        public ConcurrentDictionary<ulong, uint> UserMessagesSent { get; } = new();
 
         public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
@@ -103,6 +102,7 @@ namespace Mewdeko.Services
             }
             catch
             {
+                //exclude
             }
         }
 
@@ -170,6 +170,7 @@ namespace Mewdeko.Services
                 }
                 catch
                 {
+                    //exclude
                 }
             }
         }
@@ -186,36 +187,25 @@ namespace Mewdeko.Services
 
         private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
         {
-            var bss = _services.GetService<BotConfigService>();
-            if (bss.Data.ConsoleOutputType == ConsoleOutputType.Normal)
-                Log.Information("Command Executed after " +
-                                string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
-                                "s\n\t" +
-                                "User: {0}\n\t" +
-                                "Server: {1}\n\t" +
-                                "Channel: {2}\n\t" +
-                                "Message: {3}",
+            Log.Information("Command Executed after " +
+                            string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
+                            "s\n\t" +
+                            "User: {0}\n\t" +
+                            "Server: {1}\n\t" +
+                            "Channel: {2}\n\t" +
+                            "Message: {3}",
                     usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
                     channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]", // {1}
                     channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
                     usrMsg.Content // {3}
                 );
-            else
-                Log.Information("Succ | g:{0} | c: {1} | u: {2} | msg: {3}",
-                    channel?.Guild.Id.ToString() ?? "-",
-                    channel?.Id.ToString() ?? "-",
-                    usrMsg.Author.Id,
-                    usrMsg.Content.TrimTo(10));
             return Task.CompletedTask;
         }
 
         private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
             params int[] execPoints)
         {
-            var ifdm1 = channel == null ? "DMs" : $"{channel.Guild.Name} [{channel.Guild.Id}]";
-            var ifdm2 = channel == null ? "DMs" : $"{channel.Name} [{channel.Id}]";
             var errorafter = string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3")));
-            var errorchannel = _client.Rest.GetGuildAsync(843489716674494475).Result.GetTextChannelAsync(896393500134895656).Result;
             Log.Warning($"Command Errored after {errorafter}\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
@@ -227,19 +217,6 @@ namespace Mewdeko.Services
                 channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
                 usrMsg.Content,
                 errorMessage);
-            var eb = new EmbedBuilder()
-            {
-                Description = $"Command Errored after {errorafter}\n\t" +
-                              $"User: {usrMsg.Author} [{usrMsg.Author.Id}]\n" +
-                              $"Channel: {ifdm2}\n\t" +
-                              $"Message: {usrMsg.Content}\n\t" +
-                              $"Error: {errorMessage}",
-                Color = Mewdeko.ErrorColor,
-                ThumbnailUrl = channel.Guild.IconUrl,
-                Title = ifdm1
-
-            };
-            errorchannel.SendMessageAsync(embed: eb.Build());
         }
 
         private async Task MessageReceivedHandler(SocketMessage msg)
@@ -252,10 +229,6 @@ namespace Mewdeko.Services
 
                 if (!(msg is SocketUserMessage usrMsg))
                     return;
-#if !GLOBAL_Mewdeko
-                // track how many messagges each user is sending
-                UserMessagesSent.AddOrUpdate(usrMsg.Author.Id, 1, (key, old) => ++old);
-#endif
 
                 var channel = msg.Channel;
                 var guild = (msg.Channel as SocketTextChannel)?.Guild;
@@ -287,6 +260,7 @@ namespace Mewdeko.Services
                         Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
                             usrMsg.Content,
                             beh.GetType().Name, usrMsg.Author.Id);
+                    
 
                     return;
                 }
@@ -307,32 +281,31 @@ namespace Mewdeko.Services
             }
 
             var prefix = GetPrefix(guild?.Id);
-            var isPrefixCommand = messageContent.StartsWith(".prefix", StringComparison.InvariantCultureIgnoreCase);
             // execute the command and measure the time it took
-            if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || isPrefixCommand || messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ")|| messageContent.StartsWith($"<@!{_client.CurrentUser.Id}>"))
+            if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) || messageContent.StartsWith($"<@{_client.CurrentUser.Id}> ")|| messageContent.StartsWith($"<@!{_client.CurrentUser.Id}>"))
             {
                 if (messageContent.StartsWith($"<@{_client.CurrentUser.Id}>"))
                     prefix = $"<@{_client.CurrentUser.Id}> ";
                 if (messageContent.StartsWith($"<@!{_client.CurrentUser.Id}>"))
                     prefix = $"<@!{_client.CurrentUser.Id}> ";
-                var (Success, Error, Info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg),
-                        messageContent, isPrefixCommand ? 1 : prefix.Length, _services, MultiMatchHandling.Best)
+                var (success, error, info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg),
+                        messageContent, prefix.Length, _services, MultiMatchHandling.Best)
                     .ConfigureAwait(false);
                 execTime = Environment.TickCount - execTime;
 
-                if (Success)
+                if (success)
                 {
                     await LogSuccessfulExecution(usrMsg, channel as ITextChannel, exec2, execTime)
                         .ConfigureAwait(false);
-                    await CommandExecuted(usrMsg, Info).ConfigureAwait(false);
+                    await CommandExecuted(usrMsg, info).ConfigureAwait(false);
                     return;
                 }
 
-                if (Error != null)
+                if (error != null)
                 {
-                    LogErroredExecution(Error, usrMsg, channel as ITextChannel, exec2, execTime);
+                    LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
                     if (guild != null)
-                        await CommandErrored(Info, channel as ITextChannel, Error).ConfigureAwait(false);
+                        await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
                 }
             }
             else

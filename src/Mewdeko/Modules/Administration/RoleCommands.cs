@@ -113,7 +113,7 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(0)]
             public Task ReactionRoles(ulong messageId, params string[] input)
             {
@@ -123,8 +123,8 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(1)]
             public Task ReactionRoles(ulong messageId, Exclude _, params string[] input)
             {
@@ -136,8 +136,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(0)]
             public Task ReactionRoles(params string[] input)
             {
@@ -149,8 +149,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(1)]
             public Task ReactionRoles(Exclude _, params string[] input)
             {
@@ -162,7 +162,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task ReactionRolesList()
             {
                 var embed = new EmbedBuilder()
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task ReactionRolesRemove(int index)
             {
                 if (index < 1 ||
@@ -213,8 +213,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task SetRole(IRole roleToAdd, [Remainder] IGuildUser targetUser)
             {
                 var runnerUser = (IGuildUser)ctx.User;
@@ -241,8 +241,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task RemoveRole(IRole roleToRemove, [Remainder] IGuildUser targetUser)
             {
                 var runnerUser = (IGuildUser)ctx.User;
@@ -266,8 +266,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task RenameRole(IRole roleToEdit, [Remainder] string newname)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -296,8 +296,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task RemoveAllRoles([Remainder] IGuildUser user)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -325,8 +325,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task CreateRole([Remainder] string roleName = null)
             {
                 if (string.IsNullOrWhiteSpace(roleName))
@@ -341,8 +341,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task DeleteRole([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -359,8 +359,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task RoleHoist(IRole role)
             {
                 var newHoisted = !role.IsHoisted;
@@ -389,8 +389,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(0)]
             public async Task RoleColor(IRole role, Color color)
             {

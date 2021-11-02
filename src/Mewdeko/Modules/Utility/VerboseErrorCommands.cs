@@ -17,7 +17,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task VerboseError(bool? newstate = null)
             {
                 var state = _service.ToggleVerboseErrors(ctx.Guild.Id, newstate);

@@ -34,8 +34,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
-            public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPerm[] perms)
+            [UserPerm(GuildPermission.Administrator)]
+            public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[] perms)
             {
                 if (perms is null || perms.Length == 0)
                 {
@@ -57,7 +57,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task DiscordPermOverrideReset()
             {
                 var result = await PromptUserConfirmAsync(new EmbedBuilder()
@@ -76,7 +76,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task DiscordPermOverrideList(int page = 1)
             {
                 if (--page < 0)

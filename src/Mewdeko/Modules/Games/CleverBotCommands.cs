@@ -27,7 +27,7 @@ namespace Mewdeko.Modules.Games
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Cleverbot()
             {
                 var channel = (ITextChannel)ctx.Channel;

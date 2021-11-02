@@ -432,7 +432,7 @@ namespace Mewdeko.Modules.Afk
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(0)]
             public async Task AfkRemove(params IGuildUser[] user)
             {
@@ -455,7 +455,7 @@ namespace Mewdeko.Modules.Afk
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(1)]
             public async Task AfkRemove(IGuildUser user)
             {

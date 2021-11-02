@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task CrsExport()
         {
             if (!AdminInGuildOrOwnerInDm())
@@ -71,7 +71,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task CrsImport([Remainder] string input = null)
         {
             if (!AdminInGuildOrOwnerInDm())
@@ -453,7 +453,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task CrClear()
         {
             if (await PromptUserConfirmAsync(new EmbedBuilder()

@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task SetSplash(string img)
         {
             var guild = ctx.Guild;
@@ -114,7 +114,7 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task SetIcon(string img)
         {
             var guild = ctx.Guild;
@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task SetBanner(string img)
         {
             var guild = ctx.Guild;
@@ -158,7 +158,7 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task SetServerName([Remainder] string name)
         {
             var guild = ctx.Guild;
@@ -171,8 +171,8 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageEmojis)]
-        [BotPerm(GuildPerm.ManageEmojis)]
+        [UserPerm(GuildPermission.ManageEmojisAndStickers)]
+        [BotPerm(GuildPermission.ManageEmojisAndStickers)]
         [Priority(0)]
         public async Task AddEmote(string name, string url = null)
         {
@@ -219,7 +219,8 @@ namespace Mewdeko.Modules.Server_Management
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.ManageEmojis)]
+        [UserPerm(GuildPermission.ManageEmojisAndStickers)]
+        [BotPerm(GuildPermission.ManageEmojisAndStickers)]
         [RequireContext(ContextType.Guild)]
         public async Task RemoveEmote(string emote)
         {
@@ -241,7 +242,8 @@ namespace Mewdeko.Modules.Server_Management
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.ManageEmojis)]
+        [UserPerm(GuildPermission.ManageEmojisAndStickers)]
+        [BotPerm(GuildPermission.ManageEmojisAndStickers)]
         [RequireContext(ContextType.Guild)]
         public async Task RenameEmote(string emote, string name)
         {
@@ -273,8 +275,8 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageEmojis)]
-        [BotPerm(GuildPerm.ManageEmojis)]
+        [UserPerm(GuildPermission.ManageEmojisAndStickers)]
+        [BotPerm(GuildPermission.ManageEmojisAndStickers)]
         [Priority(1)]
         public async Task StealEmotes([Remainder] string e)
         {
@@ -324,8 +326,8 @@ namespace Mewdeko.Modules.Server_Management
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageEmojis)]
-        [BotPerm(GuildPerm.ManageEmojis)]
+        [UserPerm(GuildPermission.ManageEmojisAndStickers)]
+        [BotPerm(GuildPermission.ManageEmojisAndStickers)]
         [Priority(0)]
         public async Task StealForRole(IRole role, [Remainder] string e)
         {

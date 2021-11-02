@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task SetMWarnChannel([Remainder] ITextChannel channel)
             {
@@ -81,7 +81,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             public async Task MWarn(IGuildUser user, [Remainder] string reason = null)
             {
                 if (ctx.User.Id != user.Guild.OwnerId
@@ -150,7 +150,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [MewdekoOptions(typeof(WarnExpireOptions))]
             [Priority(2)]
             public async Task MWarnExpire(int days, params string[] args)
@@ -182,7 +182,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             [Priority(2)]
             public Task MWarnlog(int page, IGuildUser user)
             {
@@ -209,7 +209,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             [Priority(0)]
             public Task MWarnlog(int page, ulong userId)
             {
@@ -221,7 +221,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             [Priority(1)]
             public Task MWarnlog(ulong userId)
             {
@@ -272,7 +272,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             public async Task MWarnlogAll(int page = 1)
             {
                 if (--page < 0)
@@ -316,7 +316,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public Task MWarnclear(IGuildUser user, int index = 0)
             {
                 return MWarnclear(user.Id, index);
@@ -327,7 +327,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task MWarnclear(ulong userId, int index = 0)
             {
                 if (index < 0)
@@ -353,7 +353,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
             {
@@ -379,7 +379,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task MWarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
             {
                 // this should never happen. Addrole has its own method with higher priority
@@ -407,7 +407,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task MWarnPunish(int number)
             {
                 if (!_service.WarnPunishRemove(ctx.Guild.Id, number)) return;

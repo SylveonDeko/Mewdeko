@@ -31,8 +31,8 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(ChannelPerm.CreateInstantInvite)]
-            [UserPerm(ChannelPerm.CreateInstantInvite)]
+            [BotPerm(ChannelPermission.CreateInstantInvite)]
+            [UserPerm(ChannelPermission.CreateInstantInvite)]
             [MewdekoOptions(typeof(InviteService.Options))]
             public async Task InviteCreate(params string[] args)
             {
@@ -53,7 +53,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(ChannelPerm.ManageChannel)]
+            [BotPerm(ChannelPermission.ManageChannels)]
             public async Task InviteList(int page = 1)
             {
                 if (--page < 0)
@@ -94,8 +94,8 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [BotPerm(ChannelPerm.ManageChannel)]
-            [UserPerm(ChannelPerm.ManageChannel)]
+            [BotPerm(ChannelPermission.ManageChannels)]
+            [UserPerm(ChannelPermission.ManageChannels)]
             public async Task InviteDelete(int index)
             {
                 if (--index < 0)

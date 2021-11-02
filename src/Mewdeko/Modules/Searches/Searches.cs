@@ -183,7 +183,7 @@ namespace Mewdeko.Modules.Searches
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
         public async Task Say(ITextChannel channel, [Remainder] string message)
         {
@@ -212,7 +212,7 @@ namespace Mewdeko.Modules.Searches
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         [Priority(0)]
         public Task Say([Remainder] string message)
         {

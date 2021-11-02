@@ -32,7 +32,7 @@ namespace Mewdeko.Modules.Moderation.Services
 
         private static readonly OverwritePermissions denyOverwrite =
             new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
-                attachFiles: PermValue.Deny);
+                attachFiles: PermValue.Deny, sendMessagesInThreads: PermValue.Deny, createPublicThreads: PermValue.Deny);
 
         private readonly Mewdeko.Services.Mewdeko _bot;
 

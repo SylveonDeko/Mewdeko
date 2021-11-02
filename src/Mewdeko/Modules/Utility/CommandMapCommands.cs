@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AliasesClear()
             {
                 var count = _service.ClearAliases(ctx.Guild.Id);
@@ -52,7 +52,7 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task Alias(string trigger, [Remainder] string mapping = null)
             {

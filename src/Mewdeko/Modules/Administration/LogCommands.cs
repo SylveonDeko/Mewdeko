@@ -29,7 +29,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task LogServer(PermissionAction action)
             {
@@ -45,7 +45,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public async Task LogServer(ITextChannel channel, PermissionAction action)
             {
@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task LogIgnore()
             {
@@ -83,7 +83,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public async Task LogIgnore(ITextChannel channel)
             {
@@ -102,7 +102,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(2)]
             public async Task LogIgnore(IVoiceChannel channel)
             {
@@ -121,7 +121,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task LogEvents()
             {
                 _service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
@@ -189,7 +189,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task Log(LogType type)
             {
@@ -206,7 +206,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public async Task Log(LogType type, ITextChannel channel)
             {

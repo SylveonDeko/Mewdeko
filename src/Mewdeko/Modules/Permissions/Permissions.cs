@@ -64,7 +64,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [Priority(0)]
         public async Task PermRole([Remainder] IRole role = null)
         {
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Permissions
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [Priority(1)]
         public async Task PermRole(Reset _)
         {

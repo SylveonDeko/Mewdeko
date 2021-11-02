@@ -71,7 +71,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task SetWarnChannel([Remainder] ITextChannel channel)
             {
@@ -104,7 +104,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             public async Task Warn(IGuildUser user, [Remainder] string reason = null)
             {
                 if (!await CheckRoleHierarchy(user))
@@ -183,7 +183,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [MewdekoOptions(typeof(WarnExpireOptions))]
             [Priority(2)]
             public async Task WarnExpire(int days, params string[] args)
@@ -231,7 +231,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             [Priority(1)]
             public Task Warnlog(ulong userId)
             {
@@ -292,7 +292,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             public async Task WarnlogAll(int page = 1)
             {
                 if (--page < 0)
@@ -336,7 +336,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             public Task Warnclear(IGuildUser user, int index = 0)
             {
                 return Warnclear(user.Id, index);
@@ -347,7 +347,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             public async Task Warnclear(ulong userId, int index = 0)
             {
                 if (index < 0)
@@ -373,7 +373,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             [Priority(1)]
             public async Task WarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
             {
@@ -399,7 +399,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             public async Task WarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
             {
                 // this should never happen. Addrole has its own method with higher priority
@@ -427,7 +427,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
             public async Task WarnPunish(int number)
             {
                 if (!_service.WarnPunishRemove(ctx.Guild.Id, number)) return;
@@ -462,8 +462,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             [Priority(1)]
             public async Task Ban(StoopidTime time, IUser user, [Remainder] string msg = null)
             {
@@ -515,8 +515,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             [Priority(0)]
             public async Task Ban(ulong userId, [Remainder] string msg = null)
             {
@@ -542,8 +542,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             [Priority(2)]
             public async Task Ban(IGuildUser user, [Remainder] string msg = null)
             {
@@ -585,8 +585,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             public async Task BanMessage([Remainder] string message = null)
             {
                 if (message is null)
@@ -611,8 +611,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             public async Task BanMsgReset()
             {
                 _service.SetBanTemplate(Context.Guild.Id, null);
@@ -624,8 +624,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             [Priority(0)]
             public Task BanMessageTest([Remainder] string reason = null)
             {
@@ -637,8 +637,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             [Priority(1)]
             public Task BanMessageTest(StoopidTime duration, [Remainder] string reason = null)
             {
@@ -680,8 +680,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             public async Task Unban([Remainder] string user)
             {
                 var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
@@ -702,8 +702,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             public async Task Unban(ulong userId)
             {
                 var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
@@ -731,8 +731,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.KickMembers | GuildPerm.ManageMessages)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages)]
+            [BotPerm(GuildPermission.BanMembers)]
             public Task Softban(IGuildUser user, [Remainder] string msg = null)
             {
                 return SoftbanInternal(user, msg);
@@ -743,8 +743,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.KickMembers | GuildPerm.ManageMessages)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages)]
+            [BotPerm(GuildPermission.BanMembers)]
             public async Task Softban(ulong userId, [Remainder] string msg = null)
             {
                 var user = await ((DiscordSocketClient)Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
@@ -797,8 +797,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.KickMembers)]
-            [BotPerm(GuildPerm.KickMembers)]
+            [UserPerm(GuildPermission.KickMembers)]
+            [BotPerm(GuildPermission.KickMembers)]
             [Priority(1)]
             public Task Kick(IGuildUser user, [Remainder] string msg = null)
             {
@@ -810,8 +810,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.KickMembers)]
-            [BotPerm(GuildPerm.KickMembers)]
+            [UserPerm(GuildPermission.KickMembers)]
+            [BotPerm(GuildPermission.KickMembers)]
             [Priority(0)]
             public async Task Kick(ulong userId, [Remainder] string msg = null)
             {
@@ -858,8 +858,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.BanMembers)]
-            [BotPerm(GuildPerm.BanMembers)]
+            [UserPerm(GuildPermission.BanMembers)]
+            [BotPerm(GuildPermission.BanMembers)]
             [OwnerOnly]
             public async Task MassKill([Remainder] string people)
             {

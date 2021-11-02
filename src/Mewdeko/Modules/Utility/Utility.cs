@@ -87,23 +87,23 @@ namespace Mewdeko.Modules.Utility
 
             Task<PageBuilder> PageFactory(int page)
             {
-                string TitleText;
+                string titleText;
                 switch (emotetype)
                 {
                     case "animated":
-                        TitleText = $"{emotes.Length} Animated Emotes";
+                        titleText = $"{emotes.Length} Animated Emotes";
                         break;
                     case "nonanimated":
-                        TitleText = $"{emotes.Length} Non Animated Emotes";
+                        titleText = $"{emotes.Length} Non Animated Emotes";
                         break;
                     default:
-                        TitleText =
-                            $"{emotes.Where(x => x.Animated).Count()} Animated Emotes | {emotes.Where(x => !x.Animated).Count()} Non Animated Emotes";
+                        titleText =
+                            $"{emotes.Count(x => x.Animated)} Animated Emotes | {emotes.Count(x => !x.Animated)} Non Animated Emotes";
                         break;
                 }
 
                 return Task.FromResult(new PageBuilder()
-                    .WithTitle(TitleText)
+                    .WithTitle(titleText)
                     .WithDescription(string.Join("\n", emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10).Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
                     .WithOkColor());
             }
@@ -141,7 +141,7 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task ReactChannel(ITextChannel chan = null)
         {
             var e = _service.GetReactChans(ctx.Guild.Id);
@@ -180,7 +180,7 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [RequireContext(ContextType.Guild)]
         public async Task SnipeSet(string yesnt)
         {
@@ -402,7 +402,7 @@ namespace Mewdeko.Modules.Utility
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [RequireContext(ContextType.Guild)]
         public async Task PreviewLinks(string yesnt)
         {
@@ -934,7 +934,7 @@ namespace Mewdeko.Modules.Utility
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task EmbedBuilder()
         {
                 string title;

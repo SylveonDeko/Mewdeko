@@ -19,7 +19,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole()
             {
                 if (!_service.TryGetNormalRoles(ctx.Guild.Id, out var roles))
@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task AutoAssignBotRole([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -100,7 +100,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task AutoAssignBotRole()
             {
                 if (!_service.TryGetBotRoles(ctx.Guild.Id, out var roles))

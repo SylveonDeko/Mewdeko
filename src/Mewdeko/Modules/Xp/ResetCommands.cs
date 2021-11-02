@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Xp
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public Task XpReset(IGuildUser user)
             {
                 return XpReset(user.Id);
@@ -27,7 +27,7 @@ namespace Mewdeko.Modules.Xp
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task XpReset(ulong userId)
             {
                 var embed = new EmbedBuilder()
@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Xp
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task XpReset()
             {
                 var embed = new EmbedBuilder()

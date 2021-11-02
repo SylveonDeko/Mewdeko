@@ -290,7 +290,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [OwnerOnly]
         public async Task StartupCommandAdd([Remainder] string cmdText)
         {
@@ -326,7 +326,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [OwnerOnly]
         public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
         {
@@ -459,7 +459,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [OwnerOnly]
         public async Task AutoCommandRemove([Remainder] int index)
         {
@@ -491,7 +491,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [OwnerOnly]
         public async Task StartupCommandsClear()
         {
@@ -699,8 +699,8 @@ namespace Mewdeko.Modules.OwnerOnly
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.ManageNicknames)]
-        [BotPerm(GuildPerm.ChangeNickname)]
+        [UserPerm(GuildPermission.ManageNicknames)]
+        [BotPerm(GuildPermission.ChangeNickname)]
         [Priority(0)]
         public async Task SetNick([Remainder] string newNick = null)
         {
@@ -716,8 +716,8 @@ namespace Mewdeko.Modules.OwnerOnly
         [Usage]
         [Description]
         [Aliases]
-        [BotPerm(GuildPerm.ManageNicknames)]
-        [UserPerm(GuildPerm.ManageNicknames)]
+        [BotPerm(GuildPermission.ManageNicknames)]
+        [UserPerm(GuildPermission.ManageNicknames)]
         [Priority(1)]
         public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
         {

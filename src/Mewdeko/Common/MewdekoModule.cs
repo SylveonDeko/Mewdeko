@@ -5,6 +5,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
@@ -23,8 +24,10 @@ namespace Mewdeko.Common
         public UserPunishService UPun { get; set; }
         public ServerManagementService SMS { get; set; }
         public UserPunishService2 UPun2 { get; set; }
+        public MuteService MServ { get; set; }
 
         public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
+        public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
         public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
         public ulong TTicketCategory => SMS.GetTicketCategory(ctx.Guild.Id);
         public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);

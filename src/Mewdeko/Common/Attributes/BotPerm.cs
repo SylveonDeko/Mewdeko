@@ -5,11 +5,11 @@ namespace Mewdeko.Common.Attributes
 {
     public class BotPermAttribute : RequireBotPermissionAttribute
     {
-        public BotPermAttribute(GuildPerm permission) : base((GuildPermission)permission)
+        public BotPermAttribute(GuildPermission permission) : base(permission)
         {
         }
 
-        public BotPermAttribute(ChannelPerm permission) : base((ChannelPermission)permission)
+        public BotPermAttribute(ChannelPermission permission) : base(permission)
         {
         }
     }

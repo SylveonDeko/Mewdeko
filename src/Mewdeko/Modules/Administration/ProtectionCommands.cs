@@ -23,7 +23,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AntiAlt()
             {
                 if (await _service.TryStopAntiAlt(ctx.Guild.Id))
@@ -40,7 +40,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
                 [Remainder] StoopidTime punishTime = null)
             {
@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AntiAlt(StoopidTime minAge, PunishmentAction action, [Remainder] IRole role)
             {
                 var minAgeMinutes = (int)minAge.Time.TotalMinutes;
@@ -79,7 +79,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public Task AntiRaid()
             {
                 if (_service.TryStopAntiRaid(ctx.Guild.Id))
@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public Task AntiRaid(int userThreshold, int seconds,
                 PunishmentAction action, [Remainder] StoopidTime punishTime)
@@ -105,7 +105,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(2)]
             public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action)
             {
@@ -156,7 +156,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public Task AntiSpam()
             {
                 if (_service.TryStopAntiSpam(ctx.Guild.Id))
@@ -169,7 +169,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] IRole role)
             {
@@ -184,7 +184,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime)
             {
@@ -196,7 +196,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(2)]
             public Task AntiSpam(int messageCount, PunishmentAction action)
             {
@@ -229,7 +229,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AntispamIgnore()
             {
                 var added = await _service.AntiSpamIgnoreAsync(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);

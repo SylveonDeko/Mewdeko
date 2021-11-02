@@ -17,8 +17,8 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [BotPerm(GuildPerm.ManageRoles)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole(IRole fromRole, IRole addRole)
             {
@@ -32,8 +32,8 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [BotPerm(GuildPerm.ManageRoles)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole()
             {
@@ -45,8 +45,8 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [BotPerm(GuildPerm.ManageRoles)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleKeyword([Remainder] string keyword = null)
             {
@@ -62,8 +62,8 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [BotPerm(GuildPerm.ManageRoles)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleBlacklist(AddRemove action, [Remainder] IGuildUser user)
             {
@@ -90,8 +90,8 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [BotPerm(GuildPerm.ManageRoles)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleWhitelist(AddRemove action, [Remainder] IGuildUser user)
             {

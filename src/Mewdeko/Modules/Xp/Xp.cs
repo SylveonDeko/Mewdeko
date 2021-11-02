@@ -314,7 +314,7 @@ namespace Mewdeko.Modules.Xp
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         [RequireContext(ContextType.Guild)]
         public async Task XpRoleReward(int level, [Remainder] IRole role = null)
         {
@@ -400,7 +400,7 @@ namespace Mewdeko.Modules.Xp
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task XpExclude(Server _)
         {
             var ex = _service.ToggleExcludeServer(ctx.Guild.Id);
@@ -413,7 +413,7 @@ namespace Mewdeko.Modules.Xp
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.ManageRoles)]
+        [UserPerm(GuildPermission.ManageRoles)]
         [RequireContext(ContextType.Guild)]
         public async Task XpExclude(Role _, [Remainder] IRole role)
         {
@@ -427,7 +427,7 @@ namespace Mewdeko.Modules.Xp
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
         [RequireContext(ContextType.Guild)]
         public async Task XpExclude(Channel _, [Remainder] IChannel channel = null)
         {
@@ -582,7 +582,7 @@ namespace Mewdeko.Modules.Xp
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task XpAdd(int amount, ulong userId)
         {
             if (amount == 0)
@@ -600,7 +600,7 @@ namespace Mewdeko.Modules.Xp
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public Task XpAdd(int amount, [Remainder] IGuildUser user)
         {
             return XpAdd(amount, user.Id);

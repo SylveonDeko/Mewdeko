@@ -244,6 +244,8 @@ namespace Mewdeko.Services
 
         private Task Client_LeftGuild(SocketGuild arg)
         {
+            var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
+            chan.SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
             Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
             return Task.CompletedTask;
         }
@@ -262,16 +264,7 @@ namespace Mewdeko.Services
 
                 await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             });
-            RestTextChannel chan;
-            try
-            {
-                chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
             var eb = new EmbedBuilder();
             eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
             eb.AddField("Server ID", arg.Id);
@@ -280,7 +273,7 @@ namespace Mewdeko.Services
             eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
             eb.AddField("Text Channels", arg.TextChannels.Count);
             eb.AddField("Voice Channels", arg.VoiceChannels.Count);
-            eb.WithThumbnailUrl("https://pbs.twimg.com/profile_images/1283027345796931584/X-qjLt4j_400x400.jpg");
+            eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
             try
             {
