@@ -152,6 +152,14 @@ namespace Mewdeko.Common
                 {
                     if (arg.Author.Id != userId || arg.Channel.Id != channelId) return Task.CompletedTask;
                         userInputTask.TrySetResult(arg.Content);
+                        try
+                        {
+                            arg.DeleteAsync();
+                        }
+                        catch
+                        {
+                            //Exclude
+                        }
                         return Task.CompletedTask;
                     });
                 return Task.CompletedTask;
