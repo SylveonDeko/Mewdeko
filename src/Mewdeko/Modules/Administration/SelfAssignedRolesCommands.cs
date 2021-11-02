@@ -32,8 +32,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
-            [BotPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
+            [BotPerm(GuildPermission.ManageMessages)]
             public async Task AdSarm()
             {
                 var newVal = _service.ToggleAdSarm(ctx.Guild.Id);
@@ -49,8 +49,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(1)]
             public Task Asar([Remainder] IRole role)
             {
@@ -62,8 +62,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(0)]
             public async Task Asar(int group, [Remainder] IRole role)
             {
@@ -85,8 +85,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [Priority(0)]
             public async Task Sargn(int group, [Remainder] string name = null)
             {
@@ -107,7 +107,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task Rsar([Remainder] IRole role)
             {
                 var guser = (IGuildUser)ctx.User;
@@ -191,8 +191,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task Togglexclsar()
             {
                 var areExclusive = _service.ToggleEsar(ctx.Guild.Id);
@@ -207,8 +207,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             public async Task RoleLevelReq(int level, [Remainder] IRole role)
             {
                 if (level < 0)

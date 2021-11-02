@@ -32,7 +32,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public Task PrefixCommand(Set _, [Remainder] string prefix)
             {
@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task PrefixCommand([Remainder] string prefix)
             {

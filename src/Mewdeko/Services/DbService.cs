@@ -38,7 +38,7 @@ namespace Mewdeko.Services
                     mContext.Dispose();
                 }
 
-                context.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL");
+                context.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL; PRAGMA TEMP_STORE=MEMORY");
                 context.SaveChanges();
             }
         }

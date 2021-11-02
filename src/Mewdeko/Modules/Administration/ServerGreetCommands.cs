@@ -30,7 +30,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetDel(int timer = 30)
             {
                 if (timer < 0 || timer > 600)
@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public Task BoostMsg()
             {
                 var boostMessage = _service.GetBoostMessage(ctx.Guild.Id);
@@ -57,7 +57,7 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task Boost()
             {
                 var enabled = await _service.ToggleBoost(ctx.Guild.Id, ctx.Channel.Id);
@@ -71,7 +71,7 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task BoostDel(int timer = 30)
             {
                 if (timer < 0 || timer > 600)
@@ -91,7 +91,7 @@ namespace Mewdeko.Modules.Administration
             [MewdekoCommand]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task BoostMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -113,7 +113,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task Greet()
             {
                 var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -129,7 +129,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetHook(ITextChannel chan = null, string name = null, string image = null,
                 string text = null)
             {
@@ -204,7 +204,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetHook(string text)
             {
                 await GreetHook(null, null, null, text);
@@ -215,7 +215,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public Task GreetMsg()
             {
                 var greetMsg = _service.GetGreetMsg(ctx.Guild.Id);
@@ -227,7 +227,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -248,7 +248,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetDm()
             {
                 var enabled = await _service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
@@ -264,7 +264,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public Task GreetDmMsg()
             {
                 var dmGreetMsg = _service.GetDmGreetMsg(ctx.Guild.Id);
@@ -276,7 +276,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetDmMsg([Remainder] string text = null)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -297,7 +297,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task Bye()
             {
                 var enabled = await _service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -313,7 +313,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public Task ByeMsg()
             {
                 var byeMsg = _service.GetByeMessage(ctx.Guild.Id);
@@ -325,7 +325,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task ByeMsg([Remainder] string text)
             {
                 if (string.IsNullOrWhiteSpace(text))
@@ -346,7 +346,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             public async Task ByeDel(int timer = 30)
             {
                 await _service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);
@@ -363,7 +363,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             [Ratelimit(5)]
             public async Task ByeTest([Remainder] IGuildUser user = null)
             {
@@ -379,7 +379,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             [Ratelimit(5)]
             public async Task BoostTest()
             {
@@ -408,7 +408,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             [Ratelimit(5)]
             public async Task GreetTest([Remainder] IGuildUser user = null)
             {
@@ -425,7 +425,7 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageGuild)]
+            [UserPerm(GuildPermission.ManageGuild)]
             [Ratelimit(5)]
             public async Task GreetDmTest([Remainder] IGuildUser user = null)
             {

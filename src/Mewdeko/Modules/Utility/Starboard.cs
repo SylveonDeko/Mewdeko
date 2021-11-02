@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task SetStarboard(ITextChannel chn = null)
             {
                 if (chn is null)
@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Alias]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task SetStars(ulong num)
             {
                 var count = _service.GetStarSetting(ctx.Guild.Id);
@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Utility
             [Usage]
             [Description]
             [Alias]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task SetStar(string num = null)
             {
                 var emote = ctx.Message.Tags.Where(x => x.Type == TagType.Emoji).Select(t => (Emote)t.Value);

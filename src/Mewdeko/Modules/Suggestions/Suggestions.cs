@@ -25,7 +25,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task SuggestMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task AcceptMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task ImplementMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task DenyMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -173,7 +173,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task ConsiderMessage([Remainder] string embed)
             {
                 CREmbed crEmbed;
@@ -212,7 +212,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task SetSuggestChannel(ITextChannel channel = null)
             {
                 if (channel == null)
@@ -246,7 +246,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Deny(ulong sid, [Remainder] string reason = null)
             {
                 await _service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
@@ -258,7 +258,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Accept(ulong sid, [Remainder] string reason = null)
             {
                 await _service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
@@ -270,7 +270,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Implemented(ulong sid, [Remainder] string reason = null)
             {
                 await _service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
@@ -282,7 +282,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Consider(ulong sid, [Remainder] string reason = null)
             {
                 await _service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
@@ -294,7 +294,7 @@ namespace Mewdeko.Modules.Suggestions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task SuggestMotes([Remainder] string _ = null)
             {
                 if (_ == null)

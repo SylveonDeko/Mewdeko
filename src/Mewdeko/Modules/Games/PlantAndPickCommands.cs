@@ -93,7 +93,7 @@ namespace Mewdeko.Modules.Games
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
 #if GLOBAL_Mewdeko
             [OwnerOnly]
 #endif
@@ -111,7 +111,7 @@ namespace Mewdeko.Modules.Games
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [OwnerOnly]
             public async Task GenCurList(int page = 1)
             {

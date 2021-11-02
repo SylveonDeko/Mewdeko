@@ -281,7 +281,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task DelAllQuotes([Remainder] string keyword)
             {
                 if (string.IsNullOrWhiteSpace(keyword))

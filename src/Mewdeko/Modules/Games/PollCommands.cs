@@ -28,7 +28,7 @@ namespace Mewdeko.Modules.Games
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Poll([Remainder] string arg)
             {
@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.Games
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task PollStats()
             {
@@ -75,7 +75,7 @@ namespace Mewdeko.Modules.Games
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [RequireContext(ContextType.Guild)]
             public async Task Pollend()
             {

@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             [Priority(0)]
             public async Task PermControl(SocketGuildChannel channel, PermValue perm, IRole role, params ChannelPermission[] perms)
             {
@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             [Priority(1)]
             public async Task PermControl(SocketGuildChannel channel, PermValue perm, IUser role, params ChannelPermission[] perms)
             {
@@ -111,7 +111,7 @@ namespace Mewdeko.Modules.Server_Management
             //[Description]
             //[Aliases]
             //[RequireContext(ContextType.Guild)]
-            //[UserPerm(GuildPerm.ManageChannels)]
+            //[UserPerm(GuildPermission.ManageChannels)]
             //[Priority(1)]
             //public async Task PermControl(IRole channel, PermValue perm,  params GuildPermission[] perms)
             //{

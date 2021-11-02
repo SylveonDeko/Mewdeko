@@ -43,8 +43,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(ChannelPerm.ManageMessages)]
-            [BotPerm(ChannelPerm.ManageMessages)]
+            [UserPerm(ChannelPermission.ManageMessages)]
+            [BotPerm(ChannelPermission.ManageMessages)]
             [Priority(1)]
             public async Task Purge(int count, string parameter = null)
             {
@@ -81,8 +81,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(ChannelPerm.ManageMessages)]
-            [BotPerm(ChannelPerm.ManageMessages)]
+            [UserPerm(ChannelPermission.ManageMessages)]
+            [BotPerm(ChannelPermission.ManageMessages)]
             [Priority(0)]
             public Task Purge(IGuildUser user, int count = 100, string parameter = null)
             {
@@ -95,8 +95,8 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(ChannelPerm.ManageMessages)]
-            [BotPerm(ChannelPerm.ManageMessages)]
+            [UserPerm(ChannelPermission.ManageMessages)]
+            [BotPerm(ChannelPermission.ManageMessages)]
             [Priority(0)]
             public async Task Purge(ulong userId, int count = 100, string parameter = null)
             {

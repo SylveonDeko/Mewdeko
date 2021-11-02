@@ -121,7 +121,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task MuteRole([Remainder] IRole role = null)
             {
                 if (role is null)
@@ -148,7 +148,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
             [Priority(0)]
             public async Task Mute(IGuildUser target, [Remainder] string reason = "")
             {
@@ -173,7 +173,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
             [Priority(2)]
             public async Task Mute(IGuildUser user, StoopidTime time, string reason = "")
             {
@@ -185,7 +185,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
             [Priority(1)]
             public async Task Mute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
             {
@@ -212,7 +212,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles | GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
             public async Task Unmute(IGuildUser user, [Remainder] string reason = "")
             {
                 try
@@ -232,7 +232,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [Priority(0)]
             public async Task ChatMute(IGuildUser user, [Remainder] string reason = "")
             {
@@ -257,7 +257,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             public async Task ChatUnmute(IGuildUser user, [Remainder] string reason = "")
             {
                 try
@@ -278,7 +278,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             [Priority(1)]
             public async Task VoiceMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
             {
@@ -304,7 +304,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
             [Priority(1)]
             public async Task ChatMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
             {
@@ -331,7 +331,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             [Priority(1)]
             public async Task VoiceMute(IGuildUser user, [Remainder] string reason = "")
             {
@@ -355,7 +355,7 @@ namespace Mewdeko.Modules.Moderation
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.MuteMembers)]
+            [UserPerm(GuildPermission.MuteMembers)]
             public async Task VoiceUnmute(IGuildUser user, [Remainder] string reason = "")
             {
                 try

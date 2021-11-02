@@ -38,7 +38,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke(int index)
             {
                 if (!_service.RepeaterReady)
@@ -76,7 +76,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatRemove(int index)
             {
                 if (!_service.RepeaterReady)
@@ -130,7 +130,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatRedundant(int index)
             {
                 if (!_service.RepeaterReady)
@@ -170,7 +170,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(-1)]
             public Task Repeat([Remainder] string message)
             {
@@ -182,7 +182,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(0)]
             public Task Repeat(StoopidTime interval, [Remainder] string message)
             {
@@ -194,7 +194,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(1)]
             public Task Repeat(GuildDateTime dt, [Remainder] string message)
             {
@@ -206,7 +206,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(2)]
             public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Remainder] string message)
             {
@@ -273,7 +273,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatList()
             {
                 if (!_service.RepeaterReady)

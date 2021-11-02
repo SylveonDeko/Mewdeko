@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Utility
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(0)]
             public async Task Remind(ITextChannel channel, [Remainder] string remindString)
             {

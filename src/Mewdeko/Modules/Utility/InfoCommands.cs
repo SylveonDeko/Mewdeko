@@ -12,6 +12,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services;
 using Mewdeko.Modules.Utility.Services;
+using SixLabors.ImageSharp.ColorSpaces;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -160,25 +161,14 @@ namespace Mewdeko.Modules.Utility
                     list.Add(e.ToTitleCase());
                 }
 
+                var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName(GetText("server_info")))
                     .WithTitle(guild.Name)
-                    .AddField(fb => fb.WithName(GetText("id")).WithValue(guild.Id.ToString()))
-                    .AddField(fb => fb.WithName(GetText("owner")).WithValue(ownername.Mention))
-                    .AddField(fb =>
-                        fb.WithName(GetText("members")).WithValue(guild.MemberCount.ToString()))
-                    .AddField(fb =>
-                        fb.WithName(GetText("text_channels")).WithValue(textchn.ToString()))
-                    .AddField(fb =>
-                        fb.WithName(GetText("voice_channels")).WithValue(voicechn.ToString()))
-                    .AddField(fb =>
-                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:MM/dd/yyyy HH:mm}"))
-                    .AddField(fb =>
-                        fb.WithName(GetText("roles")).WithValue((guild.Roles.Count - 1).ToString()))
-                    .AddField(fb =>
-                        fb.WithName(GetText("features")).WithValue($"```\n{string.Join("\n", list)}```")
-                            .WithIsInline(true))
-                    .WithImageUrl($"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=4096")
+                    .AddField("Id", guild.Id.ToString())
+                    .AddField("Owner", ownername.Mention)
+                    .AddField("Total Users", guild.MemberCount.ToString())
+                    .WithImageUrl($"{guild.SplashUrl}?size=2048")
                     .WithColor(Mewdeko.Services.Mewdeko.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                     embed.WithThumbnailUrl(guild.IconUrl);
@@ -190,7 +180,24 @@ namespace Mewdeko.Modules.Utility
                                     .Take(30)
                                     .Select(e => $"{e}"))
                                 .TrimTo(1024)));
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: component.Build());
+                var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+                if (input == "moreinfo")
+                {
+                    embed
+                        .AddField("Bots", ctx.Guild.GetUsersAsync().Result.Count(x => x.IsBot))
+                        .AddField("Users", ctx.Guild.GetUsersAsync().Result.Count(x => !x.IsBot))
+                        .AddField("Text Channels", textchn.ToString())
+                        .AddField("Voice Channels", (voicechn.ToString()))
+                        .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
+                        .AddField("Roles", (guild.Roles.Count - 1).ToString())
+                        .AddField("Server Features", Format.Code(string.Join("\n", list)));
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Embed = embed.Build();
+                        x.Components = null;
+                    });
+                }
             }
 
             [MewdekoCommand]
@@ -201,18 +208,13 @@ namespace Mewdeko.Modules.Utility
             public async Task ChannelInfo(ITextChannel channel = null)
             {
                 var ch = channel ?? (ITextChannel)ctx.Channel;
-                if (ch == null)
-                    return;
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
-                var usercount = (await ch.GetUsersAsync().FlattenAsync().ConfigureAwait(false)).Count();
                 var embed = new EmbedBuilder()
                     .WithTitle(ch.Name)
-                    .WithDescription(ch.Topic?.SanitizeMentions(true))
-                    .AddField(fb => fb.WithName(GetText("id")).WithValue(ch.Id.ToString()).WithIsInline(true))
-                    .AddField(fb =>
-                        fb.WithName(GetText("created_at")).WithValue($"{createdAt:dd.MM.yyyy HH:mm}")
-                            .WithIsInline(true))
-                    .AddField(fb => fb.WithName(GetText("users")).WithValue(usercount.ToString()).WithIsInline(true))
+                    .AddField(GetText("id"), ch.Id.ToString())
+                    .AddField(GetText("created_at"), $"{createdAt:dd.MM.yyyy HH:mm}")
+                    .AddField(GetText("users"), ch.GetUsersAsync().FlattenAsync().Result.Count())
+                    .AddField("Topic", ch.Topic ?? "None")
                     .WithColor(Mewdeko.Services.Mewdeko.OkColor);
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -224,76 +226,63 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task UserInfo(IGuildUser usr = null)
             {
+                var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
                 var user = usr ?? ctx.User as IGuildUser;
-
-                if (user == null)
-                    return;
-
+                var userbanner = _client.Rest.GetUserAsync(user.Id).Result.GetBannerUrl(size: 2048);
+                string serverUserType;
+                if (user.GuildPermissions.ManageMessages)
+                    serverUserType = "Helper";
+                if (user.GuildPermissions.BanMembers)
+                    serverUserType = "Moderator";
+                if (user.GuildPermissions.Administrator)
+                    serverUserType = "Administrator";
+                else serverUserType = "Regular User";
+                
                 var embed = new EmbedBuilder()
-                    .AddField(fb =>
-                        fb.WithName(GetText("name")).WithValue($"**{user.Username}**#{user.Discriminator}")
-                            .WithIsInline(true));
+                    .AddField("Username", user.ToString())
+                    .WithOkColor();
+                
                 if (!string.IsNullOrWhiteSpace(user.Nickname))
-                    embed.AddField(fb => fb.WithName(GetText("nickname")).WithValue(user.Nickname).WithIsInline(true));
-                embed.AddField(fb => fb.WithName(GetText("id")).WithValue(user.Id.ToString()).WithIsInline(true))
-                    .AddField(fb =>
-                        fb.WithName(GetText("joined_server"))
-                            .WithValue($"{user.JoinedAt?.ToString("MM/dd/yyyy HH:mm") ?? "?"}").WithIsInline(true))
-                    .AddField(fb =>
-                        fb.WithName(GetText("joined_discord")).WithValue($"{user.CreatedAt:MM/dd/yyyy HH:mm}")
-                            .WithIsInline(true))
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor);
-                if (!user.GetRoles().Any())
-                    embed.AddField(fb => fb.WithName(GetText("roles")).WithValue("None"));
-                else
-                    embed.AddField(fb =>
-                        fb.WithName(GetText("roles"))
-                            .WithValue(
-                                $"{string.Join(" ", user.GetRoles().Where(r => r.Id != r.Guild.EveryoneRole.Id).OrderByDescending(r => r.Position).Select(r => r.Mention).Take(30))}")
-                            .WithIsInline(false));
-                if (user.Activities?.FirstOrDefault()?.Name != null)
-                    embed.AddField(fb =>
-                        fb.WithName("User Activity").WithValue(user.Activities?.FirstOrDefault()?.Type + ": " +
-                                                               user.Activities.FirstOrDefault().Name));
-                else
-                    embed.AddField(fb => fb.WithName("User Activity").WithValue("None"));
+                    embed.AddField("Nickname", user.Nickname);
+                
+                embed.AddField("User Id", user.Id)
+                    .AddField($"User Type", serverUserType)
+                    .AddField("Joined Server", user.JoinedAt?.ToString("MM/dd/yyyy HH:mm"))
+                    .AddField("Joined Discord", $"{user.CreatedAt:MM/dd/yyyy HH:mm}")
+                    .AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
+
+                if (user.Activities.Any())
+                {
+                    embed.AddField("Activities",
+                        string.Join("\n", user.Activities.Select(x => string.Format($"{x.Name}: {x.Details ?? ""}"))));
+                }
                 var av = user.RealAvatarUrl();
                 if (av != null && av.IsAbsoluteUri)
-                    embed.WithImageUrl(av.ToString());
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-            }
+                    if (userbanner is not null)
+                    {
+                        embed.WithThumbnailUrl(av.ToString());
+                        embed.WithImageUrl(userbanner);
+                    }
+                    else
+                    {
+                        embed.WithImageUrl(av.ToString());
+                    }
 
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [OwnerOnly]
-            public async Task Activity(int page = 1)
-            {
-                const int activityPerPage = 10;
-                page -= 1;
-
-                if (page < 0)
-                    return;
-
-                var startCount = page * activityPerPage;
-
-                var str = new StringBuilder();
-                foreach (var kvp in CmdHandler.UserMessagesSent.OrderByDescending(kvp => kvp.Value)
-                    .Skip(page * activityPerPage).Take(activityPerPage))
-                    str.AppendLine(GetText("activity_line",
-                        ++startCount,
-                        Format.Bold(kvp.Key.ToString()),
-                        kvp.Value / _stats.GetUptime().TotalSeconds, kvp.Value));
-
-                await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                    .WithTitle(GetText("activity_page", page + 1))
-                    .WithOkColor()
-                    .WithFooter(efb => efb.WithText(GetText("activity_users_total",
-                        CmdHandler.UserMessagesSent.Count)))
-                    .WithDescription(str.ToString())).ConfigureAwait(false);
+                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: component.Build());
+                var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+                if (input == "moreinfo")
+                {
+                    if (user.GetRoles().Any())
+                        embed.AddField("Roles", string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
+                    embed.AddField("Deafened", user.IsDeafened);
+                    embed.AddField("Is VC Muted", user.IsMuted);
+                    embed.AddField("Is Server Muted", user.GetRoles().Contains(MuteRole));
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Embed = embed.Build();
+                        x.Components = null;
+                    });
+                }
             }
         }
     }

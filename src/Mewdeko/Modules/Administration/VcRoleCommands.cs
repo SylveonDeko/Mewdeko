@@ -19,8 +19,8 @@ namespace Mewdeko.Modules.Administration
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRoleRm(ulong vcId)
             {
@@ -35,8 +35,8 @@ namespace Mewdeko.Modules.Administration
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageRoles)]
-            [BotPerm(GuildPerm.ManageRoles)]
+            [UserPerm(GuildPermission.ManageRoles)]
+            [BotPerm(GuildPermission.ManageRoles)]
             [RequireContext(ContextType.Guild)]
             public async Task VcRole([Remainder] IRole role = null)
             {

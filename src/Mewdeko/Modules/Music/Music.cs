@@ -1248,7 +1248,7 @@ namespace Mewdeko.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task SetMusicChannel()
         {
             await _service.SetMusicChannelAsync(ctx.Guild.Id, ctx.Channel.Id);
@@ -1261,7 +1261,7 @@ namespace Mewdeko.Modules.Music
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task UnsetMusicChannel()
         {
             await _service.SetMusicChannelAsync(ctx.Guild.Id, null);

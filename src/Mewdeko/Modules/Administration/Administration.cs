@@ -57,8 +57,8 @@ namespace Mewdeko.Modules.Administration
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.BanMembers)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.BanMembers)]
         public async Task BanUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
@@ -119,8 +119,8 @@ namespace Mewdeko.Modules.Administration
         [Usage]
         [Description]
         [Aliases]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.KickMembers)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.KickMembers)]
         public async Task KickUnder(StoopidTime time, string option = null)
         {
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
@@ -182,8 +182,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.ManageGuild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageGuild)]
         public async Task PruneMembers(StoopidTime time, string e = "no")
         {
             if (e == "no")
@@ -258,7 +258,7 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task MemberRole(IRole role)
         {
             var rol = _service.GetMemberRole(ctx.Guild.Id);
@@ -301,7 +301,7 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task StaffRole([Remainder] IRole role = null)
         {
             var rol = _service.GetStaffRole(ctx.Guild.Id);
@@ -344,7 +344,7 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task StaffRoleDisable()
         {
             var r = _service.GetStaffRole(ctx.Guild.Id);
@@ -364,8 +364,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPerm.ManageChannel)]
-        [BotPerm(ChannelPerm.ManageChannel)]
+        [UserPerm(ChannelPermission.ManageChannels)]
+        [BotPerm(ChannelPermission.ManageChannels)]
         public async Task Slowmode(StoopidTime time = null)
         {
             var seconds = (int?)time?.Time.TotalSeconds ?? 0;
@@ -383,8 +383,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(2)]
         public async Task Delmsgoncmd(List _)
         {
@@ -418,8 +418,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
         public async Task Delmsgoncmd(Server _ = Server.Server)
         {
@@ -440,8 +440,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(0)]
         public Task Delmsgoncmd(Channel _, State s, ITextChannel ch)
         {
@@ -453,8 +453,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.Administrator)]
-        [BotPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
         public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
         {
@@ -474,8 +474,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.DeafenMembers)]
-        [BotPerm(GuildPerm.DeafenMembers)]
+        [UserPerm(GuildPermission.DeafenMembers)]
+        [BotPerm(GuildPermission.DeafenMembers)]
         public async Task Deafen(params IGuildUser[] users)
         {
             await _service.DeafenUsers(true, users).ConfigureAwait(false);
@@ -487,8 +487,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.DeafenMembers)]
-        [BotPerm(GuildPerm.DeafenMembers)]
+        [UserPerm(GuildPermission.DeafenMembers)]
+        [BotPerm(GuildPermission.DeafenMembers)]
         public async Task UnDeafen(params IGuildUser[] users)
         {
             await _service.DeafenUsers(false, users).ConfigureAwait(false);
@@ -500,8 +500,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task DelVoiChanl([Remainder] IVoiceChannel voiceChannel)
         {
             await voiceChannel.DeleteAsync().ConfigureAwait(false);
@@ -513,8 +513,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task CreatVoiChanl([Remainder] string channelName)
         {
             var ch = await ctx.Guild.CreateVoiceChannelAsync(channelName).ConfigureAwait(false);
@@ -526,8 +526,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task DelTxtChanl([Remainder] ITextChannel toDelete)
         {
             await toDelete.DeleteAsync().ConfigureAwait(false);
@@ -539,8 +539,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task CreaTxtChanl([Remainder] string channelName)
         {
             var txtCh = await ctx.Guild.CreateTextChannelAsync(channelName).ConfigureAwait(false);
@@ -552,8 +552,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task SetTopic([Remainder] string topic = null)
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -567,8 +567,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task SetChanlName([Remainder] string name)
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -581,8 +581,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageChannels)]
-        [BotPerm(GuildPerm.ManageChannels)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [BotPerm(GuildPermission.ManageChannels)]
         public async Task NsfwToggle()
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -601,7 +601,7 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPerm.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         [Priority(0)]
         public Task Edit(ulong messageId, [Remainder] string text)
         {
@@ -638,8 +638,8 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPerm.ManageMessages)]
-        [BotPerm(ChannelPerm.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
+        [BotPerm(ChannelPermission.ManageMessages)]
         public Task Delete(ulong messageId, StoopidTime time = null)
         {
             return Delete((ITextChannel)ctx.Channel, messageId, time);

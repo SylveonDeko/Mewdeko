@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task Feed(string url, [Remainder] ITextChannel channel = null)
             {
                 var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task FeedRemove(int index)
             {
                 if (_service.RemoveFeed(ctx.Guild.Id, --index))
@@ -84,7 +84,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task FeedList()
             {
                 var feeds = _service.GetFeeds(ctx.Guild.Id);

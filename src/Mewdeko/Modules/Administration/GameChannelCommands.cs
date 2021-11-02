@@ -17,8 +17,8 @@ namespace Mewdeko.Modules.Administration
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
-            [BotPerm(GuildPerm.MoveMembers)]
+            [UserPerm(GuildPermission.Administrator)]
+            [BotPerm(GuildPermission.MoveMembers)]
             public async Task GameVoiceChannel()
             {
                 var vch = ((IGuildUser)ctx.User).VoiceChannel;

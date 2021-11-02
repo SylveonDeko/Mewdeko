@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Administration.Services
             return false;
         }
 
-        public bool TryGetOverrides(ulong guildId, string commandName, out GuildPerm? perm)
+        public bool TryGetOverrides(ulong guildId, string commandName, out GuildPermission? perm)
         {
             commandName = commandName.ToLowerInvariant();
             if (_overrides.TryGetValue((guildId, commandName), out var dpo))
@@ -64,13 +64,13 @@ namespace Mewdeko.Modules.Administration.Services
         }
 
         public Task<PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
-            GuildPerm perms, IServiceProvider services)
+            GuildPermission perms, IServiceProvider services)
         {
             var rupa = new RequireUserPermissionAttribute((GuildPermission)perms);
             return rupa.CheckPermissionsAsync(ctx, command, services);
         }
 
-        public async Task AddOverride(ulong guildId, string commandName, GuildPerm perm)
+        public async Task AddOverride(ulong guildId, string commandName, GuildPermission perm)
         {
             commandName = commandName.ToLowerInvariant();
             using (var uow = _db.GetDbContext())

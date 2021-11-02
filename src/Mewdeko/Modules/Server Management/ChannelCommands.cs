@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task LockCheck()
             {
                 var msg = await ctx.Channel.SendMessageAsync(
@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task LockDown()
             {
                 var roles = Context.Guild.Roles.ToList().FindAll(x =>
@@ -123,7 +123,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task MoveUserTo(IGuildUser user, IVoiceChannel channel)
             {
                 if (user.VoiceChannel == null)
@@ -166,7 +166,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task Unlockdown()
             {
                 if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
@@ -186,7 +186,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task Nuke(ITextChannel chan3 = null)
             {
                 var embed = new EmbedBuilder();
@@ -257,7 +257,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task TicketCategory([Remainder] ICategoryChannel channel)
             {
@@ -290,7 +290,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(0)]
             public async Task Close()
             {
@@ -342,7 +342,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(1)]
             public async Task Close(ITextChannel chn)
             {
@@ -404,8 +404,8 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
-            [BotPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
+            [BotPerm(GuildPermission.ManageMessages)]
             public async Task Lock(SocketTextChannel channel = null)
             {
                 if (channel == null)
@@ -433,7 +433,7 @@ namespace Mewdeko.Modules.Server_Management
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task CreateCatAndTxtChannels(string CatName, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
@@ -455,7 +455,7 @@ namespace Mewdeko.Modules.Server_Management
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task CreateCatAndVcChannels(string CatName, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
@@ -476,7 +476,7 @@ namespace Mewdeko.Modules.Server_Management
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task CreateCatVcChans(ICategoryChannel chan, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
@@ -497,7 +497,7 @@ namespace Mewdeko.Modules.Server_Management
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] Channels)
             {
                 var eb = new EmbedBuilder();
@@ -518,8 +518,8 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
-            [BotPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
+            [BotPerm(GuildPermission.ManageMessages)]
             public async Task Unlock(SocketTextChannel channel = null)
             {
                 if (channel == null)
@@ -547,7 +547,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             [Priority(0)]
             public async Task Slowmode(int interval, ITextChannel channel)
             {
@@ -567,7 +567,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             [Priority(1)]
             public async Task Slowmode(int interval)
             {
@@ -579,7 +579,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             [Priority(2)]
             public async Task Slowmode(ITextChannel channel)
             {
@@ -594,7 +594,7 @@ namespace Mewdeko.Modules.Server_Management
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageChannels)]
+            [UserPerm(GuildPermission.ManageChannels)]
             [Priority(4)]
             public async Task Slowmode()
             {
@@ -605,7 +605,7 @@ namespace Mewdeko.Modules.Server_Management
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(0)]
             public async Task Webhook(ITextChannel Channel, string name, string imageurl)
             {
@@ -645,7 +645,7 @@ namespace Mewdeko.Modules.Server_Management
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [Priority(1)]
             public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
             {

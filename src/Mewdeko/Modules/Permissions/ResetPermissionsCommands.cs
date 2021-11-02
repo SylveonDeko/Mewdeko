@@ -26,7 +26,7 @@ namespace Mewdeko.Modules.Permissions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task ResetPerms()
             {
                 await _perms.Reset(ctx.Guild.Id).ConfigureAwait(false);

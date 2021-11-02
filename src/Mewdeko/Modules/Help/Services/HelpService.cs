@@ -226,7 +226,7 @@ namespace Mewdeko.Modules.Help.Services
         }
 
 
-        public static string[] GetCommandRequirements(CommandInfo cmd, GuildPerm? overrides = null)
+        public static string[] GetCommandRequirements(CommandInfo cmd, GuildPermission? overrides = null)
         {
             var toReturn = new List<string>();
 
@@ -240,9 +240,9 @@ namespace Mewdeko.Modules.Help.Services
             if (userPerm is not null)
             {
                 if (userPerm.UserPermissionAttribute.ChannelPermission is { } cPerm)
-                    userPermString = GetPreconditionString((ChannelPerm)cPerm);
+                    userPermString = GetPreconditionString(cPerm);
                 if (userPerm.UserPermissionAttribute.GuildPermission is { } gPerm)
-                    userPermString = GetPreconditionString((GuildPerm)gPerm);
+                    userPermString = GetPreconditionString(gPerm);
             }
             if (overrides is null)
             {
@@ -273,9 +273,9 @@ namespace Mewdeko.Modules.Help.Services
             if (botPerm is not null)
             {
                 if (botPerm.ChannelPermission is { } cPerm)
-                    botPermString = GetPreconditionString((ChannelPerm)cPerm);
+                    botPermString = GetPreconditionString(cPerm);
                 if (botPerm.GuildPermission is { } gPerm)
-                    botPermString = GetPreconditionString((GuildPerm)gPerm);
+                    botPermString = GetPreconditionString(gPerm);
             }
             if (!string.IsNullOrWhiteSpace(botPermString))
                 toReturn.Add(botPermString);
@@ -283,13 +283,13 @@ namespace Mewdeko.Modules.Help.Services
             return toReturn.ToArray();
         }
 
-        public static string GetPreconditionString(ChannelPerm perm)
+        public static string GetPreconditionString(ChannelPermission perm)
         {
             return (perm + " Channel Permission")
                 .Replace("Guild", "Server", StringComparison.InvariantCulture);
         }
 
-        public static string GetPreconditionString(GuildPerm perm)
+        public static string GetPreconditionString(GuildPermission perm)
         {
             return (perm + " Server Permission")
                 .Replace("Guild", "Server", StringComparison.InvariantCulture);

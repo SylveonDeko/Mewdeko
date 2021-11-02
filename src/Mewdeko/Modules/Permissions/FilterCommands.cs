@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Permissions
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task AutoBanWord(string word)
             {
@@ -56,7 +56,7 @@ namespace Mewdeko.Modules.Permissions
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task AutoBanWordList(int page = 0)
             {
@@ -91,7 +91,7 @@ namespace Mewdeko.Modules.Permissions
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task FWarn(string yesnt)
             {
@@ -112,7 +112,7 @@ namespace Mewdeko.Modules.Permissions
             [Usage]
             [Description]
             [Aliases]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             [RequireContext(ContextType.Guild)]
             public async Task InvWarn(string yesnt)
             {
@@ -134,7 +134,7 @@ namespace Mewdeko.Modules.Permissions
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.Administrator)]
+            [UserPerm(GuildPermission.Administrator)]
             public async Task FwClear()
             {
                 _service.ClearFilteredWords(ctx.Guild.Id);

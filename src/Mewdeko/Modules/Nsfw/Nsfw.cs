@@ -530,7 +530,7 @@ namespace Mewdeko.Modules.Nsfw
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPerm.ManageMessages)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task NsfwTagBlacklist([Remainder] string tag = null)
         {
             if (string.IsNullOrWhiteSpace(tag))
@@ -603,7 +603,7 @@ namespace Mewdeko.Modules.Nsfw
         [Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPerm.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         public async Task AutoHentai(int interval = 0, string tags = null)
         {
             Timer t;
@@ -655,7 +655,7 @@ namespace Mewdeko.Modules.Nsfw
         [Aliases]
         [RequireNsfw]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPerm.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         public async Task AutoBoobs(int interval = 0)
         {
             Timer t;
@@ -699,7 +699,7 @@ namespace Mewdeko.Modules.Nsfw
         [Aliases]
         [RequireNsfw(Group = "nsfw_or_dm")]
         [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-        [UserPerm(ChannelPerm.ManageMessages)]
+        [UserPerm(ChannelPermission.ManageMessages)]
         public async Task AutoButts(int interval = 0)
         {
             Timer t;

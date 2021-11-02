@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamAdd(string link)
             {
                 var data = await _service.FollowStream(ctx.Guild.Id, ctx.Channel.Id, link);
@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             [Priority(1)]
             public async Task StreamRemove(int index)
             {
@@ -82,7 +82,7 @@ namespace Mewdeko.Modules.Searches
 
             // [MewdekoCommand, Usage, Description, Aliases]
             // [RequireContext(ContextType.Guild)]
-            // [UserPerm(GuildPerm.Administrator)]
+            // [UserPerm(GuildPermission.Administrator)]
             // public async Task StreamsClear()
             // {
             //     var count = _service.ClearAllStreams(ctx.Guild.Id);
@@ -160,7 +160,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamOffline()
             {
                 var newValue = _service.ToggleStreamOffline(ctx.Guild.Id);
@@ -175,7 +175,7 @@ namespace Mewdeko.Modules.Searches
             [Description]
             [Aliases]
             [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPerm.ManageMessages)]
+            [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamMessage(int index, [Remainder] string message)
             {
                 if (--index < 0)
