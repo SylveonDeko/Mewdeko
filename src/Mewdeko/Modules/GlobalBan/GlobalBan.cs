@@ -124,12 +124,174 @@ namespace Mewdeko.Modules.GlobalBan
                         });
                     }
                     break;
-                // case "scammer":
-                //     ReportType = "Scammer";
-                //     break;
-                // case "raider":
-                //     ReportType = "Raider";
-                //     break;
+                case "scammer":
+                    var neweb1 = new EmbedBuilder()
+                        .WithDescription(
+                            "Please type the userid ([How to get userid](https://cdn.discordapp.com/attachments/866308739334406174/905112166535933992/a4iMvBVWkn.gif)) with proof separated from the userid with a `,` (preferably screenshots hosted on imgur or prnt.sc)")
+                        .WithOkColor();
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Embed = neweb1.Build();
+                        x.Components = null;
+                    });
+                    var next1 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    if (next1.ToLower() == "cancel")
+                    {
+                        await msg.ModifyAsync(x => x.Embed = cancelled.Build());
+                        return;
+                    }
+
+                    if (!next1.Contains(","))
+                    {
+                        var eb1 = new EmbedBuilder()
+                            .WithErrorColor()
+                            .WithDescription("You didn't provide info in the correct format. Please start over.");
+                        await msg.ModifyAsync(x => x.Embed = eb1.Build());
+                    }
+                    else
+                    {
+                        var split = next1.Split(",");
+                        ulong uid = 0;
+                        try
+                        {
+                            uid = ulong.Parse(split[0]);
+                        }
+                        catch 
+                        {
+                            var eb2 = new EmbedBuilder()
+                                .WithErrorColor()
+                                .WithDescription("The User ID you provided wasn't valid, please start over.");
+                            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                            return;
+                        }
+                        if (((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid) == null)
+                        {
+                            var eb2 = new EmbedBuilder()
+                                .WithErrorColor()
+                                .WithDescription("The User ID you provided wasn't valid, please start over.");
+                            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                            return;
+                        }
+
+                        var eb4 = new EmbedBuilder()
+                            .WithDescription("Please provide a reason as to why you think they are a scammer.")
+                            .WithOkColor();
+                        await msg.ModifyAsync(x => x.Embed = eb4.Build());
+                        var Reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                        var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid);
+                        var channel =
+                            ((DiscordSocketClient) ctx.Client).Rest.GetChannelAsync(905109141620682782).Result as
+                            RestTextChannel;
+                        var eb1 = new EmbedBuilder()
+                            .WithTitle("New Global Ban Report Received!")
+                            .AddField("Global Ban Type", "Scammer")
+                            .AddField("Reported By", $"{ctx.User} {ctx.User.Id}")
+                            .AddField("Reported In", $"{ctx.Guild.Name} {ctx.Guild.Id}")
+                            .AddField("User Reported", $"{user} {user.Id}")
+                            .AddField("Reasoning", Reasoning)
+                            .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
+                            .WithOkColor();
+                        await channel.SendMessageAsync(embed: eb1.Build());
+                        var eb3 = new EmbedBuilder()
+                            .WithOkColor()
+                            .WithDescription(
+                                "Scammer Report submitted! Please join the support server below in case we need to contact you.");
+                        var component1 = new ComponentBuilder().WithButton("Mewdeko Official",
+                            url: "https://discord.gg/wB9FBMreRk", style: ButtonStyle.Link);
+                        await msg.ModifyAsync(x =>
+                        {
+                            x.Embed = eb3.Build();
+                            x.Components = component1.Build();
+                        });
+                    }
+                    break;
+                case "raider":
+                    var neweb2 = new EmbedBuilder()
+                        .WithDescription(
+                            "Please type the userid ([How to get userid](https://cdn.discordapp.com/attachments/866308739334406174/905112166535933992/a4iMvBVWkn.gif)) with proof separated from the userid with a `,` (preferably screenshots hosted on imgur or prnt.sc)")
+                        .WithOkColor();
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Embed = neweb2.Build();
+                        x.Components = null;
+                    });
+                    var next2 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    if (next2.ToLower() == "cancel")
+                    {
+                        await msg.ModifyAsync(x => x.Embed = cancelled.Build());
+                        return;
+                    }
+
+                    if (!next2.Contains(","))
+                    {
+                        var eb1 = new EmbedBuilder()
+                            .WithErrorColor()
+                            .WithDescription("You didn't provide info in the correct format. Please start over.");
+                        await msg.ModifyAsync(x => x.Embed = eb1.Build());
+                    }
+                    else
+                    {
+                        var split = next2.Split(",");
+                        ulong uid = 0;
+                        try
+                        {
+                            uid = ulong.Parse(split[0]);
+                        }
+                        catch 
+                        {  
+                            var eb2 = new EmbedBuilder()
+                                .WithErrorColor()
+                                .WithDescription("The User ID you provided wasn't valid, please start over.");
+                            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                            return;
+                        }
+                        if (((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid) == null)
+                        {
+                            var eb2 = new EmbedBuilder()
+                                .WithErrorColor()
+                                .WithDescription("The User ID you provided wasn't valid, please start over.");
+                            await msg.ModifyAsync(x => x.Embed = eb2.Build());
+                            return;
+                        }
+
+                        var eb4 = new EmbedBuilder()
+                            .WithDescription("How did they raid?")
+                            .WithOkColor();
+                        await msg.ModifyAsync(x => x.Embed = eb4.Build());
+                        var Reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                        var eb5 = new EmbedBuilder()
+                            .WithDescription("Were there any other users? If so please separate IDs with `,` otherwise just say no or none")
+                            .WithOkColor();
+                        await msg.ModifyAsync(x => x.Embed = eb4.Build());
+                        var OtherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                        var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid);
+                        var channel =
+                            ((DiscordSocketClient) ctx.Client).Rest.GetChannelAsync(905109141620682782).Result as
+                            RestTextChannel;
+                        var eb1 = new EmbedBuilder()
+                            .WithTitle("New Global Ban Report Received!")
+                            .AddField("Global Ban Type", "Raider")
+                            .AddField("Reported By", $"{ctx.User} {ctx.User.Id}")
+                            .AddField("Reported In", $"{ctx.Guild.Name} {ctx.Guild.Id}")
+                            .AddField("User Reported", $"{user} {user.Id}")
+                            .AddField("Reasoning", Reasoning)
+                            .AddField("Other Users", OtherUsers)
+                            .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
+                            .WithOkColor();
+                        await channel.SendMessageAsync(embed: eb1.Build());
+                        var eb3 = new EmbedBuilder()
+                            .WithOkColor()
+                            .WithDescription(
+                                "Raid Report submitted! Please join the support server below in case we need to contact you.");
+                        var component1 = new ComponentBuilder().WithButton("Mewdeko Official",
+                            url: "https://discord.gg/wB9FBMreRk", style: ButtonStyle.Link);
+                        await msg.ModifyAsync(x =>
+                        {
+                            x.Embed = eb3.Build();
+                            x.Components = component1.Build();
+                        });
+                    }
+                    break;
                 // case "abuser":
                 //     ReportType = "Perms Abuser";
                 //     break;
