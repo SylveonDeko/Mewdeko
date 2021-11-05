@@ -8,45 +8,45 @@ namespace Mewdeko.Modules.Administration.Common
 {
     public sealed class UserSpamStats : IDisposable
     {
-        private readonly object applyLock = new();
+        private readonly object _applyLock = new();
 
         public UserSpamStats(IUserMessage msg)
         {
             LastMessage = msg.Content.ToUpperInvariant();
-            timers = new ConcurrentQueue<Timer>();
+            Timers = new ConcurrentQueue<Timer>();
 
             ApplyNextMessage(msg);
         }
 
-        public int Count => timers.Count;
+        public int Count => Timers.Count;
         public string LastMessage { get; set; }
 
-        private ConcurrentQueue<Timer> timers { get; }
+        private ConcurrentQueue<Timer> Timers { get; }
 
         public void Dispose()
         {
-            while (timers.TryDequeue(out var old))
+            while (Timers.TryDequeue(out var old))
                 old.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         public void ApplyNextMessage(IUserMessage message)
         {
-            lock (applyLock)
+            lock (_applyLock)
             {
                 var upperMsg = message.Content.ToUpperInvariant();
                 if (upperMsg != LastMessage || string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any())
                 {
                     LastMessage = upperMsg;
-                    while (timers.TryDequeue(out var old))
+                    while (Timers.TryDequeue(out var old))
                         old.Change(Timeout.Infinite, Timeout.Infinite);
                 }
 
                 var t = new Timer(_ =>
                 {
-                    if (timers.TryDequeue(out var old))
+                    if (Timers.TryDequeue(out var old))
                         old.Change(Timeout.Infinite, Timeout.Infinite);
                 }, null, TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
-                timers.Enqueue(t);
+                Timers.Enqueue(t);
             }
         }
     }

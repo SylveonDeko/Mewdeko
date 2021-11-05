@@ -7,7 +7,7 @@ namespace Mewdeko.Services.Database
 {
     public sealed class UnitOfWork : IUnitOfWork
     {
-        private IAFKRepository _AFK;
+        private IAfkRepository _AFK;
 
         private IClubRepository _clubs;
 
@@ -78,7 +78,7 @@ namespace Mewdeko.Services.Database
         public ISuggestionsRepository Suggestions => _suggestions ??= new SuggestRepository(_context);
 
         public ISnipeStoreRepository SnipeStore => _snipestore ??= new SnipeStoreRepository(_context);
-        public IAFKRepository AFK => _AFK ??= new AFKRepository(_context);
+        public IAfkRepository AFK => _AFK ??= new AFKRepository(_context);
         public IStarboardRepository Starboard => _Starboard ??= new StarboardRepository(_context);
         public IXpRepository Xp => _xp ??= new XpRepository(_context);
         public IClubRepository Clubs => _clubs ??= new ClubRepository(_context);

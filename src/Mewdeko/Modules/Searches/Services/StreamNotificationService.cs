@@ -328,21 +328,6 @@ namespace Mewdeko.Modules.Searches.Services
             return Task.CompletedTask;
         }
 
-        public int ClearAllStreams(ulong guildId)
-        {
-            // todo future clear streams
-            int count;
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FollowedStreams));
-                count = gc.FollowedStreams.Count;
-                gc.FollowedStreams.Clear();
-                uow.SaveChanges();
-            }
-
-            return count;
-        }
-
         public async Task<FollowedStream> UnfollowStreamAsync(ulong guildId, int index)
         {
             FollowedStream fs;

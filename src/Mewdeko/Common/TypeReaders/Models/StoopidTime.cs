@@ -20,7 +20,6 @@ namespace Mewdeko.Common.TypeReaders.Models
 
             if (m.Length == 0) throw new ArgumentException("Invalid Time! Valid Example: 1h2d3m");
 
-            var output = "";
             var namesAndValues = new Dictionary<string, int>();
 
             foreach (var groupName in _regex.GetGroupNames())
@@ -35,7 +34,6 @@ namespace Mewdeko.Common.TypeReaders.Models
                 if (value < 1) throw new ArgumentException($"Invalid {groupName} value.");
 
                 namesAndValues[groupName] = value;
-                output += m.Groups[groupName].Value + " " + groupName + " ";
             }
 
             var ts = new TimeSpan(365 * namesAndValues["years"] +

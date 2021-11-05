@@ -57,6 +57,7 @@ namespace Mewdeko.Modules.Administration.Services
                                     }
                                     catch
                                     {
+                                        // ignored
                                     }
                             }
                             else
@@ -68,6 +69,7 @@ namespace Mewdeko.Modules.Administration.Services
                                     }
                                     catch
                                     {
+                                        // ignored
                                     }
                             }
 
@@ -132,12 +134,12 @@ namespace Mewdeko.Modules.Administration.Services
             }
 
             if (missingRoles.Any())
-                using (var uow = _db.GetDbContext())
-                {
-                    Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
-                    uow._context.RemoveRange(missingRoles);
-                    await uow.SaveChangesAsync();
-                }
+            {
+                using var uow = _db.GetDbContext();
+                Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
+                uow._context.RemoveRange(missingRoles);
+                await uow.SaveChangesAsync();
+            }
         }
 
         public void AddVcRole(ulong guildId, IRole role, ulong vcId)
@@ -148,18 +150,16 @@ namespace Mewdeko.Modules.Administration.Services
             var guildVcRoles = VcRoles.GetOrAdd(guildId, new ConcurrentDictionary<ulong, IRole>());
 
             guildVcRoles.AddOrUpdate(vcId, role, (key, old) => role);
-            using (var uow = _db.GetDbContext())
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
+            var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
+            if (toDelete != null) uow._context.Remove(toDelete);
+            conf.VcRoleInfos.Add(new VcRoleInfo
             {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
-                var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
-                if (toDelete != null) uow._context.Remove(toDelete);
-                conf.VcRoleInfos.Add(new VcRoleInfo
-                {
-                    VoiceChannelId = vcId,
-                    RoleId = role.Id
-                }); // add new one
-                uow.SaveChanges();
-            }
+                VoiceChannelId = vcId,
+                RoleId = role.Id
+            }); // add new one
+            uow.SaveChanges();
         }
 
         public bool RemoveVcRole(ulong guildId, ulong vcId)
@@ -170,13 +170,11 @@ namespace Mewdeko.Modules.Administration.Services
             if (!guildVcRoles.TryRemove(vcId, out _))
                 return false;
 
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
-                var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
-                uow._context.RemoveRange(toRemove);
-                uow.SaveChanges();
-            }
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
+            var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
+            uow._context.RemoveRange(toRemove);
+            uow.SaveChanges();
 
             return true;
         }
@@ -194,19 +192,17 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (oldVc != newVc)
-                    {
-                        ulong guildId;
-                        guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
+                    if (oldVc == newVc) return;
+                    ulong guildId;
+                    guildId = newVc?.Guild.Id ?? oldVc.Guild.Id;
 
-                        if (VcRoles.TryGetValue(guildId, out var guildVcRoles))
-                        {
-                            //remove old
-                            if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out var role))
-                                Assign(false, gusr, role);
-                            //add new
-                            if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role)) Assign(true, gusr, role);
-                        }
+                    if (VcRoles.TryGetValue(guildId, out var guildVcRoles))
+                    {
+                        //remove old
+                        if (oldVc != null && guildVcRoles.TryGetValue(oldVc.Id, out var role))
+                            Assign(false, gusr, role);
+                        //add new
+                        if (newVc != null && guildVcRoles.TryGetValue(newVc.Id, out role)) Assign(true, gusr, role);
                     }
                 }
                 catch (Exception ex)

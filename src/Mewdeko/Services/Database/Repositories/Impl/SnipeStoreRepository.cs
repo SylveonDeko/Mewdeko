@@ -16,5 +16,11 @@ namespace Mewdeko.Services.Database.Repositories.Impl
 
             return query.ToArray();
         }
+        public SnipeStore[] All()
+        {
+            var query = _set.AsQueryable();
+
+            return query.ToArray();
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Mewdeko.Common.Attributes
         {
             var creds = services.GetService<IBotCredentials>();
 
-            return Task.FromResult(creds.IsOfficialMod(context.User) || context.Client.CurrentUser.Id == context.User.Id
+            return Task.FromResult(creds != null && (creds.IsOfficialMod(context.User) || context.Client.CurrentUser.Id == context.User.Id)
                 ? PreconditionResult.FromSuccess()
                 : PreconditionResult.FromError("Not Mod In Official Support"));
         }

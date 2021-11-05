@@ -79,8 +79,8 @@ namespace Mewdeko.Modules.Utility.Services
                         UnitType = unitTypeString
                     }).ToArray();
 
-                    var fileData = JsonConvert.DeserializeObject<ConvertUnit[]>(
-                            File.ReadAllText("data/units.json"))
+                    var fileData = (JsonConvert.DeserializeObject<ConvertUnit[]>(
+                            await File.ReadAllTextAsync("data/units.json")) ?? Array.Empty<ConvertUnit>())
                         .Where(x => x.UnitType != "currency");
 
                     var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());

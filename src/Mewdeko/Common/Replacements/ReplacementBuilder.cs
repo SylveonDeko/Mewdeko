@@ -213,10 +213,7 @@ namespace Mewdeko.Common.Replacements
                 if (from == 0 && to == 0)
                     return rng.Next(0, 11).ToString();
 
-                if (from >= to)
-                    return string.Empty;
-
-                return rng.Next(from, to + 1).ToString();
+                return @from >= to ? string.Empty : rng.Next(@from, to + 1).ToString();
             });
             return this;
         }

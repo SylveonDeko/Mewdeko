@@ -42,13 +42,7 @@ namespace Mewdeko._Extensions
         {
             return Array.ConvertAll(arr, x => f(x));
         }
-
-        public static void AddSafe(this Dictionary<int, string> dictionary, int key, string value)
-        {
-            if (!dictionary.ContainsKey(key))
-                dictionary.Add(key, value);
-        }
-
+        
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
             bool sanitizeAll = false)
         {
@@ -60,7 +54,7 @@ namespace Mewdeko._Extensions
         }
         public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab)
         {
-            return eab.WithIconUrl("http://i.imgur.com/nhKS3PT.png");
+            return eab.WithIconUrl("https://i.imgur.com/nhKS3PT.png");
         }
 
         public static IEnumerable<ulong> RoleIds(this SocketGuildUser user)
@@ -73,13 +67,12 @@ namespace Mewdeko._Extensions
             return client.Guilds.Select(x => x.Id).ToList();
         }
 
-        /// <summary>
-        ///     Generates a string in the format HHH:mm if timespan is <= 2m.
+        // ReSharper disable once InvalidXmlDocComment
         ///     Generates a string in the format 00:mm:ss if timespan is less than 2m.
         /// </summary>
         /// <param name="span">Timespan to convert to string</param>
         /// <returns>Formatted duration string</returns>
-        public static string ToPrettyStringHM(this TimeSpan span)
+        public static string ToPrettyStringHm(this TimeSpan span)
         {
             if (span < TimeSpan.FromMinutes(2))
                 return $"{span:mm}m {span:ss}s";
@@ -175,7 +168,7 @@ namespace Mewdeko._Extensions
         public static void ThrowIfNull<T>(this T o, string name) where T : class
         {
             if (o == null)
-                throw new ArgumentNullException(nameof(name));
+                throw new ArgumentNullException(nameof(o));
         }
 
         public static bool IsAuthor(this IMessage msg, IDiscordClient client)
@@ -262,34 +255,14 @@ namespace Mewdeko._Extensions
             Task.Run(async () =>
             {
                 await Task.Delay(seconds * 1000).ConfigureAwait(false);
-                if (logService != null) logService.AddDeleteIgnore(msg.Id);
+                logService?.AddDeleteIgnore(msg.Id);
                 try
                 {
                     await msg.DeleteAsync().ConfigureAwait(false);
                 }
                 catch
                 {
-                }
-            });
-            return msg;
-        }
-
-        public static RestInteractionMessage DeleteResponseAfter(this RestInteractionMessage msg, int seconds,
-            LogCommandService logService = null)
-        {
-            if (msg is null)
-                return null;
-
-            Task.Run(async () =>
-            {
-                await Task.Delay(seconds * 1000).ConfigureAwait(false);
-                if (logService != null) logService.AddDeleteIgnore(msg.Id);
-                try
-                {
-                    await msg.DeleteAsync().ConfigureAwait(false);
-                }
-                catch
-                {
+                    // ignored
                 }
             });
             return msg;
@@ -300,26 +273,11 @@ namespace Mewdeko._Extensions
             while (module.Parent != null) module = module.Parent;
             return module;
         }
-
-        public static void AddRange<T>(this HashSet<T> target, IEnumerable<T> elements) where T : class
-        {
-            foreach (var item in elements) target.Add(item);
-        }
-
-        public static void AddRange<T>(this ConcurrentHashSet<T> target, IEnumerable<T> elements) where T : class
-        {
-            foreach (var item in elements) target.Add(item);
-        }
-
-        public static double UnixTimestamp(this DateTime dt)
-        {
-            return dt.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
-        }
-
+        
         public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role)
         {
             return (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u =>
-                u.RoleIds.Contains(role.Id)) ?? Enumerable.Empty<IGuildUser>();
+                u.RoleIds.Contains(role.Id));
         }
 
         public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented)
@@ -378,14 +336,6 @@ namespace Mewdeko._Extensions
             return user.RoleIds.Select(r => user.Guild.GetRole(r)).Where(r => r != null);
         }
 
-        public static async Task<IMessage> SendMessageToOwnerAsync(this IGuild guild, string message)
-        {
-            var ownerPrivate = await (await guild.GetOwnerAsync().ConfigureAwait(false)).CreateDMChannelAsync()
-                .ConfigureAwait(false);
-
-            return await ownerPrivate.SendMessageAsync(message).ConfigureAwait(false);
-        }
-
         public static bool IsImage(this HttpResponseMessage msg)
         {
             return IsImage(msg, out _);
@@ -393,7 +343,8 @@ namespace Mewdeko._Extensions
 
         public static bool IsImage(this HttpResponseMessage msg, out string mimeType)
         {
-            mimeType = msg.Content.Headers.ContentType.MediaType;
+            if (msg.Content.Headers.ContentType != null) mimeType = msg.Content.Headers.ContentType.MediaType;
+            mimeType = null;
             if (mimeType == "image/png"
                 || mimeType == "image/jpeg"
                 || mimeType == "image/gif")

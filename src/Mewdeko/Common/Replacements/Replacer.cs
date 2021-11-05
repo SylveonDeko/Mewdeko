@@ -22,9 +22,9 @@ namespace Mewdeko.Common.Replacements
             if (string.IsNullOrWhiteSpace(input))
                 return input;
 
-            foreach (var (Key, Text) in _replacements)
-                if (input.Contains(Key))
-                    input = input.Replace(Key, Text(), StringComparison.InvariantCulture);
+            foreach (var (key, text) in _replacements)
+                if (input.Contains(key))
+                    input = input.Replace(key, text(), StringComparison.InvariantCulture);
 
             foreach (var item in _regex) input = item.Regex.Replace(input, m => item.Replacement(m));
 

@@ -56,13 +56,13 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (yesnt.StartsWith("n"))
                 {
-                    await _service.removeonmute(ctx.Guild, "n");
+                    await _service.Removeonmute(ctx.Guild, "n");
                     await ctx.Channel.SendConfirmAsync("Removing roles on mute has been disabled!");
                 }
 
                 if (yesnt.StartsWith("y"))
                 {
-                    await _service.removeonmute(ctx.Guild, "y");
+                    await _service.Removeonmute(ctx.Guild, "y");
                     await ctx.Channel.SendConfirmAsync("Removing roles on mute has been enabled!");
                 }
                 else
@@ -122,12 +122,14 @@ namespace Mewdeko.Modules.Moderation
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPermission.ManageRoles)]
+#pragma warning disable 108,114
             public async Task MuteRole([Remainder] IRole role = null)
+#pragma warning restore 108,114
             {
                 if (role is null)
                 {
                     var muteRole = await _service.GetMuteRole(ctx.Guild).ConfigureAwait(false);
-                    await ReplyConfirmLocalizedAsync("mute_role", Format.Code(muteRole.Name)).ConfigureAwait(false);
+                    await ReplyConfirmLocalizedAsync("mute_role", muteRole.Mention).ConfigureAwait(false);
                     return;
                 }
 

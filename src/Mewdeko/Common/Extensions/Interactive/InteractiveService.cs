@@ -124,7 +124,7 @@ namespace Mewdeko.Common.Extensions.Interactive
         /// <param name="deleteDelay">The time to wait between sending and deleting the message.</param>
         /// <param name="message">An existing message to modify.</param>
         /// <param name="text">The message to be sent.</param>
-        /// <param name="isTTS">Determines whether the message should be read aloud by Discord or not.</param>
+        /// <param name="isTts">Determines whether the message should be read aloud by Discord or not.</param>
         /// <param name="embed">The <see cref="EmbedType.Rich" /> <see cref="Embed" /> to be sent.</param>
         /// <param name="options">The options to be used when sending the request.</param>
         /// <param name="allowedMentions">
@@ -135,7 +135,7 @@ namespace Mewdeko.Common.Extensions.Interactive
         /// <returns>A task that represents the asynchronous delay, send message operation, delay and delete message operation.</returns>
         public async Task DelayedSendMessageAndDeleteAsync(IMessageChannel channel, TimeSpan? sendDelay = null,
             TimeSpan? deleteDelay = null,
-            IUserMessage message = null, string text = null, bool isTTS = false, Embed embed = null,
+            IUserMessage message = null, string text = null, bool isTts = false, Embed embed = null,
             RequestOptions options = null,
             AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
@@ -145,7 +145,7 @@ namespace Mewdeko.Common.Extensions.Interactive
             await Task.Delay(sendDelay ?? TimeSpan.Zero).ConfigureAwait(false);
 
             if (message == null)
-                message = await channel.SendMessageAsync(text, isTTS, embed, options, allowedMentions, messageReference)
+                message = await channel.SendMessageAsync(text, isTts, embed, options, allowedMentions, messageReference)
                     .ConfigureAwait(false);
             else
                 await message.ModifyAsync(x =>
@@ -167,7 +167,7 @@ namespace Mewdeko.Common.Extensions.Interactive
         /// <param name="deleteDelay">The time to wait between sending and deleting the message.</param>
         /// <param name="filePath">The file path of the file.</param>
         /// <param name="text">The message to be sent.</param>
-        /// <param name="isTTS">Whether the message should be read aloud by Discord or not.</param>
+        /// <param name="isTts">Whether the message should be read aloud by Discord or not.</param>
         /// <param name="embed">The <see cref="EmbedType.Rich" /> <see cref="Embed" /> to be sent.</param>
         /// <param name="options">The options to be used when sending the request.</param>
         /// <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
@@ -179,14 +179,14 @@ namespace Mewdeko.Common.Extensions.Interactive
         /// <returns>A task that represents the asynchronous delay, send message operation, delay and delete message operation.</returns>
         public async Task DelayedSendFileAndDeleteAsync(IMessageChannel channel, TimeSpan? sendDelay = null,
             TimeSpan? deleteDelay = null,
-            string filePath = null, string text = null, bool isTTS = false, Embed embed = null,
+            string filePath = null, string text = null, bool isTts = false, Embed embed = null,
             RequestOptions options = null,
             bool isSpoiler = false, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
             InteractiveGuards.NotNull(channel, nameof(channel));
 
             await Task.Delay(sendDelay ?? TimeSpan.Zero).ConfigureAwait(false);
-            var msg = await channel.SendFileAsync(filePath, text, isTTS, embed, options, isSpoiler, allowedMentions,
+            var msg = await channel.SendFileAsync(filePath, text, isTts, embed, options, isSpoiler, allowedMentions,
                     messageReference)
                 .ConfigureAwait(false);
             await DelayedDeleteMessageAsync(msg, deleteDelay).ConfigureAwait(false);
@@ -202,7 +202,7 @@ namespace Mewdeko.Common.Extensions.Interactive
         /// <param name="stream">The <see cref="Stream" /> of the file to be sent.</param>
         /// <param name="filename">The name of the attachment.</param>
         /// <param name="text">The message to be sent.</param>
-        /// <param name="isTTS">Whether the message should be read aloud by Discord or not.</param>
+        /// <param name="isTts">Whether the message should be read aloud by Discord or not.</param>
         /// <param name="embed">The <see cref="EmbedType.Rich" /> <see cref="Embed" /> to be sent.</param>
         /// <param name="options">The options to be used when sending the request.</param>
         /// <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
@@ -214,14 +214,14 @@ namespace Mewdeko.Common.Extensions.Interactive
         /// <returns>A task that represents the asynchronous delay, send message operation, delay and delete message operation.</returns>
         public async Task DelayedSendFileAndDeleteAsync(IMessageChannel channel, TimeSpan? sendDelay = null,
             TimeSpan? deleteDelay = null,
-            Stream stream = null, string filename = null, string text = null, bool isTTS = false, Embed embed = null,
+            Stream stream = null, string filename = null, string text = null, bool isTts = false, Embed embed = null,
             RequestOptions options = null,
             bool isSpoiler = false, AllowedMentions allowedMentions = null, MessageReference messageReference = null)
         {
             InteractiveGuards.NotNull(channel, nameof(channel));
 
             await Task.Delay(sendDelay ?? TimeSpan.Zero).ConfigureAwait(false);
-            var msg = await channel.SendFileAsync(stream, filename, text, isTTS, embed, options, isSpoiler,
+            var msg = await channel.SendFileAsync(stream, filename, text, isTts, embed, options, isSpoiler,
                     allowedMentions, messageReference)
                 .ConfigureAwait(false);
             await DelayedDeleteMessageAsync(msg, deleteDelay).ConfigureAwait(false);

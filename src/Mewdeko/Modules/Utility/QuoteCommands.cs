@@ -53,10 +53,11 @@ namespace Mewdeko.Modules.Utility
                     quotes = uow.Quotes.GetGroup(ctx.Guild.Id, page, order);
                 }
 
-                if (quotes.Any())
+                var enumerable = quotes as Quote[] ?? quotes.ToArray();
+                if (enumerable.Any())
                     await ctx.Channel.SendConfirmAsync(GetText("quotes_page", page + 1),
                             string.Join("\n",
-                                quotes.Select(q =>
+                                enumerable.Select(q =>
                                     $"`#{q.Id}` {Format.Bold(q.Keyword.SanitizeAllMentions()),-20} by {q.AuthorName.SanitizeAllMentions()}")))
                         .ConfigureAwait(false);
                 else
@@ -79,11 +80,6 @@ namespace Mewdeko.Modules.Utility
                 using (var uow = _db.GetDbContext())
                 {
                     quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword);
-                    //if (quote != null)
-                    //{
-                    //    quote.UseCount += 1;
-                    //    uow.Complete();
-                    //}
                 }
 
                 if (quote == null)

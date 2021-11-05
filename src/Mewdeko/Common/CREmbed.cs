@@ -7,15 +7,15 @@ namespace Mewdeko.Common
 {
     public class CREmbed
     {
-        public CREmbedAuthor Author { get; set; }
+        public CrEmbedAuthor Author { get; set; }
         public string PlainText { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
-        public CREmbedFooter Footer { get; set; }
+        public CrEmbedFooter Footer { get; set; }
         public string Thumbnail { get; set; }
         public string Image { get; set; }
-        public CREmbedField[] Fields { get; set; }
+        public CrEmbedField[] Fields { get; set; }
         public uint Color { get; set; } = 7458112;
 
         public bool IsValid =>
@@ -81,14 +81,14 @@ namespace Mewdeko.Common
             {
                 var crembed = JsonConvert.DeserializeObject<CREmbed>(input);
 
-                if (crembed.Fields != null && crembed.Fields.Length > 0)
+                if (crembed is {Fields: {Length: > 0}})
                     foreach (var f in crembed.Fields)
                     {
                         f.Name = f.Name.TrimTo(256);
                         f.Value = f.Value.TrimTo(1024);
                     }
 
-                if (!crembed.IsValid)
+                if (crembed is {IsValid: false})
                     return false;
 
                 embed = crembed;
@@ -101,14 +101,14 @@ namespace Mewdeko.Common
         }
     }
 
-    public class CREmbedField
+    public class CrEmbedField
     {
         public string Name { get; set; }
         public string Value { get; set; }
         public bool Inline { get; set; }
     }
 
-    public class CREmbedFooter
+    public class CrEmbedFooter
     {
         public string Text { get; set; }
         public string IconUrl { get; set; }
@@ -120,7 +120,7 @@ namespace Mewdeko.Common
         }
     }
 
-    public class CREmbedAuthor
+    public class CrEmbedAuthor
     {
         public string Name { get; set; }
         public string IconUrl { get; set; }

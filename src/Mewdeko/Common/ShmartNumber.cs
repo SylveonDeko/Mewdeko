@@ -2,7 +2,7 @@
 
 namespace Mewdeko.Common
 {
-    public struct ShmartNumber : IEquatable<ShmartNumber>
+    public readonly struct ShmartNumber : IEquatable<ShmartNumber>
     {
         public long Value { get; }
         public string Input { get; }

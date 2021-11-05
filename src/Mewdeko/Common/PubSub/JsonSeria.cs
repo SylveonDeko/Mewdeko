@@ -5,7 +5,7 @@ namespace Mewdeko.Common.PubSub
 {
     public class JsonSeria : ISeria
     {
-        private readonly JsonSerializerOptions serializerOptions = new()
+        private readonly JsonSerializerOptions _serializerOptions = new()
         {
             Converters =
             {
@@ -16,7 +16,7 @@ namespace Mewdeko.Common.PubSub
 
         public byte[] Serialize<T>(T data)
         {
-            return JsonSerializer.SerializeToUtf8Bytes(data, serializerOptions);
+            return JsonSerializer.SerializeToUtf8Bytes(data, _serializerOptions);
         }
 
         public T Deserialize<T>(byte[] data)
@@ -25,7 +25,7 @@ namespace Mewdeko.Common.PubSub
                 return default;
 
 
-            return JsonSerializer.Deserialize<T>(data, serializerOptions);
+            return JsonSerializer.Deserialize<T>(data, _serializerOptions);
         }
     }
 }

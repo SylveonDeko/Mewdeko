@@ -122,7 +122,10 @@ namespace Mewdeko.Common.Extensions.Interactive.Pagination
         /// </summary>
         /// <remarks>
         ///     By default this method adds the reactions to a message when <see cref="InputType" /> is
-        ///     <see cref="InputType.Reactions" />.
+        ///     <see>
+        ///         <cref>InputType.Reactions</cref>
+        ///     </see>
+        ///     .
         /// </remarks>
         /// <param name="message">The message to initialize.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken" /> to cancel this request.</param>

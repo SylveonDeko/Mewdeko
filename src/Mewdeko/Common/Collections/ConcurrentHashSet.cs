@@ -289,6 +289,7 @@ namespace Mewdeko.Common.Collections
         /// <returns>true if the <see cref="ConcurrentHashSet{T}" /> contains the item; otherwise, false.</returns>
         public bool Contains(T item)
         {
+            if (item == null) return false;
             var hashcode = _comparer.GetHashCode(item);
 
             // We must capture the _buckets field in a local variable. It is set to a new table on each table resize.
@@ -464,7 +465,7 @@ namespace Mewdeko.Common.Collections
                     for (var current = tables.Buckets[bucketNo]; current != null; current = current.Next)
                     {
                         Debug.Assert(
-                            previous == null && current == tables.Buckets[bucketNo] || previous.Next == current);
+                            previous == null && current == tables.Buckets[bucketNo] || previous?.Next == current);
 
                         if (hashcode == current.Hashcode && _comparer.Equals(current.Item, item))
                         {
@@ -516,7 +517,7 @@ namespace Mewdeko.Common.Collections
                     for (var current = tables.Buckets[bucketNo]; current != null; current = current.Next)
                     {
                         Debug.Assert(
-                            previous == null && current == tables.Buckets[bucketNo] || previous.Next == current);
+                            previous == null && current == tables.Buckets[bucketNo] || previous?.Next == current);
                         if (hashcode == current.Hashcode && _comparer.Equals(current.Item, item)) return false;
                         previous = current;
                     }

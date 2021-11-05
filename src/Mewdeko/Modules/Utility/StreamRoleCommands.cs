@@ -9,7 +9,7 @@ using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Modules.Utility
 {
-    public partial class Utility
+    public partial class  Utility
     {
         public class StreamRoleCommands : MewdekoSubmodule<StreamRoleService>
         {

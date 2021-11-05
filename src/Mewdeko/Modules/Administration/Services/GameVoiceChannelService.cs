@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -12,24 +13,26 @@ namespace Mewdeko.Modules.Administration.Services
 {
     public class GameVoiceChannelService : INService
     {
-        private readonly DiscordSocketClient _client;
-
         private readonly DbService _db;
 
         public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
-            _client = client;
+            var client1 = client;
 
             GameVoiceChannels = new ConcurrentHashSet<ulong>(
                 bot.AllGuildConfigs.Where(gc => gc.GameVoiceChannel != null)
-                    .Select(gc => gc.GameVoiceChannel.Value));
+                    .Select(gc =>
+                    {
+                        Debug.Assert(gc.GameVoiceChannel != null, "gc.GameVoiceChannel != null");
+                        return gc.GameVoiceChannel.Value;
+                    }));
 
-            _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
-            _client.GuildMemberUpdated += _client_GuildMemberUpdated;
+            client1.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+            client1.GuildMemberUpdated += _client_GuildMemberUpdated;
         }
 
-        public ConcurrentHashSet<ulong> GameVoiceChannels { get; } = new();
+        public ConcurrentHashSet<ulong> GameVoiceChannels { get; }
 
         private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> before, SocketGuildUser after)
         {
@@ -43,11 +46,12 @@ namespace Mewdeko.Modules.Administration.Services
                         return;
 
                     //if the activity has changed, and is a playing activity
-                    if (before.Value.Activities != after.Activities
+                    Debug.Assert(after.Activities != null, "after.Activities != null");
+                    if (!Equals(before.Value.Activities, after.Activities)
                         && after.Activities != null
-                        && after.Activities.FirstOrDefault().Type == ActivityType.Playing)
+                        && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
                         //trigger gvc
-                        await TriggerGvc(after, after.Activities.FirstOrDefault().Name);
+                        await TriggerGvc(after, after.Activities.FirstOrDefault()?.Name);
                 }
                 catch (Exception ex)
                 {

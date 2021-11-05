@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly MuteService _mute;
         private readonly UserPunishService _punishService;
 
-        private readonly Channel<PunishQueueItem> PunishUserQueue =
+        private readonly Channel<PunishQueueItem> _punishUserQueue =
             Channel.CreateUnbounded<PunishQueueItem>(new UnboundedChannelOptions
             {
                 SingleReader = true,
@@ -77,7 +77,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             while (true)
             {
-                var item = await PunishUserQueue.Reader.ReadAsync();
+                var item = await _punishUserQueue.Reader.ReadAsync();
 
                 var muteTime = item.MuteTime;
                 var gu = item.User;
@@ -154,7 +154,7 @@ namespace Mewdeko.Modules.Administration.Services
 
             _ = Task.Run(async () =>
             {
-                if (maybeAlts is AntiAltStats alts)
+                if (maybeAlts is { } alts)
                     if (user.CreatedAt != default)
                     {
                         var diff = DateTime.UtcNow - user.CreatedAt.UtcDateTime;
@@ -175,7 +175,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                 try
                 {
-                    if (!(maybeStats is AntiRaidStats stats) || !stats.RaidUsers.Add(user))
+                    if (!(maybeStats is { } stats) || !stats.RaidUsers.Add(user))
                         return;
 
                     ++stats.UsersCount;
@@ -205,10 +205,10 @@ namespace Mewdeko.Modules.Administration.Services
 
         private Task HandleAntiSpam(SocketMessage arg)
         {
-            if (!(arg is SocketUserMessage msg) || msg.Author.IsBot)
+            if (arg is not SocketUserMessage msg || msg.Author.IsBot)
                 return Task.CompletedTask;
 
-            if (!(msg.Channel is ITextChannel channel))
+            if (msg.Channel is not ITextChannel channel)
                 return Task.CompletedTask;
             var _ = Task.Run(async () =>
             {
@@ -221,8 +221,8 @@ namespace Mewdeko.Modules.Administration.Services
                         }))
                         return;
 
-                    var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, id => new UserSpamStats(msg),
-                        (id, old) =>
+                    var stats = spamSettings.UserStats.AddOrUpdate(msg.Author.Id, _ => new UserSpamStats(msg),
+                        (_, old) =>
                         {
                             old.ApplyNextMessage(msg);
                             return old;
@@ -257,7 +257,7 @@ namespace Mewdeko.Modules.Administration.Services
                 gus[0].Guild.Name);
 
             foreach (var gu in gus)
-                await PunishUserQueue.Writer.WriteAsync(new PunishQueueItem
+                await _punishUserQueue.Writer.WriteAsync(new PunishQueueItem
                 {
                     Action = action,
                     Type = pt,
@@ -292,15 +292,13 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             };
 
-            _antiRaidGuilds.AddOrUpdate(guildId, stats, (key, old) => stats);
+            _antiRaidGuilds.AddOrUpdate(guildId, stats, (_, _) => stats);
 
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
-                gc.AntiRaidSetting = stats.AntiRaidSettings;
-                await uow.SaveChangesAsync();
-            }
+            gc.AntiRaidSetting = stats.AntiRaidSettings;
+            await uow.SaveChangesAsync();
 
             return stats;
         }
@@ -363,30 +361,29 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             };
 
+            var stats1 = stats;
             stats = _antiSpamGuilds.AddOrUpdate(guildId, stats, (key, old) =>
             {
-                stats.AntiSpamSettings.IgnoredChannels = old.AntiSpamSettings.IgnoredChannels;
-                return stats;
+                stats1.AntiSpamSettings.IgnoredChannels = old.AntiSpamSettings.IgnoredChannels;
+                return stats1;
             });
 
-            using (var uow = _db.GetDbContext())
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting));
+
+            if (gc.AntiSpamSetting != null)
             {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting));
-
-                if (gc.AntiSpamSetting != null)
-                {
-                    gc.AntiSpamSetting.Action = stats.AntiSpamSettings.Action;
-                    gc.AntiSpamSetting.MessageThreshold = stats.AntiSpamSettings.MessageThreshold;
-                    gc.AntiSpamSetting.MuteTime = stats.AntiSpamSettings.MuteTime;
-                    gc.AntiSpamSetting.RoleId = stats.AntiSpamSettings.RoleId;
-                }
-                else
-                {
-                    gc.AntiSpamSetting = stats.AntiSpamSettings;
-                }
-
-                await uow.SaveChangesAsync();
+                gc.AntiSpamSetting.Action = stats.AntiSpamSettings.Action;
+                gc.AntiSpamSetting.MessageThreshold = stats.AntiSpamSettings.MessageThreshold;
+                gc.AntiSpamSetting.MuteTime = stats.AntiSpamSettings.MuteTime;
+                gc.AntiSpamSetting.RoleId = stats.AntiSpamSettings.RoleId;
             }
+            else
+            {
+                gc.AntiSpamSetting = stats.AntiSpamSettings;
+            }
+
+            await uow.SaveChangesAsync();
 
             return stats;
         }
@@ -398,30 +395,28 @@ namespace Mewdeko.Modules.Administration.Services
                 ChannelId = channelId
             };
             bool added;
-            using (var uow = _db.GetDbContext())
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId,
+                set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
+            var spam = gc.AntiSpamSetting;
+            if (spam is null) return null;
+
+            if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
             {
-                var gc = uow.GuildConfigs.ForId(guildId,
-                    set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
-                var spam = gc.AntiSpamSetting;
-                if (spam is null) return null;
-
-                if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
-                {
-                    if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                        temp.AntiSpamSettings.IgnoredChannels.Add(obj); // add to local cache
-                    added = true;
-                }
-                else
-                {
-                    var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
-                    uow._context.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
-                    if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                        temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
-                    added = false;
-                }
-
-                await uow.SaveChangesAsync();
+                if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
+                    temp.AntiSpamSettings.IgnoredChannels.Add(obj); // add to local cache
+                added = true;
             }
+            else
+            {
+                var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
+                uow._context.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
+                if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
+                    temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
+                added = false;
+            }
+
+            await uow.SaveChangesAsync();
 
             return added;
         }

@@ -47,8 +47,7 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                ulong target;
-                target = meorhere == MeOrHere.Me ? ctx.User.Id : ctx.Channel.Id;
+                var target = meorhere == MeOrHere.Me ? ctx.User.Id : ctx.Channel.Id;
                 if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, remindData.Time,
                         remindData.What)
                     .ConfigureAwait(false))
@@ -147,7 +146,7 @@ namespace Mewdeko.Modules.Utility
                     {
                         rem = rems[pageIndex];
                         uow.Reminders.Remove(rem);
-                        uow.SaveChanges();
+                        await uow.SaveChangesAsync();
                     }
                 }
 
@@ -200,6 +199,7 @@ namespace Mewdeko.Modules.Utility
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 return true;

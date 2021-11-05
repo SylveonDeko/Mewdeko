@@ -14,7 +14,7 @@ namespace Mewdeko.Common.Attributes
         {
             var creds = services.GetService<IBotCredentials>();
 
-            return Task.FromResult(creds.IsOwner(context.User) || context.Client.CurrentUser.Id == context.User.Id
+            return Task.FromResult(creds != null && (creds.IsOwner(context.User) || context.Client.CurrentUser.Id == context.User.Id)
                 ? PreconditionResult.FromSuccess()
                 : PreconditionResult.FromError("Not owner"));
         }

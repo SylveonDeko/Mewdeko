@@ -24,7 +24,7 @@ namespace Mewdeko.Services.Impl
 
             using (var http = _httpFactory.CreateClient())
             {
-                response = await http.GetStringAsync($"https://scapi.Mewdeko.bot/resolve?url={url}")
+                response = await http.GetStringAsync($"https://scapi.nadeko.bot/resolve?url={url}")
                     .ConfigureAwait(false);
             }
 
@@ -44,7 +44,7 @@ namespace Mewdeko.Services.Impl
             using (var http = _httpFactory.CreateClient())
             {
                 response = await http
-                    .GetStringAsync(new Uri($"https://scapi.Mewdeko.bot/tracks?q={Uri.EscapeDataString(query)}"))
+                    .GetStringAsync(new Uri($"https://scapi.nadeko.bot/tracks?q={Uri.EscapeDataString(query)}"))
                     .ConfigureAwait(false);
             }
 

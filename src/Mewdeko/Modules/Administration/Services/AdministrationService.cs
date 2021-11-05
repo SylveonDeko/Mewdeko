@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -19,16 +20,14 @@ namespace Mewdeko.Modules.Administration.Services
     {
         private readonly DbService _db;
         private readonly LogCommandService _logService;
-        private readonly DiscordSocketClient client;
 
         public AdministrationService(Mewdeko.Services.Mewdeko bot, CommandHandler cmdHandler, DbService db,
-            LogCommandService logService, DiscordSocketClient _client)
+            LogCommandService logService, DiscordSocketClient client)
         {
-            client = _client;
-            _StaffRole = bot.AllGuildConfigs
+            StaffRole = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.StaffRole)
                 .ToConcurrent();
-            _MemberRole = bot.AllGuildConfigs
+            MemberRole = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.MemberRole)
                 .ToConcurrent();
             _db = db;
@@ -46,8 +45,8 @@ namespace Mewdeko.Modules.Administration.Services
             cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
         }
 
-        private ConcurrentDictionary<ulong, ulong> _StaffRole { get; } = new();
-        private ConcurrentDictionary<ulong, ulong> _MemberRole { get; } = new();
+        private ConcurrentDictionary<ulong, ulong> StaffRole { get; }
+        private ConcurrentDictionary<ulong, ulong> MemberRole { get; }
         public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
         public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
 
@@ -69,62 +68,71 @@ namespace Mewdeko.Modules.Administration.Services
 
         public async Task StaffRoleSet(IGuild guild, ulong role)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.StaffRole = role;
-                await uow.SaveChangesAsync();
-            }
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.StaffRole = role;
+            await uow.SaveChangesAsync();
 
-            _StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+            StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
         }
 
         public async Task MemberRoleSet(IGuild guild, ulong role)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.MemberRole = role;
-                await uow.SaveChangesAsync();
-            }
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.MemberRole = role;
+            await uow.SaveChangesAsync();
 
-            _MemberRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+            MemberRole.AddOrUpdate(guild.Id, role, (key, old) => role);
         }
 
         public ulong GetStaffRole(ulong? id)
         {
-            _StaffRole.TryGetValue(id.Value, out var snum);
+            Debug.Assert(id != null, nameof(id) + " != null");
+            StaffRole.TryGetValue(id.Value, out var snum);
             return snum;
         }
 
         public ulong GetMemberRole(ulong? id)
         {
-            _MemberRole.TryGetValue(id.Value, out var snum);
+            Debug.Assert(id != null, nameof(id) + " != null");
+            MemberRole.TryGetValue(id.Value, out var snum);
             return snum;
         }
 
         public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId,
-                    set => set.Include(x => x.DelMsgOnCmdChannels));
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId,
+                set => set.Include(x => x.DelMsgOnCmdChannels));
 
-                return (conf.DeleteMessageOnCommand, conf.DelMsgOnCmdChannels);
-            }
+            return (conf.DeleteMessageOnCommand, conf.DelMsgOnCmdChannels);
         }
 
         private Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
         {
             var _ = Task.Run(async () =>
             {
-                if (!(msg.Channel is SocketTextChannel channel))
-                    return;
-
-                //wat ?!
-                if (DeleteMessagesOnCommandChannels.TryGetValue(channel.Id, out var state))
+                if (msg.Channel is SocketTextChannel channel)
                 {
-                    if (state && cmd.Name != "Purge" && cmd.Name != "pick")
+                    if (DeleteMessagesOnCommandChannels.TryGetValue(channel.Id, out var state))
+                    {
+                        if (state && cmd.Name != "Purge" && cmd.Name != "pick")
+                        {
+                            _logService.AddDeleteIgnore(msg.Id);
+                            try
+                            {
+                                await msg.DeleteAsync().ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                        //if state is false, that means do not do it
+                    }
+                    else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
+                             cmd.Name != "pick")
                     {
                         _logService.AddDeleteIgnore(msg.Id);
                         try
@@ -133,22 +141,12 @@ namespace Mewdeko.Modules.Administration.Services
                         }
                         catch
                         {
+                            // ignored
                         }
                     }
-                    //if state is false, that means do not do it
                 }
-                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
-                         cmd.Name != "pick")
-                {
-                    _logService.AddDeleteIgnore(msg.Id);
-                    try
-                    {
-                        await msg.DeleteAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                    }
-                }
+
+                //wat ?!
             });
             return Task.CompletedTask;
         }
@@ -156,13 +154,11 @@ namespace Mewdeko.Modules.Administration.Services
         public bool ToggleDeleteMessageOnCommand(ulong guildId)
         {
             bool enabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
 
-                uow.SaveChanges();
-            }
+            uow.SaveChanges();
 
             return enabled;
         }

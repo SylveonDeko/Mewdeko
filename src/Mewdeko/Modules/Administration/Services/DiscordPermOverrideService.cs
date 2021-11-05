@@ -7,7 +7,6 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
@@ -73,46 +72,42 @@ namespace Mewdeko.Modules.Administration.Services
         public async Task AddOverride(ulong guildId, string commandName, GuildPermission perm)
         {
             commandName = commandName.ToLowerInvariant();
-            using (var uow = _db.GetDbContext())
-            {
-                var over = await uow._context
-                    .Set<DiscordPermOverride>()
-                    .AsQueryable()
-                    .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command);
+            using var uow = _db.GetDbContext();
+            var over = await uow._context
+                .Set<DiscordPermOverride>()
+                .AsQueryable()
+                .FirstOrDefaultAsync(x => x.GuildId == guildId && commandName == x.Command);
 
-                if (over is null)
-                    uow._context.Set<DiscordPermOverride>()
-                        .Add(over = new DiscordPermOverride
-                        {
-                            Command = commandName,
-                            Perm = perm,
-                            GuildId = guildId
-                        });
-                else
-                    over.Perm = perm;
+            if (over is null)
+                uow._context.Set<DiscordPermOverride>()
+                    .Add(over = new DiscordPermOverride
+                    {
+                        Command = commandName,
+                        Perm = perm,
+                        GuildId = guildId
+                    });
+            else
+                over.Perm = perm;
 
-                _overrides[(guildId, commandName)] = over;
+            _overrides[(guildId, commandName)] = over;
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
         }
 
         public async Task ClearAllOverrides(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var overrides = await uow._context
-                    .Set<DiscordPermOverride>()
-                    .AsQueryable()
-                    .AsNoTracking()
-                    .Where(x => x.GuildId == guildId)
-                    .ToListAsync();
+            using var uow = _db.GetDbContext();
+            var overrides = await uow._context
+                .Set<DiscordPermOverride>()
+                .AsQueryable()
+                .AsNoTracking()
+                .Where(x => x.GuildId == guildId)
+                .ToListAsync();
 
-                uow._context.RemoveRange(overrides);
-                await uow.SaveChangesAsync();
+            uow._context.RemoveRange(overrides);
+            await uow.SaveChangesAsync();
 
-                foreach (var over in overrides) _overrides.TryRemove((guildId, over.Command), out _);
-            }
+            foreach (var over in overrides) _overrides.TryRemove((guildId, over.Command), out _);
         }
 
         public async Task RemoveOverride(ulong guildId, string commandName)

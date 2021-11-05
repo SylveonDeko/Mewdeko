@@ -8,10 +8,6 @@ namespace Mewdeko.Common.TypeReaders
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmds;
 
-        private MewdekoTypeReader()
-        {
-        }
-
         protected MewdekoTypeReader(DiscordSocketClient client, CommandService cmds)
         {
             _client = client;

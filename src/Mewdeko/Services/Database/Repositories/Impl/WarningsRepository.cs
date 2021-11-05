@@ -43,11 +43,9 @@ namespace Mewdeko.Services.Database.Repositories.Impl
             await _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                 .ForEachAsync(x =>
                 {
-                    if (x.Forgiven != true)
-                    {
-                        x.Forgiven = true;
-                        x.ForgivenBy = mod;
-                    }
+                    if (x.Forgiven) return;
+                    x.Forgiven = true;
+                    x.ForgivenBy = mod;
                 });
         }
 

@@ -6,7 +6,7 @@ using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko._Extensions
 {
-    public static class IUserExtensions
+    public static class UserExtensions
     {
         public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string text)
         {
@@ -44,20 +44,20 @@ namespace Mewdeko._Extensions
         }
 
         public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null,
-            string text = null, bool isTTS = false)
+            string text = null, bool isTts = false)
         {
             using (var file = File.Open(filePath, FileMode.Open))
             {
                 return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-                    .SendFileAsync(file, caption ?? "x", text, isTTS).ConfigureAwait(false);
+                    .SendFileAsync(file, caption ?? "x", text, isTts).ConfigureAwait(false);
             }
         }
 
         public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName,
-            string caption = null, bool isTTS = false)
+            string caption = null, bool isTts = false)
         {
             return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-                .SendFileAsync(fileStream, fileName, caption, isTTS).ConfigureAwait(false);
+                .SendFileAsync(fileStream, fileName, caption, isTts).ConfigureAwait(false);
         }
 
         // This method is used by everything that fetches the avatar from a user

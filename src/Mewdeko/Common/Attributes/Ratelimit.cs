@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko.Services;
@@ -26,6 +27,7 @@ namespace Mewdeko.Common.Attributes
                 return Task.FromResult(PreconditionResult.FromSuccess());
 
             var cache = services.GetService<IDataCache>();
+            Debug.Assert(cache != null, nameof(cache) + " != null");
             var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
 
             if (rem == null)

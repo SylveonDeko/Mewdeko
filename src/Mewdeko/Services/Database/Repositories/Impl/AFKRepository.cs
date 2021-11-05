@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Services.Database.Repositories.Impl
 {
-    public class AFKRepository : Repository<AFK>, IAFKRepository
+    public class AFKRepository : Repository<AFK>, IAfkRepository
     {
         public AFKRepository(DbContext context) : base(context)
         {

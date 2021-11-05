@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord.Commands;
@@ -38,7 +39,7 @@ namespace Mewdeko.Common.TypeReaders
             {
                 var expr = new Expression(i, EvaluateOptions.IgnoreCase);
                 expr.EvaluateParameter += (str, ev) => EvaluateParam(str, ev, context, services);
-                var lon = (long)decimal.Parse(expr.Evaluate().ToString());
+                var lon = (long)decimal.Parse(expr.Evaluate().ToString() ?? string.Empty);
                 return TypeReaderResult.FromSuccess(new ShmartNumber(lon, input));
             }
             catch (Exception)
@@ -72,20 +73,20 @@ namespace Mewdeko.Common.TypeReaders
 
         private static long Cur(IServiceProvider services, ICommandContext ctx)
         {
-            var _db = services.GetService<DbService>();
+            var db = services.GetService<DbService>();
             long cur;
-            using (var uow = _db.GetDbContext())
-            {
-                cur = uow.DiscordUsers.GetUserCurrency(ctx.User.Id);
-                uow.SaveChanges();
-            }
+            Debug.Assert(db != null, nameof(db) + " != null");
+            using var uow = db.GetDbContext();
+            cur = uow.DiscordUsers.GetUserCurrency(ctx.User.Id);
+            uow.SaveChanges();
 
             return cur;
         }
 
         private static long Max(IServiceProvider services, ICommandContext ctx)
         {
-            var settings = services.GetService<GamblingConfigService>().Data;
+            var settings = services.GetService<GamblingConfigService>()?.Data;
+            // ReSharper disable once PossibleNullReferenceException
             var max = settings.MaxBet;
             return max == 0
                 ? Cur(services, ctx)
@@ -97,16 +98,13 @@ namespace Mewdeko.Common.TypeReaders
         {
             num = 0;
             var m = percentRegex.Match(input);
-            if (m.Captures.Count != 0)
-            {
-                if (!long.TryParse(m.Groups["num"].ToString(), out var percent))
-                    return false;
+            if (m.Captures.Count == 0) return false;
+            if (!long.TryParse(m.Groups["num"].ToString(), out var percent))
+                return false;
 
-                num = (long)(Cur(services, ctx) * (percent / 100.0f));
-                return true;
-            }
+            num = (long)(Cur(services, ctx) * (percent / 100.0f));
+            return true;
 
-            return false;
         }
     }
 }
