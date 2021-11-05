@@ -30,7 +30,8 @@ namespace Mewdeko.Common.PubSub
         public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
         {
             var eventName = key.Key;
-            return _multi.GetSubscriber().SubscribeAsync($"{_creds.RedisKey()}:{eventName}", async (ch, data) =>
+
+            async void Handler(RedisChannel ch, RedisValue data)
             {
                 try
                 {
@@ -41,7 +42,9 @@ namespace Mewdeko.Common.PubSub
                 {
                     Log.Error($"Error handling the event {eventName}: {ex.Message}");
                 }
-            });
+            }
+
+            return _multi.GetSubscriber().SubscribeAsync($"{_creds.RedisKey()}:{eventName}", Handler);
         }
     }
 }

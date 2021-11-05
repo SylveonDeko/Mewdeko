@@ -27,7 +27,7 @@ namespace Mewdeko.Services.Database
         ISuggestionsRepository Suggestions { get; }
         IStarboardRepository Starboard { get; }
         ISnipeStoreRepository SnipeStore { get; }
-        IAFKRepository AFK { get; }
+        IAfkRepository AFK { get; }
         IWarningsRepository2 Warnings2 { get; }
         IPollsRepository Polls { get; }
         IPlantedCurrencyRepository PlantedCurrency { get; }

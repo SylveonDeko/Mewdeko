@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mewdeko.Services.Database.Models;
 
@@ -30,6 +31,7 @@ namespace Mewdeko.Common.Collections
 
         public int IndexOf(T item)
         {
+            Debug.Assert(item != null, nameof(item) + " != null");
             return item.Index;
         }
 
@@ -47,6 +49,7 @@ namespace Mewdeko.Common.Collections
         {
             lock (_locker)
             {
+                Debug.Assert(item != null, nameof(item) + " != null");
                 item.Index = Source.Count;
                 Source.Add(item);
             }
@@ -81,6 +84,7 @@ namespace Mewdeko.Common.Collections
             bool removed;
             lock (_locker)
             {
+                // ReSharper disable once AssignmentInConditionalExpression
                 if (removed = Source.Remove(item))
                     for (var i = 0; i < Source.Count; i++)
                         if (Source[i].Index != i)

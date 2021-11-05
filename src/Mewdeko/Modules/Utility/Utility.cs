@@ -241,6 +241,55 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task SnipeList(int amount = 5)
+        {
+            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            {
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+
+            var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
+            {
+                if (!msgs.Any() || msgs == null)
+                {
+                    await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
+                    return;
+                }
+
+                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(msg.Count() - 1)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                    TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    var user = ctx.Channel.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result ??
+                                _client.Rest.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result;
+                    return Task.FromResult(new PageBuilder()
+                        .WithOkColor()
+                        .WithAuthor(
+                            new EmbedAuthorBuilder()
+                                .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
+                                .WithName($"{user} said:"))
+                        .WithDescription(msg.Skip(page).FirstOrDefault().Message 
+                                         + $"\n\nMessage deleted {(DateTime.UtcNow - msg.Skip(page).FirstOrDefault().DateAdded.Value).Humanize()} ago"));
+                }
+            }
+        }
 
         [MewdekoCommand]
         [Usage]

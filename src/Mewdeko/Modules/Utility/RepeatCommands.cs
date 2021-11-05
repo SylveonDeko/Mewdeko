@@ -68,6 +68,7 @@ namespace Mewdeko.Modules.Utility
                 }
                 catch
                 {
+                    // excluded
                 }
             }
 
@@ -95,10 +96,10 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                var repeater = repeaterList[index];
+                var (_, value) = repeaterList[index];
 
                 // wat
-                if (!guildRepeaters.TryRemove(repeater.Value.Repeater.Id, out var runner))
+                if (!guildRepeaters.TryRemove(value.Repeater.Id, out var runner))
                     return;
 
                 // take description before stopping just in case
@@ -109,7 +110,7 @@ namespace Mewdeko.Modules.Utility
                 {
                     var guildConfig = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
-                    var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Value.Repeater.Id);
+                    var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == value.Repeater.Id);
                     if (item != null)
                     {
                         guildConfig.GuildRepeaters.Remove(item);
@@ -309,9 +310,9 @@ namespace Mewdeko.Modules.Utility
 
             private string GetRepeaterInfoString(RepeatRunner runner)
             {
-                var intervalString = Format.Bold(runner.Repeater.Interval.ToPrettyStringHM());
+                var intervalString = Format.Bold(runner.Repeater.Interval.ToPrettyStringHm());
                 var executesIn = runner.NextDateTime - DateTime.UtcNow;
-                var executesInString = Format.Bold(executesIn.ToPrettyStringHM());
+                var executesInString = Format.Bold(executesIn.ToPrettyStringHm());
                 var message = Format.Sanitize(runner.Repeater.Message.TrimTo(50));
 
                 var description = "";

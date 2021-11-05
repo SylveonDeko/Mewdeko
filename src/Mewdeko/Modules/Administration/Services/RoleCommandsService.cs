@@ -14,7 +14,6 @@ namespace Mewdeko.Modules.Administration.Services
 {
     public class RoleCommandsService : INService
     {
-        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
         private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
@@ -22,14 +21,13 @@ namespace Mewdeko.Modules.Administration.Services
             Mewdeko.Services.Mewdeko bot)
         {
             _db = db;
-            _client = client;
 #if !GLOBAL_Mewdeko
             _models = bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
                     x => x.ReactionRoleMessages)
                 .ToConcurrent();
 
-            _client.ReactionAdded += _client_ReactionAdded;
-            _client.ReactionRemoved += _client_ReactionRemoved;
+            client.ReactionAdded += _client_ReactionAdded;
+            client.ReactionRemoved += _client_ReactionRemoved;
 #endif
         }
 
@@ -85,6 +83,7 @@ namespace Mewdeko.Modules.Administration.Services
                                         }
                                         catch
                                         {
+                                            // ignored
                                         }
 
                                         await Task.Delay(100).ConfigureAwait(false);
@@ -92,6 +91,7 @@ namespace Mewdeko.Modules.Administration.Services
                                 }
                                 catch
                                 {
+                                    // ignored
                                 }
                             });
                             await gusr.RemoveRolesAsync(roleIds).ConfigureAwait(false);
@@ -114,6 +114,7 @@ namespace Mewdeko.Modules.Administration.Services
                 }
                 catch
                 {
+                    // ignored
                 }
             });
 
@@ -156,6 +157,7 @@ namespace Mewdeko.Modules.Administration.Services
                 }
                 catch
                 {
+                    // ignored
                 }
             });
 
@@ -169,36 +171,32 @@ namespace Mewdeko.Modules.Administration.Services
 
         public bool Add(ulong id, ReactionRoleMessage rrm)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(id, set => set
-                    .Include(x => x.ReactionRoleMessages)
-                    .ThenInclude(x => x.ReactionRoles));
-                gc.ReactionRoleMessages.Add(rrm);
-                _models.AddOrUpdate(id,
-                    gc.ReactionRoleMessages,
-                    delegate { return gc.ReactionRoleMessages; });
-                uow.SaveChanges();
-            }
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(id, set => set
+                .Include(x => x.ReactionRoleMessages)
+                .ThenInclude(x => x.ReactionRoles));
+            gc.ReactionRoleMessages.Add(rrm);
+            _models.AddOrUpdate(id,
+                gc.ReactionRoleMessages,
+                delegate { return gc.ReactionRoleMessages; });
+            uow.SaveChanges();
 
             return true;
         }
 
         public void Remove(ulong id, int index)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(id,
-                    set => set.Include(x => x.ReactionRoleMessages)
-                        .ThenInclude(x => x.ReactionRoles));
-                uow._context.Set<ReactionRole>()
-                    .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
-                gc.ReactionRoleMessages.RemoveAt(index);
-                _models.AddOrUpdate(id,
-                    gc.ReactionRoleMessages,
-                    delegate { return gc.ReactionRoleMessages; });
-                uow.SaveChanges();
-            }
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(id,
+                set => set.Include(x => x.ReactionRoleMessages)
+                    .ThenInclude(x => x.ReactionRoles));
+            uow._context.Set<ReactionRole>()
+                .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
+            gc.ReactionRoleMessages.RemoveAt(index);
+            _models.AddOrUpdate(id,
+                gc.ReactionRoleMessages,
+                delegate { return gc.ReactionRoleMessages; });
+            uow.SaveChanges();
         }
     }
 }

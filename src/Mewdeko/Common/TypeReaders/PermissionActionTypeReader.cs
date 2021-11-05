@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Common.TypeReaders;
 
 namespace Mewdeko.Common.TypeReaders
 {

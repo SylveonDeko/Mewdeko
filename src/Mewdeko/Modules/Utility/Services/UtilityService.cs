@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -19,20 +22,13 @@ namespace Mewdeko.Modules.Utility.Services
 
         public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko _bot)
         {
+            _ = StartSnipeCleanupLoop();
             bot = _bot;
             _client = client;
             client.MessageDeleted += MsgStore;
             client.MessageUpdated += MsgStore2;
             client.MessageReceived += MsgReciev;
             client.MessageReceived += MsgReciev2;
-            _joined = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.Joins)
-                .ToConcurrent();
-            _left = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.Leaves)
-                .ToConcurrent();
-            //client.ReactionAdded += ReactionAdded;
-            //client.ReactionRemoved += ReactionAdded;
             _db = db;
             _snipeset = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.snipeset)
@@ -48,24 +44,59 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _snipeset { get; } = new();
         private ConcurrentDictionary<ulong, int> _plinks { get; } = new();
         private ConcurrentDictionary<ulong, ulong> _reactchans { get; } = new();
-        private ConcurrentDictionary<ulong, ulong> _joined { get; } = new();
-        private ConcurrentDictionary<ulong, ulong> _left { get; } = new();
-
         
 
-        public async Task JoinedSet(IGuild guild, ulong num)
+        private async Task StartSnipeCleanupLoop()
+        {
+            while (true)
+            {
+                await Task.Delay(5);
+                try
+                {
+                    var now = DateTime.UtcNow - TimeSpan.FromDays(30);
+                    var reminders = await GetOldSnipes(now);
+                    if (reminders.Length == 0)
+                        continue;
+
+                    Log.Information($"Cleaning up {reminders.Length} old snipes");
+
+                    // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
+                    var i = 0;
+                    foreach (var group in reminders
+                        .GroupBy(_ => ++i / (reminders.Length / 5 + 1)))
+                    {
+                        var executedReminders = group.ToList();
+                        await RemoveOldSnipes(executedReminders);
+                        await Task.Delay(1500);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning($"Error in reminder loop: {ex.Message}");
+                    Log.Warning(ex.ToString());
+                }
+            }
+        }
+
+        private Task RemoveOldSnipes(List<SnipeStore> list)
+        {
+            foreach (var i in list)
+            {
+                _db.GetDbContext().SnipeStore.Remove(i.Id);
+                Console.WriteLine(i.Id);
+            }
+            return Task.CompletedTask;
+        }
+        private  Task<SnipeStore[]> GetOldSnipes(DateTime now)
         {
             using (var uow = _db.GetDbContext())
             {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.Joins = num;
-                await uow.SaveChangesAsync();
+                return uow._context.SnipeStore
+                    .FromSqlInterpolated(
+                        $"select * from SnipeStore where \"DateAdded\" < {now};")
+                    .ToArrayAsync();
             }
-
-            _joined.AddOrUpdate(guild.Id, num, (key, old) => num);
         }
-
-
         public int GetPLinks(ulong? id)
         {
             if (id == null || !_plinks.TryGetValue(id.Value, out var invw))
@@ -202,6 +233,11 @@ namespace Mewdeko.Modules.Utility.Services
         {
             using var uow = _db.GetDbContext();
             return uow.SnipeStore.ForChannel(gid, chanid);
+        }
+        public SnipeStore[] AllSnipes()
+        {
+            using var uow = _db.GetDbContext();
+            return uow.SnipeStore.All();
         }
 
         public async Task MsgReciev2(SocketMessage msg)

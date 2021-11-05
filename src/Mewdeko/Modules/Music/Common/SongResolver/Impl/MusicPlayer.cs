@@ -345,8 +345,6 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
                                     errorCount = 0;
                                 }
 
-                                // todo future windows multimedia api
-
                                 // wait for slightly less than the latency
                                 Thread.Sleep(delay);
 

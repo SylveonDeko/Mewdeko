@@ -38,19 +38,17 @@ namespace Mewdeko.Modules.Administration.Services
 
         public bool AddNew(ulong guildId, IRole role, int group)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var roles = uow.SelfAssignedRoles.GetFromGuild(guildId);
-                if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.Guild.Id)) return false;
+            using var uow = _db.GetDbContext();
+            var roles = uow.SelfAssignedRoles.GetFromGuild(guildId);
+            if (roles.Any(s => s.RoleId == role.Id && s.GuildId == role.Guild.Id)) return false;
 
-                uow.SelfAssignedRoles.Add(new SelfAssignedRole
-                {
-                    Group = group,
-                    RoleId = role.Id,
-                    GuildId = role.Guild.Id
-                });
-                uow.SaveChanges();
-            }
+            uow.SelfAssignedRoles.Add(new SelfAssignedRole
+            {
+                Group = @group,
+                RoleId = role.Id,
+                GuildId = role.Guild.Id
+            });
+            uow.SaveChanges();
 
             return true;
         }
@@ -58,12 +56,10 @@ namespace Mewdeko.Modules.Administration.Services
         public bool ToggleAdSarm(ulong guildId)
         {
             bool newval;
-            using (var uow = _db.GetDbContext())
-            {
-                var config = uow.GuildConfigs.ForId(guildId, set => set);
-                newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
-                uow.SaveChanges();
-            }
+            using var uow = _db.GetDbContext();
+            var config = uow.GuildConfigs.ForId(guildId, set => set);
+            newval = config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
+            uow.SaveChanges();
 
             return newval;
         }
@@ -79,14 +75,15 @@ namespace Mewdeko.Modules.Administration.Services
 
             var (autoDelete, exclusive, roles) = GetAdAndRoles(guildUser.Guild.Id);
 
-            var theRoleYouWant = roles.FirstOrDefault(r => r.RoleId == role.Id);
+            var selfAssignedRoles = roles as SelfAssignedRole[] ?? roles.ToArray();
+            var theRoleYouWant = selfAssignedRoles.FirstOrDefault(r => r.RoleId == role.Id);
             if (theRoleYouWant == null)
                 return (AssignResult.Err_Not_Assignable, autoDelete, null);
             if (theRoleYouWant.LevelRequirement > userLevelData.Level)
                 return (AssignResult.Err_Lvl_Req, autoDelete, theRoleYouWant.LevelRequirement);
             if (guildUser.RoleIds.Contains(role.Id)) return (AssignResult.Err_Already_Have, autoDelete, null);
 
-            var roleIds = roles
+            var roleIds = selfAssignedRoles
                 .Where(x => x.Group == theRoleYouWant.Group)
                 .Select(x => x.RoleId).ToArray();
             if (exclusive)

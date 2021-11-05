@@ -204,10 +204,11 @@ namespace Mewdeko.Services.Impl
             public string TimezoneDbApiKey { get; set; }
             public string CoinmarketcapApiKey { get; set; }
 
-            [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OwnerIds => throw new NotImplementedException();
-            [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OfficialMods => throw new NotImplementedException();
+            [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OwnerIds { get; }
 
-            [JsonIgnore] RestartConfig IBotCredentials.RestartCommand => throw new NotImplementedException();
+            [JsonIgnore] ImmutableArray<ulong> IBotCredentials.OfficialMods { get; }
+
+            [JsonIgnore] RestartConfig IBotCredentials.RestartCommand { get; }
 
             public bool IsOwner(IUser u)
             {

@@ -10,9 +10,14 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 
@@ -26,22 +31,19 @@ namespace Mewdeko.Modules.Help.Services
         private readonly DiscordSocketClient _client;
         private readonly CommandService _cmds;
         private readonly DiscordPermOverrideService _dpos;
-        private readonly IServiceProvider _services;
         private readonly IBotStrings _strings;
 
         public HelpService(CommandHandler ch, IBotStrings strings,
             DiscordPermOverrideService dpos, BotConfigService bss, IServiceProvider prov, CommandService cmds,
-            DiscordSocketClient client)
+            DiscordSocketClient client, GlobalPermissionService gbs)
         {
             _client = client;
             _cmds = cmds;
-            _services = prov;
             _ch = ch;
             _strings = strings;
             _dpos = dpos;
             _bss = bss;
             _client.MessageReceived += HandlePing;
-            _client.InteractionCreated += HandleModules;
         }
 
         public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
@@ -65,79 +67,7 @@ namespace Mewdeko.Modules.Help.Services
         {
             list3.Add(info);
         }
-
-        public async Task HandleModules(SocketInteraction ine)
-        {
-            if (ine is SocketMessageComponent parsedArg)
-            {
-                if (parsedArg.Data.Values == null)
-                    return;
-                await parsedArg.DeferAsync();
-                var selectedValue = parsedArg.Data.Values?.First();
-                if (!list3.Any()) return;
-                var name = selectedValue.ToTitleCase();
-                if (selectedValue == "custom") name = "Custom Reactions";
-                if (selectedValue == "servermanage") name = "Server Management";
-                var ta = list3.FirstOrDefault(x => x.chan == parsedArg.Channel);
-                var guild = ((ITextChannel)parsedArg.Channel).Guild;
-                var prefix = _ch.GetPrefix(guild);
-                var selmens = ta.Builder.WithPlaceholder(name);
-                var module = selectedValue.Trim().ToUpperInvariant();
-                var cmds = _cmds.Commands.Where(c =>
-                        c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                            .StartsWith(module, StringComparison.InvariantCulture))
-                    .OrderBy(c => c.Aliases[0])
-                    .Distinct(new CommandTextEqualityComparer());
-
-
-                // check preconditions for all commands, but only if it's not 'all'
-                // because all will show all commands anyway, no need to check
-
-                var cmdsWithGroup = cmds
-                    .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-                    .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
-
-                var i = 0;
-                var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
-                var embed = new EmbedBuilder().WithOkColor();
-                foreach (var g in groups)
-                {
-                    var last = g.Count();
-                    for (i = 0; i < last; i++)
-                    {
-                        var transformed = g.ElementAt(i).Select(x => $"{_ch.GetPrefix(guild) + x.Aliases.First()}");
-
-                        if (i == last - 1 && (i + 1) % 1 != 0)
-                        {
-                            var grp = 0;
-                            var count = transformed.Count();
-                            transformed = transformed
-                                .GroupBy(x => grp++ % count / 2)
-                                .Select(x =>
-                                {
-                                    if (x.Count() == 1)
-                                        return $"{x.First()}";
-                                    return string.Concat(x);
-                                });
-                        }
-
-                        embed.AddField(g.ElementAt(i).Key, string.Join(", ", transformed));
-                    }
-                }
-
-                embed.WithFooter(GetText("commands_instr", guild, prefix));
-                if (parsedArg.User.Id == ta.msg.Author.Id)
-                    await parsedArg.Message.ModifyAsync(x =>
-                    {
-                        x.Embed = embed.Build();
-                        x.Components = new ComponentBuilder().WithSelectMenu(selmens).Build();
-                    });
-                else
-                    await parsedArg.FollowupAsync("This isnt your help embed but heres the result anyway",
-                        embed: embed.Build(), ephemeral: true);
-            }
-        }
-
+        
         private async Task HandlePing(SocketMessage msg)
         {
             if (msg.Content == $"<@{_client.CurrentUser.Id}>" || msg.Content == $"<@!{_client.CurrentUser.Id}>" )

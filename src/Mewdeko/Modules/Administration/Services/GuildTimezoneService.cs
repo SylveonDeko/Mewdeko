@@ -67,18 +67,16 @@ namespace Mewdeko.Modules.Administration.Services
 
         public void SetTimeZone(ulong guildId, TimeZoneInfo tz)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set);
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set);
 
-                gc.TimeZoneId = tz?.Id;
-                uow.SaveChanges();
+            gc.TimeZoneId = tz?.Id;
+            uow.SaveChanges();
 
-                if (tz == null)
-                    _timezones.TryRemove(guildId, out tz);
-                else
-                    _timezones.AddOrUpdate(guildId, tz, (key, old) => tz);
-            }
+            if (tz == null)
+                _timezones.TryRemove(guildId, out tz);
+            else
+                _timezones.AddOrUpdate(guildId, tz, (key, old) => tz);
         }
 
         public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId)

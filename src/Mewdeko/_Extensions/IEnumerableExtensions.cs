@@ -8,7 +8,7 @@ using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko._Extensions
 {
-    public static class IEnumerableExtensions
+    public static class EnumerableExtensions
     {
         public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string> func = null)
         {
@@ -24,9 +24,9 @@ namespace Mewdeko._Extensions
             return string.Join(separator, data.Select(func));
         }
 
-        public static IEnumerable<T> Distinct<T, U>(this IEnumerable<T> data, Func<T, U> getKey)
+        public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey)
         {
-            return data.GroupBy(x => getKey(x))
+            return data.GroupBy(getKey)
                 .Select(x => x.First());
         }
 

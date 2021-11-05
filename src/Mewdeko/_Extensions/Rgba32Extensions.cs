@@ -23,16 +23,18 @@ namespace Mewdeko._Extensions
             void DrawFrame(Image<Rgba32>[] imgArray, Image<Rgba32> imgFrame, int frameNumber)
             {
                 var xOffset = 0;
-                for (var i = 0; i < imgArray.Length; i++)
+                foreach (var t in imgArray)
                 {
-                    var frame = imgArray[i].Frames.CloneFrame(frameNumber % imgArray[i].Frames.Count);
-                    imgFrame.Mutate(x => x.DrawImage(frame, new Point(xOffset, 0), new GraphicsOptions()));
-                    xOffset += imgArray[i].Bounds().Width;
+                    var frame = t.Frames.CloneFrame(frameNumber % t.Frames.Count);
+                    var offset = xOffset;
+                    imgFrame.Mutate(x => x.DrawImage(frame, new Point(offset, 0), new GraphicsOptions()));
+                    xOffset += t.Bounds().Width;
                 }
             }
 
-            var imgs = images.ToArray();
-            var frames = images.Max(x => x.Frames.Count);
+            var enumerable = images as Image<Rgba32>[] ?? images.ToArray();
+            var imgs = enumerable.ToArray();
+            var frames = enumerable.Max(x => x.Frames.Count);
 
             var width = imgs.Sum(img => img.Width);
             var height = imgs.Max(img => img.Height);

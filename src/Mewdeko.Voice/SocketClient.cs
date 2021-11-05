@@ -140,6 +140,7 @@ namespace Mewdeko.Voice
                 }
                 catch
                 {
+                  //E
                 }
 
             return false;

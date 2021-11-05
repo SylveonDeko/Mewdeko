@@ -27,11 +27,11 @@ namespace Mewdeko.Common.TypeReaders
 
         public static GuildDateTime Parse(IServiceProvider services, ulong guildId, string input)
         {
-            var _gts = services.GetService<GuildTimezoneService>();
+            var gts = services.GetService<GuildTimezoneService>();
             if (!DateTime.TryParse(input, out var dt))
                 return null;
 
-            var tz = _gts.GetTimeZoneOrUtc(guildId);
+            var tz = gts?.GetTimeZoneOrUtc(guildId);
 
             return new GuildDateTime(tz, dt);
         }
@@ -39,10 +39,6 @@ namespace Mewdeko.Common.TypeReaders
 
     public class GuildDateTime
     {
-        private GuildDateTime()
-        {
-        }
-
         public GuildDateTime(TimeZoneInfo guildTimezone, DateTime inputTime)
         {
             var now = DateTime.UtcNow;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -26,10 +27,8 @@ namespace Mewdeko.Common.Attributes
             IServiceProvider services)
         {
             var permService = services.GetService<DiscordPermOverrideService>();
-            if (permService.TryGetOverrides(context.Guild?.Id ?? 0, command.Name.ToUpperInvariant(), out var _))
-                return Task.FromResult(PreconditionResult.FromSuccess());
-
-            return UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
+            Debug.Assert(permService != null, nameof(permService) + " != null");
+            return permService.TryGetOverrides(context.Guild?.Id ?? 0, command.Name.ToUpperInvariant(), out var _) ? Task.FromResult(PreconditionResult.FromSuccess()) : UserPermissionAttribute.CheckPermissionsAsync(context, command, services);
         }
     }
 }

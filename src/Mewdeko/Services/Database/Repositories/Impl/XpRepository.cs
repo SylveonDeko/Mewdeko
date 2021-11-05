@@ -52,12 +52,6 @@ namespace Mewdeko.Services.Database.Repositories.Impl
 
         public int GetUserGuildRanking(ulong userId, ulong guildId)
         {
-            //            @"SELECT COUNT(*) + 1
-            //FROM UserXpStats
-            //WHERE GuildId = @p1 AND ((Xp + AwardedXp) > (SELECT Xp + AwardedXp
-            //	FROM UserXpStats
-            //	WHERE UserId = @p2 AND GuildId = @p1
-            //	LIMIT 1));";
 
             return _set
                 .AsQueryable()

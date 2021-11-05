@@ -18,8 +18,8 @@ namespace Mewdeko._Extensions
             .Select(x => (char)x));
         public static string PadBoth(this string str, int length)
         {
-            int spaces = length - str.Length;
-            int padLeft = spaces / 2 + str.Length;
+            var spaces = length - str.Length;
+            var padLeft = spaces / 2 + str.Length;
             return str.PadLeft(padLeft).PadRight(length);
         }
 
@@ -28,13 +28,13 @@ namespace Mewdeko._Extensions
             new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |
                 RegexOptions.IgnoreCase);
 
-        private static readonly Regex CodePointRegex
+        private static readonly Regex _codePointRegex
             = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
                 RegexOptions.Compiled);
 
         public static string UnescapeUnicodeCodePoints(this string input)
         {
-            return CodePointRegex.Replace(input, me =>
+            return _codePointRegex.Replace(input, me =>
             {
                 var str = me.Groups["code"].Value;
                 var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
@@ -47,20 +47,24 @@ namespace Mewdeko._Extensions
             return JsonConvert.DeserializeObject<T>(str);
         }
 
-        public static string StripHTML(this string input)
+        public static string StripHtml(this string input)
         {
             return Regex.Replace(input, "<.*?>", string.Empty);
         }
 
         public static string TrimTo(this string str, int maxLength, bool hideDots = false)
         {
-            if (maxLength < 0)
-                throw new ArgumentOutOfRangeException(nameof(maxLength),
-                    $"Argument {nameof(maxLength)} can't be negative.");
-            if (maxLength == 0)
-                return string.Empty;
-            if (maxLength <= 3)
-                return string.Concat(str.Select(c => '.'));
+            switch (maxLength)
+            {
+                case < 0:
+                    throw new ArgumentOutOfRangeException(nameof(maxLength),
+                        $"Argument {nameof(maxLength)} can't be negative.");
+                case 0:
+                    return string.Empty;
+                case <= 3:
+                    return string.Concat(str.Select(_ => '.'));
+            }
+
             if (str.Length < maxLength)
                 return str;
 

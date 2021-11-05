@@ -7,7 +7,7 @@ using Discord.Commands;
 
 namespace Mewdeko._Extensions
 {
-    public static class IMessageChannelExtensions
+    public static class MessageChannelExtensions
     {
 
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string msg = "")
@@ -55,8 +55,8 @@ namespace Mewdeko._Extensions
         {
             var i = 0;
             return ch.SendMessageAsync($@"{seed}```css
-{string.Join("\n", items.GroupBy(item => i++ / columns)
-    .Select(ig => string.Concat(ig.Select(el => howToPrint(el)))))}
+{string.Join("\n", items.GroupBy(_ => i++ / columns)
+    .Select(ig => string.Concat(ig.Select(howToPrint))))}
 ```");
         }
 

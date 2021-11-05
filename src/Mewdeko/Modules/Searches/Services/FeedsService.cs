@@ -133,7 +133,7 @@ namespace Mewdeko.Modules.Searches.Services
 
                             embed.WithTitle(title.TrimTo(256));
 
-                            var desc = feedItem.Description?.StripHTML();
+                            var desc = feedItem.Description?.StripHtml();
                             if (!string.IsNullOrWhiteSpace(feedItem.Description))
                                 embed.WithDescription(desc.TrimTo(2048));
 

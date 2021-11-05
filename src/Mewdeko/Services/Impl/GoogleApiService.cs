@@ -203,8 +203,6 @@ namespace Mewdeko.Services.Impl
 
             return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i => i.Id.PlaylistId);
         }
-
-        // todo future add quota users
         public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
         {
             await Task.Yield();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Channels;
@@ -21,9 +22,8 @@ namespace Mewdeko.Modules.Administration.Services
 
         //guildid/roleid
         private readonly ConcurrentDictionary<ulong, IReadOnlyList<ulong>> _autoAssignableRoles;
-        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly ConcurrentDictionary<ulong, string> brcheck;
+        private readonly ConcurrentDictionary<ulong, string> _brcheck;
 
         private readonly Channel<SocketGuildUser> _assignQueue = Channel.CreateBounded<SocketGuildUser>(
             new BoundedChannelOptions(100)
@@ -35,7 +35,7 @@ namespace Mewdeko.Modules.Administration.Services
 
         public AutoAssignRoleService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, DbService db)
         {
-            _client = client;
+            var client1 = client;
             _db = db;
 
             _autoAssignableRoles = bot.AllGuildConfigs
@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Administration.Services
                 .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId,
                     v => v.GetAutoAssignableBotRoles())
                 .ToConcurrent();
-            brcheck = bot.AllGuildConfigs
+            _brcheck = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.AutoBotRoleIds)
                 .ToConcurrent();
             _ = Task.Run(async () =>
@@ -132,13 +132,14 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             });
 
-            _client.UserJoined += OnClientOnUserJoined;
-            _client.RoleDeleted += OnClientRoleDeleted;
+            client1.UserJoined += OnClientOnUserJoined;
+            client1.RoleDeleted += OnClientRoleDeleted;
         }
 
         public string GetStaffRole(ulong? id)
         {
-            brcheck.TryGetValue(id.Value, out var snum);
+            Debug.Assert(id != null, nameof(id) + " != null");
+            _brcheck.TryGetValue(id.Value, out var snum);
             return snum;
         }
 
