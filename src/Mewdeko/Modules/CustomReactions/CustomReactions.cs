@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.CustomReactions
 
             _ = ctx.Channel.TriggerTypingAsync();
 
-            var serialized = _service.ExportCrs(ctx.Guild?.Id);
+            var serialized = Service.ExportCrs(ctx.Guild?.Id);
             using var stream = await serialized.ToStream();
             await ctx.Channel.SendFileAsync(stream, "crs-export.yml", null);
         }
@@ -103,7 +103,7 @@ namespace Mewdeko.Modules.CustomReactions
                 }
             }
 
-            var succ = await _service.ImportCrsAsync(ctx.Guild?.Id, input);
+            var succ = await Service.ImportCrsAsync(ctx.Guild?.Id, input);
             if (!succ)
             {
                 await ReplyErrorLocalizedAsync("expr_import_invalid_data");
@@ -129,7 +129,7 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
             }
 
-            var cr = await _service.AddAsync(ctx.Guild?.Id, key, message);
+            var cr = await Service.AddAsync(ctx.Guild?.Id, key, message);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("new_cust_react"))
@@ -158,7 +158,7 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
             }
 
-            var cr = await _service.EditAsync(ctx.Guild?.Id, id, message).ConfigureAwait(false);
+            var cr = await Service.EditAsync(ctx.Guild?.Id, id, message).ConfigureAwait(false);
             if (cr != null)
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("edited_cust_react"))
@@ -182,7 +182,7 @@ namespace Mewdeko.Modules.CustomReactions
             if (--page < 0 || page > 999)
                 return;
 
-            var customReactions = _service.GetCustomReactionsFor(ctx.Guild?.Id);
+            var customReactions = Service.GetCustomReactionsFor(ctx.Guild?.Id);
 
             if (customReactions == null || !customReactions.Any())
             {
@@ -229,7 +229,7 @@ namespace Mewdeko.Modules.CustomReactions
         {
             if (--page < 0 || page > 9999)
                 return;
-            var customReactions = _service.GetCustomReactionsFor(ctx.Guild?.Id);
+            var customReactions = Service.GetCustomReactionsFor(ctx.Guild?.Id);
 
             if (customReactions == null || !customReactions.Any())
             {
@@ -270,7 +270,7 @@ namespace Mewdeko.Modules.CustomReactions
         [Aliases]
         public async Task ShowCustReact(int id)
         {
-            var found = _service.GetCustomReaction(ctx.Guild?.Id, id);
+            var found = Service.GetCustomReaction(ctx.Guild?.Id, id);
 
             if (found == null)
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -296,7 +296,7 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
             }
 
-            var cr = await _service.DeleteAsync(ctx.Guild?.Id, id);
+            var cr = await Service.DeleteAsync(ctx.Guild?.Id, id);
 
             if (cr != null)
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
@@ -321,7 +321,7 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
             }
 
-            var cr = _service.GetCustomReaction(Context.Guild?.Id, id);
+            var cr = Service.GetCustomReaction(Context.Guild?.Id, id);
             if (cr is null)
             {
                 await ReplyErrorLocalizedAsync("no_found").ConfigureAwait(false);
@@ -330,7 +330,7 @@ namespace Mewdeko.Modules.CustomReactions
 
             if (emojiStrs.Length == 0)
             {
-                await _service.ResetCrReactions(ctx.Guild?.Id, id);
+                await Service.ResetCrReactions(ctx.Guild?.Id, id);
                 await ReplyConfirmLocalizedAsync("crr_reset", Format.Bold(id.ToString())).ConfigureAwait(false);
                 return;
             }
@@ -361,7 +361,7 @@ namespace Mewdeko.Modules.CustomReactions
                 return;
             }
 
-            await _service.SetCrReactions(ctx.Guild?.Id, id, succ);
+            await Service.SetCrReactions(ctx.Guild?.Id, id, succ);
 
 
             await ReplyConfirmLocalizedAsync("crr_set", Format.Bold(id.ToString()),
@@ -419,21 +419,21 @@ namespace Mewdeko.Modules.CustomReactions
         [OwnerOnly]
         public async Task CrsReload()
         {
-            await _service.TriggerReloadCustomReactions();
+            await Service.TriggerReloadCustomReactions();
 
             await ctx.OkAsync();
         }
 
         private async Task InternalCrEdit(int id, CustomReactionsService.CrField option)
         {
-            var cr = _service.GetCustomReaction(ctx.Guild?.Id, id);
+            var cr = Service.GetCustomReaction(ctx.Guild?.Id, id);
             if (!AdminInGuildOrOwnerInDm())
             {
                 await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
                 return;
             }
 
-            var (success, newVal) = await _service.ToggleCrOptionAsync(id, option).ConfigureAwait(false);
+            var (success, newVal) = await Service.ToggleCrOptionAsync(id, option).ConfigureAwait(false);
             if (!success)
             {
                 await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
@@ -460,7 +460,7 @@ namespace Mewdeko.Modules.CustomReactions
                 .WithTitle("Custom reaction clear")
                 .WithDescription("This will delete all custom reactions on this server."),ctx.User.Id).ConfigureAwait(false))
             {
-                var count = _service.DeleteAllCustomReactions(ctx.Guild.Id);
+                var count = Service.DeleteAllCustomReactions(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("cleared", count).ConfigureAwait(false);
             }
         }

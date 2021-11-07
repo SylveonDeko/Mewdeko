@@ -41,10 +41,10 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatInvoke(int index)
             {
-                if (!_service.RepeaterReady)
+                if (!Service.RepeaterReady)
                     return;
                 index -= 1;
-                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var rep))
+                if (!Service.Repeaters.TryGetValue(ctx.Guild.Id, out var rep))
                 {
                     await ReplyErrorLocalizedAsync("repeat_invoke_none").ConfigureAwait(false);
                     return;
@@ -80,12 +80,12 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatRemove(int index)
             {
-                if (!_service.RepeaterReady)
+                if (!Service.RepeaterReady)
                     return;
                 if (--index < 0)
                     return;
 
-                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
+                if (!Service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
                     return;
 
                 var repeaterList = guildRepeaters.ToList();
@@ -134,10 +134,10 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatRedundant(int index)
             {
-                if (!_service.RepeaterReady)
+                if (!Service.RepeaterReady)
                     return;
 
-                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
+                if (!Service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
                     return;
 
                 var repeaterList = guildRepeaters.ToList();
@@ -211,7 +211,7 @@ namespace Mewdeko.Modules.Utility
             [Priority(2)]
             public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Remainder] string message)
             {
-                if (!_service.RepeaterReady)
+                if (!Service.RepeaterReady)
                     return;
 
                 var startTimeOfDay = dt?.InputTimeUtc.TimeOfDay;
@@ -252,9 +252,9 @@ namespace Mewdeko.Modules.Utility
                     await uow.SaveChangesAsync();
                 }
 
-                var runner = new RepeatRunner(_client, (SocketGuild)ctx.Guild, toAdd, _service);
+                var runner = new RepeatRunner(_client, (SocketGuild)ctx.Guild, toAdd, Service);
 
-                _service.Repeaters.AddOrUpdate(ctx.Guild.Id,
+                Service.Repeaters.AddOrUpdate(ctx.Guild.Id,
                     new ConcurrentDictionary<int, RepeatRunner>(new[]
                         { new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner) }), (key, old) =>
                     {
@@ -277,9 +277,9 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task RepeatList()
             {
-                if (!_service.RepeaterReady)
+                if (!Service.RepeaterReady)
                     return;
-                if (!_service.Repeaters.TryGetValue(ctx.Guild.Id, out var repRunners))
+                if (!Service.Repeaters.TryGetValue(ctx.Guild.Id, out var repRunners))
                 {
                     await ReplyConfirmLocalizedAsync("repeaters_none").ConfigureAwait(false);
                     return;

@@ -43,8 +43,8 @@ namespace Mewdeko.Modules.Music
                 await VoiceChannelLock.WaitAsync();
                 try
                 {
-                    if (botUser.VoiceChannel?.Id is null || !_service.TryGetMusicPlayer(Context.Guild.Id, out _))
-                        await _service.JoinVoiceChannelAsync(ctx.Guild.Id, voiceChannelId);
+                    if (botUser.VoiceChannel?.Id is null || !Service.TryGetMusicPlayer(Context.Guild.Id, out _))
+                        await Service.JoinVoiceChannelAsync(ctx.Guild.Id, voiceChannelId);
                 }
                 finally
                 {
@@ -160,7 +160,7 @@ namespace Mewdeko.Modules.Music
             [RequireContext(ContextType.Guild)]
             public async Task Save([Remainder] string name)
             {
-                if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+                if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
                 {
                     await ReplyErrorLocalizedAsync("no_player");
                     return;
@@ -227,7 +227,7 @@ namespace Mewdeko.Modules.Music
                         return;
                     }
 
-                    var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+                    var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
                     if (mp is null)
                     {
                         await ReplyErrorLocalizedAsync("no_player");

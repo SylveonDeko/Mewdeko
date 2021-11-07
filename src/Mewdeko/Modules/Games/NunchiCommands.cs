@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Games
                 NunchiGame nunchi;
 
                 //if a game was already active
-                if ((nunchi = _service.NunchiGames.GetOrAdd(ctx.Guild.Id, newNunchi)) != newNunchi)
+                if ((nunchi = Service.NunchiGames.GetOrAdd(ctx.Guild.Id, newNunchi)) != newNunchi)
                 {
                     // join it
                     if (!await nunchi.Join(ctx.User.Id, ctx.User.ToString()).ConfigureAwait(false))
@@ -64,7 +64,7 @@ namespace Mewdeko.Modules.Games
                 var success = await nunchi.Initialize().ConfigureAwait(false);
                 if (!success)
                 {
-                    if (_service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
+                    if (Service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
                         game.Dispose();
                     await ConfirmLocalizedAsync("nunchi_failed_to_start").ConfigureAwait(false);
                 }
@@ -91,7 +91,7 @@ namespace Mewdeko.Modules.Games
 
                 Task Nunchi_OnGameEnded(NunchiGame arg1, string arg2)
                 {
-                    if (_service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
+                    if (Service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
                     {
                         _client.MessageReceived -= _client_MessageReceived;
                         game.Dispose();

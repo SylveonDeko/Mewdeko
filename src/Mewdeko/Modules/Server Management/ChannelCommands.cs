@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.Webhook;
@@ -23,9 +24,10 @@ namespace Mewdeko.Modules.Server_Management
         public class ChannelCommands : MewdekoSubmodule<ServerManagementService>
         {
             private readonly IHttpClientFactory _httpFactory;
-
-            public ChannelCommands(IHttpClientFactory httpfact)
+            private readonly IServiceProvider _services;
+            public ChannelCommands(IHttpClientFactory httpfact, IServiceProvider services)
             {
+                _services = services;
                 _httpFactory = httpfact;
             }
 
@@ -189,10 +191,11 @@ namespace Mewdeko.Modules.Server_Management
             [UserPerm(GuildPermission.ManageChannels)]
             public async Task Nuke(ITextChannel chan3 = null)
             {
-                var embed = new EmbedBuilder();
-                embed.Color = Mewdeko.Services.Mewdeko.ErrorColor;
-                embed.Description =
-                    "Are you sure you want to nuke this channel? This will delete the entire channel and remake it.";
+                var embed = new EmbedBuilder
+                {
+                    Color = Mewdeko.Services.Mewdeko.ErrorColor,
+                    Description = "Are you sure you want to nuke this channel? This will delete the entire channel and remake it."
+                };
                 if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
                 ITextChannel chan;
                 if (chan3 is null)
@@ -200,204 +203,22 @@ namespace Mewdeko.Modules.Server_Management
                 else
                     chan = chan3;
 
-                await chan.DeleteAsync();
-                var chan2 = await ctx.Guild.CreateTextChannelAsync(chan.Name, x =>
+                if (chan != null)
                 {
-                    x.Position = chan.Position;
-                    x.Topic = chan.Topic;
-                    x.PermissionOverwrites = new Optional<IEnumerable<Overwrite>>(chan.PermissionOverwrites);
-                    x.IsNsfw = chan.IsNsfw;
-                    x.CategoryId = chan.CategoryId;
-                    x.SlowModeInterval = chan.SlowModeInterval;
-                });
-                await chan2.SendMessageAsync(
-                    "https://pa1.narvii.com/6463/6494fab512c8f2ac0d652c44dae78be4cb644569_hq.gif");
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Ticket()
-            {
-                var TickChat = TTicketCategory;
-                var chnls = await ctx.Guild.GetChannelsAsync();
-                if (chnls.Select(c => c.Name).Contains($"{ctx.User.Username.ToLower().Replace(" ", "-")}s-ticket"))
-                {
-                    await ctx.Channel.SendErrorAsync("You already have a ticket channel open!");
-                    return;
-                }
-
-                ITextChannel idfk = null;
-                if (TickChat == 0)
-                    idfk = await ctx.Guild.CreateTextChannelAsync($"{ctx.User.Username}s-ticket");
-                else
-                    idfk = await ctx.Guild.CreateTextChannelAsync($"{ctx.User.Username}s-ticket",
-                        T => { T.CategoryId = TickChat; });
-
-                await idfk.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
-                    new OverwritePermissions(viewChannel: PermValue.Deny));
-                await idfk.AddPermissionOverwriteAsync(ctx.User,
-                    new OverwritePermissions(viewChannel: PermValue.Allow));
-                var roles = ctx.Guild.Roles.Where(x => x.Permissions.ManageMessages).Where(x => x.Tags == null);
-                foreach (var i in roles)
-                    await idfk.AddPermissionOverwriteAsync(i, new OverwritePermissions(viewChannel: PermValue.Allow));
-
-                var msg = await ctx.Channel.SendConfirmAsync(":tickets: Ticket created in " + idfk.Mention);
-                await ctx.Message.DeleteAsync();
-                msg.DeleteAfter(5);
-                await idfk.EmbedAsync(new EmbedBuilder()
-                    .WithTitle(":tickets: Ticket Created! ")
-                    .WithDescription("A Moderator will be with you shortly!"));
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.Administrator)]
-            [Priority(0)]
-            public async Task TicketCategory([Remainder] ICategoryChannel channel)
-            {
-                if (string.IsNullOrWhiteSpace(channel.Name))
-                    return;
-
-                if (TTicketCategory == channel.Id)
-                {
-                    await ctx.Channel.SendErrorAsync("This is already your ticket category!");
-                    return;
-                }
-
-                if (TTicketCategory == 0)
-                {
-                    await _service.SetTicketCategoryId(ctx.Guild, channel);
-                    var TicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
-                    await ctx.Channel.SendConfirmAsync("Your ticket category has been set to " + TicketCategory);
-                    return;
-                }
-
-                var oldTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
-                await _service.SetTicketCategoryId(ctx.Guild, channel);
-                var newTicketCategory = ((SocketGuild)ctx.Guild).GetCategoryChannel(TTicketCategory);
-                await ctx.Channel.SendConfirmAsync("Your ticket category has been changed from " + oldTicketCategory +
-                                                   " to " + newTicketCategory);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
-            [Priority(0)]
-            public async Task Close()
-            {
-                var chn = ctx.Channel;
-
-                if (chn.Name.EndsWith("s-ticket"))
-                {
-                    var msgs = new List<IMessage>(9999999);
-                    await ctx.Channel.GetMessagesAsync(99999999).ForEachAsync(dled => msgs.AddRange(dled))
-                        .ConfigureAwait(false);
-
-                    var title = $"Ticket Log from {ctx.Guild.Name} in {ctx.Channel.Name} at {DateTime.Now}.txt";
-                    var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-                        .Select(g => new
-                        {
-                            date = g.Key,
-                            messages = g.OrderBy(x => x.CreatedAt).Select(s =>
-                            {
-                                var msg = $"【{s.Timestamp:HH:mm:ss}】{s.Author}:";
-                                if (string.IsNullOrWhiteSpace(s.ToString()))
-                                {
-                                    if (s.Attachments.Any())
-                                        msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
-                                    else if (s.Embeds.Any())
-                                        msg += "EMBEDS: " + string.Join("\n--------\n",
-                                            s.Embeds.Select(x => $"Description: {x.Description}"));
-                                }
-                                else
-                                {
-                                    msg += s.ToString();
-                                }
-
-                                return msg;
-                            })
-                        });
-                    using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
-                        .ConfigureAwait(false))
+                    await chan.DeleteAsync();
+                    var chan2 = await ctx.Guild.CreateTextChannelAsync(chan.Name, x =>
                     {
-                        await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
-                    }
-
-                    await (chn as ITextChannel).DeleteAsync();
+                        x.Position = chan.Position;
+                        x.Topic = chan.Topic;
+                        x.PermissionOverwrites = new Optional<IEnumerable<Overwrite>>(chan.PermissionOverwrites);
+                        x.IsNsfw = chan.IsNsfw;
+                        x.CategoryId = chan.CategoryId;
+                        x.SlowModeInterval = chan.SlowModeInterval;
+                    });
+                    await chan2.SendMessageAsync(
+                        "https://pa1.narvii.com/6463/6494fab512c8f2ac0d652c44dae78be4cb644569_hq.gif");
                 }
             }
-
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
-            [Priority(1)]
-            public async Task Close(ITextChannel chn)
-            {
-                if (chn.Name.EndsWith("s-ticket"))
-                {
-                    var msgs = new List<IMessage>(9999999);
-                    await chn.GetMessagesAsync(99999999).ForEachAsync(dled => msgs.AddRange(dled))
-                        .ConfigureAwait(false);
-
-                    var title = $"Ticket Log from {ctx.Guild.Name} in {chn.Name} at {DateTime.Now}.txt";
-                    var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-                        .Select(g => new
-                        {
-                            date = g.Key,
-                            messages = g.OrderBy(x => x.CreatedAt).Select(s =>
-                            {
-                                var msg = $"【{s.Timestamp:HH:mm:ss}】{s.Author}:";
-                                if (string.IsNullOrWhiteSpace(s.ToString()))
-                                {
-                                    if (s.Attachments.Any())
-                                        msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
-                                    else if (s.Embeds.Any())
-                                        msg += "EMBEDS: " + string.Join("\n--------\n",
-                                            s.Embeds.Select(x => $"Description: {x.Description}"));
-                                }
-                                else
-                                {
-                                    msg += s.ToString();
-                                }
-
-                                return msg;
-                            })
-                        });
-                    using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
-                        .ConfigureAwait(false))
-                    {
-                        try
-                        {
-                            await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
-                        }
-                        catch (Exception)
-                        {
-                            await ctx.Channel.SendErrorAsync(
-                                "It looks like your DMs are closed so I could not send the ticket log to you!");
-                        }
-                    }
-
-                    await chn.DeleteAsync();
-                }
-                else
-                {
-                    await ctx.Channel.SendErrorAsync("This != a ticket channel!");
-                }
-            }
-
 
             [MewdekoCommand]
             [Usage]

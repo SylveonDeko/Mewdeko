@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Administration
                 if (timer < 0 || timer > 600)
                     return;
 
-                await _service.SetGreetDel(ctx.Guild.Id, timer).ConfigureAwait(false);
+                await Service.SetGreetDel(ctx.Guild.Id, timer).ConfigureAwait(false);
 
                 if (timer > 0)
                     await ReplyConfirmLocalizedAsync("greetdel_on", timer).ConfigureAwait(false);
@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public Task BoostMsg()
             {
-                var boostMessage = _service.GetBoostMessage(ctx.Guild.Id);
+                var boostMessage = Service.GetBoostMessage(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("boostmsg_cur", boostMessage?.SanitizeMentions());
             }
 
@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public async Task Boost()
             {
-                var enabled = await _service.ToggleBoost(ctx.Guild.Id, ctx.Channel.Id);
+                var enabled = await Service.ToggleBoost(ctx.Guild.Id, ctx.Channel.Id);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("boost_on").ConfigureAwait(false);
@@ -80,7 +80,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                await _service.SetBoostDel(ctx.Guild.Id, timer);
+                await Service.SetBoostDel(ctx.Guild.Id, timer);
 
                 if (timer > 0)
                     await ReplyConfirmLocalizedAsync("boostdel_on", timer);
@@ -100,7 +100,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var sendBoostEnabled = _service.SetBoostMessage(ctx.Guild.Id, ref text);
+                var sendBoostEnabled = Service.SetBoostMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("boostmsg_new").ConfigureAwait(false);
                 if (!sendBoostEnabled)
@@ -116,7 +116,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public async Task Greet()
             {
-                var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("greet_on").ConfigureAwait(false);
@@ -135,7 +135,7 @@ namespace Mewdeko.Modules.Administration
             {
                 if (text is not null && text.ToLower() == "disable")
                 {
-                    await _service.SetWebGreetURL(ctx.Guild, "");
+                    await Service.SetWebGreetURL(ctx.Guild, "");
                     await ctx.Channel.SendConfirmAsync("Greet webhook disabled.");
                     return;
                 }
@@ -153,8 +153,8 @@ namespace Mewdeko.Modules.Administration
                         using var imgStream = imgData.ToStream();
                         var webhook = await chan.CreateWebhookAsync(name, imgStream);
                         var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                        await _service.SetWebGreetURL(ctx.Guild, txt);
-                        var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                        await Service.SetWebGreetURL(ctx.Guild, txt);
+                        var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                         if (enabled)
                             await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
                         else
@@ -175,8 +175,8 @@ namespace Mewdeko.Modules.Administration
                         using var imgStream = imgData.ToStream();
                         var webhook = await chan.CreateWebhookAsync(name, imgStream);
                         var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                        await _service.SetWebGreetURL(ctx.Guild, txt);
-                        var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                        await Service.SetWebGreetURL(ctx.Guild, txt);
+                        var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                         if (enabled)
                             await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
                         else
@@ -189,8 +189,8 @@ namespace Mewdeko.Modules.Administration
                 {
                     var webhook = await chan.CreateWebhookAsync(name);
                     var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                    await _service.SetWebGreetURL(ctx.Guild, txt);
-                    var enabled = await _service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                    await Service.SetWebGreetURL(ctx.Guild, txt);
+                    var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                     if (enabled)
                         await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
                     else
@@ -218,7 +218,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public Task GreetMsg()
             {
-                var greetMsg = _service.GetGreetMsg(ctx.Guild.Id);
+                var greetMsg = Service.GetGreetMsg(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("greetmsg_cur", greetMsg?.SanitizeMentions());
             }
 
@@ -236,7 +236,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var sendGreetEnabled = _service.SetGreetMessage(ctx.Guild.Id, ref text);
+                var sendGreetEnabled = Service.SetGreetMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("greetmsg_new").ConfigureAwait(false);
                 if (!sendGreetEnabled)
@@ -251,7 +251,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public async Task GreetDm()
             {
-                var enabled = await _service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
+                var enabled = await Service.SetGreetDm(ctx.Guild.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("greetdm_on").ConfigureAwait(false);
@@ -267,7 +267,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public Task GreetDmMsg()
             {
-                var dmGreetMsg = _service.GetDmGreetMsg(ctx.Guild.Id);
+                var dmGreetMsg = Service.GetDmGreetMsg(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("greetdmmsg_cur", dmGreetMsg?.SanitizeMentions());
             }
 
@@ -285,7 +285,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var sendGreetEnabled = _service.SetGreetDmMessage(ctx.Guild.Id, ref text);
+                var sendGreetEnabled = Service.SetGreetDmMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("greetdmmsg_new").ConfigureAwait(false);
                 if (!sendGreetEnabled)
@@ -300,7 +300,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public async Task Bye()
             {
-                var enabled = await _service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("bye_on").ConfigureAwait(false);
@@ -316,7 +316,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public Task ByeMsg()
             {
-                var byeMsg = _service.GetByeMessage(ctx.Guild.Id);
+                var byeMsg = Service.GetByeMessage(ctx.Guild.Id);
                 return ReplyConfirmLocalizedAsync("byemsg_cur", byeMsg?.SanitizeMentions());
             }
 
@@ -334,7 +334,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var sendByeEnabled = _service.SetByeMessage(ctx.Guild.Id, ref text);
+                var sendByeEnabled = Service.SetByeMessage(ctx.Guild.Id, ref text);
 
                 await ReplyConfirmLocalizedAsync("byemsg_new").ConfigureAwait(false);
                 if (!sendByeEnabled)
@@ -349,7 +349,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public async Task ByeDel(int timer = 30)
             {
-                await _service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);
+                await Service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);
 
                 if (timer > 0)
                     await ReplyConfirmLocalizedAsync("byedel_on", timer).ConfigureAwait(false);
@@ -369,8 +369,8 @@ namespace Mewdeko.Modules.Administration
             {
                 user = user ?? (IGuildUser)Context.User;
 
-                await _service.ByeTest((ITextChannel)Context.Channel, user);
-                var enabled = _service.GetByeEnabled(Context.Guild.Id);
+                await Service.ByeTest((ITextChannel)Context.Channel, user);
+                var enabled = Service.GetByeEnabled(Context.Guild.Id);
                 if (!enabled) await ReplyConfirmLocalizedAsync("byemsg_enable", $"`{Prefix}bye`").ConfigureAwait(false);
             }
 
@@ -387,7 +387,7 @@ namespace Mewdeko.Modules.Administration
                     .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild)
                     .WithUser(ctx.User)
                     .Build();
-                if (CREmbed.TryParse(_service.GetBoostMessage(ctx.Guild.Id), out var crEmbed))
+                if (CREmbed.TryParse(Service.GetBoostMessage(ctx.Guild.Id), out var crEmbed))
                 {
                     replacer.Replace(crEmbed);
                     if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
@@ -414,8 +414,8 @@ namespace Mewdeko.Modules.Administration
             {
                 user = user ?? (IGuildUser)Context.User;
 
-                await _service.GreetTest((ITextChannel)Context.Channel, user);
-                var enabled = _service.GetGreetEnabled(Context.Guild.Id);
+                await Service.GreetTest((ITextChannel)Context.Channel, user);
+                var enabled = Service.GetGreetEnabled(Context.Guild.Id);
                 if (!enabled)
                     await ReplyConfirmLocalizedAsync("greetmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
             }
@@ -432,12 +432,12 @@ namespace Mewdeko.Modules.Administration
                 user = user ?? (IGuildUser)Context.User;
 
                 var channel = await user.CreateDMChannelAsync();
-                var success = await _service.GreetDmTest(channel, user);
+                var success = await Service.GreetDmTest(channel, user);
                 if (success)
                     await Context.OkAsync();
                 else
                     await Context.WarningAsync();
-                var enabled = _service.GetGreetDmEnabled(Context.Guild.Id);
+                var enabled = Service.GetGreetDmEnabled(Context.Guild.Id);
                 if (!enabled)
                     await ReplyConfirmLocalizedAsync("greetdmmsg_enable", $"`{Prefix}greetdm`").ConfigureAwait(false);
             }

@@ -51,7 +51,7 @@ namespace Mewdeko.Modules.Gambling
                     return;
                 }
 
-                var result = await _service.WheelOfFortuneSpinAsync(ctx.User.Id, amount).ConfigureAwait(false);
+                var result = await Service.WheelOfFortuneSpinAsync(ctx.User.Id, amount).ConfigureAwait(false);
 
                 var wofMultipliers = _config.WheelOfFortune.Multipliers;
                 await ctx.Channel.SendConfirmAsync(

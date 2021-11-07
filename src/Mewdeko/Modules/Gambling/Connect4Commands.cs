@@ -61,7 +61,7 @@ namespace Mewdeko.Modules.Gambling
 
                 var newGame = new Connect4Game(ctx.User.Id, ctx.User.ToString(), options, _cs);
                 Connect4Game game;
-                if ((game = _service.Connect4Games.GetOrAdd(ctx.Channel.Id, newGame)) != newGame)
+                if ((game = Service.Connect4Games.GetOrAdd(ctx.Channel.Id, newGame)) != newGame)
                 {
                     if (game.CurrentPhase != Connect4Game.Phase.Joining)
                         return;
@@ -76,7 +76,7 @@ namespace Mewdeko.Modules.Gambling
                     if (!await _cs.RemoveAsync(ctx.User.Id, "Connect4-bet", options.Bet, true).ConfigureAwait(false))
                     {
                         await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
-                        _service.Connect4Games.TryRemove(ctx.Channel.Id, out _);
+                        Service.Connect4Games.TryRemove(ctx.Channel.Id, out _);
                         game.Dispose();
                         return;
                     }
@@ -136,7 +136,7 @@ namespace Mewdeko.Modules.Gambling
 
                 Task Game_OnGameFailedToStart(Connect4Game arg)
                 {
-                    if (_service.Connect4Games.TryRemove(ctx.Channel.Id, out var toDispose))
+                    if (Service.Connect4Games.TryRemove(ctx.Channel.Id, out var toDispose))
                     {
                         _client.MessageReceived -= _client_MessageReceived;
                         toDispose.Dispose();
@@ -147,7 +147,7 @@ namespace Mewdeko.Modules.Gambling
 
                 Task Game_OnGameEnded(Connect4Game arg, Connect4Game.Result result)
                 {
-                    if (_service.Connect4Games.TryRemove(ctx.Channel.Id, out var toDispose))
+                    if (Service.Connect4Games.TryRemove(ctx.Channel.Id, out var toDispose))
                     {
                         _client.MessageReceived -= _client_MessageReceived;
                         toDispose.Dispose();

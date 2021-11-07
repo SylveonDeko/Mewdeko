@@ -39,13 +39,13 @@ namespace Mewdeko.Modules.Administration
             {
                 if (perms is null || perms.Length == 0)
                 {
-                    await _service.RemoveOverride(ctx.Guild.Id, cmd.Name);
+                    await Service.RemoveOverride(ctx.Guild.Id, cmd.Name);
                     await ReplyConfirmLocalizedAsync("perm_override_reset");
                     return;
                 }
 
                 var aggregatePerms = perms.Aggregate((acc, seed) => seed | acc);
-                await _service.AddOverride(Context.Guild.Id, cmd.Name, aggregatePerms);
+                await Service.AddOverride(Context.Guild.Id, cmd.Name, aggregatePerms);
 
                 await ReplyConfirmLocalizedAsync("perm_override",
                     Format.Bold(aggregatePerms.ToString()),
@@ -66,7 +66,7 @@ namespace Mewdeko.Modules.Administration
 
                 if (!result)
                     return;
-                await _service.ClearAllOverrides(Context.Guild.Id);
+                await Service.ClearAllOverrides(Context.Guild.Id);
 
                 await ReplyConfirmLocalizedAsync("perm_override_all");
             }
@@ -82,7 +82,7 @@ namespace Mewdeko.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var overrides = await _service.GetAllOverrides(Context.Guild.Id);
+                var overrides = await Service.GetAllOverrides(Context.Guild.Id);
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)

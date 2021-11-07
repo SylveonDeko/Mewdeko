@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Giveaways
         [Description]
         [Aliases]
         public async Task GStart(ITextChannel chan, StoopidTime time, [Remainder] string what)
-            => await _service.GiveawaysInternal(chan, time.Time, what, ctx.User.Id, ctx.Guild.Id, ctx.Channel as ITextChannel, ctx.Guild);
+            => await Service.GiveawaysInternal(chan, time.Time, what, ctx.User.Id, ctx.Guild.Id, ctx.Channel as ITextChannel, ctx.Guild);
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -83,7 +83,7 @@ namespace Mewdeko.Modules.Giveaways
             if (rems.Count > pageIndex)
             {
                 rem = rems[pageIndex];
-                await _service.GiveawayTimerAction(rem);
+                await Service.GiveawayTimerAction(rem);
                 uow.Giveaways.Remove(rem);
                 await uow.SaveChangesAsync();
             }

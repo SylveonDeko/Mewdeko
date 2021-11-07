@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Searches
 
                 if (success)
                 {
-                    success = _service.AddFeed(ctx.Guild.Id, channel.Id, url);
+                    success = Service.AddFeed(ctx.Guild.Id, channel.Id, url);
                     if (success)
                     {
                         await ReplyConfirmLocalizedAsync("feed_added").ConfigureAwait(false);
@@ -73,7 +73,7 @@ namespace Mewdeko.Modules.Searches
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task FeedRemove(int index)
             {
-                if (_service.RemoveFeed(ctx.Guild.Id, --index))
+                if (Service.RemoveFeed(ctx.Guild.Id, --index))
                     await ReplyConfirmLocalizedAsync("feed_removed").ConfigureAwait(false);
                 else
                     await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
@@ -87,7 +87,7 @@ namespace Mewdeko.Modules.Searches
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task FeedList()
             {
-                var feeds = _service.GetFeeds(ctx.Guild.Id);
+                var feeds = Service.GetFeeds(ctx.Guild.Id);
 
                 if (!feeds.Any())
                 {

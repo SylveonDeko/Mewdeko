@@ -35,7 +35,7 @@ namespace Mewdeko.Modules.Games
                 if (string.IsNullOrWhiteSpace(arg))
                     return;
 
-                var poll = _service.CreatePoll(ctx.Guild.Id,
+                var poll = Service.CreatePoll(ctx.Guild.Id,
                     ctx.Channel.Id, arg);
                 if (poll == null)
                 {
@@ -43,7 +43,7 @@ namespace Mewdeko.Modules.Games
                     return;
                 }
 
-                if (_service.StartPoll(poll))
+                if (Service.StartPoll(poll))
                     await ctx.Channel
                         .EmbedAsync(new EmbedBuilder()
                             .WithOkColor()
@@ -65,7 +65,7 @@ namespace Mewdeko.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task PollStats()
             {
-                if (!_service.ActivePolls.TryGetValue(ctx.Guild.Id, out var pr))
+                if (!Service.ActivePolls.TryGetValue(ctx.Guild.Id, out var pr))
                     return;
 
                 await ctx.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results"))).ConfigureAwait(false);
@@ -82,7 +82,7 @@ namespace Mewdeko.Modules.Games
                 var channel = (ITextChannel)ctx.Channel;
 
                 Poll p;
-                if ((p = _service.StopPoll(ctx.Guild.Id)) == null)
+                if ((p = Service.StopPoll(ctx.Guild.Id)) == null)
                     return;
 
                 var embed = GetStats(p, GetText("poll_closed"));

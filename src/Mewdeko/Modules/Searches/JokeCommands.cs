@@ -19,7 +19,7 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task Yomama()
             {
-                await ctx.Channel.SendConfirmAsync(await _service.GetYomamaJoke().ConfigureAwait(false))
+                await ctx.Channel.SendConfirmAsync(await Service.GetYomamaJoke().ConfigureAwait(false))
                     .ConfigureAwait(false);
             }
 
@@ -29,7 +29,7 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task Randjoke()
             {
-                var (setup, punchline) = await _service.GetRandomJoke().ConfigureAwait(false);
+                var (setup, punchline) = await Service.GetRandomJoke().ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync(setup, punchline).ConfigureAwait(false);
             }
 
@@ -39,7 +39,7 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task ChuckNorris()
             {
-                await ctx.Channel.SendConfirmAsync(await _service.GetChuckNorrisJoke().ConfigureAwait(false))
+                await ctx.Channel.SendConfirmAsync(await Service.GetChuckNorrisJoke().ConfigureAwait(false))
                     .ConfigureAwait(false);
             }
 
@@ -49,13 +49,13 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task WowJoke()
             {
-                if (!_service.WowJokes.Any())
+                if (!Service.WowJokes.Any())
                 {
                     await ReplyErrorLocalizedAsync("jokes_not_loaded").ConfigureAwait(false);
                     return;
                 }
 
-                var joke = _service.WowJokes[new MewdekoRandom().Next(0, _service.WowJokes.Count)];
+                var joke = Service.WowJokes[new MewdekoRandom().Next(0, Service.WowJokes.Count)];
                 await ctx.Channel.SendConfirmAsync(joke.Question, joke.Answer).ConfigureAwait(false);
             }
 
@@ -65,13 +65,13 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task MagicItem()
             {
-                if (!_service.WowJokes.Any())
+                if (!Service.WowJokes.Any())
                 {
                     await ReplyErrorLocalizedAsync("magicitems_not_loaded").ConfigureAwait(false);
                     return;
                 }
 
-                var item = _service.MagicItems[new MewdekoRandom().Next(0, _service.MagicItems.Count)];
+                var item = Service.MagicItems[new MewdekoRandom().Next(0, Service.MagicItems.Count)];
 
                 await ctx.Channel.SendConfirmAsync("✨" + item.Name, item.Description).ConfigureAwait(false);
             }

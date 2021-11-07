@@ -23,12 +23,12 @@ namespace Mewdeko.Modules.Utility
             {
                 if (chn is null)
                 {
-                    await _service.SetStarboardChannel(ctx.Guild, 0);
+                    await Service.SetStarboardChannel(ctx.Guild, 0);
                     await ctx.Channel.SendMessageAsync("Starboard has been disabled.");
                     return;
                 }
 
-                await _service.SetStarboardChannel(ctx.Guild, chn.Id);
+                await Service.SetStarboardChannel(ctx.Guild, chn.Id);
                 await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}");
             }
 
@@ -39,9 +39,9 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.ManageChannels)]
             public async Task SetStars(ulong num)
             {
-                var count = _service.GetStarSetting(ctx.Guild.Id);
-                await _service.SetStarCount(ctx.Guild, num);
-                var count2 = _service.GetStarSetting(ctx.Guild.Id);
+                var count = Service.GetStarSetting(ctx.Guild.Id);
+                await Service.SetStarCount(ctx.Guild, num);
+                var count2 = Service.GetStarSetting(ctx.Guild.Id);
                 await ctx.Channel.SendConfirmAsync(
                     $"Your star count was succesfully changed from {count} to {count2}!");
             }
@@ -64,31 +64,31 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                if (num != null && _service.GetStar(ctx.Guild.Id) == emote.FirstOrDefault().Id)
+                if (num != null && Service.GetStar(ctx.Guild.Id) == emote.FirstOrDefault().Id)
                 {
                     await ctx.Channel.SendErrorAsync("This is already your starboard emote!");
                     return;
                 }
 
-                if (num is null && _service.GetStar(ctx.Guild.Id) != 0)
+                if (num is null && Service.GetStar(ctx.Guild.Id) != 0)
                 {
-                    await _service.SetStar(ctx.Guild, 0);
+                    await Service.SetStar(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("Your starboard emote has been set back to a star!");
                     return;
                 }
 
-                if (_service.GetStar(ctx.Guild.Id) != 0)
+                if (Service.GetStar(ctx.Guild.Id) != 0)
                 {
-                    var emote1 = await ctx.Guild.GetEmoteAsync(_service.GetStar(ctx.Guild.Id));
-                    await _service.SetStar(ctx.Guild, emote.FirstOrDefault().Id);
-                    var emote2 = await ctx.Guild.GetEmoteAsync(_service.GetStar(ctx.Guild.Id));
+                    var emote1 = await ctx.Guild.GetEmoteAsync(Service.GetStar(ctx.Guild.Id));
+                    await Service.SetStar(ctx.Guild, emote.FirstOrDefault().Id);
+                    var emote2 = await ctx.Guild.GetEmoteAsync(Service.GetStar(ctx.Guild.Id));
                     await ctx.Channel.SendConfirmAsync(
                         $"Your starboard emote has been changed from {emote1} to {emote2}");
                 }
 
-                if (_service.GetStar(ctx.Guild.Id) == 0 && emote.Count() == 1)
+                if (Service.GetStar(ctx.Guild.Id) == 0 && emote.Count() == 1)
                 {
-                    await _service.SetStar(ctx.Guild, emote.FirstOrDefault().Id);
+                    await Service.SetStar(ctx.Guild, emote.FirstOrDefault().Id);
                     await ctx.Channel.SendConfirmAsync(
                         $"Your starboard emote has been changed to {emote.FirstOrDefault()}");
                 }

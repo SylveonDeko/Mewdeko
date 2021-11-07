@@ -21,7 +21,7 @@ namespace Mewdeko.Modules.Utility
             [Aliases]
             public async Task ConvertList()
             {
-                var units = _service.Units;
+                var units = Service.Units;
                 var res = units.GroupBy(x => x.UnitType)
                     .Aggregate(new EmbedBuilder().WithTitle(GetText("convertlist"))
                             .WithOkColor(),
@@ -39,9 +39,9 @@ namespace Mewdeko.Modules.Utility
             [Priority(0)]
             public async Task Convert(string origin, string target, decimal value)
             {
-                var originUnit = _service.Units.FirstOrDefault(x =>
+                var originUnit = Service.Units.FirstOrDefault(x =>
                     x.Triggers.Select(y => y.ToUpperInvariant()).Contains(origin.ToUpperInvariant()));
-                var targetUnit = _service.Units.FirstOrDefault(x =>
+                var targetUnit = Service.Units.FirstOrDefault(x =>
                     x.Triggers.Select(y => y.ToUpperInvariant()).Contains(target.ToUpperInvariant()));
                 if (originUnit == null || targetUnit == null)
                 {

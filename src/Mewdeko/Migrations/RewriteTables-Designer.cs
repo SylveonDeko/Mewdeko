@@ -9,8 +9,8 @@ using Mewdeko.Services.Database;
 namespace Mewdeko.Migrations
 {
     [DbContext(typeof(MewdekoContext))]
-    [Migration("Giveaways")]
-    partial class Giveaways
+    [Migration("Rewrite Tables")]
+    partial class RewriteTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

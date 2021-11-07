@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Utility
             [Priority(1)]
             public async Task Remind(MeOrHere meorhere, [Remainder] string remindString)
             {
-                if (!_service.TryParseRemindMessage(remindString, out var remindData))
+                if (!Service.TryParseRemindMessage(remindString, out var remindData))
                 {
                     await ReplyErrorLocalizedAsync("remind_invalid");
                     return;
@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                if (!_service.TryParseRemindMessage(remindString, out var remindData))
+                if (!Service.TryParseRemindMessage(remindString, out var remindData))
                 {
                     await ReplyErrorLocalizedAsync("remind_invalid");
                     return;

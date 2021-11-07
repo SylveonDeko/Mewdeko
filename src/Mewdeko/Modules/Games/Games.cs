@@ -53,7 +53,7 @@ namespace Mewdeko.Modules.Games
             if (string.IsNullOrWhiteSpace(question))
                 return;
 
-            var res = _service.GetEightballResponse(question);
+            var res = Service.GetEightballResponse(question);
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                 .WithDescription(ctx.User.ToString())
                 .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
@@ -67,7 +67,7 @@ namespace Mewdeko.Modules.Games
         [RequireContext(ContextType.Guild)]
         public async Task RateGirl(IGuildUser usr)
         {
-            var gr = _service.GirlRatings.GetOrAdd(usr.Id, GetGirl);
+            var gr = Service.GirlRatings.GetOrAdd(usr.Id, GetGirl);
             var originalStream = await gr.Stream;
 
             if (originalStream == null)
@@ -109,7 +109,7 @@ namespace Mewdeko.Modules.Games
 
             var roll = rng.Next(1, 1001);
 
-            var ratings = _service.Ratings.GetAwaiter().GetResult();
+            var ratings = Service.Ratings.GetAwaiter().GetResult();
 
             double hot;
             double crazy;

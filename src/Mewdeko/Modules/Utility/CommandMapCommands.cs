@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.Administrator)]
             public async Task AliasesClear()
             {
-                var count = _service.ClearAliases(ctx.Guild.Id);
+                var count = Service.ClearAliases(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
             }
 
@@ -65,7 +65,7 @@ namespace Mewdeko.Modules.Utility
 
                 if (string.IsNullOrWhiteSpace(mapping))
                 {
-                    if (!_service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) ||
+                    if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) ||
                         !maps.TryRemove(trigger, out _))
                     {
                         await ReplyErrorLocalizedAsync("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
@@ -90,7 +90,7 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                _service.AliasMaps.AddOrUpdate(ctx.Guild.Id, _ =>
+                Service.AliasMaps.AddOrUpdate(ctx.Guild.Id, _ =>
                 {
                     using (var uow = _db.GetDbContext())
                     {
@@ -146,7 +146,7 @@ namespace Mewdeko.Modules.Utility
                 if (page < 0)
                     return;
 
-                if (!_service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || !maps.Any())
+                if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || !maps.Any())
                 {
                     await ReplyErrorLocalizedAsync("aliases_none").ConfigureAwait(false);
                     return;

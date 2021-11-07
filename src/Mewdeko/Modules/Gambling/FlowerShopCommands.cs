@@ -402,7 +402,7 @@ namespace Mewdeko.Modules.Gambling
                 if (--index < 0 || price <= 0)
                     return;
 
-                var succ = await _service.ChangeEntryPriceAsync(Context.Guild.Id, index, price);
+                var succ = await Service.ChangeEntryPriceAsync(Context.Guild.Id, index, price);
                 if (succ)
                 {
                     await ShopInternalAsync(index / 9);
@@ -425,7 +425,7 @@ namespace Mewdeko.Modules.Gambling
                 if (--index < 0 || string.IsNullOrWhiteSpace(newName))
                     return;
 
-                var succ = await _service.ChangeEntryNameAsync(Context.Guild.Id, index, newName);
+                var succ = await Service.ChangeEntryNameAsync(Context.Guild.Id, index, newName);
                 if (succ)
                 {
                     await ShopInternalAsync(index / 9);
@@ -448,7 +448,7 @@ namespace Mewdeko.Modules.Gambling
                 if (--index1 < 0 || --index2 < 0 || index1 == index2)
                     return;
 
-                var succ = await _service.SwapEntriesAsync(Context.Guild.Id, index1, index2);
+                var succ = await Service.SwapEntriesAsync(Context.Guild.Id, index1, index2);
                 if (succ)
                 {
                     await ShopInternalAsync(index1 / 9);
@@ -471,7 +471,7 @@ namespace Mewdeko.Modules.Gambling
                 if (--fromIndex < 0 || --toIndex < 0 || fromIndex == toIndex)
                     return;
 
-                var succ = await _service.MoveEntryAsync(Context.Guild.Id, fromIndex, toIndex);
+                var succ = await Service.MoveEntryAsync(Context.Guild.Id, fromIndex, toIndex);
                 if (succ)
                 {
                     await ShopInternalAsync(toIndex / 9);

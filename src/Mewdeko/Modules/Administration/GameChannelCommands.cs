@@ -29,7 +29,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var id = _service.ToggleGameVoiceChannel(ctx.Guild.Id, vch.Id);
+                var id = Service.ToggleGameVoiceChannel(ctx.Guild.Id, vch.Id);
 
                 if (id == null)
                 {
@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Administration
                 }
                 else
                 {
-                    _service.GameVoiceChannels.Add(vch.Id);
+                    Service.GameVoiceChannels.Add(vch.Id);
                     await ReplyConfirmLocalizedAsync("gvc_enabled", Format.Bold(vch.Name)).ConfigureAwait(false);
                 }
             }

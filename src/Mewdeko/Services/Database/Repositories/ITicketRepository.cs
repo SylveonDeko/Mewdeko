@@ -2,9 +2,9 @@ using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Services.Database.Repositories
 {
-    public interface ITicketRepository : IRepository<Tickets>
+    public interface ITicketRepository : IRepository<Ticket>
     {
-        Tickets[] ForTicketId(ulong ticketNum, ulong guildId);
-        Tickets[] ForGuildId(ulong guildId);
+        Ticket ForTicketId(ulong ticketNum, ulong guildId);
+        Ticket[] ForGuildId(ulong guildId);
     }
 }

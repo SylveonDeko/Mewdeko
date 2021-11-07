@@ -22,7 +22,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole(IRole fromRole, IRole addRole)
             {
-                await _service.SetStreamRole(fromRole, addRole).ConfigureAwait(false);
+                await Service.SetStreamRole(fromRole, addRole).ConfigureAwait(false);
 
                 await ReplyConfirmLocalizedAsync("stream_role_enabled", Format.Bold(fromRole.ToString()),
                     Format.Bold(addRole.ToString())).ConfigureAwait(false);
@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRole()
             {
-                await _service.StopStreamRole(ctx.Guild).ConfigureAwait(false);
+                await Service.StopStreamRole(ctx.Guild).ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("stream_role_disabled").ConfigureAwait(false);
             }
 
@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleKeyword([Remainder] string keyword = null)
             {
-                var kw = await _service.SetKeyword(ctx.Guild, keyword).ConfigureAwait(false);
+                var kw = await Service.SetKeyword(ctx.Guild, keyword).ConfigureAwait(false);
 
                 if (string.IsNullOrWhiteSpace(keyword))
                     await ReplyConfirmLocalizedAsync("stream_role_kw_reset").ConfigureAwait(false);
@@ -67,7 +67,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleBlacklist(AddRemove action, [Remainder] IGuildUser user)
             {
-                var success = await _service
+                var success = await Service
                     .ApplyListAction(StreamRoleListType.Blacklist, ctx.Guild, action, user.Id, user.ToString())
                     .ConfigureAwait(false);
 
@@ -95,7 +95,7 @@ namespace Mewdeko.Modules.Utility
             [RequireContext(ContextType.Guild)]
             public async Task StreamRoleWhitelist(AddRemove action, [Remainder] IGuildUser user)
             {
-                var success = await _service
+                var success = await Service
                     .ApplyListAction(StreamRoleListType.Whitelist, ctx.Guild, action, user.Id, user.ToString())
                     .ConfigureAwait(false);
 

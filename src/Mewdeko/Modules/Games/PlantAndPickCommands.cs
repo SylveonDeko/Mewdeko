@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Games
             {
                 if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
-                var picked = await _service.PickAsync(ctx.Guild.Id, (ITextChannel)ctx.Channel, ctx.User.Id, pass);
+                var picked = await Service.PickAsync(ctx.Guild.Id, (ITextChannel)ctx.Channel, ctx.User.Id, pass);
 
                 if (picked > 0)
                 {
@@ -73,7 +73,7 @@ namespace Mewdeko.Modules.Games
 
                 if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
-                var success = await _service.PlantAsync(ctx.Guild.Id, ctx.Channel, ctx.User.Id, ctx.User.ToString(),
+                var success = await Service.PlantAsync(ctx.Guild.Id, ctx.Channel, ctx.User.Id, ctx.User.ToString(),
                     amount, pass);
                 if (!success)
                 {
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Games
 #endif
             public async Task GenCurrency()
             {
-                var enabled = _service.ToggleCurrencyGeneration(ctx.Guild.Id, ctx.Channel.Id);
+                var enabled = Service.ToggleCurrencyGeneration(ctx.Guild.Id, ctx.Channel.Id);
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("curgen_enabled").ConfigureAwait(false);
                 else
@@ -117,7 +117,7 @@ namespace Mewdeko.Modules.Games
             {
                 if (--page < 0)
                     return;
-                var enabledIn = _service.GetAllGeneratingChannels();
+                var enabledIn = Service.GetAllGeneratingChannels();
 
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)

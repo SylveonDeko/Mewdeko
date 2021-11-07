@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Games
                 var channel = (ITextChannel)ctx.Channel;
 
                 var game = new AcrophobiaGame(options);
-                if (_service.AcrophobiaGames.TryAdd(channel.Id, game))
+                if (Service.AcrophobiaGames.TryAdd(channel.Id, game))
                     try
                     {
                         game.OnStarted += Game_OnStarted;
@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Games
                     finally
                     {
                         _client.MessageReceived -= _client_MessageReceived;
-                        _service.AcrophobiaGames.TryRemove(channel.Id, out game);
+                        Service.AcrophobiaGames.TryRemove(channel.Id, out game);
                         game.Dispose();
                     }
                 else

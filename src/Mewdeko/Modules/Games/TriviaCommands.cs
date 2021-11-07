@@ -52,7 +52,7 @@ namespace Mewdeko.Modules.Games
                 if (config.Trivia.MinimumWinReq > 0 && config.Trivia.MinimumWinReq > opts.WinRequirement) return;
                 var trivia = new TriviaGame(Strings, _client, config, _cache, _cs, channel.Guild, channel, opts,
                     Prefix + "tq");
-                if (_service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
+                if (Service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
                 {
                     try
                     {
@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Games
                     }
                     finally
                     {
-                        _service.RunningTrivias.TryRemove(channel.Guild.Id, out trivia);
+                        Service.RunningTrivias.TryRemove(channel.Guild.Id, out trivia);
                         await trivia.EnsureStopped().ConfigureAwait(false);
                     }
 
@@ -80,7 +80,7 @@ namespace Mewdeko.Modules.Games
             {
                 var channel = (ITextChannel)ctx.Channel;
 
-                if (_service.RunningTrivias.TryGetValue(channel.Guild.Id, out var trivia))
+                if (Service.RunningTrivias.TryGetValue(channel.Guild.Id, out var trivia))
                 {
                     await channel.SendConfirmAsync(GetText("leaderboard"), trivia.GetLeaderboard())
                         .ConfigureAwait(false);
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Games
             {
                 var channel = (ITextChannel)ctx.Channel;
 
-                if (_service.RunningTrivias.TryGetValue(channel.Guild.Id, out var trivia))
+                if (Service.RunningTrivias.TryGetValue(channel.Guild.Id, out var trivia))
                 {
                     await trivia.StopGame().ConfigureAwait(false);
                     return;

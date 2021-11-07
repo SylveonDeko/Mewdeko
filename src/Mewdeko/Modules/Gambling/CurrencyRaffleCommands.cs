@@ -51,7 +51,7 @@ namespace Mewdeko.Modules.Gambling
                         Format.Bold(arg.ToString()), won + CurrencySign)).ConfigureAwait(false);
                 }
 
-                var res = await _service.JoinOrCreateGame(ctx.Channel.Id,
+                var res = await Service.JoinOrCreateGame(ctx.Channel.Id,
                         ctx.User, amount, mixed, OnEnded)
                     .ConfigureAwait(false);
 

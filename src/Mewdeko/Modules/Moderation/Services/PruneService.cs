@@ -17,7 +17,7 @@ namespace Mewdeko.Modules.Moderation.Services
         //channelids where Purges are currently occuring
         private readonly ConcurrentHashSet<ulong> _pruningGuilds = new();
 
-        private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
+        private readonly TimeSpan _twoWeeks = TimeSpan.FromDays(14);
 
         public PurgeService(LogCommandService logService)
         {
@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Moderation.Services
                     .Take(amount).ToArray();
                 while (amount > 0 && msgs.Any())
                 {
-                    lastMessage = msgs[msgs.Length - 1];
+                    lastMessage = msgs[^1];
 
                     var bulkDeletable = new List<IMessage>();
                     var singleDeletable = new List<IMessage>();
@@ -49,7 +49,7 @@ namespace Mewdeko.Modules.Moderation.Services
                     {
                         _logService.AddDeleteIgnore(x.Id);
 
-                        if (DateTime.UtcNow - x.CreatedAt < twoWeeks)
+                        if (DateTime.UtcNow - x.CreatedAt < _twoWeeks)
                             bulkDeletable.Add(x);
                         else
                             singleDeletable.Add(x);

@@ -47,11 +47,11 @@ namespace Mewdeko.Modules.Gambling
 
                 var newBj = new Blackjack(_cs, _db);
                 Blackjack bj;
-                if (newBj == (bj = _service.Games.GetOrAdd(ctx.Channel.Id, newBj)))
+                if (newBj == (bj = Service.Games.GetOrAdd(ctx.Channel.Id, newBj)))
                 {
                     if (!await bj.Join(ctx.User, amount).ConfigureAwait(false))
                     {
-                        _service.Games.TryRemove(ctx.Channel.Id, out _);
+                        Service.Games.TryRemove(ctx.Channel.Id, out _);
                         await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
                         return;
                     }
@@ -76,7 +76,7 @@ namespace Mewdeko.Modules.Gambling
 
             private Task Bj_GameEnded(Blackjack arg)
             {
-                _service.Games.TryRemove(ctx.Channel.Id, out _);
+                Service.Games.TryRemove(ctx.Channel.Id, out _);
                 return Task.CompletedTask;
             }
 
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Gambling
 
             public async Task InternalBlackJack(BjAction a)
             {
-                if (!_service.Games.TryGetValue(ctx.Channel.Id, out var bj))
+                if (!Service.Games.TryGetValue(ctx.Channel.Id, out var bj))
                     return;
 
                 if (a == BjAction.Hit)

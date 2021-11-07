@@ -61,4 +61,6 @@ Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
 EndGlobal

@@ -86,7 +86,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task Timezone()
             {
-                await ReplyConfirmLocalizedAsync("timezone_guild", _service.GetTimeZoneOrUtc(ctx.Guild.Id))
+                await ReplyConfirmLocalizedAsync("timezone_guild", Service.GetTimeZoneOrUtc(ctx.Guild.Id))
                     .ConfigureAwait(false);
             }
 
@@ -115,7 +115,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                _service.SetTimeZone(ctx.Guild.Id, tz);
+                Service.SetTimeZone(ctx.Guild.Id, tz);
 
                 await ctx.Channel.SendConfirmAsync(tz.ToString()).ConfigureAwait(false);
             }

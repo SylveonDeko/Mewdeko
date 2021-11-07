@@ -91,7 +91,7 @@ namespace Mewdeko.Modules.Administration
                     await Task.Delay(500).ConfigureAwait(false);
                 }
 
-                if (_service.Add(ctx.Guild.Id, new ReactionRoleMessage
+                if (Service.Add(ctx.Guild.Id, new ReactionRoleMessage
                 {
                     Exclusive = exclusive,
                     MessageId = target.Id,
@@ -167,7 +167,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var embed = new EmbedBuilder()
                     .WithOkColor();
-                if (!_service.Get(ctx.Guild.Id, out var rrs) ||
+                if (!Service.Get(ctx.Guild.Id, out var rrs) ||
                     !rrs.Any())
                 {
                     embed.WithDescription(GetText("no_reaction_roles"));
@@ -199,12 +199,12 @@ namespace Mewdeko.Modules.Administration
             public async Task ReactionRolesRemove(int index)
             {
                 if (index < 1 ||
-                    !_service.Get(ctx.Guild.Id, out var rrs) ||
+                    !Service.Get(ctx.Guild.Id, out var rrs) ||
                     !rrs.Any() || rrs.Count < index)
                     return;
                 index--;
                 var rr = rrs[index];
-                _service.Remove(ctx.Guild.Id, index);
+                Service.Remove(ctx.Guild.Id, index);
                 await ReplyConfirmLocalizedAsync("reaction_role_removed", index + 1).ConfigureAwait(false);
             }
 

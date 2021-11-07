@@ -56,13 +56,13 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (yesnt.StartsWith("n"))
                 {
-                    await _service.Removeonmute(ctx.Guild, "n");
+                    await Service.Removeonmute(ctx.Guild, "n");
                     await ctx.Channel.SendConfirmAsync("Removing roles on mute has been disabled!");
                 }
 
                 if (yesnt.StartsWith("y"))
                 {
-                    await _service.Removeonmute(ctx.Guild, "y");
+                    await Service.Removeonmute(ctx.Guild, "y");
                     await ctx.Channel.SendConfirmAsync("Removing roles on mute has been enabled!");
                 }
                 else
@@ -128,7 +128,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (role is null)
                 {
-                    var muteRole = await _service.GetMuteRole(ctx.Guild).ConfigureAwait(false);
+                    var muteRole = await Service.GetMuteRole(ctx.Guild).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("mute_role", muteRole.Mention).ConfigureAwait(false);
                     return;
                 }
@@ -140,7 +140,7 @@ namespace Mewdeko.Modules.Moderation
                     return;
                 }
 
-                await _service.SetMuteRoleAsync(ctx.Guild.Id, role.Name).ConfigureAwait(false);
+                await Service.SetMuteRoleAsync(ctx.Guild.Id, role.Name).ConfigureAwait(false);
 
                 await ReplyConfirmLocalizedAsync("mute_role_set").ConfigureAwait(false);
             }
@@ -159,7 +159,7 @@ namespace Mewdeko.Modules.Moderation
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, target))
                         return;
 
-                    await _service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
+                    await Service.MuteUser(target, ctx.User, reason: reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_muted", Format.Bold(target.ToString()))
                         .ConfigureAwait(false);
                 }
@@ -198,7 +198,7 @@ namespace Mewdeko.Modules.Moderation
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
-                    await _service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
+                    await Service.TimedMute(user, ctx.User, time.Time, reason: reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_muted_time", Format.Bold(user.ToString()),
                         time.Time.Humanize()).ConfigureAwait(false);
                 }
@@ -219,7 +219,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 try
                 {
-                    await _service.UnmuteUser(user.GuildId, user.Id, ctx.User, reason: reason).ConfigureAwait(false);
+                    await Service.UnmuteUser(user.GuildId, user.Id, ctx.User, reason: reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_unmuted", Format.Bold(user.ToString()))
                         .ConfigureAwait(false);
                 }
@@ -243,7 +243,7 @@ namespace Mewdeko.Modules.Moderation
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
-                    await _service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
+                    await Service.MuteUser(user, ctx.User, MuteType.Chat, reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_chat_mute", Format.Bold(user.ToString()))
                         .ConfigureAwait(false);
                 }
@@ -264,7 +264,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 try
                 {
-                    await _service.UnmuteUser(user.Guild.Id, user.Id, ctx.User, MuteType.Chat, reason)
+                    await Service.UnmuteUser(user.Guild.Id, user.Id, ctx.User, MuteType.Chat, reason)
                         .ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_chat_unmute", Format.Bold(user.ToString()))
                         .ConfigureAwait(false);
@@ -291,7 +291,7 @@ namespace Mewdeko.Modules.Moderation
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
-                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
+                    await Service.TimedMute(user, ctx.User, time.Time, MuteType.Voice, reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_voice_mute_time", Format.Bold(user.ToString()),
                         time.Time.Humanize()).ConfigureAwait(false);
                 }
@@ -317,7 +317,7 @@ namespace Mewdeko.Modules.Moderation
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
-                    await _service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
+                    await Service.TimedMute(user, ctx.User, time.Time, MuteType.Chat, reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_chat_mute_time", Format.Bold(user.ToString()),
                         time.Time.Humanize()).ConfigureAwait(false);
                 }
@@ -342,7 +342,7 @@ namespace Mewdeko.Modules.Moderation
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, user))
                         return;
 
-                    await _service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);
+                    await Service.MuteUser(user, ctx.User, MuteType.Voice, reason).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_voice_mute", Format.Bold(user.ToString()))
                         .ConfigureAwait(false);
                 }
@@ -362,7 +362,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 try
                 {
-                    await _service.UnmuteUser(user.GuildId, user.Id, ctx.User, MuteType.Voice, reason)
+                    await Service.UnmuteUser(user.GuildId, user.Id, ctx.User, MuteType.Voice, reason)
                         .ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_voice_unmute", Format.Bold(user.ToString()))
                         .ConfigureAwait(false);

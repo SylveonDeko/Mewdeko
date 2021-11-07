@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Gambling
                 var (options, success) = OptionsParser.ParseFrom(new RaceOptions(), args);
 
                 var ar = new AnimalRace(options, _cs, _gamesConf.Data.RaceAnimals.Shuffle());
-                if (!_service.AnimalRaces.TryAdd(ctx.Guild.Id, ar))
+                if (!Service.AnimalRaces.TryAdd(ctx.Guild.Id, ar))
                     return ctx.Channel.SendErrorAsync(GetText("animal_race"), GetText("animal_race_already_started"));
 
                 ar.Initialize();
@@ -74,7 +74,7 @@ namespace Mewdeko.Modules.Gambling
                 Task Ar_OnEnded(AnimalRace race)
                 {
                     _client.MessageReceived -= _client_MessageReceived;
-                    _service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
+                    Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                     var winner = race.FinishedUsers[0];
                     if (race.FinishedUsers[0].Bet > 0)
                         return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
@@ -130,7 +130,7 @@ namespace Mewdeko.Modules.Gambling
 
             private Task Ar_OnStartingFailed(AnimalRace race)
             {
-                _service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
+                Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                 return ReplyErrorLocalizedAsync("animal_race_failed");
             }
 
@@ -144,7 +144,7 @@ namespace Mewdeko.Modules.Gambling
                 if (!await CheckBetOptional(amount).ConfigureAwait(false))
                     return;
 
-                if (!_service.AnimalRaces.TryGetValue(ctx.Guild.Id, out var ar))
+                if (!Service.AnimalRaces.TryGetValue(ctx.Guild.Id, out var ar))
                 {
                     await ReplyErrorLocalizedAsync("race_not_exist").ConfigureAwait(false);
                     return;
