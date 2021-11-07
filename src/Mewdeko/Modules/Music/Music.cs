@@ -87,7 +87,7 @@ namespace Mewdeko.Modules.Music
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task MusicQuality()
         {
-            var quality = await _service.GetMusicQualityAsync(ctx.Guild.Id);
+            var quality = await Service.GetMusicQualityAsync(ctx.Guild.Id);
             await ReplyConfirmLocalizedAsync("current_music_quality", Format.Bold(quality.ToString()));
         }
 
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Music
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task MusicQuality(QualityPreset preset)
         {
-            await _service.SetMusicQualityAsync(ctx.Guild.Id, preset);
+            await Service.SetMusicQualityAsync(ctx.Guild.Id, preset);
             await ReplyConfirmLocalizedAsync("music_quality_set", Format.Bold(preset.ToString()));
         }
 
@@ -150,7 +150,7 @@ namespace Mewdeko.Modules.Music
         {
             var succ = await QueuePreconditionInternalAsync();
             if (!succ) return;
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -208,7 +208,7 @@ namespace Mewdeko.Modules.Music
         {
             var succ = await QueuePreconditionInternalAsync();
             if (!succ) return;
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -290,8 +290,8 @@ namespace Mewdeko.Modules.Music
             await VoiceChannelLock.WaitAsync();
             try
             {
-                if (botUser.VoiceChannel?.Id is null || !_service.TryGetMusicPlayer(Context.Guild.Id, out _))
-                    await _service.JoinVoiceChannelAsync(ctx.Guild.Id, voiceChannelId);
+                if (botUser.VoiceChannel?.Id is null || !Service.TryGetMusicPlayer(Context.Guild.Id, out _))
+                    await Service.JoinVoiceChannelAsync(ctx.Guild.Id, voiceChannelId);
                 if (botUser.VoiceChannel is IStageChannel channel)
                     try
                     {
@@ -339,7 +339,7 @@ namespace Mewdeko.Modules.Music
             if (!succ)
                 return;
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -367,7 +367,7 @@ namespace Mewdeko.Modules.Music
                 if (!string.IsNullOrWhiteSpace(trackInfo.Thumbnail))
                     embed.WithThumbnailUrl(trackInfo.Thumbnail);
 
-                var queuedMessage = await _service.SendToOutputAsync(Context.Guild.Id, embed).ConfigureAwait(false);
+                var queuedMessage = await Service.SendToOutputAsync(Context.Guild.Id, embed).ConfigureAwait(false);
                 queuedMessage?.DeleteAfter(10, _logService);
                 if (mp.IsStopped)
                 {
@@ -390,7 +390,7 @@ namespace Mewdeko.Modules.Music
             if (!succ)
                 return;
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -408,7 +408,7 @@ namespace Mewdeko.Modules.Music
         public async Task AutoPlay()
         {
 
-            var e = await _service.ToggleAutoPlay(ctx.Guild.Id);
+            var e = await Service.ToggleAutoPlay(ctx.Guild.Id);
             if (e)
                 await ctx.Channel.SendConfirmAsync("Enabled AutoPlay");
             else
@@ -439,7 +439,7 @@ namespace Mewdeko.Modules.Music
                     return;
                 }
 
-            await _service.JoinVoiceChannelAsync(user.GuildId, voiceChannelId);
+            await Service.JoinVoiceChannelAsync(user.GuildId, voiceChannelId);
             if (channel is SocketStageChannel chan1)
                 try
                 {
@@ -471,7 +471,7 @@ namespace Mewdeko.Modules.Music
                     return;
                 }
 
-            await _service.LeaveVoiceChannelAsync(Context.Guild.Id);
+            await Service.LeaveVoiceChannelAsync(Context.Guild.Id);
             await ctx.Channel.SendConfirmAsync("Succesfully stopped the player and cleared the queue!");
         }
 
@@ -575,7 +575,7 @@ namespace Mewdeko.Modules.Music
                     return;
                 }
 
-            await _service.SetVolumeAsync(ctx.Guild.Id, vol);
+            await Service.SetVolumeAsync(ctx.Guild.Id, vol);
             await ReplyConfirmLocalizedAsync("volume_set", vol);
         }
 
@@ -599,7 +599,7 @@ namespace Mewdeko.Modules.Music
                     return;
                 }
 
-            var success = await _service.PlayAsync(Context.Guild.Id, ((IGuildUser)Context.User).VoiceChannel.Id);
+            var success = await Service.PlayAsync(Context.Guild.Id, ((IGuildUser)Context.User).VoiceChannel.Id);
             if (!success) await ReplyErrorLocalizedAsync("no_player");
         }
 
@@ -612,7 +612,7 @@ namespace Mewdeko.Modules.Music
         public async Task ListQueue()
         {
             // show page with the current song
-            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
@@ -633,7 +633,7 @@ namespace Mewdeko.Modules.Music
                 return;
 
             IReadOnlyCollection<IQueuedTrackInfo> tracks;
-            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || (tracks = mp.GetQueuedTracks()).Count == 0)
+            if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || (tracks = mp.GetQueuedTracks()).Count == 0)
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
@@ -717,7 +717,7 @@ namespace Mewdeko.Modules.Music
 
             _ = ctx.Channel.TriggerTypingAsync();
 
-            var videos = await _service.SearchVideosAsync(query);
+            var videos = await Service.SearchVideosAsync(query);
 
             if (videos is null || videos.Count == 0)
             {
@@ -801,7 +801,7 @@ namespace Mewdeko.Modules.Music
                     return;
                 }
 
-            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
@@ -819,7 +819,7 @@ namespace Mewdeko.Modules.Music
                 .WithFooter(ef => ef.WithText(song.PrettyInfo()))
                 .WithErrorColor();
 
-            await _service.SendToOutputAsync(Context.Guild.Id, embed);
+            await Service.SendToOutputAsync(Context.Guild.Id, embed);
         }
 
         [MewdekoCommand]
@@ -834,7 +834,7 @@ namespace Mewdeko.Modules.Music
             if (!valid)
                 return;
 
-            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
@@ -874,7 +874,7 @@ namespace Mewdeko.Modules.Music
             if (!valid)
                 return;
 
-            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
+            if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp))
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
@@ -920,7 +920,7 @@ namespace Mewdeko.Modules.Music
                     return;
                 }
 
-            await _service.SetRepeatAsync(ctx.Guild.Id, InputToDbType(type));
+            await Service.SetRepeatAsync(ctx.Guild.Id, InputToDbType(type));
 
             if (type == InputRepeatType.None)
                 await ReplyConfirmLocalizedAsync("repeating_none");
@@ -952,7 +952,7 @@ namespace Mewdeko.Modules.Music
             if (!valid)
                 return;
 
-            if (!_service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || mp.GetCurrentTrack(out _) is null)
+            if (!Service.TryGetMusicPlayer(ctx.Guild.Id, out var mp) || mp.GetCurrentTrack(out _) is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
@@ -1030,14 +1030,14 @@ namespace Mewdeko.Modules.Music
                 return;
             }
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
                 return;
             }
 
-            await _service.EnqueueDirectoryAsync(mp, dirPath, ctx.User.ToString());
+            await Service.EnqueueDirectoryAsync(mp, dirPath, ctx.User.ToString());
 
             await ReplyConfirmLocalizedAsync("dir_queue_complete").ConfigureAwait(false);
         }
@@ -1059,7 +1059,7 @@ namespace Mewdeko.Modules.Music
             if (!valid)
                 return;
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -1121,7 +1121,7 @@ namespace Mewdeko.Modules.Music
             if (!succ)
                 return;
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -1138,7 +1138,7 @@ namespace Mewdeko.Modules.Music
 
             _ = ctx.Channel.TriggerTypingAsync();
 
-            await _service.EnqueueSoundcloudPlaylistAsync(mp, playlist, ctx.User.ToString());
+            await Service.EnqueueSoundcloudPlaylistAsync(mp, playlist, ctx.User.ToString());
 
             await ctx.OkAsync();
         }
@@ -1157,7 +1157,7 @@ namespace Mewdeko.Modules.Music
                 if (!succ)
                     return;
 
-                var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+                var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
                 if (mp is null)
                 {
                     await ReplyErrorLocalizedAsync("no_player");
@@ -1175,7 +1175,7 @@ namespace Mewdeko.Modules.Music
                 _ = Context.Channel.TriggerTypingAsync();
 
 
-                var queuedCount = await _service.EnqueueYoutubePlaylistAsync(mp, playlistQuery, ctx.User.ToString());
+                var queuedCount = await Service.EnqueueYoutubePlaylistAsync(mp, playlistQuery, ctx.User.ToString());
                 if (queuedCount == 0)
                 {
                     await ReplyErrorLocalizedAsync("no_search_results").ConfigureAwait(false);
@@ -1192,7 +1192,7 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task NowPlaying()
         {
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -1224,7 +1224,7 @@ namespace Mewdeko.Modules.Music
             if (!valid)
                 return;
 
-            var mp = await _service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
+            var mp = await Service.GetOrCreateMusicPlayerAsync((ITextChannel)Context.Channel);
             if (mp is null)
             {
                 await ReplyErrorLocalizedAsync("no_player");
@@ -1251,7 +1251,7 @@ namespace Mewdeko.Modules.Music
         [UserPerm(GuildPermission.ManageMessages)]
         public async Task SetMusicChannel()
         {
-            await _service.SetMusicChannelAsync(ctx.Guild.Id, ctx.Channel.Id);
+            await Service.SetMusicChannelAsync(ctx.Guild.Id, ctx.Channel.Id);
 
             await ReplyConfirmLocalizedAsync("set_music_channel");
         }
@@ -1264,7 +1264,7 @@ namespace Mewdeko.Modules.Music
         [UserPerm(GuildPermission.ManageMessages)]
         public async Task UnsetMusicChannel()
         {
-            await _service.SetMusicChannelAsync(ctx.Guild.Id, null);
+            await Service.SetMusicChannelAsync(ctx.Guild.Id, null);
 
             await ReplyConfirmLocalizedAsync("unset_music_channel");
         }
@@ -1276,7 +1276,7 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task AutoDisconnect()
         {
-            var newState = await _service.ToggleAutoDisconnectAsync(ctx.Guild.Id);
+            var newState = await Service.ToggleAutoDisconnectAsync(ctx.Guild.Id);
 
             if (newState)
                 await ReplyConfirmLocalizedAsync("autodc_enable");

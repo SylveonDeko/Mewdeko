@@ -73,7 +73,7 @@ namespace Mewdeko.Modules.Searches
         {
             var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
             var image = await _kSoftAPI.ImagesApi.GetRandomMeme();
-            while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            while (Service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
                 image = await _kSoftAPI.ImagesApi.GetRandomMeme();
             var em = new EmbedBuilder
             {
@@ -125,7 +125,7 @@ namespace Mewdeko.Modules.Searches
         public async Task RandomReddit(string subreddit)
         {
             var msg = await ctx.Channel.SendConfirmAsync("Checking if the subreddit is nsfw...");
-            if (_service.NsfwCheck(subreddit))
+            if (Service.NsfwCheck(subreddit))
             {
                 var emt = new EmbedBuilder
                 {
@@ -137,7 +137,7 @@ namespace Mewdeko.Modules.Searches
             }
 
             var image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
-            while (_service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            while (Service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
                 image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
             var em = new EmbedBuilder
             {
@@ -167,7 +167,7 @@ namespace Mewdeko.Modules.Searches
             if (av == null)
                 return;
             using (var picStream =
-                await _service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
+                await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
             {
                 await ctx.Channel.SendFileAsync(
                         picStream,
@@ -230,7 +230,7 @@ namespace Mewdeko.Modules.Searches
                 return;
 
             var embed = new EmbedBuilder();
-            var data = await _service.GetWeatherDataAsync(query).ConfigureAwait(false);
+            var data = await Service.GetWeatherDataAsync(query).ConfigureAwait(false);
 
             if (data == null)
             {
@@ -302,7 +302,7 @@ namespace Mewdeko.Modules.Searches
 
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            var (data, err) = await _service.GetTimeDataAsync(query).ConfigureAwait(false);
+            var (data, err) = await Service.GetTimeDataAsync(query).ConfigureAwait(false);
             if (!(err is null))
             {
                 string errorKey;
@@ -374,7 +374,7 @@ namespace Mewdeko.Modules.Searches
 
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            var movie = await _service.GetMovieDataAsync(query).ConfigureAwait(false);
+            var movie = await Service.GetMovieDataAsync(query).ConfigureAwait(false);
             if (movie == null)
             {
                 await ReplyErrorLocalizedAsync("imdb_fail").ConfigureAwait(false);
@@ -434,7 +434,7 @@ namespace Mewdeko.Modules.Searches
         // done in 3.0
         private Task InternalRandomImage(SearchesService.ImageTag tag)
         {
-            var url = _service.GetRandomImageUrl(tag);
+            var url = Service.GetRandomImageUrl(tag);
             return ctx.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
                 .WithImageUrl(url));
@@ -578,7 +578,7 @@ namespace Mewdeko.Modules.Searches
 
             _ = ctx.Channel.TriggerTypingAsync();
 
-            var data = await _service.GoogleSearchAsync(query);
+            var data = await Service.GoogleSearchAsync(query);
             if (data is null)
             {
                 await ReplyErrorLocalizedAsync("no_results");
@@ -615,7 +615,7 @@ namespace Mewdeko.Modules.Searches
                 return;
 
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            var card = await _service.GetMtgCardAsync(search).ConfigureAwait(false);
+            var card = await Service.GetMtgCardAsync(search).ConfigureAwait(false);
 
             if (card == null)
             {
@@ -652,7 +652,7 @@ namespace Mewdeko.Modules.Searches
             }
 
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            var card = await _service.GetHearthstoneCardDataAsync(name).ConfigureAwait(false);
+            var card = await Service.GetHearthstoneCardDataAsync(name).ConfigureAwait(false);
 
             if (card == null)
             {
@@ -1036,7 +1036,7 @@ namespace Mewdeko.Modules.Searches
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-            var appId = await _service.GetSteamAppIdByName(query).ConfigureAwait(false);
+            var appId = await Service.GetSteamAppIdByName(query).ConfigureAwait(false);
             if (appId == -1)
             {
                 await ReplyErrorLocalizedAsync("not_found").ConfigureAwait(false);
@@ -1062,7 +1062,7 @@ namespace Mewdeko.Modules.Searches
 
             tag = tag?.Trim() ?? "";
 
-            var imgObj = await _service.DapiSearch(tag, type, ctx.Guild?.Id).ConfigureAwait(false);
+            var imgObj = await Service.DapiSearch(tag, type, ctx.Guild?.Id).ConfigureAwait(false);
 
             if (imgObj == null)
                 await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results")).ConfigureAwait(false);

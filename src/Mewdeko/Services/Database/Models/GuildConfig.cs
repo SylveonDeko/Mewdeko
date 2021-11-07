@@ -16,6 +16,10 @@ namespace Mewdeko.Services.Database.Models
         public int GBEnabled { get; set; } = 1;
         public int GBAction { get; set; } = 1;
         public ulong MemberRole { get; set; } = 0;
+        public string TOpenMessage { get; set; } = "none";
+        public string GStartMessage { get; set; } = "none";
+        public string GEndMessage { get; set; } = "none";
+        public string GWinMessage { get; set; } = "none";
         public ulong WarnlogChannelId { get; set; } = 0;
         public ulong MiniWarnlogChannelId { get; set; } = 0;
         public bool SendBoostMessage { get; set; }
@@ -24,7 +28,7 @@ namespace Mewdeko.Services.Database.Models
         public string BoostMessage { get; set; } = "%user% just boosted this server!";
         public ulong BoostMessageChannelId { get; set; }
         public int BoostMessageDeleteAfter { get; set; }
-
+        public ulong TicketChannel { get; set; } = 0;
         public ulong TicketCategory { get; set; } = 0;
         public ulong snipeset { get; set; }
         public string SuggestEmotes { get; set; }

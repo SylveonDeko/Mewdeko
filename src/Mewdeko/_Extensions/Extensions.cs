@@ -42,7 +42,6 @@ namespace Mewdeko._Extensions
         {
             return Array.ConvertAll(arr, x => f(x));
         }
-        
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
             bool sanitizeAll = false)
         {

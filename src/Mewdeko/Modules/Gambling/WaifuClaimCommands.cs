@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Gambling
             [Aliases]
             public async Task WaifuReset()
             {
-                var price = _service.GetResetPrice(ctx.User);
+                var price = Service.GetResetPrice(ctx.User);
                 var embed = new EmbedBuilder()
                     .WithTitle(GetText("waifu_reset_confirm"))
                     .WithDescription(GetText("waifu_reset_price", Format.Bold(price + CurrencySign)));
@@ -42,7 +42,7 @@ namespace Mewdeko.Modules.Gambling
                 if (!await PromptUserConfirmAsync(embed, ctx.User.Id))
                     return;
 
-                if (await _service.TryReset(ctx.User))
+                if (await Service.TryReset(ctx.User))
                 {
                     await ReplyConfirmLocalizedAsync("waifu_reset");
                     return;
@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.Gambling
                     return;
                 }
 
-                var (w, isAffinity, result) = await _service.ClaimWaifuAsync(ctx.User, target, amount);
+                var (w, isAffinity, result) = await Service.ClaimWaifuAsync(ctx.User, target, amount);
 
                 if (result == WaifuClaimResult.InsufficientAmount)
                 {
@@ -103,7 +103,7 @@ namespace Mewdeko.Modules.Gambling
             [Priority(0)]
             public async Task WaifuTransfer(ulong waifuId, IUser newOwner)
             {
-                if (!await _service.WaifuTransfer(ctx.User, waifuId, newOwner)
+                if (!await Service.WaifuTransfer(ctx.User, waifuId, newOwner)
                 )
                 {
                     await ReplyErrorLocalizedAsync("waifu_transfer_fail");
@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Gambling
             [Priority(1)]
             public async Task WaifuTransfer(IUser waifu, IUser newOwner)
             {
-                if (!await _service.WaifuTransfer(ctx.User, waifu.Id, newOwner)
+                if (!await Service.WaifuTransfer(ctx.User, waifu.Id, newOwner)
                 )
                 {
                     await ReplyErrorLocalizedAsync("waifu_transfer_fail");
@@ -159,7 +159,7 @@ namespace Mewdeko.Modules.Gambling
                 if (targetId == ctx.User.Id)
                     return;
 
-                var (w, result, amount, remaining) = await _service.DivorceWaifuAsync(ctx.User, targetId);
+                var (w, result, amount, remaining) = await Service.DivorceWaifuAsync(ctx.User, targetId);
 
                 if (result == DivorceResult.SucessWithPenalty)
                     await ReplyConfirmLocalizedAsync("waifu_divorced_like", Format.Bold(w.Waifu.ToString()),
@@ -187,7 +187,7 @@ namespace Mewdeko.Modules.Gambling
                     return;
                 }
 
-                var (oldAff, sucess, remaining) = await _service.ChangeAffinityAsync(ctx.User, u);
+                var (oldAff, sucess, remaining) = await Service.ChangeAffinityAsync(ctx.User, u);
                 if (!sucess)
                 {
                     if (remaining != null)
@@ -223,7 +223,7 @@ namespace Mewdeko.Modules.Gambling
                 if (page > 100)
                     page = 100;
 
-                var waifus = _service.GetTopWaifusAtPage(page);
+                var waifus = Service.GetTopWaifusAtPage(page);
 
                 if (waifus.Count() == 0)
                 {
@@ -274,10 +274,10 @@ namespace Mewdeko.Modules.Gambling
 
             private Task InternalWaifuInfo(ulong targetId, string name = null)
             {
-                var wi = _service.GetFullWaifuInfoAsync(targetId);
-                var affInfo = _service.GetAffinityTitle(wi.AffinityCount);
+                var wi = Service.GetFullWaifuInfoAsync(targetId);
+                var affInfo = Service.GetAffinityTitle(wi.AffinityCount);
 
-                var waifuItems = _service.GetWaifuItems()
+                var waifuItems = Service.GetWaifuItems()
                     .ToDictionary(x => x.ItemEmoji, x => x);
 
 
@@ -296,7 +296,7 @@ namespace Mewdeko.Modules.Gambling
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle(GetText("waifu") + " " + (wi.FullName ?? name ?? targetId.ToString()) + " - \"the " +
-                               _service.GetClaimTitle(wi.ClaimCount) + "\"")
+                               Service.GetClaimTitle(wi.ClaimCount) + "\"")
                     .AddField(efb => efb.WithName(GetText("price")).WithValue(wi.Price.ToString()).WithIsInline(true))
                     .AddField(efb =>
                         efb.WithName(GetText("claimed_by")).WithValue(wi.ClaimerName ?? nobody).WithIsInline(true))
@@ -327,7 +327,7 @@ namespace Mewdeko.Modules.Gambling
                 if (--page < 0 || page > 3)
                     return;
 
-                var waifuItems = _service.GetWaifuItems();
+                var waifuItems = Service.GetWaifuItems();
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
@@ -367,7 +367,7 @@ namespace Mewdeko.Modules.Gambling
                 if (waifu.Id == ctx.User.Id)
                     return;
 
-                var allItems = _service.GetWaifuItems();
+                var allItems = Service.GetWaifuItems();
                 var item = allItems.FirstOrDefault(x => x.Name.ToLowerInvariant() == itemName.ToLowerInvariant());
                 if (item is null)
                 {
@@ -375,7 +375,7 @@ namespace Mewdeko.Modules.Gambling
                     return;
                 }
 
-                var sucess = await _service.GiftWaifuAsync(ctx.User, waifu, item);
+                var sucess = await Service.GiftWaifuAsync(ctx.User, waifu, item);
 
                 if (sucess)
                     await ReplyConfirmLocalizedAsync("waifu_gift",

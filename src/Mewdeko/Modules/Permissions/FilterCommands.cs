@@ -40,14 +40,14 @@ namespace Mewdeko.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task AutoBanWord(string word)
             {
-                if (_service._blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
+                if (Service._blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
                 {
-                    _service.UnBlacklist(word, ctx.Guild.Id);
+                    Service.UnBlacklist(word, ctx.Guild.Id);
                     await ctx.Channel.SendConfirmAsync($"Removed {Format.Code(word)} from the auto bans word list!");
                 }
                 else
                 {
-                    _service.Blacklist(word, ctx.Guild.Id);
+                    Service.Blacklist(word, ctx.Guild.Id);
                     await ctx.Channel.SendConfirmAsync($"Added {Format.Code(word)} to the auto ban words list!");
                 }
             }
@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task AutoBanWordList(int page = 0)
             {
-                var words = _service._blacklist.Where(x => x.GuildId == ctx.Guild.Id);
+                var words = Service._blacklist.Where(x => x.GuildId == ctx.Guild.Id);
                 if (!words.Any())
                 {
                     await ctx.Channel.SendErrorAsync("No AutoBanWords set.");
@@ -95,8 +95,8 @@ namespace Mewdeko.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task FWarn(string yesnt)
             {
-                await _service.fwarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
-                var t = _service.GetFW(ctx.Guild.Id);
+                await Service.fwarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
+                var t = Service.GetFW(ctx.Guild.Id);
                 switch (t)
                 {
                     case 1:
@@ -116,8 +116,8 @@ namespace Mewdeko.Modules.Permissions
             [RequireContext(ContextType.Guild)]
             public async Task InvWarn(string yesnt)
             {
-                await _service.InvWarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
-                var t = _service.GetInvWarn(ctx.Guild.Id);
+                await Service.InvWarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
+                var t = Service.GetInvWarn(ctx.Guild.Id);
                 switch (t)
                 {
                     case 1:
@@ -137,7 +137,7 @@ namespace Mewdeko.Modules.Permissions
             [UserPerm(GuildPermission.Administrator)]
             public async Task FwClear()
             {
-                _service.ClearFilteredWords(ctx.Guild.Id);
+                Service.ClearFilteredWords(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("fw_cleared").ConfigureAwait(false);
             }
 
@@ -160,12 +160,12 @@ namespace Mewdeko.Modules.Permissions
 
                 if (enabled)
                 {
-                    _service.InviteFilteringServers.Add(channel.Guild.Id);
+                    Service.InviteFilteringServers.Add(channel.Guild.Id);
                     await ReplyConfirmLocalizedAsync("invite_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.InviteFilteringServers.TryRemove(channel.Guild.Id);
+                    Service.InviteFilteringServers.TryRemove(channel.Guild.Id);
                     await ReplyConfirmLocalizedAsync("invite_filter_server_off").ConfigureAwait(false);
                 }
             }
@@ -199,12 +199,12 @@ namespace Mewdeko.Modules.Permissions
 
                 if (removed == null)
                 {
-                    _service.InviteFilteringChannels.Add(channel.Id);
+                    Service.InviteFilteringChannels.Add(channel.Id);
                     await ReplyConfirmLocalizedAsync("invite_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.InviteFilteringChannels.TryRemove(channel.Id);
+                    Service.InviteFilteringChannels.TryRemove(channel.Id);
                     await ReplyConfirmLocalizedAsync("invite_filter_channel_off").ConfigureAwait(false);
                 }
             }
@@ -228,12 +228,12 @@ namespace Mewdeko.Modules.Permissions
 
                 if (enabled)
                 {
-                    _service.LinkFilteringServers.Add(channel.Guild.Id);
+                    Service.LinkFilteringServers.Add(channel.Guild.Id);
                     await ReplyConfirmLocalizedAsync("link_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.LinkFilteringServers.TryRemove(channel.Guild.Id);
+                    Service.LinkFilteringServers.TryRemove(channel.Guild.Id);
                     await ReplyConfirmLocalizedAsync("link_filter_server_off").ConfigureAwait(false);
                 }
             }
@@ -267,12 +267,12 @@ namespace Mewdeko.Modules.Permissions
 
                 if (removed == null)
                 {
-                    _service.LinkFilteringChannels.Add(channel.Id);
+                    Service.LinkFilteringChannels.Add(channel.Id);
                     await ReplyConfirmLocalizedAsync("link_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.LinkFilteringChannels.TryRemove(channel.Id);
+                    Service.LinkFilteringChannels.TryRemove(channel.Id);
                     await ReplyConfirmLocalizedAsync("link_filter_channel_off").ConfigureAwait(false);
                 }
             }
@@ -296,12 +296,12 @@ namespace Mewdeko.Modules.Permissions
 
                 if (enabled)
                 {
-                    _service.WordFilteringServers.Add(channel.Guild.Id);
+                    Service.WordFilteringServers.Add(channel.Guild.Id);
                     await ReplyConfirmLocalizedAsync("word_filter_server_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.WordFilteringServers.TryRemove(channel.Guild.Id);
+                    Service.WordFilteringServers.TryRemove(channel.Guild.Id);
                     await ReplyConfirmLocalizedAsync("word_filter_server_off").ConfigureAwait(false);
                 }
             }
@@ -335,12 +335,12 @@ namespace Mewdeko.Modules.Permissions
 
                 if (removed == null)
                 {
-                    _service.WordFilteringChannels.Add(channel.Id);
+                    Service.WordFilteringChannels.Add(channel.Id);
                     await ReplyConfirmLocalizedAsync("word_filter_channel_on").ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.WordFilteringChannels.TryRemove(channel.Id);
+                    Service.WordFilteringChannels.TryRemove(channel.Id);
                     await ReplyConfirmLocalizedAsync("word_filter_channel_off").ConfigureAwait(false);
                 }
             }
@@ -375,7 +375,7 @@ namespace Mewdeko.Modules.Permissions
                 }
 
                 var filteredWords =
-                    _service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
+                    Service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
 
                 if (removed == null)
                 {
@@ -402,7 +402,7 @@ namespace Mewdeko.Modules.Permissions
 
                 var channel = (ITextChannel)ctx.Channel;
 
-                _service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
+                Service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
 
                 var fws = fwHash.ToArray();
 

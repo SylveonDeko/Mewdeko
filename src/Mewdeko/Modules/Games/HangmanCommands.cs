@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Games
             {
                 await ctx.Channel
                     .SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" +
-                                      string.Join("\n", _service.TermPool.Data.Keys)).ConfigureAwait(false);
+                                      string.Join("\n", Service.TermPool.Data.Keys)).ConfigureAwait(false);
             }
 
             [MewdekoCommand]
@@ -46,14 +46,14 @@ namespace Mewdeko.Modules.Games
                 Hangman hm;
                 try
                 {
-                    hm = new Hangman(type, _service.TermPool);
+                    hm = new Hangman(type, Service.TermPool);
                 }
                 catch (TermNotFoundException)
                 {
                     return;
                 }
 
-                if (!_service.HangmanGames.TryAdd(ctx.Channel.Id, hm))
+                if (!Service.HangmanGames.TryAdd(ctx.Channel.Id, hm))
                 {
                     hm.Dispose();
                     await ReplyErrorLocalizedAsync("hangman_running").ConfigureAwait(false);
@@ -79,7 +79,7 @@ namespace Mewdeko.Modules.Games
                 await hm.EndedTask.ConfigureAwait(false);
 
                 _client.MessageReceived -= _client_MessageReceived;
-                _service.HangmanGames.TryRemove(ctx.Channel.Id, out _);
+                Service.HangmanGames.TryRemove(ctx.Channel.Id, out _);
                 hm.Dispose();
 
                 Task _client_MessageReceived(SocketMessage msg)
@@ -152,7 +152,7 @@ namespace Mewdeko.Modules.Games
             [RequireContext(ContextType.Guild)]
             public async Task HangmanStop()
             {
-                if (_service.HangmanGames.TryRemove(ctx.Channel.Id, out var removed))
+                if (Service.HangmanGames.TryRemove(ctx.Channel.Id, out var removed))
                 {
                     await removed.Stop().ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("hangman_stopped").ConfigureAwait(false);

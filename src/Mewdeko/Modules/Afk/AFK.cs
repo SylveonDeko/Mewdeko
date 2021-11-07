@@ -37,30 +37,30 @@ namespace Mewdeko.Modules.Afk
             {
                 if (message == null)
                 {
-                    var afkmsg = _service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
+                    var afkmsg = Service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
                     if (!afkmsg.Any() || afkmsg.Last() == "")
                     {
-                        await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
+                        await Service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "_ _", 0);
                         await ctx.Channel.SendConfirmAsync("Afk message enabled!");
                         await ctx.Guild.DownloadUsersAsync();
                         return;
                     }
                     else
                     {
-                        await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
+                        await Service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, "", 0);
                         await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
                         await ctx.Guild.DownloadUsersAsync();
                         return;
                     }
                 }
-                if (message.Length != 0 && message.Length > _service.GetAfkLength(ctx.Guild.Id))
+                if (message.Length != 0 && message.Length > Service.GetAfkLength(ctx.Guild.Id))
                 {
                     await ctx.Channel.SendErrorAsync(
-                        $"That's too long! The length for afk on this server is set to {_service.GetAfkLength(ctx.Guild.Id)} characters.");
+                        $"That's too long! The length for afk on this server is set to {Service.GetAfkLength(ctx.Guild.Id)} characters.");
                     return;
                 }
 
-                await _service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, message, 0);
+                await Service.AFKSet(ctx.Guild, (IGuildUser)ctx.User, message, 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
                 await ctx.Guild.DownloadUsersAsync();
             }
@@ -72,32 +72,32 @@ namespace Mewdeko.Modules.Afk
             [Priority(0)]
             public async Task AfkDel()
             {
-                if (_service.GetAfkDel(ctx.Guild.Id) == 0 )
+                if (Service.GetAfkDel(ctx.Guild.Id) == 0 )
                 {
                     await ctx.Channel.SendConfirmAsync("Afk messages are currently not being deleted.");
                     return;
                 }
                 await ctx.Channel.SendConfirmAsync(
-                    $"Your current Afk Mention Message will delete after {_service.GetAfkDel(ctx.Guild.Id)}");
+                    $"Your current Afk Mention Message will delete after {Service.GetAfkDel(ctx.Guild.Id)}");
             }
 
             [MewdekoCommand]
             [Usage]
             [Description]
             [Aliases]
-            [Priority(0)]
+            [Priority(1)]
             public async Task AfkDel(int num)
             {
                 if (num < 0)
                     return;
                 if (num == 0)
                 {
-                    await _service.AfkDelSet(ctx.Guild, 0);
+                    await Service.AfkDelSet(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("Deletion of the Afk Message has been disabled!");
                 }
                 else
                 {
-                    await _service.AfkDelSet(ctx.Guild, num);
+                    await Service.AfkDelSet(ctx.Guild, num);
                     await ctx.Channel.SendConfirmAsync($"Afk messages will now delete after {num} seconds.");
                 }
             }
@@ -108,7 +108,7 @@ namespace Mewdeko.Modules.Afk
             [Priority(0)]
             public async Task TimedAfk(StoopidTime time, [Remainder] string message)
             {
-                if (_service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
+                if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"You already have a regular afk set! Please disable it by doing {Prefix}afk and try again");
@@ -117,8 +117,8 @@ namespace Mewdeko.Modules.Afk
 
                 await ctx.Channel.SendConfirmAsync(
                     $"AFK Message set to:\n{message}\n\nAFK will unset in {time.Time.Humanize()}");
-                await _service.TimedAfk(ctx.Guild, ctx.User, message, time.Time);
-                if (_service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
+                await Service.TimedAfk(ctx.Guild, ctx.User, message, time.Time);
+                if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
                     await ctx.Channel.SendMessageAsync(
                         $"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
             }
@@ -134,7 +134,7 @@ namespace Mewdeko.Modules.Afk
                 CREmbed.TryParse(embed, out crEmbed);
                 if (embed == "-")
                 {
-                    await _service.SetCustomAfkMessage(ctx.Guild, embed);
+                    await Service.SetCustomAfkMessage(ctx.Guild, embed);
                     await ctx.Channel.SendConfirmAsync("Afk messages will now have the default look.");
                     return;
                 }
@@ -145,11 +145,11 @@ namespace Mewdeko.Modules.Afk
                     return;
                 }
 
-                await _service.SetCustomAfkMessage(ctx.Guild, embed);
-                var ebe = CREmbed.TryParse(_service.GetCustomAfkMessage(ctx.Guild.Id), out crEmbed);
+                await Service.SetCustomAfkMessage(ctx.Guild, embed);
+                var ebe = CREmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out crEmbed);
                 if (ebe is false)
                 {
-                    await _service.SetCustomAfkMessage(ctx.Guild, "-");
+                    await Service.SetCustomAfkMessage(ctx.Guild, "-");
                     await ctx.Channel.SendErrorAsync(
                         "There was an error checking the embed, it may be invalid, so I set the afk message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
                     return;
@@ -164,7 +164,7 @@ namespace Mewdeko.Modules.Afk
             [Aliases]
             public async Task GetActiveAfks()
             {
-                var afks = _service.GetAfkUsers(ctx.Guild);
+                var afks = Service.GetAfkUsers(ctx.Guild);
                 if(!afks.Any())
                 {
                     await ctx.Channel.SendErrorAsync("There are no currently AFK users!");
@@ -197,12 +197,12 @@ namespace Mewdeko.Modules.Afk
             [Aliases]
             public async Task AfkView(IGuildUser user)
             {
-                if (_service.IsAfk(user.Guild, user))
+                if (Service.IsAfk(user.Guild, user))
                 {
                     await ctx.Channel.SendErrorAsync("This user isn't afk!");
                     return;
                 }
-                var msg = _service.AfkMessage(user.Guild.Id, user.Id).Last();
+                var msg = Service.AfkMessage(user.Guild.Id, user.Id).Last();
                 await ctx.Channel.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
             }
             [Priority(0)]
@@ -213,7 +213,7 @@ namespace Mewdeko.Modules.Afk
             public async Task AfkDisabledList()
             {
                 var mentions = new List<string>();
-                var chans = _service.GetDisabledAfkChannels(ctx.Guild.Id);
+                var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
                 var e = chans.Split(",");
                 if (e.Length == 1 && e.Contains("0"))
                 {
@@ -262,7 +262,7 @@ namespace Mewdeko.Modules.Afk
                 }
                 else
                 {
-                    await _service.AfkLengthSet(ctx.Guild, num);
+                    await Service.AfkLengthSet(ctx.Guild, num);
                     await ctx.Channel.SendConfirmAsync($"AFK Length Sucessfully Set To {num} Characters");
                 }
             }
@@ -279,19 +279,19 @@ namespace Mewdeko.Modules.Afk
                 {
                     case "onmessage":
                     {
-                        await _service.AfkTypeSet(ctx.Guild, 3);
+                        await Service.AfkTypeSet(ctx.Guild, 3);
                         await ctx.Channel.SendConfirmAsync("Afk will be disabled when a user sends a message.");
                     }
                         break;
                     case "ontype":
                     {
-                        await _service.AfkTypeSet(ctx.Guild, 2);
+                        await Service.AfkTypeSet(ctx.Guild, 2);
                         await ctx.Channel.SendConfirmAsync("Afk messages will be disabled when a user starts typing.");
                     }
                         break;
                     case "selfdisable":
                     {
-                        await _service.AfkTypeSet(ctx.Guild, 1);
+                        await Service.AfkTypeSet(ctx.Guild, 1);
                         await ctx.Channel.SendConfirmAsync(
                             "Afk will only be disableable by the user themselves (unless an admin uses the afkrm command)");
                     }
@@ -334,7 +334,7 @@ namespace Mewdeko.Modules.Afk
                     return;
                 }
 
-                await _service.AfkTimeoutSet(ctx.Guild, Convert.ToInt32(time.Time.TotalSeconds));
+                await Service.AfkTimeoutSet(ctx.Guild, Convert.ToInt32(time.Time.TotalSeconds));
                 await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
             }
 
@@ -348,7 +348,7 @@ namespace Mewdeko.Modules.Afk
                 var list = new List<string>();
                 var mentions = new List<string>();
                 var toremove = new List<string>();
-                var chans = _service.GetDisabledAfkChannels(ctx.Guild.Id);
+                var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
                 var e = chans.Split(",");
                 foreach (var i in e) list.Add(i);
                 foreach (var i in chan)
@@ -366,12 +366,12 @@ namespace Mewdeko.Modules.Afk
 
                 if (!list.Except(toremove).Any())
                 {
-                    await _service.AfkDisabledSet(ctx.Guild, "0");
+                    await Service.AfkDisabledSet(ctx.Guild, "0");
                     await ctx.Channel.SendConfirmAsync("Mewdeko will no longer ignore afk in any channel.");
                     return;
                 }
 
-                await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list.Except(toremove)));
+                await Service.AfkDisabledSet(ctx.Guild, string.Join(",", list.Except(toremove)));
                 await ctx.Channel.SendConfirmAsync(
                     $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
             }
@@ -386,7 +386,7 @@ namespace Mewdeko.Modules.Afk
                 var list = new HashSet<string>();
                 var newchans = new HashSet<string>();
                 var mentions = new HashSet<string>();
-                if (_service.GetDisabledAfkChannels(ctx.Guild.Id) == "0")
+                if (Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0")
                 {
                     foreach (var i in chan)
                     {
@@ -394,13 +394,13 @@ namespace Mewdeko.Modules.Afk
                         mentions.Add(i.Mention);
                     }
 
-                    await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
+                    await Service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
                     await ctx.Channel.SendConfirmAsync(
                         $"Afk has been disabled in the channels {string.Join(",", mentions)}");
                 }
                 else
                 {
-                    var e = _service.GetDisabledAfkChannels(ctx.Guild.Id);
+                    var e = Service.GetDisabledAfkChannels(ctx.Guild.Id);
                     var w = e.Split(",");
                     foreach (var i in w) list.Add(i);
 
@@ -422,7 +422,7 @@ namespace Mewdeko.Modules.Afk
                         return;
                     }
 
-                    await _service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
+                    await Service.AfkDisabledSet(ctx.Guild, string.Join(",", list));
                     await ctx.Channel.SendConfirmAsync(
                         $"Added {string.Join(",", mentions)} to the list of channels AFK ignores.");
                 }
@@ -440,8 +440,8 @@ namespace Mewdeko.Modules.Afk
                 foreach (var i in user)
                     try
                     {
-                        var afkmsg = _service.AfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
-                        await _service.AFKSet(ctx.Guild, i, "", 0);
+                        var afkmsg = Service.AfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
+                        await Service.AFKSet(ctx.Guild, i, "", 0);
                         users++;
                     }
                     catch (Exception)
@@ -459,14 +459,14 @@ namespace Mewdeko.Modules.Afk
             [Priority(1)]
             public async Task AfkRemove(IGuildUser user)
             {
-                var afkmsg = _service.AfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
+                var afkmsg = Service.AfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
                 if (afkmsg == "")
                 {
                     await ctx.Channel.SendErrorAsync("The mentioned user does not have an afk status set!");
                     return;
                 }
 
-                await _service.AFKSet(ctx.Guild, user, "", 0);
+                await Service.AFKSet(ctx.Guild, user, "", 0);
                 await ctx.Channel.SendConfirmAsync($"AFK Message for {user.Mention} has been disabled!");
             }
         }

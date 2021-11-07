@@ -220,9 +220,9 @@ namespace Mewdeko.Modules.Administration
             }
             else
             {
-                var role = ctx.Guild.GetRole(_service.GetMemberRole(ctx.Guild.Id));
+                var role = ctx.Guild.GetRole(Service.GetMemberRole(ctx.Guild.Id));
                 var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
-                    includeRoleIds: new[] { _service.GetMemberRole(ctx.Guild.Id) });
+                    includeRoleIds: new[] { Service.GetMemberRole(ctx.Guild.Id) });
                 if (toprune == 0)
                 {
                     await ctx.Channel.SendErrorAsync("No users to prune.");
@@ -242,7 +242,7 @@ namespace Mewdeko.Modules.Administration
                 {
                     var msg = await ctx.Channel.SendConfirmAsync($"Pruning {toprune} members...");
                     await ctx.Guild.PruneUsersAsync(time.Time.Days,
-                        includeRoleIds: new[] { _service.GetMemberRole(ctx.Guild.Id) });
+                        includeRoleIds: new[] { Service.GetMemberRole(ctx.Guild.Id) });
                     var ebi = new EmbedBuilder
                     {
                         Description = $"Pruned {toprune} members.",
@@ -261,10 +261,10 @@ namespace Mewdeko.Modules.Administration
         [UserPerm(GuildPermission.Administrator)]
         public async Task MemberRole(IRole role)
         {
-            var rol = _service.GetMemberRole(ctx.Guild.Id);
+            var rol = Service.GetMemberRole(ctx.Guild.Id);
             if (rol is 0 && role != null)
             {
-                await _service.MemberRoleSet(ctx.Guild, role.Id);
+                await Service.MemberRoleSet(ctx.Guild, role.Id);
                 await ctx.Channel.SendConfirmAsync($"Member role has been set to {role.Mention}");
             }
 
@@ -290,7 +290,7 @@ namespace Mewdeko.Modules.Administration
             if (role != null && rol is not 0)
             {
                 var oldrole = ctx.Guild.GetRole(rol);
-                await _service.MemberRoleSet(ctx.Guild, role.Id);
+                await Service.MemberRoleSet(ctx.Guild, role.Id);
                 await ctx.Channel.SendConfirmAsync(
                     $"Your Member role has been switched from {oldrole.Mention} to {role.Mention}");
             }
@@ -304,10 +304,10 @@ namespace Mewdeko.Modules.Administration
         [UserPerm(GuildPermission.Administrator)]
         public async Task StaffRole([Remainder] IRole role = null)
         {
-            var rol = _service.GetStaffRole(ctx.Guild.Id);
+            var rol = Service.GetStaffRole(ctx.Guild.Id);
             if (rol is 0 && role != null)
             {
-                await _service.StaffRoleSet(ctx.Guild, role.Id);
+                await Service.StaffRoleSet(ctx.Guild, role.Id);
                 await ctx.Channel.SendConfirmAsync($"Staff role has been set to {role.Mention}");
             }
 
@@ -333,7 +333,7 @@ namespace Mewdeko.Modules.Administration
             if (role != null && rol is not 0)
             {
                 var oldrole = ctx.Guild.GetRole(rol);
-                await _service.StaffRoleSet(ctx.Guild, role.Id);
+                await Service.StaffRoleSet(ctx.Guild, role.Id);
                 await ctx.Channel.SendConfirmAsync(
                     $"Your staff role has been switched from {oldrole.Mention} to {role.Mention}");
             }
@@ -347,14 +347,14 @@ namespace Mewdeko.Modules.Administration
         [UserPerm(GuildPermission.Administrator)]
         public async Task StaffRoleDisable()
         {
-            var r = _service.GetStaffRole(ctx.Guild.Id);
+            var r = Service.GetStaffRole(ctx.Guild.Id);
             if (r == 0)
             {
                 await ctx.Channel.SendErrorAsync("No staff role set!");
             }
             else
             {
-                await _service.StaffRoleSet(ctx.Guild, 0);
+                await Service.StaffRoleSet(ctx.Guild, 0);
                 await ctx.Channel.SendConfirmAsync("Staff role disabled!");
             }
         }
@@ -389,7 +389,7 @@ namespace Mewdeko.Modules.Administration
         public async Task Delmsgoncmd(List _)
         {
             var guild = (SocketGuild)ctx.Guild;
-            var (enabled, channels) = _service.GetDelMsgOnCmdData(ctx.Guild.Id);
+            var (enabled, channels) = Service.GetDelMsgOnCmdData(ctx.Guild.Id);
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
@@ -423,14 +423,14 @@ namespace Mewdeko.Modules.Administration
         [Priority(1)]
         public async Task Delmsgoncmd(Server _ = Server.Server)
         {
-            if (_service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
+            if (Service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
             {
-                _service.DeleteMessagesOnCommand.Add(ctx.Guild.Id);
+                Service.DeleteMessagesOnCommand.Add(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("delmsg_on").ConfigureAwait(false);
             }
             else
             {
-                _service.DeleteMessagesOnCommand.TryRemove(ctx.Guild.Id);
+                Service.DeleteMessagesOnCommand.TryRemove(ctx.Guild.Id);
                 await ReplyConfirmLocalizedAsync("delmsg_off").ConfigureAwait(false);
             }
         }
@@ -459,7 +459,7 @@ namespace Mewdeko.Modules.Administration
         public async Task Delmsgoncmd(Channel _, State s, ulong? chId = null)
         {
             var actualChId = chId ?? ctx.Channel.Id;
-            await _service.SetDelMsgOnCmdState(ctx.Guild.Id, actualChId, s).ConfigureAwait(false);
+            await Service.SetDelMsgOnCmdState(ctx.Guild.Id, actualChId, s).ConfigureAwait(false);
 
             if (s == State.Disable)
                 await ReplyConfirmLocalizedAsync("delmsg_channel_off").ConfigureAwait(false);
@@ -478,7 +478,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPermission.DeafenMembers)]
         public async Task Deafen(params IGuildUser[] users)
         {
-            await _service.DeafenUsers(true, users).ConfigureAwait(false);
+            await Service.DeafenUsers(true, users).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("deafen").ConfigureAwait(false);
         }
 
@@ -491,7 +491,7 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPermission.DeafenMembers)]
         public async Task UnDeafen(params IGuildUser[] users)
         {
-            await _service.DeafenUsers(false, users).ConfigureAwait(false);
+            await Service.DeafenUsers(false, users).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("undeafen").ConfigureAwait(false);
         }
 
@@ -630,7 +630,7 @@ namespace Mewdeko.Modules.Administration
                 return;
             }
 
-            await _service.EditMessage(ctx, channel, messageId, text);
+            await Service.EditMessage(ctx, channel, messageId, text);
         }
 
         [MewdekoCommand]

@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Games
                 var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
                 var channel = (ITextChannel)ctx.Channel;
 
-                var game = _service.RunningContests.GetOrAdd(channel.Guild.Id,
+                var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
                     id => new TypingGame(_games, _client, channel, Prefix, options));
 
                 if (game.IsActive)
@@ -56,7 +56,7 @@ namespace Mewdeko.Modules.Games
             public async Task TypeStop()
             {
                 var channel = (ITextChannel)ctx.Channel;
-                if (_service.RunningContests.TryRemove(channel.Guild.Id, out var game))
+                if (Service.RunningContests.TryRemove(channel.Guild.Id, out var game))
                 {
                     await game.Stop().ConfigureAwait(false);
                     return;
@@ -118,7 +118,7 @@ namespace Mewdeko.Modules.Games
             [OwnerOnly]
             public async Task Typedel(int index)
             {
-                var removed = _service.RemoveTypingArticle(--index);
+                var removed = Service.RemoveTypingArticle(--index);
 
                 if (removed is null) return;
 

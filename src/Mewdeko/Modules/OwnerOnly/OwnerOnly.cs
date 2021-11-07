@@ -182,7 +182,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task RotatePlaying()
         {
-            if (_service.ToggleRotatePlaying())
+            if (Service.ToggleRotatePlaying())
                 await ReplyConfirmLocalizedAsync("ropl_enabled").ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("ropl_disabled").ConfigureAwait(false);
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task AddPlaying(ActivityType t, [Remainder] string status)
         {
-            await _service.AddPlaying(t, status).ConfigureAwait(false);
+            await Service.AddPlaying(t, status).ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("ropl_added").ConfigureAwait(false);
         }
@@ -207,7 +207,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task ListPlaying()
         {
-            var statuses = _service.GetRotatingStatuses();
+            var statuses = Service.GetRotatingStatuses();
 
             if (!statuses.Any())
             {
@@ -249,7 +249,7 @@ namespace Mewdeko.Modules.OwnerOnly
         {
             index -= 1;
 
-            var msg = await _service.RemovePlayingAsync(index).ConfigureAwait(false);
+            var msg = await Service.RemovePlayingAsync(index).ConfigureAwait(false);
 
             if (msg == null)
                 return;
@@ -309,7 +309,7 @@ namespace Mewdeko.Modules.OwnerOnly
                 VoiceChannelName = guser.VoiceChannel?.Name,
                 Interval = 0
             };
-            _service.AddNewAutoCommand(cmd);
+            Service.AddNewAutoCommand(cmd);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("scadd"))
@@ -348,7 +348,7 @@ namespace Mewdeko.Modules.OwnerOnly
                 VoiceChannelName = guser.VoiceChannel?.Name,
                 Interval = interval
             };
-            _service.AddNewAutoCommand(cmd);
+            Service.AddNewAutoCommand(cmd);
 
             await ReplyConfirmLocalizedAsync("autocmd_add", Format.Code(Format.Sanitize(cmdText)), cmd.Interval)
                 .ConfigureAwait(false);
@@ -365,7 +365,7 @@ namespace Mewdeko.Modules.OwnerOnly
             if (page-- < 1)
                 return;
 
-            var scmds = _service.GetStartupCommands()
+            var scmds = Service.GetStartupCommands()
                 .Skip(page * 5)
                 .Take(5)
                 .ToList();
@@ -401,7 +401,7 @@ namespace Mewdeko.Modules.OwnerOnly
             if (page-- < 1)
                 return;
 
-            var scmds = _service.GetAutoCommands()
+            var scmds = Service.GetAutoCommands()
                 .Skip(page * 5)
                 .Take(5)
                 .ToList();
@@ -463,7 +463,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task AutoCommandRemove([Remainder] int index)
         {
-            if (!_service.RemoveAutoCommand(--index, out _))
+            if (!Service.RemoveAutoCommand(--index, out _))
             {
                 await ReplyErrorLocalizedAsync("acrm_fail").ConfigureAwait(false);
                 return;
@@ -480,7 +480,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task StartupCommandRemove([Remainder] int index)
         {
-            if (!_service.RemoveStartupCommand(--index, out _))
+            if (!Service.RemoveStartupCommand(--index, out _))
                 await ReplyErrorLocalizedAsync("scrm_fail").ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("scrm").ConfigureAwait(false);
@@ -495,7 +495,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task StartupCommandsClear()
         {
-            _service.ClearStartupCommands();
+            Service.ClearStartupCommands();
 
             await ReplyConfirmLocalizedAsync("startcmds_cleared").ConfigureAwait(false);
         }
@@ -507,7 +507,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task ForwardMessages()
         {
-            var enabled = _service.ForwardMessages();
+            var enabled = Service.ForwardMessages();
 
             if (enabled)
                 await ReplyConfirmLocalizedAsync("fwdm_start").ConfigureAwait(false);
@@ -522,7 +522,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task ForwardToAll()
         {
-            var enabled = _service.ForwardToAll();
+            var enabled = Service.ForwardToAll();
 
             if (enabled)
                 await ReplyConfirmLocalizedAsync("fwall_start").ConfigureAwait(false);
@@ -626,7 +626,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public Task Leave([Remainder] string guildStr)
         {
-            return _service.LeaveGuild(guildStr);
+            return Service.LeaveGuild(guildStr);
         }
 
 
@@ -754,7 +754,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task SetAvatar([Remainder] string img = null)
         {
-            var success = await _service.SetAvatar(img);
+            var success = await Service.SetAvatar(img);
 
             if (success) await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
         }
@@ -862,7 +862,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task ImagesReload()
         {
-            _service.ReloadImages();
+            Service.ReloadImages();
             await ReplyConfirmLocalizedAsync("images_loading", 0).ConfigureAwait(false);
         }
 

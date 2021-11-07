@@ -26,7 +26,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.Administrator)]
             public async Task AntiAlt()
             {
-                if (await _service.TryStopAntiAlt(ctx.Guild.Id))
+                if (await Service.TryStopAntiAlt(ctx.Guild.Id))
                 {
                     await ReplyConfirmLocalizedAsync("prot_disable", "Anti-Alt");
                     return;
@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Administration
                 if (minAgeMinutes < 1 || punishTimeMinutes < 0)
                     return;
 
-                await _service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
+                await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action,
                     (int?)punishTime?.Time.TotalMinutes ?? 0);
 
                 await ctx.OkAsync();
@@ -69,7 +69,7 @@ namespace Mewdeko.Modules.Administration
                 if (minAgeMinutes < 1)
                     return;
 
-                await _service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action, roleId: role.Id);
+                await Service.StartAntiAltAsync(ctx.Guild.Id, minAgeMinutes, action, roleId: role.Id);
 
                 await ctx.OkAsync();
             }
@@ -82,7 +82,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.Administrator)]
             public Task AntiRaid()
             {
-                if (_service.TryStopAntiRaid(ctx.Guild.Id))
+                if (Service.TryStopAntiRaid(ctx.Guild.Id))
                     return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Raid");
                 return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Raid");
             }
@@ -134,14 +134,14 @@ namespace Mewdeko.Modules.Administration
                 }
 
                 if (!(punishTime is null))
-                    if (!_service.IsDurationAllowed(action))
+                    if (!Service.IsDurationAllowed(action))
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
                 var time = (int?)punishTime?.Time.TotalMinutes ?? 0;
                 if (time < 0 || time > 60 * 24)
                     return;
 
-                var stats = await _service.StartAntiRaidAsync(ctx.Guild.Id, userThreshold, seconds,
+                var stats = await Service.StartAntiRaidAsync(ctx.Guild.Id, userThreshold, seconds,
                     action, time).ConfigureAwait(false);
 
                 if (stats == null) return;
@@ -159,7 +159,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.Administrator)]
             public Task AntiSpam()
             {
-                if (_service.TryStopAntiSpam(ctx.Guild.Id))
+                if (Service.TryStopAntiSpam(ctx.Guild.Id))
                     return ReplyConfirmLocalizedAsync("prot_disable", "Anti-Spam");
                 return ReplyErrorLocalizedAsync("protection_not_running", "Anti-Spam");
             }
@@ -210,14 +210,14 @@ namespace Mewdeko.Modules.Administration
                     return;
 
                 if (!(timeData is null))
-                    if (!_service.IsDurationAllowed(action))
+                    if (!Service.IsDurationAllowed(action))
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
                 var time = (int?)timeData?.Time.TotalMinutes ?? 0;
                 if (time < 0 || time > 60 * 24)
                     return;
 
-                var stats = await _service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id)
+                var stats = await Service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id)
                     .ConfigureAwait(false);
 
                 await ctx.Channel.SendConfirmAsync(GetText("prot_enable", "Anti-Spam"),
@@ -232,7 +232,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.Administrator)]
             public async Task AntispamIgnore()
             {
-                var added = await _service.AntiSpamIgnoreAsync(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                var added = await Service.AntiSpamIgnoreAsync(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
 
                 if (added is null)
                 {
@@ -251,7 +251,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task AntiList()
             {
-                var (spam, raid, alt) = _service.GetAntiStats(ctx.Guild.Id);
+                var (spam, raid, alt) = Service.GetAntiStats(ctx.Guild.Id);
 
                 if (spam is null && raid is null && alt is null)
                 {

@@ -37,6 +37,7 @@ namespace Mewdeko.Services.Database
         public DbSet<Warning2> Warnings2 { get; set; }
         public DbSet<AFK> AFK { get; set; }
         public DbSet<Giveaways> Giveaways { get; set; }
+        public DbSet<Ticket> Ticket { get; set; }
         public DbSet<Starboard> Starboard { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Reminder> Reminders { get; set; }
@@ -63,7 +64,7 @@ namespace Mewdeko.Services.Database
         public DbSet<Stake> Stakes { get; set; }
         public DbSet<GlobalBans> GlobalBans { get; set; }
         public DbSet<PlantedCurrency> PlantedCurrency { get; set; }
-        public DbSet<Tickets> Tickets { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
         public DbSet<BanTemplate> BanTemplates { get; set; }
         public DbSet<DiscordPermOverride> DiscordPermOverrides { get; set; }
         public DbSet<DiscordUser> DiscordUser { get; set; }

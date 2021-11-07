@@ -59,7 +59,7 @@ namespace Mewdeko.Modules.Xp
         private async Task SendXpSettings(ITextChannel chan)
         {
             var list = new List<XpStuffs>();
-            if (_service.GetTxtXpRate(ctx.Guild.Id) == 0)
+            if (Service.GetTxtXpRate(ctx.Guild.Id) == 0)
             {
                 var toadd = new XpStuffs
                 {
@@ -73,12 +73,12 @@ namespace Mewdeko.Modules.Xp
                 var toadd = new XpStuffs
                 {
                     setting = "xptextrate",
-                    value = $"{_service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
+                    value = $"{Service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
                 };
                 list.Add(toadd);
             }
 
-            if (_service.GetVoiceXpRate(ctx.Guild.Id) == 0)
+            if (Service.GetVoiceXpRate(ctx.Guild.Id) == 0)
             {
                 var toadd = new XpStuffs
                 {
@@ -92,12 +92,12 @@ namespace Mewdeko.Modules.Xp
                 var toadd = new XpStuffs
                 {
                     setting = "xpvoicerate",
-                    value = $"{_service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
+                    value = $"{Service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
                 };
                 list.Add(toadd);
             }
 
-            if (_service.GetXpTimeout(ctx.Guild.Id) == 0)
+            if (Service.GetXpTimeout(ctx.Guild.Id) == 0)
             {
                 var toadd = new XpStuffs
                 {
@@ -111,12 +111,12 @@ namespace Mewdeko.Modules.Xp
                 var toadd = new XpStuffs
                 {
                     setting = "txtxptimeout",
-                    value = $"{_service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                    value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
                 };
                 list.Add(toadd);
             }
 
-            if (_service.GetVoiceXpTimeout(ctx.Guild.Id) == 0)
+            if (Service.GetVoiceXpTimeout(ctx.Guild.Id) == 0)
             {
                 var toadd = new XpStuffs
                 {
@@ -130,7 +130,7 @@ namespace Mewdeko.Modules.Xp
                 var toadd = new XpStuffs
                 {
                     setting = "voiceminutestimeout",
-                    value = $"{_service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                    value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
                 };
                 list.Add(toadd);
             }
@@ -160,13 +160,13 @@ namespace Mewdeko.Modules.Xp
             {
                 if (value != 999999999 && value != 0)
                 {
-                    await _service.XpTxtRateSet(ctx.Guild, value);
+                    await Service.XpTxtRateSet(ctx.Guild, value);
                     await ctx.Channel.SendConfirmAsync($"Users will now recieve {value} xp per message.");
                 }
 
                 if (value == 999999999 || value == 0)
                 {
-                    await _service.XpTxtRateSet(ctx.Guild, 0);
+                    await Service.XpTxtRateSet(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("User xp per message will now be the global default.");
                 }
 
@@ -177,13 +177,13 @@ namespace Mewdeko.Modules.Xp
             {
                 if (value != 999999999 && value != 0)
                 {
-                    await _service.XpTxtTimeoutSet(ctx.Guild, value);
+                    await Service.XpTxtTimeoutSet(ctx.Guild, value);
                     await ctx.Channel.SendConfirmAsync($"Message XP will be given every {value} minutes.");
                 }
 
                 if (value == 999999999 || value == 0)
                 {
-                    await _service.XpTxtTimeoutSet(ctx.Guild, 0);
+                    await Service.XpTxtTimeoutSet(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("XP Timeout will now follow the global default.");
                 }
 
@@ -194,15 +194,15 @@ namespace Mewdeko.Modules.Xp
             {
                 if (value != 999999999 && value != 0)
                 {
-                    await _service.XpVoiceRateSet(ctx.Guild, value);
+                    await Service.XpVoiceRateSet(ctx.Guild, value);
                     await ctx.Channel.SendConfirmAsync(
                         $"Users will now recieve {value} every minute they are in voice. Make sure to set voiceminutestimeout or this is usless.");
                 }
 
                 if (value == 999999999 || value == 0)
                 {
-                    await _service.XpVoiceRateSet(ctx.Guild, 0);
-                    await _service.XpVoiceTimeoutSet(ctx.Guild, 0);
+                    await Service.XpVoiceRateSet(ctx.Guild, 0);
+                    await Service.XpVoiceTimeoutSet(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("Voice XP Disabled.");
                 }
 
@@ -213,15 +213,15 @@ namespace Mewdeko.Modules.Xp
             {
                 if (value != 999999999 && value != 0)
                 {
-                    await _service.XpVoiceTimeoutSet(ctx.Guild, value);
+                    await Service.XpVoiceTimeoutSet(ctx.Guild, value);
                     await ctx.Channel.SendConfirmAsync(
                         $"XP will now stop being given in vc after {value} minutes. Make sure to set voicexprate or this is useless.");
                 }
 
                 if (value == 999999999 || value == 0)
                 {
-                    await _service.XpVoiceRateSet(ctx.Guild, 0);
-                    await _service.XpVoiceTimeoutSet(ctx.Guild, 0);
+                    await Service.XpVoiceRateSet(ctx.Guild, 0);
+                    await Service.XpVoiceTimeoutSet(ctx.Guild, 0);
                     await ctx.Channel.SendConfirmAsync("Voice XP Disabled.");
                 }
             }
@@ -244,7 +244,7 @@ namespace Mewdeko.Modules.Xp
         public async Task Experience([Remainder] IUser user = null)
         {
             user ??= ctx.User;
-            var (img, fmt) = await _service.GenerateXpImageAsync((IGuildUser)user).ConfigureAwait(false);
+            var (img, fmt) = await Service.GenerateXpImageAsync((IGuildUser)user).ConfigureAwait(false);
             await using (img)
             {
                 await ctx.Channel.SendFileAsync(img,
@@ -261,7 +261,7 @@ namespace Mewdeko.Modules.Xp
         public async Task XpLevelUpRewards()
         {
 
-            var allRewards = _service.GetRoleRewards(ctx.Guild.Id)
+            var allRewards = Service.GetRoleRewards(ctx.Guild.Id)
                 .OrderBy(x => x.Level)
                 .Select(x =>
                 {
@@ -271,7 +271,7 @@ namespace Mewdeko.Modules.Xp
                     return (x.Level, RoleStr: str);
                 })
                 .Where(x => x.RoleStr != null)
-                .Concat(_service.GetCurrencyRewards(ctx.Guild.Id)
+                .Concat(Service.GetCurrencyRewards(ctx.Guild.Id)
                     .OrderBy(x => x.Level)
                     .Select(x => (x.Level, Format.Bold(x.Amount + _gss.Data.Currency.Sign))))
                 .GroupBy(x => x.Level)
@@ -321,7 +321,7 @@ namespace Mewdeko.Modules.Xp
             if (level < 1)
                 return;
 
-            _service.SetRoleReward(ctx.Guild.Id, level, role?.Id);
+            Service.SetRoleReward(ctx.Guild.Id, level, role?.Id);
 
             if (role == null)
                 await ReplyConfirmLocalizedAsync("role_reward_cleared", level).ConfigureAwait(false);
@@ -341,7 +341,7 @@ namespace Mewdeko.Modules.Xp
             if (level < 1 || amount < 0)
                 return;
 
-            _service.SetCurrencyReward(ctx.Guild.Id, level, amount);
+            Service.SetCurrencyReward(ctx.Guild.Id, level, amount);
             var config = _gss.Data;
 
             if (amount == 0)
@@ -369,8 +369,8 @@ namespace Mewdeko.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task XpNotify()
         {
-            var globalSetting = _service.GetNotificationType(ctx.User);
-            var serverSetting = _service.GetNotificationType(ctx.User.Id, ctx.Guild.Id);
+            var globalSetting = Service.GetNotificationType(ctx.User);
+            var serverSetting = Service.GetNotificationType(ctx.User.Id, ctx.Guild.Id);
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
@@ -388,9 +388,9 @@ namespace Mewdeko.Modules.Xp
         public async Task XpNotify(NotifyPlace place, XpNotificationLocation type)
         {
             if (place == NotifyPlace.Guild)
-                await _service.ChangeNotificationType(ctx.User.Id, ctx.Guild.Id, type).ConfigureAwait(false);
+                await Service.ChangeNotificationType(ctx.User.Id, ctx.Guild.Id, type).ConfigureAwait(false);
             else
-                await _service.ChangeNotificationType(ctx.User, type).ConfigureAwait(false);
+                await Service.ChangeNotificationType(ctx.User, type).ConfigureAwait(false);
 
             await ctx.OkAsync().ConfigureAwait(false);
         }
@@ -403,7 +403,7 @@ namespace Mewdeko.Modules.Xp
         [UserPerm(GuildPermission.Administrator)]
         public async Task XpExclude(Server _)
         {
-            var ex = _service.ToggleExcludeServer(ctx.Guild.Id);
+            var ex = Service.ToggleExcludeServer(ctx.Guild.Id);
 
             await ReplyConfirmLocalizedAsync(ex ? "excluded" : "not_excluded", Format.Bold(ctx.Guild.ToString()))
                 .ConfigureAwait(false);
@@ -417,7 +417,7 @@ namespace Mewdeko.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task XpExclude(Role _, [Remainder] IRole role)
         {
-            var ex = _service.ToggleExcludeRole(ctx.Guild.Id, role.Id);
+            var ex = Service.ToggleExcludeRole(ctx.Guild.Id, role.Id);
 
             await ReplyConfirmLocalizedAsync(ex ? "excluded" : "not_excluded", Format.Bold(role.ToString()))
                 .ConfigureAwait(false);
@@ -434,7 +434,7 @@ namespace Mewdeko.Modules.Xp
             if (channel == null)
                 channel = ctx.Channel;
 
-            var ex = _service.ToggleExcludeChannel(ctx.Guild.Id, channel.Id);
+            var ex = Service.ToggleExcludeChannel(ctx.Guild.Id, channel.Id);
 
             await ReplyConfirmLocalizedAsync(ex ? "excluded" : "not_excluded", Format.Bold(channel.ToString()))
                 .ConfigureAwait(false);
@@ -447,14 +447,14 @@ namespace Mewdeko.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task XpExclusionList()
         {
-            var serverExcluded = _service.IsServerExcluded(ctx.Guild.Id);
-            var roles = _service.GetExcludedRoles(ctx.Guild.Id)
+            var serverExcluded = Service.IsServerExcluded(ctx.Guild.Id);
+            var roles = Service.GetExcludedRoles(ctx.Guild.Id)
                 .Select(x => ctx.Guild.GetRole(x))
                 .Where(x => x != null)
                 .Select(x => $"`role`   {x.Mention}")
                 .ToList();
 
-            var chans = (await Task.WhenAll(_service.GetExcludedChannels(ctx.Guild.Id)
+            var chans = (await Task.WhenAll(Service.GetExcludedChannels(ctx.Guild.Id)
                         .Select(x => ctx.Guild.GetChannelAsync(x)))
                     .ConfigureAwait(false))
                 .Where(x => x != null)
@@ -526,7 +526,7 @@ namespace Mewdeko.Modules.Xp
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
-                allUsers = _service.GetTopUserXps(ctx.Guild.Id, 1000)
+                allUsers = Service.GetTopUserXps(ctx.Guild.Id, 1000)
                     .Where(user => !(socketGuild.GetUser(user.UserId) is null))
                     .ToList();
             }
@@ -551,7 +551,7 @@ namespace Mewdeko.Modules.Xp
                 if (opts.Clean)
                     users = allUsers.Skip(page * 9).Take(9).ToList();
                 else
-                    users = _service.GetUserXps(ctx.Guild.Id, page);
+                    users = Service.GetUserXps(ctx.Guild.Id, page);
 
                 if (!users.Any()) return Task.FromResult(embed.WithDescription("-"));
 
@@ -588,7 +588,7 @@ namespace Mewdeko.Modules.Xp
             if (amount == 0)
                 return;
 
-            _service.AddXp(userId, ctx.Guild.Id, amount);
+            Service.AddXp(userId, ctx.Guild.Id, amount);
             var usr = ((SocketGuild)ctx.Guild).GetUser(userId)?.ToString()
                       ?? userId.ToString();
             await ReplyConfirmLocalizedAsync("modified", Format.Bold(usr), Format.Bold(amount.ToString()))
@@ -614,7 +614,7 @@ namespace Mewdeko.Modules.Xp
         [OwnerOnly]
         public async Task XpTemplateReload()
         {
-            _service.ReloadXpTemplate();
+            Service.ReloadXpTemplate();
             await Task.Delay(1000).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("template_reloaded").ConfigureAwait(false);
         }

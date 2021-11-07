@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Nsfw
                 // remove it 
                 listOfProviders.RemoveAt(num);
                 // get the image
-                img = await _service.DapiSearch(tag, type, ctx.Guild?.Id, true).ConfigureAwait(false);
+                img = await Service.DapiSearch(tag, type, ctx.Guild?.Id, true).ConfigureAwait(false);
                 // if i can't find the image, ran out of providers, or tag is blacklisted
                 // return the error
                 if (img == null && !listOfProviders.Any())
@@ -375,10 +375,10 @@ namespace Mewdeko.Modules.Nsfw
                 return;
             try
             {
-                var images = await Task.WhenAll(_service.DapiSearch(tag, DapiSearchType.Gelbooru, ctx.Guild?.Id, true),
-                    _service.DapiSearch(tag, DapiSearchType.Danbooru, ctx.Guild?.Id, true),
-                    _service.DapiSearch(tag, DapiSearchType.Konachan, ctx.Guild?.Id, true),
-                    _service.DapiSearch(tag, DapiSearchType.Yandere, ctx.Guild?.Id, true)).ConfigureAwait(false);
+                var images = await Task.WhenAll(Service.DapiSearch(tag, DapiSearchType.Gelbooru, ctx.Guild?.Id, true),
+                    Service.DapiSearch(tag, DapiSearchType.Danbooru, ctx.Guild?.Id, true),
+                    Service.DapiSearch(tag, DapiSearchType.Konachan, ctx.Guild?.Id, true),
+                    Service.DapiSearch(tag, DapiSearchType.Yandere, ctx.Guild?.Id, true)).ConfigureAwait(false);
 
                 var linksEnum = images?.Where(l => l != null).ToArray();
                 if (images == null || !linksEnum.Any())
@@ -535,7 +535,7 @@ namespace Mewdeko.Modules.Nsfw
         {
             if (string.IsNullOrWhiteSpace(tag))
             {
-                var blTags = _service.GetBlacklistedTags(ctx.Guild.Id);
+                var blTags = Service.GetBlacklistedTags(ctx.Guild.Id);
                 await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
                     blTags.Any()
                         ? string.Join(", ", blTags)
@@ -544,7 +544,7 @@ namespace Mewdeko.Modules.Nsfw
             else
             {
                 tag = tag.Trim().ToLowerInvariant();
-                var added = _service.ToggleBlacklistedTag(ctx.Guild.Id, tag);
+                var added = Service.ToggleBlacklistedTag(ctx.Guild.Id, tag);
 
                 if (added)
                     await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
@@ -561,7 +561,7 @@ namespace Mewdeko.Modules.Nsfw
         [OwnerOnly]
         public Task NsfwClearCache()
         {
-            _service.ClearCache();
+            Service.ClearCache();
             return Context.OkAsync();
         }
 
@@ -569,7 +569,7 @@ namespace Mewdeko.Modules.Nsfw
         {
             ImageCacherObject imgObj;
 
-            imgObj = await _service.DapiSearch(tag, type, ctx.Guild?.Id, forceExplicit).ConfigureAwait(false);
+            imgObj = await Service.DapiSearch(tag, type, ctx.Guild?.Id, forceExplicit).ConfigureAwait(false);
 
             if (imgObj == null)
             {
@@ -610,7 +610,7 @@ namespace Mewdeko.Modules.Nsfw
 
             if (interval == 0)
             {
-                if (!_service.AutoHentaiTimers.TryRemove(ctx.Channel.Id, out t)) return;
+                if (!Service.AutoHentaiTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
@@ -638,7 +638,7 @@ namespace Mewdeko.Modules.Nsfw
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+            Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -662,7 +662,7 @@ namespace Mewdeko.Modules.Nsfw
 
             if (interval == 0)
             {
-                if (!_service.AutoBoobTimers.TryRemove(ctx.Channel.Id, out t)) return;
+                if (!Service.AutoBoobTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
@@ -684,7 +684,7 @@ namespace Mewdeko.Modules.Nsfw
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+            Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;
@@ -706,7 +706,7 @@ namespace Mewdeko.Modules.Nsfw
 
             if (interval == 0)
             {
-                if (!_service.AutoButtTimers.TryRemove(ctx.Channel.Id, out t)) return;
+                if (!Service.AutoButtTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
                 t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
                 await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
@@ -728,7 +728,7 @@ namespace Mewdeko.Modules.Nsfw
                 }
             }, null, interval * 1000, interval * 1000);
 
-            _service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+            Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return t;

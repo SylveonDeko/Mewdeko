@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPermission.ManageMessages)]
             public async Task AdSarm()
             {
-                var newVal = _service.ToggleAdSarm(ctx.Guild.Id);
+                var newVal = Service.ToggleAdSarm(ctx.Guild.Id);
 
                 if (newVal)
                     await ReplyConfirmLocalizedAsync("adsarm_enable", Prefix).ConfigureAwait(false);
@@ -71,7 +71,7 @@ namespace Mewdeko.Modules.Administration
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;
 
-                var succ = _service.AddNew(ctx.Guild.Id, role, group);
+                var succ = Service.AddNew(ctx.Guild.Id, role, group);
 
                 if (succ)
                     await ReplyConfirmLocalizedAsync("role_added", Format.Bold(role.Name),
@@ -92,7 +92,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var guser = (IGuildUser)ctx.User;
 
-                var set = await _service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
+                var set = await Service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
 
                 if (set)
                     await ReplyConfirmLocalizedAsync("group_name_added", Format.Bold(group.ToString()),
@@ -114,7 +114,7 @@ namespace Mewdeko.Modules.Administration
                 if (ctx.User.Id != guser.Guild.OwnerId && guser.GetRoles().Max(x => x.Position) <= role.Position)
                     return;
 
-                var success = _service.RemoveSar(role.Guild.Id, role.Id);
+                var success = Service.RemoveSar(role.Guild.Id, role.Id);
                 if (!success)
                     await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
                 else
@@ -131,7 +131,7 @@ namespace Mewdeko.Modules.Administration
                 if (--page < 0)
                     return;
 
-                var (exclusive, roles, groups) = _service.GetRoles(ctx.Guild);
+                var (exclusive, roles, groups) = Service.GetRoles(ctx.Guild);
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Administration
             [BotPerm(GuildPermission.ManageRoles)]
             public async Task Togglexclsar()
             {
-                var areExclusive = _service.ToggleEsar(ctx.Guild.Id);
+                var areExclusive = Service.ToggleEsar(ctx.Guild.Id);
                 if (areExclusive)
                     await ReplyConfirmLocalizedAsync("self_assign_excl").ConfigureAwait(false);
                 else
@@ -214,7 +214,7 @@ namespace Mewdeko.Modules.Administration
                 if (level < 0)
                     return;
 
-                var succ = _service.SetLevelReq(ctx.Guild.Id, role, level);
+                var succ = Service.SetLevelReq(ctx.Guild.Id, role, level);
 
                 if (!succ)
                 {
@@ -236,7 +236,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var guildUser = (IGuildUser)ctx.User;
 
-                var (result, autoDelete, extra) = await _service.Assign(guildUser, role).ConfigureAwait(false);
+                var (result, autoDelete, extra) = await Service.Assign(guildUser, role).ConfigureAwait(false);
 
                 IUserMessage msg;
                 if (result == SelfAssignedRolesService.AssignResult.Err_Not_Assignable)
@@ -269,7 +269,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var guildUser = (IGuildUser)ctx.User;
 
-                var (result, autoDelete) = await _service.Remove(guildUser, role).ConfigureAwait(false);
+                var (result, autoDelete) = await Service.Remove(guildUser, role).ConfigureAwait(false);
 
                 IUserMessage msg;
                 if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Assignable)

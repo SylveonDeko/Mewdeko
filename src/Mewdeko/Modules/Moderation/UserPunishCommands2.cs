@@ -62,7 +62,7 @@ namespace Mewdeko.Modules.Moderation
 
                 if (MWarnlogChannel == 0)
                 {
-                    await _service.SetMWarnlogChannelId(ctx.Guild, channel);
+                    await Service.SetMWarnlogChannelId(ctx.Guild, channel);
                     var WarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
                     await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been set to " +
                                                        WarnChannel.Mention);
@@ -70,7 +70,7 @@ namespace Mewdeko.Modules.Moderation
                 }
 
                 var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
-                await _service.SetMWarnlogChannelId(ctx.Guild, channel);
+                await Service.SetMWarnlogChannelId(ctx.Guild, channel);
                 var newWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
                 await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been changed from " +
                                                    oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
@@ -108,7 +108,7 @@ namespace Mewdeko.Modules.Moderation
                 WarningPunishment2 punishment;
                 try
                 {
-                    punishment = await _service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
+                    punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -162,7 +162,7 @@ namespace Mewdeko.Modules.Moderation
 
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-                await _service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
+                await Service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
                 if (days == 0)
                 {
                     await ReplyConfirmLocalizedAsync("warn_expire_reset").ConfigureAwait(false);
@@ -232,7 +232,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (page < 0)
                     return;
-                var warnings = _service.UserWarnings(ctx.Guild.Id, userId);
+                var warnings = Service.UserWarnings(ctx.Guild.Id, userId);
 
                 warnings = warnings.Skip(page * 9)
                     .Take(9)
@@ -277,7 +277,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (--page < 0)
                     return;
-                var warnings = _service.WarnlogAll(ctx.Guild.Id);
+                var warnings = Service.WarnlogAll(ctx.Guild.Id);
 
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
@@ -332,7 +332,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (index < 0)
                     return;
-                var success = await _service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString());
+                var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString());
                 var userStr = Format.Bold((ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
                 if (index == 0)
                 {
@@ -358,7 +358,7 @@ namespace Mewdeko.Modules.Moderation
             public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
             {
                 var punish = PunishmentAction.AddRole;
-                var success = _service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
+                var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
 
                 if (!success)
                     return;
@@ -386,7 +386,7 @@ namespace Mewdeko.Modules.Moderation
                 if (punish == PunishmentAction.AddRole)
                     return;
 
-                var success = _service.WarnPunish(ctx.Guild.Id, number, punish, time);
+                var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time);
 
                 if (!success)
                     return;
@@ -410,7 +410,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPermission.Administrator)]
             public async Task MWarnPunish(int number)
             {
-                if (!_service.WarnPunishRemove(ctx.Guild.Id, number)) return;
+                if (!Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
 
                 await ReplyConfirmLocalizedAsync("warn_punish_rem",
                     Format.Bold(number.ToString())).ConfigureAwait(false);
@@ -423,7 +423,7 @@ namespace Mewdeko.Modules.Moderation
             [RequireContext(ContextType.Guild)]
             public async Task MWarnPunishList()
             {
-                var ps = _service.WarnPunishList(ctx.Guild.Id);
+                var ps = Service.WarnPunishList(ctx.Guild.Id);
 
                 string list;
                 if (ps.Any())

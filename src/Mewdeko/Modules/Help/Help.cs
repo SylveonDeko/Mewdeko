@@ -267,7 +267,7 @@ namespace Mewdeko.Modules.Help
                 return;
             }
 
-            var embed = _service.GetCommandHelp(com, ctx.Guild);
+            var embed = Service.GetCommandHelp(com, ctx.Guild);
             await channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 

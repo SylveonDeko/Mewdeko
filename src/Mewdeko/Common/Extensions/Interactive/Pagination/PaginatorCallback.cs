@@ -123,8 +123,7 @@ namespace Mewdeko.Common.Extensions.Interactive.Pagination
             if (interaction.Message.Id != Message.Id) return;
             if (!Paginator.CanInteract(interaction.User))
             {
-                await interaction.DeferAsync(true);
-                await interaction.RespondAsync("You cant use this!");
+                await interaction.RespondAsync("You cant use this!", ephemeral: true);
                 return;
             }
 

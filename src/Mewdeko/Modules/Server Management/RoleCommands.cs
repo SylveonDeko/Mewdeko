@@ -184,7 +184,7 @@ namespace Mewdeko.Modules.Server_Management
             [BotPerm(GuildPermission.ManageRoles)]
             public async Task StopJob(int jobnum)
             {
-                var list = _service.jobslist
+                var list = Service.jobslist
                     .FirstOrDefault(x => x.JobId == jobnum && x.GuildId == ctx.Guild.Id);
                 if (list == null)
                 {
@@ -207,7 +207,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                await _service.StopJob(ctx.Channel as ITextChannel, jobnum, ctx.Guild);
+                await Service.StopJob(ctx.Channel as ITextChannel, jobnum, ctx.Guild);
             }
 
             [MewdekoCommand]
@@ -233,7 +233,7 @@ namespace Mewdeko.Modules.Server_Management
             [BotPerm(GuildPermission.ManageRoles)]
             public async Task RoleJobs()
             {
-                var list = _service.jobslist;
+                var list = Service.jobslist;
                 if (!list.Any())
                 {
                     await ctx.Channel.SendErrorAsync("No Mass Role Operations running!");
@@ -286,7 +286,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -303,11 +303,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 int JobId;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.Count + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users and Bots",
+                    JobId = Service.jobslist.Count + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users and Bots",
                     role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -317,18 +317,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} members before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -337,7 +337,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
             }
 
@@ -394,7 +394,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -410,11 +410,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                     "Adding a role to a provided user list",
                     role);
                 var count2 = 0;
@@ -425,18 +425,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} members before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -445,7 +445,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
             }
 
@@ -473,7 +473,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -490,11 +490,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Bots Only", role);
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Bots Only", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
                     $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count()}s.");
@@ -503,18 +503,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} bots before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -523,7 +523,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} bots!");
             }
 
@@ -551,7 +551,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -559,10 +559,10 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
                 var guild = ctx.Guild as SocketGuild;
                 var users = guild.Users.Where(c => !c.Roles.Contains(role) && !c.IsBot);
                 var count = users.Count();
@@ -572,7 +572,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users Only", role);
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users Only", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
                     $"Adding {role.Mention} to {count} users.\n + This will take about {users.Count()}s.");
@@ -581,18 +581,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} users before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -601,7 +601,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
             }
 
@@ -629,7 +629,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -648,11 +648,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                     $"Adding a role to server members that have been here for {time.Time.Humanize()}", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -662,18 +662,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} users before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -682,7 +682,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
             }
 
@@ -710,7 +710,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -729,11 +729,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                     $"Adding a role to server members that have been here for {time.Time.Humanize()} or less", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -743,18 +743,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} users before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -791,7 +791,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -808,11 +808,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                     "Removing a role from all server members", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -822,18 +822,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nRemoved {role.Mention} from {count2} out of {count} server members before stopped.");
                                 return;
                             }
 
                             await i.RemoveRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -842,7 +842,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} members!");
             }
 
@@ -870,7 +870,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -887,11 +887,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                     "Removing a role from only users", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -901,18 +901,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nRemoved {role.Mention} from {count2} out of {count} users before stopped.");
                                 return;
                             }
 
                             await i.RemoveRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -921,7 +921,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} users!");
             }
 
@@ -949,7 +949,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -966,11 +966,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                     "Removing a role from all bots", role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
@@ -980,18 +980,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in users)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nRemoved {role.Mention} from {count2} out of {count} bots before stopped.");
                                 return;
                             }
 
                             await i.RemoveRoleAsync(role);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -1000,7 +1000,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} bots!");
             }
 
@@ -1030,7 +1030,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (_service.jobslist.Count() == 5)
+                if (Service.jobslist.Count() == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -1047,11 +1047,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
                     "Adding a role to users within a role", role, role2);
                 await ctx.Channel.SendConfirmAsync(
                     $"Adding {role2.Mention} to users in {role.Mention}.\nThis will take about {inrole.Count()}s.");
@@ -1061,18 +1061,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in inrole)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nAdded {role2.Mention} to {count2} out of {inrole.Count()} users before stopped.");
                                 return;
                             }
 
                             await i.AddRoleAsync(role2);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -1081,7 +1081,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Added {role2.Mention} to {count2} users.");
             }
 
@@ -1121,11 +1121,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
                     "Removing a role from users within a role", role, role2);
                 var guildUsers = inrole as IGuildUser[] ?? inrole.ToArray();
                 await ctx.Channel.SendConfirmAsync(
@@ -1136,18 +1136,18 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in inrole)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nRemoved {role2.Mention} from {count2} out of {inrole.Count()} users before stopped.");
                                 return;
                             }
 
                             await i.RemoveRoleAsync(role2);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -1156,7 +1156,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync($"Removed {role2.Mention} from {count2} users.");
             }
 
@@ -1196,11 +1196,11 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var JobId = 0;
-                if (_service.jobslist.FirstOrDefault() is null)
+                if (Service.jobslist.FirstOrDefault() is null)
                     JobId = 1;
                 else
-                    JobId = _service.jobslist.FirstOrDefault().JobId + 1;
-                await _service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
+                    JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
                     "Adding then Removing a Role", role, role2);
                 await ctx.Channel.SendConfirmAsync(
                     $"Adding {role.Mention} to users in {role2.Mention} and removing {role2.Mention}.\nThis will take about {inrole.Count() * 2}s.");
@@ -1210,11 +1210,11 @@ namespace Mewdeko.Modules.Server_Management
                     foreach (var i in inrole)
                         try
                         {
-                            var e = _service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                            var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
                             var t = e == "Stopped";
                             if (t)
                             {
-                                await _service.RemoveJob(ctx.Guild, JobId);
+                                await Service.RemoveJob(ctx.Guild, JobId);
                                 await ctx.Channel.SendConfirmAsync(
                                     $"Massrole Stopped.\nAdded {role2.Mention} and removed {role.Mention} from {count2} users out of {inrole.Count()} users before stopped.");
                                 return;
@@ -1222,7 +1222,7 @@ namespace Mewdeko.Modules.Server_Management
 
                             await i.AddRoleAsync(role);
                             await i.RemoveRoleAsync(role2);
-                            await _service.UpdateCount(ctx.Guild, JobId, count2);
+                            await Service.UpdateCount(ctx.Guild, JobId, count2);
                             count2++;
                         }
                         catch (HttpException e)
@@ -1231,7 +1231,7 @@ namespace Mewdeko.Modules.Server_Management
                         }
                 }
 
-                await _service.RemoveJob(ctx.Guild, JobId);
+                await Service.RemoveJob(ctx.Guild, JobId);
                 await ctx.Channel.SendConfirmAsync(
                     $"Added {role2.Mention} to {count2} users and removed {role.Mention}.");
             }

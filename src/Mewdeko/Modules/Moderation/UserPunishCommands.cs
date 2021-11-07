@@ -86,14 +86,14 @@ namespace Mewdeko.Modules.Moderation
 
                 if (WarnlogChannel == 0)
                 {
-                    await _service.SetWarnlogChannelId(ctx.Guild, channel);
+                    await Service.SetWarnlogChannelId(ctx.Guild, channel);
                     var WarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
                     await ctx.Channel.SendConfirmAsync("Your warnlog channel has been set to " + WarnChannel.Mention);
                     return;
                 }
 
                 var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
-                await _service.SetWarnlogChannelId(ctx.Guild, channel);
+                await Service.SetWarnlogChannelId(ctx.Guild, channel);
                 var newWarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
                 await ctx.Channel.SendConfirmAsync("Your warnlog channel has been changed from " +
                                                    oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
@@ -128,7 +128,7 @@ namespace Mewdeko.Modules.Moderation
                 WarningPunishment punishment;
                 try
                 {
-                    punishment = await _service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
+                    punishment = await Service.Warn(ctx.Guild, user.Id, ctx.User, reason).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Moderation
 
                 await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-                await _service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
+                await Service.WarnExpireAsync(ctx.Guild.Id, days, opts.Delete).ConfigureAwait(false);
                 if (days == 0)
                 {
                     await ReplyConfirmLocalizedAsync("warn_expire_reset").ConfigureAwait(false);
@@ -240,7 +240,7 @@ namespace Mewdeko.Modules.Moderation
 
             private async Task InternalWarnlog(ulong userId)
             {
-                var warnings = _service.UserWarnings(ctx.Guild.Id, userId);
+                var warnings = Service.UserWarnings(ctx.Guild.Id, userId);
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
@@ -297,7 +297,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (--page < 0)
                     return;
-                var warnings = _service.WarnlogAll(ctx.Guild.Id);
+                var warnings = Service.WarnlogAll(ctx.Guild.Id);
 
                 var paginator = new LazyPaginatorBuilder()
                     .AddUser(ctx.User)
@@ -352,7 +352,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (index < 0)
                     return;
-                var success = await _service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString());
+                var success = await Service.WarnClearAsync(ctx.Guild.Id, userId, index, ctx.User.ToString());
                 var userStr = Format.Bold((ctx.Guild as SocketGuild)?.GetUser(userId)?.ToString() ?? userId.ToString());
                 if (index == 0)
                 {
@@ -378,7 +378,7 @@ namespace Mewdeko.Modules.Moderation
             public async Task WarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
             {
                 var punish = PunishmentAction.AddRole;
-                var success = _service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
+                var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
 
                 if (!success)
                     return;
@@ -406,7 +406,7 @@ namespace Mewdeko.Modules.Moderation
                 if (punish == PunishmentAction.AddRole)
                     return;
 
-                var success = _service.WarnPunish(ctx.Guild.Id, number, punish, time);
+                var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time);
 
                 if (!success)
                     return;
@@ -430,7 +430,7 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(GuildPermission.BanMembers)]
             public async Task WarnPunish(int number)
             {
-                if (!_service.WarnPunishRemove(ctx.Guild.Id, number)) return;
+                if (!Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
 
                 await ReplyConfirmLocalizedAsync("warn_punish_rem",
                     Format.Bold(number.ToString())).ConfigureAwait(false);
@@ -443,7 +443,7 @@ namespace Mewdeko.Modules.Moderation
             [RequireContext(ContextType.Guild)]
             public async Task WarnPunishList()
             {
-                var ps = _service.WarnPunishList(ctx.Guild.Id);
+                var ps = Service.WarnPunishList(ctx.Guild.Id);
 
                 string list;
                 if (ps.Any())
@@ -482,7 +482,7 @@ namespace Mewdeko.Modules.Moderation
                     try
                     {
                         var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                        var embed = _service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                        var embed = Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
                         if (!(embed is null))
                         {
                             var userChannel = await guildUser.CreateDMChannelAsync();
@@ -555,7 +555,7 @@ namespace Mewdeko.Modules.Moderation
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var embed = _service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                    var embed = Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
                     if (!(embed is null))
                     {
                         var userChannel = await user.CreateDMChannelAsync();
@@ -591,7 +591,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 if (message is null)
                 {
-                    var template = _service.GetBanTemplate(Context.Guild.Id);
+                    var template = Service.GetBanTemplate(Context.Guild.Id);
                     if (template is null)
                     {
                         await ReplyConfirmLocalizedAsync("banmsg_default");
@@ -602,7 +602,7 @@ namespace Mewdeko.Modules.Moderation
                     return;
                 }
 
-                _service.SetBanTemplate(Context.Guild.Id, message);
+                Service.SetBanTemplate(Context.Guild.Id, message);
                 await ctx.OkAsync();
             }
 
@@ -615,7 +615,7 @@ namespace Mewdeko.Modules.Moderation
             [BotPerm(GuildPermission.BanMembers)]
             public async Task BanMsgReset()
             {
-                _service.SetBanTemplate(Context.Guild.Id, null);
+                Service.SetBanTemplate(Context.Guild.Id, null);
                 await ctx.OkAsync();
             }
 
@@ -649,7 +649,7 @@ namespace Mewdeko.Modules.Moderation
             {
                 var dmChannel = await ctx.User.CreateDMChannelAsync();
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
-                var crEmbed = _service.GetBanUserDmEmbed(Context,
+                var crEmbed = Service.GetBanUserDmEmbed(Context,
                     (IGuildUser)Context.User,
                     defaultMessage,
                     reason,
@@ -866,7 +866,7 @@ namespace Mewdeko.Modules.Moderation
                 if (string.IsNullOrWhiteSpace(people))
                     return;
 
-                var (bans, missing) = _service.MassKill((SocketGuild)ctx.Guild, people);
+                var (bans, missing) = Service.MassKill((SocketGuild)ctx.Guild, people);
 
                 var missStr = string.Join("\n", missing);
                 if (string.IsNullOrWhiteSpace(missStr))

@@ -37,19 +37,19 @@ namespace Mewdeko.Modules.Games
                 await _sem.WaitAsync(1000).ConfigureAwait(false);
                 try
                 {
-                    if (_service.TicTacToeGames.TryGetValue(channel.Id, out var game))
+                    if (Service.TicTacToeGames.TryGetValue(channel.Id, out var game))
                     {
                         var _ = Task.Run(async () => { await game.Start((IGuildUser)ctx.User).ConfigureAwait(false); });
                         return;
                     }
 
                     game = new TicTacToe(Strings, _client, channel, (IGuildUser)ctx.User, options);
-                    _service.TicTacToeGames.Add(channel.Id, game);
+                    Service.TicTacToeGames.Add(channel.Id, game);
                     await ReplyConfirmLocalizedAsync("ttt_created").ConfigureAwait(false);
 
                     game.OnEnded += g =>
                     {
-                        _service.TicTacToeGames.Remove(channel.Id);
+                        Service.TicTacToeGames.Remove(channel.Id);
                         _sem.Dispose();
                     };
                 }

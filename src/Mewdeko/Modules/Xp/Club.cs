@@ -35,7 +35,7 @@ namespace Mewdeko.Modules.Xp
             [Aliases]
             public async Task ClubTransfer([Remainder] IUser newOwner)
             {
-                var club = _service.TransferClub(ctx.User, newOwner);
+                var club = Service.TransferClub(ctx.User, newOwner);
 
                 if (club != null)
                     await ReplyConfirmLocalizedAsync("club_transfered",
@@ -54,7 +54,7 @@ namespace Mewdeko.Modules.Xp
                 bool admin;
                 try
                 {
-                    admin = _service.ToggleAdmin(ctx.User, toAdmin);
+                    admin = Service.ToggleAdmin(ctx.User, toAdmin);
                 }
                 catch (InvalidOperationException)
                 {
@@ -82,7 +82,7 @@ namespace Mewdeko.Modules.Xp
                     return;
                 }
 
-                if (!_service.CreateClub(ctx.User, clubName, out var club))
+                if (!Service.CreateClub(ctx.User, clubName, out var club))
                 {
                     await ReplyErrorLocalizedAsync("club_create_error").ConfigureAwait(false);
                     return;
@@ -98,7 +98,7 @@ namespace Mewdeko.Modules.Xp
             public async Task ClubIcon([Remainder] string url = null)
             {
                 if (!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null
-                    || !await _service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)))
+                    || !await Service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)))
                 {
                     await ReplyErrorLocalizedAsync("club_icon_error").ConfigureAwait(false);
                     return;
@@ -115,7 +115,7 @@ namespace Mewdeko.Modules.Xp
             public async Task ClubInformation(IUser user = null)
             {
                 user = user ?? ctx.User;
-                var club = _service.GetClubByMember(user);
+                var club = Service.GetClubByMember(user);
                 if (club == null)
                 {
                     await ErrorLocalizedAsync("club_user_not_in_club", Format.Bold(user.ToString()));
@@ -138,7 +138,7 @@ namespace Mewdeko.Modules.Xp
                     return;
                 }
 
-                if (!_service.GetClubByName(clubName, out var club))
+                if (!Service.GetClubByName(clubName, out var club))
                 {
                     await ReplyErrorLocalizedAsync("club_not_exists").ConfigureAwait(false);
                     return;
@@ -205,7 +205,7 @@ namespace Mewdeko.Modules.Xp
                 if (--page < 0)
                     return;
 
-                var club = _service.GetClubWithBansAndApplications(ctx.User.Id);
+                var club = Service.GetClubWithBansAndApplications(ctx.User.Id);
                 if (club == null)
                 {
                     await ReplyErrorLocalizedAsync("club_not_exists_owner");
@@ -251,7 +251,7 @@ namespace Mewdeko.Modules.Xp
                 if (--page < 0)
                     return;
 
-                var club = _service.GetClubWithBansAndApplications(ctx.User.Id);
+                var club = Service.GetClubWithBansAndApplications(ctx.User.Id);
                 if (club == null)
                 {
                     await ReplyErrorLocalizedAsync("club_not_exists_owner");
@@ -296,13 +296,13 @@ namespace Mewdeko.Modules.Xp
                 if (string.IsNullOrWhiteSpace(clubName))
                     return;
 
-                if (!_service.GetClubByName(clubName, out var club))
+                if (!Service.GetClubByName(clubName, out var club))
                 {
                     await ReplyErrorLocalizedAsync("club_not_exists").ConfigureAwait(false);
                     return;
                 }
 
-                if (_service.ApplyToClub(ctx.User, club))
+                if (Service.ApplyToClub(ctx.User, club))
                     await ReplyConfirmLocalizedAsync("club_applied", Format.Bold(club.ToString()))
                         .ConfigureAwait(false);
                 else
@@ -326,7 +326,7 @@ namespace Mewdeko.Modules.Xp
             [Priority(0)]
             public async Task ClubAccept([Remainder] string userName)
             {
-                if (_service.AcceptApplication(ctx.User.Id, userName, out var discordUser))
+                if (Service.AcceptApplication(ctx.User.Id, userName, out var discordUser))
                     await ReplyConfirmLocalizedAsync("club_accepted", Format.Bold(discordUser.ToString()))
                         .ConfigureAwait(false);
                 else
@@ -339,7 +339,7 @@ namespace Mewdeko.Modules.Xp
             [Aliases]
             public async Task Clubleave()
             {
-                if (_service.LeaveClub(ctx.User))
+                if (Service.LeaveClub(ctx.User))
                     await ReplyConfirmLocalizedAsync("club_left").ConfigureAwait(false);
                 else
                     await ReplyErrorLocalizedAsync("club_not_in_club").ConfigureAwait(false);
@@ -362,7 +362,7 @@ namespace Mewdeko.Modules.Xp
             [Priority(0)]
             public Task ClubKick([Remainder] string userName)
             {
-                if (_service.Kick(ctx.User.Id, userName, out var club))
+                if (Service.Kick(ctx.User.Id, userName, out var club))
                     return ReplyConfirmLocalizedAsync("club_user_kick", Format.Bold(userName),
                         Format.Bold(club.ToString()));
                 return ReplyErrorLocalizedAsync("club_user_kick_fail");
@@ -385,7 +385,7 @@ namespace Mewdeko.Modules.Xp
             [Priority(0)]
             public Task ClubBan([Remainder] string userName)
             {
-                if (_service.Ban(ctx.User.Id, userName, out var club))
+                if (Service.Ban(ctx.User.Id, userName, out var club))
                     return ReplyConfirmLocalizedAsync("club_user_banned", Format.Bold(userName),
                         Format.Bold(club.ToString()));
                 return ReplyErrorLocalizedAsync("club_user_ban_fail");
@@ -408,7 +408,7 @@ namespace Mewdeko.Modules.Xp
             [Priority(0)]
             public Task ClubUnBan([Remainder] string userName)
             {
-                if (_service.UnBan(ctx.User.Id, userName, out var club))
+                if (Service.UnBan(ctx.User.Id, userName, out var club))
                     return ReplyConfirmLocalizedAsync("club_user_unbanned", Format.Bold(userName),
                         Format.Bold(club.ToString()));
                 return ReplyErrorLocalizedAsync("club_user_unban_fail");
@@ -420,7 +420,7 @@ namespace Mewdeko.Modules.Xp
             [Aliases]
             public async Task ClubLevelReq(int level)
             {
-                if (_service.ChangeClubLevelReq(ctx.User.Id, level))
+                if (Service.ChangeClubLevelReq(ctx.User.Id, level))
                     await ReplyConfirmLocalizedAsync("club_level_req_changed", Format.Bold(level.ToString()))
                         .ConfigureAwait(false);
                 else
@@ -433,7 +433,7 @@ namespace Mewdeko.Modules.Xp
             [Aliases]
             public async Task ClubDescription([Remainder] string desc = null)
             {
-                if (_service.ChangeClubDescription(ctx.User.Id, desc))
+                if (Service.ChangeClubDescription(ctx.User.Id, desc))
                     await ReplyConfirmLocalizedAsync("club_desc_updated", Format.Bold(desc ?? "-"))
                         .ConfigureAwait(false);
                 else
@@ -446,7 +446,7 @@ namespace Mewdeko.Modules.Xp
             [Aliases]
             public async Task ClubDisband()
             {
-                if (_service.Disband(ctx.User.Id, out var club))
+                if (Service.Disband(ctx.User.Id, out var club))
                     await ReplyConfirmLocalizedAsync("club_disbanded", Format.Bold(club.ToString()))
                         .ConfigureAwait(false);
                 else
@@ -462,7 +462,7 @@ namespace Mewdeko.Modules.Xp
                 if (--page < 0)
                     return Task.CompletedTask;
 
-                var clubs = _service.GetClubLeaderboardPage(page);
+                var clubs = Service.GetClubLeaderboardPage(page);
 
                 var embed = new EmbedBuilder()
                     .WithTitle(GetText("club_leaderboard", page + 1))

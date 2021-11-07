@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var roles = await _service.ToggleAarAsync(ctx.Guild.Id, role.Id);
+                var roles = await Service.ToggleAarAsync(ctx.Guild.Id, role.Id);
                 if (roles.Count == 0)
                     await ReplyConfirmLocalizedAsync("aar_disabled");
                 else if (roles.Contains(role.Id))
@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageRoles)]
             public async Task AutoAssignRole()
             {
-                if (!_service.TryGetNormalRoles(ctx.Guild.Id, out var roles))
+                if (!Service.TryGetNormalRoles(ctx.Guild.Id, out var roles))
                 {
                     await ReplyConfirmLocalizedAsync("aar_none");
                     return;
@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Administration
                     .ToList();
 
                 if (existing.Count != roles.Count)
-                    await _service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
+                    await Service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
 
                 await ReplyConfirmLocalizedAsync("aar_roles",
                     '\n' + existing.Select(x => Format.Bold(x.Mention))
@@ -86,7 +86,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                var roles = await _service.ToggleAabrAsync(ctx.Guild.Id, role.Id);
+                var roles = await Service.ToggleAabrAsync(ctx.Guild.Id, role.Id);
                 if (roles.Count == 0)
                     await ReplyConfirmLocalizedAsync("aabr_disabled");
                 else if (roles.Contains(role.Id))
@@ -103,7 +103,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageRoles)]
             public async Task AutoAssignBotRole()
             {
-                if (!_service.TryGetBotRoles(ctx.Guild.Id, out var roles))
+                if (!Service.TryGetBotRoles(ctx.Guild.Id, out var roles))
                 {
                     await ReplyConfirmLocalizedAsync("aabr_none");
                     return;
@@ -113,7 +113,7 @@ namespace Mewdeko.Modules.Administration
                     .ToList();
 
                 if (existing.Count != roles.Count)
-                    await _service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
+                    await Service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
 
                 await ReplyConfirmLocalizedAsync("aabr_roles",
                     '\n' + existing.Select(x => Format.Bold(x.Mention))

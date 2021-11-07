@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Gambling
             public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
             {
                 var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);
-                if (!await _service.TryCreateEventAsync(ctx.Guild.Id,
+                if (!await Service.TryCreateEventAsync(ctx.Guild.Id,
                     ctx.Channel.Id,
                     ev,
                     opts,

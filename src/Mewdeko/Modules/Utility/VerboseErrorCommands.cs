@@ -20,7 +20,7 @@ namespace Mewdeko.Modules.Utility
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task VerboseError(bool? newstate = null)
             {
-                var state = _service.ToggleVerboseErrors(ctx.Guild.Id, newstate);
+                var state = Service.ToggleVerboseErrors(ctx.Guild.Id, newstate);
 
                 if (state)
                     await ReplyConfirmLocalizedAsync("verbose_errors_enabled").ConfigureAwait(false);

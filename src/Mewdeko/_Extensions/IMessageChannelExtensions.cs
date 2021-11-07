@@ -45,9 +45,9 @@ namespace Mewdeko._Extensions
             return ch.SendMessageAsync("", embed: eb.Build());
         }
 
-        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text)
+        public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text, ComponentBuilder builder = null)
         {
-            return ch.SendMessageAsync("", embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
+            return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(), component: builder?.Build());
         }
 
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items,
@@ -78,7 +78,7 @@ namespace Mewdeko._Extensions
 
         public static Task WarningAsync(this ICommandContext ctx)
         {
-            return ctx.Message.AddReactionAsync(new Emoji("⚠️"));
+            return ctx.Message.AddReactionAsync(new Emoji("⚠"));
         }
     }
 }

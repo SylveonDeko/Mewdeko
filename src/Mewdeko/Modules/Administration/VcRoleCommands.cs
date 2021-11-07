@@ -24,7 +24,7 @@ namespace Mewdeko.Modules.Administration
             [RequireContext(ContextType.Guild)]
             public async Task VcRoleRm(ulong vcId)
             {
-                if (_service.RemoveVcRole(ctx.Guild.Id, vcId))
+                if (Service.RemoveVcRole(ctx.Guild.Id, vcId))
                     await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vcId.ToString()))
                         .ConfigureAwait(false);
                 else
@@ -52,12 +52,12 @@ namespace Mewdeko.Modules.Administration
 
                 if (role == null)
                 {
-                    if (_service.RemoveVcRole(ctx.Guild.Id, vc.Id))
+                    if (Service.RemoveVcRole(ctx.Guild.Id, vc.Id))
                         await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(vc.Name)).ConfigureAwait(false);
                 }
                 else
                 {
-                    _service.AddVcRole(ctx.Guild.Id, role, vc.Id);
+                    Service.AddVcRole(ctx.Guild.Id, role, vc.Id);
                     await ReplyConfirmLocalizedAsync("vcrole_added", Format.Bold(vc.Name), Format.Bold(role.Name))
                         .ConfigureAwait(false);
                 }
@@ -72,7 +72,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var guild = (SocketGuild)ctx.Guild;
                 string text;
-                if (_service.VcRoles.TryGetValue(ctx.Guild.Id, out var roles))
+                if (Service.VcRoles.TryGetValue(ctx.Guild.Id, out var roles))
                 {
                     if (!roles.Any())
                         text = GetText("no_vcroles");

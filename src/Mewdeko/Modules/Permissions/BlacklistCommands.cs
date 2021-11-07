@@ -80,9 +80,9 @@ namespace Mewdeko.Modules.Permissions
                     return;
 
                 if (action == AddRemove.Add)
-                    _service.Blacklist(type, id);
+                    Service.Blacklist(type, id);
                 else
-                    _service.UnBlacklist(type, id);
+                    Service.UnBlacklist(type, id);
 
                 if (action == AddRemove.Add)
                     await ReplyConfirmLocalizedAsync("blacklisted", Format.Code(type.ToString()),

@@ -144,11 +144,11 @@ namespace Mewdeko.Modules.Utility
         [UserPerm(GuildPermission.ManageChannels)]
         public async Task ReactChannel(ITextChannel chan = null)
         {
-            var e = _service.GetReactChans(ctx.Guild.Id);
+            var e = Service.GetReactChans(ctx.Guild.Id);
             if (chan == null)
             {
                 if (e == 0) return;
-                await _service.SetReactChan(ctx.Guild, 0);
+                await Service.SetReactChan(ctx.Guild, 0);
                 ;
                 await ctx.Channel.SendConfirmAsync("React Channel Disabled!");
             }
@@ -156,7 +156,7 @@ namespace Mewdeko.Modules.Utility
             {
                 if (e == 0)
                 {
-                    await _service.SetReactChan(ctx.Guild, chan.Id);
+                    await Service.SetReactChan(ctx.Guild, chan.Id);
                     await ctx.Channel.SendConfirmAsync($"Your React Channel has been set to {chan.Mention}!");
                 }
                 else
@@ -168,7 +168,7 @@ namespace Mewdeko.Modules.Utility
                     }
                     else
                     {
-                        await _service.SetReactChan(ctx.Guild, chan.Id);
+                        await Service.SetReactChan(ctx.Guild, chan.Id);
                         await ctx.Channel.SendConfirmAsync(
                             $"Your React Channel has been switched from {chan2.Mention} to {chan.Mention}!");
                     }
@@ -184,8 +184,8 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task SnipeSet(string yesnt)
         {
-            await _service.SnipeSet(ctx.Guild, yesnt);
-            var t = _service.GetSnipeSet(ctx.Guild.Id);
+            await Service.SnipeSet(ctx.Guild, yesnt);
+            var t = Service.GetSnipeSet(ctx.Guild.Id);
             switch (t)
             {
                 case 1:
@@ -204,14 +204,14 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task Snipe()
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
-            var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
+            var msgs = Service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
             {
                 if (!msgs.Any() || msgs == null)
                 {
@@ -248,14 +248,14 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task SnipeList(int amount = 5)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
-            var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
+            var msgs = Service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
             {
                 if (!msgs.Any() || msgs == null)
                 {
@@ -299,14 +299,14 @@ namespace Mewdeko.Modules.Utility
         [Priority(1)]
         public async Task Snipe(IUser user1)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
-            var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
+            var msgs = Service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
             {
                 if (!msgs.Any() || msgs == null)
                 {
@@ -351,14 +351,14 @@ namespace Mewdeko.Modules.Utility
         [Priority(2)]
         public async Task Snipe(ITextChannel chan)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
-            var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
+            var msgs = Service.Snipemsg(ctx.Guild.Id, chan.Id);
             {
                 if (!msgs.Any() || msgs == null)
                 {
@@ -403,14 +403,14 @@ namespace Mewdeko.Modules.Utility
         [Priority(2)]
         public async Task Snipe(ITextChannel chan, IUser user1)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
-            var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
+            var msgs = Service.Snipemsg(ctx.Guild.Id, chan.Id);
             {
                 if (!msgs.Any() || msgs == null)
                 {
@@ -455,8 +455,8 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task PreviewLinks(string yesnt)
         {
-            await _service.PreviewLinks(ctx.Guild, yesnt.Substring(0, 1).ToLower());
-            var t = _service.GetPLinks(ctx.Guild.Id);
+            await Service.PreviewLinks(ctx.Guild, yesnt.Substring(0, 1).ToLower());
+            var t = Service.GetPLinks(ctx.Guild.Id);
             switch (t)
             {
                 case 1:
@@ -475,7 +475,7 @@ namespace Mewdeko.Modules.Utility
         [RequireContext(ContextType.Guild)]
         public async Task EditSnipe()
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -483,7 +483,7 @@ namespace Mewdeko.Modules.Utility
             }
 
             {
-                var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
+                var msgs = Service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
                 if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
@@ -526,7 +526,7 @@ namespace Mewdeko.Modules.Utility
         [Priority(1)]
         public async Task EditSnipe(IUser user1)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -534,7 +534,7 @@ namespace Mewdeko.Modules.Utility
             }
 
             {
-                var msgs = _service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
+                var msgs = Service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id).Where(x => x.UserId == user1.Id);
                 if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
@@ -577,7 +577,7 @@ namespace Mewdeko.Modules.Utility
         [Priority(1)]
         public async Task EditSnipe(ITextChannel chan)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -585,7 +585,7 @@ namespace Mewdeko.Modules.Utility
             }
 
             {
-                var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id);
+                var msgs = Service.Snipemsg(ctx.Guild.Id, chan.Id);
                 if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
@@ -628,7 +628,7 @@ namespace Mewdeko.Modules.Utility
         [Priority(1)]
         public async Task EditSnipe(ITextChannel chan, IUser user1)
         {
-            if (_service.GetSnipeSet(ctx.Guild.Id) == 0)
+            if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -636,7 +636,7 @@ namespace Mewdeko.Modules.Utility
             }
 
             {
-                var msgs = _service.Snipemsg(ctx.Guild.Id, chan.Id).Where(x => x.UserId == user1.Id);
+                var msgs = Service.Snipemsg(ctx.Guild.Id, chan.Id).Where(x => x.UserId == user1.Id);
                 if (!msgs.Any() || msgs == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user or channel!");

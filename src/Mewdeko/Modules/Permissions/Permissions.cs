@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Permissions
                     action = new PermissionAction(!config.VerbosePermissions); // New behaviour, can toggle.
                 config.VerbosePermissions = action.Value;
                 await uow.SaveChangesAsync();
-                _service.UpdateCache(config);
+                Service.UpdateCache(config);
             }
 
             if (action.Value)
@@ -73,7 +73,7 @@ namespace Mewdeko.Modules.Permissions
 
             if (role == null)
             {
-                var cache = _service.GetCacheFor(ctx.Guild.Id);
+                var cache = Service.GetCacheFor(ctx.Guild.Id);
                 if (!ulong.TryParse(cache.PermRole, out var roleId) ||
                     (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
                     await ReplyConfirmLocalizedAsync("permrole_not_set", Format.Bold(cache.PermRole))
@@ -88,7 +88,7 @@ namespace Mewdeko.Modules.Permissions
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = role.Id.ToString();
                 uow.SaveChanges();
-                _service.UpdateCache(config);
+                Service.UpdateCache(config);
             }
 
             await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
@@ -108,7 +108,7 @@ namespace Mewdeko.Modules.Permissions
                 var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
                 config.PermissionRole = null;
                 await uow.SaveChangesAsync();
-                _service.UpdateCache(config);
+                Service.UpdateCache(config);
             }
 
             await ReplyConfirmLocalizedAsync("permrole_reset").ConfigureAwait(false);
@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Permissions
 
             IList<Permissionv2> perms;
 
-            if (_service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
+            if (Service.Cache.TryGetValue(ctx.Guild.Id, out var permCache))
                 perms = permCache.Permissions.Source.ToList();
             else
                 perms = Permissionv2.GetDefaultPermlist;
@@ -177,7 +177,7 @@ namespace Mewdeko.Modules.Permissions
                     permsCol.RemoveAt(index);
                     uow._context.Remove(p);
                     await uow.SaveChangesAsync();
-                    _service.UpdateCache(config);
+                    Service.UpdateCache(config);
                 }
 
                 await ReplyConfirmLocalizedAsync("removed",
@@ -228,7 +228,7 @@ namespace Mewdeko.Modules.Permissions
                         permsCol.RemoveAt(from);
                         permsCol.Insert(to, fromPerm);
                         await uow.SaveChangesAsync();
-                        _service.UpdateCache(config);
+                        Service.UpdateCache(config);
                     }
 
                     await ReplyConfirmLocalizedAsync("moved_permission",
@@ -253,7 +253,7 @@ namespace Mewdeko.Modules.Permissions
         public async Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
         {
             
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
@@ -280,7 +280,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
@@ -306,7 +306,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task UsrCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] IGuildUser user)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -335,7 +335,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] IGuildUser user)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -366,7 +366,7 @@ namespace Mewdeko.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -398,7 +398,7 @@ namespace Mewdeko.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -427,7 +427,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ITextChannel chnl)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -456,7 +456,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ITextChannel chnl)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -484,7 +484,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllChnlMdls(PermissionAction action, [Remainder] ITextChannel chnl)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Channel,
                 PrimaryTargetId = chnl.Id,
@@ -507,7 +507,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task CatCmd(CommandOrCrInfo command, PermissionAction action, [Remainder] ICategoryChannel chnl)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Category,
                 PrimaryTargetId = chnl.Id,
@@ -536,7 +536,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task CatMdl(ModuleOrCrInfo module, PermissionAction action, [Remainder] ICategoryChannel chnl)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Category,
                 PrimaryTargetId = chnl.Id,
@@ -564,7 +564,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllCatMdls(PermissionAction action, [Remainder] ICategoryChannel chnl)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Category,
                 PrimaryTargetId = chnl.Id,
@@ -591,7 +591,7 @@ namespace Mewdeko.Modules.Permissions
             if (role == role.Guild.EveryoneRole)
                 return;
 
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.Role,
                 PrimaryTargetId = role.Id,
@@ -615,7 +615,7 @@ namespace Mewdeko.Modules.Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AllUsrMdls(PermissionAction action, [Remainder] IUser user)
         {
-            await _service.AddPermissions(ctx.Guild.Id, new Permissionv2
+            await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 PrimaryTarget = PrimaryPermissionType.User,
                 PrimaryTargetId = user.Id,
@@ -657,7 +657,7 @@ namespace Mewdeko.Modules.Permissions
                 State = true
             };
 
-            await _service.AddPermissions(ctx.Guild.Id,
+            await Service.AddPermissions(ctx.Guild.Id,
                 newPerm,
                 allowUser).ConfigureAwait(false);
 

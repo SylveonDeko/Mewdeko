@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Xp
                 if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
                     return;
 
-                _service.XpReset(ctx.Guild.Id, userId);
+                Service.XpReset(ctx.Guild.Id, userId);
 
                 await ReplyConfirmLocalizedAsync("reset_user", userId).ConfigureAwait(false);
             }
@@ -57,7 +57,7 @@ namespace Mewdeko.Modules.Xp
                 if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false))
                     return;
 
-                _service.XpReset(ctx.Guild.Id);
+                Service.XpReset(ctx.Guild.Id);
 
                 await ReplyConfirmLocalizedAsync("reset_server").ConfigureAwait(false);
             }

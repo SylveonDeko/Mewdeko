@@ -95,7 +95,7 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         public async Task Economy()
         {
-            var ec = _service.GetEconomy();
+            var ec = Service.GetEconomy();
             decimal onePercent = 0;
             if (ec.Cash > 0)
                 onePercent =
@@ -151,7 +151,7 @@ namespace Mewdeko.Modules.Gambling
             var val = 25000;
             var period = 3;
             TimeSpan? rem;
-            if (!_service.GetVoted(ctx.User.Id))
+            if (!Service.GetVoted(ctx.User.Id))
             {
                 await ctx.Channel.SendErrorAsync(
                     "You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
@@ -479,7 +479,7 @@ namespace Mewdeko.Modules.Gambling
 
             //since the challenge is created by another user, we need to reverse the ids
             //if it gets removed, means challenge is accepted
-            if (_service.Duels.TryRemove((ctx.User.Id, u.Id), out var game))
+            if (Service.Duels.TryRemove((ctx.User.Id, u.Id), out var game))
                 await game.StartGame().ConfigureAwait(false);
         }
 
@@ -502,7 +502,7 @@ namespace Mewdeko.Modules.Gambling
 
             var game = new RollDuelGame(_cs, _client.CurrentUser.Id, ctx.User.Id, u.Id, amount);
             //means challenge is just created
-            if (_service.Duels.TryGetValue((ctx.User.Id, u.Id), out var other))
+            if (Service.Duels.TryGetValue((ctx.User.Id, u.Id), out var other))
             {
                 if (other.Amount != amount)
                     await ReplyErrorLocalizedAsync("roll_duel_already_challenged").ConfigureAwait(false);
@@ -511,7 +511,7 @@ namespace Mewdeko.Modules.Gambling
                 return;
             }
 
-            if (_service.Duels.TryAdd((u.Id, ctx.User.Id), game))
+            if (Service.Duels.TryAdd((u.Id, ctx.User.Id), game))
             {
                 game.OnGameTick += Game_OnGameTick;
                 game.OnEnded += Game_OnEnded;
@@ -563,7 +563,7 @@ namespace Mewdeko.Modules.Gambling
                 }
                 finally
                 {
-                    _service.Duels.TryRemove((u.Id, ctx.User.Id), out var _);
+                    Service.Duels.TryRemove((u.Id, ctx.User.Id), out var _);
                 }
             }
         }

@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -10,6 +14,7 @@ using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services;
 using Mewdeko.Services.strings;
+
 
 namespace Mewdeko.Common
 {
@@ -72,7 +77,7 @@ namespace Mewdeko.Common
             var text = GetText(textKey, args);
             return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
         }
-
+        
         public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
         {
             embed.WithOkColor();
@@ -166,16 +171,16 @@ namespace Mewdeko.Common
         }
     }
 
-    public abstract class MewdekoModule<TService> : MewdekoModule
-    {
-        public TService _service { get; set; }
-    }
+        public abstract class MewdekoModule<TService> : MewdekoModule
+        {
+            public TService Service { get; set; }
+        }
 
-    public abstract class MewdekoSubmodule : MewdekoModule
-    {
-    }
+        public abstract class MewdekoSubmodule : MewdekoModule
+        {
+        }
 
-    public abstract class MewdekoSubmodule<TService> : MewdekoModule<TService>
-    {
+        public abstract class MewdekoSubmodule<TService> : MewdekoModule<TService>
+        {
+        }
     }
-}

@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public async Task LogServer(PermissionAction action)
             {
-                await _service.LogServer(ctx.Guild.Id, ctx.Channel.Id, action.Value).ConfigureAwait(false);
+                await Service.LogServer(ctx.Guild.Id, ctx.Channel.Id, action.Value).ConfigureAwait(false);
                 if (action.Value)
                     await ReplyConfirmLocalizedAsync("log_all").ConfigureAwait(false);
                 else
@@ -49,7 +49,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public async Task LogServer(ITextChannel channel, PermissionAction action)
             {
-                await _service.LogServer(ctx.Guild.Id, channel.Id, action.Value).ConfigureAwait(false);
+                await Service.LogServer(ctx.Guild.Id, channel.Id, action.Value).ConfigureAwait(false);
                 if (action.Value)
                     await ctx.Channel.SendConfirmAsync("Logging of all events have been enabled in " + channel.Mention)
                         .ConfigureAwait(false);
@@ -68,7 +68,7 @@ namespace Mewdeko.Modules.Administration
             {
                 var channel = (ITextChannel)ctx.Channel;
 
-                var removed = _service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
+                var removed = Service.LogIgnore(ctx.Guild.Id, ctx.Channel.Id);
 
                 if (!removed)
                     await ReplyConfirmLocalizedAsync("log_ignore",
@@ -87,7 +87,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public async Task LogIgnore(ITextChannel channel)
             {
-                var removed = _service.LogIgnore(ctx.Guild.Id, channel.Id);
+                var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
 
                 if (!removed)
                     await ReplyConfirmLocalizedAsync("log_ignore",
@@ -106,7 +106,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(2)]
             public async Task LogIgnore(IVoiceChannel channel)
             {
-                var removed = _service.LogIgnore(ctx.Guild.Id, channel.Id);
+                var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
 
                 if (!removed)
                     await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold(channel.Name + "(" + channel.Id + ")"))
@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.Administrator)]
             public async Task LogEvents()
             {
-                _service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
+                Service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
                 var str = string.Join("\n", Enum.GetNames(typeof(LogType))
                     .Select(x =>
                     {
@@ -193,7 +193,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public async Task Log(LogType type)
             {
-                var val = _service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
+                var val = Service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
 
                 if (val)
                     await ReplyConfirmLocalizedAsync("log", Format.Bold(type.ToString())).ConfigureAwait(false);
@@ -210,7 +210,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public async Task Log(LogType type, ITextChannel channel)
             {
-                var val = _service.Log(ctx.Guild.Id, channel.Id, type);
+                var val = Service.Log(ctx.Guild.Id, channel.Id, type);
 
                 if (val)
                 {
@@ -219,7 +219,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                _service.Log(ctx.Guild.Id, channel.Id, type);
+                Service.Log(ctx.Guild.Id, channel.Id, type);
 
                 await ctx.Channel.SendConfirmAsync("Event Logging for " + Format.Bold(type.ToString()) +
                                                    " has been switched to " + channel.Mention);

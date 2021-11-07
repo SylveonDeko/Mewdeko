@@ -44,14 +44,14 @@ namespace Mewdeko.Modules.Searches
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamAdd(string link)
             {
-                var data = await _service.FollowStream(ctx.Guild.Id, ctx.Channel.Id, link);
+                var data = await Service.FollowStream(ctx.Guild.Id, ctx.Channel.Id, link);
                 if (data is null)
                 {
                     await ReplyErrorLocalizedAsync("stream_not_added").ConfigureAwait(false);
                     return;
                 }
 
-                var embed = _service.GetEmbed(ctx.Guild.Id, data);
+                var embed = Service.GetEmbed(ctx.Guild.Id, data);
                 await ctx.Channel.EmbedAsync(embed, GetText("stream_tracked")).ConfigureAwait(false);
             }
 
@@ -67,7 +67,7 @@ namespace Mewdeko.Modules.Searches
                 if (--index < 0)
                     return;
 
-                var fs = await _service.UnfollowStreamAsync(ctx.Guild.Id, index);
+                var fs = await Service.UnfollowStreamAsync(ctx.Guild.Id, index);
                 if (fs is null)
                 {
                     await ReplyErrorLocalizedAsync("stream_no").ConfigureAwait(false);
@@ -111,7 +111,7 @@ namespace Mewdeko.Modules.Searches
                     {
                         var fs = all[index];
                         if (((SocketGuild)ctx.Guild).GetTextChannel(fs.ChannelId) is null)
-                            await _service.UnfollowStreamAsync(fs.GuildId, index);
+                            await Service.UnfollowStreamAsync(fs.GuildId, index);
                         else
                             streams.Insert(0, fs);
                     }
@@ -163,7 +163,7 @@ namespace Mewdeko.Modules.Searches
             [UserPerm(GuildPermission.ManageMessages)]
             public async Task StreamOffline()
             {
-                var newValue = _service.ToggleStreamOffline(ctx.Guild.Id);
+                var newValue = Service.ToggleStreamOffline(ctx.Guild.Id);
                 if (newValue)
                     await ReplyConfirmLocalizedAsync("stream_off_enabled").ConfigureAwait(false);
                 else
@@ -181,7 +181,7 @@ namespace Mewdeko.Modules.Searches
                 if (--index < 0)
                     return;
 
-                if (!_service.SetStreamMessage(ctx.Guild.Id, index, message, out var fs))
+                if (!Service.SetStreamMessage(ctx.Guild.Id, index, message, out var fs))
                 {
                     await ReplyConfirmLocalizedAsync("stream_not_following").ConfigureAwait(false);
                     return;
@@ -204,7 +204,7 @@ namespace Mewdeko.Modules.Searches
             {
                 try
                 {
-                    var data = await _service.GetStreamDataAsync(url).ConfigureAwait(false);
+                    var data = await Service.GetStreamDataAsync(url).ConfigureAwait(false);
                     if (data is null)
                     {
                         await ReplyErrorLocalizedAsync("no_channel_found").ConfigureAwait(false);

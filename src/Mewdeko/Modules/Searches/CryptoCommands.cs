@@ -22,7 +22,7 @@ namespace Mewdeko.Modules.Searches
                 if (string.IsNullOrWhiteSpace(name))
                     return;
 
-                var (crypto, nearest) = await _service.GetCryptoData(name).ConfigureAwait(false);
+                var (crypto, nearest) = await Service.GetCryptoData(name).ConfigureAwait(false);
 
                 if (nearest != null)
                 {

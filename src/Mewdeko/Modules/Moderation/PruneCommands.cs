@@ -30,11 +30,11 @@ namespace Mewdeko.Modules.Moderation
                 var user = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
                 if (parameter == "-s" || parameter == "--safe")
-                    await _service
+                    await Service
                         .PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
                         .ConfigureAwait(false);
                 else
-                    await _service.PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id)
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, 100, x => x.Author.Id == user.Id)
                         .ConfigureAwait(false);
                 ctx.Message.DeleteAfter(3);
             }
@@ -60,17 +60,17 @@ namespace Mewdeko.Modules.Moderation
                 {
                     case "-s":
                     case "--safe":
-                        await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.IsPinned)
+                        await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.IsPinned)
                             .ConfigureAwait(false);
                         return;
                     case "-nb":
                     case "--nobots":
-                        await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.Author.IsBot)
+                        await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => !x.Author.IsBot)
                             .ConfigureAwait(false);
                         return;
                     case "-ob":
                     case "--onlybots":
-                        await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Author.IsBot)
+                        await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Author.IsBot)
                             .ConfigureAwait(false);
                         break;
                     case "-a": 
@@ -79,18 +79,18 @@ namespace Mewdeko.Modules.Moderation
                             return;
                         if (time.Time > twoWeeks)
                             return;
-                        await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => (x.Timestamp - DateTimeOffset.Now).TotalSeconds <= time.Time.TotalSeconds);
+                        await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => (x.Timestamp - DateTimeOffset.Now).TotalSeconds >= time.Time.TotalSeconds);
                         break;
                     case "-he":
                     case "--hasembed":
-                        await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => x.Embeds.Any());
+                        await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => x.Embeds.Any());
                         break;
                     case "-ne":
                     case "--noembed":
-                        await _service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.Embeds.Any());
+                        await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.Embeds.Any());
                         break;
                     default:
-                        await _service.PurgeWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
+                        await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);
                         break;
                 }
             }
@@ -130,11 +130,11 @@ namespace Mewdeko.Modules.Moderation
                     count = 1000;
 
                 if (parameter == "-s" || parameter == "--safe")
-                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                             m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks && !m.IsPinned)
                         .ConfigureAwait(false);
                 else
-                    await _service.PurgeWhere((ITextChannel)ctx.Channel, count,
+                    await Service.PurgeWhere((ITextChannel)ctx.Channel, count,
                         m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks).ConfigureAwait(false);
             }
         }
