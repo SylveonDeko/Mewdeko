@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Modules.Games.Common.Hangman
+﻿namespace Mewdeko.Modules.Games.Common.Hangman
 {
     [Flags]
     public enum TermTypes

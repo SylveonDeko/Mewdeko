@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -159,7 +158,7 @@ namespace Mewdeko.Modules.Gambling.Common.Events
         {
             var _ = Task.Run(async () =>
             {
-                if (!(msg.Author is IGuildUser gu) // no unknown users, as they could be bots, or alts
+                if (msg.Author is not IGuildUser gu // no unknown users, as they could be bots, or alts
                     || gu.IsBot // no bots
                     || msg.Content != _code // code has to be the same
                     || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5) // no recently created accounts

@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -12,7 +10,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services;
 using Mewdeko.Modules.Utility.Services;
-using SixLabors.ImageSharp.ColorSpaces;
 
 namespace Mewdeko.Modules.Utility
 {
@@ -150,8 +147,8 @@ namespace Mewdeko.Modules.Utility
                 if (guild == null)
                     return;
                 var ownername = guild.GetUser(guild.OwnerId);
-                var textchn = guild.TextChannels.Count();
-                var voicechn = guild.VoiceChannels.Count();
+                var textchn = guild.TextChannels.Count;
+                var voicechn = guild.VoiceChannels.Count;
 
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
                 var list = new List<string>();

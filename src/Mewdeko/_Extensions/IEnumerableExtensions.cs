@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -94,6 +93,7 @@ namespace Mewdeko._Extensions
         /// <param name="size">
         ///     Maximum size of each chunk.
         /// </param>
+        /// <param name="constraints"></param>
         /// <typeparam name="TSource">
         ///     The type of the elements of source.
         /// </typeparam>
@@ -107,36 +107,24 @@ namespace Mewdeko._Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="size" /> is below 1.
         /// </exception>
-        public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
+        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(IEnumerable<T> source, Predicate<IEnumerable<T>> constraints = null)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+            constraints ??= t => true;
 
-            if (size < 1) throw new ArgumentOutOfRangeException(nameof(size));
-
-            return ChunkIterator(source, size);
-        }
-
-        private static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source, int size)
-        {
-            using var e = source.GetEnumerator();
-            while (e.MoveNext())
+            using var enumerator = source.GetEnumerator();
+            bool hasElement = true;
+            while (hasElement)
             {
-                var chunk = new TSource[size];
-                chunk[0] = e.Current;
-
-                for (var i = 1; i < size; i++)
+                var group = new List<T>();
+                while (constraints(group) && (hasElement = enumerator.MoveNext()))
                 {
-                    if (!e.MoveNext())
-                    {
-                        Array.Resize(ref chunk, i);
-                        yield return chunk;
-                        yield break;
-                    }
-
-                    chunk[i] = e.Current;
+                    group.Add(enumerator.Current);
+                    if (constraints(group)) continue;
+                    group.Remove(enumerator.Current);
+                    yield return group;
+                    group = new List<T> { enumerator.Current };
                 }
-
-                yield return chunk;
+                yield return group;
             }
         }
     }

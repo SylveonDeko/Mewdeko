@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -49,7 +48,7 @@ namespace Mewdeko.Modules.Games.Services
 
         public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage usrMsg)
         {
-            if (!(guild is SocketGuild sg))
+            if (guild is not SocketGuild sg)
                 return false;
             try
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -133,7 +132,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                if (!(punishTime is null))
+                if (punishTime is not null)
                     if (!Service.IsDurationAllowed(action))
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
@@ -209,7 +208,7 @@ namespace Mewdeko.Modules.Administration
                 if (messageCount < 2 || messageCount > 10)
                     return;
 
-                if (!(timeData is null))
+                if (timeData is not null)
                     if (!Service.IsDurationAllowed(action))
                         await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
@@ -272,7 +271,7 @@ namespace Mewdeko.Modules.Administration
                         .WithValue(GetAntiRaidString(raid).TrimTo(1024))
                         .WithIsInline(true));
 
-                if (!(alt is null))
+                if (alt is not null)
                     embed.AddField("Anti-Alt", GetAntiAltString(alt), true);
 
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);

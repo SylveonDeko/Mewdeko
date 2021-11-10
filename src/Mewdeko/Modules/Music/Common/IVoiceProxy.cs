@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Voice;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -339,10 +338,7 @@ namespace Mewdeko.Modules.Utility.Services
 
                 if (e.Any())
                 {
-                    var message2 =
-                        await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
-                            IUserMessage;
-                    if (message2 != null)
+                    if (await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) is IUserMessage message2)
                         await message2.ModifyAsync(x =>
                         {
                             x.Embed = em.WithTimestamp(msg.Timestamp).Build();

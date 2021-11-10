@@ -40,10 +40,10 @@ namespace Mewdeko.Modules.Administration.Services
                 {
                     if (!reaction.User.IsSpecified ||
                         reaction.User.Value.IsBot ||
-                        !(reaction.User.Value is SocketGuildUser gusr))
+                        reaction.User.Value is not SocketGuildUser gusr)
                         return;
 
-                    if (!(chan.Value is SocketGuildChannel gch))
+                    if (chan.Value is not SocketGuildChannel gch)
                         return;
 
                     if (!_models.TryGetValue(gch.Guild.Id, out var confs))
@@ -130,10 +130,10 @@ namespace Mewdeko.Modules.Administration.Services
                 {
                     if (!reaction.User.IsSpecified ||
                         reaction.User.Value.IsBot ||
-                        !(reaction.User.Value is SocketGuildUser gusr))
+                        reaction.User.Value is not SocketGuildUser gusr)
                         return;
 
-                    if (!(chan.Value is SocketGuildChannel gch))
+                    if (chan.Value is not SocketGuildChannel gch)
                         return;
 
                     if (!_models.TryGetValue(gch.Guild.Id, out var confs))

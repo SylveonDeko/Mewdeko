@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Gambling.Common
@@ -119,17 +117,6 @@ namespace Mewdeko.Modules.Gambling.Common
             */
         }
 
-        /// <summary>
-        ///     Shuffles the deck. Use this if you want to take cards from the top of the deck, instead of randomly. See DrawACard
-        ///     method.
-        /// </summary>
-        private void Shuffle()
-        {
-            if (CardPool.Count <= 1) return;
-            var orderedPool = CardPool.Shuffle();
-            CardPool = CardPool ?? orderedPool.ToList();
-        }
-
         public override string ToString()
         {
             return string.Concat(CardPool.Select(c => c.ToString())) + Environment.NewLine;
@@ -145,9 +132,7 @@ namespace Mewdeko.Modules.Gambling.Common
 
             bool isPair(List<Card> cards)
             {
-                return cards.GroupBy(card => card.Number)
-                           .Count(group => group.Count() == 3) == 0
-                       && hasPair(cards);
+                return cards.GroupBy(card => card.Number).All(group => group.Count() != 3) && hasPair(cards);
             }
 
             bool isTwoPair(List<Card> cards)
@@ -158,7 +143,7 @@ namespace Mewdeko.Modules.Gambling.Common
 
             bool isStraight(List<Card> cards)
             {
-                if (cards.GroupBy(card => card.Number).Count() != cards.Count())
+                if (cards.GroupBy(card => card.Number).Count() != cards.Count)
                     return false;
                 var toReturn = cards.Max(card => card.Number)
                     - cards.Min(card => card.Number) == 4;
@@ -319,9 +304,8 @@ namespace Mewdeko.Modules.Gambling.Common
 
             public int CompareTo(object obj)
             {
-                if (!(obj is Card)) return 0;
-                var c = (Card)obj;
-                return Number - c.Number;
+                if (obj is not Card card) return 0;
+                return Number - card.Number;
             }
 
             public string GetValueText()

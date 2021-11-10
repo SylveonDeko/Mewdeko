@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -82,7 +81,7 @@ namespace Mewdeko.Modules.Permissions.Services
 
             if (moduleName == nameof(Permissions))
             {
-                if (!(user is IGuildUser guildUser))
+                if (user is not IGuildUser guildUser)
                     return true;
 
                 if (guildUser.GuildPermissions.Administrator)

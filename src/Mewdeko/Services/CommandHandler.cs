@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -11,7 +10,6 @@ using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
@@ -155,7 +153,7 @@ namespace Mewdeko.Services
             if (guildId != null)
             {
                 var guild = _client.GetGuild(guildId.Value);
-                if (!(guild?.GetChannel(channelId) is SocketTextChannel channel))
+                if (guild?.GetChannel(channelId) is not SocketTextChannel channel)
                 {
                     Log.Warning("Channel for external execution not found.");
                     return;
@@ -227,7 +225,7 @@ namespace Mewdeko.Services
                     !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
                     return;
 
-                if (!(msg is SocketUserMessage usrMsg))
+                if (msg is not SocketUserMessage usrMsg)
                     return;
 
                 var channel = msg.Channel;
@@ -437,7 +435,7 @@ namespace Mewdeko.Services
                 .ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
 
             if (execResult.Exception != null &&
-                (!(execResult.Exception is HttpException he) || he.DiscordCode != 50013))
+                (execResult.Exception is not HttpException he || he.DiscordCode != 50013))
                 Log.Warning(execResult.Exception, "Command Error");
 
             return (true, null, cmd);

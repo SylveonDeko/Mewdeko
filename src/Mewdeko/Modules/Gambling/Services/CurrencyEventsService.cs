@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,7 +6,6 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
-using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Events;
 using Newtonsoft.Json;
 using Serilog;
@@ -91,8 +89,7 @@ namespace Mewdeko.Modules.Gambling.Services
             EventOptions opts, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embed)
         {
             var g = _client.GetGuild(guildId);
-            var ch = g?.GetChannel(channelId) as SocketTextChannel;
-            if (ch == null)
+            if (g?.GetChannel(channelId) is not SocketTextChannel ch)
                 return false;
 
             ICurrencyEvent ce;

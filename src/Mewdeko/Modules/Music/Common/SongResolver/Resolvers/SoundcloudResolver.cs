@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Mewdeko._Extensions;
 using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services.Impl;
 using Newtonsoft.Json.Linq;
@@ -54,7 +52,7 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
         public async Task<ITrackInfo?> ResolveByQueryAsync(string query)
         {
             var cached = await _trackCacher.GetCachedDataByQueryAsync(query, MusicPlatform.SoundCloud);
-            if (!(cached is null))
+            if (cached is not null)
                 return CachableDataToTrackInfo(cached);
 
             var svideo = !IsSoundCloudLink(query)
@@ -96,7 +94,7 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string GetStreamUrl(string trackId)
+        private static string GetStreamUrl(string trackId)
         {
             return $"https://api.soundcloud.com/tracks/{trackId}/stream?client_id=368b0c85751007cd588d869d3ae61ac0";
         }

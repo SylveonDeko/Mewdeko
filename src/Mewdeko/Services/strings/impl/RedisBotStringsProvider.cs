@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using Discord.WebSocket;
 using Mewdeko._Extensions;

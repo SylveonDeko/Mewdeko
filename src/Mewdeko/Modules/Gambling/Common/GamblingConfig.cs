@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mewdeko.Common.Yml;
 
 namespace Mewdeko.Modules.Gambling.Common

@@ -60,7 +60,7 @@ namespace Mewdeko.Modules.Administration.Services
                         {
                             var roleIds = savedRoleIds
                                 .Select(roleId => user.Guild.GetRole(roleId))
-                                .Where(x => !(x is null))
+                                .Where(x => x is not null)
                                 .ToList();
 
                             if (roleIds.Any())
@@ -99,7 +99,7 @@ namespace Mewdeko.Modules.Administration.Services
                         {
                             var roleIds = savedRoleIds1
                                 .Select(roleId => user.Guild.GetRole(roleId))
-                                .Where(x => !(x is null))
+                                .Where(x => x is not null)
                                 .ToList();
 
                             if (roleIds.Any())

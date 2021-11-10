@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -521,7 +520,7 @@ namespace Mewdeko.Common.Extensions.Interactive
 
 #if DNETLABS
             MessageComponent component = null;
-            var moreThanOnePage = !(element is Paginator pag) || pag.MaxPageIndex > 0;
+            var moreThanOnePage = element is not Paginator pag || pag.MaxPageIndex > 0;
             if ((element.InputType == InputType.Buttons || element.InputType == InputType.SelectMenus) &&
                 moreThanOnePage) component = element.BuildComponents(false);
 #endif

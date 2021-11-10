@@ -1,6 +1,5 @@
 ﻿using Mewdeko.Common.Configs;
 using Mewdeko.Common.PubSub;
-using Mewdeko.Services;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Services.Settings;
 

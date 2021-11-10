@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.Webhook;
@@ -14,7 +12,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Server_Management.Services;
-using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Server_Management
 {
@@ -260,13 +257,13 @@ namespace Mewdeko.Modules.Server_Management
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
                 eb.WithDescription(
-                    $"<a:loading:847706744741691402> Creating the Category {CatName} with {Channels.Count()} Text Channels!");
+                    $"<a:loading:847706744741691402> Creating the Category {CatName} with {Channels.Length} Text Channels!");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 var cat = await ctx.Guild.CreateCategoryAsync(CatName);
                 foreach (var i in Channels) await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = cat.Id; });
 
                 var eb2 = new EmbedBuilder();
-                eb2.WithDescription($"Created the category {CatName} with {Channels.Count()} Text Channels!");
+                eb2.WithDescription($"Created the category {CatName} with {Channels.Length} Text Channels!");
                 eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }
@@ -282,13 +279,13 @@ namespace Mewdeko.Modules.Server_Management
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
                 eb.WithDescription(
-                    $"<a:loading:847706744741691402> Creating the Category {CatName} with {Channels.Count()} Voice Channels");
+                    $"<a:loading:847706744741691402> Creating the Category {CatName} with {Channels.Length} Voice Channels");
                 var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
                 var cat = await ctx.Guild.CreateCategoryAsync(CatName);
                 foreach (var i in Channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => { x.CategoryId = cat.Id; });
 
                 var eb2 = new EmbedBuilder();
-                eb2.WithDescription($"Created the category {CatName} with {Channels.Count()} Voice Channels!");
+                eb2.WithDescription($"Created the category {CatName} with {Channels.Length} Voice Channels!");
                 eb2.WithOkColor();
                 await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
             }

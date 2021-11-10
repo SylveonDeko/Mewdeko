@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -65,7 +64,7 @@ namespace Mewdeko.Modules.Utility
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(invites.Count() / 9)
+                    .WithMaxPageIndex(invites.Count / 9)
                     .WithDefaultEmotes()
                     .Build();
 

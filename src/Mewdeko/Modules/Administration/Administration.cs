@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -61,9 +60,11 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPermission.BanMembers)]
         public async Task BanUnder(StoopidTime time, string option = null)
         {
+            await ctx.Guild.DownloadUsersAsync();
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
-            if (!users.Any())
+                c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
+            var guildUsers = users as SocketGuildUser[] ?? users.ToArray();
+            if (!guildUsers.Any())
             {
                 await ctx.Channel.SendErrorAsync("No users at or under that server join age!");
                 return;
@@ -75,7 +76,7 @@ namespace Mewdeko.Modules.Administration
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(users.Count() - 1)
+                    .WithMaxPageIndex(guildUsers.Length - 1)
                     .WithDefaultCanceledPage()
                     .WithDefaultEmotes()
                     .Build();
@@ -85,8 +86,8 @@ namespace Mewdeko.Modules.Administration
                 {
                     return Task.FromResult(new PageBuilder()
                         .WithTitle(
-                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
+                            $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                        .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20))));
                 }
             }
 
@@ -94,10 +95,10 @@ namespace Mewdeko.Modules.Administration
             var errored = 0;
             var embed = new EmbedBuilder().WithErrorColor()
                 .WithDescription(
-                    $"Are you sure you want to ban {users.Count()} users that are under that server join age?");
+                    $"Are you sure you want to ban {guildUsers.Length} users that are under that server join age?");
             if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
-            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
-            foreach (var i in users)
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {guildUsers.Length} users..");
+            foreach (var i in guildUsers)
                 try
                 {
                     await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified server join age.");
@@ -123,9 +124,11 @@ namespace Mewdeko.Modules.Administration
         [BotPerm(GuildPermission.KickMembers)]
         public async Task KickUnder(StoopidTime time, string option = null)
         {
+            await ctx.Guild.DownloadUsersAsync();
             var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
-            if (!users.Any())
+                c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
+            var guildUsers = users as SocketGuildUser[] ?? users.ToArray();
+            if (!guildUsers.Any())
             {
                 await ctx.Channel.SendErrorAsync("No users at or under that account age!");
                 return;
@@ -137,7 +140,7 @@ namespace Mewdeko.Modules.Administration
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(users.Count() - 1)
+                    .WithMaxPageIndex(guildUsers.Length - 1)
                     .WithDefaultCanceledPage()
                     .WithDefaultEmotes()
                     .Build();
@@ -147,18 +150,18 @@ namespace Mewdeko.Modules.Administration
                 {
                     return Task.FromResult(new PageBuilder()
                         .WithTitle(
-                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
+                            $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                        .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20))));
                 }
             }
 
             var banned = 0;
             var errored = 0;
             var embed = new EmbedBuilder().WithErrorColor()
-                .WithDescription($"Are you sure you want to kick {users.Count()} users that joined under that time?");
+                .WithDescription($"Are you sure you want to kick {guildUsers.Length} users that joined under that time?");
             if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
-            var message = await ctx.Channel.SendConfirmAsync($"Kicking {users.Count()} users..");
-            foreach (var i in users)
+            var message = await ctx.Channel.SendConfirmAsync($"Kicking {guildUsers.Length} users..");
+            foreach (var i in guildUsers)
                 try
                 {
                     await i.KickAsync($"{ctx.User}|| Kicking users under specified join time.");
@@ -364,25 +367,6 @@ namespace Mewdeko.Modules.Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(ChannelPermission.ManageChannels)]
-        [BotPerm(ChannelPermission.ManageChannels)]
-        public async Task Slowmode(StoopidTime time = null)
-        {
-            var seconds = (int?)time?.Time.TotalSeconds ?? 0;
-            if (!(time is null) && (time.Time < TimeSpan.FromSeconds(0) || time.Time > TimeSpan.FromHours(6)))
-                return;
-
-
-            await ((ITextChannel)Context.Channel).ModifyAsync(tcp => { tcp.SlowModeInterval = seconds; });
-
-            await Context.OkAsync();
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
         [BotPerm(GuildPermission.ManageMessages)]
         [Priority(2)]
@@ -557,7 +541,7 @@ namespace Mewdeko.Modules.Administration
         public async Task SetTopic([Remainder] string topic = null)
         {
             var channel = (ITextChannel)ctx.Channel;
-            topic = topic ?? "";
+            topic ??= "";
             await channel.ModifyAsync(c => c.Topic = topic).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("set_topic").ConfigureAwait(false);
         }
@@ -652,11 +636,10 @@ namespace Mewdeko.Modules.Administration
         [RequireContext(ContextType.Guild)]
         public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime time = null)
         {
-            await InternalMessageAction(channel, messageId, time, msg => msg.DeleteAsync());
+            await InternalMessageAction(channel, messageId, time);
         }
 
-        private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime time,
-            Func<IMessage, Task> func)
+        private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime time)
         {
             var userPerms = ((SocketGuildUser)ctx.User).GetPermissions(channel);
             var botPerms = ((SocketGuild)ctx.Guild).CurrentUser.GetPermissions(channel);

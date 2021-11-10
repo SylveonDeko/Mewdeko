@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -239,7 +238,7 @@ namespace Mewdeko.Modules.Utility.Services
                                       || a.Name.ToUpperInvariant().Contains(setting.Keyword.ToUpperInvariant())
                                       || setting.Whitelist.Any(x => x.UserId == user.Id)));
 
-            if (!(g is null)
+            if (g is not null
                 && setting.Enabled
                 && setting.Blacklist.All(x => x.UserId != user.Id)
                 && user.RoleIds.Contains(setting.FromRoleId))

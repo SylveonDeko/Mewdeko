@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services;
-using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Moderation.Services
 {
     public class PurgeService : INService
     {
-        private readonly LogCommandService _logService;
 
         //channelids where Purges are currently occuring
         private readonly ConcurrentHashSet<ulong> _pruningGuilds = new();
 
         private readonly TimeSpan _twoWeeks = TimeSpan.FromDays(14);
-
-        public PurgeService(LogCommandService logService)
-        {
-            _logService = logService;
-        }
 
         public async Task PurgeWhere(ITextChannel channel, int amount, Func<IMessage, bool> predicate)
         {
@@ -47,7 +39,6 @@ namespace Mewdeko.Modules.Moderation.Services
                     var singleDeletable = new List<IMessage>();
                     foreach (var x in msgs)
                     {
-                        _logService.AddDeleteIgnore(x.Id);
 
                         if (DateTime.UtcNow - x.CreatedAt < _twoWeeks)
                             bulkDeletable.Add(x);
@@ -60,8 +51,7 @@ namespace Mewdeko.Modules.Moderation.Services
                             .ConfigureAwait(false);
 
                     var i = 0;
-                    foreach (var group in singleDeletable.GroupBy(x => ++i / (singleDeletable.Count / 5)))
-                        await Task.WhenAll(Task.Delay(1000), Task.WhenAll(group.Select(x => x.DeleteAsync())))
+                    foreach (var group in singleDeletable.GroupBy(x => ++i / (singleDeletable.Count / 5))) await Task.WhenAll(Task.Delay(1000), Task.WhenAll(group.Select(x => x.DeleteAsync())))
                             .ConfigureAwait(false);
 
                     //this isn't good, because this still work as if i want to remove only specific user's messages from the last

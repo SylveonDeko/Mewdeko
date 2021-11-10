@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Modules.Searches.Common.Exceptions
+﻿namespace Mewdeko.Modules.Searches.Common.Exceptions
 {
     public class StreamNotFoundException : Exception
     {

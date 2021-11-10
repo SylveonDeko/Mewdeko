@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using SixLabors.ImageSharp.PixelFormats;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;

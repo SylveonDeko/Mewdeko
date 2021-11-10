@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
@@ -7,7 +6,6 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Games.Common

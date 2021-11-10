@@ -1,8 +1,6 @@
 ﻿#nullable enable
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -91,7 +89,7 @@ namespace Mewdeko.Modules.Music.Services
         {
             var count = _players
                 .Select(x => x.Value.GetCurrentTrack(out _))
-                .Count(x => !(x is null));
+                .Count(x => x is not null);
             if (count == 10) return true;
             return false;
         }
@@ -208,7 +206,7 @@ namespace Mewdeko.Modules.Music.Services
                     {
                         var randomPlayingTrack = _players
                             .Select(x => x.Value.GetCurrentTrack(out _))
-                            .Where(x => !(x is null))
+                            .Where(x => x is not null)
                             .Shuffle()
                             .FirstOrDefault();
 
@@ -224,7 +222,7 @@ namespace Mewdeko.Modules.Music.Services
                     {
                         var count = _players
                             .Select(x => x.Value.GetCurrentTrack(out _))
-                            .Count(x => !(x is null));
+                            .Count(x => x is not null);
 
                         return count.ToString();
                     }
@@ -241,7 +239,7 @@ namespace Mewdeko.Modules.Music.Services
         }
 
 
-        private void DisposeMusicPlayer(IMusicPlayer musicPlayer)
+        private static void DisposeMusicPlayer(IMusicPlayer musicPlayer)
         {
             musicPlayer.Kill();
             _ = Task.Delay(10_000).ContinueWith(_ => musicPlayer.Dispose());
@@ -339,7 +337,7 @@ namespace Mewdeko.Modules.Music.Services
                             var videoid = query["v"];
                             var rand = new Random();
                             var e = _googleApiService.GetRelatedVideosAsync(videoid, 15).Result.ToList();
-                            var inde = rand.Next(e.Count());
+                            var inde = rand.Next(e.Count);
                             await mp.TryEnqueueTrackAsync(e[inde], "Mewdeko Autoplay", true, MusicPlatform.Spotify);
                         }
 

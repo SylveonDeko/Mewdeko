@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -75,7 +74,7 @@ namespace Mewdeko.Services.Common
             if (arr.Count != vals.Length)
                 Log.Information(
                     "{2}/{1} URIs for the key '{0}' have been loaded. Some of the supplied URIs are either unavailable or invalid.",
-                    key, arr.Count, vals.Count());
+                    key, arr.Count, vals.Length);
         }
 
         private async Task<KeyValuePair<RedisKey, RedisValue>> HandleUri(Uri uri, string key)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -87,18 +86,16 @@ namespace Mewdeko.Modules.Music
                 var success = false;
                 try
                 {
-                    using (var uow = _db.GetDbContext())
-                    {
-                        var pl = uow.MusicPlaylists.GetById(id);
+                    using var uow = _db.GetDbContext();
+                    var pl = uow.MusicPlaylists.GetById(id);
 
-                        if (pl != null)
-                            if (_creds.IsOwner(ctx.User) || pl.AuthorId == ctx.User.Id)
-                            {
-                                uow.MusicPlaylists.Remove(pl);
-                                await uow.SaveChangesAsync();
-                                success = true;
-                            }
-                    }
+                    if (pl != null)
+                        if (_creds.IsOwner(ctx.User) || pl.AuthorId == ctx.User.Id)
+                        {
+                            uow.MusicPlaylists.Remove(pl);
+                            await uow.SaveChangesAsync();
+                            success = true;
+                        }
                 }
                 catch (Exception ex)
                 {
@@ -131,7 +128,7 @@ namespace Mewdeko.Modules.Music
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(mpl.Songs.Count() / 20)
+                    .WithMaxPageIndex(mpl.Songs.Count / 20)
                     .WithDefaultEmotes()
                     .Build();
 

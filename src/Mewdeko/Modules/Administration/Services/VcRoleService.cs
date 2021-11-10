@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -182,8 +181,7 @@ namespace Mewdeko.Modules.Administration.Services
         private Task ClientOnUserVoiceStateUpdated(SocketUser usr, SocketVoiceState oldState,
             SocketVoiceState newState)
         {
-            var gusr = usr as SocketGuildUser;
-            if (gusr == null)
+            if (usr is not SocketGuildUser gusr)
                 return Task.CompletedTask;
 
             var oldVc = oldState.VoiceChannel;

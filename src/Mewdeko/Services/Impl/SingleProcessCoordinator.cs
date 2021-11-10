@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using Mewdeko.Services;
 using Serilog;
 
 namespace Mewdeko.Services

@@ -79,7 +79,7 @@ namespace Mewdeko.Modules.Permissions.Services
             var toRemove = uow._context.Blacklist
                 .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
 
-            if (!(toRemove is null))
+            if (toRemove is not null)
                 uow._context.Blacklist.Remove(toRemove);
 
             uow.SaveChanges();

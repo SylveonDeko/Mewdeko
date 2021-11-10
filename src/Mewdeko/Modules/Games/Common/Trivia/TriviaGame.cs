@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -221,8 +220,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia
 
                     var umsg = imsg as SocketUserMessage;
 
-                    var textChannel = umsg?.Channel as ITextChannel;
-                    if (textChannel == null || textChannel.Guild != Guild)
+                    if (umsg?.Channel is not ITextChannel textChannel || textChannel.Guild != Guild)
                         return;
 
                     var guildUser = (IGuildUser)umsg.Author;

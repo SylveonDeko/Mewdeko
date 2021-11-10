@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Threading.Tasks;
-using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Humanizer;
-using Humanizer.Localisation;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -19,11 +16,11 @@ using Mewdeko.Modules.Afk.Services;
 
 namespace Mewdeko.Modules.Afk
 {
-    public class AFK : MewdekoModule<AFKService>
+    public class AfkCommands : MewdekoModule<AFKService>
         {
             private readonly InteractiveService Interactivity;
 
-            public AFK(InteractiveService serv)
+            public AfkCommands(InteractiveService serv)
             {
                 Interactivity = serv;
             }

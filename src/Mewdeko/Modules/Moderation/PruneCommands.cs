@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -73,13 +72,21 @@ namespace Mewdeko.Modules.Moderation
                         await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => x.Author.IsBot)
                             .ConfigureAwait(false);
                         break;
-                    case "-a": 
-                    case "--age":
+                    case "-b": 
+                    case "--before":
                         if (time is null)
                             return;
                         if (time.Time > twoWeeks)
                             return;
-                        await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => (x.Timestamp - DateTimeOffset.Now).TotalSeconds >= time.Time.TotalSeconds);
+                        await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds);
+                        break;
+                    case "-a":
+                    case "--after":
+                        if (time is null)
+                            return;
+                        if (time.Time > twoWeeks)
+                            return;
+                        await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds);
                         break;
                     case "-he":
                     case "--hasembed":

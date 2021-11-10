@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Modules.Games.Common.Hangman.Exceptions
+﻿namespace Mewdeko.Modules.Games.Common.Hangman.Exceptions
 {
     public class TermNotFoundException : Exception
     {

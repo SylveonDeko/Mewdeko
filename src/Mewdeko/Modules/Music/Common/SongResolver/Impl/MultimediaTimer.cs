@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {

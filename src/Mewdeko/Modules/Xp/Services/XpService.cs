@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -229,7 +228,7 @@ namespace Mewdeko.Modules.Xp.Services
                                     if (rrew != null)
                                     {
                                         var role = first.User.Guild.GetRole(rrew.RoleId);
-                                        if (!(role is null))
+                                        if (role is not null)
                                         {
                                             _ = first.User.AddRoleAsync(role);
                                         }
@@ -475,7 +474,7 @@ namespace Mewdeko.Modules.Xp.Services
         private Task _client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before,
             SocketVoiceState after)
         {
-            if (!(socketUser is SocketGuildUser user) || user.IsBot)
+            if (socketUser is not SocketGuildUser user || user.IsBot)
                 return Task.CompletedTask;
 
             var _ = Task.Run(() =>
@@ -611,7 +610,7 @@ namespace Mewdeko.Modules.Xp.Services
 
         private Task _cmd_OnMessageNoTrigger(IUserMessage arg)
         {
-            if (!(arg.Author is SocketGuildUser user) || user.IsBot)
+            if (arg.Author is not SocketGuildUser user || user.IsBot)
                 return Task.CompletedTask;
 
             var _ = Task.Run(() =>

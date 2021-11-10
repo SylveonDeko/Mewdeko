@@ -1,5 +1,4 @@
-﻿using System;
-using Mewdeko.Modules.Music.Common.SongResolver.Impl;
+﻿using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 
 namespace Mewdeko.Modules.Music.Common
 {

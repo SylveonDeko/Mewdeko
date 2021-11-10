@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -93,7 +92,7 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 try
                 {
-                    if (!(usr is SocketGuildUser gUser))
+                    if (usr is not SocketGuildUser gUser)
                         return;
 
                     var game = gUser.Activities.FirstOrDefault()?.Name;

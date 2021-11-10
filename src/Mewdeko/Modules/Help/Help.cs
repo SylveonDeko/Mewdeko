@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +16,6 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Help.Common;
 using Mewdeko.Services;
 using Mewdeko.Modules.Help.Services;
@@ -25,7 +23,6 @@ using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Newtonsoft.Json;
-using SpotifyAPI.Web;
 using Swan;
 using cinfo = System.Collections.Generic.KeyValuePair<string, string>;
 

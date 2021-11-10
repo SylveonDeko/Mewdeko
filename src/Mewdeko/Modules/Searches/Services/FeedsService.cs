@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,7 +67,7 @@ namespace Mewdeko.Modules.Searches.Services
                             .Select(item => (Item: item, LastUpdate: item.PublishingDate?.ToUniversalTime()
                                                                      ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate
                                                                      ?.ToUniversalTime()))
-                            .Where(data => !(data.LastUpdate is null))
+                            .Where(data => data.LastUpdate is not null)
                             .Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate))
                             .OrderByDescending(data => data.LastUpdate)
                             .Reverse() // start from the oldest

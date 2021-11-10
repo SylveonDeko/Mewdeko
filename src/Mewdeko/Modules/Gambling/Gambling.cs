@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,7 +16,6 @@ using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Services;
-using Mewdeko.Services.Database;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Services.Database.Repositories;
@@ -30,9 +28,11 @@ namespace Mewdeko.Modules.Gambling
         {
             R = 0,
             Rock = 0,
+            // ReSharper disable once UnusedMember.Global
             Rocket = 0,
             P = 1,
             Paper = 1,
+            // ReSharper disable once UnusedMember.Global
             Paperclip = 1,
             S = 2,
             Scissors = 2
@@ -76,17 +76,15 @@ namespace Mewdeko.Modules.Gambling
             _configService = configService;
         }
 
-        private string n(long cur)
+        private string N(long cur)
         {
             return cur.ToString("N", _enUsCulture);
         }
 
         public string GetCurrency(ulong id)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return n(uow.DiscordUsers.GetUserCurrency(id));
-            }
+            using var uow = _db.GetDbContext();
+            return N(uow.DiscordUsers.GetUserCurrency(id));
         }
 
         [MewdekoCommand]
@@ -139,7 +137,7 @@ namespace Mewdeko.Modules.Gambling
 
             await _cs.AddAsync(ctx.User.Id, "Timely claim", val).ConfigureAwait(false);
 
-            await ReplyConfirmLocalizedAsync("timely", n(val) + CurrencySign, period).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("timely", N(val) + CurrencySign, period).ConfigureAwait(false);
         }
 
         [MewdekoCommand]
@@ -201,7 +199,7 @@ namespace Mewdeko.Modules.Gambling
             if (amount == 0)
                 await ReplyConfirmLocalizedAsync("timely_set_none").ConfigureAwait(false);
             else
-                await ReplyConfirmLocalizedAsync("timely_set", Format.Bold(n(amount) + CurrencySign),
+                await ReplyConfirmLocalizedAsync("timely_set", Format.Bold(N(amount) + CurrencySign),
                     Format.Bold(period.ToString())).ConfigureAwait(false);
         }
 
@@ -212,7 +210,7 @@ namespace Mewdeko.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task Raffle([Remainder] IRole role = null)
         {
-            role = role ?? ctx.Guild.EveryoneRole;
+            role ??= ctx.Guild.EveryoneRole;
 
             var members =
                 (await role.GetMembersAsync().ConfigureAwait(false)).Where(u => u.Status != UserStatus.Offline);
@@ -230,7 +228,7 @@ namespace Mewdeko.Modules.Gambling
         [RequireContext(ContextType.Guild)]
         public async Task RaffleAny([Remainder] IRole role = null)
         {
-            role = role ?? ctx.Guild.EveryoneRole;
+            role ??= ctx.Guild.EveryoneRole;
 
             var members = await role.GetMembersAsync().ConfigureAwait(false);
             var membersArray = members as IUser[] ?? members.ToArray();
@@ -247,7 +245,7 @@ namespace Mewdeko.Modules.Gambling
         [Priority(1)]
         public async Task Cash([Remainder] IUser user = null)
         {
-            user = user ?? ctx.User;
+            user ??= ctx.User;
             await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}")
                 .ConfigureAwait(false);
         }
@@ -305,7 +303,7 @@ namespace Mewdeko.Modules.Gambling
             {
                 var type = tr.Amount > 0 ? "🔵" : "🔴";
                 var date = Format.Code($"〖{tr.DateAdded:HH:mm yyyy-MM-dd}〗");
-                desc += $"\\{type} {date} {Format.Bold(n(tr.Amount))}\n\t{tr.Reason?.Trim()}\n";
+                desc += $"\\{type} {date} {Format.Bold(N(tr.Amount))}\n\t{tr.Reason?.Trim()}\n";
             }
 
             embed.WithDescription(desc);
@@ -345,7 +343,7 @@ namespace Mewdeko.Modules.Gambling
 
             await _cs.AddAsync(receiver, $"Gift from {ctx.User.Username} ({ctx.User.Id}) - {msg}.", amount, true)
                 .ConfigureAwait(false);
-            await ReplyConfirmLocalizedAsync("gifted", n(amount) + CurrencySign, Format.Bold(receiver.ToString()), msg)
+            await ReplyConfirmLocalizedAsync("gifted", N(amount) + CurrencySign, Format.Bold(receiver.ToString()), msg)
                 .ConfigureAwait(false);
         }
 
@@ -399,7 +397,7 @@ namespace Mewdeko.Modules.Gambling
                 $"Awarded by bot owner. ({ctx.User.Username}/{ctx.User.Id}) {msg ?? ""}",
                 amount,
                 ctx.Client.CurrentUser.Id != usrId).ConfigureAwait(false);
-            await ReplyConfirmLocalizedAsync("awarded", n(amount) + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("awarded", N(amount) + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
         }
 
         [MewdekoCommand]
@@ -423,7 +421,7 @@ namespace Mewdeko.Modules.Gambling
                 .ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("mass_award",
-                n(amount) + CurrencySign,
+                N(amount) + CurrencySign,
                 Format.Bold(users.Count.ToString()),
                 Format.Bold(role.Name)).ConfigureAwait(false);
         }
@@ -441,10 +439,10 @@ namespace Mewdeko.Modules.Gambling
 
             if (await _cs.RemoveAsync(user, $"Taken by bot owner.({ctx.User.Username}/{ctx.User.Id})", amount,
                 gamble: ctx.Client.CurrentUser.Id != user.Id).ConfigureAwait(false))
-                await ReplyConfirmLocalizedAsync("take", n(amount) + CurrencySign, Format.Bold(user.ToString()))
+                await ReplyConfirmLocalizedAsync("take", N(amount) + CurrencySign, Format.Bold(user.ToString()))
                     .ConfigureAwait(false);
             else
-                await ReplyErrorLocalizedAsync("take_fail", n(amount) + CurrencySign, Format.Bold(user.ToString()),
+                await ReplyErrorLocalizedAsync("take_fail", N(amount) + CurrencySign, Format.Bold(user.ToString()),
                     CurrencySign).ConfigureAwait(false);
         }
 
@@ -548,7 +546,7 @@ namespace Mewdeko.Modules.Gambling
                             ? ctx.User
                             : u;
                         embed.Description +=
-                            $"\n**{winner}** Won {n((long)(rdGame.Amount * 2 * 0.98)) + CurrencySign}";
+                            $"\n**{winner}** Won {N((long)(rdGame.Amount * 2 * 0.98)) + CurrencySign}";
                         await rdMsg.ModifyAsync(x => x.Embed = embed.Build())
                             .ConfigureAwait(false);
                     }
@@ -589,7 +587,7 @@ namespace Mewdeko.Modules.Gambling
             {
                 var win = (long)(amount * result.Multiplier);
                 str += GetText("br_win",
-                    n(win) + CurrencySign,
+                    N(win) + CurrencySign,
                     result.Threshold + (result.Roll == 100 ? " 👑" : ""));
                 await _cs.AddAsync(ctx.User, "Betroll Gamble",
                     win, false, true).ConfigureAwait(false);
@@ -657,17 +655,15 @@ namespace Mewdeko.Modules.Gambling
             }
             else
             {
-                using (var uow = _db.GetDbContext())
-                {
-                    cleanRichest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page).ToList();
-                }
+                using var uow = _db.GetDbContext();
+                cleanRichest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page).ToList();
             }
 
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(cleanRichest.Count() / 9)
+                .WithMaxPageIndex(cleanRichest.Count / 9)
                 .WithDefaultEmotes()
                 .Build();
 
@@ -701,7 +697,7 @@ namespace Mewdeko.Modules.Gambling
 
                     var j = i;
                     embed.AddField(efb => efb.WithName("#" + (9 * page + j + 1) + " " + usrStr)
-                        .WithValue(n(x.CurrencyAmount) + " " + CurrencySign)
+                        .WithValue(N(x.CurrencyAmount) + " " + CurrencySign)
                         .WithIsInline(true));
                 }
 
@@ -715,26 +711,12 @@ namespace Mewdeko.Modules.Gambling
         [Aliases]
         public async Task Rps(RpsPick pick, ShmartNumber amount = default)
         {
-            long oldAmount = amount;
             if (!await CheckBetOptional(amount).ConfigureAwait(false) || amount == 1)
                 return;
 
-            string getRpsPick(RpsPick p)
-            {
-                switch (p)
-                {
-                    case RpsPick.R:
-                        return "🚀";
-                    case RpsPick.P:
-                        return "📎";
-                    default:
-                        return "✂️";
-                }
-            }
-
             var embed = new EmbedBuilder();
 
-            var MewdekoPick = (RpsPick)new MewdekoRandom().Next(0, 3);
+            var mewdekoPick = (RpsPick)new MewdekoRandom().Next(0, 3);
 
             if (amount > 0)
                 if (!await _cs.RemoveAsync(ctx.User.Id,
@@ -745,37 +727,46 @@ namespace Mewdeko.Modules.Gambling
                 }
 
             string msg;
-            if (pick == MewdekoPick)
+            if (pick == mewdekoPick)
             {
                 await _cs.AddAsync(ctx.User.Id,
                     "Rps-draw", amount, true).ConfigureAwait(false);
                 embed.WithOkColor();
-                msg = GetText("rps_draw", getRpsPick(pick));
+                msg = GetText("rps_draw", GetRpsPick(pick));
             }
-            else if (pick == RpsPick.Paper && MewdekoPick == RpsPick.Rock ||
-                     pick == RpsPick.Rock && MewdekoPick == RpsPick.Scissors ||
-                     pick == RpsPick.Scissors && MewdekoPick == RpsPick.Paper)
+            else if (pick == RpsPick.Paper && mewdekoPick == RpsPick.Rock ||
+                     pick == RpsPick.Rock && mewdekoPick == RpsPick.Scissors ||
+                     pick == RpsPick.Scissors && mewdekoPick == RpsPick.Paper)
             {
                 amount = (long)(amount * _config.BetFlip.Multiplier);
                 await _cs.AddAsync(ctx.User.Id,
                     "Rps-win", amount, true).ConfigureAwait(false);
                 embed.WithOkColor();
-                embed.AddField(GetText("won"), n(amount));
+                embed.AddField(GetText("won"), N(amount));
                 msg = GetText("rps_win", ctx.User.Mention,
-                    getRpsPick(pick), getRpsPick(MewdekoPick));
+                    GetRpsPick(pick), GetRpsPick(mewdekoPick));
             }
             else
             {
                 embed.WithErrorColor();
-                amount = 0;
-                msg = GetText("rps_win", ctx.Client.CurrentUser.Mention, getRpsPick(MewdekoPick),
-                    getRpsPick(pick));
+                msg = GetText("rps_win", ctx.Client.CurrentUser.Mention, GetRpsPick(mewdekoPick),
+                    GetRpsPick(pick));
             }
 
             embed
                 .WithDescription(msg);
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+
+        private string GetRpsPick(RpsPick p)
+        {
+            return p switch
+            {
+                RpsPick.R => "🚀",
+                RpsPick.P => "📎",
+                _ => "✂️"
+            };
         }
     }
 }
