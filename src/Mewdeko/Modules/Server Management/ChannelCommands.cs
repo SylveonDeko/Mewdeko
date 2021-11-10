@@ -8,10 +8,14 @@ using Discord;
 using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
+using Humanizer;
+using Humanizer.Localisation;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
+using PermValue = Discord.PermValue;
 
 namespace Mewdeko.Modules.Server_Management
 {
@@ -367,18 +371,8 @@ namespace Mewdeko.Modules.Server_Management
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPermission.ManageChannels)]
             [Priority(0)]
-            public async Task Slowmode(int interval, ITextChannel channel)
-            {
-                {
-                    await channel.ModifyAsync(x => { x.SlowModeInterval = interval; });
-                    if (interval != 0)
-                        await ctx.Channel.SendMessageAsync(
-                            $"<a:checkfragutil:854536148411744276> Slowmode has been enabled in {channel.Mention} for {TimeSpan.FromSeconds(interval)}");
-                    else
-                        await ctx.Channel.SendMessageAsync(
-                            $"<a:checkfragutil:854536148411744276> Slowmode has been disabled in {channel.Mention}");
-                }
-            }
+            public async Task Slowmode(StoopidTime time, ITextChannel channel)
+                => await InternalSlowmode(channel, (int)time.Time.TotalSeconds);
 
             [MewdekoCommand]
             [Usage]
@@ -387,10 +381,8 @@ namespace Mewdeko.Modules.Server_Management
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPermission.ManageChannels)]
             [Priority(1)]
-            public async Task Slowmode(int interval)
-            {
-                await Slowmode(interval, (ITextChannel)ctx.Channel);
-            }
+            public async Task Slowmode(StoopidTime time)
+                => await InternalSlowmode(ctx.Channel as ITextChannel, (int) time.Time.TotalSeconds);
 
             [MewdekoCommand]
             [Usage]
@@ -400,12 +392,7 @@ namespace Mewdeko.Modules.Server_Management
             [UserPerm(GuildPermission.ManageChannels)]
             [Priority(2)]
             public async Task Slowmode(ITextChannel channel)
-            {
-                if (channel.SlowModeInterval != 0)
-                    await Slowmode(0, channel);
-                else
-                    await Slowmode(60, channel);
-            }
+                => await InternalSlowmode(channel);
 
             [MewdekoCommand]
             [Usage]
@@ -416,7 +403,35 @@ namespace Mewdeko.Modules.Server_Management
             [Priority(4)]
             public async Task Slowmode()
             {
-                await Slowmode((ITextChannel)ctx.Channel);
+                await InternalSlowmode((ITextChannel)ctx.Channel);
+            }
+
+            private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
+            {
+                switch (time)
+                {
+                    case 0:
+                        switch (channel.SlowModeInterval)
+                        {
+                            case 0:
+                                await channel.ModifyAsync(x => x.SlowModeInterval = 60);
+                                await channel.SendConfirmAsync($"Slowmode enabled in {channel.Mention} for 1 Minute.");
+                                return;
+                            case > 0:
+                                await channel.ModifyAsync(x => x.SlowModeInterval = 0);
+                                await channel.SendConfirmAsync($"Slowmode disabled in {channel.Mention}.");
+                                break;
+                        }
+                        return;
+                    case >= 21600:
+                        await channel.SendErrorAsync(
+                            "The max discord allows for slowmode is 6 hours! Please try again with a lower value.");
+                        break;
+                    default:
+                        await channel.ModifyAsync(x => x.SlowModeInterval = time);
+                        await channel.SendConfirmAsync($"Slowmode enabled in {channel.Mention} for {TimeSpan.FromSeconds(time).Humanize(maxUnit: TimeUnit.Hour)}");
+                        break;
+                }
             }
 
             [MewdekoCommand]
@@ -434,7 +449,7 @@ namespace Mewdeko.Modules.Server_Management
                     var client = new WebClient();
                     var stream = client.OpenRead(i.Url);
                     var reader = new StreamReader(stream);
-                    var content = reader.ReadToEnd();
+                    var content = await reader.ReadToEndAsync();
                     CREmbed.TryParse(content, out var embedData);
                     embeds.Add(embedData.ToEmbed().Build());
                 }
