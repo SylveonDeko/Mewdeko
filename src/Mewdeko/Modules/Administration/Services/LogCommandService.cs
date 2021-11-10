@@ -984,6 +984,10 @@ namespace Mewdeko.Modules.Administration.Services
                         toSend.Add(msg);
                 }
                 var count = toSend.Count;
+                
+                if (count == 1) 
+                    return;
+
                 while (toSend.Any())
                 {
                     var toBatch = toSend.Take(100);

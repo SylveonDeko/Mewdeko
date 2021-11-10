@@ -64,6 +64,7 @@
         <PackageReference Include="Nekos-Sharp" Version="3.5.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NHentai.NET" Version="3.2.0" />
+        <PackageReference Include="PokeApiNet" Version="3.0.3" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1-dev-00876" />
         <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
         <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
