@@ -1,5 +1,4 @@
-﻿using System;
-using Discord.Commands;
+﻿using Discord.Commands;
 
 namespace Mewdeko.Common.Attributes
 {

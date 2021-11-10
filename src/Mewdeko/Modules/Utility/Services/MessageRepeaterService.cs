@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,7 +56,7 @@ namespace Mewdeko.Modules.Utility.Services
                     }
 
                     var idToRepeater = gc.GuildRepeaters
-                        .Where(gr => !(gr.DateAdded is null))
+                        .Where(gr => gr.DateAdded is not null)
                         .Select(gr =>
                             new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
                         .ToDictionary(x => x.Key, y => y.Value)

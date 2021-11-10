@@ -1,9 +1,6 @@
-using System;
-using System.Threading.Tasks;
-using Mewdeko;
+global using Mewdeko;
+global using System;
 using Mewdeko.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 
 var pid = System.Environment.ProcessId;

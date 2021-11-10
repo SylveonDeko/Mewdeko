@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -126,8 +123,7 @@ namespace Mewdeko.Modules.Giveaways.Services
         }
         public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)
         {
-            var ch = await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId) as IUserMessage;
-                if (ch == null)
+            if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId) is not IUserMessage ch)
                     return;
                 var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
                 var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();

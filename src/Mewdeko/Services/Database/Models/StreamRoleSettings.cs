@@ -46,7 +46,7 @@ namespace Mewdeko.Services.Database.Models
 
         public override bool Equals(object obj)
         {
-            if (!(obj is StreamRoleBlacklistedUser x))
+            if (obj is not StreamRoleBlacklistedUser x)
                 return false;
 
             return x.UserId == UserId;

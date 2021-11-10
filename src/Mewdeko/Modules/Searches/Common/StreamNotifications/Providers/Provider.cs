@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
         ///     Gets the stream usernames which fail to execute due to an error, and when they started throwing errors.
         ///     This can happen if stream name is invalid, or if the stream doesn't exist anymore.
         /// </summary>
-        public IEnumerable<(string Login, DateTime ErroringSince)> FailingStreams =>
+        public IEnumerable<(string Login, DateTime ErroringSince)> FailingStreams2 =>
             _failingStreams.Select(entry => (entry.Key, entry.Value)).ToList();
 
         /// <summary>

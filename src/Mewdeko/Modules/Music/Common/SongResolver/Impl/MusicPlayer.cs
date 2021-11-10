@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Voice;
@@ -478,7 +476,7 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
             for (var i = 0; i < samples.Length; i++)
             {
                 ref var sample = ref samples[i];
-                sample = sample * volume;
+                sample *= volume;
             }
         }
 

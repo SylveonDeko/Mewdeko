@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -63,7 +62,7 @@ namespace Mewdeko.Modules.Gambling
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(entries.Count() / 9)
+                    .WithMaxPageIndex(entries.Count / 9)
                     .WithDefaultEmotes()
                     .Build();
 

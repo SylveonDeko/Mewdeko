@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,7 +39,7 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var msg = await ctx.Channel.SendConfirmAsync(
-                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories.....");
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories.....");
                 foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                     if (perms != null)
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
@@ -51,7 +50,7 @@ namespace Mewdeko.Modules.Server_Management
                 {
                     Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description =
-                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count()} Categories!!"
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories!!"
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build());
             }
@@ -74,7 +73,7 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var msg = await ctx.Channel.SendConfirmAsync(
-                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels.....");
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels.....");
                 foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                     if (perms != null)
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
@@ -82,7 +81,7 @@ namespace Mewdeko.Modules.Server_Management
                 {
                     Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description =
-                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count()} Channels!"
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels!"
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build());
             }
@@ -105,7 +104,7 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var msg = await ctx.Channel.SendConfirmAsync(
-                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count()} Categories.....");
+                    $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count} Categories.....");
                 foreach (var i in await ctx.Guild.GetCategoriesAsync())
                     if (perms != null)
                         await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms);
@@ -113,7 +112,7 @@ namespace Mewdeko.Modules.Server_Management
                 {
                     Color = Mewdeko.Services.Mewdeko.OkColor,
                     Description =
-                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count()} Categories!"
+                        $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count} Categories!"
                 };
                 await msg.ModifyAsync(x => x.Embed = eb.Build());
             }
@@ -163,7 +162,7 @@ namespace Mewdeko.Modules.Server_Management
                 };
                 if (await PromptUserConfirmAsync(embed, ctx.User.Id))
                 {
-                    var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Count()} roles...");
+                    var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Length} roles...");
                     var emb = msg.Embeds.First();
                     foreach (var i in roles) await i.DeleteAsync();
                     var newemb = new EmbedBuilder
@@ -286,7 +285,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -394,7 +393,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -402,7 +401,7 @@ namespace Mewdeko.Modules.Server_Management
                 }
 
                 var guild = ctx.Guild as SocketGuild;
-                var count = users.Count();
+                var count = users.Count;
                 if (!users.Any())
                 {
                     await ctx.Channel.SendErrorAsync("All users already have this role!");
@@ -419,7 +418,7 @@ namespace Mewdeko.Modules.Server_Management
                     role);
                 var count2 = 0;
                 await ctx.Channel.SendConfirmAsync(
-                    $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count()}s.");
+                    $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count}s.");
                 using (ctx.Channel.EnterTypingState())
                 {
                     foreach (var i in users)
@@ -473,7 +472,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -551,7 +550,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -629,7 +628,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -710,7 +709,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -791,7 +790,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -870,7 +869,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -949,7 +948,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -1030,7 +1029,7 @@ namespace Mewdeko.Modules.Server_Management
                     return;
                 }
 
-                if (Service.jobslist.Count() == 5)
+                if (Service.jobslist.Count == 5)
                 {
                     await ctx.Channel.SendErrorAsync(
                         $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -1129,7 +1128,7 @@ namespace Mewdeko.Modules.Server_Management
                     "Removing a role from users within a role", role, role2);
                 var guildUsers = inrole as IGuildUser[] ?? inrole.ToArray();
                 await ctx.Channel.SendConfirmAsync(
-                    $"Removing {role2.Mention} from users in {role.Mention}.\nThis will take about {guildUsers.Count()}s.");
+                    $"Removing {role2.Mention} from users in {role.Mention}.\nThis will take about {guildUsers.Length}s.");
                 var count2 = 0;
                 using (ctx.Channel.EnterTypingState())
                 {

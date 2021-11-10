@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -527,7 +526,7 @@ namespace Mewdeko.Modules.Xp
                 await _tracker.EnsureUsersDownloadedAsync(ctx.Guild).ConfigureAwait(false);
 
                 allUsers = Service.GetTopUserXps(ctx.Guild.Id, 1000)
-                    .Where(user => !(socketGuild.GetUser(user.UserId) is null))
+                    .Where(user => socketGuild.GetUser(user.UserId) is not null)
                     .ToList();
             }
 

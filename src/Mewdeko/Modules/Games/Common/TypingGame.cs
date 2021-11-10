@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -141,8 +140,7 @@ namespace Mewdeko.Modules.Games.Common
                 {
                     if (imsg.Author.IsBot)
                         return;
-                    var msg = imsg as SocketUserMessage;
-                    if (msg == null)
+                    if (imsg is not SocketUserMessage msg)
                         return;
 
                     if (Channel == null || Channel.Id != msg.Channel.Id) return;

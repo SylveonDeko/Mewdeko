@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -96,7 +95,7 @@ namespace Mewdeko.Modules.Searches.Services
                 {
                     try
                     {
-                        if (!(msg is SocketUserMessage umsg))
+                        if (msg is not SocketUserMessage umsg)
                             return;
 
                         if (!TranslatedChannels.TryGetValue(umsg.Channel.Id, out var autoDelete))

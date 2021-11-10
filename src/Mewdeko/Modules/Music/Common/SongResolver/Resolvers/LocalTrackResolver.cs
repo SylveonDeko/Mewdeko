@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mewdeko._Extensions;
 using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Serilog;
 
@@ -63,7 +61,7 @@ namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers
                 yield break;
 
             var firstData = await ResolveByQueryAsync(firstFile);
-            if (!(firstData is null))
+            if (firstData is not null)
                 yield return firstData;
 
             var fileChunks = files.Skip(1).Chunk(10);

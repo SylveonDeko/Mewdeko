@@ -22,7 +22,6 @@ namespace Mewdeko.Modules.Permissions.Services
 {
     public class FilterService : IEarlyBehavior, INService
     {
-        private readonly Mewdeko.Services.Mewdeko _bot;
         private readonly CultureInfo _CultureInfo = new("en-US");
         private readonly DbService _db;
         private readonly IPubSub _pubSub;
@@ -37,7 +36,6 @@ namespace Mewdeko.Modules.Permissions.Services
             UserPunishService upun2, IBotStrings strng, AdministrationService ass)
         {
             _db = db;
-            _bot = bot;
             Client = client;
             _pubSub = pubSub;
             upun = upun2;
@@ -92,9 +90,8 @@ namespace Mewdeko.Modules.Permissions.Services
                 var _ = Task.Run(() =>
                 {
                     var guild = (channel as ITextChannel)?.Guild;
-                    var usrMsg = newMsg as IUserMessage;
 
-                    if (guild == null || usrMsg == null)
+                    if (guild == null || newMsg is not IUserMessage usrMsg)
                         return Task.CompletedTask;
 
                     return RunBehavior(null, guild, usrMsg);
@@ -146,7 +143,7 @@ namespace Mewdeko.Modules.Permissions.Services
             if (publish) _pubSub.Pub(blPubKey, toPublish);
         }
 
-        public void Blacklist(string id, ulong id2)
+        public void WordBlacklist(string id, ulong id2)
         {
             using var uow = _db.GetDbContext();
             var item = new AutoBanEntry { Word = id, GuildId = id2 };
@@ -162,7 +159,7 @@ namespace Mewdeko.Modules.Permissions.Services
             var toRemove = uow._context.AutoBanWords
                 .FirstOrDefault(bi => bi.Word == id && bi.GuildId == id2);
 
-            if (!(toRemove is null))
+            if (toRemove is not null)
                 uow._context.AutoBanWords.Remove(toRemove);
 
             uow.SaveChanges();

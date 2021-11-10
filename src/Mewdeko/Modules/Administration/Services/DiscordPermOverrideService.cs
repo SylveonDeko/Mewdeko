@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +37,7 @@ namespace Mewdeko.Modules.Administration.Services
         public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context, string moduleName,
             CommandInfo command)
         {
-            if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && !(perm is null))
+            if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && perm is not null)
             {
                 var result = await new RequireUserPermissionAttribute((GuildPermission)perm)
                     .CheckPermissionsAsync(context, command, _services);

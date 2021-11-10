@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -18,7 +17,6 @@ using Mewdeko.Common.Extensions.Interactive;
 using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
-using Mewdeko.Modules.Searches.Services;
 using Newtonsoft.Json;
 using NekosSharp;
 
@@ -479,7 +477,7 @@ namespace Mewdeko.Modules.Searches
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(Result.Results.Count() - 1)
+                    .WithMaxPageIndex(Result.Results.Count - 1)
                     .WithDefaultCanceledPage()
                     .WithDefaultEmotes()
                     .Build();

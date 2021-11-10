@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,7 +169,7 @@ namespace Mewdeko.Modules.Moderation.Services
                     if (roleId is null)
                         return;
                     var role = guild.GetRole(roleId.Value);
-                    if (!(role is null))
+                    if (role is not null)
                     {
                         if (minutes == 0)
                             await user.AddRoleAsync(role).ConfigureAwait(false);

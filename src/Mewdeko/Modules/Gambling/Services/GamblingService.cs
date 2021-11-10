@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -23,7 +22,6 @@ namespace Mewdeko.Modules.Gambling.Services
         private readonly ICurrencyService _cs;
         private readonly DbService _db;
 
-        private readonly Timer _decayTimer;
         private readonly GamblingConfigService _gss;
 
         public GamblingService(DbService db, Mewdeko.Services.Mewdeko bot, ICurrencyService cs,
@@ -37,28 +35,28 @@ namespace Mewdeko.Modules.Gambling.Services
             _gss = gss;
 
             if (_bot.Client.ShardId == 0)
-                _decayTimer = new Timer(_ =>
+            {
+                var timer = new Timer(_ =>
                 {
                     var config = _gss.Data;
                     var maxDecay = config.Decay.MaxDecay;
                     if (config.Decay.Percent <= 0 || config.Decay.Percent > 1 || maxDecay < 0)
                         return;
 
-                    using (var uow = _db.GetDbContext())
-                    {
-                        var lastCurrencyDecay = _cache.GetLastCurrencyDecay();
+                    using var uow = _db.GetDbContext();
+                    var lastCurrencyDecay = _cache.GetLastCurrencyDecay();
 
-                        if (DateTime.UtcNow - lastCurrencyDecay < TimeSpan.FromHours(config.Decay.HourInterval))
-                            return;
+                    if (DateTime.UtcNow - lastCurrencyDecay < TimeSpan.FromHours(config.Decay.HourInterval))
+                        return;
 
-                        Log.Information($"Decaying users' currency - decay: {config.Decay.Percent * 100}% " +
-                                        $"| max: {maxDecay} " +
-                                        $"| threshold: {config.Decay.MinThreshold}");
+                    Log.Information($"Decaying users' currency - decay: {config.Decay.Percent * 100}% " +
+                                    $"| max: {maxDecay} " +
+                                    $"| threshold: {config.Decay.MinThreshold}");
 
-                        if (maxDecay == 0)
-                            maxDecay = int.MaxValue;
+                    if (maxDecay == 0)
+                        maxDecay = int.MaxValue;
 
-                        uow._context.Database.ExecuteSqlInterpolated($@"
+                    uow._context.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=
     CASE WHEN
@@ -70,10 +68,10 @@ SET CurrencyAmount=
     END
 WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentUser.Id};");
 
-                        _cache.SetLastCurrencyDecay();
-                        uow.SaveChanges();
-                    }
+                    _cache.SetLastCurrencyDecay();
+                    uow.SaveChanges();
                 }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
+            }
         }
 
         public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
@@ -82,8 +80,9 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
         public bool GetVoted(ulong Id)
         {
             var url = $"https://top.gg/api/bots/752236274261426212/check?userId={Id}";
-
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
             var request = WebRequest.Create(url);
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
             request.Method = "GET";
             request.Headers.Add("Authorization",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");

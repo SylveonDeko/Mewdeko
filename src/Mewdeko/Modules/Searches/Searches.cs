@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -303,7 +301,7 @@ namespace Mewdeko.Modules.Searches
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
             var (data, err) = await Service.GetTimeDataAsync(query).ConfigureAwait(false);
-            if (!(err is null))
+            if (err is not null)
             {
                 string errorKey;
                 switch (err)
@@ -687,8 +685,8 @@ namespace Mewdeko.Modules.Searches
                     .ConfigureAwait(false);
                 try
                 {
-                    var items = JsonConvert.DeserializeObject<UrbanResponse>(res).List;
-                    if (items.Any())
+                    var items = JsonConvert.DeserializeObject<UrbanResponse>(res)?.List;
+                    if (items != null && items.Any())
                     {
                         var paginator = new LazyPaginatorBuilder()
                             .AddUser(ctx.User)
@@ -728,76 +726,74 @@ namespace Mewdeko.Modules.Searches
             if (!await ValidateQuery(ctx.Channel, word).ConfigureAwait(false))
                 return;
 
-            using (var _http = _httpFactory.CreateClient())
+            using var _http = _httpFactory.CreateClient();
+            string res;
+            try
             {
-                string res;
-                try
+                res = await _cache.GetOrCreateAsync($"define_{word}", e =>
                 {
-                    res = await _cache.GetOrCreateAsync($"define_{word}", e =>
+                    e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
+                    return _http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
+                                                WebUtility.UrlEncode(word));
+                }).ConfigureAwait(false);
+
+                var data = JsonConvert.DeserializeObject<DefineModel>(res);
+
+                var datas = data.Results
+                    .Where(x => x.Senses is not null && x.Senses.Count > 0 && x.Senses[0].Definition is not null)
+                    .Select(x => (Sense: x.Senses[0], x.PartOfSpeech));
+
+                if (!datas.Any())
+                {
+                    Log.Warning("Definition not found: {Word}", word);
+                    await ReplyErrorLocalizedAsync("define_unknown").ConfigureAwait(false);
+                }
+
+
+                var col = datas.Select(data => (
+                    Definition: data.Sense.Definition is string
+                        ? data.Sense.Definition.ToString()
+                        : ((JArray)JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
+                    Example: data.Sense.Examples is null || data.Sense.Examples.Count == 0
+                        ? string.Empty
+                        : data.Sense.Examples[0].Text,
+                    Word: word,
+                    WordType: string.IsNullOrWhiteSpace(data.PartOfSpeech) ? "-" : data.PartOfSpeech
+                )).ToList();
+
+                Log.Information($"Sending {col.Count} definition for: {word}");
+
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(col.Count - 1)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
                     {
-                        e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
-                        return _http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
-                                                    WebUtility.UrlEncode(word));
-                    }).ConfigureAwait(false);
+                        var data = col.Skip(page).First();
+                        var embed = new PageBuilder()
+                            .WithDescription(ctx.User.Mention)
+                            .AddField(GetText("word"), data.Word, true)
+                            .AddField(GetText("class"), data.WordType, true)
+                            .AddField(GetText("definition"), data.Definition)
+                            .WithOkColor();
 
-                    var data = JsonConvert.DeserializeObject<DefineModel>(res);
+                        if (!string.IsNullOrWhiteSpace(data.Example))
+                            embed.AddField(efb => efb.WithName(GetText("example")).WithValue(data.Example));
 
-                    var datas = data.Results
-                        .Where(x => !(x.Senses is null) && x.Senses.Count > 0 && !(x.Senses[0].Definition is null))
-                        .Select(x => (Sense: x.Senses[0], x.PartOfSpeech));
-
-                    if (!datas.Any())
-                    {
-                        Log.Warning("Definition not found: {Word}", word);
-                        await ReplyErrorLocalizedAsync("define_unknown").ConfigureAwait(false);
-                    }
-
-
-                    var col = datas.Select(data => (
-                        Definition: data.Sense.Definition is string
-                            ? data.Sense.Definition.ToString()
-                            : ((JArray)JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
-                        Example: data.Sense.Examples is null || data.Sense.Examples.Count == 0
-                            ? string.Empty
-                            : data.Sense.Examples[0].Text,
-                        Word: word,
-                        WordType: string.IsNullOrWhiteSpace(data.PartOfSpeech) ? "-" : data.PartOfSpeech
-                    )).ToList();
-
-                    Log.Information($"Sending {col.Count} definition for: {word}");
-
-                    var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(col.Count() - 1)
-                        .WithDefaultEmotes()
-                        .Build();
-
-                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
-
-                    Task<PageBuilder> PageFactory(int page)
-                    {
-                        {
-                            var data = col.Skip(page).First();
-                            var embed = new PageBuilder()
-                                .WithDescription(ctx.User.Mention)
-                                .AddField(GetText("word"), data.Word, true)
-                                .AddField(GetText("class"), data.WordType, true)
-                                .AddField(GetText("definition"), data.Definition)
-                                .WithOkColor();
-
-                            if (!string.IsNullOrWhiteSpace(data.Example))
-                                embed.AddField(efb => efb.WithName(GetText("example")).WithValue(data.Example));
-
-                            return Task.FromResult(embed);
-                        }
+                        return Task.FromResult(embed);
                     }
                 }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "Error retrieving definition data for: {Word}", word);
-                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error retrieving definition data for: {Word}", word);
             }
         }
 

@@ -1,4 +1,3 @@
-using System;
 using Discord;
 using Mewdeko._Extensions;
 using Newtonsoft.Json;

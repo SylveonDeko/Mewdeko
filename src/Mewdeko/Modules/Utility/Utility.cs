@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -19,10 +18,8 @@ using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Modules.Utility.Services;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Serilog;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 
@@ -682,7 +679,7 @@ namespace Mewdeko.Modules.Utility
             if (string.IsNullOrWhiteSpace(game))
                 return;
 
-            if (!(ctx.Guild is SocketGuild socketGuild))
+            if (ctx.Guild is not SocketGuild socketGuild)
             {
                 Log.Warning("Can't cast guild to socket guild.");
                 return;
@@ -782,7 +779,7 @@ namespace Mewdeko.Modules.Utility
             Task<PageBuilder> PageFactory(int page)
             {
                 return Task.FromResult(new PageBuilder().WithOkColor()
-                    .WithTitle(Format.Bold($"Users in the roles: {role.Name} | {role2.Name} - {roleUsers.Count()}"))
+                    .WithTitle(Format.Bold($"Users in the roles: {role.Name} | {role2.Name} - {roleUsers.Length}"))
                     .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20))));
             }
         }

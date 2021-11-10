@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -47,7 +46,7 @@ namespace Mewdeko.Modules.Permissions
                 }
                 else
                 {
-                    Service.Blacklist(word, ctx.Guild.Id);
+                    Service.WordBlacklist(word, ctx.Guild.Id);
                     await ctx.Channel.SendConfirmAsync($"Added {Format.Code(word)} to the auto ban words list!");
                 }
             }

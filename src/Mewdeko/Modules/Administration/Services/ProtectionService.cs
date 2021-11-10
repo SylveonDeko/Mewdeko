@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -137,7 +136,7 @@ namespace Mewdeko.Modules.Administration.Services
                 _antiSpamGuilds[gc.GuildId] = new AntiSpamStats { AntiSpamSettings = spam };
 
             var alt = gc.AntiAltSetting;
-            if (!(alt is null))
+            if (alt is not null)
                 _antiAltGuilds[gc.GuildId] = new AntiAltStats(alt);
         }
 
@@ -175,7 +174,7 @@ namespace Mewdeko.Modules.Administration.Services
 
                 try
                 {
-                    if (!(maybeStats is { } stats) || !stats.RaidUsers.Add(user))
+                    if (maybeStats is not { } stats || !stats.RaidUsers.Add(user))
                         return;
 
                     ++stats.UsersCount;

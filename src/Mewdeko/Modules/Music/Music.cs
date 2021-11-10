@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -135,15 +134,6 @@ namespace Mewdeko.Modules.Music
                 await SpotifyPlaylist(query);
             else
                 await QueueByQuery(query);
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        public async Task Lyrics([Remainder] string songname = null)
-        {
-            await ctx.Channel.SendErrorAsync("Disabled until i find a lyrics provider that isnt ksoft.net");
         }
 
         private async Task SpotifyPlaylist(string url = null)
@@ -643,7 +633,7 @@ namespace Mewdeko.Modules.Music
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(tracks.Count() / 9)
+                .WithMaxPageIndex(tracks.Count / 9)
                 .WithDefaultEmotes()
                 .Build();
 
@@ -654,7 +644,7 @@ namespace Mewdeko.Modules.Music
                 {
                     var desc = string.Empty;
                     var current = mp.GetCurrentTrack(out var currentIndex);
-                    if (!(current is null)) desc = $"`🔊` {current.PrettyFullName()}\n\n" + desc;
+                    if (current is not null) desc = $"`🔊` {current.PrettyFullName()}\n\n" + desc;
 
                     var repeatType = mp.Repeat;
                     var add = "";
@@ -729,8 +719,8 @@ namespace Mewdeko.Modules.Music
                 .Select((x, i) => $"`{i + 1}.`\n\t{Format.Bold(x.Title)}\n\t{x.Url}")
                 .JoinWith('\n');
             var buttons = new ComponentBuilder();
-            int count = 0;
-            foreach (var video in videos)
+            var count = 0;
+            foreach (var (_, _) in videos)
             {
                 var button = new ButtonBuilder(customId: (count + 1).ToString(), label: (count + 1).ToString());
                 count++;
@@ -891,7 +881,7 @@ namespace Mewdeko.Modules.Music
             mp.Stop();
         }
 
-        private PlayerRepeatType InputToDbType(InputRepeatType type)
+        private static PlayerRepeatType InputToDbType(InputRepeatType type)
         {
             return type switch
             {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,7 +149,7 @@ namespace Mewdeko.Modules.Moderation.Services
                         break;
                     case PunishmentAction.AddRole:
                         var role = guild.GetRole(p.RoleId.Value);
-                        if (!(role is null))
+                        if (role is not null)
                         {
                             if (p.Time == 0)
                                 await user.AddRoleAsync(role).ConfigureAwait(false);

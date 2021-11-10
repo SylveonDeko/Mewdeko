@@ -1,5 +1,3 @@
-using System;
-
 namespace Mewdeko.Common.Extensions.Interactive
 {
     /// <summary>

@@ -1,7 +1,6 @@
 ﻿using Mewdeko.Common.Configs;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Xp.Services

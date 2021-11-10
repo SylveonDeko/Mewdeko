@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Discord;
@@ -179,7 +178,7 @@ namespace Mewdeko.Modules.Administration
                     {
                         var ch = g.GetTextChannel(rr.ChannelId);
                         IUserMessage msg = null;
-                        if (!(ch is null))
+                        if (ch is not null)
                             msg = await ch.GetMessageAsync(rr.MessageId).ConfigureAwait(false) as IUserMessage;
                         var content = msg?.Content.TrimTo(30) ?? "DELETED!";
                         embed.AddField($"**{rr.Index + 1}.** {ch?.Name ?? "DELETED!"}",

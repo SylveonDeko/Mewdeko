@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -185,11 +184,10 @@ namespace Mewdeko.Modules.Gambling.Services
 
         private Task PotentialFlowerGeneration(IUserMessage imsg)
         {
-            var msg = imsg as SocketUserMessage;
-            if (msg == null || msg.Author.IsBot)
+            if (imsg is not SocketUserMessage msg || msg.Author.IsBot)
                 return Task.CompletedTask;
 
-            if (!(imsg.Channel is ITextChannel channel))
+            if (imsg.Channel is not ITextChannel channel)
                 return Task.CompletedTask;
 
             if (!_generationChannels.Contains(channel.Id))

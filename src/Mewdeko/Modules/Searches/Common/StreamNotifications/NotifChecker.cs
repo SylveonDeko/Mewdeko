@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications
         public IEnumerable<StreamDataKey> GetFailingStreams(TimeSpan duration, bool remove = false)
         {
             var toReturn = _streamProviders.SelectMany(prov => prov.Value
-                    .FailingStreams
+                    .FailingStreams2
                     .Where(fs => DateTime.UtcNow - fs.ErroringSince > duration)
                     .Select(fs => new StreamDataKey(prov.Value.Platform, fs.Item1)))
                 .ToList();

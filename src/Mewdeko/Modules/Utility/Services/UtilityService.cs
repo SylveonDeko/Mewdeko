@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -176,8 +175,7 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 if (GetSnipeSet(((SocketTextChannel)ch.Value).Guild.Id) == 0) return;
 
-                var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
-                if (msg is null || msg.Author.IsBot) return;
+                if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
                 if (user is null) return;
                 if (!user.IsBot)
@@ -206,8 +204,7 @@ namespace Mewdeko.Modules.Utility.Services
             {
                 if (GetSnipeSet(((SocketTextChannel)ch).Guild.Id) == 0) return;
 
-                var msg = (optMsg.HasValue ? optMsg.Value : null) as IUserMessage;
-                if (msg is null || msg.Author.IsBot) return;
+                if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
                 var user = await msg.Channel.GetUserAsync(msg.Author.Id);
                 if (user is null) return;
                 if (!user.IsBot)
@@ -273,55 +270,53 @@ namespace Mewdeko.Modules.Utility.Services
                     {
                         var e = new Uri(m.Value);
                         var en = e.Host.Split(".");
-                        if (en.Contains("discord"))
+                        if (!en.Contains("discord")) continue;
+                        var eb = string.Join("", e.Segments).Split("/");
+                        if (!eb.Contains("channels")) continue;
+                        SocketGuild guild;
+                        if (gid.Id != Convert.ToUInt64(eb[2]))
                         {
-                            var eb = string.Join("", e.Segments).Split("/");
-                            if (eb.Contains("channels"))
-                            {
-                                SocketGuild guild;
-                                if (gid.Id != Convert.ToUInt64(eb[2]))
-                                {
-                                    guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
-                                    if (guild is null) return;
-                                }
-                                else
-                                {
-                                    guild = gid;
-                                }
-
-                                var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
-                                if (em == null) return;
-                                var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
-                                if (msg2 is null) return;
-                                var en2 = new EmbedBuilder
-                                {
-                                    Color = Mewdeko.Services.Mewdeko.OkColor,
-                                    Author = new EmbedAuthorBuilder
-                                    {
-                                        Name = msg2.Author.Username,
-                                        IconUrl = msg2.Author.GetAvatarUrl(size: 2048)
-                                    },
-                                    Footer = new EmbedFooterBuilder
-                                    {
-                                        IconUrl = ((IGuild)guild).IconUrl,
-                                        Text = $"{((IGuild)guild).Name}: {em.Name}"
-                                    }
-                                };
-                                if (msg2.Embeds.Any())
-                                {
-                                    en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault().Description);
-                                    if (msg2.Embeds.FirstOrDefault().Image != null)
-                                        en2.ImageUrl = msg2.Embeds.FirstOrDefault().Image.Value.Url;
-                                }
-
-                                if (msg2.Content.Any()) en2.Description = msg2.Content;
-
-                                if (msg2.Attachments.Any()) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
-
-                                await msg.Channel.SendMessageAsync("",
-                                    embed: en2.WithTimestamp(msg2.Timestamp).Build());
-                            }
+                            guild = _client.GetGuild(Convert.ToUInt64(eb[2]));
+                            if (guild is null) return;
                         }
+                        else
+                        {
+                            guild = gid;
+                        }
+
+                        if (guild != t.Guild)
+                            return;
+                        var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3]));
+                        if (em == null) return;
+                        var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4]));
+                        if (msg2 is null) return;
+                        var en2 = new EmbedBuilder
+                        {
+                            Color = Mewdeko.Services.Mewdeko.OkColor,
+                            Author = new EmbedAuthorBuilder
+                            {
+                                Name = msg2.Author.Username,
+                                IconUrl = msg2.Author.GetAvatarUrl(size: 2048)
+                            },
+                            Footer = new EmbedFooterBuilder
+                            {
+                                IconUrl = ((IGuild)guild).IconUrl,
+                                Text = $"{((IGuild)guild).Name}: {em.Name}"
+                            }
+                        };
+                        if (msg2.Embeds.Any())
+                        {
+                            en2.AddField("Embed Content:", msg2.Embeds.FirstOrDefault()?.Description);
+                            if (msg2.Embeds.FirstOrDefault()!.Image != null)
+                                en2.ImageUrl = msg2.Embeds.FirstOrDefault()? .Image.Value.Url;
+                        }
+
+                        if (msg2.Content.Any()) en2.Description = msg2.Content;
+
+                        if (msg2.Attachments.Any()) en2.ImageUrl = msg2.Attachments.FirstOrDefault().Url;
+
+                        await msg.Channel.SendMessageAsync("",
+                            embed: en2.WithTimestamp(msg2.Timestamp).Build());
                     }
                 }
             }

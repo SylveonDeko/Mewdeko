@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
@@ -32,13 +31,11 @@ namespace Mewdeko.Modules.Moderation
             }
 
             private readonly DbService _db;
-            private readonly MuteService _mute;
-            private readonly InteractiveService Interactivity;
+            private readonly InteractiveService _interactivity;
 
-            public UserPunishCommands2(MuteService mute, DbService db, InteractiveService serv)
+            public UserPunishCommands2(DbService db, InteractiveService serv)
             {
-                Interactivity = serv;
-                _mute = mute;
+                _interactivity = serv;
                 _db = db;
             }
 
@@ -283,11 +280,11 @@ namespace Mewdeko.Modules.Moderation
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(warnings.Count() / 15)
+                    .WithMaxPageIndex(warnings.Length / 15)
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {

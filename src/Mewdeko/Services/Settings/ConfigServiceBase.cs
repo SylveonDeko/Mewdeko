@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -58,7 +57,7 @@ namespace Mewdeko.Services.Settings
             _pubSub.Sub(_changeKey, OnChangePublished);
         }
 
-        public TSettings Data => CreateCopy();
+        public TSettings Data => CreateCopy1();
 
         public abstract string Name { get; }
 
@@ -117,7 +116,7 @@ namespace Mewdeko.Services.Settings
             return default;
         }
 
-        private TSettings CreateCopy()
+        private TSettings CreateCopy1()
         {
             var serializedData = JsonSerializer.Serialize(_data, serializerOptions);
             return JsonSerializer.Deserialize<TSettings>(serializedData, serializerOptions);
@@ -153,7 +152,7 @@ namespace Mewdeko.Services.Settings
 
         public void ModifyConfig(Action<TSettings> action)
         {
-            var copy = CreateCopy();
+            var copy = CreateCopy1();
             action(copy);
             _data = copy;
             Save();

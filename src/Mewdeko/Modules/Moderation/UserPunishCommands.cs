@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
@@ -17,7 +16,6 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Modules.Permissions.Services;
 using Serilog;
 
 namespace Mewdeko.Modules.Moderation
@@ -32,17 +30,15 @@ namespace Mewdeko.Modules.Moderation
                 AddRole
             }
 
-            private readonly BlacklistService _blacklistService;
             private readonly MuteService _mute;
             public DbService _db;
             private readonly InteractiveService Interactivity;
 
-            public UserPunishCommands(MuteService mute, BlacklistService blacklistService, DbService db,
+            public UserPunishCommands(MuteService mute, DbService db,
                 InteractiveService serv)
             {
                 Interactivity = serv;
                 _mute = mute;
-                _blacklistService = blacklistService;
                 _db = db;
             }
 
@@ -303,7 +299,7 @@ namespace Mewdeko.Modules.Moderation
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(warnings.Count() / 15)
+                    .WithMaxPageIndex(warnings.Length / 15)
                     .WithDefaultEmotes()
                     .Build();
 
@@ -483,7 +479,7 @@ namespace Mewdeko.Modules.Moderation
                     {
                         var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
                         var embed = Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
-                        if (!(embed is null))
+                        if (embed is not null)
                         {
                             var userChannel = await guildUser.CreateDMChannelAsync();
                             await userChannel.EmbedAsync(embed);
@@ -556,7 +552,7 @@ namespace Mewdeko.Modules.Moderation
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
                     var embed = Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
-                    if (!(embed is null))
+                    if (embed is not null)
                     {
                         var userChannel = await user.CreateDMChannelAsync();
                         await userChannel.EmbedAsync(embed);

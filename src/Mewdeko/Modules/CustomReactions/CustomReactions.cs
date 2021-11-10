@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -25,17 +23,14 @@ namespace Mewdeko.Modules.CustomReactions
             All
         }
 
-        private readonly DiscordSocketClient _client;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IBotCredentials _creds;
         private readonly InteractiveService Interactivity;
 
-        public CustomReactions(IBotCredentials creds,
-            DiscordSocketClient client, IHttpClientFactory clientFactory, InteractiveService serv)
+        public CustomReactions(IBotCredentials creds, IHttpClientFactory clientFactory, InteractiveService serv)
         {
             Interactivity = serv;
             _creds = creds;
-            _client = client;
             _clientFactory = clientFactory;
         }
 
@@ -194,7 +189,7 @@ namespace Mewdeko.Modules.CustomReactions
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(customReactions.Count() / 20)
+                .WithMaxPageIndex(customReactions.Length / 20)
                 .WithDefaultEmotes()
                 .Build();
 
@@ -246,7 +241,7 @@ namespace Mewdeko.Modules.CustomReactions
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(customReactions.Count() / 20)
+                    .WithMaxPageIndex(customReactions.Length / 20)
                     .WithDefaultEmotes()
                     .Build();
 
@@ -426,7 +421,6 @@ namespace Mewdeko.Modules.CustomReactions
 
         private async Task InternalCrEdit(int id, CustomReactionsService.CrField option)
         {
-            var cr = Service.GetCustomReaction(ctx.Guild?.Id, id);
             if (!AdminInGuildOrOwnerInDm())
             {
                 await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);

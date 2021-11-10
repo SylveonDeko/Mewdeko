@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -294,7 +293,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
             if (!ready)
                 return null;
 
-            if (!(umsg.Channel is SocketTextChannel channel))
+            if (umsg.Channel is not SocketTextChannel channel)
                 return null;
 
             var content = umsg.Content.Trim().ToLowerInvariant();
@@ -302,7 +301,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
             if (_newGuildReactions.TryGetValue(channel.Guild.Id, out var reactions) && reactions.Length > 0)
             {
                 var cr = MatchCustomReactions(content, reactions);
-                if (!(cr is null))
+                if (cr is not null)
                     return cr;
             }
 
@@ -436,7 +435,7 @@ namespace Mewdeko.Modules.CustomReactions.Services
             lock (_gcrWriteLock)
             {
                 var cr = Array.Find(_globalReactions, item => item.Id == id);
-                if (!(cr is null)) return _pubSub.Pub(_gcrDeletedkey, cr.Id);
+                if (cr is not null) return _pubSub.Pub(_gcrDeletedkey, cr.Id);
             }
 
             return Task.CompletedTask;

@@ -173,7 +173,7 @@ namespace Mewdeko.Modules.Administration.Services
                 var old = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == chId);
                 if (newState == Administration.State.Inherit)
                 {
-                    if (!(old is null))
+                    if (old is not null)
                     {
                         conf.DelMsgOnCmdChannels.Remove(old);
                         uow._context.Remove(old);
@@ -226,7 +226,7 @@ namespace Mewdeko.Modules.Administration.Services
         {
             var msg = await chanl.GetMessageAsync(messageId);
 
-            if (!(msg is IUserMessage umsg) || msg.Author.Id != context.Client.CurrentUser.Id)
+            if (msg is not IUserMessage umsg || msg.Author.Id != context.Client.CurrentUser.Id)
                 return;
 
             var rep = new ReplacementBuilder()

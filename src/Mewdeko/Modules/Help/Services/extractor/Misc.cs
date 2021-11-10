@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Modules.Help.Services.extractor
+﻿namespace Mewdeko.Modules.Help.Services.extractor
 {
     public sealed partial class YtLoader
     {
