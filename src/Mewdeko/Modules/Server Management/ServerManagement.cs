@@ -96,16 +96,12 @@ namespace Mewdeko.Modules.Server_Management
         {
             var guild = ctx.Guild;
             var uri = new Uri(img);
-            using (var http = _httpFactory.CreateClient())
-            using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
-            {
-                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                using (var imgStream = imgData.ToStream())
-                {
-                    await guild.ModifyAsync(x => x.Splash = new Image(imgStream)).ConfigureAwait(false);
-                    await ctx.Channel.SendMessageAsync("New splash image has been set!");
-                }
-            }
+            using var http = _httpFactory.CreateClient();
+            using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            await using var imgStream = imgData.ToStream();
+            await guild.ModifyAsync(x => x.Splash = new Image(imgStream)).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync("New splash image has been set!");
         }
 
         [MewdekoCommand]
@@ -118,16 +114,12 @@ namespace Mewdeko.Modules.Server_Management
         {
             var guild = ctx.Guild;
             var uri = new Uri(img);
-            using (var http = _httpFactory.CreateClient())
-            using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
-            {
-                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                using (var imgStream = imgData.ToStream())
-                {
-                    await guild.ModifyAsync(x => x.Icon = new Image(imgStream)).ConfigureAwait(false);
-                    await ctx.Channel.SendMessageAsync("New server icon has been set!");
-                }
-            }
+            using var http = _httpFactory.CreateClient();
+            using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            await using var imgStream = imgData.ToStream();
+            await guild.ModifyAsync(x => x.Icon = new Image(imgStream)).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync("New server icon has been set!");
         }
 
         [MewdekoCommand]
