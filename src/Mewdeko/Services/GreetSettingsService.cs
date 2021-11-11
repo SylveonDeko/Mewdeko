@@ -57,7 +57,7 @@ namespace Mewdeko.Services
         private ConcurrentDictionary<ulong, string> _leavehooks { get; } = new();
         public bool GroupGreets => _bss.Data.GroupGreets;
 
-        private Func<Task> TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
+        private Func<Task> TriggerBoostMessage(GuildConfig conf, SocketGuildUser user)
         {
             return async () =>
             {
@@ -67,24 +67,44 @@ namespace Mewdeko.Services
 
                 if (string.IsNullOrWhiteSpace(conf.BoostMessage))
                     return;
-                CREmbed.TryParse(conf.ChannelByeMessageText, out var embedData);
-                var rep = new ReplacementBuilder()
-                    .WithDefault(user, channel, user.Guild, _client)
-                    .Build();
-                rep.Replace(embedData);
-                try
+                if (CREmbed.TryParse(conf.BoostMessage, out var embedData))
                 {
-                    RestUserMessage toDelete = null;
-                    if (embedData.IsEmbedValid)
-                        toDelete = await channel.SendMessageAsync(embedData.PlainText ?? "",
-                            embed: embedData.ToEmbed().Build());
-                    else
-                        toDelete = await channel.SendMessageAsync(embedData.PlainText);
-                    if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
+                    var rep = new ReplacementBuilder()
+                        .WithDefault(user, channel, user.Guild, _client)
+                        .Build();
+                    rep.Replace(embedData);
+                    try
+                    {
+                        RestUserMessage toDelete = null;
+                        if (embedData.IsEmbedValid)
+                            toDelete = await channel.SendMessageAsync(embedData.PlainText ?? "",
+                                embed: embedData.ToEmbed().Build());
+                        else
+                            toDelete = await channel.SendMessageAsync(embedData.PlainText);
+                        if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "Error sending boost message.");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Log.Error(ex, "Error sending boost message.");
+                    var rep = new ReplacementBuilder()
+                        .WithDefault(user, channel, user.Guild, _client)
+                        .Build();
+                    var msg = rep.Replace(conf.BoostMessage);
+                    try
+                    {
+                        RestUserMessage toDelete = null;
+                        toDelete = await channel.SendMessageAsync(msg);
+                      
+                        if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "Error sending boost message.");
+                    }
                 }
             };
         }
@@ -95,9 +115,10 @@ namespace Mewdeko.Services
             {
                 // if user is a new booster
                 // or boosted again the same server
-                if (msg.Type.ToString() == "UserPremiumGuildSubscription")
+                if (msg.Type == MessageType.UserPremiumGuildSubscription || msg.Type == MessageType.UserPremiumGuildSubscriptionTier1 || msg.Type == MessageType.UserPremiumGuildSubscriptionTier2 || msg.Type == MessageType.UserPremiumGuildSubscriptionTier3)
                 {
-                    var conf = GetOrAddSettingsForGuild(chan.Guild.Id);
+                    var uow = _db.GetDbContext();
+                    var conf = uow.GuildConfigs.ForId(chan.Guild.Id, set => set);
                     if (!conf.SendBoostMessage) return Task.CompletedTask;
 
                     _ = Task.Run(TriggerBoostMessage(conf, msg.Author as SocketGuildUser));
@@ -205,16 +226,22 @@ namespace Mewdeko.Services
             return uow.GuildConfigs.ForId(gid, set => set).BoostMessage;
         }
 
-        public async Task<bool> ToggleBoost(ulong guildId, ulong channelId)
+        public async Task<bool> SetBoost(ulong guildId, ulong channelId, bool? value = null)
         {
-            using var uow = _db.GetDbContext();
-            var conf = uow.GuildConfigs.ForId(guildId, set => set);
-            conf.SendBoostMessage = !conf.SendBoostMessage;
-            await uow.SaveChangesAsync();
-            conf.BoostMessageChannelId = channelId;
-            var toAdd = GreetSettings.Create(conf);
-            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
-            return conf.SendBoostMessage;
+            bool enabled;
+            using (var uow = _db.GetDbContext())
+            {
+                var conf = uow.GuildConfigs.ForId(guildId, set => set);
+                enabled = conf.SendBoostMessage = value ?? !conf.SendBoostMessage;
+                conf.BoostMessageChannelId = channelId;
+
+                var toAdd = GreetSettings.Create(conf);
+                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+
+                await uow.SaveChangesAsync();
+            }
+
+            return enabled;
         }
 
 
