@@ -59,7 +59,7 @@ namespace Mewdeko.Modules.Administration
             [UserPerm(GuildPermission.ManageGuild)]
             public async Task Boost()
             {
-                var enabled = await Service.ToggleBoost(ctx.Guild.Id, ctx.Channel.Id);
+                var enabled = await Service.SetBoost(ctx.Guild.Id, ctx.Channel.Id);
 
                 if (enabled)
                     await ReplyConfirmLocalizedAsync("boost_on").ConfigureAwait(false);
