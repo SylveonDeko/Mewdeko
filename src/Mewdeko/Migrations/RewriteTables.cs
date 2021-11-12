@@ -28,7 +28,7 @@ namespace Mewdeko.Migrations
                     table.PrimaryKey("PK_Giveaways", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "Ticket",
+                name: "Tickets",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -48,6 +48,22 @@ namespace Mewdeko.Migrations
                 {
                     table.PrimaryKey("PK_Tickets", x => x.Id);
                 });
+            migrationBuilder.CreateTable(
+                name: "StatusRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DateAdded = table.Column<DateTime>(nullable: true),
+                    GuildId = table.Column<ulong>(),
+                    Status = table.Column<string>(),
+                    ToAdd = table.Column<string>(nullable: true),
+                    ToRemove = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatusRoles", x => x.Id);
+                });
             migrationBuilder.AddColumn<string>("GRolesBlacklist", "GuildConfigs", defaultValue: "-");
             migrationBuilder.AddColumn<string>("GUsersBlacklist", "GuildConfigs", defaultValue: "-");
             migrationBuilder.AddColumn<string>("GStartMessage", "GuildConfigs", defaultValue: "-");
@@ -58,14 +74,27 @@ namespace Mewdeko.Migrations
             migrationBuilder.AddColumn<string>("ImplementMotes", "GuildConfigs", defaultValue: "-");
             migrationBuilder.AddColumn<string>("ConsiderMotes", "GuildConfigs", defaultValue: "-");
             migrationBuilder.AddColumn<string>("BanChannelMessage", "GuildConfigs", defaultValue: "-");
+            migrationBuilder.AddColumn<int>("BanChannelMessageType", "GuildConfigs", defaultValue: 1);
             migrationBuilder.AddColumn<ulong>("TicketNumber", "GuildConfigs", defaultValue: "1");
             migrationBuilder.AddColumn<ulong>("TicketChannel", "GuildConfigs", defaultValue: 0);
+            migrationBuilder.AddColumn<string>("TicketChannelName", "GuildConfigs", defaultValue: "ticket-%ticket.number%");
             migrationBuilder.AddColumn<string>("TOpenMessage", "GuildConfigs", defaultValue: "none");
+            migrationBuilder.AddColumn<string>("XPImage", "GuildConfigs", defaultValue: "none");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Giveaways_GuildId",
                 table: "Giveaways",
                 column: "ServerId",
+                unique: false);
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_GuildId",
+                table: "Tickets",
+                column: "GuildId",
+                unique: false);
+            migrationBuilder.CreateIndex(
+                name: "IX_StatusRoles_GuildId",
+                table: "StatusRoles",
+                column: "GuildId",
                 unique: false);
         }
 

@@ -8,6 +8,10 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
@@ -26,15 +30,17 @@ namespace Mewdeko.Modules.Administration
             }
 
             private readonly IServiceProvider _services;
+            private InteractiveService Interactivity;
 
-            public RoleCommands(IServiceProvider services)
+            public RoleCommands(IServiceProvider services, InteractiveService intserv)
             {
                 _services = services;
+                Interactivity = intserv;
             }
 
             public async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
             {
-                var target = messageId is ulong msgId
+                var target = messageId is { } msgId
                     ? await ctx.Channel.GetMessageAsync(msgId).ConfigureAwait(false)
                     : (await ctx.Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false))
                     .Skip(1)
@@ -76,10 +82,11 @@ namespace Mewdeko.Modules.Administration
                 {
                     try
                     {
-                        await target.AddReactionAsync(x.emote, new RequestOptions
-                        {
-                            RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
-                        }).ConfigureAwait(false);
+                        if (target != null)
+                            await target.AddReactionAsync(x.emote, new RequestOptions
+                            {
+                                RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
+                            }).ConfigureAwait(false);
                     }
                     catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.BadRequest)
                     {
@@ -90,20 +97,17 @@ namespace Mewdeko.Modules.Administration
                     await Task.Delay(500).ConfigureAwait(false);
                 }
 
-                if (Service.Add(ctx.Guild.Id, new ReactionRoleMessage
-                {
-                    Exclusive = exclusive,
-                    MessageId = target.Id,
-                    ChannelId = target.Channel.Id,
-                    ReactionRoles = all.Select(x =>
+                if (target != null && Service.Add(ctx.Guild.Id, new ReactionRoleMessage
                     {
-                        return new ReactionRole
+                        Exclusive = exclusive,
+                        MessageId = target.Id,
+                        ChannelId = target.Channel.Id,
+                        ReactionRoles = all.Select(x => new ReactionRole
                         {
                             EmoteName = x.emote.ToString(),
                             RoleId = x.role.Id
-                        };
-                    }).ToList()
-                }))
+                        }).ToList()
+                    }))
                     await ctx.OkAsync();
                 else
                     await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
@@ -173,20 +177,36 @@ namespace Mewdeko.Modules.Administration
                 }
                 else
                 {
-                    var g = (SocketGuild)ctx.Guild;
-                    foreach (var rr in rrs)
+                    var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(rrs.Count - 1)
+                        .WithDefaultEmotes()
+                        .Build();
+
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                    Task<PageBuilder> PageFactory(int page)
                     {
-                        var ch = g.GetTextChannel(rr.ChannelId);
-                        IUserMessage msg = null;
-                        if (ch is not null)
-                            msg = await ch.GetMessageAsync(rr.MessageId).ConfigureAwait(false) as IUserMessage;
-                        var content = msg?.Content.TrimTo(30) ?? "DELETED!";
-                        embed.AddField($"**{rr.Index + 1}.** {ch?.Name ?? "DELETED!"}",
-                            GetText("reaction_roles_message", rr.ReactionRoles?.Count ?? 0, content));
+                        var rr = rrs.Skip(page).FirstOrDefault();
+                        var g = ctx.Guild;
+                        var ch = g.GetTextChannelAsync(rr.ChannelId).Result;
+                            IUserMessage msg = null;
+                            if (ch is not null)
+                                msg = ch.GetMessageAsync(rr.MessageId).Result as IUserMessage;
+                            var eb = new PageBuilder().WithOkColor();
+                            return Task.FromResult(
+                                eb.AddField("ID", rr.Index + 1).AddField("Roles",
+                                        string.Join(",",
+                                            rr.ReactionRoles.Select(x => $"{g.GetRole(x.RoleId).Mention}")))
+                                    .AddField("Users can select more than one role", !rr.Exclusive)
+                                    .AddField("Was Deleted?", msg == null ? "Yes" : "No")
+                                    .AddField("Message Link",
+                                        msg == null ? "None, Message was Deleted." : $"[Link]({msg.GetJumpUrl()})" ));
+
                     }
                 }
-
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
 
             [MewdekoCommand]
