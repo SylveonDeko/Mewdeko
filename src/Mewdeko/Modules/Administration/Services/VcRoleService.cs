@@ -91,14 +91,12 @@ namespace Mewdeko.Modules.Administration.Services
         {
             // includeall no longer loads vcrole
             // need to load new guildconfig with vc role included 
-            using (var uow = _db.GetDbContext())
-            {
-                var configWithVcRole = uow.GuildConfigs.ForId(
-                    arg.GuildId,
-                    set => set.Include(x => x.VcRoleInfos)
-                );
-                var _ = InitializeVcRole(configWithVcRole);
-            }
+            using var uow = _db.GetDbContext();
+            var configWithVcRole = uow.GuildConfigs.ForId(
+                arg.GuildId,
+                set => set.Include(x => x.VcRoleInfos)
+            );
+            var _ = InitializeVcRole(configWithVcRole);
 
             return Task.CompletedTask;
         }

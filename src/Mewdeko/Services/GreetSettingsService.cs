@@ -94,10 +94,9 @@ namespace Mewdeko.Services
                         .WithDefault(user, channel, user.Guild, _client)
                         .Build();
                     var msg = rep.Replace(conf.BoostMessage);
-                    try
-                    {
-                        RestUserMessage toDelete = null;
-                        toDelete = await channel.SendMessageAsync(msg);
+                    try{
+                    
+                        var toDelete = await channel.SendMessageAsync(msg);
                       
                         if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
                     }
@@ -111,21 +110,19 @@ namespace Mewdeko.Services
 
         private Task ClientOnGuildMemberUpdated(SocketMessage msg)
         {
-            if (msg.Channel is SocketGuildChannel chan)
-            {
-                // if user is a new booster
-                // or boosted again the same server
-                if (msg.Type == MessageType.UserPremiumGuildSubscription || msg.Type == MessageType.UserPremiumGuildSubscriptionTier1 || msg.Type == MessageType.UserPremiumGuildSubscriptionTier2 || msg.Type == MessageType.UserPremiumGuildSubscriptionTier3)
-                {
-                    var uow = _db.GetDbContext();
-                    var conf = uow.GuildConfigs.ForId(chan.Guild.Id, set => set);
-                    if (!conf.SendBoostMessage) return Task.CompletedTask;
+            if (msg.Channel is not SocketGuildChannel chan) return Task.CompletedTask;
+            // if user is a new booster
+            // or boosted again the same server
+            if (msg.Type != MessageType.UserPremiumGuildSubscription &&
+                msg.Type != MessageType.UserPremiumGuildSubscriptionTier1 &&
+                msg.Type != MessageType.UserPremiumGuildSubscriptionTier2 &&
+                msg.Type != MessageType.UserPremiumGuildSubscriptionTier3) return Task.CompletedTask;
+            var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(chan.Guild.Id, set => set);
+            if (!conf.SendBoostMessage) return Task.CompletedTask;
 
-                    _ = Task.Run(TriggerBoostMessage(conf, msg.Author as SocketGuildUser));
+            _ = Task.Run(TriggerBoostMessage(conf, msg.Author as SocketGuildUser));
 
-                    return Task.CompletedTask;
-                }
-            }
             return Task.CompletedTask;
         }
 
@@ -207,7 +204,7 @@ namespace Mewdeko.Services
 
         public async Task SetBoostDel(ulong guildId, int timer)
         {
-            if (timer < 0 || timer > 600)
+            if (timer is < 0 or > 600)
                 throw new ArgumentOutOfRangeException(nameof(timer));
 
             using var uow = _db.GetDbContext();
@@ -228,25 +225,22 @@ namespace Mewdeko.Services
 
         public async Task<bool> SetBoost(ulong guildId, ulong channelId, bool? value = null)
         {
-            bool enabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                enabled = conf.SendBoostMessage = value ?? !conf.SendBoostMessage;
-                conf.BoostMessageChannelId = channelId;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            var enabled = conf.SendBoostMessage = value ?? !conf.SendBoostMessage;
+            conf.BoostMessageChannelId = channelId;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
 
             return enabled;
         }
 
 
 
-        public async Task SetWebGreetURL(IGuild guild, string url)
+        public async Task SetWebGreetUrl(IGuild guild, string url)
         {
             using (var uow = _db.GetDbContext())
             {
@@ -257,7 +251,7 @@ namespace Mewdeko.Services
 
             _greethooks.AddOrUpdate(guild.Id, url, (key, old) => url);
         }
-        public async Task SetWebLeaveURL(IGuild guild, string url)
+        public async Task SetWebLeaveUrl(IGuild guild, string url)
         {
             using (var uow = _db.GetDbContext())
             {
@@ -279,10 +273,8 @@ namespace Mewdeko.Services
 
         public string GetGreetMsg(ulong gid)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow.GuildConfigs.ForId(gid, set => set).ChannelGreetMessageText;
-            }
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.ForId(gid, set => set).ChannelGreetMessageText;
         }
 
         public string GetGreetHook(ulong? gid)

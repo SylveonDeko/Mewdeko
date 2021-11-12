@@ -129,12 +129,12 @@ namespace Mewdeko.Modules.Administration
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPermission.ManageGuild)]
-            public async Task GreetHook(ITextChannel chan = null, string name = null, string image = null,
+            public async Task GreetHook(ITextChannel chan, string name, string image = null,
                 string text = null)
             {
                 if (text is not null && text.ToLower() == "disable")
                 {
-                    await Service.SetWebGreetURL(ctx.Guild, "");
+                    await Service.SetWebGreetUrl(ctx.Guild, "");
                     await ctx.Channel.SendConfirmAsync("Greet webhook disabled.");
                     return;
                 }
@@ -145,21 +145,19 @@ namespace Mewdeko.Modules.Administration
                 {
                     using var http = _httpFactory.CreateClient();
                     var uri = new Uri(image);
-                    using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
-                        .ConfigureAwait(false))
-                    {
-                        var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                        using var imgStream = imgData.ToStream();
-                        var webhook = await chan.CreateWebhookAsync(name, imgStream);
-                        var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                        await Service.SetWebGreetURL(ctx.Guild, txt);
-                        var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
-                        if (enabled)
-                            await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
-                        else
-                            await ctx.Channel.SendConfirmAsync(
-                                $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
-                    }
+                    using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false);
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    await using var imgStream = imgData.ToStream();
+                    var webhook = await chan.CreateWebhookAsync(name, imgStream);
+                    var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
+                    await Service.SetWebGreetUrl(ctx.Guild, txt);
+                    var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                    if (enabled)
+                        await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
+                    else
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
                 }
 
                 if (ctx.Message.Attachments.Any() && image is null && text is null)
@@ -167,34 +165,102 @@ namespace Mewdeko.Modules.Administration
                     using var http = _httpFactory.CreateClient();
                     var tags = ctx.Message.Attachments.FirstOrDefault();
                     var uri = new Uri(tags.Url);
-                    using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
-                        .ConfigureAwait(false))
-                    {
-                        var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                        using var imgStream = imgData.ToStream();
-                        var webhook = await chan.CreateWebhookAsync(name, imgStream);
-                        var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                        await Service.SetWebGreetURL(ctx.Guild, txt);
-                        var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
-                        if (enabled)
-                            await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
-                        else
-                            await ctx.Channel.SendConfirmAsync(
-                                $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
-                    }
-                }
-
-                if (!ctx.Message.Attachments.Any() && image is null && text is null)
-                {
-                    var webhook = await chan.CreateWebhookAsync(name);
+                    using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false);
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    await using var imgStream = imgData.ToStream();
+                    var webhook = await chan.CreateWebhookAsync(name, imgStream);
                     var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                    await Service.SetWebGreetURL(ctx.Guild, txt);
+                    await Service.SetWebGreetUrl(ctx.Guild, txt);
                     var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
                     if (enabled)
                         await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
                     else
                         await ctx.Channel.SendConfirmAsync(
                             $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                }
+
+                if (!ctx.Message.Attachments.Any() && image is null && text is null)
+                {
+                    var webhook = await chan.CreateWebhookAsync(name);
+                    var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
+                    await Service.SetWebGreetUrl(ctx.Guild, txt);
+                    var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                    if (enabled)
+                        await ctx.Channel.SendConfirmAsync("Set the greet webhook and enabled webhook greets");
+                    else
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Set the greet webhook and enabled webhook greets. Please use {Prefix}greet to enable greet messages.");
+                }
+            }
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPermission.ManageGuild)]
+            public async Task LeaveHook(ITextChannel chan, string name, string image = null,
+                string text = null)
+            {
+                if (text is not null && text.ToLower() == "disable")
+                {
+                    await Service.SetWebLeaveUrl(ctx.Guild, "");
+                    await ctx.Channel.SendConfirmAsync("Leave webhook disabled.");
+                    return;
+                }
+
+                if (chan is not null && name is not null && image is not null && text is not null &&
+                    text?.ToLower() != "disable") return;
+                if (image is not null && text is null)
+                {
+                    using var http = _httpFactory.CreateClient();
+                    var uri = new Uri(image);
+                    using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false);
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    await using var imgStream = imgData.ToStream();
+                    var webhook = await chan.CreateWebhookAsync(name, imgStream);
+                    var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
+                    await Service.SetWebLeaveUrl(ctx.Guild, txt);
+                    var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                    if (enabled)
+                        await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves");
+                    else
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                }
+
+                if (ctx.Message.Attachments.Any() && image is null && text is null)
+                {
+                    using var http = _httpFactory.CreateClient();
+                    var tags = ctx.Message.Attachments.FirstOrDefault();
+                    var uri = new Uri(tags.Url);
+                    using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false);
+                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                    await using var imgStream = imgData.ToStream();
+                    var webhook = await chan.CreateWebhookAsync(name, imgStream);
+                    var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
+                    await Service.SetWebLeaveUrl(ctx.Guild, txt);
+                    var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                    if (enabled)
+                        await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves");
+                    else
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
+                }
+
+                if (!ctx.Message.Attachments.Any() && image is null && text is null)
+                {
+                    var webhook = await chan.CreateWebhookAsync(name);
+                    var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
+                    await Service.SetWebLeaveUrl(ctx.Guild, txt);
+                    var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
+                    if (enabled)
+                        await ctx.Channel.SendConfirmAsync("Set the leave webhook and enabled webhook leaves");
+                    else
+                        await ctx.Channel.SendConfirmAsync(
+                            $"Set the leave webhook and enabled webhook leaves. Please use {Prefix}bye to enable greet messages.");
                 }
             }
 
