@@ -26,6 +26,7 @@ using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using NsfwSpyNS;
 using Serilog;
 using StackExchange.Redis;
 
@@ -51,7 +52,7 @@ namespace Mewdeko.Services
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 MessageCacheSize = 15,
-                LogLevel = LogSeverity.Debug,
+                LogLevel = LogSeverity.Warning,
                 ConnectionTimeout = int.MaxValue,
                 TotalShards = Credentials.TotalShards,
                 ShardId = shardId,
@@ -120,6 +121,7 @@ namespace Mewdeko.Services
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
+                .AddScoped<INsfwSpy, NsfwSpy>()
                 .AddConfigServices()
                 .AddBotStringsServices()
                 .AddMemoryCache()
@@ -260,6 +262,14 @@ namespace Mewdeko.Services
 
                 await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             });
+            try
+            {
+                arg.CurrentUser.ModifyAsync(x => x.Nickname = "Hanekawa");
+            }
+            catch
+            {
+                // ignored
+            }
             var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
             var eb = new EmbedBuilder();
             eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
@@ -271,16 +281,7 @@ namespace Mewdeko.Services
             eb.AddField("Voice Channels", arg.VoiceChannels.Count);
             eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
-            try
-            {
-                chan.SendMessageAsync(embed: eb.Build());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
+            chan.SendMessageAsync(embed: eb.Build());
             return Task.CompletedTask;
         }
 

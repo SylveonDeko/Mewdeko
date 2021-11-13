@@ -305,19 +305,14 @@ namespace Mewdeko.Modules.Utility
 
             var msgs = Service.Snipemsg(ctx.Guild.Id, ctx.Channel.Id);
             {
-                if (!msgs.Any() || msgs == null)
+                if (!msgs.Any())
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for this user!");
                     return;
                 }
 
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
-                    .Where(x => x.UserId == user1.Id).First();
-                if (msg == null)
-                {
-                    await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
-                    return;
-                }
+                var msg = msgs.OrderByDescending(d => d.DateAdded)
+                    .Where(x => x.Edited == 0).First(x => x.UserId == user1.Id);
                 var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
 
                 var em = new EmbedBuilder
@@ -363,8 +358,8 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0 && x.ChannelId == chan.Id)
-                    .First();
+                var msg = msgs.OrderByDescending(d => d.DateAdded)
+                    .First(x => x.Edited == 0 && x.ChannelId == chan.Id);
                 if (msg == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");

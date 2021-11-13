@@ -10,6 +10,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using KSoftNet;
 using KSoftNet.Enums;
+using KSoftNet.Models.Images;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -33,6 +34,7 @@ using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Configuration = AngleSharp.Configuration;
 using NekosSharp;
+using Refit;
 
 namespace Mewdeko.Modules.Searches
 {
@@ -134,7 +136,19 @@ namespace Mewdeko.Modules.Searches
                 return;
             }
 
-            var image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
+            RedditPost image;
+            try
+            {
+                image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
+            }
+            catch (ApiException)
+            {
+
+                await msg.DeleteAsync();
+                await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!");
+                return;
+            }
+           
             while (Service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
                 image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
             var em = new EmbedBuilder
