@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
@@ -15,6 +16,7 @@ using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using NsfwSpyNS;
 using Serilog;
 
 namespace Mewdeko.Modules.Moderation.Services
@@ -26,9 +28,12 @@ namespace Mewdeko.Modules.Moderation.Services
         private readonly DbService _db;
         private readonly MuteService _mute;
         private readonly Timer _warnExpiryTimer;
+        private readonly DiscordSocketClient Client;
+        private NsfwSpy NsfwChecker = new NsfwSpy(); 
 
-        public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService, Mewdeko.Services.Mewdeko bot)
+        public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService, Mewdeko.Services.Mewdeko bot, DiscordSocketClient client)
         {
+            Client = client;
             _warnlogchannelids = bot.AllGuildConfigs
                 .Where(x => x.WarnlogChannelId != 0)
                 .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
@@ -37,11 +42,61 @@ namespace Mewdeko.Modules.Moderation.Services
             _bot = bot;
             _db = db;
             _blacklistService = blacklistService;
-
+            Client.MessageReceived += NsfwCheck;
             _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
                 TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
         }
 
+        public Task NsfwCheck(SocketMessage message)
+        {
+            _ = Task.Run
+            (async () =>
+            {
+                var e = new RequestOptions()
+                {
+                    AuditLogReason = "Message contents were NSFW."
+                };
+                if (message.Channel is not ITextChannel chan) return;
+                if (message.Author.IsBot) return;
+                if (message.Attachments.Any())
+                {
+                    foreach (var attachment in message.Attachments)
+                    {
+                        if (attachment.Filename.EndsWith(".gif"))
+                        {
+                            var uri = new Uri(attachment.Url);
+                            var result = await NsfwChecker.ClassifyGifAsync(uri);
+                            if (!result.IsNsfw) continue;
+                            await message.DeleteAsync(e);
+                            return;
+                        }
+                        else
+                        {
+                            var uri = new Uri(attachment.Url);
+                            var result = await NsfwChecker.ClassifyImageAsync(uri);
+                            if (!result.IsNsfw) continue;
+                            await message.DeleteAsync(e);
+                            Console.WriteLine("Image Deleted!");
+                            return;
+                        }
+                    }
+                }
+
+                var linkParser =
+                    new Regex(
+                        @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
+                        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                foreach (Match m in linkParser.Matches(message.Content))
+                {
+                    var uri = new Uri(m.Value);
+                    var result = await NsfwChecker.ClassifyImageAsync(uri);
+                    if (!result.IsNsfw) continue;
+                    await message.DeleteAsync(e);
+                    return;
+                }
+            });
+            return Task.CompletedTask;
+        }
         private ConcurrentDictionary<ulong, ulong> _warnlogchannelids { get; } = new();
 
         public ulong GetWarnlogChannel(ulong? id)

@@ -19,6 +19,7 @@
         <PackageReference Include="AngleSharp" Version="1.0.0-alpha-844" />
         <PackageReference Include="Anilist4Net" Version="1.3.0" />
         <PackageReference Include="AWSSDK.S3" Version="3.7.3.11" />
+        <PackageReference Include="CleverbotFreeApi" Version="1.0.1" />
         <PackageReference Include="CodeHollow.FeedReader" Version="1.2.2" />
         <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
@@ -60,10 +61,10 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0-rc.1.21451.13" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0-rc.1.21451.13" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0-rc.1.21451.13" />
-        <PackageReference Include="Microsoft.SyndicationFeed.ReaderWriter" Version="1.0.2" />
         <PackageReference Include="Nekos-Sharp" Version="3.5.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NHentai.NET" Version="3.2.0" />
+        <PackageReference Include="NsfwSpy" Version="2.5.0" />
         <PackageReference Include="PokeApiNet" Version="3.0.3" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1-dev-00876" />
         <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />

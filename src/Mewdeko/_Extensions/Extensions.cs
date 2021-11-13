@@ -39,6 +39,7 @@ namespace Mewdeko._Extensions
         {
             return Array.ConvertAll(arr, x => f(x));
         }
+        public static bool CheckURLValid(this string source) => Uri.TryCreate(source, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttps;
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
             bool sanitizeAll = false)
         {

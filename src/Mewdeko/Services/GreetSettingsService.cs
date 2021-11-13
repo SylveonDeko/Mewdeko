@@ -394,8 +394,7 @@ namespace Mewdeko.Services
                     else
                     {
                         var webhook = new DiscordWebhookClient(GetGreetHook(channel.GuildId));
-                        var embeds = new List<Embed>();
-                        embeds.Add(embedData.ToEmbed().Build());
+                        var embeds = new List<Embed> {embedData.ToEmbed().Build()};
                         var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds)
                             .ConfigureAwait(false);
                         if (conf.AutoDeleteGreetMessagesTimer > 0)
@@ -461,15 +460,15 @@ namespace Mewdeko.Services
             else
             {
                 var msg = rep.Replace(conf.DmGreetMessageText);
-                if (!string.IsNullOrWhiteSpace(msg))
-                    try
-                    {
-                        await channel.SendConfirmAsync(msg).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        return false;
-                    }
+                if (string.IsNullOrWhiteSpace(msg)) return true;    
+                try
+                {
+                    await channel.SendConfirmAsync(msg).ConfigureAwait(false);
+                }
+                catch
+                {
+                    return false;
+                }
             }
 
             return true;

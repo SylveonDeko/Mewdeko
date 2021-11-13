@@ -305,8 +305,10 @@ namespace Mewdeko.Modules.Server_Management
                 }
             }
 
-            var b = new EmbedBuilder();
-            b.Color = Mewdeko.Services.Mewdeko.OkColor;
+            var b = new EmbedBuilder
+            {
+                Color = Mewdeko.Services.Mewdeko.OkColor
+            };
             if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
             if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
             await msg.ModifyAsync(x => { x.Embed = b.Build(); });
