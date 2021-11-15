@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using LinqToDB;
@@ -26,10 +27,10 @@ namespace Mewdeko.Modules.Administration.Services
         private readonly ConcurrentDictionary<ulong, string> _brcheck;
 
         private readonly Channel<SocketGuildUser> _assignQueue = Channel.CreateBounded<SocketGuildUser>(
-            new BoundedChannelOptions(100)
+            new BoundedChannelOptions(int.MaxValue)
             {
                 FullMode = BoundedChannelFullMode.DropOldest,
-                SingleReader = true,
+                SingleReader = false,
                 SingleWriter = false
             });
 
@@ -132,7 +133,7 @@ namespace Mewdeko.Modules.Administration.Services
                 }
             });
 
-            client1.UserJoined += OnClientOnUserJoined;
+            client1.GuildMemberUpdated += OnClientOnUserJoined;
             client1.RoleDeleted += OnClientRoleDeleted;
         }
 
@@ -153,11 +154,11 @@ namespace Mewdeko.Modules.Administration.Services
                 await ToggleAabrAsync(role.Guild.Id, role.Id);
         }
 
-        private async Task OnClientOnUserJoined(SocketGuildUser user)
+        private async Task OnClientOnUserJoined(Cacheable<SocketGuildUser, ulong> usr, SocketGuildUser user)
         {
-            if (user.IsBot && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out _))
+            if (usr.Value.IsPending != null && usr.Value.IsPending != false && user.IsPending != null && user.IsBot && !user.IsPending.Value && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out _))
                 await _assignQueue.Writer.WriteAsync(user);
-            if (_autoAssignableRoles.TryGetValue(user.Guild.Id, out _))
+            if (usr.Value.IsPending != null && usr.Value.IsPending != false && user.IsPending != null && !user.IsPending.Value && _autoAssignableRoles.TryGetValue(user.Guild.Id, out _))
                 await _assignQueue.Writer.WriteAsync(user);
         }
 

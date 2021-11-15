@@ -265,7 +265,7 @@ namespace Mewdeko.Modules.Administration.Services
             return Task.CompletedTask;
         }
 
-        public bool Log(ulong gid, ulong? cid, LogType type /*, string options*/)
+        public async Task<bool> Log(ulong gid, ulong? cid, LogType type /*, string options*/)
         {
             ulong? channelId = null;
             using (var uow = _db.GetDbContext())
@@ -301,9 +301,8 @@ namespace Mewdeko.Modules.Administration.Services
                     _ => null
                 };
 
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
-
             return channelId != null;
         }
         private Task Client_UserVoiceStateUpdated_TTS(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)

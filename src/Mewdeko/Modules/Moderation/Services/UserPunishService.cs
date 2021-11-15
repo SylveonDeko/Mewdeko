@@ -60,6 +60,7 @@ namespace Mewdeko.Modules.Moderation.Services
                 if (message.Author.IsBot) return;
                 if (message.Attachments.Any())
                 {
+                    if (chan.Id is not 866308739334406174) return;
                     if (chan.IsNsfw) return;
                     foreach (var attachment in message.Attachments)
                     {

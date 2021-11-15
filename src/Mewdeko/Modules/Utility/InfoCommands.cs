@@ -152,11 +152,6 @@ namespace Mewdeko.Modules.Utility
 
                 var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
                 var list = new List<string>();
-                foreach (var i in guild.Features)
-                {
-                    var e = i.Replace("_", " ");
-                    list.Add(e.ToTitleCase());
-                }
 
                 var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
                 var embed = new EmbedBuilder()
@@ -181,6 +176,8 @@ namespace Mewdeko.Modules.Utility
                 var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
                 if (input == "moreinfo")
                 {
+                    var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
+                    var setFeatures = vals.Where(x => guild.Features.Value.HasFlag(x));
                     embed
                         .AddField("Bots", ctx.Guild.GetUsersAsync().Result.Count(x => x.IsBot))
                         .AddField("Users", ctx.Guild.GetUsersAsync().Result.Count(x => !x.IsBot))
@@ -188,7 +185,7 @@ namespace Mewdeko.Modules.Utility
                         .AddField("Voice Channels", (voicechn.ToString()))
                         .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
                         .AddField("Roles", (guild.Roles.Count - 1).ToString())
-                        .AddField("Server Features", Format.Code(string.Join("\n", list)));
+                        .AddField("Server Features", Format.Code(string.Join("\n", vals)));
                     await msg.ModifyAsync(x =>
                     {
                         x.Embed = embed.Build();

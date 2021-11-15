@@ -71,6 +71,7 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendErrorAsync("No emotes found!");
                 return;
             }
+
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -101,7 +102,9 @@ namespace Mewdeko.Modules.Utility
 
                 return Task.FromResult(new PageBuilder()
                     .WithTitle(titleText)
-                    .WithDescription(string.Join("\n", emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10).Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
+                    .WithDescription(string.Join("\n",
+                        emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10)
+                            .Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
                     .WithOkColor());
             }
         }
@@ -216,7 +219,8 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                Mewdeko.Services.Database.Models.SnipeStore msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).FirstOrDefault();
+                Mewdeko.Services.Database.Models.SnipeStore msg = msgs.OrderByDescending(d => d.DateAdded)
+                    .Where(x => x.Edited == 0).FirstOrDefault();
                 var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
 
                 var em = new EmbedBuilder
@@ -238,6 +242,7 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
+
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -275,14 +280,14 @@ namespace Mewdeko.Modules.Utility
                 Task<PageBuilder> PageFactory(int page)
                 {
                     var user = ctx.Channel.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result ??
-                                _client.Rest.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result;
+                               _client.Rest.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result;
                     return Task.FromResult(new PageBuilder()
                         .WithOkColor()
                         .WithAuthor(
                             new EmbedAuthorBuilder()
                                 .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                 .WithName($"{user} said:"))
-                        .WithDescription(msg.Skip(page).FirstOrDefault().Message 
+                        .WithDescription(msg.Skip(page).FirstOrDefault().Message
                                          + $"\n\nMessage deleted {(DateTime.UtcNow - msg.Skip(page).FirstOrDefault().DateAdded.Value).Humanize()} ago"));
                 }
             }
@@ -334,6 +339,54 @@ namespace Mewdeko.Modules.Utility
                 await ctx.Channel.SendMessageAsync("", embed: em.Build());
             }
         }
+
+        public int GetRandom()
+        {
+            var r = new Random();
+            return r.Next(60, 100);
+        }
+        //[MewdekoCommand]
+        //[Usage]
+        //[Description]
+        //[Aliases]
+        //[RequireContext(ContextType.Guild)]
+        //[Priority(2)]
+        //public async Task Hack(IUser user)
+        //{
+        //    var emails = new string[]
+        //        {"@gmail.com", "@myspace.net", "@comcast.net", "@yahoo.com", "@optimum.net", "@yandex.ru"};
+        //    var eb = new EmbedBuilder()
+        //        .WithOkColor()
+        //        .WithDescription(Format.Code($"root@Mewdeko:/home/Mewdeko/Hecker# nmap {user}"));
+        //    var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        //    eb
+        //        .WithOkColor()
+        //        .WithDescription(Format.Code($"root@Mewdeko:/home/Mewdeko/Hecker# nmap {user}\nStarting Nmap 7.80 ( https://nmap.org ) at {DateTime.Now}"));
+        //    var ip = $"{GetRandom()}.{GetRandom()}.{GetRandom()}.{GetRandom()}";
+        //    var text = $"Nmap scan report for {user} {ip}" +
+        //               "\nHost is up (0.0012s latency)." +
+        //               $"\nOther addresses for {user} (not scanned): (None)" +
+        //               "\nNot shown: 996 filtered ports" +
+        //               "\nPORT     STATE SERVICE" +
+        //               "\n80/tcp   open  http" +
+        //               "\n443/tcp  open  https" +
+        //               "\n8080/tcp open  http-proxy" +
+        //               "\n49125/tcp open  roblox";
+        //    eb
+        //        .WithOkColor()
+        //        .WithDescription(Format.Code($"root@Mewdeko:/home/Mewdeko/Hecker# nmap {user}\nStarting Nmap 7.80 ( https://nmap.org ) at {DateTime.Now}\n" + text));
+        //    await Task.Delay(2000);
+        //    await msg.ModifyAsync(x =>
+        //        x.Embed = eb.Build());
+        //    await Task.Delay(2000);
+        //    eb
+        //        .WithOkColor()
+        //        .WithDescription(Format.Code($"root@Mewdeko:/home/Mewdeko/Hecker# nmap {user}\nStarting Nmap 7.80 ( https://nmap.org ) at {DateTime.Now}\n" + text));
+        //    await msg.ModifyAsync(x =>
+        //        x.Embed = eb.WithDescription($"<a:loading:900381735244689469> Running metasploit on {ip}....").Build());
+        //    await Task.Delay(5000);
+
+        //}
 
         [MewdekoCommand]
         [Usage]
