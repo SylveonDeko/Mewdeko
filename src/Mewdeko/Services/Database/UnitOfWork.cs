@@ -90,6 +90,7 @@ _planted ??= new PlantedCurrencyRepository(_context);
         {
             return _context.SaveChanges();
         }
+        //it saved everything as null, that or it added an entry along with GuildCOnfigs
 
         public Task<int> SaveChangesAsync()
         {

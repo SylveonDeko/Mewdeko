@@ -16,10 +16,12 @@ namespace Mewdeko.Common.Replacements
             new("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
 
         private readonly ConcurrentDictionary<Regex, Func<Match, string>> _regex = new();
+        private readonly DiscordSocketClient _client;
         private readonly ConcurrentDictionary<string, Func<string>> _reps = new();
 
-        public ReplacementBuilder()
+        public ReplacementBuilder(DiscordSocketClient client = null)
         {
+            _client = client;
             WithRngRegex();
         }
 
@@ -165,7 +167,7 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%user.mention%", () => string.Join(" ", users.Select(user => user.Mention)));
             _reps.TryAdd("%user.fullname%", () => string.Join(" ", users.Select(user => user.ToString())));
             _reps.TryAdd("%user.name%", () => string.Join(" ", users.Select(user => user.Username)));
-            _reps.TryAdd("%user.banner%", () => string.Join(" ", users.Select(user => user.GetBannerUrl().ToString())));
+            _reps.TryAdd("%user.banner%", () => string.Join(" ", users.Select(user => _client.Rest.GetUserAsync(user.Id).Result.GetBannerUrl(size: 2048))));
             _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
             _reps.TryAdd("%user.avatar%",
                 () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));

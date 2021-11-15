@@ -186,7 +186,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(0)]
             public async Task Log(LogType type)
             {
-                var val = Service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
+                var val = await Service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
 
                 if (val)
                     await ReplyConfirmLocalizedAsync("log", Format.Bold(type.ToString())).ConfigureAwait(false);
@@ -203,7 +203,7 @@ namespace Mewdeko.Modules.Administration
             [Priority(1)]
             public async Task Log(LogType type, ITextChannel channel)
             {
-                var val = Service.Log(ctx.Guild.Id, channel.Id, type);
+                var val = await Service.Log(ctx.Guild.Id, channel.Id, type);
 
                 if (val)
                 {
@@ -212,7 +212,7 @@ namespace Mewdeko.Modules.Administration
                     return;
                 }
 
-                Service.Log(ctx.Guild.Id, channel.Id, type);
+                await Service.Log(ctx.Guild.Id, channel.Id, type);
 
                 await ctx.Channel.SendConfirmAsync("Event Logging for " + Format.Bold(type.ToString()) +
                                                    " has been switched to " + channel.Mention);

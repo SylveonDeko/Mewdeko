@@ -110,7 +110,7 @@ namespace Mewdeko.Services.Database.Repositories.Impl
                 .ThenInclude(gc => gc.IgnoredChannels)
                 .FirstOrDefault(x => x.GuildId == guildId);
 
-            if (config == null)
+            if (config == null) 
             {
                 _set.Add(config = new GuildConfig
                 {
