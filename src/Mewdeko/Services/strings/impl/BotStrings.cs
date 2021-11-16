@@ -52,29 +52,18 @@ namespace Mewdeko.Services.strings.impl
         public CommandStrings GetCommandStrings(string commandName, CultureInfo cultureInfo)
         {
             var cmdStrings = _stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
-            if (cmdStrings is null)
+            if (cmdStrings is not null) return cmdStrings;
+            if (cultureInfo.Name != _usCultureInfo.Name) return GetCommandStrings(commandName, _usCultureInfo);
+            Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
+                commandName);
+
+            return new CommandStrings
             {
-                if (cultureInfo.Name == _usCultureInfo.Name)
-                {
-                    Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
-                        commandName);
+                Args = new[] { "" },
+                Desc = "?",
+                Image = ""
+            };
 
-                    return new CommandStrings
-                    {
-                        Args = new[] { "" },
-                        Desc = "?",
-                        Image = ""
-                    };
-                }
-
-//                 Log.Warning(@"'{CommandName}' command strings don't exist in '{LanguageName}' culture.
-// This message is safe to ignore, however you can ask in Mewdeko support server how you can contribute command translations",
-//                     commandName, cultureInfo.Name);
-
-                return GetCommandStrings(commandName, _usCultureInfo);
-            }
-
-            return cmdStrings;
         }
 
         public void Reload()
