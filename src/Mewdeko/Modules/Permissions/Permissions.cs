@@ -20,7 +20,7 @@ using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions
 {
-    public partial class Permissions : MewdekoModule<PermissionService>
+    public partial class Permissions : MewdekoModuleBase<PermissionService>
     {
         public enum Reset
         {

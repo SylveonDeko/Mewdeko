@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Games
     - Shiritori
     - Simple RPG adventure
     */
-    public partial class Games : MewdekoModule<GamesService>
+    public partial class Games : MewdekoModuleBase<GamesService>
     {
         private readonly IHttpClientFactory _httpFactory;
         private readonly IImageCache _images;

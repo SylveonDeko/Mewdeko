@@ -18,7 +18,7 @@ using Mewdeko.Modules.Xp.Services;
 
 namespace Mewdeko.Modules.Xp
 {
-    public partial class Xp : MewdekoModule<XpService>
+    public partial class Xp : MewdekoModuleBase<XpService>
     {
         public enum Channel
         {

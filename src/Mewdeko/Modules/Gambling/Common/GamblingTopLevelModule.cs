@@ -5,11 +5,11 @@ using Mewdeko.Modules.Gambling.Services;
 
 namespace Mewdeko.Modules.Gambling.Common
 {
-    public abstract class GamblingModule<TService> : MewdekoModule<TService>
+    public abstract class GamblingModuleBase<TService> : MewdekoModuleBase<TService>
     {
         private readonly Lazy<GamblingConfig> _lazyConfig;
 
-        protected GamblingModule(GamblingConfigService gambService)
+        protected GamblingModuleBase(GamblingConfigService gambService)
         {
             _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
         }
@@ -51,7 +51,7 @@ namespace Mewdeko.Modules.Gambling.Common
         }
     }
 
-    public abstract class GamblingSubmodule<TService> : GamblingModule<TService>
+    public abstract class GamblingSubmodule<TService> : GamblingModuleBase<TService>
     {
         protected GamblingSubmodule(GamblingConfigService gamblingConfService) : base(gamblingConfService)
         {

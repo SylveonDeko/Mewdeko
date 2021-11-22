@@ -22,7 +22,7 @@ namespace Mewdeko.Modules.Music
     public sealed partial class Music
     {
         [Group]
-        public sealed class PlaylistCommands : MewdekoModule<IMusicService>
+        public sealed class PlaylistCommands : MewdekoModuleBase<IMusicService>
         {
             private static readonly SemaphoreSlim _playlistLock = new(1, 1);
             private readonly IBotCredentials _creds;
