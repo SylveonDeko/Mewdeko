@@ -16,7 +16,7 @@ using Mewdeko.Modules.Afk.Services;
 
 namespace Mewdeko.Modules.Afk
 {
-    public class AfkCommands : MewdekoModule<AFKService>
+    public class AfkCommands : MewdekoModuleBase<AFKService>
         {
             private readonly InteractiveService Interactivity;
 

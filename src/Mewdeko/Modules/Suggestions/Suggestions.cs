@@ -9,7 +9,7 @@ using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions
 {
-    public class SuggestionsCommands : MewdekoModule<SuggestionsService>
+    public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
         {
             public DiscordSocketClient _client;
 

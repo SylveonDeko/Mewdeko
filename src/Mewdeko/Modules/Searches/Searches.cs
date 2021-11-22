@@ -38,7 +38,7 @@ using Refit;
 
 namespace Mewdeko.Modules.Searches
 {
-    public partial class Searches : MewdekoModule<SearchesService>
+    public partial class Searches : MewdekoModuleBase<SearchesService>
     {
         private static readonly ConcurrentDictionary<string, string> cachedShortenedLinks = new();
         private readonly IMemoryCache _cache;
@@ -74,7 +74,11 @@ namespace Mewdeko.Modules.Searches
             var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
             var image = await _kSoftAPI.ImagesApi.GetRandomMeme();
             while (Service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            {
                 image = await _kSoftAPI.ImagesApi.GetRandomMeme();
+                await Task.Delay(500);
+            }
+
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder
@@ -178,16 +182,14 @@ namespace Mewdeko.Modules.Searches
             var av = usr.RealAvatarUrl();
             if (av == null)
                 return;
-            using (var picStream =
-                await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false))
-            {
-                await ctx.Channel.SendFileAsync(
-                        picStream,
-                        "rip.png",
-                        $"Rip {Format.Bold(usr.ToString())} \n\t- " +
-                        Format.Italics(ctx.User.ToString()))
-                    .ConfigureAwait(false);
-            }
+            await using var picStream =
+                await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false);
+            await ctx.Channel.SendFileAsync(
+                    picStream,
+                    "rip.png",
+                    $"Rip {Format.Bold(usr.ToString())} \n\t- " +
+                    Format.Italics(ctx.User.ToString()))
+                .ConfigureAwait(false);
         }
 
         [MewdekoCommand]
