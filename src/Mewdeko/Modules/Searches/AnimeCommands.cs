@@ -215,7 +215,7 @@ namespace Mewdeko.Modules.Searches
                 if (e is null)
                     try
                     {
-                        t = ctx.Message.Attachments.FirstOrDefault().Url;
+                        t = ctx.Message.Attachments.FirstOrDefault()?.Url;
                     }
                     catch
                     {
@@ -231,12 +231,12 @@ namespace Mewdeko.Modules.Searches
                 using (var reader = new StreamReader(await responseContent.ReadAsStreamAsync()))
                 {
                     var er = await reader.ReadToEndAsync();
-                    var stuff = JsonConvert.DeserializeObject<Root>(er,
+                    var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
                         new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                    var ert = stuff.Result1.FirstOrDefault();
+                    var ert = stuff.MoeResults.FirstOrDefault();
                     if (ert.Filename is null)
                         await ctx.Channel.SendErrorAsync(
-                            "No results found. Please try a different image/, or avoid cropping the current one.");
+                            "No results found. Please try a different image, or avoid cropping the current one.");
                     var image = await c2.GetMediaById(ert.Anilist);
                     var eb = new EmbedBuilder
                     {
@@ -250,7 +250,7 @@ namespace Mewdeko.Modules.Searches
                     if (image.EnglishTitle == null) entitle = "None";
                     eb.AddField("English Title", entitle);
                     eb.AddField("Japanese Title", image.NativeTitle);
-                    eb.AddField("Romaji Title", image.RomajiTitle);
+                    eb.AddField("Romanji Title", image.RomajiTitle);
                     eb.AddField("Air Start Date", image.AiringStartDate);
                     eb.AddField("Air End Date", image.AiringEndDate);
                     eb.AddField("Season Number", te);
@@ -295,143 +295,21 @@ namespace Mewdeko.Modules.Searches
             [Usage]
             [Description]
             [Aliases]
-            [Priority(0)]
-            public async Task Mal([Remainder] string name)
-            {
-                if (string.IsNullOrWhiteSpace(name))
-                    return;
-
-                var fullQueryLink = "https://myanimelist.net/profile/" + name;
-
-                var config = Configuration.Default.WithDefaultLoader();
-                using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
-                {
-                    var imageElem = document.QuerySelector(
-                        "body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
-                    var imageUrl = ((IHtmlImageElement)imageElem)?.Source ??
-                                   "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
-
-                    var stats = document.QuerySelectorAll(
-                            "body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-right > div#statistics > div.user-statistics-stats > div.stats > div.clearfix > ul.stats-status > li > span")
-                        .Select(x => x.InnerHtml).ToList();
-
-                    var favorites = document.QuerySelectorAll("div.user-favorites > div.di-tc");
-
-                    var favAnime = GetText("anime_no_fav");
-                    if (favorites[0].QuerySelector("p") == null)
-                        favAnime = string.Join("\n", favorites[0].QuerySelectorAll("ul > li > div.di-tc.va-t > a")
-                            .Shuffle()
-                            .Take(3)
-                            .Select(x =>
-                            {
-                                var elem = (IHtmlAnchorElement)x;
-                                return $"[{elem.InnerHtml}]({elem.Href})";
-                            }));
-
-                    var info = document.QuerySelectorAll("ul.user-status:nth-child(3) > li.clearfix")
-                        .Select(x => Tuple.Create(x.Children[0].InnerHtml, x.Children[1].InnerHtml))
-                        .ToList();
-
-                    var daysAndMean = document.QuerySelectorAll("div.anime:nth-child(1) > div:nth-child(2) > div")
-                        .Select(x => x.TextContent.Split(':').Select(y => y.Trim()).ToArray())
-                        .ToArray();
-
-                    var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle(GetText("mal_profile", name))
-                        .AddField(efb =>
-                            efb.WithName("💚 " + GetText("watching")).WithValue(stats[0]).WithIsInline(true))
-                        .AddField(efb =>
-                            efb.WithName("💙 " + GetText("completed")).WithValue(stats[1]).WithIsInline(true));
-                    if (info.Count < 3)
-                        embed.AddField(efb =>
-                            efb.WithName("💛 " + GetText("on_hold")).WithValue(stats[2]).WithIsInline(true));
-                    embed
-                        .AddField(
-                            efb => efb.WithName("💔 " + GetText("dropped")).WithValue(stats[3]).WithIsInline(true))
-                        .AddField(efb =>
-                            efb.WithName("⚪ " + GetText("plan_to_watch")).WithValue(stats[4]).WithIsInline(true))
-                        .AddField(efb =>
-                            efb.WithName("🕐 " + daysAndMean[0][0]).WithValue(daysAndMean[0][1]).WithIsInline(true))
-                        .AddField(efb =>
-                            efb.WithName("📊 " + daysAndMean[1][0]).WithValue(daysAndMean[1][1]).WithIsInline(true))
-                        .AddField(efb =>
-                            efb.WithName(MalInfoToEmoji(info[0].Item1) + " " + info[0].Item1)
-                                .WithValue(info[0].Item2.TrimTo(20)).WithIsInline(true))
-                        .AddField(efb =>
-                            efb.WithName(MalInfoToEmoji(info[1].Item1) + " " + info[1].Item1)
-                                .WithValue(info[1].Item2.TrimTo(20)).WithIsInline(true));
-                    if (info.Count > 2)
-                        embed.AddField(efb =>
-                            efb.WithName(MalInfoToEmoji(info[2].Item1) + " " + info[2].Item1)
-                                .WithValue(info[2].Item2.TrimTo(20)).WithIsInline(true));
-
-                    embed
-                        .WithDescription($@"
-** https://myanimelist.net/animelist/{name} **
-
-**{GetText("top_3_fav_anime")}**
-{favAnime}"
-                        )
-                        .WithUrl(fullQueryLink)
-                        .WithImageUrl(imageUrl);
-
-                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
-            }
-
-            private static string MalInfoToEmoji(string info)
-            {
-                info = info.Trim().ToLowerInvariant();
-                switch (info)
-                {
-                    case "gender":
-                        return "🚁";
-                    case "location":
-                        return "🗺";
-                    case "last online":
-                        return "👥";
-                    case "birthday":
-                        return "📆";
-                    default:
-                        return "❔";
-                }
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [Priority(1)]
-            public Task Mal(IGuildUser usr)
-            {
-                return Mal(usr.Username);
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
             public async Task Anime([Remainder] string query)
             {
                 if (string.IsNullOrWhiteSpace(query))
                     return;
                 var c2 = new Client();
-                Media result = null;
-                try
-                {
-                    result = await c2.GetMediaBySearch(query, MediaTypes.ANIME);
-                }
-                catch
+                Media result = await c2.GetMediaBySearch(query, MediaTypes.ANIME);
+                if (result == null)
                 {
                     await ctx.Channel.SendErrorAsync(
-                        "THe anime you searched for wasn't found! Please try a different query!");
+                        "The anime you searched for wasn't found! Please try a different query!");
                     return;
                 }
 
                 var eb = new EmbedBuilder();
-                eb.ImageUrl = result.CoverImageLarge;
+                eb.ImageUrl = result?.CoverImageLarge;
                 var list = new List<string>();
                 if (result.Recommendations.Nodes.Any())
                     foreach (var i in result.Recommendations.Nodes)
@@ -439,10 +317,8 @@ namespace Mewdeko.Modules.Searches
                         var t = await c2.GetMediaById(i.Id);
                         if (t is not null) list.Add(t.EnglishTitle);
                     }
-
                 var te = string.Empty;
-                if (result.SeasonInt.ToString()[2..] is "") te = result.SeasonInt.ToString()[1..];
-                else te = result.SeasonInt.ToString()[2..];
+                te = result.SeasonInt.ToString()[2..] is "" ? result.SeasonInt.ToString()[1..] : result.SeasonInt.ToString()[2..];
                 if (result.DescriptionMd != null) eb.AddField("Description", result.DescriptionMd.TrimTo(1024), true);
                 if (result.Genres.Any()) eb.AddField("Genres", string.Join("\n", result.Genres), true);
                 if (result.CountryOfOrigin is not null) eb.AddField("Country of Origin", result.CountryOfOrigin, true);

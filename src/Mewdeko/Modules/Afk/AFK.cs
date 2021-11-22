@@ -85,17 +85,18 @@ namespace Mewdeko.Modules.Afk
             [Priority(1)]
             public async Task AfkDel(int num)
             {
-                if (num < 0)
-                    return;
-                if (num == 0)
+                switch (num)
                 {
-                    await Service.AfkDelSet(ctx.Guild, 0);
-                    await ctx.Channel.SendConfirmAsync("Deletion of the Afk Message has been disabled!");
-                }
-                else
-                {
-                    await Service.AfkDelSet(ctx.Guild, num);
-                    await ctx.Channel.SendConfirmAsync($"Afk messages will now delete after {num} seconds.");
+                    case < 0:
+                        return;
+                    case 0:
+                        await Service.AfkDelSet(ctx.Guild, 0);
+                        await ctx.Channel.SendConfirmAsync("Deletion of the Afk Message has been disabled!");
+                        break;
+                    default:
+                        await Service.AfkDelSet(ctx.Guild, num);
+                        await ctx.Channel.SendConfirmAsync($"Afk messages will now delete after {num} seconds.");
+                        break;
                 }
             }
             [MewdekoCommand]

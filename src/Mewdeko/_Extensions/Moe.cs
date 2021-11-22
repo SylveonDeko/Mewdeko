@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Mewdeko._Extensions
 {
-    public class Result1
+    public class MoeResult
     {
         [JsonProperty("anilist")] public int Anilist { get; set; }
 
@@ -22,12 +22,12 @@ namespace Mewdeko._Extensions
         [JsonProperty("image")] public string Image { get; set; }
     }
 
-    public class Root
+    public class MoeResponse
     {
         [JsonProperty("frameCount")] public int FrameCount { get; set; }
 
         [JsonProperty("error")] public string Error { get; set; }
 
-        [JsonProperty("result")] public List<Result1> Result1 { get; set; }
+        [JsonProperty("result")] public List<MoeResult> MoeResults { get; set; }
     }
 }
