@@ -13,7 +13,7 @@ using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Giveaways
 {
-    public class Giveaways : MewdekoModule<GiveawayService>
+    public class Giveaways : MewdekoModuleBase<GiveawayService>
     {
         private DbService _db;
         private readonly GuildTimezoneService _tz;

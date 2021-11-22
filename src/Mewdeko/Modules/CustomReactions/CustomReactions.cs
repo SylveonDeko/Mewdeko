@@ -16,7 +16,7 @@ using Mewdeko.Modules.CustomReactions.Services;
 
 namespace Mewdeko.Modules.CustomReactions
 {
-    public class CustomReactions : MewdekoModule<CustomReactionsService>
+    public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
     {
         public enum All
         {

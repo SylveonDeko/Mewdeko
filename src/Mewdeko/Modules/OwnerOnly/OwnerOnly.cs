@@ -27,7 +27,7 @@ using Serilog;
 
 namespace Mewdeko.Modules.OwnerOnly
 {
-    public class OwnerOnly : MewdekoModule<OwnerOnlyService>
+    public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         public enum SettableUserStatus
         {

@@ -22,7 +22,7 @@ using SpotifyAPI.Web;
 
 namespace Mewdeko.Modules.Music
 {
-    public sealed partial class Music : MewdekoModule<IMusicService>
+    public sealed partial class Music : MewdekoModuleBase<IMusicService>
     {
         public enum All
         {

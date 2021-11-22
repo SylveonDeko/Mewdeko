@@ -28,7 +28,7 @@ using cinfo = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Mewdeko.Modules.Help
 {
-    public class Help : MewdekoModule<HelpService>
+    public class Help : MewdekoModuleBase<HelpService>
     {
         private readonly BotConfigService _bss;
         private readonly DiscordSocketClient _client;

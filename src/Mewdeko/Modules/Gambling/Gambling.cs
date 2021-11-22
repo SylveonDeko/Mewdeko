@@ -22,7 +22,7 @@ using Mewdeko.Services.Database.Repositories;
 
 namespace Mewdeko.Modules.Gambling
 {
-    public partial class Gambling : GamblingModule<GamblingService>
+    public partial class Gambling : GamblingModuleBase<GamblingService>
     {
         public enum RpsPick
         {

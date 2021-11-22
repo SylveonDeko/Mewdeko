@@ -12,7 +12,7 @@ using Mewdeko.Modules.Server_Management.Services;
 
 namespace Mewdeko.Modules.Server_Management
 {
-    public partial class ServerManagement : MewdekoModule<ServerManagementService>
+    public partial class ServerManagement : MewdekoModuleBase<ServerManagementService>
     {
         private readonly IHttpClientFactory _httpFactory;
 

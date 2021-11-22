@@ -26,7 +26,7 @@ using NekosSharp;
 namespace Mewdeko.Modules.Nsfw
 {
     // thanks to halitalf for adding autoboob and autobutt features :D
-    public class NSFW : MewdekoModule<SearchesService>
+    public class NSFW : MewdekoModuleBase<SearchesService>
     {
         private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
         private readonly IHttpClientFactory _httpFactory;

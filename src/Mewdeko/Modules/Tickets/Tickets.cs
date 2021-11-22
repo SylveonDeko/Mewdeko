@@ -8,7 +8,7 @@ using Mewdeko.Modules.Tickets.Services;
 
 namespace Mewdeko.Modules.Tickets
 {
-    public class Tickets : MewdekoModule<TicketService>
+    public class Tickets : MewdekoModuleBase<TicketService>
     {
         private readonly IServiceProvider _services;
 

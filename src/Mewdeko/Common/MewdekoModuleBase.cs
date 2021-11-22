@@ -166,7 +166,7 @@ namespace Mewdeko.Common
         }
     }
 
-        public abstract class MewdekoModule<TService> : MewdekoModule
+        public abstract class MewdekoModuleBase<TService> : MewdekoModule
         {
             public TService Service { get; set; }
         }
@@ -175,7 +175,7 @@ namespace Mewdeko.Common
         {
         }
 
-        public abstract class MewdekoSubmodule<TService> : MewdekoModule<TService>
+        public abstract class MewdekoSubmodule<TService> : MewdekoModuleBase<TService>
         {
         }
     }

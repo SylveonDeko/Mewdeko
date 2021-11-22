@@ -10,7 +10,7 @@ using Mewdeko.Modules.GlobalBan.Services;
 
 namespace Mewdeko.Modules.GlobalBan
 {
-    public class GlobalBans : MewdekoModule<GlobalBanService>
+    public class GlobalBans : MewdekoModuleBase<GlobalBanService>
     {
         [MewdekoCommand]
         [Alias]
