@@ -17,7 +17,7 @@ using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration
 {
-    public partial class Administration : MewdekoModule<AdministrationService>
+    public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         public enum Channel
         {

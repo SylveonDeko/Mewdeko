@@ -243,9 +243,6 @@ namespace Mewdeko.Modules.Utility
                 using (var uow = _db.GetDbContext())
                 {
                     var gc = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
-
-                    if (gc.GuildRepeaters.Count >= 5)
-                        return;
                     gc.GuildRepeaters.Add(toAdd);
 
                     await uow.SaveChangesAsync();

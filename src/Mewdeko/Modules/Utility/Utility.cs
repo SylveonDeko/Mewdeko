@@ -25,7 +25,7 @@ using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Utility
 {
-    public partial class Utility : MewdekoModule<UtilityService>
+    public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         private static readonly SemaphoreSlim sem = new(1, 1);
         private readonly Mewdeko.Services.Mewdeko _bot;
