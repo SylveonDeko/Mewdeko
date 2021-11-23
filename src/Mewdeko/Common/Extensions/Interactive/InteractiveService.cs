@@ -616,7 +616,7 @@ namespace Mewdeko.Common.Extensions.Interactive
 #endif
                     }).ConfigureAwait(false);
                 }
-                catch (HttpException ex) when (ex.DiscordCode == 10008)
+                catch (HttpException ex) when (ex.DiscordCode == DiscordErrorCode.UnknownMessage)
                 {
                     // Ignore 10008 (Unknown Message) error.
                 }

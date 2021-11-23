@@ -35,7 +35,6 @@ helpText: |-
 blocked:
   commands:
     - internalboobs
-    - cleverbot
   modules: []
 # Which string will be used to recognize the commands
 prefix: .
