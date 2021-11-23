@@ -19,5 +19,11 @@ namespace Mewdeko.Services.Database.Repositories.Impl
                 .Skip(page * 10)
                 .Take(10);
         }
+
+        public List<Giveaways> GiveawaysForGuild(ulong serverId)
+        {
+            return _set.AsQueryable()
+                .Where(x => x.ServerId == serverId).ToList();
+        }
     }
 }
