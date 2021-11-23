@@ -10,6 +10,8 @@ using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using VirusTotalNet;
+using VirusTotalNet.Results;
 
 namespace Mewdeko.Modules.Utility.Services
 {
@@ -88,13 +90,11 @@ namespace Mewdeko.Modules.Utility.Services
         }
         private  Task<SnipeStore[]> GetOldSnipes(DateTime now)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow._context.SnipeStore
-                    .FromSqlInterpolated(
-                        $"select * from SnipeStore where \"DateAdded\" < {now};")
-                    .ToArrayAsync();
-            }
+            using var uow = _db.GetDbContext();
+            return uow._context.SnipeStore
+                .FromSqlInterpolated(
+                    $"select * from SnipeStore where \"DateAdded\" < {now};")
+                .ToArrayAsync();
         }
         public int GetPLinks(ulong? id)
         {
@@ -252,6 +252,12 @@ namespace Mewdeko.Modules.Utility.Services
                 await Task.Delay(200);
                 await msg.AddReactionAsync(emote2);
             }
+        }
+
+        public async Task<UrlReport> UrlChecker(string url)
+        {
+            var vcheck = new VirusTotal("e49046afa41fdf4e8ca72ea58a5542d0b8fbf72189d54726eed300d2afe5d9a9");
+            return await vcheck.GetUrlReportAsync(url, true);
         }
 
         public async Task MsgReciev(SocketMessage msg)

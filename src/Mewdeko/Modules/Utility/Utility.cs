@@ -124,17 +124,15 @@ namespace Mewdeko.Modules.Utility
         [Aliases]
         public async Task TestSite(string url)
         {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetAsync(url);
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
 
-                var content = await response.Content.ReadAsStringAsync();
-                var statusCode = response.StatusCode;
-                if (statusCode.ToString() == "Forbidden")
-                    await ctx.Channel.SendErrorAsync("Sites down m8");
-                else
-                    await ctx.Channel.SendConfirmAsync("Sites ok m8");
-            }
+            var content = await response.Content.ReadAsStringAsync();
+            var statusCode = response.StatusCode;
+            if (statusCode.ToString() == "Forbidden")
+                await ctx.Channel.SendErrorAsync("Sites down m8");
+            else
+                await ctx.Channel.SendConfirmAsync("Sites ok m8");
         }
 
         [MewdekoCommand]
@@ -345,7 +343,29 @@ namespace Mewdeko.Modules.Utility
             var r = new Random();
             return r.Next(60, 100);
         }
-
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(2)]
+        public async Task VCheck([Remainder] string url = null)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                await ctx.Channel.SendErrorAsync("You didn't specify a url");
+            }
+            else
+            {
+                var result = await Service.UrlChecker(url);
+                var eb = new EmbedBuilder();
+                eb.WithOkColor();
+                eb.WithDescription(result.Permalink);
+                eb.AddField("Virus Positives", result.Positives, true);
+                eb.AddField("Number of scans", result.Total, true);
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            }
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
@@ -357,7 +377,7 @@ namespace Mewdeko.Modules.Utility
             if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -409,7 +429,7 @@ namespace Mewdeko.Modules.Utility
             if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -481,7 +501,7 @@ namespace Mewdeko.Modules.Utility
             if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 
@@ -532,7 +552,7 @@ namespace Mewdeko.Modules.Utility
             if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                    $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
                 return;
             }
 

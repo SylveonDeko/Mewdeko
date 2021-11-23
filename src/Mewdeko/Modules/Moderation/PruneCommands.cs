@@ -2,11 +2,14 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Mewdeko.Modules.Moderation
 {
@@ -16,6 +19,12 @@ namespace Mewdeko.Modules.Moderation
         public class PurgeCommands : MewdekoSubmodule<PurgeService>
         {
             private static readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
+            private readonly IServiceProvider _services;
+
+            public PurgeCommands(IServiceProvider servs)
+            {
+                _services = servs;
+            }
 
 
             [MewdekoCommand]
@@ -47,14 +56,27 @@ namespace Mewdeko.Modules.Moderation
             [UserPerm(ChannelPermission.ManageMessages)]
             [BotPerm(ChannelPermission.ManageMessages)]
             [Priority(1)]
-            public async Task Purge(int count, string parameter = null, StoopidTime time = null)
+            public async Task Purge(int count, string parameter = null, string input = null)
             {
+                StoopidTime time = null;
+                try
+                {
+                    time = StoopidTime.FromInput(input);
+                }
+                catch (ArgumentException)
+                {
+                    //ignore
+                }
                 count++;
-                if (count < 1)
-                    return;
-                if (count > 1000)
-                    count = 1000;
-                
+                switch (count)
+                {
+                    case < 1:
+                        return;
+                    case > 1000:
+                        count = 1000;
+                        break;
+                }
+
                 switch (parameter)
                 {
                     case "-s":
@@ -95,6 +117,12 @@ namespace Mewdeko.Modules.Moderation
                     case "-ne":
                     case "--noembed":
                         await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => !x.Embeds.Any());
+                        break;
+                    case "-c":
+                    case "--contains":
+                        if (input is null)
+                            return;
+                        await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => x.Content.ToLowerInvariant().Contains(input));
                         break;
                     default:
                         await Service.PurgeWhere((ITextChannel)ctx.Channel, count, x => true).ConfigureAwait(false);

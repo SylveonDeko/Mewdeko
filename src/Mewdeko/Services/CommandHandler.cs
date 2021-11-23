@@ -28,7 +28,7 @@ namespace Mewdeko.Services
         private readonly Timer _clearUsersOnShortCooldown;
 
         private readonly DiscordSocketClient _client;
-        private readonly CommandService _commandService;
+        public readonly CommandService _commandService;
         private readonly DbService _db;
         private readonly IServiceProvider _services;
         private IEnumerable<IEarlyBehavior> _earlyBehaviors;
@@ -435,7 +435,7 @@ namespace Mewdeko.Services
                 .ExecuteAsync(context, chosenOverload.Value, services).ConfigureAwait(false);
 
             if (execResult.Exception != null &&
-                (execResult.Exception is not HttpException he || he.DiscordCode != 50013))
+                (execResult.Exception is not HttpException he || he.DiscordCode == DiscordErrorCode.InsufficientPermissions))
                 Log.Warning(execResult.Exception, "Command Error");
 
             return (true, null, cmd);
