@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
+using Humanizer.Localisation;
 using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Microsoft.EntityFrameworkCore;
@@ -44,9 +45,9 @@ namespace Mewdeko.Modules.Giveaways.Services
                     foreach (var group in reminders
                         .GroupBy(_ => ++i / (reminders.Count / 5 + 1)))
                     {
-                        var executedReminders = group.ToList();
-                        await Task.WhenAll(executedReminders.Select(GiveawayTimerAction));
-                        await RemoveReminders(executedReminders);
+                        var executedGiveaways = group.ToList();
+                        await Task.WhenAll(executedGiveaways.Select(GiveawayTimerAction));
+                        await UpdateGiveaways(executedGiveaways);
                         await Task.Delay(1500);
                     }
                 }
@@ -58,13 +59,26 @@ namespace Mewdeko.Modules.Giveaways.Services
             }
         }
 
-        private async Task RemoveReminders(List<Mewdeko.Services.Database.Models.Giveaways> reminders)
+        private async Task UpdateGiveaways(List<Mewdeko.Services.Database.Models.Giveaways> g)
         {
-            using (var uow = _db.GetDbContext())
+            using var uow = _db.GetDbContext();
+            foreach (var i in g)
             {
-                uow._context.Set<global::Mewdeko.Services.Database.Models.Giveaways>()
-                    .RemoveRange(reminders);
-
+                var toupdate = new Mewdeko.Services.Database.Models.Giveaways()
+                {
+                    When = i.When,
+                    BlacklistRoles = i.BlacklistRoles,
+                    BlacklistUsers = i.BlacklistUsers,
+                    ChannelId = i.ChannelId,
+                    Ended = 1,
+                    MessageId = i.MessageId,
+                    RestrictTo = i.RestrictTo,
+                    Item = i.Item,
+                    ServerId = i.ServerId,
+                    UserId = i.UserId
+                };
+                uow.Giveaways.Remove(i);
+                uow.Giveaways.Add(toupdate);
                 await uow.SaveChangesAsync();
             }
         }
@@ -75,7 +89,7 @@ namespace Mewdeko.Modules.Giveaways.Services
             {
                 return uow._context.Giveaways
                     .FromSqlInterpolated(
-                        $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
+                        $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
                     .ToListAsync();
             }
         }
@@ -84,9 +98,15 @@ namespace Mewdeko.Modules.Giveaways.Services
             var eb = new EmbedBuilder()
             {
                 Color = Mewdeko.Services.Mewdeko.OkColor,
-                Title = "Mewdeko Giveaway!",
                 Description =
-                    $"Prize: {item}\nWinners: 1\nEnd Time: {ts.Humanize()}\nHost: {await guild.GetUserAsync(host)}\n\n\nReact to <:Nekoha_nom:866616296291172353> to enter!",
+                    "<:Nekohawave:866615191100588042> Mewdeko Giveaway!\n" +
+                    "<:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049>\n" + 
+                    $"Host: {guild.GetUserAsync(host).Result}\n" +
+                    $"🎁 Prize: {item} 🎁\n" + 
+                    "🏅 Winners: 1 🏅\n" + 
+                    "🗯️Required Roles:\n\n" + 
+                    "<:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049>\n" + 
+                    $"End Time: {ts.Humanize(maxUnit: TimeUnit.Year)}" ,
                 ImageUrl = "https://cdn.discordapp.com/attachments/866315387703394314/866321920822870026/80942286_p0.png?width=1246&height=701"
             };
             var msg = await chan.SendMessageAsync(embed: eb.Build());
@@ -99,6 +119,7 @@ namespace Mewdeko.Modules.Giveaways.Services
                 ChannelId = chan.Id,
                 UserId = host,
                 ServerId = ServerId,
+                Ended = 0,
                 When = time,
                 Item = item,
                 MessageId = msg.Id
@@ -123,7 +144,7 @@ namespace Mewdeko.Modules.Giveaways.Services
         }
         public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)
         {
-            if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId) is not IUserMessage ch)
+            if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not IUserMessage ch)
                     return;
                 var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
                 var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();

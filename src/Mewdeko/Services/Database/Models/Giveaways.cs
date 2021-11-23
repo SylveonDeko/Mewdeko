@@ -5,6 +5,7 @@
         public DateTime When { get; set; }
         public ulong ChannelId { get; set; }
         public ulong ServerId { get; set; }
+        public int Ended { get; set; }
         public ulong MessageId { get; set; }
         public ulong UserId { get; set; }
         public string Item { get; set; }

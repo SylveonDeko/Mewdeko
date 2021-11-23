@@ -13,17 +13,51 @@ using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Giveaways
 {
-    public class Giveaways : MewdekoModuleBase<GiveawayService>
+    public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     {
         private DbService _db;
         private readonly GuildTimezoneService _tz;
 
-        public Giveaways(DbService db, GuildTimezoneService tz)
+        public GiveawayCommands(DbService db, GuildTimezoneService tz)
         {
             _db = db;
             _tz = tz;
         }
-        
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task GStats()
+        {
+            var eb = new EmbedBuilder().WithOkColor();
+            var gways = _db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
+            if (!gways.Any())
+            {
+                await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!");
+            }
+            else
+            {
+                List<ITextChannel> gchans = new();
+                foreach (var i in gways)
+                {
+                    var chan = await ctx.Guild.GetTextChannelAsync(i.ChannelId);
+                    if (!gchans.Contains(chan))
+                        gchans.Add(chan);
+                }
+                var amount = gways.Distinct(x => x.UserId).Count();
+                eb.WithTitle("Giveaway Statistics!");
+                eb.AddField("Amount of users that started giveaways", amount, true);
+                eb.AddField("Total amount of giveaways", gways.Count, true);
+                eb.AddField("Active Giveaways", gways.Count(x => x.Ended == 0), true);
+                eb.AddField("Ended Giveaways", gways.Count(x => x.Ended == 1), true);
+                eb.AddField("Giveaway Channels: Uses",
+                    string.Join("\n", gchans.Select(x => $"{x.Mention}: {gways.Count(s => s.ChannelId == x.Id)}")),
+                    true);
+
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            }
+        }
         [MewdekoCommand]
         [Usage]
         [Description]

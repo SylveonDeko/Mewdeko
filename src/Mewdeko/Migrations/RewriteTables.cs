@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using LinqToDB.Reflection;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Migrations
 {
@@ -15,6 +16,7 @@ namespace Mewdeko.Migrations
                     DateAdded = table.Column<DateTime>(nullable: true),
                     When = table.Column<DateTime>(nullable: true),
                     ServerId = table.Column<ulong>(nullable: false),
+                    Ended = table.Column<int>(),
                     ChannelId = table.Column<ulong>(nullable: true),
                     MessageId = table.Column<ulong>(nullable: true),
                     UserId = table.Column<ulong>(nullable: true),
