@@ -15,17 +15,6 @@ namespace Mewdeko._Extensions
 
             return string.Join(separator, data.Select(func));
         }
-        public static bool ListCheck<T>(IEnumerable<T> l1, IEnumerable<T> l2)
-        {
-            if (l1.Intersect(l2).Any())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string> func = null)
         {
             func ??= x => x?.ToString() ?? string.Empty;
@@ -117,25 +106,5 @@ namespace Mewdeko._Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="size" /> is below 1.
         /// </exception>
-        public static IEnumerable<IEnumerable<T>> ChunkBy<T>(IEnumerable<T> source, Predicate<IEnumerable<T>> constraints = null)
-        {
-            constraints ??= t => true;
-
-            using var enumerator = source.GetEnumerator();
-            bool hasElement = true;
-            while (hasElement)
-            {
-                var group = new List<T>();
-                while (constraints(group) && (hasElement = enumerator.MoveNext()))
-                {
-                    group.Add(enumerator.Current);
-                    if (constraints(group)) continue;
-                    group.Remove(enumerator.Current);
-                    yield return group;
-                    group = new List<T> { enumerator.Current };
-                }
-                yield return group;
-            }
-        }
     }
 }

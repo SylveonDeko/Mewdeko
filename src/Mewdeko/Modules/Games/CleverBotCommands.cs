@@ -16,12 +16,6 @@ namespace Mewdeko.Modules.Games
         [Group]
         public class ChatterBotCommands : MewdekoSubmodule<ChatterBotService>
         {
-            private readonly DbService _db;
-
-            public ChatterBotCommands(DbService db)
-            {
-                _db = db;
-            }
 
             [MewdekoCommand]
             [Usage]
