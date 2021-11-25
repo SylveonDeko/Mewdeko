@@ -6,6 +6,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Services;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Mewdeko.Modules.Games.Services;
+using System.Linq;
+using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Games
 {
@@ -27,32 +29,28 @@ namespace Mewdeko.Modules.Games
             [Aliases]
             [RequireContext(ContextType.Guild)]
             [UserPerm(GuildPermission.ManageMessages)]
-            public async Task Cleverbot()
+            public async Task Cleverbot(ITextChannel chan = null)
             {
-                var channel = (ITextChannel)ctx.Channel;
-
-                if (Service.ChatterBotGuilds.TryRemove(channel.Guild.Id, out _))
+                ITextChannel channel = chan ?? (ITextChannel)ctx.Channel;
+                var cbid = Service.GetCleverbotChannel(ctx.Guild.Id);
+                if (cbid != 0 && cbid == channel.Id)
                 {
-                    using (var uow = _db.GetDbContext())
-                    {
-                        uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, false);
-                        await uow.SaveChangesAsync();
-                    }
-
-                    await ReplyConfirmLocalizedAsync("cleverbot_disabled").ConfigureAwait(false);
+                    Service.ChatterBotChannels.TryRemove(cbid, out var _);
+                    await Service.SetCleverbotChannel(ctx.Guild, 0);
+                    await ctx.Channel.SendConfirmAsync("Cleverbot has been switched off!");
                     return;
                 }
-
-                Service.ChatterBotGuilds.TryAdd(channel.Guild.Id,
-                    new Lazy<IChatterBotSession>(() => Service.CreateSession(), true));
-
-                using (var uow = _db.GetDbContext())
+                if (cbid != 0 && cbid != channel.Id)
                 {
-                    uow.GuildConfigs.SetCleverbotEnabled(ctx.Guild.Id, true);
-                    await uow.SaveChangesAsync();
+                    Service.ChatterBotChannels.TryRemove(cbid, out var _);
+                    await Service.SetCleverbotChannel(ctx.Guild, channel.Id);
+                    await ctx.Channel.SendConfirmAsync($"Cleverbot channel has been switched to {channel.Mention}! Just remember that commands do not work in there while its enabled.");
                 }
-
-                await ReplyConfirmLocalizedAsync("cleverbot_enabled").ConfigureAwait(false);
+                if(cbid == 0)
+                {
+                    await Service.SetCleverbotChannel(ctx.Guild, channel.Id);
+                    await ctx.Channel.SendConfirmAsync($"Cleverbot has been enabled and the channel set to {channel.Mention}! Just remember that commmands dont work in that channel while its enabled.");
+                }
             }
         }
     }

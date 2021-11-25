@@ -15,7 +15,17 @@ namespace Mewdeko._Extensions
 
             return string.Join(separator, data.Select(func));
         }
-
+        public static bool ListCheck<T>(IEnumerable<T> l1, IEnumerable<T> l2)
+        {
+            if (l1.Intersect(l2).Any())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string> func = null)
         {
             func ??= x => x?.ToString() ?? string.Empty;

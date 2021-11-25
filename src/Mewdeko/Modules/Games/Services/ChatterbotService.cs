@@ -15,7 +15,7 @@ using Serilog;
 
 namespace Mewdeko.Modules.Games.Services
 {
-    public class ChatterBotService : IEarlyBehavior, INService
+    public class ChatterBotService : INService
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandHandler _cmd;
@@ -23,81 +23,77 @@ namespace Mewdeko.Modules.Games.Services
         private readonly IHttpClientFactory _httpFactory;
         private readonly PermissionService _perms;
         private readonly IBotStrings _strings;
+        private readonly DbService _db;
 
         public ChatterBotService(DiscordSocketClient client, PermissionService perms,
             Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IBotStrings strings, IHttpClientFactory factory,
-            IBotCredentials creds)
+            IBotCredentials creds, DbService db)
         {
+            _db = db;
             _client = client;
             _perms = perms;
             _cmd = cmd;
             _strings = strings;
             _creds = creds;
             _httpFactory = factory;
+            _client.MessageReceived += MessageRecieved;
 
-            ChatterBotGuilds = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
+            ChatterBotChannels = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
                 bot.AllGuildConfigs
-                    .Where(gc => gc.CleverbotEnabled)
-                    .ToDictionary(gc => gc.GuildId, gc => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
+                    .Where(gc => gc.CleverbotChannel != 0)
+                    .ToDictionary(gc => gc.CleverbotChannel, gc => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
         }
 
-        public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotGuilds { get; }
+        public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotChannels { get; }
 
         public int Priority => -1;
         public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
-
-        public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage usrMsg)
+        public async Task SetCleverbotChannel(IGuild guild, ulong id)
         {
-            if (guild is not SocketGuild sg)
-                return false;
+            using (var uow = _db.GetDbContext())
+            {
+                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+                gc.CleverbotChannel = id;
+                await uow.SaveChangesAsync();
+            }
+            if (id == 0)
+                ChatterBotChannels.TryRemove(id, out _);
+            else
+                ChatterBotChannels.TryAdd(id,
+                    new Lazy<IChatterBotSession>(() => CreateSession(), true));
+        }
+        public ulong GetCleverbotChannel(ulong id)
+        {
+            return _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
+        }
+        public async Task MessageRecieved(SocketMessage usrMsg)
+        {
+            if (usrMsg.Author.IsBot)
+                return;
+            if (usrMsg.Channel is not ITextChannel chan)
+                return;
             try
             {
-                var message = PrepareMessage(usrMsg, out var cbs);
+                var message = PrepareMessage(usrMsg as IUserMessage , out var cbs);
                 if (message == null || cbs == null)
-                    return false;
-
-                var pc = _perms.GetCacheFor(guild.Id);
-                if (!pc.Permissions.CheckPermissions(usrMsg,
-                    "cleverbot",
-                    "Games".ToLowerInvariant(),
-                    out var index))
-                {
-                    if (pc.Verbose)
-                    {
-                        var returnMsg = _strings.GetText("trigger", guild.Id, index + 1,
-                            Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild)));
-                        try
-                        {
-                            await usrMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                        }
-
-                        Log.Information(returnMsg);
-                    }
-
-                    return true;
-                }
+                    return;
 
                 var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
-$@"CleverBot Executed
-Server: {guild.Name} [{guild.Id}]
-Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
-UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
-Message: {usrMsg.Content}");
-                    return true;
+                    $@"CleverBot Executed
+                    Server: {chan.Guild.Name} {chan.Guild.Name}]
+                    Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
+                    UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
+                    Message: {usrMsg.Content}");
+                    return;
                 }
             }
             catch (Exception ex)
             {
                 Log.Warning(ex, "Error in cleverbot");
             }
-
-            return false;
         }
 
         public IChatterBotSession CreateSession()
@@ -115,7 +111,7 @@ Message: {usrMsg.Content}");
             if (channel == null)
                 return null;
 
-            if (!ChatterBotGuilds.TryGetValue(channel.Guild.Id, out var lazyCleverbot))
+            if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))
                 return null;
 
             cleverbot = lazyCleverbot.Value;
@@ -124,12 +120,15 @@ Message: {usrMsg.Content}");
             var normalMention = $"<@{MewdekoId}> ";
             var nickMention = $"<@!{MewdekoId}> ";
             string message;
+
             if (msg.Content.StartsWith(normalMention, StringComparison.InvariantCulture))
                 message = msg.Content.Substring(normalMention.Length).Trim();
             else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
                 message = msg.Content.Substring(nickMention.Length).Trim();
-            else
+            else if (msg.Content.StartsWith(_cmd.GetPrefix(channel.Guild)))
                 return null;
+            else
+                message = msg.Content;
 
             return message;
         }
