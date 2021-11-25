@@ -39,7 +39,6 @@ namespace Mewdeko._Extensions
         {
             return Array.ConvertAll(arr, x => f(x));
         }
-        public static bool CheckURLValid(this string source) => Uri.TryCreate(source, UriKind.Absolute, out Uri uriResult) && uriResult.Scheme == Uri.UriSchemeHttps;
         public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
             bool sanitizeAll = false)
         {
@@ -52,11 +51,6 @@ namespace Mewdeko._Extensions
         public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab)
         {
             return eab.WithIconUrl("https://i.imgur.com/nhKS3PT.png");
-        }
-
-        public static IEnumerable<ulong> RoleIds(this SocketGuildUser user)
-        {
-            return user.Roles.Select(x => x.Id);
         }
 
         public static List<ulong> GetGuildIds(this DiscordSocketClient client)
@@ -277,11 +271,6 @@ namespace Mewdeko._Extensions
                 u.RoleIds.Contains(role.Id));
         }
 
-        public static string ToJson<T>(this T any, Formatting formatting = Formatting.Indented)
-        {
-            return JsonConvert.SerializeObject(any, formatting);
-        }
-
         /// <summary>
         ///     Adds fallback fonts to <see cref="TextOptions" />
         /// </summary>
@@ -325,7 +314,7 @@ namespace Mewdeko._Extensions
         {
             var ms = new MemoryStream(bytes as byte[] ?? bytes.ToArray(), canWrite);
             ms.Seek(0, SeekOrigin.Begin);
-            return ms;
+            return ms;  
         }
 
         public static IEnumerable<IRole> GetRoles(this IGuildUser user)

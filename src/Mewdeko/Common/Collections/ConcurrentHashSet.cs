@@ -66,10 +66,7 @@ namespace Mewdeko.Common.Collections
         ///     <paramref name="capacity" /> is less than
         ///     0.
         /// </exception>
-        public ConcurrentHashSet(int concurrencyLevel, int capacity)
-            : this(concurrencyLevel, capacity, false, EqualityComparer<T>.Default)
-        {
-        }
+       
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ConcurrentHashSet{T}" />

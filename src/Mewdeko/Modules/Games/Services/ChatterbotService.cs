@@ -8,9 +8,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services;
 using Mewdeko.Modules.Games.Common.ChatterBot;
-using Mewdeko.Modules.Permissions.Common;
-using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.strings;
+using System.Collections.Generic;
 using Serilog;
 
 namespace Mewdeko.Modules.Games.Services
@@ -21,19 +19,15 @@ namespace Mewdeko.Modules.Games.Services
         private readonly CommandHandler _cmd;
         private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly PermissionService _perms;
-        private readonly IBotStrings _strings;
         private readonly DbService _db;
 
-        public ChatterBotService(DiscordSocketClient client, PermissionService perms,
-            Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IBotStrings strings, IHttpClientFactory factory,
+        public ChatterBotService(DiscordSocketClient client,
+            Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
             IBotCredentials creds, DbService db)
         {
             _db = db;
             _client = client;
-            _perms = perms;
             _cmd = cmd;
-            _strings = strings;
             _creds = creds;
             _httpFactory = factory;
             _client.MessageReceived += MessageRecieved;
@@ -45,6 +39,7 @@ namespace Mewdeko.Modules.Games.Services
         }
 
         public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotChannels { get; }
+        public List<ulong> LimitUser = new();
 
         public int Priority => -1;
         public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
@@ -66,34 +61,41 @@ namespace Mewdeko.Modules.Games.Services
         {
             return _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
         }
-        public async Task MessageRecieved(SocketMessage usrMsg)
+        public Task MessageRecieved(SocketMessage usrMsg)
         {
-            if (usrMsg.Author.IsBot)
-                return;
-            if (usrMsg.Channel is not ITextChannel chan)
-                return;
-            try
-            {
-                var message = PrepareMessage(usrMsg as IUserMessage , out var cbs);
-                if (message == null || cbs == null)
-                    return;
-
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
-                if (cleverbotExecuted)
-                {
-                    Log.Information(
-                    $@"CleverBot Executed
+            _ = Task.Run(async () =>
+           {
+               if (usrMsg.Author.IsBot)
+                   return;
+               if (usrMsg.Channel is not ITextChannel chan)
+                   return;
+               try
+               {
+                   var message = PrepareMessage(usrMsg as IUserMessage, out var cbs);
+                   if (message == null || cbs == null)
+                       return;
+                   if (LimitUser.Contains(chan.Id)) return;
+                   var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, message).ConfigureAwait(false);
+                   if (cleverbotExecuted)
+                   {
+                       Log.Information(
+                       $@"CleverBot Executed
                     Server: {chan.Guild.Name} {chan.Guild.Name}]
                     Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
                     UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
                     Message: {usrMsg.Content}");
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error in cleverbot");
-            }
+                       LimitUser.Add(chan.Id);
+                       await Task.Delay(5000);
+                       LimitUser.Remove(chan.Id);
+                       return;
+                   }
+               }
+               catch (Exception ex)
+               {
+                   Log.Warning(ex, "Error in cleverbot");
+               }
+           });
+                return Task.CompletedTask;
         }
 
         public IChatterBotSession CreateSession()

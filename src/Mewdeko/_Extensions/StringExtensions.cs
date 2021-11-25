@@ -156,10 +156,6 @@ namespace Mewdeko._Extensions
             return filterRegex.IsMatch(str);
         }
 
-        public static string Unmention(this string str)
-        {
-            return str.Replace("@", "ම", StringComparison.InvariantCulture);
-        }
 
         public static string SanitizeMentions(this string str, bool sanitizeRoleMentions = false)
         {
