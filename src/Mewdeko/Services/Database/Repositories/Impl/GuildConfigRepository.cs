@@ -183,14 +183,11 @@ namespace Mewdeko.Services.Database.Repositories.Impl
                 .ToList();
         }
 
-        public void SetCleverbotEnabled(ulong id, bool cleverbotEnabled)
+        public ulong GetCleverbotChannel(ulong guildid)
         {
-            var conf = _set.FirstOrDefault(gc => gc.GuildId == id);
-
-            if (conf == null)
-                return;
-
-            conf.CleverbotEnabled = cleverbotEnabled;
+            return _set.AsQueryable()
+                .Where(x => x.GuildId == guildid)
+                .Select(x => x.CleverbotChannel).Single();
         }
 
         public XpSettings XpSettingsFor(ulong guildId)

@@ -12,7 +12,7 @@ namespace Mewdeko.Services.Database.Repositories
         IEnumerable<GuildConfig> GetAllGuildConfigs(List<ulong> availableGuilds);
         IEnumerable<FollowedStream> GetFollowedStreams(List<ulong> included);
         IEnumerable<FollowedStream> GetFollowedStreams();
-        void SetCleverbotEnabled(ulong id, bool cleverbotEnabled);
+        ulong GetCleverbotChannel(ulong guildid);
         IEnumerable<GuildConfig> Permissionsv2ForAll(List<ulong> include);
         GuildConfig GcWithPermissionsv2For(ulong guildId);
         XpSettings XpSettingsFor(ulong guildId);

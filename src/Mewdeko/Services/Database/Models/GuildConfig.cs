@@ -111,7 +111,7 @@ namespace Mewdeko.Services.Database.Models
         public HashSet<MutedUserId> MutedUsers { get; set; } = new();
 
         public string MuteRoleName { get; set; }
-        public bool CleverbotEnabled { get; set; }
+        public ulong CleverbotChannel { get; set; }
         public List<Repeater> GuildRepeaters { get; set; } = new();
 
         public AntiRaidSetting AntiRaidSetting { get; set; }

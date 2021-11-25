@@ -89,6 +89,7 @@
 			<Link>Protos\coordinator.proto</Link>
 		</Protobuf>
 		<Compile Remove="credentials.json" />
+		<None Remove="C:\Users\crims\.nuget\packages\nsfwspy\2.5.0\contentFiles\any\netcoreapp2.0\NsfwSpyModel.zip" />
 		<None Include="..\..\.editorconfig" Link=".editorconfig" />
 		<None Update="data\**\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
