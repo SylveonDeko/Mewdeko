@@ -1385,7 +1385,16 @@ chnlmdl:
 chnlcmd:
   desc: Sets a command's permission at the channel level.
   args:
-    - '"command name" enable SomeChannel'
+    - '{0}command enable SomeChannel'
+catmdl:
+  desc: Sets a module's permission at the channel level.
+  args:
+    - ModuleName enable SomeChannel
+catcmd:
+  desc: Sets a command's permission at the category level.
+  args:
+    - '{0}command name enable CategoryName'
+    - '{0}command enable CategoryId'
 usrmdl:
   desc: Sets a module's permission at the user level.
   args:
@@ -1393,7 +1402,7 @@ usrmdl:
 usrcmd:
   desc: Sets a command's permission at the user level.
   args:
-    - '"command name" enable SomeUsername'
+    - '{0}command enable SomeUsername'
 allsrvrmdls:
   desc: Enable or disable all modules for your server.
   args:
@@ -1402,6 +1411,11 @@ allchnlmdls:
   desc: Enable or disable all modules in a specified channel.
   args:
     - 'enable #SomeChannel'
+allcatmdls:
+  desc: Enable or disable all modules in a specified category.
+  args:
+    - 'enable Category Name'
+    - 'enable CategoryId'
 allrolemdls:
   desc: Enable or disable all modules for a specific role.
   args:
