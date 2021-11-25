@@ -953,7 +953,7 @@ namespace Mewdeko.Modules.Utility
                         efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _coord.GetGuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false))).ConfigureAwait(false);
+                            _coord.GetGuildCount(), _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false))).ConfigureAwait(false);
         }
 
         [MewdekoCommand]
