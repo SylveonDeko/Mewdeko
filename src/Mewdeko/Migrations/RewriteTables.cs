@@ -67,7 +67,6 @@ namespace Mewdeko.Migrations
                     table.PrimaryKey("PK_StatusRoles", x => x.Id);
                 });
             migrationBuilder.AddColumn<ulong>("CleverbotChannel", "GuildConfigs", defaultValue: 0);
-            migrationBuilder.DropColumn("CleverbotEnabled", "GuildConfigs");
             migrationBuilder.AddColumn<string>("GRolesBlacklist", "GuildConfigs", defaultValue: "-");
             migrationBuilder.AddColumn<string>("GUsersBlacklist", "GuildConfigs", defaultValue: "-");
             migrationBuilder.AddColumn<string>("GStartMessage", "GuildConfigs", defaultValue: "-");
