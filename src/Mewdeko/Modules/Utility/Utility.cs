@@ -34,10 +34,12 @@ namespace Mewdeko.Modules.Utility
         private readonly IStatsService _stats;
         private readonly DownloadTracker _tracker;
         private readonly InteractiveService Interactivity;
+        private readonly ICoordinator _coord;
 
         public Utility(Mewdeko.Services.Mewdeko Mewdeko, DiscordSocketClient client,
-            IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv)
+            IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv, ICoordinator coord)
         {
+            _coord = coord;
             Interactivity = serv;
             _client = client;
             _stats = stats;
@@ -951,7 +953,7 @@ namespace Mewdeko.Modules.Utility
                         efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
                     .AddField(efb => efb.WithName(GetText("presence")).WithValue(
                         GetText("presence_txt",
-                            _bot.GetCurrentGuildIds().Count, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false))).ConfigureAwait(false);
+                            _coord.GetGuildCount, _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false))).ConfigureAwait(false);
         }
 
         [MewdekoCommand]
