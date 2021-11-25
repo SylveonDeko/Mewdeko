@@ -1,56 +1,45 @@
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Mewdeko.Core.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+global using Mewdeko;
+global using System;
+using Mewdeko.Services;
+using Serilog;
 
-namespace Mewdeko
+var pid = System.Environment.ProcessId;
+
+var shardId = 0;
+int? totalShards = null; // 0 to read from creds.yml
+if (args.Length > 0)
 {
-    public sealed class Program
+    if (!int.TryParse(args[0], out shardId))
     {
-        [Obsolete]
-        public static async Task Main(string[] args)
+        Console.Error.WriteLine("Invalid first argument (shard id): {0}", args[0]);
+        return;
+    }
+
+    if (args.Length > 1)
+    {
+        if (!int.TryParse(args[1], out var shardCount))
         {
-            var pid = Process.GetCurrentProcess().Id;
-            Console.WriteLine($"Pid: {pid}");
-            if (args.Length == 2
-                && int.TryParse(args[0], out var shardId)
-                && int.TryParse(args[1], out var parentProcessId))
-            {
-                await new Mewdeko(shardId, parentProcessId == 0 ? pid : parentProcessId)
-                    .RunAndBlockAsync();
-                //_ = Task.Run(async () =>
-                //{
-                //    await CreateHostBuilder(args).Build().RunAsync();
-                //});
-            }
-            else
-            {
-                await new ShardsCoordinator()
-                    .RunAsync()
-                    .ConfigureAwait(false);
-                //_ = Task.Run(async () =>
-                //{
-                //    await CreateHostBuilder(args).Build().RunAsync();
-                //});
-#if DEBUG
-                await new Mewdeko(0, pid)
-                    .RunAndBlockAsync();
-                //_ = Task.Run(async () =>
-                //{
-                //    await CreateHostBuilder(args).Build().RunAsync();
-                //});
-#else
-                await Task.Delay(-1);
-#endif
-            }
+            Console.Error.WriteLine("Invalid second argument (total shards): {0}", args[1]);
+            return;
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-        }
+        totalShards = shardCount;
     }
 }
+
+
+
+LogSetup.SetupLogger(shardId);
+Log.Information($"Pid: {pid}");
+// _ = Task.Run(() =>
+// {
+//     CreateHostBuilder(args).Build().Run();
+// });
+await new Mewdeko.Services.Mewdeko(shardId).RunAndBlockAsync();
+
+// IHostBuilder CreateHostBuilder(string[] args) =>
+//     Host.CreateDefaultBuilder(args)
+//         .ConfigureWebHostDefaults(webBuilder =>
+//         {
+//             webBuilder.UseStartup<Startup>();
+//         });

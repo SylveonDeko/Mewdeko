@@ -8,3 +8,9 @@ dotnet_diagnostic.IDE0058.severity = none
 
 # CS8604: Possible null reference argument.
 dotnet_diagnostic.CS8604.severity = none
+
+# CA1069: Enums values should not be duplicated
+dotnet_diagnostic.CA1069.severity = silent
+
+# SYSLIB0013: Type or member is obsolete
+dotnet_diagnostic.SYSLIB0013.severity = none

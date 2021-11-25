@@ -1,25 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B2F1537-4BF0-422B-A0DD-8F9CCEFB340F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		license.md = license.md
-		NadekoBot.iss = NadekoBot.iss
-		release.ps1 = release.ps1
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewdeko.csproj", "{45EC1473-C678-4857-A544-07DFE0D0B478}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewdeko.csproj", "{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Core", "Mewdeko.Core\Mewdeko.Core.csproj", "{A6CCEFBD-DCF2-482C-9643-47664683548F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Coordinator", "src\Mewdeko.Coordinator\Mewdeko.Coordinator.csproj", "{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ayu", "ayu", "{6058FEDF-A318-4CD4-8F04-A7E8E7EC8874}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ayu.Discord.Voice", "src\ayu\Ayu.Discord.Voice\Ayu.Discord.Voice.csproj", "{2F4CF6D6-0C2F-4944-B204-9508CDA53195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Voice", "src\Mewdeko.Voice\Mewdeko.Voice.csproj", "{7F14127C-CD3B-4C08-93FF-4A05307DBD94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,33 +21,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.ActiveCfg = Release|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.GlobalNadeko|Any CPU.Build.0 = Release|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45EC1473-C678-4857-A544-07DFE0D0B478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalNadeko|Any CPU.ActiveCfg = Release|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.GlobalNadeko|Any CPU.Build.0 = Release|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6CCEFBD-DCF2-482C-9643-47664683548F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
+		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
+		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
+		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{45EC1473-C678-4857-A544-07DFE0D0B478} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
-		{A6CCEFBD-DCF2-482C-9643-47664683548F} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
-		{6058FEDF-A318-4CD4-8F04-A7E8E7EC8874} = {04929013-5BAB-42B0-B9B2-8F2BB8F16AF2}
-		{2F4CF6D6-0C2F-4944-B204-9508CDA53195} = {6058FEDF-A318-4CD4-8F04-A7E8E7EC8874}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F3F555C-855F-4BE8-B526-D062D3E8ACA4}
@@ -73,5 +60,7 @@ Global
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

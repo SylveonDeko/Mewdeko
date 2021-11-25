@@ -76,17 +76,10 @@ moveto:
 moveuserto:
   - moveuserto
   - moveuto
-repplus:
-  - rep+
-repnegative:
-  - rep-
 createcatvcchans:
   - ccvc
 stealforrole:
   - sfr
-reviews:
-  - reviews
-  - rep
 stealemotes:
   - steal
   - stealemotes
