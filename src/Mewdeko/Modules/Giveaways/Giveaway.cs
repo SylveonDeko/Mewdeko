@@ -62,12 +62,14 @@ namespace Mewdeko.Modules.Giveaways
         [Usage]
         [Description]
         [Aliases]
+        [RequireUserPermission(GuildPermission.ManageChannels)]
         public async Task GStart(ITextChannel chan, StoopidTime time, [Remainder] string what)
             => await Service.GiveawaysInternal(chan, time.Time, what, ctx.User.Id, ctx.Guild.Id, ctx.Channel as ITextChannel, ctx.Guild);
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
+        [RequireUserPermission(GuildPermission.ManageChannels)]
         public async Task GList(int page = 1)
         {
             if (--page < 0)
@@ -105,6 +107,7 @@ namespace Mewdeko.Modules.Giveaways
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
         [MewdekoCommand]
+        [RequireUserPermission(GuildPermission.ManageChannels)]
         public async Task GEnd(int index)
         {
             Mewdeko.Services.Database.Models.Giveaways rem;
