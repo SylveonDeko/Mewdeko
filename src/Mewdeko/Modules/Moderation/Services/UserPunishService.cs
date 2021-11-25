@@ -42,7 +42,7 @@ namespace Mewdeko.Modules.Moderation.Services
             _bot = bot;
             _db = db;
             _blacklistService = blacklistService;
-            Client.MessageReceived += NsfwCheck;
+            //Client.MessageReceived += NsfwCheck;
             _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
                 TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
         }
