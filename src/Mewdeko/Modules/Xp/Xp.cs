@@ -240,15 +240,17 @@ namespace Mewdeko.Modules.Xp
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Experience([Remainder] IUser user = null)
+        public async Task Experience([Remainder] IGuildUser user = null)
         {
-            user ??= ctx.User;
-            var (img, fmt) = await Service.GenerateXpImageAsync((IGuildUser)user).ConfigureAwait(false);
-            await using (img)
+            user = user ?? ctx.User as IGuildUser;
+            await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
+            var (img, fmt) = await Service.GenerateXpImageAsync(user).ConfigureAwait(false);
+            using (img)
             {
                 await ctx.Channel.SendFileAsync(img,
                         $"{ctx.Guild.Id}_{user.Id}_xp.{fmt.FileExtensions.FirstOrDefault()}")
                     .ConfigureAwait(false);
+                await img.DisposeAsync();
             }
         }
 
@@ -457,7 +459,7 @@ namespace Mewdeko.Modules.Xp
                         .Select(x => ctx.Guild.GetChannelAsync(x)))
                     .ConfigureAwait(false))
                 .Where(x => x != null)
-                .Select(x => $"`channel` <#{x.Id}>")
+                .Select(x => $"`channel` {x.Name}")
                 .ToList();
 
             var rolesStr = roles.Any() ? string.Join("\n", roles) + "\n" : string.Empty;

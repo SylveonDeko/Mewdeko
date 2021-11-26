@@ -274,7 +274,16 @@ namespace Mewdeko.Modules.Administration
             {
                 await GreetHook(null, null, null, text);
             }
-
+            [MewdekoCommand]
+            [Usage]
+            [Description]
+            [Aliases]
+            [RequireContext(ContextType.Guild)]
+            [UserPerm(GuildPermission.ManageGuild)]
+            public async Task LeaveHook(string text)
+            {
+                await LeaveHook(null, null, null, text);
+            }
             [MewdekoCommand]
             [Usage]
             [Description]

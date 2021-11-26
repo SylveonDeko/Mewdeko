@@ -87,7 +87,6 @@ namespace Mewdeko.Modules.Games.Services
                        LimitUser.Add(chan.Id);
                        await Task.Delay(5000);
                        LimitUser.Remove(chan.Id);
-                       return;
                    }
                }
                catch (Exception ex)
@@ -105,11 +104,10 @@ namespace Mewdeko.Modules.Games.Services
             return new CleverbotIOSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
         }
 
-        public string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
+        private string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
         {
             var channel = msg.Channel as ITextChannel;
             cleverbot = null;
-
             if (channel == null)
                 return null;
 
@@ -131,11 +129,10 @@ namespace Mewdeko.Modules.Games.Services
                 return null;
             else
                 message = msg.Content;
-
             return message;
         }
 
-        public static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
+        private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
         {
             await channel.TriggerTypingAsync().ConfigureAwait(false);
 

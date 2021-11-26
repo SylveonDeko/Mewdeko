@@ -303,13 +303,14 @@ namespace Mewdeko.Services
                 .WithServer(_client, (SocketGuild)channel.Guild)
                 .WithManyUsers(users)
                 .Build();
+            var lh = GetLeaveHook(channel.GuildId);
 
             if (CREmbed.TryParse(conf.ChannelByeMessageText, out var embedData))
             {
                 rep.Replace(embedData);
                 try
                 {
-                    if (GetLeaveHook(channel.GuildId) == "")
+                    if (lh == 0.ToString() || lh == "" )
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
@@ -340,7 +341,7 @@ namespace Mewdeko.Services
                     return;
                 try
                 {
-                    if (GetLeaveHook(channel.GuildId) == "")
+                    if (lh == 0.ToString() || lh == "")
                     {
                         var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
@@ -379,13 +380,13 @@ namespace Mewdeko.Services
                 .WithServer(_client, (SocketGuild)channel.Guild)
                 .WithManyUsers(users)
                 .Build();
-
+            var gh = GetGreetHook(channel.GuildId);
             if (CREmbed.TryParse(conf.ChannelGreetMessageText, out var embedData))
             {
                 rep.Replace(embedData);
                 try
                 {
-                    if (GetGreetHook(channel.GuildId) == "")
+                    if (gh == "" || gh == 0.ToString())
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteGreetMessagesTimer > 0)
@@ -415,7 +416,7 @@ namespace Mewdeko.Services
                 if (!string.IsNullOrWhiteSpace(msg))
                     try
                     {
-                        if (GetGreetHook(channel.GuildId) == "")
+                        if (gh == "" || gh == 0.ToString())
                         {
                             var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                             if (conf.AutoDeleteGreetMessagesTimer > 0)
