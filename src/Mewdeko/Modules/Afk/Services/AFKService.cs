@@ -187,7 +187,7 @@ namespace Mewdeko.Modules.Afk.Services
         public List<IGuildUser> GetAfkUsers(IGuild guild)
         { 
                 var users = new List<IGuildUser>();
-                foreach (var f in guild.GetUsersAsync().GetAwaiter().GetResult())
+                foreach (var f in guild.GetUsersAsync(CacheMode.AllowDownload).GetAwaiter().GetResult())
                 {
                     if (IsAfk(guild, f))
                         users.Add(f);

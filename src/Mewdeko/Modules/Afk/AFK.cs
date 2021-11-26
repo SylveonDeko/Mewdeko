@@ -195,7 +195,7 @@ namespace Mewdeko.Modules.Afk
             [Aliases]
             public async Task AfkView(IGuildUser user)
             {
-                if (Service.IsAfk(user.Guild, user))
+                if (!Service.IsAfk(user.Guild, user))
                 {
                     await ctx.Channel.SendErrorAsync("This user isn't afk!");
                     return;

@@ -242,10 +242,10 @@ namespace Mewdeko.Modules.Xp
         [RequireContext(ContextType.Guild)]
         public async Task Experience([Remainder] IGuildUser user = null)
         {
-            user = user ?? ctx.User as IGuildUser;
+            user ??= ctx.User as IGuildUser;
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
             var (img, fmt) = await Service.GenerateXpImageAsync(user).ConfigureAwait(false);
-            using (img)
+            await using (img)
             {
                 await ctx.Channel.SendFileAsync(img,
                         $"{ctx.Guild.Id}_{user.Id}_xp.{fmt.FileExtensions.FirstOrDefault()}")
