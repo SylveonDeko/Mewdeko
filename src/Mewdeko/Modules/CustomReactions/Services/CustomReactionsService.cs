@@ -489,16 +489,15 @@ namespace Mewdeko.Modules.CustomReactions.Services
                 cr = uow.CustomReactions.GetById(id);
                 if (cr is null)
                     return (false, false);
-                if (field == CrField.AutoDelete)
-                    newVal = cr.AutoDeleteTrigger = !cr.AutoDeleteTrigger;
-                else if (field == CrField.ContainsAnywhere)
-                    newVal = cr.ContainsAnywhere = !cr.ContainsAnywhere;
-                else if (field == CrField.DmResponse)
-                    newVal = cr.DmResponse = !cr.DmResponse;
-                else if (field == CrField.AllowTarget)
-                    newVal = cr.AllowTarget = !cr.AllowTarget;
-                else if (field == CrField.ReactToTrigger)
-                    newVal = cr.ReactToTrigger = !cr.ReactToTrigger;
+                newVal = field switch
+                {
+                    CrField.AutoDelete => cr.AutoDeleteTrigger = !cr.AutoDeleteTrigger,
+                    CrField.ContainsAnywhere => cr.ContainsAnywhere = !cr.ContainsAnywhere,
+                    CrField.DmResponse => cr.DmResponse = !cr.DmResponse,
+                    CrField.AllowTarget => cr.AllowTarget = !cr.AllowTarget,
+                    CrField.ReactToTrigger => cr.ReactToTrigger = !cr.ReactToTrigger,
+                    _ => newVal
+                };
 
                 await uow.SaveChangesAsync();
             }
