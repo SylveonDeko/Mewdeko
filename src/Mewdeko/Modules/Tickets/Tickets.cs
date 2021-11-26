@@ -41,7 +41,7 @@ namespace Mewdeko.Modules.Tickets
                 {
                     if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Ok! I'll use the default for now! Would you like to setup a custom button emote and text?"), ctx.User.Id))
                     {
-
+                        
                     }
 
                 }

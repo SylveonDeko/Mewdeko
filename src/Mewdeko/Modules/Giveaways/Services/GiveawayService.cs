@@ -75,7 +75,8 @@ namespace Mewdeko.Modules.Giveaways.Services
                     RestrictTo = i.RestrictTo,
                     Item = i.Item,
                     ServerId = i.ServerId,
-                    UserId = i.UserId
+                    UserId = i.UserId,
+                    Winners = i.Winners,
                 };
                 uow.Giveaways.Remove(i);
                 uow.Giveaways.Add(toupdate);
@@ -93,7 +94,7 @@ namespace Mewdeko.Modules.Giveaways.Services
                     .ToListAsync();
             }
         }
-        public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, ulong host, ulong ServerId, ITextChannel CurrentChannel, IGuild guild)
+        public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host, ulong ServerId, ITextChannel CurrentChannel, IGuild guild, string reqroles = null, string blacklistusers = null, string blacklistroles = null)
         {
             var eb = new EmbedBuilder()
             {
@@ -103,8 +104,8 @@ namespace Mewdeko.Modules.Giveaways.Services
                     "<:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049>\n" + 
                     $"Host: {guild.GetUserAsync(host).Result}\n" +
                     $"🎁 Prize: {item} 🎁\n" + 
-                    "🏅 Winners: 1 🏅\n" + 
-                    "🗯️Required Roles:\n\n" + 
+                    $"🏅 Winners: {winners} 🏅\n" + 
+                    $"🗯️Required Roles: {reqroles ?? "None"}" + 
                     "<:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049>\n" + 
                     $"End Time: {ts.Humanize(maxUnit: TimeUnit.Year)}" ,
                 ImageUrl = "https://cdn.discordapp.com/attachments/866315387703394314/866321920822870026/80942286_p0.png?width=1246&height=701"
@@ -122,7 +123,8 @@ namespace Mewdeko.Modules.Giveaways.Services
                 Ended = 0,
                 When = time,
                 Item = item,
-                MessageId = msg.Id
+                MessageId = msg.Id,
+                Winners = winners
             };
 
             using (var uow = _db.GetDbContext())
@@ -146,18 +148,20 @@ namespace Mewdeko.Modules.Giveaways.Services
         {
             if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not IUserMessage ch)
                     return;
-                var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
-                var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
-                if (reacts.Count()-1 <= 1)
+            var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
+            var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
+            if (reacts.Count()-1 <= r.Winners)
+            {
+                var eb = new EmbedBuilder()
                 {
-                    var eb = new EmbedBuilder()
-                    {
-                        Color = Mewdeko.Services.Mewdeko.ErrorColor,
-                        Description = "Nobody won because nobody else reacted!"
-                    };
-                    await ch.ModifyAsync(x => x.Embed = eb.Build());
-                }
-                else
+                    Color = Mewdeko.Services.Mewdeko.ErrorColor,
+                    Description = "There were not enough participants!"
+                };
+                await ch.ModifyAsync(x => x.Embed = eb.Build());
+            }
+            else
+            {
+                if (r.Winners == 1)
                 {
                     var users = reacts.Where(x => !x.IsBot);
                     var rand = new Random();
@@ -171,6 +175,20 @@ namespace Mewdeko.Modules.Giveaways.Services
                     await ch.ModifyAsync(x => x.Embed = eb.Build());
                     await ch.Channel.SendConfirmAsync($"Giveaway ended!\n{ch.GetJumpUrl()}");
                 }
+                else
+                {
+                    var rand = new Random();
+                    var users = reacts.Where(x => !x.IsBot);
+                    var winners = users.ToList().OrderBy(x => rand.Next()).Take(r.Winners);
+                    var eb = new EmbedBuilder()
+                    {
+                        Color = Mewdeko.Services.Mewdeko.OkColor,
+                        Description = $"{string.Join("", users.Select(x => x.Mention))} won the giveaway for {r.Item}!"
+                    };
+                    await ch.ModifyAsync(x => x.Embed = eb.Build());
+                    await ch.Channel.SendConfirmAsync($"Giveaway ended!\n{ch.GetJumpUrl()}");
+                }
+            }
         }
     }
 }

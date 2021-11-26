@@ -724,7 +724,7 @@ namespace Mewdeko.Modules.Xp.Services
                 guildRank);
         }
 
-        public static (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
+        public (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
         {
             const int baseXp = XP_REQUIRED_LVL_1;
             int required;
@@ -826,7 +826,7 @@ namespace Mewdeko.Modules.Xp.Services
             return Task.Run(
                 async () =>
                 {
-                    var usernameTextOptions = new TextGraphicsOptions()
+                    var usernameTextOptions = new TextGraphicsOptions
                     {
                         TextOptions = new TextOptions
                         {
@@ -884,6 +884,8 @@ namespace Mewdeko.Modules.Xp.Services
 
 
                     var pen = new Pen(Color.Black, 1);
+
+                    var global = stats.Global;
                     var guild = stats.Guild;
 
                     //xp bar
@@ -924,7 +926,7 @@ namespace Mewdeko.Modules.Xp.Services
 
                     //time on this level
 
-                    static string GetTimeSpent(DateTime time, string format)
+                    string GetTimeSpent(DateTime time, string format)
                     {
                         var offset = DateTime.UtcNow - time;
                         return $"{offset.Humanize()} ago";
@@ -952,27 +954,33 @@ namespace Mewdeko.Modules.Xp.Services
                                 using (var http = _httpFactory.CreateClient())
                                 {
                                     var avatarData = await http.GetByteArrayAsync(avatarUrl);
-                                    using var tempDraw = Image.Load(avatarData);
-                                    tempDraw.Mutate(x => x
-                                        .Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y)
-                                        .ApplyRoundedCorners(
-                                            Math.Max(_template.User.Icon.Size.X,
-                                                _template.User.Icon.Size.Y) / 2));
-                                    await using var stream = tempDraw.ToStream();
-                                    data = stream.ToArray(); 
+                                    using (var tempDraw = Image.Load(avatarData))
+                                    {
+                                        tempDraw.Mutate(x => x
+                                            .Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y)
+                                            .ApplyRoundedCorners(
+                                                Math.Max(_template.User.Icon.Size.X,
+                                                    _template.User.Icon.Size.Y) / 2));
+                                        using (var stream = tempDraw.ToStream())
+                                        {
+                                            data = stream.ToArray();
+                                        }
+                                    }
                                 }
 
                                 await _cache.SetImageDataAsync(avatarUrl, data);
                             }
 
-                            using var toDraw = Image.Load(data);
-                            if (toDraw.Size() != new Size(_template.User.Icon.Size.X,
+                            using (var toDraw = Image.Load(data))
+                            {
+                                if (toDraw.Size() != new Size(_template.User.Icon.Size.X,
                                     _template.User.Icon.Size.Y))
-                                toDraw.Mutate(x =>
-                                    x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
+                                    toDraw.Mutate(x =>
+                                        x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
 
-                            img.Mutate(x => x.DrawImage(toDraw,
-                                new Point(_template.User.Icon.Pos.X, _template.User.Icon.Pos.Y), 1));
+                                img.Mutate(x => x.DrawImage(toDraw,
+                                    new Point(_template.User.Icon.Pos.X, _template.User.Icon.Pos.Y), 1));
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -998,37 +1006,39 @@ namespace Mewdeko.Modules.Xp.Services
 
             float x3 = 0, x4 = 0, y3 = 0, y4 = 0;
 
-            switch (info.Direction)
+            if (info.Direction == XpTemplateDirection.Down)
             {
-                case XpTemplateDirection.Down:
-                    x3 = x1;
-                    x4 = x2;
-                    y3 = y1 + length;
-                    y4 = y2 + length;
-                    break;
-                case XpTemplateDirection.Up:
-                    x3 = x1;
-                    x4 = x2;
-                    y3 = y1 - length;
-                    y4 = y2 - length;
-                    break;
-                case XpTemplateDirection.Left:
-                    x3 = x1 - length;
-                    x4 = x2 - length;
-                    y3 = y1;
-                    y4 = y2;
-                    break;
-                default:
-                    x3 = x1 + length;
-                    x4 = x2 + length;
-                    y3 = y1;
-                    y4 = y2;
-                    break;
+                x3 = x1;
+                x4 = x2;
+                y3 = y1 + length;
+                y4 = y2 + length;
+            }
+            else if (info.Direction == XpTemplateDirection.Up)
+            {
+                x3 = x1;
+                x4 = x2;
+                y3 = y1 - length;
+                y4 = y2 - length;
+            }
+            else if (info.Direction == XpTemplateDirection.Left)
+            {
+                x3 = x1 - length;
+                x4 = x2 - length;
+                y3 = y1;
+                y4 = y2;
+            }
+            else
+            {
+                x3 = x1 + length;
+                x4 = x2 + length;
+                y3 = y1;
+                y4 = y2;
             }
 
             img.Mutate(x => x.FillPolygon(info.Color, new PointF(x1, y1), new PointF(x3, y3), new PointF(x4, y4),
                 new PointF(x2, y2)));
         }
+
 
         public void XpReset(ulong guildId, ulong userId)
         {
