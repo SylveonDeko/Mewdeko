@@ -26,7 +26,6 @@ using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using NsfwSpyNS;
 using Serilog;
 using StackExchange.Redis;
 
@@ -121,7 +120,6 @@ namespace Mewdeko.Services
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
-                .AddScoped<INsfwSpy, NsfwSpy>()
                 .AddConfigServices()
                 .AddBotStringsServices()
                 .AddMemoryCache()
