@@ -1,4 +1,4 @@
-﻿namespace Mewdeko.Modules.Help.Services.extractor
+﻿namespace Mewdeko.Modules.Music.Services.extractor
 {
     public sealed partial class YtLoader
     {
