@@ -119,7 +119,7 @@ namespace Mewdeko.Modules.Help
                 .WithName("Mewdeko Help Menu"));
             embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
             embed.WithDescription(
-                $"Do {Prefix}cmds `category` to see whats in that category\nDo {Prefix}help `command` to see a description of a command you need more info on");
+                $"Do {Prefix}cmds `category` to see whats in that category\nDo {Prefix}help `command` to see a description of a command you need more info on\nJoin our partner server: https://discord.gg/nezuko");
             embed.AddField("<:Nekoha_Oooo:866320687810740234> **Categories**",
                 "> <:nekohayay:866315028989739048> Administration\n> <:Nekoha_ok:866616128443645952> Moderation\n> <:Nekohacry:866615973834391553> Utility\n> <:Nekoha_sleep:866321311886344202> Suggestions\n> <:Nekoha_Yawn:866320872003076136> Server Management\n> <:Nekoha_angy:866321279929024582> Permissions\n> <:Nekoha_huh:866615758032994354> Xp",
                 true);
@@ -226,7 +226,7 @@ namespace Mewdeko.Modules.Help
                 }
                 return Task.FromResult(new PageBuilder()
                     .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(), $"```css\n{string.Join("\n", transformed)}\n```")
-                    .WithDescription($"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)")
+                    .WithDescription($"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)\n Join our partner server: https://discord.gg/nezuko")
                     .WithOkColor());
             }
         }

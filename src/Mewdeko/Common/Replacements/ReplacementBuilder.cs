@@ -92,6 +92,12 @@ namespace Mewdeko.Common.Replacements
             _reps.TryAdd("%server.icon%", () => g == null ? "DM" : $"{g.IconUrl}?size=2048");
             _reps.TryAdd("%server.id%", () => g == null ? "DM" : g.Id.ToString());
             _reps.TryAdd("%server.name%", () => g == null ? "DM" : g.Name);
+            _reps.TryAdd("%server.boostlevel%", () =>
+            {
+                var e = g.PremiumTier.ToString();
+                return e.StartsWith("Tier") ? e.Replace("Tier", "") : "0";
+            });
+            _reps.TryAdd("%server.boostcount%", () => g.PremiumSubscriptionCount.ToString());
             _reps.TryAdd("%server.members%", () => g is { } sg ? sg.MemberCount.ToString() : "?");
             _reps.TryAdd("%server.members.online%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Online).ToString() : "?");
             _reps.TryAdd("%server.members.offline%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Offline).ToString() : "?");

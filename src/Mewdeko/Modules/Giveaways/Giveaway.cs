@@ -173,6 +173,19 @@ namespace Mewdeko.Modules.Giveaways
             {
                 await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, chan, ctx.Guild);
             }
+            else
+            {
+                await msg.ModifyAsync(x => x.Embed = eb.WithDescription("Is there a role/roles requirement? (Do note this means they need to have at least one of the roles, not all.").Build());
+                next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (next.ToLower() == "no" || next.ToLower() == "none")
+                {
+                    
+                }
+                else
+                {
+
+                }
+            }
 
         }
         [MewdekoCommand]
