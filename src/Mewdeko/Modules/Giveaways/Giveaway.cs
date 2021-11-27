@@ -77,9 +77,9 @@ namespace Mewdeko.Modules.Giveaways
             ITextChannel chan = null;
             int winners = 0;
             string prize;
-            string blacklistroles;
-            string blacklistusers;
-            string reqroles;
+            //string blacklistroles;
+            //string blacklistusers;
+            //string reqroles;
             IUser Host;
             TimeSpan time;
             var erorrembed = new EmbedBuilder()
@@ -95,14 +95,14 @@ namespace Mewdeko.Modules.Giveaways
                     "Please say, mention or put the ID of the channel where you want to start a giveaway. (Keep in mind you can cancel this by just leaving this to sit)");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
             var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-            var reader = new ChannelTypeReader<ITextChannel>(); 
+            var reader = new ChannelTypeReader<ITextChannel>();
             var e = await reader.ReadAsync(ctx, next, _servs);
             if (!e.IsSuccess)
             {
                 await msg.ModifyAsync(x => x.Embed = erorrembed);
                 return;
             }
-            chan = (ITextChannel) e.BestMatch;
+            chan = (ITextChannel)e.BestMatch;
             await msg.ModifyAsync(x => x.Embed = eb.WithDescription("How many winners will there be?").Build());
             next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
             try
@@ -168,26 +168,7 @@ namespace Mewdeko.Modules.Giveaways
                 }
 
             }
-            await msg.ModifyAsync(x => x.Embed = eb.WithDescription("Would you like to setup role requirements or user blacklists? Say no/none to just start the giveaway.").Build());
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-            if (next.ToLower() == "no" || next.ToLower() == "none")
-            {
-                await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, chan, ctx.Guild);
-            }
-            else
-            {
-                await msg.ModifyAsync(x => x.Embed = eb.WithDescription("Is there a role/roles requirement? (Do note this means they need to have at least one of the roles, not all.").Build());
-                next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                if (next.ToLower() == "no" || next.ToLower() == "none")
-                {
-                    
-                }
-                else
-                {
-
-                }
-            }
-
+            await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, chan, ctx.Guild);
         }
         [MewdekoCommand]
         [Usage]
