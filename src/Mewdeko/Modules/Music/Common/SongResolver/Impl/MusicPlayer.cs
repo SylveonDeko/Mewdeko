@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ using Mewdeko.Common;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Voice;
 using Serilog;
+using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
 {

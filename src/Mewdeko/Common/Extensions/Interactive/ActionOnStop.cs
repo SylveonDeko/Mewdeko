@@ -1,3 +1,4 @@
+    using System;
     using Discord;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 

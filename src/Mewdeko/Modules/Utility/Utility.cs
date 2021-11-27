@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,6 +22,7 @@ using Mewdeko.Modules.Utility.Services;
 using Newtonsoft.Json;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
+using Swan;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Utility

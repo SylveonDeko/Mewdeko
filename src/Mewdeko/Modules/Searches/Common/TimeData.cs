@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Searches.Common
+﻿using System;
+
+namespace Mewdeko.Modules.Searches.Common
 {
     public class TimeData
     {

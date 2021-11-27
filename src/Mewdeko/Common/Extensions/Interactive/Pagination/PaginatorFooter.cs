@@ -1,3 +1,5 @@
+using System;
+
 namespace Mewdeko.Common.Extensions.Interactive.Pagination
 {
     /// <summary>

@@ -1,4 +1,5 @@
-﻿namespace Mewdeko._Extensions
+﻿using System;
+namespace Mewdeko._Extensions
 {
     // made for customreactions because they almost never get added
     // and they get looped through constantly

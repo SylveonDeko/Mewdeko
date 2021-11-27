@@ -1,3 +1,4 @@
+using System;
 using Discord;
 
 namespace Mewdeko.Common.Extensions.Interactive.Entities

@@ -1,5 +1,4 @@
-global using Mewdeko;
-global using System;
+using System;
 using Mewdeko.Services;
 using Serilog;
 

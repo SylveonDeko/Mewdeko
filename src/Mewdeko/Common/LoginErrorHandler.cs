@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Runtime.CompilerServices;
 using Discord.Net;
 using Serilog;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -965,17 +966,17 @@ namespace Mewdeko.Modules.Administration.Services
             {
                 if (channel.Value is not ITextChannel chan)
                     return;
-
+        
                 if (!GuildLogSettings.TryGetValue(chan.Guild.Id, out var logSetting)
                     || logSetting.MessageDeletedId == null
                     || logSetting.IgnoredChannels.Any(ilc => ilc.ChannelId == channel.Id))
                     return;
-
+        
                 ITextChannel logChannel;
                 if ((logChannel = await TryGetLogChannel(chan.Guild, logSetting, LogType.MessageDeleted)
                         .ConfigureAwait(false)) == null)
                     return;
-
+        
                 var toSend = new List<IUserMessage>();
                 foreach (var message in messages)
                 {
@@ -986,7 +987,7 @@ namespace Mewdeko.Modules.Administration.Services
                 
                 if (count == 1) 
                     return;
-
+        
                 while (toSend.Any())
                 {
                     var toBatch = toSend.Take(100);
@@ -1002,7 +1003,7 @@ namespace Mewdeko.Modules.Administration.Services
                     await Task.Delay(1000);
                 }
             });
-
+        
             return Task.CompletedTask;
         }
         private Task _client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)

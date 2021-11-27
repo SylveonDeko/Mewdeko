@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Music.Common.SongResolver.Impl
