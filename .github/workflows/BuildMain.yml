@@ -1,4 +1,4 @@
-name: .NET PR Build & Test
+name: Main .NET PR Build & Test
 
 on:
   push:
