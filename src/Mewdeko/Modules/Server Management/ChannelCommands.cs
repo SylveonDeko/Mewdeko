@@ -220,14 +220,18 @@ namespace Mewdeko.Modules.Server_Management
                         throw;
                     }
                     var chan2 = await ctx.Guild.CreateTextChannelAsync(chan.Name, x =>
-                    {
-                        x.Position = chan.Position;
-                        x.Topic = chan.Topic;
-                        x.PermissionOverwrites = new Optional<IEnumerable<Overwrite>>(chan.PermissionOverwrites);
-                        x.IsNsfw = chan.IsNsfw;
-                        x.CategoryId = chan.CategoryId;
-                        x.SlowModeInterval = chan.SlowModeInterval;
-                    });
+                        {
+                            x.Position = chan.Position;
+                            if (chan.Topic is not null)
+                            {
+                                x.Topic = chan.Topic;
+                            }
+                            x.PermissionOverwrites = new Optional<IEnumerable<Overwrite>>(chan.PermissionOverwrites);
+                            x.IsNsfw = chan.IsNsfw;
+                            x.CategoryId = chan.CategoryId;
+                            x.SlowModeInterval = chan.SlowModeInterval;
+                        });
+                        
                     await chan2.SendMessageAsync(
                         "https://pa1.narvii.com/6463/6494fab512c8f2ac0d652c44dae78be4cb644569_hq.gif");
                 }
