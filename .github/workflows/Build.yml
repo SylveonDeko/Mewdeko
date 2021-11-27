@@ -1,10 +1,10 @@
-name: .NET Build & Test
+name: .NET PR Build & Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ Master ]
   pull_request:
-    branches: [ main ]
+    branches: [ Master ]
 
 jobs:
   build:
