@@ -1,4 +1,4 @@
-name: MainPR Build & Test
+name: Main PR Build & Test
 
 on:
   push:
