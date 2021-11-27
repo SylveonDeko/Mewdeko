@@ -319,7 +319,7 @@ namespace Mewdeko.Services
             string input, int argPos, IServiceProvider serviceProvider,
             MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
         {
-            return ExecuteCommand(context, input.Substring(argPos), serviceProvider, multiMatchHandling);
+            return ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
         }
 
 
