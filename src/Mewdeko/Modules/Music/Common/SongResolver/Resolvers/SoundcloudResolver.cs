@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Mewdeko.Services.Impl;
 using Newtonsoft.Json.Linq;
+using Mewdeko._Extensions;
 
 #nullable enable
 namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mewdeko.Modules.Music.Common.SongResolver.Impl;
 using Serilog;
+using Mewdeko._Extensions;
 
 #nullable enable
 namespace Mewdeko.Modules.Music.Common.SongResolver.Resolvers

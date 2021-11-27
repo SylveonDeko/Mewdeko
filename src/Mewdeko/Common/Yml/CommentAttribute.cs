@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Common.Yml
+﻿using System;
+
+namespace Mewdeko.Common.Yml
 {
     public class CommentAttribute : Attribute
     {

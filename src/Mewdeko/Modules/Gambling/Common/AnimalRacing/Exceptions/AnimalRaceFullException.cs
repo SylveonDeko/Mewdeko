@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions
+﻿using System;
+
+namespace Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions
 {
     public class AnimalRaceFullException : Exception
     {

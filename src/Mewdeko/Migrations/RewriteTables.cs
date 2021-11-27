@@ -1,4 +1,5 @@
-﻿using LinqToDB.Reflection;
+﻿using System;
+using LinqToDB.Reflection;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Migrations

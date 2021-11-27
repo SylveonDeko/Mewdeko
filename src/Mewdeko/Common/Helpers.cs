@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Common
+﻿using System;
+
+namespace Mewdeko.Common
 {
     public static class Helpers
     {

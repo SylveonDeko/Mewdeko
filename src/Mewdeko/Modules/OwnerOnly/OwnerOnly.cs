@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using System;
+using Discord.WebSocket;
 using Mewdeko.Common;
 using System.Collections.Generic;
 using System.Diagnostics;

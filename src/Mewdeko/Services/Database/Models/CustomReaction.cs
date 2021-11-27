@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-
+using System;
 namespace Mewdeko.Services.Database.Models
 {
     public class CustomReaction : DbEntity
