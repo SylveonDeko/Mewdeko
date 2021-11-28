@@ -23,6 +23,7 @@
         <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
         <PackageReference Include="Discord.Net.Labs" Version="3.4.6" />
+        <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
         <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
         <PackageReference Include="Google.Apis.YouTube.v3" Version="1.55.0.2449" />
         <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084" />
@@ -141,6 +142,9 @@
 	</PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Mewdeko.Voice\Mewdeko.Voice.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Remove="credentials_example.json" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
