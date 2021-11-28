@@ -445,8 +445,8 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0)
-                    .Where(x => x.UserId == user1.Id).First();
+                var msg = msgs.OrderByDescending(d => d.DateAdded)
+                    .Where(x => x.Edited == 0).First(x => x.UserId == user1.Id);
                 if (msg == null)
                 {
                     await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!");
@@ -757,7 +757,6 @@ namespace Mewdeko.Modules.Utility
             var users = await ctx.Guild.GetUsersAsync();
             var roleUsers = users
                 .Where(u => u.RoleIds.Contains(role.Id))
-                .Select(u => u.ToString())
                 .ToArray();
 
             var paginator = new LazyPaginatorBuilder()
@@ -775,8 +774,8 @@ namespace Mewdeko.Modules.Utility
             {
                 return Task.FromResult(new PageBuilder().WithOkColor()
                     .WithTitle(Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
-                    .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20)))
-                    .AddField("_ _", $"Online Users: {users.Count(x => x.Status == UserStatus.Offline)}\nDND Users: {users.Count(x => x.Status == UserStatus.DoNotDisturb)}\nIdle Users: {users.Count(x => x.Status == UserStatus.Idle)}\nOffline Users: {users.Count(x => x.Status == UserStatus.Offline)}"));
+                    .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20).Select(x => $"{x} `{x.Id}`")))
+                    .AddField("_ _", $"Online Users: {roleUsers.Count(x => x.Status == UserStatus.Offline)}\nDND Users: {users.Count(x => x.Status == UserStatus.DoNotDisturb)}\nIdle Users: {users.Count(x => x.Status == UserStatus.Idle)}\nOffline Users: {users.Count(x => x.Status == UserStatus.Offline)}"));
             }
         }
 

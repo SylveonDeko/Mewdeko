@@ -37,26 +37,25 @@ namespace Mewdeko.Modules.Utility
             {
                 var voiceChannel = ((IGuildUser)ctx.User).VoiceChannel;
                 var eb = new EmbedBuilder();
-                if (voiceChannel == null && channel == null)
+                switch (voiceChannel)
                 {
-                    await ctx.Channel.SendErrorAsync(
-                        "You arent in a voice channel, and you haven't mentioned either to use this command!");
-                    return;
+                    case null when channel == null:
+                        await ctx.Channel.SendErrorAsync(
+                            "You arent in a voice channel, and you haven't mentioned either to use this command!");
+                        return;
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                    case null when channel is not null:
+                        eb.WithTitle(channel.Name);
+                        eb.AddField("Users", channel.GetUsersAsync().FlattenAsync().Result.Count());
+                        eb.AddField("Created On", channel.CreatedAt);
+                        eb.AddField("Bitrate", channel.Bitrate);
+                        eb.AddField("User Limit", channel.UserLimit == null ? "Infinite" : channel.UserLimit);
+                        eb.AddField("Channel ID", channel.Id);
+                        eb.WithOkColor();
+                        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                        break;
                 }
 
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                if (voiceChannel is null && channel is not null)
-                {
-                    
-                    eb.WithTitle(channel.Name);
-                    eb.AddField("Users", channel.GetUsersAsync().FlattenAsync().Result.Count());
-                    eb.AddField("Created On", channel.CreatedAt);
-                    eb.AddField("Bitrate", channel.Bitrate);
-                    eb.AddField("User Limit", channel.UserLimit == null ? "Infinite" : channel.UserLimit);
-                    eb.AddField("Channel ID", channel.Id);
-                    eb.WithOkColor();
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                }
                 if (voiceChannel is not null && channel is not null)
                 {
                     
