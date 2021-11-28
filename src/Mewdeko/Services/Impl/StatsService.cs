@@ -23,6 +23,7 @@ namespace Mewdeko.Services.Impl
         private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _httpFactory;
         private readonly ConnectionMultiplexer _redis;
+        private readonly ICoordinator _coord;
         private readonly DateTime _started;
         private long _commandsRan;
         private long _messageCounter;
@@ -31,8 +32,9 @@ namespace Mewdeko.Services.Impl
         private long _voiceChannels;
 
         public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-            IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory)
+            IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory, ICoordinator coord)
         {
+            _coord = coord;
             _client = client;
             _creds = creds;
             _redis = cache.Redis;
@@ -131,7 +133,7 @@ namespace Mewdeko.Services.Impl
                                 new Dictionary<string, string>
                                 {
                                     { "shard_count", _creds.TotalShards.ToString() },
-                                    { "shard_id", client.ShardId.ToString() },
+                                    { "shard_id", _coord.GetGuildCount().ToString() },
                                     { "server_count", _bot.GetCurrentGuildIds().Count.ToString() }
                                 }))
                             {
