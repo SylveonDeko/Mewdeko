@@ -43,7 +43,7 @@ namespace Mewdeko.Modules.Utility
                 await Service.SetStarCount(ctx.Guild, num);
                 var count2 = Service.GetStarSetting(ctx.Guild.Id);
                 await ctx.Channel.SendConfirmAsync(
-                    $"Your star count was succesfully changed from {count} to {count2}!");
+                    $"Your star count was successfully changed from {count} to {count2}!");
             }
 
             [MewdekoCommand]
