@@ -417,7 +417,7 @@ namespace Mewdeko.Services
                 if (!string.IsNullOrWhiteSpace(msg))
                     try
                     {
-                        if (gh == "" || gh == 0.ToString())
+                        if (string.IsNullOrEmpty(gh) || gh == 0.ToString())
                         {
                             var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                             if (conf.AutoDeleteGreetMessagesTimer > 0)
