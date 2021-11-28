@@ -13,14 +13,14 @@ namespace Mewdeko.Modules.Utility.Services
             try
             {
                 var dllPath = Convert.ToString(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-                var testPath = $"{dllPath}/Discord.Net.Commands.dll";
+                var testPath = $"{dllPath}/Discord.Net.WebSocket.dll";
                 if (dllName != null)
                 {
                     testPath = $"{dllPath}/{dllName}";
                 }
 
                 var myFileVersionInfo = FileVersionInfo.GetVersionInfo(testPath);
-                return $"{myFileVersionInfo.FileMajorPart}.{myFileVersionInfo.FileMinorPart}.{myFileVersionInfo.FilePrivatePart}";
+                return $"{myFileVersionInfo.FileMajorPart}.{myFileVersionInfo.FileMinorPart}.{myFileVersionInfo.FileBuildPart}";
             }
             catch
             {

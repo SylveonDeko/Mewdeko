@@ -24,14 +24,11 @@ namespace Mewdeko.Modules.Moderation
             {
                 var runnerUserRoles = runnerUser.GetRoles();
                 var targetUserRoles = targetUser.GetRoles();
-                if (runnerUser.Id != ctx.Guild.OwnerId &&
-                    runnerUserRoles.Max(x => x.Position) <= targetUserRoles.Max(x => x.Position))
-                {
-                    await ReplyErrorLocalizedAsync("mute_perms").ConfigureAwait(false);
-                    return false;
-                }
+                if (runnerUser.Id == ctx.Guild.OwnerId ||
+                    runnerUserRoles.Max(x => x.Position) > targetUserRoles.Max(x => x.Position)) return true;
+                await ReplyErrorLocalizedAsync("mute_perms").ConfigureAwait(false);
+                return false;
 
-                return true;
             }
 
             [MewdekoCommand]
