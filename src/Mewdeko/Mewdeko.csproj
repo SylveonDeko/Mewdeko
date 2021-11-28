@@ -143,6 +143,9 @@
     <ItemGroup>
         <ProjectReference Include="..\Mewdeko.Voice\Mewdeko.Voice.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Remove="credentials_example.json" />
+    </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
         <DefineConstants>$(DefineConstants);GLOBAL_Mewdeko</DefineConstants>
