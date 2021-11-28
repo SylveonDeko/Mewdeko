@@ -133,8 +133,8 @@ namespace Mewdeko.Services.Impl
                                 new Dictionary<string, string>
                                 {
                                     { "shard_count", _creds.TotalShards.ToString() },
-                                    { "shard_id", _coord.GetGuildCount().ToString() },
-                                    { "server_count", _bot.GetCurrentGuildIds().Count.ToString() }
+                                    { "shard_id", _client.ShardId.ToString() },
+                                    { "server_count", _coord.GetGuildCount().ToString() }
                                 }))
                             {
                                 content.Headers.Clear();
