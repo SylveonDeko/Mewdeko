@@ -1,12 +1,8 @@
 using System;
-using System.Threading.Tasks;
-using Mewdeko;
 using Mewdeko.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 
-var pid = System.Environment.ProcessId;
+var pid = Environment.ProcessId;
 
 var shardId = 0;
 int? totalShards = null; // 0 to read from creds.yml
@@ -34,15 +30,4 @@ if (args.Length > 0)
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
-_ = Task.Run(() =>
-{
-    CreateHostBuilder(args).Build().Run();
-});
 await new Mewdeko.Services.Mewdeko(shardId).RunAndBlockAsync();
-
-IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
