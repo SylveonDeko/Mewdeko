@@ -39,14 +39,12 @@ namespace Mewdeko.Modules.Help
         private readonly GlobalPermissionService _perms;
         private readonly IServiceProvider _services;
         private readonly IBotStrings _strings;
-        private readonly CommandHandler cmd;
 
         public Help(GlobalPermissionService perms, CommandService cmds, BotConfigService bss,
-            IServiceProvider services, DiscordSocketClient client, IBotStrings strings, CommandHandler c,
+            IServiceProvider services, DiscordSocketClient client, IBotStrings strings,
             InteractiveService serv)
         {
             _interactive = serv;
-            cmd = c;
             _cmds = cmds;
             _bss = bss;
             _perms = perms;

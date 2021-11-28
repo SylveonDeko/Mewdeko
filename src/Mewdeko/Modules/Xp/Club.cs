@@ -114,7 +114,7 @@ namespace Mewdeko.Modules.Xp
             [Priority(1)]
             public async Task ClubInformation(IUser user = null)
             {
-                user = user ?? ctx.User;
+                user ??= ctx.User;
                 var club = Service.GetClubByMember(user);
                 if (club == null)
                 {

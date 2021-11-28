@@ -12,7 +12,10 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Permissions.Common;
+using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -36,10 +39,12 @@ namespace Mewdeko.Services
         private IEnumerable<IInputTransformer> _inputTransformers;
         private IEnumerable<ILateBlocker> _lateBlockers;
         private IEnumerable<ILateExecutor> _lateExecutors;
+        private readonly IBotStrings strings;
 
         public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
-            BotConfigService bss, Mewdeko bot, IServiceProvider services)
+            BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs)
         {
+            strings = strngs;
             _client = client;
             _client.ThreadCreated += AttemptJoinThread;
             _commandService = commandService;
@@ -173,7 +178,7 @@ namespace Mewdeko.Services
                 }
             }
         }
-
+            
         public Task StartHandling()
         {
             _client.MessageReceived += msg =>
@@ -198,7 +203,7 @@ namespace Mewdeko.Services
                     channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
                     usrMsg.Content // {3}
                 );
-            return Task.CompletedTask;
+            return Task.CompletedTask;  
         }
 
         private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
@@ -304,7 +309,14 @@ namespace Mewdeko.Services
                 {
                     LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
                     if (guild != null)
-                        await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
+                    {
+                        var perms = new PermissionService(_client, _db, this, strings);
+                        var pc = perms.GetCacheFor(guild.Id);
+                        if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
+                            await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
+                        if (pc == null)
+                            await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false); 
+                    }
                 }
             }
             else
