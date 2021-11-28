@@ -311,7 +311,7 @@ namespace Mewdeko.Services
                 rep.Replace(embedData);
                 try
                 {
-                    if (lh == 0.ToString() || lh == "" )
+                    if (string.IsNullOrEmpty(lh) || lh == 0.ToString())
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
@@ -342,7 +342,7 @@ namespace Mewdeko.Services
                     return;
                 try
                 {
-                    if (lh == 0.ToString() || lh == "")
+                    if (string.IsNullOrEmpty(lh) || lh == 0.ToString())
                     {
                         var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
                         if (conf.AutoDeleteByeMessagesTimer > 0) toDelete.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
@@ -387,7 +387,7 @@ namespace Mewdeko.Services
                 rep.Replace(embedData);
                 try
                 {
-                    if (gh == "" || gh == 0.ToString())
+                    if (string.IsNullOrEmpty(gh) || gh == 0.ToString())
                     {
                         var toDelete = await channel.EmbedAsync(embedData).ConfigureAwait(false);
                         if (conf.AutoDeleteGreetMessagesTimer > 0)
