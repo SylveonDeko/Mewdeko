@@ -81,16 +81,16 @@ namespace Mewdeko.Coordinator.Services
         {
             // Log.Information("Executing");
 
-            bool first = true;
+            var first = true;
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    bool hadAction = false;
+                    var hadAction = false;
                     lock (_locker)
                     {
                         var shardIds = Enumerable.Range(0, 1) // shard 0 is always first
-                            .Append((int)((117523346618318850 >> 22) % _config.TotalShards)) // then nadeko server shard
+                            .Append((int)((900378009188565022 >> 22) % _config.TotalShards)) // then mewdeko server shard
                             .Concat(Enumerable.Range(1, _config.TotalShards - 1)
                                 .OrderBy(x => _rng.Next())) // then all other shards in a random order
                             .Distinct()
@@ -133,14 +133,12 @@ namespace Mewdeko.Coordinator.Services
                                 StartShard(shardId);
                                 break;
                             }
-                            
-                            if (status.StateCounter > 8 && status.State != ConnState.Connected)
-                            {
-                                Log.Warning("Shard {ShardId} is restarting (stuck)...", shardId);
-                                hadAction = true;
-                                StartShard(shardId);
-                                break;
-                            }
+
+                            if (status.StateCounter <= 8 || status.State == ConnState.Connected) continue;
+                            Log.Warning("Shard {ShardId} is restarting (stuck)...", shardId);
+                            hadAction = true;
+                            StartShard(shardId);
+                            break;
                         }
                     }
 
@@ -169,6 +167,7 @@ namespace Mewdeko.Coordinator.Services
                 }
                 catch
                 {
+                    // ignored
                 }
             }
 
@@ -279,19 +278,17 @@ namespace Mewdeko.Coordinator.Services
                 for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
                 {
                     var status = _shardStatuses[shardId];
-                    if (status.Process is Process p)
+                    if (status.Process is not { } p) continue;
+                    p.Kill();
+                    p.Dispose();
+                    _shardStatuses[shardId] = status with
                     {
-                        p.Kill();
-                        p.Dispose();
-                        _shardStatuses[shardId] = status with
-                        {
-                            Process = null,
-                            ShouldRestart = true,
-                            LastUpdate = DateTime.UtcNow,
-                            State = ConnState.Disconnected,
-                            StateCounter = 0,
-                        };
-                    }
+                        Process = null,
+                        ShouldRestart = true,
+                        LastUpdate = DateTime.UtcNow,
+                        State = ConnState.Disconnected,
+                        StateCounter = 0,
+                    };
                 }
             }
         }
