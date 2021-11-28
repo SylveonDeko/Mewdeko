@@ -270,7 +270,7 @@ namespace Mewdeko.Services.Impl
             return GetByteData(key.ToString());
         }
 
-        public RedisImageArray GetByteArrayData(string key)
+        private RedisImageArray GetByteArrayData(string key)
         {
             return new RedisImageArray(GetKey(key), _con);
         }
