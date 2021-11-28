@@ -173,7 +173,7 @@ namespace Mewdeko.Services
                 }
             }
         }
-
+            
         public Task StartHandling()
         {
             _client.MessageReceived += msg =>
@@ -198,7 +198,7 @@ namespace Mewdeko.Services
                     channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
                     usrMsg.Content // {3}
                 );
-            return Task.CompletedTask; 
+            return Task.CompletedTask;  
         }
 
         private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
