@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer.Bytes;
+using Mewdeko.Modules.Utility.Services;
 using Serilog;
 using StackExchange.Redis;
 
@@ -21,6 +23,7 @@ namespace Mewdeko.Services.Impl
         private readonly Timer _botlistTimer;
         private readonly DiscordSocketClient _client;
         private readonly IBotCredentials _creds;
+        private readonly DllVersionChecker _dllVersionChecker;
         private readonly IHttpClientFactory _httpFactory;
         private readonly ConnectionMultiplexer _redis;
         private readonly ICoordinator _coord;
@@ -40,6 +43,7 @@ namespace Mewdeko.Services.Impl
             _redis = cache.Redis;
             _httpFactory = factory;
             _bot = Mewdeko;
+            _dllVersionChecker = new DllVersionChecker();
 
             _started = DateTime.UtcNow;
             _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -143,8 +147,8 @@ namespace Mewdeko.Services.Impl
                                     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
 
                                 using (await http
-                                    .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
-                                        content).ConfigureAwait(false))
+                                           .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
+                                               content).ConfigureAwait(false))
                                 {
                                 }
                             }
@@ -158,9 +162,9 @@ namespace Mewdeko.Services.Impl
                 }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
         }
 
-        public string Library => "Discord.Net Labs 3.1";
+        public string Library => $"Discord.Net Labs {_dllVersionChecker.GetDllVersion()} ";
 
-        public string Heap => ByteSize.FromBytes(System.Diagnostics.Process.GetCurrentProcess().PrivateMemorySize64).Megabytes.ToString(CultureInfo.InvariantCulture);
+        public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes.ToString(CultureInfo.InvariantCulture);
         public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
         public long TextChannels => Interlocked.Read(ref _textChannels);
         public long VoiceChannels => Interlocked.Read(ref _voiceChannels);
