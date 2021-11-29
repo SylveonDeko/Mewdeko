@@ -96,10 +96,10 @@ namespace Mewdeko.Modules.Help.Services
             var reqs = GetCommandRequirements(com, overrides);
             var botReqs = GetCommandBotRequirements(com);
             if (reqs.Any())
-                em.AddField("You Need",
+                em.AddField("User Permissions",
                     string.Join("\n", reqs));
             if (botReqs.Any())
-                em.AddField("Bot Needs", string.Join("\n", botReqs));
+                em.AddField("Bot Permissions", string.Join("\n", botReqs));
 
             em
                 .AddField(fb => fb.WithName(GetText("usage", guild))
