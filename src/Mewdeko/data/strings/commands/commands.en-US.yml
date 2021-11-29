@@ -34,6 +34,7 @@ leavehook:
     - channel name image
     - channel name
     - disable
+  
 help:
   desc: >-
     Either shows a help for a single command, or DMs you help link if no
