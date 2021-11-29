@@ -33,7 +33,7 @@ leavehook:
 allcatmdls:
   - allcatmdls
   - acamds
-catcmd
+catcmd:
   - catcmd
   - cac
 catmdl:
