@@ -18,6 +18,27 @@ greet:
   - greet
 greetmsg:
   - greetmsg
+afkdel:
+  - afkdel
+  - afkdelete
+snipelist:
+  - snipelist
+  - slist
+emotelist:
+  - emotelist
+  - emotelist
+leavehook:
+  - leavehook
+  - byehook
+allcatmdls:
+  - allcatmdls
+  - acamds
+catcmd
+  - catcmd
+  - cac
+catmdl:
+  - catmdl
+  - cam
 autoassignbotrole:
   - autoassignbotrole
   - aabr
