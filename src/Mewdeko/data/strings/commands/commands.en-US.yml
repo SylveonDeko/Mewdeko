@@ -1,10 +1,60 @@
-﻿help:
+﻿afkdel:
+  desc: "Allows you to set after how long an afk message is deleted in seconds."
+  args:
+    - '30'
+    - '0'
+snipelist:
+  desc: "Shows the last 5 deleted messages, unless a different number is specified"
+  args:
+    - ""
+    - "20"
+gstart: 
+  desc: "Starts giveaway configuration, or predefined values to start one immediately"
+  args:
+    - ""
+    - "#channel 2d nitro!"
+gend:
+  desc: "Ends a giveaway using the number in `{0}glist`."
+  args:
+    - "2"
+glist:
+  desc: "Lists the currently running giveaways."
+  args:
+    - ""
+gstats:
+  desc: "Shows giveaway stats for the server."
+  args:
+    - ""
+leavehook:
+  desc: "Allows you to set a webhook used for leave messages. You can either upload
+    an image to use or use a image url. Type disable to disable webhook greets.
+    set the message used for leaves using the byemsg command together with
+    https://eb.mewdeko.tech/ and https://mewdeko.tech/placeholders"
+  args:
+    - channel name image
+    - channel name
+    - disable
+help:
   desc: >-
     Either shows a help for a single command, or DMs you help link if no
     parameters are specified.
   args:
     - '{0}cmds'
     - ''
+vinfo:
+  desc: "Shows info for your current (if any) or mentioned voice channel"
+  args:
+    - ""
+    - "id/name"
+vcheck:
+  desc: "Uses VirusTotal to check a url for viruses"
+  args:
+    - "https://discord.com"
+emotelist:
+  desc: "Shows the servers emotes. Specify animated or nonanimated to show that type"
+  args:
+    - "animated"
+    - "nonanimated"
 gencmdlist:
   desc: >-
     Generates the command list and sends it to the chat. Optionally also uploads
@@ -261,18 +311,6 @@ mwarnexpire:
   desc: ' Sets how long until a warning expires, see {0}h warne for more details'
   args:
     - 30d
-bulkcreateroles:
-  desc: ' Allows you to create multiple roles at once.'
-  args:
-    - Rolewithnospaces "role with spaces"
-permyeet:
-  desc: 'Permanantly yeets a user out of the server. '
-  args:
-    - '@user '
-yeet:
-  desc: 'Temporarily yeets a user out the server. '
-  args:
-    - '@user '
 stfu:
   desc: 'Shuts the user up in the current channel '
   args:
@@ -299,10 +337,6 @@ fwarn:
     words with fw first. 
   args:
     - y/n
-work:
-  desc: 'Experimental secondary timely, refreshes every hour. '
-  args:
-    - ''
 fetch:
   desc: >-
     Fetches user info from a user ID, regardless of if you are in a server with
@@ -370,7 +404,7 @@ greethook:
     Allows you to set a webhook used for welcome messages. You can either upload
     an image to use or use a image url. Type disable to disable webhook greets.
     set the message used for greets using the greetmsg command together with
-    https://eb.mewdeko.tech/ and https://mewdeko.tech/en/home/Misc/Placeholders
+    https://eb.mewdeko.tech/ and https://mewdeko.tech/placeholders
   args:
     - channel name image
     - channel name

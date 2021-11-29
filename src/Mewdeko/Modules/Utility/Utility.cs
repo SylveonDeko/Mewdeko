@@ -975,78 +975,7 @@ namespace Mewdeko.Modules.Utility
             else
                 await ctx.Channel.SendMessageAsync(result.TrimTo(2000)).ConfigureAwait(false);
         }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
-        public async Task ListServers(int page = 1)
-        {
-            page -= 1;
-
-            if (page < 0)
-                return;
-
-            var guilds = await Task.Run(() => _client.Guilds.OrderBy(g => g.Name).Skip(page * 15).Take(15))
-                .ConfigureAwait(false);
-
-            if (!guilds.Any())
-            {
-                await ReplyErrorLocalizedAsync("listservers_none").ConfigureAwait(false);
-                return;
-            }
-
-            await ctx.Channel.EmbedAsync(guilds.Aggregate(new EmbedBuilder().WithOkColor(),
-                    (embed, g) => embed.AddField(efb => efb.WithName(g.Name)
-                        .WithValue(
-                            GetText("listservers", g.Id, g.MemberCount,
-                                g.OwnerId))
-                        .WithIsInline(false))))
-                .ConfigureAwait(false);
-        }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
-        public async Task SaveChat(int cnt)
-        {
-            var msgs = new List<IMessage>(cnt);
-            await ctx.Channel.GetMessagesAsync(cnt).ForEachAsync(dled => msgs.AddRange(dled)).ConfigureAwait(false);
-
-            var title = $"Chatlog-{ctx.Guild.Name}/#{ctx.Channel.Name}-{DateTime.Now}.txt";
-            var grouping = msgs.GroupBy(x => $"{x.CreatedAt.Date:dd.MM.yyyy}")
-                .Select(g => new
-                {
-                    date = g.Key,
-                    messages = g.OrderBy(x => x.CreatedAt).Select(s =>
-                    {
-                        var msg = $"【{s.Timestamp:HH:mm:ss}】{s.Author}:";
-                        if (string.IsNullOrWhiteSpace(s.ToString()))
-                        {
-                            if (s.Attachments.Any())
-                                msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
-                            else if (s.Embeds.Any())
-                                msg += "EMBEDS: " + string.Join("\n--------\n",
-                                    s.Embeds.Select(x => $"Description: {x.Description}"));
-                        }
-                        else
-                        {
-                            msg += s.ToString();
-                        }
-
-                        return msg;
-                    })
-                });
-            using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
-                .ConfigureAwait(false))
-            {
-                await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
-            }
-        }
+        
 
         [MewdekoCommand]
         [Usage]
