@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Mewdeko.Modules.Administration.Services
             new BoundedChannelOptions(int.MaxValue)
             {
                 FullMode = BoundedChannelFullMode.DropOldest,
-                SingleReader = false,
+                SingleReader = true,
                 SingleWriter = false
             });
 
@@ -66,8 +67,15 @@ namespace Mewdeko.Modules.Administration.Services
 
                             if (roleIds.Any())
                             {
-                                await user.AddRolesAsync(roleIds).ConfigureAwait(false);
-                                await Task.Delay(250).ConfigureAwait(false);
+                                try
+                                {
+                                    await user.AddRolesAsync(roleIds).ConfigureAwait(false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex);
+                                }
+
                                 continue;
                             }
 
@@ -95,7 +103,8 @@ namespace Mewdeko.Modules.Administration.Services
                             continue;
                         }
 
-                    if (_autoAssignableRoles.TryGetValue(user.Guild.Id, out var savedRoleIds1))
+                    if (!_autoAssignableRoles.TryGetValue(user.Guild.Id, out var savedRoleIds1)) continue;
+                    {
                         try
                         {
                             var roleIds = savedRoleIds1
@@ -130,10 +139,11 @@ namespace Mewdeko.Modules.Administration.Services
                         {
                             Log.Warning("Error in aar. Probably one of the roles doesn't exist");
                         }
+                    }
                 }
             });
 
-            client1.GuildMemberUpdated += OnClientOnUserJoined;
+            client1.UserJoined += OnClientOnUserJoined;
             client1.RoleDeleted += OnClientRoleDeleted;
         }
 
@@ -154,11 +164,11 @@ namespace Mewdeko.Modules.Administration.Services
                 await ToggleAabrAsync(role.Guild.Id, role.Id);
         }
 
-        private async Task OnClientOnUserJoined(Cacheable<SocketGuildUser, ulong> usr, SocketGuildUser user)
+        private async Task OnClientOnUserJoined(SocketGuildUser user)
         {
-            if (usr.Value.IsPending != null && usr.Value.IsPending != false && user.IsPending != null && user.IsBot && !user.IsPending.Value && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out _))
+            if (user.IsBot && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out _))
                 await _assignQueue.Writer.WriteAsync(user);
-            if (usr.Value.IsPending != null && usr.Value.IsPending != false && user.IsPending != null && !user.IsPending.Value && _autoAssignableRoles.TryGetValue(user.Guild.Id, out _))
+            if (_autoAssignableRoles.TryGetValue(user.Guild.Id, out _))
                 await _assignQueue.Writer.WriteAsync(user);
         }
 
@@ -181,7 +191,7 @@ namespace Mewdeko.Modules.Administration.Services
             return roles;
         }
 
-        public async Task DisableAarAsync(ulong guildId)
+        private async Task DisableAarAsync(ulong guildId)
         {
             using var uow = _db.GetDbContext();
 
