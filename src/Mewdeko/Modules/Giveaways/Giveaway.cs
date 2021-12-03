@@ -107,21 +107,23 @@ namespace Mewdeko.Modules.Giveaways
             next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
             try
             {
-                tries = int.Parse(next);
+                winners = int.Parse(next);
             }
             catch
             {
                 await msg.ModifyAsync(x => x.Embed = erorrembed);
+                tries++;
                 return;
             }
 
-            while (tries == 0)
+            while (tries > 0)
             {
                 await msg.ModifyAsync(x => x.Embed = win0embed);
                 next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                 try
                 {
-                    tries = int.Parse(next);
+                    winners = int.Parse(next);
+                    tries = 0;
                 }
                 catch
                 {
@@ -168,7 +170,7 @@ namespace Mewdeko.Modules.Giveaways
                 }
 
             }
-            await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, chan, ctx.Guild);
+            await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel, ctx.Guild);
         }
         [MewdekoCommand]
         [Usage]
