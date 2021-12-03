@@ -265,6 +265,7 @@ namespace Mewdeko.Modules.Utility.Services
         {
             if (msg.Channel is SocketTextChannel t)
             {
+                if (msg.Author.IsBot) return;
                 SocketGuild gid;
                 gid = t.Guild;
                 if (GetPLinks(gid.Id) == 1)

@@ -101,19 +101,19 @@ namespace Mewdeko.Modules.Giveaways.Services
             {
                 Color = Mewdeko.Services.Mewdeko.OkColor,
                 Description =
-                    "<:Nekohawave:866615191100588042> Mewdeko Giveaway!\n" +
-                    "<:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049>\n" + 
+                    "<:HaneBomb:914307912044802059> Mewdeko Giveaway!\n" +
+                    "<:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812>\n" + 
                     $"Host: {guild.GetUserAsync(host).Result}\n" +
                     $"🎁 Prize: {item} 🎁\n" + 
                     $"🏅 Winners: {winners} 🏅\n" + 
-                    $"🗯️Required Roles: {reqroles ?? "None"}" + 
-                    "<:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049><:testingpurposes:912493798955819049>\n" + 
+                    $"🗯️Required Roles: {reqroles ?? "None"}\n" + 
+                    "<:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812>\n" + 
                     $"End Time: {ts.Humanize(maxUnit: TimeUnit.Year)}" ,
-                ImageUrl = "https://cdn.discordapp.com/attachments/866315387703394314/866321920822870026/80942286_p0.png?width=1246&height=701"
+                ImageUrl = "https://media.discordapp.net/attachments/915770282579484693/915770338825097226/AmbitiousFaroffDiscus-size_restricted.gif"
             };
             var msg = await chan.SendMessageAsync(embed: eb.Build());
 
-            var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
+            var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
             await msg.AddReactionAsync(emote);
             var time = DateTime.UtcNow + ts;
             var rem = new Mewdeko.Services.Database.Models.Giveaways
@@ -130,10 +130,10 @@ namespace Mewdeko.Modules.Giveaways.Services
 
             using (var uow = _db.GetDbContext())
             {
-                uow.Giveaways.Add(rem);
                 try
                 {
-                    var e = uow.SaveChanges();
+                    uow.Giveaways.Add(rem);
+                    var e = await uow.SaveChangesAsync();
                 }
                 catch (Exception exception)
                 {
@@ -149,7 +149,7 @@ namespace Mewdeko.Modules.Giveaways.Services
         {
             if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not IUserMessage ch)
                     return;
-            var emote = Emote.Parse("<:Nekoha_nom:866616296291172353>");
+            var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
             var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
             if (reacts.Count()-1 <= r.Winners)
             {
@@ -174,7 +174,7 @@ namespace Mewdeko.Modules.Giveaways.Services
                         Description = $"{user.Mention} won the giveaway for {r.Item}!"
                     };
                     await ch.ModifyAsync(x => x.Embed = eb.Build());
-                    await ch.Channel.SendConfirmAsync($"Giveaway ended!\n{ch.GetJumpUrl()}");
+                    await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!", embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})").Build());
                 }
                 else
                 {
@@ -184,10 +184,10 @@ namespace Mewdeko.Modules.Giveaways.Services
                     var eb = new EmbedBuilder()
                     {
                         Color = Mewdeko.Services.Mewdeko.OkColor,
-                        Description = $"{string.Join("", users.Select(x => x.Mention))} won the giveaway for {r.Item}!"
+                        Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                     };
                     await ch.ModifyAsync(x => x.Embed = eb.Build());
-                    await ch.Channel.SendConfirmAsync($"Giveaway ended!\n{ch.GetJumpUrl()}");
+                    await ch.Channel.SendMessageAsync($"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!", embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})").Build());
                 }
             }
         }
