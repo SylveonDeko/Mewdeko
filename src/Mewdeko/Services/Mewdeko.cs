@@ -67,10 +67,7 @@ namespace Mewdeko.Services
                 CaseSensitiveCommands = false,
                 DefaultRunMode = RunMode.Async
             });
-
-#if GLOBAL_Mewdeko || DEBUG
             Client.Log += Client_Log;
-#endif
         }
 
         public BotCredentials Credentials { get; }

@@ -68,14 +68,11 @@ namespace Mewdeko.Modules.Tickets
                                 eb = new EmbedBuilder().WithDescription("Alright, please enter the embed code again!")
                                     .WithOkColor();
                                 await ctx.Channel.SendMessageAsync(embed: eb.Build(), component: component.Build());
-                                var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                                while (correct1 == false)
-                                {
-                                    if (CREmbed.TryParse(next, out crembed))
-                                    {
-
-                                    }
-                                }
+                                embed = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                                if (!CREmbed.TryParse(embed, out crembed)) continue;
+                                    await ctx.Channel.SendMessageAsync(crembed.PlainText, embed: crembed.ToEmbed().Build());
+                                    contin = await PromptUserConfirmAsync(
+                                        new EmbedBuilder().WithDescription("Is this Embed okay?").WithOkColor(), ctx.User.Id);
                             }
                         }
                     }

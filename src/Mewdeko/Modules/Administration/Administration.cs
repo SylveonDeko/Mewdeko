@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -59,13 +60,24 @@ namespace Mewdeko.Modules.Administration
         [Aliases]
         [UserPerm(GuildPermission.Administrator)]
         [BotPerm(GuildPermission.BanMembers)]
-        public async Task BanUnder(StoopidTime time, string option = null)
+        public async Task BanUnder(StoopidTime time, string option = null, StoopidTime time1 = null)
         {
             await ctx.Guild.DownloadUsersAsync();
-            var users = ((SocketGuild)ctx.Guild).Users.Where(c =>
-                c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <= time.Time.TotalSeconds);
-            var guildUsers = users as SocketGuildUser[] ?? users.ToArray();
-            if (!guildUsers.Any())
+            IEnumerable<IUser> users = null;
+            if (option is not null && option.ToLower() == "-accage" && time1 is not null)
+            {
+                users = ((SocketGuild) ctx.Guild).Users.Where(c =>
+                    c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
+                    time.Time.TotalSeconds && DateTimeOffset.Now.Subtract(c.CreatedAt).TotalSeconds <= time1.Time.TotalSeconds);
+            }
+            else
+            {
+                users = ((SocketGuild) ctx.Guild).Users.Where(c =>
+                    c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
+                    time.Time.TotalSeconds);
+            }
+
+            if (!users.Any())
             {
                 await ctx.Channel.SendErrorAsync("No users at or under that server join age!");
                 return;
@@ -77,7 +89,7 @@ namespace Mewdeko.Modules.Administration
                     .AddUser(ctx.User)
                     .WithPageFactory(PageFactory)
                     .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(guildUsers.Length - 1)
+                    .WithMaxPageIndex(users.Count() - 1)
                     .WithDefaultCanceledPage()
                     .WithDefaultEmotes()
                     .Build();
@@ -87,8 +99,8 @@ namespace Mewdeko.Modules.Administration
                 {
                     return Task.FromResult(new PageBuilder()
                         .WithTitle(
-                            $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                        .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20))));
+                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
                 }
             }
 
@@ -96,13 +108,13 @@ namespace Mewdeko.Modules.Administration
             var errored = 0;
             var embed = new EmbedBuilder().WithErrorColor()
                 .WithDescription(
-                    $"Are you sure you want to ban {guildUsers.Length} users that are under that server join age?");
+                    $"Are you sure you want to ban {users.Count()} users that are under that server join age?");
             if (!await PromptUserConfirmAsync(embed, ctx.User.Id).ConfigureAwait(false)) return;
-            var message = await ctx.Channel.SendConfirmAsync($"Banning {guildUsers.Length} users..");
-            foreach (var i in guildUsers)
+            var message = await ctx.Channel.SendConfirmAsync($"Banning {users.Count()} users..");
+            foreach (var i in users)
                 try
                 {
-                    await i.BanAsync(reason: $"{ctx.User}|| Banning users under specified server join age.");
+                    await ctx.Guild.AddBanAsync(i, reason: $"{ctx.User}|| Banning users under specified server join age.");
                     banned++;
                 }
                 catch
