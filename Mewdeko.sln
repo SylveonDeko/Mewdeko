@@ -12,8 +12,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Coordinator", "src\Mewdeko.Coordinator\Mewdeko.Coordinator.csproj", "{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Voice", "src\Mewdeko.Voice\Mewdeko.Voice.csproj", "{7F14127C-CD3B-4C08-93FF-4A05307DBD94}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,12 +31,6 @@ Global
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
-		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F14127C-CD3B-4C08-93FF-4A05307DBD94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
