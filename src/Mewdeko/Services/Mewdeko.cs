@@ -132,6 +132,7 @@ namespace Mewdeko.Services
                     x.SelfDeaf = true;
                     x.Authorization = "Hope4a11";
                     x.Port = 2333;
+                    x.EnableResume = true;
                 });
             }
 

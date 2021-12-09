@@ -21,6 +21,7 @@ namespace Mewdeko.Modules.Music.Services
         public DbService _db;
         
         private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
+        private ConcurrentDictionary<ulong, LavaTrack> _queue;
 
         public MusicService(LavaNode lava, DbService db)
         {
@@ -29,7 +30,7 @@ namespace Mewdeko.Modules.Music.Services
             _lavaNode.OnTrackEnded += TrackEnded;
             _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
         }
-
+        
         public async Task TrackEnded(TrackEndedEventArgs args)
         {
             var loopsettings = GetSettingsInternalAsync(args.Player.TextChannel.Guild.Id).Result.PlayerRepeat;
@@ -56,7 +57,19 @@ namespace Mewdeko.Modules.Music.Services
                         break;
             }
         }
-        private async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
+        public async Task Skip(IGuild guild, LavaPlayer player)
+        {
+            var qrp = GetSettingsInternalAsync(guild.Id).Result.PlayerRepeat;
+            if (qrp == PlayerRepeatType.Track)
+            {
+               await player.PlayAsync(player.Track);
+            }
+            else
+            {
+               await player.SkipAsync();
+            }
+        }
+        public async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
         {
             if (_settings.TryGetValue(guildId, out var settings))
                 return settings;
@@ -68,7 +81,7 @@ namespace Mewdeko.Modules.Music.Services
             return toReturn;
         }
 
-        private async Task ModifySettingsInternalAsync<TState>(
+        public async Task ModifySettingsInternalAsync<TState>(
             ulong guildId,
             Action<MusicPlayerSettings, TState> action,
             TState state)
