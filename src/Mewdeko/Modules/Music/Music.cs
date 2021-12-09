@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
@@ -8,6 +9,7 @@ using Mewdeko.Common;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Services.Database.Models;
 using Victoria;
 using Victoria.Enums;
 using Victoria.Responses.Search;
@@ -92,6 +94,23 @@ namespace Mewdeko.Modules.Music
 
             var player = _lavaNode.GetPlayer(ctx.Guild);
             SearchResponse searchResponse;
+            Regex plregex =
+                new Regex(
+                    @"(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:playlist|list|embed)(?:\.php)?(?:\?.*list=|\/))([a-zA-Z0-9\-_]+)");
+            var match2 = plregex.Match(searchQuery);
+            if (match2.Success)
+            {
+                searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
+                player.Queue.Enqueue(searchResponse.Tracks);
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithDescription(
+                        $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}");
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                if (player.PlayerState != PlayerState.Playing)
+                    await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
+            }
+
             Regex regex =
                 new Regex(
                     @"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})",
@@ -99,8 +118,38 @@ namespace Mewdeko.Modules.Music
             var match = regex.Match(searchQuery);
             if (match.Success)
             {
-                searchResponse = _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
+                searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
+                player.Queue.Enqueue(searchResponse.Tracks);
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithDescription($"Added {searchResponse.Tracks.FirstOrDefault().Title} to the queue.")
+                    .WithThumbnailUrl(searchResponse.Tracks.FirstOrDefault().FetchArtworkAsync().Result);
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                if (player.PlayerState != PlayerState.Playing)
+                    await player.PlayAsync(x =>
+                {
+                    x.Track = searchResponse.Tracks.FirstOrDefault();
+                });
+                
             }
+
+            searchResponse = await _lavaNode.SearchAsync(SearchType.YouTubeMusic, searchQuery);
+            if (searchResponse.Status is SearchStatus.LoadFailed or SearchStatus.NoMatches)
+            {
+                await ctx.Channel.SendErrorAsync("Seems like I can't find tha video, please try again.");
+                return;
+            }
+            player.Queue.Enqueue(searchResponse.Tracks);
+            var eb1 = new EmbedBuilder()
+                .WithOkColor()
+                .WithDescription($"Added {searchResponse.Tracks.FirstOrDefault().Title} to the queue.")
+                .WithThumbnailUrl(searchResponse.Tracks.FirstOrDefault().FetchArtworkAsync().Result);
+            await ctx.Channel.SendMessageAsync(embed: eb1.Build());
+            if (player.PlayerState != PlayerState.Playing)
+                await player.PlayAsync(x =>
+                {
+                    x.Track = searchResponse.Tracks.FirstOrDefault();
+                });
         }
 
         [MewdekoCommand]
@@ -180,9 +229,10 @@ namespace Mewdeko.Modules.Music
             }
             
             
-            try {
-                var (oldTrack, currenTrack) = await player.SkipAsync();
-                await ReplyAsync($"Skipped: {oldTrack.Title}\nNow Playing: {player.Track.Title}");
+            try
+            {
+                await Service.Skip(ctx.Guild, player);
+                await ReplyAsync($"Now Playing: {player.Track.Title}");
             }
             catch (Exception exception) {
                 await ReplyAsync(exception.Message);
@@ -211,6 +261,25 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        public async Task ClearQueue()
+        {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            {
+                await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
+                return;
+            }
+            player.Queue.Clear();
+            await ctx.Channel.SendConfirmAsync("Cleared the queue!");
+        }
+
+        [MewdekoCommand]
+        public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
+        {
+            await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.PlayerRepeat = reptype; }, reptype);
+            await ctx.Channel.SendConfirmAsync($"Loop has now been set to {reptype}");
+        }
+        
+        [MewdekoCommand]
         public async Task Volume(ushort volume) {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -219,6 +288,7 @@ namespace Mewdeko.Modules.Music
 
             try {
                 await player.UpdateVolumeAsync(volume);
+                await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.Volume = volume; }, volume);
                 await ReplyAsync($"I've changed the player volume to {volume}.");
             }
             catch (Exception exception) {
