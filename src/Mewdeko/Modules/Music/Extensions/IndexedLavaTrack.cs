@@ -7,12 +7,14 @@ namespace Mewdeko.Modules.Music.Extensions
     public class IndexedLavaTrack : LavaTrack
 
     {
-        public int Index { get; set; }
+        public int Index { get; }
+        public IUser QueueUser { get; }
 
-        public IndexedLavaTrack(string hash, string id, string title, string author, string url, TimeSpan position, long duration, bool canSeek, bool isStream, string source)
-            : base(hash, id, title, author, url, position, duration, canSeek, isStream, source )
+        public IndexedLavaTrack(LavaTrack track, int index, IUser queueUser)
+            : base(track)
         {
-            
+            Index = index;
+            QueueUser = queueUser;
         }
     }
 }

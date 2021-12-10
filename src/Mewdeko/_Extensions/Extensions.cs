@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +31,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
-
+#nullable enable
 namespace Mewdeko._Extensions
 {
     public static class Extensions
@@ -71,6 +73,15 @@ namespace Mewdeko._Extensions
             return $"{(int)span.TotalHours:D2}h {span:mm}m";
         }
 
+        public static IList<IndexedLavaTrack>? AddRange(this IList<IndexedLavaTrack> list, IEnumerable<IndexedLavaTrack> tracks)
+        {
+            foreach (var i in tracks)
+            {
+                list.Add(i);
+            }
+
+            return list;
+        }
         public static bool TryGetUrlPath(this string input, out string path)
         {
             var match = UrlRegex.Match(input);
