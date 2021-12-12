@@ -462,7 +462,9 @@ namespace Mewdeko.Modules.Server_Management
                 var attachment = ctx.Message.Attachments;
                 foreach (var i in attachment)
                 {
+#pragma warning disable CS0618
                     var client = new WebClient();
+#pragma warning restore CS0618
                     var stream = client.OpenRead(i.Url);
                     var reader = new StreamReader(stream);
                     var content = await reader.ReadToEndAsync();
@@ -504,7 +506,9 @@ namespace Mewdeko.Modules.Server_Management
                 {
                     var ur = new Uri(i);
                     var e = ur.Segments;
+#pragma warning disable CS0618
                     var wb = new WebClient();
+#pragma warning restore CS0618
                     var Download = wb.DownloadString($"https://pastebin.com/raw/{e[1]}");
                     CREmbed.TryParse(Download, out var embedData);
                     embeds.Add(embedData.ToEmbed().Build());

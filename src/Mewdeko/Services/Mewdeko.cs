@@ -255,7 +255,7 @@ namespace Mewdeko.Services
                 var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
                 chan.SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
             }
-            catch (Exception e)
+            catch
             {
                 //ignored
             }

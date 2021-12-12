@@ -73,7 +73,7 @@ namespace Mewdeko._Extensions
             return $"{(int)span.TotalHours:D2}h {span:mm}m";
         }
 
-        public static IList<IndexedLavaTrack>? AddRange(this IList<IndexedLavaTrack> list, IEnumerable<IndexedLavaTrack> tracks)
+        public static IList<AdvancedLavaTrack>? AddRange(this IList<AdvancedLavaTrack> list, IEnumerable<AdvancedLavaTrack> tracks)
         {
             foreach (var i in tracks)
             {
@@ -197,7 +197,7 @@ namespace Mewdeko._Extensions
 
         public static string MethodName(this CommandInfo cmd)
         {
-            return ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute))
+            return ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
                    ?.MethodName
                    ?? cmd.Name;
         }
@@ -250,7 +250,7 @@ namespace Mewdeko._Extensions
                 "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
         }
 
-        public static IMessage DeleteAfter(this IUserMessage msg, int seconds, LogCommandService logService = null)
+        public static IMessage? DeleteAfter(this IUserMessage? msg, int seconds, LogCommandService? logService = null)
         {
             if (msg is null)
                 return null;
@@ -307,7 +307,7 @@ namespace Mewdeko._Extensions
             return opts;
         }
 
-        public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat format = null)
+        public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
         {
             var imageStream = new MemoryStream();
             if (format?.Name == "GIF")
@@ -339,7 +339,7 @@ namespace Mewdeko._Extensions
             return IsImage(msg, out _);
         }
 
-        public static bool IsImage(this HttpResponseMessage msg, out string mimeType)
+        public static bool IsImage(this HttpResponseMessage msg, out string? mimeType)
         {
             if (msg.Content.Headers.ContentType != null) mimeType = msg.Content.Headers.ContentType.MediaType;
             mimeType = null;
