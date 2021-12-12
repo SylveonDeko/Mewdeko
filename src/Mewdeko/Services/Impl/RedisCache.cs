@@ -23,7 +23,6 @@ namespace Mewdeko.Services.Impl
 
             Redis = ConnectionMultiplexer.Connect(conf);
             _redisEndpoint = Redis.GetEndPoints().First();
-            Redis.PreserveAsyncOrder = false;
             LocalImages = new RedisImagesCache(Redis, creds);
             LocalData = new RedisLocalDataCache(Redis, creds, shardId);
             _redisKey = creds.RedisKey();
