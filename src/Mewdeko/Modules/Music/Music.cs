@@ -1,18 +1,13 @@
 ﻿#nullable enable
 using System;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Google.Apis.YouTube.v3.Data;
 using Mewdeko.Common;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services.Database.Models;
 using Victoria;
@@ -88,6 +83,7 @@ namespace Mewdeko.Modules.Music
             try {
                 await _lavaNode.LeaveAsync(voiceChannel);
                 await ReplyAsync($"I've left {voiceChannel.Name}!");
+                await Service.QueueClear(ctx.Guild.Id);
             }
             catch (Exception exception) {
                 await ReplyAsync(exception.Message);
@@ -223,39 +219,46 @@ namespace Mewdeko.Modules.Music
 
             var player = _lavaNode.GetPlayer(ctx.Guild);
             SearchResponse searchResponse;
-            if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute) && searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be"))
+            if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
             {
-                
-                searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
-                var track1 = searchResponse.Tracks.FirstOrDefault();
-                await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
-                
-                if (searchResponse.Playlist.Name is not null)
+                if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be"))
                 {
-                    var eb = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithDescription(
-                            $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}")
-                        .WithFooter($"{count} songs now in the queue");
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                    if (player.PlayerState != PlayerState.Playing)
-                        await player.PlayAsync(track1);
-                    await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
-                    return;
-                }
-                else
-                {
-                    var eb = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithDescription(
-                            $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}");
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                    if (player.PlayerState != PlayerState.Playing)
-                        await player.PlayAsync(x => { x.Track = track1; });
-                    await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
+                    var track1 = searchResponse.Tracks.FirstOrDefault();
+                    await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
+
+                    if (searchResponse.Playlist.Name is not null)
+                    {
+                        var eb = new EmbedBuilder()
+                            .WithOkColor()
+                            .WithDescription(
+                                $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}")
+                            .WithFooter($"{count} songs now in the queue");
+                        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                        if (player.PlayerState != PlayerState.Playing)
+                            await player.PlayAsync(track1);
+                        await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                        return;
+                    }
+                    else
+                    {
+                        var eb = new EmbedBuilder()
+                            .WithOkColor()
+                            .WithDescription(
+                                $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}");
+                        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                        if (player.PlayerState != PlayerState.Playing)
+                            await player.PlayAsync(x => { x.Track = track1; });
+                        await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    }
                 }
             }
 
+            if (searchQuery.Contains("spotify"))
+            {
+                await Service.SpotifyQueue(ctx.Guild, ctx.User, ctx.Channel as ITextChannel, player, searchQuery);
+                return;
+            }
             searchResponse = await _lavaNode.SearchAsync(SearchType.YouTube, searchQuery);
             if (searchResponse.Status is SearchStatus.LoadFailed or SearchStatus.NoMatches)
             {
@@ -301,6 +304,11 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        public async Task Shuffle()
+        {
+            await Service.Shuffle(ctx.Guild);
+        }
+        [MewdekoCommand]
         public async Task Resume() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -343,30 +351,26 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
-        public async Task Skip() {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+        public async Task Skip()
+        {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            {
                 await ReplyAsync("I'm not connected to a voice channel.");
                 return;
             }
 
-            if (player.PlayerState != PlayerState.Playing) {
+            if (player.PlayerState != PlayerState.Playing)
+            {
                 await ReplyAsync("Woaaah there, I can't skip when nothing is playing.");
                 return;
             }
-            
-            
-            try
-            {
-                await Service.Skip(ctx.Guild, player);
-                await ReplyAsync($"Now Playing: {player.Track.Title}");
-            }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
+
+            await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player);
         }
 
         [MewdekoCommand]
-        public async Task Seek(TimeSpan timeSpan) {
+        public async Task Seek(TimeSpan timeSpan) 
+        {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
                 return;
@@ -394,7 +398,9 @@ namespace Mewdeko.Modules.Music
                 await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
-            player.Queue.Clear();
+
+            await player.StopAsync();
+            await Service.QueueClear(ctx.Guild.Id);
             await ctx.Channel.SendConfirmAsync("Cleared the queue!");
         }
 
@@ -406,7 +412,8 @@ namespace Mewdeko.Modules.Music
         }
         
         [MewdekoCommand]
-        public async Task Volume(ushort volume) {
+        public async Task Volume(ushort volume) 
+        {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
                 return;
@@ -424,7 +431,8 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         public async Task NowPlaying() {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) 
+            {
                 await ReplyAsync("I'm not connected to a voice channel.");
                 return;
             }
@@ -434,27 +442,27 @@ namespace Mewdeko.Modules.Music
                 return;
             }
 
-            var track = player.Track;
-            var artwork = await track.FetchArtworkAsync();
-
-            var embed = new EmbedBuilder()
-                .WithAuthor(track.Author, Context.Client.CurrentUser.GetAvatarUrl(), track.Url)
-                .WithTitle($"Now Playing: {track.Title}")
-                .WithImageUrl(artwork)
-                .WithFooter($"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss}");
-
-            await ReplyAsync(embed: embed.Build());
+            var qcount = Service.GetQueue(ctx.Guild.Id).Count;
+            var track = Service.GetCurrentTrack(player, ctx.Guild);
+            var eb = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle($"Track #{track.Index}")
+                .WithDescription($"Now Playing {track.Title} by {track.Author}")
+                .WithThumbnailUrl(track.FetchArtworkAsync().Result)
+                .WithFooter($"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {qcount} Tracks in queue");
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
 
         [MewdekoCommand]
-        public async Task Queue() {
+        public async Task Queue() 
+        {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
             {
                 await ctx.Channel.SendErrorAsync("I am not playing anything at the moment!");
                 return;
             }
 
-            var queue = Service._queues.FirstOrDefault(x => x.Key == ctx.Guild.Id).Value;
+            var queue = Service.Queues.FirstOrDefault(x => x.Key == ctx.Guild.Id).Value;
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -468,7 +476,7 @@ namespace Mewdeko.Modules.Music
 
             Task<PageBuilder> PageFactory(int page)
             {
-                var tracks = queue.Skip(page).Take(10);
+                var tracks = queue.Skip(page).Take(10).OrderBy(x => x.Index);
                 return Task.FromResult(new PageBuilder()
                     .WithDescription(string.Join("\n", tracks.Select(x =>
                         $"`{ x.Index}.` [{x.Title}]({x.Url})\n" +
