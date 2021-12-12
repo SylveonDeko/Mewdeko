@@ -65,18 +65,29 @@ namespace Mewdeko.Modules.Music.Services
             var random = new Random();
             var queue = GetQueue(guild.Id);
             List<int> numbers = new List<int>();
-            foreach (var i in queue)
+            IList<AdvancedLavaTrack> toadd = new List<AdvancedLavaTrack>();
+            try
             {
-                var rng = random.Next(1, queue.Count+1);
-                while (numbers.Contains(rng))
+                foreach (var i in queue)
                 {
-                    rng = random.Next(1, queue.Count);
-                }
+                    var rng = random.Next(1, queue.Count + 1);
+                    while (numbers.Contains(rng))
+                    {
+                        rng = random.Next(1, queue.Count);
+                    }
 
-                var toremove = i;
-                queue.Remove(toremove);
-                toremove.Index = rng;
-                queue.Add(toremove);
+                    var toremove = i;
+                    toremove.Index = rng;
+                    toadd.Add(toremove);
+                    numbers.Add(rng);
+                }
+                queue.Clear();
+                queue.AddRange(toadd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
         public Task QueueClear(ulong guildid)
