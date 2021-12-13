@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using LinqToDB.Tools;
 using Mewdeko.Common;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
@@ -34,123 +35,53 @@ namespace Mewdeko.Modules.Music
             Interactivity = interactive;
             _lavaNode = lava;
         }
-
-        public enum Setting
-        {
-            Volume,
-            Repeat,
-            AutoDisconnect,
-            FairSkip,
-            ViewSettings,
-            MusicChannel
-        }
+        
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Join() {
             if (_lavaNode.HasPlayer(Context.Guild)) {
-                await ReplyAsync("I'm already connected to a voice channel!");
+                await ctx.Channel.SendErrorAsync("I'm already connected to a voice channel!");
                 return;
             }
 
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null) {
-                await ReplyAsync("You must be connected to a voice channel!");
+                await ctx.Channel.SendErrorAsync("You must be connected to a voice channel!");
                 return;
             }
-
-            try {
-                await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
-            }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
+            await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+            await ctx.Channel.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!");
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Leave() 
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to any voice channels!");
+                await ctx.Channel.SendErrorAsync("I'm not connected to any voice channels!");
                 return;
             }
 
             var voiceChannel = (Context.User as IVoiceState)?.VoiceChannel ?? player.VoiceChannel;
             if (voiceChannel == null) {
-                await ReplyAsync("Not sure which voice channel to disconnect from.");
+                await ctx.Channel.SendErrorAsync("Not sure which voice channel to disconnect from.");
                 return;
             }
-
-            try {
-                await _lavaNode.LeaveAsync(voiceChannel);
-                await ReplyAsync($"I've left {voiceChannel.Name}!");
-                await Service.QueueClear(ctx.Guild.Id);
+            
+            await _lavaNode.LeaveAsync(voiceChannel);
+            await ctx.Channel.SendConfirmAsync($"I've left {voiceChannel.Name}!");
+            await Service.QueueClear(ctx.Guild.Id);
             }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
-        }
-
-        [MewdekoCommand]
-        public async Task MSettings(Setting setting = Setting.ViewSettings, string? value = null)
-        {
-            switch (setting)
-            {
-                case Setting.Volume:
-                    if (value is null)
-                    {
-                        await ctx.Channel.SendConfirmAsync(
-                            $"The current default volume is {Service.GetVolume(ctx.Guild.Id)}");
-                    }
-
-                    if (int.TryParse(value, out int volume))
-                    {
-                        if (volume > 200)
-                        {
-                            await ctx.Channel.SendErrorAsync("You cannot go above 200% volume!");
-                            return;
-                        }
-                        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.Volume = volume; }, volume);
-                        await ctx.Channel.SendMessageAsync($"Volume set to {volume}%");
-                    }
-                    else
-                    {
-                        await ctx.Channel.SendErrorAsync(
-                            "Seems like the amount you entered was incorrect, or invalid.");
-                    }
-
-                    break;
-                case Setting.Repeat:
-                    
-                    break;
-                case Setting.AutoDisconnect:
-                    break;
-                case Setting.FairSkip:
-                    break;
-                case Setting.ViewSettings:
-                    break;
-                case Setting.MusicChannel:
-                    var tr = new ChannelTypeReader<ITextChannel>();
-                    var channel = tr.ReadAsync(ctx, value, ServiceProvider).Result;
-                    if (channel.IsSuccess)
-                    {
-                        ITextChannel ch = (ITextChannel) channel.BestMatch;
-                        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.MusicChannelId = ch.Id; }, ch.Id);
-                        await ctx.Channel.SendConfirmAsync($"Music channel set to {ch.Mention}");
-                    }
-                    else
-                    {
-                        await ctx.Channel.SendErrorAsync(
-                            "Seems like the channel you entered was incorrect, please try again.");
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(setting), setting, null);
-            }
-        }
+        
 
         [MewdekoCommand]
         [Description]
-        [Aliases]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Play(int number)
         {
             var queue = Service.GetQueue(ctx.Guild.Id);
@@ -180,24 +111,16 @@ namespace Mewdeko.Modules.Music
                     .WithFooter($"Track {track.Index} | {track.Duration:hh\\:mm\\:ss} | {track.QueueUser}")
                     .WithThumbnailUrl(e)
                     .WithOkColor();
-                Console.Write("e");
                 await ctx.Channel.SendMessageAsync(embed: eb.Build());
             }
         }
         [MewdekoCommand]
         [Description]
-        [Aliases]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Play([Remainder] string searchQuery)
         {
-            int count = 0;
-            try
-            {
-                count = Service.GetQueue(ctx.Guild.Id).Count;
-            }
-            catch
-            {
-                // none
-            }
+            var count = 0;
             if (string.IsNullOrWhiteSpace(searchQuery)) {
                 await ReplyAsync("Please provide search terms.");
                 return;
@@ -211,12 +134,31 @@ namespace Mewdeko.Modules.Music
                     await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
                     return;
                 }
-                else
+
+                try
                 {
                     await _lavaNode.JoinAsync(vc.VoiceChannel);
+                    if (vc.VoiceChannel is SocketStageChannel chan)
+                    {
+                        try
+                        {
+                            await chan.BecomeSpeakerAsync();
+                        }
+                        catch
+                        {
+                            await ctx.Channel.SendErrorAsync(
+                                "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.");
+                        }
+                    }
+                }
+                catch
+                {
+                    await ctx.Channel.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!");
+                    return;
                 }
             }
-
+            
+            await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.MusicChannelId = ctx.Channel.Id; }, ctx.Channel.Id);
             var player = _lavaNode.GetPlayer(ctx.Guild);
             SearchResponse searchResponse;
             if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
@@ -226,7 +168,7 @@ namespace Mewdeko.Modules.Music
                     searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                     var track1 = searchResponse.Tracks.FirstOrDefault();
                     await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
-
+                    count = Service.GetQueue(ctx.Guild.Id).Count;
                     if (searchResponse.Playlist.Name is not null)
                     {
                         var eb = new EmbedBuilder()
@@ -245,7 +187,7 @@ namespace Mewdeko.Modules.Music
                         var eb = new EmbedBuilder()
                             .WithOkColor()
                             .WithDescription(
-                                $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}");
+                                $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name} and bound the queue info to {ctx.Channel.Name}!");
                         await ctx.Channel.SendMessageAsync(embed: eb.Build());
                         if (player.PlayerState != PlayerState.Playing)
                             await player.PlayAsync(x => { x.Track = track1; });
@@ -262,14 +204,15 @@ namespace Mewdeko.Modules.Music
             searchResponse = await _lavaNode.SearchAsync(SearchType.YouTube, searchQuery);
             if (searchResponse.Status is SearchStatus.LoadFailed or SearchStatus.NoMatches)
             {
-                await ctx.Channel.SendErrorAsync("Seems like I can't find tha video, please try again.");
+                await ctx.Channel.SendErrorAsync("Seems like I can't find that video, please try again.");
                 return;
             }
             var track = searchResponse.Tracks.FirstOrDefault();
             await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
+            count = Service.GetQueue(ctx.Guild.Id).Count;
             var eb1 = new EmbedBuilder()
                 .WithOkColor()
-                .WithDescription($"Added {track.Title} to the queue.")
+                .WithDescription($"Added {track.Title} and bound the queue info to {ctx.Channel.Name}!")
                 .WithThumbnailUrl(await track.FetchArtworkAsync())
                 .WithFooter($"{count} songs in queue");
             await ctx.Channel.SendMessageAsync(embed: eb1.Build());
@@ -282,86 +225,59 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Pause() 
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to a voice channel.");
+                await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
 
             if (player.PlayerState != PlayerState.Playing) {
-                await ReplyAsync("I cannot pause when I'm not playing anything!");
+                await player.ResumeAsync();
                 return;
             }
-
-            try {
-                await player.PauseAsync();
-                await ReplyAsync($"Paused: {player.Track.Title}");
+            await player.PauseAsync();
+            await ReplyAsync($"Paused: {player.Track.Title}");
             }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
-        }
-
+        
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Shuffle()
         {
             await Service.Shuffle(ctx.Guild);
+            await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!");
         }
+        
         [MewdekoCommand]
-        public async Task Resume() {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to a voice channel.");
-                return;
-            }
-
-            if (player.PlayerState != PlayerState.Paused) {
-                await ReplyAsync("I cannot resume when I'm not playing anything!");
-                return;
-            }
-
-            try {
-                await player.ResumeAsync();
-                await ReplyAsync($"Resumed: {player.Track.Title}");
-            }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
-        }
-
-        [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Stop() {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to a voice channel.");
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            {
+                await ctx.Channel.SendErrorAsync("I'm not connected to a channel!");
                 return;
             }
-
-            if (player.PlayerState == PlayerState.Stopped) {
-                await ReplyAsync("Woaaah there, I can't stop the stopped forced.");
-                return;
-            }
-
-            try {
-                await player.StopAsync();
-                await ReplyAsync("No longer playing anything.");
-            }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
+            
+            await player.StopAsync();
+            await Service.QueueClear(ctx.Guild.Id);
+            await ctx.Channel.SendConfirmAsync("Stopped the player and cleared the queue!");
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Skip()
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
             {
-                await ReplyAsync("I'm not connected to a voice channel.");
-                return;
-            }
-
-            if (player.PlayerState != PlayerState.Playing)
-            {
-                await ReplyAsync("Woaaah there, I can't skip when nothing is playing.");
+                await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
 
@@ -369,28 +285,28 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Seek(TimeSpan timeSpan) 
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to a voice channel.");
+                await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
 
             if (player.PlayerState != PlayerState.Playing) {
-                await ReplyAsync("Woaaah there, I can't seek when nothing is playing.");
+                await ctx.Channel.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.");
                 return;
             }
-
-            try {
-                await player.SeekAsync(timeSpan);
-                await ReplyAsync($"I've seeked `{player.Track.Title}` to {timeSpan}.");
-            }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
+            await player.SeekAsync(timeSpan);
+            await ctx.Channel.SendConfirmAsync($"I've seeked `{player.Track.Title}` to {timeSpan}.");
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task ClearQueue()
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -405,6 +321,9 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
         {
             await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.PlayerRepeat = reptype; }, reptype);
@@ -412,6 +331,9 @@ namespace Mewdeko.Modules.Music
         }
         
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Volume(ushort volume) 
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
@@ -430,6 +352,9 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task NowPlaying() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) 
             {
@@ -454,6 +379,9 @@ namespace Mewdeko.Modules.Music
         }
 
         [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
         public async Task Queue() 
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -476,9 +404,9 @@ namespace Mewdeko.Modules.Music
 
             Task<PageBuilder> PageFactory(int page)
             {
-                var tracks = queue.Skip(page).Take(10).OrderBy(x => x.Index);
+                var tracks = queue.Skip(page).Take(10);
                 return Task.FromResult(new PageBuilder()
-                    .WithDescription(string.Join("\n", tracks.Select(x =>
+                    .WithDescription(string.Join("\n", tracks.OrderBy(x => x.Index).Select(x =>
                         $"`{ x.Index}.` [{x.Title}]({x.Url})\n" +
                         $"`{x.Duration:mm\\:ss} {x.QueueUser.ToString()}`")))
                     .WithOkColor());
