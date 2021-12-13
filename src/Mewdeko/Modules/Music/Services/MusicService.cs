@@ -38,6 +38,7 @@ namespace Mewdeko.Modules.Music.Services
             _lavaNode.OnTrackEnded += TrackEnded;
             _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
             Queues = new ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>>();
+            _lavaNode.OnTrackStarted += TrackStarted;
             var config = SpotifyClientConfig.CreateDefault();
 
             var request =
@@ -102,14 +103,6 @@ namespace Mewdeko.Modules.Music.Services
             var queue = GetQueue(guild.Id);
             return queue.FirstOrDefault(x => x.Hash == player.Track.Hash)!;
         }
-        private string ParseSpotifyAuthor(string original)
-        {
-            return $"https://open.spotify.com/artist/{original.Split(":")[2]}";
-        }
-        private string ParseSpotifySong(string original)
-        {
-            return $"https://open.spotify.com/track/{original.Split(":")[2]}";
-        }
         public async Task SpotifyQueue(IGuild guild, IUser user, ITextChannel chan, LavaPlayer player, string uri)
         {
             var spotifyUrl = new Uri(uri);
@@ -121,6 +114,7 @@ namespace Mewdeko.Modules.Music.Services
                     {
                         var items = result.Tracks.Items;
                         var eb = new EmbedBuilder()
+                            .WithAuthor("Spotify Playlist", "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png")
                             .WithOkColor()
                             .WithDescription($"Trying to queue {items.Count} tracks from {result.Name}...")
                             .WithThumbnailUrl(result.Images.FirstOrDefault()?.Url);
@@ -131,13 +125,6 @@ namespace Mewdeko.Modules.Music.Services
                             var lavaTrack = await _lavaNode.SearchAsync(SearchType.YouTubeMusic, $"{track.Name} {track.Artists.FirstOrDefault().Name}");
                             if (lavaTrack.Status is SearchStatus.NoMatches) continue;
                             await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(), AdvancedLavaTrack.Platform.Spotify);
-                            if (GetQueue(guild.Id).Count == 1)
-                            {
-                                await player.PlayAsync(lavaTrack.Tracks.FirstOrDefault());
-                                eb.WithDescription(
-                                    $"Playing [{track.Name}]({ParseSpotifySong(track.Uri)}) By [{track.Artists.FirstOrDefault().Name}]({ParseSpotifyAuthor(track.Artists.FirstOrDefault().Uri)}) while the rest queues.\n{items.Count-1} tracks to go.");
-                                await msg.ModifyAsync(x => x.Embed = eb.Build());
-                            }
                             addedcount++;
                         }
                         if (addedcount == 0)
@@ -158,6 +145,7 @@ namespace Mewdeko.Modules.Music.Services
                     {
                         var items = result1.Tracks.Items;
                         var eb = new EmbedBuilder()
+                            .WithAuthor("Spotify Album", "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png")
                             .WithOkColor()
                             .WithDescription($"Trying to queue {items.Count} tracks from {result1.Name}...")
                             .WithThumbnailUrl(result1.Images.FirstOrDefault()?.Url);
@@ -175,9 +163,6 @@ namespace Mewdeko.Modules.Music.Services
                                     x.Track = lavaTrack.Tracks.FirstOrDefault();
                                     x.Volume = GetVolume(guild.Id);
                                 });
-                                eb.WithDescription(
-                                    $"Playing [{track.Name}]({ParseSpotifySong(track.Uri)}) By [{track.Artists.FirstOrDefault().Name}]({ParseSpotifyAuthor(track.Artists.FirstOrDefault().Uri)}) while the rest queues.\n{items.Count-1} tracks to go.");
-                                await msg.ModifyAsync(x => x.Embed = eb.Build());
                             }
                             addedcount++;
                         }
@@ -189,13 +174,31 @@ namespace Mewdeko.Modules.Music.Services
                             await msg.ModifyAsync(x => x.Embed = eb.Build());
                         }
 
-                        eb.WithDescription($"Successfully queued {addedcount} tracks!");
+                        eb
+                            .WithDescription($"Successfully queued {addedcount} tracks!")
+                            .WithTitle(result1.Name);
                         await msg.ModifyAsync(x => x.Embed = eb.Build());
                     }
                     break;
                 
                 case "track/":
-
+                    var result3 = await SpotifyClient.Tracks.Get(spotifyUrl.Segments[2]);
+                    if (result3.Name is null)
+                    {
+                        await chan.SendErrorAsync(
+                            "Seems like i can't find or play this. Please try with a different link!");
+                        return;
+                    }
+                    var lavaTrack3 = await _lavaNode.SearchAsync(SearchType.YouTubeMusic, $"{result3.Name} {result3.Artists.FirstOrDefault().Name}");
+                    await Enqueue(guild.Id, user, lavaTrack3.Tracks.FirstOrDefault(), AdvancedLavaTrack.Platform.Spotify);
+                    if (player.PlayerState != PlayerState.Playing)
+                    {
+                        await player.PlayAsync(x =>
+                        {
+                            x.Track = lavaTrack3.Tracks.FirstOrDefault();
+                            x.Volume = GetVolume(guild.Id);
+                        });
+                    }
                     break;
                 default:
                     await chan.SendErrorAsync("Seems like that isn't supported at the moment!");
@@ -207,57 +210,60 @@ namespace Mewdeko.Modules.Music.Services
         {
             return Queues.FirstOrDefault(x => x.Key == guildid).Value;
         }
+
+        private async Task TrackStarted(TrackStartEventArgs args)
+        {
+            var queue = GetQueue(args.Player.VoiceChannel.GuildId);
+            var track = queue.FirstOrDefault(x => x.Url == args.Track.Url);
+            var nextTrack = queue.FirstOrDefault(x => x.Index == track.Index + 1);
+            var resultMusicChannelId = GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId).Result.MusicChannelId;
+            if (resultMusicChannelId != null)
+            {
+                var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(
+                    resultMusicChannelId.Value);
+                if (channel is not null)
+                {
+                    var eb = new EmbedBuilder()
+                        .WithDescription($"Now playing {track.Title} by {track.Author}")
+                        .WithTitle($"Track #{track.Index}")
+                        .WithFooter(
+                            $"{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {queue.Count} tracks in queue")
+                        .WithThumbnailUrl(track.FetchArtworkAsync().Result);
+                    if (nextTrack is not null)
+                    {
+                        eb.AddField("Up Next", $"{nextTrack.Title} by {track.Author}");
+                    }
+
+                    await channel.SendMessageAsync(embed: eb.Build());
+                }
+            }
+        }
         private async Task TrackEnded(TrackEndedEventArgs args)
         {
             var e = Queues.FirstOrDefault(x => x.Key == args.Player.VoiceChannel.GuildId).Value;
             if (e.Any())
             {
-                try
-                {
+                var musicChannelId = (await GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId)).MusicChannelId;
+                    var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(musicChannelId.Value);
                     if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.Cleanup) return;
                     var currentTrack = e.FirstOrDefault(x => args.Track.Url == x.Url);
                     var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
                     var nextNextTrack = e.FirstOrDefault(x => x.Index == nextTrack.Index + 1);
+                    if (nextTrack is null && channel != null)
+                    {
+                        var eb1 = new EmbedBuilder()
+                            .WithOkColor()
+                            .WithDescription("I have reached the end of the queue!");
+                        await channel.SendMessageAsync(embed: eb1.Build());
+                        if (GetSettingsInternalAsync(args.Player.VoiceChannel.Guild.Id).Result.AutoDisconnect is
+                            AutoDisconnect.Either or AutoDisconnect.Queue)
+                        {
+                            await _lavaNode.LeaveAsync(args.Player.VoiceChannel);
+                            return;
+                        }
+                    }
                     await args.Player.PlayAsync(nextTrack);
-                    string IconUrl = string.Empty;
-                    switch (nextTrack.QueuedPlatform)
-                    {
-                        case AdvancedLavaTrack.Platform.Youtube:
-                            IconUrl = "https://media.discordapp.net/attachments/915770282579484693/919381077615861790/pngkey.com-youtube-png-32240.png";
-                            break;
-                        case AdvancedLavaTrack.Platform.Spotify:
-                            IconUrl = "https://assets.stickpng.com/images/5ece5029123d6d0004ce5f8b.png";
-                            break;
-                        case AdvancedLavaTrack.Platform.Soundcloud:
-                            IconUrl =
-                                "https://media.discordapp.net/attachments/915770282579484693/919381331727761408/PngItem_1682258.png";
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    var eb = new EmbedBuilder()
-                        .WithAuthor($"Track #{nextTrack.Index}", IconUrl)
-                        .WithDescription($"Now playing {nextTrack.Title}")
-                        .WithOkColor()
-                        .WithFooter($"Track {nextTrack.Index} | {nextTrack.Duration:hh\\:mm\\:ss} {nextTrack.QueueUser}");
-                    if (nextNextTrack is not null)
-                    {
-                        eb.AddField("Next Track", nextNextTrack.Title);
-                    }
-                    var musicChannelId = (await GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId)).MusicChannelId;
-                    if (musicChannelId != null)
-                    {
-                        var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(musicChannelId.Value);
-                    
-                        await channel.SendMessageAsync(embed: eb.Build());
-                    }
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                    throw;
-                }
-                
+
             }
             
         }
@@ -276,6 +282,12 @@ namespace Mewdeko.Modules.Music.Services
                 if (nextTrack is null)
                 {
                     await chan.SendErrorAsync("This is the last track!");
+                    return;
+                }
+
+                if (GetSettingsInternalAsync(guild.Id).Result.PlayerRepeat == PlayerRepeatType.Track)
+                {
+                    await player.PlayAsync(currentTrack);
                     return;
                 }
                 await player.PlayAsync(nextTrack);
