@@ -16,8 +16,23 @@ greetdel:
   - grdel
 greet:
   - greet
+seek:
+  - seek
+clearqueue:
+  - clearqueue
+  - cq
+loop:
+  - loop
+  - repeat
 greetmsg:
   - greetmsg
+leave:
+  - leave
+  - disconnect
+  - d
+pause:
+  - pause
+  - p
 afkdel:
   - afkdel
   - afkdelete
@@ -206,8 +221,8 @@ aliasesclear:
 autoassignrole:
   - autoassignrole
   - aar
-leave:
-  - leave
+leaveserver:
+  - leaveserver
 slowmode:
   - slowmode
 delmsgoncmd:
@@ -525,53 +540,17 @@ play:
 stop:
   - stop
   - s
-destroy:
-  - destroy
-  - d
-pause:
-  - pause
 queue:
   - queue
   - q
   - yq
   - enqueue
-queuenext:
-  - queuenext
-  - qn
-queuesearch:
-  - queuesearch
-  - qs
-  - yqs
-soundcloudqueue:
-  - soundcloudqueue
-  - sq
-listqueue:
-  - listqueue
-  - lq
 nowplaying:
   - nowplaying
   - np
 volume:
   - volume
   - vol
-defvol:
-  - defvol
-  - dv
-playlist:
-  - playlist
-  - pl
-soundcloudpl:
-  - soundcloudpl
-  - scpl
-localplaylist:
-  - localplaylist
-  - lopl
-radio:
-  - radio
-  - ra
-local:
-  - local
-  - lo
 join:
   - join
   - j
