@@ -38,57 +38,55 @@ namespace Mewdeko.Modules.Searches
                 if (string.IsNullOrWhiteSpace(user))
                     return;
 
-                using (var http = _httpFactory.CreateClient())
+                using var http = _httpFactory.CreateClient();
+                var modeNumber = string.IsNullOrWhiteSpace(mode)
+                    ? 0
+                    : ResolveGameMode(mode);
+
+                try
                 {
-                    var modeNumber = string.IsNullOrWhiteSpace(mode)
-                        ? 0
-                        : ResolveGameMode(mode);
-
-                    try
+                    if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
                     {
-                        if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))
-                        {
-                            await ReplyErrorLocalizedAsync("osu_api_key").ConfigureAwait(false);
-                            return;
-                        }
-
-                        var smode = ResolveGameMode(modeNumber);
-                        var userReq = $"https://osu.ppy.sh/api/get_user?k={_creds.OsuApiKey}&u={user}&m={modeNumber}";
-                        var userResString = await http.GetStringAsync(userReq)
-                            .ConfigureAwait(false);
-                        var objs = JsonConvert.DeserializeObject<List<OsuUserData>>(userResString);
-
-                        if (objs.Count == 0)
-                        {
-                            await ReplyErrorLocalizedAsync("osu_user_not_found").ConfigureAwait(false);
-                            return;
-                        }
-
-                        var obj = objs[0];
-                        var userId = obj.UserId;
-
-                        await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                            .WithOkColor()
-                            .WithTitle($"osu! {smode} profile for {user}")
-                            .WithThumbnailUrl($"https://a.ppy.sh/{userId}")
-                            .WithDescription($"https://osu.ppy.sh/u/{userId}")
-                            .AddField("Official Rank", $"#{obj.PpRank}", true)
-                            .AddField("Country Rank", $"#{obj.PpCountryRank} :flag_{obj.Country.ToLower()}:", true)
-                            .AddField("Total PP", Math.Round(obj.PpRaw, 2), true)
-                            .AddField("Accuracy", Math.Round(obj.Accuracy, 2) + "%", true)
-                            .AddField("Playcount", obj.Playcount, true)
-                            .AddField("Level", Math.Round(obj.Level), true)
-                        );
+                        await ReplyErrorLocalizedAsync("osu_api_key").ConfigureAwait(false);
+                        return;
                     }
-                    catch (ArgumentOutOfRangeException)
+
+                    var smode = ResolveGameMode(modeNumber);
+                    var userReq = $"https://osu.ppy.sh/api/get_user?k={_creds.OsuApiKey}&u={user}&m={modeNumber}";
+                    var userResString = await http.GetStringAsync(userReq)
+                        .ConfigureAwait(false);
+                    var objs = JsonConvert.DeserializeObject<List<OsuUserData>>(userResString);
+
+                    if (objs.Count == 0)
                     {
                         await ReplyErrorLocalizedAsync("osu_user_not_found").ConfigureAwait(false);
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        await ReplyErrorLocalizedAsync("osu_failed").ConfigureAwait(false);
-                        Log.Warning(ex, "Osu command failed");
-                    }
+
+                    var obj = objs[0];
+                    var userId = obj.UserId;
+
+                    await ctx.Channel.EmbedAsync(new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle($"osu! {smode} profile for {user}")
+                        .WithThumbnailUrl($"https://a.ppy.sh/{userId}")
+                        .WithDescription($"https://osu.ppy.sh/u/{userId}")
+                        .AddField("Official Rank", $"#{obj.PpRank}", true)
+                        .AddField("Country Rank", $"#{obj.PpCountryRank} :flag_{obj.Country.ToLower()}:", true)
+                        .AddField("Total PP", Math.Round(obj.PpRaw, 2), true)
+                        .AddField("Accuracy", Math.Round(obj.Accuracy, 2) + "%", true)
+                        .AddField("Playcount", obj.Playcount, true)
+                        .AddField("Level", Math.Round(obj.Level), true)
+                    );
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    await ReplyErrorLocalizedAsync("osu_user_not_found").ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    await ReplyErrorLocalizedAsync("osu_failed").ConfigureAwait(false);
+                    Log.Warning(ex, "Osu command failed");
                 }
             }
 
@@ -98,44 +96,42 @@ namespace Mewdeko.Modules.Searches
             [Aliases]
             public async Task Gatari(string user, [Remainder] string mode = null)
             {
-                using (var http = _httpFactory.CreateClient())
+                using var http = _httpFactory.CreateClient();
+                var modeNumber = string.IsNullOrWhiteSpace(mode)
+                    ? 0
+                    : ResolveGameMode(mode);
+
+                var modeStr = ResolveGameMode(modeNumber);
+                var resString = await http
+                    .GetStringAsync($"https://api.gatari.pw/user/stats?u={user}&mode={modeNumber}")
+                    .ConfigureAwait(false);
+
+                var statsResponse = JsonConvert.DeserializeObject<GatariUserStatsResponse>(resString);
+                if (statsResponse.Code != 200 || statsResponse.Stats.Id == 0)
                 {
-                    var modeNumber = string.IsNullOrWhiteSpace(mode)
-                        ? 0
-                        : ResolveGameMode(mode);
-
-                    var modeStr = ResolveGameMode(modeNumber);
-                    var resString = await http
-                        .GetStringAsync($"https://api.gatari.pw/user/stats?u={user}&mode={modeNumber}")
-                        .ConfigureAwait(false);
-
-                    var statsResponse = JsonConvert.DeserializeObject<GatariUserStatsResponse>(resString);
-                    if (statsResponse.Code != 200 || statsResponse.Stats.Id == 0)
-                    {
-                        await ReplyErrorLocalizedAsync("osu_user_not_found").ConfigureAwait(false);
-                        return;
-                    }
-
-                    var usrResString = await http.GetStringAsync($"https://api.gatari.pw/users/get?u={user}")
-                        .ConfigureAwait(false);
-
-                    var userData = JsonConvert.DeserializeObject<GatariUserResponse>(usrResString).Users[0];
-                    var userStats = statsResponse.Stats;
-
-                    var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle($"osu!Gatari {modeStr} profile for {user}")
-                        .WithThumbnailUrl($"https://a.gatari.pw/{userStats.Id}")
-                        .WithDescription($"https://osu.gatari.pw/u/{userStats.Id}")
-                        .AddField("Official Rank", $"#{userStats.Rank}", true)
-                        .AddField("Country Rank", $"#{userStats.CountryRank} :flag_{userData.Country.ToLower()}:", true)
-                        .AddField("Total PP", userStats.Pp, true)
-                        .AddField("Accuracy", $"{Math.Round(userStats.AvgAccuracy, 2)}%", true)
-                        .AddField("Playcount", userStats.Playcount, true)
-                        .AddField("Level", userStats.Level, true);
-
-                    await ctx.Channel.EmbedAsync(embed);
+                    await ReplyErrorLocalizedAsync("osu_user_not_found").ConfigureAwait(false);
+                    return;
                 }
+
+                var usrResString = await http.GetStringAsync($"https://api.gatari.pw/users/get?u={user}")
+                    .ConfigureAwait(false);
+
+                var userData = JsonConvert.DeserializeObject<GatariUserResponse>(usrResString).Users[0];
+                var userStats = statsResponse.Stats;
+
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle($"osu!Gatari {modeStr} profile for {user}")
+                    .WithThumbnailUrl($"https://a.gatari.pw/{userStats.Id}")
+                    .WithDescription($"https://osu.gatari.pw/u/{userStats.Id}")
+                    .AddField("Official Rank", $"#{userStats.Rank}", true)
+                    .AddField("Country Rank", $"#{userStats.CountryRank} :flag_{userData.Country.ToLower()}:", true)
+                    .AddField("Total PP", userStats.Pp, true)
+                    .AddField("Accuracy", $"{Math.Round(userStats.AvgAccuracy, 2)}%", true)
+                    .AddField("Playcount", userStats.Playcount, true)
+                    .AddField("Level", userStats.Level, true);
+
+                await ctx.Channel.EmbedAsync(embed);
             }
 
             [MewdekoCommand]
@@ -157,53 +153,51 @@ namespace Mewdeko.Modules.Searches
                     return;
                 }
 
-                using (var http = _httpFactory.CreateClient())
+                using var http = _httpFactory.CreateClient();
+                var m = 0;
+                if (!string.IsNullOrWhiteSpace(mode)) m = ResolveGameMode(mode);
+
+                var reqString = "https://osu.ppy.sh/api/get_user_best" +
+                                $"?k={_creds.OsuApiKey}" +
+                                $"&u={Uri.EscapeDataString(user)}" +
+                                "&type=string" +
+                                "&limit=5" +
+                                $"&m={m}";
+
+                var resString = await http.GetStringAsync(reqString).ConfigureAwait(false);
+                var obj = JsonConvert.DeserializeObject<List<OsuUserBests>>(resString);
+
+                var mapTasks = obj.Select(async item =>
                 {
-                    var m = 0;
-                    if (!string.IsNullOrWhiteSpace(mode)) m = ResolveGameMode(mode);
+                    var mapReqString = "https://osu.ppy.sh/api/get_beatmaps" +
+                                       $"?k={_creds.OsuApiKey}" +
+                                       $"&b={item.BeatmapId}";
 
-                    var reqString = "https://osu.ppy.sh/api/get_user_best" +
-                                    $"?k={_creds.OsuApiKey}" +
-                                    $"&u={Uri.EscapeDataString(user)}" +
-                                    "&type=string" +
-                                    "&limit=5" +
-                                    $"&m={m}";
+                    var mapResString = await http.GetStringAsync(mapReqString).ConfigureAwait(false);
+                    var map = JsonConvert.DeserializeObject<List<OsuMapData>>(mapResString).FirstOrDefault();
+                    if (map is null)
+                        return default;
+                    var pp = Math.Round(item.Pp, 2);
+                    var acc = CalculateAcc(item, m);
+                    var mods = ResolveMods(item.EnabledMods);
 
-                    var resString = await http.GetStringAsync(reqString).ConfigureAwait(false);
-                    var obj = JsonConvert.DeserializeObject<List<OsuUserBests>>(resString);
-
-                    var mapTasks = obj.Select(async item =>
-                    {
-                        var mapReqString = "https://osu.ppy.sh/api/get_beatmaps" +
-                                           $"?k={_creds.OsuApiKey}" +
-                                           $"&b={item.BeatmapId}";
-
-                        var mapResString = await http.GetStringAsync(mapReqString).ConfigureAwait(false);
-                        var map = JsonConvert.DeserializeObject<List<OsuMapData>>(mapResString).FirstOrDefault();
-                        if (map is null)
-                            return default;
-                        var pp = Math.Round(item.Pp, 2);
-                        var acc = CalculateAcc(item, m);
-                        var mods = ResolveMods(item.EnabledMods);
-
-                        var title = $"{map.Artist}-{map.Title} ({map.Version})";
-                        var desc = $@"[/b/{item.BeatmapId}](https://osu.ppy.sh/b/{item.BeatmapId})
+                    var title = $"{map.Artist}-{map.Title} ({map.Version})";
+                    var desc = $@"[/b/{item.BeatmapId}](https://osu.ppy.sh/b/{item.BeatmapId})
 {pp + "pp",-7} | {acc + "%",-7}
 ";
-                        if (mods != "+") desc += Format.Bold(mods);
+                    if (mods != "+") desc += Format.Bold(mods);
 
-                        return (title, desc);
-                    });
+                    return (title, desc);
+                });
 
-                    var eb = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle($"Top 5 plays for {user}");
+                var eb = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle($"Top 5 plays for {user}");
 
-                    var mapData = await Task.WhenAll(mapTasks);
-                    foreach (var (title, desc) in mapData.Where(x => x != default)) eb.AddField(title, desc);
+                var mapData = await Task.WhenAll(mapTasks);
+                foreach (var (title, desc) in mapData.Where(x => x != default)) eb.AddField(title, desc);
 
-                    await channel.EmbedAsync(eb).ConfigureAwait(false);
-                }
+                await channel.EmbedAsync(eb).ConfigureAwait(false);
             }
 
             //https://osu.ppy.sh/wiki/Accuracy

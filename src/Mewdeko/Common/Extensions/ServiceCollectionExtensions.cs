@@ -1,11 +1,6 @@
 ﻿using System.Linq;
 using System;
 using System.Reflection;
-using Mewdeko.Modules.Music.Common;
-using Mewdeko.Modules.Music.Common.SongResolver.Impl;
-using Mewdeko.Modules.Music.Common.SongResolver.Resolvers;
-using Mewdeko.Modules.Music.Services;
-using Mewdeko.Modules.Music.Services.extractor;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Mewdeko.Services.strings.impl;
@@ -35,26 +30,6 @@ namespace Mewdeko.Common.Extensions
                 }
 
             return services;
-        }
-
-        public static IServiceCollection AddConfigMigrators(this IServiceCollection services)
-        {
-            return services.AddSealedSubclassesOf(typeof(IConfigMigrator));
-        }
-
-        public static IServiceCollection AddMusic(this IServiceCollection services)
-        {
-            return services
-                .AddSingleton<IMusicService, MusicService>()
-                .AddSingleton<ITrackResolveProvider, TrackResolveProvider>()
-                .AddSingleton<IYoutubeResolver, YtdlYoutubeResolver>()
-                .AddSingleton<ISoundcloudResolver, SoundcloudResolver>()
-                .AddSingleton<ILocalTrackResolver, LocalTrackResolver>()
-                .AddSingleton<ISpotifyResolver, SpotifyResolver>()
-                .AddSingleton<IRadioResolver, RadioResolver>()
-                .AddSingleton<ITrackCacher, RedisTrackCacher>()
-                .AddSingleton<YtLoader>()
-                .AddSingleton<IPlaceholderProvider>(svc => svc.GetService<IMusicService>());
         }
 
 

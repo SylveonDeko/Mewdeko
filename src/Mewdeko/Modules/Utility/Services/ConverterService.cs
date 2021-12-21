@@ -51,11 +51,9 @@ namespace Mewdeko.Modules.Utility.Services
 
         private async Task<Rates> GetCurrencyRates()
         {
-            using (var http = _httpFactory.CreateClient())
-            {
-                var res = await http.GetStringAsync("https://convertapi.nadeko.bot/latest").ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<Rates>(res);
-            }
+            using var http = _httpFactory.CreateClient();
+            var res = await http.GetStringAsync("https://convertapi.nadeko.bot/latest").ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<Rates>(res);
         }
 
         private async Task UpdateCurrency(bool shouldLoad)

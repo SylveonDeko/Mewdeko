@@ -68,24 +68,20 @@ namespace Mewdeko.Modules.Utility.Services
 
         private async Task RemoveReminders(List<Reminder> reminders)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                uow._context.Set<Reminder>()
-                    .RemoveRange(reminders);
+            using var uow = _db.GetDbContext();
+            uow._context.Set<Reminder>()
+                .RemoveRange(reminders);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
         }
 
         private Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow._context.Reminders
-                    .FromSqlInterpolated(
-                        $"select * from reminders where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
-                    .ToListAsync();
-            }
+            using var uow = _db.GetDbContext();
+            return uow._context.Reminders
+                .FromSqlInterpolated(
+                    $"select * from reminders where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
+                .ToListAsync();
         }
 
         public bool TryParseRemindMessage(string input, out RemindObject obj)

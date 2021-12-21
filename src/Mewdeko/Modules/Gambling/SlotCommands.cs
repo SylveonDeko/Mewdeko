@@ -125,71 +125,67 @@ namespace Mewdeko.Modules.Gambling
                     }
 
                     Interlocked.Add(ref _totalBet, amount.Value);
-                    using (var bgImage = Image.Load(_images.SlotBackground))
+                    using var bgImage = Image.Load(_images.SlotBackground);
+                    var result = SlotMachine.Pull();
+                    var numbers = result.Numbers;
+
+                    for (var i = 0; i < 3; i++)
                     {
-                        var result = SlotMachine.Pull();
-                        var numbers = result.Numbers;
-
-                        for (var i = 0; i < 3; i++)
-                            using (var randomImage = Image.Load(_images.SlotEmojis[numbers[i]]))
-                            {
-                                bgImage.Mutate(x =>
-                                    x.DrawImage(randomImage, new Point(95 + 142 * i, 330), new GraphicsOptions()));
-                            }
-
-                        var won = amount * result.Multiplier;
-                        var printWon = won;
-                        var n = 0;
-                        do
-                        {
-                            var digit = (int)(printWon % 10);
-                            using (var img = Image.Load(_images.SlotNumbers[digit]))
-                            {
-                                bgImage.Mutate(x =>
-                                    x.DrawImage(img, new Point(230 - n * 16, 462), new GraphicsOptions()));
-                            }
-
-                            n++;
-                        } while ((printWon /= 10) != 0);
-
-                        var printAmount = amount;
-                        n = 0;
-                        do
-                        {
-                            var digit = (int)(printAmount % 10);
-                            using (var img = Image.Load(_images.SlotNumbers[digit]))
-                            {
-                                bgImage.Mutate(x =>
-                                    x.DrawImage(img, new Point(395 - n * 16, 462), new GraphicsOptions()));
-                            }
-
-                            n++;
-                        } while ((printAmount /= 10) != 0);
-
-                        var msg = GetText("better_luck");
-                        if (result.Multiplier != 0)
-                        {
-                            await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
-                                amount * result.Multiplier, false, true).ConfigureAwait(false);
-                            Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
-                            if (result.Multiplier == 1)
-                                msg = GetText("slot_single", CurrencySign, 1);
-                            else if (result.Multiplier == 4)
-                                msg = GetText("slot_two", CurrencySign, 4);
-                            else if (result.Multiplier == 10)
-                                msg = GetText("slot_three", 10);
-                            else if (result.Multiplier == 30)
-                                msg = GetText("slot_jackpot", 30);
-                        }
-
-                        using (var imgStream = bgImage.ToStream())
-                        {
-                            await ctx.Channel.SendFileAsync(imgStream, "result.png",
-                                    ctx.User.Mention + " " + msg +
-                                    $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
-                                .ConfigureAwait(false);
-                        }
+                        using var randomImage = Image.Load(_images.SlotEmojis[numbers[i]]);
+                        bgImage.Mutate(x =>
+                            x.DrawImage(randomImage, new Point(95 + 142 * i, 330), new GraphicsOptions()));
                     }
+
+                    var won = amount * result.Multiplier;
+                    var printWon = won;
+                    var n = 0;
+                    do
+                    {
+                        var digit = (int)(printWon % 10);
+                        using (var img = Image.Load(_images.SlotNumbers[digit]))
+                        {
+                            bgImage.Mutate(x =>
+                                x.DrawImage(img, new Point(230 - n * 16, 462), new GraphicsOptions()));
+                        }
+
+                        n++;
+                    } while ((printWon /= 10) != 0);
+
+                    var printAmount = amount;
+                    n = 0;
+                    do
+                    {
+                        var digit = (int)(printAmount % 10);
+                        using (var img = Image.Load(_images.SlotNumbers[digit]))
+                        {
+                            bgImage.Mutate(x =>
+                                x.DrawImage(img, new Point(395 - n * 16, 462), new GraphicsOptions()));
+                        }
+
+                        n++;
+                    } while ((printAmount /= 10) != 0);
+
+                    var msg = GetText("better_luck");
+                    if (result.Multiplier != 0)
+                    {
+                        await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
+                            amount * result.Multiplier, false, true).ConfigureAwait(false);
+                        Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
+                        if (result.Multiplier == 1)
+                            msg = GetText("slot_single", CurrencySign, 1);
+                        else if (result.Multiplier == 4)
+                            msg = GetText("slot_two", CurrencySign, 4);
+                        else if (result.Multiplier == 10)
+                            msg = GetText("slot_three", 10);
+                        else if (result.Multiplier == 30)
+                            msg = GetText("slot_jackpot", 30);
+                    }
+
+                    await using var imgStream = bgImage.ToStream();
+                    await ctx.Channel.SendFileAsync(imgStream, "result.png",
+                            ctx.User.Mention + " " + msg +
+                            $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
+                        .ConfigureAwait(false);
                 }
                 finally
                 {

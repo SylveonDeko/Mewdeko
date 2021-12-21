@@ -28,34 +28,32 @@ namespace Mewdeko.Modules.Games.Common
             {
                 try
                 {
-                    using (var img = Image.Load(_images.RategirlMatrix))
+                    using var img = Image.Load(_images.RategirlMatrix);
+                    const int minx = 35;
+                    const int miny = 385;
+                    const int length = 345;
+
+                    var pointx = (int)(minx + length * (Hot / 10));
+                    var pointy = (int)(miny - length * ((Crazy - 4) / 6));
+
+                    using (var pointImg = Image.Load(_images.RategirlDot))
                     {
-                        const int minx = 35;
-                        const int miny = 385;
-                        const int length = 345;
-
-                        var pointx = (int)(minx + length * (Hot / 10));
-                        var pointy = (int)(miny - length * ((Crazy - 4) / 6));
-
-                        using (var pointImg = Image.Load(_images.RategirlDot))
-                        {
-                            img.Mutate(x =>
-                                x.DrawImage(pointImg, new Point(pointx - 10, pointy - 10), new GraphicsOptions()));
-                        }
-
-                        var imgStream = new MemoryStream();
-                        img.SaveAsPng(imgStream);
-                        return imgStream;
-                        //using (var byteContent = new ByteArrayContent(imgStream.ToArray()))
-                        //{
-                        //    http.AddFakeHeaders();
-
-                        //    using (var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false))
-                        //    {
-                        //        url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        //    }
-                        //}
+                        img.Mutate(x =>
+                            x.DrawImage(pointImg, new Point(pointx - 10, pointy - 10), new GraphicsOptions()));
                     }
+
+                    var imgStream = new MemoryStream();
+                    img.SaveAsPng(imgStream);
+                    return imgStream;
+                    //using (var byteContent = new ByteArrayContent(imgStream.ToArray()))
+                    //{
+                    //    http.AddFakeHeaders();
+
+                    //    using (var reponse = await http.PutAsync("https://transfer.sh/img.png", byteContent).ConfigureAwait(false))
+                    //    {
+                    //        url = await reponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    //    }
+                    //}
                 }
                 catch (Exception ex)
                 {

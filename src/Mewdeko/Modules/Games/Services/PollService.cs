@@ -31,17 +31,15 @@ namespace Mewdeko.Modules.Games.Services
             _db = db;
             _strs = strs;
 
-            using (var uow = db.GetDbContext())
-            {
-                ActivePolls = uow.Polls.GetAllPolls()
-                    .ToDictionary(x => x.GuildId, x =>
-                    {
-                        var pr = new PollRunner(db, x);
-                        pr.OnVoted += Pr_OnVoted;
-                        return pr;
-                    })
-                    .ToConcurrent();
-            }
+            using var uow = db.GetDbContext();
+            ActivePolls = uow.Polls.GetAllPolls()
+                .ToDictionary(x => x.GuildId, x =>
+                {
+                    var pr = new PollRunner(db, x);
+                    pr.OnVoted += Pr_OnVoted;
+                    return pr;
+                })
+                .ToConcurrent();
         }
 
         public ConcurrentDictionary<ulong, PollRunner> ActivePolls { get; } = new();

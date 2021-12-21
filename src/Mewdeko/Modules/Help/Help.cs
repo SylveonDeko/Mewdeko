@@ -322,26 +322,22 @@ namespace Mewdeko.Modules.Help
             if (!(serviceUrl is null || accessKey is null || secretAcccessKey is null))
             {
                 var config = new AmazonS3Config { ServiceURL = serviceUrl };
-                using (var client = new AmazonS3Client(accessKey, secretAcccessKey, config))
+                using var client = new AmazonS3Client(accessKey, secretAcccessKey, config);
+                var res = await client.PutObjectAsync(new PutObjectRequest
                 {
-                    var res = await client.PutObjectAsync(new PutObjectRequest
-                    {
-                        BucketName = "Mewdeko-pictures",
-                        ContentType = "application/json",
-                        ContentBody = uploadData,
-                        // either use a path provided in the argument or the default one for public Mewdeko, other/cmds.json
-                        Key = path ?? "other/cmds.json",
-                        CannedACL = S3CannedACL.PublicRead
-                    });
-                }
+                    BucketName = "Mewdeko-pictures",
+                    ContentType = "application/json",
+                    ContentBody = uploadData,
+                    // either use a path provided in the argument or the default one for public Mewdeko, other/cmds.json
+                    Key = path ?? "other/cmds.json",
+                    CannedACL = S3CannedACL.PublicRead
+                });
             }
 
             // also send the file, but indented one, to chat
-            using (var rDataStream = new MemoryStream(Encoding.ASCII.GetBytes(readableData)))
-            {
-                await ctx.Channel.SendFileAsync(rDataStream, "cmds.json", GetText("commandlist_regen"))
-                    .ConfigureAwait(false);
-            }
+            await using var rDataStream = new MemoryStream(Encoding.ASCII.GetBytes(readableData));
+            await ctx.Channel.SendFileAsync(rDataStream, "cmds.json", GetText("commandlist_regen"))
+                .ConfigureAwait(false);
         }
 
         [MewdekoCommand]

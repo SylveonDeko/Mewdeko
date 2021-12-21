@@ -31,24 +31,19 @@
         ///     Whether the bot should auto disconnect from the voice channel once the queue is done
         ///     This only has effect if
         /// </summary>
-        public bool AutoDisconnect { get; set; } = false;
+        public AutoDisconnect AutoDisconnect { get; set; } = AutoDisconnect.Voice;
 
         public int AutoPlay { get; set; } = 0;
-
-        /// <summary>
-        ///     Selected quality preset for the music player
-        /// </summary>
-        public QualityPreset QualityPreset { get; set; }
+        
     }
 
-    public enum QualityPreset
+    public enum AutoDisconnect
     {
-        Highest,
-        High,
-        Medium,
-        Low
+        None,
+        Voice,
+        Queue,
+        Either
     }
-
     public enum PlayerRepeatType
     {
         None,
