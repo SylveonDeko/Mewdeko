@@ -1732,22 +1732,13 @@ next:
     - ''
     - '5'
 play:
-  desc: >-
-    If no parameters are specified, acts as `{0}next 1` command. If you specify
-    a song number, it will jump to that song. If you specify a search query,
-    acts as a `{0}q` command
+  desc: "Plays/Queues a song. Use together with a song number in queue and it'll play."
   args:
     - ''
     - '5'
     - Dream Of Venice
 stop:
-  desc: Stops the music and preserves the current song index. Stays in the channel.
-  args:
-    - ''
-destroy:
-  desc: >-
-    Completely stops the music and unbinds the bot from the channel. (may cause
-    weird behaviour)
+  desc: Stops the music and clears the queue.
   args:
     - ''
 pause:
