@@ -331,6 +331,11 @@ namespace Mewdeko.Modules.Music
                 await ctx.Channel.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.");
                 return;
             }
+
+            if (timeSpan > player.Track.Duration)
+            {
+                await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.");
+            }
             await player.SeekAsync(timeSpan);
             await ctx.Channel.SendConfirmAsync($"I've seeked `{player.Track.Title}` to {timeSpan}.");
         }
@@ -369,18 +374,17 @@ namespace Mewdeko.Modules.Music
         public async Task Volume(ushort volume) 
         {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to a voice channel.");
+                await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
 
-            try {
-                await player.UpdateVolumeAsync(volume);
-                await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.Volume = volume; }, volume);
-                await ReplyAsync($"I've changed the player volume to {volume}.");
+            if (volume > 100)
+            {
+                await ctx.Channel.SendErrorAsync("Max is 100 m8");
+                return;
             }
-            catch (Exception exception) {
-                await ReplyAsync(exception.Message);
-            }
+            await player.UpdateVolumeAsync(volume);
+            await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.Volume = volume; }, volume);
         }
 
         [MewdekoCommand]
