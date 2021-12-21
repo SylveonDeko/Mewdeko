@@ -125,15 +125,12 @@ namespace Mewdeko.Services
                 .AddSingleton<LavaNode>()
                 .AddSingleton<LavaConfig>()
                 .AddSingleton<IShopService, ShopService>();
-            if (Client.ShardId == 0)
+            s.AddLavaNode(x =>
             {
-                s.AddLavaNode(x =>
-                {
-                    x.SelfDeaf = true;
-                    x.Authorization = "Hope4a11";
-                    x.Port = 2333;
-                });
-            }
+                x.SelfDeaf = true;
+                x.Authorization = "Hope4a11";
+                x.Port = 2333;
+            });
 
             s.AddHttpClient();
             s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
