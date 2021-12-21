@@ -64,25 +64,23 @@ namespace Mewdeko.Modules.Administration.Services
         public ulong? ToggleGameVoiceChannel(ulong guildId, ulong vchId)
         {
             ulong? id;
-            using (var uow = _db.GetDbContext())
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set);
+
+            if (gc.GameVoiceChannel == vchId)
             {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set);
-
-                if (gc.GameVoiceChannel == vchId)
-                {
-                    GameVoiceChannels.TryRemove(vchId);
-                    id = gc.GameVoiceChannel = null;
-                }
-                else
-                {
-                    if (gc.GameVoiceChannel != null)
-                        GameVoiceChannels.TryRemove(gc.GameVoiceChannel.Value);
-                    GameVoiceChannels.Add(vchId);
-                    id = gc.GameVoiceChannel = vchId;
-                }
-
-                uow.SaveChanges();
+                GameVoiceChannels.TryRemove(vchId);
+                id = gc.GameVoiceChannel = null;
             }
+            else
+            {
+                if (gc.GameVoiceChannel != null)
+                    GameVoiceChannels.TryRemove(gc.GameVoiceChannel.Value);
+                GameVoiceChannels.Add(vchId);
+                id = gc.GameVoiceChannel = vchId;
+            }
+
+            uow.SaveChanges();
 
             return id;
         }

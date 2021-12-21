@@ -245,23 +245,21 @@ namespace Mewdeko.Modules.Permissions.Services
 
         public void ClearFilteredWords(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guildId,
-                    set => set.Include(x => x.FilteredWords)
-                        .Include(x => x.FilterWordsChannelIds));
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId,
+                set => set.Include(x => x.FilteredWords)
+                    .Include(x => x.FilterWordsChannelIds));
 
-                WordFilteringServers.TryRemove(guildId);
-                ServerFilteredWords.TryRemove(guildId, out _);
+            WordFilteringServers.TryRemove(guildId);
+            ServerFilteredWords.TryRemove(guildId, out _);
 
-                foreach (var c in gc.FilterWordsChannelIds) WordFilteringChannels.TryRemove(c.ChannelId);
+            foreach (var c in gc.FilterWordsChannelIds) WordFilteringChannels.TryRemove(c.ChannelId);
 
-                gc.FilterWords = false;
-                gc.FilteredWords.Clear();
-                gc.FilterWordsChannelIds.Clear();
+            gc.FilterWords = false;
+            gc.FilteredWords.Clear();
+            gc.FilterWordsChannelIds.Clear();
 
-                uow.SaveChanges();
-            }
+            uow.SaveChanges();
         }
 
         public ConcurrentHashSet<string> FilteredWordsForServer(ulong guildId)

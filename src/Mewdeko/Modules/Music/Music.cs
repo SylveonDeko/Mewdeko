@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using LinqToDB.Tools;
 using Mewdeko.Common;
 using Mewdeko._Extensions;
+using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services.Database.Models;
@@ -23,19 +23,25 @@ namespace Mewdeko.Modules.Music
 {
     public class Music : MewdekoModuleBase<MusicService>
     {
-        public LavaNode _lavaNode;
-        public InteractiveService Interactivity;
-        public readonly IServiceProvider ServiceProvider;
-        public DiscordSocketClient Client;
+        private readonly LavaNode _lavaNode;
+        private readonly InteractiveService _interactivity;
 
-        public Music(LavaNode lava, InteractiveService interactive, DiscordSocketClient client, IServiceProvider serviceProvider)
+        public Music(LavaNode lava, InteractiveService interactive)
         {
-            ServiceProvider = serviceProvider;
-            Client = client;
-            Interactivity = interactive;
+            _interactivity = interactive;
             _lavaNode = lava;
         }
-        
+
+        [MewdekoCommand]
+        [Description]
+        [Alias]
+        [RequireContext(ContextType.Guild)]
+        public async Task AutoDisconnect(AutoDisconnect disconnect)
+        {
+            await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.AutoDisconnect = disconnect; }, disconnect);
+            await ctx.Channel.SendConfirmAsync(
+                $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}");
+        }
         [MewdekoCommand]
         [Description]
         [Alias]
@@ -118,6 +124,7 @@ namespace Mewdeko.Modules.Music
         [Description]
         [Alias]
         [RequireContext(ContextType.Guild)]
+        // ReSharper disable once MemberCanBePrivate.Global
         public async Task Play([Remainder] string searchQuery)
         {
             var count = 0;
@@ -163,11 +170,14 @@ namespace Mewdeko.Modules.Music
             SearchResponse searchResponse;
             if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
             {
-                if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be"))
+                if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") || searchQuery.Contains("soundcloud.com"))
                 {
                     searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                     var track1 = searchResponse.Tracks.FirstOrDefault();
-                    await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
+                    var platform = AdvancedLavaTrack.Platform.Youtube;
+                    if (searchQuery.Contains("soundcloud.com"))
+                        platform = AdvancedLavaTrack.Platform.Soundcloud;
+                    await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray(), platform);
                     count = Service.GetQueue(ctx.Guild.Id).Count;
                     if (searchResponse.Playlist.Name is not null)
                     {
@@ -192,6 +202,7 @@ namespace Mewdeko.Modules.Music
                         if (player.PlayerState != PlayerState.Playing)
                             await player.PlayAsync(x => { x.Track = track1; });
                         await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                        return;
                     }
                 }
             }
@@ -230,18 +241,20 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Pause() 
         {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) 
+            {
                 await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
 
-            if (player.PlayerState != PlayerState.Playing) {
+            if (player.PlayerState != PlayerState.Playing) 
+            {
                 await player.ResumeAsync();
                 return;
             }
             await player.PauseAsync();
             await ReplyAsync($"Paused: {player.Track.Title}");
-            }
+        }
         
         [MewdekoCommand]
         [Description]
@@ -249,7 +262,23 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Shuffle()
         {
-            await Service.Shuffle(ctx.Guild);
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out _)) {
+                await ctx.Channel.SendErrorAsync("I'm not even playing anything.");
+                return;
+            }
+
+            if (!Service.GetQueue(ctx.Guild.Id).Any())
+            {
+                await ctx.Channel.SendErrorAsync("There's nothing in queue.");
+                return;
+            }
+
+            if (Service.GetQueue(ctx.Guild.Id).Count == 1)
+            {
+                await ctx.Channel.SendErrorAsync("... There's literally only one thing in queue.");
+                return;
+            }
+            Service.Shuffle(ctx.Guild);
             await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!");
         }
         
@@ -290,12 +319,14 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Seek(TimeSpan timeSpan) 
         {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) 
+            {
                 await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
                 return;
             }
 
-            if (player.PlayerState != PlayerState.Playing) {
+            if (player.PlayerState != PlayerState.Playing) 
+            {
                 await ctx.Channel.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.");
                 return;
             }
@@ -384,13 +415,13 @@ namespace Mewdeko.Modules.Music
         [RequireContext(ContextType.Guild)]
         public async Task Queue() 
         {
-            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out _))
             {
                 await ctx.Channel.SendErrorAsync("I am not playing anything at the moment!");
                 return;
             }
 
-            var queue = Service.Queues.FirstOrDefault(x => x.Key == ctx.Guild.Id).Value;
+            var queue = Service.GetQueue(ctx.Guild.Id);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -400,15 +431,15 @@ namespace Mewdeko.Modules.Music
                 .WithDefaultEmotes()
                 .Build();
             
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
-                var tracks = queue.Skip(page).Take(10);
+                var tracks = queue.OrderBy(x => x.Index).Skip(page).Take(10);
                 return Task.FromResult(new PageBuilder()
-                    .WithDescription(string.Join("\n", tracks.OrderBy(x => x.Index).Select(x =>
+                    .WithDescription(string.Join("\n", tracks.Select(x =>
                         $"`{ x.Index}.` [{x.Title}]({x.Url})\n" +
-                        $"`{x.Duration:mm\\:ss} {x.QueueUser.ToString()}`")))
+                        $"`{x.Duration:mm\\:ss} {x.QueueUser.ToString()} {x.QueuedPlatform}`")))
                     .WithOkColor());
             }
         }

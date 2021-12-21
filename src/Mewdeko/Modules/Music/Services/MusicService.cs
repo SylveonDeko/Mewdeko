@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using LinqToDB.Mapping;
-using LinqToDB.Tools;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
@@ -23,67 +21,81 @@ namespace Mewdeko.Modules.Music.Services
 {
     public sealed class MusicService : INService
     {
-        private LavaNode _lavaNode;
-        public DbService Db;
+        private readonly LavaNode _lavaNode;
+        private readonly DbService _db;
         
         private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
-        public ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>> Queues;
-        public SpotifyClient SpotifyClient;
+        private readonly ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>> _queues;
+        private readonly List<ulong> _runningShuffles;
+        private readonly SpotifyClient _spotifyClient;
         
 
         public MusicService(LavaNode lava, DbService db)
         {
-            Db = db;
+            _db = db;
             _lavaNode = lava;
             _lavaNode.OnTrackEnded += TrackEnded;
             _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
-            Queues = new ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>>();
+            _queues = new ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>>();
             _lavaNode.OnTrackStarted += TrackStarted;
             var config = SpotifyClientConfig.CreateDefault();
+            _runningShuffles = new List<ulong>();
 
             var request =
                 new ClientCredentialsRequest("***REMOVED***", "***REMOVED***");
             var response = new OAuthClient(config).RequestToken(request).Result;
 
-            SpotifyClient = new SpotifyClient(config.WithToken(response.AccessToken));
+            _spotifyClient = new SpotifyClient(config.WithToken(response.AccessToken));
         }
 
         public Task Enqueue(ulong guildId, IUser user, LavaTrack lavaTrack, AdvancedLavaTrack.Platform queuedPlatform = AdvancedLavaTrack.Platform.Youtube)
         {
-            var queue = Queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
+            var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
             queue.Add(new AdvancedLavaTrack(lavaTrack, queue.Count + 1, user, queuedPlatform));
             return Task.CompletedTask;
         }
         public Task Enqueue(ulong guildId, IUser user, LavaTrack[] lavaTracks, AdvancedLavaTrack.Platform queuedPlatform = AdvancedLavaTrack.Platform.Youtube)
         {
-                var queue = Queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
+                var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
                 queue.AddRange(lavaTracks.Select(x => new AdvancedLavaTrack(x, queue.Count + 1, user, queuedPlatform)));
                 return Task.CompletedTask;
         }
 
-        public async Task Shuffle(IGuild guild)
+        public void Shuffle(IGuild guild)
         {
+            if (_runningShuffles.Contains(guild.Id))
+                return;
             var random = new Random();
             var queue = GetQueue(guild.Id);
             List<int> numbers = new List<int>();
             IList<AdvancedLavaTrack> toadd = new List<AdvancedLavaTrack>();
             try
             {
+                _runningShuffles.Add(guild.Id);
                 foreach (var i in queue)
                 {
-                    var rng = random.Next(1, queue.Count + 1);
-                    while (numbers.Contains(rng))
+                    try
                     {
-                        rng = random.Next(1, queue.Count);
-                    }
+                        var rng = random.Next(1, queue.Count + 1);
+                        while (numbers.Contains(rng))
+                        {
+                            rng = random.Next(1, queue.Count);
+                        }
 
-                    var toremove = i;
-                    toremove.Index = rng;
-                    toadd.Add(toremove);
-                    numbers.Add(rng);
+                        var toremove = i;
+                        toremove.Index = rng;
+                        toadd.Add(toremove);
+                        numbers.Add(rng);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
                 queue.Clear();
                 queue.AddRange(toadd);
+                _runningShuffles.Remove(guild.Id);
             }
             catch (Exception e)
             {
@@ -93,7 +105,7 @@ namespace Mewdeko.Modules.Music.Services
         }
         public Task QueueClear(ulong guildid)
         {
-            var toremove = Queues.GetOrAdd(guildid, new List<AdvancedLavaTrack>());
+            var toremove = _queues.GetOrAdd(guildid, new List<AdvancedLavaTrack>());
             toremove.Clear();
             return Task.CompletedTask;
         }
@@ -109,7 +121,7 @@ namespace Mewdeko.Modules.Music.Services
             switch (spotifyUrl.Segments[1])
             {
                 case "playlist/":
-                    var result = await SpotifyClient.Playlists.Get(spotifyUrl.Segments[2]);
+                    var result = await _spotifyClient.Playlists.Get(spotifyUrl.Segments[2]);
                     if (result.Tracks.Items.Any())
                     {
                         var items = result.Tracks.Items;
@@ -140,7 +152,7 @@ namespace Mewdeko.Modules.Music.Services
                     }
                     break;
                 case "album/":
-                    var result1 = await SpotifyClient.Albums.Get(spotifyUrl.Segments[2]);
+                    var result1 = await _spotifyClient.Albums.Get(spotifyUrl.Segments[2]);
                     if (result1.Tracks.Items.Any())
                     {
                         var items = result1.Tracks.Items;
@@ -182,7 +194,7 @@ namespace Mewdeko.Modules.Music.Services
                     break;
                 
                 case "track/":
-                    var result3 = await SpotifyClient.Tracks.Get(spotifyUrl.Segments[2]);
+                    var result3 = await _spotifyClient.Tracks.Get(spotifyUrl.Segments[2]);
                     if (result3.Name is null)
                     {
                         await chan.SendErrorAsync(
@@ -208,7 +220,11 @@ namespace Mewdeko.Modules.Music.Services
         }
         public IList<AdvancedLavaTrack> GetQueue(ulong guildid)
         {
-            return Queues.FirstOrDefault(x => x.Key == guildid).Value;
+            return !_queues.Select(x => x.Key).Contains(guildid) ? new List<AdvancedLavaTrack>
+                {
+                    Capacity = 0
+                }
+                : _queues.FirstOrDefault(x => x.Key == guildid).Value;
         }
 
         private async Task TrackStarted(TrackStartEventArgs args)
@@ -240,7 +256,7 @@ namespace Mewdeko.Modules.Music.Services
         }
         private async Task TrackEnded(TrackEndedEventArgs args)
         {
-            var e = Queues.FirstOrDefault(x => x.Key == args.Player.VoiceChannel.GuildId).Value;
+            var e = _queues.FirstOrDefault(x => x.Key == args.Player.VoiceChannel.GuildId).Value;
             if (e.Any())
             {
                 var musicChannelId = (await GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId)).MusicChannelId;
@@ -248,7 +264,6 @@ namespace Mewdeko.Modules.Music.Services
                     if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.Cleanup) return;
                     var currentTrack = e.FirstOrDefault(x => args.Track.Url == x.Url);
                     var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
-                    var nextNextTrack = e.FirstOrDefault(x => x.Index == nextTrack.Index + 1);
                     if (nextTrack is null && channel != null)
                     {
                         var eb1 = new EmbedBuilder()
@@ -274,7 +289,7 @@ namespace Mewdeko.Modules.Music.Services
         }
         public async Task Skip(IGuild guild, ITextChannel chan, LavaPlayer player)
         {
-            var e = Queues.FirstOrDefault(x => x.Key == guild.Id).Value;
+            var e = _queues.FirstOrDefault(x => x.Key == guild.Id).Value;
             if (e.Any())
             {
                 var currentTrack = e.FirstOrDefault(x => player.Track.Hash == x.Hash);
@@ -300,7 +315,7 @@ namespace Mewdeko.Modules.Music.Services
             if (_settings.TryGetValue(guildId, out var settings))
                 return settings;
 
-            using var uow = Db.GetDbContext();
+            using var uow = _db.GetDbContext();
             var toReturn = _settings[guildId] = await uow._context.MusicPlayerSettings.ForGuildAsync(guildId);
             await uow.SaveChangesAsync();
 
@@ -312,7 +327,7 @@ namespace Mewdeko.Modules.Music.Services
             Action<MusicPlayerSettings, TState> action,
             TState state)
         {
-            using var uow = Db.GetDbContext();
+            using var uow = _db.GetDbContext();
             var ms = await uow._context.MusicPlayerSettings.ForGuildAsync(guildId);
             action(ms, state);
             await uow.SaveChangesAsync();

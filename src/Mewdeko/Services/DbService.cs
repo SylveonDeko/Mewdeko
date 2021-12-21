@@ -28,19 +28,17 @@ namespace Mewdeko.Services
 
         public void Setup()
         {
-            using (var context = new MewdekoContext(options))
+            using var context = new MewdekoContext(options);
+            if (context.Database.GetPendingMigrations().Any())
             {
-                if (context.Database.GetPendingMigrations().Any())
-                {
-                    var mContext = new MewdekoContext(migrateOptions);
-                    mContext.Database.Migrate();
-                    mContext.SaveChanges();
-                    mContext.Dispose();
-                }
-
-                context.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL");
-                context.SaveChanges();
+                var mContext = new MewdekoContext(migrateOptions);
+                mContext.Database.Migrate();
+                mContext.SaveChanges();
+                mContext.Dispose();
             }
+
+            context.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL");
+            context.SaveChanges();
         }
 
         private MewdekoContext GetDbContextInternal()

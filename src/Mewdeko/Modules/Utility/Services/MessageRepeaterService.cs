@@ -78,23 +78,19 @@ namespace Mewdeko.Modules.Utility.Services
 
         public async Task RemoveRepeater(Repeater r)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var gr = uow.GuildConfigs.ForId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
-                var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
-                if (toDelete != null)
-                    uow._context.Set<Repeater>().Remove(toDelete);
-                await uow.SaveChangesAsync();
-            }
+            using var uow = _db.GetDbContext();
+            var gr = uow.GuildConfigs.ForId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
+            var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
+            if (toDelete != null)
+                uow._context.Set<Repeater>().Remove(toDelete);
+            await uow.SaveChangesAsync();
         }
 
         public void SetRepeaterLastMessage(int repeaterId, ulong lastMsgId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                uow._context.Database.ExecuteSqlInterpolated($@"UPDATE GuildRepeater SET 
+            using var uow = _db.GetDbContext();
+            uow._context.Database.ExecuteSqlInterpolated($@"UPDATE GuildRepeater SET 
                     LastMessageId={lastMsgId} WHERE Id={repeaterId}");
-            }
         }
     }
 }

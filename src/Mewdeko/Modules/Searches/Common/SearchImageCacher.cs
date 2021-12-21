@@ -136,51 +136,49 @@ namespace Mewdeko.Modules.Searches.Common
 
             try
             {
-                using (var _http = _httpFactory.CreateClient())
+                using var _http = _httpFactory.CreateClient();
+                _http.AddFakeHeaders();
+                if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
+                    type == DapiSearchType.Danbooru)
                 {
-                    _http.AddFakeHeaders();
-                    if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
-                        type == DapiSearchType.Danbooru)
-                    {
-                        var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
-                            .Where(x => x.FileUrl != null)
-                            .Select(x => new ImageCacherObject(x, type))
-                            .ToArray();
-                    }
-
-                    if (type == DapiSearchType.E621)
-                    {
-                        var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeAnonymousType(data, new { posts = new List<E621Object>() })
-                            .posts
-                            .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
-                            .Select(x => new ImageCacherObject(x.File.Url,
-                                type, string.Join(' ', x.Tags.General), x.Score.Total))
-                            .ToArray();
-                    }
-
-                    if (type == DapiSearchType.Derpibooru)
-                    {
-                        var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeObject<DerpiContainer>(data)
-                            .Images
-                            .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))
-                            .Select(x => new ImageCacherObject(x.ViewUrl,
-                                type, string.Join("\n", x.Tags), x.Score))
-                            .ToArray();
-                    }
-
-                    if (type == DapiSearchType.Safebooru)
-                    {
-                        var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                        return JsonConvert.DeserializeObject<SafebooruElement[]>(data)
-                            .Select(x => new ImageCacherObject(x.FileUrl, type, x.Tags, x.Rating))
-                            .ToArray();
-                    }
-
-                    return (await LoadXmlAsync(website, type).ConfigureAwait(false)).ToArray();
+                    var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
+                        .Where(x => x.FileUrl != null)
+                        .Select(x => new ImageCacherObject(x, type))
+                        .ToArray();
                 }
+
+                if (type == DapiSearchType.E621)
+                {
+                    var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                    return JsonConvert.DeserializeAnonymousType(data, new { posts = new List<E621Object>() })
+                        .posts
+                        .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
+                        .Select(x => new ImageCacherObject(x.File.Url,
+                            type, string.Join(' ', x.Tags.General), x.Score.Total))
+                        .ToArray();
+                }
+
+                if (type == DapiSearchType.Derpibooru)
+                {
+                    var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<DerpiContainer>(data)
+                        .Images
+                        .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))
+                        .Select(x => new ImageCacherObject(x.ViewUrl,
+                            type, string.Join("\n", x.Tags), x.Score))
+                        .ToArray();
+                }
+
+                if (type == DapiSearchType.Safebooru)
+                {
+                    var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<SafebooruElement[]>(data)
+                        .Select(x => new ImageCacherObject(x.FileUrl, type, x.Tags, x.Rating))
+                        .ToArray();
+                }
+
+                return (await LoadXmlAsync(website, type).ConfigureAwait(false)).ToArray();
             }
             catch (Exception ex)
             {
@@ -193,7 +191,7 @@ namespace Mewdeko.Modules.Searches.Common
         {
             var list = new List<ImageCacherObject>();
             using (var http = _httpFactory.CreateClient())
-            using (var stream = await http.GetStreamAsync(website).ConfigureAwait(false))
+            await using (var stream = await http.GetStreamAsync(website).ConfigureAwait(false))
             using (var reader = XmlReader.Create(stream, new XmlReaderSettings
             {
                 Async = true

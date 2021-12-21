@@ -316,55 +316,49 @@ namespace Mewdeko.Modules.Xp.Services
 
         public void SetCurrencyReward(ulong guildId, int level, int amount)
         {
-            using (var uow = _db.GetDbContext())
+            using var uow = _db.GetDbContext();
+            var settings = uow.GuildConfigs.XpSettingsFor(guildId);
+
+            if (amount <= 0)
             {
-                var settings = uow.GuildConfigs.XpSettingsFor(guildId);
-
-                if (amount <= 0)
+                var toRemove = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
+                if (toRemove != null)
                 {
-                    var toRemove = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
-                    if (toRemove != null)
-                    {
-                        uow._context.Remove(toRemove);
-                        settings.CurrencyRewards.Remove(toRemove);
-                    }
+                    uow._context.Remove(toRemove);
+                    settings.CurrencyRewards.Remove(toRemove);
                 }
-                else
-                {
-                    var rew = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
-
-                    if (rew != null)
-                        rew.Amount = amount;
-                    else
-                        settings.CurrencyRewards.Add(new XpCurrencyReward
-                        {
-                            Level = level,
-                            Amount = amount
-                        });
-                }
-
-                uow.SaveChanges();
             }
+            else
+            {
+                var rew = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
+
+                if (rew != null)
+                    rew.Amount = amount;
+                else
+                    settings.CurrencyRewards.Add(new XpCurrencyReward
+                    {
+                        Level = level,
+                        Amount = amount
+                    });
+            }
+
+            uow.SaveChanges();
         }
 
         public IEnumerable<XpCurrencyReward> GetCurrencyRewards(ulong id)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow.GuildConfigs.XpSettingsFor(id)
-                    .CurrencyRewards
-                    .ToArray();
-            }
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.XpSettingsFor(id)
+                .CurrencyRewards
+                .ToArray();
         }
 
         public IEnumerable<XpRoleReward> GetRoleRewards(ulong id)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow.GuildConfigs.XpSettingsFor(id)
-                    .RoleRewards
-                    .ToArray();
-            }
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.XpSettingsFor(id)
+                .RoleRewards
+                .ToArray();
         }
 
         public void SetRoleReward(ulong guildId, int level, ulong? roleId)
@@ -962,7 +956,7 @@ namespace Mewdeko.Modules.Xp.Services
                                             .ApplyRoundedCorners(
                                                 Math.Max(_template.User.Icon.Size.X,
                                                     _template.User.Icon.Size.Y) / 2));
-                                        using (var stream = tempDraw.ToStream())
+                                        await using (var stream = tempDraw.ToStream())
                                         {
                                             data = stream.ToArray();
                                         }
@@ -972,16 +966,14 @@ namespace Mewdeko.Modules.Xp.Services
                                 await _cache.SetImageDataAsync(avatarUrl, data);
                             }
 
-                            using (var toDraw = Image.Load(data))
-                            {
-                                if (toDraw.Size() != new Size(_template.User.Icon.Size.X,
+                            using var toDraw = Image.Load(data);
+                            if (toDraw.Size() != new Size(_template.User.Icon.Size.X,
                                     _template.User.Icon.Size.Y))
-                                    toDraw.Mutate(x =>
-                                        x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
+                                toDraw.Mutate(x =>
+                                    x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
 
-                                img.Mutate(x => x.DrawImage(toDraw,
-                                    new Point(_template.User.Icon.Pos.X, _template.User.Icon.Pos.Y), 1));
-                            }
+                            img.Mutate(x => x.DrawImage(toDraw,
+                                new Point(_template.User.Icon.Pos.X, _template.User.Icon.Pos.Y), 1));
                         }
                         catch (Exception ex)
                         {

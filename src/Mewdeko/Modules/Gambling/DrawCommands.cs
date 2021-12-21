@@ -59,19 +59,17 @@ namespace Mewdeko.Modules.Gambling
                         .Replace(' ', '_'))));
                 }
 
-                using (var img = images.Merge())
-                {
-                    foreach (var i in images) i.Dispose();
+                using var img = images.Merge();
+                foreach (var i in images) i.Dispose();
 
-                    var toSend = $"{Format.Bold(ctx.User.ToString())}";
-                    if (cardObjects.Count == 5)
-                        toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
+                var toSend = $"{Format.Bold(ctx.User.ToString())}";
+                if (cardObjects.Count == 5)
+                    toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
 
-                    if (guildId != null)
-                        toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
+                if (guildId != null)
+                    toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
 
-                    return (img.ToStream(), toSend);
-                }
+                return (img.ToStream(), toSend);
             }
 
             [MewdekoCommand]
@@ -87,7 +85,7 @@ namespace Mewdeko.Modules.Gambling
                     num = 10;
 
                 var (ImageStream, ToSend) = await InternalDraw(num, ctx.Guild.Id).ConfigureAwait(false);
-                using (ImageStream)
+                await using (ImageStream)
                 {
                     await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
                 }
@@ -105,7 +103,7 @@ namespace Mewdeko.Modules.Gambling
                     num = 10;
 
                 var (ImageStream, ToSend) = await InternalDraw(num).ConfigureAwait(false);
-                using (ImageStream)
+                await using (ImageStream)
                 {
                     await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
                 }

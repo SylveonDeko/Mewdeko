@@ -30,12 +30,10 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot
 
         public async Task<string> Think(string message)
         {
-            using (var http = _httpFactory.CreateClient())
-            {
-                var res = await http.GetStringAsync(string.Format(ApiEndpoint, message)).ConfigureAwait(false);
-                var cbr = JsonConvert.DeserializeObject<ChatterBotResponse>(res);
-                return cbr.BotSay.Replace("<br/>", "\n", StringComparison.InvariantCulture);
-            }
+            using var http = _httpFactory.CreateClient();
+            var res = await http.GetStringAsync(string.Format(ApiEndpoint, message)).ConfigureAwait(false);
+            var cbr = JsonConvert.DeserializeObject<ChatterBotResponse>(res);
+            return cbr.BotSay.Replace("<br/>", "\n", StringComparison.InvariantCulture);
         }
     }
 }

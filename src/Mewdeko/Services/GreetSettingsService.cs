@@ -266,10 +266,8 @@ namespace Mewdeko.Services
 
         public string GetDmGreetMsg(ulong id)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow.GuildConfigs.ForId(id, set => set)?.DmGreetMessageText;
-            }
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.ForId(id, set => set)?.DmGreetMessageText;
         }
 
         public string GetGreetMsg(ulong gid)
@@ -531,10 +529,8 @@ namespace Mewdeko.Services
 
         public string GetByeMessage(ulong gid)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow.GuildConfigs.ForId(gid, set => set).ChannelByeMessageText;
-            }
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.ForId(gid, set => set).ChannelByeMessageText;
         }
 
         public GreetSettings GetOrAddSettingsForGuild(ulong guildId)
@@ -561,30 +557,28 @@ namespace Mewdeko.Services
                 settings.AutoDeleteGreetMessagesTimer < 0)
                 return false;
 
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                conf.DmGreetMessageText = settings.DmGreetMessageText?.SanitizeMentions();
-                conf.ChannelGreetMessageText = settings.ChannelGreetMessageText?.SanitizeMentions();
-                conf.ChannelByeMessageText = settings.ChannelByeMessageText?.SanitizeMentions();
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.DmGreetMessageText = settings.DmGreetMessageText?.SanitizeMentions();
+            conf.ChannelGreetMessageText = settings.ChannelGreetMessageText?.SanitizeMentions();
+            conf.ChannelByeMessageText = settings.ChannelByeMessageText?.SanitizeMentions();
 
-                conf.AutoDeleteGreetMessagesTimer = settings.AutoDeleteGreetMessagesTimer;
-                conf.AutoDeleteGreetMessages = settings.AutoDeleteGreetMessagesTimer > 0;
+            conf.AutoDeleteGreetMessagesTimer = settings.AutoDeleteGreetMessagesTimer;
+            conf.AutoDeleteGreetMessages = settings.AutoDeleteGreetMessagesTimer > 0;
 
-                conf.AutoDeleteByeMessagesTimer = settings.AutoDeleteByeMessagesTimer;
-                conf.AutoDeleteByeMessages = settings.AutoDeleteByeMessagesTimer > 0;
+            conf.AutoDeleteByeMessagesTimer = settings.AutoDeleteByeMessagesTimer;
+            conf.AutoDeleteByeMessages = settings.AutoDeleteByeMessagesTimer > 0;
 
-                conf.GreetMessageChannelId = settings.GreetMessageChannelId;
-                conf.ByeMessageChannelId = settings.ByeMessageChannelId;
+            conf.GreetMessageChannelId = settings.GreetMessageChannelId;
+            conf.ByeMessageChannelId = settings.ByeMessageChannelId;
 
-                conf.SendChannelGreetMessage = settings.SendChannelGreetMessage;
-                conf.SendChannelByeMessage = settings.SendChannelByeMessage;
+            conf.SendChannelGreetMessage = settings.SendChannelGreetMessage;
+            conf.SendChannelByeMessage = settings.SendChannelByeMessage;
 
-                await uow.SaveChangesAsync();
+            await uow.SaveChangesAsync();
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
-            }
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
             return true;
         }
@@ -592,17 +586,15 @@ namespace Mewdeko.Services
         public async Task<bool> SetGreet(ulong guildId, ulong channelId, bool? value = null)
         {
             bool enabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                enabled = conf.SendChannelGreetMessage = value ?? !conf.SendChannelGreetMessage;
-                conf.GreetMessageChannelId = channelId;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            enabled = conf.SendChannelGreetMessage = value ?? !conf.SendChannelGreetMessage;
+            conf.GreetMessageChannelId = channelId;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
 
             return enabled;
         }
@@ -615,17 +607,15 @@ namespace Mewdeko.Services
                 throw new ArgumentNullException(nameof(message));
 
             bool greetMsgEnabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                conf.ChannelGreetMessageText = message;
-                greetMsgEnabled = conf.SendChannelGreetMessage;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.ChannelGreetMessageText = message;
+            greetMsgEnabled = conf.SendChannelGreetMessage;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                uow.SaveChanges();
-            }
+            uow.SaveChanges();
 
             return greetMsgEnabled;
         }
@@ -633,16 +623,14 @@ namespace Mewdeko.Services
         public async Task<bool> SetGreetDm(ulong guildId, bool? value = null)
         {
             bool enabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                enabled = conf.SendDmGreetMessage = value ?? !conf.SendDmGreetMessage;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            enabled = conf.SendDmGreetMessage = value ?? !conf.SendDmGreetMessage;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
 
             return enabled;
         }
@@ -655,17 +643,15 @@ namespace Mewdeko.Services
                 throw new ArgumentNullException(nameof(message));
 
             bool greetMsgEnabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                conf.DmGreetMessageText = message;
-                greetMsgEnabled = conf.SendDmGreetMessage;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.DmGreetMessageText = message;
+            greetMsgEnabled = conf.SendDmGreetMessage;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                uow.SaveChanges();
-            }
+            uow.SaveChanges();
 
             return greetMsgEnabled;
         }
@@ -673,17 +659,15 @@ namespace Mewdeko.Services
         public async Task<bool> SetBye(ulong guildId, ulong channelId, bool? value = null)
         {
             bool enabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                enabled = conf.SendChannelByeMessage = value ?? !conf.SendChannelByeMessage;
-                conf.ByeMessageChannelId = channelId;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            enabled = conf.SendChannelByeMessage = value ?? !conf.SendChannelByeMessage;
+            conf.ByeMessageChannelId = channelId;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
 
             return enabled;
         }
@@ -696,17 +680,15 @@ namespace Mewdeko.Services
                 throw new ArgumentNullException(nameof(message));
 
             bool byeMsgEnabled;
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                conf.ChannelByeMessageText = message;
-                byeMsgEnabled = conf.SendChannelByeMessage;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.ChannelByeMessageText = message;
+            byeMsgEnabled = conf.SendChannelByeMessage;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                uow.SaveChanges();
-            }
+            uow.SaveChanges();
 
             return byeMsgEnabled;
         }
@@ -716,16 +698,14 @@ namespace Mewdeko.Services
             if (timer < 0 || timer > 600)
                 return;
 
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                conf.AutoDeleteByeMessagesTimer = timer;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            conf.AutoDeleteByeMessagesTimer = timer;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
         }
 
         public async Task SetGreetDel(ulong id, int timer)
@@ -733,45 +713,37 @@ namespace Mewdeko.Services
             if (timer < 0 || timer > 600)
                 return;
 
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(id, set => set);
-                conf.AutoDeleteGreetMessagesTimer = timer;
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(id, set => set);
+            conf.AutoDeleteGreetMessagesTimer = timer;
 
-                var toAdd = GreetSettings.Create(conf);
-                GuildConfigsCache.AddOrUpdate(id, toAdd, (key, old) => toAdd);
+            var toAdd = GreetSettings.Create(conf);
+            GuildConfigsCache.AddOrUpdate(id, toAdd, (key, old) => toAdd);
 
-                await uow.SaveChangesAsync();
-            }
+            await uow.SaveChangesAsync();
         }
 
         #region Get Enabled Status
 
         public bool GetGreetDmEnabled(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                return conf.SendDmGreetMessage;
-            }
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            return conf.SendDmGreetMessage;
         }
 
         public bool GetGreetEnabled(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                return conf.SendChannelGreetMessage;
-            }
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            return conf.SendChannelGreetMessage;
         }
 
         public bool GetByeEnabled(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                var conf = uow.GuildConfigs.ForId(guildId, set => set);
-                return conf.SendChannelByeMessage;
-            }
+            using var uow = _db.GetDbContext();
+            var conf = uow.GuildConfigs.ForId(guildId, set => set);
+            return conf.SendChannelByeMessage;
         }
 
         #endregion
