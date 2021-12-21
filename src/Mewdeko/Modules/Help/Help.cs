@@ -145,7 +145,7 @@ namespace Mewdeko.Modules.Help
         [Description]
         [Aliases]
         [MewdekoOptions(typeof(CommandsOptions))]
-        public async Task Commands(string module = null)
+        public async Task Commands([Remainder]string module = null)
         {
 
 
