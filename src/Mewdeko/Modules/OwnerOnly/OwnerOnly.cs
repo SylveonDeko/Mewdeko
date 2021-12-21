@@ -694,7 +694,7 @@ namespace Mewdeko.Modules.OwnerOnly
         [Description]
         [Aliases]
         [OwnerOnly]
-        public Task Leave([Remainder] string guildStr)
+        public Task LeaveServer([Remainder] string guildStr)
         {
             return Service.LeaveGuild(guildStr);
         }
