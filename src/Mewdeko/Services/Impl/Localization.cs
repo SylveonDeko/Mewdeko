@@ -79,12 +79,12 @@ namespace Mewdeko.Services.Impl
         public void RemoveGuildCulture(ulong guildId)
         {
             if (GuildCultureInfos.TryRemove(guildId, out var _))
-                using (var uow = _db.GetDbContext())
-                {
-                    var gc = uow.GuildConfigs.ForId(guildId, set => set);
-                    gc.Locale = null;
-                    uow.SaveChanges();
-                }
+            {
+                using var uow = _db.GetDbContext();
+                var gc = uow.GuildConfigs.ForId(guildId, set => set);
+                gc.Locale = null;
+                uow.SaveChanges();
+            }
         }
 
         public void SetDefaultCulture(CultureInfo ci)

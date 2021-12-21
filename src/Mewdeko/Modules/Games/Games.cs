@@ -76,26 +76,24 @@ namespace Mewdeko.Modules.Games
                 return;
             }
 
-            using (var imgStream = new MemoryStream())
+            await using var imgStream = new MemoryStream();
+            lock (gr)
             {
-                lock (gr)
-                {
-                    originalStream.Position = 0;
-                    originalStream.CopyTo(imgStream);
-                }
-
-                imgStream.Position = 0;
-                await ctx.Channel.SendFileAsync(imgStream,
-                    "rating.png",
-                    Format.Bold($"{ctx.User.Mention} Girl Rating For {usr}"),
-                    embed: new EmbedBuilder()
-                        .WithOkColor()
-                        .AddField(efb => efb.WithName("Hot").WithValue(gr.Hot.ToString("F2")).WithIsInline(true))
-                        .AddField(efb => efb.WithName("Crazy").WithValue(gr.Crazy.ToString("F2")).WithIsInline(true))
-                        .AddField(efb => efb.WithName("Advice").WithValue(gr.Advice).WithIsInline(false))
-                        .WithImageUrl("attachment://rating.png")
-                        .Build()).ConfigureAwait(false);
+                originalStream.Position = 0;
+                originalStream.CopyTo(imgStream);
             }
+
+            imgStream.Position = 0;
+            await ctx.Channel.SendFileAsync(imgStream,
+                "rating.png",
+                Format.Bold($"{ctx.User.Mention} Girl Rating For {usr}"),
+                embed: new EmbedBuilder()
+                    .WithOkColor()
+                    .AddField(efb => efb.WithName("Hot").WithValue(gr.Hot.ToString("F2")).WithIsInline(true))
+                    .AddField(efb => efb.WithName("Crazy").WithValue(gr.Crazy.ToString("F2")).WithIsInline(true))
+                    .AddField(efb => efb.WithName("Advice").WithValue(gr.Advice).WithIsInline(false))
+                    .WithImageUrl("attachment://rating.png")
+                    .Build()).ConfigureAwait(false);
         }
 
         private double NextDouble(double x, double y)

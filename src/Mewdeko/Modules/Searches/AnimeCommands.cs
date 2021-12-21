@@ -229,39 +229,37 @@ namespace Mewdeko.Modules.Searches
                 var response = await client.PostAsync(
                     $"https://api.trace.moe/search?url={t}", null);
                 var responseContent = response.Content;
-                using (var reader = new StreamReader(await responseContent.ReadAsStreamAsync()))
+                using var reader = new StreamReader(await responseContent.ReadAsStreamAsync());
+                var er = await reader.ReadToEndAsync();
+                var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
+                    new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                var ert = stuff.MoeResults.FirstOrDefault();
+                if (ert.Filename is null)
+                    await ctx.Channel.SendErrorAsync(
+                        "No results found. Please try a different image, or avoid cropping the current one.");
+                var image = await c2.GetMediaById(ert.Anilist);
+                var eb = new EmbedBuilder
                 {
-                    var er = await reader.ReadToEndAsync();
-                    var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
-                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                    var ert = stuff.MoeResults.FirstOrDefault();
-                    if (ert.Filename is null)
-                        await ctx.Channel.SendErrorAsync(
-                            "No results found. Please try a different image, or avoid cropping the current one.");
-                    var image = await c2.GetMediaById(ert.Anilist);
-                    var eb = new EmbedBuilder
-                    {
-                        ImageUrl = image.CoverImageLarge,
-                        Color = Mewdeko.Services.Mewdeko.OkColor
-                    };
-                    var te = string.Empty;
-                    if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
-                    else te = image.SeasonInt.ToString()[2..];
-                    var entitle = image.EnglishTitle;
-                    if (image.EnglishTitle == null) entitle = "None";
-                    eb.AddField("English Title", entitle);
-                    eb.AddField("Japanese Title", image.NativeTitle);
-                    eb.AddField("Romanji Title", image.RomajiTitle);
-                    eb.AddField("Air Start Date", image.AiringStartDate);
-                    eb.AddField("Air End Date", image.AiringEndDate);
-                    eb.AddField("Season Number", te);
-                    if (ert.Episode is not null) eb.AddField("Episode", ert.Episode);
-                    eb.AddField("AniList Link", image.SiteUrl);
-                    eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image.IdMal}");
-                    eb.AddField("Score", image.MeanScore);
-                    eb.AddField("Description", image.DescriptionMd.TrimTo(1024));
-                    _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
-                }
+                    ImageUrl = image.CoverImageLarge,
+                    Color = Mewdeko.Services.Mewdeko.OkColor
+                };
+                var te = string.Empty;
+                if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
+                else te = image.SeasonInt.ToString()[2..];
+                var entitle = image.EnglishTitle;
+                if (image.EnglishTitle == null) entitle = "None";
+                eb.AddField("English Title", entitle);
+                eb.AddField("Japanese Title", image.NativeTitle);
+                eb.AddField("Romanji Title", image.RomajiTitle);
+                eb.AddField("Air Start Date", image.AiringStartDate);
+                eb.AddField("Air End Date", image.AiringEndDate);
+                eb.AddField("Season Number", te);
+                if (ert.Episode is not null) eb.AddField("Episode", ert.Episode);
+                eb.AddField("AniList Link", image.SiteUrl);
+                eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image.IdMal}");
+                eb.AddField("Score", image.MeanScore);
+                eb.AddField("Description", image.DescriptionMd.TrimTo(1024));
+                _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
             }
 
             [MewdekoCommand]

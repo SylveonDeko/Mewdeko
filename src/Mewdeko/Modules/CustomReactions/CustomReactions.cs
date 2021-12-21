@@ -58,7 +58,7 @@ namespace Mewdeko.Modules.CustomReactions
             _ = ctx.Channel.TriggerTypingAsync();
 
             var serialized = Service.ExportCrs(ctx.Guild?.Id);
-            using var stream = await serialized.ToStream();
+            await using var stream = await serialized.ToStream();
             await ctx.Channel.SendFileAsync(stream, "crs-export.yml", null);
         }
 

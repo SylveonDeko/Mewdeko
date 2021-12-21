@@ -93,12 +93,10 @@ namespace Mewdeko.Modules.Games.Services
 
         private async Task<RatingTexts> GetRatingTexts()
         {
-            using (var http = _httpFactory.CreateClient())
-            {
-                var text = await http.GetStringAsync(
-                    "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
-                return JsonConvert.DeserializeObject<RatingTexts>(text);
-            }
+            using var http = _httpFactory.CreateClient();
+            var text = await http.GetStringAsync(
+                "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/rategirl/rates.json");
+            return JsonConvert.DeserializeObject<RatingTexts>(text);
         }
 
         public void AddTypingArticle(IUser user, string text)

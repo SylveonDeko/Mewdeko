@@ -60,62 +60,60 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
             if (logins.Count == 0)
                 return new List<StreamData>();
 
-            using (var http = _httpClientFactory.CreateClient())
-            {
-                http.DefaultRequestHeaders.Add("Client-Id", "67w6z9i09xv2uoojdm9l0wsyph4hxo6");
-                http.DefaultRequestHeaders.Add("Accept", "application/vnd.twitchtv.v5+json");
+            using var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Add("Client-Id", "67w6z9i09xv2uoojdm9l0wsyph4hxo6");
+            http.DefaultRequestHeaders.Add("Accept", "application/vnd.twitchtv.v5+json");
 
-                var toReturn = new List<StreamData>();
-                foreach (var login in logins)
-                    try
+            var toReturn = new List<StreamData>();
+            foreach (var login in logins)
+                try
+                {
+                    // get id based on the username
+                    var idsStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/users?login={login}");
+                    var userData = JsonConvert.DeserializeObject<TwitchUsersResponseV5>(idsStr);
+                    var user = userData?.Users.FirstOrDefault();
+
+                    // if user can't be found, skip, it means there is no such user
+                    if (user is null)
+                        continue;
+
+                    // get stream data
+                    var str = await http.GetStringAsync($"https://api.twitch.tv/kraken/streams/{user.Id}");
+                    var resObj =
+                        JsonConvert.DeserializeAnonymousType(str, new { Stream = new TwitchResponseV5.Stream() });
+
+                    // if stream is null, user is not streaming
+                    if (resObj?.Stream is null)
                     {
-                        // get id based on the username
-                        var idsStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/users?login={login}");
-                        var userData = JsonConvert.DeserializeObject<TwitchUsersResponseV5>(idsStr);
-                        var user = userData?.Users.FirstOrDefault();
+                        // if user is not streaming, get his offline banner
+                        var chStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/channels/{user.Id}");
+                        var ch = JsonConvert.DeserializeObject<TwitchResponseV5.Channel>(chStr);
 
-                        // if user can't be found, skip, it means there is no such user
-                        if (user is null)
-                            continue;
-
-                        // get stream data
-                        var str = await http.GetStringAsync($"https://api.twitch.tv/kraken/streams/{user.Id}");
-                        var resObj =
-                            JsonConvert.DeserializeAnonymousType(str, new { Stream = new TwitchResponseV5.Stream() });
-
-                        // if stream is null, user is not streaming
-                        if (resObj?.Stream is null)
+                        toReturn.Add(new StreamData
                         {
-                            // if user is not streaming, get his offline banner
-                            var chStr = await http.GetStringAsync($"https://api.twitch.tv/kraken/channels/{user.Id}");
-                            var ch = JsonConvert.DeserializeObject<TwitchResponseV5.Channel>(chStr);
-
-                            toReturn.Add(new StreamData
-                            {
-                                StreamType = FollowedStream.FType.Twitch,
-                                Name = ch?.DisplayName,
-                                UniqueName = ch?.Name,
-                                Title = ch.Status,
-                                IsLive = false,
-                                AvatarUrl = ch.Logo,
-                                StreamUrl = $"https://twitch.tv/{ch.Name}",
-                                Preview = ch.VideoBanner // set video banner as the preview,
-                            });
-                            continue; // move on
-                        }
-
-                        toReturn.Add(ToStreamData(resObj.Stream));
-                        _failingStreams.TryRemove(login, out _);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Warning(
-                            $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
-                        _failingStreams.TryAdd(login, DateTime.UtcNow);
+                            StreamType = FollowedStream.FType.Twitch,
+                            Name = ch?.DisplayName,
+                            UniqueName = ch?.Name,
+                            Title = ch.Status,
+                            IsLive = false,
+                            AvatarUrl = ch.Logo,
+                            StreamUrl = $"https://twitch.tv/{ch.Name}",
+                            Preview = ch.VideoBanner // set video banner as the preview,
+                        });
+                        continue; // move on
                     }
 
-                return toReturn;
-            }
+                    toReturn.Add(ToStreamData(resObj.Stream));
+                    _failingStreams.TryRemove(login, out _);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(
+                        $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                    _failingStreams.TryAdd(login, DateTime.UtcNow);
+                }
+
+            return toReturn;
         }
 
         private StreamData ToStreamData(TwitchResponseV5.Stream stream)

@@ -131,27 +131,23 @@ namespace Mewdeko.Services.Impl
                 {
                     try
                     {
-                        using (var http = _httpFactory.CreateClient())
-                        {
-                            using (var content = new FormUrlEncodedContent(
-                                new Dictionary<string, string>
-                                {
-                                    { "shard_count", _creds.TotalShards.ToString() },
-                                    { "shard_id", _client.ShardId.ToString() },
-                                    { "server_count", _coord.GetGuildCount().ToString() }
-                                }))
+                        using var http = _httpFactory.CreateClient();
+                        using var content = new FormUrlEncodedContent(
+                            new Dictionary<string, string>
                             {
-                                content.Headers.Clear();
-                                content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                                http.DefaultRequestHeaders.Add("Authorization",
-                                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
+                                { "shard_count", _creds.TotalShards.ToString() },
+                                { "shard_id", _client.ShardId.ToString() },
+                                { "server_count", _coord.GetGuildCount().ToString() }
+                            });
+                        content.Headers.Clear();
+                        content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                        http.DefaultRequestHeaders.Add("Authorization",
+                            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
 
-                                using (await http
-                                           .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
-                                               content).ConfigureAwait(false))
-                                {
-                                }
-                            }
+                        using (await http
+                                   .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
+                                       content).ConfigureAwait(false))
+                        {
                         }
                     }
                     catch (Exception ex)

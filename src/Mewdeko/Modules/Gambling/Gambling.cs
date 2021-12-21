@@ -678,10 +678,10 @@ namespace Mewdeko.Modules.Gambling
 
                 List<DiscordUser> toSend;
                 if (!opts.Clean)
-                    using (var uow = _db.GetDbContext())
-                    {
-                        toSend = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page);
-                    }
+                {
+                    using var uow = _db.GetDbContext();
+                    toSend = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page);
+                }
                 else
                     toSend = cleanRichest.Skip(page * 9).Take(9).ToList();
 

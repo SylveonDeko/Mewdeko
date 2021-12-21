@@ -17,8 +17,6 @@ namespace Mewdeko.Modules.Server_Management
     {
         private readonly IHttpClientFactory _httpFactory;
 
-        public IHttpClientFactory factory;
-
         public ServerManagement(IHttpClientFactory factory)
         {
             _httpFactory = factory;
@@ -133,16 +131,12 @@ namespace Mewdeko.Modules.Server_Management
         {
             var guild = ctx.Guild;
             var uri = new Uri(img);
-            using (var http = _httpFactory.CreateClient())
-            using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
-            {
-                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                using (var imgStream = imgData.ToStream())
-                {
-                    await guild.ModifyAsync(x => x.Banner = new Image(imgStream)).ConfigureAwait(false);
-                    await ctx.Channel.SendConfirmAsync("New server banner has been set!");
-                }
-            }
+            using var http = _httpFactory.CreateClient();
+            using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            await using var imgStream = imgData.ToStream();
+            await guild.ModifyAsync(x => x.Banner = new Image(imgStream)).ConfigureAwait(false);
+            await ctx.Channel.SendConfirmAsync("New server banner has been set!");
         }
 
         [MewdekoCommand]
@@ -188,22 +182,18 @@ namespace Mewdeko.Modules.Server_Management
 
             var uri = new Uri(acturl);
             using var http = _httpFactory.CreateClient();
-            using (var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+            using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            await using var imgStream = imgData.ToStream();
+            try
             {
-                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                using (var imgStream = imgData.ToStream())
-                {
-                    try
-                    {
-                        var emote = await ctx.Guild.CreateEmoteAsync(name, new Image(imgStream));
-                        await ctx.Channel.SendConfirmAsync(emote + " with the name " + Format.Code(name) + " created!");
-                    }
-                    catch (Exception)
-                    {
-                        await ctx.Channel.SendErrorAsync(
-                            "The emote could not be added because it is either: Too Big(Over 256kb), != a direct link, Or exceeds server emoji limit.");
-                    }
-                }
+                var emote = await ctx.Guild.CreateEmoteAsync(name, new Image(imgStream));
+                await ctx.Channel.SendConfirmAsync(emote + " with the name " + Format.Code(name) + " created!");
+            }
+            catch (Exception)
+            {
+                await ctx.Channel.SendErrorAsync(
+                    "The emote could not be added because it is either: Too Big(Over 256kb), != a direct link, Or exceeds server emoji limit.");
             }
         }
 
@@ -285,23 +275,19 @@ namespace Mewdeko.Modules.Server_Management
             foreach (var i in tags)
             {
                 using var http = _httpFactory.CreateClient();
-                using (var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false))
+                using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false);
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                await using var imgStream = imgData.ToStream();
                 {
-                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                    using (var imgStream = imgData.ToStream())
+                    try
                     {
-                        {
-                            try
-                            {
-                                var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream));
-                                emotes.Add($"{emote} {Format.Code(emote.Name)}");
-                            }
-                            catch (Exception)
-                            {
-                                errored.Add($"{i.Name}\n{i.Url}");
-                            }
-                        }
+                        var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream));
+                        emotes.Add($"{emote} {Format.Code(emote.Name)}");
+                    }
+                    catch (Exception)
+                    {
+                        errored.Add($"{i.Name}\n{i.Url}");
                     }
                 }
             }
@@ -340,23 +326,19 @@ namespace Mewdeko.Modules.Server_Management
             foreach (var i in tags)
             {
                 using var http = _httpFactory.CreateClient();
-                using (var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false))
+                using var sr = await http.GetAsync(i.Url, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false);
+                var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                await using var imgStream = imgData.ToStream();
                 {
-                    var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                    using (var imgStream = imgData.ToStream())
+                    try
                     {
-                        {
-                            try
-                            {
-                                var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list);
-                                emotes.Add($"{emote} {Format.Code(emote.Name)}");
-                            }
-                            catch (Exception)
-                            {
-                                errored.Add($"{i.Name}\n{i.Url}");
-                            }
-                        }
+                        var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list);
+                        emotes.Add($"{emote} {Format.Code(emote.Name)}");
+                    }
+                    catch (Exception)
+                    {
+                        errored.Add($"{i.Name}\n{i.Url}");
                     }
                 }
             }
