@@ -53,7 +53,29 @@ namespace Mewdeko.Modules.Administration
         {
             Interactivity = serv;
         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [BotPerm(GuildPermission.ManageNicknames)]
+        [UserPerm(GuildPermission.ManageNicknames)]
+        [Priority(1)]
+        public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
+        {
+            var sg = (SocketGuild)Context.Guild;
+            if (sg.OwnerId == gu.Id ||
+                gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
+            {
+                await ReplyErrorLocalizedAsync("insuf_perms_i");
+                return;
+            }
 
+            await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
+
+            await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-")
+                .ConfigureAwait(false);
+        }
+        
         [MewdekoCommand]
         [Usage]
         [Description]

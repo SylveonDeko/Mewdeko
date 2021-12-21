@@ -121,11 +121,9 @@ namespace Mewdeko.Modules.OwnerOnly
                         return msg;
                     })
                 });
-            using (var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
-                .ConfigureAwait(false))
-            {
-                await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
-            }
+            await using var stream = await JsonConvert.SerializeObject(grouping, Formatting.Indented).ToStream()
+                .ConfigureAwait(false);
+            await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
         }
         [MewdekoCommand]
         [Usage]
@@ -742,6 +740,7 @@ namespace Mewdeko.Modules.OwnerOnly
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -783,29 +782,7 @@ namespace Mewdeko.Modules.OwnerOnly
 
             await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
         }
-
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [BotPerm(GuildPermission.ManageNicknames)]
-        [UserPerm(GuildPermission.ManageNicknames)]
-        [Priority(1)]
-        public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
-        {
-            var sg = (SocketGuild)Context.Guild;
-            if (sg.OwnerId == gu.Id ||
-                gu.GetRoles().Max(r => r.Position) >= sg.CurrentUser.GetRoles().Max(r => r.Position))
-            {
-                await ReplyErrorLocalizedAsync("insuf_perms_i");
-                return;
-            }
-
-            await gu.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
-
-            await ReplyConfirmLocalizedAsync("user_nick", Format.Bold(gu.ToString()), Format.Bold(newNick) ?? "-")
-                .ConfigureAwait(false);
-        }
+        
 
         [MewdekoCommand]
         [Usage]
@@ -972,48 +949,46 @@ namespace Mewdeko.Modules.OwnerOnly
         [OwnerOnly]
         public async Task Bash([Remainder] string message)
         {
-            using (var process = new Process())
+            using var process = new Process();
+            process.StartInfo = new ProcessStartInfo
             {
-                process.StartInfo = new ProcessStartInfo
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{message} 2>&1\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (ctx.Channel.EnterTypingState())
+            {
+                process.Start();
+
+                // Synchronously read the standard output of the spawned process.
+                var reader = process.StandardOutput;
+
+                var output = await reader.ReadToEndAsync();
+                if (output.Length > 2000)
                 {
-                    FileName = "/bin/bash",
-                    Arguments = $"-c \"{message} 2>&1\"",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
-                using (ctx.Channel.EnterTypingState())
-                {
-                    process.Start();
-
-                    // Synchronously read the standard output of the spawned process.
-                    var reader = process.StandardOutput;
-
-                    var output = await reader.ReadToEndAsync();
-                    if (output.Length > 2000)
+                    var chunkSize = 1988;
+                    var stringLength = output.Length;
+                    for (var i = 0; i < stringLength; i += chunkSize)
                     {
-                        var chunkSize = 1988;
-                        var stringLength = output.Length;
-                        for (var i = 0; i < stringLength; i += chunkSize)
-                        {
-                            if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                            await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```");
-                            await process.WaitForExitAsync();
-                        }
-                    }
-                    else if (output == "")
-                    {
-                        await ctx.Channel.SendMessageAsync("```The output was blank```");
-                    }
-                    else
-                    {
-                        await ctx.Channel.SendMessageAsync($"```bash\n{output}```");
+                        if (i + chunkSize > stringLength) chunkSize = stringLength - i;
+                        await ctx.Channel.SendMessageAsync($"```bash\n{output.Substring(i, chunkSize)}```");
+                        await process.WaitForExitAsync();
                     }
                 }
-
-                await process.WaitForExitAsync();
+                else if (output == "")
+                {
+                    await ctx.Channel.SendMessageAsync("```The output was blank```");
+                }
+                else
+                {
+                    await ctx.Channel.SendMessageAsync($"```bash\n{output}```");
+                }
             }
+
+            await process.WaitForExitAsync();
         }
 
         [MewdekoCommand]

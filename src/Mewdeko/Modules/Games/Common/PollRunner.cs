@@ -60,12 +60,10 @@ namespace Mewdeko.Modules.Games.Common
                 _locker.Release();
             }
 
-            using (var uow = _db.GetDbContext())
-            {
-                var trackedPoll = uow.Polls.GetById(Poll.Id);
-                trackedPoll.Votes.Add(voteObj);
-                uow.SaveChanges();
-            }
+            using var uow = _db.GetDbContext();
+            var trackedPoll = uow.Polls.GetById(Poll.Id);
+            trackedPoll.Votes.Add(voteObj);
+            uow.SaveChanges();
 
             return true;
         }

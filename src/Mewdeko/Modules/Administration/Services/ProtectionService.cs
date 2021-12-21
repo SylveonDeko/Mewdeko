@@ -307,13 +307,11 @@ namespace Mewdeko.Modules.Administration.Services
         {
             if (_antiRaidGuilds.TryRemove(guildId, out _))
             {
-                using (var uow = _db.GetDbContext())
-                {
-                    var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
+                using var uow = _db.GetDbContext();
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
-                    gc.AntiRaidSetting = null;
-                    uow.SaveChanges();
-                }
+                gc.AntiRaidSetting = null;
+                uow.SaveChanges();
 
                 return true;
             }
@@ -326,14 +324,12 @@ namespace Mewdeko.Modules.Administration.Services
             if (_antiSpamGuilds.TryRemove(guildId, out var removed))
             {
                 removed.UserStats.ForEach(x => x.Value.Dispose());
-                using (var uow = _db.GetDbContext())
-                {
-                    var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting)
-                        .ThenInclude(x => x.IgnoredChannels));
+                using var uow = _db.GetDbContext();
+                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting)
+                    .ThenInclude(x => x.IgnoredChannels));
 
-                    gc.AntiSpamSetting = null;
-                    uow.SaveChanges();
-                }
+                gc.AntiSpamSetting = null;
+                uow.SaveChanges();
 
                 return true;
             }

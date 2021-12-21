@@ -114,35 +114,31 @@ namespace Mewdeko.Modules.Administration.Services
         {
             commandName = commandName.ToLowerInvariant();
 
-            using (var uow = _db.GetDbContext())
-            {
-                var over = await uow._context
-                    .Set<DiscordPermOverride>()
-                    .AsQueryable()
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.GuildId == guildId && x.Command == commandName);
+            using var uow = _db.GetDbContext();
+            var over = await uow._context
+                .Set<DiscordPermOverride>()
+                .AsQueryable()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.GuildId == guildId && x.Command == commandName);
 
-                if (over is null)
-                    return;
+            if (over is null)
+                return;
 
-                uow._context.Remove(over);
-                await uow.SaveChangesAsync();
+            uow._context.Remove(over);
+            await uow.SaveChangesAsync();
 
-                _overrides.TryRemove((guildId, commandName), out _);
-            }
+            _overrides.TryRemove((guildId, commandName), out _);
         }
 
         public Task<List<DiscordPermOverride>> GetAllOverrides(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow._context
-                    .Set<DiscordPermOverride>()
-                    .AsQueryable()
-                    .AsNoTracking()
-                    .Where(x => x.GuildId == guildId)
-                    .ToListAsync();
-            }
+            using var uow = _db.GetDbContext();
+            return uow._context
+                .Set<DiscordPermOverride>()
+                .AsQueryable()
+                .AsNoTracking()
+                .Where(x => x.GuildId == guildId)
+                .ToListAsync();
         }
     }
 }

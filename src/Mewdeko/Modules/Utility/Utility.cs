@@ -221,8 +221,8 @@ namespace Mewdeko.Modules.Utility
                     return;
                 }
 
-                Mewdeko.Services.Database.Models.SnipeStore msg = msgs.OrderByDescending(d => d.DateAdded)
-                    .Where(x => x.Edited == 0).FirstOrDefault();
+                Mewdeko.Services.Database.Models.SnipeStore msg = msgs
+                    .OrderByDescending(d => d.DateAdded).FirstOrDefault(x => x.Edited == 0);
                 var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
 
                 var em = new EmbedBuilder
