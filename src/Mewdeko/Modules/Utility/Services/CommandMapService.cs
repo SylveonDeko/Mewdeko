@@ -19,23 +19,21 @@ namespace Mewdeko.Modules.Utility.Services
         //commandmap
         public CommandMapService(DiscordSocketClient client, DbService db)
         {
-            using (var uow = db.GetDbContext())
-            {
-                var guildIds = client.Guilds.Select(x => x.Id).ToList();
-                var configs = uow._context.Set<GuildConfig>()
-                    .Include(gc => gc.CommandAliases)
-                    .Where(x => guildIds.Contains(x.GuildId))
-                    .ToList();
+            using var uow = db.GetDbContext();
+            var guildIds = client.Guilds.Select(x => x.Id).ToList();
+            var configs = uow._context.Set<GuildConfig>()
+                .Include(gc => gc.CommandAliases)
+                .Where(x => guildIds.Contains(x.GuildId))
+                .ToList();
 
-                AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(configs
-                    .ToDictionary(
-                        x => x.GuildId,
-                        x => new ConcurrentDictionary<string, string>(x.CommandAliases
-                            .Distinct(new CommandAliasEqualityComparer())
-                            .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
+            AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(configs
+                .ToDictionary(
+                    x => x.GuildId,
+                    x => new ConcurrentDictionary<string, string>(x.CommandAliases
+                        .Distinct(new CommandAliasEqualityComparer())
+                        .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
 
-                _db = db;
-            }
+            _db = db;
         }
 
         public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new();
@@ -74,13 +72,11 @@ namespace Mewdeko.Modules.Utility.Services
             AliasMaps.TryRemove(guildId, out _);
 
             int count;
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.CommandAliases));
-                count = gc.CommandAliases.Count;
-                gc.CommandAliases.Clear();
-                uow.SaveChanges();
-            }
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.CommandAliases));
+            count = gc.CommandAliases.Count;
+            gc.CommandAliases.Clear();
+            uow.SaveChanges();
 
             return count;
         }

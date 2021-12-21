@@ -56,29 +56,25 @@ namespace Mewdeko.Modules.Gambling.Services
         {
             try
             {
-                using (var req = new HttpRequestMessage(HttpMethod.Get, _creds.VotesUrl))
+                using var req = new HttpRequestMessage(HttpMethod.Get, _creds.VotesUrl);
+                if (!string.IsNullOrWhiteSpace(_creds.VotesToken))
+                    req.Headers.Add("Authorization", _creds.VotesToken);
+                using var http = _http.CreateClient();
+                using var res = await http.SendAsync(req).ConfigureAwait(false);
+                if (!res.IsSuccessStatusCode)
                 {
-                    if (!string.IsNullOrWhiteSpace(_creds.VotesToken))
-                        req.Headers.Add("Authorization", _creds.VotesToken);
-                    using (var http = _http.CreateClient())
-                    using (var res = await http.SendAsync(req).ConfigureAwait(false))
-                    {
-                        if (!res.IsSuccessStatusCode)
-                        {
-                            Log.Warning("Botlist API not reached.");
-                            return;
-                        }
-
-                        var resStr = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
-                            .Select(x => x.User)
-                            .Distinct();
-                        await _cs.AddBulkAsync(ids,
-                            ids.Select(x => "Voted - <https://top.gg/bot/752236274261426212/vote>"),
-                            ids.Select(x => 50L), true).ConfigureAwait(false);
-                        Log.Information($"Vote currency given to {ids.Count()} users.");
-                    }
+                    Log.Warning("Botlist API not reached.");
+                    return;
                 }
+
+                var resStr = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
+                    .Select(x => x.User)
+                    .Distinct();
+                await _cs.AddBulkAsync(ids,
+                    ids.Select(x => "Voted - <https://top.gg/bot/752236274261426212/vote>"),
+                    ids.Select(x => 50L), true).ConfigureAwait(false);
+                Log.Information($"Vote currency given to {ids.Count()} users.");
             }
             catch (Exception ex)
             {

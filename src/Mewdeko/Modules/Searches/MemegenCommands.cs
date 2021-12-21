@@ -52,36 +52,34 @@ namespace Mewdeko.Modules.Searches
                 if (--page < 0)
                     return;
 
-                using (var http = _httpFactory.CreateClient("memelist"))
+                using var http = _httpFactory.CreateClient("memelist");
+                var res = await http.GetAsync("https://api.memegen.link/templates/")
+                    .ConfigureAwait(false);
+
+                var rawJson = await res.Content.ReadAsStringAsync();
+
+                var data = JsonConvert.DeserializeObject<List<MemegenTemplate>>(rawJson);
+
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(data.Count / 15)
+                    .WithDefaultEmotes()
+                    .Build();
+
+                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
                 {
-                    var res = await http.GetAsync("https://api.memegen.link/templates/")
-                        .ConfigureAwait(false);
+                    var templates = "";
+                    foreach (var template in data.Skip(page * 15).Take(15))
+                        templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
+                    var embed = new PageBuilder()
+                        .WithOkColor()
+                        .WithDescription(templates);
 
-                    var rawJson = await res.Content.ReadAsStringAsync();
-
-                    var data = JsonConvert.DeserializeObject<List<MemegenTemplate>>(rawJson);
-
-                    var paginator = new LazyPaginatorBuilder()
-                        .AddUser(ctx.User)
-                        .WithPageFactory(PageFactory)
-                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(data.Count / 15)
-                        .WithDefaultEmotes()
-                        .Build();
-
-                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
-
-                    Task<PageBuilder> PageFactory(int page)
-                    {
-                        var templates = "";
-                        foreach (var template in data.Skip(page * 15).Take(15))
-                            templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
-                        var embed = new PageBuilder()
-                            .WithOkColor()
-                            .WithDescription(templates);
-
-                        return Task.FromResult(embed);
-                    }
+                    return Task.FromResult(embed);
                 }
             }
 

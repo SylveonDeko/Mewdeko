@@ -158,14 +158,12 @@ namespace Mewdeko.Modules.Searches.Services
 
         public List<FeedSub> GetFeeds(ulong guildId)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow.GuildConfigs.ForId(guildId,
-                        set => set.Include(x => x.FeedSubs))
-                    .FeedSubs
-                    .OrderBy(x => x.Id)
-                    .ToList();
-            }
+            using var uow = _db.GetDbContext();
+            return uow.GuildConfigs.ForId(guildId,
+                    set => set.Include(x => x.FeedSubs))
+                .FeedSubs
+                .OrderBy(x => x.Id)
+                .ToList();
         }
 
         public bool AddFeed(ulong guildId, ulong channelId, string rssFeed)
@@ -178,25 +176,23 @@ namespace Mewdeko.Modules.Searches.Services
                 Url = rssFeed.Trim()
             };
 
-            using (var uow = _db.GetDbContext())
-            {
-                var gc = uow.GuildConfigs.ForId(guildId,
-                    set => set.Include(x => x.FeedSubs));
+            using var uow = _db.GetDbContext();
+            var gc = uow.GuildConfigs.ForId(guildId,
+                set => set.Include(x => x.FeedSubs));
 
-                if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
-                    return false;
-                if (gc.FeedSubs.Count >= 10) return false;
+            if (gc.FeedSubs.Any(x => x.Url.ToLower() == fs.Url.ToLower()))
+                return false;
+            if (gc.FeedSubs.Count >= 10) return false;
 
-                gc.FeedSubs.Add(fs);
-                uow.SaveChanges();
-                //adding all, in case bot wasn't on this guild when it started
-                foreach (var feed in gc.FeedSubs)
-                    _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> { feed }, (k, old) =>
-                    {
-                        old.Add(feed);
-                        return old;
-                    });
-            }
+            gc.FeedSubs.Add(fs);
+            uow.SaveChanges();
+            //adding all, in case bot wasn't on this guild when it started
+            foreach (var feed in gc.FeedSubs)
+                _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> { feed }, (k, old) =>
+                {
+                    old.Add(feed);
+                    return old;
+                });
 
             return true;
         }
@@ -206,24 +202,22 @@ namespace Mewdeko.Modules.Searches.Services
             if (index < 0)
                 return false;
 
-            using (var uow = _db.GetDbContext())
-            {
-                var items = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs))
-                    .FeedSubs
-                    .OrderBy(x => x.Id)
-                    .ToList();
+            using var uow = _db.GetDbContext();
+            var items = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.FeedSubs))
+                .FeedSubs
+                .OrderBy(x => x.Id)
+                .ToList();
 
-                if (items.Count <= index)
-                    return false;
-                var toRemove = items[index];
-                _subs.AddOrUpdate(toRemove.Url.ToLower(), new HashSet<FeedSub>(), (key, old) =>
-                {
-                    old.Remove(toRemove);
-                    return old;
-                });
-                uow._context.Remove(toRemove);
-                uow.SaveChanges();
-            }
+            if (items.Count <= index)
+                return false;
+            var toRemove = items[index];
+            _subs.AddOrUpdate(toRemove.Url.ToLower(), new HashSet<FeedSub>(), (key, old) =>
+            {
+                old.Remove(toRemove);
+                return old;
+            });
+            uow._context.Remove(toRemove);
+            uow.SaveChanges();
 
             return true;
         }

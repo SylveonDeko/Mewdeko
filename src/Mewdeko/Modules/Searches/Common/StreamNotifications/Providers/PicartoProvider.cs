@@ -61,35 +61,33 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
             if (logins.Count == 0)
                 return new List<StreamData>();
 
-            using (var http = _httpClientFactory.CreateClient())
-            {
-                var toReturn = new List<StreamData>();
-                foreach (var login in logins)
-                    try
-                    {
-                        http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        // get id based on the username
-                        var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
+            using var http = _httpClientFactory.CreateClient();
+            var toReturn = new List<StreamData>();
+            foreach (var login in logins)
+                try
+                {
+                    http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    // get id based on the username
+                    var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
 
-                        if (!res.IsSuccessStatusCode)
-                            continue;
+                    if (!res.IsSuccessStatusCode)
+                        continue;
 
-                        var userData =
-                            JsonConvert.DeserializeObject<PicartoChannelResponse>(
-                                await res.Content.ReadAsStringAsync());
+                    var userData =
+                        JsonConvert.DeserializeObject<PicartoChannelResponse>(
+                            await res.Content.ReadAsStringAsync());
 
-                        toReturn.Add(ToStreamData(userData));
-                        _failingStreams.TryRemove(login, out _);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Warning(ex,
-                            $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
-                        _failingStreams.TryAdd(login, DateTime.UtcNow);
-                    }
+                    toReturn.Add(ToStreamData(userData));
+                    _failingStreams.TryRemove(login, out _);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex,
+                        $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                    _failingStreams.TryAdd(login, DateTime.UtcNow);
+                }
 
-                return toReturn;
-            }
+            return toReturn;
         }
 
         private StreamData ToStreamData(PicartoChannelResponse stream)

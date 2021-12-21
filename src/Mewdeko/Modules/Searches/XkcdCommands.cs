@@ -33,31 +33,29 @@ namespace Mewdeko.Modules.Searches
                 {
                     try
                     {
-                        using (var http = _httpFactory.CreateClient())
-                        {
-                            var res = await http.GetStringAsync($"{_xkcdUrl}/info.0.json").ConfigureAwait(false);
-                            var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                            var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
-                                .WithImageUrl(comic.ImageLink)
-                                .WithAuthor(eab =>
-                                    eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}")
-                                        .WithIconUrl("https://xkcd.com/s/919f27.ico"))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())
-                                        .WithIsInline(true))
-                                .AddField(efb =>
-                                    efb.WithName(GetText("date")).WithValue($"{comic.Month}/{comic.Year}")
-                                        .WithIsInline(true));
-                            var sent = await ctx.Channel.EmbedAsync(embed)
-                                .ConfigureAwait(false);
+                        using var http = _httpFactory.CreateClient();
+                        var res = await http.GetStringAsync($"{_xkcdUrl}/info.0.json").ConfigureAwait(false);
+                        var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
+                        var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+                            .WithImageUrl(comic.ImageLink)
+                            .WithAuthor(eab =>
+                                eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}")
+                                    .WithIconUrl("https://xkcd.com/s/919f27.ico"))
+                            .AddField(efb =>
+                                efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())
+                                    .WithIsInline(true))
+                            .AddField(efb =>
+                                efb.WithName(GetText("date")).WithValue($"{comic.Month}/{comic.Year}")
+                                    .WithIsInline(true));
+                        var sent = await ctx.Channel.EmbedAsync(embed)
+                            .ConfigureAwait(false);
 
-                            await Task.Delay(10000).ConfigureAwait(false);
+                        await Task.Delay(10000).ConfigureAwait(false);
 
-                            await sent.ModifyAsync(m =>
-                                    m.Embed = embed.AddField(efb =>
-                                        efb.WithName("Alt").WithValue(comic.Alt).WithIsInline(false)).Build())
-                                .ConfigureAwait(false);
-                        }
+                        await sent.ModifyAsync(m =>
+                                m.Embed = embed.AddField(efb =>
+                                    efb.WithName("Alt").WithValue(comic.Alt).WithIsInline(false)).Build())
+                            .ConfigureAwait(false);
                     }
                     catch (HttpRequestException)
                     {
@@ -81,33 +79,31 @@ namespace Mewdeko.Modules.Searches
                     return;
                 try
                 {
-                    using (var http = _httpFactory.CreateClient())
-                    {
-                        var res = await http.GetStringAsync($"{_xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
+                    using var http = _httpFactory.CreateClient();
+                    var res = await http.GetStringAsync($"{_xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
 
-                        var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
-                        var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
-                            .WithImageUrl(comic.ImageLink)
-                            .WithAuthor(eab =>
-                                eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{num}")
-                                    .WithIconUrl("https://xkcd.com/s/919f27.ico"))
-                            .AddField(efb =>
-                                efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())
-                                    .WithIsInline(true))
-                            .AddField(efb =>
-                                efb.WithName(GetText("date")).WithValue($"{comic.Month}/{comic.Year}")
-                                    .WithIsInline(true));
-                        var sent = await ctx.Channel.EmbedAsync(embed)
-                            .ConfigureAwait(false);
+                    var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
+                    var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+                        .WithImageUrl(comic.ImageLink)
+                        .WithAuthor(eab =>
+                            eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{num}")
+                                .WithIconUrl("https://xkcd.com/s/919f27.ico"))
+                        .AddField(efb =>
+                            efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())
+                                .WithIsInline(true))
+                        .AddField(efb =>
+                            efb.WithName(GetText("date")).WithValue($"{comic.Month}/{comic.Year}")
+                                .WithIsInline(true));
+                    var sent = await ctx.Channel.EmbedAsync(embed)
+                        .ConfigureAwait(false);
 
-                        await Task.Delay(10000).ConfigureAwait(false);
+                    await Task.Delay(10000).ConfigureAwait(false);
 
-                        await sent.ModifyAsync(m =>
-                                m.Embed = embed
-                                    .AddField(efb => efb.WithName("Alt").WithValue(comic.Alt).WithIsInline(false))
-                                    .Build())
-                            .ConfigureAwait(false);
-                    }
+                    await sent.ModifyAsync(m =>
+                            m.Embed = embed
+                                .AddField(efb => efb.WithName("Alt").WithValue(comic.Alt).WithIsInline(false))
+                                .Build())
+                        .ConfigureAwait(false);
                 }
                 catch (HttpRequestException)
                 {

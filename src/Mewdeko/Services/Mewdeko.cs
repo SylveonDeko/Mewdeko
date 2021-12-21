@@ -29,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using Victoria;
 
 namespace Mewdeko.Services
 {
@@ -121,8 +122,19 @@ namespace Mewdeko.Services
                 .AddConfigServices()
                 .AddBotStringsServices()
                 .AddMemoryCache()
-                .AddSingleton<IShopService, ShopService>()
-                .AddMusic();
+                .AddSingleton<LavaNode>()
+                .AddSingleton<LavaConfig>()
+                .AddSingleton<IShopService, ShopService>();
+            if (Client.ShardId == 0)
+            {
+                s.AddLavaNode(x =>
+                {
+                    x.SelfDeaf = true;
+                    x.Authorization = "Hope4a11";
+                    x.Port = 2333;
+                    x.EnableResume = true;
+                });
+            }
 
             s.AddHttpClient();
             s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -243,7 +255,7 @@ namespace Mewdeko.Services
                 var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
                 chan.SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
             }
-            catch (Exception e)
+            catch
             {
                 //ignored
             }
@@ -313,6 +325,8 @@ namespace Mewdeko.Services
             stats.Initialize();
             var commandHandler = Services.GetService<CommandHandler>();
             var CommandService = Services.GetService<CommandService>();
+            var lava = Services.GetRequiredService<LavaNode>();
+            await lava.ConnectAsync();
 
             // start handling messages received in commandhandler
             await commandHandler.StartHandling().ConfigureAwait(false);

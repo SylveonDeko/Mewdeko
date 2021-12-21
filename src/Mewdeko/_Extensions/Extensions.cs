@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +31,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
-
+#nullable enable
 namespace Mewdeko._Extensions
 {
     public static class Extensions
@@ -71,6 +73,15 @@ namespace Mewdeko._Extensions
             return $"{(int)span.TotalHours:D2}h {span:mm}m";
         }
 
+        public static IList<AdvancedLavaTrack>? AddRange(this IList<AdvancedLavaTrack> list, IEnumerable<AdvancedLavaTrack> tracks)
+        {
+            foreach (var i in tracks)
+            {
+                list.Add(i);
+            }
+
+            return list;
+        }
         public static bool TryGetUrlPath(this string input, out string path)
         {
             var match = UrlRegex.Match(input);
@@ -186,7 +197,7 @@ namespace Mewdeko._Extensions
 
         public static string MethodName(this CommandInfo cmd)
         {
-            return ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute))
+            return ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
                    ?.MethodName
                    ?? cmd.Name;
         }
@@ -239,7 +250,7 @@ namespace Mewdeko._Extensions
                 "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1");
         }
 
-        public static IMessage DeleteAfter(this IUserMessage msg, int seconds, LogCommandService logService = null)
+        public static IMessage? DeleteAfter(this IUserMessage? msg, int seconds, LogCommandService? logService = null)
         {
             if (msg is null)
                 return null;
@@ -296,7 +307,7 @@ namespace Mewdeko._Extensions
             return opts;
         }
 
-        public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat format = null)
+        public static MemoryStream ToStream(this Image<Rgba32> img, IImageFormat? format = null)
         {
             var imageStream = new MemoryStream();
             if (format?.Name == "GIF")
@@ -328,7 +339,7 @@ namespace Mewdeko._Extensions
             return IsImage(msg, out _);
         }
 
-        public static bool IsImage(this HttpResponseMessage msg, out string mimeType)
+        public static bool IsImage(this HttpResponseMessage msg, out string? mimeType)
         {
             if (msg.Content.Headers.ContentType != null) mimeType = msg.Content.Headers.ContentType.MediaType;
             mimeType = null;

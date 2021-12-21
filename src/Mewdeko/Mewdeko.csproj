@@ -24,9 +24,6 @@
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
         <PackageReference Include="Discord.Net.Labs" Version="3.4.7" />
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
-        <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
-        <PackageReference Include="Google.Apis.YouTube.v3" Version="1.55.0.2449" />
-        <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084" />
         <PackageReference Include="Html2Markdown" Version="5.0.0.468" />
         <PackageReference Include="Humanizer" Version="2.13.14" />
         <PackageReference Include="JikanDotNet" Version="1.6.0" />
@@ -59,7 +56,6 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
         <PackageReference Include="Nekos-Sharp" Version="3.5.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NHentai.NET" Version="3.2.0" />
@@ -74,10 +70,9 @@
         <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
         <PackageReference Include="System.Threading.Channels" Version="6.0.0" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-        <PackageReference Include="VideoLibrary" Version="3.1.4" />
+        <PackageReference Include="Victoria" Version="5.2.4" />
         <PackageReference Include="VirusTotalNet" Version="2.0.0" />
         <PackageReference Include="YamlDotNet" Version="11.2.1" />
-        <PackageReference Include="YoutubeExplode" Version="6.0.5" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Modules\Gambling\Common\CurrencyEvents\" />
@@ -140,9 +135,6 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 	</PropertyGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Mewdeko.Voice\Mewdeko.Voice.csproj" />
-    </ItemGroup>
     <ItemGroup>
       <Content Remove="credentials_example.json" />
     </ItemGroup>
