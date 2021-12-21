@@ -855,6 +855,8 @@ asar:
     - Gamer
     - 1 Alliance
     - 1 Horde
+seek:
+  
 rsar:
   desc: Removes a specified role from the list of self-assignable roles.
   args:
@@ -967,9 +969,9 @@ autoassignbotrole:
     - ''
     - RoleName
 leave:
-  desc: Makes Mewdeko leave the server. Either server name or server ID is required.
+  desc: Leaves the voice channel and clears the queue
   args:
-    - '123123123331'
+    - ''
 delmsgoncmd:
   desc: >-
     Toggles the automatic deletion of the user's successful command message to
@@ -3255,11 +3257,13 @@ rip:
   args:
     - '@Someone'
 autodisconnect:
-  desc: >-
-    Toggles whether the bot should disconnect from the voice channel once it's
-    done playing all of the songs and queue repeat option is set to `none`
+  desc:
+    "Toggles autodisconnect from the following options:
+    > Queue: Disconnects when you reach the last queue item
+    > Voice: Disconnects when only the bot remains in vc
+    > Either: Disconnects when either of the above are met"
   args:
-    - ''
+    - 'Either'
 timelyset:
   desc: >-
     Sets the 'timely' currency allowance amount for users. Second parameter is
