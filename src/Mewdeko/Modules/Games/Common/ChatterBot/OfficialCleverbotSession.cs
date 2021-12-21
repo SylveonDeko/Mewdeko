@@ -27,23 +27,21 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot
 
         public async Task<string> Think(string input)
         {
-            using (var http = _httpFactory.CreateClient())
+            using var http = _httpFactory.CreateClient();
+            var dataString = await http.GetStringAsync(string.Format(QueryString, input, _cs ?? ""))
+                .ConfigureAwait(false);
+            try
             {
-                var dataString = await http.GetStringAsync(string.Format(QueryString, input, _cs ?? ""))
-                    .ConfigureAwait(false);
-                try
-                {
-                    var data = JsonConvert.DeserializeObject<CleverbotResponse>(dataString);
+                var data = JsonConvert.DeserializeObject<CleverbotResponse>(dataString);
 
-                    _cs = data?.Cs;
-                    return data?.Output;
-                }
-                catch
-                {
-                    Log.Warning("Unexpected cleverbot response received: ");
-                    Log.Warning(dataString);
-                    return null;
-                }
+                _cs = data?.Cs;
+                return data?.Output;
+            }
+            catch
+            {
+                Log.Warning("Unexpected cleverbot response received: ");
+                Log.Warning(dataString);
+                return null;
             }
         }
     }
@@ -69,42 +67,38 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot
 
         public async Task<string> Think(string input)
         {
-            using (var _http = _httpFactory.CreateClient())
-            using (var msg = new FormUrlEncodedContent(new[]
+            using var _http = _httpFactory.CreateClient();
+            using var msg = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("user", _user),
                 new KeyValuePair<string, string>("key", _key),
                 new KeyValuePair<string, string>("nick", await _nick),
                 new KeyValuePair<string, string>("text", input)
-            }))
-            using (var data = await _http.PostAsync(_askEndpoint, msg).ConfigureAwait(false))
-            {
-                var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var obj = JsonConvert.DeserializeObject<CleverbotIOAskResponse>(str);
-                if (obj.Status != "success")
-                    throw new OperationCanceledException(obj.Status);
+            });
+            using var data = await _http.PostAsync(_askEndpoint, msg).ConfigureAwait(false);
+            var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var obj = JsonConvert.DeserializeObject<CleverbotIOAskResponse>(str);
+            if (obj.Status != "success")
+                throw new OperationCanceledException(obj.Status);
 
-                return obj.Response;
-            }
+            return obj.Response;
         }
 
         private async Task<string> GetNick()
         {
-            using (var _http = _httpFactory.CreateClient())
-            using (var msg = new FormUrlEncodedContent(new[]
+            using var _http = _httpFactory.CreateClient();
+            using var msg = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("user", _user),
                 new KeyValuePair<string, string>("key", _key)
-            }))
-            using (var data = await _http.PostAsync(_createEndpoint, msg).ConfigureAwait(false))
-            {
-                var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var obj = JsonConvert.DeserializeObject<CleverbotIOCreateResponse>(str);
-                if (obj.Status != "success")
-                    throw new OperationCanceledException(obj.Status);
+            });
+            using var data = await _http.PostAsync(_createEndpoint, msg).ConfigureAwait(false);
+            var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var obj = JsonConvert.DeserializeObject<CleverbotIOCreateResponse>(str);
+            if (obj.Status != "success")
+                throw new OperationCanceledException(obj.Status);
 
-                return obj.Nick;
-            }
+            return obj.Nick;
         }
     }
 }

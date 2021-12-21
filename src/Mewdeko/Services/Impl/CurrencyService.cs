@@ -62,14 +62,12 @@ namespace Mewdeko.Services.Impl
                 throw new ArgumentException("Cannot perform bulk operation. Arrays are not of equal length.");
 
             var userIdHashSet = new HashSet<ulong>(idArray.Length);
-            using (var uow = _db.GetDbContext())
-            {
-                for (var i = 0; i < idArray.Length; i++)
-                    // i have to prevent same user changing more than once as it will cause db error
-                    if (userIdHashSet.Add(idArray[i]))
-                        InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
-                await uow.SaveChangesAsync();
-            }
+            using var uow = _db.GetDbContext();
+            for (var i = 0; i < idArray.Length; i++)
+                // i have to prevent same user changing more than once as it will cause db error
+                if (userIdHashSet.Add(idArray[i]))
+                    InternalChange(idArray[i], null, null, null, reasonArray[i], amountArray[i], gamble, uow);
+            await uow.SaveChangesAsync();
         }
 
         public Task<bool> RemoveAsync(ulong userId, string reason, long amount, bool gamble = false)
@@ -122,11 +120,9 @@ namespace Mewdeko.Services.Impl
                 throw new ArgumentException("You can't add negative amounts. Use RemoveAsync method for that.",
                     nameof(amount));
 
-            using (var uow = _db.GetDbContext())
-            {
-                InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
-                await uow.SaveChangesAsync();
-            }
+            using var uow = _db.GetDbContext();
+            InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
+            await uow.SaveChangesAsync();
         }
 
         private async Task<bool> InternalRemoveAsync(ulong userId, string userName, string userDiscrim, string avatar,
@@ -137,11 +133,9 @@ namespace Mewdeko.Services.Impl
                     nameof(amount));
 
             bool result;
-            using (var uow = _db.GetDbContext())
-            {
-                result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
-                await uow.SaveChangesAsync();
-            }
+            using var uow = _db.GetDbContext();
+            result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
+            await uow.SaveChangesAsync();
 
             return result;
         }

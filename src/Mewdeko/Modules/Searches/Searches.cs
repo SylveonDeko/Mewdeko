@@ -485,31 +485,29 @@ namespace Mewdeko.Modules.Searches
 
                 var fullQueryLink = $"http://imgur.com/search?q={query}";
                 var config = Configuration.Default.WithDefaultLoader();
-                using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
-                {
-                    var elems = document.QuerySelectorAll("a.image-list-link").ToList();
+                using var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false);
+                var elems = document.QuerySelectorAll("a.image-list-link").ToList();
 
-                    if (!elems.Any())
-                        return;
+                if (!elems.Any())
+                    return;
 
-                    var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Count))?.Children
-                        ?.FirstOrDefault() as IHtmlImageElement;
+                var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Count))?.Children
+                    ?.FirstOrDefault() as IHtmlImageElement;
 
-                    if (img?.Source == null)
-                        return;
+                if (img?.Source == null)
+                    return;
 
-                    var source = img.Source.Replace("b.", ".", StringComparison.InvariantCulture);
+                var source = img.Source.Replace("b.", ".", StringComparison.InvariantCulture);
 
-                    var embed = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                            .WithUrl(fullQueryLink)
-                            .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
-                        .WithDescription(source)
-                        .WithImageUrl(source)
-                        .WithTitle(ctx.User.ToString());
-                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
+                        .WithUrl(fullQueryLink)
+                        .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
+                    .WithDescription(source)
+                    .WithImageUrl(source)
+                    .WithTitle(ctx.User.ToString());
+                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
         }
 
@@ -542,28 +540,24 @@ namespace Mewdeko.Modules.Searches
             if (!cachedShortenedLinks.TryGetValue(query, out var shortLink))
                 try
                 {
-                    using (var _http = _httpFactory.CreateClient())
-                    using (var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten"))
+                    using var _http = _httpFactory.CreateClient();
+                    using var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten");
+                    var formData = new MultipartFormDataContent
                     {
-                        var formData = new MultipartFormDataContent
-                        {
-                            { new StringContent(query), "url" }
-                        };
-                        req.Content = formData;
+                        { new StringContent(query), "url" }
+                    };
+                    req.Content = formData;
 
-                        using (var res = await _http.SendAsync(req).ConfigureAwait(false))
-                        {
-                            var content = await res.Content.ReadAsStringAsync();
-                            var data = JsonConvert.DeserializeObject<ShortenData>(content);
+                    using var res = await _http.SendAsync(req).ConfigureAwait(false);
+                    var content = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<ShortenData>(content);
 
-                            if (!string.IsNullOrWhiteSpace(data?.ResultUrl))
-                                cachedShortenedLinks.TryAdd(query, data.ResultUrl);
-                            else
-                                return;
+                    if (!string.IsNullOrWhiteSpace(data?.ResultUrl))
+                        cachedShortenedLinks.TryAdd(query, data.ResultUrl);
+                    else
+                        return;
 
-                            shortLink = data.ResultUrl;
-                        }
-                    }
+                    shortLink = data.ResultUrl;
                 }
                 catch (Exception ex)
                 {
@@ -695,41 +689,39 @@ namespace Mewdeko.Modules.Searches
                 return;
 
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = _httpFactory.CreateClient())
+            using var http = _httpFactory.CreateClient();
+            var res = await http
+                .GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}")
+                .ConfigureAwait(false);
+            try
             {
-                var res = await http
-                    .GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}")
-                    .ConfigureAwait(false);
-                try
+                var items = JsonConvert.DeserializeObject<UrbanResponse>(res)?.List;
+                if (items != null && items.Any())
                 {
-                    var items = JsonConvert.DeserializeObject<UrbanResponse>(res)?.List;
-                    if (items != null && items.Any())
+                    var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(items.Length - 1)
+                        .WithDefaultEmotes()
+                        .Build();
+
+                    await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                    Task<PageBuilder> PageFactory(int page)
                     {
-                        var paginator = new LazyPaginatorBuilder()
-                            .AddUser(ctx.User)
-                            .WithPageFactory(PageFactory)
-                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                            .WithMaxPageIndex(items.Length - 1)
-                            .WithDefaultEmotes()
-                            .Build();
-
-                        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
-
-                        Task<PageBuilder> PageFactory(int page)
-                        {
-                            var item = items[page];
-                            return Task.FromResult(new PageBuilder().WithOkColor()
-                                .WithUrl(item.Permalink)
-                                .WithAuthor(
-                                    eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
-                                .WithDescription(item.Definition));
-                        }
+                        var item = items[page];
+                        return Task.FromResult(new PageBuilder().WithOkColor()
+                            .WithUrl(item.Permalink)
+                            .WithAuthor(
+                                eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                            .WithDescription(item.Definition));
                     }
                 }
-                catch
-                {
-                    await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
-                }
+            }
+            catch
+            {
+                await ReplyErrorLocalizedAsync("ud_error").ConfigureAwait(false);
             }
         }
 
@@ -821,15 +813,13 @@ namespace Mewdeko.Modules.Searches
         [Aliases]
         public async Task Catfact()
         {
-            using (var http = _httpFactory.CreateClient())
-            {
-                var response = await http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
-                if (response == null)
-                    return;
+            using var http = _httpFactory.CreateClient();
+            var response = await http.GetStringAsync("https://catfact.ninja/fact").ConfigureAwait(false);
+            if (response == null)
+                return;
 
-                var fact = JObject.Parse(response)["fact"].ToString();
-                await ctx.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
-            }
+            var fact = JObject.Parse(response)["fact"].ToString();
+            await ctx.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
         }
 
         //done in 3.0
@@ -887,18 +877,16 @@ namespace Mewdeko.Modules.Searches
             if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
                 return;
 
-            using (var http = _httpFactory.CreateClient())
-            {
-                var result = await http
-                    .GetStringAsync(
-                        "https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" +
-                        Uri.EscapeDataString(query)).ConfigureAwait(false);
-                var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
-                if (data.Query.Pages[0].Missing || string.IsNullOrWhiteSpace(data.Query.Pages[0].FullUrl))
-                    await ReplyErrorLocalizedAsync("wiki_page_not_found").ConfigureAwait(false);
-                else
-                    await ctx.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl).ConfigureAwait(false);
-            }
+            using var http = _httpFactory.CreateClient();
+            var result = await http
+                .GetStringAsync(
+                    "https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" +
+                    Uri.EscapeDataString(query)).ConfigureAwait(false);
+            var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
+            if (data.Query.Pages[0].Missing || string.IsNullOrWhiteSpace(data.Query.Pages[0].FullUrl))
+                await ReplyErrorLocalizedAsync("wiki_page_not_found").ConfigureAwait(false);
+            else
+                await ctx.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl).ConfigureAwait(false);
         }
 
         [MewdekoCommand]
@@ -913,20 +901,16 @@ namespace Mewdeko.Modules.Searches
             var colorObjects = colors.Take(10)
                 .ToArray();
 
-            using (var img = new Image<Rgba32>(colorObjects.Length * 50, 50))
+            using var img = new Image<Rgba32>(colorObjects.Length * 50, 50);
+            for (var i = 0; i < colorObjects.Length; i++)
             {
-                for (var i = 0; i < colorObjects.Length; i++)
-                {
-                    var x = i * 50;
-                    img.Mutate(m => m.FillPolygon(colorObjects[i], new PointF(x, 0), new PointF(x + 50, 0),
-                        new PointF(x + 50, 50), new PointF(x, 50)));
-                }
-
-                using (var ms = img.ToStream())
-                {
-                    await ctx.Channel.SendFileAsync(ms, "colors.png").ConfigureAwait(false);
-                }
+                var x = i * 50;
+                img.Mutate(m => m.FillPolygon(colorObjects[i], new PointF(x, 0), new PointF(x + 50, 0),
+                    new PointF(x + 50, 50), new PointF(x, 50)));
             }
+
+            await using var ms = img.ToStream();
+            await ctx.Channel.SendFileAsync(ms, "colors.png").ConfigureAwait(false);
         }
 
         // done in 3.0
@@ -969,35 +953,33 @@ namespace Mewdeko.Modules.Searches
             }
 
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            using (var http = _httpFactory.CreateClient())
+            using var http = _httpFactory.CreateClient();
+            http.DefaultRequestHeaders.Clear();
+            try
             {
-                http.DefaultRequestHeaders.Clear();
-                try
-                {
-                    var res = await http.GetStringAsync($"https://{Uri.EscapeUriString(target)}.fandom.com/api.php" +
-                                                        "?action=query" +
-                                                        "&format=json" +
-                                                        "&list=search" +
-                                                        $"&srsearch={Uri.EscapeUriString(query)}" +
-                                                        "&srlimit=1").ConfigureAwait(false);
-                    var items = JObject.Parse(res);
-                    var title = items["query"]?["search"]?.FirstOrDefault()?["title"]?.ToString();
+                var res = await http.GetStringAsync($"https://{Uri.EscapeUriString(target)}.fandom.com/api.php" +
+                                                    "?action=query" +
+                                                    "&format=json" +
+                                                    "&list=search" +
+                                                    $"&srsearch={Uri.EscapeUriString(query)}" +
+                                                    "&srlimit=1").ConfigureAwait(false);
+                var items = JObject.Parse(res);
+                var title = items["query"]?["search"]?.FirstOrDefault()?["title"]?.ToString();
 
-                    if (string.IsNullOrWhiteSpace(title))
-                    {
-                        await ReplyErrorLocalizedAsync("wikia_error").ConfigureAwait(false);
-                        return;
-                    }
-
-                    var url = Uri.EscapeUriString($"https://{target}.fandom.com/wiki/{title}");
-                    var response = $@"`{GetText("title")}` {title?.SanitizeMentions()}
-`{GetText("url")}:` {url}";
-                    await ctx.Channel.SendMessageAsync(response).ConfigureAwait(false);
-                }
-                catch
+                if (string.IsNullOrWhiteSpace(title))
                 {
                     await ReplyErrorLocalizedAsync("wikia_error").ConfigureAwait(false);
+                    return;
                 }
+
+                var url = Uri.EscapeUriString($"https://{target}.fandom.com/wiki/{title}");
+                var response = $@"`{GetText("title")}` {title?.SanitizeMentions()}
+`{GetText("url")}:` {url}";
+                await ctx.Channel.SendMessageAsync(response).ConfigureAwait(false);
+            }
+            catch
+            {
+                await ReplyErrorLocalizedAsync("wikia_error").ConfigureAwait(false);
             }
         }
 
@@ -1012,13 +994,11 @@ namespace Mewdeko.Modules.Searches
             var obj = new BibleVerses();
             try
             {
-                using (var http = _httpFactory.CreateClient())
-                {
-                    var res = await http
-                        .GetStringAsync("https://bible-api.com/" + book + " " + chapterAndVerse).ConfigureAwait(false);
+                using var http = _httpFactory.CreateClient();
+                var res = await http
+                    .GetStringAsync("https://bible-api.com/" + book + " " + chapterAndVerse).ConfigureAwait(false);
 
-                    obj = JsonConvert.DeserializeObject<BibleVerses>(res);
-                }
+                obj = JsonConvert.DeserializeObject<BibleVerses>(res);
             }
             catch
             {

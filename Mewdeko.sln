@@ -15,20 +15,15 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		GlobalNadeko|Any CPU = GlobalNadeko|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.GlobalNadeko|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.GlobalNadeko|Any CPU.Build.0 = Debug|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

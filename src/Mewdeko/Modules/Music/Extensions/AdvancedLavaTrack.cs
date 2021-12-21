@@ -1,5 +1,4 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using Victoria;
 
 namespace Mewdeko.Modules.Music.Extensions
@@ -16,6 +15,7 @@ namespace Mewdeko.Modules.Music.Extensions
         {
             Index = index;
             QueueUser = queueUser;
+            QueuedPlatform = queuedPlatform;
         }
 
         public enum Platform

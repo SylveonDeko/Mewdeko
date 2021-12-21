@@ -87,13 +87,11 @@ namespace Mewdeko.Modules.Giveaways.Services
 
         private Task<List<global::Mewdeko.Services.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
         {
-            using (var uow = _db.GetDbContext())
-            {
-                return uow._context.Giveaways
-                    .FromSqlInterpolated(
-                        $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
-                    .ToListAsync();
-            }
+            using var uow = _db.GetDbContext();
+            return uow._context.Giveaways
+                .FromSqlInterpolated(
+                    $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
+                .ToListAsync();
         }
         public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host, ulong ServerId, ITextChannel CurrentChannel, IGuild guild, string reqroles = null, string blacklistusers = null, string blacklistroles = null)
         {

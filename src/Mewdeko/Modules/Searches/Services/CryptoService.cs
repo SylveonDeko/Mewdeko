@@ -63,19 +63,17 @@ namespace Mewdeko.Modules.Searches.Services
                 {
                     try
                     {
-                        using (var _http = _httpFactory.CreateClient())
-                        {
-                            var strData = await _http.GetStringAsync(new Uri(
-                                "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?" +
-                                $"CMC_PRO_API_KEY={_creds.CoinmarketcapApiKey}" +
-                                "&start=1" +
-                                "&limit=500" +
-                                "&convert=USD"));
+                        using var _http = _httpFactory.CreateClient();
+                        var strData = await _http.GetStringAsync(new Uri(
+                            "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?" +
+                            $"CMC_PRO_API_KEY={_creds.CoinmarketcapApiKey}" +
+                            "&start=1" +
+                            "&limit=500" +
+                            "&convert=USD"));
 
-                            JsonConvert.DeserializeObject<CryptoResponse>(strData); // just to see if its' valid
+                        JsonConvert.DeserializeObject<CryptoResponse>(strData); // just to see if its' valid
 
-                            return strData;
-                        }
+                        return strData;
                     }
                     catch (Exception ex)
                     {
