@@ -250,10 +250,11 @@ namespace Mewdeko.Modules.Music
             if (player.PlayerState != PlayerState.Playing) 
             {
                 await player.ResumeAsync();
+                await ctx.Channel.SendConfirmAsync("Resumed player.");
                 return;
             }
             await player.PauseAsync();
-            await ReplyAsync($"Paused: {player.Track.Title}");
+            await ctx.Channel.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
         }
         
         [MewdekoCommand]
