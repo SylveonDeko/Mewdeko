@@ -26,6 +26,10 @@ loop:
   - repeat
 greetmsg:
   - greetmsg
+skip:
+  - skip
+  - n
+  - next
 leave:
   - leave
   - disconnect
