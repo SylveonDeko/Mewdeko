@@ -68,6 +68,7 @@ namespace Mewdeko.Modules.Afk
             [Description]
             [Aliases]
             [Priority(0)]
+            [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task AfkDel()
             {
                 if (Service.GetAfkDel(ctx.Guild.Id) == 0 )
@@ -194,6 +195,7 @@ namespace Mewdeko.Modules.Afk
             [Usage]
             [Description]
             [Aliases]
+            [RequireUserPermission(GuildPermission.ManageMessages)]
             public async Task AfkView(IGuildUser user)
             {
                 if (!Service.IsAfk(user.Guild, user))
@@ -209,17 +211,17 @@ namespace Mewdeko.Modules.Afk
             [Usage]
             [Description]
             [Aliases]
+            [RequireUserPermission(GuildPermission.ManageChannels)]
             public async Task AfkDisabledList()
             {
                 var mentions = new List<string>();
                 var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
-                var e = chans.Split(",");
-                if (e.Length == 1 && e.Contains("0"))
+                if (string.IsNullOrEmpty(chans) || chans.Contains('0'))
                 {
                     await ctx.Channel.SendErrorAsync("You don't have any disabled Afk channels.");
                     return;
                 }
-
+                var e = chans.Split(",");
                 foreach (var i in e)
                 {
                     var role = await ctx.Guild.GetTextChannelAsync(Convert.ToUInt64(i));
@@ -344,12 +346,16 @@ namespace Mewdeko.Modules.Afk
             [RequireUserPermission(GuildPermission.ManageChannels)]
             public async Task AfkUndisable(params ITextChannel[] chan)
             {
-                var list = new List<string>();
                 var mentions = new List<string>();
                 var toremove = new List<string>();
                 var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
+                if (string.IsNullOrWhiteSpace(chans) || chans == "0")
+                {
+                    await ctx.Channel.SendErrorAsync("You don't have any disabled channels!");
+                    return;
+                }
                 var e = chans.Split(",");
-                foreach (var i in e) list.Add(i);
+                var list = e.ToList();
                 foreach (var i in chan)
                     if (e.Contains(i.Id.ToString()))
                     {
@@ -385,7 +391,7 @@ namespace Mewdeko.Modules.Afk
                 var list = new HashSet<string>();
                 var newchans = new HashSet<string>();
                 var mentions = new HashSet<string>();
-                if (Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0")
+                if (Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0" || string.IsNullOrWhiteSpace(Service.GetDisabledAfkChannels(ctx.Guild.Id)))
                 {
                     foreach (var i in chan)
                     {
@@ -445,6 +451,7 @@ namespace Mewdeko.Modules.Afk
                     }
                     catch (Exception)
                     {
+                        // ignored
                     }
 
                 await ctx.Channel.SendConfirmAsync($"AFK Message for {users} users has been disabled!");
