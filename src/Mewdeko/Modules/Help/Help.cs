@@ -149,7 +149,7 @@ namespace Mewdeko.Modules.Help
         {
 
 
-            module = module?.Trim().ToUpperInvariant();
+            module = module?.Trim().ToUpperInvariant().Replace(" ", "");
             if (string.IsNullOrWhiteSpace(module))
             {
                 await Modules();
