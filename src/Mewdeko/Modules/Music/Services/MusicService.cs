@@ -252,7 +252,7 @@ namespace Mewdeko.Modules.Music.Services
                         .WithThumbnailUrl(track.FetchArtworkAsync().Result);
                     if (nextTrack is not null)
                     {
-                        eb.AddField("Up Next", $"{nextTrack.Title} by {track.Author}");
+                        eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
                     }
 
                     await channel.SendMessageAsync(embed: eb.Build());
