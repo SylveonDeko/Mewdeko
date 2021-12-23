@@ -218,6 +218,8 @@ namespace Mewdeko.Modules.Music
                 await ctx.Channel.SendErrorAsync("Seems like I can't find that video, please try again.");
                 return;
             }
+
+            var components = new ComponentBuilder().WithButton("All", "all").WithButton("First Track", "ft").Build();
             var track = searchResponse.Tracks.FirstOrDefault();
             await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
             count = Service.GetQueue(ctx.Guild.Id).Count;
@@ -440,7 +442,7 @@ namespace Mewdeko.Modules.Music
 
             Task<PageBuilder> PageFactory(int page)
             {
-                var tracks = queue.OrderBy(x => x.Index).Skip(page).Take(10);
+                var tracks = queue.OrderBy(x => x.Index).Skip(page * 10).Take(10);
                 return Task.FromResult(new PageBuilder()
                     .WithDescription(string.Join("\n", tracks.Select(x =>
                         $"`{ x.Index}.` [{x.Title}]({x.Url})\n" +
