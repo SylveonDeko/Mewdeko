@@ -185,16 +185,12 @@ namespace Mewdeko.Modules.Afk.Services
             });
             return Task.CompletedTask;
         }
-        public List<IGuildUser> GetAfkUsers(IGuild guild)
-        { 
-                var users = new List<IGuildUser>();
-                foreach (var f in guild.GetUsersAsync(CacheMode.AllowDownload).GetAwaiter().GetResult())
-                {
-                    if (IsAfk(guild, f))
-                        users.Add(f);
-                }
-                return users;
-            }
+        public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild)
+        {
+             return _db.GetDbContext().AFK.GetAll().GroupBy(m => m.UserId)
+                .Where(m => !string.IsNullOrEmpty(m.Last().Message))
+                .Select(m => guild.GetUserAsync(m.Key).Result);
+        }
 
         public async Task SetCustomAfkMessage(IGuild guild, string AfkMessage)
         { 
@@ -218,7 +214,7 @@ namespace Mewdeko.Modules.Afk.Services
         public bool IsAfk(IGuild guild, IGuildUser user)
         {
             var afkmsg = AfkMessage(guild.Id, user.Id);
-            var result = afkmsg != null ? afkmsg.LastOrDefault()?.Message : null;
+            var result = afkmsg?.LastOrDefault()?.Message;
             return !string.IsNullOrEmpty(result);
         }
 
