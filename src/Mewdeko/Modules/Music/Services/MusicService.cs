@@ -264,13 +264,24 @@ namespace Mewdeko.Modules.Music.Services
             var e = _queues.FirstOrDefault(x => x.Key == args.Player.VoiceChannel.GuildId).Value;
             if (e.Any())
             {
-                var musicChannelId = (await GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId)).MusicChannelId;
-                    var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(musicChannelId.Value);
+                var gid = args.Player.VoiceChannel.GuildId;
+                var msettings = await GetSettingsInternalAsync(gid);
+                    var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(msettings.MusicChannelId.Value);
                     if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.Cleanup) return;
                     var currentTrack = e.FirstOrDefault(x => args.Track.Url == x.Url);
+                    if (msettings.PlayerRepeat == PlayerRepeatType.Track)
+                    {
+                        await args.Player.PlayAsync(currentTrack);
+                        return;
+                    }
                     var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
                     if (nextTrack is null && channel != null)
                     {
+                        if (msettings.PlayerRepeat == PlayerRepeatType.Queue)
+                        {
+                            await args.Player.PlayAsync(GetQueue(gid).FirstOrDefault());
+                            return;
+                        }
                         var eb1 = new EmbedBuilder()
                             .WithOkColor()
                             .WithDescription("I have reached the end of the queue!");
