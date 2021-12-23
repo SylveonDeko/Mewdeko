@@ -68,6 +68,7 @@ namespace Mewdeko.Modules.Afk
             [Description]
             [Aliases]
             [Priority(0)]
+            [RequireUserPermission(GuildPermission.ManageGuild)]
             public async Task AfkDel()
             {
                 if (Service.GetAfkDel(ctx.Guild.Id) == 0 )

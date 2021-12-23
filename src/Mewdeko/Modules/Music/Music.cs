@@ -34,7 +34,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task AutoDisconnect(AutoDisconnect disconnect)
         {
@@ -44,7 +44,7 @@ namespace Mewdeko.Modules.Music
         }
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Join() {
             if (_lavaNode.HasPlayer(Context.Guild)) {
@@ -63,7 +63,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Leave() 
         {
@@ -86,7 +86,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Play(int number)
         {
@@ -122,7 +122,7 @@ namespace Mewdeko.Modules.Music
         }
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         // ReSharper disable once MemberCanBePrivate.Global
         public async Task Play([Remainder] string searchQuery)
@@ -239,7 +239,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Pause() 
         {
@@ -261,7 +261,7 @@ namespace Mewdeko.Modules.Music
         
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Shuffle()
         {
@@ -287,9 +287,10 @@ namespace Mewdeko.Modules.Music
         
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Stop() {
+        public async Task Stop() 
+        {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
             {
                 await ctx.Channel.SendErrorAsync("I'm not connected to a channel!");
@@ -303,7 +304,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Skip()
         {
@@ -318,7 +319,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Seek(TimeSpan timeSpan) 
         {
@@ -344,7 +345,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task ClearQueue()
         {
@@ -361,7 +362,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
         {
@@ -371,7 +372,7 @@ namespace Mewdeko.Modules.Music
         
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Volume(ushort volume) 
         {
@@ -391,7 +392,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task NowPlaying() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) 
@@ -418,7 +419,7 @@ namespace Mewdeko.Modules.Music
 
         [MewdekoCommand]
         [Description]
-        [Alias]
+        [Aliases]
         [RequireContext(ContextType.Guild)]
         public async Task Queue() 
         {
