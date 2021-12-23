@@ -3250,9 +3250,9 @@ rip:
 autodisconnect:
   desc:
     "Toggles autodisconnect from the following options:
-    > Queue: Disconnects when you reach the last queue item
-    > Voice: Disconnects when only the bot remains in vc
-    > Either: Disconnects when either of the above are met"
+    \n> Queue: Disconnects when you reach the last queue item
+    \n> Voice: Disconnects when only the bot remains in vc
+    \n> Either: Disconnects when either of the above are met"
   args:
     - 'Either'
 timelyset:
