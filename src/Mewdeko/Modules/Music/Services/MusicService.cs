@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Discord.WebSocket;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
@@ -28,10 +29,12 @@ namespace Mewdeko.Modules.Music.Services
         private readonly ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>> _queues;
         private readonly List<ulong> _runningShuffles;
         private readonly SpotifyClient _spotifyClient;
+        private readonly DiscordSocketClient _client;
         
 
-        public MusicService(LavaNode lava, DbService db)
+        public MusicService(LavaNode lava, DbService db, DiscordSocketClient client)
         {
+            _client = client;
             _db = db;
             _lavaNode = lava;
             _lavaNode.OnTrackEnded += TrackEnded;
@@ -46,6 +49,7 @@ namespace Mewdeko.Modules.Music.Services
             var response = new OAuthClient(config).RequestToken(request).Result;
 
             _spotifyClient = new SpotifyClient(config.WithToken(response.AccessToken));
+            _client.UserVoiceStateUpdated += HandleDisconnect;
         }
 
         public Task Enqueue(ulong guildId, IUser user, LavaTrack lavaTrack, AdvancedLavaTrack.Platform queuedPlatform = AdvancedLavaTrack.Platform.Youtube)
@@ -232,6 +236,26 @@ namespace Mewdeko.Modules.Music.Services
                 : _queues.FirstOrDefault(x => x.Key == guildid).Value;
         }
 
+        private async Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
+        {
+            if (before.VoiceChannel is not null && _lavaNode.TryGetPlayer(before.VoiceChannel.Guild, out _))
+            {
+                if (before.VoiceChannel.Users.Count == 1 &&
+                    GetSettingsInternalAsync(before.VoiceChannel.Guild.Id).Result.AutoDisconnect is AutoDisconnect.Either
+                        or AutoDisconnect.Voice)
+                {
+                    try
+                    {
+                        await _lavaNode.LeaveAsync(before.VoiceChannel);
+                        await QueueClear(before.VoiceChannel.Guild.Id);
+                    }
+                    catch 
+                    {
+                        // ignored
+                    }
+                }
+            }
+        }
         private async Task TrackStarted(TrackStartEventArgs args)
         {
             var queue = GetQueue(args.Player.VoiceChannel.GuildId);
@@ -252,7 +276,7 @@ namespace Mewdeko.Modules.Music.Services
                         .WithThumbnailUrl(track.FetchArtworkAsync().Result);
                     if (nextTrack is not null)
                     {
-                        eb.AddField("Up Next", $"{nextTrack.Title} by {track.Author}");
+                        eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
                     }
 
                     await channel.SendMessageAsync(embed: eb.Build());
@@ -264,13 +288,24 @@ namespace Mewdeko.Modules.Music.Services
             var e = _queues.FirstOrDefault(x => x.Key == args.Player.VoiceChannel.GuildId).Value;
             if (e.Any())
             {
-                var musicChannelId = (await GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId)).MusicChannelId;
-                    var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(musicChannelId.Value);
+                var gid = args.Player.VoiceChannel.GuildId;
+                var msettings = await GetSettingsInternalAsync(gid);
+                    var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(msettings.MusicChannelId.Value);
                     if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.Cleanup) return;
                     var currentTrack = e.FirstOrDefault(x => args.Track.Url == x.Url);
+                    if (msettings.PlayerRepeat == PlayerRepeatType.Track)
+                    {
+                        await args.Player.PlayAsync(currentTrack);
+                        return;
+                    }
                     var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
                     if (nextTrack is null && channel != null)
                     {
+                        if (msettings.PlayerRepeat == PlayerRepeatType.Queue)
+                        {
+                            await args.Player.PlayAsync(GetQueue(gid).FirstOrDefault());
+                            return;
+                        }
                         var eb1 = new EmbedBuilder()
                             .WithOkColor()
                             .WithDescription("I have reached the end of the queue!");
