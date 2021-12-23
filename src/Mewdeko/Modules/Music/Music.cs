@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AngleSharp.Html.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -219,22 +220,110 @@ namespace Mewdeko.Modules.Music
                 return;
             }
 
-            var components = new ComponentBuilder().WithButton("All", "all").WithButton("First Track", "ft").Build();
-            var track = searchResponse.Tracks.FirstOrDefault();
-            await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
-            count = Service.GetQueue(ctx.Guild.Id).Count;
-            var eb1 = new EmbedBuilder()
+            var components = new ComponentBuilder().WithButton("Play All", "all").WithButton("Select", "select").WithButton("Play First", "pf").WithButton("Cancel", "cancel", ButtonStyle.Danger);
+            var eb12 = new EmbedBuilder()
                 .WithOkColor()
-                .WithDescription($"Added {track.Title} and bound the queue info to {ctx.Channel.Name}!")
-                .WithThumbnailUrl(await track.FetchArtworkAsync())
-                .WithFooter($"{count} songs in queue");
-            await ctx.Channel.SendMessageAsync(embed: eb1.Build());
-            if (player.PlayerState != PlayerState.Playing)
-                await player.PlayAsync(x =>
-                {
-                    x.Track = track;
-                });
-            await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                .WithTitle("Would you like me to:")
+                .WithDescription("Play all that I found\n" +
+                                 "Let you select from the top 5\n" +
+                                 "Just play the first thing I found");
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb12.Build(), component: components.Build());
+            var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+            switch (button)
+            {
+                case "all":
+                    await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray());
+                    count = Service.GetQueue(ctx.Guild.Id).Count;
+                    var track = searchResponse.Tracks.FirstOrDefault();
+                    var eb1 = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithDescription($"Added {track.Title} along with {searchResponse.Tracks.Count} other tracks.")
+                        .WithThumbnailUrl(await track.FetchArtworkAsync())
+                        .WithFooter($"{count} songs in queue");
+                    if (player.PlayerState != PlayerState.Playing)
+                    {
+                        await player.PlayAsync(x => { x.Track = track; });
+                        await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    }
+
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Components = null;
+                        x.Embed = eb1.Build();
+                    });
+                    break;
+                case "select":
+                    var tracks = searchResponse.Tracks.Take(5).ToArray();
+                    int count1 = 1;
+                    var eb = new EmbedBuilder()
+                        .WithDescription(string.Join("\n", tracks.Select(x => $"{count1++}. {x.Title} by {x.Author}")))
+                        .WithOkColor()
+                        .WithTitle("Pick which one!");
+                    count1 = 0;
+                    var components1 = new ComponentBuilder();
+                    foreach (var i in tracks)
+                    {
+                        var component = new ButtonBuilder(customId: (count1 + 1).ToString(), label: (count1 + 1).ToString());
+                        count1++;
+                        components1.WithButton(component);
+                    }
+                    await msg.ModifyAsync(x =>
+                        {
+                            x.Components = components1.Build();
+                            x.Embed = eb.Build();
+                        });
+                    var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+                    var chosen = tracks[int.Parse(input) - 1];
+                    await Service.Enqueue(ctx.Guild.Id, ctx.User, chosen);
+                    count = Service.GetQueue(ctx.Guild.Id).Count;
+                    eb1 = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithDescription($"Added {chosen.Title} by {chosen.Author} to the queue.")
+                        .WithThumbnailUrl(await chosen.FetchArtworkAsync())
+                        .WithFooter($"{count} songs in queue");
+                    if (player.PlayerState != PlayerState.Playing)
+                    {
+                        await player.PlayAsync(x => { x.Track = chosen; });
+                        await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    }
+
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Components = null;
+                        x.Embed = eb1.Build();
+                    });
+                    break;
+                case "pf":
+                    track = searchResponse.Tracks.FirstOrDefault();
+                    await Service.Enqueue(ctx.Guild.Id, ctx.User, track);
+                    count = Service.GetQueue(ctx.Guild.Id).Count;
+                    eb1 = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithDescription($"Added {track.Title} by {track.Author} to the queue.")
+                        .WithThumbnailUrl(await track.FetchArtworkAsync())
+                        .WithFooter($"{count} songs in queue");
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Embed = eb1.Build();
+                        x.Components = null;
+                    });
+                    if (player.PlayerState != PlayerState.Playing)
+                    {
+                        await player.PlayAsync(x => { x.Track = track; });
+                        await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    }
+                    break;
+                case "cancel":
+                    var eb13 = new EmbedBuilder()
+                        .WithDescription("Cancelled.")
+                        .WithErrorColor();
+                    await msg.ModifyAsync(x =>
+                    {
+                        x.Embed = eb13.Build();
+                        x.Components = null;
+                    });
+                    break;
+            }
         }
 
         [MewdekoCommand]
