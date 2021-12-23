@@ -238,7 +238,7 @@ namespace Mewdeko.Modules.Music.Services
 
         private async Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
         {
-            if (_lavaNode.TryGetPlayer(before.VoiceChannel.Guild, out _))
+            if (before.VoiceChannel is not null && _lavaNode.TryGetPlayer(before.VoiceChannel.Guild, out _))
             {
                 if (before.VoiceChannel.Users.Count == 1 &&
                     GetSettingsInternalAsync(before.VoiceChannel.Guild.Id).Result.AutoDisconnect is AutoDisconnect.Either
