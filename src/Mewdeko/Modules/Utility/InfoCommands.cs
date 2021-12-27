@@ -172,7 +172,7 @@ namespace Mewdeko.Modules.Utility
                                     .Take(30)
                                     .Select(e => $"{e}"))
                                 .TrimTo(1024)));
-                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: component.Build());
+                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
                 var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
                 if (input == "moreinfo")
                 {
@@ -262,7 +262,7 @@ namespace Mewdeko.Modules.Utility
                         embed.WithImageUrl(av.ToString());
                     }
 
-                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: component.Build());
+                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
                 var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
                 if (input == "moreinfo")
                 {

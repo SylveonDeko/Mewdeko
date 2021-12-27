@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -18,6 +19,8 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using ExecuteResult = Discord.Commands.ExecuteResult;
+using PreconditionResult = Discord.Commands.PreconditionResult;
 
 namespace Mewdeko.Services
 {
@@ -40,10 +43,12 @@ namespace Mewdeko.Services
         private IEnumerable<ILateBlocker> _lateBlockers;
         private IEnumerable<ILateExecutor> _lateExecutors;
         private readonly IBotStrings strings;
+        public InteractionService InteractionService;
 
         public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
-            BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs)
+            BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs, InteractionService interactionService)
         {
+            InteractionService = interactionService;
             strings = strngs;
             _client = client;
             _client.ThreadCreated += AttemptJoinThread;
@@ -52,6 +57,7 @@ namespace Mewdeko.Services
             _bot = bot;
             _db = db;
             _services = services;
+            _client.InteractionCreated += InteractionCreated;
             _clearUsersOnShortCooldown = new Timer(_ => { UsersOnShortCooldown.Clear(); }, null, GlobalCommandsCooldown,
                 GlobalCommandsCooldown);
             _prefixes = bot.AllGuildConfigs
@@ -75,6 +81,26 @@ namespace Mewdeko.Services
 
         public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
+        private async Task InteractionCreated(SocketInteraction interaction)
+        {
+            var ctx = new SocketInteractionContext(_client, interaction);
+            await InteractionService.ExecuteCommandAsync(ctx, _services);
+            if (interaction is SocketSlashCommand command)
+            {
+                var chan = interaction.Channel as ITextChannel;
+                Log.Information("Slash Command Executed" +
+                                "\n\t" +
+                                "User: {0}\n\t" +
+                                "Server: {1}\n\t" +
+                                "Channel: {2}\n\t" +
+                                "Options {3}",
+                    interaction.User + " [" + interaction.User.Id + "]", // {0}
+                    chan == null ? "PRIVATE" : chan.Guild.Name + " [" + chan.Guild.Id + "]", // {1}
+                    chan == null ? "PRIVATE" : chan.Name + " [" + chan.Id + "]", // {2}
+                    string.Join(",", command.Data.Options.Select(x => x.Value)) // {3}
+                );
+            }
+        }
         public string GetPrefix(IGuild guild)
         {
             return GetPrefix(guild?.Id);
