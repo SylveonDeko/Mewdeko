@@ -141,11 +141,12 @@ namespace Mewdeko.Modules.Music.Services
                             var lavaTrack = await _lavaNode.SearchAsync(SearchType.YouTubeMusic, $"{track.Name} {track.Artists.FirstOrDefault().Name}");
                             if (lavaTrack.Status is SearchStatus.NoMatches) continue;
                             await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(), AdvancedLavaTrack.Platform.Spotify);
-                            await player.PlayAsync(x =>
+                            if (player.PlayerState != PlayerState.Playing)
                             {
-                                x.Track = lavaTrack.Tracks.FirstOrDefault();
-                            });
-                            await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                                await player.PlayAsync(x => { x.Track = lavaTrack.Tracks.FirstOrDefault(); });
+                                await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                            }
+
                             addedcount++;
                         }
                         if (addedcount == 0)
@@ -177,7 +178,7 @@ namespace Mewdeko.Modules.Music.Services
                             var lavaTrack = await _lavaNode.SearchAsync(SearchType.YouTubeMusic, $"{track.Name} {track.Artists.FirstOrDefault().Name}");
                             if (lavaTrack.Status is SearchStatus.NoMatches) continue;
                             await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(), AdvancedLavaTrack.Platform.Spotify);
-                            if (GetQueue(guild.Id).Count == 1)
+                            if (player.PlayerState != PlayerState.Playing)
                             {
                                 await player.PlayAsync(x =>
                                 {
