@@ -159,7 +159,7 @@ namespace Mewdeko.Modules.Utility
                     .WithTitle(guild.Name)
                     .AddField("Id", guild.Id.ToString())
                     .AddField("Owner", ownername.Mention)
-                    .AddField("Total Users", guild.MemberCount.ToString())
+                    .AddField("Total Users", guild.Users.Count.ToString())
                     .WithImageUrl($"{guild.SplashUrl}?size=2048")
                     .WithColor(Mewdeko.Services.Mewdeko.OkColor);
                 if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
