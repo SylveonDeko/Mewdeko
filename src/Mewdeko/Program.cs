@@ -31,17 +31,4 @@ if (args.Length > 0)
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
-if (shardId == 0)
-{
-    using var process = new Process();
-    process.StartInfo = new ProcessStartInfo
-    {
-        FileName = "/bin/bash",
-        Arguments = "-c \"java -jar ./Lavalink.jar\"",
-        RedirectStandardOutput = false,
-        UseShellExecute = true,
-        CreateNoWindow = true
-    };
-    process.Start();
-}
 await new Mewdeko.Services.Mewdeko(shardId).RunAndBlockAsync();
