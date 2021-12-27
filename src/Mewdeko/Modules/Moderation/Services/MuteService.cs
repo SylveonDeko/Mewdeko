@@ -139,20 +139,24 @@ namespace Mewdeko.Modules.Moderation.Services
         public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
         public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
 
-        public async Task AddMutePerms(SocketChannel channel)
+        public Task AddMutePerms(SocketChannel channel)
         {
-            if (channel is not ITextChannel chan)
-                return;
-            try
+            _ = Task.Run(async () =>
             {
-                var role = await GetMuteRole(chan.Guild);
-                await chan.AddPermissionOverwriteAsync(role,
-                    denyOverwrite);
-            }
-            catch
-            {
-                // indented
-            }
+                if (channel is not ITextChannel chan)
+                    return;
+                try
+                {
+                    var role = await GetMuteRole(chan.Guild);
+                    await chan.AddPermissionOverwriteAsync(role,
+                        denyOverwrite);
+                }
+                catch
+                {
+                    // indented
+                }
+            });
+            return Task.CompletedTask;
         }
         private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
         {
