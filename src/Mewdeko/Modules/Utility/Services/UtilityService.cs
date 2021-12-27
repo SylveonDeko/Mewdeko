@@ -24,7 +24,6 @@ namespace Mewdeko.Modules.Utility.Services
 
         public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko _bot)
         {
-            _ = StartSnipeCleanupLoop();
             bot = _bot;
             _client = client;
             client.MessageDeleted += MsgStore;
@@ -48,55 +47,7 @@ namespace Mewdeko.Modules.Utility.Services
         private ConcurrentDictionary<ulong, ulong> _reactchans { get; } = new();
         
 
-        private async Task StartSnipeCleanupLoop()
-        {
-            while (true)
-            {
-                await Task.Delay(5);
-                try
-                {
-                    var now = DateTime.UtcNow - TimeSpan.FromDays(30);
-                    var reminders = await GetOldSnipes(now);
-                    if (reminders.Length == 0)
-                        continue;
-
-                    Log.Information($"Cleaning up {reminders.Length} old snipes");
-
-                    // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
-                    var i = 0;
-                    foreach (var group in reminders
-                        .GroupBy(_ => ++i / (reminders.Length / 5 + 1)))
-                    {
-                        var executedReminders = group.ToList();
-                        await RemoveOldSnipes(executedReminders);
-                        await Task.Delay(1500);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning($"Error in reminder loop: {ex.Message}");
-                    Log.Warning(ex.ToString());
-                }
-            }
-        }
-
-        private Task RemoveOldSnipes(List<SnipeStore> list)
-        {
-            foreach (var i in list)
-            {
-                _db.GetDbContext().SnipeStore.Remove(i.Id);
-                Console.WriteLine(i.Id);
-            }
-            return Task.CompletedTask;
-        }
-        private  Task<SnipeStore[]> GetOldSnipes(DateTime now)
-        {
-            using var uow = _db.GetDbContext();
-            return uow._context.SnipeStore
-                .FromSqlInterpolated(
-                    $"select * from SnipeStore where \"DateAdded\" < {now};")
-                .ToArrayAsync();
-        }
+        
         public int GetPLinks(ulong? id)
         {
             if (id == null || !_plinks.TryGetValue(id.Value, out var invw))
