@@ -77,7 +77,7 @@ namespace Mewdeko.Common
         {
             embed.WithOkColor();
             var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success).WithButton("No", "no", ButtonStyle.Danger);
-            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: buttons.Build()).ConfigureAwait(false);
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build()).ConfigureAwait(false);
             try
             {
                 var input = await GetButtonInputAsync(msg.Channel.Id, msg.Id, userid).ConfigureAwait(false);

@@ -47,7 +47,11 @@ namespace Mewdeko._Extensions
 
         public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text, ComponentBuilder builder = null)
         {
-            return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(), component: builder?.Build());
+            return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(), components: builder?.Build());
+        }
+         public static Task<IUserMessage> SendConfirmAsync(this ITextChannel ch, string text, ComponentBuilder builder = null)
+        {
+            return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(), components: builder?.Build());
         }
 
         public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items,

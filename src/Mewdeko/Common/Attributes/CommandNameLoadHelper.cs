@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using YamlDotNet.Serialization;
-
+using Mewdeko.Services.strings.impl;
 namespace Mewdeko.Common.Attributes
 {
     public static class CommandNameLoadHelper
     {
         private static readonly IDeserializer _deserializer
             = new Deserializer();
+
+        private static readonly LocalBotStringsProvider strings;
 
         public static Lazy<Dictionary<string, string[]>> LazyCommandAliases
             = new(() => LoadCommandNames());
@@ -28,7 +30,12 @@ namespace Mewdeko.Common.Attributes
                 : Array.Empty<string>();
         }
 
-        public static string GetCommandNameFor(string methodName)
+        public static string GetRemarksFor(string methodName)
+        {
+            return strings.GetCommandStrings(methodName, "en-US").Desc;
+        }
+
+        public static string GetCommandNameFor(string methodName, string description = null)
         {
             methodName = methodName.ToLowerInvariant();
             var toReturn = LazyCommandAliases.Value.TryGetValue(methodName, out var aliases) && aliases.Length > 0

@@ -141,44 +141,26 @@ namespace Mewdeko.Services
             return Task.CompletedTask;
         }
 
-        private Task UserLeft(IGuildUser user)
+        private Task UserLeft(SocketGuild guild, SocketUser usr)
         {
             var _ = Task.Run(async () =>
             {
                 try
                 {
-                    var conf = GetOrAddSettingsForGuild(user.GuildId);
+                    var user = usr as SocketGuildUser;
+                    var conf = GetOrAddSettingsForGuild(guild.Id);
 
                     if (!conf.SendChannelByeMessage) return;
-                    var channel =
-                        (await user.Guild.GetTextChannelsAsync().ConfigureAwait(false)).SingleOrDefault(c =>
-                            c.Id == conf.ByeMessageChannelId);
 
-                    if (channel == null) //maybe warn the server owner that the channel is missing
+                    if ((guild.Channels).SingleOrDefault(c =>
+                            c.Id == conf.ByeMessageChannelId) is not ITextChannel channel) //maybe warn the server owner that the channel is missing
                         return;
 
-                    if (GroupGreets)
-                    {
+
                         // if group is newly created, greet that user right away,
                         // but any user which joins in the next 5 seconds will
                         // be greeted in a group greet
-                        if (byes.CreateOrAdd(user.GuildId, user))
-                        {
-                            // greet single user
-                            await ByeUsers(conf, channel, new[] { user });
-                            var groupClear = false;
-                            while (!groupClear)
-                            {
-                                await Task.Delay(5000).ConfigureAwait(false);
-                                groupClear = byes.ClearGroup(user.GuildId, 5, out var toBye);
-                                await ByeUsers(conf, channel, toBye);
-                            }
-                        }
-                    }
-                    else
-                    {
                         await ByeUsers(conf, channel, new[] { user });
-                    }
                 }
                 catch
                 {

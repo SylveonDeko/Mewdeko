@@ -53,7 +53,7 @@ namespace Mewdeko.Modules.Tickets
                     component.WithButton(label: "Embed Builder", url: "https://eb.mewdeko.tech",
                         style: ButtonStyle.Link);
                     eb.WithDescription("Alright! Can you go https://eb.mewdeko.tech and setup the embed? If not we can help you in the support server: https://discord.gg/wB9FBMreRk \nOtherwise just paste the embed code if you know how!").WithOkColor();
-                    var msg1 = await ctx.Channel.SendMessageAsync(embed: eb.Build(), component: component.Build());
+                    var msg1 = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: component.Build());
                     var embed = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                     if (CREmbed.TryParse(embed, out crembed))
                     {
@@ -67,7 +67,7 @@ namespace Mewdeko.Modules.Tickets
                             {
                                 eb = new EmbedBuilder().WithDescription("Alright, please enter the embed code again!")
                                     .WithOkColor();
-                                await ctx.Channel.SendMessageAsync(embed: eb.Build(), component: component.Build());
+                                await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: component.Build());
                                 embed = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                                 if (!CREmbed.TryParse(embed, out crembed)) continue;
                                     await ctx.Channel.SendMessageAsync(crembed.PlainText, embed: crembed.ToEmbed().Build());
