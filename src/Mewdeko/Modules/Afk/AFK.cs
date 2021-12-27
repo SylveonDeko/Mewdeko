@@ -33,6 +33,7 @@ namespace Mewdeko.Modules.Afk
             [Priority(0)]
             public async Task Afk([Remainder]string message = null)
             {
+                
                 if (message == null)
                 {
                     var afkmsg = Service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);

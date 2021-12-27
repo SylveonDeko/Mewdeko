@@ -99,7 +99,7 @@ namespace Mewdeko.Common.Replacements
                 return e.StartsWith("Tier") ? e.Replace("Tier", "") : "0";
             });
             _reps.TryAdd("%server.boostcount%", () => g.PremiumSubscriptionCount.ToString());
-            _reps.TryAdd("%server.members%", () => g is { } sg ? sg.MemberCount.ToString() : "?");
+            _reps.TryAdd("%server.members%", () => g is { } sg ? sg.Users.Count.ToString() : "?");
             _reps.TryAdd("%server.members.online%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Online).ToString() : "?");
             _reps.TryAdd("%server.members.offline%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Offline).ToString() : "?");
             _reps.TryAdd("%server.members.dnd%", () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.DoNotDisturb).ToString() : "?");
