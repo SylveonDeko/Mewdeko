@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.Net;
 using Discord.Rest;
 using Discord.WebSocket;
@@ -30,6 +31,7 @@ using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 using Victoria;
+using RunMode = Discord.Commands.RunMode;
 
 namespace Mewdeko.Services
 {
@@ -119,6 +121,7 @@ namespace Mewdeko.Services
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
+                .AddSingleton<InteractionService>()
                 .AddConfigServices()
                 .AddBotStringsServices()
                 .AddMemoryCache()
@@ -148,7 +151,7 @@ namespace Mewdeko.Services
                     .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
             }
 
-            s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler)));
+            s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
 
             s.AddSingleton<IReadyExecutor>(x => x.GetService<OwnerOnlyService>());
             s.AddSingleton<IReadyExecutor>(x => x.GetService<CustomReactionsService>());
@@ -321,14 +324,29 @@ namespace Mewdeko.Services
             stats.Initialize();
             var commandHandler = Services.GetService<CommandHandler>();
             var CommandService = Services.GetService<CommandService>();
+            var InteractionService = Services.GetRequiredService<InteractionService>();
             var lava = Services.GetRequiredService<LavaNode>();
             await lava.ConnectAsync();
+            var a  = await CommandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+                .ConfigureAwait(false);
+            var e  = await InteractionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+                .ConfigureAwait(false);
+            foreach (var i in Client.Guilds)
+            {
+                try
+                {
+                    await InteractionService.RegisterCommandsToGuildAsync(i.Id);
+                }
+                catch (Exception s)
+                {
+                    Console.WriteLine(s);
+                }
+            }
 
             // start handling messages received in commandhandler
             await commandHandler.StartHandling().ConfigureAwait(false);
 
-            _ = await CommandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
-                .ConfigureAwait(false);
+            
 
             HandleStatusChanges();
             Ready.TrySetResult(true);

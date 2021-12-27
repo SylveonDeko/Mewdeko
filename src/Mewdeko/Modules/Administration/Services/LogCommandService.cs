@@ -812,18 +812,19 @@ namespace Mewdeko.Modules.Administration.Services
         }
 
 
-        private Task _client_UserLeft(IGuildUser usr)
+        private Task _client_UserLeft(SocketGuild guild, SocketUser user)
         {
             var _ = Task.Run(async () =>
             {
                 try
                 {
-                    if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
+                    if (user is not SocketGuildUser usr) return;
+                    if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting)
                         || logSetting.UserLeftId == null)
                         return;
 
                     ITextChannel logChannel;
-                    if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.UserLeft)
+                    if ((logChannel = await TryGetLogChannel(guild, logSetting, LogType.UserLeft)
                         .ConfigureAwait(false)) == null)
                         return;
                     var embed = new EmbedBuilder()
