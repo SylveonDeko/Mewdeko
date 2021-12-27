@@ -532,20 +532,13 @@ namespace Mewdeko.Common.Extensions.Interactive
                 {
                     x.Content = page.Text;
                     x.Embed = page.Embed;
-#if DNETLABS
                     x.Components = component;
-#endif
                 }).ConfigureAwait(false);
             }
             else
             {
-#if DNETLABS
                 message = await channel.SendMessageAsync(page.Text,
-                    embed: page.Embed, component: component).ConfigureAwait(false);
-#else
-                message = await channel.SendMessageAsync(page.Text,
-                    embed: page.Embed).ConfigureAwait(false);
-#endif
+                    embed: page.Embed, components: component).ConfigureAwait(false);
             }
 
             return message;
@@ -590,7 +583,7 @@ namespace Mewdeko.Common.Extensions.Interactive
                     _ => throw new InvalidOperationException("Unknown action.")
                 };
 
-#if DNETLABS
+
             MessageComponent components = null;
             if (action.HasFlag(ActionOnStop.DisableInput))
             {
@@ -603,18 +596,13 @@ namespace Mewdeko.Common.Extensions.Interactive
             }
 
             if (page?.Text != null || page?.Embed != null || components != null)
-#else
-            if (page?.Text != null || page?.Embed != null)
-#endif
                 try
                 {
                     await result.Message.ModifyAsync(x =>
                     {
                         x.Embed = page?.Embed ?? new Optional<Embed>();
                         x.Content = page?.Text ?? new Optional<string>();
-#if DNETLABS
                         x.Components = components ?? new Optional<MessageComponent>();
-#endif
                     }).ConfigureAwait(false);
                 }
                 catch (HttpException ex) when (ex.DiscordCode == DiscordErrorCode.UnknownMessage)
@@ -655,8 +643,7 @@ namespace Mewdeko.Common.Extensions.Interactive
 
             return Task.CompletedTask;
         }
-
-#if DNETLABS
+        
         private Task InteractionCreated(SocketInteraction interaction)
         {
             if (interaction.User?.Id != _client.CurrentUser.Id
@@ -671,6 +658,5 @@ namespace Mewdeko.Common.Extensions.Interactive
 
             return Task.CompletedTask;
         }
-#endif
     }
 }

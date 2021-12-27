@@ -227,7 +227,7 @@ namespace Mewdeko.Modules.Music
                 .WithDescription("Play all that I found\n" +
                                  "Let you select from the top 5\n" +
                                  "Just play the first thing I found");
-            var msg = await ctx.Channel.SendMessageAsync(embed: eb12.Build(), component: components.Build());
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb12.Build(), components: components.Build());
             var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
             switch (button)
             {

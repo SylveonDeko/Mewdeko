@@ -33,7 +33,7 @@ namespace Mewdeko.Modules.GlobalBan
                 .WithDescription("What type of user are you reporting?")
                 .WithTitle("Global Ban Report")
                 .WithOkColor();
-            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), component: components.Build());
+            var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
             var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
             if (input == "cancel")
             {
