@@ -42,7 +42,6 @@ namespace Mewdeko.Modules.Moderation.Services
         {
             _client = client;
             _db = db;
-            _client.ChannelCreated += AddMutePerms;
             Removerolesonmute = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.removeroles)
                 .ToConcurrent();
@@ -138,26 +137,7 @@ namespace Mewdeko.Modules.Moderation.Services
 
         public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
         public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
-
-        public Task AddMutePerms(SocketChannel channel)
-        {
-            _ = Task.Run(async () =>
-            {
-                if (channel is not ITextChannel chan)
-                    return;
-                try
-                {
-                    var role = await GetMuteRole(chan.Guild);
-                    await chan.AddPermissionOverwriteAsync(role,
-                        denyOverwrite);
-                }
-                catch
-                {
-                    // indented
-                }
-            });
-            return Task.CompletedTask;
-        }
+        
         private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
         {
             if (string.IsNullOrWhiteSpace(reason))
