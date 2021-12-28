@@ -326,7 +326,8 @@ public class Mewdeko
             .ConfigureAwait(false);
         await InteractionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
-        await InteractionService.RegisterCommandsGloballyAsync();
+        if (Client.ShardId == 0)
+            await InteractionService.RegisterCommandsGloballyAsync();
 
         // start handling messages received in commandhandler
         await commandHandler.StartHandling().ConfigureAwait(false);
