@@ -116,7 +116,13 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Aliases]
     public async Task Invite()
     {
-        await ctx.Channel.SendConfirmAsync("Invite me using this link:\nhttps://mewdeko.tech/invite");
+        var eb = new EmbedBuilder()
+            .AddField("Invite Link",
+                "[Click Here](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
+            .AddField("Website/Docs", "https://mewdeko.tech")
+            .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
+            .WithOkColor();
+        await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
     [MewdekoCommand]
