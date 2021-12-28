@@ -1,21 +1,20 @@
 ﻿using System;
 
-namespace Mewdeko.Services.Database.Models
+namespace Mewdeko.Services.Database.Models;
+
+public class NsfwBlacklitedTag : DbEntity
 {
-    public class NsfwBlacklitedTag : DbEntity
+    public string Tag { get; set; }
+
+    public override int GetHashCode()
     {
-        public string Tag { get; set; }
+        return Tag.GetHashCode(StringComparison.InvariantCulture);
+    }
 
-        public override int GetHashCode()
-        {
-            return Tag.GetHashCode(StringComparison.InvariantCulture);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is NsfwBlacklitedTag x
-                ? x.Tag == Tag
-                : false;
-        }
+    public override bool Equals(object obj)
+    {
+        return obj is NsfwBlacklitedTag x
+            ? x.Tag == Tag
+            : false;
     }
 }

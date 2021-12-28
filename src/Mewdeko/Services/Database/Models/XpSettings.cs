@@ -1,77 +1,76 @@
 ﻿using System.Collections.Generic;
 
-namespace Mewdeko.Services.Database.Models
+namespace Mewdeko.Services.Database.Models;
+
+public class XpSettings : DbEntity
 {
-    public class XpSettings : DbEntity
-    {
-        public int GuildConfigId { get; set; }
-        public GuildConfig GuildConfig { get; set; }
+    public int GuildConfigId { get; set; }
+    public GuildConfig GuildConfig { get; set; }
 
-        public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
-        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
-        public bool XpRoleRewardExclusive { get; set; }
-        public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
-        public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
-        public bool ServerExcluded { get; set; }
+    public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
+    public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
+    public bool XpRoleRewardExclusive { get; set; }
+    public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
+    public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
+    public bool ServerExcluded { get; set; }
+}
+
+public enum ExcludedItemType
+{
+    Channel,
+    Role
+}
+
+public class XpRoleReward : DbEntity
+{
+    public int XpSettingsId { get; set; }
+    public XpSettings XpSettings { get; set; }
+
+    public int Level { get; set; }
+    public ulong RoleId { get; set; }
+
+    public override int GetHashCode()
+    {
+        return Level.GetHashCode() ^ XpSettingsId.GetHashCode();
     }
 
-    public enum ExcludedItemType
+    public override bool Equals(object obj)
     {
-        Channel,
-        Role
+        return obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+    }
+}
+
+public class XpCurrencyReward : DbEntity
+{
+    public int XpSettingsId { get; set; }
+    public XpSettings XpSettings { get; set; }
+
+    public int Level { get; set; }
+    public int Amount { get; set; }
+
+    public override int GetHashCode()
+    {
+        return Level.GetHashCode() ^ XpSettingsId.GetHashCode();
     }
 
-    public class XpRoleReward : DbEntity
+    public override bool Equals(object obj)
     {
-        public int XpSettingsId { get; set; }
-        public XpSettings XpSettings { get; set; }
+        return obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+    }
+}
 
-        public int Level { get; set; }
-        public ulong RoleId { get; set; }
+public class ExcludedItem : DbEntity
+{
+    public ulong ItemId { get; set; }
+    public ExcludedItemType ItemType { get; set; }
 
-        public override int GetHashCode()
-        {
-            return Level.GetHashCode() ^ XpSettingsId.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
-        }
+    public override int GetHashCode()
+    {
+        return ItemId.GetHashCode() ^ ItemType.GetHashCode();
     }
 
-    public class XpCurrencyReward : DbEntity
+    public override bool Equals(object obj)
     {
-        public int XpSettingsId { get; set; }
-        public XpSettings XpSettings { get; set; }
-
-        public int Level { get; set; }
-        public int Amount { get; set; }
-
-        public override int GetHashCode()
-        {
-            return Level.GetHashCode() ^ XpSettingsId.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
-        }
-    }
-
-    public class ExcludedItem : DbEntity
-    {
-        public ulong ItemId { get; set; }
-        public ExcludedItemType ItemType { get; set; }
-
-        public override int GetHashCode()
-        {
-            return ItemId.GetHashCode() ^ ItemType.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is ExcludedItem ei && ei.ItemId == ItemId && ei.ItemType == ItemType;
-        }
+        return obj is ExcludedItem ei && ei.ItemId == ItemId && ei.ItemType == ItemType;
     }
 }

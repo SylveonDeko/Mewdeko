@@ -4,142 +4,141 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Modules.Permissions.Common
+namespace Mewdeko.Modules.Permissions.Common;
+
+public static class PermissionExtensions
 {
-    public static class PermissionExtensions
+    public static bool CheckPermissions(this IEnumerable<Permissionv2> permsEnumerable, IUserMessage message,
+        string commandName, string moduleName, out int permIndex)
     {
-        public static bool CheckPermissions(this IEnumerable<Permissionv2> permsEnumerable, IUserMessage message,
-            string commandName, string moduleName, out int permIndex)
+        var perms = permsEnumerable as List<Permissionv2> ?? permsEnumerable.ToList();
+
+        for (var i = perms.Count - 1; i >= 0; i--)
         {
-            var perms = permsEnumerable as List<Permissionv2> ?? permsEnumerable.ToList();
+            var perm = perms[i];
 
-            for (var i = perms.Count - 1; i >= 0; i--)
-            {
-                var perm = perms[i];
+            var result = perm.CheckPermission(message, commandName, moduleName);
 
-                var result = perm.CheckPermission(message, commandName, moduleName);
-
-                if (result == null) continue;
-                permIndex = i;
-                return result.Value;
-            }
-
-            permIndex = -1; //defaut behaviour
-            return true;
+            if (result == null) continue;
+            permIndex = i;
+            return result.Value;
         }
 
-        //null = not applicable
-        //true = applicable, allowed
-        //false = applicable, not allowed
-        public static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName,
-            string moduleName)
-        {
-            if (!(perm.SecondaryTarget == SecondaryPermissionType.Command &&
-                  perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant() ||
-                  perm.SecondaryTarget == SecondaryPermissionType.Module &&
-                  perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant() ||
-                  perm.SecondaryTarget == SecondaryPermissionType.AllModules))
-                return null;
+        permIndex = -1; //defaut behaviour
+        return true;
+    }
 
-            var guildUser = message.Author as IGuildUser;
-
-            switch (perm.PrimaryTarget)
-            {
-                case PrimaryPermissionType.User:
-                    if (perm.PrimaryTargetId == message.Author.Id)
-                        return perm.State;
-                    break;
-                case PrimaryPermissionType.Channel:
-                    if (perm.PrimaryTargetId == message.Channel.Id)
-                        return perm.State;
-                    break;
-                case PrimaryPermissionType.Category:
-                    if (perm.PrimaryTargetId == ((ITextChannel)message.Channel).CategoryId)
-                        return perm.State;
-                    break;
-                case PrimaryPermissionType.Role:
-                    if (guildUser == null)
-                        break;
-                    if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
-                        return perm.State;
-                    break;
-                case PrimaryPermissionType.Server:
-                    if (guildUser == null)
-                        break;
-                    return perm.State;
-            }
-
+    //null = not applicable
+    //true = applicable, allowed
+    //false = applicable, not allowed
+    public static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName,
+        string moduleName)
+    {
+        if (!(perm.SecondaryTarget == SecondaryPermissionType.Command &&
+              perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant() ||
+              perm.SecondaryTarget == SecondaryPermissionType.Module &&
+              perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant() ||
+              perm.SecondaryTarget == SecondaryPermissionType.AllModules))
             return null;
-        }
 
-        public static string GetCommand(this Permissionv2 perm, string prefix, SocketGuild guild = null)
+        var guildUser = message.Author as IGuildUser;
+
+        switch (perm.PrimaryTarget)
         {
-            var com = "";
-            switch (perm.PrimaryTarget)
-            {
-                case PrimaryPermissionType.User:
-                    com += "u";
+            case PrimaryPermissionType.User:
+                if (perm.PrimaryTargetId == message.Author.Id)
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Channel:
+                if (perm.PrimaryTargetId == message.Channel.Id)
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Category:
+                if (perm.PrimaryTargetId == ((ITextChannel) message.Channel).CategoryId)
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Role:
+                if (guildUser == null)
                     break;
-                case PrimaryPermissionType.Channel:
-                    com += "c";
+                if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Server:
+                if (guildUser == null)
                     break;
-                case PrimaryPermissionType.Category:
-                    com += "ca";
-                    break;
-                case PrimaryPermissionType.Role:
-                    com += "r";
-                    break;
-                case PrimaryPermissionType.Server:
-                    com += "s";
-                    break;
-            }
-
-            switch (perm.SecondaryTarget)
-            {
-                case SecondaryPermissionType.Module:
-                    com += "m";
-                    break;
-                case SecondaryPermissionType.Command:
-                    com += "c";
-                    break;
-                case SecondaryPermissionType.AllModules:
-                    com = "a" + com + "m";
-                    break;
-            }
-
-            var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !perm.IsCustomCommand
-                ? prefix + perm.SecondaryTargetName
-                : perm.SecondaryTargetName;
-            com += " " + (perm.SecondaryTargetName != "*" ? secName + " " : "") + (perm.State ? "enable" : "disable") +
-                   " ";
-
-            switch (perm.PrimaryTarget)
-            {
-                case PrimaryPermissionType.User:
-                    com += guild?.GetUser(perm.PrimaryTargetId)?.ToString() ?? $"<@{perm.PrimaryTargetId}>";
-                    break;
-                case PrimaryPermissionType.Channel:
-                    com += $"<#{perm.PrimaryTargetId}>";
-                    break;
-                case PrimaryPermissionType.Category:
-                    com += $"<#{perm.PrimaryTargetId}>";
-                    break;
-                case PrimaryPermissionType.Role:
-                    com += guild?.GetRole(perm.PrimaryTargetId)?.ToString() ?? $"<@&{perm.PrimaryTargetId}>";
-                    break;
-                case PrimaryPermissionType.Server:
-                    break;
-            }
-
-            return prefix + com;
+                return perm.State;
         }
 
-        public static IEnumerable<Permission> AsEnumerable(this Permission perm)
+        return null;
+    }
+
+    public static string GetCommand(this Permissionv2 perm, string prefix, SocketGuild guild = null)
+    {
+        var com = "";
+        switch (perm.PrimaryTarget)
         {
-            do
-            {
-                yield return perm;
-            } while ((perm = perm.Next) != null);
+            case PrimaryPermissionType.User:
+                com += "u";
+                break;
+            case PrimaryPermissionType.Channel:
+                com += "c";
+                break;
+            case PrimaryPermissionType.Category:
+                com += "ca";
+                break;
+            case PrimaryPermissionType.Role:
+                com += "r";
+                break;
+            case PrimaryPermissionType.Server:
+                com += "s";
+                break;
         }
+
+        switch (perm.SecondaryTarget)
+        {
+            case SecondaryPermissionType.Module:
+                com += "m";
+                break;
+            case SecondaryPermissionType.Command:
+                com += "c";
+                break;
+            case SecondaryPermissionType.AllModules:
+                com = "a" + com + "m";
+                break;
+        }
+
+        var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !perm.IsCustomCommand
+            ? prefix + perm.SecondaryTargetName
+            : perm.SecondaryTargetName;
+        com += " " + (perm.SecondaryTargetName != "*" ? secName + " " : "") + (perm.State ? "enable" : "disable") +
+               " ";
+
+        switch (perm.PrimaryTarget)
+        {
+            case PrimaryPermissionType.User:
+                com += guild?.GetUser(perm.PrimaryTargetId)?.ToString() ?? $"<@{perm.PrimaryTargetId}>";
+                break;
+            case PrimaryPermissionType.Channel:
+                com += $"<#{perm.PrimaryTargetId}>";
+                break;
+            case PrimaryPermissionType.Category:
+                com += $"<#{perm.PrimaryTargetId}>";
+                break;
+            case PrimaryPermissionType.Role:
+                com += guild?.GetRole(perm.PrimaryTargetId)?.ToString() ?? $"<@&{perm.PrimaryTargetId}>";
+                break;
+            case PrimaryPermissionType.Server:
+                break;
+        }
+
+        return prefix + com;
+    }
+
+    public static IEnumerable<Permission> AsEnumerable(this Permission perm)
+    {
+        do
+        {
+            yield return perm;
+        } while ((perm = perm.Next) != null);
     }
 }

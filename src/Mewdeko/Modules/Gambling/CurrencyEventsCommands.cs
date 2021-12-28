@@ -7,86 +7,85 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Events;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Gambling.Services;
+using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Modules.Gambling
+namespace Mewdeko.Modules.Gambling;
+
+public partial class Gambling
 {
-    public partial class Gambling
+    [Group]
+    public class CurrencyEventsCommands : GamblingSubmodule<CurrencyEventsService>
     {
-        [Group]
-        public class CurrencyEventsCommands : GamblingSubmodule<CurrencyEventsService>
+        public enum OtherEvent
         {
-            public enum OtherEvent
-            {
-                BotListUpvoters
-            }
+            BotListUpvoters
+        }
 
-            public CurrencyEventsCommands(GamblingConfigService gamblingConf) : base(gamblingConf)
-            {
-            }
+        public CurrencyEventsCommands(GamblingConfigService gamblingConf) : base(gamblingConf)
+        {
+        }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [MewdekoOptionsAttribute(typeof(EventOptions))]
-            [OwnerOnly]
-            public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
-            {
-                var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);
-                if (!await Service.TryCreateEventAsync(ctx.Guild.Id,
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [MewdekoOptionsAttribute(typeof(EventOptions))]
+        [OwnerOnly]
+        public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
+        {
+            var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);
+            if (!await Service.TryCreateEventAsync(ctx.Guild.Id,
                     ctx.Channel.Id,
                     ev,
                     opts,
                     GetEmbed
                 ).ConfigureAwait(false))
-                    await ReplyErrorLocalizedAsync("start_event_fail").ConfigureAwait(false);
-            }
+                await ReplyErrorLocalizedAsync("start_event_fail").ConfigureAwait(false);
+        }
 
-            private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot)
+        private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot)
+        {
+            switch (type)
             {
-                switch (type)
-                {
-                    case CurrencyEvent.Type.Reaction:
-                        return new EmbedBuilder()
-                            .WithOkColor()
-                            .WithTitle(GetText("event_title", type.ToString()))
-                            .WithDescription(GetReactionDescription(opts.Amount, currentPot))
-                            .WithFooter(GetText("event_duration_footer", opts.Hours));
-                    case CurrencyEvent.Type.GameStatus:
-                        return new EmbedBuilder()
-                            .WithOkColor()
-                            .WithTitle(GetText("event_title", type.ToString()))
-                            .WithDescription(GetGameStatusDescription(opts.Amount, currentPot))
-                            .WithFooter(GetText("event_duration_footer", opts.Hours));
-                }
-
-                throw new ArgumentOutOfRangeException(nameof(type));
+                case CurrencyEvent.Type.Reaction:
+                    return new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("event_title", type.ToString()))
+                        .WithDescription(GetReactionDescription(opts.Amount, currentPot))
+                        .WithFooter(GetText("event_duration_footer", opts.Hours));
+                case CurrencyEvent.Type.GameStatus:
+                    return new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("event_title", type.ToString()))
+                        .WithDescription(GetGameStatusDescription(opts.Amount, currentPot))
+                        .WithFooter(GetText("event_duration_footer", opts.Hours));
             }
 
-            private string GetReactionDescription(long amount, long potSize)
-            {
-                var potSizeStr = Format.Bold(potSize == 0
-                    ? "∞" + CurrencySign
-                    : potSize + CurrencySign);
-                return GetText("new_reaction_event",
-                    CurrencySign,
-                    Format.Bold(amount + CurrencySign),
-                    potSizeStr);
-            }
+            throw new ArgumentOutOfRangeException(nameof(type));
+        }
 
-            private string GetGameStatusDescription(long amount, long potSize)
-            {
-                var potSizeStr = Format.Bold(potSize == 0
-                    ? "∞" + CurrencySign
-                    : potSize + CurrencySign);
-                return GetText("new_gamestatus_event",
-                    CurrencySign,
-                    Format.Bold(amount + CurrencySign),
-                    potSizeStr);
-            }
+        private string GetReactionDescription(long amount, long potSize)
+        {
+            var potSizeStr = Format.Bold(potSize == 0
+                ? "∞" + CurrencySign
+                : potSize + CurrencySign);
+            return GetText("new_reaction_event",
+                CurrencySign,
+                Format.Bold(amount + CurrencySign),
+                potSizeStr);
+        }
+
+        private string GetGameStatusDescription(long amount, long potSize)
+        {
+            var potSizeStr = Format.Bold(potSize == 0
+                ? "∞" + CurrencySign
+                : potSize + CurrencySign);
+            return GetText("new_gamestatus_event",
+                CurrencySign,
+                Format.Bold(amount + CurrencySign),
+                potSizeStr);
         }
     }
 }

@@ -3,38 +3,37 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.Yml;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Common.PubSub
+namespace Mewdeko.Common.PubSub;
+
+public class YamlSeria : IConfigSeria
 {
-    public class YamlSeria : IConfigSeria
+    private static readonly Regex _codePointRegex
+        = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
+            RegexOptions.Compiled);
+
+    private readonly IDeserializer _deserializer;
+    private readonly ISerializer _serializer;
+
+    public YamlSeria()
     {
-        private static readonly Regex _codePointRegex
-            = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
-                RegexOptions.Compiled);
+        _serializer = Yaml.Serializer;
+        _deserializer = Yaml.Deserializer;
+    }
 
-        private readonly IDeserializer _deserializer;
-        private readonly ISerializer _serializer;
-
-        public YamlSeria()
+    public string Serialize<T>(T obj)
+    {
+        var escapedOutput = _serializer.Serialize(obj);
+        var output = _codePointRegex.Replace(escapedOutput, me =>
         {
-            _serializer = Yaml.Serializer;
-            _deserializer = Yaml.Deserializer;
-        }
+            var str = me.Groups["code"].Value;
+            var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
+            return newString;
+        });
+        return output;
+    }
 
-        public string Serialize<T>(T obj)
-        {
-            var escapedOutput = _serializer.Serialize(obj);
-            var output = _codePointRegex.Replace(escapedOutput, me =>
-            {
-                var str = me.Groups["code"].Value;
-                var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
-                return newString;
-            });
-            return output;
-        }
-
-        public T Deserialize<T>(string data)
-        {
-            return _deserializer.Deserialize<T>(data);
-        }
+    public T Deserialize<T>(string data)
+    {
+        return _deserializer.Deserialize<T>(data);
     }
 }
