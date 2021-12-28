@@ -6,75 +6,75 @@ using System.Security.Cryptography;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko._Extensions
+namespace Mewdeko._Extensions;
+
+public static class EnumerableExtensions
 {
-    public static class EnumerableExtensions
+    public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string> func = null)
     {
-        public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string> func = null)
-        {
-            func ??= x => x?.ToString() ?? string.Empty;
+        func ??= x => x?.ToString() ?? string.Empty;
 
-            return string.Join(separator, data.Select(func));
-        }
-        public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string> func = null)
-        {
-            func ??= x => x?.ToString() ?? string.Empty;
+        return string.Join(separator, data.Select(func));
+    }
 
-            return string.Join(separator, data.Select(func));
-        }
+    public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string> func = null)
+    {
+        func ??= x => x?.ToString() ?? string.Empty;
 
-        public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey)
-        {
-            return data.GroupBy(getKey)
-                .Select(x => x.First());
-        }
+        return string.Join(separator, data.Select(func));
+    }
 
-        /// <summary>
-        ///     Randomize element order by performing the Fisher-Yates shuffle
-        /// </summary>
-        /// <typeparam name="T">Item type</typeparam>
-        /// <param name="items">Items to shuffle</param>
-        public static IReadOnlyList<T> Shuffle<T>(this IEnumerable<T> items)
+    public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey)
+    {
+        return data.GroupBy(getKey)
+            .Select(x => x.First());
+    }
+
+    /// <summary>
+    ///     Randomize element order by performing the Fisher-Yates shuffle
+    /// </summary>
+    /// <typeparam name="T">Item type</typeparam>
+    /// <param name="items">Items to shuffle</param>
+    public static IReadOnlyList<T> Shuffle<T>(this IEnumerable<T> items)
+    {
+        using var provider = RandomNumberGenerator.Create();
+        var list = items.ToList();
+        var n = list.Count;
+        while (n > 1)
         {
-            using var provider = RandomNumberGenerator.Create();
-            var list = items.ToList();
-            var n = list.Count;
-            while (n > 1)
+            var box = new byte[n / byte.MaxValue + 1];
+            int boxSum;
+            do
             {
-                var box = new byte[n / byte.MaxValue + 1];
-                int boxSum;
-                do
-                {
-                    provider.GetBytes(box);
-                    boxSum = box.Sum(b => b);
-                } while (!(boxSum < n * (byte.MaxValue * box.Length / n)));
+                provider.GetBytes(box);
+                boxSum = box.Sum(b => b);
+            } while (!(boxSum < n * (byte.MaxValue * box.Length / n)));
 
-                var k = boxSum % n;
-                n--;
-                (list[k], list[n]) = (list[n], list[k]);
-            }
-
-            return list;
+            var k = boxSum % n;
+            n--;
+            (list[k], list[n]) = (list[n], list[k]);
         }
 
-        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> elems, Action<T> exec)
-        {
-            var realElems = elems.ToList();
-            foreach (var elem in realElems) exec(elem);
+        return list;
+    }
 
-            return realElems;
-        }
+    public static IEnumerable<T> ForEach<T>(this IEnumerable<T> elems, Action<T> exec)
+    {
+        var realElems = elems.ToList();
+        foreach (var elem in realElems) exec(elem);
 
-        public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
-            this IEnumerable<KeyValuePair<TKey, TValue>> dict)
-        {
-            return new ConcurrentDictionary<TKey, TValue>(dict);
-        }
+        return realElems;
+    }
 
-        public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
-            where T : class, IIndexed
-        {
-            return new IndexedCollection<T>(enumerable);
-        }
+    public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> dict)
+    {
+        return new ConcurrentDictionary<TKey, TValue>(dict);
+    }
+
+    public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
+        where T : class, IIndexed
+    {
+        return new IndexedCollection<T>(enumerable);
     }
 }

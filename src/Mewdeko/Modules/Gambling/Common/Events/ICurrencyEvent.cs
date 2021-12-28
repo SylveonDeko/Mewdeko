@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Modules.Gambling.Common.Events
+namespace Mewdeko.Modules.Gambling.Common.Events;
+
+public interface ICurrencyEvent
 {
-    public interface ICurrencyEvent
-    {
-        event Func<ulong, Task> OnEnded;
-        Task StopEvent();
-        Task StartEvent();
-    }
+    event Func<ulong, Task> OnEnded;
+    Task StopEvent();
+    Task StartEvent();
 }

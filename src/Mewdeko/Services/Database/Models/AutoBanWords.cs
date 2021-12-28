@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class AutoBanEntry : DbEntity
 {
-    public class AutoBanEntry : DbEntity
-    {
-        public string Word { get; set; }
-        public ulong GuildId { get; set; }
-    }
+    public string Word { get; set; }
+    public ulong GuildId { get; set; }
 }

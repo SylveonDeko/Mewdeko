@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Modules.Utility.Common
+﻿namespace Mewdeko.Modules.Utility.Common;
+
+public enum StreamRoleListType
 {
-    public enum StreamRoleListType
-    {
-        Whitelist,
-        Blacklist
-    }
+    Whitelist,
+    Blacklist
 }

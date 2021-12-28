@@ -2,101 +2,100 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mewdeko.Common.Extensions.Interactive.Entities
+namespace Mewdeko.Common.Extensions.Interactive.Entities;
+
+/// <summary>
+///     Represents a <see cref="TaskCompletionSource{TResult}" /> with a timeout timer which can be reset.
+/// </summary>
+internal sealed class TimeoutTaskCompletionSource<TResult>
 {
-    /// <summary>
-    ///     Represents a <see cref="TaskCompletionSource{TResult}" /> with a timeout timer which can be reset.
-    /// </summary>
-    internal sealed class TimeoutTaskCompletionSource<TResult>
+    private readonly Func<TResult> _cancelAction;
+    private readonly TResult _cancelResult;
+    private readonly TaskCompletionSource<TResult> _taskSource;
+    private readonly Func<TResult> _timeoutAction;
+    private readonly TResult _timeoutResult;
+    private readonly Timer _timer;
+    private readonly CancellationTokenRegistration _tokenRegistration;
+
+    private bool _disposed;
+
+    private TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true,
+        CancellationToken cancellationToken = default)
     {
-        private readonly Func<TResult> _cancelAction;
-        private readonly TResult _cancelResult;
-        private readonly TaskCompletionSource<TResult> _taskSource;
-        private readonly Func<TResult> _timeoutAction;
-        private readonly TResult _timeoutResult;
-        private readonly Timer _timer;
-        private readonly CancellationTokenRegistration _tokenRegistration;
+        Delay = delay;
+        CanReset = canReset;
+        _taskSource = new TaskCompletionSource<TResult>();
+        _timer = new Timer(OnTimerFired, null, delay, Timeout.InfiniteTimeSpan);
+        _tokenRegistration = cancellationToken.Register(() => TryCancel());
+    }
 
-        private bool _disposed;
+    public TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true, TResult timeoutResult = default,
+        TResult cancelResult = default, CancellationToken cancellationToken = default)
+        : this(delay, canReset, cancellationToken)
+    {
+        _timeoutResult = timeoutResult;
+        _cancelResult = cancelResult;
+    }
 
-        private TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true,
-            CancellationToken cancellationToken = default)
-        {
-            Delay = delay;
-            CanReset = canReset;
-            _taskSource = new TaskCompletionSource<TResult>();
-            _timer = new Timer(OnTimerFired, null, delay, Timeout.InfiniteTimeSpan);
-            _tokenRegistration = cancellationToken.Register(() => TryCancel());
-        }
+    public TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true, Func<TResult> timeoutAction = default,
+        Func<TResult> cancelAction = default, CancellationToken cancellationToken = default)
+        : this(delay, canReset, cancellationToken)
+    {
+        _timeoutAction = timeoutAction;
+        _cancelAction = cancelAction;
+    }
 
-        public TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true, TResult timeoutResult = default,
-            TResult cancelResult = default, CancellationToken cancellationToken = default)
-            : this(delay, canReset, cancellationToken)
-        {
-            _timeoutResult = timeoutResult;
-            _cancelResult = cancelResult;
-        }
+    /// <summary>
+    ///     Gets the delay before the timeout.
+    /// </summary>
+    public TimeSpan Delay { get; }
 
-        public TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true, Func<TResult> timeoutAction = default,
-            Func<TResult> cancelAction = default, CancellationToken cancellationToken = default)
-            : this(delay, canReset, cancellationToken)
-        {
-            _timeoutAction = timeoutAction;
-            _cancelAction = cancelAction;
-        }
+    /// <summary>
+    ///     Gets whether this delay can be reset.
+    /// </summary>
+    public bool CanReset { get; }
 
-        /// <summary>
-        ///     Gets the delay before the timeout.
-        /// </summary>
-        public TimeSpan Delay { get; }
+    public TResult TimeoutResult => _timeoutAction == null ? _timeoutResult : _timeoutAction();
 
-        /// <summary>
-        ///     Gets whether this delay can be reset.
-        /// </summary>
-        public bool CanReset { get; }
+    public TResult CancelResult => _cancelAction == null ? _cancelResult : _cancelAction();
 
-        public TResult TimeoutResult => _timeoutAction == null ? _timeoutResult : _timeoutAction();
+    public Task<TResult> Task => _taskSource.Task;
 
-        public TResult CancelResult => _cancelAction == null ? _cancelResult : _cancelAction();
+    private void OnTimerFired(object state)
+    {
+        _disposed = true;
+        _timer.Dispose();
+        _taskSource.TrySetResult(TimeoutResult);
+        _tokenRegistration.Dispose();
+    }
 
-        public Task<TResult> Task => _taskSource.Task;
+    public bool TryReset()
+    {
+        if (_disposed || !CanReset) return false;
 
-        private void OnTimerFired(object state)
-        {
-            _disposed = true;
-            _timer.Dispose();
-            _taskSource.TrySetResult(TimeoutResult);
-            _tokenRegistration.Dispose();
-        }
+        _timer.Change(Delay, Timeout.InfiniteTimeSpan);
+        return true;
+    }
 
-        public bool TryReset()
-        {
-            if (_disposed || !CanReset) return false;
+    public bool TryCancel()
+    {
+        return !_disposed && _taskSource.TrySetResult(CancelResult);
+    }
 
-            _timer.Change(Delay, Timeout.InfiniteTimeSpan);
-            return true;
-        }
+    public bool TrySetResult(TResult result)
+    {
+        return _taskSource.TrySetResult(result);
+    }
 
-        public bool TryCancel()
-        {
-            return !_disposed && _taskSource.TrySetResult(CancelResult);
-        }
+    public bool TryDispose()
+    {
+        if (_disposed) return false;
 
-        public bool TrySetResult(TResult result)
-        {
-            return _taskSource.TrySetResult(result);
-        }
+        _timer.Dispose();
+        TryCancel();
+        _tokenRegistration.Dispose();
+        _disposed = true;
 
-        public bool TryDispose()
-        {
-            if (_disposed) return false;
-
-            _timer.Dispose();
-            TryCancel();
-            _tokenRegistration.Dispose();
-            _disposed = true;
-
-            return true;
-        }
+        return true;
     }
 }
