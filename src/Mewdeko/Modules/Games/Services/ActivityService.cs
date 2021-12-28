@@ -1,25 +1,28 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using Mewdeko._Extensions;
 using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games.Services;
 
 public class ActivityService : INService
 {
-    public DbService _db;
-    public Mewdeko.Services.Mewdeko Bot;
-    private ConcurrentDictionary<ulong, int> GameMasterRoles { get; }
+    private DbService _db;
+    private ConcurrentDictionary<ulong, ulong> GameMasterRoles { get; }
 
     public ActivityService(DbService db, Mewdeko.Services.Mewdeko bot)
     {
         _db = db;
-        Bot = bot;
+        GameMasterRoles = bot.AllGuildConfigs
+            .ToDictionary(x => x.GuildId, x => x.GameMasterRole)
+            .ToConcurrent();
     }
 
     public async Task<ulong> GetGameMasterRole(ulong guildId)
     {
-        return Bot.AllGuildConfigs.Where(x => x.GuildId == guildId).Select(x => x.GameMasterRole).FirstOrDefault();
+        GameMasterRoles.TryGetValue(guildId, out var snum);
+        return snum;
     }
     public async Task GameMasterRoleSet(ulong guildid, ulong role)
     {
@@ -27,5 +30,6 @@ public class ActivityService : INService
         var gc = uow.GuildConfigs.ForId(guildid, set => set);
         gc.GameMasterRole = role;
         await uow.SaveChangesAsync();
+        GameMasterRoles.AddOrUpdate(guildid, role, (key, old) => role);
     }
 }
