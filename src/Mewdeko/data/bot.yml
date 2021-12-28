@@ -7,7 +7,7 @@ version: 1
 # To get color's hex, you can go here https://htmlcolorcodes.com/
 # and copy the hex code fo your selected color (marked as #)
 color:
-# Color used for embed responses when command successfully executes
+  # Color used for embed responses when command successfully executes
   ok: 93bfe6
   # Color used for embed responses when command has an error
   error: ee281f
@@ -35,7 +35,7 @@ helpText: |-
 blocked:
   commands:
     - internalboobs
-  modules: []
+  modules: [ ]
 # Which string will be used to recognize the commands
 prefix: .
 # Toggles whether your bot will group greet/bye messages into a single message every 5 seconds.

@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Modules.Games.Common.Hangman
+﻿namespace Mewdeko.Modules.Games.Common.Hangman;
+
+public enum Phase
 {
-    public enum Phase
-    {
-        Active,
-        Ended
-    }
+    Active,
+    Ended
 }

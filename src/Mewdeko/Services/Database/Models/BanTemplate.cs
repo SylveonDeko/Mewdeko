@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class BanTemplate : DbEntity
 {
-    public class BanTemplate : DbEntity
-    {
-        public ulong GuildId { get; set; }
-        public string Text { get; set; }
-    }
+    public ulong GuildId { get; set; }
+    public string Text { get; set; }
 }

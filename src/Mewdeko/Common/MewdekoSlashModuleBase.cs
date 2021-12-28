@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Moderation.Services;
@@ -12,7 +12,7 @@ using Mewdeko.Services.strings;
 
 namespace Mewdeko.Common;
 
-public abstract class MewdekoModule : ModuleBase
+public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 {
     protected CultureInfo CultureInfo { get; set; }
     public IBotStrings Strings { get; set; }
@@ -32,9 +32,9 @@ public abstract class MewdekoModule : ModuleBase
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
 
-    protected ICommandContext ctx => Context;
+    protected IInteractionContext ctx => Context;
 
-    protected override void BeforeExecute(CommandInfo cmd)
+    public override void BeforeExecute(ICommandInfo cmd)
     {
         CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
     }
@@ -174,15 +174,15 @@ public abstract class MewdekoModule : ModuleBase
     }
 }
 
-public abstract class MewdekoModuleBase<TService> : MewdekoModule
+public abstract class MewdekoSlashModuleBase<TService> : MewdekoSlashCommandModule
 {
     public TService Service { get; set; }
 }
 
-public abstract class MewdekoSubmodule : MewdekoModule
+public abstract class MewdekoSlashSubmodule : MewdekoSlashCommandModule
 {
 }
 
-public abstract class MewdekoSubmodule<TService> : MewdekoModuleBase<TService>
+public abstract class MewdekoSlashSubmodule<TService> : MewdekoSlashModuleBase<TService>
 {
 }

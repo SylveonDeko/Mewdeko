@@ -1,18 +1,17 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class MutedUserId : DbEntity
 {
-    public class MutedUserId : DbEntity
+    public ulong UserId { get; set; }
+    public string roles { get; set; }
+
+    public override int GetHashCode()
     {
-        public ulong UserId { get; set; }
-        public string roles { get; set; }
+        return UserId.GetHashCode();
+    }
 
-        public override int GetHashCode()
-        {
-            return UserId.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is MutedUserId mui && mui.UserId == UserId;
-        }
+    public override bool Equals(object obj)
+    {
+        return obj is MutedUserId mui && mui.UserId == UserId;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class FilteredWord : DbEntity
 {
-    public class FilteredWord : DbEntity
-    {
-        public string Word { get; set; }
-    }
+    public string Word { get; set; }
 }
