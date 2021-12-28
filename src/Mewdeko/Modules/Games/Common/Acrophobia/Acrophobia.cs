@@ -8,202 +8,201 @@ using CommandLine;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 
-namespace Mewdeko.Modules.Games.Common.Acrophobia
+namespace Mewdeko.Modules.Games.Common.Acrophobia;
+
+public sealed class AcrophobiaGame : IDisposable
 {
-    public sealed class AcrophobiaGame : IDisposable
+    public enum Phase
     {
-        public enum Phase
+        Submission,
+        Voting,
+        Ended
+    }
+
+    public enum UserInputResult
+    {
+        Submitted,
+        SubmissionFailed,
+        Voted,
+        VotingFailed,
+        Failed
+    }
+
+    private readonly MewdekoRandom _rng;
+
+    private readonly HashSet<ulong> _usersWhoVoted = new();
+    private readonly SemaphoreSlim locker = new(1, 1);
+
+    private readonly Dictionary<AcrophobiaUser, int> submissions = new();
+
+    public AcrophobiaGame(Options options)
+    {
+        Opts = options;
+        _rng = new MewdekoRandom();
+        InitializeStartingLetters();
+    }
+
+    public Phase CurrentPhase { get; private set; } = Phase.Submission;
+    public ImmutableArray<char> StartingLetters { get; private set; }
+    public Options Opts { get; }
+
+    public void Dispose()
+    {
+        CurrentPhase = Phase.Ended;
+        OnStarted = null;
+        OnEnded = null;
+        OnUserVoted = null;
+        OnVotingStarted = null;
+        _usersWhoVoted.Clear();
+        submissions.Clear();
+        locker.Dispose();
+    }
+
+    public event Func<AcrophobiaGame, Task> OnStarted = delegate { return Task.CompletedTask; };
+
+    public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnVotingStarted =
+        delegate { return Task.CompletedTask; };
+
+    public event Func<string, Task> OnUserVoted = delegate { return Task.CompletedTask; };
+
+    public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnEnded = delegate
+    {
+        return Task.CompletedTask;
+    };
+
+    public async Task Run()
+    {
+        await OnStarted(this).ConfigureAwait(false);
+        await Task.Delay(Opts.SubmissionTime * 1000).ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
+        try
         {
-            Submission,
-            Voting,
-            Ended
-        }
-
-        public enum UserInputResult
-        {
-            Submitted,
-            SubmissionFailed,
-            Voted,
-            VotingFailed,
-            Failed
-        }
-
-        private readonly MewdekoRandom _rng;
-
-        private readonly HashSet<ulong> _usersWhoVoted = new();
-        private readonly SemaphoreSlim locker = new(1, 1);
-
-        private readonly Dictionary<AcrophobiaUser, int> submissions = new();
-
-        public AcrophobiaGame(Options options)
-        {
-            Opts = options;
-            _rng = new MewdekoRandom();
-            InitializeStartingLetters();
-        }
-
-        public Phase CurrentPhase { get; private set; } = Phase.Submission;
-        public ImmutableArray<char> StartingLetters { get; private set; }
-        public Options Opts { get; }
-
-        public void Dispose()
-        {
-            CurrentPhase = Phase.Ended;
-            OnStarted = null;
-            OnEnded = null;
-            OnUserVoted = null;
-            OnVotingStarted = null;
-            _usersWhoVoted.Clear();
-            submissions.Clear();
-            locker.Dispose();
-        }
-
-        public event Func<AcrophobiaGame, Task> OnStarted = delegate { return Task.CompletedTask; };
-
-        public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnVotingStarted =
-            delegate { return Task.CompletedTask; };
-
-        public event Func<string, Task> OnUserVoted = delegate { return Task.CompletedTask; };
-
-        public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnEnded = delegate
-        {
-            return Task.CompletedTask;
-        };
-
-        public async Task Run()
-        {
-            await OnStarted(this).ConfigureAwait(false);
-            await Task.Delay(Opts.SubmissionTime * 1000).ConfigureAwait(false);
-            await locker.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                if (submissions.Count == 0)
-                {
-                    CurrentPhase = Phase.Ended;
-                    await OnVotingStarted(this, ImmutableArray.Create<KeyValuePair<AcrophobiaUser, int>>())
-                        .ConfigureAwait(false);
-                    return;
-                }
-
-                if (submissions.Count == 1)
-                {
-                    CurrentPhase = Phase.Ended;
-                    await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
-                    return;
-                }
-
-                CurrentPhase = Phase.Voting;
-
-                await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
-            }
-            finally
-            {
-                locker.Release();
-            }
-
-            await Task.Delay(Opts.VoteTime * 1000).ConfigureAwait(false);
-            await locker.WaitAsync().ConfigureAwait(false);
-            try
+            if (submissions.Count == 0)
             {
                 CurrentPhase = Phase.Ended;
-                await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                await OnVotingStarted(this, ImmutableArray.Create<KeyValuePair<AcrophobiaUser, int>>())
+                    .ConfigureAwait(false);
+                return;
             }
-            finally
+
+            if (submissions.Count == 1)
             {
-                locker.Release();
+                CurrentPhase = Phase.Ended;
+                await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                return;
             }
+
+            CurrentPhase = Phase.Voting;
+
+            await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+        }
+        finally
+        {
+            locker.Release();
         }
 
-        private void InitializeStartingLetters()
+        await Task.Delay(Opts.VoteTime * 1000).ConfigureAwait(false);
+        await locker.WaitAsync().ConfigureAwait(false);
+        try
         {
-            var wordCount = _rng.Next(3, 6);
+            CurrentPhase = Phase.Ended;
+            await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+        }
+        finally
+        {
+            locker.Release();
+        }
+    }
 
-            var lettersArr = new char[wordCount];
+    private void InitializeStartingLetters()
+    {
+        var wordCount = _rng.Next(3, 6);
 
-            for (var i = 0; i < wordCount; i++)
-            {
-                var randChar = (char)_rng.Next(65, 91);
-                lettersArr[i] = randChar == 'X' ? (char)_rng.Next(65, 88) : randChar;
-            }
+        var lettersArr = new char[wordCount];
 
-            StartingLetters = lettersArr.ToImmutableArray();
+        for (var i = 0; i < wordCount; i++)
+        {
+            var randChar = (char) _rng.Next(65, 91);
+            lettersArr[i] = randChar == 'X' ? (char) _rng.Next(65, 88) : randChar;
         }
 
-        public async Task<bool> UserInput(ulong userId, string userName, string input)
+        StartingLetters = lettersArr.ToImmutableArray();
+    }
+
+    public async Task<bool> UserInput(ulong userId, string userName, string input)
+    {
+        var user = new AcrophobiaUser(userId, userName, input.ToLowerInvariant().ToTitleCase());
+
+        await locker.WaitAsync().ConfigureAwait(false);
+        try
         {
-            var user = new AcrophobiaUser(userId, userName, input.ToLowerInvariant().ToTitleCase());
-
-            await locker.WaitAsync().ConfigureAwait(false);
-            try
+            switch (CurrentPhase)
             {
-                switch (CurrentPhase)
-                {
-                    case Phase.Submission:
-                        if (submissions.ContainsKey(user) || !IsValidAnswer(input))
-                            break;
+                case Phase.Submission:
+                    if (submissions.ContainsKey(user) || !IsValidAnswer(input))
+                        break;
 
-                        submissions.Add(user, 0);
-                        return true;
-                    case Phase.Voting:
-                        AcrophobiaUser toVoteFor;
-                        if (!int.TryParse(input, out var index)
-                            || --index < 0
-                            || index >= submissions.Count
-                            || (toVoteFor = submissions.ToArray()[index].Key).UserId == user.UserId
-                            || !_usersWhoVoted.Add(userId))
-                            break;
-                        ++submissions[toVoteFor];
-                        var _ = Task.Run(() => OnUserVoted(userName));
-                        return true;
-                }
+                    submissions.Add(user, 0);
+                    return true;
+                case Phase.Voting:
+                    AcrophobiaUser toVoteFor;
+                    if (!int.TryParse(input, out var index)
+                        || --index < 0
+                        || index >= submissions.Count
+                        || (toVoteFor = submissions.ToArray()[index].Key).UserId == user.UserId
+                        || !_usersWhoVoted.Add(userId))
+                        break;
+                    ++submissions[toVoteFor];
+                    var _ = Task.Run(() => OnUserVoted(userName));
+                    return true;
+            }
 
-                return false;
-            }
-            finally
-            {
-                locker.Release();
-            }
+            return false;
         }
-
-        private bool IsValidAnswer(string input)
+        finally
         {
-            input = input.ToUpperInvariant();
+            locker.Release();
+        }
+    }
 
-            var inputWords = input.Split(' ');
+    private bool IsValidAnswer(string input)
+    {
+        input = input.ToUpperInvariant();
 
-            if (inputWords.Length !=
-                StartingLetters.Length) // number of words must be the same as the number of the starting letters
-                return false;
+        var inputWords = input.Split(' ');
 
-            for (var i = 0; i < StartingLetters.Length; i++)
-            {
-                var letter = StartingLetters[i];
+        if (inputWords.Length !=
+            StartingLetters.Length) // number of words must be the same as the number of the starting letters
+            return false;
 
-                if (!inputWords[i]
+        for (var i = 0; i < StartingLetters.Length; i++)
+        {
+            var letter = StartingLetters[i];
+
+            if (!inputWords[i]
                     .StartsWith(letter.ToString(), StringComparison.InvariantCulture)) // all first letters must match
-                    return false;
-            }
-
-            return true;
+                return false;
         }
 
-        public class Options : IMewdekoCommandOptions
+        return true;
+    }
+
+    public class Options : IMewdekoCommandOptions
+    {
+        [Option('s', "submission-time", Required = false, Default = 60,
+            HelpText = "Time after which the submissions are closed and voting starts.")]
+        public int SubmissionTime { get; set; } = 60;
+
+        [Option('v', "vote-time", Required = false, Default = 60,
+            HelpText = "Time after which the voting is closed and the winner is declared.")]
+        public int VoteTime { get; set; } = 30;
+
+        public void NormalizeOptions()
         {
-            [Option('s', "submission-time", Required = false, Default = 60,
-                HelpText = "Time after which the submissions are closed and voting starts.")]
-            public int SubmissionTime { get; set; } = 60;
-
-            [Option('v', "vote-time", Required = false, Default = 60,
-                HelpText = "Time after which the voting is closed and the winner is declared.")]
-            public int VoteTime { get; set; } = 30;
-
-            public void NormalizeOptions()
-            {
-                if (SubmissionTime < 15 || SubmissionTime > 300)
-                    SubmissionTime = 60;
-                if (VoteTime < 15 || VoteTime > 120)
-                    VoteTime = 30;
-            }
+            if (SubmissionTime < 15 || SubmissionTime > 300)
+                SubmissionTime = 60;
+            if (VoteTime < 15 || VoteTime > 120)
+                VoteTime = 30;
         }
     }
 }

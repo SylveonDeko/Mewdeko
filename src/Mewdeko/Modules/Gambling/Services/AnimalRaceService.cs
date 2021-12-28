@@ -1,26 +1,25 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Mewdeko.Services;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing;
+using Mewdeko.Services;
 
-namespace Mewdeko.Modules.Gambling.Services
+namespace Mewdeko.Modules.Gambling.Services;
+
+public class AnimalRaceService : INService, IUnloadableService
 {
-    public class AnimalRaceService : INService, IUnloadableService
+    public ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new();
+
+    public Task Unload()
     {
-        public ConcurrentDictionary<ulong, AnimalRace> AnimalRaces { get; } = new();
+        foreach (var kvp in AnimalRaces)
+            try
+            {
+                kvp.Value.Dispose();
+            }
+            catch
+            {
+            }
 
-        public Task Unload()
-        {
-            foreach (var kvp in AnimalRaces)
-                try
-                {
-                    kvp.Value.Dispose();
-                }
-                catch
-                {
-                }
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

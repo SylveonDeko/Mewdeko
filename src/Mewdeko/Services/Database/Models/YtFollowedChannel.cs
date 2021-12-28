@@ -1,9 +1,8 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class YtFollowedChannel : DbEntity
 {
-    public class YtFollowedChannel : DbEntity
-    {
-        public ulong ChannelId { get; set; }
-        public string YtChannelId { get; set; }
-        public string UploadMessage { get; set; }
-    }
+    public ulong ChannelId { get; set; }
+    public string YtChannelId { get; set; }
+    public string UploadMessage { get; set; }
 }

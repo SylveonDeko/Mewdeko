@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
 
-namespace Mewdeko.Common
+namespace Mewdeko.Common;
+
+public class RequireObjectPropertiesContractResolver : DefaultContractResolver
 {
-    public class RequireObjectPropertiesContractResolver : DefaultContractResolver
+    protected override JsonObjectContract CreateObjectContract(Type objectType)
     {
-        protected override JsonObjectContract CreateObjectContract(Type objectType)
-        {
-            var contract = base.CreateObjectContract(objectType);
-            contract.ItemRequired = Required.DisallowNull;
-            return contract;
-        }
+        var contract = base.CreateObjectContract(objectType);
+        contract.ItemRequired = Required.DisallowNull;
+        return contract;
     }
 }

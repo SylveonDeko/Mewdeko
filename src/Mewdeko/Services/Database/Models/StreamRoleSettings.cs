@@ -1,78 +1,77 @@
 ﻿using System.Collections.Generic;
 
-namespace Mewdeko.Services.Database.Models
+namespace Mewdeko.Services.Database.Models;
+
+public class StreamRoleSettings : DbEntity
 {
-    public class StreamRoleSettings : DbEntity
+    public int GuildConfigId { get; set; }
+    public GuildConfig GuildConfig { get; set; }
+
+    /// <summary>
+    ///     Whether the feature is enabled in the guild.
+    /// </summary>
+    public bool Enabled { get; set; }
+
+    /// <summary>
+    ///     Id of the role to give to the users in the role 'FromRole' when they start streaming
+    /// </summary>
+    public ulong AddRoleId { get; set; }
+
+    /// <summary>
+    ///     Id of the role whose users are eligible to get the 'AddRole'
+    /// </summary>
+    public ulong FromRoleId { get; set; }
+
+    /// <summary>
+    ///     If set, feature will only apply to users who have this keyword in their streaming status.
+    /// </summary>
+    public string Keyword { get; set; }
+
+    /// <summary>
+    ///     A collection of whitelisted users' IDs. Whitelisted users don't require 'keyword' in
+    ///     order to get the stream role.
+    /// </summary>
+    public HashSet<StreamRoleWhitelistedUser> Whitelist { get; set; } = new();
+
+    /// <summary>
+    ///     A collection of blacklisted users' IDs. Blacklisted useres will never get the stream role.
+    /// </summary>
+    public HashSet<StreamRoleBlacklistedUser> Blacklist { get; set; } = new();
+}
+
+public class StreamRoleBlacklistedUser : DbEntity
+{
+    public ulong UserId { get; set; }
+    public string Username { get; set; }
+
+    public override bool Equals(object obj)
     {
-        public int GuildConfigId { get; set; }
-        public GuildConfig GuildConfig { get; set; }
+        if (obj is not StreamRoleBlacklistedUser x)
+            return false;
 
-        /// <summary>
-        ///     Whether the feature is enabled in the guild.
-        /// </summary>
-        public bool Enabled { get; set; }
-
-        /// <summary>
-        ///     Id of the role to give to the users in the role 'FromRole' when they start streaming
-        /// </summary>
-        public ulong AddRoleId { get; set; }
-
-        /// <summary>
-        ///     Id of the role whose users are eligible to get the 'AddRole'
-        /// </summary>
-        public ulong FromRoleId { get; set; }
-
-        /// <summary>
-        ///     If set, feature will only apply to users who have this keyword in their streaming status.
-        /// </summary>
-        public string Keyword { get; set; }
-
-        /// <summary>
-        ///     A collection of whitelisted users' IDs. Whitelisted users don't require 'keyword' in
-        ///     order to get the stream role.
-        /// </summary>
-        public HashSet<StreamRoleWhitelistedUser> Whitelist { get; set; } = new();
-
-        /// <summary>
-        ///     A collection of blacklisted users' IDs. Blacklisted useres will never get the stream role.
-        /// </summary>
-        public HashSet<StreamRoleBlacklistedUser> Blacklist { get; set; } = new();
+        return x.UserId == UserId;
     }
 
-    public class StreamRoleBlacklistedUser : DbEntity
+    public override int GetHashCode()
     {
-        public ulong UserId { get; set; }
-        public string Username { get; set; }
+        return UserId.GetHashCode();
+    }
+}
 
-        public override bool Equals(object obj)
-        {
-            if (obj is not StreamRoleBlacklistedUser x)
-                return false;
+public class StreamRoleWhitelistedUser : DbEntity
+{
+    public ulong UserId { get; set; }
+    public string Username { get; set; }
 
-            return x.UserId == UserId;
-        }
-
-        public override int GetHashCode()
-        {
-            return UserId.GetHashCode();
-        }
+    public override bool Equals(object obj)
+    {
+        return obj is StreamRoleWhitelistedUser x
+            ? x.UserId == UserId
+            : false;
     }
 
-    public class StreamRoleWhitelistedUser : DbEntity
+    public override int GetHashCode()
     {
-        public ulong UserId { get; set; }
-        public string Username { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            return obj is StreamRoleWhitelistedUser x
-                ? x.UserId == UserId
-                : false;
-        }
-
-        public override int GetHashCode()
-        {
-            return UserId.GetHashCode();
-        }
+        return UserId.GetHashCode();
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Mewdeko.Services.Settings
+﻿namespace Mewdeko.Services.Settings;
+
+public interface IConfigMigrator
 {
-    public interface IConfigMigrator
-    {
-        public void EnsureMigrated();
-    }
+    public void EnsureMigrated();
 }

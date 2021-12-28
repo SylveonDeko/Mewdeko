@@ -2,20 +2,19 @@
 using System.Globalization;
 using Discord;
 
-namespace Mewdeko.Services
-{
-    public interface ILocalization : INService
-    {
-        CultureInfo DefaultCultureInfo { get; }
-        ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
+namespace Mewdeko.Services;
 
-        CultureInfo GetCultureInfo(IGuild guild);
-        CultureInfo GetCultureInfo(ulong? guildId);
-        void RemoveGuildCulture(IGuild guild);
-        void RemoveGuildCulture(ulong guildId);
-        void ResetDefaultCulture();
-        void SetDefaultCulture(CultureInfo ci);
-        void SetGuildCulture(IGuild guild, CultureInfo ci);
-        void SetGuildCulture(ulong guildId, CultureInfo ci);
-    }
+public interface ILocalization : INService
+{
+    CultureInfo DefaultCultureInfo { get; }
+    ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
+
+    CultureInfo GetCultureInfo(IGuild guild);
+    CultureInfo GetCultureInfo(ulong? guildId);
+    void RemoveGuildCulture(IGuild guild);
+    void RemoveGuildCulture(ulong guildId);
+    void ResetDefaultCulture();
+    void SetDefaultCulture(CultureInfo ci);
+    void SetGuildCulture(IGuild guild, CultureInfo ci);
+    void SetGuildCulture(ulong guildId, CultureInfo ci);
 }

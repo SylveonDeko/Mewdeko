@@ -5,132 +5,133 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Grpc.Core;
+using Grpc.Net.Client;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Coordinator;
 using Serilog;
 
-namespace Mewdeko.Services.Impl
+namespace Mewdeko.Services.Impl;
+
+public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
 {
-    public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
+    private readonly DiscordSocketClient _client;
+    private readonly Coordinator.Coordinator.CoordinatorClient _coordClient;
+
+    public RemoteGrpcCoordinator(DiscordSocketClient client)
     {
-        private readonly Coordinator.Coordinator.CoordinatorClient _coordClient;
-        private readonly DiscordSocketClient _client;
+        var channel = GrpcChannel.ForAddress("http://localhost:3442");
+        _coordClient = new Coordinator.Coordinator.CoordinatorClient(channel);
+        _client = client;
+    }
 
-        public RemoteGrpcCoordinator(DiscordSocketClient client)
-        {
-            var channel = Grpc.Net.Client.GrpcChannel.ForAddress("http://localhost:3442");
-            _coordClient = new(channel);
-            _client = client;
-        }
+    public bool RestartBot()
+    {
+        _coordClient.RestartAllShards(new RestartAllRequest());
 
-        public bool RestartBot()
+        return true;
+    }
+
+    public void Die()
+    {
+        _coordClient.Die(new DieRequest
         {
-            _coordClient.RestartAllShards(new RestartAllRequest
+            Graceful = false
+        });
+    }
+
+    public bool RestartShard(int shardId)
+    {
+        _coordClient.RestartShard(new RestartShardRequest
+        {
+            ShardId = shardId
+        });
+
+        return true;
+    }
+
+    public IList<ShardStatus> GetAllShardStatuses()
+    {
+        var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
+
+        return res.Statuses
+            .ToArray()
+            .Map(s => new ShardStatus
             {
-
+                ConnectionState = FromCoordConnState(s.State),
+                GuildCount = s.GuildCount,
+                ShardId = s.ShardId,
+                LastUpdate = s.LastUpdate.ToDateTime()
             });
+    }
 
-            return true;
-        }
+    public int GetGuildCount()
+    {
+        var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
 
-        public void Die()
+        return res.Statuses.Sum(x => x.GuildCount);
+    }
+
+    public Task OnReadyAsync()
+    {
+        Task.Run(async () =>
         {
-            _coordClient.Die(new DieRequest()
+            var gracefulImminent = false;
+            while (true)
             {
-                Graceful = false
-            });
-        }
-
-        public bool RestartShard(int shardId)
-        {
-            _coordClient.RestartShard(new RestartShardRequest
-            {
-                ShardId = shardId,
-            });
-
-            return true;
-        }
-
-        public IList<ShardStatus> GetAllShardStatuses()
-        {
-            var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
-
-            return res.Statuses
-                .ToArray()
-                .Map(s => new ShardStatus()
+                try
                 {
-                    ConnectionState = FromCoordConnState(s.State),
-                    GuildCount = s.GuildCount,
-                    ShardId = s.ShardId,
-                    LastUpdate = s.LastUpdate.ToDateTime(),
-                });
-        }
-
-        public int GetGuildCount()
-        {
-            var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
-
-            return res.Statuses.Sum(x => x.GuildCount);
-        }
-
-        public Task OnReadyAsync()
-        {
-            Task.Run(async () =>
-            {
-                var gracefulImminent = false;
-                while (true)
+                    var reply = await _coordClient.HeartbeatAsync(new HeartbeatRequest
+                    {
+                        State = ToCoordConnState(_client.ConnectionState),
+                        GuildCount = _client.ConnectionState == ConnectionState.Connected ? _client.Guilds.Count : 0,
+                        ShardId = _client.ShardId
+                    }, deadline: DateTime.UtcNow + TimeSpan.FromSeconds(10));
+                    gracefulImminent = reply.GracefulImminent;
+                }
+                catch (RpcException ex)
                 {
-                    try
+                    if (!gracefulImminent)
                     {
-                        var reply = await _coordClient.HeartbeatAsync(new HeartbeatRequest
-                        {
-                            State = ToCoordConnState(_client.ConnectionState),
-                            GuildCount = _client.ConnectionState == ConnectionState.Connected ? _client.Guilds.Count : 0,
-                            ShardId = _client.ShardId,
-                        }, deadline: DateTime.UtcNow + TimeSpan.FromSeconds(10));
-                        gracefulImminent = reply.GracefulImminent;
-                    }
-                    catch (RpcException ex)
-                    {
-                        if (!gracefulImminent)
-                        {
-                            Log.Warning(ex, "Hearbeat failed and graceful shutdown was not expected: {Message}",
-                                ex.Message);
-                            break;
-                        }
-
-                        await Task.Delay(22500).ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex, "Unexpected heartbeat exception: {Message}", ex.Message);
+                        Log.Warning(ex, "Hearbeat failed and graceful shutdown was not expected: {Message}",
+                            ex.Message);
                         break;
                     }
 
-                    await Task.Delay(7500).ConfigureAwait(false);
+                    await Task.Delay(22500).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Unexpected heartbeat exception: {Message}", ex.Message);
+                    break;
                 }
 
-                Environment.Exit(5);
-            });
+                await Task.Delay(7500).ConfigureAwait(false);
+            }
 
-            return Task.CompletedTask;
-        }
+            Environment.Exit(5);
+        });
 
-        private ConnState ToCoordConnState(ConnectionState state)
-            => state switch
-            {
-                ConnectionState.Connecting => ConnState.Connecting,
-                ConnectionState.Connected => ConnState.Connected,
-                _ => ConnState.Disconnected
-            };
+        return Task.CompletedTask;
+    }
 
-        private ConnectionState FromCoordConnState(ConnState state)
-            => state switch
-            {
-                ConnState.Connecting => ConnectionState.Connecting,
-                ConnState.Connected => ConnectionState.Connected,
-                _ => ConnectionState.Disconnected
-            };
+    private ConnState ToCoordConnState(ConnectionState state)
+    {
+        return state switch
+        {
+            ConnectionState.Connecting => ConnState.Connecting,
+            ConnectionState.Connected => ConnState.Connected,
+            _ => ConnState.Disconnected
+        };
+    }
+
+    private ConnectionState FromCoordConnState(ConnState state)
+    {
+        return state switch
+        {
+            ConnState.Connecting => ConnectionState.Connecting,
+            ConnState.Connected => ConnectionState.Connected,
+            _ => ConnectionState.Disconnected
+        };
     }
 }

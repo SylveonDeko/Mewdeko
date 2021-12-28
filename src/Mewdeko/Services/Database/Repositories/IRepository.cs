@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Services.Database.Repositories
+namespace Mewdeko.Services.Database.Repositories;
+
+public interface IRepository<T> where T : DbEntity
 {
-    public interface IRepository<T> where T : DbEntity
-    {
-        T GetById(int id);
-        IEnumerable<T> GetAll();
+    T GetById(int id);
+    IEnumerable<T> GetAll();
 
-        void Add(T obj);
-        void AddRange(params T[] objs);
+    void Add(T obj);
+    void AddRange(params T[] objs);
 
-        void Remove(int id);
-        void Remove(T obj);
-        void RemoveRange(params T[] objs);
+    void Remove(int id);
+    void Remove(T obj);
+    void RemoveRange(params T[] objs);
 
-        void Update(T obj);
-        void UpdateRange(params T[] objs);
-    }
+    void Update(T obj);
+    void UpdateRange(params T[] objs);
 }
