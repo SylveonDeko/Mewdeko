@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Mewdeko.Modules.Games.Common.Hangman
+namespace Mewdeko.Modules.Games.Common.Hangman;
+
+[Flags]
+public enum TermTypes
 {
-    [Flags]
-    public enum TermTypes
-    {
-        Countries = 0,
-        Movies = 1,
-        Animals = 2,
-        Things = 4,
-        Random = 8
-    }
+    Countries = 0,
+    Movies = 1,
+    Animals = 2,
+    Things = 4,
+    Random = 8
 }

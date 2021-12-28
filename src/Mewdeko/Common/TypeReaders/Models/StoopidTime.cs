@@ -2,53 +2,52 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Mewdeko.Common.TypeReaders.Models
+namespace Mewdeko.Common.TypeReaders.Models;
+
+public class StoopidTime
 {
-    public class StoopidTime
+    private static readonly Regex _regex = new(
+        @"^(?:(?<years>\d)y)?(?:(?<months>\d)mo)?(?:(?<weeks>\d{1,2})w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,4})h)?(?:(?<minutes>\d{1,5})m)?(?:(?<seconds>\d{1,6})s)?$"
+        ,
+        RegexOptions.Compiled | RegexOptions.Multiline);
+
+    public string Input { get; set; }
+    public TimeSpan Time { get; set; }
+
+    public static StoopidTime FromInput(string input)
     {
-        private static readonly Regex _regex = new(
-            @"^(?:(?<years>\d)y)?(?:(?<months>\d)mo)?(?:(?<weeks>\d{1,2})w)?(?:(?<days>\d{1,2})d)?(?:(?<hours>\d{1,4})h)?(?:(?<minutes>\d{1,5})m)?(?:(?<seconds>\d{1,6})s)?$"
-            ,
-            RegexOptions.Compiled | RegexOptions.Multiline);
+        var m = _regex.Match(input);
 
-        public string Input { get; set; }
-        public TimeSpan Time { get; set; }
+        if (m.Length == 0) throw new ArgumentException("Invalid Time! Valid Example: 1h2d3m");
 
-        public static StoopidTime FromInput(string input)
+        var namesAndValues = new Dictionary<string, int>();
+
+        foreach (var groupName in _regex.GetGroupNames())
         {
-            var m = _regex.Match(input);
-
-            if (m.Length == 0) throw new ArgumentException("Invalid Time! Valid Example: 1h2d3m");
-
-            var namesAndValues = new Dictionary<string, int>();
-
-            foreach (var groupName in _regex.GetGroupNames())
+            if (groupName == "0") continue;
+            if (!int.TryParse(m.Groups[groupName].Value, out var value))
             {
-                if (groupName == "0") continue;
-                if (!int.TryParse(m.Groups[groupName].Value, out var value))
-                {
-                    namesAndValues[groupName] = 0;
-                    continue;
-                }
-
-                if (value < 1) throw new ArgumentException($"Invalid {groupName} value.");
-
-                namesAndValues[groupName] = value;
+                namesAndValues[groupName] = 0;
+                continue;
             }
 
-            var ts = new TimeSpan(365 * namesAndValues["years"] +
-                                  30 * namesAndValues["months"] +
-                                  7 * namesAndValues["weeks"] +
-                                  namesAndValues["days"],
-                namesAndValues["hours"],
-                namesAndValues["minutes"],
-                namesAndValues["seconds"]);
+            if (value < 1) throw new ArgumentException($"Invalid {groupName} value.");
 
-            return new StoopidTime
-            {
-                Input = input,
-                Time = ts
-            };
+            namesAndValues[groupName] = value;
         }
+
+        var ts = new TimeSpan(365 * namesAndValues["years"] +
+                              30 * namesAndValues["months"] +
+                              7 * namesAndValues["weeks"] +
+                              namesAndValues["days"],
+            namesAndValues["hours"],
+            namesAndValues["minutes"],
+            namesAndValues["seconds"]);
+
+        return new StoopidTime
+        {
+            Input = input,
+            Time = ts
+        };
     }
 }

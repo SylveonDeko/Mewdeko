@@ -6,58 +6,58 @@ using System.Threading;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 using Mewdeko.Modules.Gambling.Common;
-using Mewdeko.Services;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
 using Mewdeko.Modules.Gambling.Connect4;
+using Mewdeko.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace Mewdeko.Modules.Gambling.Services
+namespace Mewdeko.Modules.Gambling.Services;
+
+public class GamblingService : INService
 {
-    public class GamblingService : INService
+    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly IDataCache _cache;
+    private readonly DiscordSocketClient _client;
+    private readonly ICurrencyService _cs;
+    private readonly DbService _db;
+
+    private readonly GamblingConfigService _gss;
+
+    public GamblingService(DbService db, Mewdeko.Services.Mewdeko bot, ICurrencyService cs,
+        DiscordSocketClient client, IDataCache cache, GamblingConfigService gss)
     {
-        private readonly Mewdeko.Services.Mewdeko _bot;
-        private readonly IDataCache _cache;
-        private readonly DiscordSocketClient _client;
-        private readonly ICurrencyService _cs;
-        private readonly DbService _db;
+        _db = db;
+        _cs = cs;
+        _bot = bot;
+        _client = client;
+        _cache = cache;
+        _gss = gss;
 
-        private readonly GamblingConfigService _gss;
-
-        public GamblingService(DbService db, Mewdeko.Services.Mewdeko bot, ICurrencyService cs,
-            DiscordSocketClient client, IDataCache cache, GamblingConfigService gss)
+        if (_bot.Client.ShardId == 0)
         {
-            _db = db;
-            _cs = cs;
-            _bot = bot;
-            _client = client;
-            _cache = cache;
-            _gss = gss;
-
-            if (_bot.Client.ShardId == 0)
+            var timer = new Timer(_ =>
             {
-                var timer = new Timer(_ =>
-                {
-                    var config = _gss.Data;
-                    var maxDecay = config.Decay.MaxDecay;
-                    if (config.Decay.Percent <= 0 || config.Decay.Percent > 1 || maxDecay < 0)
-                        return;
+                var config = _gss.Data;
+                var maxDecay = config.Decay.MaxDecay;
+                if (config.Decay.Percent <= 0 || config.Decay.Percent > 1 || maxDecay < 0)
+                    return;
 
-                    using var uow = _db.GetDbContext();
-                    var lastCurrencyDecay = _cache.GetLastCurrencyDecay();
+                using var uow = _db.GetDbContext();
+                var lastCurrencyDecay = _cache.GetLastCurrencyDecay();
 
-                    if (DateTime.UtcNow - lastCurrencyDecay < TimeSpan.FromHours(config.Decay.HourInterval))
-                        return;
+                if (DateTime.UtcNow - lastCurrencyDecay < TimeSpan.FromHours(config.Decay.HourInterval))
+                    return;
 
-                    Log.Information($"Decaying users' currency - decay: {config.Decay.Percent * 100}% " +
-                                    $"| max: {maxDecay} " +
-                                    $"| threshold: {config.Decay.MinThreshold}");
+                Log.Information($"Decaying users' currency - decay: {config.Decay.Percent * 100}% " +
+                                $"| max: {maxDecay} " +
+                                $"| threshold: {config.Decay.MinThreshold}");
 
-                    if (maxDecay == 0)
-                        maxDecay = int.MaxValue;
+                if (maxDecay == 0)
+                    maxDecay = int.MaxValue;
 
-                    uow._context.Database.ExecuteSqlInterpolated($@"
+                uow._context.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=
     CASE WHEN
@@ -69,85 +69,84 @@ SET CurrencyAmount=
     END
 WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentUser.Id};");
 
-                    _cache.SetLastCurrencyDecay();
-                    uow.SaveChanges();
-                }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
-            }
+                _cache.SetLastCurrencyDecay();
+                uow.SaveChanges();
+            }, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
         }
+    }
 
-        public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
-        public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
+    public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
+    public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
 
-        public bool GetVoted(ulong Id)
-        {
-            var url = $"https://top.gg/api/bots/752236274261426212/check?userId={Id}";
+    public bool GetVoted(ulong Id)
+    {
+        var url = $"https://top.gg/api/bots/752236274261426212/check?userId={Id}";
 #pragma warning disable SYSLIB0014 // Type or member is obsolete
-            var request = WebRequest.Create(url);
+        var request = WebRequest.Create(url);
 #pragma warning restore SYSLIB0014 // Type or member is obsolete
-            request.Method = "GET";
-            request.Headers.Add("Authorization",
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
-            using var webResponse = request.GetResponse();
-            using var webStream = webResponse.GetResponseStream();
+        request.Method = "GET";
+        request.Headers.Add("Authorization",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
+        using var webResponse = request.GetResponse();
+        using var webStream = webResponse.GetResponseStream();
 
-            using var reader = new StreamReader(webStream);
-            var data = reader.ReadToEnd();
-            if (data.Contains("{\"voted\":1}"))
-                return true;
-            return false;
-        }
+        using var reader = new StreamReader(webStream);
+        var data = reader.ReadToEnd();
+        if (data.Contains("{\"voted\":1}"))
+            return true;
+        return false;
+    }
 
-        public EconomyResult GetEconomy()
-        {
-            if (_cache.TryGetEconomy(out var data))
-                try
-                {
-                    return JsonConvert.DeserializeObject<EconomyResult>(data);
-                }
-                catch
-                {
-                }
-
-            decimal cash;
-            decimal onePercent;
-            decimal planted;
-            decimal waifus;
-            long bot;
-
-            using (var uow = _db.GetDbContext())
+    public EconomyResult GetEconomy()
+    {
+        if (_cache.TryGetEconomy(out var data))
+            try
             {
-                cash = uow.DiscordUsers.GetTotalCurrency();
-                onePercent = uow.DiscordUsers.GetTopOnePercentCurrency(_client.CurrentUser.Id);
-                planted = uow.PlantedCurrency.GetTotalPlanted();
-                waifus = uow.Waifus.GetTotalValue();
-                bot = uow.DiscordUsers.GetUserCurrency(_client.CurrentUser.Id);
+                return JsonConvert.DeserializeObject<EconomyResult>(data);
+            }
+            catch
+            {
             }
 
-            var result = new EconomyResult
-            {
-                Cash = cash,
-                Planted = planted,
-                Bot = bot,
-                Waifus = waifus,
-                OnePercent = onePercent
-            };
+        decimal cash;
+        decimal onePercent;
+        decimal planted;
+        decimal waifus;
+        long bot;
 
-            _cache.SetEconomy(JsonConvert.SerializeObject(result));
-            return result;
-        }
-
-        public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet)
+        using (var uow = _db.GetDbContext())
         {
-            return new WheelOfFortuneGame(userId, bet, _gss.Data, _cs).SpinAsync();
+            cash = uow.DiscordUsers.GetTotalCurrency();
+            onePercent = uow.DiscordUsers.GetTopOnePercentCurrency(_client.CurrentUser.Id);
+            planted = uow.PlantedCurrency.GetTotalPlanted();
+            waifus = uow.Waifus.GetTotalValue();
+            bot = uow.DiscordUsers.GetUserCurrency(_client.CurrentUser.Id);
         }
 
-        public struct EconomyResult
+        var result = new EconomyResult
         {
-            public decimal Cash { get; set; }
-            public decimal Planted { get; set; }
-            public decimal Waifus { get; set; }
-            public decimal OnePercent { get; set; }
-            public long Bot { get; set; }
-        }
+            Cash = cash,
+            Planted = planted,
+            Bot = bot,
+            Waifus = waifus,
+            OnePercent = onePercent
+        };
+
+        _cache.SetEconomy(JsonConvert.SerializeObject(result));
+        return result;
+    }
+
+    public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet)
+    {
+        return new WheelOfFortuneGame(userId, bet, _gss.Data, _cs).SpinAsync();
+    }
+
+    public struct EconomyResult
+    {
+        public decimal Cash { get; set; }
+        public decimal Planted { get; set; }
+        public decimal Waifus { get; set; }
+        public decimal OnePercent { get; set; }
+        public long Bot { get; set; }
     }
 }

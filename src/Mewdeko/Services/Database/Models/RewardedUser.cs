@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Mewdeko.Services.Database.Models
+namespace Mewdeko.Services.Database.Models;
+
+public class RewardedUser : DbEntity
 {
-    public class RewardedUser : DbEntity
-    {
-        public ulong UserId { get; set; }
-        public string PatreonUserId { get; set; }
-        public int AmountRewardedThisMonth { get; set; }
-        public DateTime LastReward { get; set; }
-    }
+    public ulong UserId { get; set; }
+    public string PatreonUserId { get; set; }
+    public int AmountRewardedThisMonth { get; set; }
+    public DateTime LastReward { get; set; }
 }

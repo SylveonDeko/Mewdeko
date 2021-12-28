@@ -1,12 +1,11 @@
 ﻿using System.Diagnostics;
 
-namespace Mewdeko.Modules.Utility.Common
+namespace Mewdeko.Modules.Utility.Common;
+
+[DebuggerDisplay("Type: {UnitType} Trigger: {Triggers[0]} Mod: {Modifier}")]
+public class ConvertUnit
 {
-    [DebuggerDisplay("Type: {UnitType} Trigger: {Triggers[0]} Mod: {Modifier}")]
-    public class ConvertUnit
-    {
-        public string[] Triggers { get; set; }
-        public string UnitType { get; set; }
-        public decimal Modifier { get; set; }
-    }
+    public string[] Triggers { get; set; }
+    public string UnitType { get; set; }
+    public decimal Modifier { get; set; }
 }

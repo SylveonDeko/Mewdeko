@@ -7,203 +7,202 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Services;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services;
+using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Modules.Utility
+namespace Mewdeko.Modules.Utility;
+
+public partial class Utility
 {
-    public partial class Utility
+    [Group]
+    public class RemindCommands : MewdekoSubmodule<RemindService>
     {
-        [Group]
-        public class RemindCommands : MewdekoSubmodule<RemindService>
+        public enum MeOrHere
         {
-            public enum MeOrHere
+            Me,
+            Here
+        }
+
+        private readonly DbService _db;
+        private readonly GuildTimezoneService _tz;
+
+        public RemindCommands(DbService db, GuildTimezoneService tz)
+        {
+            _db = db;
+            _tz = tz;
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [Priority(1)]
+        public async Task Remind(MeOrHere meorhere, [Remainder] string remindString)
+        {
+            if (!Service.TryParseRemindMessage(remindString, out var remindData))
             {
-                Me,
-                Here
+                await ReplyErrorLocalizedAsync("remind_invalid");
+                return;
             }
 
-            private readonly DbService _db;
-            private readonly GuildTimezoneService _tz;
-
-            public RemindCommands(DbService db, GuildTimezoneService tz)
-            {
-                _db = db;
-                _tz = tz;
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [Priority(1)]
-            public async Task Remind(MeOrHere meorhere, [Remainder] string remindString)
-            {
-                if (!Service.TryParseRemindMessage(remindString, out var remindData))
-                {
-                    await ReplyErrorLocalizedAsync("remind_invalid");
-                    return;
-                }
-
-                var target = meorhere == MeOrHere.Me ? ctx.User.Id : ctx.Channel.Id;
-                if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, remindData.Time,
+            var target = meorhere == MeOrHere.Me ? ctx.User.Id : ctx.Channel.Id;
+            if (!await RemindInternal(target, meorhere == MeOrHere.Me || ctx.Guild == null, remindData.Time,
                         remindData.What)
                     .ConfigureAwait(false))
-                    await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [Priority(0)]
+        public async Task Remind(ITextChannel channel, [Remainder] string remindString)
+        {
+            var perms = ((IGuildUser) ctx.User).GetPermissions(channel);
+            if (!perms.SendMessages || !perms.ViewChannel)
+            {
+                await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
+                return;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            [UserPerm(GuildPermission.ManageMessages)]
-            [Priority(0)]
-            public async Task Remind(ITextChannel channel, [Remainder] string remindString)
+            if (!Service.TryParseRemindMessage(remindString, out var remindData))
             {
-                var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
-                if (!perms.SendMessages || !perms.ViewChannel)
-                {
-                    await ReplyErrorLocalizedAsync("cant_read_or_send").ConfigureAwait(false);
-                    return;
-                }
-
-                if (!Service.TryParseRemindMessage(remindString, out var remindData))
-                {
-                    await ReplyErrorLocalizedAsync("remind_invalid");
-                    return;
-                }
+                await ReplyErrorLocalizedAsync("remind_invalid");
+                return;
+            }
 
 
-                if (!await RemindInternal(channel.Id, false, remindData.Time, remindData.What)
+            if (!await RemindInternal(channel.Id, false, remindData.Time, remindData.What)
                     .ConfigureAwait(false))
-                    await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+                await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task RemindList(int page = 1)
+        {
+            if (--page < 0)
+                return;
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle(GetText("reminder_list"));
+
+            List<Reminder> rems;
+            using (var uow = _db.GetDbContext())
+            {
+                rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
+                    .ToList();
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            public async Task RemindList(int page = 1)
+            if (rems.Any())
             {
-                if (--page < 0)
-                    return;
-
-                var embed = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle(GetText("reminder_list"));
-
-                List<Reminder> rems;
-                using (var uow = _db.GetDbContext())
+                var i = 0;
+                foreach (var rem in rems)
                 {
-                    rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
-                        .ToList();
-                }
-
-                if (rems.Any())
-                {
-                    var i = 0;
-                    foreach (var rem in rems)
-                    {
-                        var when = rem.When;
-                        var diff = when - DateTime.UtcNow;
-                        embed.AddField(
-                            $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
-                            $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
+                    var when = rem.When;
+                    var diff = when - DateTime.UtcNow;
+                    embed.AddField(
+                        $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int) diff.TotalHours}h {diff.Minutes}m)",
+                        $@"`Target:` {(rem.IsPrivate ? "DM" : "Channel")}
 `TargetId:` {rem.ChannelId}
 `Message:` {rem.Message?.TrimTo(50)}");
-                    }
                 }
-                else
-                {
-                    embed.WithDescription(GetText("reminders_none"));
-                }
-
-                embed.AddPaginatedFooter(page + 1, null);
-                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            }
+            else
+            {
+                embed.WithDescription(GetText("reminders_none"));
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            public async Task RemindDelete(int index)
+            embed.AddPaginatedFooter(page + 1, null);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task RemindDelete(int index)
+        {
+            if (--index < 0)
+                return;
+
+            var embed = new EmbedBuilder();
+
+            Reminder rem = null;
+            using (var uow = _db.GetDbContext())
             {
-                if (--index < 0)
-                    return;
-
-                var embed = new EmbedBuilder();
-
-                Reminder rem = null;
-                using (var uow = _db.GetDbContext())
+                var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
+                    .ToList();
+                var pageIndex = index % 10;
+                if (rems.Count > pageIndex)
                 {
-                    var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
-                        .ToList();
-                    var pageIndex = index % 10;
-                    if (rems.Count > pageIndex)
-                    {
-                        rem = rems[pageIndex];
-                        uow.Reminders.Remove(rem);
-                        await uow.SaveChangesAsync();
-                    }
-                }
-
-                if (rem == null)
-                    await ReplyErrorLocalizedAsync("reminder_not_exist").ConfigureAwait(false);
-                else
-                    await ReplyErrorLocalizedAsync("reminder_deleted", index + 1).ConfigureAwait(false);
-            }
-
-            private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string message)
-            {
-                var time = DateTime.UtcNow + ts;
-
-                if (ts > TimeSpan.FromDays(60))
-                    return false;
-
-                if (ctx.Guild != null)
-                {
-                    var perms = ((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel);
-                    if (!perms.MentionEveryone) message = message.SanitizeAllMentions();
-                }
-
-                var rem = new Reminder
-                {
-                    ChannelId = targetId,
-                    IsPrivate = isPrivate,
-                    When = time,
-                    Message = message,
-                    UserId = ctx.User.Id,
-                    ServerId = ctx.Guild?.Id ?? 0
-                };
-
-                using (var uow = _db.GetDbContext())
-                {
-                    uow.Reminders.Add(rem);
+                    rem = rems[pageIndex];
+                    uow.Reminders.Remove(rem);
                     await uow.SaveChangesAsync();
                 }
-
-                var gTime = ctx.Guild == null
-                    ? time
-                    : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
-                try
-                {
-                    await ctx.Channel.SendConfirmAsync(
-                        "⏰ " + GetText("remind",
-                            Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username),
-                            Format.Bold(message),
-                            $"{ts.Days}d {ts.Hours}h {ts.Minutes}min",
-                            gTime, gTime)).ConfigureAwait(false);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                return true;
             }
+
+            if (rem == null)
+                await ReplyErrorLocalizedAsync("reminder_not_exist").ConfigureAwait(false);
+            else
+                await ReplyErrorLocalizedAsync("reminder_deleted", index + 1).ConfigureAwait(false);
+        }
+
+        private async Task<bool> RemindInternal(ulong targetId, bool isPrivate, TimeSpan ts, string message)
+        {
+            var time = DateTime.UtcNow + ts;
+
+            if (ts > TimeSpan.FromDays(60))
+                return false;
+
+            if (ctx.Guild != null)
+            {
+                var perms = ((IGuildUser) ctx.User).GetPermissions((IGuildChannel) ctx.Channel);
+                if (!perms.MentionEveryone) message = message.SanitizeAllMentions();
+            }
+
+            var rem = new Reminder
+            {
+                ChannelId = targetId,
+                IsPrivate = isPrivate,
+                When = time,
+                Message = message,
+                UserId = ctx.User.Id,
+                ServerId = ctx.Guild?.Id ?? 0
+            };
+
+            using (var uow = _db.GetDbContext())
+            {
+                uow.Reminders.Add(rem);
+                await uow.SaveChangesAsync();
+            }
+
+            var gTime = ctx.Guild == null
+                ? time
+                : TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(ctx.Guild.Id));
+            try
+            {
+                await ctx.Channel.SendConfirmAsync(
+                    "⏰ " + GetText("remind",
+                        Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username),
+                        Format.Bold(message),
+                        $"{ts.Days}d {ts.Hours}h {ts.Minutes}min",
+                        gTime, gTime)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return true;
         }
     }
 }
