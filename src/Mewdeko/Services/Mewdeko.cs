@@ -322,20 +322,11 @@ public class Mewdeko
         var CommandService = Services.GetService<CommandService>();
         var InteractionService = Services.GetRequiredService<InteractionService>();
         var lava = Services.GetRequiredService<LavaNode>();
-        await lava.ConnectAsync();
-        var a = await CommandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+        await lava.ConnectAsync();await CommandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
-        var e = await InteractionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+        await InteractionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
-        foreach (var i in Client.Guilds)
-            try
-            {
-                await InteractionService.RegisterCommandsToGuildAsync(i.Id);
-            }
-            catch (Exception s)
-            {
-                Console.WriteLine(s);
-            }
+        await InteractionService.RegisterCommandsGloballyAsync();
 
         // start handling messages received in commandhandler
         await commandHandler.StartHandling().ConfigureAwait(false);
