@@ -5,71 +5,70 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.TypeInspectors;
 
-namespace Mewdeko.Common.Yml
+namespace Mewdeko.Common.Yml;
+
+public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 {
-    public class CommentGatheringTypeInspector : TypeInspectorSkeleton
+    private readonly ITypeInspector innerTypeDescriptor;
+
+    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor)
     {
-        private readonly ITypeInspector innerTypeDescriptor;
+        this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException("innerTypeDescriptor");
+    }
 
-        public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor)
+    public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object container)
+    {
+        return innerTypeDescriptor
+            .GetProperties(type, container)
+            .Select(d => new CommentsPropertyDescriptor(d));
+    }
+
+    private sealed class CommentsPropertyDescriptor : IPropertyDescriptor
+    {
+        private readonly IPropertyDescriptor baseDescriptor;
+
+        public CommentsPropertyDescriptor(IPropertyDescriptor baseDescriptor)
         {
-            this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException("innerTypeDescriptor");
+            this.baseDescriptor = baseDescriptor;
+            Name = baseDescriptor.Name;
         }
 
-        public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object container)
+        public string Name { get; }
+
+        public Type Type => baseDescriptor.Type;
+
+        public Type TypeOverride
         {
-            return innerTypeDescriptor
-                .GetProperties(type, container)
-                .Select(d => new CommentsPropertyDescriptor(d));
+            get => baseDescriptor.TypeOverride;
+            set => baseDescriptor.TypeOverride = value;
         }
 
-        private sealed class CommentsPropertyDescriptor : IPropertyDescriptor
+        public int Order { get; set; }
+
+        public ScalarStyle ScalarStyle
         {
-            private readonly IPropertyDescriptor baseDescriptor;
+            get => baseDescriptor.ScalarStyle;
+            set => baseDescriptor.ScalarStyle = value;
+        }
 
-            public CommentsPropertyDescriptor(IPropertyDescriptor baseDescriptor)
-            {
-                this.baseDescriptor = baseDescriptor;
-                Name = baseDescriptor.Name;
-            }
+        public bool CanWrite => baseDescriptor.CanWrite;
 
-            public string Name { get; }
+        public void Write(object target, object value)
+        {
+            baseDescriptor.Write(target, value);
+        }
 
-            public Type Type => baseDescriptor.Type;
+        public T GetCustomAttribute<T>() where T : Attribute
+        {
+            return baseDescriptor.GetCustomAttribute<T>();
+        }
 
-            public Type TypeOverride
-            {
-                get => baseDescriptor.TypeOverride;
-                set => baseDescriptor.TypeOverride = value;
-            }
-
-            public int Order { get; set; }
-
-            public ScalarStyle ScalarStyle
-            {
-                get => baseDescriptor.ScalarStyle;
-                set => baseDescriptor.ScalarStyle = value;
-            }
-
-            public bool CanWrite => baseDescriptor.CanWrite;
-
-            public void Write(object target, object value)
-            {
-                baseDescriptor.Write(target, value);
-            }
-
-            public T GetCustomAttribute<T>() where T : Attribute
-            {
-                return baseDescriptor.GetCustomAttribute<T>();
-            }
-
-            public IObjectDescriptor Read(object target)
-            {
-                var comment = baseDescriptor.GetCustomAttribute<CommentAttribute>();
-                return comment != null
-                    ? new CommentsObjectDescriptor(baseDescriptor.Read(target), comment.Comment)
-                    : baseDescriptor.Read(target);
-            }
+        public IObjectDescriptor Read(object target)
+        {
+            var comment = baseDescriptor.GetCustomAttribute<CommentAttribute>();
+            return comment != null
+                ? new CommentsObjectDescriptor(baseDescriptor.Read(target), comment.Comment)
+                : baseDescriptor.Read(target);
         }
     }
 }

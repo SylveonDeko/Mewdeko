@@ -1,9 +1,8 @@
-﻿namespace Mewdeko.Common.TypeReaders
+﻿namespace Mewdeko.Common.TypeReaders;
+
+public enum AddRemove
 {
-    public enum AddRemove
-    {
-        Add = 0,
-        Rem = 1,
-        Rm = 1
-    }
+    Add = 0,
+    Rem = 1,
+    Rm = 1
 }

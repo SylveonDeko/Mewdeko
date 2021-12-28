@@ -1,18 +1,17 @@
-﻿namespace Mewdeko.Common.Configs
+﻿namespace Mewdeko.Common.Configs;
+
+/// <summary>
+///     Base interface for available config serializers
+/// </summary>
+public interface IConfigSeria
 {
     /// <summary>
-    ///     Base interface for available config serializers
+    ///     Serialize the object to string
     /// </summary>
-    public interface IConfigSeria
-    {
-        /// <summary>
-        ///     Serialize the object to string
-        /// </summary>
-        public string Serialize<T>(T obj);
+    public string Serialize<T>(T obj);
 
-        /// <summary>
-        ///     Deserialize string data into an object of the specified type
-        /// </summary>
-        public T Deserialize<T>(string data);
-    }
+    /// <summary>
+    ///     Deserialize string data into an object of the specified type
+    /// </summary>
+    public T Deserialize<T>(string data);
 }

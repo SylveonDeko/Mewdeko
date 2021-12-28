@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Mewdeko.Services.Database.Models
+namespace Mewdeko.Services.Database.Models;
+
+public class Reminder : DbEntity
 {
-    public class Reminder : DbEntity
-    {
-        public DateTime When { get; set; }
-        public ulong ChannelId { get; set; }
-        public ulong ServerId { get; set; }
-        public ulong UserId { get; set; }
-        public string Message { get; set; }
-        public bool IsPrivate { get; set; }
-    }
+    public DateTime When { get; set; }
+    public ulong ChannelId { get; set; }
+    public ulong ServerId { get; set; }
+    public ulong UserId { get; set; }
+    public string Message { get; set; }
+    public bool IsPrivate { get; set; }
 }

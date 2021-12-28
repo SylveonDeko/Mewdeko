@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using Mewdeko.Services;
 using Serilog;
 
@@ -26,7 +25,6 @@ if (args.Length > 0)
         totalShards = shardCount;
     }
 }
-
 
 
 LogSetup.SetupLogger(shardId);

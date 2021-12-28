@@ -1,27 +1,26 @@
-﻿namespace Mewdeko.Common.TypeReaders.Models
+﻿namespace Mewdeko.Common.TypeReaders.Models;
+
+public class PermissionAction
 {
-    public class PermissionAction
+    public PermissionAction(bool value)
     {
-        public PermissionAction(bool value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public static PermissionAction Enable => new(true);
-        public static PermissionAction Disable => new(false);
+    public static PermissionAction Enable => new(true);
+    public static PermissionAction Disable => new(false);
 
-        public bool Value { get; }
+    public bool Value { get; }
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType()) return false;
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType()) return false;
 
-            return Value == ((PermissionAction)obj).Value;
-        }
+        return Value == ((PermissionAction) obj).Value;
+    }
 
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
     }
 }

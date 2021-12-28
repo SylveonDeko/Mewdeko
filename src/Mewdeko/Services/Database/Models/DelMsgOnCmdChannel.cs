@@ -1,19 +1,18 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class DelMsgOnCmdChannel : DbEntity
 {
-    public class DelMsgOnCmdChannel : DbEntity
+    public ulong ChannelId { get; set; }
+    public bool State { get; set; }
+
+    public override int GetHashCode()
     {
-        public ulong ChannelId { get; set; }
-        public bool State { get; set; }
+        return ChannelId.GetHashCode();
+    }
 
-        public override int GetHashCode()
-        {
-            return ChannelId.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is DelMsgOnCmdChannel x
-                   && x.ChannelId == ChannelId;
-        }
+    public override bool Equals(object obj)
+    {
+        return obj is DelMsgOnCmdChannel x
+               && x.ChannelId == ChannelId;
     }
 }
