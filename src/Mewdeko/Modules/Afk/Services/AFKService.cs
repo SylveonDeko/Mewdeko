@@ -209,7 +209,7 @@ public class AFKService : INService
     public async Task TimedAfk(IGuild guild, IUser user, string message, TimeSpan time)
     {
         await AFKSet(guild, user as IGuildUser, message, 1);
-        Thread.Sleep(time);
+        await Task.Delay(time.Milliseconds);
         await AFKSet(guild, user as IGuildUser, "", 0);
     }
 
