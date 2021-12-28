@@ -11,100 +11,99 @@ using Newtonsoft.Json;
 using Serilog;
 
 #nullable enable
-namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
+
+public class PicartoProvider : Provider
 {
-    public class PicartoProvider : Provider
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public PicartoProvider(IHttpClientFactory httpClientFactory)
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        _httpClientFactory = httpClientFactory;
+    }
 
-        public PicartoProvider(IHttpClientFactory httpClientFactory)
+    private static Regex Regex { get; } = new(@"picarto.tv/(?<name>.+[^/])/?",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    public override FollowedStream.FType Platform => FollowedStream.FType.Picarto;
+
+    public override Task<bool> IsValidUrl(string url)
+    {
+        var match = Regex.Match(url);
+        if (!match.Success)
+            return Task.FromResult(false);
+
+        // var username = match.Groups["name"].Value;
+        return Task.FromResult(true);
+    }
+
+    public override Task<StreamData?> GetStreamDataByUrlAsync(string url)
+    {
+        var match = Regex.Match(url);
+        if (match.Success)
         {
-            _httpClientFactory = httpClientFactory;
+            var name = match.Groups["name"].Value;
+            return GetStreamDataAsync(name);
         }
 
-        private static Regex Regex { get; } = new(@"picarto.tv/(?<name>.+[^/])/?",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        return Task.FromResult<StreamData?>(null);
+    }
 
-        public override FollowedStream.FType Platform => FollowedStream.FType.Picarto;
+    public override async Task<StreamData?> GetStreamDataAsync(string id)
+    {
+        var data = await GetStreamDataAsync(new List<string> {id});
 
-        public override Task<bool> IsValidUrl(string url)
-        {
-            var match = Regex.Match(url);
-            if (!match.Success)
-                return Task.FromResult(false);
+        return data.FirstOrDefault();
+    }
 
-            // var username = match.Groups["name"].Value;
-            return Task.FromResult(true);
-        }
+    public override async Task<List<StreamData>> GetStreamDataAsync(List<string> logins)
+    {
+        if (logins.Count == 0)
+            return new List<StreamData>();
 
-        public override Task<StreamData?> GetStreamDataByUrlAsync(string url)
-        {
-            var match = Regex.Match(url);
-            if (match.Success)
+        using var http = _httpClientFactory.CreateClient();
+        var toReturn = new List<StreamData>();
+        foreach (var login in logins)
+            try
             {
-                var name = match.Groups["name"].Value;
-                return GetStreamDataAsync(name);
+                http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                // get id based on the username
+                var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
+
+                if (!res.IsSuccessStatusCode)
+                    continue;
+
+                var userData =
+                    JsonConvert.DeserializeObject<PicartoChannelResponse>(
+                        await res.Content.ReadAsStringAsync());
+
+                toReturn.Add(ToStreamData(userData));
+                _failingStreams.TryRemove(login, out _);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex,
+                    $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                _failingStreams.TryAdd(login, DateTime.UtcNow);
             }
 
-            return Task.FromResult<StreamData?>(null);
-        }
+        return toReturn;
+    }
 
-        public override async Task<StreamData?> GetStreamDataAsync(string id)
+    private StreamData ToStreamData(PicartoChannelResponse stream)
+    {
+        return new StreamData
         {
-            var data = await GetStreamDataAsync(new List<string> { id });
-
-            return data.FirstOrDefault();
-        }
-
-        public override async Task<List<StreamData>> GetStreamDataAsync(List<string> logins)
-        {
-            if (logins.Count == 0)
-                return new List<StreamData>();
-
-            using var http = _httpClientFactory.CreateClient();
-            var toReturn = new List<StreamData>();
-            foreach (var login in logins)
-                try
-                {
-                    http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    // get id based on the username
-                    var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
-
-                    if (!res.IsSuccessStatusCode)
-                        continue;
-
-                    var userData =
-                        JsonConvert.DeserializeObject<PicartoChannelResponse>(
-                            await res.Content.ReadAsStringAsync());
-
-                    toReturn.Add(ToStreamData(userData));
-                    _failingStreams.TryRemove(login, out _);
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning(ex,
-                        $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
-                    _failingStreams.TryAdd(login, DateTime.UtcNow);
-                }
-
-            return toReturn;
-        }
-
-        private StreamData ToStreamData(PicartoChannelResponse stream)
-        {
-            return new StreamData
-            {
-                StreamType = FollowedStream.FType.Picarto,
-                Name = stream.Name,
-                UniqueName = stream.Name,
-                Viewers = stream.Viewers,
-                Title = stream.Title,
-                IsLive = stream.Online,
-                Preview = stream.Thumbnails.Web,
-                Game = stream.Category,
-                StreamUrl = $"https://picarto.tv/{stream.Name}",
-                AvatarUrl = stream.Avatar
-            };
-        }
+            StreamType = FollowedStream.FType.Picarto,
+            Name = stream.Name,
+            UniqueName = stream.Name,
+            Viewers = stream.Viewers,
+            Title = stream.Title,
+            IsLive = stream.Online,
+            Preview = stream.Thumbnails.Web,
+            Game = stream.Category,
+            StreamUrl = $"https://picarto.tv/{stream.Name}",
+            AvatarUrl = stream.Avatar
+        };
     }
 }

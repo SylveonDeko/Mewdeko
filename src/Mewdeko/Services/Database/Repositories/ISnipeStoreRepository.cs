@@ -1,10 +1,9 @@
 ﻿using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Services.Database.Repositories
+namespace Mewdeko.Services.Database.Repositories;
+
+public interface ISnipeStoreRepository : IRepository<SnipeStore>
 {
-    public interface ISnipeStoreRepository : IRepository<SnipeStore>
-    {
-        SnipeStore[] ForChannel(ulong guildid, ulong chanid);
-        SnipeStore[] All();
-    }
+    SnipeStore[] ForChannel(ulong guildid, ulong chanid);
+    SnipeStore[] All();
 }

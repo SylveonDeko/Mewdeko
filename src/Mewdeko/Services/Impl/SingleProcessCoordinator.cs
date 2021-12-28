@@ -5,63 +5,63 @@ using System.Threading.Tasks;
 using Discord.WebSocket;
 using Serilog;
 
-namespace Mewdeko.Services
+namespace Mewdeko.Services;
+
+public class SingleProcessCoordinator : ICoordinator
 {
-    public class SingleProcessCoordinator : ICoordinator
+    private readonly DiscordSocketClient _client;
+    private readonly IBotCredentials _creds;
+
+    public SingleProcessCoordinator(IBotCredentials creds, DiscordSocketClient client)
     {
-        private readonly IBotCredentials _creds;
-        private readonly DiscordSocketClient _client;
+        _creds = creds;
+        _client = client;
+    }
 
-        public SingleProcessCoordinator(IBotCredentials creds, DiscordSocketClient client)
+    public bool RestartBot()
+    {
+        if (string.IsNullOrWhiteSpace(_creds.RestartCommand?.Cmd)
+            || string.IsNullOrWhiteSpace(_creds.RestartCommand?.Args))
         {
-            _creds = creds;
-            _client = client;
+            Log.Error("You must set RestartCommand.Cmd and RestartCommand.Args in creds.yml");
+            return false;
         }
-        public bool RestartBot()
+
+        Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
+        _ = Task.Run(async () =>
         {
-            if (string.IsNullOrWhiteSpace(_creds.RestartCommand?.Cmd)
-                || string.IsNullOrWhiteSpace(_creds.RestartCommand?.Args))
+            await Task.Delay(2000);
+            Die();
+        });
+        return true;
+    }
+
+    public void Die()
+    {
+        Environment.Exit(5);
+    }
+
+    public bool RestartShard(int shardId)
+    {
+        return RestartBot();
+    }
+
+    public IList<ShardStatus> GetAllShardStatuses()
+    {
+        return new[]
+        {
+            new ShardStatus
             {
-                Log.Error("You must set RestartCommand.Cmd and RestartCommand.Args in creds.yml");
-                return false;
+                ConnectionState = _client.ConnectionState,
+                GuildCount = _client.Guilds.Count,
+                LastUpdate = DateTime.UtcNow,
+                ShardId = _client.ShardId
             }
+        };
+    }
 
-            Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(2000);
-                Die();
-            });
-            return true;
-        }
-
-        public void Die()
-        {
-            Environment.Exit(5);
-        }
-
-        public bool RestartShard(int shardId)
-        {
-            return RestartBot();
-        }
-
-        public IList<ShardStatus> GetAllShardStatuses()
-        {
-            return new[]
-            {
-                new ShardStatus()
-                {
-                    ConnectionState = _client.ConnectionState,
-                    GuildCount = _client.Guilds.Count,
-                    LastUpdate = DateTime.UtcNow,
-                    ShardId = _client.ShardId
-                }
-            };
-        }
-
-        public int GetGuildCount()
-        {
-            return _client.Guilds.Count;
-        }
+    public int GetGuildCount()
+    {
+        return _client.Guilds.Count;
     }
 }
