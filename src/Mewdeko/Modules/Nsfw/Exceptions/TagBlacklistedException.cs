@@ -1,3 +1,1 @@
-﻿namespace Mewdeko.Modules.Nsfw.Exceptions
-{
-}
+﻿namespace Mewdeko.Modules.Nsfw.Exceptions;

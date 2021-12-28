@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Common.PubSub
+﻿namespace Mewdeko.Common.PubSub;
+
+public interface ISeria
 {
-    public interface ISeria
-    {
-        byte[] Serialize<T>(T data);
-        T Deserialize<T>(byte[] data);
-    }
+    byte[] Serialize<T>(T data);
+    T Deserialize<T>(byte[] data);
 }

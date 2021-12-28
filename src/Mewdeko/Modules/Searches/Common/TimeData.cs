@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Mewdeko.Modules.Searches.Common
+namespace Mewdeko.Modules.Searches.Common;
+
+public class TimeData
 {
-    public class TimeData
-    {
-        public string Address { get; set; }
-        public DateTime Time { get; set; }
-        public string TimeZoneName { get; set; }
-    }
+    public string Address { get; set; }
+    public DateTime Time { get; set; }
+    public string TimeZoneName { get; set; }
 }

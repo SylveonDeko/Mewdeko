@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class VcRoleInfo : DbEntity
 {
-    public class VcRoleInfo : DbEntity
-    {
-        public ulong VoiceChannelId { get; set; }
-        public ulong RoleId { get; set; }
-    }
+    public ulong VoiceChannelId { get; set; }
+    public ulong RoleId { get; set; }
 }
