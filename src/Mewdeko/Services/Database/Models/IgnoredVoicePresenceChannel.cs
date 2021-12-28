@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class IgnoredVoicePresenceChannel : DbEntity
 {
-    public class IgnoredVoicePresenceChannel : DbEntity
-    {
-        public LogSetting LogSetting { get; set; }
-        public ulong ChannelId { get; set; }
-    }
+    public LogSetting LogSetting { get; set; }
+    public ulong ChannelId { get; set; }
 }

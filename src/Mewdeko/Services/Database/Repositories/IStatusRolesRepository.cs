@@ -1,9 +1,8 @@
 ﻿using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Services.Database.Repositories
+namespace Mewdeko.Services.Database.Repositories;
+
+public interface IStatusRolesRepository : IRepository<StatusRoles>
 {
-    public interface IStatusRolesRepository : IRepository<StatusRoles>
-    {
-        StatusRoles[] ForGuild(ulong id);
-    }
+    StatusRoles[] ForGuild(ulong id);
 }

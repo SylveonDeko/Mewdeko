@@ -9,90 +9,89 @@ using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
-namespace Mewdeko.Modules.Server_Management.Services
+namespace Mewdeko.Modules.Server_Management.Services;
+
+public class ServerManagementService : INService
 {
-    public class ServerManagementService : INService
+    private static readonly OverwritePermissions denyOverwrite =
+        new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
+            attachFiles: PermValue.Deny, viewChannel: PermValue.Deny);
+
+    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly DbService _db;
+    public DiscordSocketClient _client;
+
+    public CommandContext ctx;
+
+    public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
     {
-        private static readonly OverwritePermissions denyOverwrite =
-            new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
-                attachFiles: PermValue.Deny, viewChannel: PermValue.Deny);
+        _client = client;
+        _db = db;
+        _bot = bot;
+        _ticketchannelids = bot.AllGuildConfigs
+            .Where(x => x.TicketCategory != 0)
+            .ToDictionary(x => x.GuildId, x => x.TicketCategory)
+            .ToConcurrent();
 
-        private readonly Mewdeko.Services.Mewdeko _bot;
-        private readonly DbService _db;
-        public DiscordSocketClient _client;
+        using var uow = db.GetDbContext();
+        var guildIds = client.Guilds.Select(x => x.Id).ToList();
+        var configs = uow._context.Set<GuildConfig>().AsQueryable()
+            .Where(x => guildIds.Contains(x.GuildId))
+            .ToList();
 
-        public CommandContext ctx;
+        GuildMuteRoles = configs
+            .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
+            .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
+            .ToConcurrent();
+    }
 
-        public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
+    public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+    private ConcurrentDictionary<ulong, ulong> _ticketchannelids { get; } = new();
+
+    public ulong GetTicketCategory(ulong? id)
+    {
+        if (id == null || !_ticketchannelids.TryGetValue(id.Value, out var ticketcat))
+            return 0;
+
+        return ticketcat;
+    }
+
+    public async Task SetTicketCategoryId(IGuild guild, ICategoryChannel channel)
+    {
+        using (var uow = _db.GetDbContext())
         {
-            _client = client;
-            _db = db;
-            _bot = bot;
-            _ticketchannelids = bot.AllGuildConfigs
-                .Where(x => x.TicketCategory != 0)
-                .ToDictionary(x => x.GuildId, x => x.TicketCategory)
-                .ToConcurrent();
-
-            using var uow = db.GetDbContext();
-            var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow._context.Set<GuildConfig>().AsQueryable()
-                .Where(x => guildIds.Contains(x.GuildId))
-                .ToList();
-
-            GuildMuteRoles = configs
-                .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
-                .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
-                .ToConcurrent();
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.TicketCategory = channel.Id;
+            await uow.SaveChangesAsync();
         }
 
-        public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
-        private ConcurrentDictionary<ulong, ulong> _ticketchannelids { get; } = new();
+        _ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+    }
 
-        public ulong GetTicketCategory(ulong? id)
-        {
-            if (id == null || !_ticketchannelids.TryGetValue(id.Value, out var ticketcat))
-                return 0;
+    public async Task<IRole> GetMuteRole(IGuild guild)
+    {
+        if (guild == null)
+            throw new ArgumentNullException(nameof(guild));
 
-            return ticketcat;
-        }
+        const string defaultMuteRoleName = "Mewdeko-mute";
 
-        public async Task SetTicketCategoryId(IGuild guild, ICategoryChannel channel)
-        {
-            using (var uow = _db.GetDbContext())
+        var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
+
+        var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
+        if (muteRole == null)
+            //if it doesn't exist, create it
+            try
             {
-                var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-                gc.TicketCategory = channel.Id;
-                await uow.SaveChangesAsync();
+                muteRole = await guild.CreateRoleAsync(muteRoleName, isMentionable: false).ConfigureAwait(false);
+            }
+            catch
+            {
+                //if creations fails,  maybe the name != correct, find default one, if doesn't work, create default one
+                muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName) ??
+                           await guild.CreateRoleAsync(defaultMuteRoleName, isMentionable: false)
+                               .ConfigureAwait(false);
             }
 
-            _ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
-        }
-
-        public async Task<IRole> GetMuteRole(IGuild guild)
-        {
-            if (guild == null)
-                throw new ArgumentNullException(nameof(guild));
-
-            const string defaultMuteRoleName = "Mewdeko-mute";
-
-            var muteRoleName = GuildMuteRoles.GetOrAdd(guild.Id, defaultMuteRoleName);
-
-            var muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName);
-            if (muteRole == null)
-                //if it doesn't exist, create it
-                try
-                {
-                    muteRole = await guild.CreateRoleAsync(muteRoleName, isMentionable: false).ConfigureAwait(false);
-                }
-                catch
-                {
-                    //if creations fails,  maybe the name != correct, find default one, if doesn't work, create default one
-                    muteRole = guild.Roles.FirstOrDefault(r => r.Name == muteRoleName) ??
-                               await guild.CreateRoleAsync(defaultMuteRoleName, isMentionable: false)
-                                   .ConfigureAwait(false);
-                }
-
-            return muteRole;
-        }
+        return muteRole;
     }
 }
