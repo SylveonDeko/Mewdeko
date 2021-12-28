@@ -42,7 +42,6 @@ public class MuteService : INService
     {
         _client = client;
         _db = db;
-        _client.ChannelCreated += AddMutePerms;
         Removerolesonmute = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.removeroles)
             .ToConcurrent();
@@ -138,22 +137,7 @@ public class MuteService : INService
 
     public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
     public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
-
-    public async Task AddMutePerms(SocketChannel channel)
-    {
-        if (channel is not ITextChannel chan)
-            return;
-        try
-        {
-            var role = await GetMuteRole(chan.Guild);
-            await chan.AddPermissionOverwriteAsync(role,
-                denyOverwrite);
-        }
-        catch
-        {
-            // indented
-        }
-    }
+    
 
     private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
     {
