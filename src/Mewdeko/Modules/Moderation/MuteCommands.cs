@@ -37,10 +37,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.MuteMembers)]
         [Priority(1)]
-        public async Task STFU(StoopidTime time, IUser user)
-        {
-            await STFU(user, time);
-        }
+        public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time);
 
         [MewdekoCommand]
         [Usage]
@@ -74,7 +71,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.MuteMembers)]
         [Priority(0)]
-        public async Task STFU(IUser user, StoopidTime time = null)
+        public async Task Stfu(IUser user, StoopidTime time = null)
         {
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();

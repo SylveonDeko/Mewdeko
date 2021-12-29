@@ -65,11 +65,9 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     [Description]
     [Aliases]
     [RequireUserPermission(GuildPermission.ManageChannels)]
-    public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what)
-    {
+    public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what) =>
         await Service.GiveawaysInternal(chan, time.Time, what, winners, ctx.User.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild);
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -179,9 +177,25 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
                 return;
             }
         }
-
-        await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
+        if (!await PromptUserConfirmAsync(new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id))
+        {
+            await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
             ctx.Guild);
+            await msg.DeleteAsync();
+        }
+
+        await msg.ModifyAsync(x =>
+            x.Embed = eb
+                      .WithDescription(
+                          "Alright! please mention the role(s) that are required for this giveaway! ***Please put a space in between each so I know to separate them!***")
+                      .Build());
+        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+        var split = next.Split(" ");
+        var treader = new ChannelTypeReader<ITextChannel>();
+        foreach (var i in split)
+        {
+            var toread = treader.ReadAsync()
+        }
     }
 
     [MewdekoCommand]
