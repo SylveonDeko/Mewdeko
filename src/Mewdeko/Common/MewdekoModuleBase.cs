@@ -93,6 +93,20 @@ public abstract class MewdekoModule : ModuleBase
             var _ = Task.Run(() => msg.DeleteAsync());
         }
     }
+    public async Task<bool> PromptUserConfirmAsync(IUserMessage message, EmbedBuilder embed, ulong userid)
+    {
+        embed.WithOkColor();
+        var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
+                                            .WithButton("No", "no", ButtonStyle.Danger);
+        await message.ModifyAsync(x =>
+        {
+            x.Embed = embed.Build();
+            x.Components = buttons.Build();
+        }).ConfigureAwait(false);
+        var input = await GetButtonInputAsync(message.Channel.Id, message.Id, userid).ConfigureAwait(false);
+
+        return input == "Yes";
+    }
 
     public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
