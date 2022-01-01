@@ -17,7 +17,7 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BotVersion = "3.77";
+    public const string BotVersion = "3.78";
     private readonly Mewdeko _bot;
 
     private readonly Timer _botlistTimer;
