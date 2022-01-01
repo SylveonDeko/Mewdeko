@@ -45,7 +45,7 @@ public class GiveawayService : INService
                 // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
                 var i = 0;
                 foreach (var group in reminders
-                             .GroupBy(_ => ++i / (reminders.Count / 5 + 1)))
+                             .GroupBy(_ => ++i / ((reminders.Count / 5) + 1)))
                 {
                     var executedGiveaways = group.ToList();
                     await Task.WhenAll(executedGiveaways.Select(GiveawayTimerAction));
@@ -131,7 +131,7 @@ public class GiveawayService : INService
             if (reqrolesparsed.Any())
                 eb.WithDescription($"React with {emote} to enter!\n"
                                + $"Hosted by {hostuser.Mention}\n"
-                               + $"Required Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}"
+                               + $"Required Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\n"
                                + $"End Time: <t:{DateTime.Now.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.Now.Add(ts).ToUnixEpochDate()}>)\n");
         }
         var msg = await chan.SendMessageAsync(embed: eb.Build());
@@ -200,9 +200,11 @@ public class GiveawayService : INService
 
                 if (!users.Any())
                 {
-                    var eb1 = new EmbedBuilder()
-                        .WithDescription("Looks like nobody met the requirements!")
-                        .WithErrorColor();
+                    var eb1 = new EmbedBuilder().WithErrorColor()
+                                                .WithDescription(
+                                                    "Looks like nobody that actually met the role requirements joined..")
+                                                .Build();
+                    await ch.ModifyAsync(x => x.Embed = eb1);
                 }
                 var rand = new Random();
                 var index = rand.Next(users.Count());
@@ -221,6 +223,30 @@ public class GiveawayService : INService
             {
                 var rand = new Random();
                 var users = reacts.Where(x => !x.IsBot);
+                if (r.RestrictTo is not null)
+                {
+                    var parsedreqs = new List<ulong>();
+                    var split = r.RestrictTo.Split(" ");
+                    foreach (var i in split)
+                    {
+                        if (ulong.TryParse(i, out var parsed))
+                        {
+                            parsedreqs.Add(parsed);
+                        }
+                    }
+
+                    if (parsedreqs.Any())
+                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                }
+
+                if (!users.Any())
+                {
+                    var eb1 = new EmbedBuilder().WithErrorColor()
+                                                .WithDescription(
+                                                    "Looks like nobody that actually met the role requirements joined..")
+                                                .Build();
+                    await ch.ModifyAsync(x => x.Embed = eb1);
+                }
                 var winners = users.ToList().OrderBy(x => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
