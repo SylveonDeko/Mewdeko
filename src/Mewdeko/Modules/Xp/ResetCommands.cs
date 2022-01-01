@@ -17,10 +17,7 @@ public partial class Xp
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
-        public Task XpReset(IGuildUser user)
-        {
-            return XpReset(user.Id);
-        }
+        public Task XpReset(IGuildUser user) => XpReset(user.Id);
 
         [MewdekoCommand]
         [Usage]

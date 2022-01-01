@@ -10,6 +10,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Swan;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
@@ -44,7 +45,7 @@ public class GiveawayService : INService
                 // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
                 var i = 0;
                 foreach (var group in reminders
-                             .GroupBy(_ => ++i / (reminders.Count / 5 + 1)))
+                             .GroupBy(_ => ++i / ((reminders.Count / 5) + 1)))
                 {
                     var executedGiveaways = group.ToList();
                     await Task.WhenAll(executedGiveaways.Select(GiveawayTimerAction));
@@ -98,24 +99,42 @@ public class GiveawayService : INService
         ulong ServerId, ITextChannel CurrentChannel, IGuild guild, string reqroles = null, string blacklistusers = null,
         string blacklistroles = null)
     {
+        var hostuser = await guild.GetUserAsync(host);
+        var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
         var eb = new EmbedBuilder
         {
             Color = Mewdeko.Services.Mewdeko.OkColor,
+            Title = item,
             Description =
-                "<:HaneBomb:914307912044802059> Mewdeko Giveaway!\n" +
-                "<:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812>\n" +
-                $"Host: {guild.GetUserAsync(host).Result}\n" +
-                $"🎁 Prize: {item} 🎁\n" +
-                $"🏅 Winners: {winners} 🏅\n" +
-                $"🗯️Required Roles: {reqroles ?? "None"}\n" +
-                "<:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812><:testingpurposes:915634289847201812>\n" +
-                $"End Time: {ts.Humanize(maxUnit: TimeUnit.Year)}",
-            ImageUrl =
-                "https://media.discordapp.net/attachments/915770282579484693/915770338825097226/AmbitiousFaroffDiscus-size_restricted.gif"
+                $"React with {emote} to enter!\n" +
+                $"Hosted by {hostuser.Mention}\n" +
+                $"End Time: <t:{DateTime.Now.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.Now.Add(ts).ToUnixEpochDate()}>)\n",
+            Footer = new EmbedFooterBuilder()
+                .WithText($"{winners} Winners | Mewdeko Giveaways")
         };
+        if (!string.IsNullOrEmpty(reqroles))
+        {
+            var splitreqs = reqroles.Split(" ");
+            var reqrolesparsed = new List<IRole>();
+            foreach (var i in splitreqs)
+            {
+                if (!ulong.TryParse(i, out var parsed)) continue;
+                try
+                {
+                    reqrolesparsed.Add(guild.GetRole(parsed));
+                }
+                catch
+                {
+                    //ignored 
+                }
+            }
+            if (reqrolesparsed.Any())
+                eb.WithDescription($"React with {emote} to enter!\n"
+                               + $"Hosted by {hostuser.Mention}\n"
+                               + $"Required Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\n"
+                               + $"End Time: <t:{DateTime.Now.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.Now.Add(ts).ToUnixEpochDate()}>)\n");
+        }
         var msg = await chan.SendMessageAsync(embed: eb.Build());
-
-        var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
         await msg.AddReactionAsync(emote);
         var time = DateTime.UtcNow + ts;
         var rem = new Mewdeko.Services.Database.Models.Giveaways
@@ -129,19 +148,13 @@ public class GiveawayService : INService
             MessageId = msg.Id,
             Winners = winners
         };
+        if (!string.IsNullOrWhiteSpace(reqroles))
+            rem.RestrictTo = reqroles;
 
         using (var uow = _db.GetDbContext())
         {
-            try
-            {
-                uow.Giveaways.Add(rem);
-                var e = await uow.SaveChangesAsync();
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                throw;
-            }
+            uow.Giveaways.Add(rem);
+            await uow.SaveChangesAsync();
         }
 
         await CurrentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
@@ -167,7 +180,32 @@ public class GiveawayService : INService
         {
             if (r.Winners == 1)
             {
+                
                 var users = reacts.Where(x => !x.IsBot);
+                if (r.RestrictTo is not null)
+                {
+                    var parsedreqs = new List<ulong>();
+                    var split = r.RestrictTo.Split(" ");
+                    foreach (var i in split)
+                    {
+                        if (ulong.TryParse(i, out var parsed))
+                        {
+                            parsedreqs.Add(parsed);
+                        }
+                    }
+
+                    if (parsedreqs.Any())
+                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                }
+
+                if (!users.Any())
+                {
+                    var eb1 = new EmbedBuilder().WithErrorColor()
+                                                .WithDescription(
+                                                    "Looks like nobody that actually met the role requirements joined..")
+                                                .Build();
+                    await ch.ModifyAsync(x => x.Embed = eb1);
+                }
                 var rand = new Random();
                 var index = rand.Next(users.Count());
                 var user = users.ToList()[index];
@@ -185,6 +223,30 @@ public class GiveawayService : INService
             {
                 var rand = new Random();
                 var users = reacts.Where(x => !x.IsBot);
+                if (r.RestrictTo is not null)
+                {
+                    var parsedreqs = new List<ulong>();
+                    var split = r.RestrictTo.Split(" ");
+                    foreach (var i in split)
+                    {
+                        if (ulong.TryParse(i, out var parsed))
+                        {
+                            parsedreqs.Add(parsed);
+                        }
+                    }
+
+                    if (parsedreqs.Any())
+                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                }
+
+                if (!users.Any())
+                {
+                    var eb1 = new EmbedBuilder().WithErrorColor()
+                                                .WithDescription(
+                                                    "Looks like nobody that actually met the role requirements joined..")
+                                                .Build();
+                    await ch.ModifyAsync(x => x.Embed = eb1);
+                }
                 var winners = users.ToList().OrderBy(x => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
