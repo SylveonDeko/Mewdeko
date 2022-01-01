@@ -10,6 +10,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Serilog;
 using PermValue = Discord.PermValue;
 
@@ -37,10 +38,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.MuteMembers)]
         [Priority(1)]
-        public async Task STFU(StoopidTime time, IUser user)
-        {
-            await STFU(user, time);
-        }
+        public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time);
 
         [MewdekoCommand]
         [Usage]
@@ -50,6 +48,7 @@ public partial class Moderation
         [RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemoveOnMute(string yesnt)
         {
+            var users = ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.ToList().Contains(824321516468043779));
             if (yesnt.StartsWith("n"))
             {
                 await Service.Removeonmute(ctx.Guild, "n");
@@ -74,7 +73,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [RequireUserPermission(GuildPermission.MuteMembers)]
         [Priority(0)]
-        public async Task STFU(IUser user, StoopidTime time = null)
+        public async Task Stfu(IUser user, StoopidTime time = null)
         {
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
@@ -98,6 +97,89 @@ public partial class Moderation
             }
         }
 
+        [MewdekoCommand]
+        [Aliases]
+        [Description]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task UnmuteAll([Remainder] string reason = null)
+        {
+            var users = ctx.Guild.GetUsersAsync().Result
+                           .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
+            if (!users.Any())
+            {
+                await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.");
+                return;
+            }
+            if (await PromptUserConfirmAsync(
+                    new EmbedBuilder().WithOkColor().WithDescription(
+                        "Are you absolutely sure you want to unmute ***all*** users? This action is irreversible."),
+                    ctx.User.Id))
+            {
+                if (reason is null)
+                {
+                    if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Would you like to add a reason for the unmute?"), ctx.User.Id))
+                    {
+                        var msg = await ctx.Channel.SendMessageAsync("Please type out the unmute reason.");
+                        reason = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                        var eb = new EmbedBuilder().WithDescription($"Unmuting {users.Count()} users...");
+                        await msg.ModifyAsync(x => x.Embed = eb.Build());
+                        foreach (var i in users)
+                        {
+                            try
+                            {
+                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All, reason);
+                            }
+                            catch
+                            {
+                               // ignored
+                            }                          
+                        }
+
+                        await msg.ModifyAsync(x =>
+                            x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build());
+                    }
+                    else
+                    {
+                        var eb = new EmbedBuilder().WithDescription($"Unmuting {users.Count()} users...");
+                        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                        foreach (var i in users)
+                        {
+                            try
+                            {
+                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }                          
+                        }
+
+                        await msg.ModifyAsync(x =>
+                            x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build());
+                    }
+                }
+                else
+                {
+                    var eb = new EmbedBuilder().WithDescription($"Unmuting {users.Count()} users...");
+                    var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                    foreach (var i in users)
+                    {
+                        try
+                        {
+                            await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All, reason);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }                          
+                    }
+
+                    await msg.ModifyAsync(x =>
+                        x.Embed = new EmbedBuilder().WithOkColor().WithDescription("Unmuted all users!").Build());
+                }
+            }
+        }
         [MewdekoCommand]
         [Usage]
         [Description]

@@ -29,6 +29,7 @@ public class GuildConfig : DbEntity
     public string BoostMessage { get; set; } = "%user% just boosted this server!";
     public ulong BoostMessageChannelId { get; set; }
     public int BoostMessageDeleteAfter { get; set; }
+    public string GiveawayEmote { get; set; }
     public ulong TicketChannel { get; set; } = 0;
     public ulong TicketCategory { get; set; } = 0;
     public ulong snipeset { get; set; }

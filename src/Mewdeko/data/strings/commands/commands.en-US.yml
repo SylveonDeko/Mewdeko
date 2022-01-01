@@ -21,6 +21,11 @@ glist:
   desc: "Lists the currently running giveaways."
   args:
     - ""
+unmuteall:
+  desc: "Unmutes all users with an optional reason."
+  args:
+    - ""
+    - ""
 gstats:
   desc: "Shows giveaway stats for the server."
   args:
