@@ -10,6 +10,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Giveaways.Services;
 using Mewdeko.Services;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Giveaways;
 
@@ -81,7 +83,7 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
         string prize;
         //string blacklistroles;
         //string blacklistusers;
-        //string reqroles;
+        string reqroles;
         IUser Host;
         TimeSpan time;
         var erorrembed = new EmbedBuilder()
@@ -177,25 +179,37 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
                 return;
             }
         }
-        if (!await PromptUserConfirmAsync(new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id))
+        
+        if (!await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id))
         {
             await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
             ctx.Guild);
             await msg.DeleteAsync();
         }
-
         await msg.ModifyAsync(x =>
-            x.Embed = eb
-                      .WithDescription(
-                          "Alright! please mention the role(s) that are required for this giveaway! ***Please put a space in between each so I know to separate them!***")
-                      .Build());
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-        var split = next.Split(" ");
-        var treader = new ChannelTypeReader<ITextChannel>();
-        foreach (var i in split)
         {
-            var toread = treader.ReadAsync()
+            x.Embed = eb.WithDescription("Alright! please mention the role(s) that are required for this giveaway!")
+                        .Build();
+            x.Components = null;
+        });
+        IReadOnlyCollection<IRole> parsed;
+        while (true)
+        {
+            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+            parsed = Regex.Matches(next, @"(?<=<@&)?[0-9]{17,19}(?=>)?")
+                          .Select(m => ulong.Parse(m.Value))
+                          .Select(Context.Guild.GetRole)
+                          .OfType<IRole>().ToList();
+            if (parsed.Any()) break;
+            await msg.ModifyAsync(x => x.Embed = eb
+                                                 .WithDescription("Looks like those roles were incorrect! Please try again!")
+                                                 .Build());
         }
+
+        reqroles = string.Join(" ", parsed.Select(x => x.Id));
+        await msg.DeleteAsync();
+        await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
+            ctx.Guild, reqroles);
     }
 
     [MewdekoCommand]
