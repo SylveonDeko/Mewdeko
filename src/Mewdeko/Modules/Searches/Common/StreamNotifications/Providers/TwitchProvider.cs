@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.Database.Models;
 using Newtonsoft.Json;

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Discord;
 using Discord.Interactions;
 using Mewdeko._Extensions;

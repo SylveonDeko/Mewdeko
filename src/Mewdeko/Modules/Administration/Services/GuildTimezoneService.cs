@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading.Tasks;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Services.Database.Models;

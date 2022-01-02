@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Anilist4Net;
 using Anilist4Net.Enums;
 using Discord;

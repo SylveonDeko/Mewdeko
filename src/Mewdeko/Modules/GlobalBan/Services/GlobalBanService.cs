@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 
 namespace Mewdeko.Modules.GlobalBan.Services;
 

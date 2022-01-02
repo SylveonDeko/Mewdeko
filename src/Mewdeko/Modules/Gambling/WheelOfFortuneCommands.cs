@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Threading.Tasks;
 using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
