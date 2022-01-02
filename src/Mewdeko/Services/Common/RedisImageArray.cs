@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using StackExchange.Redis;
 
 namespace Mewdeko.Services.Common;
@@ -43,8 +41,5 @@ public sealed class RedisImageArray : IReadOnlyList<byte[]>
             yield return t;
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return _data.Value.GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => _data.Value.GetEnumerator();
 }

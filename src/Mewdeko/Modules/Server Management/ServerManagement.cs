@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
@@ -17,10 +14,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 {
     private readonly IHttpClientFactory _httpFactory;
 
-    public ServerManagement(IHttpClientFactory factory)
-    {
-        _httpFactory = factory;
-    }
+    public ServerManagement(IHttpClientFactory factory) => _httpFactory = factory;
 
     [MewdekoCommand]
     [Usage]

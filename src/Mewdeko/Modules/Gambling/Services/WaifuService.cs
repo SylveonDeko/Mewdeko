@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -135,7 +131,7 @@ public class WaifuService : INService
 
         //wives stay though
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return true;
     }

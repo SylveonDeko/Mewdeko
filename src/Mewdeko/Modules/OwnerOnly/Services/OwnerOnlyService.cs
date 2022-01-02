@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -255,13 +251,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         return uow._context.RotatingStatus.AsNoTracking().ToList();
     }
 
-    private Timer TimerFromAutoCommand(AutoCommand x)
-    {
-        return new Timer(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
+    private Timer TimerFromAutoCommand(AutoCommand x) =>
+        new Timer(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
             x,
             x.Interval * 1000,
             x.Interval * 1000);
-    }
 
     private async Task ExecuteCommand(AutoCommand cmd)
     {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Services;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -315,9 +311,6 @@ public partial class Searches
             return modString;
         }
 
-        private static bool IsBitSet(int mods, int pos)
-        {
-            return (mods & (1 << pos)) != 0;
-        }
+        private static bool IsBitSet(int mods, int pos) => (mods & (1 << pos)) != 0;
     }
 }

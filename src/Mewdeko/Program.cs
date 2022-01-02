@@ -1,5 +1,8 @@
-using System;
-using Mewdeko.Services;
+global using System;
+global using System.Linq;
+global using Mewdeko.Services;
+global using Mewdeko;
+global using System.Threading.Tasks;
 using Serilog;
 
 var pid = Environment.ProcessId;

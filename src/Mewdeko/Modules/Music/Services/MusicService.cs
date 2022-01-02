@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Music.Extensions;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Database.Repositories.Impl;
 using SpotifyAPI.Web;
@@ -236,15 +232,13 @@ public sealed class MusicService : INService
         }
     }
 
-    public IList<AdvancedLavaTrack> GetQueue(ulong guildid)
-    {
-        return !_queues.Select(x => x.Key).Contains(guildid)
+    public IList<AdvancedLavaTrack> GetQueue(ulong guildid) =>
+        !_queues.Select(x => x.Key).Contains(guildid)
             ? new List<AdvancedLavaTrack>
             {
                 Capacity = 0
             }
             : _queues.FirstOrDefault(x => x.Key == guildid).Value;
-    }
 
     private async Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
     {
@@ -329,10 +323,7 @@ public sealed class MusicService : INService
         }
     }
 
-    public int GetVolume(ulong guildid)
-    {
-        return GetSettingsInternalAsync(guildid).Result.Volume;
-    }
+    public int GetVolume(ulong guildid) => GetSettingsInternalAsync(guildid).Result.Volume;
 
     public async Task Skip(IGuild guild, ITextChannel chan, LavaPlayer player)
     {

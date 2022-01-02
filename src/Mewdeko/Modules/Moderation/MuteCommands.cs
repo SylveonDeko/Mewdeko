@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
@@ -10,7 +7,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Serilog;
 using PermValue = Discord.PermValue;
 
@@ -255,10 +251,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
         [Priority(2)]
-        public async Task Mute(IGuildUser user, StoopidTime time, string reason = "")
-        {
-            await Mute(time, user, reason);
-        }
+        public async Task Mute(IGuildUser user, StoopidTime time, string reason = "") => await Mute(time, user, reason);
 
         [MewdekoCommand]
         [Usage]

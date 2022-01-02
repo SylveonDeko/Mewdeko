@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
@@ -40,13 +39,7 @@ public class RedisLocalDataCache : ILocalDataCache
     }
 
 
-    private T Get<T>(string key) where T : class
-    {
-        return JsonConvert.DeserializeObject<T>(_db.StringGet($"{_creds.RedisKey()}_localdata_{key}"));
-    }
+    private T Get<T>(string key) where T : class => JsonConvert.DeserializeObject<T>(_db.StringGet($"{_creds.RedisKey()}_localdata_{key}"));
 
-    private void Set(string key, object obj)
-    {
-        _db.StringSet($"{_creds.RedisKey()}_localdata_{key}", JsonConvert.SerializeObject(obj));
-    }
+    private void Set(string key, object obj) => _db.StringSet($"{_creds.RedisKey()}_localdata_{key}", JsonConvert.SerializeObject(obj));
 }

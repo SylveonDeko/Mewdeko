@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace Mewdeko.Common.Extensions.Interactive.Selection;
 
 /// <summary>
@@ -13,11 +11,9 @@ public class
     ///     Builds this builder into an immutable selection.
     /// </summary>
     /// <returns>A <see cref="Selection{TOption}" />.</returns>
-    public override Selection<TOption> Build()
-    {
-        return new Selection<TOption>(EmoteConverter, StringConverter,
+    public override Selection<TOption> Build() =>
+        new Selection<TOption>(EmoteConverter, StringConverter,
             EqualityComparer, AllowCancel, SelectionPage?.Build(), Users?.ToArray(), Options?.ToArray(),
             CanceledPage?.Build(), TimeoutPage?.Build(), SuccessPage?.Build(), Deletion, InputType,
             ActionOnCancellation, ActionOnTimeout, ActionOnSuccess);
-    }
 }

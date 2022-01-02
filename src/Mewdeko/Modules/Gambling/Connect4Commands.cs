@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -10,7 +8,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Connect4;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling;
 

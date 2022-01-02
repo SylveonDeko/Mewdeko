@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
 
@@ -145,10 +141,7 @@ public class GameStatusEvent : ICurrencyEvent
         }
     }
 
-    private EmbedBuilder GetEmbed(long pot)
-    {
-        return _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
-    }
+    private EmbedBuilder GetEmbed(long pot) => _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
 
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, Cacheable<IMessageChannel, ulong> _)
     {

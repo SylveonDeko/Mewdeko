@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -21,10 +18,7 @@ public partial class Utility
     {
         private readonly InteractiveService Interactivity;
 
-        public InviteCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public InviteCommands(InteractiveService serv) => Interactivity = serv;
 
         [MewdekoCommand]
         [Usage]

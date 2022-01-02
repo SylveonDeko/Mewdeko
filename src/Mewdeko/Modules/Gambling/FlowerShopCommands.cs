@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -14,7 +11,6 @@ using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -125,7 +121,7 @@ public partial class Gambling
                     .ThenInclude(x => x.Items));
                 var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             if (entry == null)
@@ -195,7 +191,7 @@ public partial class Gambling
                     using (var uow = _db.GetDbContext())
                     {
                         var x = uow._context.Set<ShopEntryItem>().Remove(item);
-                        uow.SaveChanges();
+                        await uow.SaveChangesAsync();
                     }
 
                     try
@@ -230,7 +226,7 @@ public partial class Gambling
                             entry = entries.ElementAtOrDefault(index);
                             if (entry != null)
                                 if (entry.Items.Add(item))
-                                    uow.SaveChanges();
+                                    await uow.SaveChangesAsync();
                         }
 
                         await ReplyErrorLocalizedAsync("shop_buy_error").ConfigureAwait(false);
@@ -246,10 +242,7 @@ public partial class Gambling
             }
         }
 
-        private static long GetProfitAmount(int price)
-        {
-            return (int) Math.Ceiling(0.90 * price);
-        }
+        private static long GetProfitAmount(int price) => (int) Math.Ceiling(0.90 * price);
 
         [MewdekoCommand]
         [Usage]
@@ -278,7 +271,7 @@ public partial class Gambling
                     entry
                 };
                 uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
@@ -310,7 +303,7 @@ public partial class Gambling
                     entry
                 };
                 uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
@@ -343,7 +336,7 @@ public partial class Gambling
                 entry = entries.ElementAtOrDefault(index);
                 if (entry != null && (rightType = entry.Type == ShopEntryType.List))
                     if (added = entry.Items.Add(item))
-                        uow.SaveChanges();
+                        await uow.SaveChangesAsync();
             }
 
             if (entry == null)
@@ -380,7 +373,7 @@ public partial class Gambling
                 {
                     uow._context.RemoveRange(removed.Items);
                     uow._context.Remove(removed);
-                    uow.SaveChanges();
+                    await uow.SaveChangesAsync();
                 }
             }
 

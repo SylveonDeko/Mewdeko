@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -8,7 +6,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling;
@@ -168,30 +165,21 @@ public partial class Gambling
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Hit()
-        {
-            return InternalBlackJack(BjAction.Hit);
-        }
+        public Task Hit() => InternalBlackJack(BjAction.Hit);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Stand()
-        {
-            return InternalBlackJack(BjAction.Stand);
-        }
+        public Task Stand() => InternalBlackJack(BjAction.Stand);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Double()
-        {
-            return InternalBlackJack(BjAction.Double);
-        }
+        public Task Double() => InternalBlackJack(BjAction.Double);
 
         public async Task InternalBlackJack(BjAction a)
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Discord.Commands;
 
 namespace Mewdeko.Common.Attributes;
@@ -8,10 +7,8 @@ namespace Mewdeko.Common.Attributes;
 public sealed class MewdekoCommandAttribute : CommandAttribute
 {
     public MewdekoCommandAttribute([CallerMemberName] string memberName = "")
-        : base(CommandNameLoadHelper.GetCommandNameFor(memberName))
-    {
+        : base(CommandNameLoadHelper.GetCommandNameFor(memberName)) =>
         MethodName = memberName.ToLowerInvariant();
-    }
 
     public string MethodName { get; }
 }

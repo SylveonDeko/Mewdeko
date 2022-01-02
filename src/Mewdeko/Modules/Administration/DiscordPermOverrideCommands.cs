@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -22,10 +19,7 @@ public partial class Administration
     {
         private readonly InteractiveService Interactivity;
 
-        public DiscordPermOverrideCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public DiscordPermOverrideCommands(InteractiveService serv) => Interactivity = serv;
 
         // override stats, it should require that the user has managessages guild permission
         // .po 'stats' add user guild managemessages

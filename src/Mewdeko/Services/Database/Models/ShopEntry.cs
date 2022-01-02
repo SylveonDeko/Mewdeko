@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mewdeko.Services.Database.Models;
 
@@ -38,8 +37,5 @@ public class ShopEntryItem : DbEntity
         return ((ShopEntryItem) obj).Text == Text;
     }
 
-    public override int GetHashCode()
-    {
-        return Text.GetHashCode(StringComparison.InvariantCulture);
-    }
+    public override int GetHashCode() => Text.GetHashCode(StringComparison.InvariantCulture);
 }

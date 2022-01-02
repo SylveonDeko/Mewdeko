@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.Commands;
@@ -15,7 +12,6 @@ using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
 
@@ -230,10 +226,7 @@ public partial class Moderation : MewdekoModule
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.BanMembers)]
         [Priority(1)]
-        public Task Warnlog(ulong userId)
-        {
-            return InternalWarnlog(userId);
-        }
+        public Task Warnlog(ulong userId) => InternalWarnlog(userId);
 
         private async Task InternalWarnlog(ulong userId)
         {
@@ -334,10 +327,7 @@ public partial class Moderation : MewdekoModule
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.BanMembers)]
-        public Task Warnclear(IGuildUser user, int index = 0)
-        {
-            return Warnclear(user.Id, index);
-        }
+        public Task Warnclear(IGuildUser user, int index = 0) => Warnclear(user.Id, index);
 
         [MewdekoCommand]
         [Usage]
@@ -624,10 +614,7 @@ public partial class Moderation : MewdekoModule
         [UserPerm(GuildPermission.BanMembers)]
         [BotPerm(GuildPermission.BanMembers)]
         [Priority(0)]
-        public Task BanMessageTest([Remainder] string reason = null)
-        {
-            return InternalBanMessageTest(reason, null);
-        }
+        public Task BanMessageTest([Remainder] string reason = null) => InternalBanMessageTest(reason, null);
 
         [MewdekoCommand]
         [Usage]
@@ -637,10 +624,7 @@ public partial class Moderation : MewdekoModule
         [UserPerm(GuildPermission.BanMembers)]
         [BotPerm(GuildPermission.BanMembers)]
         [Priority(1)]
-        public Task BanMessageTest(StoopidTime duration, [Remainder] string reason = null)
-        {
-            return InternalBanMessageTest(reason, duration.Time);
-        }
+        public Task BanMessageTest(StoopidTime duration, [Remainder] string reason = null) => InternalBanMessageTest(reason, duration.Time);
 
         private async Task InternalBanMessageTest(string reason, TimeSpan? duration)
         {
@@ -730,10 +714,7 @@ public partial class Moderation : MewdekoModule
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages)]
         [BotPerm(GuildPermission.BanMembers)]
-        public Task Softban(IGuildUser user, [Remainder] string msg = null)
-        {
-            return SoftbanInternal(user, msg);
-        }
+        public Task Softban(IGuildUser user, [Remainder] string msg = null) => SoftbanInternal(user, msg);
 
         [MewdekoCommand]
         [Usage]
@@ -797,10 +778,7 @@ public partial class Moderation : MewdekoModule
         [UserPerm(GuildPermission.KickMembers)]
         [BotPerm(GuildPermission.KickMembers)]
         [Priority(1)]
-        public Task Kick(IGuildUser user, [Remainder] string msg = null)
-        {
-            return KickInternal(user, msg);
-        }
+        public Task Kick(IGuildUser user, [Remainder] string msg = null) => KickInternal(user, msg);
 
         [MewdekoCommand]
         [Usage]

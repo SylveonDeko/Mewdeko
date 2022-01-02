@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Discord;
 using Mewdeko.Common;
 
@@ -15,10 +14,7 @@ public class CurrencyRaffleGame
 
     private readonly HashSet<User> _users = new();
 
-    public CurrencyRaffleGame(Type type)
-    {
-        GameType = type;
-    }
+    public CurrencyRaffleGame(Type type) => GameType = type;
 
     public IEnumerable<User> Users => _users;
     public Type GameType { get; }
@@ -65,16 +61,11 @@ public class CurrencyRaffleGame
         public IUser DiscordUser { get; set; }
         public long Amount { get; set; }
 
-        public override int GetHashCode()
-        {
-            return DiscordUser.GetHashCode();
-        }
+        public override int GetHashCode() => DiscordUser.GetHashCode();
 
-        public override bool Equals(object obj)
-        {
-            return obj is User u
+        public override bool Equals(object obj) =>
+            obj is User u
                 ? u.DiscordUser == DiscordUser
                 : false;
-        }
     }
 }

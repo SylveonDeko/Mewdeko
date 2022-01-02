@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;

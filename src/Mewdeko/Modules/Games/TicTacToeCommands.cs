@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -18,10 +17,7 @@ public partial class Games
         private readonly DiscordSocketClient _client;
         private readonly SemaphoreSlim _sem = new(1, 1);
 
-        public TicTacToeCommands(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        public TicTacToeCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand]
         [Usage]

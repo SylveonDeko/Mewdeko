@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -84,13 +80,7 @@ public class CommandMapService : IInputTransformer, INService
 
 public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
 {
-    public bool Equals(CommandAlias x, CommandAlias y)
-    {
-        return x.Trigger == y.Trigger;
-    }
+    public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
 
-    public int GetHashCode(CommandAlias obj)
-    {
-        return obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
-    }
+    public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
 }

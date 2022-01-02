@@ -1,8 +1,5 @@
 using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
 using Mewdeko._Extensions;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games.Services;
 

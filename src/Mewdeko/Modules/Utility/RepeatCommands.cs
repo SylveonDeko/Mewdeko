@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -13,7 +10,6 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -173,10 +169,7 @@ public partial class Utility
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageMessages)]
         [Priority(-1)]
-        public Task Repeat([Remainder] string message)
-        {
-            return Repeat(null, null, message);
-        }
+        public Task Repeat([Remainder] string message) => Repeat(null, null, message);
 
         [MewdekoCommand]
         [Usage]
@@ -185,10 +178,7 @@ public partial class Utility
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageMessages)]
         [Priority(0)]
-        public Task Repeat(StoopidTime interval, [Remainder] string message)
-        {
-            return Repeat(null, interval, message);
-        }
+        public Task Repeat(StoopidTime interval, [Remainder] string message) => Repeat(null, interval, message);
 
         [MewdekoCommand]
         [Usage]
@@ -197,10 +187,7 @@ public partial class Utility
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
-        public Task Repeat(GuildDateTime dt, [Remainder] string message)
-        {
-            return Repeat(dt, null, message);
-        }
+        public Task Repeat(GuildDateTime dt, [Remainder] string message) => Repeat(dt, null, message);
 
         [MewdekoCommand]
         [Usage]

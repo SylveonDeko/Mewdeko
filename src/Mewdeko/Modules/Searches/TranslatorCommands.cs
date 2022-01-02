@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Searches.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -115,9 +112,6 @@ public partial class Searches
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Translangs()
-        {
-            await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
-        }
+        public async Task Translangs() => await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
     }
 }

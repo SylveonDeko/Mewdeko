@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using Discord;
 using Mewdeko.Common;
 using Mewdeko.Services.Settings;
@@ -48,10 +47,7 @@ public class Localization : ILocalization
     public ConcurrentDictionary<ulong, CultureInfo> GuildCultureInfos { get; }
     public CultureInfo DefaultCultureInfo => _bss.Data.DefaultLocale;
 
-    public void SetGuildCulture(IGuild guild, CultureInfo ci)
-    {
-        SetGuildCulture(guild.Id, ci);
-    }
+    public void SetGuildCulture(IGuild guild, CultureInfo ci) => SetGuildCulture(guild.Id, ci);
 
     public void SetGuildCulture(ulong guildId, CultureInfo ci)
     {
@@ -71,10 +67,7 @@ public class Localization : ILocalization
         GuildCultureInfos.AddOrUpdate(guildId, ci, (id, old) => ci);
     }
 
-    public void RemoveGuildCulture(IGuild guild)
-    {
-        RemoveGuildCulture(guild.Id);
-    }
+    public void RemoveGuildCulture(IGuild guild) => RemoveGuildCulture(guild.Id);
 
     public void RemoveGuildCulture(ulong guildId)
     {
@@ -87,20 +80,11 @@ public class Localization : ILocalization
         }
     }
 
-    public void SetDefaultCulture(CultureInfo ci)
-    {
-        _bss.ModifyConfig(bs => { bs.DefaultLocale = ci; });
-    }
+    public void SetDefaultCulture(CultureInfo ci) => _bss.ModifyConfig(bs => { bs.DefaultLocale = ci; });
 
-    public void ResetDefaultCulture()
-    {
-        SetDefaultCulture(CultureInfo.CurrentCulture);
-    }
+    public void ResetDefaultCulture() => SetDefaultCulture(CultureInfo.CurrentCulture);
 
-    public CultureInfo GetCultureInfo(IGuild guild)
-    {
-        return GetCultureInfo(guild?.Id);
-    }
+    public CultureInfo GetCultureInfo(IGuild guild) => GetCultureInfo(guild?.Id);
 
     public CultureInfo GetCultureInfo(ulong? guildId)
     {

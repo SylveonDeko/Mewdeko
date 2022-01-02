@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Extensions.Interactive.Entities;
@@ -43,10 +40,7 @@ internal class SelectionCallback<TOption> : IInteractiveCallback
     public DateTimeOffset StartTime { get; }
 
     /// <inheritdoc />
-    public void Cancel()
-    {
-        TimeoutTaskSource.TryCancel();
-    }
+    public void Cancel() => TimeoutTaskSource.TryCancel();
 
     /// <inheritdoc />
     public async Task ExecuteAsync(SocketMessage message)
@@ -131,10 +125,7 @@ internal class SelectionCallback<TOption> : IInteractiveCallback
     }
 
     /// <inheritdoc />
-    public void Dispose()
-    {
-        Dispose(true);
-    }
+    public void Dispose() => Dispose(true);
 
     protected virtual void Dispose(bool disposing)
     {

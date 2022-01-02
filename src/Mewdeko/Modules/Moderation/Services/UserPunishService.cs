@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -12,7 +9,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -26,23 +22,20 @@ public class UserPunishService : INService
     private readonly Mewdeko.Services.Mewdeko _bot;
     private readonly DbService _db;
     private readonly MuteService _mute;
-    private readonly Timer _warnExpiryTimer;
-    private readonly DiscordSocketClient Client;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         Mewdeko.Services.Mewdeko bot, DiscordSocketClient client)
     {
-        Client = client;
         _warnlogchannelids = bot.AllGuildConfigs
-            .Where(x => x.WarnlogChannelId != 0)
-            .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
-            .ToConcurrent();
+                                .Where(x => x.WarnlogChannelId != 0)
+                                .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
+                                .ToConcurrent();
         _mute = mute;
         _bot = bot;
         _db = db;
         _blacklistService = blacklistService;
         //Client.MessageReceived += NsfwCheck;
-        _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
+        _ = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
@@ -99,7 +92,7 @@ public class UserPunishService : INService
 
             uow.Warnings.Add(warn);
 
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
         }
 
         var p = ps.FirstOrDefault(x => x.Count == warnings);
@@ -270,7 +263,7 @@ WHERE GuildId={guildId}
             await uow.Warnings.ForgiveAll(guildId, userId, moderator);
         else
             toReturn = uow.Warnings.Forgive(guildId, userId, moderator, index - 1);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return toReturn;
     }
@@ -407,9 +400,8 @@ WHERE GuildId={guildId}
     }
 
     public CREmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
-        string banReason, TimeSpan? duration)
-    {
-        return GetBanUserDmEmbed(
+        string banReason, TimeSpan? duration) =>
+        GetBanUserDmEmbed(
             (DiscordSocketClient) context.Client,
             (SocketGuild) context.Guild,
             (IGuildUser) context.User,
@@ -417,7 +409,6 @@ WHERE GuildId={guildId}
             defaultMessage,
             banReason,
             duration);
-    }
 
     public CREmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Services;
 using Newtonsoft.Json;
 using Serilog;
 

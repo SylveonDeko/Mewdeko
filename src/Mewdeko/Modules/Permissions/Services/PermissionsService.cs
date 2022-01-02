@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Permissions.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -162,8 +158,7 @@ public class PermissionService : ILateBlocker, INService
         UpdateCache(config);
     }
 
-    public void UpdateCache(GuildConfig config)
-    {
+    public void UpdateCache(GuildConfig config) =>
         Cache.AddOrUpdate(config.GuildId, new PermissionCache
         {
             Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
@@ -176,7 +171,6 @@ public class PermissionService : ILateBlocker, INService
             old.Verbose = config.VerbosePermissions;
             return old;
         });
-    }
 
     public async Task Reset(ulong guildId)
     {

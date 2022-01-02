@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Interactions;
@@ -90,10 +87,7 @@ public class Mewdeko
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
 
-    public List<ulong> GetCurrentGuildIds()
-    {
-        return Client.Guilds.Select(x => x.Id).ToList();
-    }
+    public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
 
     private void AddServices()
     {

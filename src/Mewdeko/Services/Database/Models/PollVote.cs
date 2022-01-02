@@ -5,15 +5,10 @@ public class PollVote : DbEntity
     public ulong UserId { get; set; }
     public int VoteIndex { get; set; }
 
-    public override int GetHashCode()
-    {
-        return UserId.GetHashCode();
-    }
+    public override int GetHashCode() => UserId.GetHashCode();
 
-    public override bool Equals(object obj)
-    {
-        return obj is PollVote p
+    public override bool Equals(object obj) =>
+        obj is PollVote p
             ? p.UserId == UserId
             : false;
-    }
 }

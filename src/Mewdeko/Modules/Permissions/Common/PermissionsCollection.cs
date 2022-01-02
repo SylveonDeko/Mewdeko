@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services.Database.Models;
 
@@ -27,10 +26,7 @@ public class PermissionsCollection<T> : IndexedCollection<T> where T : class, II
         }
     }
 
-    public static implicit operator List<T>(PermissionsCollection<T> x)
-    {
-        return x.Source;
-    }
+    public static implicit operator List<T>(PermissionsCollection<T> x) => x.Source;
 
     public override void Clear()
     {

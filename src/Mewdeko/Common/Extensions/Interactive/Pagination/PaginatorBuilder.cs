@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Discord;
 using Mewdeko.Common.Extensions.Interactive.Entities;
 using Mewdeko.Common.Extensions.Interactive.Entities.Page;
@@ -140,10 +139,7 @@ public abstract class PaginatorBuilder<TPaginator, TBuilder>
     ///     Adds an emote related to a paginator action.
     /// </summary>
     /// <param name="pair">The pair of emote and action.</param>
-    public virtual TBuilder AddOption(KeyValuePair<IEmote, PaginatorAction> pair)
-    {
-        return AddOption(pair.Key, pair.Value);
-    }
+    public virtual TBuilder AddOption(KeyValuePair<IEmote, PaginatorAction> pair) => AddOption(pair.Key, pair.Value);
 
     /// <summary>
     ///     Adds an emote related to a paginator action.
@@ -234,29 +230,18 @@ public abstract class PaginatorBuilder<TPaginator, TBuilder>
     /// <summary>
     ///     Sets the default canceled page.
     /// </summary>
-    public virtual TBuilder WithDefaultCanceledPage()
-    {
-        return WithCanceledPage(new PageBuilder().WithColor(Color.Orange).WithTitle("Canceled! 👍"));
-    }
+    public virtual TBuilder WithDefaultCanceledPage() => WithCanceledPage(new PageBuilder().WithColor(Color.Orange).WithTitle("Canceled! 👍"));
 
     /// <summary>
     ///     Sets the default timeout page.
     /// </summary>
-    public virtual TBuilder WithDefaultTimeoutPage()
-    {
-        return WithTimeoutPage(new PageBuilder().WithColor(Color.Red).WithTitle("Timed out! ⏰"));
-    }
+    public virtual TBuilder WithDefaultTimeoutPage() => WithTimeoutPage(new PageBuilder().WithColor(Color.Red).WithTitle("Timed out! ⏰"));
 
     /// <inheritdoc />
-    TPaginator IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.Build()
-    {
-        return Build();
-    }
+    TPaginator IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.Build() => Build();
 
     /// <inheritdoc />
     TBuilder IInteractiveBuilder<TPaginator, KeyValuePair<IEmote, PaginatorAction>, TBuilder>.WithOptions(
-        ICollection<KeyValuePair<IEmote, PaginatorAction>> options)
-    {
-        return WithOptions(new Dictionary<IEmote, PaginatorAction>(options));
-    }
+        ICollection<KeyValuePair<IEmote, PaginatorAction>> options) =>
+        WithOptions(new Dictionary<IEmote, PaginatorAction>(options));
 }
