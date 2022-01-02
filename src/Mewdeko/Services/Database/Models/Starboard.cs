@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class Starboard : DbEntity
 {
-    public class Starboard : DbEntity
-    {
-        public ulong MessageId { get; set; }
-        public ulong PostId { get; set; }
-    }
+    public ulong MessageId { get; set; }
+    public ulong PostId { get; set; }
 }

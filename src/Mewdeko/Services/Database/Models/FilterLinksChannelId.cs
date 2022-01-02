@@ -1,19 +1,18 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public class FilterLinksChannelId : DbEntity
 {
-    public class FilterLinksChannelId : DbEntity
+    public ulong ChannelId { get; set; }
+
+    public override bool Equals(object obj)
     {
-        public ulong ChannelId { get; set; }
+        return obj is FilterLinksChannelId f
+            ? f.ChannelId == ChannelId
+            : false;
+    }
 
-        public override bool Equals(object obj)
-        {
-            return obj is FilterLinksChannelId f
-                ? f.ChannelId == ChannelId
-                : false;
-        }
-
-        public override int GetHashCode()
-        {
-            return ChannelId.GetHashCode();
-        }
+    public override int GetHashCode()
+    {
+        return ChannelId.GetHashCode();
     }
 }

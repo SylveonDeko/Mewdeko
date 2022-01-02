@@ -1,8 +1,8 @@
-﻿namespace Mewdeko.Migrations
+﻿namespace Mewdeko.Migrations;
+
+internal class MigrationQueries
 {
-    internal class MigrationQueries
-    {
-        public static string UserClub { get; } = @"
+    public static string UserClub { get; } = @"
 CREATE TABLE DiscordUser_tmp(
     Id INTEGER PRIMARY KEY,
     AvatarId TEXT,
@@ -35,8 +35,7 @@ INSERT INTO DiscordUser
 
 DROP TABLE DiscordUser_tmp;";
 
-        public static string TotalXp { get; } =
-            @"UPDATE DiscordUser
+    public static string TotalXp { get; } =
+        @"UPDATE DiscordUser
 SET TotalXp = ifnull((SELECT SUM(Xp) FROM UserXpStats WHERE UserId = DiscordUser.UserId), 0)";
-    }
 }

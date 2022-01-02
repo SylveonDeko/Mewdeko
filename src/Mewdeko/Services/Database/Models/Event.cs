@@ -1,51 +1,50 @@
 ﻿using System.Collections.Generic;
 
-namespace Mewdeko.Services.Database.Models
+namespace Mewdeko.Services.Database.Models;
+
+public class CurrencyEvent
 {
-    public class CurrencyEvent
+    public enum Type
     {
-        public enum Type
-        {
-            Reaction,
+        Reaction,
 
-            GameStatus
-            //NotRaid,
-        }
-
-        public ulong ServerId { get; set; }
-        public ulong ChannelId { get; set; }
-        public ulong MessageId { get; set; }
-        public Type EventType { get; set; }
-
-        /// <summary>
-        ///     Amount of currency that the user will be rewarded.
-        /// </summary>
-        public long Amount { get; set; }
-
-        /// <summary>
-        ///     Maximum amount of currency that can be handed out.
-        /// </summary>
-        public long PotSize { get; set; }
-
-        public List<AwardedUser> AwardedUsers { get; set; }
-
-        /// <summary>
-        ///     Used as extra data storage for events which need it.
-        /// </summary>
-        public ulong ExtraId { get; set; }
-
-        /// <summary>
-        ///     May be used for some future event.
-        /// </summary>
-        public ulong ExtraId2 { get; set; }
-
-        /// <summary>
-        ///     May be used for some future event.
-        /// </summary>
-        public string ExtraString { get; set; }
+        GameStatus
+        //NotRaid,
     }
 
-    public class AwardedUser
-    {
-    }
+    public ulong ServerId { get; set; }
+    public ulong ChannelId { get; set; }
+    public ulong MessageId { get; set; }
+    public Type EventType { get; set; }
+
+    /// <summary>
+    ///     Amount of currency that the user will be rewarded.
+    /// </summary>
+    public long Amount { get; set; }
+
+    /// <summary>
+    ///     Maximum amount of currency that can be handed out.
+    /// </summary>
+    public long PotSize { get; set; }
+
+    public List<AwardedUser> AwardedUsers { get; set; }
+
+    /// <summary>
+    ///     Used as extra data storage for events which need it.
+    /// </summary>
+    public ulong ExtraId { get; set; }
+
+    /// <summary>
+    ///     May be used for some future event.
+    /// </summary>
+    public ulong ExtraId2 { get; set; }
+
+    /// <summary>
+    ///     May be used for some future event.
+    /// </summary>
+    public string ExtraString { get; set; }
+}
+
+public class AwardedUser
+{
 }

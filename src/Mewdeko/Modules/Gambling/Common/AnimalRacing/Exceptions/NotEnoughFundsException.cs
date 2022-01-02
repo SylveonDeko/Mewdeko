@@ -1,19 +1,18 @@
 ﻿using System;
 
-namespace Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions
+namespace Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
+
+public class NotEnoughFundsException : Exception
 {
-    public class NotEnoughFundsException : Exception
+    public NotEnoughFundsException()
     {
-        public NotEnoughFundsException()
-        {
-        }
+    }
 
-        public NotEnoughFundsException(string message) : base(message)
-        {
-        }
+    public NotEnoughFundsException(string message) : base(message)
+    {
+    }
 
-        public NotEnoughFundsException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+    public NotEnoughFundsException(string message, Exception innerException) : base(message, innerException)
+    {
     }
 }

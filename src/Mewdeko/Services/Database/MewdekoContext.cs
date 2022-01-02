@@ -5,344 +5,343 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Mewdeko.Services.Database
+namespace Mewdeko.Services.Database;
+
+public class MewdekoContextFactory : IDesignTimeDbContextFactory<MewdekoContext>
 {
-    public class MewdekoContextFactory : IDesignTimeDbContextFactory<MewdekoContext>
+    public MewdekoContext CreateDbContext(string[] args)
     {
-        public MewdekoContext CreateDbContext(string[] args)
-        {
-            LogSetup.SetupLogger(-2);
-            var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
-            var builder = new SqliteConnectionStringBuilder("Data Source = data/Mewdeko.db");
-            builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
-            optionsBuilder.UseSqlite(builder.ToString());
-            var ctx = new MewdekoContext(optionsBuilder.Options);
-            ctx.Database.SetCommandTimeout(60);
-            return ctx;
-        }
+        LogSetup.SetupLogger(-2);
+        var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
+        var builder = new SqliteConnectionStringBuilder("Data Source = data/Mewdeko.db");
+        builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
+        optionsBuilder.UseSqlite(builder.ToString());
+        var ctx = new MewdekoContext(optionsBuilder.Options);
+        ctx.Database.SetCommandTimeout(60);
+        return ctx;
+    }
+}
+
+public class MewdekoContext : DbContext
+{
+    public MewdekoContext(DbContextOptions<MewdekoContext> options) : base(options)
+    {
     }
 
-    public class MewdekoContext : DbContext
+    public DbSet<GuildConfig> GuildConfigs { get; set; }
+
+    // public DbSet<SwitchShops> SwitchShops {get; set;}
+    public DbSet<Suggestionse> Suggestions { get; set; }
+    public DbSet<SnipeStore> SnipeStore { get; set; }
+    public DbSet<Warning2> Warnings2 { get; set; }
+    public DbSet<AFK> AFK { get; set; }
+    public DbSet<Giveaways> Giveaways { get; set; }
+    public DbSet<Ticket> Ticket { get; set; }
+    public DbSet<Starboard> Starboard { get; set; }
+    public DbSet<Quote> Quotes { get; set; }
+    public DbSet<Reminder> Reminders { get; set; }
+    public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
+    public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
+    public DbSet<CustomReaction> CustomReactions { get; set; }
+    public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
+    public DbSet<MusicPlayerSettings> MusicPlayerSettings { get; set; }
+    public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
+    public DbSet<Warning> Warnings { get; set; }
+    public DbSet<UserXpStats> UserXpStats { get; set; }
+    public DbSet<ClubInfo> Clubs { get; set; }
+
+    //logging
+    public DbSet<LogSetting> LogSettings { get; set; }
+    public DbSet<IgnoredLogChannel> IgnoredLogChannels { get; set; }
+    public DbSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceCHannels { get; set; }
+
+    public DbSet<RotatingPlayingStatus> RotatingStatus { get; set; }
+    public DbSet<BlacklistEntry> Blacklist { get; set; }
+    public DbSet<AutoCommand> AutoCommands { get; set; }
+    public DbSet<AutoBanEntry> AutoBanWords { get; set; }
+    public DbSet<StatusRoles> StatusRoles { get; set; }
+    public DbSet<RewardedUser> RewardedUsers { get; set; }
+    public DbSet<Stake> Stakes { get; set; }
+    public DbSet<GlobalBans> GlobalBans { get; set; }
+    public DbSet<PlantedCurrency> PlantedCurrency { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<BanTemplate> BanTemplates { get; set; }
+    public DbSet<DiscordPermOverride> DiscordPermOverrides { get; set; }
+    public DbSet<DiscordUser> DiscordUser { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public MewdekoContext(DbContextOptions<MewdekoContext> options) : base(options)
-        {
-        }
-
-        public DbSet<GuildConfig> GuildConfigs { get; set; }
-
-        // public DbSet<SwitchShops> SwitchShops {get; set;}
-        public DbSet<Suggestionse> Suggestions { get; set; }
-        public DbSet<SnipeStore> SnipeStore { get; set; }
-        public DbSet<Warning2> Warnings2 { get; set; }
-        public DbSet<AFK> AFK { get; set; }
-        public DbSet<Giveaways> Giveaways { get; set; }
-        public DbSet<Ticket> Ticket { get; set; }
-        public DbSet<Starboard> Starboard { get; set; }
-        public DbSet<Quote> Quotes { get; set; }
-        public DbSet<Reminder> Reminders { get; set; }
-        public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
-        public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
-        public DbSet<CustomReaction> CustomReactions { get; set; }
-        public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
-        public DbSet<MusicPlayerSettings> MusicPlayerSettings { get; set; }
-        public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
-        public DbSet<Warning> Warnings { get; set; }
-        public DbSet<UserXpStats> UserXpStats { get; set; }
-        public DbSet<ClubInfo> Clubs { get; set; }
-
-        //logging
-        public DbSet<LogSetting> LogSettings { get; set; }
-        public DbSet<IgnoredLogChannel> IgnoredLogChannels { get; set; }
-        public DbSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceCHannels { get; set; }
-
-        public DbSet<RotatingPlayingStatus> RotatingStatus { get; set; }
-        public DbSet<BlacklistEntry> Blacklist { get; set; }
-        public DbSet<AutoCommand> AutoCommands { get; set; }
-        public DbSet<AutoBanEntry> AutoBanWords { get; set; }
-        public DbSet<StatusRoles> StatusRoles { get; set; }
-        public DbSet<RewardedUser> RewardedUsers { get; set; }
-        public DbSet<Stake> Stakes { get; set; }
-        public DbSet<GlobalBans> GlobalBans { get; set; }
-        public DbSet<PlantedCurrency> PlantedCurrency { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<BanTemplate> BanTemplates { get; set; }
-        public DbSet<DiscordPermOverride> DiscordPermOverrides { get; set; }
-        public DbSet<DiscordUser> DiscordUser { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            #region QUOTES
-
-            var quoteEntity = modelBuilder.Entity<Quote>();
-            quoteEntity.HasIndex(x => x.GuildId);
-            quoteEntity.HasIndex(x => x.Keyword);
+        #region QUOTES
 
-            #endregion
-
-            #region GuildConfig
-
-            var configEntity = modelBuilder.Entity<GuildConfig>();
-            configEntity
-                .HasIndex(c => c.GuildId)
-                .IsUnique();
-
-            modelBuilder.Entity<AntiSpamSetting>()
-                .HasOne(x => x.GuildConfig)
-                .WithOne(x => x.AntiSpamSetting);
-
-            modelBuilder.Entity<AntiRaidSetting>()
-                .HasOne(x => x.GuildConfig)
-                .WithOne(x => x.AntiRaidSetting);
+        var quoteEntity = modelBuilder.Entity<Quote>();
+        quoteEntity.HasIndex(x => x.GuildId);
+        quoteEntity.HasIndex(x => x.Keyword);
 
-            modelBuilder.Entity<GuildConfig>()
-                .HasOne(x => x.AntiAltSetting)
-                .WithOne()
-                .HasForeignKey<AntiAltSetting>(x => x.GuildConfigId)
-                .OnDelete(DeleteBehavior.Cascade);
+        #endregion
 
-            modelBuilder.Entity<FeedSub>()
-                .HasAlternateKey(x => new { x.GuildConfigId, x.Url });
-            modelBuilder.Entity<PlantedCurrency>()
-                .HasIndex(x => x.MessageId)
-                .IsUnique();
+        #region GuildConfig
 
-            modelBuilder.Entity<PlantedCurrency>()
-                .HasIndex(x => x.ChannelId);
+        var configEntity = modelBuilder.Entity<GuildConfig>();
+        configEntity
+            .HasIndex(c => c.GuildId)
+            .IsUnique();
 
-            configEntity.HasIndex(x => x.WarnExpireHours)
-                .IsUnique(false);
+        modelBuilder.Entity<AntiSpamSetting>()
+            .HasOne(x => x.GuildConfig)
+            .WithOne(x => x.AntiSpamSetting);
 
-            #endregion
+        modelBuilder.Entity<AntiRaidSetting>()
+            .HasOne(x => x.GuildConfig)
+            .WithOne(x => x.AntiRaidSetting);
 
-            #region streamrole
+        modelBuilder.Entity<GuildConfig>()
+            .HasOne(x => x.AntiAltSetting)
+            .WithOne()
+            .HasForeignKey<AntiAltSetting>(x => x.GuildConfigId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<StreamRoleSettings>()
-                .HasOne(x => x.GuildConfig)
-                .WithOne(x => x.StreamRole);
+        modelBuilder.Entity<FeedSub>()
+            .HasAlternateKey(x => new {x.GuildConfigId, x.Url});
+        modelBuilder.Entity<PlantedCurrency>()
+            .HasIndex(x => x.MessageId)
+            .IsUnique();
 
-            #endregion
+        modelBuilder.Entity<PlantedCurrency>()
+            .HasIndex(x => x.ChannelId);
 
-            #region Self Assignable Roles
+        configEntity.HasIndex(x => x.WarnExpireHours)
+            .IsUnique(false);
 
-            var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
+        #endregion
 
-            selfassignableRolesEntity
-                .HasIndex(s => new { s.GuildId, s.RoleId })
-                .IsUnique();
+        #region streamrole
 
-            selfassignableRolesEntity
-                .Property(x => x.Group)
-                .HasDefaultValue(0);
+        modelBuilder.Entity<StreamRoleSettings>()
+            .HasOne(x => x.GuildConfig)
+            .WithOne(x => x.StreamRole);
 
-            #endregion
+        #endregion
 
-            #region Permission
+        #region Self Assignable Roles
 
-            var permissionEntity = modelBuilder.Entity<Permission>();
-            permissionEntity
-                .HasOne(p => p.Next)
-                .WithOne(p => p.Previous)
-                .IsRequired(false);
+        var selfassignableRolesEntity = modelBuilder.Entity<SelfAssignedRole>();
 
-            #endregion
+        selfassignableRolesEntity
+            .HasIndex(s => new {s.GuildId, s.RoleId})
+            .IsUnique();
 
-            #region MusicPlaylists
+        selfassignableRolesEntity
+            .Property(x => x.Group)
+            .HasDefaultValue(0);
 
-            var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
+        #endregion
 
-            musicPlaylistEntity
-                .HasMany(p => p.Songs)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+        #region Permission
 
-            #endregion
+        var permissionEntity = modelBuilder.Entity<Permission>();
+        permissionEntity
+            .HasOne(p => p.Next)
+            .WithOne(p => p.Previous)
+            .IsRequired(false);
 
-            #region Waifus
+        #endregion
 
-            var wi = modelBuilder.Entity<WaifuInfo>();
-            wi.HasOne(x => x.Waifu)
-                .WithOne();
+        #region MusicPlaylists
 
-            wi.HasIndex(x => x.Price);
-            wi.HasIndex(x => x.ClaimerId);
-            // wi.HasMany(x => x.Items)
-            //     .WithOne()
-            //     .OnDelete(DeleteBehavior.Cascade);
+        var musicPlaylistEntity = modelBuilder.Entity<MusicPlaylist>();
 
-            var wu = modelBuilder.Entity<WaifuUpdate>();
+        musicPlaylistEntity
+            .HasMany(p => p.Songs)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
-            #endregion
+        #endregion
 
-            #region DiscordUser
+        #region Waifus
 
-            var du = modelBuilder.Entity<DiscordUser>();
-            du.HasAlternateKey(w => w.UserId);
-            du.HasOne(x => x.Club)
-                .WithMany(x => x.Users)
-                .IsRequired(false);
+        var wi = modelBuilder.Entity<WaifuInfo>();
+        wi.HasOne(x => x.Waifu)
+            .WithOne();
 
-            du.Property(x => x.LastLevelUp)
-                .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 305, DateTimeKind.Local));
+        wi.HasIndex(x => x.Price);
+        wi.HasIndex(x => x.ClaimerId);
+        // wi.HasMany(x => x.Items)
+        //     .WithOne()
+        //     .OnDelete(DeleteBehavior.Cascade);
 
-            du.HasIndex(x => x.TotalXp);
-            du.HasIndex(x => x.CurrencyAmount);
-            du.HasIndex(x => x.UserId);
+        var wu = modelBuilder.Entity<WaifuUpdate>();
 
-            #endregion
+        #endregion
 
-            #region Warnings
+        #region DiscordUser
 
-            var warn = modelBuilder.Entity<Warning>();
-            warn.HasIndex(x => x.GuildId);
-            warn.HasIndex(x => x.UserId);
-            warn.HasIndex(x => x.DateAdded);
+        var du = modelBuilder.Entity<DiscordUser>();
+        du.HasAlternateKey(w => w.UserId);
+        du.HasOne(x => x.Club)
+            .WithMany(x => x.Users)
+            .IsRequired(false);
 
-            #endregion
+        du.Property(x => x.LastLevelUp)
+            .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 305, DateTimeKind.Local));
 
-            #region PatreonRewards
+        du.HasIndex(x => x.TotalXp);
+        du.HasIndex(x => x.CurrencyAmount);
+        du.HasIndex(x => x.UserId);
 
-            var pr = modelBuilder.Entity<RewardedUser>();
-            pr.HasIndex(x => x.PatreonUserId)
-                .IsUnique();
+        #endregion
 
-            #endregion
+        #region Warnings
 
-            #region XpStats
+        var warn = modelBuilder.Entity<Warning>();
+        warn.HasIndex(x => x.GuildId);
+        warn.HasIndex(x => x.UserId);
+        warn.HasIndex(x => x.DateAdded);
 
-            var xps = modelBuilder.Entity<UserXpStats>();
-            xps
-                .HasIndex(x => new { x.UserId, x.GuildId })
-                .IsUnique();
+        #endregion
 
-            xps
-                .Property(x => x.LastLevelUp)
-                .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 307, DateTimeKind.Local));
+        #region PatreonRewards
 
-            xps.HasIndex(x => x.UserId);
-            xps.HasIndex(x => x.GuildId);
-            xps.HasIndex(x => x.Xp);
-            xps.HasIndex(x => x.AwardedXp);
+        var pr = modelBuilder.Entity<RewardedUser>();
+        pr.HasIndex(x => x.PatreonUserId)
+            .IsUnique();
 
-            #endregion
+        #endregion
 
-            #region Music
+        #region XpStats
 
-            modelBuilder.Entity<MusicPlayerSettings>()
-                .HasIndex(x => x.GuildId)
-                .IsUnique();
+        var xps = modelBuilder.Entity<UserXpStats>();
+        xps
+            .HasIndex(x => new {x.UserId, x.GuildId})
+            .IsUnique();
 
-            modelBuilder.Entity<MusicPlayerSettings>()
-                .Property(x => x.Volume)
-                .HasDefaultValue(100);
+        xps
+            .Property(x => x.LastLevelUp)
+            .HasDefaultValue(new DateTime(2017, 9, 21, 20, 53, 13, 307, DateTimeKind.Local));
 
-            #endregion
+        xps.HasIndex(x => x.UserId);
+        xps.HasIndex(x => x.GuildId);
+        xps.HasIndex(x => x.Xp);
+        xps.HasIndex(x => x.AwardedXp);
 
+        #endregion
 
-            #region XpSettings
+        #region Music
 
-            modelBuilder.Entity<XpSettings>()
-                .HasOne(x => x.GuildConfig)
-                .WithOne(x => x.XpSettings);
+        modelBuilder.Entity<MusicPlayerSettings>()
+            .HasIndex(x => x.GuildId)
+            .IsUnique();
 
-            #endregion
+        modelBuilder.Entity<MusicPlayerSettings>()
+            .Property(x => x.Volume)
+            .HasDefaultValue(100);
 
-            #region XpRoleReward
+        #endregion
 
-            modelBuilder.Entity<XpRoleReward>()
-                .HasIndex(x => new { x.XpSettingsId, x.Level })
-                .IsUnique();
 
-            #endregion
+        #region XpSettings
 
-            #region Club
+        modelBuilder.Entity<XpSettings>()
+            .HasOne(x => x.GuildConfig)
+            .WithOne(x => x.XpSettings);
 
-            var ci = modelBuilder.Entity<ClubInfo>();
-            ci.HasOne(x => x.Owner)
-                .WithOne()
-                .HasForeignKey<ClubInfo>(x => x.OwnerId);
+        #endregion
 
+        #region XpRoleReward
 
-            ci.HasAlternateKey(x => new { x.Name, x.Discrim });
+        modelBuilder.Entity<XpRoleReward>()
+            .HasIndex(x => new {x.XpSettingsId, x.Level})
+            .IsUnique();
 
-            #endregion
+        #endregion
 
-            #region ClubManytoMany
+        #region Club
 
-            modelBuilder.Entity<ClubApplicants>()
-                .HasKey(t => new { t.ClubId, t.UserId });
+        var ci = modelBuilder.Entity<ClubInfo>();
+        ci.HasOne(x => x.Owner)
+            .WithOne()
+            .HasForeignKey<ClubInfo>(x => x.OwnerId);
 
-            modelBuilder.Entity<ClubApplicants>()
-                .HasOne(pt => pt.User)
-                .WithMany();
 
-            modelBuilder.Entity<ClubApplicants>()
-                .HasOne(pt => pt.Club)
-                .WithMany(x => x.Applicants);
+        ci.HasAlternateKey(x => new {x.Name, x.Discrim});
 
-            modelBuilder.Entity<ClubBans>()
-                .HasKey(t => new { t.ClubId, t.UserId });
+        #endregion
 
-            modelBuilder.Entity<ClubBans>()
-                .HasOne(pt => pt.User)
-                .WithMany();
+        #region ClubManytoMany
 
-            modelBuilder.Entity<ClubBans>()
-                .HasOne(pt => pt.Club)
-                .WithMany(x => x.Bans);
+        modelBuilder.Entity<ClubApplicants>()
+            .HasKey(t => new {t.ClubId, t.UserId});
 
-            #endregion
+        modelBuilder.Entity<ClubApplicants>()
+            .HasOne(pt => pt.User)
+            .WithMany();
 
-            #region Polls
+        modelBuilder.Entity<ClubApplicants>()
+            .HasOne(pt => pt.Club)
+            .WithMany(x => x.Applicants);
 
-            modelBuilder.Entity<Poll>()
-                .HasIndex(x => x.GuildId)
-                .IsUnique();
+        modelBuilder.Entity<ClubBans>()
+            .HasKey(t => new {t.ClubId, t.UserId});
 
-            #endregion
+        modelBuilder.Entity<ClubBans>()
+            .HasOne(pt => pt.User)
+            .WithMany();
 
-            #region CurrencyTransactions
+        modelBuilder.Entity<ClubBans>()
+            .HasOne(pt => pt.Club)
+            .WithMany(x => x.Bans);
 
-            modelBuilder.Entity<CurrencyTransaction>()
-                .HasIndex(x => x.UserId)
-                .IsUnique(false);
+        #endregion
 
-            #endregion
+        #region Polls
 
-            #region Reminders
+        modelBuilder.Entity<Poll>()
+            .HasIndex(x => x.GuildId)
+            .IsUnique();
 
-            modelBuilder.Entity<Reminder>()
-                .HasIndex(x => x.When);
+        #endregion
 
-            #endregion
+        #region CurrencyTransactions
 
-            #region GroupName
+        modelBuilder.Entity<CurrencyTransaction>()
+            .HasIndex(x => x.UserId)
+            .IsUnique(false);
 
-            modelBuilder.Entity<GroupName>()
-                .HasIndex(x => new { x.GuildConfigId, x.Number })
-                .IsUnique();
+        #endregion
 
-            modelBuilder.Entity<GroupName>()
-                .HasOne(x => x.GuildConfig)
-                .WithMany(x => x.SelfAssignableRoleGroupNames)
-                .IsRequired();
+        #region Reminders
 
-            #endregion
+        modelBuilder.Entity<Reminder>()
+            .HasIndex(x => x.When);
 
-            #region BanTemplate
+        #endregion
 
-            modelBuilder.Entity<BanTemplate>()
-                .HasIndex(x => x.GuildId)
-                .IsUnique();
+        #region GroupName
 
-            #endregion
+        modelBuilder.Entity<GroupName>()
+            .HasIndex(x => new {x.GuildConfigId, x.Number})
+            .IsUnique();
 
-            #region Perm Override
+        modelBuilder.Entity<GroupName>()
+            .HasOne(x => x.GuildConfig)
+            .WithMany(x => x.SelfAssignableRoleGroupNames)
+            .IsRequired();
 
-            modelBuilder.Entity<DiscordPermOverride>()
-                .HasIndex(x => new { x.GuildId, x.Command })
-                .IsUnique();
+        #endregion
 
-            #endregion
-        }
+        #region BanTemplate
+
+        modelBuilder.Entity<BanTemplate>()
+            .HasIndex(x => x.GuildId)
+            .IsUnique();
+
+        #endregion
+
+        #region Perm Override
+
+        modelBuilder.Entity<DiscordPermOverride>()
+            .HasIndex(x => new {x.GuildId, x.Command})
+            .IsUnique();
+
+        #endregion
     }
 }

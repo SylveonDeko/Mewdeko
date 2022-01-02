@@ -1,8 +1,7 @@
-﻿namespace Mewdeko.Services.Database.Models
+﻿namespace Mewdeko.Services.Database.Models;
+
+public enum WarnExpireAction
 {
-    public enum WarnExpireAction
-    {
-        Clear,
-        Delete
-    }
+    Clear,
+    Delete
 }

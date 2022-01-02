@@ -9,56 +9,42 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Services;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services;
 
-namespace Mewdeko.Modules.Utility
+namespace Mewdeko.Modules.Utility;
+
+public partial class Utility
 {
-    public partial class Utility
+    [Group]
+    public class InfoCommands : MewdekoSubmodule<UtilityService>
     {
-        [Group]
-        public class InfoCommands : MewdekoSubmodule<UtilityService>
+        private readonly DiscordSocketClient _client;
+        private readonly IStatsService _stats;
+
+        public InfoCommands(DiscordSocketClient client, IStatsService stats)
         {
-            private readonly DiscordSocketClient _client;
-            private readonly IStatsService _stats;
+            _client = client;
+            _stats = stats;
+        }
 
-            public InfoCommands(DiscordSocketClient client, IStatsService stats)
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task VInfo([Remainder] IVoiceChannel channel = null)
+        {
+            var voiceChannel = ((IGuildUser) ctx.User).VoiceChannel;
+            var eb = new EmbedBuilder();
+            switch (voiceChannel)
             {
-                _client = client;
-                _stats = stats;
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task VInfo([Remainder]IVoiceChannel channel = null)
-            {
-                var voiceChannel = ((IGuildUser)ctx.User).VoiceChannel;
-                var eb = new EmbedBuilder();
-                switch (voiceChannel)
-                {
-                    case null when channel == null:
-                        await ctx.Channel.SendErrorAsync(
-                            "You arent in a voice channel, and you haven't mentioned either to use this command!");
-                        return;
-                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                    case null when channel is not null:
-                        eb.WithTitle(channel.Name);
-                        eb.AddField("Users", channel.GetUsersAsync().FlattenAsync().Result.Count());
-                        eb.AddField("Created On", channel.CreatedAt);
-                        eb.AddField("Bitrate", channel.Bitrate);
-                        eb.AddField("User Limit", channel.UserLimit == null ? "Infinite" : channel.UserLimit);
-                        eb.AddField("Channel ID", channel.Id);
-                        eb.WithOkColor();
-                        await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                        break;
-                }
-
-                if (voiceChannel is not null && channel is not null)
-                {
-                    
+                case null when channel == null:
+                    await ctx.Channel.SendErrorAsync(
+                        "You arent in a voice channel, and you haven't mentioned either to use this command!");
+                    return;
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                case null when channel is not null:
                     eb.WithTitle(channel.Name);
                     eb.AddField("Users", channel.GetUsersAsync().FlattenAsync().Result.Count());
                     eb.AddField("Created On", channel.CreatedAt);
@@ -67,216 +53,221 @@ namespace Mewdeko.Modules.Utility
                     eb.AddField("Channel ID", channel.Id);
                     eb.WithOkColor();
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                }
-                if (voiceChannel is not null && channel is null)
-                {
-                    eb.WithTitle(voiceChannel.Name);
-                    eb.AddField("Users", voiceChannel.GetUsersAsync().FlattenAsync().Result.Count());
-                    eb.AddField("Created On", voiceChannel.CreatedAt);
-                    eb.AddField("Bitrate", voiceChannel.Bitrate);
-                    eb.AddField("User Limit", voiceChannel.UserLimit == null ? "Infinite" : voiceChannel.UserLimit);
-                    eb.AddField("Channel ID", voiceChannel.Id);
-                    eb.WithOkColor();
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                }
-            }
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Fetch(ulong id)
-            {
-                var usr = await _client.Rest.GetUserAsync(id);
-                if (usr is null)
-                {
-                    IUserMessage message = null;
-                    foreach (var i in ctx.Guild.GetTextChannelsAsync().Result)
-                    {
-                        var e = await i.GetMessageAsync(id);
-                        if (e is not null)
-                            message = e as IUserMessage;
-                        continue;
-                    }
-
-                    var eb = new EmbedBuilder()
-                        .WithTitle("Message Info");
-                    if (message.Embeds.Any())
-                    {
-                        eb.AddField("Embeds", message.Embeds.Count);
-                    }
-
-                    if (!string.IsNullOrEmpty(message.Content))
-                    {
-                        eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
-                    }
-
-                    eb.WithAuthor(message.Author);
-                    eb.AddField("Time Sent", message.Timestamp);
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
-                }
-                else
-                {
-
-
-                    var embed = new EmbedBuilder()
-                        .WithTitle("info for fetched user")
-                        .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " +
-                                         usr.CreatedAt)
-                        .WithImageUrl(usr.RealAvatarUrl().ToString())
-                        .WithOkColor();
-                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-                }
+                    break;
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task ServerInfo(string guildName = null)
+            if (voiceChannel is not null && channel is not null)
             {
-                var channel = (ITextChannel)ctx.Channel;
-                guildName = guildName?.ToUpperInvariant();
-                SocketGuild guild;
-                if (string.IsNullOrWhiteSpace(guildName))
-                    guild = (SocketGuild)channel.Guild;
-                else
-                    guild = _client.Guilds.FirstOrDefault(
-                        g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
-                if (guild == null)
-                    return;
-                var ownername = guild.GetUser(guild.OwnerId);
-                var textchn = guild.TextChannels.Count;
-                var voicechn = guild.VoiceChannels.Count;
+                eb.WithTitle(channel.Name);
+                eb.AddField("Users", channel.GetUsersAsync().FlattenAsync().Result.Count());
+                eb.AddField("Created On", channel.CreatedAt);
+                eb.AddField("Bitrate", channel.Bitrate);
+                eb.AddField("User Limit", channel.UserLimit == null ? "Infinite" : channel.UserLimit);
+                eb.AddField("Channel ID", channel.Id);
+                eb.WithOkColor();
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            }
 
-                var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
-                var list = new List<string>();
+            if (voiceChannel is not null && channel is null)
+            {
+                eb.WithTitle(voiceChannel.Name);
+                eb.AddField("Users", voiceChannel.GetUsersAsync().FlattenAsync().Result.Count());
+                eb.AddField("Created On", voiceChannel.CreatedAt);
+                eb.AddField("Bitrate", voiceChannel.Bitrate);
+                eb.AddField("User Limit", voiceChannel.UserLimit == null ? "Infinite" : voiceChannel.UserLimit);
+                eb.AddField("Channel ID", voiceChannel.Id);
+                eb.WithOkColor();
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            }
+        }
 
-                var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Fetch(ulong id)
+        {
+            var usr = await _client.Rest.GetUserAsync(id);
+            if (usr is null)
+            {
+                IUserMessage message = null;
+                foreach (var i in ctx.Guild.GetTextChannelsAsync().Result)
+                {
+                    var e = await i.GetMessageAsync(id);
+                    if (e is not null)
+                        message = e as IUserMessage;
+                }
+
+                var eb = new EmbedBuilder()
+                    .WithTitle("Message Info");
+                if (message.Embeds.Any()) eb.AddField("Embeds", message.Embeds.Count);
+
+                if (!string.IsNullOrEmpty(message.Content))
+                    eb.AddField("Message Content (Limited to 60 characters)", message.Content.Truncate(60));
+
+                eb.WithAuthor(message.Author);
+                eb.AddField("Time Sent", message.Timestamp);
+                await ctx.Channel.SendMessageAsync(embed: eb.Build());
+            }
+            else
+            {
                 var embed = new EmbedBuilder()
-                    .WithAuthor(eab => eab.WithName(GetText("server_info")))
-                    .WithTitle(guild.Name)
-                    .AddField("Id", guild.Id.ToString())
-                    .AddField("Owner", ownername.Mention)
-                    .AddField("Total Users", guild.Users.Count.ToString())
-                    .WithImageUrl($"{guild.SplashUrl}?size=2048")
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor);
-                if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
-                    embed.WithThumbnailUrl(guild.IconUrl);
-                if (guild.Emotes.Any())
-                    embed.AddField(fb =>
-                        fb.WithName(GetText("custom_emojis") + $"({guild.Emotes.Count})")
-                            .WithValue(string.Join(" ", guild.Emotes
-                                    .Shuffle()
-                                    .Take(30)
-                                    .Select(e => $"{e}"))
-                                .TrimTo(1024)));
-                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: component.Build());
-                var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
-                if (input == "moreinfo")
-                {
-                    var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
-                    var setFeatures = vals.Where(x => guild.Features.Value.HasFlag(x));
-                    embed
-                        .AddField("Bots", ctx.Guild.GetUsersAsync().Result.Count(x => x.IsBot))
-                        .AddField("Users", ctx.Guild.GetUsersAsync().Result.Count(x => !x.IsBot))
-                        .AddField("Text Channels", textchn.ToString())
-                        .AddField("Voice Channels", (voicechn.ToString()))
-                        .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
-                        .AddField("Roles", (guild.Roles.Count - 1).ToString())
-                        .AddField("Server Features", Format.Code(string.Join("\n", vals)));
-                    await msg.ModifyAsync(x =>
-                    {
-                        x.Embed = embed.Build();
-                        x.Components = null;
-                    });
-                }
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task ChannelInfo(ITextChannel channel = null)
-            {
-                var ch = channel ?? (ITextChannel)ctx.Channel;
-                var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
-                var embed = new EmbedBuilder()
-                    .WithTitle(ch.Name)
-                    .AddField(GetText("id"), ch.Id.ToString())
-                    .AddField(GetText("created_at"), $"{createdAt:dd.MM.yyyy HH:mm}")
-                    .AddField(GetText("users"), ch.GetUsersAsync().FlattenAsync().Result.Count())
-                    .AddField("Topic", ch.Topic ?? "None")
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor);
+                    .WithTitle("info for fetched user")
+                    .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " +
+                                     usr.CreatedAt)
+                    .WithImageUrl(usr.RealAvatarUrl().ToString())
+                    .WithOkColor();
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
+        }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task UserInfo(IGuildUser usr = null)
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task ServerInfo(string guildName = null)
+        {
+            var channel = (ITextChannel) ctx.Channel;
+            guildName = guildName?.ToUpperInvariant();
+            SocketGuild guild;
+            if (string.IsNullOrWhiteSpace(guildName))
+                guild = (SocketGuild) channel.Guild;
+            else
+                guild = _client.Guilds.FirstOrDefault(
+                    g => g.Name.ToUpperInvariant() == guildName.ToUpperInvariant());
+            if (guild == null)
+                return;
+            var ownername = guild.GetUser(guild.OwnerId);
+            var textchn = guild.TextChannels.Count;
+            var voicechn = guild.VoiceChannels.Count;
+
+            var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
+            var list = new List<string>();
+
+            var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
+            var embed = new EmbedBuilder()
+                .WithAuthor(eab => eab.WithName(GetText("server_info")))
+                .WithTitle(guild.Name)
+                .AddField("Id", guild.Id.ToString())
+                .AddField("Owner", ownername.Mention)
+                .AddField("Total Users", guild.Users.Count.ToString())
+                .WithImageUrl($"{guild.SplashUrl}?size=2048")
+                .WithColor(Mewdeko.Services.Mewdeko.OkColor);
+            if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
+                embed.WithThumbnailUrl(guild.IconUrl);
+            if (guild.Emotes.Any())
+                embed.AddField(fb =>
+                    fb.WithName(GetText("custom_emojis") + $"({guild.Emotes.Count})")
+                        .WithValue(string.Join(" ", guild.Emotes
+                                .Shuffle()
+                                .Take(30)
+                                .Select(e => $"{e}"))
+                            .TrimTo(1024)));
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
+            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+            if (input == "moreinfo")
             {
-                var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
-                var user = usr ?? ctx.User as IGuildUser;
-                var userbanner = _client.Rest.GetUserAsync(user.Id).Result.GetBannerUrl(size: 2048);
-                string serverUserType;
-                if (user.GuildPermissions.ManageMessages)
-                    serverUserType = "Helper";
-                if (user.GuildPermissions.BanMembers)
-                    serverUserType = "Moderator";
-                if (user.GuildPermissions.Administrator)
-                    serverUserType = "Administrator";
-                else serverUserType = "Regular User";
-                
-                var embed = new EmbedBuilder()
-                    .AddField("Username", user.ToString())
-                    .WithOkColor();
-                
-                if (!string.IsNullOrWhiteSpace(user.Nickname))
-                    embed.AddField("Nickname", user.Nickname);
-                
-                embed.AddField("User Id", user.Id)
-                    .AddField($"User Type", serverUserType)
-                    .AddField("Joined Server", user.JoinedAt?.ToString("MM/dd/yyyy HH:mm"))
-                    .AddField("Joined Discord", $"{user.CreatedAt:MM/dd/yyyy HH:mm}")
-                    .AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
-
-                if (user.Activities.Any())
+                var vals = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>();
+                var setFeatures = vals.Where(x => guild.Features.Value.HasFlag(x));
+                embed
+                    .AddField("Bots", ctx.Guild.GetUsersAsync().Result.Count(x => x.IsBot))
+                    .AddField("Users", ctx.Guild.GetUsersAsync().Result.Count(x => !x.IsBot))
+                    .AddField("Text Channels", textchn.ToString())
+                    .AddField("Voice Channels", voicechn.ToString())
+                    .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
+                    .AddField("Roles", (guild.Roles.Count - 1).ToString())
+                    .AddField("Server Features", Format.Code(string.Join("\n", vals)));
+                await msg.ModifyAsync(x =>
                 {
-                    embed.AddField("Activities",
-                        string.Join("\n", user.Activities.Select(x => string.Format($"{x.Name}: {x.Details ?? ""}"))));
-                }
-                var av = user.RealAvatarUrl();
-                if (av != null && av.IsAbsoluteUri)
-                    if (userbanner is not null)
-                    {
-                        embed.WithThumbnailUrl(av.ToString());
-                        embed.WithImageUrl(userbanner);
-                    }
-                    else
-                    {
-                        embed.WithImageUrl(av.ToString());
-                    }
+                    x.Embed = embed.Build();
+                    x.Components = null;
+                });
+            }
+        }
 
-                var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), component: component.Build());
-                var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
-                if (input == "moreinfo")
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task ChannelInfo(ITextChannel channel = null)
+        {
+            var ch = channel ?? (ITextChannel) ctx.Channel;
+            var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
+            var embed = new EmbedBuilder()
+                .WithTitle(ch.Name)
+                .AddField(GetText("id"), ch.Id.ToString())
+                .AddField(GetText("created_at"), $"{createdAt:dd.MM.yyyy HH:mm}")
+                .AddField(GetText("users"), ch.GetUsersAsync().FlattenAsync().Result.Count())
+                .AddField("Topic", ch.Topic ?? "None")
+                .WithColor(Mewdeko.Services.Mewdeko.OkColor);
+            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task UserInfo(IGuildUser usr = null)
+        {
+            var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
+            var user = usr ?? ctx.User as IGuildUser;
+            var userbanner = _client.Rest.GetUserAsync(user.Id).Result.GetBannerUrl(size: 2048);
+            string serverUserType;
+            if (user.GuildPermissions.ManageMessages)
+                serverUserType = "Helper";
+            if (user.GuildPermissions.BanMembers)
+                serverUserType = "Moderator";
+            if (user.GuildPermissions.Administrator)
+                serverUserType = "Administrator";
+            else serverUserType = "Regular User";
+
+            var embed = new EmbedBuilder()
+                .AddField("Username", user.ToString())
+                .WithOkColor();
+
+            if (!string.IsNullOrWhiteSpace(user.Nickname))
+                embed.AddField("Nickname", user.Nickname);
+
+            embed.AddField("User Id", user.Id)
+                .AddField("User Type", serverUserType)
+                .AddField("Joined Server", user.JoinedAt?.ToString("MM/dd/yyyy HH:mm"))
+                .AddField("Joined Discord", $"{user.CreatedAt:MM/dd/yyyy HH:mm}")
+                .AddField("Role Count", user.GetRoles().Count(r => r.Id != r.Guild.EveryoneRole.Id));
+
+            if (user.Activities.Any())
+                embed.AddField("Activities",
+                    string.Join("\n", user.Activities.Select(x => string.Format($"{x.Name}: {x.Details ?? ""}"))));
+            var av = user.RealAvatarUrl();
+            if (av != null && av.IsAbsoluteUri)
+                if (userbanner is not null)
                 {
-                    if (user.GetRoles().Any())
-                        embed.AddField("Roles", string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
-                    embed.AddField("Deafened", user.IsDeafened);
-                    embed.AddField("Is VC Muted", user.IsMuted);
-                    embed.AddField("Is Server Muted", user.GetRoles().Contains(MuteRole));
-                    await msg.ModifyAsync(x =>
-                    {
-                        x.Embed = embed.Build();
-                        x.Components = null;
-                    });
+                    embed.WithThumbnailUrl(av.ToString());
+                    embed.WithImageUrl(userbanner);
                 }
+                else
+                {
+                    embed.WithImageUrl(av.ToString());
+                }
+
+            var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: component.Build());
+            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+            if (input == "moreinfo")
+            {
+                if (user.GetRoles().Any())
+                    embed.AddField("Roles",
+                        string.Join("", user.GetRoles().OrderBy(x => x.Position).Select(x => x.Mention)));
+                embed.AddField("Deafened", user.IsDeafened);
+                embed.AddField("Is VC Muted", user.IsMuted);
+                embed.AddField("Is Server Muted", user.GetRoles().Contains(MuteRole));
+                await msg.ModifyAsync(x =>
+                {
+                    x.Embed = embed.Build();
+                    x.Components = null;
+                });
             }
         }
     }

@@ -1,28 +1,27 @@
-﻿namespace Mewdeko.Common.TypeReaders.Models
+﻿namespace Mewdeko.Common.TypeReaders.Models;
+
+public class PermValue
 {
-    public class PermValue
+    public PermValue(Discord.PermValue value)
     {
-        public PermValue(Discord.PermValue value)
-        {
-            Value = value;
-        }
+        Value = value;
+    }
 
-        public static PermValue Enable => new(Discord.PermValue.Allow);
-        public static PermValue Disable => new(Discord.PermValue.Deny);
-        public static PermValue Inherit => new(Discord.PermValue.Inherit);
+    public static PermValue Enable => new(Discord.PermValue.Allow);
+    public static PermValue Disable => new(Discord.PermValue.Deny);
+    public static PermValue Inherit => new(Discord.PermValue.Inherit);
 
-        public Discord.PermValue Value { get; }
+    public Discord.PermValue Value { get; }
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType()) return false;
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType()) return false;
 
-            return Value == ((PermValue)obj).Value;
-        }
+        return Value == ((PermValue) obj).Value;
+    }
 
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
     }
 }

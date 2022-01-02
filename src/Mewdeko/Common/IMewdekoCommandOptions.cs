@@ -1,7 +1,6 @@
-﻿namespace Mewdeko.Common
+﻿namespace Mewdeko.Common;
+
+public interface IMewdekoCommandOptions
 {
-    public interface IMewdekoCommandOptions
-    {
-        void NormalizeOptions();
-    }
+    void NormalizeOptions();
 }
