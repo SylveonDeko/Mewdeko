@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
@@ -9,7 +8,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games;
 

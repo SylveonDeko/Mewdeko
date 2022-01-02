@@ -1,5 +1,4 @@
-﻿using Mewdeko.Services;
-using Mewdeko.Services.Database.Models;
+﻿using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Tickets.Services;
 

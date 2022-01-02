@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using Discord;
 using Mewdeko.Common;
 using Microsoft.Extensions.Configuration;

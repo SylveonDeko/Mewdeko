@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Net;
 using System.Threading.Tasks;
 using Discord;
@@ -11,7 +9,6 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Mewdeko.Modules.Utility.Extensions;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
 
