@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer.Bytes;

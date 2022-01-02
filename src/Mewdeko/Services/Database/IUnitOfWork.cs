@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Services.Database.Repositories;
+﻿using Mewdeko.Services.Database.Repositories;
 
 namespace Mewdeko.Services.Database;
 

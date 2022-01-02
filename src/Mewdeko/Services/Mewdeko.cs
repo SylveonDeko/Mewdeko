@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.Interactions;

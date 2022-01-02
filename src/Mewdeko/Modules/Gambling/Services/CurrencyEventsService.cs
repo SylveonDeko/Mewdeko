@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Modules.Gambling.Common.Events;

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord.WebSocket;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
