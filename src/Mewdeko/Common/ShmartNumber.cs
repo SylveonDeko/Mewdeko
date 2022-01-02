@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Common;
+﻿namespace Mewdeko.Common;
 
 public readonly struct ShmartNumber : IEquatable<ShmartNumber>
 {

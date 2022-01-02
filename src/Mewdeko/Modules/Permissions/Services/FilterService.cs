@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
@@ -12,7 +11,6 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;

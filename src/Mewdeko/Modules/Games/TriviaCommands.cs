@@ -7,7 +7,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Mewdeko.Modules.Games.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games;
 

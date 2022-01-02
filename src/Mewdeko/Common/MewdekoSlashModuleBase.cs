@@ -7,7 +7,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Common;

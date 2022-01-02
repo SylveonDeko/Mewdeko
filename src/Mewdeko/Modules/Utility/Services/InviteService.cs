@@ -1,6 +1,5 @@
 ﻿using CommandLine;
 using Mewdeko.Common;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Utility.Services;
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using Discord;
 using Mewdeko.Common;
 using Mewdeko.Services.Settings;

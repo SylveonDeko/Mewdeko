@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Discord;
@@ -15,7 +13,6 @@ using Mewdeko.Modules.CustomReactions.Common;
 using Mewdeko.Modules.CustomReactions.Extensions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
