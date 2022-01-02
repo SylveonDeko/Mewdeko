@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Mewdeko.Services.Database;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;

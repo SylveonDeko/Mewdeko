@@ -6,7 +6,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling;
 

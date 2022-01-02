@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mewdeko.Common;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games.Common.Trivia;
 

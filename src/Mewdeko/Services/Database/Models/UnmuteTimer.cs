@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Services.Database.Models;
+﻿namespace Mewdeko.Services.Database.Models;
 
 public class UnmuteTimer : DbEntity
 {

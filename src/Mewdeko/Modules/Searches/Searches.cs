@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -23,7 +21,6 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Modules.Searches.Services;
-using Mewdeko.Services;
 using Microsoft.Extensions.Caching.Memory;
 using NekosSharp;
 using Newtonsoft.Json;

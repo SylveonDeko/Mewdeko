@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +9,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Searches.Common.StreamNotifications;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;

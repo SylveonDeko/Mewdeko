@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 

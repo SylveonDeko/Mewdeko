@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -16,7 +14,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Music.Extensions;
-using Mewdeko.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;

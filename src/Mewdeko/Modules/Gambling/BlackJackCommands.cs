@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -8,7 +7,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling;

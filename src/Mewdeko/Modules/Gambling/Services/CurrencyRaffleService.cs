@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Modules.Gambling.Common;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

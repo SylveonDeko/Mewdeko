@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommandLine;
 using Discord;
@@ -12,7 +10,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 

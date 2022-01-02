@@ -1,11 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Modules.CustomReactions.Services;
-using Mewdeko.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.TypeReaders;
