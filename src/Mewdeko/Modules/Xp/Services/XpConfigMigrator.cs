@@ -6,69 +6,68 @@ using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-namespace Mewdeko.Modules.Xp.Services
+namespace Mewdeko.Modules.Xp.Services;
+
+public sealed class XpConfigMigrator : IConfigMigrator
 {
-    public sealed class XpConfigMigrator : IConfigMigrator
+    private readonly DbService _db;
+    private readonly XpConfigService _gss;
+
+    public XpConfigMigrator(DbService dbService, XpConfigService gss)
     {
-        private readonly DbService _db;
-        private readonly XpConfigService _gss;
+        _db = dbService;
+        _gss = gss;
+    }
 
-        public XpConfigMigrator(DbService dbService, XpConfigService gss)
+    public void EnsureMigrated()
+    {
+        using var uow = _db.GetDbContext();
+        using var conn = uow._context.Database.GetDbConnection();
+        Migrate(conn);
+    }
+
+    private void Migrate(DbConnection conn)
+    {
+        using (var checkTableCommand = conn.CreateCommand())
         {
-            _db = dbService;
-            _gss = gss;
+            // make sure table still exists
+            checkTableCommand.CommandText =
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='BotConfig';";
+            var checkReader = checkTableCommand.ExecuteReader();
+            if (!checkReader.HasRows)
+                return;
         }
 
-        public void EnsureMigrated()
+        using (var checkMigratedCommand = conn.CreateCommand())
         {
-            using var uow = _db.GetDbContext();
-            using var conn = uow._context.Database.GetDbConnection();
-            Migrate(conn);
+            checkMigratedCommand.CommandText =
+                "UPDATE BotConfig SET HasMigratedXpSettings = 1 WHERE HasMigratedXpSettings = 0;";
+            var changedRows = checkMigratedCommand.ExecuteNonQuery();
+            if (changedRows == 0)
+                return;
         }
 
-        private void Migrate(DbConnection conn)
-        {
-            using (var checkTableCommand = conn.CreateCommand())
-            {
-                // make sure table still exists
-                checkTableCommand.CommandText =
-                    "SELECT name FROM sqlite_master WHERE type='table' AND name='BotConfig';";
-                var checkReader = checkTableCommand.ExecuteReader();
-                if (!checkReader.HasRows)
-                    return;
-            }
+        Log.Information("Migrating Xp settings...");
 
-            using (var checkMigratedCommand = conn.CreateCommand())
-            {
-                checkMigratedCommand.CommandText =
-                    "UPDATE BotConfig SET HasMigratedXpSettings = 1 WHERE HasMigratedXpSettings = 0;";
-                var changedRows = checkMigratedCommand.ExecuteNonQuery();
-                if (changedRows == 0)
-                    return;
-            }
-
-            Log.Information("Migrating Xp settings...");
-
-            using var com = conn.CreateCommand();
-            com.CommandText = @"SELECT XpPerMessage, XpMinutesTimeout, VoiceXpPerMinute, MaxXpMinutes 
+        using var com = conn.CreateCommand();
+        com.CommandText = @"SELECT XpPerMessage, XpMinutesTimeout, VoiceXpPerMinute, MaxXpMinutes 
 FROM BotConfig";
 
-            using var reader = com.ExecuteReader();
-            if (!reader.Read())
-                return;
+        using var reader = com.ExecuteReader();
+        if (!reader.Read())
+            return;
 
-            _gss.ModifyConfig(ModifyAction(reader));
-        }
+        _gss.ModifyConfig(ModifyAction(reader));
+    }
 
-        private static Action<XpConfig> ModifyAction(DbDataReader reader)
+    private static Action<XpConfig> ModifyAction(DbDataReader reader)
+    {
+        return config =>
         {
-            return config =>
-            {
-                config.XpPerMessage = (int)(long)reader["XpPerMessage"];
-                config.MessageXpCooldown = (int)(long)reader["XpMinutesTimeout"];
-                config.VoiceMaxMinutes = (int)(long)reader["MaxXpMinutes"];
-                config.VoiceXpPerMinute = (double)reader["VoiceXpPerMinute"];
-            };
-        }
+            config.XpPerMessage = (int) (long) reader["XpPerMessage"];
+            config.MessageXpCooldown = (int) (long) reader["XpMinutesTimeout"];
+            config.VoiceMaxMinutes = (int) (long) reader["MaxXpMinutes"];
+            config.VoiceXpPerMinute = (double) reader["VoiceXpPerMinute"];
+        };
     }
 }

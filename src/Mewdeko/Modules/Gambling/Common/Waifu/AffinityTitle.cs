@@ -1,16 +1,15 @@
-﻿namespace Mewdeko.Modules.Gambling.Common.Waifu
+﻿namespace Mewdeko.Modules.Gambling.Common.Waifu;
+
+public enum AffinityTitle
 {
-    public enum AffinityTitle
-    {
-        Pure,
-        Faithful,
-        Playful,
-        Cheater,
-        Tainted,
-        Corrupted,
-        Lewd,
-        Sloot,
-        Depraved,
-        Harlot
-    }
+    Pure,
+    Faithful,
+    Playful,
+    Cheater,
+    Tainted,
+    Corrupted,
+    Lewd,
+    Sloot,
+    Depraved,
+    Harlot
 }

@@ -1,30 +1,29 @@
 using Mewdeko.Common.Extensions.Interactive.Entities;
 
-namespace Mewdeko.Common.Extensions.Interactive
+namespace Mewdeko.Common.Extensions.Interactive;
+
+/// <summary>
+///     Specifies the possible status of an <see cref="IInteractiveResult" />.
+/// </summary>
+public enum InteractiveStatus
 {
     /// <summary>
-    ///     Specifies the possible status of an <see cref="IInteractiveResult" />.
+    ///     The interactive action status is unknown.
     /// </summary>
-    public enum InteractiveStatus
-    {
-        /// <summary>
-        ///     The interactive action status is unknown.
-        /// </summary>
-        Unknown,
+    Unknown,
 
-        /// <summary>
-        ///     The interactive action was successful.
-        /// </summary>
-        Success,
+    /// <summary>
+    ///     The interactive action was successful.
+    /// </summary>
+    Success,
 
-        /// <summary>
-        ///     The interactive action timed out.
-        /// </summary>
-        Timeout,
+    /// <summary>
+    ///     The interactive action timed out.
+    /// </summary>
+    Timeout,
 
-        /// <summary>
-        ///     The interactive action was canceled.
-        /// </summary>
-        Canceled
-    }
+    /// <summary>
+    ///     The interactive action was canceled.
+    /// </summary>
+    Canceled
 }

@@ -5,55 +5,54 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 
-namespace Mewdeko.Common.TypeReaders
+namespace Mewdeko.Common.TypeReaders;
+
+public class ModuleTypeReader : MewdekoTypeReader<ModuleInfo>
 {
-    public class ModuleTypeReader : MewdekoTypeReader<ModuleInfo>
+    private readonly CommandService _cmds;
+
+    public ModuleTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
     {
-        private readonly CommandService _cmds;
-
-        public ModuleTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
-        {
-            _cmds = cmds;
-        }
-
-        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
-        {
-            input = input.ToUpperInvariant();
-            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-                .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
-            if (module == null)
-                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
-
-            return Task.FromResult(TypeReaderResult.FromSuccess(module));
-        }
+        _cmds = cmds;
     }
 
-    public class ModuleOrCrTypeReader : MewdekoTypeReader<ModuleOrCrInfo>
+    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {
-        private readonly CommandService _cmds;
+        input = input.ToUpperInvariant();
+        var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
+            .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+        if (module == null)
+            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
 
-        public ModuleOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
-        {
-            _cmds = cmds;
-        }
+        return Task.FromResult(TypeReaderResult.FromSuccess(module));
+    }
+}
 
-        public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
-        {
-            input = input.ToUpperInvariant();
-            var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
-                .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
-            if (module == null && input != "ACTUALCUSTOMREACTIONS")
-                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
+public class ModuleOrCrTypeReader : MewdekoTypeReader<ModuleOrCrInfo>
+{
+    private readonly CommandService _cmds;
 
-            return Task.FromResult(TypeReaderResult.FromSuccess(new ModuleOrCrInfo
-            {
-                Name = input
-            }));
-        }
+    public ModuleOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+    {
+        _cmds = cmds;
     }
 
-    public class ModuleOrCrInfo
+    public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {
-        public string Name { get; set; }
+        input = input.ToUpperInvariant();
+        var module = _cmds.Modules.GroupBy(m => m.GetTopLevelModule())
+            .FirstOrDefault(m => m.Key.Name.ToUpperInvariant() == input)?.Key;
+        if (module == null && input != "ACTUALCUSTOMREACTIONS")
+            return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "No such module found."));
+
+        return Task.FromResult(TypeReaderResult.FromSuccess(new ModuleOrCrInfo
+        {
+            Name = input
+        }));
     }
+}
+
+public class ModuleOrCrInfo
+{
+    public string Name { get; set; }
 }

@@ -1,18 +1,15 @@
-﻿using LinqToDB.Reflection;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Mewdeko.Migrations
+namespace Mewdeko.Migrations;
+
+public partial class AddWinnersToGiveawayTable : Migration
 {
-    public partial class AddWinnersToGiveawayTable : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>("Winners", "Giveaways", nullable: true);
+        migrationBuilder.AddColumn<string>("Winners", "Giveaways", nullable: true);
+    }
 
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
     }
 }

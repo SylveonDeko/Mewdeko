@@ -8,7 +8,7 @@ snipelist:
   args:
     - ""
     - "20"
-gstart: 
+gstart:
   desc: "Starts giveaway configuration, or predefined values to start one immediately"
   args:
     - ""
@@ -20,6 +20,11 @@ gend:
 glist:
   desc: "Lists the currently running giveaways."
   args:
+    - ""
+unmuteall:
+  desc: "Unmutes all users with an optional reason."
+  args:
+    - ""
     - ""
 gstats:
   desc: "Shows giveaway stats for the server."
@@ -34,7 +39,7 @@ leavehook:
     - channel name image
     - channel name
     - disable
-  
+
 help:
   desc: >-
     Either shows a help for a single command, or DMs you help link if no
@@ -856,7 +861,7 @@ asar:
     - 1 Alliance
     - 1 Horde
 seek:
-  
+
 rsar:
   desc: Removes a specified role from the list of self-assignable roles.
   args:
