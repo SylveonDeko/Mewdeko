@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -20,10 +18,7 @@ public partial class Games
     {
         private readonly DiscordSocketClient _client;
 
-        public AcropobiaCommands(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        public AcropobiaCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand]
         [Usage]
@@ -89,12 +84,10 @@ public partial class Games
             return ctx.Channel.EmbedAsync(embed);
         }
 
-        private Task Game_OnUserVoted(string user)
-        {
-            return ctx.Channel.SendConfirmAsync(
+        private Task Game_OnUserVoted(string user) =>
+            ctx.Channel.SendConfirmAsync(
                 GetText("acrophobia"),
                 GetText("acro_vote_cast", Format.Bold(user)));
-        }
 
         private async Task Game_OnVotingStarted(AcrophobiaGame game,
             ImmutableArray<KeyValuePair<AcrophobiaUser, int>> submissions)

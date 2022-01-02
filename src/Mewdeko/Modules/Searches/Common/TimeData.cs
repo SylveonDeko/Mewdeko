@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Modules.Searches.Common;
+﻿namespace Mewdeko.Modules.Searches.Common;
 
 public class TimeData
 {

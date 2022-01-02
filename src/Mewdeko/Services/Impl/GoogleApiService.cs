@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
 using Google;
 using Google.Apis.Customsearch.v1;
@@ -256,10 +253,7 @@ public class GoogleApiService : IGoogleApiService
             (i.Snippet.Title.TrimTo(50), i.Id.VideoId, "http://www.youtube.com/watch?v=" + i.Id.VideoId));
     }
 
-    public Task<string> ShortenUrl(Uri url)
-    {
-        return ShortenUrl(url.ToString());
-    }
+    public Task<string> ShortenUrl(Uri url) => ShortenUrl(url.ToString());
 
     public async Task<string> ShortenUrl(string url)
     {

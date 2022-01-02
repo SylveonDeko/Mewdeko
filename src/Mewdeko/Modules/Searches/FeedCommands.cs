@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using CodeHollow.FeedReader;
+﻿using CodeHollow.FeedReader;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -23,10 +20,7 @@ public partial class Searches
     {
         private readonly InteractiveService Interactivity;
 
-        public FeedCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public FeedCommands(InteractiveService serv) => Interactivity = serv;
 
         [MewdekoCommand]
         [Usage]

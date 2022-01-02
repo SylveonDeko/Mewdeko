@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Migrations;
 
@@ -31,9 +30,7 @@ public partial class GlobalBan : Migration
             unique: false);
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
+    protected override void Down(MigrationBuilder migrationBuilder) =>
         migrationBuilder.DropTable(
             "GlobalBan");
-    }
 }

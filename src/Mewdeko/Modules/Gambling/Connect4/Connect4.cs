@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Immutable;
 using System.Threading;
-using System.Threading.Tasks;
 using CommandLine;
 using Mewdeko.Common;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling.Connect4;
 
@@ -348,11 +344,9 @@ public sealed class Connect4Game : IDisposable
         }
     }
 
-    private void ResetTimer()
-    {
+    private void ResetTimer() =>
         _playerTimeoutTimer.Change(TimeSpan.FromSeconds(_options.TurnTimer),
             TimeSpan.FromSeconds(_options.TurnTimer));
-    }
 
     private void EndGame(Result result, ulong? winId)
     {
@@ -372,12 +366,10 @@ public sealed class Connect4Game : IDisposable
             _cs.AddAsync(winId.Value, "Connnect4-win", (long) (_options.Bet * 1.98), true);
     }
 
-    private Field GetPlayerPiece(ulong userId)
-    {
-        return _players[0].Value.UserId == userId
+    private Field GetPlayerPiece(ulong userId) =>
+        _players[0].Value.UserId == userId
             ? Field.P1
             : Field.P2;
-    }
 
     //column is full if there are no empty fields
     private bool IsColumnFull(int column)

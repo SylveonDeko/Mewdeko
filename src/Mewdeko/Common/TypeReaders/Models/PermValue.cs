@@ -2,10 +2,7 @@
 
 public class PermValue
 {
-    public PermValue(Discord.PermValue value)
-    {
-        Value = value;
-    }
+    public PermValue(Discord.PermValue value) => Value = value;
 
     public static PermValue Enable => new(Discord.PermValue.Allow);
     public static PermValue Disable => new(Discord.PermValue.Deny);
@@ -20,8 +17,5 @@ public class PermValue
         return Value == ((PermValue) obj).Value;
     }
 
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 }

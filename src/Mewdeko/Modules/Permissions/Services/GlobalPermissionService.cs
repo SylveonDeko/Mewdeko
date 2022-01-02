@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Services;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Permissions.Services;
@@ -12,10 +10,7 @@ public class GlobalPermissionService : ILateBlocker, INService
 {
     private readonly BotConfigService _bss;
 
-    public GlobalPermissionService(BotConfigService bss)
-    {
-        _bss = bss;
-    }
+    public GlobalPermissionService(BotConfigService bss) => _bss = bss;
 
     public HashSet<string> BlockedCommands => _bss.Data.Blocked.Commands;
     public HashSet<string> BlockedModules => _bss.Data.Blocked.Modules;

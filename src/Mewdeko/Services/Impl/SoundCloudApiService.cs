@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Services.Impl;
@@ -10,10 +7,7 @@ public class SoundCloudApiService : INService
 {
     private readonly IHttpClientFactory _httpFactory;
 
-    public SoundCloudApiService(IHttpClientFactory factory)
-    {
-        _httpFactory = factory;
-    }
+    public SoundCloudApiService(IHttpClientFactory factory) => _httpFactory = factory;
 
     public async Task<SoundCloudVideo> ResolveVideoAsync(string url)
     {

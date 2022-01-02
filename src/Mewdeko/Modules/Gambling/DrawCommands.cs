@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
-using Mewdeko.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Image = SixLabors.ImageSharp.Image;
@@ -24,10 +21,7 @@ public partial class Gambling
         private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new();
         private readonly IImageCache _images;
 
-        public DrawCommands(IDataCache data)
-        {
-            _images = data.LocalImages;
-        }
+        public DrawCommands(IDataCache data) => _images = data.LocalImages;
 
         private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
         {

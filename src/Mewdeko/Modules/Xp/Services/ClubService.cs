@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Xp.Services;
@@ -122,7 +118,7 @@ public class ClubService : INService
             return false;
 
         club.ImageUrl = url.ToString();
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return true;
     }

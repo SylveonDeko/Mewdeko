@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -14,7 +11,6 @@ using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Common.Hangman;
 using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
-using Mewdeko.Services;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -111,10 +107,7 @@ public class GamesService : INService, IUnloadableService
         File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
     }
 
-    public string GetEightballResponse(string _)
-    {
-        return EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
-    }
+    public string GetEightballResponse(string _) => EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
 
     public TypingArticle RemoveTypingArticle(int index)
     {

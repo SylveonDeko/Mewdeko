@@ -1,5 +1,4 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.PubSub;
 using SixLabors.ImageSharp.PixelFormats;
@@ -39,8 +38,5 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
     }
 
-    protected override void OnStateUpdate()
-    {
-        UpdateColors();
-    }
+    protected override void OnStateUpdate() => UpdateColors();
 }

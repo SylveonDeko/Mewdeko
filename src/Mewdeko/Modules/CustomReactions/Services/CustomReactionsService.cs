@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -15,7 +12,6 @@ using Mewdeko.Modules.CustomReactions.Common;
 using Mewdeko.Modules.CustomReactions.Extensions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -539,15 +535,9 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     #region Event Handlers
 
-    public Task OnReadyAsync()
-    {
-        return ReloadInternal(_bot.GetCurrentGuildIds());
-    }
+    public Task OnReadyAsync() => ReloadInternal(_bot.GetCurrentGuildIds());
 
-    private ValueTask OnCrsShouldReload(bool _)
-    {
-        return new ValueTask(ReloadInternal(_bot.GetCurrentGuildIds()));
-    }
+    private ValueTask OnCrsShouldReload(bool _) => new ValueTask(ReloadInternal(_bot.GetCurrentGuildIds()));
 
     private ValueTask OnGcrAdded(CustomReaction c)
     {
@@ -592,10 +582,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         return default;
     }
 
-    public Task TriggerReloadCustomReactions()
-    {
-        return _pubSub.Pub(_crsReloadedKey, true);
-    }
+    public Task TriggerReloadCustomReactions() => _pubSub.Pub(_crsReloadedKey, true);
 
     #endregion
 

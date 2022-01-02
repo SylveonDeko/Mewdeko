@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
@@ -109,10 +107,7 @@ public class InteractiveService
     /// <param name="id">The Id of the callback.</param>
     /// <param name="callback">The callback, if found.</param>
     /// <returns>Whether the callback was removed.</returns>
-    public bool TryRemoveCallback(ulong id, out IInteractiveCallback callback)
-    {
-        return _callbacks.TryRemove(id, out callback);
-    }
+    public bool TryRemoveCallback(ulong id, out IInteractiveCallback callback) => _callbacks.TryRemove(id, out callback);
 
     /// <summary>
     ///     Sends a message to a channel (after an optional delay) and deletes it after another delay.
@@ -267,10 +262,8 @@ public class InteractiveService
     /// </returns>
     public Task<InteractiveResult<SocketMessage>> NextMessageAsync(Func<SocketMessage, bool> filter = null,
         Func<SocketMessage, bool, Task> action = null, TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        return NextEntityAsync(filter, action, timeout, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        NextEntityAsync(filter, action, timeout, cancellationToken);
 
     /// <summary>
     ///     Gets the next incoming reaction that passes the <paramref name="filter" />.
@@ -289,10 +282,8 @@ public class InteractiveService
     /// </returns>
     public Task<InteractiveResult<SocketReaction>> NextReactionAsync(Func<SocketReaction, bool> filter = null,
         Func<SocketReaction, bool, Task> action = null, TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        return NextEntityAsync(filter, action, timeout, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        NextEntityAsync(filter, action, timeout, cancellationToken);
 
 #if DNETLABS
     /// <summary>
@@ -314,10 +305,8 @@ public class InteractiveService
     public Task<InteractiveResult<SocketInteraction>> NextInteractionAsync(
         Func<SocketInteraction, bool> filter = null,
         Func<SocketInteraction, bool, Task> action = null, TimeSpan? timeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        return NextEntityAsync(filter, action, timeout, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        NextEntityAsync(filter, action, timeout, cancellationToken);
 #endif
 
     /// <summary>

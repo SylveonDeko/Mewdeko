@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -11,7 +8,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Searches.Common.StreamNotifications;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -158,8 +154,7 @@ public class StreamNotificationService : INService
     ///     When counter reaches 0, stream is removed from tracking because
     ///     that means no guilds are subscribed to that stream anymore
     /// </summary>
-    private void HandleFollowStream(RedisChannel ch, RedisValue val)
-    {
+    private void HandleFollowStream(RedisChannel ch, RedisValue val) =>
         Task.Run(() =>
         {
             var info = JsonConvert.DeserializeAnonymousType(
@@ -179,15 +174,13 @@ public class StreamNotificationService : INService
                     };
             }
         });
-    }
 
     /// <summary>
     ///     Handles unfollow_stream pubs to keep the counter up to date.
     ///     When counter reaches 0, stream is removed from tracking because
     ///     that means no guilds are subscribed to that stream anymore
     /// </summary>
-    private void HandleUnfollowStream(RedisChannel ch, RedisValue val)
-    {
+    private void HandleUnfollowStream(RedisChannel ch, RedisValue val) =>
         Task.Run(() =>
         {
             var info = JsonConvert.DeserializeAnonymousType(val.ToString(),
@@ -213,10 +206,8 @@ public class StreamNotificationService : INService
                 _streamTracker.UntrackStreamByKey(in key);
             }
         });
-    }
 
-    private void HandleStreamsOffline(RedisChannel arg1, RedisValue val)
-    {
+    private void HandleStreamsOffline(RedisChannel arg1, RedisValue val) =>
         Task.Run(async () =>
         {
             var offlineStreams = JsonConvert.DeserializeObject<List<StreamData>>(val.ToString());
@@ -226,21 +217,19 @@ public class StreamNotificationService : INService
                 if (_shardTrackedStreams.TryGetValue(key, out var fss))
                 {
                     var sendTasks = fss
-                        // send offline stream notifications only to guilds which enable it with .stoff
-                        .SelectMany(x => x.Value)
-                        .Where(x => _offlineNotificationServers.Contains(x.GuildId))
-                        .Select(fs => _client.GetGuild(fs.GuildId)
-                            ?.GetTextChannel(fs.ChannelId)
-                            ?.EmbedAsync(GetEmbed(fs.GuildId, stream)));
+                                    // send offline stream notifications only to guilds which enable it with .stoff
+                                    .SelectMany(x => x.Value)
+                                    .Where(x => _offlineNotificationServers.Contains(x.GuildId))
+                                    .Select(fs => _client.GetGuild(fs.GuildId)
+                                                         ?.GetTextChannel(fs.ChannelId)
+                                                         ?.EmbedAsync(GetEmbed(fs.GuildId, stream)));
 
                     await Task.WhenAll(sendTasks);
                 }
             }
         });
-    }
 
-    private void HandleStreamsOnline(RedisChannel arg1, RedisValue val)
-    {
+    private void HandleStreamsOnline(RedisChannel arg1, RedisValue val) =>
         Task.Run(async () =>
         {
             var onlineStreams = JsonConvert.DeserializeObject<List<StreamData>>(val.ToString());
@@ -250,22 +239,21 @@ public class StreamNotificationService : INService
                 if (_shardTrackedStreams.TryGetValue(key, out var fss))
                 {
                     var sendTasks = fss
-                        .SelectMany(x => x.Value)
-                        .Select(fs =>
-                        {
-                            var textChannel = _client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
-                            if (textChannel is null)
-                                return Task.CompletedTask;
-                            return textChannel.EmbedAsync(
-                                GetEmbed(fs.GuildId, stream),
-                                string.IsNullOrWhiteSpace(fs.Message) ? "" : fs.Message);
-                        });
+                                    .SelectMany(x => x.Value)
+                                    .Select(fs =>
+                                    {
+                                        var textChannel = _client.GetGuild(fs.GuildId)?.GetTextChannel(fs.ChannelId);
+                                        if (textChannel is null)
+                                            return Task.CompletedTask;
+                                        return textChannel.EmbedAsync(
+                                            GetEmbed(fs.GuildId, stream),
+                                            string.IsNullOrWhiteSpace(fs.Message) ? "" : fs.Message);
+                                    });
 
                     await Task.WhenAll(sendTasks);
                 }
             }
         });
-    }
 
     private Task OnStreamsOffline(List<StreamData> data)
     {
@@ -445,10 +433,7 @@ public class StreamNotificationService : INService
         return embed;
     }
 
-    private string GetText(ulong guildId, string key, params object[] replacements)
-    {
-        return _strings.GetText(key, guildId, replacements);
-    }
+    private string GetText(ulong guildId, string key, params object[] replacements) => _strings.GetText(key, guildId, replacements);
 
     public bool ToggleStreamOffline(ulong guildId)
     {
@@ -466,10 +451,7 @@ public class StreamNotificationService : INService
         return newValue;
     }
 
-    public Task<StreamData> GetStreamDataAsync(string url)
-    {
-        return _streamTracker.GetStreamDataByUrlAsync(url);
-    }
+    public Task<StreamData> GetStreamDataAsync(string url) => _streamTracker.GetStreamDataByUrlAsync(url);
 
     private HashSet<FollowedStream> GetLocalGuildStreams(in StreamDataKey key, ulong guildId)
     {

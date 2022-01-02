@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -124,13 +121,11 @@ public partial class Administration
         [Usage]
         [Description]
         [Aliases]
-        public async Task LanguagesList()
-        {
+        public async Task LanguagesList() =>
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithTitle(GetText("lang_list"))
-                .WithDescription(string.Join("\n",
-                    supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
-        }
+                                                           .WithTitle(GetText("lang_list"))
+                                                           .WithDescription(string.Join("\n",
+                                                               supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
     }
 }
 /* list of language codes for reference. 

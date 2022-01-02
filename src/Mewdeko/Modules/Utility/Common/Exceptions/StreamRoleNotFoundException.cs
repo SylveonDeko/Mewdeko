@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Modules.Utility.Common.Exceptions;
+﻿namespace Mewdeko.Modules.Utility.Common.Exceptions;
 
 public class StreamRoleNotFoundException : Exception
 {

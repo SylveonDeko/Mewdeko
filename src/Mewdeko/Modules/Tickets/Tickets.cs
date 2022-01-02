@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -13,10 +11,7 @@ public class Tickets : MewdekoModuleBase<TicketService>
 {
     private readonly IServiceProvider _services;
 
-    public Tickets(IServiceProvider service)
-    {
-        _services = service;
-    }
+    public Tickets(IServiceProvider service) => _services = service;
 
     [MewdekoCommand]
     [Usage]

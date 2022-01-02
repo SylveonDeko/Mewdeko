@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using Mewdeko._Extensions;
 using Newtonsoft.Json;
@@ -211,10 +208,7 @@ public class SearchImageCacher
         return list.ToArray();
     }
 
-    public void Clear()
-    {
-        _cache.Clear();
-    }
+    public void Clear() => _cache.Clear();
 }
 
 public class DapiImageObject

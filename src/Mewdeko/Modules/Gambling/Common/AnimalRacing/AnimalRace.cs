@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using Mewdeko.Modules.Games.Common;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling.Common.AnimalRacing;
 

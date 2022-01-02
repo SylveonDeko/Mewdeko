@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -9,7 +6,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -20,10 +16,7 @@ public partial class Administration
     {
         private readonly IHttpClientFactory _httpFactory;
 
-        public ServerGreetCommands(IHttpClientFactory fact)
-        {
-            _httpFactory = fact;
-        }
+        public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
 
         [MewdekoCommand]
         [Usage]
@@ -272,10 +265,7 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetHook(string text)
-        {
-            await GreetHook(null, null, null, text);
-        }
+        public async Task GreetHook(string text) => await GreetHook(null, null, null, text);
 
         [MewdekoCommand]
         [Usage]
@@ -283,10 +273,7 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageGuild)]
-        public async Task LeaveHook(string text)
-        {
-            await LeaveHook(null, null, null, text);
-        }
+        public async Task LeaveHook(string text) => await LeaveHook(null, null, null, text);
 
         [MewdekoCommand]
         [Usage]

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using Discord;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Games.Common;
@@ -63,13 +60,10 @@ public class PollRunner
         using var uow = _db.GetDbContext();
         var trackedPoll = uow.Polls.GetById(Poll.Id);
         trackedPoll.Votes.Add(voteObj);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return true;
     }
 
-    public void End()
-    {
-        OnVoted = null;
-    }
+    public void End() => OnVoted = null;
 }

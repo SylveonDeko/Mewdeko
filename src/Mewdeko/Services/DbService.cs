@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Mewdeko.Services.Database;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -54,8 +52,5 @@ public class DbService
         return context;
     }
 
-    public IUnitOfWork GetDbContext()
-    {
-        return new UnitOfWork(GetDbContextInternal());
-    }
+    public IUnitOfWork GetDbContext() => new UnitOfWork(GetDbContextInternal());
 }

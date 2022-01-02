@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -79,8 +75,5 @@ public class GuildTimezoneService : INService
             _timezones.AddOrUpdate(guildId, tz, (key, old) => tz);
     }
 
-    public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId)
-    {
-        return GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;
-    }
+    public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId) => GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;
 }

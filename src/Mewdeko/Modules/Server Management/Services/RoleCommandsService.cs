@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Server_Management.Services;
 
@@ -49,10 +46,7 @@ public class RoleCommandsService : INService
         return Task.CompletedTask;
     }
 
-    public RoleJobs[] JobCheck(IGuild guild, int job)
-    {
-        return jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
-    }
+    public RoleJobs[] JobCheck(IGuild guild, int job) => jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
 
     public async Task StopJob(ITextChannel ch, int jobId, IGuild guild)
     {

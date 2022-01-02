@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
 namespace Mewdeko.Common;
 
@@ -16,8 +14,5 @@ public class AsyncLazy<T> : Lazy<Task<T>>
     {
     }
 
-    public TaskAwaiter<T> GetAwaiter()
-    {
-        return Value.GetAwaiter();
-    }
+    public TaskAwaiter<T> GetAwaiter() => Value.GetAwaiter();
 }

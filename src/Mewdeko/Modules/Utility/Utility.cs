@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -17,7 +14,6 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 using Serilog;
 
@@ -744,12 +740,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Description]
     [Aliases]
     [RequireContext(ContextType.Guild)]
-    public async Task Vote()
-    {
+    public async Task Vote() =>
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-            .WithDescription(
-                "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
-    }
+                                                       .WithDescription(
+                                                           "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
 
     [MewdekoCommand]
     [Usage]
@@ -841,32 +835,26 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Description]
     [Aliases]
     [RequireContext(ContextType.Guild)]
-    public async Task RoleId([Remainder] IRole role)
-    {
+    public async Task RoleId([Remainder] IRole role) =>
         await ReplyConfirmLocalizedAsync("roleid", "🆔", Format.Bold(role.ToString()),
             Format.Code(role.Id.ToString())).ConfigureAwait(false);
-    }
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public async Task ChannelId()
-    {
+    public async Task ChannelId() =>
         await ReplyConfirmLocalizedAsync("channelid", "🆔", Format.Code(ctx.Channel.Id.ToString()))
             .ConfigureAwait(false);
-    }
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
     [RequireContext(ContextType.Guild)]
-    public async Task ServerId()
-    {
+    public async Task ServerId() =>
         await ReplyConfirmLocalizedAsync("serverid", "🆔", Format.Code(ctx.Guild.Id.ToString()))
             .ConfigureAwait(false);
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -911,10 +899,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Description]
     [Aliases]
     [RequireContext(ContextType.Guild)]
-    public Task Roles(int page = 1)
-    {
-        return Roles(null, page);
-    }
+    public Task Roles(int page = 1) => Roles(null, page);
 
     [MewdekoCommand]
     [Usage]

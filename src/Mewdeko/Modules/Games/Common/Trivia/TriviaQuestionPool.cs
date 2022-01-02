@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mewdeko.Common;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games.Common.Trivia;
 
@@ -10,10 +9,7 @@ public class TriviaQuestionPool
 
     private readonly MewdekoRandom _rng = new();
 
-    public TriviaQuestionPool(IDataCache cache)
-    {
-        _cache = cache;
-    }
+    public TriviaQuestionPool(IDataCache cache) => _cache = cache;
 
     private TriviaQuestion[] Pool => _cache.LocalData.TriviaQuestions;
 

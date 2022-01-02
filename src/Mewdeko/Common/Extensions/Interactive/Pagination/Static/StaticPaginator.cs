@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 
@@ -36,8 +33,5 @@ public sealed class StaticPaginator : Paginator
     /// </summary>
     public override int MaxPageIndex => Pages.Count - 1;
 
-    public override Task<Page> GetOrLoadPageAsync(int pageIndex)
-    {
-        return Task.FromResult(Pages.ElementAt(pageIndex));
-    }
+    public override Task<Page> GetOrLoadPageAsync(int pageIndex) => Task.FromResult(Pages.ElementAt(pageIndex));
 }

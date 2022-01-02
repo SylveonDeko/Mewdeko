@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Mewdeko.Common;
 using Mewdeko.Modules.Games.Common.Hangman.Exceptions;
 using Newtonsoft.Json;

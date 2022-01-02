@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Discord;
@@ -148,11 +145,9 @@ var embed = new EmbedBuilder();
     [Usage]
     [Description]
     [Aliases]
-    public async Task Donate()
-    {
+    public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
             "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -357,23 +352,14 @@ var embed = new EmbedBuilder();
     [Usage]
     [Description]
     [Aliases]
-    public async Task Guide()
-    {
-        await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech");
-    }
+    public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech");
 }
 
 public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 {
-    public bool Equals(CommandInfo x, CommandInfo y)
-    {
-        return x.Aliases[0] == y.Aliases[0];
-    }
+    public bool Equals(CommandInfo x, CommandInfo y) => x.Aliases[0] == y.Aliases[0];
 
-    public int GetHashCode(CommandInfo obj)
-    {
-        return obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
-    }
+    public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
 }
 
 internal class CommandJsonObject

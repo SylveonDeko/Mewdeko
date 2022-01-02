@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,10 +27,7 @@ public class SelfAssignedRolesService : INService
 
     private readonly DbService _db;
 
-    public SelfAssignedRolesService(DbService db)
-    {
-        _db = db;
-    }
+    public SelfAssignedRolesService(DbService db) => _db = db;
 
     public bool AddNew(ulong guildId, IRole role, int group)
     {

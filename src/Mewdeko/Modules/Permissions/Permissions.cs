@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -16,7 +13,6 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Permissions;
@@ -47,8 +43,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         using (var uow = _db.GetDbContext())
         {
             var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
-            if (action == null)
-                action = new PermissionAction(!config.VerbosePermissions); // New behaviour, can toggle.
+            action ??= new PermissionAction(!config.VerbosePermissions);
             config.VerbosePermissions = action.Value;
             await uow.SaveChangesAsync();
             Service.UpdateCache(config);
@@ -88,7 +83,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         {
             var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
             Service.UpdateCache(config);
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -95,10 +92,8 @@ public partial class Administration
         [UserPerm(GuildPermission.Administrator)]
         [Priority(1)]
         public Task AntiRaid(int userThreshold, int seconds,
-            PunishmentAction action, [Remainder] StoopidTime punishTime)
-        {
-            return InternalAntiRaid(userThreshold, seconds, action, punishTime);
-        }
+            PunishmentAction action, [Remainder] StoopidTime punishTime) =>
+            InternalAntiRaid(userThreshold, seconds, action, punishTime);
 
         [MewdekoCommand]
         [Usage]
@@ -107,10 +102,7 @@ public partial class Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
         [Priority(2)]
-        public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action)
-        {
-            return InternalAntiRaid(userThreshold, seconds, action);
-        }
+        public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) => InternalAntiRaid(userThreshold, seconds, action);
 
         private async Task InternalAntiRaid(int userThreshold, int seconds = 10,
             PunishmentAction action = PunishmentAction.Mute, StoopidTime punishTime = null)
@@ -186,10 +178,7 @@ public partial class Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
         [Priority(1)]
-        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime)
-        {
-            return InternalAntiSpam(messageCount, action, punishTime);
-        }
+        public Task AntiSpam(int messageCount, PunishmentAction action, [Remainder] StoopidTime punishTime) => InternalAntiSpam(messageCount, action, punishTime);
 
         [MewdekoCommand]
         [Usage]
@@ -198,10 +187,7 @@ public partial class Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
         [Priority(2)]
-        public Task AntiSpam(int messageCount, PunishmentAction action)
-        {
-            return InternalAntiSpam(messageCount, action);
-        }
+        public Task AntiSpam(int messageCount, PunishmentAction action) => InternalAntiSpam(messageCount, action);
 
         public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
             StoopidTime timeData = null, IRole role = null)
@@ -278,13 +264,11 @@ public partial class Administration
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        private string GetAntiAltString(AntiAltStats alt)
-        {
-            return GetText("anti_alt_status",
+        private string GetAntiAltString(AntiAltStats alt) =>
+            GetText("anti_alt_status",
                 Format.Bold(alt.MinAge.ToString(@"dd\d\ hh\h\ mm\m\ ")),
                 Format.Bold(alt.Action.ToString()),
                 Format.Bold(alt.Counter.ToString()));
-        }
 
         private string GetAntiSpamString(AntiSpamStats stats)
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;

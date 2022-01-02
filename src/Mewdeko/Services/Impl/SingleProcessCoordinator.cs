@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Discord.WebSocket;
 using Serilog;
 
@@ -36,19 +34,12 @@ public class SingleProcessCoordinator : ICoordinator
         return true;
     }
 
-    public void Die()
-    {
-        Environment.Exit(5);
-    }
+    public void Die() => Environment.Exit(5);
 
-    public bool RestartShard(int shardId)
-    {
-        return RestartBot();
-    }
+    public bool RestartShard(int shardId) => RestartBot();
 
-    public IList<ShardStatus> GetAllShardStatuses()
-    {
-        return new[]
+    public IList<ShardStatus> GetAllShardStatuses() =>
+        new[]
         {
             new ShardStatus
             {
@@ -58,10 +49,6 @@ public class SingleProcessCoordinator : ICoordinator
                 ShardId = _client.ShardId
             }
         };
-    }
 
-    public int GetGuildCount()
-    {
-        return _client.Guilds.Count;
-    }
+    public int GetGuildCount() => _client.Guilds.Count;
 }

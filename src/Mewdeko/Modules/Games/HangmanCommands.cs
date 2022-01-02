@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -19,22 +17,17 @@ public partial class Games
     {
         private readonly DiscordSocketClient _client;
 
-        public HangmanCommands(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        public HangmanCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Hangmanlist()
-        {
+        public async Task Hangmanlist() =>
             await ctx.Channel
-                .SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" +
-                                  string.Join("\n", Service.TermPool.Data.Keys)).ConfigureAwait(false);
-        }
+                     .SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" +
+                                       string.Join("\n", Service.TermPool.Data.Keys)).ConfigureAwait(false);
 
         [MewdekoCommand]
         [Usage]
@@ -122,28 +115,22 @@ public partial class Games
             return ctx.Channel.EmbedAsync(winEmbed);
         }
 
-        private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess)
-        {
-            return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
+        private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess) =>
+            ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
                 $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n" +
                 game.ScrambledWord + "\n" + game.GetHangman(),
                 footer: string.Join(" ", game.PreviousGuesses));
-        }
 
-        private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess)
-        {
-            return ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})",
+        private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess) =>
+            ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})",
                 $"{user} guessed a letter `{guess}`!\n" + game.ScrambledWord + "\n" + game.GetHangman(),
                 footer: string.Join(" ", game.PreviousGuesses));
-        }
 
-        private Task Hm_OnGuessFailed(Hangman game, string user, char guess)
-        {
-            return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
+        private Task Hm_OnGuessFailed(Hangman game, string user, char guess) =>
+            ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
                 $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n" +
                 game.ScrambledWord + "\n" + game.GetHangman(),
                 footer: string.Join(" ", game.PreviousGuesses));
-        }
 
         [MewdekoCommand]
         [Usage]

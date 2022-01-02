@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -13,10 +12,7 @@ public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
 {
     public DiscordSocketClient _client;
 
-    public SuggestionsCommands(DiscordSocketClient client)
-    {
-        _client = client;
-    }
+    public SuggestionsCommands(DiscordSocketClient client) => _client = client;
 
     [MewdekoCommand]
     [Usage]
@@ -58,11 +54,9 @@ public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageMessages)]
-    public async Task Deny(ulong sid, [Remainder] string reason = null)
-    {
+    public async Task Deny(ulong sid, [Remainder] string reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -70,11 +64,9 @@ public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageMessages)]
-    public async Task Accept(ulong sid, [Remainder] string reason = null)
-    {
+    public async Task Accept(ulong sid, [Remainder] string reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -82,11 +74,9 @@ public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageMessages)]
-    public async Task Implemented(ulong sid, [Remainder] string reason = null)
-    {
+    public async Task Implemented(ulong sid, [Remainder] string reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -94,9 +84,7 @@ public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageMessages)]
-    public async Task Consider(ulong sid, [Remainder] string reason = null)
-    {
+    public async Task Consider(ulong sid, [Remainder] string reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
-    }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Mewdeko.Services.Common;
 
@@ -8,10 +7,7 @@ public class GreetGrouper<T>
     private readonly Dictionary<ulong, HashSet<T>> group;
     private readonly object locker = new();
 
-    public GreetGrouper()
-    {
-        group = new Dictionary<ulong, HashSet<T>>();
-    }
+    public GreetGrouper() => group = new Dictionary<ulong, HashSet<T>>();
 
 
     /// <summary>

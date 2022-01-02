@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -17,10 +16,7 @@ public partial class Searches
         private const string _xkcdUrl = "https://xkcd.com";
         private readonly IHttpClientFactory _httpFactory;
 
-        public XkcdCommands(IHttpClientFactory factory)
-        {
-            _httpFactory = factory;
-        }
+        public XkcdCommands(IHttpClientFactory factory) => _httpFactory = factory;
 
         [MewdekoCommand]
         [Usage]

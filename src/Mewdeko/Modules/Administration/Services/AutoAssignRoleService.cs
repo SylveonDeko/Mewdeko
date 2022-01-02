@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 using Discord.Net;
 using Discord.WebSocket;
 using LinqToDB;
 using Mewdeko._Extensions;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -259,15 +255,9 @@ public sealed class AutoAssignRoleService : INService
         await uow.SaveChangesAsync();
     }
 
-    public bool TryGetNormalRoles(ulong guildId, out IReadOnlyList<ulong> roles)
-    {
-        return _autoAssignableRoles.TryGetValue(guildId, out roles);
-    }
+    public bool TryGetNormalRoles(ulong guildId, out IReadOnlyList<ulong> roles) => _autoAssignableRoles.TryGetValue(guildId, out roles);
 
-    public bool TryGetBotRoles(ulong guildId, out IReadOnlyList<ulong> roles)
-    {
-        return _autoAssignableBotRoles.TryGetValue(guildId, out roles);
-    }
+    public bool TryGetBotRoles(ulong guildId, out IReadOnlyList<ulong> roles) => _autoAssignableBotRoles.TryGetValue(guildId, out roles);
 }
 
 public static class GuildConfigExtensions
@@ -280,10 +270,7 @@ public static class GuildConfigExtensions
         return gc.AutoAssignRoleId.Split(' ').Select(ulong.Parse).ToList();
     }
 
-    public static void SetAutoAssignableRoles(this GuildConfig gc, IEnumerable<ulong> roles)
-    {
-        gc.AutoAssignRoleId = roles.JoinWith(' ');
-    }
+    public static void SetAutoAssignableRoles(this GuildConfig gc, IEnumerable<ulong> roles) => gc.AutoAssignRoleId = roles.JoinWith(' ');
 
     public static List<ulong> GetAutoAssignableBotRoles(this GuildConfig gc)
     {
@@ -293,8 +280,5 @@ public static class GuildConfigExtensions
         return gc.AutoBotRoleIds.Split(' ').Select(ulong.Parse).ToList();
     }
 
-    public static void SetAutoAssignableBotRoles(this GuildConfig gc, IEnumerable<ulong> roles)
-    {
-        gc.AutoBotRoleIds = roles.JoinWith(' ');
-    }
+    public static void SetAutoAssignableBotRoles(this GuildConfig gc, IEnumerable<ulong> roles) => gc.AutoBotRoleIds = roles.JoinWith(' ');
 }

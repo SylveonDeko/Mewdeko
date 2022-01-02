@@ -1,7 +1,5 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -60,14 +58,12 @@ FROM BotConfig";
         _gss.ModifyConfig(ModifyAction(reader));
     }
 
-    private static Action<XpConfig> ModifyAction(DbDataReader reader)
-    {
-        return config =>
+    private static Action<XpConfig> ModifyAction(DbDataReader reader) =>
+        config =>
         {
             config.XpPerMessage = (int) (long) reader["XpPerMessage"];
             config.MessageXpCooldown = (int) (long) reader["XpMinutesTimeout"];
             config.VoiceMaxMinutes = (int) (long) reader["MaxXpMinutes"];
             config.VoiceXpPerMinute = (double) reader["VoiceXpPerMinute"];
         };
-    }
 }

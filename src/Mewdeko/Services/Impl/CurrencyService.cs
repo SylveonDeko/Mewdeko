@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -25,10 +22,7 @@ public class CurrencyService : ICurrencyService
         _bot = c.CurrentUser;
     }
 
-    public Task AddAsync(ulong userId, string reason, long amount, bool gamble = false)
-    {
-        return InternalAddAsync(userId, null, null, null, reason, amount, gamble);
-    }
+    public Task AddAsync(ulong userId, string reason, long amount, bool gamble = false) => InternalAddAsync(userId, null, null, null, reason, amount, gamble);
 
     public async Task AddAsync(IUser user, string reason, long amount, bool sendMessage = false,
         bool gamble = false)
@@ -70,27 +64,20 @@ public class CurrencyService : ICurrencyService
         await uow.SaveChangesAsync();
     }
 
-    public Task<bool> RemoveAsync(ulong userId, string reason, long amount, bool gamble = false)
-    {
-        return InternalRemoveAsync(userId, null, null, null, reason, amount, gamble);
-    }
+    public Task<bool> RemoveAsync(ulong userId, string reason, long amount, bool gamble = false) => InternalRemoveAsync(userId, null, null, null, reason, amount, gamble);
 
     public Task<bool> RemoveAsync(IUser user, string reason, long amount, bool sendMessage = false,
-        bool gamble = false)
-    {
-        return InternalRemoveAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount,
+        bool gamble = false) =>
+        InternalRemoveAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount,
             gamble);
-    }
 
-    private CurrencyTransaction GetCurrencyTransaction(ulong userId, string reason, long amount)
-    {
-        return new CurrencyTransaction
+    private CurrencyTransaction GetCurrencyTransaction(ulong userId, string reason, long amount) =>
+        new CurrencyTransaction
         {
             Amount = amount,
             UserId = userId,
             Reason = reason ?? "-"
         };
-    }
 
     private bool InternalChange(ulong userId, string userName, string discrim, string avatar,
         string reason, long amount, bool gamble, IUnitOfWork uow)

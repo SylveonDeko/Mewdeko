@@ -34,18 +34,9 @@ public static class ConfigParsers
 
 public static class ConfigPrinters
 {
-    public static string ToString<TAny>(TAny input)
-    {
-        return input.ToString();
-    }
+    public static string ToString<TAny>(TAny input) => input.ToString();
 
-    public static string Culture(CultureInfo culture)
-    {
-        return culture.Name;
-    }
+    public static string Culture(CultureInfo culture) => culture.Name;
 
-    public static string Color(Rgba32 color)
-    {
-        return ((uint) ((color.B << 0) | (color.G << 8) | (color.R << 16))).ToString("X6");
-    }
+    public static string Color(Rgba32 color) => ((uint) ((color.B << 0) | (color.G << 8) | (color.R << 16))).ToString("X6");
 }

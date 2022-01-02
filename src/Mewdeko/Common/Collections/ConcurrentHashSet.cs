@@ -1,11 +1,9 @@
 ﻿// License MIT
 // Source: https://github.com/i3arnon/ConcurrentHashSet
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace Mewdeko.Common.Collections;
@@ -305,10 +303,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         return false;
     }
 
-    void ICollection<T>.Add(T item)
-    {
-        Add(item);
-    }
+    void ICollection<T>.Add(T item) => Add(item);
 
     bool ICollection<T>.IsReadOnly => false;
 
@@ -339,10 +334,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         }
     }
 
-    bool ICollection<T>.Remove(T item)
-    {
-        return TryRemove(item);
-    }
+    bool ICollection<T>.Remove(T item) => TryRemove(item);
 
     /// <summary>
     ///     Gets the number of items contained in the
@@ -383,10 +375,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
     ///     Returns an enumerator that iterates through the
@@ -430,10 +419,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     ///     The <see cref="ConcurrentHashSet{T}" />
     ///     contains too many items.
     /// </exception>
-    public bool Add(T item)
-    {
-        return AddInternal(item, _comparer.GetHashCode(item), true);
-    }
+    public bool Add(T item) => AddInternal(item, _comparer.GetHashCode(item), true);
 
     /// <summary>
     ///     Attempts to remove the item from the <see cref="ConcurrentHashSet{T}" />.
