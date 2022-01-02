@@ -383,10 +383,7 @@ public partial class ServerManagement
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageChannels)]
         [Priority(0)]
-        public async Task Slowmode(StoopidTime time, ITextChannel channel)
-        {
-            await InternalSlowmode(channel, (int) time.Time.TotalSeconds);
-        }
+        public async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int) time.Time.TotalSeconds);
 
         [MewdekoCommand]
         [Usage]
@@ -395,10 +392,7 @@ public partial class ServerManagement
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageChannels)]
         [Priority(1)]
-        public async Task Slowmode(StoopidTime time)
-        {
-            await InternalSlowmode(ctx.Channel as ITextChannel, (int) time.Time.TotalSeconds);
-        }
+        public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int) time.Time.TotalSeconds);
 
         [MewdekoCommand]
         [Usage]
@@ -407,10 +401,7 @@ public partial class ServerManagement
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageChannels)]
         [Priority(2)]
-        public async Task Slowmode(ITextChannel channel)
-        {
-            await InternalSlowmode(channel);
-        }
+        public async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel);
 
         [MewdekoCommand]
         [Usage]
@@ -419,10 +410,7 @@ public partial class ServerManagement
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageChannels)]
         [Priority(4)]
-        public async Task Slowmode()
-        {
-            await InternalSlowmode((ITextChannel) ctx.Channel);
-        }
+        public async Task Slowmode() => await InternalSlowmode((ITextChannel) ctx.Channel);
 
         private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
         {

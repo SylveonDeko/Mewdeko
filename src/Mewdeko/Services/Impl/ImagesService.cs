@@ -79,10 +79,7 @@ public sealed class RedisImagesCache : IImageCache
 
     public byte[] RipOverlay => GetByteData(ImageKey.Rip_Overlay);
 
-    public byte[] GetCard(string key)
-    {
-        return _con.GetDatabase().StringGet(GetKey("card_" + key));
-    }
+    public byte[] GetCard(string key) => _con.GetDatabase().StringGet(GetKey("card_" + key));
 
     public async Task Reload()
     {
@@ -247,36 +244,19 @@ public sealed class RedisImagesCache : IImageCache
         }
     }
 
-    private IEnumerable<string> GetAllCardNames(bool showExtension = false)
-    {
-        return Directory.GetFiles(_cardsPath) // gets all cards from the cards folder
-            .Select(x => showExtension
-                ? Path.GetFileName(x)
-                : Path.GetFileNameWithoutExtension(x)); // gets their names
-    }
+    private IEnumerable<string> GetAllCardNames(bool showExtension = false) =>
+        Directory.GetFiles(_cardsPath) // gets all cards from the cards folder
+                 .Select(x => showExtension
+                     ? Path.GetFileName(x)
+                     : Path.GetFileNameWithoutExtension(x)); // gets their names
 
-    public RedisKey GetKey(string key)
-    {
-        return $"{_creds.RedisKey()}_localimg_{key.ToLowerInvariant()}";
-    }
+    public RedisKey GetKey(string key) => $"{_creds.RedisKey()}_localimg_{key.ToLowerInvariant()}";
 
-    public byte[] GetByteData(string key)
-    {
-        return _db.StringGet(GetKey(key));
-    }
+    public byte[] GetByteData(string key) => _db.StringGet(GetKey(key));
 
-    public byte[] GetByteData(ImageKey key)
-    {
-        return GetByteData(key.ToString());
-    }
+    public byte[] GetByteData(ImageKey key) => GetByteData(key.ToString());
 
-    private RedisImageArray GetByteArrayData(string key)
-    {
-        return new RedisImageArray(GetKey(key), _con);
-    }
+    private RedisImageArray GetByteArrayData(string key) => new RedisImageArray(GetKey(key), _con);
 
-    public RedisImageArray GetByteArrayData(ImageKey key)
-    {
-        return GetByteArrayData(key.ToString());
-    }
+    public RedisImageArray GetByteArrayData(ImageKey key) => GetByteArrayData(key.ToString());
 }

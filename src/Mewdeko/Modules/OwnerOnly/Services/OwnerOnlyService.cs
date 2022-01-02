@@ -255,13 +255,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         return uow._context.RotatingStatus.AsNoTracking().ToList();
     }
 
-    private Timer TimerFromAutoCommand(AutoCommand x)
-    {
-        return new Timer(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
+    private Timer TimerFromAutoCommand(AutoCommand x) =>
+        new Timer(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
             x,
             x.Interval * 1000,
             x.Interval * 1000);
-    }
 
     private async Task ExecuteCommand(AutoCommand cmd)
     {

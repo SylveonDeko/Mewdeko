@@ -176,10 +176,7 @@ public class StatsService : IStatsService
         _voiceChannels = guilds.Sum(g => g.Channels.Count(cx => cx is IVoiceChannel));
     }
 
-    public TimeSpan GetUptime()
-    {
-        return DateTime.UtcNow - _started;
-    }
+    public TimeSpan GetUptime() => DateTime.UtcNow - _started;
 
     public string GetUptimeString(string separator = ", ")
     {

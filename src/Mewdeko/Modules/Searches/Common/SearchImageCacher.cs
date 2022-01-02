@@ -211,10 +211,7 @@ public class SearchImageCacher
         return list.ToArray();
     }
 
-    public void Clear()
-    {
-        _cache.Clear();
-    }
+    public void Clear() => _cache.Clear();
 }
 
 public class DapiImageObject

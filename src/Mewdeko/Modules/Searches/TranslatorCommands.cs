@@ -115,9 +115,6 @@ public partial class Searches
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Translangs()
-        {
-            await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
-        }
+        public async Task Translangs() => await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
     }
 }

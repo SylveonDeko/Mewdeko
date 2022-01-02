@@ -23,10 +23,8 @@ public partial class Gambling
         private readonly InteractiveService Interactivity;
 
         public WaifuClaimCommands(GamblingConfigService gamblingConfService, InteractiveService serv) : base(
-            gamblingConfService)
-        {
+            gamblingConfService) =>
             Interactivity = serv;
-        }
 
         [MewdekoCommand]
         [Usage]
@@ -143,10 +141,7 @@ public partial class Gambling
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public Task Divorce([Remainder] IGuildUser target)
-        {
-            return Divorce(target.Id);
-        }
+        public Task Divorce([Remainder] IGuildUser target) => Divorce(target.Id);
 
         [MewdekoCommand]
         [Usage]
@@ -267,10 +262,7 @@ public partial class Gambling
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public Task WaifuInfo(ulong targetId)
-        {
-            return InternalWaifuInfo(targetId);
-        }
+        public Task WaifuInfo(ulong targetId) => InternalWaifuInfo(targetId);
 
         private Task InternalWaifuInfo(ulong targetId, string name = null)
         {

@@ -22,10 +22,7 @@ public partial class Administration
     {
         private readonly InteractiveService Interactivity;
 
-        public SelfAssignedRolesCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public SelfAssignedRolesCommands(InteractiveService serv) => Interactivity = serv;
 
         [MewdekoCommand]
         [Usage]
@@ -52,10 +49,7 @@ public partial class Administration
         [UserPerm(GuildPermission.ManageRoles)]
         [BotPerm(GuildPermission.ManageRoles)]
         [Priority(1)]
-        public Task Asar([Remainder] IRole role)
-        {
-            return Asar(0, role);
-        }
+        public Task Asar([Remainder] IRole role) => Asar(0, role);
 
         [MewdekoCommand]
         [Usage]

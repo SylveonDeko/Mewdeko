@@ -23,10 +23,7 @@ public partial class Searches
     {
         private readonly InteractiveService Interactivity;
 
-        public FeedCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public FeedCommands(InteractiveService serv) => Interactivity = serv;
 
         [MewdekoCommand]
         [Usage]

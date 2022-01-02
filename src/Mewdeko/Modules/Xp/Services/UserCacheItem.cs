@@ -9,13 +9,7 @@ public class UserCacheItem
     public IMessageChannel Channel { get; set; }
     public int XpAmount { get; set; }
 
-    public override int GetHashCode()
-    {
-        return User.GetHashCode();
-    }
+    public override int GetHashCode() => User.GetHashCode();
 
-    public override bool Equals(object obj)
-    {
-        return obj is UserCacheItem uci && uci.User == User;
-    }
+    public override bool Equals(object obj) => obj is UserCacheItem uci && uci.User == User;
 }

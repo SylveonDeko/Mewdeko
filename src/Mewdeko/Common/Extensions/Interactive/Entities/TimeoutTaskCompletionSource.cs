@@ -77,15 +77,9 @@ internal sealed class TimeoutTaskCompletionSource<TResult>
         return true;
     }
 
-    public bool TryCancel()
-    {
-        return !_disposed && _taskSource.TrySetResult(CancelResult);
-    }
+    public bool TryCancel() => !_disposed && _taskSource.TrySetResult(CancelResult);
 
-    public bool TrySetResult(TResult result)
-    {
-        return _taskSource.TrySetResult(result);
-    }
+    public bool TrySetResult(TResult result) => _taskSource.TrySetResult(result);
 
     public bool TryDispose()
     {

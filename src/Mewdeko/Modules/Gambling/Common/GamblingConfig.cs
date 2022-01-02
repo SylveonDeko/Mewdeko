@@ -83,15 +83,13 @@ setting to 0 or less will disable this feature")]
 
     public class BetRollConfig
     {
-        public BetRollConfig()
-        {
+        public BetRollConfig() =>
             Pairs = new[]
             {
                 new(99, 10),
                 new Pair(90, 4),
                 new Pair(66, 2)
             };
-        }
 
         [Comment(@"When betroll is played, user will roll a number 0-100.
 This setting will describe which multiplier is used for when the roll is higher than the given number.
@@ -157,8 +155,7 @@ default is 0.02, which is 2%")]
 
     public class WheelOfFortuneSettings
     {
-        public WheelOfFortuneSettings()
-        {
+        public WheelOfFortuneSettings() =>
             Multipliers = new[]
             {
                 1.7M,
@@ -170,7 +167,6 @@ default is 0.02, which is 2%")]
                 1.2M,
                 2.4M
             };
-        }
 
         [Comment(@"Self-Explanatory. Has to have 8 values, otherwise the command won't work.")]
         public decimal[] Multipliers { get; set; }
@@ -178,8 +174,7 @@ default is 0.02, which is 2%")]
 
     public class WaifuConfig
     {
-        public WaifuConfig()
-        {
+        public WaifuConfig() =>
             Items = new List<WaifuItemModel>
             {
                 new("🥔", 5, "Potato"),
@@ -219,7 +214,6 @@ default is 0.02, which is 2%")]
                 new("🚀", 30000, "Spaceship"),
                 new("🌕", 50000, "Moon")
             };
-        }
 
         [Comment(@"Minimum price a waifu can have")]
         public int MinPrice { get; set; } = 50;
@@ -286,8 +280,5 @@ public class WaifuItemModel
 
     public string Name { get; set; }
 
-    public override string ToString()
-    {
-        return Name;
-    }
+    public override string ToString() => Name;
 }

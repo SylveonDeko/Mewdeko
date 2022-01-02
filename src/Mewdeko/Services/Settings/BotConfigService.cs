@@ -39,8 +39,5 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
     }
 
-    protected override void OnStateUpdate()
-    {
-        UpdateColors();
-    }
+    protected override void OnStateUpdate() => UpdateColors();
 }

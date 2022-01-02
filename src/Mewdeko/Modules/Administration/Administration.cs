@@ -49,10 +49,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     private readonly InteractiveService Interactivity;
 
-    public Administration(InteractiveService serv)
-    {
-        Interactivity = serv;
-    }
+    public Administration(InteractiveService serv) => Interactivity = serv;
 
     [MewdekoCommand]
     [Usage]
@@ -460,10 +457,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [UserPerm(GuildPermission.Administrator)]
     [BotPerm(GuildPermission.ManageMessages)]
     [Priority(0)]
-    public Task Delmsgoncmd(Channel _, State s, ITextChannel ch)
-    {
-        return Delmsgoncmd(_, s, ch.Id);
-    }
+    public Task Delmsgoncmd(Channel _, State s, ITextChannel ch) => Delmsgoncmd(_, s, ch.Id);
 
     [MewdekoCommand]
     [Usage]
@@ -620,10 +614,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [RequireContext(ContextType.Guild)]
     [UserPerm(ChannelPermission.ManageMessages)]
     [Priority(0)]
-    public Task Edit(ulong messageId, [Remainder] string text)
-    {
-        return Edit((ITextChannel) ctx.Channel, messageId, text);
-    }
+    public Task Edit(ulong messageId, [Remainder] string text) => Edit((ITextChannel) ctx.Channel, messageId, text);
 
     [MewdekoCommand]
     [Usage]
@@ -657,20 +648,14 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     [RequireContext(ContextType.Guild)]
     [UserPerm(ChannelPermission.ManageMessages)]
     [BotPerm(ChannelPermission.ManageMessages)]
-    public Task Delete(ulong messageId, StoopidTime time = null)
-    {
-        return Delete((ITextChannel) ctx.Channel, messageId, time);
-    }
+    public Task Delete(ulong messageId, StoopidTime time = null) => Delete((ITextChannel) ctx.Channel, messageId, time);
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
     [RequireContext(ContextType.Guild)]
-    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime time = null)
-    {
-        await InternalMessageAction(channel, messageId, time);
-    }
+    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime time = null) => await InternalMessageAction(channel, messageId, time);
 
     private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime time)
     {

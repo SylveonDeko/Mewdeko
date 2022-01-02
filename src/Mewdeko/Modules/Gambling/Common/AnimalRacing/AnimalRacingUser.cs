@@ -17,15 +17,10 @@ public class AnimalRacingUser
     public RaceAnimal Animal { get; set; }
     public int Progress { get; set; }
 
-    public override bool Equals(object obj)
-    {
-        return obj is AnimalRacingUser x
+    public override bool Equals(object obj) =>
+        obj is AnimalRacingUser x
             ? x.UserId == UserId
             : false;
-    }
 
-    public override int GetHashCode()
-    {
-        return UserId.GetHashCode();
-    }
+    public override int GetHashCode() => UserId.GetHashCode();
 }

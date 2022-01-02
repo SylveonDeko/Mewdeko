@@ -11,10 +11,7 @@ public class PlantedCurrencyRepository : Repository<PlantedCurrency>, IPlantedCu
     {
     }
 
-    public decimal GetTotalPlanted()
-    {
-        return _set.Sum(x => x.Amount);
-    }
+    public decimal GetTotalPlanted() => _set.Sum(x => x.Amount);
 
     public (long Sum, ulong[] MessageIds) RemoveSumAndGetMessageIdsFor(ulong cid, string pass = null)
     {

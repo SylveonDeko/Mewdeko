@@ -29,10 +29,7 @@ public partial class Gambling
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
-        public Task RaffleCur(Mixed _, ShmartNumber amount)
-        {
-            return RaffleCur(amount, true);
-        }
+        public Task RaffleCur(Mixed _, ShmartNumber amount) => RaffleCur(amount, true);
 
         [MewdekoCommand]
         [Usage]

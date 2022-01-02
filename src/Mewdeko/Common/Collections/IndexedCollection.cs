@@ -10,10 +10,7 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
 {
     private readonly object _locker = new();
 
-    public IndexedCollection()
-    {
-        Source = new List<T>();
-    }
+    public IndexedCollection() => Source = new List<T>();
 
     public IndexedCollection(IEnumerable<T> source)
     {
@@ -35,15 +32,9 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
         return item.Index;
     }
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        return Source.GetEnumerator();
-    }
+    public IEnumerator<T> GetEnumerator() => Source.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return Source.GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => Source.GetEnumerator();
 
     public void Add(T item)
     {
@@ -135,13 +126,7 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
         }
     }
 
-    public static implicit operator List<T>(IndexedCollection<T> x)
-    {
-        return x.Source;
-    }
+    public static implicit operator List<T>(IndexedCollection<T> x) => x.Source;
 
-    public List<T> ToList()
-    {
-        return Source.ToList();
-    }
+    public List<T> ToList() => Source.ToList();
 }

@@ -71,10 +71,7 @@ public class PlantPickService : INService
     //channelId/last generation
     public ConcurrentDictionary<ulong, DateTime> LastGenerations { get; } = new();
 
-    private string GetText(ulong gid, string key, params object[] rep)
-    {
-        return _strings.GetText(key, gid, rep);
-    }
+    private string GetText(ulong gid, string key, params object[] rep) => _strings.GetText(key, gid, rep);
 
     public bool ToggleCurrencyGeneration(ulong gid, ulong cid)
     {

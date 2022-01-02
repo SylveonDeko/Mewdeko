@@ -2,10 +2,7 @@
 
 public class PermissionAction
 {
-    public PermissionAction(bool value)
-    {
-        Value = value;
-    }
+    public PermissionAction(bool value) => Value = value;
 
     public static PermissionAction Enable => new(true);
     public static PermissionAction Disable => new(false);
@@ -19,8 +16,5 @@ public class PermissionAction
         return Value == ((PermissionAction) obj).Value;
     }
 
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
+    public override int GetHashCode() => Value.GetHashCode();
 }
