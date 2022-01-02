@@ -1,6 +1,4 @@
-using System.Linq;
 using System.Threading.Tasks;
-using Amazon.S3.Model.Internal.MarshallTransformations;
 using Discord;
 using Discord.Interactions;
 using Mewdeko._Extensions;

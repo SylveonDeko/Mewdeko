@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Services;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Common.Blackjack;

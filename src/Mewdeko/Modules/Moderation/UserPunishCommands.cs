@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
 using Discord;
@@ -15,7 +13,6 @@ using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mewdeko.Common.Attributes;
+﻿namespace Mewdeko.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class MewdekoOptionsAttribute : Attribute
