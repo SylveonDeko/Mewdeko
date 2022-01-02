@@ -270,7 +270,7 @@ public class PlantPickService : INService
                 if (amount > 0)
                     // give the picked currency to the user
                     await _cs.AddAsync(uid, "Picked currency", amount);
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             try

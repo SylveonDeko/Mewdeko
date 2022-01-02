@@ -87,7 +87,7 @@ public sealed class RedisImagesCache : IImageCache
         {
             var sw = Stopwatch.StartNew();
             var obj = JObject.Parse(
-                File.ReadAllText(Path.Combine(_basePath, "images.json")));
+                await File.ReadAllTextAsync(Path.Combine(_basePath, "images.json")));
 
             ImageUrls = obj.ToObject<ImageUrls>();
             var t = new ImageLoader(_http, _con, GetKey)

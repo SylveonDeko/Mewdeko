@@ -47,8 +47,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         using (var uow = _db.GetDbContext())
         {
             var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
-            if (action == null)
-                action = new PermissionAction(!config.VerbosePermissions); // New behaviour, can toggle.
+            action ??= new PermissionAction(!config.VerbosePermissions);
             config.VerbosePermissions = action.Value;
             await uow.SaveChangesAsync();
             Service.UpdateCache(config);
@@ -88,7 +87,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         {
             var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
             Service.UpdateCache(config);
         }
 
