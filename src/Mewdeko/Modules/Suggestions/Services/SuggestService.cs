@@ -9,6 +9,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Database.Models;
+using Serilog;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
@@ -68,7 +69,7 @@ public class SuggestionsService : INService
 
     public async Task MessageRecieved(SocketMessage msg)
     {
-        if (msg.Channel is not SocketGuildChannel chan)
+        if (msg.Channel is not ITextChannel chan)
             return;
         var guild = (msg.Channel as IGuildChannel)?.Guild;
         var Prefix = CmdHandler.GetPrefix(guild);
@@ -81,11 +82,9 @@ public class SuggestionsService : INService
                 return;
             var guser = msg.Author as IGuildUser;
             var pc = _perms.GetCacheFor(guild.Id);
-            if (pc != null &&
-                pc.Permissions.CheckPermissions(msg as IUserMessage,
-                    "suggest",
-                    "Suggestions".ToLowerInvariant(),
-                    out var index))
+            var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(),
+                out var index);
+            if (!test)
                 return;
             if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id)))
                 return;
@@ -105,13 +104,13 @@ public class SuggestionsService : INService
         }
     }
 
-    public ulong GetSNum(ulong? id)
+    private ulong GetSNum(ulong? id)
     {
         _snum.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
-    public string GetEmotes(ulong? id)
+    private string GetEmotes(ulong? id)
     {
         Suggestemotes.TryGetValue(id.Value, out var smotes);
         return smotes;
