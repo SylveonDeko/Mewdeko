@@ -26,23 +26,20 @@ public class UserPunishService : INService
     private readonly Mewdeko.Services.Mewdeko _bot;
     private readonly DbService _db;
     private readonly MuteService _mute;
-    private readonly Timer _warnExpiryTimer;
-    private readonly DiscordSocketClient Client;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         Mewdeko.Services.Mewdeko bot, DiscordSocketClient client)
     {
-        Client = client;
         _warnlogchannelids = bot.AllGuildConfigs
-            .Where(x => x.WarnlogChannelId != 0)
-            .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
-            .ToConcurrent();
+                                .Where(x => x.WarnlogChannelId != 0)
+                                .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
+                                .ToConcurrent();
         _mute = mute;
         _bot = bot;
         _db = db;
         _blacklistService = blacklistService;
         //Client.MessageReceived += NsfwCheck;
-        _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
+        _ = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
@@ -99,7 +96,7 @@ public class UserPunishService : INService
 
             uow.Warnings.Add(warn);
 
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
         }
 
         var p = ps.FirstOrDefault(x => x.Count == warnings);
@@ -270,7 +267,7 @@ WHERE GuildId={guildId}
             await uow.Warnings.ForgiveAll(guildId, userId, moderator);
         else
             toReturn = uow.Warnings.Forgive(guildId, userId, moderator, index - 1);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return toReturn;
     }

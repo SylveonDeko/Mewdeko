@@ -63,7 +63,7 @@ public class PollRunner
         using var uow = _db.GetDbContext();
         var trackedPoll = uow.Polls.GetById(Poll.Id);
         trackedPoll.Votes.Add(voteObj);
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return true;
     }
