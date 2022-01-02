@@ -8,126 +8,125 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Services;
 using Mewdeko.Modules.Gambling.Common;
+using Mewdeko.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Image = SixLabors.ImageSharp.Image;
 
-namespace Mewdeko.Modules.Gambling
+namespace Mewdeko.Modules.Gambling;
+
+public partial class Gambling
 {
-    public partial class Gambling
+    [Group]
+    public class DrawCommands : MewdekoSubmodule
     {
-        [Group]
-        public class DrawCommands : MewdekoSubmodule
+        private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new();
+        private readonly IImageCache _images;
+
+        public DrawCommands(IDataCache data)
         {
-            private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new();
-            private readonly IImageCache _images;
+            _images = data.LocalImages;
+        }
 
-            public DrawCommands(IDataCache data)
+        private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
+        {
+            if (num < 1 || num > 10)
+                throw new ArgumentOutOfRangeException(nameof(num));
+
+            var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, s => new Deck());
+            var images = new List<Image<Rgba32>>();
+            var cardObjects = new List<Deck.Card>();
+            for (var i = 0; i < num; i++)
             {
-                _images = data.LocalImages;
-            }
-
-            private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
-            {
-                if (num < 1 || num > 10)
-                    throw new ArgumentOutOfRangeException(nameof(num));
-
-                var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, s => new Deck());
-                var images = new List<Image<Rgba32>>();
-                var cardObjects = new List<Deck.Card>();
-                for (var i = 0; i < num; i++)
+                if (cards.CardPool.Count == 0 && i != 0)
                 {
-                    if (cards.CardPool.Count == 0 && i != 0)
+                    try
                     {
-                        try
-                        {
-                            await ReplyErrorLocalizedAsync("no_more_cards").ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-
-                        break;
+                        await ReplyErrorLocalizedAsync("no_more_cards").ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // ignored
                     }
 
-                    var currentCard = cards.Draw();
-                    cardObjects.Add(currentCard);
-                    images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant()
-                        .Replace(' ', '_'))));
+                    break;
                 }
 
-                using var img = images.Merge();
-                foreach (var i in images) i.Dispose();
-
-                var toSend = $"{Format.Bold(ctx.User.ToString())}";
-                if (cardObjects.Count == 5)
-                    toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
-
-                if (guildId != null)
-                    toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
-
-                return (img.ToStream(), toSend);
+                var currentCard = cards.Draw();
+                cardObjects.Add(currentCard);
+                images.Add(Image.Load(_images.GetCard(currentCard.ToString().ToLowerInvariant()
+                    .Replace(' ', '_'))));
             }
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task Draw(int num = 1)
-            {
-                if (num < 1)
-                    num = 1;
-                if (num > 10)
-                    num = 10;
+            using var img = images.Merge();
+            foreach (var i in images) i.Dispose();
 
-                var (ImageStream, ToSend) = await InternalDraw(num, ctx.Guild.Id).ConfigureAwait(false);
-                await using (ImageStream)
+            var toSend = $"{Format.Bold(ctx.User.ToString())}";
+            if (cardObjects.Count == 5)
+                toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
+
+            if (guildId != null)
+                toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
+
+            return (img.ToStream(), toSend);
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Draw(int num = 1)
+        {
+            if (num < 1)
+                num = 1;
+            if (num > 10)
+                num = 10;
+
+            var (ImageStream, ToSend) = await InternalDraw(num, ctx.Guild.Id).ConfigureAwait(false);
+            await using (ImageStream)
+            {
+                await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+            }
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        public async Task DrawNew(int num = 1)
+        {
+            if (num < 1)
+                num = 1;
+            if (num > 10)
+                num = 10;
+
+            var (ImageStream, ToSend) = await InternalDraw(num).ConfigureAwait(false);
+            await using (ImageStream)
+            {
+                await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+            }
+        }
+
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task DeckShuffle()
+        {
+            //var channel = (ITextChannel)ctx.Channel;
+
+            _allDecks.AddOrUpdate(ctx.Guild,
+                g => new Deck(),
+                (g, c) =>
                 {
-                    await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
-                }
-            }
+                    c.Restart();
+                    return c;
+                });
 
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            public async Task DrawNew(int num = 1)
-            {
-                if (num < 1)
-                    num = 1;
-                if (num > 10)
-                    num = 10;
-
-                var (ImageStream, ToSend) = await InternalDraw(num).ConfigureAwait(false);
-                await using (ImageStream)
-                {
-                    await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
-                }
-            }
-
-            [MewdekoCommand]
-            [Usage]
-            [Description]
-            [Aliases]
-            [RequireContext(ContextType.Guild)]
-            public async Task DeckShuffle()
-            {
-                //var channel = (ITextChannel)ctx.Channel;
-
-                _allDecks.AddOrUpdate(ctx.Guild,
-                    g => new Deck(),
-                    (g, c) =>
-                    {
-                        c.Restart();
-                        return c;
-                    });
-
-                await ReplyConfirmLocalizedAsync("deck_reshuffled").ConfigureAwait(false);
-            }
+            await ReplyConfirmLocalizedAsync("deck_reshuffled").ConfigureAwait(false);
         }
     }
 }

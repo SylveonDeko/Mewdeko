@@ -1,18 +1,17 @@
-﻿namespace Mewdeko.Modules.Searches.Common
+﻿namespace Mewdeko.Modules.Searches.Common;
+
+public class WikipediaApiModel
 {
-    public class WikipediaApiModel
+    public WikipediaQuery Query { get; set; }
+
+    public class WikipediaQuery
     {
-        public WikipediaQuery Query { get; set; }
+        public WikipediaPage[] Pages { get; set; }
 
-        public class WikipediaQuery
+        public class WikipediaPage
         {
-            public WikipediaPage[] Pages { get; set; }
-
-            public class WikipediaPage
-            {
-                public bool Missing { get; set; } = false;
-                public string FullUrl { get; set; }
-            }
+            public bool Missing { get; set; } = false;
+            public string FullUrl { get; set; }
         }
     }
 }

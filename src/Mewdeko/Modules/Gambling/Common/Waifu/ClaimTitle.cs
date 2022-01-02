@@ -1,18 +1,17 @@
-﻿namespace Mewdeko.Modules.Gambling.Common.Waifu
+﻿namespace Mewdeko.Modules.Gambling.Common.Waifu;
+
+public enum ClaimTitle
 {
-    public enum ClaimTitle
-    {
-        Lonely,
-        Devoted,
-        Rookie,
-        Schemer,
-        Dilettante,
-        Intermediate,
-        Seducer,
-        Expert,
-        Veteran,
-        Incubis,
-        Harem_King,
-        Harem_God
-    }
+    Lonely,
+    Devoted,
+    Rookie,
+    Schemer,
+    Dilettante,
+    Intermediate,
+    Seducer,
+    Expert,
+    Veteran,
+    Incubis,
+    Harem_King,
+    Harem_God
 }

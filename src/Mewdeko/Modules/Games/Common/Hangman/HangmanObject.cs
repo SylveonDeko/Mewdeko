@@ -1,17 +1,16 @@
 ﻿using Mewdeko._Extensions;
 
-namespace Mewdeko.Modules.Games.Common.Hangman
+namespace Mewdeko.Modules.Games.Common.Hangman;
+
+public class HangmanObject
 {
-    public class HangmanObject
+    public string Word { get; set; }
+    public string ImageUrl { get; set; }
+
+    public string GetWord()
     {
-        public string Word { get; set; }
-        public string ImageUrl { get; set; }
+        var term = Word.ToTitleCase();
 
-        public string GetWord()
-        {
-            var term = Word.ToTitleCase();
-
-            return $"[{term}](https://en.wikipedia.org/wiki/{term.Replace(' ', '_')})";
-        }
+        return $"[{term}](https://en.wikipedia.org/wiki/{term.Replace(' ', '_')})";
     }
 }
