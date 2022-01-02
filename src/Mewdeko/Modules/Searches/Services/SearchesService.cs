@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -16,7 +14,6 @@ using Html2Markdown;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;

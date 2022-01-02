@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Server_Management.Services;
 

@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace Mewdeko.Common.Extensions.Interactive.Selection;
 
 /// <summary>

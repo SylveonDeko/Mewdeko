@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
@@ -10,7 +9,6 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Suggestions.Services;

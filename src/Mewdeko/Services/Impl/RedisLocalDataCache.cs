@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;

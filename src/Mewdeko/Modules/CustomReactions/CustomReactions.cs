@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
@@ -13,7 +11,6 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.CustomReactions.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.CustomReactions;
 

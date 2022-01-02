@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +15,6 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Impl;
 using Serilog;
 
