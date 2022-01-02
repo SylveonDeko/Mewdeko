@@ -11,12 +11,10 @@ public class PollsRepository : Repository<Poll>, IPollsRepository
     {
     }
 
-    public IEnumerable<Poll> GetAllPolls()
-    {
-        return _set.Include(x => x.Answers)
+    public IEnumerable<Poll> GetAllPolls() =>
+        _set.Include(x => x.Answers)
             .Include(x => x.Votes)
             .ToArray();
-    }
 
     public void RemovePoll(int id)
     {

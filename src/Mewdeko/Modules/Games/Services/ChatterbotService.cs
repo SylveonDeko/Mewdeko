@@ -62,10 +62,7 @@ public class ChatterBotService : INService
                 new Lazy<IChatterBotSession>(() => CreateSession(), true));
     }
 
-    public ulong GetCleverbotChannel(ulong id)
-    {
-        return _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
-    }
+    public ulong GetCleverbotChannel(ulong id) => _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
 
     public Task MessageRecieved(SocketMessage usrMsg)
     {

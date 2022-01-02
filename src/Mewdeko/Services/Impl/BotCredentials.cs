@@ -152,15 +152,9 @@ public class BotCredentials : IBotCredentials
     public string TimezoneDbApiKey { get; }
     public string CoinmarketcapApiKey { get; }
 
-    public bool IsOwner(IUser u)
-    {
-        return OwnerIds.Contains(u.Id);
-    }
+    public bool IsOwner(IUser u) => OwnerIds.Contains(u.Id);
 
-    public bool IsOfficialMod(IUser u)
-    {
-        return OfficialMods.Contains(u.Id);
-    }
+    public bool IsOfficialMod(IUser u) => OfficialMods.Contains(u.Id);
 
     /// <summary>
     ///     No idea why this thing exists
@@ -210,14 +204,8 @@ public class BotCredentials : IBotCredentials
 
         [JsonIgnore] RestartConfig IBotCredentials.RestartCommand { get; }
 
-        public bool IsOwner(IUser u)
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsOwner(IUser u) => throw new NotImplementedException();
 
-        public bool IsOfficialMod(IUser u)
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsOfficialMod(IUser u) => throw new NotImplementedException();
     }
 }

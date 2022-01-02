@@ -71,10 +71,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         _pubSub.Pub(_changeKey, _data);
     }
 
-    public IReadOnlyList<string> GetSettableProps()
-    {
-        return _propSetters.Keys.ToList();
-    }
+    public IReadOnlyList<string> GetSettableProps() => _propSetters.Keys.ToList();
 
     public string GetSetting(string prop)
     {
@@ -105,10 +102,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         return success;
     }
 
-    private void PublishChange()
-    {
-        _pubSub.Pub(_changeKey, _data);
-    }
+    private void PublishChange() => _pubSub.Pub(_changeKey, _data);
 
     private ValueTask OnChangePublished(TSettings newData)
     {
@@ -183,9 +177,8 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     }
 
     private Func<TSettings, string, bool> Magic<TProp>(Expression<Func<TSettings, TProp>> selector,
-        SettingParser<TProp> parser, Func<TProp, bool> checker)
-    {
-        return (target, input) =>
+        SettingParser<TProp> parser, Func<TProp, bool> checker) =>
+        (target, input) =>
         {
             if (!parser(input, out var value))
                 return false;
@@ -217,11 +210,8 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
             prop!.SetValue(targetObject, value, null);
             return true;
         };
-    }
 
-    private bool SetProperty(TSettings target, string key, string value)
-    {
-        return _propSetters.TryGetValue(key.ToLowerInvariant(), out var magic)
-               && magic(target, value);
-    }
+    private bool SetProperty(TSettings target, string key, string value) =>
+        _propSetters.TryGetValue(key.ToLowerInvariant(), out var magic)
+        && magic(target, value);
 }

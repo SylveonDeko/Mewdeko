@@ -9,10 +9,7 @@ namespace Mewdeko.Common.Yml;
 
 public class Rgba32Converter : IYamlTypeConverter
 {
-    public bool Accepts(Type type)
-    {
-        return type == typeof(Rgba32);
-    }
+    public bool Accepts(Type type) => type == typeof(Rgba32);
 
     public object ReadYaml(IParser parser, Type type)
     {
@@ -31,10 +28,7 @@ public class Rgba32Converter : IYamlTypeConverter
 
 public class CultureInfoConverter : IYamlTypeConverter
 {
-    public bool Accepts(Type type)
-    {
-        return type == typeof(CultureInfo);
-    }
+    public bool Accepts(Type type) => type == typeof(CultureInfo);
 
     public object ReadYaml(IParser parser, Type type)
     {

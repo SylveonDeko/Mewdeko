@@ -54,8 +54,5 @@ public class DbService
         return context;
     }
 
-    public IUnitOfWork GetDbContext()
-    {
-        return new UnitOfWork(GetDbContextInternal());
-    }
+    public IUnitOfWork GetDbContext() => new UnitOfWork(GetDbContextInternal());
 }

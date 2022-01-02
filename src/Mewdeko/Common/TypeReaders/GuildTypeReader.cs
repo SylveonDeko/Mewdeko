@@ -11,10 +11,7 @@ public class GuildTypeReader : MewdekoTypeReader<IGuild>
 {
     private readonly DiscordSocketClient _client;
 
-    public GuildTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
-    {
-        _client = client;
-    }
+    public GuildTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) => _client = client;
 
     public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {

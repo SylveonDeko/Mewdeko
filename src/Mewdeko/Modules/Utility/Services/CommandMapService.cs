@@ -84,13 +84,7 @@ public class CommandMapService : IInputTransformer, INService
 
 public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
 {
-    public bool Equals(CommandAlias x, CommandAlias y)
-    {
-        return x.Trigger == y.Trigger;
-    }
+    public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
 
-    public int GetHashCode(CommandAlias obj)
-    {
-        return obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
-    }
+    public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
 }

@@ -68,8 +68,5 @@ public class PollRunner
         return true;
     }
 
-    public void End()
-    {
-        OnVoted = null;
-    }
+    public void End() => OnVoted = null;
 }

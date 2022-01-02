@@ -21,10 +21,7 @@ public partial class Utility
     {
         private readonly InteractiveService Interactivity;
 
-        public InviteCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public InviteCommands(InteractiveService serv) => Interactivity = serv;
 
         [MewdekoCommand]
         [Usage]

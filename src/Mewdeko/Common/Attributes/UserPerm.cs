@@ -11,15 +11,9 @@ namespace Mewdeko.Common.Attributes;
 [AttributeUsage(AttributeTargets.Method)]
 public class UserPermAttribute : PreconditionAttribute
 {
-    public UserPermAttribute(GuildPermission permission)
-    {
-        UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
-    }
+    public UserPermAttribute(GuildPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
 
-    public UserPermAttribute(ChannelPermission permission)
-    {
-        UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
-    }
+    public UserPermAttribute(ChannelPermission permission) => UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
 
     public RequireUserPermissionAttribute UserPermissionAttribute { get; }
 

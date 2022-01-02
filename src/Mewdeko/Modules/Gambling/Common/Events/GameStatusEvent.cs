@@ -145,10 +145,7 @@ public class GameStatusEvent : ICurrencyEvent
         }
     }
 
-    private EmbedBuilder GetEmbed(long pot)
-    {
-        return _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
-    }
+    private EmbedBuilder GetEmbed(long pot) => _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
 
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, Cacheable<IMessageChannel, ulong> _)
     {

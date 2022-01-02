@@ -16,10 +16,7 @@ public class TwitchProvider : Provider
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public TwitchProvider(IHttpClientFactory httpClientFactory)
-    {
-        _httpClientFactory = httpClientFactory;
-    }
+    public TwitchProvider(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
     private static Regex Regex { get; } = new(@"twitch.tv/(?<name>.+[^/])/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -116,9 +113,8 @@ public class TwitchProvider : Provider
         return toReturn;
     }
 
-    private StreamData ToStreamData(TwitchResponseV5.Stream stream)
-    {
-        return new StreamData
+    private StreamData ToStreamData(TwitchResponseV5.Stream stream) =>
+        new StreamData
         {
             StreamType = FollowedStream.FType.Twitch,
             Name = stream.Channel.DisplayName,
@@ -131,5 +127,4 @@ public class TwitchProvider : Provider
             StreamUrl = $"https://twitch.tv/{stream.Channel.Name}",
             AvatarUrl = stream.Channel.Logo
         };
-    }
 }

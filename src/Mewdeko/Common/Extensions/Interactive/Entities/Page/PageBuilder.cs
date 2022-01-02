@@ -19,16 +19,11 @@ public class PageBuilder
     {
     }
 
-    internal PageBuilder(EmbedBuilder builder)
-    {
-        _builder = builder;
-    }
+    internal PageBuilder(EmbedBuilder builder) => _builder = builder;
 
     internal PageBuilder(string text, EmbedBuilder builder)
-        : this(builder)
-    {
+        : this(builder) =>
         Text = text;
-    }
 
     /// <summary>
     ///     Gets or sets the text of a <see cref="Page" />.
@@ -151,29 +146,20 @@ public class PageBuilder
     /// </summary>
     /// <param name="embed">The <see cref="IEmbed" />.</param>
     /// <returns>A <see cref="PageBuilder" />.</returns>
-    public static PageBuilder FromEmbed(IEmbed embed)
-    {
-        return FromEmbedBuilder(embed.ToEmbedBuilder());
-    }
+    public static PageBuilder FromEmbed(IEmbed embed) => FromEmbedBuilder(embed.ToEmbedBuilder());
 
     /// <summary>
     ///     Creates a new <see cref="PageBuilder" /> from an <see cref="EmbedBuilder" />.
     /// </summary>
     /// <param name="builder">The <see cref="EmbedBuilder" />.</param>
     /// <returns>A <see cref="PageBuilder" />.</returns>
-    public static PageBuilder FromEmbedBuilder(EmbedBuilder builder)
-    {
-        return new PageBuilder(builder);
-    }
+    public static PageBuilder FromEmbedBuilder(EmbedBuilder builder) => new PageBuilder(builder);
 
     /// <summary>
     ///     Builds this builder to an immutable <see cref="Page" />.
     /// </summary>
     /// <returns>A <see cref="Page" />.</returns>
-    public Page Build()
-    {
-        return new Page(Text, _builder);
-    }
+    public Page Build() => new Page(Text, _builder);
 
     /// <summary>
     ///     Sets the text of a <see cref="Page" />.
@@ -313,10 +299,7 @@ public class PageBuilder
     /// </summary>
     /// <param name="user">The user to put into the author.</param>
     /// <returns>The current builder.</returns>
-    public PageBuilder WithAuthor(IUser user)
-    {
-        return WithAuthor(user.ToString(), user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl());
-    }
+    public PageBuilder WithAuthor(IUser user) => WithAuthor(user.ToString(), user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl());
 
     /// <summary>
     ///     Sets the <see cref="EmbedFooterBuilder" /> of a <see cref="Page" />.

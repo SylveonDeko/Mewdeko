@@ -246,10 +246,7 @@ public partial class Gambling
             }
         }
 
-        private static long GetProfitAmount(int price)
-        {
-            return (int) Math.Ceiling(0.90 * price);
-        }
+        private static long GetProfitAmount(int price) => (int) Math.Ceiling(0.90 * price);
 
         [MewdekoCommand]
         [Usage]

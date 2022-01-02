@@ -184,9 +184,8 @@ namespace Mewdeko.Coordinator.Services
             };
         }
 
-        private Process StartShardProcess(int shardId)
-        {
-            return Process.Start(new ProcessStartInfo()
+        private Process StartShardProcess(int shardId) =>
+            Process.Start(new ProcessStartInfo()
             {
                 FileName = _config.ShardStartCommand,
                 Arguments = string.Format(_config.ShardStartArgs,
@@ -199,7 +198,6 @@ namespace Mewdeko.Coordinator.Services
                 // CreateNoWindow = true,
                 // UseShellExecute = false,
             });
-        }
 
         public bool Heartbeat(int shardId, int guildCount, ConnState state)
         {
@@ -432,10 +430,7 @@ namespace Mewdeko.Coordinator.Services
             }
         }
 
-        public string GetConfigText()
-        {
-            return File.ReadAllText(CONFIG_PATH);
-        }
+        public string GetConfigText() => File.ReadAllText(CONFIG_PATH);
 
         public void SetConfigText(string text)
         {

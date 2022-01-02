@@ -35,10 +35,7 @@ public class AntiAltStats
 
     private int _counter;
 
-    public AntiAltStats(AntiAltSetting setting)
-    {
-        _setting = setting;
-    }
+    public AntiAltStats(AntiAltSetting setting) => _setting = setting;
 
     public PunishmentAction Action => _setting.Action;
     public int ActionDurationMinutes => _setting.ActionDurationMinutes;
@@ -46,8 +43,5 @@ public class AntiAltStats
     public TimeSpan MinAge => _setting.MinAge;
     public int Counter => _counter;
 
-    public void Increment()
-    {
-        Interlocked.Increment(ref _counter);
-    }
+    public void Increment() => Interlocked.Increment(ref _counter);
 }

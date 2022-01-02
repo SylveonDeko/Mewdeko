@@ -10,10 +10,7 @@ namespace Mewdeko.Coordinator.Services
     {
         private readonly CoordinatorRunner _runner;
 
-            public CoordinatorService(CoordinatorRunner runner)
-            {
-                _runner = runner;
-            }
+            public CoordinatorService(CoordinatorRunner runner) => _runner = runner;
 
             public override Task<HeartbeatReply> Heartbeat(HeartbeatRequest request, ServerCallContext context)
             {

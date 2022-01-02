@@ -187,12 +187,10 @@ public class AFKService : INService
         return Task.CompletedTask;
     }
 
-    public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild)
-    {
-        return _db.GetDbContext().AFK.GetAll().GroupBy(m => m.UserId)
-            .Where(m => !string.IsNullOrEmpty(m.Last().Message))
-            .Select(m => guild.GetUserAsync(m.Key).Result);
-    }
+    public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild) =>
+        _db.GetDbContext().AFK.GetAll().GroupBy(m => m.UserId)
+           .Where(m => !string.IsNullOrEmpty(m.Last().Message))
+           .Select(m => guild.GetUserAsync(m.Key).Result);
 
     public async Task SetCustomAfkMessage(IGuild guild, string AfkMessage)
     {

@@ -11,17 +11,12 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 {
     private readonly ITypeInspector innerTypeDescriptor;
 
-    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor)
-    {
-        this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException("innerTypeDescriptor");
-    }
+    public CommentGatheringTypeInspector(ITypeInspector innerTypeDescriptor) => this.innerTypeDescriptor = innerTypeDescriptor ?? throw new ArgumentNullException("innerTypeDescriptor");
 
-    public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object container)
-    {
-        return innerTypeDescriptor
+    public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object container) =>
+        innerTypeDescriptor
             .GetProperties(type, container)
             .Select(d => new CommentsPropertyDescriptor(d));
-    }
 
     private sealed class CommentsPropertyDescriptor : IPropertyDescriptor
     {
@@ -53,15 +48,9 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 
         public bool CanWrite => baseDescriptor.CanWrite;
 
-        public void Write(object target, object value)
-        {
-            baseDescriptor.Write(target, value);
-        }
+        public void Write(object target, object value) => baseDescriptor.Write(target, value);
 
-        public T GetCustomAttribute<T>() where T : Attribute
-        {
-            return baseDescriptor.GetCustomAttribute<T>();
-        }
+        public T GetCustomAttribute<T>() where T : Attribute => baseDescriptor.GetCustomAttribute<T>();
 
         public IObjectDescriptor Read(object target)
         {

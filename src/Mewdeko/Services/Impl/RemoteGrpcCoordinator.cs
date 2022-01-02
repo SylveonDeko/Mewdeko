@@ -32,13 +32,11 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
         return true;
     }
 
-    public void Die()
-    {
+    public void Die() =>
         _coordClient.Die(new DieRequest
         {
             Graceful = false
         });
-    }
 
     public bool RestartShard(int shardId)
     {
@@ -115,23 +113,19 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
         return Task.CompletedTask;
     }
 
-    private ConnState ToCoordConnState(ConnectionState state)
-    {
-        return state switch
+    private ConnState ToCoordConnState(ConnectionState state) =>
+        state switch
         {
             ConnectionState.Connecting => ConnState.Connecting,
             ConnectionState.Connected => ConnState.Connected,
             _ => ConnState.Disconnected
         };
-    }
 
-    private ConnectionState FromCoordConnState(ConnState state)
-    {
-        return state switch
+    private ConnectionState FromCoordConnState(ConnState state) =>
+        state switch
         {
             ConnState.Connecting => ConnectionState.Connecting,
             ConnState.Connected => ConnectionState.Connected,
             _ => ConnectionState.Disconnected
         };
-    }
 }

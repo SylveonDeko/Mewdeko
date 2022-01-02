@@ -21,10 +21,7 @@ public partial class Administration
     {
         private readonly InteractiveService Interactivity;
 
-        public TimeZoneCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public TimeZoneCommands(InteractiveService serv) => Interactivity = serv;
 
         [MewdekoCommand]
         [Usage]
@@ -84,11 +81,9 @@ public partial class Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task Timezone()
-        {
+        public async Task Timezone() =>
             await ReplyConfirmLocalizedAsync("timezone_guild", Service.GetTimeZoneOrUtc(ctx.Guild.Id))
                 .ConfigureAwait(false);
-        }
 
         [MewdekoCommand]
         [Usage]
