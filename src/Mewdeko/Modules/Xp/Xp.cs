@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -499,10 +496,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
     [MewdekoOptions(typeof(LbOpts))]
     [Priority(0)]
     [RequireContext(ContextType.Guild)]
-    public Task XpLeaderboard(params string[] args)
-    {
-        return XpLeaderboard(1, args);
-    }
+    public Task XpLeaderboard(params string[] args) => XpLeaderboard(1, args);
 
     [MewdekoCommand]
     [Usage]
@@ -602,10 +596,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.Administrator)]
-    public Task XpAdd(int amount, [Remainder] IGuildUser user)
-    {
-        return XpAdd(amount, user.Id);
-    }
+    public Task XpAdd(int amount, [Remainder] IGuildUser user) => XpAdd(amount, user.Id);
 
     [MewdekoCommand]
     [Usage]

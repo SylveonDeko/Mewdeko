@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -13,7 +10,6 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.CustomReactions.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.CustomReactions;
 
@@ -35,11 +31,9 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         _clientFactory = clientFactory;
     }
 
-    private bool AdminInGuildOrOwnerInDm()
-    {
-        return ctx.Guild == null && _creds.IsOwner(ctx.User)
-               || ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator;
-    }
+    private bool AdminInGuildOrOwnerInDm() =>
+        ctx.Guild == null && _creds.IsOwner(ctx.User)
+        || ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator;
 
     [MewdekoCommand]
     [Usage]
@@ -368,46 +362,31 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
     [Usage]
     [Description]
     [Aliases]
-    public Task CrCa(int id)
-    {
-        return InternalCrEdit(id, CustomReactionsService.CrField.ContainsAnywhere);
-    }
+    public Task CrCa(int id) => InternalCrEdit(id, CustomReactionsService.CrField.ContainsAnywhere);
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task Rtt(int id)
-    {
-        return InternalCrEdit(id, CustomReactionsService.CrField.ReactToTrigger);
-    }
+    public Task Rtt(int id) => InternalCrEdit(id, CustomReactionsService.CrField.ReactToTrigger);
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task CrDm(int id)
-    {
-        return InternalCrEdit(id, CustomReactionsService.CrField.DmResponse);
-    }
+    public Task CrDm(int id) => InternalCrEdit(id, CustomReactionsService.CrField.DmResponse);
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task CrAd(int id)
-    {
-        return InternalCrEdit(id, CustomReactionsService.CrField.AutoDelete);
-    }
+    public Task CrAd(int id) => InternalCrEdit(id, CustomReactionsService.CrField.AutoDelete);
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task CrAt(int id)
-    {
-        return InternalCrEdit(id, CustomReactionsService.CrField.AllowTarget);
-    }
+    public Task CrAt(int id) => InternalCrEdit(id, CustomReactionsService.CrField.AllowTarget);
 
     [MewdekoCommand]
     [Usage]

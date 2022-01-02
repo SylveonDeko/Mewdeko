@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace Mewdeko.Common;
 
@@ -7,10 +6,7 @@ public class MewdekoRandom : Random
 {
     private readonly RandomNumberGenerator _rng;
 
-    public MewdekoRandom()
-    {
-        _rng = RandomNumberGenerator.Create();
-    }
+    public MewdekoRandom() => _rng = RandomNumberGenerator.Create();
 
     public override int Next()
     {
@@ -52,10 +48,7 @@ public class MewdekoRandom : Random
         return sign * BitConverter.ToInt64(bytes, 0) % (maxValue - minValue) + minValue;
     }
 
-    public override void NextBytes(byte[] buffer)
-    {
-        _rng.GetBytes(buffer);
-    }
+    public override void NextBytes(byte[] buffer) => _rng.GetBytes(buffer);
 
     protected override double Sample()
     {

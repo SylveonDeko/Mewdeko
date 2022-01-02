@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -15,10 +13,7 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
 {
     public DiscordSocketClient _client;
 
-    public SuggestionsCustomization(DiscordSocketClient client)
-    {
-        _client = client;
-    }
+    public SuggestionsCustomization(DiscordSocketClient client) => _client = client;
 
     [MewdekoCommand]
     [Usage]

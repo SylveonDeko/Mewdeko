@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -289,13 +288,8 @@ public enum XpTemplateDirection
 public class XpRgba32Converter : JsonConverter<Rgba32>
 {
     public override Rgba32 ReadJson(JsonReader reader, Type objectType, Rgba32 existingValue, bool hasExistingValue,
-        JsonSerializer serializer)
-    {
-        return Color.ParseHex(reader.Value.ToString());
-    }
+        JsonSerializer serializer) =>
+        Color.ParseHex(reader.Value.ToString());
 
-    public override void WriteJson(JsonWriter writer, Rgba32 value, JsonSerializer serializer)
-    {
-        writer.WriteValue(value.ToHex().ToLowerInvariant());
-    }
+    public override void WriteJson(JsonWriter writer, Rgba32 value, JsonSerializer serializer) => writer.WriteValue(value.ToHex().ToLowerInvariant());
 }

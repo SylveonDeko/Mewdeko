@@ -1,11 +1,8 @@
 ﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -164,10 +161,7 @@ public class StatusRoleService : INService
         return Task.CompletedTask;
     }
 
-    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs)
-    {
-        return _models.TryGetValue(id, out rrs);
-    }
+    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);
 
     public bool Add(ulong id, ReactionRoleMessage rrm)
     {

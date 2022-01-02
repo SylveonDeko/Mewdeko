@@ -1,5 +1,3 @@
-using System;
-
 namespace Mewdeko.Common.Extensions.Interactive.Entities;
 
 /// <summary>
@@ -9,10 +7,8 @@ namespace Mewdeko.Common.Extensions.Interactive.Entities;
 public class InteractiveResult<T> : InteractiveResult
 {
     internal InteractiveResult(T value, TimeSpan elapsed, InteractiveStatus status = InteractiveStatus.Success)
-        : base(elapsed, status)
-    {
+        : base(elapsed, status) =>
         Value = value;
-    }
 
     /// <summary>
     ///     Gets the value representing the result returned by the interactive action.

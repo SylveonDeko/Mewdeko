@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
-using Humanizer;
-using Humanizer.Localisation;
 using Mewdeko._Extensions;
-using Mewdeko.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Swan;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,13 +50,11 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
             }
         };
 
-    public IEnumerable<GuildConfig> GetAllGuildConfigs(List<ulong> availableGuilds)
-    {
-        return IncludeEverything()
+    public IEnumerable<GuildConfig> GetAllGuildConfigs(List<ulong> availableGuilds) =>
+        IncludeEverything()
             .AsNoTracking()
             .Where(x => availableGuilds.Contains(x.GuildId))
             .ToList();
-    }
 
     /// <summary>
     ///     Gets and creates if it doesn't exist a config for a guild.
@@ -166,30 +161,24 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
         return config;
     }
 
-    public IEnumerable<FollowedStream> GetFollowedStreams()
-    {
-        return _set
+    public IEnumerable<FollowedStream> GetFollowedStreams() =>
+        _set
             .AsQueryable()
             .Include(x => x.FollowedStreams)
             .SelectMany(gc => gc.FollowedStreams)
             .ToArray();
-    }
 
-    public IEnumerable<FollowedStream> GetFollowedStreams(List<ulong> included)
-    {
-        return _set.AsQueryable()
+    public IEnumerable<FollowedStream> GetFollowedStreams(List<ulong> included) =>
+        _set.AsQueryable()
             .Where(gc => included.Contains(gc.GuildId))
             .Include(gc => gc.FollowedStreams)
             .SelectMany(gc => gc.FollowedStreams)
             .ToList();
-    }
 
-    public ulong GetCleverbotChannel(ulong guildid)
-    {
-        return _set.AsQueryable()
+    public ulong GetCleverbotChannel(ulong guildid) =>
+        _set.AsQueryable()
             .Where(x => x.GuildId == guildid)
             .Select(x => x.CleverbotChannel).Single();
-    }
 
     public XpSettings XpSettingsFor(ulong guildId)
     {
@@ -207,9 +196,8 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
         return gc.XpSettings;
     }
 
-    public IEnumerable<GeneratingChannel> GetGeneratingChannels()
-    {
-        return _set
+    public IEnumerable<GeneratingChannel> GetGeneratingChannels() =>
+        _set
             .AsQueryable()
             .Include(x => x.GenerateCurrencyChannelIds)
             .Where(x => x.GenerateCurrencyChannelIds.Any())
@@ -220,22 +208,18 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
                 GuildId = x.GuildConfig.GuildId
             })
             .ToArray();
-    }
 
-    private IQueryable<GuildConfig> IncludeEverything()
-    {
-        return _set
-                .AsQueryable()
-                .Include(gc => gc.CommandCooldowns)
-                .Include(gc => gc.GuildRepeaters)
-                .Include(gc => gc.FollowedStreams)
-                .Include(gc => gc.StreamRole)
-                .Include(gc => gc.NsfwBlacklistedTags)
-                .Include(gc => gc.XpSettings)
-                .ThenInclude(x => x.ExclusionList)
-                .Include(gc => gc.DelMsgOnCmdChannels)
-                .Include(gc => gc.ReactionRoleMessages)
-                .ThenInclude(x => x.ReactionRoles)
-            ;
-    }
+    private IQueryable<GuildConfig> IncludeEverything() =>
+        _set
+            .AsQueryable()
+            .Include(gc => gc.CommandCooldowns)
+            .Include(gc => gc.GuildRepeaters)
+            .Include(gc => gc.FollowedStreams)
+            .Include(gc => gc.StreamRole)
+            .Include(gc => gc.NsfwBlacklistedTags)
+            .Include(gc => gc.XpSettings)
+            .ThenInclude(x => x.ExclusionList)
+            .Include(gc => gc.DelMsgOnCmdChannels)
+            .Include(gc => gc.ReactionRoleMessages)
+            .ThenInclude(x => x.ReactionRoles);
 }

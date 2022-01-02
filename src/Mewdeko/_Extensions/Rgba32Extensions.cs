@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Gif;
@@ -11,10 +10,7 @@ namespace Mewdeko._Extensions;
 
 public static class Rgba32Extensions
 {
-    public static Image<Rgba32> Merge(this IEnumerable<Image<Rgba32>> images)
-    {
-        return images.Merge(out _);
-    }
+    public static Image<Rgba32> Merge(this IEnumerable<Image<Rgba32>> images) => images.Merge(out _);
 
     public static Image<Rgba32> Merge(this IEnumerable<Image<Rgba32>> images, out IImageFormat format)
     {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Games.Common.Hangman;
@@ -85,16 +82,14 @@ public sealed class Hangman : IDisposable
         }
     }
 
-    public string GetHangman()
-    {
-        return $@". ┌─────┐
+    public string GetHangman() =>
+        $@". ┌─────┐
 .┃...............┋
 .┃...............┋
 .┃{(Errors > 0 ? ".............😲" : "")}
 .┃{(Errors > 1 ? "............./" : "")} {(Errors > 2 ? "|" : "")} {(Errors > 3 ? "\\" : "")}
 .┃{(Errors > 4 ? "............../" : "")} {(Errors > 5 ? "\\" : "")}
 /-\";
-    }
 
     public async Task Input(ulong userId, string userName, string input)
     {

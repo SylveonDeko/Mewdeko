@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;

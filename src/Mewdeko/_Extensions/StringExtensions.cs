@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Mewdeko.Common.Yml;
 using Newtonsoft.Json;
 
@@ -33,25 +30,17 @@ public static class StringExtensions
         return str.PadLeft(padLeft).PadRight(length);
     }
 
-    public static string UnescapeUnicodeCodePoints(this string input)
-    {
-        return _codePointRegex.Replace(input, me =>
+    public static string UnescapeUnicodeCodePoints(this string input) =>
+        _codePointRegex.Replace(input, me =>
         {
             var str = me.Groups["code"].Value;
             var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
             return newString;
         });
-    }
 
-    public static T MapJson<T>(this string str)
-    {
-        return JsonConvert.DeserializeObject<T>(str);
-    }
+    public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
 
-    public static string StripHtml(this string input)
-    {
-        return Regex.Replace(input, "<.*?>", string.Empty);
-    }
+    public static string StripHtml(this string input) => Regex.Replace(input, "<.*?>", string.Empty);
 
     public static string TrimTo(this string str, int maxLength, bool hideDots = false)
     {
@@ -153,10 +142,7 @@ public static class StringExtensions
         return ms;
     }
 
-    public static bool IsDiscordInvite(this string str)
-    {
-        return filterRegex.IsMatch(str);
-    }
+    public static bool IsDiscordInvite(this string str) => filterRegex.IsMatch(str);
 
 
     public static string SanitizeMentions(this string str, bool sanitizeRoleMentions = false)
@@ -169,15 +155,9 @@ public static class StringExtensions
         return str;
     }
 
-    public static string SanitizeRoleMentions(this string str)
-    {
-        return str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
-    }
+    public static string SanitizeRoleMentions(this string str) => str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
 
-    public static string SanitizeAllMentions(this string str)
-    {
-        return str.SanitizeMentions().SanitizeRoleMentions();
-    }
+    public static string SanitizeAllMentions(this string str) => str.SanitizeMentions().SanitizeRoleMentions();
 
     public static string ToBase64(this string plainText)
     {
@@ -185,13 +165,7 @@ public static class StringExtensions
         return Convert.ToBase64String(plainTextBytes);
     }
 
-    public static string GetInitials(this string txt, string glue = "")
-    {
-        return string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
-    }
+    public static string GetInitials(this string txt, string glue = "") => string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
 
-    public static bool IsAlphaNumeric(this string txt)
-    {
-        return txt.All(c => lettersAndDigits.Contains(c));
-    }
+    public static bool IsAlphaNumeric(this string txt) => txt.All(c => lettersAndDigits.Contains(c));
 }

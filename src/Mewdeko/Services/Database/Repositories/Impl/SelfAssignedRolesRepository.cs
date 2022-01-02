@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,10 +21,8 @@ public class SelfAssignedRolesRepository : Repository<SelfAssignedRole>, ISelfAs
         return true;
     }
 
-    public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId)
-    {
-        return _set.AsQueryable()
+    public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId) =>
+        _set.AsQueryable()
             .Where(s => s.GuildId == guildId)
             .ToArray();
-    }
 }

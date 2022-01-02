@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Google.Apis.Customsearch.v1.Data;
 
 namespace Mewdeko.Services;

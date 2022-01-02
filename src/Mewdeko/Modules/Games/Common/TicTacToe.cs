@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.WebSocket;
@@ -54,10 +52,7 @@ public class TicTacToe
 
     public event Action<TicTacToe> OnEnded;
 
-    private string GetText(string key, params object[] replacements)
-    {
-        return _strings.GetText(key, _channel.GuildId, replacements);
-    }
+    private string GetText(string key, params object[] replacements) => _strings.GetText(key, _channel.GuildId, replacements);
 
     public string GetState()
     {

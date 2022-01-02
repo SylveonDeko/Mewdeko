@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Services.Database.Models;
@@ -23,18 +22,13 @@ public class CustomReaction : DbEntity
     public bool AllowTarget { get; set; }
     public string Reactions { get; set; }
 
-    public string[] GetReactions()
-    {
-        return string.IsNullOrWhiteSpace(Reactions)
+    public string[] GetReactions() =>
+        string.IsNullOrWhiteSpace(Reactions)
             ? Array.Empty<string>()
             : Reactions.Split("@@@");
-    }
 
 
-    public bool IsGlobal()
-    {
-        return GuildId is null || GuildId == 0;
-    }
+    public bool IsGlobal() => GuildId is null || GuildId == 0;
 }
 
 public class ReactionResponse : DbEntity

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -17,11 +15,9 @@ public partial class Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task Yomama()
-        {
+        public async Task Yomama() =>
             await ctx.Channel.SendConfirmAsync(await Service.GetYomamaJoke().ConfigureAwait(false))
-                .ConfigureAwait(false);
-        }
+                     .ConfigureAwait(false);
 
         [MewdekoCommand]
         [Usage]
@@ -37,11 +33,9 @@ public partial class Searches
         [Usage]
         [Description]
         [Aliases]
-        public async Task ChuckNorris()
-        {
+        public async Task ChuckNorris() =>
             await ctx.Channel.SendConfirmAsync(await Service.GetChuckNorrisJoke().ConfigureAwait(false))
-                .ConfigureAwait(false);
-        }
+                     .ConfigureAwait(false);
 
         [MewdekoCommand]
         [Usage]

@@ -1,5 +1,4 @@
-﻿using System;
-using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+﻿using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 
 namespace Mewdeko.Services.Database.Models;
 
@@ -21,17 +20,12 @@ public class FollowedStream : DbEntity
     public FType Type { get; set; }
     public string Message { get; set; }
 
-    protected bool Equals(FollowedStream other)
-    {
-        return ChannelId == other.ChannelId
-               && Username.Trim().ToUpperInvariant() == other.Username.Trim().ToUpperInvariant()
-               && Type == other.Type;
-    }
+    protected bool Equals(FollowedStream other) =>
+        ChannelId == other.ChannelId
+        && Username.Trim().ToUpperInvariant() == other.Username.Trim().ToUpperInvariant()
+        && Type == other.Type;
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(ChannelId, Username, (int) Type);
-    }
+    public override int GetHashCode() => HashCode.Combine(ChannelId, Username, (int) Type);
 
     public override bool Equals(object obj)
     {
@@ -41,8 +35,5 @@ public class FollowedStream : DbEntity
         return Equals((FollowedStream) obj);
     }
 
-    public StreamDataKey CreateKey()
-    {
-        return new StreamDataKey(Type, Username.ToLower());
-    }
+    public StreamDataKey CreateKey() => new StreamDataKey(Type, Username.ToLower());
 }

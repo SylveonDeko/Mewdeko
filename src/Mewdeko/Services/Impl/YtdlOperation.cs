@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
 using Mewdeko._Extensions;
 using Serilog;
 
@@ -11,10 +10,7 @@ public class YtdlOperation
 {
     private readonly string _baseArgString;
 
-    public YtdlOperation(string baseArgString)
-    {
-        _baseArgString = baseArgString;
-    }
+    public YtdlOperation(string baseArgString) => _baseArgString = baseArgString;
 
     private Process CreateProcess(string[] args)
     {

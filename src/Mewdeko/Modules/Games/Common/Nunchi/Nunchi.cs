@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Games.Common.Nunchi;
@@ -27,10 +24,7 @@ public sealed class NunchiGame : IDisposable
 
     private HashSet<(ulong Id, string Name)> _participants = new();
 
-    public NunchiGame(ulong creatorId, string creatorName)
-    {
-        _participants.Add((creatorId, creatorName));
-    }
+    public NunchiGame(ulong creatorId, string creatorName) => _participants.Add((creatorId, creatorName));
 
     public int CurrentNumber { get; private set; } = new MewdekoRandom().Next(0, 100);
     public Phase CurrentPhase { get; private set; } = Phase.Joining;

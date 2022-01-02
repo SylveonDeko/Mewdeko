@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 using Mewdeko.Services.Database.Models;
@@ -54,9 +51,8 @@ public class NotifChecker
         return toReturn;
     }
 
-    public Task RunAsync()
-    {
-        return Task.Run(async () =>
+    public Task RunAsync() =>
+        Task.Run(async () =>
         {
             while (true)
                 try
@@ -64,12 +60,12 @@ public class NotifChecker
                     var allStreamData = CacheGetAllData();
 
                     var oldStreamDataDict = allStreamData
-                        // group by type
-                        .GroupBy(entry => entry.Key.Type)
-                        .ToDictionary(
-                            entry => entry.Key,
-                            entry => entry.AsEnumerable().ToDictionary(x => x.Key.Name, x => x.Value)
-                        );
+                                            // group by type
+                                            .GroupBy(entry => entry.Key.Type)
+                                            .ToDictionary(
+                                                entry => entry.Key,
+                                                entry => entry.AsEnumerable().ToDictionary(x => x.Key.Name, x => x.Value)
+                                            );
 
                     var newStreamData = await Task.WhenAll(oldStreamDataDict
                         .Select(x =>
@@ -143,7 +139,6 @@ public class NotifChecker
                     Log.Error(ex, $"Error getting stream notifications: {ex.Message}");
                 }
         });
-    }
 
     public bool CacheAddData(StreamDataKey key, StreamData? data, bool replace)
     {
@@ -225,8 +220,5 @@ public class NotifChecker
         return CacheAddData(data.CreateKey(), data, false);
     }
 
-    public void UntrackStreamByKey(in StreamDataKey key)
-    {
-        CacheDeleteData(key);
-    }
+    public void UntrackStreamByKey(in StreamDataKey key) => CacheDeleteData(key);
 }

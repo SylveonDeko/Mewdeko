@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Humanizer;
@@ -21,10 +18,7 @@ public class AfkCommands : MewdekoModuleBase<AFKService>
 {
     private readonly InteractiveService Interactivity;
 
-    public AfkCommands(InteractiveService serv)
-    {
-        Interactivity = serv;
-    }
+    public AfkCommands(InteractiveService serv) => Interactivity = serv;
 
     [MewdekoCommand]
     [Usage]

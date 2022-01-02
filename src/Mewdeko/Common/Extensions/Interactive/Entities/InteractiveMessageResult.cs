@@ -1,4 +1,3 @@
-using System;
 using Discord;
 
 namespace Mewdeko.Common.Extensions.Interactive.Entities;
@@ -10,10 +9,8 @@ public class InteractiveMessageResult<T> : InteractiveResult<T>, IInteractiveMes
 {
     internal InteractiveMessageResult(T value, TimeSpan elapsed,
         InteractiveStatus status = InteractiveStatus.Success, IUserMessage message = null)
-        : base(value, elapsed, status)
-    {
+        : base(value, elapsed, status) =>
         Message = message;
-    }
 
     /// <inheritdoc />
     public IUserMessage Message { get; }
@@ -26,10 +23,8 @@ public class InteractiveMessageResult : InteractiveResult, IInteractiveMessageRe
 {
     internal InteractiveMessageResult(TimeSpan elapsed,
         InteractiveStatus status = InteractiveStatus.Success, IUserMessage message = null)
-        : base(elapsed, status)
-    {
+        : base(elapsed, status) =>
         Message = message;
-    }
 
     /// <inheritdoc />
     public IUserMessage Message { get; }

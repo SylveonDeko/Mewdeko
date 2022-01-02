@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -9,8 +6,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Giveaways.Services;
-using Mewdeko.Services;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Giveaways;

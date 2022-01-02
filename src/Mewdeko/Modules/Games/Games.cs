@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -9,7 +7,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Games;
 
@@ -96,10 +93,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
                 .Build()).ConfigureAwait(false);
     }
 
-    private double NextDouble(double x, double y)
-    {
-        return _rng.NextDouble() * (y - x) + x;
-    }
+    private double NextDouble(double x, double y) => _rng.NextDouble() * (y - x) + x;
 
     private GirlRating GetGirl(ulong uid)
     {
@@ -162,8 +156,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     [Usage]
     [Description]
     [Aliases]
-    public async Task Linux(string guhnoo, string loonix)
-    {
+    public async Task Linux(string guhnoo, string loonix) =>
         await ctx.Channel.SendConfirmAsync(
             $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
@@ -171,5 +164,4 @@ Many computer users run a modified version of the {guhnoo} system every day, wit
 
 There really is a {loonix}, and these people are using it, but it is just a part of the system they use. {loonix} is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. {loonix} is normally used in combination with the {guhnoo} operating system: the whole system is basically {guhnoo} with {loonix} added, or {guhnoo}/{loonix}. All the so-called {loonix} distributions are really distributions of {guhnoo}/{loonix}."
         ).ConfigureAwait(false);
-    }
 }

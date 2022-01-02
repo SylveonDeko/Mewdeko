@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Help.Services;
-using Mewdeko.Services;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Utility.Services;

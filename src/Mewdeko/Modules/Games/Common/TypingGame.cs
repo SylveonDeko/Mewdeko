@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.WebSocket;
@@ -128,10 +125,7 @@ public class TypingGame
         return $"No typing articles found. Use {_prefix}typeadd command to add a new article for typing.";
     }
 
-    private void HandleAnswers()
-    {
-        _client.MessageReceived += AnswerReceived;
-    }
+    private void HandleAnswers() => _client.MessageReceived += AnswerReceived;
 
     private Task AnswerReceived(SocketMessage imsg)
     {
@@ -180,10 +174,7 @@ public class TypingGame
         return Task.CompletedTask;
     }
 
-    private static bool Judge(int errors, int textLength)
-    {
-        return errors <= textLength / 25;
-    }
+    private static bool Judge(int errors, int textLength) => errors <= textLength / 25;
 
     public class Options : IMewdekoCommandOptions
     {

@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Extensions.Interactive.Entities;
@@ -42,15 +39,9 @@ internal class PaginatorCallback : IInteractiveCallback
     public DateTimeOffset StartTime { get; }
 
     /// <inheritdoc />
-    public void Cancel()
-    {
-        TimeoutTaskSource.TryCancel();
-    }
+    public void Cancel() => TimeoutTaskSource.TryCancel();
 
-    public Task ExecuteAsync(SocketMessage message)
-    {
-        throw new NotSupportedException("Cannot execute this callback using a message.");
-    }
+    public Task ExecuteAsync(SocketMessage message) => throw new NotSupportedException("Cannot execute this callback using a message.");
 
     /// <inheritdoc />
     public async Task ExecuteAsync(SocketReaction reaction)
@@ -95,10 +86,7 @@ internal class PaginatorCallback : IInteractiveCallback
     }
 
     /// <inheritdoc />
-    public void Dispose()
-    {
-        Dispose(true);
-    }
+    public void Dispose() => Dispose(true);
 
     protected virtual void Dispose(bool disposing)
     {

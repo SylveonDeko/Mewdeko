@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.Database.Models;
 
@@ -60,8 +57,5 @@ public abstract class Provider
     /// <returns><see cref="StreamData" /> of all users, in the same order. Null for every id/user not found.</returns>
     public abstract Task<List<StreamData>> GetStreamDataAsync(List<string> usernames);
 
-    public void ClearErrorsFor(string login)
-    {
-        _failingStreams.TryRemove(login, out _);
-    }
+    public void ClearErrorsFor(string login) => _failingStreams.TryRemove(login, out _);
 }

@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
@@ -12,7 +9,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
@@ -489,15 +485,9 @@ public class XpService : INService, IUnloadableService
             UserLeftVoiceChannel(user, channel);
     }
 
-    private static bool ShouldTrackVoiceChannel(SocketVoiceChannel channel)
-    {
-        return channel.Users.Where(UserParticipatingInVoiceChannel).Take(2).Count() >= 2;
-    }
+    private static bool ShouldTrackVoiceChannel(SocketVoiceChannel channel) => channel.Users.Where(UserParticipatingInVoiceChannel).Take(2).Count() >= 2;
 
-    private static bool UserParticipatingInVoiceChannel(SocketGuildUser user)
-    {
-        return !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
-    }
+    private static bool UserParticipatingInVoiceChannel(SocketGuildUser user) => !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
 
     private void UserJoinedVoiceChannel(SocketGuildUser user)
     {
@@ -663,20 +653,11 @@ public class XpService : INService, IUnloadableService
         XpVoiceTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
     }
 
-    public bool IsServerExcluded(ulong id)
-    {
-        return _excludedServers.Contains(id);
-    }
+    public bool IsServerExcluded(ulong id) => _excludedServers.Contains(id);
 
-    public IEnumerable<ulong> GetExcludedRoles(ulong id)
-    {
-        return _excludedRoles.TryGetValue(id, out var val) ? val.ToArray() : Enumerable.Empty<ulong>();
-    }
+    public IEnumerable<ulong> GetExcludedRoles(ulong id) => _excludedRoles.TryGetValue(id, out var val) ? val.ToArray() : Enumerable.Empty<ulong>();
 
-    public IEnumerable<ulong> GetExcludedChannels(ulong id)
-    {
-        return _excludedChannels.TryGetValue(id, out var val) ? val.ToArray() : Enumerable.Empty<ulong>();
-    }
+    public IEnumerable<ulong> GetExcludedChannels(ulong id) => _excludedChannels.TryGetValue(id, out var val) ? val.ToArray() : Enumerable.Empty<ulong>();
 
     private bool SetUserRewarded(SocketGuildUser userId)
     {
@@ -812,9 +793,8 @@ public class XpService : INService, IUnloadableService
     }
 
 
-    public Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats)
-    {
-        return Task.Run(
+    public Task<(Stream Image, IImageFormat Format)> GenerateXpImageAsync(FullUserStats stats) =>
+        Task.Run(
             async () =>
             {
                 var usernameTextOptions = new TextGraphicsOptions
@@ -841,13 +821,13 @@ public class XpService : INService, IUnloadableService
                     var fontSize = (int) (_template.User.Name.FontSize * 0.9);
                     var username = stats.User.Username;
                     var usernameFont = _fonts.NotoSans
-                        .CreateFont(fontSize, FontStyle.Bold);
+                                             .CreateFont(fontSize, FontStyle.Bold);
 
                     var size = TextMeasurer.Measure($"{username}", new RendererOptions(usernameFont));
                     var scale = 400f / size.Width;
                     if (scale < 1)
                         usernameFont = _fonts.NotoSans
-                            .CreateFont(_template.User.Name.FontSize * scale, FontStyle.Bold);
+                                             .CreateFont(_template.User.Name.FontSize * scale, FontStyle.Bold);
 
                     img.Mutate(x =>
                     {
@@ -948,10 +928,10 @@ public class XpService : INService, IUnloadableService
                                 using (var tempDraw = Image.Load(avatarData))
                                 {
                                     tempDraw.Mutate(x => x
-                                        .Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y)
-                                        .ApplyRoundedCorners(
-                                            Math.Max(_template.User.Icon.Size.X,
-                                                _template.User.Icon.Size.Y) / 2));
+                                                         .Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y)
+                                                         .ApplyRoundedCorners(
+                                                             Math.Max(_template.User.Icon.Size.X,
+                                                                 _template.User.Icon.Size.Y) / 2));
                                     await using (var stream = tempDraw.ToStream())
                                     {
                                         data = stream.ToArray();
@@ -981,7 +961,6 @@ public class XpService : INService, IUnloadableService
                 img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
                 return ((Stream) img.ToStream(imageFormat), imageFormat);
             });
-    }
 
     private void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
     {

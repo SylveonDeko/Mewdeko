@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services;
 using Mewdeko.Services.Database;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +10,7 @@ public class ShopService : IShopService
 {
     private readonly DbService _db;
 
-    public ShopService(DbService db)
-    {
-        _db = db;
-    }
+    public ShopService(DbService db) => _db = db;
 
     public async Task<bool> ChangeEntryPriceAsync(ulong guildId, int index, int newPrice)
     {
@@ -95,14 +89,12 @@ public class ShopService : IShopService
         return true;
     }
 
-    private IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId)
-    {
-        return uow.GuildConfigs.ForId(
-                guildId,
-                set => set.Include(x => x.ShopEntries)
-                    .ThenInclude(x => x.Items)
-            )
-            .ShopEntries
-            .ToIndexed();
-    }
+    private IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId) =>
+        uow.GuildConfigs.ForId(
+               guildId,
+               set => set.Include(x => x.ShopEntries)
+                         .ThenInclude(x => x.Items)
+           )
+           .ShopEntries
+           .ToIndexed();
 }

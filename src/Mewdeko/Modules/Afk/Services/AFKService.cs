@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Afk.Services;
@@ -187,12 +182,10 @@ public class AFKService : INService
         return Task.CompletedTask;
     }
 
-    public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild)
-    {
-        return _db.GetDbContext().AFK.GetAll().GroupBy(m => m.UserId)
-            .Where(m => !string.IsNullOrEmpty(m.Last().Message))
-            .Select(m => guild.GetUserAsync(m.Key).Result);
-    }
+    public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild) =>
+        _db.GetDbContext().AFK.GetAll().GroupBy(m => m.UserId)
+           .Where(m => !string.IsNullOrEmpty(m.Last().Message))
+           .Select(m => guild.GetUserAsync(m.Key).Result);
 
     public async Task SetCustomAfkMessage(IGuild guild, string AfkMessage)
     {

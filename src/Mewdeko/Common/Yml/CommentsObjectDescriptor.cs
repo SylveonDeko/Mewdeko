@@ -1,5 +1,4 @@
-﻿using System;
-using YamlDotNet.Core;
+﻿using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.Yml;

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -19,10 +17,7 @@ public partial class Games
     {
         private readonly DiscordSocketClient _client;
 
-        public PollCommands(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        public PollCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand]
         [Usage]

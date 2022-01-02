@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -19,10 +16,7 @@ public partial class Moderation
         private static readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
         private readonly IServiceProvider _services;
 
-        public PurgeCommands(IServiceProvider servs)
-        {
-            _services = servs;
-        }
+        public PurgeCommands(IServiceProvider servs) => _services = servs;
 
 
         [MewdekoCommand]
@@ -141,10 +135,7 @@ public partial class Moderation
         [UserPerm(ChannelPermission.ManageMessages)]
         [BotPerm(ChannelPermission.ManageMessages)]
         [Priority(0)]
-        public Task Purge(IGuildUser user, int count = 100, string parameter = null)
-        {
-            return Purge(user.Id, count, parameter);
-        }
+        public Task Purge(IGuildUser user, int count = 100, string parameter = null) => Purge(user.Id, count, parameter);
 
         //Purge userid [x]
         [MewdekoCommand]

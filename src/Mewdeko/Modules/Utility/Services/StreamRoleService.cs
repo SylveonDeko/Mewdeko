@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Net;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
@@ -11,7 +8,6 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Mewdeko.Modules.Utility.Extensions;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
 
@@ -153,7 +149,7 @@ public class StreamRoleService : INService, IUnloadableService
 
             streamRoleSettings.Keyword = keyword;
             UpdateCache(guild.Id, streamRoleSettings);
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
         }
 
         await RescanUsers(guild).ConfigureAwait(false);
@@ -313,8 +309,5 @@ public class StreamRoleService : INService, IUnloadableService
         }
     }
 
-    private void UpdateCache(ulong guildId, StreamRoleSettings setting)
-    {
-        guildSettings.AddOrUpdate(guildId, key => setting, (key, old) => setting);
-    }
+    private void UpdateCache(ulong guildId, StreamRoleSettings setting) => guildSettings.AddOrUpdate(guildId, key => setting, (key, old) => setting);
 }

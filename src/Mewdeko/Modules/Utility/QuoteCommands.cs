@@ -1,13 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services;
 using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Utility;
@@ -19,10 +16,7 @@ public partial class Utility
     {
         private readonly DbService _db;
 
-        public QuoteCommands(DbService db)
-        {
-            _db = db;
-        }
+        public QuoteCommands(DbService db) => _db = db;
 
         [MewdekoCommand]
         [Usage]
@@ -30,10 +24,7 @@ public partial class Utility
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public Task ListQuotes(OrderType order = OrderType.Keyword)
-        {
-            return ListQuotes(1, order);
-        }
+        public Task ListQuotes(OrderType order = OrderType.Keyword) => ListQuotes(1, order);
 
         [MewdekoCommand]
         [Usage]
@@ -127,18 +118,16 @@ public partial class Utility
             await ShowQuoteData(quote);
         }
 
-        private async Task ShowQuoteData(Quote data)
-        {
+        private async Task ShowQuoteData(Quote data) =>
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                .WithOkColor()
-                .WithTitle(GetText("quote_id", $"#{data.Id}"))
-                .AddField(efb => efb.WithName(GetText("trigger")).WithValue(data.Keyword))
-                .AddField(efb => efb.WithName(GetText("response")).WithValue(data.Text.Length > 1000
-                    ? GetText("redacted_too_long")
-                    : Format.Sanitize(data.Text)))
-                .WithFooter(GetText("created_by", $"{data.AuthorName} ({data.AuthorId})"))
+                                         .WithOkColor()
+                                         .WithTitle(GetText("quote_id", $"#{data.Id}"))
+                                         .AddField(efb => efb.WithName(GetText("trigger")).WithValue(data.Keyword))
+                                         .AddField(efb => efb.WithName(GetText("response")).WithValue(data.Text.Length > 1000
+                                             ? GetText("redacted_too_long")
+                                             : Format.Sanitize(data.Text)))
+                                         .WithFooter(GetText("created_by", $"{data.AuthorName} ({data.AuthorId})"))
             ).ConfigureAwait(false);
-        }
 
         [MewdekoCommand]
         [Usage]

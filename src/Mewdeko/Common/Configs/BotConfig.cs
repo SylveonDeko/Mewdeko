@@ -125,10 +125,7 @@ See RotatingStatuses submodule in Administration.")]
     //     ? text + Prefix
     //     : Prefix + text;
 
-    public string Prefixed(string text)
-    {
-        return Prefix + text;
-    }
+    public string Prefixed(string text) => Prefix + text;
 }
 
 public class BlockedConfig

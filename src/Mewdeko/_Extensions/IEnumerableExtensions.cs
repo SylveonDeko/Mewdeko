@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using Mewdeko.Common.Collections;
 using Mewdeko.Services.Database.Models;
@@ -24,11 +22,9 @@ public static class EnumerableExtensions
         return string.Join(separator, data.Select(func));
     }
 
-    public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey)
-    {
-        return data.GroupBy(getKey)
+    public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey) =>
+        data.GroupBy(getKey)
             .Select(x => x.First());
-    }
 
     /// <summary>
     ///     Randomize element order by performing the Fisher-Yates shuffle
@@ -67,14 +63,10 @@ public static class EnumerableExtensions
     }
 
     public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> dict)
-    {
-        return new ConcurrentDictionary<TKey, TValue>(dict);
-    }
+        this IEnumerable<KeyValuePair<TKey, TValue>> dict) =>
+        new ConcurrentDictionary<TKey, TValue>(dict);
 
     public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
-        where T : class, IIndexed
-    {
-        return new IndexedCollection<T>(enumerable);
-    }
+        where T : class, IIndexed =>
+        new IndexedCollection<T>(enumerable);
 }

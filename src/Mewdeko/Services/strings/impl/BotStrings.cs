@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using Serilog;
 using YamlDotNet.Serialization;
 
@@ -21,10 +20,7 @@ public class BotStrings : IBotStrings
         _stringsProvider = stringsProvider;
     }
 
-    public string GetText(string key, ulong? guildId = null, params object[] data)
-    {
-        return GetText(key, _localization.GetCultureInfo(guildId), data);
-    }
+    public string GetText(string key, ulong? guildId = null, params object[] data) => GetText(key, _localization.GetCultureInfo(guildId), data);
 
     public string GetText(string key, CultureInfo cultureInfo, params object[] data)
     {
@@ -45,10 +41,7 @@ public class BotStrings : IBotStrings
         }
     }
 
-    public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null)
-    {
-        return GetCommandStrings(commandName, _localization.GetCultureInfo(guildId));
-    }
+    public CommandStrings GetCommandStrings(string commandName, ulong? guildId = null) => GetCommandStrings(commandName, _localization.GetCultureInfo(guildId));
 
     public CommandStrings GetCommandStrings(string commandName, CultureInfo cultureInfo)
     {
@@ -66,15 +59,9 @@ public class BotStrings : IBotStrings
         };
     }
 
-    public void Reload()
-    {
-        _stringsProvider.Reload();
-    }
+    public void Reload() => _stringsProvider.Reload();
 
-    private string GetString(string key, CultureInfo cultureInfo)
-    {
-        return _stringsProvider.GetText(cultureInfo.Name, key);
-    }
+    private string GetString(string key, CultureInfo cultureInfo) => _stringsProvider.GetText(cultureInfo.Name, key);
 
     public string GetText(string key, CultureInfo cultureInfo)
     {

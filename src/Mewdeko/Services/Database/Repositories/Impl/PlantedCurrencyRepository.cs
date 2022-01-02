@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +10,7 @@ public class PlantedCurrencyRepository : Repository<PlantedCurrency>, IPlantedCu
     {
     }
 
-    public decimal GetTotalPlanted()
-    {
-        return _set.Sum(x => x.Amount);
-    }
+    public decimal GetTotalPlanted() => _set.Sum(x => x.Amount);
 
     public (long Sum, ulong[] MessageIds) RemoveSumAndGetMessageIdsFor(ulong cid, string pass = null)
     {

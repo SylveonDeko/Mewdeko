@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Discord;
 
 namespace Mewdeko.Modules.Gambling.Common.Blackjack;
@@ -21,10 +19,7 @@ public abstract class Player
         return val;
     }
 
-    public int GetRawHandValue()
-    {
-        return Cards.Sum(x => x.Number == 1 ? 11 : x.Number >= 10 ? 10 : x.Number);
-    }
+    public int GetRawHandValue() => Cards.Sum(x => x.Number == 1 ? 11 : x.Number >= 10 ? 10 : x.Number);
 }
 
 public class Dealer : Player

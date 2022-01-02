@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Humanizer.Bytes;
@@ -176,10 +173,7 @@ public class StatsService : IStatsService
         _voiceChannels = guilds.Sum(g => g.Channels.Count(cx => cx is IVoiceChannel));
     }
 
-    public TimeSpan GetUptime()
-    {
-        return DateTime.UtcNow - _started;
-    }
+    public TimeSpan GetUptime() => DateTime.UtcNow - _started;
 
     public string GetUptimeString(string separator = ", ")
     {
