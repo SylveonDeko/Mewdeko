@@ -11,10 +11,7 @@ public class YtdlOperation
 {
     private readonly string _baseArgString;
 
-    public YtdlOperation(string baseArgString)
-    {
-        _baseArgString = baseArgString;
-    }
+    public YtdlOperation(string baseArgString) => _baseArgString = baseArgString;
 
     private Process CreateProcess(string[] args)
     {

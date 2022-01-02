@@ -48,10 +48,7 @@ public static class Extensions
         }
     };
 
-    private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordSocketClient client)
-    {
-        return str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
-    }
+    private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordSocketClient client) => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
 
     private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx,
         DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
@@ -86,11 +83,9 @@ public static class Extensions
     }
 
     public static Task<string> ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx,
-        DiscordSocketClient client, bool containsAnywhere)
-    {
-        return cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client),
+        DiscordSocketClient client, bool containsAnywhere) =>
+        cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client),
             containsAnywhere);
-    }
 
     public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx,
         DiscordSocketClient client, bool sanitize)

@@ -24,9 +24,7 @@ public class MusicPlaylistRepository : Repository<MusicPlaylist>, IMusicPlaylist
             .ToList();
     }
 
-    public MusicPlaylist GetWithSongs(int id)
-    {
-        return _set.Include(mpl => mpl.Songs)
+    public MusicPlaylist GetWithSongs(int id) =>
+        _set.Include(mpl => mpl.Songs)
             .FirstOrDefault(mpl => mpl.Id == id);
-    }
 }

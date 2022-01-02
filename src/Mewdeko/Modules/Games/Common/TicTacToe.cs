@@ -54,10 +54,7 @@ public class TicTacToe
 
     public event Action<TicTacToe> OnEnded;
 
-    private string GetText(string key, params object[] replacements)
-    {
-        return _strings.GetText(key, _channel.GuildId, replacements);
-    }
+    private string GetText(string key, params object[] replacements) => _strings.GetText(key, _channel.GuildId, replacements);
 
     public string GetState()
     {

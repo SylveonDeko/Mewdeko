@@ -99,10 +99,7 @@ public class CommandHandler : INService
         }
     }
 
-    public string GetPrefix(IGuild guild)
-    {
-        return GetPrefix(guild?.Id);
-    }
+    public string GetPrefix(IGuild guild) => GetPrefix(guild?.Id);
 
     public string GetPrefix(ulong? id = null)
     {
@@ -355,10 +352,8 @@ public class CommandHandler : INService
 
     public Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos, IServiceProvider serviceProvider,
-        MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
-    {
-        return ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
-    }
+        MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception) =>
+        ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
 
 
     public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,

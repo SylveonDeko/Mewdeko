@@ -11,18 +11,14 @@ public class GiveawayRepository : Repository<Giveaways>, IGiveawaysRepository
     {
     }
 
-    public IEnumerable<Giveaways> GiveawaysFor(ulong serverId, int page)
-    {
-        return _set.AsQueryable()
+    public IEnumerable<Giveaways> GiveawaysFor(ulong serverId, int page) =>
+        _set.AsQueryable()
             .Where(x => x.ServerId == serverId)
             .OrderBy(x => x.DateAdded)
             .Skip(page * 10)
             .Take(10);
-    }
 
-    public List<Giveaways> GiveawaysForGuild(ulong serverId)
-    {
-        return _set.AsQueryable()
+    public List<Giveaways> GiveawaysForGuild(ulong serverId) =>
+        _set.AsQueryable()
             .Where(x => x.ServerId == serverId).ToList();
-    }
 }

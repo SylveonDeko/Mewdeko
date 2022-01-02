@@ -20,10 +20,7 @@ public partial class Administration
     {
         private readonly IHttpClientFactory _httpFactory;
 
-        public ServerGreetCommands(IHttpClientFactory fact)
-        {
-            _httpFactory = fact;
-        }
+        public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
 
         [MewdekoCommand]
         [Usage]
@@ -272,10 +269,7 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetHook(string text)
-        {
-            await GreetHook(null, null, null, text);
-        }
+        public async Task GreetHook(string text) => await GreetHook(null, null, null, text);
 
         [MewdekoCommand]
         [Usage]
@@ -283,10 +277,7 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageGuild)]
-        public async Task LeaveHook(string text)
-        {
-            await LeaveHook(null, null, null, text);
-        }
+        public async Task LeaveHook(string text) => await LeaveHook(null, null, null, text);
 
         [MewdekoCommand]
         [Usage]

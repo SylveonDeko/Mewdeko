@@ -164,10 +164,7 @@ public class StatusRoleService : INService
         return Task.CompletedTask;
     }
 
-    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs)
-    {
-        return _models.TryGetValue(id, out rrs);
-    }
+    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);
 
     public bool Add(ulong id, ReactionRoleMessage rrm)
     {

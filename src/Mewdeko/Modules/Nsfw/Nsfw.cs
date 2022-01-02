@@ -258,10 +258,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Alias]
     [RequireContext(ContextType.Guild)]
     [RequireNsfw]
-    public async Task NHentaiSearch([Remainder] string search)
-    {
-        await InternalNHentaiSearch(search);
-    }
+    public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search);
 
     [MewdekoCommand]
     [Usage]
@@ -269,10 +266,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Alias]
     [RequireContext(ContextType.Guild)]
     [RequireNsfw]
-    public async Task NHentaiSearch(string search, [Remainder] string blacklist)
-    {
-        await InternalNHentaiSearch(search, 1, blacklist);
-    }
+    public async Task NHentaiSearch(string search, [Remainder] string blacklist) => await InternalNHentaiSearch(search, 1, blacklist);
 
     [MewdekoCommand]
     [Usage]
@@ -280,10 +274,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Alias]
     [RequireContext(ContextType.Guild)]
     [RequireNsfw]
-    public async Task NHentaiSearch(string search, int page)
-    {
-        await InternalNHentaiSearch(search, page);
-    }
+    public async Task NHentaiSearch(string search, int page) => await InternalNHentaiSearch(search, page);
 
     [MewdekoCommand]
     [Usage]
@@ -291,10 +282,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Alias]
     [RequireContext(ContextType.Guild)]
     [RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type)
-    {
-        await InternalNHentaiSearch(search, page, type);
-    }
+    public async Task NHentaiSearch(string search, int page, string type) => await InternalNHentaiSearch(search, page, type);
 
     [MewdekoCommand]
     [Usage]
@@ -302,10 +290,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Alias]
     [RequireContext(ContextType.Guild)]
     [RequireNsfw]
-    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist)
-    {
-        await InternalNHentaiSearch(search, page, type, blacklist);
-    }
+    public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist);
 
     [MewdekoCommand]
     [Usage]
@@ -359,10 +344,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Hentai([Remainder] string tag = null)
-    {
-        return InternalHentai(ctx.Channel, tag);
-    }
+    public Task Hentai([Remainder] string tag = null) => InternalHentai(ctx.Channel, tag);
 
     [MewdekoCommand]
     [Usage]
@@ -403,10 +385,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Yandere([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.Yandere, false);
-    }
+    public Task Yandere([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
 
     [MewdekoCommand]
     [Usage]
@@ -414,10 +393,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Konachan([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.Konachan, false);
-    }
+    public Task Konachan([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
 
     [MewdekoCommand]
     [Usage]
@@ -425,10 +401,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task E621([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.E621, false);
-    }
+    public Task E621([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.E621, false);
 
     [MewdekoCommand]
     [Usage]
@@ -436,10 +409,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Rule34([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.Rule34, false);
-    }
+    public Task Rule34([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
 
     [MewdekoCommand]
     [Usage]
@@ -447,10 +417,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Danbooru([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
-    }
+    public Task Danbooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
 
     [MewdekoCommand]
     [Usage]
@@ -458,10 +425,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Gelbooru([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
-    }
+    public Task Gelbooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
 
     [MewdekoCommand]
     [Usage]
@@ -469,10 +433,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [Aliases]
     [RequireNsfw(Group = "nsfw_or_dm")]
     [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Derpibooru([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
-    }
+    public Task Derpibooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
 
     [MewdekoCommand]
     [Usage]

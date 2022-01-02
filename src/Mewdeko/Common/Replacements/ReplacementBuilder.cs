@@ -27,18 +27,13 @@ public class ReplacementBuilder
         WithRngRegex();
     }
 
-    public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g, DiscordSocketClient client)
-    {
-        return WithUser(usr)
+    public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g, DiscordSocketClient client) =>
+        WithUser(usr)
             .WithChannel(ch)
             .WithServer(client, g)
             .WithClient(client);
-    }
 
-    public ReplacementBuilder WithDefault(ICommandContext ctx)
-    {
-        return WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient) ctx.Client);
-    }
+    public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel, ctx.Guild as SocketGuild, (DiscordSocketClient) ctx.Client);
 
     public ReplacementBuilder WithMention(DiscordSocketClient client)
     {
@@ -239,11 +234,9 @@ public class ReplacementBuilder
         return this;
     }
 
-    public Replacer Build()
-    {
-        return new Replacer(_reps.Select(x => (x.Key, x.Value)).ToArray(),
+    public Replacer Build() =>
+        new Replacer(_reps.Select(x => (x.Key, x.Value)).ToArray(),
             _regex.Select(x => (x.Key, x.Value)).ToArray());
-    }
 
     public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)
     {

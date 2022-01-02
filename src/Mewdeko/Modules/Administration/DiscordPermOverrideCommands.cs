@@ -22,10 +22,7 @@ public partial class Administration
     {
         private readonly InteractiveService Interactivity;
 
-        public DiscordPermOverrideCommands(InteractiveService serv)
-        {
-            Interactivity = serv;
-        }
+        public DiscordPermOverrideCommands(InteractiveService serv) => Interactivity = serv;
 
         // override stats, it should require that the user has managessages guild permission
         // .po 'stats' add user guild managemessages

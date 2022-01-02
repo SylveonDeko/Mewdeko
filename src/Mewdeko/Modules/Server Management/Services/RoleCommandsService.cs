@@ -49,10 +49,7 @@ public class RoleCommandsService : INService
         return Task.CompletedTask;
     }
 
-    public RoleJobs[] JobCheck(IGuild guild, int job)
-    {
-        return jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
-    }
+    public RoleJobs[] JobCheck(IGuild guild, int job) => jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
 
     public async Task StopJob(ITextChannel ch, int jobId, IGuild guild)
     {

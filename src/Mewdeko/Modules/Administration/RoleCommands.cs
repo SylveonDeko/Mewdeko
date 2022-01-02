@@ -119,10 +119,7 @@ public partial class Administration
         [RequireContext(ContextType.Guild)]
         [BotPerm(GuildPermission.ManageRoles)]
         [Priority(0)]
-        public Task ReactionRoles(ulong messageId, params string[] input)
-        {
-            return InternalReactionRoles(false, messageId, input);
-        }
+        public Task ReactionRoles(ulong messageId, params string[] input) => InternalReactionRoles(false, messageId, input);
 
         [MewdekoCommand]
         [Aliases]
@@ -130,10 +127,7 @@ public partial class Administration
         [UserPerm(GuildPermission.ManageRoles)]
         [BotPerm(GuildPermission.ManageRoles)]
         [Priority(1)]
-        public Task ReactionRoles(ulong messageId, Exclude _, params string[] input)
-        {
-            return InternalReactionRoles(true, messageId, input);
-        }
+        public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) => InternalReactionRoles(true, messageId, input);
 
         [MewdekoCommand]
         [Usage]
@@ -143,10 +137,7 @@ public partial class Administration
         [UserPerm(GuildPermission.ManageRoles)]
         [BotPerm(GuildPermission.ManageRoles)]
         [Priority(0)]
-        public Task ReactionRoles(params string[] input)
-        {
-            return InternalReactionRoles(false, null, input);
-        }
+        public Task ReactionRoles(params string[] input) => InternalReactionRoles(false, null, input);
 
         [MewdekoCommand]
         [Usage]
@@ -156,10 +147,7 @@ public partial class Administration
         [UserPerm(GuildPermission.ManageRoles)]
         [BotPerm(GuildPermission.ManageRoles)]
         [Priority(1)]
-        public Task ReactionRoles(Exclude _, params string[] input)
-        {
-            return InternalReactionRoles(true, null, input);
-        }
+        public Task ReactionRoles(Exclude _, params string[] input) => InternalReactionRoles(true, null, input);
 
         [MewdekoCommand]
         [Usage]
@@ -397,11 +385,9 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [Priority(1)]
-        public async Task RoleColor([Remainder] IRole role)
-        {
+        public async Task RoleColor([Remainder] IRole role) =>
             await ctx.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("x6"))
-                .ConfigureAwait(false);
-        }
+                     .ConfigureAwait(false);
 
         [MewdekoCommand]
         [Usage]

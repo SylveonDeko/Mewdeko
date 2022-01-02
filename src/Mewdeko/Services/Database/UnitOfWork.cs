@@ -41,10 +41,7 @@ public sealed class UnitOfWork : IUnitOfWork
 
     private IXpRepository _xp;
 
-    public UnitOfWork(MewdekoContext context)
-    {
-        _context = context;
-    }
+    public UnitOfWork(MewdekoContext context) => _context = context;
 
     public MewdekoContext _context { get; }
     public IQuoteRepository Quotes => _quotes ??= new QuoteRepository(_context);
@@ -88,16 +85,10 @@ public sealed class UnitOfWork : IUnitOfWork
     public IPlantedCurrencyRepository PlantedCurrency =>
         _planted ??= new PlantedCurrencyRepository(_context);
 
-    public int SaveChanges()
-    {
-        return _context.SaveChanges();
-    }
+    public int SaveChanges() => _context.SaveChanges();
     //it saved everything as null, that or it added an entry along with GuildCOnfigs
 
-    public Task<int> SaveChangesAsync()
-    {
-        return _context.SaveChangesAsync();
-    }
+    public Task<int> SaveChangesAsync() => _context.SaveChangesAsync();
 
     public void Dispose()
     {

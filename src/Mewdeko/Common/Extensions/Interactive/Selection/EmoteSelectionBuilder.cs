@@ -28,13 +28,11 @@ public sealed class EmoteSelectionBuilder<TValue>
     public new IDictionary<IEmote, TValue> Options { get; set; } = new Dictionary<IEmote, TValue>();
 
     /// <inheritdoc />
-    public override Selection<KeyValuePair<IEmote, TValue>> Build()
-    {
-        return new Selection<KeyValuePair<IEmote, TValue>>(EmoteConverter, StringConverter,
+    public override Selection<KeyValuePair<IEmote, TValue>> Build() =>
+        new Selection<KeyValuePair<IEmote, TValue>>(EmoteConverter, StringConverter,
             EqualityComparer, AllowCancel, SelectionPage?.Build(), Users?.ToArray(), Options?.ToArray(),
             CanceledPage?.Build(), TimeoutPage?.Build(), SuccessPage?.Build(), Deletion, InputType,
             ActionOnCancellation, ActionOnTimeout, ActionOnSuccess);
-    }
 
     /// <summary>
     ///     Sets the options.
@@ -72,37 +70,23 @@ public sealed class EmoteSelectionBuilder : BaseSelectionBuilder<Selection<IEmot
     public override IEqualityComparer<IEmote> EqualityComparer { get; set; } = new EmoteComparer();
 
     /// <inheritdoc />
-    public override Selection<IEmote> Build()
-    {
-        return new Selection<IEmote>(EmoteConverter, StringConverter,
+    public override Selection<IEmote> Build() =>
+        new Selection<IEmote>(EmoteConverter, StringConverter,
             EqualityComparer, AllowCancel, SelectionPage?.Build(), Users?.ToArray(), Options?.ToArray(),
             CanceledPage?.Build(), TimeoutPage?.Build(), SuccessPage?.Build(), Deletion, InputType,
             ActionOnCancellation, ActionOnTimeout, ActionOnSuccess);
-    }
 }
 
 internal class EmoteComparer<TValue> : IEqualityComparer<KeyValuePair<IEmote, TValue>>
 {
-    public bool Equals(KeyValuePair<IEmote, TValue> x, KeyValuePair<IEmote, TValue> y)
-    {
-        return x.Key.ToString() == y.Key.ToString() && Equals(x.Value, y.Value);
-    }
+    public bool Equals(KeyValuePair<IEmote, TValue> x, KeyValuePair<IEmote, TValue> y) => x.Key.ToString() == y.Key.ToString() && Equals(x.Value, y.Value);
 
-    public int GetHashCode(KeyValuePair<IEmote, TValue> pair)
-    {
-        return HashCode.Combine(pair.Key.ToString(), pair.Value);
-    }
+    public int GetHashCode(KeyValuePair<IEmote, TValue> pair) => HashCode.Combine(pair.Key.ToString(), pair.Value);
 }
 
 internal class EmoteComparer : IEqualityComparer<IEmote>
 {
-    public bool Equals(IEmote x, IEmote y)
-    {
-        return x?.ToString() == y?.ToString();
-    }
+    public bool Equals(IEmote x, IEmote y) => x?.ToString() == y?.ToString();
 
-    public int GetHashCode(IEmote obj)
-    {
-        return obj.ToString()?.GetHashCode() ?? 0;
-    }
+    public int GetHashCode(IEmote obj) => obj.ToString()?.GetHashCode() ?? 0;
 }

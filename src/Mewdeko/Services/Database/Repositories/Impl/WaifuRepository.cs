@@ -77,29 +77,24 @@ public class WaifuRepository : Repository<WaifuInfo>, IWaifuRepository
             .ToList();
     }
 
-    public decimal GetTotalValue()
-    {
-        return _set
+    public decimal GetTotalValue() =>
+        _set
             .AsQueryable()
             .Where(x => x.ClaimerId != null)
             .Sum(x => x.Price);
-    }
 
-    public int AffinityCount(ulong userId)
-    {
+    public int AffinityCount(ulong userId) =>
         //return _context.Set<WaifuUpdate>()
         //           .Count(w => w.User.UserId == userId &&
         //               w.UpdateType == WaifuUpdateType.AffinityChanged &&
         //               w.New != null));
-
-        return _context.Set<WaifuUpdate>()
-            .FromSqlInterpolated($@"SELECT 1 
+        _context.Set<WaifuUpdate>()
+                .FromSqlInterpolated($@"SELECT 1 
 FROM WaifuUpdates
 WHERE UserId = (SELECT Id from DiscordUser WHERE UserId={userId}) AND 
     UpdateType = 0 AND 
     NewId IS NOT NULL")
-            .Count();
-    }
+                .Count();
 
     public WaifuInfoStats GetWaifuInfo(ulong userId)
     {

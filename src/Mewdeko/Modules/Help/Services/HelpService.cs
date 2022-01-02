@@ -58,10 +58,7 @@ public class HelpService : ILateExecutor, INService
         return Task.CompletedTask;
     }
 
-    public void UpdateHash(HelpInfo info)
-    {
-        list3.Add(info);
-    }
+    public void UpdateHash(HelpInfo info) => list3.Add(info);
 
     private async Task HandlePing(SocketMessage msg)
     {
@@ -211,22 +208,15 @@ public class HelpService : ILateExecutor, INService
         return toReturn.ToArray();
     }
 
-    public static string GetPreconditionString(ChannelPermission perm)
-    {
-        return (perm + " Channel Permission")
-            .Replace("Guild", "Server", StringComparison.InvariantCulture);
-    }
+    public static string GetPreconditionString(ChannelPermission perm) =>
+        (perm + " Channel Permission")
+        .Replace("Guild", "Server", StringComparison.InvariantCulture);
 
-    public static string GetPreconditionString(GuildPermission perm)
-    {
-        return (perm + " Server Permission")
-            .Replace("Guild", "Server", StringComparison.InvariantCulture);
-    }
+    public static string GetPreconditionString(GuildPermission perm) =>
+        (perm + " Server Permission")
+        .Replace("Guild", "Server", StringComparison.InvariantCulture);
 
-    private string GetText(string text, IGuild guild, params object[] replacements)
-    {
-        return _strings.GetText(text, guild?.Id, replacements);
-    }
+    private string GetText(string text, IGuild guild, params object[] replacements) => _strings.GetText(text, guild?.Id, replacements);
 
     public record HelpInfo
     {

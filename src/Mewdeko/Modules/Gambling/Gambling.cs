@@ -79,10 +79,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         _configService = configService;
     }
 
-    private string N(long cur)
-    {
-        return cur.ToString("N", _enUsCulture);
-    }
+    private string N(long cur) => cur.ToString("N", _enUsCulture);
 
     public string GetCurrency(ulong id)
     {
@@ -258,10 +255,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Description]
     [Aliases]
     [Priority(2)]
-    public Task CurrencyTransactions(int page = 1)
-    {
-        return InternalCurrencyTransactions(ctx.User.Id, page);
-    }
+    public Task CurrencyTransactions(int page = 1) => InternalCurrencyTransactions(ctx.User.Id, page);
 
     [MewdekoCommand]
     [Usage]
@@ -269,10 +263,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Aliases]
     [OwnerOnly]
     [Priority(0)]
-    public Task CurrencyTransactions([Remainder] IUser usr)
-    {
-        return InternalCurrencyTransactions(usr.Id, 1);
-    }
+    public Task CurrencyTransactions([Remainder] IUser usr) => InternalCurrencyTransactions(usr.Id, 1);
 
     [MewdekoCommand]
     [Usage]
@@ -280,10 +271,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Aliases]
     [OwnerOnly]
     [Priority(1)]
-    public Task CurrencyTransactions(IUser usr, int page)
-    {
-        return InternalCurrencyTransactions(usr.Id, page);
-    }
+    public Task CurrencyTransactions(IUser usr, int page) => InternalCurrencyTransactions(usr.Id, page);
 
     private async Task InternalCurrencyTransactions(ulong userId, int page)
     {
@@ -319,11 +307,9 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Description]
     [Aliases]
     [Priority(0)]
-    public async Task Cash(ulong userId)
-    {
+    public async Task Cash(ulong userId) =>
         await ReplyConfirmLocalizedAsync("has", Format.Code(userId.ToString()),
             $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
-    }
 
     [MewdekoCommand]
     [Usage]
@@ -356,10 +342,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [Priority(1)]
-    public Task Give(ShmartNumber amount, [Remainder] IGuildUser receiver)
-    {
-        return Give(amount, receiver, null);
-    }
+    public Task Give(ShmartNumber amount, [Remainder] IGuildUser receiver) => Give(amount, receiver, null);
 
     [MewdekoCommand]
     [Usage]
@@ -368,10 +351,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [RequireContext(ContextType.Guild)]
     [OwnerOnly]
     [Priority(0)]
-    public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg)
-    {
-        return Award(amount, usr.Id, msg);
-    }
+    public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg) => Award(amount, usr.Id, msg);
 
     [MewdekoCommand]
     [Usage]
@@ -380,10 +360,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [RequireContext(ContextType.Guild)]
     [OwnerOnly]
     [Priority(1)]
-    public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr)
-    {
-        return Award(amount, usr.Id);
-    }
+    public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr) => Award(amount, usr.Id);
 
     [MewdekoCommand]
     [Usage]
@@ -607,10 +584,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Usage]
     [Description]
     [Aliases]
-    public Task BetRoll(ShmartNumber amount)
-    {
-        return InternallBetroll(amount);
-    }
+    public Task BetRoll(ShmartNumber amount) => InternallBetroll(amount);
 
     [MewdekoCommand]
     [Usage]
@@ -618,10 +592,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [Aliases]
     [MewdekoOptions(typeof(LbOpts))]
     [Priority(0)]
-    public Task Leaderboard(params string[] args)
-    {
-        return Leaderboard(1, args);
-    }
+    public Task Leaderboard(params string[] args) => Leaderboard(1, args);
 
     [MewdekoCommand]
     [Usage]
@@ -764,13 +735,11 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    private string GetRpsPick(RpsPick p)
-    {
-        return p switch
+    private string GetRpsPick(RpsPick p) =>
+        p switch
         {
             RpsPick.R => "🚀",
             RpsPick.P => "📎",
             _ => "✂️"
         };
-    }
 }

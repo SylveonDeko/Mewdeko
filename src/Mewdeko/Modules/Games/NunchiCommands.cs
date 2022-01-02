@@ -17,10 +17,7 @@ public partial class Games
     {
         private readonly DiscordSocketClient _client;
 
-        public NunchiCommands(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        public NunchiCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand]
         [Usage]
@@ -103,17 +100,12 @@ public partial class Games
             }
         }
 
-        private Task Nunchi_OnRoundStarted(NunchiGame arg, int cur)
-        {
-            return ConfirmLocalizedAsync("nunchi_round_started",
+        private Task Nunchi_OnRoundStarted(NunchiGame arg, int cur) =>
+            ConfirmLocalizedAsync("nunchi_round_started",
                 Format.Bold(arg.ParticipantCount.ToString()),
                 Format.Bold(cur.ToString()));
-        }
 
-        private Task Nunchi_OnUserGuessed(NunchiGame arg)
-        {
-            return ConfirmLocalizedAsync("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
-        }
+        private Task Nunchi_OnUserGuessed(NunchiGame arg) => ConfirmLocalizedAsync("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
 
         private Task Nunchi_OnRoundEnded(NunchiGame arg1, (ulong Id, string Name)? arg2)
         {
@@ -124,9 +116,6 @@ public partial class Games
                     arg1.Participants.Select(x => x.Name)))); // this won't work if there are too many users
         }
 
-        private Task Nunchi_OnGameStarted(NunchiGame arg)
-        {
-            return ConfirmLocalizedAsync("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
-        }
+        private Task Nunchi_OnGameStarted(NunchiGame arg) => ConfirmLocalizedAsync("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
     }
 }
