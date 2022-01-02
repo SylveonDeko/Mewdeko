@@ -153,7 +153,7 @@ public class StreamRoleService : INService, IUnloadableService
 
             streamRoleSettings.Keyword = keyword;
             UpdateCache(guild.Id, streamRoleSettings);
-            uow.SaveChanges();
+            await uow.SaveChangesAsync();
         }
 
         await RescanUsers(guild).ConfigureAwait(false);

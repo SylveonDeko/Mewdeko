@@ -135,7 +135,7 @@ public class WaifuService : INService
 
         //wives stay though
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
         return true;
     }

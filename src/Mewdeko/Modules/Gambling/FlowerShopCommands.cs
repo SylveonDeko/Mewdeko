@@ -125,7 +125,7 @@ public partial class Gambling
                     .ThenInclude(x => x.Items));
                 var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             if (entry == null)
@@ -195,7 +195,7 @@ public partial class Gambling
                     using (var uow = _db.GetDbContext())
                     {
                         var x = uow._context.Set<ShopEntryItem>().Remove(item);
-                        uow.SaveChanges();
+                        await uow.SaveChangesAsync();
                     }
 
                     try
@@ -230,7 +230,7 @@ public partial class Gambling
                             entry = entries.ElementAtOrDefault(index);
                             if (entry != null)
                                 if (entry.Items.Add(item))
-                                    uow.SaveChanges();
+                                    await uow.SaveChangesAsync();
                         }
 
                         await ReplyErrorLocalizedAsync("shop_buy_error").ConfigureAwait(false);
@@ -275,7 +275,7 @@ public partial class Gambling
                     entry
                 };
                 uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
@@ -307,7 +307,7 @@ public partial class Gambling
                     entry
                 };
                 uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
             await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
@@ -340,7 +340,7 @@ public partial class Gambling
                 entry = entries.ElementAtOrDefault(index);
                 if (entry != null && (rightType = entry.Type == ShopEntryType.List))
                     if (added = entry.Items.Add(item))
-                        uow.SaveChanges();
+                        await uow.SaveChangesAsync();
             }
 
             if (entry == null)
@@ -377,7 +377,7 @@ public partial class Gambling
                 {
                     uow._context.RemoveRange(removed.Items);
                     uow._context.Remove(removed);
-                    uow.SaveChanges();
+                    await uow.SaveChangesAsync();
                 }
             }
 

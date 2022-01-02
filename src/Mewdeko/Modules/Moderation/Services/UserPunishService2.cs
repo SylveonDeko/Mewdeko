@@ -18,30 +18,27 @@ public class UserPunishService2 : INService
 {
     private readonly DbService _db;
     private readonly MuteService _mute;
-    private readonly Timer _warnExpiryTimer;
-    private Mewdeko.Services.Mewdeko _bot;
 
 
     public UserPunishService2(MuteService mute, DbService db, Mewdeko.Services.Mewdeko bot)
     {
         _mute = mute;
         _db = db;
-        _bot = bot;
-        _miniwarnlogchannelids = bot.AllGuildConfigs
-            .Where(x => x.MiniWarnlogChannelId != 0)
-            .ToDictionary(x => x.GuildId, x => x.MiniWarnlogChannelId)
-            .ToConcurrent();
+        Miniwarnlogchannelids = bot.AllGuildConfigs
+                                   .Where(x => x.MiniWarnlogChannelId != 0)
+                                   .ToDictionary(x => x.GuildId, x => x.MiniWarnlogChannelId)
+                                   .ToConcurrent();
 
 
-        _warnExpiryTimer = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
+        new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    private ConcurrentDictionary<ulong, ulong> _miniwarnlogchannelids { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Miniwarnlogchannelids { get; } = new();
 
     public ulong GetMWarnlogChannel(ulong? id)
     {
-        if (id == null || !_miniwarnlogchannelids.TryGetValue(id.Value, out var mwarnlogchannel))
+        if (id == null || !Miniwarnlogchannelids.TryGetValue(id.Value, out var mwarnlogchannel))
             return 0;
 
         return mwarnlogchannel;
@@ -56,7 +53,7 @@ public class UserPunishService2 : INService
             await uow.SaveChangesAsync();
         }
 
-        _miniwarnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+        Miniwarnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
     }
 
     public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)
