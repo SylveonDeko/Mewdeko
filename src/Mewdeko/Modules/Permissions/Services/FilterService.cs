@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;

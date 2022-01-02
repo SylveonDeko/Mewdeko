@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
 using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;

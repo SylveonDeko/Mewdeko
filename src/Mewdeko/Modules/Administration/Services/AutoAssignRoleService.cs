@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 using Discord.Net;
 using Discord.WebSocket;
 using LinqToDB;

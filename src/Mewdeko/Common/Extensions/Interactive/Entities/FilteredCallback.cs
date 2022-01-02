@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Discord.WebSocket;
 
 namespace Mewdeko.Common.Extensions.Interactive.Entities;

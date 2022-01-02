@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Common;

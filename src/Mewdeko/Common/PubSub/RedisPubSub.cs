@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Serilog;
 using StackExchange.Redis;
 
