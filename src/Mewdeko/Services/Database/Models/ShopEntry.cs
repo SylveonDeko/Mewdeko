@@ -38,8 +38,5 @@ public class ShopEntryItem : DbEntity
         return ((ShopEntryItem) obj).Text == Text;
     }
 
-    public override int GetHashCode()
-    {
-        return Text.GetHashCode(StringComparison.InvariantCulture);
-    }
+    public override int GetHashCode() => Text.GetHashCode(StringComparison.InvariantCulture);
 }

@@ -12,9 +12,8 @@ public class ExportedExpr
     public bool Ca { get; set; }
     public bool Rtt { get; set; }
 
-    public static ExportedExpr FromModel(CustomReaction cr)
-    {
-        return new ExportedExpr
+    public static ExportedExpr FromModel(CustomReaction cr) =>
+        new ExportedExpr
         {
             Res = cr.Response,
             Ad = cr.AutoDeleteTrigger,
@@ -26,5 +25,4 @@ public class ExportedExpr
                 : cr.GetReactions(),
             Rtt = cr.ReactToTrigger
         };
-    }
 }

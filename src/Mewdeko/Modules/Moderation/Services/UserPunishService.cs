@@ -407,9 +407,8 @@ WHERE GuildId={guildId}
     }
 
     public CREmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
-        string banReason, TimeSpan? duration)
-    {
-        return GetBanUserDmEmbed(
+        string banReason, TimeSpan? duration) =>
+        GetBanUserDmEmbed(
             (DiscordSocketClient) context.Client,
             (SocketGuild) context.Guild,
             (IGuildUser) context.User,
@@ -417,7 +416,6 @@ WHERE GuildId={guildId}
             defaultMessage,
             banReason,
             duration);
-    }
 
     public CREmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)

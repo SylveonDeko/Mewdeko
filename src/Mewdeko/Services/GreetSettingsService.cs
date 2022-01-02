@@ -58,9 +58,8 @@ public class GreetSettingsService : INService
     private ConcurrentDictionary<ulong, string> _leavehooks { get; } = new();
     public bool GroupGreets => _bss.Data.GroupGreets;
 
-    private Func<Task> TriggerBoostMessage(GuildConfig conf, SocketGuildUser user)
-    {
-        return async () =>
+    private Func<Task> TriggerBoostMessage(GuildConfig conf, SocketGuildUser user) =>
+        async () =>
         {
             var channel = user.Guild.GetTextChannel(conf.BoostMessageChannelId);
             if (channel is null)
@@ -71,8 +70,8 @@ public class GreetSettingsService : INService
             if (CREmbed.TryParse(conf.BoostMessage, out var embedData))
             {
                 var rep = new ReplacementBuilder()
-                    .WithDefault(user, channel, user.Guild, _client)
-                    .Build();
+                          .WithDefault(user, channel, user.Guild, _client)
+                          .Build();
                 rep.Replace(embedData);
                 try
                 {
@@ -92,8 +91,8 @@ public class GreetSettingsService : INService
             else
             {
                 var rep = new ReplacementBuilder()
-                    .WithDefault(user, channel, user.Guild, _client)
-                    .Build();
+                          .WithDefault(user, channel, user.Guild, _client)
+                          .Build();
                 var msg = rep.Replace(conf.BoostMessage);
                 try
                 {
@@ -107,7 +106,6 @@ public class GreetSettingsService : INService
                 }
             }
         };
-    }
 
     private Task ClientOnGuildMemberUpdated(SocketMessage msg)
     {
@@ -271,10 +269,7 @@ public class GreetSettingsService : INService
         return snum;
     }
 
-    private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user)
-    {
-        return ByeUsers(conf, channel, new[] {user});
-    }
+    private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user) => ByeUsers(conf, channel, new[] {user});
 
     private async Task ByeUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IUser> users)
     {
@@ -348,10 +343,7 @@ public class GreetSettingsService : INService
         }
     }
 
-    private Task GreetUsers(GreetSettings conf, ITextChannel channel, IGuildUser user)
-    {
-        return GreetUsers(conf, channel, new[] {user});
-    }
+    private Task GreetUsers(GreetSettings conf, ITextChannel channel, IGuildUser user) => GreetUsers(conf, channel, new[] {user});
 
     private async Task GreetUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IGuildUser> users)
     {
@@ -778,9 +770,8 @@ public class GreetSettings
     public bool SendChannelByeMessage { get; set; }
     public string ChannelByeMessageText { get; set; }
 
-    public static GreetSettings Create(GuildConfig g)
-    {
-        return new GreetSettings
+    public static GreetSettings Create(GuildConfig g) =>
+        new GreetSettings
         {
             AutoDeleteByeMessagesTimer = g.AutoDeleteByeMessagesTimer,
             AutoDeleteGreetMessagesTimer = g.AutoDeleteGreetMessagesTimer,
@@ -793,5 +784,4 @@ public class GreetSettings
             SendChannelByeMessage = g.SendChannelByeMessage,
             ChannelByeMessageText = g.ChannelByeMessageText
         };
-    }
 }

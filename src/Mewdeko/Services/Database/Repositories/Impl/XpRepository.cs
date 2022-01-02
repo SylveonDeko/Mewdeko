@@ -27,9 +27,8 @@ public class XpRepository : Repository<UserXpStats>, IXpRepository
         return usr;
     }
 
-    public List<UserXpStats> GetUsersFor(ulong guildId, int page)
-    {
-        return _set
+    public List<UserXpStats> GetUsersFor(ulong guildId, int page) =>
+        _set
             .AsQueryable()
             .AsNoTracking()
             .Where(x => x.GuildId == guildId)
@@ -37,22 +36,18 @@ public class XpRepository : Repository<UserXpStats>, IXpRepository
             .Skip(page * 9)
             .Take(9)
             .ToList();
-    }
 
-    public List<UserXpStats> GetTopUserXps(ulong guildId, int count)
-    {
-        return _set
+    public List<UserXpStats> GetTopUserXps(ulong guildId, int count) =>
+        _set
             .AsQueryable()
             .AsNoTracking()
             .Where(x => x.GuildId == guildId)
             .OrderByDescending(x => x.Xp + x.AwardedXp)
             .Take(count)
             .ToList();
-    }
 
-    public int GetUserGuildRanking(ulong userId, ulong guildId)
-    {
-        return _set
+    public int GetUserGuildRanking(ulong userId, ulong guildId) =>
+        _set
             .AsQueryable()
             .AsNoTracking()
             .Count(x => x.GuildId == guildId && x.Xp + x.AwardedXp >
@@ -60,16 +55,10 @@ public class XpRepository : Repository<UserXpStats>, IXpRepository
                     .Where(y => y.UserId == userId && y.GuildId == guildId)
                     .Select(y => y.Xp + y.AwardedXp)
                     .FirstOrDefault()) + 1;
-    }
 
-    public void ResetGuildUserXp(ulong userId, ulong guildId)
-    {
+    public void ResetGuildUserXp(ulong userId, ulong guildId) =>
         _context.Database.ExecuteSqlInterpolated(
             $"DELETE FROM UserXpStats WHERE UserId={userId} AND GuildId={guildId};");
-    }
 
-    public void ResetGuildXp(ulong guildId)
-    {
-        _context.Database.ExecuteSqlInterpolated($"DELETE FROM UserXpStats WHERE GuildId={guildId};");
-    }
+    public void ResetGuildXp(ulong guildId) => _context.Database.ExecuteSqlInterpolated($"DELETE FROM UserXpStats WHERE GuildId={guildId};");
 }

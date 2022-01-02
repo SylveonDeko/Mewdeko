@@ -22,10 +22,8 @@ public class SelfAssignedRolesRepository : Repository<SelfAssignedRole>, ISelfAs
         return true;
     }
 
-    public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId)
-    {
-        return _set.AsQueryable()
+    public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId) =>
+        _set.AsQueryable()
             .Where(s => s.GuildId == guildId)
             .ToArray();
-    }
 }

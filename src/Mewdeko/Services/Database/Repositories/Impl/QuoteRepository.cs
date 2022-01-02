@@ -45,8 +45,5 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
             .FirstOrDefault();
     }
 
-    public void RemoveAllByKeyword(ulong guildId, string keyword)
-    {
-        _set.RemoveRange(_set.AsQueryable().Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
-    }
+    public void RemoveAllByKeyword(ulong guildId, string keyword) => _set.RemoveRange(_set.AsQueryable().Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
 }

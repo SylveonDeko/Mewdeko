@@ -10,13 +10,11 @@ namespace Mewdeko.Common.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddBotStringsServices(this IServiceCollection services)
-    {
-        return services
+    public static IServiceCollection AddBotStringsServices(this IServiceCollection services) =>
+        services
             .AddSingleton<IStringsSource, LocalFileStringsSource>()
             .AddSingleton<IBotStringsProvider, LocalBotStringsProvider>()
             .AddSingleton<IBotStrings, BotStrings>();
-    }
 
     public static IServiceCollection AddConfigServices(this IServiceCollection services)
     {

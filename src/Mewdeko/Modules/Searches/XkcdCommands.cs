@@ -17,10 +17,7 @@ public partial class Searches
         private const string _xkcdUrl = "https://xkcd.com";
         private readonly IHttpClientFactory _httpFactory;
 
-        public XkcdCommands(IHttpClientFactory factory)
-        {
-            _httpFactory = factory;
-        }
+        public XkcdCommands(IHttpClientFactory factory) => _httpFactory = factory;
 
         [MewdekoCommand]
         [Usage]

@@ -17,10 +17,7 @@ public class PicartoProvider : Provider
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public PicartoProvider(IHttpClientFactory httpClientFactory)
-    {
-        _httpClientFactory = httpClientFactory;
-    }
+    public PicartoProvider(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
     private static Regex Regex { get; } = new(@"picarto.tv/(?<name>.+[^/])/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -90,9 +87,8 @@ public class PicartoProvider : Provider
         return toReturn;
     }
 
-    private StreamData ToStreamData(PicartoChannelResponse stream)
-    {
-        return new StreamData
+    private StreamData ToStreamData(PicartoChannelResponse stream) =>
+        new StreamData
         {
             StreamType = FollowedStream.FType.Picarto,
             Name = stream.Name,
@@ -105,5 +101,4 @@ public class PicartoProvider : Provider
             StreamUrl = $"https://picarto.tv/{stream.Name}",
             AvatarUrl = stream.Avatar
         };
-    }
 }

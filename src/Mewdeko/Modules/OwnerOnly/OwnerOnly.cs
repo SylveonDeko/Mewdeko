@@ -504,10 +504,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
     }
 
-    private string GetIntervalText(int interval)
-    {
-        return $"[{GetText("interval")}]: {interval}";
-    }
+    private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
 
     [MewdekoCommand]
     [Usage]
@@ -698,10 +695,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [Description]
     [Aliases]
     [OwnerOnly]
-    public Task LeaveServer([Remainder] string guildStr)
-    {
-        return Service.LeaveGuild(guildStr);
-    }
+    public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
 
 
     [MewdekoCommand]
@@ -1110,10 +1104,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
 public sealed class EvaluationEnvironment
 {
-    public EvaluationEnvironment(CommandContext ctx)
-    {
-        this.ctx = ctx;
-    }
+    public EvaluationEnvironment(CommandContext ctx) => this.ctx = ctx;
 
     public CommandContext ctx { get; }
 

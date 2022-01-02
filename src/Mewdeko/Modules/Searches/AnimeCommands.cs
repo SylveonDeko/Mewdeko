@@ -29,10 +29,7 @@ public partial class Searches
         public static NekoClient NekoClient = new("Mewdeko");
         private readonly InteractiveService Interactivity;
 
-        public AnimeCommands(InteractiveService service)
-        {
-            Interactivity = service;
-        }
+        public AnimeCommands(InteractiveService service) => Interactivity = service;
 
         [MewdekoCommand]
         [Usage]

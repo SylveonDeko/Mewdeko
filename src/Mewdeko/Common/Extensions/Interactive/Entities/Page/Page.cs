@@ -46,28 +46,19 @@ public class Page
     ///     Creates a <see cref="PageBuilder" /> with all the values of this <see cref="Page" />.
     /// </summary>
     /// <returns>A <see cref="PageBuilder" />.</returns>
-    public PageBuilder ToPageBuilder()
-    {
-        return new PageBuilder(Text, Embed.ToEmbedBuilder());
-    }
+    public PageBuilder ToPageBuilder() => new PageBuilder(Text, Embed.ToEmbedBuilder());
 
     /// <summary>
     ///     Creates a new <see cref="Page" /> from an <see cref="Discord.Embed" />.
     /// </summary>
     /// <param name="embed">The embed.</param>
     /// <returns>A <see cref="Page" />.</returns>
-    public static Page FromEmbed(Embed embed)
-    {
-        return new Page(null, embed?.ToEmbedBuilder());
-    }
+    public static Page FromEmbed(Embed embed) => new Page(null, embed?.ToEmbedBuilder());
 
     /// <summary>
     ///     Creates a new <see cref="Page" /> from an <see cref="EmbedBuilder" />.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>A <see cref="Page" />.</returns>
-    public static Page FromEmbedBuilder(EmbedBuilder builder)
-    {
-        return new Page(null, builder);
-    }
+    public static Page FromEmbedBuilder(EmbedBuilder builder) => new Page(null, builder);
 }

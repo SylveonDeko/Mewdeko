@@ -51,18 +51,12 @@ public class Deck
     private static Dictionary<string, Func<List<Card>, bool>> handValues;
     private readonly Random r = new MewdekoRandom();
 
-    static Deck()
-    {
-        InitHandValues();
-    }
+    static Deck() => InitHandValues();
 
     /// <summary>
     ///     Creates a new instance of the BlackJackGame, this allows you to create multiple games running at one time.
     /// </summary>
-    public Deck()
-    {
-        RefillPool();
-    }
+    public Deck() => RefillPool();
 
     public List<Card> CardPool { get; set; }
 
@@ -71,10 +65,7 @@ public class Deck
     ///     only 1 bjg running at one time,
     ///     then you will restart the same game every time.
     /// </summary>
-    public void Restart()
-    {
-        RefillPool();
-    }
+    public void Restart() => RefillPool();
 
     /// <summary>
     ///     Removes all cards from the pool and refills the pool with all of the possible cards. NOTE: I think this is too
@@ -118,10 +109,7 @@ public class Deck
         */
     }
 
-    public override string ToString()
-    {
-        return string.Concat(CardPool.Select(c => c.ToString())) + Environment.NewLine;
-    }
+    public override string ToString() => string.Concat(CardPool.Select(c => c.ToString())) + Environment.NewLine;
 
     private static void InitHandValues()
     {
@@ -309,15 +297,9 @@ public class Deck
             return Number - card.Number;
         }
 
-        public string GetValueText()
-        {
-            return cardNames[Number];
-        }
+        public string GetValueText() => cardNames[Number];
 
-        public override string ToString()
-        {
-            return cardNames[Number] + " Of " + Suit;
-        }
+        public override string ToString() => cardNames[Number] + " Of " + Suit;
 
         public static Card Parse(string input)
         {

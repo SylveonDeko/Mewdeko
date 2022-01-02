@@ -168,30 +168,21 @@ public partial class Gambling
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Hit()
-        {
-            return InternalBlackJack(BjAction.Hit);
-        }
+        public Task Hit() => InternalBlackJack(BjAction.Hit);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Stand()
-        {
-            return InternalBlackJack(BjAction.Stand);
-        }
+        public Task Stand() => InternalBlackJack(BjAction.Stand);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Double()
-        {
-            return InternalBlackJack(BjAction.Double);
-        }
+        public Task Double() => InternalBlackJack(BjAction.Double);
 
         public async Task InternalBlackJack(BjAction a)
         {

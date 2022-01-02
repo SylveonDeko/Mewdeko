@@ -111,10 +111,7 @@ public class GamesService : INService, IUnloadableService
         File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
     }
 
-    public string GetEightballResponse(string _)
-    {
-        return EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
-    }
+    public string GetEightballResponse(string _) => EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
 
     public TypingArticle RemoveTypingArticle(int index)
     {

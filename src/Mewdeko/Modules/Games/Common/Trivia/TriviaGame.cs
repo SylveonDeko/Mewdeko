@@ -60,10 +60,7 @@ public class TriviaGame
     public bool GameActive { get; private set; }
     public bool ShouldStopGame { get; private set; }
 
-    private string GetText(string key, params object[] replacements)
-    {
-        return _strings.GetText(key, Channel.GuildId, replacements);
-    }
+    private string GetText(string key, params object[] replacements) => _strings.GetText(key, Channel.GuildId, replacements);
 
     public async Task StartGame()
     {

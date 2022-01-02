@@ -182,10 +182,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.MuteMembers)]
         [Priority(2)]
-        public Task MWarnlog(int page, IGuildUser user)
-        {
-            return MWarnlog(page, user.Id);
-        }
+        public Task MWarnlog(int page, IGuildUser user) => MWarnlog(page, user.Id);
 
         [MewdekoCommand]
         [Usage]
@@ -209,10 +206,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.MuteMembers)]
         [Priority(0)]
-        public Task MWarnlog(int page, ulong userId)
-        {
-            return InternalWarnlog(userId, page - 1);
-        }
+        public Task MWarnlog(int page, ulong userId) => InternalWarnlog(userId, page - 1);
 
         [MewdekoCommand]
         [Usage]
@@ -221,10 +215,7 @@ public partial class Moderation
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.MuteMembers)]
         [Priority(1)]
-        public Task MWarnlog(ulong userId)
-        {
-            return InternalWarnlog(userId, 0);
-        }
+        public Task MWarnlog(ulong userId) => InternalWarnlog(userId, 0);
 
         private async Task InternalWarnlog(ulong userId, int page)
         {
@@ -315,10 +306,7 @@ public partial class Moderation
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
-        public Task MWarnclear(IGuildUser user, int index = 0)
-        {
-            return MWarnclear(user.Id, index);
-        }
+        public Task MWarnclear(IGuildUser user, int index = 0) => MWarnclear(user.Id, index);
 
         [MewdekoCommand]
         [Usage]

@@ -15,10 +15,7 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
 {
     public DiscordSocketClient _client;
 
-    public SuggestionsCustomization(DiscordSocketClient client)
-    {
-        _client = client;
-    }
+    public SuggestionsCustomization(DiscordSocketClient client) => _client = client;
 
     [MewdekoCommand]
     [Usage]

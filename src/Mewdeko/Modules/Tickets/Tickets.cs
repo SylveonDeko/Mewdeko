@@ -13,10 +13,7 @@ public class Tickets : MewdekoModuleBase<TicketService>
 {
     private readonly IServiceProvider _services;
 
-    public Tickets(IServiceProvider service)
-    {
-        _services = service;
-    }
+    public Tickets(IServiceProvider service) => _services = service;
 
     [MewdekoCommand]
     [Usage]

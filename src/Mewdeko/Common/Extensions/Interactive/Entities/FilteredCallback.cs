@@ -40,10 +40,7 @@ internal class FilteredCallback<TInput> : IInteractiveCallback<TInput>
     public DateTimeOffset StartTime { get; }
 
     /// <inheritdoc />
-    public void Cancel()
-    {
-        TimeoutTaskSource.TryCancel();
-    }
+    public void Cancel() => TimeoutTaskSource.TryCancel();
 
     /// <inheritdoc />
     public async Task ExecuteAsync(TInput input)
@@ -85,10 +82,7 @@ internal class FilteredCallback<TInput> : IInteractiveCallback<TInput>
 #endif
 
     /// <inheritdoc />
-    public void Dispose()
-    {
-        Dispose(true);
-    }
+    public void Dispose() => Dispose(true);
 
     protected virtual void Dispose(bool disposing)
     {

@@ -29,50 +29,35 @@ public partial class Permissions
         [Description]
         [Aliases]
         [OwnerOnly]
-        public Task UserBlacklist(AddRemove action, ulong id)
-        {
-            return Blacklist(action, id, BlacklistType.User);
-        }
+        public Task UserBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.User);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [OwnerOnly]
-        public Task UserBlacklist(AddRemove action, IUser usr)
-        {
-            return Blacklist(action, usr.Id, BlacklistType.User);
-        }
+        public Task UserBlacklist(AddRemove action, IUser usr) => Blacklist(action, usr.Id, BlacklistType.User);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [OwnerOnly]
-        public Task ChannelBlacklist(AddRemove action, ulong id)
-        {
-            return Blacklist(action, id, BlacklistType.Channel);
-        }
+        public Task ChannelBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.Channel);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [OwnerOnly]
-        public Task ServerBlacklist(AddRemove action, ulong id)
-        {
-            return Blacklist(action, id, BlacklistType.Server);
-        }
+        public Task ServerBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.Server);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [OwnerOnly]
-        public Task ServerBlacklist(AddRemove action, IGuild guild)
-        {
-            return Blacklist(action, guild.Id, BlacklistType.Server);
-        }
+        public Task ServerBlacklist(AddRemove action, IGuild guild) => Blacklist(action, guild.Id, BlacklistType.Server);
 
         private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
         {

@@ -314,10 +314,7 @@ public partial class Xp
         [Description]
         [Aliases]
         [Priority(1)]
-        public Task ClubAccept(IUser user)
-        {
-            return ClubAccept(user.ToString());
-        }
+        public Task ClubAccept(IUser user) => ClubAccept(user.ToString());
 
         [MewdekoCommand]
         [Usage]
@@ -350,10 +347,7 @@ public partial class Xp
         [Description]
         [Aliases]
         [Priority(1)]
-        public Task ClubKick([Remainder] IUser user)
-        {
-            return ClubKick(user.ToString());
-        }
+        public Task ClubKick([Remainder] IUser user) => ClubKick(user.ToString());
 
         [MewdekoCommand]
         [Usage]
@@ -373,10 +367,7 @@ public partial class Xp
         [Description]
         [Aliases]
         [Priority(1)]
-        public Task ClubBan([Remainder] IUser user)
-        {
-            return ClubBan(user.ToString());
-        }
+        public Task ClubBan([Remainder] IUser user) => ClubBan(user.ToString());
 
         [MewdekoCommand]
         [Usage]
@@ -396,10 +387,7 @@ public partial class Xp
         [Description]
         [Aliases]
         [Priority(1)]
-        public Task ClubUnBan([Remainder] IUser user)
-        {
-            return ClubUnBan(user.ToString());
-        }
+        public Task ClubUnBan([Remainder] IUser user) => ClubUnBan(user.ToString());
 
         [MewdekoCommand]
         [Usage]

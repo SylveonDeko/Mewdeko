@@ -37,10 +37,7 @@ public static class Extensions
 {
     public static Regex UrlRegex = new(@"^(https?|ftp)://(?<path>[^\s/$.?#].[^\s]*)$", RegexOptions.Compiled);
 
-    public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f)
-    {
-        return Array.ConvertAll(arr, x => f(x));
-    }
+    public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
 
     public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
         bool sanitizeAll = false)
@@ -52,15 +49,9 @@ public static class Extensions
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
 
-    public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab)
-    {
-        return eab.WithIconUrl("https://i.imgur.com/nhKS3PT.png");
-    }
+    public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab) => eab.WithIconUrl("https://i.imgur.com/nhKS3PT.png");
 
-    public static List<ulong> GetGuildIds(this DiscordSocketClient client)
-    {
-        return client.Guilds.Select(x => x.Id).ToList();
-    }
+    public static List<ulong> GetGuildIds(this DiscordSocketClient client) => client.Guilds.Select(x => x.Id).ToList();
 
     // ReSharper disable once InvalidXmlDocComment
     /// Generates a string in the format 00:mm:ss if timespan is less than 2m.
@@ -95,12 +86,10 @@ public static class Extensions
         return false;
     }
 
-    public static IEmote ToIEmote(this string emojiStr)
-    {
-        return Emote.TryParse(emojiStr, out var maybeEmote)
+    public static IEmote ToIEmote(this string emojiStr) =>
+        Emote.TryParse(emojiStr, out var maybeEmote)
             ? maybeEmote
             : new Emoji(emojiStr);
-    }
 
     // https://github.com/SixLabors/Samples/blob/master/ImageSharp/AvatarWithRoundedCorner/Program.cs
     public static IImageProcessingContext ApplyRoundedCorners(this IImageProcessingContext ctx, float cornerRadius)
@@ -145,10 +134,7 @@ public static class Extensions
     /// <summary>
     ///     First 10 characters of teh bot token.
     /// </summary>
-    public static string RedisKey(this IBotCredentials bc)
-    {
-        return bc.Token.Substring(0, 10);
-    }
+    public static string RedisKey(this IBotCredentials bc) => bc.Token.Substring(0, 10);
 
     public static async Task<string> ReplaceAsync(this Regex regex, string input,
         Func<Match, Task<string>> replacementFn)
@@ -174,40 +160,24 @@ public static class Extensions
             throw new ArgumentNullException(nameof(o));
     }
 
-    public static bool IsAuthor(this IMessage msg, IDiscordClient client)
-    {
-        return msg.Author?.Id == client.CurrentUser.Id;
-    }
+    public static bool IsAuthor(this IMessage msg, IDiscordClient client) => msg.Author?.Id == client.CurrentUser.Id;
 
-    public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix)
-    {
-        return string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
-    }
+    public static string RealSummary(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) => string.Format(strings.GetCommandStrings(cmd.Name, guildId).Desc, prefix);
 
-    public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix)
-    {
-        return Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
+    public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
+        Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
-    }
 
-    public static string GetCommandImage(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix)
-    {
-        return strings.GetCommandStrings(cmd.MethodName(), guildId).Image;
-    }
+    public static string GetCommandImage(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) => strings.GetCommandStrings(cmd.MethodName(), guildId).Image;
 
-    public static string MethodName(this CommandInfo cmd)
-    {
-        return ((MewdekoCommandAttribute) cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
-               ?.MethodName
-               ?? cmd.Name;
-    }
+    public static string MethodName(this CommandInfo cmd) =>
+        ((MewdekoCommandAttribute) cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
+        ?.MethodName
+        ?? cmd.Name;
     // public static string RealRemarks(this CommandInfo cmd, IBotStrings strings, string prefix)
     //     => string.Join('\n', cmd.RealRemarksArr(strings, prefix));
 
-    public static string GetFullUsage(string commandName, string args, string prefix)
-    {
-        return $"{prefix}{commandName} {string.Format(args, prefix)}";
-    }
+    public static string GetFullUsage(string commandName, string args, string prefix) => $"{prefix}{commandName} {string.Format(args, prefix)}";
 
     public static EmbedBuilder AddPaginatedFooter(this EmbedBuilder embed, int curPage, int? lastPage)
     {
@@ -216,25 +186,13 @@ public static class Extensions
         return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
     }
 
-    public static EmbedBuilder WithOkColor(this EmbedBuilder eb)
-    {
-        return eb.WithColor(Services.Mewdeko.OkColor);
-    }
+    public static EmbedBuilder WithOkColor(this EmbedBuilder eb) => eb.WithColor(Services.Mewdeko.OkColor);
 
-    public static EmbedBuilder WithErrorColor(this EmbedBuilder eb)
-    {
-        return eb.WithColor(Services.Mewdeko.ErrorColor);
-    }
+    public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) => eb.WithColor(Services.Mewdeko.ErrorColor);
 
-    public static PageBuilder WithOkColor(this PageBuilder eb)
-    {
-        return eb.WithColor(Services.Mewdeko.OkColor);
-    }
+    public static PageBuilder WithOkColor(this PageBuilder eb) => eb.WithColor(Services.Mewdeko.OkColor);
 
-    public static PageBuilder WithErrorColor(this PageBuilder eb)
-    {
-        return eb.WithColor(Services.Mewdeko.ErrorColor);
-    }
+    public static PageBuilder WithErrorColor(this PageBuilder eb) => eb.WithColor(Services.Mewdeko.ErrorColor);
 
     public static HttpClient AddFakeHeaders(this HttpClient http)
     {
@@ -277,11 +235,9 @@ public static class Extensions
         return module;
     }
 
-    public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role)
-    {
-        return (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u =>
+    public static async Task<IEnumerable<IGuildUser>> GetMembersAsync(this IRole role) =>
+        (await role.Guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false)).Where(u =>
             u.RoleIds.Contains(role.Id));
-    }
 
     /// <summary>
     ///     Adds fallback fonts to <see cref="TextOptions" />
@@ -329,15 +285,9 @@ public static class Extensions
         return ms;
     }
 
-    public static IEnumerable<IRole> GetRoles(this IGuildUser user)
-    {
-        return user.RoleIds.Select(r => user.Guild.GetRole(r)).Where(r => r != null);
-    }
+    public static IEnumerable<IRole> GetRoles(this IGuildUser user) => user.RoleIds.Select(r => user.Guild.GetRole(r)).Where(r => r != null);
 
-    public static bool IsImage(this HttpResponseMessage msg)
-    {
-        return IsImage(msg, out _);
-    }
+    public static bool IsImage(this HttpResponseMessage msg) => IsImage(msg, out _);
 
     public static bool IsImage(this HttpResponseMessage msg, out string? mimeType)
     {

@@ -23,18 +23,13 @@ public static class CommandNameLoadHelper
         return _deserializer.Deserialize<Dictionary<string, string[]>>(text);
     }
 
-    public static string[] GetAliasesFor(string methodName)
-    {
-        return LazyCommandAliases.Value.TryGetValue(methodName.ToLowerInvariant(), out var aliases) &&
-               aliases.Length > 1
+    public static string[] GetAliasesFor(string methodName) =>
+        LazyCommandAliases.Value.TryGetValue(methodName.ToLowerInvariant(), out var aliases) &&
+        aliases.Length > 1
             ? aliases.Skip(1).ToArray()
             : Array.Empty<string>();
-    }
 
-    public static string GetRemarksFor(string methodName)
-    {
-        return strings.GetCommandStrings(methodName, "en-US").Desc;
-    }
+    public static string GetRemarksFor(string methodName) => strings.GetCommandStrings(methodName, "en-US").Desc;
 
     public static string GetCommandNameFor(string methodName, string description = null)
     {

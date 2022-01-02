@@ -119,15 +119,12 @@ public class FilterService : IEarlyBehavior, INService
     public int Priority => -50;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
-    public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage msg)
-    {
-        return
-            msg.Author is IGuildUser gu && !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) &&
-            !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false)
-                                                   || await FilterWords(guild, msg).ConfigureAwait(false)
-                                                   || await FilterLinks(guild, msg).ConfigureAwait(false)
-                                                   || await FilterBannedWords(guild, msg).ConfigureAwait(false));
-    }
+    public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage msg) =>
+        msg.Author is IGuildUser gu && !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) &&
+        !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false)
+                                               || await FilterWords(guild, msg).ConfigureAwait(false)
+                                               || await FilterLinks(guild, msg).ConfigureAwait(false)
+                                               || await FilterBannedWords(guild, msg).ConfigureAwait(false));
 
     private ValueTask OnReload(AutoBanEntry[] blacklist)
     {
@@ -270,10 +267,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    protected string GetText(string key, params object[] args)
-    {
-        return Strings.GetText(key, _CultureInfo, args);
-    }
+    protected string GetText(string key, params object[] args) => Strings.GetText(key, _CultureInfo, args);
 
     public async Task<bool> FilterBannedWords(IGuild guild, IUserMessage msg)
     {

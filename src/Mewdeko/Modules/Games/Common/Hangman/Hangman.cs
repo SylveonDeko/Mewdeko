@@ -85,16 +85,14 @@ public sealed class Hangman : IDisposable
         }
     }
 
-    public string GetHangman()
-    {
-        return $@". ┌─────┐
+    public string GetHangman() =>
+        $@". ┌─────┐
 .┃...............┋
 .┃...............┋
 .┃{(Errors > 0 ? ".............😲" : "")}
 .┃{(Errors > 1 ? "............./" : "")} {(Errors > 2 ? "|" : "")} {(Errors > 3 ? "\\" : "")}
 .┃{(Errors > 4 ? "............../" : "")} {(Errors > 5 ? "\\" : "")}
 /-\";
-    }
 
     public async Task Input(ulong userId, string userName, string input)
     {

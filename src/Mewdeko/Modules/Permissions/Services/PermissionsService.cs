@@ -162,8 +162,7 @@ public class PermissionService : ILateBlocker, INService
         UpdateCache(config);
     }
 
-    public void UpdateCache(GuildConfig config)
-    {
+    public void UpdateCache(GuildConfig config) =>
         Cache.AddOrUpdate(config.GuildId, new PermissionCache
         {
             Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
@@ -176,7 +175,6 @@ public class PermissionService : ILateBlocker, INService
             old.Verbose = config.VerbosePermissions;
             return old;
         });
-    }
 
     public async Task Reset(ulong guildId)
     {

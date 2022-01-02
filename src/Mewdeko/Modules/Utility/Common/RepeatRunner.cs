@@ -241,16 +241,11 @@ public class RepeatRunner
         Run();
     }
 
-    public void Stop()
-    {
-        _t.Change(Timeout.Infinite, Timeout.Infinite);
-    }
+    public void Stop() => _t.Change(Timeout.Infinite, Timeout.Infinite);
 
-    public override string ToString()
-    {
-        return $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} " +
-               (Repeater.NoRedundant ? "| ✍" : "") +
-               $"| {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
-               $"| {Repeater.Message.TrimTo(33)}";
-    }
+    public override string ToString() =>
+        $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} " +
+        (Repeater.NoRedundant ? "| ✍" : "") +
+        $"| {(int) Repeater.Interval.TotalHours}:{Repeater.Interval:mm} " +
+        $"| {Repeater.Message.TrimTo(33)}";
 }

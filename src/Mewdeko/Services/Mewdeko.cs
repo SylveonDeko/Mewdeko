@@ -90,10 +90,7 @@ public class Mewdeko
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
 
-    public List<ulong> GetCurrentGuildIds()
-    {
-        return Client.Guilds.Select(x => x.Id).ToList();
-    }
+    public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
 
     private void AddServices()
     {

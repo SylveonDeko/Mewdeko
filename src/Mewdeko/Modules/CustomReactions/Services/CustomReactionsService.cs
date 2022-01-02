@@ -539,15 +539,9 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     #region Event Handlers
 
-    public Task OnReadyAsync()
-    {
-        return ReloadInternal(_bot.GetCurrentGuildIds());
-    }
+    public Task OnReadyAsync() => ReloadInternal(_bot.GetCurrentGuildIds());
 
-    private ValueTask OnCrsShouldReload(bool _)
-    {
-        return new ValueTask(ReloadInternal(_bot.GetCurrentGuildIds()));
-    }
+    private ValueTask OnCrsShouldReload(bool _) => new ValueTask(ReloadInternal(_bot.GetCurrentGuildIds()));
 
     private ValueTask OnGcrAdded(CustomReaction c)
     {
@@ -592,10 +586,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         return default;
     }
 
-    public Task TriggerReloadCustomReactions()
-    {
-        return _pubSub.Pub(_crsReloadedKey, true);
-    }
+    public Task TriggerReloadCustomReactions() => _pubSub.Pub(_crsReloadedKey, true);
 
     #endregion
 

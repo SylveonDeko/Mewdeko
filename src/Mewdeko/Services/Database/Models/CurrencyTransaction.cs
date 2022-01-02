@@ -6,13 +6,11 @@ public class CurrencyTransaction : DbEntity
     public string Reason { get; set; }
     public ulong UserId { get; set; }
 
-    public CurrencyTransaction Clone()
-    {
-        return new CurrencyTransaction
+    public CurrencyTransaction Clone() =>
+        new CurrencyTransaction
         {
             Amount = Amount,
             Reason = Reason,
             UserId = UserId
         };
-    }
 }
