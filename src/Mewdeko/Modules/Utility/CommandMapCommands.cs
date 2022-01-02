@@ -83,7 +83,7 @@ public partial class Utility
                     var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
                     if (tr != null)
                         uow._context.Set<CommandAlias>().Remove(tr);
-                    uow.SaveChanges();
+                    await uow.SaveChangesAsync();
                 }
 
                 await ReplyConfirmLocalizedAsync("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
