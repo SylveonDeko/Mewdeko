@@ -13,48 +13,21 @@ public readonly struct ShmartNumber : IEquatable<ShmartNumber>
         Input = input;
     }
 
-    public static implicit operator ShmartNumber(long num)
-    {
-        return new ShmartNumber(num);
-    }
+    public static implicit operator ShmartNumber(long num) => new ShmartNumber(num);
 
-    public static implicit operator long(ShmartNumber num)
-    {
-        return num.Value;
-    }
+    public static implicit operator long(ShmartNumber num) => num.Value;
 
-    public static implicit operator ShmartNumber(int num)
-    {
-        return new ShmartNumber(num);
-    }
+    public static implicit operator ShmartNumber(int num) => new ShmartNumber(num);
 
-    public override string ToString()
-    {
-        return Value.ToString();
-    }
+    public override string ToString() => Value.ToString();
 
-    public override bool Equals(object obj)
-    {
-        return obj is ShmartNumber sn && Equals(sn);
-    }
+    public override bool Equals(object obj) => obj is ShmartNumber sn && Equals(sn);
 
-    public bool Equals(ShmartNumber other)
-    {
-        return other.Value == Value;
-    }
+    public bool Equals(ShmartNumber other) => other.Value == Value;
 
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode() ^ Input.GetHashCode(StringComparison.InvariantCulture);
-    }
+    public override int GetHashCode() => Value.GetHashCode() ^ Input.GetHashCode(StringComparison.InvariantCulture);
 
-    public static bool operator ==(ShmartNumber left, ShmartNumber right)
-    {
-        return left.Equals(right);
-    }
+    public static bool operator ==(ShmartNumber left, ShmartNumber right) => left.Equals(right);
 
-    public static bool operator !=(ShmartNumber left, ShmartNumber right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(ShmartNumber left, ShmartNumber right) => !(left == right);
 }

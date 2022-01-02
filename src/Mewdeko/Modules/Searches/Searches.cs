@@ -228,10 +228,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageMessages)]
     [Priority(0)]
-    public Task Say([Remainder] string message)
-    {
-        return Say((ITextChannel) ctx.Channel, message);
-    }
+    public Task Say([Remainder] string message) => Say((ITextChannel) ctx.Channel, message);
 
     // done in 3.0
     [MewdekoCommand]
@@ -410,40 +407,28 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Usage]
     [Description]
     [Aliases]
-    public Task RandomCat()
-    {
-        return InternalRandomImage(SearchesService.ImageTag.Cats);
-    }
+    public Task RandomCat() => InternalRandomImage(SearchesService.ImageTag.Cats);
 
     // done in 3.0
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task RandomDog()
-    {
-        return InternalRandomImage(SearchesService.ImageTag.Dogs);
-    }
+    public Task RandomDog() => InternalRandomImage(SearchesService.ImageTag.Dogs);
 
     // done in 3.0
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task RandomFood()
-    {
-        return InternalRandomImage(SearchesService.ImageTag.Food);
-    }
+    public Task RandomFood() => InternalRandomImage(SearchesService.ImageTag.Food);
 
     // done in 3.0
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
-    public Task RandomBird()
-    {
-        return InternalRandomImage(SearchesService.ImageTag.Birds);
-    }
+    public Task RandomBird() => InternalRandomImage(SearchesService.ImageTag.Birds);
 
     // done in 3.0
     private Task InternalRandomImage(SearchesService.ImageTag tag)
@@ -859,10 +844,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [Usage]
     [Description]
     [Aliases]
-    public Task Safebooru([Remainder] string tag = null)
-    {
-        return InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
-    }
+    public Task Safebooru([Remainder] string tag = null) => InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
 
     // done in 3.0
     [MewdekoCommand]

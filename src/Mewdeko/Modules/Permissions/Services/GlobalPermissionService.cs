@@ -12,10 +12,7 @@ public class GlobalPermissionService : ILateBlocker, INService
 {
     private readonly BotConfigService _bss;
 
-    public GlobalPermissionService(BotConfigService bss)
-    {
-        _bss = bss;
-    }
+    public GlobalPermissionService(BotConfigService bss) => _bss = bss;
 
     public HashSet<string> BlockedCommands => _bss.Data.Blocked.Commands;
     public HashSet<string> BlockedModules => _bss.Data.Blocked.Modules;

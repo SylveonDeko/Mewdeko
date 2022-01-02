@@ -19,10 +19,7 @@ public partial class Games
     {
         private readonly DiscordSocketClient _client;
 
-        public PollCommands(DiscordSocketClient client)
-        {
-            _client = client;
-        }
+        public PollCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand]
         [Usage]

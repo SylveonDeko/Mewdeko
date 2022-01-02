@@ -8,10 +8,8 @@ namespace Mewdeko.Common.Attributes;
 public sealed class MewdekoCommandAttribute : CommandAttribute
 {
     public MewdekoCommandAttribute([CallerMemberName] string memberName = "")
-        : base(CommandNameLoadHelper.GetCommandNameFor(memberName))
-    {
+        : base(CommandNameLoadHelper.GetCommandNameFor(memberName)) =>
         MethodName = memberName.ToLowerInvariant();
-    }
 
     public string MethodName { get; }
 }

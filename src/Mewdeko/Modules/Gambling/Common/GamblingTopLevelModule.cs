@@ -10,10 +10,7 @@ public abstract class GamblingModuleBase<TService> : MewdekoModuleBase<TService>
 {
     private readonly Lazy<GamblingConfig> _lazyConfig;
 
-    protected GamblingModuleBase(GamblingConfigService gambService)
-    {
-        _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
-    }
+    protected GamblingModuleBase(GamblingConfigService gambService) => _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
 
     protected GamblingConfig _config => _lazyConfig.Value;
     protected string CurrencySign => _config.Currency.Sign;

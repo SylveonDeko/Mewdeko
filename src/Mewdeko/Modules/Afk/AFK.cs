@@ -21,10 +21,7 @@ public class AfkCommands : MewdekoModuleBase<AFKService>
 {
     private readonly InteractiveService Interactivity;
 
-    public AfkCommands(InteractiveService serv)
-    {
-        Interactivity = serv;
-    }
+    public AfkCommands(InteractiveService serv) => Interactivity = serv;
 
     [MewdekoCommand]
     [Usage]

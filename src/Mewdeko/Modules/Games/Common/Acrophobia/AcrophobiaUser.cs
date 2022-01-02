@@ -13,15 +13,10 @@ public class AcrophobiaUser
     public ulong UserId { get; }
     public string Input { get; }
 
-    public override int GetHashCode()
-    {
-        return UserId.GetHashCode();
-    }
+    public override int GetHashCode() => UserId.GetHashCode();
 
-    public override bool Equals(object obj)
-    {
-        return obj is AcrophobiaUser x
+    public override bool Equals(object obj) =>
+        obj is AcrophobiaUser x
             ? x.UserId == UserId
             : false;
-    }
 }

@@ -136,10 +136,7 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
         return result;
     }
 
-    public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet)
-    {
-        return new WheelOfFortuneGame(userId, bet, _gss.Data, _cs).SpinAsync();
-    }
+    public Task<WheelOfFortuneGame.Result> WheelOfFortuneSpinAsync(ulong userId, long bet) => new WheelOfFortuneGame(userId, bet, _gss.Data, _cs).SpinAsync();
 
     public struct EconomyResult
     {

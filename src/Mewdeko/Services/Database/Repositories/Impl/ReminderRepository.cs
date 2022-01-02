@@ -11,12 +11,10 @@ public class ReminderRepository : Repository<Reminder>, IReminderRepository
     {
     }
 
-    public IEnumerable<Reminder> RemindersFor(ulong userId, int page)
-    {
-        return _set.AsQueryable()
+    public IEnumerable<Reminder> RemindersFor(ulong userId, int page) =>
+        _set.AsQueryable()
             .Where(x => x.UserId == userId)
             .OrderBy(x => x.DateAdded)
             .Skip(page * 10)
             .Take(10);
-    }
 }

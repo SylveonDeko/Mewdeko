@@ -79,8 +79,5 @@ public class GuildTimezoneService : INService
             _timezones.AddOrUpdate(guildId, tz, (key, old) => tz);
     }
 
-    public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId)
-    {
-        return GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;
-    }
+    public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId) => GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;
 }

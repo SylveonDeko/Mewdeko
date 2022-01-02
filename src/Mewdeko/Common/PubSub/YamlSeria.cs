@@ -32,8 +32,5 @@ public class YamlSeria : IConfigSeria
         return output;
     }
 
-    public T Deserialize<T>(string data)
-    {
-        return _deserializer.Deserialize<T>(data);
-    }
+    public T Deserialize<T>(string data) => _deserializer.Deserialize<T>(data);
 }

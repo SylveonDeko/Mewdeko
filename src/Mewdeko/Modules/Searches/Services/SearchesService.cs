@@ -212,10 +212,7 @@ public class SearchesService : INService, IUnloadableService
         return data.ToStream();
     }
 
-    private void DrawAvatar(Image bg, Image avatarImage)
-    {
-        bg.Mutate(x => x.Grayscale().DrawImage(avatarImage, new Point(83, 139), new GraphicsOptions()));
-    }
+    private void DrawAvatar(Image bg, Image avatarImage) => bg.Mutate(x => x.Grayscale().DrawImage(avatarImage, new Point(83, 139), new GraphicsOptions()));
 
     public async Task<byte[]> GetRipPictureFactory((string text, Uri avatarUrl) arg)
     {
@@ -298,15 +295,12 @@ public class SearchesService : INService, IUnloadableService
         }
     }
 
-    public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg)
-    {
-        return GetTimeDataFactory(arg);
-        //return _cache.GetOrAddCachedDataAsync($"Mewdeko_time_{arg}",
-        //    GetTimeDataFactory,
-        //    arg,
-        //    TimeSpan.FromMinutes(1));
-    }
+    public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg) => GetTimeDataFactory(arg);
 
+    //return _cache.GetOrAddCachedDataAsync($"Mewdeko_time_{arg}",
+    //    GetTimeDataFactory,
+    //    arg,
+    //    TimeSpan.FromMinutes(1));
     private async Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataFactory(
         string query)
     {
