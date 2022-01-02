@@ -37,10 +37,7 @@ public partial class Games
         [RequireContext(ContextType.Guild)]
         [Priority(0)]
         [MewdekoOptionsAttribute(typeof(TriviaOptions))]
-        public Task Trivia(params string[] args)
-        {
-            return InternalTrivia(args);
-        }
+        public Task Trivia(params string[] args) => InternalTrivia(args);
 
         public async Task InternalTrivia(params string[] args)
         {

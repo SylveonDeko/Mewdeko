@@ -17,10 +17,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 {
     private readonly IHttpClientFactory _httpFactory;
 
-    public ServerManagement(IHttpClientFactory factory)
-    {
-        _httpFactory = factory;
-    }
+    public ServerManagement(IHttpClientFactory factory) => _httpFactory = factory;
 
     [MewdekoCommand]
     [Usage]

@@ -10,15 +10,10 @@ public class FeedSub : DbEntity
     public ulong ChannelId { get; set; }
     public string Url { get; set; }
 
-    public override int GetHashCode()
-    {
-        return Url.GetHashCode(StringComparison.InvariantCulture) ^ GuildConfigId.GetHashCode();
-    }
+    public override int GetHashCode() => Url.GetHashCode(StringComparison.InvariantCulture) ^ GuildConfigId.GetHashCode();
 
-    public override bool Equals(object obj)
-    {
-        return obj is FeedSub s
-               && s.Url.ToLower() == Url.ToLower()
-               && s.GuildConfigId == GuildConfigId;
-    }
+    public override bool Equals(object obj) =>
+        obj is FeedSub s
+        && s.Url.ToLower() == Url.ToLower()
+        && s.GuildConfigId == GuildConfigId;
 }

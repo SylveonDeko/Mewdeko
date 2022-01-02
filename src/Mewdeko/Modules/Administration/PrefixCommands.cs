@@ -21,11 +21,9 @@ public partial class Administration
         [Description]
         [Aliases]
         [Priority(1)]
-        public async Task PrefixCommand()
-        {
+        public async Task PrefixCommand() =>
             await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(CmdHandler.GetPrefix(ctx.Guild)))
                 .ConfigureAwait(false);
-        }
 
         [MewdekoCommand]
         [Usage]
@@ -34,10 +32,7 @@ public partial class Administration
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
         [Priority(0)]
-        public Task PrefixCommand(Set _, [Remainder] string prefix)
-        {
-            return PrefixCommand(prefix);
-        }
+        public Task PrefixCommand(Set _, [Remainder] string prefix) => PrefixCommand(prefix);
 
         [MewdekoCommand]
         [Usage]

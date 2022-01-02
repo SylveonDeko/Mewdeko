@@ -24,10 +24,7 @@ public partial class Gambling
         private static readonly ConcurrentDictionary<IGuild, Deck> _allDecks = new();
         private readonly IImageCache _images;
 
-        public DrawCommands(IDataCache data)
-        {
-            _images = data.LocalImages;
-        }
+        public DrawCommands(IDataCache data) => _images = data.LocalImages;
 
         private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
         {

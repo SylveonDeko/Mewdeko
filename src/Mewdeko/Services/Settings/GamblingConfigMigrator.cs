@@ -114,9 +114,8 @@ FROM BotConfig";
         Log.Information("Data written to data/gambling.yml");
     }
 
-    private static Action<GamblingConfig> ModifyAction(DbDataReader reader)
-    {
-        return realConfig =>
+    private static Action<GamblingConfig> ModifyAction(DbDataReader reader) =>
+        realConfig =>
         {
             realConfig.Currency.Sign = (string) reader["CurrencySign"];
             realConfig.Currency.Name = (string) reader["CurrencyName"];
@@ -152,5 +151,4 @@ FROM BotConfig";
             };
             realConfig.PatreonCurrencyPerCent = (decimal) (double) reader["PatreonCurrencyPerCent"];
         };
-    }
 }

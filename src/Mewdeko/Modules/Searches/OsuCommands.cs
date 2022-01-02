@@ -315,9 +315,6 @@ public partial class Searches
             return modString;
         }
 
-        private static bool IsBitSet(int mods, int pos)
-        {
-            return (mods & (1 << pos)) != 0;
-        }
+        private static bool IsBitSet(int mods, int pos) => (mods & (1 << pos)) != 0;
     }
 }

@@ -38,10 +38,7 @@ public class TriviaQuestion
     public string Answer { get; set; }
     public string CleanAnswer => _cleanAnswer ?? (_cleanAnswer = Clean(Answer));
 
-    public string GetHint()
-    {
-        return Scramble(Answer);
-    }
+    public string GetHint() => Scramble(Answer);
 
     public bool IsAnswerCorrect(string guess)
     {

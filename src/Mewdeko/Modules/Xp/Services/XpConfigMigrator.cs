@@ -60,14 +60,12 @@ FROM BotConfig";
         _gss.ModifyConfig(ModifyAction(reader));
     }
 
-    private static Action<XpConfig> ModifyAction(DbDataReader reader)
-    {
-        return config =>
+    private static Action<XpConfig> ModifyAction(DbDataReader reader) =>
+        config =>
         {
             config.XpPerMessage = (int) (long) reader["XpPerMessage"];
             config.MessageXpCooldown = (int) (long) reader["XpMinutesTimeout"];
             config.VoiceMaxMinutes = (int) (long) reader["MaxXpMinutes"];
             config.VoiceXpPerMinute = (double) reader["VoiceXpPerMinute"];
         };
-    }
 }

@@ -24,30 +24,28 @@ public class ClubRepository : Repository<ClubInfo>, IClubRepository
         return func(_set).FirstOrDefault(x => x.Owner.UserId == userId);
     }
 
-    public ClubInfo GetByOwnerOrAdmin(ulong userId)
-    {
-        return _set
-                   .Include(x => x.Bans)
-                   .ThenInclude(x => x.User)
-                   .Include(x => x.Applicants)
-                   .ThenInclude(x => x.User)
-                   .Include(x => x.Owner)
-                   .Include(x => x.Users)
-                   .FirstOrDefault(x => x.Owner.UserId == userId) ??
-               _context.Set<DiscordUser>()
-                   .Include(x => x.Club)
-                   .ThenInclude(x => x.Users)
-                   .Include(x => x.Club)
-                   .ThenInclude(x => x.Bans)
-                   .ThenInclude(x => x.User)
-                   .Include(x => x.Club)
-                   .ThenInclude(x => x.Applicants)
-                   .ThenInclude(x => x.User)
-                   .Include(x => x.Club)
-                   .ThenInclude(x => x.Owner)
-                   .FirstOrDefault(x => x.UserId == userId && x.IsClubAdmin)
-                   ?.Club;
-    }
+    public ClubInfo GetByOwnerOrAdmin(ulong userId) =>
+        _set
+            .Include(x => x.Bans)
+            .ThenInclude(x => x.User)
+            .Include(x => x.Applicants)
+            .ThenInclude(x => x.User)
+            .Include(x => x.Owner)
+            .Include(x => x.Users)
+            .FirstOrDefault(x => x.Owner.UserId == userId) ??
+        _context.Set<DiscordUser>()
+                .Include(x => x.Club)
+                .ThenInclude(x => x.Users)
+                .Include(x => x.Club)
+                .ThenInclude(x => x.Bans)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Club)
+                .ThenInclude(x => x.Applicants)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Club)
+                .ThenInclude(x => x.Owner)
+                .FirstOrDefault(x => x.UserId == userId && x.IsClubAdmin)
+                ?.Club;
 
     public ClubInfo GetByName(string name, int discrim, Func<DbSet<ClubInfo>, IQueryable<ClubInfo>> func = null)
     {
@@ -62,15 +60,13 @@ public class ClubRepository : Repository<ClubInfo>, IClubRepository
         return func(_set).FirstOrDefault(x => x.Name == name && x.Discrim == discrim);
     }
 
-    public int GetNextDiscrim(string clubName)
-    {
-        return _set.AsQueryable()
+    public int GetNextDiscrim(string clubName) =>
+        _set.AsQueryable()
             .Where(x => x.Name.ToUpper() == clubName.ToUpper())
             .Select(x => x.Discrim)
             .ToList()
             .DefaultIfEmpty()
             .Max() + 1;
-    }
 
     public ClubInfo GetByMember(ulong userId, Func<DbSet<ClubInfo>, IQueryable<ClubInfo>> func = null)
     {
@@ -84,12 +80,10 @@ public class ClubRepository : Repository<ClubInfo>, IClubRepository
         return func(_set).FirstOrDefault(x => x.Users.Any(y => y.UserId == userId));
     }
 
-    public ClubInfo[] GetClubLeaderboardPage(int page)
-    {
-        return _set.AsQueryable()
+    public ClubInfo[] GetClubLeaderboardPage(int page) =>
+        _set.AsQueryable()
             .OrderByDescending(x => x.Xp)
             .Skip(page * 9)
             .Take(9)
             .ToArray();
-    }
 }

@@ -171,19 +171,15 @@ public abstract class Paginator : IInteractiveElement<KeyValuePair<IEmote, Pagin
     ///     Gets or loads the current page of this paginator.
     /// </summary>
     /// <returns>A task representing the asynchronous operation. The task result contains the current page.</returns>
-    public virtual Task<Page> GetOrLoadCurrentPageAsync()
-    {
-        return GetOrLoadPageAsync(CurrentPageIndex);
-    }
+    public virtual Task<Page> GetOrLoadCurrentPageAsync() => GetOrLoadPageAsync(CurrentPageIndex);
 
     /// <summary>
     ///     Applies a <see cref="PaginatorAction" /> to this paginator.
     /// </summary>
     /// <param name="action">The paginator action</param>
     /// <returns>A task representing the asynchronous operation. The task result contains whether the action succeeded.</returns>
-    public virtual ValueTask<bool> ApplyActionAsync(PaginatorAction action)
-    {
-        return action switch
+    public virtual ValueTask<bool> ApplyActionAsync(PaginatorAction action) =>
+        action switch
         {
             PaginatorAction.Backward => SetPageAsync(CurrentPageIndex - 1),
             PaginatorAction.Forward => SetPageAsync(CurrentPageIndex + 1),
@@ -191,5 +187,4 @@ public abstract class Paginator : IInteractiveElement<KeyValuePair<IEmote, Pagin
             PaginatorAction.SkipToEnd => SetPageAsync(MaxPageIndex),
             _ => ValueTask.FromResult(false)
         };
-    }
 }

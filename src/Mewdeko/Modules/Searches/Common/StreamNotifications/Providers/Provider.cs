@@ -60,8 +60,5 @@ public abstract class Provider
     /// <returns><see cref="StreamData" /> of all users, in the same order. Null for every id/user not found.</returns>
     public abstract Task<List<StreamData>> GetStreamDataAsync(List<string> usernames);
 
-    public void ClearErrorsFor(string login)
-    {
-        _failingStreams.TryRemove(login, out _);
-    }
+    public void ClearErrorsFor(string login) => _failingStreams.TryRemove(login, out _);
 }

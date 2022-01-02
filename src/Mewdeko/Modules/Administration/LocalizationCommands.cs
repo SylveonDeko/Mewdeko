@@ -124,13 +124,11 @@ public partial class Administration
         [Usage]
         [Description]
         [Aliases]
-        public async Task LanguagesList()
-        {
+        public async Task LanguagesList() =>
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithTitle(GetText("lang_list"))
-                .WithDescription(string.Join("\n",
-                    supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
-        }
+                                                           .WithTitle(GetText("lang_list"))
+                                                           .WithDescription(string.Join("\n",
+                                                               supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
     }
 }
 /* list of language codes for reference. 

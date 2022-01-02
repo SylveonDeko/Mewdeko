@@ -131,10 +131,7 @@ public class LogCommandService : INService
             .ConfigureAwait(false);
     }
 
-    public void AddDeleteIgnore(ulong messageId)
-    {
-        _ignoreMessageIds.Add(messageId);
-    }
+    public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
 
     public bool LogIgnore(ulong gid, ulong cid)
     {
@@ -158,10 +155,7 @@ public class LogCommandService : INService
         return removed > 0;
     }
 
-    private string GetText(IGuild guild, string key, params object[] replacements)
-    {
-        return _strings.GetText(key, guild.Id, replacements);
-    }
+    private string GetText(IGuild guild, string key, params object[] replacements) => _strings.GetText(key, guild.Id, replacements);
 
 
     private string PrettyCurrentTime(IGuild g)
@@ -503,10 +497,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private static string GetRoleDeletedKey(ulong roleId)
-    {
-        return $"role_deleted_{roleId}";
-    }
+    private static string GetRoleDeletedKey(ulong roleId) => $"role_deleted_{roleId}";
 
     private Task Client_RoleDeleted(SocketRole socketRole)
     {

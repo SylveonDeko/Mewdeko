@@ -5,10 +5,7 @@ namespace Mewdeko.Common.Extensions.Interactive;
 
 internal static class InteractiveExtensions
 {
-    public static bool CanInteract<TOption>(this IInteractiveElement<TOption> element, IUser user)
-    {
-        return element != null && user != null && CanInteract(element, user.Id);
-    }
+    public static bool CanInteract<TOption>(this IInteractiveElement<TOption> element, IUser user) => element != null && user != null && CanInteract(element, user.Id);
 
     public static bool CanInteract<TOption>(this IInteractiveElement<TOption> element, ulong userId)
     {

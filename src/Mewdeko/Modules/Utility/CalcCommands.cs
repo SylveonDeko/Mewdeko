@@ -69,14 +69,8 @@ public partial class Utility
 
     private class MethodInfoEqualityComparer : IEqualityComparer<MethodInfo>
     {
-        public bool Equals(MethodInfo x, MethodInfo y)
-        {
-            return x.Name == y.Name;
-        }
+        public bool Equals(MethodInfo x, MethodInfo y) => x.Name == y.Name;
 
-        public int GetHashCode(MethodInfo obj)
-        {
-            return obj.Name.GetHashCode(StringComparison.InvariantCulture);
-        }
+        public int GetHashCode(MethodInfo obj) => obj.Name.GetHashCode(StringComparison.InvariantCulture);
     }
 }

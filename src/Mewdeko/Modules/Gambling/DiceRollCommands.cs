@@ -28,10 +28,7 @@ public partial class Gambling
         private static readonly char[] _fateRolls = {'-', ' ', '+'};
         private readonly IImageCache _images;
 
-        public DiceRollCommands(IDataCache data)
-        {
-            _images = data.LocalImages;
-        }
+        public DiceRollCommands(IDataCache data) => _images = data.LocalImages;
 
         [MewdekoCommand]
         [Usage]
@@ -61,10 +58,7 @@ public partial class Gambling
         [Description]
         [Aliases]
         [Priority(1)]
-        public async Task Roll(int num)
-        {
-            await InternalRoll(num, true).ConfigureAwait(false);
-        }
+        public async Task Roll(int num) => await InternalRoll(num, true).ConfigureAwait(false);
 
 
         [MewdekoCommand]
@@ -72,30 +66,21 @@ public partial class Gambling
         [Description]
         [Aliases]
         [Priority(1)]
-        public async Task Rolluo(int num = 1)
-        {
-            await InternalRoll(num, false).ConfigureAwait(false);
-        }
+        public async Task Rolluo(int num = 1) => await InternalRoll(num, false).ConfigureAwait(false);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [Priority(0)]
-        public async Task Roll(string arg)
-        {
-            await InternallDndRoll(arg, true).ConfigureAwait(false);
-        }
+        public async Task Roll(string arg) => await InternallDndRoll(arg, true).ConfigureAwait(false);
 
         [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
         [Priority(0)]
-        public async Task Rolluo(string arg)
-        {
-            await InternallDndRoll(arg, false).ConfigureAwait(false);
-        }
+        public async Task Rolluo(string arg) => await InternallDndRoll(arg, false).ConfigureAwait(false);
 
         private async Task InternalRoll(int num, bool ordered)
         {
