@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 

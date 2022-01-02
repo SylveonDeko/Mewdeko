@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -12,7 +10,6 @@ using Mewdeko.Modules.Gambling.Common.AnimalRacing;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Games.Services;
-using Mewdeko.Services;
 
 namespace Mewdeko.Modules.Gambling;
 

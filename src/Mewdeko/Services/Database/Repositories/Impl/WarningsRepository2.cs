@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 

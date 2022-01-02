@@ -1,7 +1,5 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services;
 using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;

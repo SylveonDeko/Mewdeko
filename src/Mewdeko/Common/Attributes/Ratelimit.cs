@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Discord.Commands;
-using Mewdeko.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.Attributes;
