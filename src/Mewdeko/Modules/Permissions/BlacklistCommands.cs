@@ -61,13 +61,18 @@ public partial class Permissions
 
         private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)
         {
-            if (action == AddRemove.Add && _creds.OwnerIds.Contains(id))
-                return;
-
-            if (action == AddRemove.Add)
-                Service.Blacklist(type, id);
-            else
-                Service.UnBlacklist(type, id);
+            switch (action)
+            {
+                case AddRemove.Add when _creds.OwnerIds.Contains(id):
+                    return;
+                case AddRemove.Add:
+                    Service.Blacklist(type, id);
+                    break;
+                case AddRemove.Rem:
+                default:
+                    Service.UnBlacklist(type, id);
+                    break;
+            }
 
             if (action == AddRemove.Add)
                 await ReplyConfirmLocalizedAsync("blacklisted", Format.Code(type.ToString()),
