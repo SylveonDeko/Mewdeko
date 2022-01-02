@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Threading.Tasks;
 using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Xp.Common;

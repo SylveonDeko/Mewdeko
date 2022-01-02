@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Html.Dom;
 using Discord;

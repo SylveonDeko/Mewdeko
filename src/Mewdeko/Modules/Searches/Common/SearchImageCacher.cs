@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using Mewdeko._Extensions;
 using Newtonsoft.Json;
