@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;

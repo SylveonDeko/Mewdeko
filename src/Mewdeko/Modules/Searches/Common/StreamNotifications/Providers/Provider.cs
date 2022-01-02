@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.Database.Models;
 

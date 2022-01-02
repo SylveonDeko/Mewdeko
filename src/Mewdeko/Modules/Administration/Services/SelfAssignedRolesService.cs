@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Discord;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services.Database.Models;
