@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using CodeHollow.FeedReader;
+﻿using CodeHollow.FeedReader;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;

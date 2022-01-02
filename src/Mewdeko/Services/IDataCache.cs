@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 
 namespace Mewdeko.Services;
 

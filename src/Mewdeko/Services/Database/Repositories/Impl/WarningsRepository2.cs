@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mewdeko.Services.Database.Models;
+﻿using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Services.Database.Repositories.Impl;

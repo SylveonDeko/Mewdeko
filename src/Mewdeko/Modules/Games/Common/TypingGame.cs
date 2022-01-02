@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using CommandLine;
 using Discord;
 using Discord.WebSocket;

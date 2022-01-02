@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
