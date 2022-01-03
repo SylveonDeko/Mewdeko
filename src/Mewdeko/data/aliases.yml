@@ -988,6 +988,7 @@ alias:
   - cmdmap
 warnlog:
   - warnlog
+  - warns
 warnlogall:
   - warnlogall
 warn:
