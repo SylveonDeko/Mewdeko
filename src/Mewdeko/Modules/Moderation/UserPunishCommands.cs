@@ -225,7 +225,7 @@ public partial class Moderation : MewdekoModule
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [UserPerm(GuildPermission.ManageMessages)]
         [Priority(1)]
         public Task Warnlog(ulong userId) => InternalWarnlog(userId);
 
@@ -283,7 +283,7 @@ public partial class Moderation : MewdekoModule
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [UserPerm(GuildPermission.ManageMessages)]
         public async Task WarnlogAll(int page = 1)
         {
             if (--page < 0)
