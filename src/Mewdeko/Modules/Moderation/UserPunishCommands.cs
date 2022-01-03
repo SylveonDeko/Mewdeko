@@ -214,7 +214,7 @@ public partial class Moderation : MewdekoModule
         {
             if (user == null)
                 user = (IGuildUser) ctx.User;
-            return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.BanMembers
+            return ctx.User.Id == user.Id || ((IGuildUser) ctx.User).GuildPermissions.ManageMessages
                 ? Warnlog(user.Id)
                 : Task.CompletedTask;
         }
