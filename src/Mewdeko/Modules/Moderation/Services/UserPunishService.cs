@@ -4,6 +4,7 @@ using System.Threading;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
@@ -22,6 +23,7 @@ public class UserPunishService : INService
     private readonly Mewdeko.Services.Mewdeko _bot;
     private readonly DbService _db;
     private readonly MuteService _mute;
+    private readonly DiscordSocketClient Client;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         Mewdeko.Services.Mewdeko bot, DiscordSocketClient client)
@@ -34,6 +36,9 @@ public class UserPunishService : INService
         _bot = bot;
         _db = db;
         _blacklistService = blacklistService;
+        Client = client;
+        Client.MessageReceived += CheckNezuMessage;
+        
         //Client.MessageReceived += NsfwCheck;
         _ = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
@@ -41,6 +46,20 @@ public class UserPunishService : INService
 
     private ConcurrentDictionary<ulong, ulong> _warnlogchannelids { get; } = new();
 
+    private async Task CheckNezuMessage(SocketMessage messagegrab)
+    {
+        if (messagegrab.Channel.Id is not 927311028914622504) return;
+        if (messagegrab.Author.Id is not 926247149539311656) return;
+        var channel = messagegrab.Channel as ITextChannel;
+        var fields = messagegrab.Embeds.Select(x => x.Fields).FirstOrDefault();
+        var user = await channel.Guild.GetUserAsync(fields.Where(x => x.Name == "UID").Select(x => ulong.Parse(x.Value))
+                                                      .FirstOrDefault());
+        var bypassed = fields.Where(x => x.Name == "Bypassed").Select(x => x.Value).FirstOrDefault();
+        var word = fields.Where(x => x.Name.StartsWith("Detected Word"));
+        var content = fields.FirstOrDefault(x => x.Name == "Message").Value;
+        await Warn(channel.Guild, user.Id, Client.CurrentUser,
+            $"User said banned word {word.FirstOrDefault().Value}");
+    }
     public ulong GetWarnlogChannel(ulong? id)
     {
         if (id == null || !_warnlogchannelids.TryGetValue(id.Value, out var warnlogchannel))
@@ -106,8 +125,25 @@ public class UserPunishService : INService
             await ApplyPunishment(guild, user, mod, p.Punishment, p.Time, p.RoleId, "Warned too many times.");
             return p;
         }
-
+        var uow1 = _db.GetDbContext();
+        warnings = uow1.Warnings
+                          .ForId(guild.Id, userId)
+                          .Count(w => !w.Forgiven && w.UserId == userId);
+        var condition = p != null;
+        var punishtime = condition ? TimeSpan.FromMinutes(p.Time).ToString() : " ";
+        var punishaction = condition ? p.Punishment.Humanize() : "None";
+        var channel = await guild.GetTextChannelAsync(GetWarnlogChannel(guild.Id));
+        var user1 = await channel.Guild.GetUserAsync(userId);
+        await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
+                                                   .WithThumbnailUrl(user1.RealAvatarUrl().ToString())
+                                                   .WithTitle("Warned by: " + mod)
+                                                   .WithCurrentTimestamp()
+                                                   .WithDescription("Username: " + user1.Username + "#" + user1.Discriminator + "\n" +
+                                                                    "ID of Warned User: " + user1.Id + "\n" + "Warn Number: " + warnings +
+                                                                    "\nPunishment: " + punishaction + " " + punishtime + "\n\n" + "Reason: " +
+                                                                    reason + "\n\n"));
         return null;
+        
     }
 
     public async Task ApplyPunishment(IGuild guild, IGuildUser user, IUser mod, PunishmentAction p, int minutes,
