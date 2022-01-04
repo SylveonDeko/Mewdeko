@@ -134,7 +134,8 @@ var embed = new EmbedBuilder();
             "\n> <:nekoha_slam:866316199317864458> Searches" +
             "\n> <:Nekoha_wave:866321165538164776> Games" +
             "\n> <:Nekohaquestion:866616825750749184> Help" +
-            "\n> <:nekoha_stare:866316293179572264> Custom Reactions",
+            "\n> <:nekoha_stare:866316293179572264> Custom Reactions"
+            + "\n> <:Nekoha_Oooo:866320687810740234> Giveaways",
             true);
         embed.AddField("<:Nekohapeek:866614585992937482> Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
