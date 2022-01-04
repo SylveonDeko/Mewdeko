@@ -139,7 +139,7 @@ public class SearchImageCacher
                 type == DapiSearchType.Danbooru)
             {
                 var data = await _http.GetStringAsync(website).ConfigureAwait(false);
-                return JsonConvert.DeserializeObject<DapiImageObject[]>(data)
+                return (JsonConvert.DeserializeObject<DapiImageObject[]>(data) ?? Array.Empty<DapiImageObject>())
                     .Where(x => x.FileUrl != null)
                     .Select(x => new ImageCacherObject(x, type))
                     .ToArray();
