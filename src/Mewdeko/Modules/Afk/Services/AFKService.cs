@@ -183,7 +183,7 @@ public class AFKService : INService
     }
 
     public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild) =>
-        _db.GetDbContext().AFK.GetAll().GroupBy(m => m.UserId)
+        _db.GetDbContext().AFK.GetAll().Where(x => x.GuildId == guild.Id).GroupBy(m => m.UserId)
            .Where(m => !string.IsNullOrEmpty(m.Last().Message))
            .Select(m => guild.GetUserAsync(m.Key).Result);
 
