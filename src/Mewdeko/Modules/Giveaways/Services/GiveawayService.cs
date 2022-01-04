@@ -156,6 +156,10 @@ public class GiveawayService : INService
 
     public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)
     {
+        if (_client.GetGuild(r.ServerId) is null)
+            return;
+        if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is null)
+            return;
         if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
             IUserMessage ch)
             return;
