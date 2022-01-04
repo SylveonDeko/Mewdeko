@@ -3,6 +3,7 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 using Serilog;
 using Swan;
 
@@ -153,9 +154,13 @@ public class GiveawayService : INService
 
         await CurrentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
-
+    
     public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)
     {
+        if (_client.GetGuild(r.ServerId) is null)
+            return;
+        if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is null)
+            return;
         if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
             IUserMessage ch)
             return;
@@ -252,6 +257,213 @@ public class GiveawayService : INService
                     $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
                         .Build());
+            }
+        }
+    }
+    public async Task GiveawayReroll(Mewdeko.Services.Database.Models.Giveaways r)
+    {
+        if (_client.GetGuild(r.ServerId) is null)
+            return;
+        if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is null)
+            return;
+        if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
+            IUserMessage ch)
+            return;
+        var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
+        var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
+        using var uow = _db.GetDbContext();
+        if (reacts.Count() - 1 <= r.Winners)
+        {
+            var eb = new EmbedBuilder
+            {
+                Color = Mewdeko.Services.Mewdeko.ErrorColor,
+                Description = "There were not enough participants!"
+            };
+            await ch.ModifyAsync(x => x.Embed = eb.Build());
+            if (r.Ended == 0)
+            {
+                var toupdate = new Mewdeko.Services.Database.Models.Giveaways
+                {
+                    When = r.When,
+                    BlacklistRoles = r.BlacklistRoles,
+                    BlacklistUsers = r.BlacklistUsers,
+                    ChannelId = r.ChannelId,
+                    Ended = 1,
+                    MessageId = r.MessageId,
+                    RestrictTo = r.RestrictTo,
+                    Item = r.Item,
+                    ServerId = r.ServerId,
+                    UserId = r.UserId,
+                    Winners = r.Winners
+                };
+                uow.Giveaways.Remove(r);
+                uow.Giveaways.Add(toupdate);
+                await uow.SaveChangesAsync();
+            }
+        }
+        else
+        {
+            if (r.Winners == 1)
+            {
+                
+                var users = reacts.Where(x => !x.IsBot);
+                if (r.RestrictTo is not null)
+                {
+                    var parsedreqs = new List<ulong>();
+                    var split = r.RestrictTo.Split(" ");
+                    foreach (var i in split)
+                    {
+                        if (ulong.TryParse(i, out var parsed))
+                        {
+                            parsedreqs.Add(parsed);
+                        }
+                    }
+
+                    if (parsedreqs.Any())
+                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                }
+
+                if (!users.Any())
+                {
+                    var eb1 = new EmbedBuilder().WithErrorColor()
+                                                .WithDescription(
+                                                    "Looks like nobody that actually met the role requirements joined..")
+                                                .Build();
+                    await ch.ModifyAsync(x => x.Embed = eb1);
+                    if (r.Ended == 0)
+
+                    {
+                        var toupdate = new Mewdeko.Services.Database.Models.Giveaways
+                        {
+                            When = r.When,
+                            BlacklistRoles = r.BlacklistRoles,
+                            BlacklistUsers = r.BlacklistUsers,
+                            ChannelId = r.ChannelId,
+                            Ended = 1,
+                            MessageId = r.MessageId,
+                            RestrictTo = r.RestrictTo,
+                            Item = r.Item,
+                            ServerId = r.ServerId,
+                            UserId = r.UserId,
+                            Winners = r.Winners
+                        };
+                        uow.Giveaways.Remove(r);
+                        uow.Giveaways.Add(toupdate);
+                        await uow.SaveChangesAsync();
+                    }
+                }
+                var rand = new Random();
+                var index = rand.Next(users.Count());
+                var user = users.ToList()[index];
+                var eb = new EmbedBuilder
+                {
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
+                    Description = $"{user.Mention} won the giveaway for {r.Item}!"
+                };
+                await ch.ModifyAsync(x => x.Embed = eb.Build());
+                await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
+                    embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
+                        .Build());
+                if (r.Ended == 0)
+                {
+                    var toupdate1 = new Mewdeko.Services.Database.Models.Giveaways
+                    {
+                        When = r.When,
+                        BlacklistRoles = r.BlacklistRoles,
+                        BlacklistUsers = r.BlacklistUsers,
+                        ChannelId = r.ChannelId,
+                        Ended = 1,
+                        MessageId = r.MessageId,
+                        RestrictTo = r.RestrictTo,
+                        Item = r.Item,
+                        ServerId = r.ServerId,
+                        UserId = r.UserId,
+                        Winners = r.Winners
+                    };
+                    uow.Giveaways.Remove(r);
+                    uow.Giveaways.Add(toupdate1);
+                    await uow.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                var rand = new Random();
+                var users = reacts.Where(x => !x.IsBot);
+                if (r.RestrictTo is not null)
+                {
+                    var parsedreqs = new List<ulong>();
+                    var split = r.RestrictTo.Split(" ");
+                    foreach (var i in split)
+                    {
+                        if (ulong.TryParse(i, out var parsed))
+                        {
+                            parsedreqs.Add(parsed);
+                        }
+                    }
+
+                    if (parsedreqs.Any())
+                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                }
+
+                if (!users.Any())
+                {
+                    var eb1 = new EmbedBuilder().WithErrorColor()
+                                                .WithDescription(
+                                                    "Looks like nobody that actually met the role requirements joined..")
+                                                .Build();
+                    await ch.ModifyAsync(x => x.Embed = eb1);
+                    if (r.Ended == 0)
+                    {
+                        var toupdate = new Mewdeko.Services.Database.Models.Giveaways
+                        {
+                            When = r.When,
+                            BlacklistRoles = r.BlacklistRoles,
+                            BlacklistUsers = r.BlacklistUsers,
+                            ChannelId = r.ChannelId,
+                            Ended = 1,
+                            MessageId = r.MessageId,
+                            RestrictTo = r.RestrictTo,
+                            Item = r.Item,
+                            ServerId = r.ServerId,
+                            UserId = r.UserId,
+                            Winners = r.Winners
+                        };
+                        uow.Giveaways.Remove(r);
+                        uow.Giveaways.Add(toupdate);
+                        await uow.SaveChangesAsync();
+                    }
+                }
+                var winners = users.ToList().OrderBy(x => rand.Next()).Take(r.Winners);
+                var eb = new EmbedBuilder
+                {
+                    Color = Mewdeko.Services.Mewdeko.OkColor,
+                    Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
+                };
+                await ch.ModifyAsync(x => x.Embed = eb.Build());
+                await ch.Channel.SendMessageAsync(
+                    $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!",
+                    embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
+                        .Build());
+                if (r.Ended == 0)
+                {
+                    var toupdate1 = new Mewdeko.Services.Database.Models.Giveaways
+                    {
+                        When = r.When,
+                        BlacklistRoles = r.BlacklistRoles,
+                        BlacklistUsers = r.BlacklistUsers,
+                        ChannelId = r.ChannelId,
+                        Ended = 1,
+                        MessageId = r.MessageId,
+                        RestrictTo = r.RestrictTo,
+                        Item = r.Item,
+                        ServerId = r.ServerId,
+                        UserId = r.UserId,
+                        Winners = r.Winners
+                    };
+                    uow.Giveaways.Remove(r);
+                    uow.Giveaways.Add(toupdate1);
+                    await uow.SaveChangesAsync();
+                }
             }
         }
     }

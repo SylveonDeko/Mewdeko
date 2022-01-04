@@ -719,7 +719,7 @@
   "sql_confirm_exec": "Confirm execution of the following SQL command",
   "must_be_in_voice": "You need to be in a voice channel on this server.",
   "no_vcroles": "There are no voice channel roles.",
-  "user_muted_time": "{0} has been **muted** from text and voice chat for {1} minutes.",
+  "user_muted_time": "{0} has been **muted** from text and voice chat for {1}.",
   "vcrole_added": "Users who join {0} voice channel will get {1} role.",
   "vcrole_removed": "Users who join {0} voice channel will no longer get a role.",
   "vc_role_list": "Voice channel roles",

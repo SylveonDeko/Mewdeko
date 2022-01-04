@@ -69,6 +69,8 @@ public static class Extensions
         return list;
     }
 
+    public static DateTime GetDateTimeFromTimeSpan(TimeSpan span) => DateTime.Now.Subtract(span);
+
     public static bool TryGetUrlPath(this string input, out string path)
     {
         var match = UrlRegex.Match(input);
