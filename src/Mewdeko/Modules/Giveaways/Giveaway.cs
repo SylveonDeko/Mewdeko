@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Extensions.Interactive;
+using Mewdeko.Common.Extensions.Interactive.Entities.Page;
+using Mewdeko.Common.Extensions.Interactive.Pagination;
+using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Giveaways.Services;
+using Swan;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Extensions = Mewdeko._Extensions.Extensions;
 
 namespace Mewdeko.Modules.Giveaways;
 
@@ -14,13 +20,33 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
 {
     private readonly IServiceProvider _servs;
     private readonly DbService _db;
+    private readonly InteractiveService Interactivity;
 
-    public GiveawayCommands(DbService db, IServiceProvider servs)
+    public GiveawayCommands(DbService db, IServiceProvider servs, InteractiveService interactiveService)
     {
+        Interactivity = interactiveService;
         _db = db;
         _servs = servs;
     }
 
+    [MewdekoCommand]
+    [Usage]
+    [Description]
+    [Aliases]
+    public async Task GReroll(ulong messageid)
+    {
+        using var uow = _db.GetDbContext();
+        var gway = uow.Giveaways
+                      .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
+        if (gway is null)
+        {
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
+            return;
+        }
+
+        await Service.GiveawayReroll(gway);
+        await ctx.Channel.SendConfirmAsync("Giveaway Rerolled!");
+    }
     [MewdekoCommand]
     [Usage]
     [Description]
@@ -61,7 +87,7 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     [Usage]
     [Description]
     [Aliases]
-    [RequireUserPermission(GuildPermission.ManageChannels)]
+    [RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what) =>
         await Service.GiveawaysInternal(chan, time.Time, what, winners, ctx.User.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild);
@@ -70,7 +96,7 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     [Usage]
     [Description]
     [Aliases]
-    [RequireUserPermission(GuildPermission.ManageChannels)]
+    [RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
         ITextChannel chan = null;
@@ -211,59 +237,63 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     [Usage]
     [Description]
     [Aliases]
-    [RequireUserPermission(GuildPermission.ManageChannels)]
-    public async Task GList(int page = 1)
+    [RequireUserPermission(GuildPermission.ManageMessages)]
+    public async Task GList()
     {
-        if (--page < 0)
+        using var uow = _db.GetDbContext();
+        var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
+        if (!gways.Any())
+        {
+            await ctx.Channel.SendErrorAsync("No active giveaways");
             return;
-
-        var embed = new EmbedBuilder()
-            .WithOkColor()
-            .WithTitle("Current active giveaways");
-
-        List<Mewdeko.Services.Database.Models.Giveaways> rems;
-        using (var uow = _db.GetDbContext())
-        {
-            rems = uow.Giveaways.GiveawaysFor(ctx.Guild.Id, page).ToList();
         }
+        var paginator = new LazyPaginatorBuilder()
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(gways.Count() / 5)
+                        .WithDefaultEmotes()
+                        .Build();
 
-        if (rems.Any())
-        {
-            var i = 0;
-            foreach (var rem in rems)
-            {
-                var when = rem.When;
-                var diff = when - DateTime.UtcNow;
-                embed.AddField(
-                    $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int) diff.TotalHours}h {diff.Minutes}m)",
-                    $@"`Where:` {ctx.Guild.GetTextChannelAsync(rem.ChannelId).Result.Mention} [Jump To Message]({ctx.Guild.GetTextChannelAsync(rem.ChannelId).Result.GetMessageAsync(rem.MessageId).Result.GetJumpUrl()})
-`Item:` {rem.Item?.TrimTo(50)}");
-            }
-        }
-        else
-        {
-            embed.WithDescription("No active giveaways!");
-        }
+        await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+            TimeSpan.FromMinutes(60));
 
-        embed.AddPaginatedFooter(page + 1, null);
-        await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+        Task<PageBuilder> PageFactory(int page)
+        {
+            return Task.FromResult(new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways").WithDescription(
+                string.Join("\n\n",
+                    gways.Skip(page * 5).Take(5).Select(x =>
+                        $"{x.MessageId.ToString()}"
+                        + $"\nPrize: {x.Item}"
+                        + $"\nWinners: {x.Winners}"
+                        + $"\nLink: {ctx.Guild.GetTextChannelAsync(x.ChannelId).Result.GetMessageAsync(x.MessageId).Result.GetJumpUrl()}"))));
+        }
+        
+
     }
 
     [MewdekoCommand]
-    [RequireUserPermission(GuildPermission.ManageChannels)]
-    public async Task GEnd(int index)
+    [RequireUserPermission(GuildPermission.ManageMessages)]
+    public async Task GEnd(ulong messageid)
     {
-        Mewdeko.Services.Database.Models.Giveaways rem;
         using var uow = _db.GetDbContext();
-        var rems = uow.Giveaways.GiveawaysFor(ctx.Guild.Id, index / 10)
-            .ToList();
-        var pageIndex = index - 1;
-        if (rems.Count > pageIndex)
+        var gway = uow.Giveaways
+                       .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
+        if (gway is null)
         {
-            rem = rems[pageIndex];
-            await Service.GiveawayTimerAction(rem);
-            uow.Giveaways.Remove(rem);
-            await uow.SaveChangesAsync();
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
         }
+
+        if (gway.Ended == 1)
+        {
+            await ctx.Channel.SendErrorAsync(
+                $"This giveaway has already ended! Plase use `{Prefix}greroll {messageid}` to reroll!");
+        }
+        else
+        {
+            await Service.GiveawayReroll(gway);
+            await ctx.Channel.SendConfirmAsync("Giveaway ended!");
+        }
+        
     }
 }
