@@ -33,6 +33,7 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     [Usage]
     [Description]
     [Aliases]
+    [RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
         using var uow = _db.GetDbContext();
@@ -273,6 +274,8 @@ public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
     }
 
     [MewdekoCommand]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
     [RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
