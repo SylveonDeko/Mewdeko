@@ -30,6 +30,10 @@ gstats:
   desc: "Shows giveaway stats for the server."
   args:
     - ""
+greroll:
+  desc: "Rerolls a giveaway"
+  args:
+    - "messageid"
 leavehook:
   desc: "Allows you to set a webhook used for leave messages. You can either upload
     an image to use or use a image url. Type disable to disable webhook greets.
