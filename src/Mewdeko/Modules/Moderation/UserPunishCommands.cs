@@ -110,7 +110,6 @@ public partial class Moderation : MewdekoModule
                 await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription(GetText("warned_on", ctx.Guild.ToString()))
-                        .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
                         .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
                     .ConfigureAwait(false);
             }
@@ -149,27 +148,6 @@ public partial class Moderation : MewdekoModule
             if (dmFailed) embed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
 
             await ctx.Channel.EmbedAsync(embed);
-            if (WarnlogChannel != 0)
-            {
-                var uow = _db.GetDbContext();
-                var warnings = uow.Warnings
-                    .ForId(ctx.Guild.Id, user.Id)
-                    .Count(w => !w.Forgiven && w.UserId == user.Id);
-                var condition = punishment != null;
-                var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
-                var punishaction = condition ? punishment.Punishment.Humanize() : "None";
-                var channel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
-                await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
-                    .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                    .WithTitle("Warned by: " + ctx.User)
-                    .WithCurrentTimestamp()
-                    .WithDescription("Username: " + user.Username + "#" + user.Discriminator + "\n" +
-                                     "ID of Warned User: " + user.Id + "\n" + "Warn Number: " + warnings +
-                                     "\nPunishment: " + punishaction + " " + punishtime + "\n\n" + "Reason: " +
-                                     reason + "\n\n" + "[Click Here For Context]" +
-                                     "(https://discord.com/channels/" + ctx.Guild.Id + "/" + ctx.Channel.Id + "/" +
-                                     ctx.Message.Id + ")"));
-            }
         }
 
         [MewdekoCommand]

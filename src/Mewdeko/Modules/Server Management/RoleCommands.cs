@@ -19,6 +19,33 @@ public partial class ServerManagement
     public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
     {
         [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task ToggleStaff(IGuildUser user)
+        {
+            var roles = ((IGuildUser)ctx.User).RoleIds.ToList();
+            if (!roles.Contains(751636346694795355)
+                && !roles.Contains(801964517583487017)
+                && !roles.Contains(749323950558937089)
+                && !roles.Contains(749323734032318534)
+                && !roles.Contains(829557708126552105))
+            {
+                await ctx.Channel.SendErrorAsync("You can't use this!");
+                return;
+            }
+
+            var contains = user.RoleIds.ToList().Contains(862536244222623794);
+            if (!contains)
+            {
+                await user.AddRoleAsync(862536244222623794);
+                await ctx.Channel.SendConfirmAsync($"Added the staff ping role to {user.Mention}!");
+            }
+            else
+            {
+                await user.RemoveRoleAsync(862536244222623794);
+                await ctx.Channel.SendConfirmAsync($"Removed the staff ping role from {user.Mention}!");
+            }
+        }
+        [MewdekoCommand]
         [Usage]
         [Description]
         [Aliases]
