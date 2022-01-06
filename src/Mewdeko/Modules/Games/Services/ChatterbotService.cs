@@ -72,7 +72,7 @@ public class ChatterBotService : INService
                 var message = PrepareMessage(usrMsg as IUserMessage, out var cbs);
                 if (message == null || cbs == null)
                     return;
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, usrMsg as IUserMessage).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
@@ -126,18 +126,20 @@ public class ChatterBotService : INService
         return message;
     }
 
-    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
+    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, IUserMessage message)
     {
         await channel.TriggerTypingAsync().ConfigureAwait(false);
 
-        var response = await cleverbot.Think(message).ConfigureAwait(false);
+        var response = await cleverbot.Think(message.Content).ConfigureAwait(false);
         try
         {
-            await channel.SendConfirmAsync(response.SanitizeMentions(true)).ConfigureAwait(false);
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true));
+            await message.ReplyAsync(embed: eb.Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.None));
         }
         catch
         {
-            await channel.SendConfirmAsync(response.SanitizeMentions(true)).ConfigureAwait(false); // try twice :\
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true));
+            await message.ReplyAsync(embed: eb.Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.None));
         }
 
         return true;
