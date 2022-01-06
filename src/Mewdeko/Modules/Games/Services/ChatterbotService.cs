@@ -17,7 +17,6 @@ public class ChatterBotService : INService
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
-    public List<ulong> LimitUser = new();
 
     public ChatterBotService(DiscordSocketClient client,
         Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
@@ -73,7 +72,6 @@ public class ChatterBotService : INService
                 var message = PrepareMessage(usrMsg as IUserMessage, out var cbs);
                 if (message == null || cbs == null)
                     return;
-                if (LimitUser.Contains(chan.Id)) return;
                 var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
@@ -83,9 +81,6 @@ public class ChatterBotService : INService
                     Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
                     UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
                     Message: {usrMsg.Content}");
-                    LimitUser.Add(chan.Id);
-                    await Task.Delay(5000);
-                    LimitUser.Remove(chan.Id);
                 }
             }
             catch (Exception ex)
