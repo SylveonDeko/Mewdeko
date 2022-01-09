@@ -79,6 +79,10 @@ rtt:
   desc: 'Toggles whether the bot responds to the response of a custom reaction or the trigger.'
   args:
     - '420'
+crnr:
+  desc: "Toggles whether the bot sends a message with a custom reaction. Turning this off automatically makes any emote reactions react to the trigger."
+  args:
+   - "69420"
 modules:
   desc: Lists all bot modules.
   args:
