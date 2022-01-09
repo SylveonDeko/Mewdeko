@@ -859,10 +859,10 @@ vcrole:
   desc: >-
     Sets or resets a role which will be given to users who join the voice
     channel you're in when you run this command. Provide no role name to
-    disable. You must be in a voice channel to run this command.
+    disable. You can run this command in a voice channel with just the role paramater to assign it a role.
   args:
     - SomeRole
-    - ''
+    - 'SomeVoiceChannel SomeRole'
 vcrolerm:
   desc: >-
     Removes vcrole associated with the specified voice channel ID. This is
