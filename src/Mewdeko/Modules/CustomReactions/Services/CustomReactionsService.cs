@@ -30,8 +30,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         AllowTarget,
         ContainsAnywhere,
         Message,
-        ReactToTrigger,
-        NoRespond
+        ReactToTrigger
     }
 
     private const string MentionPh = "%bot.mention%";
@@ -139,7 +138,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
                 {
                     if (pc.Verbose)
                     {
-                        var returnMsg = _strings.GetText("perm_prevent", sg.Id,
+                        var returnMsg = _strings.GetText("trigger", sg.Id,
                             index + 1,
                             Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), sg)));
                         try
@@ -157,16 +156,14 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
                 }
             }
 
-            IUserMessage sentMsg = null;
-            if (!cr.NoRespond) 
-                sentMsg = await cr.Send(msg, _client, false).ConfigureAwait(false);
+            var sentMsg = await cr.Send(msg, _client, false).ConfigureAwait(false);
 
             var reactions = cr.GetReactions();
             foreach (var reaction in reactions)
             {
                 try
                 {
-                    if (!cr.ReactToTrigger && !cr.NoRespond)
+                    if (!cr.ReactToTrigger)
                         await sentMsg.AddReactionAsync(reaction.ToIEmote());
                     else
                         await msg.AddReactionAsync(reaction.ToIEmote());
@@ -181,15 +178,14 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
                 await Task.Delay(1000);
             }
 
-            if (!cr.AutoDeleteTrigger) return true;
-            try
-            {
-                await msg.DeleteAsync().ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
+            if (cr.AutoDeleteTrigger)
+                try
+                {
+                    await msg.DeleteAsync().ConfigureAwait(false);
+                }
+                catch
+                {
+                }
 
             return true;
         }
@@ -229,22 +225,22 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         }
 
         using var uow = _db.GetDbContext();
-        foreach (var (trigger, value) in data)
+        foreach (var entry in data)
         {
-            await uow._context.CustomReactions.AddRangeAsync(value
-                                                             .Where(cr => !string.IsNullOrWhiteSpace(cr.Res))
-                                                             .Select(cr => new CustomReaction
-                                                             {
-                                                                 GuildId = guildId,
-                                                                 Response = cr.Res,
-                                                                 Reactions = cr.React?.JoinWith("@@@"),
-                                                                 Trigger = trigger,
-                                                                 AllowTarget = cr.At,
-                                                                 ContainsAnywhere = cr.Ca,
-                                                                 DmResponse = cr.Dm,
-                                                                 AutoDeleteTrigger = cr.Ad,
-                                                                 NoRespond = cr.Nr
-                                                             }));
+            var trigger = entry.Key;
+            await uow._context.CustomReactions.AddRangeAsync(entry.Value
+                .Where(cr => !string.IsNullOrWhiteSpace(cr.Res))
+                .Select(cr => new CustomReaction
+                {
+                    GuildId = guildId,
+                    Response = cr.Res,
+                    Reactions = cr.React?.JoinWith("@@@"),
+                    Trigger = trigger,
+                    AllowTarget = cr.At,
+                    ContainsAnywhere = cr.Ca,
+                    DmResponse = cr.Dm,
+                    AutoDeleteTrigger = cr.Ad
+                }));
         }
 
         await uow.SaveChangesAsync();
@@ -498,7 +494,6 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
                 CrField.DmResponse => cr.DmResponse = !cr.DmResponse,
                 CrField.AllowTarget => cr.AllowTarget = !cr.AllowTarget,
                 CrField.ReactToTrigger => cr.ReactToTrigger = !cr.ReactToTrigger,
-                CrField.NoRespond => cr.NoRespond = !cr.NoRespond,
                 _ => newVal
             };
 

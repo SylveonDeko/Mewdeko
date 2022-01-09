@@ -16,13 +16,13 @@ using Extensions = Mewdeko._Extensions.Extensions;
 
 namespace Mewdeko.Modules.Giveaways;
 
-public class Giveaways : MewdekoModuleBase<GiveawayService>
+public class GiveawayCommands : MewdekoModuleBase<GiveawayService>
 {
     private readonly IServiceProvider _servs;
     private readonly DbService _db;
     private readonly InteractiveService Interactivity;
 
-    public Giveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService)
+    public GiveawayCommands(DbService db, IServiceProvider servs, InteractiveService interactiveService)
     {
         Interactivity = interactiveService;
         _db = db;
@@ -106,7 +106,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         //string blacklistroles;
         //string blacklistusers;
         string reqroles;
-        IUser host;
+        IUser Host;
         TimeSpan time;
         var erorrembed = new EmbedBuilder()
             .WithErrorColor()
@@ -185,7 +185,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         if (next.ToLower() == "none" || next.ToLower() == "skip")
         {
-            host = ctx.User;
+            Host = ctx.User;
         }
         else
         {
@@ -193,7 +193,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             try
             {
                 var result = await reader1.ReadAsync(ctx, next, _servs);
-                host = (IUser) result.BestMatch;
+                Host = (IUser) result.BestMatch;
             }
             catch
             {
@@ -204,7 +204,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         
         if (!await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(), ctx.User.Id))
         {
-            await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
+            await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
             ctx.Guild);
             await msg.DeleteAsync();
         }
@@ -230,7 +230,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
 
         reqroles = string.Join(" ", parsed.Select(x => x.Id));
         await msg.DeleteAsync();
-        await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
+        await Service.GiveawaysInternal(chan, time, prize, winners, Host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
             ctx.Guild, reqroles);
     }
 
@@ -264,7 +264,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             return Task.FromResult(new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways").WithDescription(
                 string.Join("\n\n",
                     gways.Skip(page * 5).Take(5).Select(x =>
-                        $"{x.MessageId}"
+                        $"{x.MessageId.ToString()}"
                         + $"\nPrize: {x.Item}"
                         + $"\nWinners: {x.Winners}"
                         + $"\nLink: {ctx.Guild.GetTextChannelAsync(x.ChannelId).Result.GetMessageAsync(x.MessageId).Result.GetJumpUrl()}"))));
