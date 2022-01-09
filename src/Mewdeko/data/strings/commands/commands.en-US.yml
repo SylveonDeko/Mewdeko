@@ -489,14 +489,23 @@ removefromrole:
     first role.
   args:
     - inrole removethisfrominrole
-setmultipleroles:
+setroles:
   desc: 'Lets you set mulitple roles on a user. '
+  args:
+    - '@user @role @role'
+removeroles:
+  desc: 'Lets you set remove multiple roles from a user. '
   args:
     - '@user @role @role'
 catid:
   desc: Shows the category ID for a category name you choose.
   args:
     - CategoryName
+rinfo:
+    desc: Get info on a role
+    args:
+    - "@role"
+    - "rid"
 ccatc:
   desc: Creates a category and creates text channels under it with names you choose.
   args:
