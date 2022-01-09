@@ -100,8 +100,9 @@ public class ChatterBotService : INService
 
     private string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
     {
+        var channel = msg.Channel as ITextChannel;
         cleverbot = null;
-        if (msg?.Channel is not ITextChannel channel)
+        if (channel == null)
             return null;
 
         if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))

@@ -27,8 +27,6 @@ clearqueue:
 loop:
   - loop
   - repeat
-setafk:
-  - afk
 greetmsg:
   - greetmsg
 skip:

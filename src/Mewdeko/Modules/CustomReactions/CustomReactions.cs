@@ -387,12 +387,6 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
     [Description]
     [Aliases]
     public Task CrAt(int id) => InternalCrEdit(id, CustomReactionsService.CrField.AllowTarget);
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    public Task CrNr(int id) => InternalCrEdit(id, CustomReactionsService.CrField.NoRespond);
-
 
     [MewdekoCommand]
     [Usage]

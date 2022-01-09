@@ -79,10 +79,6 @@ rtt:
   desc: 'Toggles whether the bot responds to the response of a custom reaction or the trigger.'
   args:
     - '420'
-crnr:
-  desc: "Toggles whether the bot sends a message with a custom reaction. Turning this off automatically makes any emote reactions react to the trigger."
-  args:
-   - "69420"
 modules:
   desc: Lists all bot modules.
   args:
@@ -92,10 +88,9 @@ mwarn:
   args:
     - '@user'
 boosttest:
-  desc: 'Tests the current set boost message, optionally put a user to use them as an example '
+  desc: 'Tests the current set boost message '
   args:
     - ''
-    - "@user"
 atuo:
   desc: Adds a role to users over or at a specified server join age
   args:
@@ -494,23 +489,14 @@ removefromrole:
     first role.
   args:
     - inrole removethisfrominrole
-setroles:
+setmultipleroles:
   desc: 'Lets you set mulitple roles on a user. '
-  args:
-    - '@user @role @role'
-removeroles:
-  desc: 'Lets you set remove multiple roles from a user. '
   args:
     - '@user @role @role'
 catid:
   desc: Shows the category ID for a category name you choose.
   args:
     - CategoryName
-rinfo:
-    desc: Get info on a role
-    args:
-    - "@role"
-    - "rid"
 ccatc:
   desc: Creates a category and creates text channels under it with names you choose.
   args:
@@ -859,10 +845,10 @@ vcrole:
   desc: >-
     Sets or resets a role which will be given to users who join the voice
     channel you're in when you run this command. Provide no role name to
-    disable. You can run this command in a voice channel with just the role paramater to assign it a role.
+    disable. You must be in a voice channel to run this command.
   args:
     - SomeRole
-    - 'SomeVoiceChannel SomeRole'
+    - ''
 vcrolerm:
   desc: >-
     Removes vcrole associated with the specified voice channel ID. This is
