@@ -8,11 +8,11 @@ using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
 
-public class SuggestionsCommands : MewdekoModuleBase<SuggestionsService>
+public class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
     public DiscordSocketClient _client;
 
-    public SuggestionsCommands(DiscordSocketClient client) => _client = client;
+    public Suggestions(DiscordSocketClient client) => _client = client;
 
     [MewdekoCommand]
     [Usage]

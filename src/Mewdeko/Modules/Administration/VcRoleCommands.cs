@@ -28,7 +28,36 @@ public partial class Administration
             else
                 await ReplyErrorLocalizedAsync("vcrole_not_found").ConfigureAwait(false);
         }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
+        [RequireContext(ContextType.Guild)]
+        public async Task VcRole(SocketGuildChannel vchan, [Remainder] IRole role = null)
+        {
+            if (vchan is IVoiceChannel chan)
+            {
 
+                if (role == null)
+                {
+                    if (Service.RemoveVcRole(ctx.Guild.Id, chan.Id))
+                        await ReplyConfirmLocalizedAsync("vcrole_removed", Format.Bold(chan.Name))
+                            .ConfigureAwait(false);
+                }
+                else
+                {
+                    Service.AddVcRole(ctx.Guild.Id, role, chan.Id);
+                    await ReplyConfirmLocalizedAsync("vcrole_added", Format.Bold(chan.Name), Format.Bold(role.Name))
+                        .ConfigureAwait(false);
+                }
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("This is not a voice channel!");
+            }
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
