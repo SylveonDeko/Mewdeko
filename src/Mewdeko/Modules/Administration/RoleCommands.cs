@@ -185,7 +185,7 @@ public partial class Administration
                     return Task.FromResult(
                         eb.AddField("ID", rr.Index + 1).AddField("Roles",
                                 string.Join(",",
-                                    rr.ReactionRoles.Select(x => $"{g.GetRole(x.RoleId).Mention}")))
+                                    rr.ReactionRoles.Select(x => $"{x.EmoteName}{g.GetRole(x.RoleId).Mention}")))
                             .AddField("Users can select more than one role", !rr.Exclusive)
                             .AddField("Was Deleted?", msg == null ? "Yes" : "No")
                             .AddField("Message Link",
