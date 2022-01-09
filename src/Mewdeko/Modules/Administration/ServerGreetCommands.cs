@@ -444,7 +444,7 @@ public partial class Administration
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        //[UserPerm(GuildPermission.ManageGuild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         [Ratelimit(5)]
         public async Task BoostTest([Remainder] IGuildUser user = null)
         {
