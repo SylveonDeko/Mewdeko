@@ -29,6 +29,23 @@ public partial class Utility
         [Description]
         [Aliases]
         [RequireContext(ContextType.Guild)]
+        public async Task RInfo(IRole role)
+        {
+            var eb = new EmbedBuilder().WithOkColor().WithTitle(role.Name)
+                                       .AddField("Users in role",
+                                           ctx.Guild.GetUsersAsync().Result.Count(x => x.RoleIds.Contains(role.Id)))
+                                       .AddField("Is Mentionable", role.IsMentionable)
+                                       .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
+                                       .AddField("Is Managed", role.IsManaged)
+                                       .AddField("Permissions", string.Join(",", role.Permissions))
+                                       .WithThumbnailUrl(role.GetIconUrl());
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task VInfo([Remainder] IVoiceChannel channel = null)
         {
             var voiceChannel = ((IGuildUser) ctx.User).VoiceChannel;
@@ -174,7 +191,7 @@ public partial class Utility
                     .AddField("Voice Channels", voicechn.ToString())
                     .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
                     .AddField("Roles", (guild.Roles.Count - 1).ToString())
-                    .AddField("Server Features", Format.Code(string.Join("\n", vals)));
+                    .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();
