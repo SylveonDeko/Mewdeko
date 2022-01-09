@@ -184,8 +184,7 @@ public partial class Administration
                     var eb = new PageBuilder().WithOkColor();
                     return Task.FromResult(
                         eb.AddField("ID", rr.Index + 1).AddField($"Roles ({rr.ReactionRoles.Count})",
-                                string.Join(",",
-                                    rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
+                                string.Join(",", rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
                             .AddField("Users can select more than one role", !rr.Exclusive)
                             .AddField("Was Deleted?", msg == null ? "Yes" : "No")
                             .AddField("Message Link",

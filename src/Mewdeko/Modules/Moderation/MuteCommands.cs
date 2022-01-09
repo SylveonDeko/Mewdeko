@@ -279,6 +279,7 @@ public partial class Moderation
                 await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
             }
         }
+        
 
         [MewdekoCommand]
         [Usage]
