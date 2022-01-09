@@ -88,9 +88,10 @@ mwarn:
   args:
     - '@user'
 boosttest:
-  desc: 'Tests the current set boost message '
+  desc: 'Tests the current set boost message, optionally put a user to use them as an example '
   args:
     - ''
+    - "@user"
 atuo:
   desc: Adds a role to users over or at a specified server join age
   args:
