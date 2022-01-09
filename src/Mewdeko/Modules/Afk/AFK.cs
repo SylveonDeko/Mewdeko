@@ -14,18 +14,18 @@ using Mewdeko.Modules.Afk.Services;
 
 namespace Mewdeko.Modules.Afk;
 
-public class AfkCommands : MewdekoModuleBase<AFKService>
+public class Afk : MewdekoModuleBase<AFKService>
 {
     private readonly InteractiveService Interactivity;
 
-    public AfkCommands(InteractiveService serv) => Interactivity = serv;
+    public Afk(InteractiveService serv) => Interactivity = serv;
 
     [MewdekoCommand]
     [Usage]
     [Description]
     [Aliases]
     [Priority(0)]
-    public async Task Afk([Remainder] string message = null)
+    public async Task SetAfk([Remainder] string message = null)
     {
         if (message == null)
         {
