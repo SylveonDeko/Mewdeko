@@ -213,13 +213,26 @@ public partial class ServerManagement
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageRoles)]
         [BotPerm(GuildPermission.ManageRoles)]
-        public async Task SetMultipleRoles(IGuildUser user, params IRole[] roles)
+        public async Task SetRoles(IGuildUser user, params IRole[] roles)
         {
             await user.AddRolesAsync(roles);
             await ctx.Channel.SendConfirmAsync(
                 $"{user} has been given the roles:\n{string.Join<string>("|", roles.Select(x => x.Mention))}");
         }
 
+        [MewdekoCommand]
+        [Usage]
+        [Description]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
+        public async Task RemoveRoles(IGuildUser user, params IRole[] roles)
+        {
+            await user.RemoveRolesAsync(roles);
+            await ctx.Channel.SendConfirmAsync(
+                $"{user} has had the following roles removed:\n{string.Join<string>("|", roles.Select(x => x.Mention))}");
+        }
         [MewdekoCommand]
         [Usage]
         [Description]
