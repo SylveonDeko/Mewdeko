@@ -143,7 +143,7 @@ public class VcRoleService : INService
 
         var guildVcRoles = VcRoles.GetOrAdd(guildId, new ConcurrentDictionary<ulong, IRole>());
 
-        guildVcRoles.AddOrUpdate(vcId, role, (key, old) => role);
+        guildVcRoles.AddOrUpdate(vcId, role, (_, _) => role);
         using var uow = _db.GetDbContext();
         var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one

@@ -72,7 +72,7 @@ public class GuildTimezoneService : INService
         if (tz == null)
             _timezones.TryRemove(guildId, out tz);
         else
-            _timezones.AddOrUpdate(guildId, tz, (key, old) => tz);
+            _timezones.AddOrUpdate(guildId, tz, (_, _) => tz);
     }
 
     public TimeZoneInfo GetTimeZoneOrUtc(ulong guildId) => GetTimeZoneOrDefault(guildId) ?? TimeZoneInfo.Utc;

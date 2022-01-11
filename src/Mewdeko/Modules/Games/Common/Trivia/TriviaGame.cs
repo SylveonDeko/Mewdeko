@@ -226,7 +226,7 @@ public class TriviaGame
                     if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) &&
                         !_triviaCancelSource.IsCancellationRequested)
                     {
-                        Users.AddOrUpdate(guildUser, 1, (gu, old) => ++old);
+                        Users.AddOrUpdate(guildUser, 1, (_, old) => ++old);
                         guess = true;
                     }
                 }

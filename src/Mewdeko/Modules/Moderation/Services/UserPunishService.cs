@@ -58,7 +58,7 @@ public class UserPunishService : INService
             await uow.SaveChangesAsync();
         }
 
-        _warnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+        _warnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
     }
 
     public async Task<WarningPunishment> Warn(IGuild guild, ulong userId, IUser mod, string reason)

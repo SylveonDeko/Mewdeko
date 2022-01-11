@@ -175,7 +175,7 @@ public class LogCommandService : INService
     {
         using var uow = _db.GetDbContext();
         var logSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
-        GuildLogSettings.AddOrUpdate(guildId, id => logSetting, (id, old) => logSetting);
+        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         logSetting.LogOtherId =
             logSetting.MessageUpdatedId =
                 logSetting.MessageDeletedId =
@@ -263,7 +263,7 @@ public class LogCommandService : INService
         using (var uow = _db.GetDbContext())
         {
             var logSetting = uow.GuildConfigs.LogSettingsFor(gid).LogSetting;
-            GuildLogSettings.AddOrUpdate(gid, _ => logSetting, (id, old) => logSetting);
+            GuildLogSettings.AddOrUpdate(gid, _ => logSetting, (_, _) => logSetting);
             channelId = type switch
             {
                 LogType.Other => logSetting.LogOtherId = logSetting.LogOtherId == null ? cid : default,

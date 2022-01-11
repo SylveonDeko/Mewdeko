@@ -70,7 +70,7 @@ public class AdministrationService : INService
         gc.StaffRole = role;
         await uow.SaveChangesAsync();
 
-        StaffRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+        StaffRole.AddOrUpdate(guild.Id, role, (_, _) => role);
     }
 
     public async Task MemberRoleSet(IGuild guild, ulong role)
@@ -80,7 +80,7 @@ public class AdministrationService : INService
         gc.MemberRole = role;
         await uow.SaveChangesAsync();
 
-        MemberRole.AddOrUpdate(guild.Id, role, (key, old) => role);
+        MemberRole.AddOrUpdate(guild.Id, role, (_, _) => role);
     }
 
     public ulong GetStaffRole(ulong? id)

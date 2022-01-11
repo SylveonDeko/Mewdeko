@@ -91,7 +91,7 @@ namespace Mewdeko.Coordinator.Services
                         var shardIds = Enumerable.Range(0, 1) // shard 0 is always first
                             .Append((int)((900378009188565022 >> 22) % _config.TotalShards)) // then mewdeko server shard
                             .Concat(Enumerable.Range(1, _config.TotalShards - 1)
-                                .OrderBy(x => _rng.Next())) // then all other shards in a random order
+                                .OrderBy(_ => _rng.Next())) // then all other shards in a random order
                             .Distinct()
                             .ToList();
                         
