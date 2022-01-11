@@ -99,7 +99,6 @@ public sealed class MusicService : INService
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
         }
     }
 

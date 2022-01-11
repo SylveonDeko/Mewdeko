@@ -14,6 +14,7 @@ public interface IUnitOfWork : IDisposable
     ICustomReactionRepository CustomReactions { get; }
 
     IMusicPlaylistRepository MusicPlaylists { get; }
+    IMultiGreetRepository MultiGreets { get; }
     IWaifuRepository Waifus { get; }
     ITicketRepository Tickets { get; }
     IDiscordUserRepository DiscordUsers { get; }

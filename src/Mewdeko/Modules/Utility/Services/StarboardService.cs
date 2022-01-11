@@ -48,7 +48,7 @@ public class StarboardService : INService
             await uow.SaveChangesAsync();
         }
 
-        _starboardchannels.AddOrUpdate(guild.Id, channel, (key, old) => channel);
+        _starboardchannels.AddOrUpdate(guild.Id, channel, (_, _) => channel);
     }
 
     public async Task SetStarCount(IGuild guild, ulong num)
@@ -60,7 +60,7 @@ public class StarboardService : INService
             await uow.SaveChangesAsync();
         }
 
-        _starcount.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _starcount.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public ulong GetStarSetting(ulong? id)
@@ -80,7 +80,7 @@ public class StarboardService : INService
             await uow.SaveChangesAsync();
         }
 
-        _starboardstar.AddOrUpdate(guild.Id, emote, (key, old) => emote);
+        _starboardstar.AddOrUpdate(guild.Id, emote, (_, _) => emote);
     }
 
     public ulong GetStar(ulong? id)

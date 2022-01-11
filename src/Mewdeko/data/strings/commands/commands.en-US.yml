@@ -21,6 +21,41 @@ glist:
   desc: "Lists the currently running giveaways."
   args:
     - ""
+multigreetadd:
+  desc: "Adds the current or mentioned channel to MultiGreets. 5 per channel, or 30 per guild"
+  args:
+    - ""
+    - "#channel"
+multigreetremove:
+  desc: "Removes a MultiGreet channel using the ID in {0}mgl. Can also remove all MultiGreets if a channel is mentioned."
+  args:
+    - "1"
+    - "#somechannel"
+multigreetlist:
+  desc: "Lists all MultiGreets and their properties."
+  args:
+    - ""
+multigreetmessage:
+  desc: "Gets or sets a MultiGreet message for a given MultiGreet ID. To set a custom embed use https://eb.mewdeko.tech together with https://mewdeko.tech/placeholders"
+  args:
+    - "2"
+    - "2 embedcode/message"
+multigreettype:
+  desc: "Sets wether to use MultiGreet(greets in all set channels) or RandomGreet(randomly chooses between all set MultiGreets then sends it to that channel)"
+  args:
+    - "RandomGreet"
+    - "MultiGreet"
+multigreetwebhook:
+  desc: "Allows you to set/update/remove a MultiGreet name and avatar. Put just the MultiGreet ID to remove the webhook. Avatar is optional, but must be a direct url to the img used."
+  args:
+    - "26 Mewdeko avatarurl"
+    - "26 Mewdeko"
+    - "26"
+multigreetdelete:
+  desc: "Sets after how much time a MultiGreet is deleted. You can either use seconds directly or format it like 2m2s. Setting it to 0 disables deletion. Default is 1 second."
+  args:
+    - "1s"
+    - "1"
 unmuteall:
   desc: "Unmutes all users with an optional reason."
   args:

@@ -68,8 +68,8 @@ public class CurrencyEventsService : INService
                 .Select(x => x.User)
                 .Distinct();
             await _cs.AddBulkAsync(ids,
-                ids.Select(x => "Voted - <https://top.gg/bot/752236274261426212/vote>"),
-                ids.Select(x => 50L), true).ConfigureAwait(false);
+                ids.Select(_ => "Voted - <https://top.gg/bot/752236274261426212/vote>"),
+                ids.Select(_ => 50L), true).ConfigureAwait(false);
             Log.Information($"Vote currency given to {ids.Count()} users.");
         }
         catch (Exception ex)

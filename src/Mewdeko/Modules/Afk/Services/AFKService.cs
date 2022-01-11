@@ -196,7 +196,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkMessage.AddOrUpdate(guild.Id, AfkMessage, (key, old) => AfkMessage);
+        _AfkMessage.AddOrUpdate(guild.Id, AfkMessage, (_, _) => AfkMessage);
     }
 
     public async Task TimedAfk(IGuild guild, IUser user, string message, TimeSpan time)
@@ -228,7 +228,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkType.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _AfkType.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task AfkDelSet(IGuild guild, int num)
@@ -240,7 +240,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkDels.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _AfkDels.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task AfkLengthSet(IGuild guild, int num)
@@ -252,7 +252,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkLengths.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _AfkLengths.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
 
@@ -265,7 +265,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkTimeout.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _AfkTimeout.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task AfkDisabledSet(IGuild guild, string num)
@@ -277,7 +277,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkDisabledChannels.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _AfkDisabledChannels.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public string GetCustomAfkMessage(ulong? id)

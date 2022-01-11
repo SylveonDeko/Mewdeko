@@ -134,7 +134,7 @@ public sealed class Hangman : IDisposable
                 var _ = OnGuessFailed?.Invoke(this, userName, ch);
                 AddError();
             }
-            else if (Term.Word.All(x => _previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
+            else if (Term.Word.All(_ => _previousGuesses.IsSupersetOf(Term.Word.ToLowerInvariant()
                          .Where(char.IsLetterOrDigit))))
             {
                 var _ = OnGameEnded.Invoke(this, userName); // if all letters are guessed

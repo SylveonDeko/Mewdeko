@@ -65,7 +65,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        _reactchans.AddOrUpdate(guild.Id, yesnt, (key, old) => yesnt);
+        _reactchans.AddOrUpdate(guild.Id, yesnt, (_, _) => yesnt);
     }
 
     public async Task PreviewLinks(IGuild guild, string yesnt)
@@ -91,7 +91,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        _plinks.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
+        _plinks.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     public ulong GetSnipeSet(ulong? id)
@@ -110,7 +110,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        _snipeset.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
+        _snipeset.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
