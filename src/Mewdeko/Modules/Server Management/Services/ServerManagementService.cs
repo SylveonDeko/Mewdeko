@@ -61,7 +61,7 @@ public class ServerManagementService : INService
             await uow.SaveChangesAsync();
         }
 
-        _ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+        _ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
     }
 
     public async Task<IRole> GetMuteRole(IGuild guild)

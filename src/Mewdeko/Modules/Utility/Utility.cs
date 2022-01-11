@@ -49,19 +49,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [Alias]
     public async Task EmoteList([Remainder] string emotetype = null)
     {
-        GuildEmote[] emotes;
-        switch (emotetype)
+        GuildEmote[] emotes = emotetype switch
         {
-            case "animated":
-                emotes = ctx.Guild.Emotes.Where(x => x.Animated).ToArray();
-                break;
-            case "nonanimated":
-                emotes = ctx.Guild.Emotes.Where(x => !x.Animated).ToArray();
-                break;
-            default:
-                emotes = ctx.Guild.Emotes.ToArray();
-                break;
-        }
+            "animated" => ctx.Guild.Emotes.Where(x => x.Animated).ToArray(),
+            "nonanimated" => ctx.Guild.Emotes.Where(x => !x.Animated).ToArray(),
+            _ => ctx.Guild.Emotes.ToArray()
+        };
 
         if (!emotes.Any())
         {
@@ -722,7 +715,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var arr = await Task.Run(() => socketGuild.Users
             .Where(u => u.Activities?.FirstOrDefault()?.Name.ToUpperInvariant() == game)
             .Select(u => u.Username)
-            .OrderBy(x => rng.Next())
+            .OrderBy(_ => rng.Next())
             .Take(60)
             .ToArray()).ConfigureAwait(false);
 
@@ -730,7 +723,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         if (arr.Length == 0)
             await ReplyErrorLocalizedAsync("nobody_playing_game").ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(item => i++ / 2)
+            await ctx.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(_ => i++ / 2)
                     .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
                 .ConfigureAwait(false);
     }

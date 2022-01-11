@@ -73,7 +73,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             sub.Subscribe(_creds.RedisKey() + "_reload_images",
                 delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
 
-        sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (ch, v) =>
+        sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (_, v) =>
         {
             try
             {
@@ -290,7 +290,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (cmd.Interval >= 5)
         {
             var autos = _autoCommands.GetOrAdd(cmd.GuildId, new ConcurrentDictionary<int, Timer>());
-            autos.AddOrUpdate(cmd.Id, key => TimerFromAutoCommand(cmd), (key, old) =>
+            autos.AddOrUpdate(cmd.Id, _ => TimerFromAutoCommand(cmd), (_, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
                 return TimerFromAutoCommand(cmd);

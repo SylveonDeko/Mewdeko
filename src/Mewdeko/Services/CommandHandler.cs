@@ -142,7 +142,7 @@ public class CommandHandler : INService
             uow.SaveChanges();
         }
 
-        _prefixes.AddOrUpdate(guild.Id, prefix, (key, old) => prefix);
+        _prefixes.AddOrUpdate(guild.Id, prefix, (_, _) => prefix);
 
         return prefix;
     }
