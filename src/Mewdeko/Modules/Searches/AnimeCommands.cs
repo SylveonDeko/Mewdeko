@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using Anilist4Net;
@@ -296,11 +297,14 @@ public partial class Searches
         [Aliases]
         public async Task Anime([Remainder] string query)
         {
-            if (string.IsNullOrWhiteSpace(query))
-                return;
             var c2 = new Client();
-            var result = await c2.GetMediaBySearch(query, MediaTypes.ANIME);
-            if (result == null)
+            Media? result;
+
+            try
+            {
+                result = await c2.GetMediaBySearch(query, MediaTypes.ANIME);
+            }
+            catch (NullReferenceException)
             {
                 await ctx.Channel.SendErrorAsync(
                     "The anime you searched for wasn't found! Please try a different query!");
@@ -311,11 +315,11 @@ public partial class Searches
             eb.ImageUrl = result?.CoverImageLarge;
             var list = new List<string>();
             if (result.Recommendations.Nodes.Any())
-                foreach (var i in result.Recommendations.Nodes)
+                result.Recommendations.Nodes.ForEach(x =>
                 {
-                    var t = await c2.GetMediaById(i.Id);
-                    if (t is not null) list.Add(t.EnglishTitle);
-                }
+                    if (c2.GetMediaById(x.Id).Result is not null)
+                        list.Add(c2.GetMediaById(x.Id).Result?.EnglishTitle);
+                });
 
             var te = string.Empty;
             te = result.SeasonInt.ToString()[2..] is ""

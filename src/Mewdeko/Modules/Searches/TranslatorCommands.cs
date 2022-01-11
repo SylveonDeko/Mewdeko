@@ -59,7 +59,7 @@ public partial class Searches
 
             if (autoDelete == AutoDeleteAutoTranslate.Del)
             {
-                _searches.TranslatedChannels.AddOrUpdate(channel.Id, true, (key, val) => true);
+                _searches.TranslatedChannels.AddOrUpdate(channel.Id, true, (_, _) => true);
                 await ReplyConfirmLocalizedAsync("atl_ad_started").ConfigureAwait(false);
                 return;
             }
@@ -102,7 +102,7 @@ public partial class Searches
                 return;
             }
 
-            _searches.UserLanguages.AddOrUpdate(ucp, langs, (key, val) => langs);
+            _searches.UserLanguages.AddOrUpdate(ucp, langs, (_, _) => langs);
 
             await ReplyConfirmLocalizedAsync("atl_set", from, to).ConfigureAwait(false);
         }

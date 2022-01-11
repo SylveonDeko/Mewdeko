@@ -200,7 +200,7 @@ public class FilterService : IEarlyBehavior, INService
             await uow.SaveChangesAsync();
         }
 
-        _invwarn.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
+        _invwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     public int GetFW(ulong? id)
@@ -234,7 +234,7 @@ public class FilterService : IEarlyBehavior, INService
             await uow.SaveChangesAsync();
         }
 
-        _fwarn.AddOrUpdate(guild.Id, yesno, (key, old) => yesno);
+        _fwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     public void ClearFilteredWords(ulong guildId)
