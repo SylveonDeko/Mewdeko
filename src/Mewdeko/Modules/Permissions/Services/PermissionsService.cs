@@ -164,7 +164,7 @@ public class PermissionService : ILateBlocker, INService
             Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
             PermRole = config.PermissionRole,
             Verbose = config.VerbosePermissions
-        }, (id, old) =>
+        }, (_, old) =>
         {
             old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
             old.PermRole = config.PermissionRole;

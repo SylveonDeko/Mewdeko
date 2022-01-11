@@ -581,7 +581,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
 
         var tagsArr = tags?.Split('|');
 
-        t = new Timer(async state =>
+        t = new Timer(async _ =>
         {
             try
             {
@@ -597,7 +597,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+        Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
@@ -631,7 +631,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         if (interval < 20)
             return;
 
-        t = new Timer(async state =>
+        t = new Timer(async _ =>
         {
             try
             {
@@ -643,7 +643,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+        Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
@@ -675,7 +675,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         if (interval < 20)
             return;
 
-        t = new Timer(async state =>
+        t = new Timer(async _ =>
         {
             try
             {
@@ -687,7 +687,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+        Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;

@@ -125,7 +125,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        Suggestemotes.AddOrUpdate(guild.Id, parsedEmotes, (key, old) => parsedEmotes);
+        Suggestemotes.AddOrUpdate(guild.Id, parsedEmotes, (_, _) => parsedEmotes);
     }
 
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
@@ -137,7 +137,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _sugchans.AddOrUpdate(guild.Id, channel, (key, old) => channel);
+        _sugchans.AddOrUpdate(guild.Id, channel, (_, _) => channel);
     }
 
     public async Task SetSuggestionMessage(IGuild guild, string message)
@@ -149,7 +149,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _suggestmsgs.AddOrUpdate(guild.Id, message, (key, old) => message);
+        _suggestmsgs.AddOrUpdate(guild.Id, message, (_, _) => message);
     }
 
     public async Task SetAcceptMessage(IGuild guild, string message)
@@ -161,7 +161,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _acceptmsgs.AddOrUpdate(guild.Id, message, (key, old) => message);
+        _acceptmsgs.AddOrUpdate(guild.Id, message, (_, _) => message);
     }
 
     public async Task SetDenyMessage(IGuild guild, string message)
@@ -173,7 +173,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _denymsgs.AddOrUpdate(guild.Id, message, (key, old) => message);
+        _denymsgs.AddOrUpdate(guild.Id, message, (_, _) => message);
     }
 
     public async Task SetImplementMessage(IGuild guild, string message)
@@ -185,7 +185,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _implementmsgs.AddOrUpdate(guild.Id, message, (key, old) => message);
+        _implementmsgs.AddOrUpdate(guild.Id, message, (_, _) => message);
     }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
@@ -197,7 +197,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _considermsgs.AddOrUpdate(guild.Id, message, (key, old) => message);
+        _considermsgs.AddOrUpdate(guild.Id, message, (_, _) => message);
     }
 
     public async Task sugnum(IGuild guild, ulong num)
@@ -209,7 +209,7 @@ public class SuggestionsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _snum.AddOrUpdate(guild.Id, num, (key, old) => num);
+        _snum.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public ulong GetSuggestionChannel(ulong? id)

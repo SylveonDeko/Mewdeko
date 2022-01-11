@@ -240,7 +240,7 @@ public partial class Utility
 
             Service.Repeaters.AddOrUpdate(ctx.Guild.Id,
                 new ConcurrentDictionary<int, RepeatRunner>(new[]
-                    {new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)}), (key, old) =>
+                    {new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)}), (_, old) =>
                 {
                     old.TryAdd(runner.Repeater.Id, runner);
                     return old;

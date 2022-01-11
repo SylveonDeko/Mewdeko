@@ -120,7 +120,7 @@ public partial class Utility
                     uow.SaveChanges();
                 }
 
-                map.AddOrUpdate(trigger, mapping, (key, old) => mapping);
+                map.AddOrUpdate(trigger, mapping, (_, _) => mapping);
                 return map;
             });
 
