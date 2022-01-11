@@ -115,8 +115,8 @@ public class ReactionEvent : ICurrencyEvent
         try
         {
             await _cs.AddBulkAsync(toAward,
-                toAward.Select(x => "Reaction Event"),
-                toAward.Select(x => _amount),
+                toAward.Select(_ => "Reaction Event"),
+                toAward.Select(_ => _amount),
                 true).ConfigureAwait(false);
 
             if (_isPotLimited)

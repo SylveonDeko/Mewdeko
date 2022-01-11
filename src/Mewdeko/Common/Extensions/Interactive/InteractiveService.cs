@@ -442,7 +442,7 @@ public class InteractiveService
         _ = selection.InitializeMessageAsync(message, cts?.Token ?? default).ConfigureAwait(false);
 
         if (selection.InputType == InputType.Messages)
-            _ = NextMessageAsync(x => false, async (msg, pass) =>
+            _ = NextMessageAsync(_ => false, async (msg, _) =>
             {
                 if (msg.Channel.Id == message.Channel.Id && msg.Source == MessageSource.User)
                     await callback.ExecuteAsync(msg).ConfigureAwait(false);
@@ -473,8 +473,8 @@ public class InteractiveService
         Func<T, bool, Task> action = null,
         TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
-        filter ??= entity => true;
-        action ??= (entity, filterPassed) => Task.CompletedTask;
+        filter ??= _ => true;
+        action ??= (_, _) => Task.CompletedTask;
 
         var guid = Guid.NewGuid();
 

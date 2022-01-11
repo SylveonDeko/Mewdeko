@@ -184,7 +184,7 @@ public class FeedsService : INService
         uow.SaveChanges();
         //adding all, in case bot wasn't on this guild when it started
         foreach (var feed in gc.FeedSubs)
-            _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (k, old) =>
+            _subs.AddOrUpdate(feed.Url.ToLower(), new HashSet<FeedSub> {feed}, (_, old) =>
             {
                 old.Add(feed);
                 return old;
@@ -207,7 +207,7 @@ public class FeedsService : INService
         if (items.Count <= index)
             return false;
         var toRemove = items[index];
-        _subs.AddOrUpdate(toRemove.Url.ToLower(), new HashSet<FeedSub>(), (key, old) =>
+        _subs.AddOrUpdate(toRemove.Url.ToLower(), new HashSet<FeedSub>(), (_, old) =>
         {
             old.Remove(toRemove);
             return old;

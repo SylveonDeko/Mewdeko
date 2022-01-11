@@ -27,6 +27,6 @@ public class ActivityService : INService
         var gc = uow.GuildConfigs.ForId(guildid, set => set);
         gc.GameMasterRole = role;
         await uow.SaveChangesAsync();
-        GameMasterRoles.AddOrUpdate(guildid, role, (key, old) => role);
+        GameMasterRoles.AddOrUpdate(guildid, role, (_, _) => role);
     }
 }
