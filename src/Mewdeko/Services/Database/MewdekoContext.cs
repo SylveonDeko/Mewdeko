@@ -34,6 +34,7 @@ public class MewdekoContext : DbContext
     public DbSet<SnipeStore> SnipeStore { get; set; }
     public DbSet<Warning2> Warnings2 { get; set; }
     public DbSet<AFK> AFK { get; set; }
+    public DbSet<MultiGreet> MultiGreets { get; set; }
     public DbSet<Giveaways> Giveaways { get; set; }
     public DbSet<Ticket> Ticket { get; set; }
     public DbSet<Starboard> Starboard { get; set; }

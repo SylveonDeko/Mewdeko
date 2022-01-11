@@ -226,6 +226,26 @@ public static class Extensions
         });
         return msg;
     }
+    public static IMessage? DeleteAfter(this IMessage? msg, int seconds, LogCommandService? logService = null)
+    {
+        if (msg is null)
+            return null;
+
+        Task.Run(async () =>
+        {
+            await Task.Delay(seconds * 1000).ConfigureAwait(false);
+            logService?.AddDeleteIgnore(msg.Id);
+            try
+            {
+                await msg.DeleteAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        });
+        return msg;
+    }
 
     public static ModuleInfo GetTopLevelModule(this ModuleInfo module)
     {

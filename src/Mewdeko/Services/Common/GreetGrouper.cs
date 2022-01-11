@@ -55,7 +55,7 @@ public class GreetGrouper<T>
                 // if there are more in the group than what's needed
                 // take the requested number, remove them from the set
                 // and return them
-                var toReturn = set.TakeWhile(item => count-- != 0).ToList();
+                var toReturn = set.TakeWhile(_ => count-- != 0).ToList();
                 foreach (var item in toReturn)
                     set.Remove(item);
 

@@ -76,7 +76,7 @@ public sealed class NunchiGame : IDisposable
                 return false;
             }
 
-            _killTimer = new Timer(async state =>
+            _killTimer = new Timer(async _ =>
             {
                 await _locker.WaitAsync().ConfigureAwait(false);
                 try

@@ -416,13 +416,13 @@ public class SearchesService : INService, IUnloadableService
         {
             var blacklistedTags = GetBlacklistedTags(guild.Value);
 
-            var cacher = _imageCacher.GetOrAdd(guild.Value, key => new SearchImageCacher(_httpFactory));
+            var cacher = _imageCacher.GetOrAdd(guild.Value, _ => new SearchImageCacher(_httpFactory));
 
             return cacher.GetImage(tags, isExplicit, type, blacklistedTags);
         }
         else
         {
-            var cacher = _imageCacher.GetOrAdd(guild ?? 0, key => new SearchImageCacher(_httpFactory));
+            var cacher = _imageCacher.GetOrAdd(guild ?? 0, _ => new SearchImageCacher(_httpFactory));
 
             return cacher.GetImage(tags, isExplicit, type);
         }

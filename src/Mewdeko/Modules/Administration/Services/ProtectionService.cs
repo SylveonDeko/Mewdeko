@@ -354,7 +354,7 @@ public class ProtectionService : INService
         };
 
         var stats1 = stats;
-        stats = _antiSpamGuilds.AddOrUpdate(guildId, stats, (key, old) =>
+        stats = _antiSpamGuilds.AddOrUpdate(guildId, stats, (_, old) =>
         {
             stats1.AntiSpamSettings.IgnoredChannels = old.AntiSpamSettings.IgnoredChannels;
             return stats1;
