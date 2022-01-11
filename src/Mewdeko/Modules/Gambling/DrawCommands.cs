@@ -28,7 +28,7 @@ public partial class Gambling
             if (num < 1 || num > 10)
                 throw new ArgumentOutOfRangeException(nameof(num));
 
-            var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, s => new Deck());
+            var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, _ => new Deck());
             var images = new List<Image<Rgba32>>();
             var cardObjects = new List<Deck.Card>();
             for (var i = 0; i < num; i++)
@@ -113,8 +113,8 @@ public partial class Gambling
             //var channel = (ITextChannel)ctx.Channel;
 
             _allDecks.AddOrUpdate(ctx.Guild,
-                g => new Deck(),
-                (g, c) =>
+                _ => new Deck(),
+                (_, c) =>
                 {
                     c.Restart();
                     return c;

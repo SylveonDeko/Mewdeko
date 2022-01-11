@@ -161,7 +161,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
 
         toReturn.Claims30 = toReturn.Claims30 is null
             ? new List<string>()
-            : toReturn.Claims30.OrderBy(x => Guid.NewGuid()).Take(30).ToList();
+            : toReturn.Claims30.OrderBy(_ => Guid.NewGuid()).Take(30).ToList();
 
         return toReturn;
     }

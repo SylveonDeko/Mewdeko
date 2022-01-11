@@ -279,7 +279,7 @@ public partial class Gambling
                     .OrderBy(x => waifuItems[x.ItemEmoji].Price)
                     .GroupBy(x => x.ItemEmoji)
                     .Select(x => $"{x.Key} x{x.Count(),-3}")
-                    .GroupBy(x => i++ / 2)
+                    .GroupBy(_ => i++ / 2)
                     .Select(x => string.Join(" ", x)));
 
             var embed = new EmbedBuilder()

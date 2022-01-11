@@ -121,7 +121,7 @@ public partial class Moderation
                         x => x.Content.ToLowerInvariant().Contains(input));
                     break;
                 default:
-                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, x => true).ConfigureAwait(false);
+                    await Service.PurgeWhere((ITextChannel) ctx.Channel, count, _ => true).ConfigureAwait(false);
                     break;
             }
         }

@@ -77,7 +77,7 @@ public class XpService : INService, IUnloadableService
         {
             var sub = _cache.Redis.GetSubscriber();
             sub.Subscribe(_creds.RedisKey() + "_reload_xp_template",
-                (ch, val) => InternalReloadXpTemplate());
+                (_, _) => InternalReloadXpTemplate());
         }
 
         //load settings
@@ -620,7 +620,7 @@ public class XpService : INService, IUnloadableService
         gc.XpTxtRate = num;
         await uow.SaveChangesAsync();
 
-        XpTxtRates.AddOrUpdate(guild.Id, num, (key, old) => num);
+        XpTxtRates.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task XpTxtTimeoutSet(IGuild guild, int num)
@@ -630,7 +630,7 @@ public class XpService : INService, IUnloadableService
         gc.XpTxtTimeout = num;
         await uow.SaveChangesAsync();
 
-        XpTxtTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
+        XpTxtTimeouts.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task XpVoiceRateSet(IGuild guild, int num)
@@ -640,7 +640,7 @@ public class XpService : INService, IUnloadableService
         gc.XpVoiceRate = num;
         await uow.SaveChangesAsync();
 
-        XpVoiceRates.AddOrUpdate(guild.Id, num, (key, old) => num);
+        XpVoiceRates.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task XpVoiceTimeoutSet(IGuild guild, int num)
@@ -650,7 +650,7 @@ public class XpService : INService, IUnloadableService
         gc.XpVoiceTimeout = num;
         await uow.SaveChangesAsync();
 
-        XpVoiceTimeouts.AddOrUpdate(guild.Id, num, (key, old) => num);
+        XpVoiceTimeouts.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public bool IsServerExcluded(ulong id) => _excludedServers.Contains(id);

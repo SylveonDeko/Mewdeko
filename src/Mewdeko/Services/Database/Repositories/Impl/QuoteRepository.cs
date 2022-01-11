@@ -25,7 +25,7 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
         return (await _set.AsQueryable()
                 .Where(q => q.GuildId == guildId && q.Keyword == keyword)
                 .ToListAsync())
-            .OrderBy(q => rng.Next())
+            .OrderBy(_ => rng.Next())
             .FirstOrDefault();
     }
 
@@ -39,7 +39,7 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
                     // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
                 )
                 .ToListAsync())
-            .OrderBy(q => rngk.Next())
+            .OrderBy(_ => rngk.Next())
             .FirstOrDefault();
     }
 

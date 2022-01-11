@@ -142,7 +142,7 @@ public sealed class Connect4Game : IDisposable
             }
 
             CurrentPhase = Phase.P1Move; //start the game
-            _playerTimeoutTimer = new Timer(async state =>
+            _playerTimeoutTimer = new Timer(async _ =>
             {
                 await _locker.WaitAsync().ConfigureAwait(false);
                 try

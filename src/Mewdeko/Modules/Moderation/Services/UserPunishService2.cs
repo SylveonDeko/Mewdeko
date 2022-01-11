@@ -49,7 +49,7 @@ public class UserPunishService2 : INService
             await uow.SaveChangesAsync();
         }
 
-        Miniwarnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (key, old) => channel.Id);
+        Miniwarnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
     }
 
     public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)

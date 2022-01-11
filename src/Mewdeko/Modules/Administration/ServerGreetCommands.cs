@@ -18,6 +18,12 @@ public partial class Administration
 
         public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
 
+        public enum MultiGreetMode
+        {
+            MultiGreet,
+            RandomGreet
+        }
+
         [MewdekoCommand]
         [Usage]
         [Description]
