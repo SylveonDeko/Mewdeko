@@ -143,7 +143,6 @@ public class MuteService : INService
         var _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
             .WithDescription($"You've been muted in {user.Guild} server")
             .AddField("Mute Type", type.ToString())
-            .AddField("Moderator", mod.ToString())
             .AddField("Reason", reason)
             .Build()));
     }
@@ -156,7 +155,6 @@ public class MuteService : INService
         var _ = Task.Run(() => user.SendMessageAsync(embed: new EmbedBuilder()
             .WithDescription($"You've been unmuted in {user.Guild} server")
             .AddField("Unmute Type", type.ToString())
-            .AddField("Moderator", mod.ToString())
             .AddField("Reason", reason)
             .Build()));
     }

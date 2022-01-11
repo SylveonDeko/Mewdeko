@@ -91,7 +91,6 @@ public partial class Moderation
                 await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
                         .WithErrorColor()
                         .WithDescription("Warned in " + ctx.Guild)
-                        .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
                         .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
                     .ConfigureAwait(false);
             }

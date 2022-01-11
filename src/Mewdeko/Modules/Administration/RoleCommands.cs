@@ -183,9 +183,9 @@ public partial class Administration
                         msg = ch.GetMessageAsync(rr.MessageId).Result as IUserMessage;
                     var eb = new PageBuilder().WithOkColor();
                     return Task.FromResult(
-                        eb.AddField("ID", rr.Index + 1).AddField($"Roles ({rr.ReactionRoles.Count})",
+                        eb.AddField("ID", rr.Index + 1).AddField("Roles",
                                 string.Join(",",
-                                    rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
+                                    rr.ReactionRoles.Select(x => $"{x.EmoteName}{g.GetRole(x.RoleId).Mention}")))
                             .AddField("Users can select more than one role", !rr.Exclusive)
                             .AddField("Was Deleted?", msg == null ? "Yes" : "No")
                             .AddField("Message Link",

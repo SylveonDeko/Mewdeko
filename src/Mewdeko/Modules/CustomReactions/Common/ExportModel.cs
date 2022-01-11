@@ -11,10 +11,9 @@ public class ExportedExpr
     public bool At { get; set; }
     public bool Ca { get; set; }
     public bool Rtt { get; set; }
-    public bool Nr { get; set; }
 
     public static ExportedExpr FromModel(CustomReaction cr) =>
-        new()
+        new ExportedExpr
         {
             Res = cr.Response,
             Ad = cr.AutoDeleteTrigger,
@@ -24,7 +23,6 @@ public class ExportedExpr
             React = string.IsNullOrWhiteSpace(cr.Reactions)
                 ? null
                 : cr.GetReactions(),
-            Rtt = cr.ReactToTrigger,
-            Nr = cr.NoRespond
+            Rtt = cr.ReactToTrigger
         };
 }

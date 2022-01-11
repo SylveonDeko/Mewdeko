@@ -31,8 +31,14 @@ public class StatsService : IStatsService
     private long _textChannels;
     private long _voiceChannels;
 
-    public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-        IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory, ICoordinator coord)
+    public StatsService(
+        DiscordSocketClient client,
+        CommandHandler cmdHandler,
+        IBotCredentials creds,
+        Mewdeko Mewdeko,
+        IDataCache cache,
+        IHttpClientFactory factory,
+        ICoordinator coord)
     {
         _coord = coord;
         _client = client;
@@ -121,7 +127,6 @@ public class StatsService : IStatsService
 
             return Task.CompletedTask;
         };
-
     }
 
     public string Library => $"Discord.Net Labs {_dllVersionChecker.GetDllVersion()} ";

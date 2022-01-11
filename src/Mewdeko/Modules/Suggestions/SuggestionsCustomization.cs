@@ -23,7 +23,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     [UserPerm(GuildPermission.Administrator)]
     public async Task SuggestMessage([Remainder] string embed)
     {
-        CREmbed.TryParse(embed, out var crEmbed);
+        CREmbed crEmbed;
+        CREmbed.TryParse(embed, out crEmbed);
         if (embed == "-")
         {
             await Service.SetSuggestionMessage(ctx.Guild, embed);

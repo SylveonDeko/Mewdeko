@@ -57,8 +57,6 @@ clearqueue:
 loop:
   - loop
   - repeat
-setafk:
-  - afk
 greetmsg:
   - greetmsg
 skip:
@@ -1020,6 +1018,7 @@ alias:
   - cmdmap
 warnlog:
   - warnlog
+  - warns
 warnlogall:
   - warnlogall
 warn:
