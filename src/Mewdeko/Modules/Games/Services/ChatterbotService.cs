@@ -17,7 +17,6 @@ public class ChatterBotService : INService
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
-    public List<ulong> LimitUser = new();
 
     public ChatterBotService(DiscordSocketClient client,
         Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
@@ -55,7 +54,7 @@ public class ChatterBotService : INService
             ChatterBotChannels.TryRemove(id, out _);
         else
             ChatterBotChannels.TryAdd(id,
-                new Lazy<IChatterBotSession>(() => CreateSession(), true));
+                new Lazy<IChatterBotSession>(CreateSession, true));
     }
 
     public ulong GetCleverbotChannel(ulong id) => _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
@@ -66,15 +65,14 @@ public class ChatterBotService : INService
         {
             if (usrMsg.Author.IsBot)
                 return;
-            if (usrMsg.Channel is not ITextChannel chan)
+            if (usrMsg?.Channel is not ITextChannel chan)
                 return;
             try
             {
                 var message = PrepareMessage(usrMsg as IUserMessage, out var cbs);
                 if (message == null || cbs == null)
                     return;
-                if (LimitUser.Contains(chan.Id)) return;
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, usrMsg as IUserMessage).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
@@ -83,9 +81,6 @@ public class ChatterBotService : INService
                     Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
                     UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
                     Message: {usrMsg.Content}");
-                    LimitUser.Add(chan.Id);
-                    await Task.Delay(5000);
-                    LimitUser.Remove(chan.Id);
                 }
             }
             catch (Exception ex)
@@ -105,8 +100,9 @@ public class ChatterBotService : INService
 
     private string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
     {
+        var channel = msg.Channel as ITextChannel;
         cleverbot = null;
-        if (msg?.Channel is not ITextChannel channel)
+        if (channel == null)
             return null;
 
         if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))
@@ -130,18 +126,20 @@ public class ChatterBotService : INService
         return message;
     }
 
-    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
+    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, IUserMessage message)
     {
         await channel.TriggerTypingAsync().ConfigureAwait(false);
 
-        var response = await cleverbot.Think(message).ConfigureAwait(false);
+        var response = await cleverbot.Think(message.Content).ConfigureAwait(false);
         try
         {
-            await channel.SendConfirmAsync(response.SanitizeMentions(true)).ConfigureAwait(false);
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true));
+            await message.ReplyAsync(embed: eb.Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.None));
         }
         catch
         {
-            await channel.SendConfirmAsync(response.SanitizeMentions(true)).ConfigureAwait(false); // try twice :\
+            var eb = new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true));
+            await message.ReplyAsync(embed: eb.Build(), allowedMentions: new AllowedMentions(AllowedMentionTypes.None));
         }
 
         return true;
