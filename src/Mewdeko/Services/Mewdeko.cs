@@ -372,7 +372,7 @@ public class Mewdeko
     private void HandleStatusChanges()
     {
         var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-        sub.Subscribe(Client.CurrentUser.Id + "_status.game_set", async (ch, game) =>
+        sub.Subscribe(Client.CurrentUser.Id + "_status.game_set", async (_, game) =>
         {
             try
             {
@@ -386,7 +386,7 @@ public class Mewdeko
             }
         }, CommandFlags.FireAndForget);
 
-        sub.Subscribe(Client.CurrentUser.Id + "_status.stream_set", async (ch, streamData) =>
+        sub.Subscribe(Client.CurrentUser.Id + "_status.stream_set", async (_, streamData) =>
         {
             try
             {

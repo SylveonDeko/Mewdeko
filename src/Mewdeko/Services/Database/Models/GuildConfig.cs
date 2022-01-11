@@ -16,6 +16,7 @@ public class GuildConfig : DbEntity
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
+    public int MultiGreetType { get; set; } = 0;
     public ulong MemberRole { get; set; } = 0;
     public string TOpenMessage { get; set; } = "none";
     public string GStartMessage { get; set; } = "none";

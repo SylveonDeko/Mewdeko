@@ -14,7 +14,7 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BotVersion = "3.80";
+    public const string BotVersion = "3.81";
     private readonly Mewdeko _bot;
 
     private readonly Timer _botlistTimer;
@@ -44,7 +44,7 @@ public class StatsService : IStatsService
 
         _started = DateTime.UtcNow;
         _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
-        cmdHandler.CommandExecuted += (_, e) => Task.FromResult(Interlocked.Increment(ref _commandsRan));
+        cmdHandler.CommandExecuted += (_, _) => Task.FromResult(Interlocked.Increment(ref _commandsRan));
 
         _client.ChannelCreated += c =>
         {
@@ -124,7 +124,7 @@ public class StatsService : IStatsService
 
         if (_client.ShardId == 0)
 
-            _botlistTimer = new Timer(async state =>
+            _botlistTimer = new Timer(async _ =>
             {
                 try
                 {

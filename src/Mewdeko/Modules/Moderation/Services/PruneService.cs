@@ -44,7 +44,7 @@ public class PurgeService : INService
                         .ConfigureAwait(false);
 
                 var i = 0;
-                foreach (var group in singleDeletable.GroupBy(x => ++i / (singleDeletable.Count / 5)))
+                foreach (var group in singleDeletable.GroupBy(_ => ++i / (singleDeletable.Count / 5)))
                     await Task.WhenAll(Task.Delay(1000), Task.WhenAll(group.Select(x => x.DeleteAsync())))
                         .ConfigureAwait(false);
 

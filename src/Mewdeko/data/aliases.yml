@@ -17,6 +17,36 @@ greetdel:
 unmuteall:
   - unmuteall
   - umall
+multigreetadd:
+  - multigreetadd
+  - mgadd
+  - mga
+multigreetdelete:
+  - multigreetdelete
+  - mgdel
+  - mgd
+multigreetlist:
+  - multigreetlist
+  - mglist
+  - mgl
+multigreetmessage:
+  - multigreetmessage
+  - mgmsg
+  - mgm
+multigreetremove:
+  - multigreetremove
+  - mgrem
+  - mgrm
+  - mgr
+multigreettype:
+  - multigreettype
+  - mgtype
+  - mgt
+multigreetwebhook:
+  - multigreetwebhook
+  - mgwebhook
+  - mghook
+  - mgh
 greet:
   - greet
 seek:

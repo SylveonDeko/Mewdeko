@@ -66,46 +66,46 @@ public class GreetSettingsService : INService
         if (channel is null)
                 return;
 
-            if (string.IsNullOrWhiteSpace(conf.BoostMessage))
-                return;
-            if (CREmbed.TryParse(conf.BoostMessage, out var embedData))
+        if (string.IsNullOrWhiteSpace(conf.BoostMessage))
+            return;
+        if (CREmbed.TryParse(conf.BoostMessage, out var embedData))
+        {
+            var rep = new ReplacementBuilder()
+                      .WithDefault(user, channel, user.Guild, _client)
+                      .Build();
+            rep.Replace(embedData);
+            try
             {
-                var rep = new ReplacementBuilder()
-                          .WithDefault(user, channel, user.Guild, _client)
-                          .Build();
-                rep.Replace(embedData);
-                try
-                {
-                    IUserMessage toDelete = null;
-                    if (embedData.IsEmbedValid)
-                        toDelete = await channel.SendMessageAsync(embedData.PlainText ?? "",
-                            embed: embedData.ToEmbed().Build());
-                    else
-                        toDelete = await channel.SendMessageAsync(embedData.PlainText);
-                    if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "Error sending boost message.");
-                }
+                IUserMessage toDelete = null;
+                if (embedData.IsEmbedValid)
+                    toDelete = await channel.SendMessageAsync(embedData.PlainText ?? "",
+                        embed: embedData.ToEmbed().Build());
+                else
+                    toDelete = await channel.SendMessageAsync(embedData.PlainText);
+                if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
-            else
+            catch (Exception ex)
             {
-                var rep = new ReplacementBuilder()
-                          .WithDefault(user, channel, user.Guild, _client)
-                          .Build();
-                var msg = rep.Replace(conf.BoostMessage);
-                try
-                {
-                    var toDelete = await channel.SendMessageAsync(msg);
+                Log.Error(ex, "Error sending boost message.");
+            }
+        }
+        else
+        {
+            var rep = new ReplacementBuilder()
+                      .WithDefault(user, channel, user.Guild, _client)
+                      .Build();
+            var msg = rep.Replace(conf.BoostMessage);
+            try
+            {
+                var toDelete = await channel.SendMessageAsync(msg);
 
-                    if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "Error sending boost message.");
-                }
+                if (conf.BoostMessageDeleteAfter > 0) toDelete.DeleteAfter(conf.BoostMessageDeleteAfter);
             }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error sending boost message.");
+            }
+        }
     }
 
     private async Task ClientOnGuildMemberUpdated(SocketMessage msg)
@@ -213,7 +213,7 @@ public class GreetSettingsService : INService
         conf.BoostMessageChannelId = channelId;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
 
@@ -230,7 +230,7 @@ public class GreetSettingsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _greethooks.AddOrUpdate(guild.Id, url, (key, old) => url);
+        _greethooks.AddOrUpdate(guild.Id, url, (_, _) => url);
     }
 
     public async Task SetWebLeaveUrl(IGuild guild, string url)
@@ -242,7 +242,7 @@ public class GreetSettingsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _leavehooks.AddOrUpdate(guild.Id, url, (key, old) => url);
+        _leavehooks.AddOrUpdate(guild.Id, url, (_, _) => url);
     }
 
     public string GetDmGreetMsg(ulong id)
@@ -555,7 +555,7 @@ public class GreetSettingsService : INService
         await uow.SaveChangesAsync();
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         return true;
     }
@@ -569,7 +569,7 @@ public class GreetSettingsService : INService
         conf.GreetMessageChannelId = channelId;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
 
@@ -590,7 +590,7 @@ public class GreetSettingsService : INService
         greetMsgEnabled = conf.SendChannelGreetMessage;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         uow.SaveChanges();
 
@@ -605,7 +605,7 @@ public class GreetSettingsService : INService
         enabled = conf.SendDmGreetMessage = value ?? !conf.SendDmGreetMessage;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
 
@@ -626,7 +626,7 @@ public class GreetSettingsService : INService
         greetMsgEnabled = conf.SendDmGreetMessage;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         uow.SaveChanges();
 
@@ -642,7 +642,7 @@ public class GreetSettingsService : INService
         conf.ByeMessageChannelId = channelId;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
 
@@ -663,7 +663,7 @@ public class GreetSettingsService : INService
         byeMsgEnabled = conf.SendChannelByeMessage;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         uow.SaveChanges();
 
@@ -680,7 +680,7 @@ public class GreetSettingsService : INService
         conf.AutoDeleteByeMessagesTimer = timer;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(guildId, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
     }
@@ -695,7 +695,7 @@ public class GreetSettingsService : INService
         conf.AutoDeleteGreetMessagesTimer = timer;
 
         var toAdd = GreetSettings.Create(conf);
-        GuildConfigsCache.AddOrUpdate(id, toAdd, (key, old) => toAdd);
+        GuildConfigsCache.AddOrUpdate(id, toAdd, (_, _) => toAdd);
 
         await uow.SaveChangesAsync();
     }
