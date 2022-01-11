@@ -246,7 +246,7 @@ public class GiveawayService : INService
                                                 .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1);
                 }
-                var winners = users.ToList().OrderBy(x => rand.Next()).Take(r.Winners);
+                var winners = users.ToList().OrderBy(_ => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
                     Color = Mewdeko.Services.Mewdeko.OkColor,
@@ -433,7 +433,7 @@ public class GiveawayService : INService
                         await uow.SaveChangesAsync();
                     }
                 }
-                var winners = users.ToList().OrderBy(x => rand.Next()).Take(r.Winners);
+                var winners = users.ToList().OrderBy(_ => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
                     Color = Mewdeko.Services.Mewdeko.OkColor,

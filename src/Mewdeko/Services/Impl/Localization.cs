@@ -64,7 +64,7 @@ public class Localization : ILocalization
             uow.SaveChanges();
         }
 
-        GuildCultureInfos.AddOrUpdate(guildId, ci, (id, old) => ci);
+        GuildCultureInfos.AddOrUpdate(guildId, ci, (_, _) => ci);
     }
 
     public void RemoveGuildCulture(IGuild guild) => RemoveGuildCulture(guild.Id);

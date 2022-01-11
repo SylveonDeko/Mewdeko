@@ -18,6 +18,7 @@ public sealed class UnitOfWork : IUnitOfWork
     private IGuildConfigRepository _guildConfigs;
 
     private IMusicPlaylistRepository _musicPlaylists;
+    private IMultiGreetRepository _multiGreets;
 
     private IPlantedCurrencyRepository _planted;
 
@@ -51,6 +52,7 @@ public sealed class UnitOfWork : IUnitOfWork
     public IGlobalBansRepository GlobalBans => _globalbans ??= new GlobalBansRepository(_context);
 
     public IReminderRepository Reminders => _reminders ??= new ReminderRepository(_context);
+    public IMultiGreetRepository MultiGreets => _multiGreets ??= new MultiGreetRepository(_context);
 
     public ISelfAssignedRolesRepository SelfAssignedRoles =>
         _selfAssignedRoles ??= new SelfAssignedRolesRepository(_context);

@@ -35,7 +35,7 @@ public partial class Games
             var channel = (ITextChannel) ctx.Channel;
 
             var game = Service.RunningContests.GetOrAdd(channel.Guild.Id,
-                id => new TypingGame(_games, _client, channel, Prefix, options));
+                _ => new TypingGame(_games, _client, channel, Prefix, options));
 
             if (game.IsActive)
                 await channel.SendErrorAsync(

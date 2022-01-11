@@ -115,29 +115,30 @@ var embed = new EmbedBuilder();
             .WithName("Mewdeko Help Menu"));
         embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
         embed.WithDescription(
-            $"Do {Prefix}cmds `category` to see more info on a command category! For example {Prefix}cmds Moderation" +
-            $"\nDo {Prefix}help `command` to see a description of a command you need more info on! For example {Prefix}h afk" +
+            $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk" +
             $"\nJoin our partner server: https://discord.gg/nezuko");
-        embed.AddField("<:Nekoha_Oooo:866320687810740234> **Categories**",
-            "> <:nekohayay:866315028989739048> Administration" +
-            "\n> <:Nekoha_ok:866616128443645952> Moderation" +
-            "\n> <:Nekohacry:866615973834391553> Utility" +
-            "\n> <:Nekoha_sleep:866321311886344202> Suggestions" +
-            "\n> <:Nekoha_Yawn:866320872003076136> Server Management" +
-            "\n> <:Nekoha_angy:866321279929024582> Permissions" +
-            "\n> <:Nekoha_huh:866615758032994354> Xp",
+        embed.AddField("**Categories**",
+            $">  `{Prefix}cmds Administration`" +
+            $"\n>  `{Prefix}cmds Moderation`" +
+            $"\n>  `{Prefix}cmds Utility`" +
+            $"\n>  `{Prefix}cmds Suggestions`" +
+            $"\n>  `{Prefix}cmds Server Management`" +
+            $"\n>  `{Prefix}cmds Permissions`" +
+            $"\n>  `{Prefix}cmds Xp`" +
+            $"\n>  `{Prefix}cmds Afk`",
             true);
         embed.AddField("_ _",
-            "> <:Nekoha_Flushed:866321565393748008> NSFW" +
-            "\n> <:Nekohacheer:866614949895077900> Music" +
-            "\n> <:Nekohapoke:866613862468026368> Gambling" +
-            "\n> <:nekoha_slam:866316199317864458> Searches" +
-            "\n> <:Nekoha_wave:866321165538164776> Games" +
-            "\n> <:Nekohaquestion:866616825750749184> Help" +
-            "\n> <:nekoha_stare:866316293179572264> Custom Reactions"
-            + "\n> <:Nekoha_Oooo:866320687810740234> Giveaways",
+            $">  `{Prefix}cmds NSFW`" +
+            $"\n>  `{Prefix}cmds Music`" +
+            $"\n>  `{Prefix}cmds Gambling`" +
+            $"\n>  `{Prefix}cmds Searches`" +
+            $"\n>  `{Prefix}cmds Games`" +
+            $"\n>  `{Prefix}cmds Help`" +
+            $"\n>  `{Prefix}cmds Custom Reactions`" + 
+            $"\n>  `{Prefix}cmds Giveaways`" + 
+            $"\n>  `{Prefix}cmds MultiGreet`",
             true);
-        embed.AddField("<:Nekohapeek:866614585992937482> Links",
+        embed.AddField(" Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
         await ctx.Channel.SendMessageAsync(embed: embed.Build());
     }
@@ -197,7 +198,7 @@ var embed = new EmbedBuilder();
         }
 
         var i = 0;
-        var groups = cmdsWithGroup.GroupBy(x => i++ / 48).ToArray();
+        var groups = cmdsWithGroup.GroupBy(_ => i++ / 48).ToArray();
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
@@ -221,7 +222,7 @@ var embed = new EmbedBuilder();
                     var grp = 0;
                     var count = transformed.Count();
                     transformed = transformed
-                        .GroupBy(x => grp++ % count / 2)
+                        .GroupBy(_ => grp++ % count / 2)
                         .Select(x =>
                         {
                             if (x.Count() == 1)
@@ -234,7 +235,11 @@ var embed = new EmbedBuilder();
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
-                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}\n✅: You can use this command.\n❌: You cannot use this command.\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)\n Join our partner server: https://discord.gg/nezuko")
+                    $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}"
+                    + $"\n✅: You can use this command.\n❌: You cannot use this command."
+                    + $"\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)"
+                    + $"Do `{Prefix}h commandname` to see info on that command"
+                    + $"\n Join our partner server: https://discord.gg/nezuko")
                 .WithOkColor());
         }
     }

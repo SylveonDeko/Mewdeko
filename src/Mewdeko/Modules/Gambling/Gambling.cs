@@ -390,9 +390,9 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             .ToList();
 
         await _cs.AddBulkAsync(users.Select(x => x.Id),
-                users.Select(x =>
+                users.Select(_ =>
                     $"Awarded by bot owner to **{role.Name}** role. ({ctx.User.Username}/{ctx.User.Id})"),
-                users.Select(x => amount.Value),
+                users.Select(_ => amount.Value),
                 true)
             .ConfigureAwait(false);
 

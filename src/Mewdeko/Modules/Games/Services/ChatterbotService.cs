@@ -33,7 +33,7 @@ public class ChatterBotService : INService
             bot.AllGuildConfigs
                 .Where(gc => gc.CleverbotChannel != 0)
                 .ToDictionary(gc => gc.CleverbotChannel,
-                    gc => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
+                    _ => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
     }
 
     public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotChannels { get; }
@@ -54,7 +54,7 @@ public class ChatterBotService : INService
             ChatterBotChannels.TryRemove(id, out _);
         else
             ChatterBotChannels.TryAdd(id,
-                new Lazy<IChatterBotSession>(() => CreateSession(), true));
+                new Lazy<IChatterBotSession>(CreateSession, true));
     }
 
     public ulong GetCleverbotChannel(ulong id) => _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
@@ -65,14 +65,14 @@ public class ChatterBotService : INService
         {
             if (usrMsg.Author.IsBot)
                 return;
-            if (usrMsg.Channel is not ITextChannel chan)
+            if (usrMsg?.Channel is not ITextChannel chan)
                 return;
             try
             {
                 var message = PrepareMessage(usrMsg as IUserMessage, out var cbs);
                 if (message == null || cbs == null)
                     return;
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, usrMsg as IUserMessage).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel)usrMsg.Channel, usrMsg as IUserMessage).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
