@@ -22,12 +22,8 @@ public partial class Searches
 
         public FeedCommands(InteractiveService serv) => Interactivity = serv;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task Feed(string url, [Remainder] ITextChannel channel = null)
         {
             var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
@@ -59,12 +55,8 @@ public partial class Searches
             await ReplyErrorLocalizedAsync("feed_not_valid").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedRemove(int index)
         {
             if (Service.RemoveFeed(ctx.Guild.Id, --index))
@@ -73,12 +65,8 @@ public partial class Searches
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedList()
         {
             var feeds = Service.GetFeeds(ctx.Guild.Id);

@@ -57,7 +57,8 @@ public class Mewdeko
             TotalShards = Credentials.TotalShards,
             ShardId = shardId,
             AlwaysDownloadUsers = true,
-            GatewayIntents = GatewayIntents.All
+            GatewayIntents = GatewayIntents.All,
+            LogGatewayIntentWarnings = false
         });
         ;
 

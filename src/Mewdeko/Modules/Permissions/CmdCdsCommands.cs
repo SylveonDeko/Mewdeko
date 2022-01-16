@@ -32,11 +32,7 @@ public partial class Permissions
         private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
             => _service.ActiveCooldowns;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task CmdCooldown(CommandOrCrInfo command, int secs)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -85,11 +81,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task AllCmdCooldowns()
         {
             var channel = (ITextChannel) ctx.Channel;

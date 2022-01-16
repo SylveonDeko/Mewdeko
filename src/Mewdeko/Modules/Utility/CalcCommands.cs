@@ -13,10 +13,7 @@ public partial class Utility
     [Group]
     public class CalcCommands : MewdekoSubmodule
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Calculate([Remainder] string expression)
         {
             var expr = new Expression(expression, EvaluateOptions.IgnoreCase | EvaluateOptions.NoCache);
@@ -31,21 +28,15 @@ public partial class Utility
 
         private static void Expr_EvaluateParameter(string name, ParameterArgs args)
         {
-            switch (name.ToLowerInvariant())
+            args.Result = name.ToLowerInvariant() switch
             {
-                case "pi":
-                    args.Result = Math.PI;
-                    break;
-                case "e":
-                    args.Result = Math.E;
-                    break;
-            }
+                "pi" => Math.PI,
+                "e" => Math.E,
+                _ => args.Result
+            };
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task CalcOps()
         {
             var selection = typeof(Math).GetTypeInfo()

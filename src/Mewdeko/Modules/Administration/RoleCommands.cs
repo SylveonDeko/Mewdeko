@@ -111,47 +111,23 @@ public partial class Administration
                 await ReplyErrorLocalizedAsync("reaction_roles_full").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [Priority(0)]
+        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public Task ReactionRoles(ulong messageId, params string[] input) => InternalReactionRoles(false, messageId, input);
 
-        [MewdekoCommand]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [Priority(1)]
+        [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
+         BotPerm(GuildPermission.ManageRoles), Priority(1)]
         public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) => InternalReactionRoles(true, messageId, input);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public Task ReactionRoles(params string[] input) => InternalReactionRoles(false, null, input);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(1)]
         public Task ReactionRoles(Exclude _, params string[] input) => InternalReactionRoles(true, null, input);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task ReactionRolesList()
         {
             var embed = new EmbedBuilder()
@@ -194,12 +170,8 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task ReactionRolesRemove(int index)
         {
             if (index < 1 ||
@@ -212,13 +184,8 @@ public partial class Administration
             await ReplyConfirmLocalizedAsync("reaction_role_removed", index + 1).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task SetRole(IRole roleToAdd, [Remainder] IGuildUser targetUser)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -240,13 +207,8 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveRole(IRole roleToRemove, [Remainder] IGuildUser targetUser)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -265,13 +227,8 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RenameRole(IRole roleToEdit, [Remainder] string newname)
         {
             var guser = (IGuildUser) ctx.User;
@@ -295,13 +252,8 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveAllRoles([Remainder] IGuildUser user)
         {
             var guser = (IGuildUser) ctx.User;
@@ -324,13 +276,8 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task CreateRole([Remainder] string roleName = null)
         {
             if (string.IsNullOrWhiteSpace(roleName))
@@ -340,13 +287,8 @@ public partial class Administration
             await ReplyConfirmLocalizedAsync("cr", Format.Bold(r.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task DeleteRole([Remainder] IRole role)
         {
             var guser = (IGuildUser) ctx.User;
@@ -358,13 +300,8 @@ public partial class Administration
             await ReplyConfirmLocalizedAsync("dr", Format.Bold(role.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RoleHoist(IRole role)
         {
             var newHoisted = !role.IsHoisted;
@@ -376,24 +313,13 @@ public partial class Administration
                     .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public async Task RoleColor([Remainder] IRole role) =>
             await ctx.Channel.SendConfirmAsync("Role Color", role.Color.RawValue.ToString("x6"))
                      .ConfigureAwait(false);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task RoleColor(IRole role, Color color)
         {
             try

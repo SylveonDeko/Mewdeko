@@ -43,10 +43,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         _tracker = tracker;
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
+    [MewdekoCommand, Usage, Description, Alias]
     public async Task EmoteList([Remainder] string emotetype = null)
     {
         GuildEmote[] emotes = emotetype switch
@@ -75,34 +72,24 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         Task<PageBuilder> PageFactory(int page)
         {
-            string titleText;
-            switch (emotetype)
+            string titleText = emotetype switch
             {
-                case "animated":
-                    titleText = $"{emotes.Length} Animated Emotes";
-                    break;
-                case "nonanimated":
-                    titleText = $"{emotes.Length} Non Animated Emotes";
-                    break;
-                default:
-                    titleText =
-                        $"{emotes.Count(x => x.Animated)} Animated Emotes | {emotes.Count(x => !x.Animated)} Non Animated Emotes";
-                    break;
-            }
+                "animated" => $"{emotes.Length} Animated Emotes",
+                "nonanimated" => $"{emotes.Length} Non Animated Emotes",
+                _ =>
+                    $"{emotes.Count(x => x.Animated)} Animated Emotes | {emotes.Count(x => !x.Animated)} Non Animated Emotes"
+            };
 
             return Task.FromResult(new PageBuilder()
-                .WithTitle(titleText)
-                .WithDescription(string.Join("\n",
-                    emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10)
-                        .Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
-                .WithOkColor());
+                                   .WithTitle(titleText)
+                                   .WithDescription(string.Join("\n",
+                                       emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10)
+                                             .Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
+                                   .WithOkColor());
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Invite()
     {
         var eb = new EmbedBuilder()
@@ -114,10 +101,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task TestSite(string url)
     {
         using var client = new HttpClient();
@@ -131,11 +115,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendConfirmAsync("Sites ok m8");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.ManageChannels)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task ReactChannel(ITextChannel chan = null)
     {
         var e = Service.GetReactChans(ctx.Guild.Id);
@@ -170,12 +150,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.Administrator)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+     RequireContext(ContextType.Guild)]
     public async Task SnipeSet(string yesnt)
     {
         await Service.SnipeSet(ctx.Guild, yesnt);
@@ -191,11 +167,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Snipe()
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -237,11 +209,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(int amount = 5)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -287,12 +255,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Snipe(IUser user1)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -334,18 +297,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    public int GetRandom()
-    {
-        var r = new Random();
-        return r.Next(60, 100);
-    }
-
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(2)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task VCheck([Remainder] string url = null)
     {
         if (string.IsNullOrWhiteSpace(url))
@@ -364,12 +316,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(2)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -417,12 +364,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(2)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan, IUser user1)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -470,12 +412,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.Administrator)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+     RequireContext(ContextType.Guild)]
     public async Task PreviewLinks(string yesnt)
     {
         await Service.PreviewLinks(ctx.Guild, yesnt.Substring(0, 1).ToLower());
@@ -491,11 +429,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipe()
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -541,12 +475,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(IUser user1)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -592,12 +521,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -643,12 +567,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan, IUser user1)
     {
         if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
@@ -694,11 +613,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task WhosPlaying([Remainder] string game)
     {
         game = game?.Trim().ToUpperInvariant();
@@ -728,21 +643,13 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Vote() =>
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                        .WithDescription(
                                                            "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"));
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task InRole([Remainder] IRole role)
     {
         await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -777,11 +684,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task InRoles(IRole role, IRole role2)
     {
         await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -811,11 +714,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task UserId([Remainder] IGuildUser target = null)
     {
         var usr = target ?? ctx.User;
@@ -823,37 +722,22 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             Format.Code(usr.Id.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task RoleId([Remainder] IRole role) =>
         await ReplyConfirmLocalizedAsync("roleid", "🆔", Format.Bold(role.ToString()),
             Format.Code(role.Id.ToString())).ConfigureAwait(false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task ChannelId() =>
         await ReplyConfirmLocalizedAsync("channelid", "🆔", Format.Code(ctx.Channel.Id.ToString()))
             .ConfigureAwait(false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task ServerId() =>
         await ReplyConfirmLocalizedAsync("serverid", "🆔", Format.Code(ctx.Guild.Id.ToString()))
             .ConfigureAwait(false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Roles(IGuildUser target, int page = 1)
     {
         var channel = (ITextChannel) ctx.Channel;
@@ -887,18 +771,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public Task Roles(int page = 1) => Roles(null, page);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChannelTopic([Remainder] ITextChannel channel = null)
     {
         if (channel == null)
@@ -911,10 +787,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await ctx.Channel.SendConfirmAsync(GetText("channel_topic"), topic).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Stats()
     {
         var user = await _client.Rest.GetUserAsync(280835732728184843);
@@ -947,10 +820,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote) t.Value);
@@ -964,11 +834,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Ratelimit(30)]
+    [MewdekoCommand, Usage, Description, Aliases, Ratelimit(30)]
     public async Task Ping()
     {
         await sem.WaitAsync(5000).ConfigureAwait(false);

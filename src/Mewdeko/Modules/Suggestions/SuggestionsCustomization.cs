@@ -15,12 +15,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
 
     public SuggestionsCustomization(DiscordSocketClient client) => _client = client;
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task SuggestMessage([Remainder] string embed)
     {
         CREmbed.TryParse(embed, out var crEmbed);
@@ -51,12 +47,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated suggestion message!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task AcceptMessage([Remainder] string embed)
     {
         CREmbed crEmbed;
@@ -88,12 +80,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated accepted suggestion message!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task ImplementMessage([Remainder] string embed)
     {
         CREmbed crEmbed;
@@ -125,12 +113,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task DenyMessage([Remainder] string embed)
     {
         CREmbed crEmbed;
@@ -162,12 +146,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated denied suggestion message!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task ConsiderMessage([Remainder] string embed)
     {
         CREmbed crEmbed;
@@ -199,12 +179,8 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated considered suggestion message!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task SuggestMotes([Remainder] string _ = null)
     {
         if (_ == null)

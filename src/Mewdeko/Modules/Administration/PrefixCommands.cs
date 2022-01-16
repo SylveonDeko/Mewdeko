@@ -15,31 +15,17 @@ public partial class Administration
             Set
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
         public async Task PrefixCommand() =>
             await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(CmdHandler.GetPrefix(ctx.Guild)))
                 .ConfigureAwait(false);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public Task PrefixCommand(Set _, [Remainder] string prefix) => PrefixCommand(prefix);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task PrefixCommand([Remainder] string prefix)
         {
             if (string.IsNullOrWhiteSpace(prefix))
