@@ -23,12 +23,8 @@ public partial class Games
             _client = client;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [MewdekoOptionsAttribute(typeof(TypingGame.Options))]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         MewdekoOptionsAttribute(typeof(TypingGame.Options))]
         public async Task TypeStart(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new TypingGame.Options(), args);
@@ -46,11 +42,7 @@ public partial class Games
                 await game.Start().ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task TypeStop()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -64,12 +56,7 @@ public partial class Games
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
         public async Task Typeadd([Remainder] string text)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -81,11 +68,7 @@ public partial class Games
             await channel.SendConfirmAsync("Added new article for typing game.").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Typelist(int page = 1)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -108,12 +91,7 @@ public partial class Games
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
         public async Task Typedel(int index)
         {
             var removed = Service.RemoveTypingArticle(--index);

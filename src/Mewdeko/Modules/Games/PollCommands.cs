@@ -19,12 +19,8 @@ public partial class Games
 
         public PollCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+         RequireContext(ContextType.Guild)]
         public async Task Poll([Remainder] string arg)
         {
             if (string.IsNullOrWhiteSpace(arg))
@@ -52,12 +48,8 @@ public partial class Games
                 await ReplyErrorLocalizedAsync("poll_already_running").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+         RequireContext(ContextType.Guild)]
         public async Task PollStats()
         {
             if (!Service.ActivePolls.TryGetValue(ctx.Guild.Id, out var pr))
@@ -66,12 +58,8 @@ public partial class Games
             await ctx.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results"))).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+         RequireContext(ContextType.Guild)]
         public async Task Pollend()
         {
             var channel = (ITextChannel) ctx.Channel;

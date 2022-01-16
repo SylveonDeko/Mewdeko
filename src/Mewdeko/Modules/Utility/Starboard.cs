@@ -12,11 +12,7 @@ public partial class Utility
 {
     public class Starboard : MewdekoSubmodule<StarboardService>
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task SetStarboard(ITextChannel chn = null)
         {
             if (chn is null)
@@ -30,11 +26,7 @@ public partial class Utility
             await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Alias]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
         public async Task SetStars(ulong num)
         {
             var count = Service.GetStarSetting(ctx.Guild.Id);
@@ -44,11 +36,7 @@ public partial class Utility
                 $"Your star count was successfully changed from {count} to {count2}!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Alias]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
         public async Task SetStar(string num = null)
         {
             var emote = ctx.Message.Tags.Where(x => x.Type == TagType.Emoji).Select(t => (Emote) t.Value);

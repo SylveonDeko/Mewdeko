@@ -18,13 +18,8 @@ public partial class ServerManagement
     [Group]
     public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
         public async Task SyncRoleToAll(IRole role)
         {
             var ch = ctx.Channel as ITextChannel;
@@ -52,13 +47,8 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => x.Embed = eb.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
         public async Task SyncRoleToAllChannels(IRole role)
         {
             var ch = ctx.Channel as ITextChannel;
@@ -83,13 +73,8 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => x.Embed = eb.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [BotPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
         public async Task SyncRoleToAllCategories(IRole role)
         {
             var ch = ctx.Channel as ITextChannel;
@@ -114,13 +99,8 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => x.Embed = eb.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task DeleteRoles(params IRole[] roles)
         {
             if (roles.Count(x => !x.IsManaged) is 0)
@@ -171,13 +151,8 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task StopJob(int jobnum)
         {
             var list = Service.jobslist
@@ -206,13 +181,8 @@ public partial class ServerManagement
             await Service.StopJob(ctx.Channel as ITextChannel, jobnum, ctx.Guild);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task SetRoles(IGuildUser user, params IRole[] roles)
         {
             await user.AddRolesAsync(roles);
@@ -220,26 +190,17 @@ public partial class ServerManagement
                 $"{user} has been given the roles:\n{string.Join<string>("|", roles.Select(x => x.Mention))}");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveRoles(IGuildUser user, params IRole[] roles)
         {
             await user.RemoveRolesAsync(roles);
             await ctx.Channel.SendConfirmAsync(
                 $"{user} has had the following roles removed:\n{string.Join<string>("|", roles.Select(x => x.Mention))}");
         }
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RoleJobs()
         {
             var list = Service.jobslist;
@@ -270,13 +231,8 @@ public partial class ServerManagement
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToAll(IRole role)
         {
             await Task.Delay(500);
@@ -351,13 +307,8 @@ public partial class ServerManagement
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToAllBots(IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -429,13 +380,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} bots!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToAllUsers(IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -507,13 +453,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToUsersOver(StoopidTime time, IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -588,13 +529,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddToUsersUnder(StoopidTime time, IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -669,13 +605,8 @@ public partial class ServerManagement
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromAll(IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -748,13 +679,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} members!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromAllUsers(IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -827,13 +753,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} users!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromAllBots(IRole role)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -906,13 +827,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} bots!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddRoleToRole(IRole role, IRole role2)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -987,13 +903,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Added {role2.Mention} to {count2} users.");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveFromRole(IRole role, IRole role2)
         {
             var runnerUser = (IGuildUser) ctx.User;
@@ -1062,13 +973,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Removed {role2.Mention} from {count2} users.");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task AddThenRemove(IRole role, IRole role2)
         {
             await Task.Delay(500);

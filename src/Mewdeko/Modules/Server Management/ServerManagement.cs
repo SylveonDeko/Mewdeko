@@ -16,11 +16,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 
     public ServerManagement(IHttpClientFactory factory) => _httpFactory = factory;
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task PermView()
     {
         var perms = ((IGuildUser) ctx.User).GuildPermissions;
@@ -34,12 +30,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0)]
     public async Task PermView(IGuildUser user)
     {
         var perms = user.GuildPermissions;
@@ -53,12 +44,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task PermView(IRole user)
     {
         var perms = user.Permissions;
@@ -72,12 +58,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task SetSplash(string img)
     {
         var guild = ctx.Guild;
@@ -90,12 +72,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendMessageAsync("New splash image has been set!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task SetIcon(string img)
     {
         var guild = ctx.Guild;
@@ -108,12 +86,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendMessageAsync("New server icon has been set!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task SetBanner(string img)
     {
         var guild = ctx.Guild;
@@ -126,12 +100,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendConfirmAsync("New server banner has been set!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task SetServerName([Remainder] string name)
     {
         var guild = ctx.Guild;
@@ -139,14 +109,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await ctx.Channel.SendConfirmAsync("Succesfuly set server name to " + name);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageEmojisAndStickers)]
-    [BotPerm(GuildPermission.ManageEmojisAndStickers)]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(0)]
     public async Task AddEmote(string name, string url = null)
     {
         var guild = ctx.Guild;
@@ -184,13 +148,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.ManageEmojisAndStickers)]
-    [BotPerm(GuildPermission.ManageEmojisAndStickers)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageEmojisAndStickers),
+     BotPerm(GuildPermission.ManageEmojisAndStickers), RequireContext(ContextType.Guild)]
     public async Task RemoveEmote(string emote)
     {
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote) x.Value)
@@ -207,13 +166,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.ManageEmojisAndStickers)]
-    [BotPerm(GuildPermission.ManageEmojisAndStickers)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageEmojisAndStickers),
+     BotPerm(GuildPermission.ManageEmojisAndStickers), RequireContext(ContextType.Guild)]
     public async Task RenameEmote(string emote, string name)
     {
         if (name.StartsWith("<"))
@@ -239,14 +193,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageEmojisAndStickers)]
-    [BotPerm(GuildPermission.ManageEmojisAndStickers)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(1)]
     public async Task StealEmotes([Remainder] string e)
     {
         var eb = new EmbedBuilder
@@ -288,14 +236,8 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await msg.ModifyAsync(x => { x.Embed = b.Build(); });
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageEmojisAndStickers)]
-    [BotPerm(GuildPermission.ManageEmojisAndStickers)]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(0)]
     public async Task StealForRole(IRole role, [Remainder] string e)
     {
         var eb = new EmbedBuilder

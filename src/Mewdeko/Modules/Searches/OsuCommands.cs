@@ -25,10 +25,7 @@ public partial class Searches
             _httpFactory = factory;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Osu(string user, [Remainder] string mode = null)
         {
             if (string.IsNullOrWhiteSpace(user))
@@ -86,10 +83,7 @@ public partial class Searches
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Gatari(string user, [Remainder] string mode = null)
         {
             using var http = _httpFactory.CreateClient();
@@ -130,10 +124,7 @@ public partial class Searches
             await ctx.Channel.EmbedAsync(embed);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Osu5(string user, [Remainder] string mode = null)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -259,19 +250,14 @@ public partial class Searches
 
         private static string ResolveGameMode(int mode)
         {
-            switch (mode)
+            return mode switch
             {
-                case 0:
-                    return "Standard";
-                case 1:
-                    return "Taiko";
-                case 2:
-                    return "Catch";
-                case 3:
-                    return "Mania";
-                default:
-                    return "Standard";
-            }
+                0 => "Standard",
+                1 => "Taiko",
+                2 => "Catch",
+                3 => "Mania",
+                _ => "Standard"
+            };
         }
 
         //https://github.com/ppy/osu-api/wiki#mods

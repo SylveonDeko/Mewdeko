@@ -40,10 +40,7 @@ public partial class Searches
             _httpFactory = factory;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Memelist(int page = 1)
         {
             if (--page < 0)
@@ -80,10 +77,7 @@ public partial class Searches
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Memegen(string meme, [Remainder] string memeText = null)
         {
             var memeUrl = $"http://api.memegen.link/{meme}";
