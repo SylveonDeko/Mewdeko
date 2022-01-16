@@ -13,13 +13,8 @@ public partial class Administration
     [Group]
     public class VcRoleCommands : MewdekoSubmodule<VcRoleService>
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+         BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRoleRm(ulong vcId)
         {
             if (Service.RemoveVcRole(ctx.Guild.Id, vcId))
@@ -28,13 +23,9 @@ public partial class Administration
             else
                 await ReplyErrorLocalizedAsync("vcrole_not_found").ConfigureAwait(false);
         }
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [RequireContext(ContextType.Guild)]
+
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+         BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole(SocketGuildChannel vchan, [Remainder] IRole role = null)
         {
             if (vchan is IVoiceChannel chan)
@@ -58,13 +49,9 @@ public partial class Administration
                 await ctx.Channel.SendErrorAsync("This is not a voice channel!");
             }
         }
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [BotPerm(GuildPermission.ManageRoles)]
-        [RequireContext(ContextType.Guild)]
+
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+         BotPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
         public async Task VcRole([Remainder] IRole role = null)
         {
             var user = (IGuildUser) ctx.User;
@@ -90,11 +77,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task VcRoleList()
         {
             var guild = (SocketGuild) ctx.Guild;

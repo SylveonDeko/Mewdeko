@@ -26,10 +26,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
         _httpFactory = factory;
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Choose([Remainder] string list = null)
     {
         if (string.IsNullOrWhiteSpace(list))
@@ -41,10 +38,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
         await ctx.Channel.SendConfirmAsync("🤔", listArr[rng.Next(0, listArr.Length)]).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task EightBall([Remainder] string question = null)
     {
         if (string.IsNullOrWhiteSpace(question))
@@ -57,11 +51,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
             .AddField("🎱 " + GetText("8ball"), res));
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task RateGirl(IGuildUser usr)
     {
         var gr = Service.GirlRatings.GetOrAdd(usr.Id, GetGirl);
@@ -152,10 +142,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
         return new GirlRating(_images, _httpFactory, crazy, hot, roll, advice);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Linux(string guhnoo, string loonix) =>
         await ctx.Channel.SendConfirmAsync(
             $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.

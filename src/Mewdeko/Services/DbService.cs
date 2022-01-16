@@ -42,11 +42,10 @@ public class DbService
     private MewdekoContext GetDbContextInternal()
     {
         var context = new MewdekoContext(options);
-        context.Database.SetCommandTimeout(60);
         var conn = context.Database.GetDbConnection();
         conn.OpenAsync();
         using var com = conn.CreateCommand();
-        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF";
+        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF; PRAGMA auto_vacuum=1; PRAGMA temp_store=1;";
         com.ExecuteNonQueryAsync();
 
         return context;
