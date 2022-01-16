@@ -24,11 +24,7 @@ public partial class Utility
             _stats = stats;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task RInfo(IRole role)
         {
             var eb = new EmbedBuilder().WithOkColor().WithTitle(role.Name)
@@ -41,11 +37,8 @@ public partial class Utility
                                        .WithThumbnailUrl(role.GetIconUrl());
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task VInfo([Remainder] IVoiceChannel channel = null)
         {
             var voiceChannel = ((IGuildUser) ctx.User).VoiceChannel;
@@ -94,11 +87,7 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Fetch(ulong id)
         {
             var usr = await _client.Rest.GetUserAsync(id);
@@ -135,11 +124,7 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task ServerInfo(string guildName = null)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -200,11 +185,7 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChannelInfo(ITextChannel channel = null)
         {
             var ch = channel ?? (ITextChannel) ctx.Channel;
@@ -219,11 +200,7 @@ public partial class Utility
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task UserInfo(IGuildUser usr = null)
         {
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");

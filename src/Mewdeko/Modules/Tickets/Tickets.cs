@@ -13,12 +13,8 @@ public class Tickets : MewdekoModuleBase<TicketService>
 
     public Tickets(IServiceProvider service) => _services = service;
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageChannels)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageChannels)]
     public async Task TSetup()
     {
         var contin = false;

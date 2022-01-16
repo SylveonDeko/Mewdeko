@@ -66,11 +66,7 @@ public partial class Gambling
             return (img.ToStream(), toSend);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Draw(int num = 1)
         {
             if (num < 1)
@@ -85,10 +81,7 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task DrawNew(int num = 1)
         {
             if (num < 1)
@@ -103,11 +96,7 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task DeckShuffle()
         {
             //var channel = (ITextChannel)ctx.Channel;

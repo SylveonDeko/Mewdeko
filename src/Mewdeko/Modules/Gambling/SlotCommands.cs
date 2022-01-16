@@ -37,11 +37,7 @@ public partial class Gambling
             _cs = cs;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task SlotStats()
         {
             //i remembered to not be a moron
@@ -61,11 +57,7 @@ public partial class Gambling
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task SlotTest(int tests = 1000)
         {
             if (tests <= 0)
@@ -95,10 +87,7 @@ public partial class Gambling
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Slot(ShmartNumber amount)
         {
             if (!_runningUsers.Add(ctx.User.Id))

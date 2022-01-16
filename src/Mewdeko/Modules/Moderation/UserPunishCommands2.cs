@@ -36,13 +36,8 @@ public partial class Moderation
             _db = db;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task SetMWarnChannel([Remainder] ITextChannel channel)
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
@@ -70,12 +65,8 @@ public partial class Moderation
                                                oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers)]
         public async Task MWarn(IGuildUser user, [Remainder] string reason = null)
         {
             if (ctx.User.Id != user.Guild.OwnerId
@@ -139,14 +130,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [MewdekoOptions(typeof(WarnExpireOptions))]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), MewdekoOptions(typeof(WarnExpireOptions)), Priority(2)]
         public async Task MWarnExpire(int days, params string[] args)
         {
             if (days < 0 || days > 366)
@@ -171,21 +156,11 @@ public partial class Moderation
                     .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers), Priority(2)]
         public Task MWarnlog(int page, IGuildUser user) => MWarnlog(page, user.Id);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [Priority(3)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(3)]
         public Task MWarnlog(IGuildUser user = null)
         {
             if (user == null)
@@ -195,22 +170,12 @@ public partial class Moderation
                 : Task.CompletedTask;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers), Priority(0)]
         public Task MWarnlog(int page, ulong userId) => InternalWarnlog(userId, page - 1);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public Task MWarnlog(ulong userId) => InternalWarnlog(userId, 0);
 
         private async Task InternalWarnlog(ulong userId, int page)
@@ -252,12 +217,8 @@ public partial class Moderation
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers)]
         public async Task MWarnlogAll(int page = 1)
         {
             if (--page < 0)
@@ -296,20 +257,12 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public Task MWarnclear(IGuildUser user, int index = 0) => MWarnclear(user.Id, index);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task MWarnclear(ulong userId, int index = 0)
         {
             if (index < 0)
@@ -330,13 +283,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
         {
             var punish = PunishmentAction.AddRole;
@@ -356,12 +304,8 @@ public partial class Moderation
                     Format.Bold(time.Input)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task MWarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
         {
             // this should never happen. Addrole has its own method with higher priority
@@ -384,12 +328,8 @@ public partial class Moderation
                     Format.Bold(time.Input)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task MWarnPunish(int number)
         {
             if (!Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
@@ -398,11 +338,7 @@ public partial class Moderation
                 Format.Bold(number.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task MWarnPunishList()
         {
             var ps = Service.WarnPunishList(ctx.Guild.Id);

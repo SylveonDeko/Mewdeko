@@ -22,11 +22,7 @@ public partial class Permissions
             _db = db;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task GlobalPermList()
         {
             var blockedModule = _service.BlockedModules;
@@ -54,11 +50,7 @@ public partial class Permissions
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task GlobalModule(ModuleOrCrInfo module)
         {
             var moduleName = module.Name.ToLowerInvariant();
@@ -74,11 +66,7 @@ public partial class Permissions
             await ReplyConfirmLocalizedAsync("gmod_remove", Format.Bold(module.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task GlobalCommand(CommandOrCrInfo cmd)
         {
             var commandName = cmd.Name.ToLowerInvariant();

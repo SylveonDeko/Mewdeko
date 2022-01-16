@@ -20,23 +20,15 @@ public partial class Permissions
             _perms = perms;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ResetPerms()
         {
             await _perms.Reset(ctx.Guild.Id).ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("perms_reset").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task ResetGlobalPerms()
         {
             await _gps.Reset();
