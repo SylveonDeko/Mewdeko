@@ -100,19 +100,14 @@ public class TicTacToe
 
     private static string GetIcon(int? val)
     {
-        switch (val)
+        return val switch
         {
-            case 0:
-                return "❌";
-            case 1:
-                return "⭕";
-            case 2:
-                return "❎";
-            case 3:
-                return "🅾";
-            default:
-                return "⬛";
-        }
+            0 => "❌",
+            1 => "⭕",
+            2 => "❎",
+            3 => "🅾",
+            _ => "⬛"
+        };
     }
 
     public async Task Start(IGuildUser user)

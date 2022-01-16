@@ -358,24 +358,20 @@ public class LogCommandService : INService
                     return;
                 var mutes = "";
                 var mutedLocalized = GetText(logChannel.Guild, "muted_sn");
-                switch (muteType)
+                mutes = muteType switch
                 {
-                    case MuteType.Voice:
-                        mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized, mod.ToString());
-                        break;
-                    case MuteType.Chat:
-                        mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized, mod.ToString());
-                        break;
-                    case MuteType.All:
-                        mutes = "🔇 " + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized,
-                            mod.ToString());
-                        break;
-                }
+                    MuteType.Voice => "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized, mod.ToString()),
+                    MuteType.Chat => "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized, mod.ToString()),
+                    MuteType.All => "🔇 "
+                                    + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized,
+                                        mod.ToString()),
+                    _ => mutes
+                };
 
                 var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName(mutes))
-                    .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
-                    .WithFooter(fb => fb.WithText(CurrentTime(usr.Guild)))
-                    .WithOkColor();
+                                              .WithTitle($"{usr.Username}#{usr.Discriminator} | {usr.Id}")
+                                              .WithFooter(fb => fb.WithText(CurrentTime(usr.Guild)))
+                                              .WithOkColor();
 
                 await logChannel.EmbedAsync(embed).ConfigureAwait(false);
             }
@@ -1111,55 +1107,25 @@ public class LogCommandService : INService
 
     private async Task<ITextChannel> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
     {
-        ulong? id = null;
-        switch (logChannelType)
+        ulong? id = logChannelType switch
         {
-            case LogType.Other:
-                id = logSetting.LogOtherId;
-                break;
-            case LogType.MessageUpdated:
-                id = logSetting.MessageUpdatedId;
-                break;
-            case LogType.MessageDeleted:
-                id = logSetting.MessageDeletedId;
-                break;
-            case LogType.UserJoined:
-                id = logSetting.UserJoinedId;
-                break;
-            case LogType.UserLeft:
-                id = logSetting.UserLeftId;
-                break;
-            case LogType.UserBanned:
-                id = logSetting.UserBannedId;
-                break;
-            case LogType.UserUnbanned:
-                id = logSetting.UserUnbannedId;
-                break;
-            case LogType.UserUpdated:
-                id = logSetting.UserUpdatedId;
-                break;
-            case LogType.ChannelCreated:
-                id = logSetting.ChannelCreatedId;
-                break;
-            case LogType.ChannelDestroyed:
-                id = logSetting.ChannelDestroyedId;
-                break;
-            case LogType.ChannelUpdated:
-                id = logSetting.ChannelUpdatedId;
-                break;
-            case LogType.UserPresence:
-                id = logSetting.LogUserPresenceId;
-                break;
-            case LogType.VoicePresence:
-                id = logSetting.LogVoicePresenceId;
-                break;
-            case LogType.VoicePresenceTTS:
-                id = logSetting.LogVoicePresenceTTSId;
-                break;
-            case LogType.UserMuted:
-                id = logSetting.UserMutedId;
-                break;
-        }
+            LogType.Other => logSetting.LogOtherId,
+            LogType.MessageUpdated => logSetting.MessageUpdatedId,
+            LogType.MessageDeleted => logSetting.MessageDeletedId,
+            LogType.UserJoined => logSetting.UserJoinedId,
+            LogType.UserLeft => logSetting.UserLeftId,
+            LogType.UserBanned => logSetting.UserBannedId,
+            LogType.UserUnbanned => logSetting.UserUnbannedId,
+            LogType.UserUpdated => logSetting.UserUpdatedId,
+            LogType.ChannelCreated => logSetting.ChannelCreatedId,
+            LogType.ChannelDestroyed => logSetting.ChannelDestroyedId,
+            LogType.ChannelUpdated => logSetting.ChannelUpdatedId,
+            LogType.UserPresence => logSetting.LogUserPresenceId,
+            LogType.VoicePresence => logSetting.LogVoicePresenceId,
+            LogType.VoicePresenceTTS => logSetting.LogVoicePresenceTTSId,
+            LogType.UserMuted => logSetting.UserMutedId,
+            _ => null
+        };
 
         if (!id.HasValue || id == 0)
         {

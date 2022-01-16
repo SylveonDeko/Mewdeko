@@ -32,12 +32,8 @@ public partial class Gambling
             _gamesConf = gamesConf;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [MewdekoOptionsAttribute(typeof(RaceOptions))]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         MewdekoOptionsAttribute(typeof(RaceOptions))]
         public Task Race(params string[] args)
         {
             var (options, success) = OptionsParser.ParseFrom(new RaceOptions(), args);
@@ -130,11 +126,7 @@ public partial class Gambling
             return ReplyErrorLocalizedAsync("animal_race_failed");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task JoinRace(ShmartNumber amount = default)
         {
             if (!await CheckBetOptional(amount).ConfigureAwait(false))

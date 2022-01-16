@@ -26,10 +26,7 @@ public partial class Gambling
 
         public DiceRollCommands(IDataCache data) => _images = data.LocalImages;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Roll()
         {
             var rng = new MewdekoRandom();
@@ -49,33 +46,17 @@ public partial class Gambling
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
         public async Task Roll(int num) => await InternalRoll(num, true).ConfigureAwait(false);
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
         public async Task Rolluo(int num = 1) => await InternalRoll(num, false).ConfigureAwait(false);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
         public async Task Roll(string arg) => await InternallDndRoll(arg, true).ConfigureAwait(false);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
         public async Task Rolluo(string arg) => await InternallDndRoll(arg, false).ConfigureAwait(false);
 
         private async Task InternalRoll(int num, bool ordered)
@@ -175,10 +156,7 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task NRoll([Remainder] string range)
         {
             int rolled;

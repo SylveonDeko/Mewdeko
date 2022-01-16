@@ -29,10 +29,7 @@ public class Music : MewdekoModuleBase<MusicService>
         _lavaNode = lava;
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task AutoDisconnect(AutoDisconnect disconnect)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
@@ -41,10 +38,7 @@ public class Music : MewdekoModuleBase<MusicService>
             $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Join()
     {
         if (_lavaNode.HasPlayer(Context.Guild))
@@ -64,10 +58,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Leave()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -89,10 +80,7 @@ public class Music : MewdekoModuleBase<MusicService>
     }
 
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Play(int number)
     {
         var queue = Service.GetQueue(ctx.Guild.Id);
@@ -126,10 +114,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     // ReSharper disable once MemberCanBePrivate.Global
     public async Task Play([Remainder] string searchQuery)
     {
@@ -335,10 +320,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Pause()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -358,10 +340,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Shuffle()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out _))
@@ -386,10 +365,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Stop()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -403,10 +379,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync("Stopped the player and cleared the queue!");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Skip()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -418,10 +391,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player);
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Seek(TimeSpan timeSpan)
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -442,10 +412,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync($"I've seeked `{player.Track.Title}` to {timeSpan}.");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task ClearQueue()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -459,10 +426,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync("Cleared the queue!");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.PlayerRepeat = reptype; },
@@ -470,10 +434,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendConfirmAsync($"Loop has now been set to {reptype}");
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Volume(ushort volume)
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -492,10 +453,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.Volume = volume; }, volume);
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task NowPlaying()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -522,10 +480,7 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Queue()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out _))

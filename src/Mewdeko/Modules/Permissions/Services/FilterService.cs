@@ -182,15 +182,12 @@ public class FilterService : IEarlyBehavior, INService
         var yesno = -1;
         using (var uow = _db.GetDbContext())
         {
-            switch (yesnt)
+            yesno = yesnt switch
             {
-                case "y":
-                    yesno = 1;
-                    break;
-                case "n":
-                    yesno = 0;
-                    break;
-            }
+                "y" => 1,
+                "n" => 0,
+                _ => yesno
+            };
         }
 
         using (var uow = _db.GetDbContext())
@@ -216,15 +213,12 @@ public class FilterService : IEarlyBehavior, INService
         var yesno = -1;
         using (var uow = _db.GetDbContext())
         {
-            switch (yesnt)
+            yesno = yesnt switch
             {
-                case "y":
-                    yesno = 1;
-                    break;
-                case "n":
-                    yesno = 0;
-                    break;
-            }
+                "y" => 1,
+                "n" => 0,
+                _ => yesno
+            };
         }
 
         using (var uow = _db.GetDbContext())

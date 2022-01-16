@@ -106,12 +106,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task RedditNSFW(string subreddit)
     {
         try
@@ -134,12 +129,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task LewdNeko()
     {
         var Request = await NekoClient.Nsfw_v3.Neko();
@@ -147,12 +137,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task LewdNekoGif()
     {
         var Request = await NekoClient.Nsfw_v3.NekoGif();
@@ -160,12 +145,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentai(int num, int page = 0)
     {
         var client = new HentaiClient();
@@ -205,16 +185,12 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         string exclude = null)
     {
         var client = new HentaiClient();
-        var e = Sort.Date;
-        switch (type.ToLower())
+        var e = type.ToLower() switch
         {
-            case "date":
-                e = Sort.Date;
-                break;
-            case "popular":
-                e = Sort.Popular;
-                break;
-        }
+            "date" => Sort.Date,
+            "popular" => Sort.Popular,
+            _ => Sort.Date
+        };
 
         var result = await client.SearchQueryAsync(page, e, search, exclude + " -lolicon -loli");
         if (!result.Books.Any())
@@ -249,52 +225,22 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch([Remainder] string search) => await InternalNHentaiSearch(search);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch(string search, [Remainder] string blacklist) => await InternalNHentaiSearch(search, 1, blacklist);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch(string search, int page) => await InternalNHentaiSearch(search, page);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch(string search, int page, string type) => await InternalNHentaiSearch(search, page, type);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [RequireContext(ContextType.Guild)]
-    [RequireNsfw]
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     private async Task InternalBoobs(IMessageChannel Channel)
     {
         try
@@ -335,20 +281,12 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Hentai([Remainder] string tag = null) => InternalHentai(ctx.Channel, tag);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public async Task HentaiBomb([Remainder] string tag = null)
     {
         if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
@@ -376,68 +314,36 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Yandere([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Konachan([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task E621([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.E621, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Rule34([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Danbooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Gelbooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public Task Derpibooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public async Task Boobs()
     {
         try
@@ -458,12 +364,8 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
     public async Task Butts()
     {
         try
@@ -484,12 +386,8 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages)]
     public async Task NsfwTagBlacklist([Remainder] string tag = null)
     {
         if (string.IsNullOrWhiteSpace(tag))
@@ -512,12 +410,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public Task NsfwClearCache()
     {
         Service.ClearCache();
@@ -556,13 +449,8 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     }
 
 #if !GLOBAL_Mewdeko
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(ChannelPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw, RequireContext(ContextType.Guild),
+     UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoHentai(int interval = 0, string tags = null)
     {
         Timer t;
@@ -608,13 +496,8 @@ public class NSFW : MewdekoModuleBase<SearchesService>
             string.Join(", ", tagsArr)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(ChannelPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw, RequireContext(ContextType.Guild),
+     UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoBoobs(int interval = 0)
     {
         Timer t;
@@ -652,13 +535,8 @@ public class NSFW : MewdekoModuleBase<SearchesService>
         await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireNsfw(Group = "nsfw_or_dm")]
-    [RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    [UserPerm(ChannelPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
+     RequireContext(ContextType.DM, Group = "nsfw_or_dm"), UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoButts(int interval = 0)
     {
         Timer t;

@@ -12,12 +12,8 @@ public partial class Administration
     [Group]
     public class AutoAssignRoleCommands : MewdekoSubmodule<AutoAssignRoleService>
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole([Remainder] IRole role)
         {
             var guser = (IGuildUser) ctx.User;
@@ -40,12 +36,8 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("aar_role_removed", Format.Bold(role.Mention));
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole()
         {
             if (!Service.TryGetNormalRoles(ctx.Guild.Id, out var roles))
@@ -65,12 +57,8 @@ public partial class Administration
                     .JoinWith("\n"));
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole([Remainder] IRole role)
         {
             var guser = (IGuildUser) ctx.User;
@@ -93,12 +81,8 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("aabr_role_removed", Format.Bold(role.Mention));
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole()
         {
             if (!Service.TryGetBotRoles(ctx.Guild.Id, out var roles))

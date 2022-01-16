@@ -362,25 +362,14 @@ public class SearchesService : INService, IUnloadableService
     {
         var subpath = tag.ToString().ToLowerInvariant();
 
-        int max;
-        switch (tag)
+        int max = tag switch
         {
-            case ImageTag.Food:
-                max = 773;
-                break;
-            case ImageTag.Dogs:
-                max = 750;
-                break;
-            case ImageTag.Cats:
-                max = 773;
-                break;
-            case ImageTag.Birds:
-                max = 578;
-                break;
-            default:
-                max = 100;
-                break;
-        }
+            ImageTag.Food => 773,
+            ImageTag.Dogs => 750,
+            ImageTag.Cats => 773,
+            ImageTag.Birds => 578,
+            _ => 100
+        };
 
         return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
                _rng.Next(1, max).ToString("000") + ".png";
