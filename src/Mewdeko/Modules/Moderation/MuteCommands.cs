@@ -27,21 +27,12 @@ public partial class Moderation
             return false;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.MuteMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         RequireUserPermission(GuildPermission.MuteMembers), Priority(1)]
         public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         RequireUserPermission(GuildPermission.Administrator)]
         public async Task RemoveOnMute(string yesnt)
         {
             var users = ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.ToList().Contains(824321516468043779));
@@ -62,13 +53,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.MuteMembers)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         RequireUserPermission(GuildPermission.MuteMembers), Priority(0)]
         public async Task Stfu(IUser user, StoopidTime time = null)
         {
             var channel = ctx.Channel as SocketGuildChannel;
@@ -93,11 +79,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Aliases]
-        [Description]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.Administrator)]
+        [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild),
+         RequireUserPermission(GuildPermission.Administrator)]
         public async Task UnmuteAll([Remainder] string reason = null)
         {
             var users = ctx.Guild.GetUsersAsync().Result
@@ -176,12 +159,9 @@ public partial class Moderation
                 }
             }
         }
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(GuildPermission.MuteMembers)]
+
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         RequireUserPermission(GuildPermission.MuteMembers)]
         public async Task UNSTFU(IUser user)
         {
             var channel = ctx.Channel as SocketGuildChannel;
@@ -190,12 +170,8 @@ public partial class Moderation
             await ctx.Channel.SendConfirmAsync($"{user} has been unmuted in this channel!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
 #pragma warning disable 108,114
         public async Task MuteRole([Remainder] IRole role = null)
 #pragma warning restore 108,114
@@ -219,13 +195,8 @@ public partial class Moderation
             await ReplyConfirmLocalizedAsync("mute_role_set").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(0)]
         public async Task Mute(IGuildUser target, [Remainder] string reason = "")
         {
             try
@@ -244,22 +215,12 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(2)]
         public async Task Mute(IGuildUser user, StoopidTime time, string reason = "") => await Mute(time, user, reason);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(1)]
         public async Task Mute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
             if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(90))
@@ -280,12 +241,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
         public async Task Unmute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -300,13 +257,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task ChatMute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -325,12 +277,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles)]
         public async Task ChatUnmute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -346,13 +294,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task VoiceMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
             if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(49))
@@ -372,13 +315,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageRoles)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageRoles), Priority(1)]
         public async Task ChatMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
             if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(49))
@@ -399,13 +337,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task VoiceMute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -423,12 +356,8 @@ public partial class Moderation
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.MuteMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.MuteMembers)]
         public async Task VoiceUnmute(IGuildUser user, [Remainder] string reason = "")
         {
             try

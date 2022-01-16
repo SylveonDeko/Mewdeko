@@ -20,14 +20,9 @@ public partial class Utility
 
         public InviteCommands(InteractiveService serv) => Interactivity = serv;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [BotPerm(ChannelPermission.CreateInstantInvite)]
-        [UserPerm(ChannelPermission.CreateInstantInvite)]
-        [MewdekoOptions(typeof(InviteService.Options))]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         BotPerm(ChannelPermission.CreateInstantInvite), UserPerm(ChannelPermission.CreateInstantInvite),
+         MewdekoOptions(typeof(InviteService.Options))]
         public async Task InviteCreate(params string[] args)
         {
             var (opts, success) = OptionsParser.ParseFrom(new InviteService.Options(), args);
@@ -42,12 +37,8 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [BotPerm(ChannelPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         BotPerm(ChannelPermission.ManageChannels)]
         public async Task InviteList(int page = 1)
         {
             if (--page < 0)
@@ -83,13 +74,8 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [BotPerm(ChannelPermission.ManageChannels)]
-        [UserPerm(ChannelPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         BotPerm(ChannelPermission.ManageChannels), UserPerm(ChannelPermission.ManageChannels)]
         public async Task InviteDelete(int index)
         {
             if (--index < 0)

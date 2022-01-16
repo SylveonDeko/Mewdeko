@@ -24,13 +24,8 @@ public partial class Gambling
         {
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [MewdekoOptionsAttribute(typeof(EventOptions))]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         MewdekoOptionsAttribute(typeof(EventOptions)), OwnerOnly]
         public async Task EventStart(CurrencyEvent.Type ev, params string[] options)
         {
             var (opts, _) = OptionsParser.ParseFrom(new EventOptions(), options);
@@ -45,23 +40,23 @@ public partial class Gambling
 
         private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot)
         {
-            switch (type)
+            return type switch
             {
-                case CurrencyEvent.Type.Reaction:
-                    return new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle(GetText("event_title", type.ToString()))
-                        .WithDescription(GetReactionDescription(opts.Amount, currentPot))
-                        .WithFooter(GetText("event_duration_footer", opts.Hours));
-                case CurrencyEvent.Type.GameStatus:
-                    return new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle(GetText("event_title", type.ToString()))
-                        .WithDescription(GetGameStatusDescription(opts.Amount, currentPot))
-                        .WithFooter(GetText("event_duration_footer", opts.Hours));
-            }
-
-            throw new ArgumentOutOfRangeException(nameof(type));
+                CurrencyEvent.Type.Reaction => new EmbedBuilder().WithOkColor()
+                                                                 .WithTitle(GetText("event_title", type.ToString()))
+                                                                 .WithDescription(GetReactionDescription(opts.Amount,
+                                                                     currentPot))
+                                                                 .WithFooter(GetText("event_duration_footer",
+                                                                     opts.Hours)),
+                CurrencyEvent.Type.GameStatus => new EmbedBuilder().WithOkColor()
+                                                                   .WithTitle(GetText("event_title", type.ToString()))
+                                                                   .WithDescription(
+                                                                       GetGameStatusDescription(opts.Amount,
+                                                                           currentPot))
+                                                                   .WithFooter(GetText("event_duration_footer",
+                                                                       opts.Hours)),
+                _ => throw new ArgumentOutOfRangeException(nameof(type))
+            };
         }
 
         private string GetReactionDescription(long amount, long potSize)

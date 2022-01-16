@@ -11,10 +11,7 @@ namespace Mewdeko.Modules.GlobalBan;
 
 public class GlobalBans : MewdekoModuleBase<GlobalBanService>
 {
-    [MewdekoCommand]
-    [Alias]
-    [Description]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Alias, Description, RequireContext(ContextType.Guild)]
     public async Task GBRep()
     {
         var cancelled = new EmbedBuilder()
