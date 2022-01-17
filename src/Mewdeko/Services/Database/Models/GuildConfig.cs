@@ -17,6 +17,8 @@ public class GuildConfig : DbEntity
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
     public int MultiGreetType { get; set; } = 0;
+    public int MinSuggestLength { get; set; } = 4098;
+    public int MaxSuggestLength { get; set; } = 4098;
     public ulong MemberRole { get; set; } = 0;
     public string TOpenMessage { get; set; } = "none";
     public string GStartMessage { get; set; } = "none";

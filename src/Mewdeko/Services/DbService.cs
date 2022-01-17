@@ -2,6 +2,7 @@
 using Mewdeko.Services.Database;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Mewdeko.Services;
 
@@ -45,7 +46,7 @@ public class DbService
         var conn = context.Database.GetDbConnection();
         conn.OpenAsync();
         using var com = conn.CreateCommand();
-        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF; PRAGMA auto_vacuum=1; PRAGMA temp_store=1;";
+        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF;";
         com.ExecuteNonQueryAsync();
 
         return context;
