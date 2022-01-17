@@ -9,6 +9,7 @@ using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
 
+[Group]
 public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
 {
     public DiscordSocketClient _client;
@@ -47,6 +48,36 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
         await ctx.Channel.SendConfirmAsync("Sucessfully updated suggestion message!");
     }
 
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
+    public async Task MinSuggestionLength(int length)
+    {
+        if (length >= 2048)
+        {
+            await ctx.Channel.SendErrorAsync(
+                "Can't set this value because it means users will not be able to suggest anything!");
+            return;
+        }
+
+        await Service.SetMinLength(ctx.Guild, length);
+        await ctx.Channel.SendConfirmAsync($"Minimum length set to {length} characters!");
+    }
+    
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
+    public async Task MaxSuggestionLength(int length)
+    {
+        if (length <= 0)
+        {
+            await ctx.Channel.SendErrorAsync(
+                "Cant set this value because it means users will not be able to suggest anything!");
+            return;
+        }
+
+        await Service.SetMaxLength(ctx.Guild, length);
+        await ctx.Channel.SendConfirmAsync($"Max length set to {length} characters!");
+    }
+    
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task AcceptMessage([Remainder] string embed)

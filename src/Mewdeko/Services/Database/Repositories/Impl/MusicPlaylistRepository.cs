@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LinqToDB.Tools;
+using Mewdeko.Modules.Music;
+using System.Collections.Generic;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,19 +12,10 @@ public class MusicPlaylistRepository : Repository<MusicPlaylist>, IMusicPlaylist
     {
     }
 
-    public List<MusicPlaylist> GetPlaylistsOnPage(int num)
-    {
-        if (num < 1)
-            throw new IndexOutOfRangeException();
+    public IEnumerable<MusicPlaylist> GetPlaylistsByUser(ulong userId) 
+        => _set.AsQueryable().Where(x => x.AuthorId == userId)
+               .Include(x => x.Songs);
 
-        return _set.AsQueryable()
-            .Skip((num - 1) * 20)
-            .Take(20)
-            .Include(pl => pl.Songs)
-            .ToList();
-    }
-
-    public MusicPlaylist GetWithSongs(int id) =>
-        _set.Include(mpl => mpl.Songs)
-            .FirstOrDefault(mpl => mpl.Id == id);
+    public MusicPlaylist GetDefaultPlaylist(ulong userId) =>
+        _set.AsQueryable().Where(x => x.AuthorId == userId && x.IsDefault).Include(x => x.Songs).FirstOrDefault();
 }

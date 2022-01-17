@@ -32,6 +32,7 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
             .First(u => u.UserId == userId);
     }
 
+
     public DiscordUser GetOrCreate(IUser original) => GetOrCreate(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
     public int GetUserGlobalRank(ulong id) =>
