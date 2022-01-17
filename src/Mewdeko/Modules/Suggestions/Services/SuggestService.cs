@@ -9,6 +9,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Suggestions.Services;
@@ -56,6 +57,10 @@ public class SuggestionsService : INService
         Suggestemotes = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.SuggestEmotes)
             .ToConcurrent();
+        _minsuggestlengths = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.MinSuggestLength)
+                                .ToConcurrent();
+        _maxsuggestlengths = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.MaxSuggestLength)
+                                .ToConcurrent();
     }
 
     private ConcurrentDictionary<ulong, string> Suggestemotes { get; }
@@ -66,47 +71,105 @@ public class SuggestionsService : INService
     private ConcurrentDictionary<ulong, string> _denymsgs { get; }
     private ConcurrentDictionary<ulong, string> _implementmsgs { get; }
     private ConcurrentDictionary<ulong, string> _considermsgs { get; }
+    private ConcurrentDictionary<ulong, int> _minsuggestlengths { get; }
+    private ConcurrentDictionary<ulong, int> _maxsuggestlengths { get; }
 
-    public async Task MessageRecieved(SocketMessage msg)
-    {
-        if (msg.Channel is not ITextChannel chan)
-            return;
-        var guild = (msg.Channel as IGuildChannel)?.Guild;
-        var Prefix = CmdHandler.GetPrefix(guild);
-        if (guild != null &&
-            msg.Channel.Id == GetSuggestionChannel(guild.Id) &&
-            msg.Author.IsBot == false &&
-            !msg.Content.StartsWith(Prefix))
+    private async Task MessageRecieved(SocketMessage msg) =>
+        _ = Task.Run(async () =>
         {
-            if (msg.Channel.Id != GetSuggestionChannel(guild.Id))
+            if (msg.Channel is not ITextChannel chan)
                 return;
-            var guser = msg.Author as IGuildUser;
-            var pc = _perms.GetCacheFor(guild.Id);
-            var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(),
-                out var index);
-            if (!test)
-                return;
-            if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id)))
-                return;
-            await SendSuggestion(chan.Guild,
-                msg.Author as IGuildUser,
-                _client,
-                msg.Content,
-                msg.Channel as ITextChannel);
-            try
+            var guild = (msg.Channel as IGuildChannel)?.Guild;
+            var Prefix = CmdHandler.GetPrefix(guild);
+            if (guild != null
+                && msg.Channel.Id == GetSuggestionChannel(guild.Id)
+                && msg.Author.IsBot == false
+                && !msg.Content.StartsWith(Prefix))
             {
-                await msg.DeleteAsync();
+                if (msg.Channel.Id != GetSuggestionChannel(guild.Id))
+                    return;
+                var guser = msg.Author as IGuildUser;
+                var pc = _perms.GetCacheFor(guild.Id);
+                var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest",
+                    "Suggestions".ToLowerInvariant(), out var index);
+                if (!test)
+                    return;
+                if (guser.RoleIds.Contains(adminserv.GetStaffRole(guser.Guild.Id)))
+                    return;
+                if (msg.Content.Length > GetMaxLength(guild.Id))
+                {
+                    try
+                    {
+                        await msg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    try
+                    {
+                        await guser.SendErrorAsync(
+                            $"Cannot send this suggestion as its over the max length `({GetMaxLength(guild.Id)})` of this server!");
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    return;
+                }
+
+                if (msg.Content.Length < GetMinLength(guild.Id))
+                {
+                    try
+                    {
+                        await msg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    try
+                    {
+                        await guser.SendErrorAsync(
+                            $"Cannot send this suggestion as its under the minimum length `({GetMaxLength(guild.Id)})` of this server!");
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    return;
+                }
+
+                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, _client, msg.Content,
+                    msg.Channel as ITextChannel);
+                try
+                {
+                    await msg.DeleteAsync();
+                }
+                catch
+                {
+                    //ignored
+                }
             }
-            catch
-            {
-                //ignored
-            }
-        }
-    }
+        });
 
     private ulong GetSNum(ulong? id)
     {
         _snum.TryGetValue(id.Value, out var snum);
+        return snum;
+    }
+    public int GetMaxLength(ulong? id)
+    {
+        _maxsuggestlengths.TryGetValue(id.Value, out var snum);
+        return snum;
+    }
+    public int GetMinLength(ulong? id)
+    {
+        _minsuggestlengths.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
@@ -139,6 +202,29 @@ public class SuggestionsService : INService
 
         _sugchans.AddOrUpdate(guild.Id, channel, (_, _) => channel);
     }
+    public async Task SetMinLength(IGuild guild, int minLength)
+    {
+        using (var uow = _db.GetDbContext())
+        {
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.MinSuggestLength = minLength;
+            await uow.SaveChangesAsync();
+        }
+
+        _minsuggestlengths.AddOrUpdate(guild.Id, minLength, (_, _) => minLength);
+    }
+    public async Task SetMaxLength(IGuild guild, int maxLength)
+    {
+        using (var uow = _db.GetDbContext())
+        {
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.MaxSuggestLength = maxLength;
+            await uow.SaveChangesAsync();
+        }
+
+        _maxsuggestlengths.AddOrUpdate(guild.Id, maxLength, (_, _) => maxLength);
+    }
+
 
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
@@ -260,14 +346,29 @@ public class SuggestionsService : INService
         return snum;
     }
 
+    // public async Task DeleteUserSuggestions(Suggestionse[] suggestions, ITextChannel channel)
+    // {
+    //     foreach (var i in suggestions.Select(x => x.MessageID))
+    //     {
+    //         try
+    //         {
+    //             await channel.DeleteMessageAsync(i);
+    //         }
+    //         catch
+    //         {
+    //             //ignored
+    //         }
+    //     }
+    //
+    //     var uow = _db.GetDbContext();
+    //     var e = uow._context.Suggestions.FromSqlInterpolated(
+    //         $"delete from Suggestions where UserID={suggestions.FirstOrDefault().UserID} and GuildId={channel.GuildId};");
+    // }
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
         ITextChannel channel, string reason = null)
     {
         string rs;
-        if (reason == null)
-            rs = "none";
-        else
-            rs = reason;
+        rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         var use = await guild.GetUserAsync(suggest.UserID);
 
@@ -333,7 +434,8 @@ public class SuggestionsService : INService
             string sug;
             if (suggest.Suggestion == null)
                 sug = guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result
-                    .GetMessageAsync(suggest.MessageID).Result.Embeds.FirstOrDefault().Description;
+                    .GetMessageAsync(suggest.MessageID).Result.Embeds.FirstOrDefault()
+                    ?.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
@@ -1010,5 +1112,11 @@ public class SuggestionsService : INService
     {
         using var uow = _db.GetDbContext();
         return uow.Suggestions.ForId(gid, sid);
+    }
+
+    public Suggestionse[] ForUser(ulong guildId, ulong userId)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.Suggestions.ForUser(guildId, userId);
     }
 }
