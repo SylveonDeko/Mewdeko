@@ -72,11 +72,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Tickle(IUser user)
         {
-            var Req = await NekoClient.Action_v3.TickleGif();
+            var req = await NekoClient.Action_v3.TickleGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} tickled {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -85,11 +85,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Slap(IUser user)
         {
-            var Req = await NekoClient.Action_v3.SlapGif();
+            var req = await NekoClient.Action_v3.SlapGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} slapped {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
