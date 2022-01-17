@@ -1,19 +1,12 @@
-﻿namespace Mewdeko.Services.Database.Models;
+﻿using Mewdeko.Modules.Music.Extensions;
+
+namespace Mewdeko.Services.Database.Models;
 
 public class PlaylistSong : DbEntity
 {
     public string Provider { get; set; }
-    public MusicType ProviderType { get; set; }
+    public AdvancedLavaTrack.Platform ProviderType { get; set; }
     public string Title { get; set; }
     public string Uri { get; set; }
     public string Query { get; set; }
-}
-
-public enum MusicType
-{
-    Radio,
-    YouTube,
-    Local,
-    Soundcloud,
-    Spotify
 }

@@ -267,12 +267,12 @@ public partial class ServerManagement
                 return;
             }
 
-            int JobId;
+            int jobId;
             if (Service.jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.jobslist.Count + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users and Bots",
+                jobId = Service.jobslist.Count + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Users and Bots",
                 role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -282,18 +282,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} members before stopped.");
                             return;
                         }
 
                         await i.AddRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -302,7 +302,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} members!");
         }
 

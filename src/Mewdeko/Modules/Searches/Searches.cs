@@ -636,14 +636,14 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         if (!await ValidateQuery(ctx.Channel, word).ConfigureAwait(false))
             return;
 
-        using var _http = _httpFactory.CreateClient();
+        using var http = _httpFactory.CreateClient();
         string res;
         try
         {
             res = await _cache.GetOrCreateAsync($"define_{word}", e =>
             {
                 e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
-                return _http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
+                return http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
                                             WebUtility.UrlEncode(word));
             }).ConfigureAwait(false);
 

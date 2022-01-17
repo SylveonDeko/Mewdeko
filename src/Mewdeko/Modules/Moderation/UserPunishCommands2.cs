@@ -14,6 +14,7 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
+using Swan;
 
 namespace Mewdeko.Modules.Moderation;
 
@@ -203,8 +204,8 @@ public partial class Moderation
                 foreach (var w in warnings)
                 {
                     i++;
-                    var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"),
-                        w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
+                    var name = GetText("warned_on_by", $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:D>",
+                        $"<t:{(w.DateAdded.Value-TimeSpan.FromHours(5)).ToUnixEpochDate()}:T>", w.Moderator);
                     if (w.Forgiven)
                         name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 

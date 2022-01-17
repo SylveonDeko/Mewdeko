@@ -3,10 +3,12 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
+using Swan;
 
 namespace Mewdeko.Common;
 
@@ -62,6 +64,9 @@ public abstract class MewdekoModule : ModuleBase
         return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
     }
 
+    public async Task<bool> PromptUserConfirmAsync(string message, ulong userid) 
+        => await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(message), userid); 
+    
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {
         embed.WithOkColor();
@@ -175,7 +180,76 @@ public abstract class MewdekoModule : ModuleBase
             return Task.CompletedTask;
         }
     }
+    public async Task<string> NextMessageWithButtonAsync(string message, ulong userId, ITextChannel chan)
+    {
+        var eb = new EmbedBuilder().WithOkColor().WithDescription(message);
+        var component = new ComponentBuilder().WithButton("Cancel", "cancel", ButtonStyle.Danger).Build();
+        var msg = await chan.SendMessageAsync(embed: eb.Build(), components: component);
+        var userInputTask = new TaskCompletionSource<string>();
+        var dsc = (DiscordSocketClient) ctx.Client;
+        try
+        {
+            dsc.InteractionCreated += CheckCancel;
+            dsc.MessageReceived += Interaction;
+            if (await Task.WhenAny(userInputTask.Task, Task.Delay(60000)).ConfigureAwait(false) !=
+                userInputTask.Task) return null;
+            return await userInputTask.Task.ConfigureAwait(false);
+        }
+        finally
+        {
+            dsc.MessageReceived -= Interaction;
+            dsc.ButtonExecuted -= CheckCancel;
+        }
+
+        Task Interaction(SocketMessage arg)
+        {
+            Task.Run(() =>
+            {
+                if (arg.Author.Id != userId || arg.Channel.Id != chan.Id) return Task.CompletedTask;
+                userInputTask.TrySetResult(arg.Content);
+                try
+                {
+                    arg.DeleteAsync();
+                    msg.DeleteAsync();
+                }
+                catch
+                {
+                    //Exclude
+                }
+
+                return Task.CompletedTask;
+            });
+            return Task.CompletedTask;
+        }
+
+        Task CheckCancel(SocketInteraction arg)
+        {
+            if (arg is SocketMessageComponent c)
+                Task.Run(() =>
+                {
+                    if (c.Channel.Id != chan.Id || c.User.Id != userId || c.Message.Id != msg.Id)
+                    {
+                        c.DeferAsync();
+                        return Task.CompletedTask;
+                    }
+
+                    if (c.Data.CustomId == "yes")
+                    {
+                        c.DeferAsync();
+                        userInputTask.TrySetResult("Yes");
+                        return Task.CompletedTask;
+                    }
+
+                    c.DeferAsync();
+                    userInputTask.TrySetResult(c.Data.CustomId);
+                    msg.DeleteAsync();
+                    return Task.CompletedTask;
+                });
+            return Task.CompletedTask;
+        }
+    }
 }
+
 
 public abstract class MewdekoModuleBase<TService> : MewdekoModule
 {

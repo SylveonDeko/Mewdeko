@@ -28,7 +28,7 @@ public sealed class MusicService : INService
     private readonly SpotifyClient _spotifyClient;
 
 
-    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client)
+    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko.Services.Mewdeko bot)
     {
         _client = client;
         _db = db;
@@ -347,6 +347,48 @@ public sealed class MusicService : INService
         }
     }
 
+    public async Task UpdateDefaultPlaylist(IUser user, MusicPlaylist mpl)
+    {
+        using var uow = _db.GetDbContext();
+        var def = uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
+        if (def != null)
+        {
+            var toupdate = new MusicPlaylist
+            {
+                AuthorId = def.AuthorId,
+                Author = def.Author,
+                DateAdded = def.DateAdded,
+                Id = def.Id,
+                IsDefault = false,
+                Name = def.Name,
+                Songs = def.Songs
+            };
+            uow.MusicPlaylists.Update(toupdate);
+        }
+        var toupdate1 = new MusicPlaylist
+        {
+            AuthorId = mpl.AuthorId,
+            Author = mpl.Author,
+            DateAdded = mpl.DateAdded,
+            Id = mpl.Id,
+            IsDefault = true,
+            Name = mpl.Name,
+            Songs = mpl.Songs
+        };
+        uow.MusicPlaylists.Update(toupdate1);
+        await uow.SaveChangesAsync();
+    }
+
+    public MusicPlaylist GetDefaultPlaylist(IUser user)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
+    }
+    public IEnumerable<MusicPlaylist> GetPlaylists(IUser user)
+    {
+        var uow = _db.GetDbContext();
+        return uow.MusicPlaylists.GetPlaylistsByUser(user.Id);
+    }
     private async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
     {
         if (_settings.TryGetValue(guildId, out var settings))
