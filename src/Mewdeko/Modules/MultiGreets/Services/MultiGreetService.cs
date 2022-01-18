@@ -1,6 +1,4 @@
-﻿using Amazon.Runtime.Internal.Util;
-using Discord;
-using Discord.Rest;
+﻿using Discord;
 using Discord.Webhook;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -9,7 +7,6 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Net.Sockets;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 

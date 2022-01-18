@@ -3,12 +3,10 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
-using Swan;
 
 namespace Mewdeko.Common;
 
