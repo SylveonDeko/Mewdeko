@@ -92,8 +92,8 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers)]
         public async Task Warn(IGuildUser user, [Remainder] string reason = null)
         {
-            // if (!await CheckRoleHierarchy(user))
-            //     return;
+            if (!await CheckRoleHierarchy(user))
+                return;
 
             var dmFailed = false;
             try
@@ -239,7 +239,7 @@ public partial class Moderation : MewdekoModule
                     {
                         i++;
                         var name = GetText("warned_on_by", $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:D>",
-                            $"<t:{(w.DateAdded.Value-TimeSpan.FromHours(5)).ToUnixEpochDate()}:T>", w.Moderator);
+                            $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:T>", w.Moderator);
                         if (w.Forgiven)
                             name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 

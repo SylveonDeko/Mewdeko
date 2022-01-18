@@ -205,7 +205,7 @@ public partial class Moderation
                 {
                     i++;
                     var name = GetText("warned_on_by", $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:D>",
-                        $"<t:{(w.DateAdded.Value-TimeSpan.FromHours(5)).ToUnixEpochDate()}:T>", w.Moderator);
+                        $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:T>", w.Moderator);
                     if (w.Forgiven)
                         name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
