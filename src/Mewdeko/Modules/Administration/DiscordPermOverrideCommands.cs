@@ -23,12 +23,8 @@ public partial class Administration
 
         // override stats, it should require that the user has managessages guild permission
         // .po 'stats' add user guild managemessages
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[] perms)
         {
             if (perms is null || perms.Length == 0)
@@ -46,12 +42,8 @@ public partial class Administration
                 Format.Code(cmd.Name));
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverrideReset()
         {
             var result = await PromptUserConfirmAsync(new EmbedBuilder()
@@ -65,12 +57,8 @@ public partial class Administration
             await ReplyConfirmLocalizedAsync("perm_override_all");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverrideList(int page = 1)
         {
             if (--page < 0)

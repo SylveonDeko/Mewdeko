@@ -30,12 +30,8 @@ public partial class ServerManagement
             _httpFactory = httpfact;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task LockCheck()
         {
             var msg = await ctx.Channel.SendMessageAsync(
@@ -68,12 +64,8 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels)]
         public async Task LockDown()
         {
             var roles = Context.Guild.Roles.ToList().FindAll(x =>
@@ -100,11 +92,7 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task MoveTo(IVoiceChannel channel)
         {
             var use = ctx.User as IGuildUser;
@@ -119,12 +107,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Succesfully moved you to {Format.Bold(channel.Name)}");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels)]
         public async Task MoveUserTo(IGuildUser user, IVoiceChannel channel)
         {
             if (user.VoiceChannel == null)
@@ -137,11 +121,7 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Succesfully moved {user.Mention} to {Format.Bold(channel.Name)}");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Grab(IGuildUser user)
         {
             var vc = ((IGuildUser) ctx.User).VoiceChannel;
@@ -162,12 +142,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync($"Grabbed {user.Mention} from {user.VoiceChannel.Name} to your VC!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels)]
         public async Task Unlockdown()
         {
             if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
@@ -182,12 +158,8 @@ public partial class ServerManagement
             await ctx.Channel.SendConfirmAsync("Server has been unlocked!");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels)]
         public async Task Nuke(ITextChannel chan3 = null)
         {
             var embed = new EmbedBuilder
@@ -230,13 +202,8 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [BotPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
         public async Task Lock(SocketTextChannel channel = null)
         {
             if (channel == null)
@@ -260,11 +227,7 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndTxtChannels(string CatName, params string[] Channels)
         {
             var eb = new EmbedBuilder();
@@ -282,11 +245,7 @@ public partial class ServerManagement
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndVcChannels(string CatName, params string[] Channels)
         {
             var eb = new EmbedBuilder();
@@ -303,11 +262,7 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatVcChans(ICategoryChannel chan, params string[] Channels)
         {
             var eb = new EmbedBuilder();
@@ -324,11 +279,7 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] Channels)
         {
             var eb = new EmbedBuilder();
@@ -344,13 +295,8 @@ public partial class ServerManagement
             await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [BotPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
         public async Task Unlock(SocketTextChannel channel = null)
         {
             if (channel == null)
@@ -373,40 +319,20 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), Priority(0)]
         public async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int) time.Time.TotalSeconds);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), Priority(1)]
         public async Task Slowmode(StoopidTime time) => await InternalSlowmode(ctx.Channel as ITextChannel, (int) time.Time.TotalSeconds);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), Priority(2)]
         public async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [Priority(4)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), Priority(4)]
         public async Task Slowmode() => await InternalSlowmode((ITextChannel) ctx.Channel);
 
         private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
@@ -439,12 +365,7 @@ public partial class ServerManagement
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task Webhook(ITextChannel Channel, string name, string imageurl)
         {
             var embeds = new List<Embed>();
@@ -475,12 +396,7 @@ public partial class ServerManagement
             await web.SendMessageAsync(embeds: embeds);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
         {
             var embeds = new List<Embed>();

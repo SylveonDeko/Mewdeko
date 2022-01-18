@@ -35,12 +35,8 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         ctx.Guild == null && _creds.IsOwner(ctx.User)
         || ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator;
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task CrsExport()
     {
         if (!AdminInGuildOrOwnerInDm())
@@ -56,12 +52,8 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         await ctx.Channel.SendFileAsync(stream, "crs-export.yml");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task CrsImport([Remainder] string input = null)
     {
         if (!AdminInGuildOrOwnerInDm())
@@ -103,10 +95,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         await ctx.OkAsync();
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task AddCustReact(string key, [Remainder] string message)
     {
         var channel = ctx.Channel as ITextChannel;
@@ -131,10 +120,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         ).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task EditCustReact(int id, [Remainder] string message)
     {
         var channel = ctx.Channel as ITextChannel;
@@ -162,11 +148,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
     public async Task ListCustReact(int page = 1)
     {
         if (--page < 0 || page > 999)
@@ -211,10 +193,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
     }
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task ListCustReactG(int page = 1)
     {
         if (--page < 0 || page > 9999)
@@ -254,10 +233,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task ShowCustReact(int id)
     {
         var found = Service.GetCustomReaction(ctx.Guild?.Id, id);
@@ -274,10 +250,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
             ).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task DelCustReact(int id)
     {
         if (!AdminInGuildOrOwnerInDm())
@@ -299,10 +272,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task CrReact(int id, params string[] emojiStrs)
     {
         if (!AdminInGuildOrOwnerInDm())
@@ -358,47 +328,26 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
             string.Join(", ", succ.Select(x => x.ToString()))).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task CrCa(int id) => InternalCrEdit(id, CustomReactionsService.CrField.ContainsAnywhere);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task Rtt(int id) => InternalCrEdit(id, CustomReactionsService.CrField.ReactToTrigger);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task CrDm(int id) => InternalCrEdit(id, CustomReactionsService.CrField.DmResponse);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task CrAd(int id) => InternalCrEdit(id, CustomReactionsService.CrField.AutoDelete);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task CrAt(int id) => InternalCrEdit(id, CustomReactionsService.CrField.AllowTarget);
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task CrNr(int id) => InternalCrEdit(id, CustomReactionsService.CrField.NoRespond);
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task CrsReload()
     {
         await Service.TriggerReloadCustomReactions();
@@ -429,12 +378,8 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
                 Format.Code(id.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task CrClear()
     {
         if (await PromptUserConfirmAsync(new EmbedBuilder()

@@ -28,12 +28,8 @@ public partial class Permissions
             _db = db;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+         RequireContext(ContextType.Guild)]
         public async Task AutoBanWord(string word)
         {
             if (Service._blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
@@ -48,12 +44,8 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+         RequireContext(ContextType.Guild)]
         public async Task AutoBanWordList(int page = 0)
         {
             var words = Service._blacklist.Where(x => x.GuildId == ctx.Guild.Id);
@@ -83,12 +75,8 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+         RequireContext(ContextType.Guild)]
         public async Task FWarn(string yesnt)
         {
             await Service.fwarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
@@ -104,12 +92,8 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+         RequireContext(ContextType.Guild)]
         public async Task InvWarn(string yesnt)
         {
             await Service.InvWarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
@@ -125,23 +109,15 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task FwClear()
         {
             Service.ClearFilteredWords(ctx.Guild.Id);
             await ReplyConfirmLocalizedAsync("fw_cleared").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task SrvrFilterInv()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -166,11 +142,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterInv()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -205,11 +177,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task SrvrFilterLin()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -234,11 +202,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterLin()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -273,11 +237,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task SrvrFilterWords()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -302,11 +262,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task ChnlFilterWords()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -341,11 +297,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task FilterWord([Remainder] string word)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -385,11 +337,7 @@ public partial class Permissions
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task LstFilterWords(int page = 1)
         {
             page--;

@@ -14,6 +14,7 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Database.Models;
 using Serilog;
+using Swan;
 
 namespace Mewdeko.Modules.Moderation;
 
@@ -59,13 +60,8 @@ public partial class Moderation : MewdekoModule
             return true;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task SetWarnChannel([Remainder] ITextChannel channel)
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
@@ -92,16 +88,12 @@ public partial class Moderation : MewdekoModule
                                                oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers)]
         public async Task Warn(IGuildUser user, [Remainder] string reason = null)
         {
-            if (!await CheckRoleHierarchy(user))
-                return;
+            // if (!await CheckRoleHierarchy(user))
+            //     return;
 
             var dmFailed = false;
             try
@@ -171,14 +163,8 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [MewdekoOptions(typeof(WarnExpireOptions))]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), MewdekoOptions(typeof(WarnExpireOptions)), Priority(2)]
         public async Task WarnExpire(int days, params string[] args)
         {
             if (days < 0 || days > 366)
@@ -203,12 +189,7 @@ public partial class Moderation : MewdekoModule
                     .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [Priority(3)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(3)]
         public Task Warnlog(IGuildUser user = null)
         {
             if (user == null)
@@ -219,13 +200,8 @@ public partial class Moderation : MewdekoModule
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), Priority(1)]
         public Task Warnlog(ulong userId) => InternalWarnlog(userId);
 
         private async Task InternalWarnlog(ulong userId)
@@ -262,8 +238,8 @@ public partial class Moderation : MewdekoModule
                     foreach (var w in warnings)
                     {
                         i++;
-                        var name = GetText("warned_on_by", w.DateAdded.Value.ToString("dd.MM.yyy"),
-                            w.DateAdded.Value.ToString("HH:mm"), w.Moderator);
+                        var name = GetText("warned_on_by", $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:D>",
+                            $"<t:{(w.DateAdded.Value-TimeSpan.FromHours(5)).ToUnixEpochDate()}:T>", w.Moderator);
                         if (w.Forgiven)
                             name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
 
@@ -277,12 +253,8 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers)]
         public async Task WarnlogAll(int page = 1)
         {
             if (--page < 0)
@@ -321,20 +293,12 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers)]
         public Task Warnclear(IGuildUser user, int index = 0) => Warnclear(user.Id, index);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers)]
         public async Task Warnclear(ulong userId, int index = 0)
         {
             if (index < 0)
@@ -355,13 +319,8 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), Priority(1)]
         public async Task WarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
         {
             var punish = PunishmentAction.AddRole;
@@ -381,12 +340,8 @@ public partial class Moderation : MewdekoModule
                     Format.Bold(time.Input)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
         {
             // this should never happen. Addrole has its own method with higher priority
@@ -409,12 +364,8 @@ public partial class Moderation : MewdekoModule
                     Format.Bold(time.Input)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number)
         {
             if (!Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
@@ -423,11 +374,7 @@ public partial class Moderation : MewdekoModule
                 Format.Bold(number.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task WarnPunishList()
         {
             var ps = Service.WarnPunishList(ctx.Guild.Id);
@@ -444,14 +391,8 @@ public partial class Moderation : MewdekoModule
                 list).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
         public async Task Ban(StoopidTime time, IUser user, [Remainder] string msg = null)
         {
             if (time.Time > TimeSpan.FromDays(49))
@@ -497,14 +438,8 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public async Task Ban(ulong userId, [Remainder] string msg = null)
         {
             var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
@@ -524,14 +459,8 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]
         public async Task Ban(IGuildUser user, [Remainder] string msg = null)
         {
             if (!await CheckRoleHierarchy(user))
@@ -567,13 +496,8 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task BanMessage([Remainder] string message = null)
         {
             if (message is null)
@@ -593,37 +517,20 @@ public partial class Moderation : MewdekoModule
             await ctx.OkAsync();
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task BanMsgReset()
         {
             Service.SetBanTemplate(Context.Guild.Id, null);
             await ctx.OkAsync();
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(0)]
         public Task BanMessageTest([Remainder] string reason = null) => InternalBanMessageTest(reason, null);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(1)]
         public Task BanMessageTest(StoopidTime duration, [Remainder] string reason = null) => InternalBanMessageTest(reason, duration.Time);
 
         private async Task InternalBanMessageTest(string reason, TimeSpan? duration)
@@ -656,13 +563,8 @@ public partial class Moderation : MewdekoModule
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban([Remainder] string user)
         {
             var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
@@ -678,13 +580,8 @@ public partial class Moderation : MewdekoModule
             await UnbanInternal(bun.User).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers)]
         public async Task Unban(ulong userId)
         {
             var bans = await ctx.Guild.GetBansAsync().ConfigureAwait(false);
@@ -707,22 +604,12 @@ public partial class Moderation : MewdekoModule
             await ReplyConfirmLocalizedAsync("unbanned_user", Format.Bold(user.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages)]
-        [BotPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers)]
         public Task Softban(IGuildUser user, [Remainder] string msg = null) => SoftbanInternal(user, msg);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages)]
-        [BotPerm(GuildPermission.BanMembers)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.KickMembers | GuildPermission.ManageMessages), BotPerm(GuildPermission.BanMembers)]
         public async Task Softban(ulong userId, [Remainder] string msg = null)
         {
             var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
@@ -770,24 +657,12 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.KickMembers)]
-        [BotPerm(GuildPermission.KickMembers)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers), Priority(1)]
         public Task Kick(IGuildUser user, [Remainder] string msg = null) => KickInternal(user, msg);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.KickMembers)]
-        [BotPerm(GuildPermission.KickMembers)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.KickMembers), BotPerm(GuildPermission.KickMembers), Priority(0)]
         public async Task Kick(ulong userId, [Remainder] string msg = null)
         {
             var user = await ((DiscordSocketClient) Context.Client).Rest.GetGuildUserAsync(Context.Guild.Id,
@@ -828,14 +703,8 @@ public partial class Moderation : MewdekoModule
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.BanMembers)]
-        [BotPerm(GuildPermission.BanMembers)]
-        [OwnerOnly]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), OwnerOnly]
         public async Task MassKill([Remainder] string people)
         {
             if (string.IsNullOrWhiteSpace(people))

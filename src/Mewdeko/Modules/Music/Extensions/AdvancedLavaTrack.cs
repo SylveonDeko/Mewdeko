@@ -10,7 +10,9 @@ public class AdvancedLavaTrack : LavaTrack
     {
         Youtube,
         Spotify,
-        Soundcloud
+        Soundcloud,
+        Url,
+        File
     }
 
     public AdvancedLavaTrack(LavaTrack track, int index, IUser queueUser, Platform queuedPlatform = Platform.Youtube)
