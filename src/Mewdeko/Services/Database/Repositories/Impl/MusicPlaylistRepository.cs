@@ -1,6 +1,4 @@
-﻿using LinqToDB.Tools;
-using Mewdeko.Modules.Music;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
