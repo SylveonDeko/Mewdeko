@@ -1,11 +1,9 @@
 ﻿using System.Net.Http;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Replacements;
 
 namespace Mewdeko.Modules.Administration;
 
