@@ -28,13 +28,8 @@ public partial class Games
             _client = client;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [Priority(0)]
-        [MewdekoOptionsAttribute(typeof(TriviaOptions))]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0),
+         MewdekoOptionsAttribute(typeof(TriviaOptions))]
         public Task Trivia(params string[] args) => InternalTrivia(args);
 
         public async Task InternalTrivia(params string[] args)
@@ -66,11 +61,7 @@ public partial class Games
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Tl()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -85,11 +76,7 @@ public partial class Games
             await ReplyErrorLocalizedAsync("trivia_none").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Tq()
         {
             var channel = (ITextChannel) ctx.Channel;

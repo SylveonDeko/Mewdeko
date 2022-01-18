@@ -1844,29 +1844,25 @@ volume:
   args:
     - '50'
 playlist:
-  desc: >-
-    Queues up to 500 songs from a youtube playlist specified by a link, or
-    keywords.
+  desc: "
+    Allows for you to manage your playlists.\n
+    
+    Settings:\n
+    `show`: When used with a playlist name it shows that playlist. Shows your default playlist without a name.\n\n
+    `delete`: Deletes a playlist with a given name.\n\n
+    `create`: Creates a playlist using a given name. Stops you if theres a playlist with the same name already available.\n\n
+    `load`: Loads a playlist. If no name is provided it loads your default playlist.\n\n
+    `save`: Allows you to save a song to a playlist from either the queue or by searching. Defaults to searching the queue if the bot is playing something.\n\n
+    `default`: Allows you to set or see the current playlist, if one is set."
   args:
-    - <youtube_playlist_link>
-soundcloudpl:
-  desc: Queue a Soundcloud playlist using a link.
-  args:
-    - soundcloudseturl
-localplaylist:
-  desc: Queues all songs from a directory.
-  args:
-    - 'C:/music/classical'
-radio:
-  desc: >-
-    Queues a radio stream from a link. It can be a direct mp3 radio stream,
-    .m3u, .pls .asx or .xspf (Usage Video: <https://streamable.com/al54>)
-  args:
-    - radio link here
-local:
-  desc: Queues a local file by specifying a full path.
-  args:
-    - 'C:/music/mysong.mp3'
+    - show playlistname
+    - delete playlistname
+    - create playlistname
+    - load 
+    - load playlistname
+    - save songname
+    - default
+    - default playlistname
 join:
   desc: Makes the bot join your voice channel.
   args:
@@ -1879,6 +1875,14 @@ songremove:
     - '5'
     - all
     - ''
+maxsuggestionlength:
+  desc: "Allows you to set the maximum length for suggestions."
+  args:
+   - "4098"
+minsuggestionlength:
+  desc: "Alows you to set a minimum length to suggestions. Maximum value is 2048 to avoid bad discord changes."
+  args:
+   - "10"
 movesong:
   desc: Moves a song from one position to another.
   args:
@@ -1892,7 +1896,7 @@ reptcursong:
   desc: Toggles repeat of current song.
   args:
     - ''
-queuerepeat:
+loop:
   desc: |-
     Sets music player repeat strategy for this server.
     - `n` / `no` - player will stop once it reaches the end of the queue
@@ -1902,12 +1906,6 @@ queuerepeat:
     - ''
     - 'n'
     - song
-save:
-  desc: >-
-    Saves a playlist under a certain name. Playlist name must be no longer than
-    20 characters and must not contain dashes.
-  args:
-    - classical1
 streamrole:
   desc: >-
     Sets a role which is monitored for streamers (FromRole), and a role to add
@@ -1916,26 +1914,10 @@ streamrole:
     have 1 Stream Role per server. Provide no parameters to disable
   args:
     - '"Eligible Streamers" "Featured Streams"'
-load:
-  desc: >-
-    Loads a saved playlist using its ID. Use `{0}pls` to list all saved
-    playlists and `{0}save` to save new ones.
-  args:
-    - '5'
 playlists:
-  desc: 'Lists all playlists. Paginated, 20 per page.'
+  desc: 'Lists all your playlists'
   args:
-    - '1'
-playlistshow:
-  desc: 'Lists all songs in a playlist spepcified by its id. Paginated, 20 per page.'
-  args:
-    - '1'
-deleteplaylist:
-  desc: >-
-    Deletes a saved playlist using its id. Works only if you made it or if you
-    are the bot owner.
-  args:
-    - '5'
+    - ''
 autoplay:
   desc: >-
     Toggles autoplay - When the song is finished, automatically queue a related

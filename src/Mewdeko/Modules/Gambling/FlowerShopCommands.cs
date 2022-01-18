@@ -90,11 +90,7 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public Task Shop(int page = 1)
         {
             if (--page < 0)
@@ -103,11 +99,7 @@ public partial class Gambling
             return ShopInternalAsync(page);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Buy(int index)
         {
             index -= 1;
@@ -244,13 +236,8 @@ public partial class Gambling
 
         private static long GetProfitAmount(int price) => (int) Math.Ceiling(0.90 * price);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageRoles)]
         public async Task ShopAdd(Role _, int price, [Remainder] IRole role)
         {
             var entry = new ShopEntry
@@ -278,12 +265,8 @@ public partial class Gambling
                 .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopAdd(List _, int price, [Remainder] string name)
         {
             var entry = new ShopEntry
@@ -310,12 +293,8 @@ public partial class Gambling
                 .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopListAdd(int index, [Remainder] string itemText)
         {
             index -= 1;
@@ -349,12 +328,8 @@ public partial class Gambling
                 await ReplyConfirmLocalizedAsync("shop_list_item_added").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopRemove(int index)
         {
             index -= 1;
@@ -384,12 +359,8 @@ public partial class Gambling
                     .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopChangePrice(int index, int price)
         {
             if (--index < 0 || price <= 0)
@@ -407,12 +378,8 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopChangeName(int index, [Remainder] string newName)
         {
             if (--index < 0 || string.IsNullOrWhiteSpace(newName))
@@ -430,12 +397,8 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopSwap(int index1, int index2)
         {
             if (--index1 < 0 || --index2 < 0 || index1 == index2)
@@ -453,12 +416,8 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task ShopMove(int fromIndex, int toIndex)
         {
             if (--fromIndex < 0 || --toIndex < 0 || fromIndex == toIndex)

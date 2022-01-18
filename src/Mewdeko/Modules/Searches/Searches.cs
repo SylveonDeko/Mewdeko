@@ -62,10 +62,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
 
     //for anonymasen :^)
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Meme()
     {
         var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
@@ -94,10 +91,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task RandomAww()
     {
         var image = await _kSoftAPI.ImagesApi.GetRandomAww();
@@ -119,10 +113,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.SendMessageAsync("", embed: em.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task RandomReddit(string subreddit)
     {
         var msg = await ctx.Channel.SendConfirmAsync("Checking if the subreddit is nsfw...");
@@ -169,10 +160,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     //for anonymasen :^)
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Rip([Remainder] IGuildUser usr)
     {
         var av = usr.RealAvatarUrl();
@@ -188,13 +176,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task Say(ITextChannel channel, [Remainder] string message)
     {
         if (string.IsNullOrWhiteSpace(message))
@@ -217,20 +200,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public Task Say([Remainder] string message) => Say((ITextChannel) ctx.Channel, message);
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Weather([Remainder] string query)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -298,10 +273,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Time([Remainder] string query)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -312,22 +284,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var (data, err) = await Service.GetTimeDataAsync(query).ConfigureAwait(false);
         if (err is not null)
         {
-            string errorKey;
-            switch (err)
+            string errorKey = err switch
             {
-                case TimeErrors.ApiKeyMissing:
-                    errorKey = "api_key_missing";
-                    break;
-                case TimeErrors.InvalidInput:
-                    errorKey = "invalid_input";
-                    break;
-                case TimeErrors.NotFound:
-                    errorKey = "not_found";
-                    break;
-                default:
-                    errorKey = "error_occured";
-                    break;
-            }
+                TimeErrors.ApiKeyMissing => "api_key_missing",
+                TimeErrors.InvalidInput => "invalid_input",
+                TimeErrors.NotFound => "not_found",
+                _ => "error_occured"
+            };
 
             await ReplyErrorLocalizedAsync(errorKey).ConfigureAwait(false);
             return;
@@ -350,10 +313,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Youtube([Remainder] string query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -370,10 +330,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Movie([Remainder] string query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -399,31 +356,19 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task RandomCat() => InternalRandomImage(SearchesService.ImageTag.Cats);
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task RandomDog() => InternalRandomImage(SearchesService.ImageTag.Dogs);
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task RandomFood() => InternalRandomImage(SearchesService.ImageTag.Food);
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task RandomBird() => InternalRandomImage(SearchesService.ImageTag.Birds);
 
     // done in 3.0
@@ -436,10 +381,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Image([Remainder] string query = null)
     {
         var oterms = query?.Trim();
@@ -491,10 +433,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Lmgtfy([Remainder] string ffs = null)
     {
         if (!await ValidateQuery(ctx.Channel, ffs).ConfigureAwait(false))
@@ -507,10 +446,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Shorten([Remainder] string query)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -555,10 +491,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Google([Remainder] string query = null)
     {
         query = query?.Trim();
@@ -594,10 +527,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task MagicTheGathering([Remainder] string search)
     {
         if (!await ValidateQuery(ctx.Channel, search))
@@ -624,10 +554,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Hearthstone([Remainder] string name)
     {
         var arg = name;
@@ -659,10 +586,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task UrbanDict([Remainder] string query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -706,23 +630,20 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Define([Remainder] string word)
     {
         if (!await ValidateQuery(ctx.Channel, word).ConfigureAwait(false))
             return;
 
-        using var _http = _httpFactory.CreateClient();
+        using var http = _httpFactory.CreateClient();
         string res;
         try
         {
             res = await _cache.GetOrCreateAsync($"define_{word}", e =>
             {
                 e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
-                return _http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
+                return http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
                                             WebUtility.UrlEncode(word));
             }).ConfigureAwait(false);
 
@@ -787,10 +708,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Catfact()
     {
         using var http = _httpFactory.CreateClient();
@@ -803,11 +721,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     //done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Revav([Remainder] IGuildUser usr = null)
     {
         if (usr == null)
@@ -822,10 +736,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     //done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Revimg([Remainder] string imageLink = null)
     {
         imageLink = imageLink?.Trim() ?? "";
@@ -836,17 +747,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task Safebooru([Remainder] string tag = null) => InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Wiki([Remainder] string query = null)
     {
         query = query?.Trim();
@@ -866,10 +771,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await ctx.Channel.SendMessageAsync(data.Query.Pages[0].FullUrl).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Color(params Color[] colors)
     {
         if (!colors.Any())
@@ -891,11 +793,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Avatar([Remainder] IGuildUser usr = null)
     {
         if (usr == null)
@@ -917,10 +815,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Wikia(string target, [Remainder] string query)
     {
         if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(query))
@@ -961,11 +856,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Bible(string book, string chapterAndVerse)
     {
         var obj = new BibleVerses();
@@ -995,10 +886,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Steam([Remainder] string query)
     {
         if (string.IsNullOrWhiteSpace(query))

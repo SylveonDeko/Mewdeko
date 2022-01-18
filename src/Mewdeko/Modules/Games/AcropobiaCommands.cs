@@ -20,12 +20,8 @@ public partial class Games
 
         public AcropobiaCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [MewdekoOptions(typeof(AcrophobiaGame.Options))]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         MewdekoOptions(typeof(AcrophobiaGame.Options))]
         public async Task Acrophobia(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);

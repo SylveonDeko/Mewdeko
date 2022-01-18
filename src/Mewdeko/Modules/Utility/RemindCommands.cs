@@ -30,11 +30,7 @@ public partial class Utility
             _tz = tz;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
         public async Task Remind(MeOrHere meorhere, [Remainder] string remindString)
         {
             if (!Service.TryParseRemindMessage(remindString, out var remindData))
@@ -50,13 +46,8 @@ public partial class Utility
                 await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages), Priority(0)]
         public async Task Remind(ITextChannel channel, [Remainder] string remindString)
         {
             var perms = ((IGuildUser) ctx.User).GetPermissions(channel);
@@ -78,10 +69,7 @@ public partial class Utility
                 await ReplyErrorLocalizedAsync("remind_too_long").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task RemindList(int page = 1)
         {
             if (--page < 0)
@@ -121,10 +109,7 @@ public partial class Utility
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task RemindDelete(int index)
         {
             if (--index < 0)

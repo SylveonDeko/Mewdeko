@@ -138,12 +138,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await chan.SendConfirmAsync(Format.Code(string.Concat(strings), "hs"));
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [RequireUserPermission(GuildPermission.ManageGuild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     RequireUserPermission(GuildPermission.ManageGuild)]
     public async Task XpSetting(string setting = null, int value = 999999999)
     {
         if (value < 0) return;
@@ -233,11 +229,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Experience([Remainder] IGuildUser user = null)
     {
         user ??= ctx.User as IGuildUser;
@@ -252,11 +244,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpLevelUpRewards()
     {
         var allRewards = Service.GetRoleRewards(ctx.Guild.Id)
@@ -308,12 +296,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.Administrator)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+     RequireContext(ContextType.Guild)]
     public async Task XpRoleReward(int level, [Remainder] IRole role = null)
     {
         if (level < 1)
@@ -328,12 +312,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task XpCurrencyReward(int level, int amount = 0)
     {
         if (level < 1 || amount < 0)
@@ -360,11 +339,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         return GetText("xpn_notif_disabled");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpNotify()
     {
         var globalSetting = Service.GetNotificationType(ctx.User);
@@ -378,11 +353,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await Context.Channel.EmbedAsync(embed);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpNotify(NotifyPlace place, XpNotificationLocation type)
     {
         if (place == NotifyPlace.Guild)
@@ -393,12 +364,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await ctx.OkAsync().ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task XpExclude(Server _)
     {
         var ex = Service.ToggleExcludeServer(ctx.Guild.Id);
@@ -407,12 +374,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.ManageRoles)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageRoles),
+     RequireContext(ContextType.Guild)]
     public async Task XpExclude(Role _, [Remainder] IRole role)
     {
         var ex = Service.ToggleExcludeRole(ctx.Guild.Id, role.Id);
@@ -421,12 +384,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.ManageChannels)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels),
+     RequireContext(ContextType.Guild)]
     public async Task XpExclude(Channel _, [Remainder] IChannel channel = null)
     {
         if (channel == null)
@@ -438,11 +397,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpExclusionList()
     {
         var serverExcluded = Service.IsServerExcluded(ctx.Guild.Id);
@@ -489,22 +444,12 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [MewdekoOptions(typeof(LbOpts))]
-    [Priority(0)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(0),
+     RequireContext(ContextType.Guild)]
     public Task XpLeaderboard(params string[] args) => XpLeaderboard(1, args);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [MewdekoOptions(typeof(LbOpts))]
-    [Priority(1)]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(1),
+     RequireContext(ContextType.Guild)]
     public async Task XpLeaderboard(int page = 1, params string[] args)
     {
         if (--page < 0 || page > 100)
@@ -572,12 +517,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public async Task XpAdd(int amount, ulong userId)
     {
         if (amount == 0)
@@ -590,20 +531,11 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator)]
     public Task XpAdd(int amount, [Remainder] IGuildUser user) => XpAdd(amount, user.Id);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task XpTemplateReload()
     {
         Service.ReloadXpTemplate();

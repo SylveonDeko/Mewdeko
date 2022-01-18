@@ -47,6 +47,11 @@ public static class Extensions
 
     public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab) => eab.WithIconUrl("https://i.imgur.com/nhKS3PT.png");
 
+    public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
+    {
+        var first = attachments.FirstOrDefault();
+        return first.Url.CheckIfMusicUrl();
+    }
     public static List<ulong> GetGuildIds(this DiscordSocketClient client) => client.Guilds.Select(x => x.Id).ToList();
 
     // ReSharper disable once InvalidXmlDocComment

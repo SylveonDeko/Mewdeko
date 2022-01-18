@@ -26,10 +26,10 @@ public class FontProvider : INService
                 var fontsfolder = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
                 FallBackFonts.Add(_fonts.Install(Path.Combine(fontsfolder, "seguiemj.ttf")));
                 FallBackFonts.AddRange(_fonts.InstallCollection(Path.Combine(fontsfolder, "msgothic.ttc")));
-                FallBackFonts.AddRange(_fonts.InstallCollection(Path.Combine(fontsfolder, "segoe.ttc")));
             }
             catch
             {
+                // ignored
             }
 
         // any fonts present in data/fonts should be added as fallback fonts

@@ -29,9 +29,7 @@ public partial class Searches
 
         public AnimeCommands(InteractiveService service) => Interactivity = service;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
+        [MewdekoCommand, Usage, Description]
         public async Task Hug(IUser user)
         {
             var Req = await NekoClient.Action_v3.HugGif();
@@ -45,10 +43,7 @@ public partial class Searches
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Kiss(IUser user)
         {
             var Req = await NekoClient.Action_v3.KissGif();
@@ -61,10 +56,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Pat(IUser user)
         {
             var Req = await NekoClient.Action_v3.PatGif();
@@ -77,42 +69,33 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Tickle(IUser user)
         {
-            var Req = await NekoClient.Action_v3.TickleGif();
+            var req = await NekoClient.Action_v3.TickleGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} tickled {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Slap(IUser user)
         {
-            var Req = await NekoClient.Action_v3.SlapGif();
+            var req = await NekoClient.Action_v3.SlapGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} slapped {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Cuddle(IUser user)
         {
             var Req = await NekoClient.Action_v3.CuddleGif();
@@ -125,10 +108,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Poke(IUser user)
         {
             var Req = await NekoClient.Action_v3.PokeGif();
@@ -141,10 +121,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Feed(IUser user)
         {
             var Req = await NekoClient.Action_v3.FeedGif();
@@ -157,10 +134,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task RandomNeko()
         {
             var Req = await NekoClient.Image_v3.Neko();
@@ -173,10 +147,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Shoot(IUser user)
         {
             var shootarray = new List<string>
@@ -206,10 +177,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task FindAnime(string e = null)
         {
             var t = string.Empty;
@@ -263,10 +231,7 @@ public partial class Searches
             _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task CharInfo([Remainder] string chara)
         {
             var anilist = new Client();
@@ -291,10 +256,7 @@ public partial class Searches
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
+        [MewdekoCommand, Usage, Description, Aliases]
         public async Task Anime([Remainder] string query)
         {
             var c2 = new Client();
@@ -344,11 +306,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(

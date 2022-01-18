@@ -11,12 +11,8 @@ public partial class Utility
     [Group]
     public class VerboseErrorCommands : MewdekoSubmodule<VerboseErrorsService>
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task VerboseError(bool? newstate = null)
         {
             var state = Service.ToggleVerboseErrors(ctx.Guild.Id, newstate);

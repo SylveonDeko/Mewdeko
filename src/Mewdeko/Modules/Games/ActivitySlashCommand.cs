@@ -8,8 +8,7 @@ namespace Mewdeko.Modules.Games;
 
 public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
 {
-    [SlashCommand("activity", "Launch a discord activity in a voice channel!")]
-    [RequireContext(ContextType.Guild)]
+    [SlashCommand("activity", "Launch a discord activity in a voice channel!"), RequireContext(ContextType.Guild)]
     public async Task Activity(IVoiceChannel chan, DefaultApplications app)
     {
         var eb = new EmbedBuilder().WithOkColor();
@@ -23,9 +22,8 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
         await ctx.Interaction.RespondAsync(embed: eb.WithDescription($"[Click here to join the vc and start {app.ToString()}]({invite.Url})").Build());
     }
 
-    [SlashCommand("setgamemasterrole", "Allows you to set the game master role")]
-    [RequireUserPermission(GuildPermission.ManageGuild)]
-    [RequireContext(ContextType.Guild)]
+    [SlashCommand("setgamemasterrole", "Allows you to set the game master role"),
+     RequireUserPermission(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
     public async Task SetGameMaster(IRole role = null)
     {
         var eb = new EmbedBuilder().WithOkColor();

@@ -85,12 +85,10 @@ or all owners? (this might cause the bot to lag if there's a lot of owners speci
 
     [Comment(@"When a user DMs the bot with a message which is not a command
 they will receive this message. Leave empty for no response. The string which will be sent whenever someone DMs the bot.
-Supports embeds. How it looks: https://puu.sh/B0BLV.png")]
-    [YamlMember(ScalarStyle = ScalarStyle.Literal)]
+Supports embeds. How it looks: https://puu.sh/B0BLV.png"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string DmHelpText { get; set; }
 
-    [Comment(@"This is the response for the .h command")]
-    [YamlMember(ScalarStyle = ScalarStyle.Literal)]
+    [Comment(@"This is the response for the .h command"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string HelpText { get; set; }
 
     [Comment(@"List of modules and commands completely blocked on the bot")]

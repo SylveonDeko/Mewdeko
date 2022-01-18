@@ -78,10 +78,7 @@ public class Help : MewdekoModuleBase<HelpService>
         return (embed.PlainText, embed.ToEmbed());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task SearchCommand(string commandname)
     {
         var list = new List<cinfo>();
@@ -104,10 +101,7 @@ public class Help : MewdekoModuleBase<HelpService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Modules(int page = 1)
     {
         var embed = new EmbedBuilder();
@@ -143,19 +137,12 @@ public class Help : MewdekoModuleBase<HelpService>
         await ctx.Channel.SendMessageAsync(embed: embed.Build());
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Donate() =>
         await ctx.Channel.SendConfirmAsync(
             "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [MewdekoOptions(typeof(CommandsOptions))]
+    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(CommandsOptions))]
     public async Task Commands([Remainder] string module = null)
     {
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
@@ -238,17 +225,13 @@ public class Help : MewdekoModuleBase<HelpService>
                     $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}"
                     + $"\n✅: You can use this command.\n❌: You cannot use this command."
                     + $"\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)"
-                    + $"Do `{Prefix}h commandname` to see info on that command"
+                    + $"\nDo `{Prefix}h commandname` to see info on that command"
                     + $"\n Join our partner server: https://discord.gg/nezuko")
                 .WithOkColor());
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
     public async Task H([Remainder] string fail)
     {
         var prefixless =
@@ -262,11 +245,7 @@ public class Help : MewdekoModuleBase<HelpService>
         await ReplyErrorLocalizedAsync("command_not_found").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
     public async Task H([Remainder] CommandInfo com = null)
     {
         var channel = ctx.Channel;
@@ -281,11 +260,7 @@ public class Help : MewdekoModuleBase<HelpService>
         await channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task GenCmdList([Remainder] string path = null)
     {
         _ = ctx.Channel.TriggerTypingAsync();
@@ -354,10 +329,7 @@ public class Help : MewdekoModuleBase<HelpService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech");
 }
 

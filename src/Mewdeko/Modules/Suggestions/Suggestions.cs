@@ -5,21 +5,18 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Suggestions.Services;
+using Mewdeko.Services.Database.Models;
+using Microsoft.VisualBasic;
 
 namespace Mewdeko.Modules.Suggestions;
-
 public class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
     public DiscordSocketClient _client;
 
     public Suggestions(DiscordSocketClient client) => _client = client;
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageChannels)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageChannels)]
     public async Task SetSuggestChannel(ITextChannel channel = null)
     {
         if (channel == null)
@@ -35,55 +32,56 @@ public class Suggestions : MewdekoModuleBase<SuggestionsService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Suggest([Remainder] string suggestion)
     {
-        await ctx.Message.DeleteAsync();
-
+        try
+        {
+            await ctx.Message.DeleteAsync();
+        }
+        catch
+        {
+            //ignored
+        }
+        if (suggestion.Length > Service.GetMaxLength(ctx.Guild.Id))
+        {
+            var msg = await ctx.Channel.SendErrorAsync(
+                $"Cannot send this suggestion as its over the max length (`{Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!");
+            msg.DeleteAfter(5);
+            return;
+        }
+        if (suggestion.Length < Service.GetMinLength(ctx.Guild.Id))
+        {
+            var message = await ctx.Channel.SendErrorAsync(
+                $"Cannot send this suggestion as its under the minimum length (`{Service.GetMinLength(ctx.Guild.Id)}`) set in this server!");
+            message.DeleteAfter(5);
+            return;
+        }
+        
         await Service.SendSuggestion(ctx.Guild, ctx.User as IGuildUser, ctx.Client as DiscordSocketClient,
             suggestion, ctx.Channel as ITextChannel);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages)]
     public async Task Deny(ulong sid, [Remainder] string reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages)]
     public async Task Accept(ulong sid, [Remainder] string reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages)]
     public async Task Implemented(ulong sid, [Remainder] string reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.ManageMessages)]
     public async Task Consider(ulong sid, [Remainder] string reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);

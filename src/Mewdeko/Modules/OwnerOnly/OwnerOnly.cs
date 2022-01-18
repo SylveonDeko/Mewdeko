@@ -54,11 +54,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _settingServices = settingServices;
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task ListServers(int page = 1)
     {
         page -= 1;
@@ -84,12 +80,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task SaveChat(int cnt)
     {
         var msgs = new List<IMessage>(cnt);
@@ -124,11 +115,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ctx.User.SendFileAsync(stream, title, title, false).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Config(string name = null, string prop = null, [Remainder] string value = null)
     {
         var configNames = _settingServices.Select(x => x.Name);
@@ -245,11 +232,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         return Format.Code(string.Concat(strings), "hs");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task RotatePlaying()
     {
         if (Service.ToggleRotatePlaying())
@@ -258,11 +241,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ReplyConfirmLocalizedAsync("ropl_disabled").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task AddPlaying(ActivityType t, [Remainder] string status)
     {
         await Service.AddPlaying(t, status).ConfigureAwait(false);
@@ -270,11 +249,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("ropl_added").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task ListPlaying()
     {
         var statuses = Service.GetRotatingStatuses();
@@ -292,11 +267,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task DefPrefix([Remainder] string prefix = null)
     {
         if (string.IsNullOrWhiteSpace(prefix))
@@ -312,11 +283,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task RemovePlaying(int index)
     {
         index -= 1;
@@ -329,11 +296,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("reprm", msg).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task LanguageSetDefault(string name)
     {
         try
@@ -359,13 +322,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
         if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
@@ -395,13 +353,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 .WithValue(cmdText).WithIsInline(false))).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
     {
         if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
@@ -428,12 +381,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task StartupCommandsList(int page = 1)
     {
         if (page-- < 1)
@@ -464,12 +412,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task AutoCommandsList(int page = 1)
     {
         if (page-- < 1)
@@ -502,11 +445,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
     private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Wait(int miliseconds)
     {
         if (miliseconds <= 0)
@@ -525,13 +464,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await Task.Delay(miliseconds).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandRemove([Remainder] int index)
     {
         if (!Service.RemoveAutoCommand(--index, out _))
@@ -543,12 +477,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ctx.OkAsync();
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task StartupCommandRemove([Remainder] int index)
     {
         if (!Service.RemoveStartupCommand(--index, out _))
@@ -557,13 +486,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ReplyConfirmLocalizedAsync("scrm").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [UserPerm(GuildPermission.Administrator)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+     UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandsClear()
     {
         Service.ClearStartupCommands();
@@ -571,11 +495,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("startcmds_cleared").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task ForwardMessages()
     {
         var enabled = Service.ForwardMessages();
@@ -586,11 +506,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ReplyConfirmLocalizedAsync("fwdm_stop").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task ForwardToAll()
     {
         var enabled = Service.ForwardToAll();
@@ -601,10 +517,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ReplyConfirmLocalizedAsync("fwall_stop").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task ShardStats(int page = 1)
     {
         if (--page < 0)
@@ -672,11 +585,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task RestartShard(int shardId)
     {
         var success = _coord.RestartShard(shardId);
@@ -686,19 +595,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             await ReplyErrorLocalizedAsync("no_shard_id").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Die()
     {
         try
@@ -714,11 +615,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _coord.Die();
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Restart()
     {
         var success = _coord.RestartBot();
@@ -738,11 +635,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SetName([Remainder] string newName)
     {
         if (string.IsNullOrWhiteSpace(newName))
@@ -760,13 +653,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("bot_name", Format.Bold(newName)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [UserPerm(GuildPermission.ManageNicknames)]
-    [BotPerm(GuildPermission.ChangeNickname)]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageNicknames),
+     BotPerm(GuildPermission.ChangeNickname), Priority(0)]
     public async Task SetNick([Remainder] string newNick = null)
     {
         if (string.IsNullOrWhiteSpace(newNick))
@@ -778,11 +666,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SetStatus([Remainder] SettableUserStatus status)
     {
         await _client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
@@ -790,11 +674,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("bot_status", Format.Bold(status.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SetAvatar([Remainder] string img = null)
     {
         var success = await Service.SetAvatar(img);
@@ -802,11 +682,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (success) await ReplyConfirmLocalizedAsync("set_avatar").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SetGame(ActivityType type, [Remainder] string game = null)
     {
         var rep = new ReplacementBuilder()
@@ -818,11 +694,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("set_game").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SetStream(string url, [Remainder] string name = null)
     {
         name = name ?? "";
@@ -832,11 +704,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("set_stream").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Send(string where, [Remainder] string msg = null)
     {
         if (string.IsNullOrWhiteSpace(msg))
@@ -898,22 +766,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task ImagesReload()
     {
         Service.ReloadImages();
         await ReplyConfirmLocalizedAsync("images_loading", 0).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task StringsReload()
     {
         _strings.Reload();
@@ -922,26 +782,17 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
     private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
     {
-        switch (sus)
+        return sus switch
         {
-            case SettableUserStatus.Online:
-                return UserStatus.Online;
-            case SettableUserStatus.Invisible:
-                return UserStatus.Invisible;
-            case SettableUserStatus.Idle:
-                return UserStatus.AFK;
-            case SettableUserStatus.Dnd:
-                return UserStatus.DoNotDisturb;
-        }
-
-        return UserStatus.Online;
+            SettableUserStatus.Online => UserStatus.Online,
+            SettableUserStatus.Invisible => UserStatus.Invisible,
+            SettableUserStatus.Idle => UserStatus.AFK,
+            SettableUserStatus.Dnd => UserStatus.DoNotDisturb,
+            _ => UserStatus.Online
+        };
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Bash([Remainder] string message)
     {
         using var process = new Process();
@@ -986,11 +837,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await process.WaitForExitAsync();
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Alias]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Alias, OwnerOnly]
     public async Task Evaluate([Remainder] string code)
     {
         var cs1 = code.IndexOf("```", StringComparison.Ordinal) + 3;

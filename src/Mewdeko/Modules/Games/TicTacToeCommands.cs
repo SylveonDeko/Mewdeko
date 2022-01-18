@@ -19,12 +19,8 @@ public partial class Games
 
         public TicTacToeCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [MewdekoOptions(typeof(TicTacToe.Options))]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         MewdekoOptions(typeof(TicTacToe.Options))]
         public async Task TicTacToe(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new TicTacToe.Options(), args);
