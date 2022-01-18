@@ -1,4 +1,4 @@
-﻿using AngleSharp.Dom;
+using AngleSharp.Dom;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Discord;

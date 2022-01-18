@@ -371,19 +371,33 @@ public partial class Administration
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task BoostTest([Remainder] IGuildUser user = null)
+
         {
-            user ??= (IGuildUser)Context.User;
-            await Service.BoostTest(ctx.Channel as ITextChannel, user);
-            var enabled = Service.GetBoostEnabled(Context.Guild.Id);
-            if (!enabled)
-                await ReplyConfirmLocalizedAsync("boostmsg_enable", $"`{Prefix}greet`").ConfigureAwait(false);
+            var replacer = new ReplacementBuilder()
+                .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild)
+                .WithUser(ctx.User)
+                .Build();
+            if (CREmbed.TryParse(Service.GetBoostMessage(ctx.Guild.Id), out var crEmbed))
+            {
+                replacer.Replace(crEmbed);
+                if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
+                    await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true),
+                        embed: crEmbed.ToEmbed().Build());
+                if (crEmbed.PlainText is null) await ctx.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
+                if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
+                    await ctx.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("Either the boostmsg is invalid or you dont have one set.");
+            }
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task GreetTest([Remainder] IGuildUser user = null)
         {
-            user ??= (IGuildUser) Context.User;
+            user = user ?? (IGuildUser) Context.User;
 
             await Service.GreetTest((ITextChannel) Context.Channel, user);
             var enabled = Service.GetGreetEnabled(Context.Guild.Id);

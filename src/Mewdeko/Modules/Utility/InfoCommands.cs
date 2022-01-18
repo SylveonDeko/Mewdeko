@@ -176,7 +176,7 @@ public partial class Utility
                     .AddField("Voice Channels", voicechn.ToString())
                     .AddField("Created On", $"{createdAt:MM/dd/yyyy HH:mm}")
                     .AddField("Roles", (guild.Roles.Count - 1).ToString())
-                    .AddField("Server Features", Format.Code(string.Join("\n", setFeatures)));
+                    .AddField("Server Features", Format.Code(string.Join("\n", vals)));
                 await msg.ModifyAsync(x =>
                 {
                     x.Embed = embed.Build();

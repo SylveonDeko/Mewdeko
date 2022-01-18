@@ -31,8 +31,14 @@ public class StatsService : IStatsService
     private long _textChannels;
     private long _voiceChannels;
 
-    public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-        IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory, ICoordinator coord)
+    public StatsService(
+        DiscordSocketClient client,
+        CommandHandler cmdHandler,
+        IBotCredentials creds,
+        Mewdeko Mewdeko,
+        IDataCache cache,
+        IHttpClientFactory factory,
+        ICoordinator coord)
     {
         _coord = coord;
         _client = client;
@@ -121,38 +127,6 @@ public class StatsService : IStatsService
 
             return Task.CompletedTask;
         };
-
-        if (_client.ShardId == 0)
-
-            _botlistTimer = new Timer(async _ =>
-            {
-                try
-                {
-                    using var http = _httpFactory.CreateClient();
-                    using var content = new FormUrlEncodedContent(
-                        new Dictionary<string, string>
-                        {
-                            {"shard_count", _creds.TotalShards.ToString()},
-                            {"shard_id", _client.ShardId.ToString()},
-                            {"server_count", _coord.GetGuildCount().ToString()}
-                        });
-                    content.Headers.Clear();
-                    content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    http.DefaultRequestHeaders.Add("Authorization",
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
-
-                    using (await http
-                               .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
-                                   content).ConfigureAwait(false))
-                    {
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex.ToString());
-                    // ignored
-                }
-            }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
     }
 
     public string Library => $"Discord.Net Labs {_dllVersionChecker.GetDllVersion()} ";

@@ -240,6 +240,7 @@ public partial class Moderation
                 await ReplyErrorLocalizedAsync("mute_error").ConfigureAwait(false);
             }
         }
+        
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]

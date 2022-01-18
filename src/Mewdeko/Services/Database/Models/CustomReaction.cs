@@ -17,7 +17,6 @@ public class CustomReaction : DbEntity
 
     public bool AutoDeleteTrigger { get; set; }
     public bool ReactToTrigger { get; set; }
-    public bool NoRespond { get; set; }
     public bool DmResponse { get; set; }
     public bool ContainsAnywhere { get; set; }
     public bool AllowTarget { get; set; }

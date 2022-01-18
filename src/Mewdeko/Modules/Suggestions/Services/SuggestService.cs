@@ -202,6 +202,7 @@ public class SuggestionsService : INService
 
         _sugchans.AddOrUpdate(guild.Id, channel, (_, _) => channel);
     }
+    
     public async Task SetMinLength(IGuild guild, int minLength)
     {
         using (var uow = _db.GetDbContext())
@@ -212,7 +213,9 @@ public class SuggestionsService : INService
         }
 
         _minsuggestlengths.AddOrUpdate(guild.Id, minLength, (_, _) => minLength);
+
     }
+    
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
         using (var uow = _db.GetDbContext())

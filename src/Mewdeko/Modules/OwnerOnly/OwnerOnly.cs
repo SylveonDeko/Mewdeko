@@ -836,7 +836,37 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         await process.WaitForExitAsync();
     }
+    [MewdekoCommand]
+    [Usage]
+    [Description]
+    [Aliases]
+    [Priority(1)]
+    [OwnerOnly]
+    public async Task OPrefix() =>
+        await ReplyConfirmLocalizedAsync("prefix_current", Format.Code(CmdHandler.GetPrefix(ctx.Guild)))
+            .ConfigureAwait(false);
 
+    [MewdekoCommand]
+    [Usage]
+    [Description]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [OwnerOnly]
+    [Priority(0)]
+    public Task OPrefix(Administration.Administration.PrefixCommands.Set _, [Remainder] string prefix) => OPrefix(prefix);
+
+    [MewdekoCommand, Usage, Description, Alias, OwnerOnly]
+    public async Task OPrefix([Remainder] string prefix)
+    {
+        if (string.IsNullOrWhiteSpace(prefix))
+            return;
+
+        var oldPrefix = Prefix;
+        var newPrefix = CmdHandler.SetPrefix(ctx.Guild, prefix);
+
+        await ReplyConfirmLocalizedAsync("prefix_new", Format.Code(oldPrefix), Format.Code(newPrefix))
+            .ConfigureAwait(false);
+    }
     [MewdekoCommand, Usage, Description, Alias, OwnerOnly]
     public async Task Evaluate([Remainder] string code)
     {

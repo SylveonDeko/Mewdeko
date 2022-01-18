@@ -104,7 +104,7 @@ public class Help : MewdekoModuleBase<HelpService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Modules(int page = 1)
     {
-        var embed = new EmbedBuilder();
+var embed = new EmbedBuilder();
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
             .WithName("Mewdeko Help Menu"));
         embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);

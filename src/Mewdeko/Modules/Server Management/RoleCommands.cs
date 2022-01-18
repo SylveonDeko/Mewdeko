@@ -9,7 +9,10 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Modules.Server_Management.Services;
+using Mewdeko.Modules.Administration.Services;
+using System.Runtime.InteropServices;
+using RoleCommandsService = Mewdeko.Modules.Server_Management.Services.RoleCommandsService;
+using UserExtensions = Discord.UserExtensions;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -18,7 +21,162 @@ public partial class ServerManagement
     [Group]
     public class RoleCommands : MewdekoSubmodule<RoleCommandsService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        private readonly AdministrationService adminserv;
+
+        public RoleCommands(AdministrationService serv)
+        {
+            adminserv = serv;
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task addvip(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(851875934806343691);
+                await ctx.Channel.SendConfirmAsync($"Added the VIP Ultimate role to {user.Mention}");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task add2invites(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(817584414656561163);
+                await ctx.Channel.SendConfirmAsync($"2 Invites role added to {user.Mention}!");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task topadd(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(860246745945604107);
+                await ctx.Channel.SendConfirmAsync($"Added the Top role to {user.Mention}");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task addultimate(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(857838449582669834);
+                await ctx.Channel.SendConfirmAsync($"Added the VIP Ultimate role to {user.Mention}");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task removevip(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(851875934806343691);
+                await ctx.Channel.SendConfirmAsync($"Removed the VIP Ultimate role from {user.Mention}");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task remove2invites(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(817584414656561163);
+                await ctx.Channel.SendConfirmAsync($"2 Invites role removed from {user.Mention}!");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task topremove(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(860246745945604107);
+                await ctx.Channel.SendConfirmAsync($"Removed the Top role from {user.Mention}");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task removeultimate(IGuildUser user)
+        {
+            var curuser = ctx.User as IGuildUser;
+            if (curuser.RoleIds.Contains(adminserv.GetStaffRole(ctx.Guild.Id)))
+            {
+                await user.AddRoleAsync(857838449582669834);
+                await ctx.Channel.SendConfirmAsync($"Removed the VIP Ultimate role from {user.Mention}");
+            }
+            else
+            {
+                await ctx.Channel.SendErrorAsync("You do not have permission to use this!");
+            }
+        }
+        [MewdekoCommand]
+        [RequireContext(ContextType.Guild)]
+        public async Task ToggleStaff(IGuildUser user)
+        {
+            var roles = ((IGuildUser)ctx.User).RoleIds.ToList();
+            if (!roles.Contains(751636346694795355)
+                && !roles.Contains(801964517583487017)
+                && !roles.Contains(749323950558937089)
+                && !roles.Contains(749323734032318534)
+                && !roles.Contains(829557708126552105))
+            {
+                await ctx.Channel.SendErrorAsync("You can't use this!");
+                return;
+            }
+
+            var contains = user.RoleIds.ToList().Contains(862536244222623794);
+            if (!contains)
+            {
+                await user.AddRoleAsync(862536244222623794);
+                await ctx.Channel.SendConfirmAsync($"Added the staff ping role to {user.Mention}!");
+            }
+            else
+            {
+                await user.RemoveRoleAsync(862536244222623794);
+                await ctx.Channel.SendConfirmAsync($"Removed the staff ping role from {user.Mention}!");
+            }
+        }
+       [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
         public async Task SyncRoleToAll(IRole role)
         {
@@ -32,7 +190,7 @@ public partial class ServerManagement
 
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories.....");
-            foreach (var i in await ctx.Guild.GetTextChannelsAsync())
+            foreach (var i in await ctx.Guild.GetTextChannelsAsync())  
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
             foreach (var i in await ctx.Guild.GetCategoriesAsync())
@@ -184,6 +342,7 @@ public partial class ServerManagement
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task SetRoles(IGuildUser user, params IRole[] roles)
+
         {
             await user.AddRolesAsync(roles);
             await ctx.Channel.SendConfirmAsync(
