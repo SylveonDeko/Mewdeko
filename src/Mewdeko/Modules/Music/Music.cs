@@ -111,6 +111,11 @@ public class Music : MewdekoModuleBase<MusicService>
                 }
 
                 int songcount = 1;
+                if (plist is null)
+                {
+                    await ctx.Channel.SendErrorAsync("This is not a valid playlist!");
+                    return;
+                }
                 if (!plist.Songs.Any())
                 {
                     await ctx.Channel.SendErrorAsync("This playlist has no songs!");
@@ -171,6 +176,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     };
                     using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Add(toadd);
+                    await uow.SaveChangesAsync();
                     await ctx.Channel.SendConfirmAsync(
                         $"Successfully created playlist with name `{playlistOrSongName}`!");
                 }
@@ -325,17 +331,13 @@ public class Music : MewdekoModuleBase<MusicService>
                     return;
                 }
 
-                if (queue == null)
-                {
-                    await ctx.Channel.SendErrorAsync("You don't have anything playing!");
-                    return;
-                }
 
                 var trysearch = queue.Where(x => x.Title.ToLower().Contains(playlistOrSongName.ToLower())).Take(10);
                 if (!trysearch.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("No song with that name was found!");
-                    return;
+                    var search = await _lavaNode.SearchAsync(SearchType.YouTube, playlistOrSongName)
+                                         .ConfigureAwait(false);
+                    trysearch = search.Tracks.Select(x => new AdvancedLavaTrack(x, queue.Count+1, ctx.User));
                 }
 
                 if (trysearch.Count() == 1)
@@ -349,7 +351,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         var songs = plists6.Songs;
                         var toadd = new PlaylistSong
                         {
-                            Title = trysearch.FirstOrDefault().Title,
+                            Title = trysearch.FirstOrDefault()?.Title,
                             ProviderType = trysearch.FirstOrDefault().QueuedPlatform,
                             Provider = trysearch.FirstOrDefault().QueuedPlatform.ToString(),
                             Query = trysearch.FirstOrDefault().Url
@@ -565,7 +567,18 @@ public class Music : MewdekoModuleBase<MusicService>
             return;
         }
 
-        await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+
+        await _lavaNode.JoinAsync(voiceState.VoiceChannel);
+        if (voiceState.VoiceChannel is IStageChannel chan)
+        {
+            try
+            {
+                await chan.BecomeSpeakerAsync();
+            }
+            catch
+            {//
+            }
+        }
         await ctx.Channel.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!");
     }
 
@@ -627,13 +640,19 @@ public class Music : MewdekoModuleBase<MusicService>
 
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     // ReSharper disable once MemberCanBePrivate.Global
-    public async Task Play([Remainder] string searchQuery)
+    public async Task Play([Remainder] string searchQuery = null)
     {
         var count = 0;
         if (string.IsNullOrWhiteSpace(searchQuery))
         {
-            await ReplyAsync("Please provide search terms.");
-            return;
+            var firstattach = ctx.Message.Attachments;
+            if (!firstattach.Any())
+            {
+                await ctx.Channel.SendErrorAsync("Please provide a url or file to play.");
+                return;
+            }
+
+            searchQuery = firstattach.FirstOrDefault().Url;
         }
 
         if (!_lavaNode.HasPlayer(Context.Guild))
@@ -672,13 +691,17 @@ public class Music : MewdekoModuleBase<MusicService>
         SearchResponse searchResponse;
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
             if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
-                searchQuery.Contains("soundcloud.com"))
+                searchQuery.Contains("soundcloud.com") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
             {
+                if (ctx.Message.Attachments.IsValidAttachment())
+                    searchQuery = ctx.Message.Attachments.FirstOrDefault().Url;
                 searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                 var track1 = searchResponse.Tracks.FirstOrDefault();
                 var platform = AdvancedLavaTrack.Platform.Youtube;
                 if (searchQuery.Contains("soundcloud.com"))
                     platform = AdvancedLavaTrack.Platform.Soundcloud;
+                if (searchQuery.CheckIfMusicUrl())
+                    platform = AdvancedLavaTrack.Platform.Url;
                 await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray(), platform);
                 count = Service.GetQueue(ctx.Guild.Id).Count;
                 if (searchResponse.Playlist.Name is not null)
