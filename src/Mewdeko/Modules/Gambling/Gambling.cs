@@ -83,10 +83,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         return N(uow.DiscordUsers.GetUserCurrency(id));
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Economy()
     {
         var ec = Service.GetEconomy();
@@ -109,10 +106,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Timely()
     {
         var val = _config.Timely.Amount;
@@ -136,10 +130,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ReplyConfirmLocalizedAsync("timely", N(val) + CurrencySign, period).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task VoteClaim()
     {
         var val = 25000;
@@ -165,22 +156,14 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ctx.Channel.SendConfirmAsync("Vote currency claimed!");
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task TimelyReset()
     {
         _cache.RemoveAllTimelyClaims();
         await ReplyConfirmLocalizedAsync("timely_reset").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task TimelySet(int amount, int period = 24)
     {
         if (amount < 0 || period < 0)
@@ -199,11 +182,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 Format.Bold(period.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Raffle([Remainder] IRole role = null)
     {
         role ??= ctx.Guild.EveryoneRole;
@@ -217,11 +196,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task RaffleAny([Remainder] IRole role = null)
     {
         role ??= ctx.Guild.EveryoneRole;
@@ -234,11 +209,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
     public async Task Cash([Remainder] IUser user = null)
     {
         user ??= ctx.User;
@@ -246,27 +217,13 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Priority(2)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(2)]
     public Task CurrencyTransactions(int page = 1) => InternalCurrencyTransactions(ctx.User.Id, page);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly, Priority(0)]
     public Task CurrencyTransactions([Remainder] IUser usr) => InternalCurrencyTransactions(usr.Id, 1);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly, Priority(1)]
     public Task CurrencyTransactions(IUser usr, int page) => InternalCurrencyTransactions(usr.Id, page);
 
     private async Task InternalCurrencyTransactions(ulong userId, int page)
@@ -298,21 +255,12 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
     public async Task Cash(ulong userId) =>
         await ReplyConfirmLocalizedAsync("has", Format.Code(userId.ToString()),
             $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0)]
     public async Task Give(ShmartNumber amount, IGuildUser receiver, [Remainder] string msg = null)
     {
         if (amount <= 0 || ctx.User.Id == receiver.Id || receiver.IsBot)
@@ -332,38 +280,16 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             .ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public Task Give(ShmartNumber amount, [Remainder] IGuildUser receiver) => Give(amount, receiver, null);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly, Priority(0)]
     public Task Award(ShmartNumber amount, IGuildUser usr, [Remainder] string msg) => Award(amount, usr.Id, msg);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly, Priority(1)]
     public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr) => Award(amount, usr.Id);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
-    [Priority(2)]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly, Priority(2)]
     public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string msg = null)
     {
         if (amount <= 0)
@@ -376,13 +302,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ReplyConfirmLocalizedAsync("awarded", N(amount) + CurrencySign, $"<@{usrId}>").ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
-    [Priority(2)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly, Priority(2)]
     public async Task Award(ShmartNumber amount, [Remainder] IRole role)
     {
         var users = (await ctx.Guild.GetUsersAsync().ConfigureAwait(false))
@@ -402,12 +322,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             Format.Bold(role.Name)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task Take(ShmartNumber amount, [Remainder] IGuildUser user)
     {
         if (amount <= 0)
@@ -423,11 +338,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     }
 
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [OwnerOnly]
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Take(ShmartNumber amount, [Remainder] ulong usrId)
     {
         if (amount <= 0)
@@ -441,11 +352,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 CurrencySign).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task RollDuel(IUser u)
     {
         if (ctx.User.Id == u.Id)
@@ -457,11 +364,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             await game.StartGame().ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task RollDuel(ShmartNumber amount, IUser u)
     {
         if (ctx.User.Id == u.Id)
@@ -576,26 +479,13 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ctx.Channel.SendConfirmAsync(str).ConfigureAwait(false);
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public Task BetRoll(ShmartNumber amount) => InternallBetroll(amount);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [MewdekoOptions(typeof(LbOpts))]
-    [Priority(0)]
+    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(0)]
     public Task Leaderboard(params string[] args) => Leaderboard(1, args);
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
-    [MewdekoOptions(typeof(LbOpts))]
-    [Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(1)]
     public async Task Leaderboard(int page = 1, params string[] args)
     {
         if (--page < 0)
@@ -677,10 +567,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         }
     }
 
-    [MewdekoCommand]
-    [Usage]
-    [Description]
-    [Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]
     public async Task Rps(RpsPick pick, ShmartNumber amount = default)
     {
         if (!await CheckBetOptional(amount).ConfigureAwait(false) || amount == 1)

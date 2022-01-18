@@ -12,12 +12,8 @@ public partial class Games
     [Group]
     public class ChatterBotCommands : MewdekoSubmodule<ChatterBotService>
     {
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task Cleverbot(ITextChannel chan = null)
         {
             var channel = chan ?? (ITextChannel) ctx.Channel;

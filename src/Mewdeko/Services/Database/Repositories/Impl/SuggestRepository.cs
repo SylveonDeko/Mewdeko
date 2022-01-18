@@ -8,14 +8,7 @@ public class SuggestRepository : Repository<Suggestionse>, ISuggestionsRepositor
     public SuggestRepository(DbContext context) : base(context)
     {
     }
-
-    public Suggestionse[] ForSuggest(ulong guildId, ulong sid, ulong MessageID)
-    {
-        var query = _set.AsQueryable()
-            .Where(x => x.GuildId == guildId && x.SuggestID == sid && MessageID == x.MessageID);
-
-        return query.ToArray();
-    }
+    
 
     public Suggestionse[] ForId(ulong guildId, ulong sugid)
     {
@@ -23,4 +16,7 @@ public class SuggestRepository : Repository<Suggestionse>, ISuggestionsRepositor
 
         return query.ToArray();
     }
+
+    public Suggestionse[] ForUser(ulong guildId, ulong userId) 
+        => _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserID == userId).ToArray();
 }

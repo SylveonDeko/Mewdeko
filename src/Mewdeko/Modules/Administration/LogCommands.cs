@@ -21,13 +21,8 @@ public partial class Administration
             Disable
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task LogServer(PermissionAction action)
         {
             await Service.LogServer(ctx.Guild.Id, ctx.Channel.Id, action.Value).ConfigureAwait(false);
@@ -37,13 +32,8 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LogServer(ITextChannel channel, PermissionAction action)
         {
             await Service.LogServer(ctx.Guild.Id, channel.Id, action.Value).ConfigureAwait(false);
@@ -54,13 +44,8 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task LogIgnore()
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -75,13 +60,8 @@ public partial class Administration
                     Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task LogIgnore(ITextChannel channel)
         {
             var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
@@ -94,13 +74,8 @@ public partial class Administration
                     Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(2)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(2)]
         public async Task LogIgnore(IVoiceChannel channel)
         {
             var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
@@ -113,12 +88,8 @@ public partial class Administration
                     Format.Bold(channel.Name + "(" + channel.Id + ")")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task LogEvents()
         {
             Service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
@@ -138,50 +109,29 @@ public partial class Administration
 
         private static ulong? GetLogProperty(LogSetting l, LogType type)
         {
-            switch (type)
+            return type switch
             {
-                case LogType.Other:
-                    return l.LogOtherId;
-                case LogType.MessageUpdated:
-                    return l.MessageUpdatedId;
-                case LogType.MessageDeleted:
-                    return l.MessageDeletedId;
-                case LogType.UserJoined:
-                    return l.UserJoinedId;
-                case LogType.UserLeft:
-                    return l.UserLeftId;
-                case LogType.UserBanned:
-                    return l.UserBannedId;
-                case LogType.UserUnbanned:
-                    return l.UserUnbannedId;
-                case LogType.UserUpdated:
-                    return l.UserUpdatedId;
-                case LogType.ChannelCreated:
-                    return l.ChannelCreatedId;
-                case LogType.ChannelDestroyed:
-                    return l.ChannelDestroyedId;
-                case LogType.ChannelUpdated:
-                    return l.ChannelUpdatedId;
-                case LogType.UserPresence:
-                    return l.LogUserPresenceId;
-                case LogType.VoicePresence:
-                    return l.LogVoicePresenceId;
-                case LogType.VoicePresenceTTS:
-                    return l.LogVoicePresenceTTSId;
-                case LogType.UserMuted:
-                    return l.UserMutedId;
-                default:
-                    return null;
-            }
+                LogType.Other => l.LogOtherId,
+                LogType.MessageUpdated => l.MessageUpdatedId,
+                LogType.MessageDeleted => l.MessageDeletedId,
+                LogType.UserJoined => l.UserJoinedId,
+                LogType.UserLeft => l.UserLeftId,
+                LogType.UserBanned => l.UserBannedId,
+                LogType.UserUnbanned => l.UserUnbannedId,
+                LogType.UserUpdated => l.UserUpdatedId,
+                LogType.ChannelCreated => l.ChannelCreatedId,
+                LogType.ChannelDestroyed => l.ChannelDestroyedId,
+                LogType.ChannelUpdated => l.ChannelUpdatedId,
+                LogType.UserPresence => l.LogUserPresenceId,
+                LogType.VoicePresence => l.LogVoicePresenceId,
+                LogType.VoicePresenceTTS => l.LogVoicePresenceTTSId,
+                LogType.UserMuted => l.UserMutedId,
+                _ => null
+            };
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task Log(LogType type)
         {
             var val = await Service.Log(ctx.Guild.Id, ctx.Channel.Id, type);
@@ -192,13 +142,8 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("log_stop", Format.Bold(type.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator), Priority(1)]
         public async Task Log(LogType type, ITextChannel channel)
         {
             var val = await Service.Log(ctx.Guild.Id, channel.Id, type);

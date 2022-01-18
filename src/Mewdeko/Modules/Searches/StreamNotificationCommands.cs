@@ -32,12 +32,8 @@ public partial class Searches
         // private static readonly Regex picartoRegex = new Regex(@"picarto.tv/(?<name>.+[^/])/?",
         //     RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamAdd(string link)
         {
             var data = await Service.FollowStream(ctx.Guild.Id, ctx.Channel.Id, link);
@@ -51,13 +47,8 @@ public partial class Searches
             await ctx.Channel.EmbedAsync(embed, GetText("stream_tracked")).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages), Priority(1)]
         public async Task StreamRemove(int index)
         {
             if (--index < 0)
@@ -85,11 +76,7 @@ public partial class Searches
         //     await ReplyConfirmLocalizedAsync("streams_cleared", count).ConfigureAwait(false);
         // }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task StreamList(int page = 1)
         {
             if (page-- < 1) return;
@@ -151,12 +138,8 @@ public partial class Searches
             }
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamOffline()
         {
             var newValue = Service.ToggleStreamOffline(ctx.Guild.Id);
@@ -166,12 +149,8 @@ public partial class Searches
                 await ReplyConfirmLocalizedAsync("stream_off_disabled").ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageMessages)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task StreamMessage(int index, [Remainder] string message)
         {
             if (--index < 0)
@@ -191,11 +170,7 @@ public partial class Searches
                     .ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task StreamCheck(string url)
         {
             try

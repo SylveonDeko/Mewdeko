@@ -28,13 +28,8 @@ public partial class ServerManagement
             return result;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [Priority(0)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), Priority(0)]
         public async Task PermControl(SocketGuildChannel channel, PermValue perm, IRole role,
             params ChannelPermission[] perms)
         {
@@ -66,13 +61,8 @@ public partial class ServerManagement
                 $"I have allowed the following permissions for the role {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageChannels)]
-        [Priority(1)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageChannels), Priority(1)]
         public async Task PermControl(SocketGuildChannel channel, PermValue perm, IUser role,
             params ChannelPermission[] perms)
         {

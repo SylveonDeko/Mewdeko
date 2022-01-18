@@ -32,24 +32,16 @@ public partial class Utility
             _client = client;
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.Administrator)]
         public async Task AliasesClear()
         {
             var count = Service.ClearAliases(ctx.Guild.Id);
             await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
         }
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [UserPerm(GuildPermission.Administrator)]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
+         RequireContext(ContextType.Guild)]
         public async Task Alias(string trigger, [Remainder] string mapping = null)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -129,11 +121,7 @@ public partial class Utility
         }
 
 
-        [MewdekoCommand]
-        [Usage]
-        [Description]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task AliasList(int page = 1)
         {
             var channel = (ITextChannel) ctx.Channel;
