@@ -1875,6 +1875,14 @@ songremove:
     - '5'
     - all
     - ''
+maxsuggestionlength:
+  desc: "Allows you to set the maximum length for suggestions."
+  args:
+   - "4098"
+minsuggestionlength:
+  desc: "Alows you to set a minimum length to suggestions. Maximum value is 2048 to avoid bad discord changes."
+  args:
+   - "10"
 movesong:
   desc: Moves a song from one position to another.
   args:
