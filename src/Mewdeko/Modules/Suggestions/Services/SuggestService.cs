@@ -9,8 +9,6 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 

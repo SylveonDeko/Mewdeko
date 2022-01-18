@@ -5,8 +5,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Suggestions.Services;
-using Mewdeko.Services.Database.Models;
-using Microsoft.VisualBasic;
 
 namespace Mewdeko.Modules.Suggestions;
 public class Suggestions : MewdekoModuleBase<SuggestionsService>

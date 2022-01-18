@@ -2,7 +2,6 @@
 using Mewdeko.Services.Database;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Mewdeko.Services;
 

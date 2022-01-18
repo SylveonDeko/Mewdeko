@@ -1,8 +1,6 @@
-﻿using AngleSharp.Dom;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Discord;
-using Discord.Rest;
 using Discord.Webhook;
 using Discord.WebSocket;
 using Mewdeko._Extensions;

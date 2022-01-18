@@ -9,10 +9,8 @@ using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Giveaways.Services;
-using Swan;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Extensions = Mewdeko._Extensions.Extensions;
 
 namespace Mewdeko.Modules.Giveaways;
 
