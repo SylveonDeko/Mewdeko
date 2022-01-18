@@ -14,6 +14,12 @@ commands:
 greetdel:
   - greetdel
   - grdel
+minsuggestionlength:
+  - minsuggestionlength
+  - minsuggestlength
+maxsuggestionlength:
+  - maxsuggestionlength
+  - maxsuggestlength
 unmuteall:
   - unmuteall
   - umall
