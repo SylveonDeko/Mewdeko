@@ -3,7 +3,6 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 using Serilog;
 using Swan;
 
