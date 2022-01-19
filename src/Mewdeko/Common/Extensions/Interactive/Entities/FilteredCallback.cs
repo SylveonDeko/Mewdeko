@@ -8,7 +8,7 @@ namespace Mewdeko.Common.Extensions.Interactive.Entities;
 /// <typeparam name="TInput">The type of the incoming inputs.</typeparam>
 internal class FilteredCallback<TInput> : IInteractiveCallback<TInput>
 {
-    private bool _disposed;
+    private bool disposed;
 
     public FilteredCallback(Func<TInput, bool> filter, Func<TInput, bool, Task> action,
         TimeoutTaskCompletionSource<(TInput, InteractiveStatus)> timeoutTaskSource, DateTimeOffset startTime)
@@ -84,9 +84,9 @@ internal class FilteredCallback<TInput> : IInteractiveCallback<TInput>
 
     protected virtual void Dispose(bool disposing)
     {
-        if (_disposed) return;
+        if (disposed) return;
         if (disposing) TimeoutTaskSource.TryDispose();
 
-        _disposed = true;
+        disposed = true;
     }
 }

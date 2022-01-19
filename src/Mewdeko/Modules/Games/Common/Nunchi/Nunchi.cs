@@ -15,22 +15,22 @@ public sealed class NunchiGame : IDisposable
         Ended
     }
 
-    private const int _killTimeout = 20 * 1000;
-    private const int _nextRoundTimeout = 5 * 1000;
+    private const int KILL_TIMEOUT = 20 * 1000;
+    private const int NEXT_ROUND_TIMEOUT = 5 * 1000;
 
     private readonly SemaphoreSlim _locker = new(1, 1);
     private readonly HashSet<(ulong Id, string Name)> _passed = new();
-    private Timer _killTimer;
+    private Timer killTimer;
 
-    private HashSet<(ulong Id, string Name)> _participants = new();
+    private HashSet<(ulong Id, string Name)> participants = new();
 
-    public NunchiGame(ulong creatorId, string creatorName) => _participants.Add((creatorId, creatorName));
+    public NunchiGame(ulong creatorId, string creatorName) => participants.Add((creatorId, creatorName));
 
     public int CurrentNumber { get; private set; } = new MewdekoRandom().Next(0, 100);
     public Phase CurrentPhase { get; private set; } = Phase.Joining;
 
-    public ImmutableArray<(ulong Id, string Name)> Participants => _participants.ToImmutableArray();
-    public int ParticipantCount => _participants.Count;
+    public ImmutableArray<(ulong Id, string Name)> Participants => participants.ToImmutableArray();
+    public int ParticipantCount => participants.Count;
 
     public void Dispose()
     {
@@ -55,7 +55,7 @@ public sealed class NunchiGame : IDisposable
             if (CurrentPhase != Phase.Joining)
                 return false;
 
-            return _participants.Add((userId, userName));
+            return participants.Add((userId, userName));
         }
         finally
         {
@@ -70,13 +70,13 @@ public sealed class NunchiGame : IDisposable
         await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
-            if (_participants.Count < 3)
+            if (participants.Count < 3)
             {
                 CurrentPhase = Phase.Ended;
                 return false;
             }
 
-            _killTimer = new Timer(async _ =>
+            killTimer = new Timer(async _ =>
             {
                 await _locker.WaitAsync().ConfigureAwait(false);
                 try
@@ -85,14 +85,14 @@ public sealed class NunchiGame : IDisposable
                         return;
 
                     //if some players took too long to type a number, boot them all out and start a new round
-                    _participants = new HashSet<(ulong, string)>(_passed);
+                    participants = new HashSet<(ulong, string)>(_passed);
                     EndRound();
                 }
                 finally
                 {
                     _locker.Release();
                 }
-            }, null, _killTimeout, _killTimeout);
+            }, null, KILL_TIMEOUT, KILL_TIMEOUT);
 
             CurrentPhase = Phase.Playing;
             var _ = OnGameStarted?.Invoke(this);
@@ -118,7 +118,7 @@ public sealed class NunchiGame : IDisposable
             // if the user is not a member of the race,
             // or he already successfully typed the number
             // ignore the input
-            if (!_participants.Contains(userTuple) || !_passed.Add(userTuple))
+            if (!participants.Contains(userTuple) || !_passed.Add(userTuple))
                 return;
 
             //if the number is correct
@@ -126,20 +126,20 @@ public sealed class NunchiGame : IDisposable
             {
                 //increment current number
                 ++CurrentNumber;
-                if (_passed.Count == _participants.Count - 1)
+                if (_passed.Count == participants.Count - 1)
                 {
                     // if only n players are left, and n - 1 type the correct number, round is over
 
                     // if only 2 players are left, game is over
-                    if (_participants.Count == 2)
+                    if (participants.Count == 2)
                     {
-                        _killTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                        killTimer.Change(Timeout.Infinite, Timeout.Infinite);
                         CurrentPhase = Phase.Ended;
                         var _ = OnGameEnded?.Invoke(this, userTuple.Name);
                     }
                     else // else just start the new round without the user who was the last
                     {
-                        var failure = _participants.Except(_passed).First();
+                        var failure = participants.Except(_passed).First();
 
                         OnUserGuessed?.Invoke(this);
                         EndRound(failure);
@@ -164,25 +164,25 @@ public sealed class NunchiGame : IDisposable
 
     private void EndRound((ulong, string)? failure = null)
     {
-        _killTimer.Change(_killTimeout, _killTimeout);
+        killTimer.Change(KILL_TIMEOUT, KILL_TIMEOUT);
         CurrentNumber = new MewdekoRandom().Next(0, 100); // reset the counter
         _passed.Clear(); // reset all users who passed (new round starts)
         if (failure != null)
-            _participants.Remove(failure.Value); // remove the dude who failed from the list of players
+            participants.Remove(failure.Value); // remove the dude who failed from the list of players
 
         var __ = OnRoundEnded?.Invoke(this, failure);
-        if (_participants.Count <= 1) // means we have a winner or everyone was booted out
+        if (participants.Count <= 1) // means we have a winner or everyone was booted out
         {
-            _killTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            killTimer.Change(Timeout.Infinite, Timeout.Infinite);
             CurrentPhase = Phase.Ended;
-            var _ = OnGameEnded?.Invoke(this, _participants.Count > 0 ? _participants.First().Name : null);
+            var _ = OnGameEnded?.Invoke(this, participants.Count > 0 ? participants.First().Name : null);
             return;
         }
 
         CurrentPhase = Phase.WaitingForNextRound;
-        var throwawayDelay = Task.Run(async () =>
+        Task.Run(async () =>
         {
-            await Task.Delay(_nextRoundTimeout).ConfigureAwait(false);
+            await Task.Delay(NEXT_ROUND_TIMEOUT).ConfigureAwait(false);
             CurrentPhase = Phase.Playing;
             var ___ = OnRoundStarted?.Invoke(this, CurrentNumber);
         });

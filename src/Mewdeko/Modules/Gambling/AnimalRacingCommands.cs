@@ -36,7 +36,7 @@ public partial class Gambling
          MewdekoOptionsAttribute(typeof(RaceOptions))]
         public Task Race(params string[] args)
         {
-            var (options, success) = OptionsParser.ParseFrom(new RaceOptions(), args);
+            var (options, _) = OptionsParser.ParseFrom(new RaceOptions(), args);
 
             var ar = new AnimalRace(options, _cs, _gamesConf.Data.RaceAnimals.Shuffle());
             if (!Service.AnimalRaces.TryAdd(ctx.Guild.Id, ar))
@@ -46,7 +46,7 @@ public partial class Gambling
 
             var count = 0;
 
-            Task _client_MessageReceived(SocketMessage arg)
+            Task ClientMessageReceived(SocketMessage arg)
             {
                 var _ = Task.Run(() =>
                 {
@@ -63,24 +63,24 @@ public partial class Gambling
                 return Task.CompletedTask;
             }
 
-            Task Ar_OnEnded(AnimalRace race)
+            Task ArOnEnded(AnimalRace race)
             {
-                _client.MessageReceived -= _client_MessageReceived;
+                _client.MessageReceived -= ClientMessageReceived;
                 Service.AnimalRaces.TryRemove(ctx.Guild.Id, out _);
                 var winner = race.FinishedUsers[0];
                 if (race.FinishedUsers[0].Bet > 0)
                     return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                         GetText("animal_race_won_money", Format.Bold(winner.Username),
-                            winner.Animal.Icon, race.FinishedUsers[0].Bet * (race.Users.Count - 1) + CurrencySign));
+                            winner.Animal.Icon, (race.FinishedUsers[0].Bet * (race.Users.Count - 1)) + CurrencySign));
                 return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                     GetText("animal_race_won", Format.Bold(winner.Username), winner.Animal.Icon));
             }
 
             ar.OnStartingFailed += Ar_OnStartingFailed;
             ar.OnStateUpdate += Ar_OnStateUpdate;
-            ar.OnEnded += Ar_OnEnded;
+            ar.OnEnded += ArOnEnded;
             ar.OnStarted += Ar_OnStarted;
-            _client.MessageReceived += _client_MessageReceived;
+            _client.MessageReceived += ClientMessageReceived;
 
             return ctx.Channel.SendConfirmAsync(GetText("animal_race"),
                 GetText("animal_race_starting", options.StartTime),

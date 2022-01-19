@@ -2,62 +2,62 @@
 
 public class DiscordConnection
 {
-    public string user_id { get; set; }
+    public string UserId { get; set; }
 }
 
 public class SocialConnections
 {
-    public object deviantart { get; set; }
-    public DiscordConnection discord { get; set; }
-    public object facebook { get; set; }
-    public object spotify { get; set; }
-    public object twitch { get; set; }
-    public object twitter { get; set; }
-    public object youtube { get; set; }
+    public object Deviantart { get; set; }
+    public DiscordConnection Discord { get; set; }
+    public object Facebook { get; set; }
+    public object Spotify { get; set; }
+    public object Twitch { get; set; }
+    public object Twitter { get; set; }
+    public object Youtube { get; set; }
 }
 
 public class UserAttributes
 {
-    public string about { get; set; }
-    public string created { get; set; }
-    public object discord_id { get; set; }
-    public string email { get; set; }
-    public object facebook { get; set; }
-    public object facebook_id { get; set; }
-    public string first_name { get; set; }
-    public string full_name { get; set; }
-    public int gender { get; set; }
-    public bool has_password { get; set; }
-    public string image_url { get; set; }
-    public bool is_deleted { get; set; }
-    public bool is_nuked { get; set; }
-    public bool is_suspended { get; set; }
-    public string last_name { get; set; }
-    public SocialConnections social_connections { get; set; }
-    public int status { get; set; }
-    public string thumb_url { get; set; }
-    public object twitch { get; set; }
-    public string twitter { get; set; }
-    public string url { get; set; }
-    public string vanity { get; set; }
-    public object youtube { get; set; }
+    public string About { get; set; }
+    public string Created { get; set; }
+    public object DiscordId { get; set; }
+    public string Email { get; set; }
+    public object Facebook { get; set; }
+    public object FacebookId { get; set; }
+    public string FirstName { get; set; }
+    public string FullName { get; set; }
+    public int Gender { get; set; }
+    public bool HasPassword { get; set; }
+    public string ImageUrl { get; set; }
+    public bool IsDeleted { get; set; }
+    public bool IsNuked { get; set; }
+    public bool IsSuspended { get; set; }
+    public string LastName { get; set; }
+    public SocialConnections SocialConnections { get; set; }
+    public int Status { get; set; }
+    public string ThumbUrl { get; set; }
+    public object Twitch { get; set; }
+    public string Twitter { get; set; }
+    public string Url { get; set; }
+    public string Vanity { get; set; }
+    public object Youtube { get; set; }
 }
 
 public class Campaign
 {
-    public Data data { get; set; }
-    public Links links { get; set; }
+    public Data Data { get; set; }
+    public Links Links { get; set; }
 }
 
 public class UserRelationships
 {
-    public Campaign campaign { get; set; }
+    public Campaign Campaign { get; set; }
 }
 
 public class PatreonUser
 {
-    public UserAttributes attributes { get; set; }
-    public string id { get; set; }
-    public UserRelationships relationships { get; set; }
-    public string type { get; set; }
+    public UserAttributes Attributes { get; set; }
+    public string Id { get; set; }
+    public UserRelationships Relationships { get; set; }
+    public string Type { get; set; }
 }

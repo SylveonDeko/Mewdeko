@@ -10,7 +10,7 @@ public class OfficialCleverbotSession : IChatterBotSession
 {
     private readonly string _apiKey;
     private readonly IHttpClientFactory _httpFactory;
-    private string _cs;
+    private string cs;
 
     public OfficialCleverbotSession(string apiKey, IHttpClientFactory factory)
     {
@@ -26,13 +26,13 @@ public class OfficialCleverbotSession : IChatterBotSession
     public async Task<string> Think(string input)
     {
         using var http = _httpFactory.CreateClient();
-        var dataString = await http.GetStringAsync(string.Format(QueryString, input, _cs ?? ""))
+        var dataString = await http.GetStringAsync(string.Format(QueryString, input, cs ?? ""))
             .ConfigureAwait(false);
         try
         {
             var data = JsonConvert.DeserializeObject<CleverbotResponse>(dataString);
 
-            _cs = data?.Cs;
+            cs = data?.Cs;
             return data?.Output;
         }
         catch
@@ -44,7 +44,7 @@ public class OfficialCleverbotSession : IChatterBotSession
     }
 }
 
-public class CleverbotIOSession : IChatterBotSession
+public class CleverbotIoSession : IChatterBotSession
 {
     private readonly string _askEndpoint = "https://cleverbot.io/1.0/ask";
 
@@ -54,7 +54,7 @@ public class CleverbotIOSession : IChatterBotSession
     private readonly AsyncLazy<string> _nick;
     private readonly string _user;
 
-    public CleverbotIOSession(string user, string key, IHttpClientFactory factory)
+    public CleverbotIoSession(string user, string key, IHttpClientFactory factory)
     {
         _key = key;
         _user = user;
@@ -65,7 +65,7 @@ public class CleverbotIOSession : IChatterBotSession
 
     public async Task<string> Think(string input)
     {
-        using var _http = _httpFactory.CreateClient();
+        using var http = _httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("user", _user),
@@ -73,9 +73,9 @@ public class CleverbotIOSession : IChatterBotSession
             new KeyValuePair<string, string>("nick", await _nick),
             new KeyValuePair<string, string>("text", input)
         });
-        using var data = await _http.PostAsync(_askEndpoint, msg).ConfigureAwait(false);
+        using var data = await http.PostAsync(_askEndpoint, msg).ConfigureAwait(false);
         var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var obj = JsonConvert.DeserializeObject<CleverbotIOAskResponse>(str);
+        var obj = JsonConvert.DeserializeObject<CleverbotIoAskResponse>(str);
         if (obj.Status != "success")
             throw new OperationCanceledException(obj.Status);
 
@@ -84,15 +84,15 @@ public class CleverbotIOSession : IChatterBotSession
 
     private async Task<string> GetNick()
     {
-        using var _http = _httpFactory.CreateClient();
+        using var http = _httpFactory.CreateClient();
         using var msg = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("user", _user),
             new KeyValuePair<string, string>("key", _key)
         });
-        using var data = await _http.PostAsync(_createEndpoint, msg).ConfigureAwait(false);
+        using var data = await http.PostAsync(_createEndpoint, msg).ConfigureAwait(false);
         var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
-        var obj = JsonConvert.DeserializeObject<CleverbotIOCreateResponse>(str);
+        var obj = JsonConvert.DeserializeObject<CleverbotIoCreateResponse>(str);
         if (obj.Status != "success")
             throw new OperationCanceledException(obj.Status);
 

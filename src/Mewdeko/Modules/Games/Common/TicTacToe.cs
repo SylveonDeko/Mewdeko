@@ -22,13 +22,13 @@ public class TicTacToe
     private readonly int?[,] _state;
     private readonly IBotStrings _strings;
     private readonly IGuildUser[] _users;
-    private int _curUserIndex;
-    private Phase _phase;
+    private int curUserIndex;
+    private Phase phase;
 
-    private IUserMessage _previousMessage;
-    private Timer _timeoutTimer;
+    private IUserMessage previousMessage;
+    private Timer timeoutTimer;
 
-    private IGuildUser _winner;
+    private IGuildUser winner;
 
     public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel,
         IGuildUser firstUser, Options options)
@@ -46,7 +46,7 @@ public class TicTacToe
             {null, null, null}
         };
 
-        _phase = Phase.Starting;
+        phase = Phase.Starting;
         _moveLock = new SemaphoreSlim(1, 1);
     }
 
@@ -61,9 +61,9 @@ public class TicTacToe
         {
             for (var j = 0; j < _state.GetLength(1); j++)
             {
-                sb.Append(_state[i, j] == null ? _numbers[i * 3 + j] : GetIcon(_state[i, j]));
+                sb.Append(_state[i, j] == null ? _numbers[(i * 3) + j] : GetIcon(_state[i, j]));
                 if (j < _state.GetLength(1) - 1)
-                    sb.Append("┃");
+                    sb.Append('┃');
             }
 
             if (i < _state.GetLength(0) - 1)
@@ -83,24 +83,23 @@ public class TicTacToe
         if (!string.IsNullOrWhiteSpace(title))
             embed.WithTitle(title);
 
-        if (_winner == null)
+        if (winner == null)
         {
-            if (_phase == Phase.Ended)
+            if (phase == Phase.Ended)
                 embed.WithFooter(efb => efb.WithText(GetText("ttt_no_moves")));
             else
-                embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", _users[_curUserIndex])));
+                embed.WithFooter(efb => efb.WithText(GetText("ttt_users_move", _users[curUserIndex])));
         }
         else
         {
-            embed.WithFooter(efb => efb.WithText(GetText("ttt_has_won", _winner)));
+            embed.WithFooter(efb => efb.WithText(GetText("ttt_has_won", winner)));
         }
 
         return embed;
     }
 
-    private static string GetIcon(int? val)
-    {
-        return val switch
+    private static string GetIcon(int? val) =>
+        val switch
         {
             0 => "❌",
             1 => "⭕",
@@ -108,11 +107,10 @@ public class TicTacToe
             3 => "🅾",
             _ => "⬛"
         };
-    }
 
     public async Task Start(IGuildUser user)
     {
-        if (_phase == Phase.Started || _phase == Phase.Ended)
+        if (phase is Phase.Started or Phase.Ended)
         {
             await _channel.SendErrorAsync(user.Mention + GetText("ttt_already_running")).ConfigureAwait(false);
             return;
@@ -126,21 +124,21 @@ public class TicTacToe
 
         _users[1] = user;
 
-        _phase = Phase.Started;
+        phase = Phase.Started;
 
-        _timeoutTimer = new Timer(async _ =>
+        timeoutTimer = new Timer(async _ =>
         {
             await _moveLock.WaitAsync().ConfigureAwait(false);
             try
             {
-                if (_phase == Phase.Ended)
+                if (phase == Phase.Ended)
                     return;
 
-                _phase = Phase.Ended;
+                phase = Phase.Ended;
                 if (_users[1] != null)
                 {
-                    _winner = _users[_curUserIndex ^= 1];
-                    var del = _previousMessage?.DeleteAsync();
+                    winner = _users[curUserIndex ^= 1];
+                    var del = previousMessage?.DeleteAsync();
                     try
                     {
                         await _channel.EmbedAsync(GetEmbed(GetText("ttt_time_expired"))).ConfigureAwait(false);
@@ -166,7 +164,7 @@ public class TicTacToe
         _client.MessageReceived += Client_MessageReceived;
 
 
-        _previousMessage = await _channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
+        previousMessage = await _channel.EmbedAsync(GetEmbed(GetText("game_started"))).ConfigureAwait(false);
     }
 
     private bool IsDraw()
@@ -185,8 +183,8 @@ public class TicTacToe
             await _moveLock.WaitAsync().ConfigureAwait(false);
             try
             {
-                var curUser = _users[_curUserIndex];
-                if (_phase == Phase.Ended || msg.Author?.Id != curUser.Id)
+                var curUser = _users[curUserIndex];
+                if (phase == Phase.Ended || msg.Author?.Id != curUser.Id)
                     return;
 
                 if (int.TryParse(msg.Content, out var index) &&
@@ -194,70 +192,70 @@ public class TicTacToe
                     index <= 9 &&
                     _state[index / 3, index % 3] == null)
                 {
-                    _state[index / 3, index % 3] = _curUserIndex;
+                    _state[index / 3, index % 3] = curUserIndex;
 
                     // i'm lazy
                     if (_state[index / 3, 0] == _state[index / 3, 1] &&
                         _state[index / 3, 1] == _state[index / 3, 2])
                     {
-                        _state[index / 3, 0] = _curUserIndex + 2;
-                        _state[index / 3, 1] = _curUserIndex + 2;
-                        _state[index / 3, 2] = _curUserIndex + 2;
+                        _state[index / 3, 0] = curUserIndex + 2;
+                        _state[index / 3, 1] = curUserIndex + 2;
+                        _state[index / 3, 2] = curUserIndex + 2;
 
-                        _phase = Phase.Ended;
+                        phase = Phase.Ended;
                     }
                     else if (_state[0, index % 3] == _state[1, index % 3] &&
                              _state[1, index % 3] == _state[2, index % 3])
                     {
-                        _state[0, index % 3] = _curUserIndex + 2;
-                        _state[1, index % 3] = _curUserIndex + 2;
-                        _state[2, index % 3] = _curUserIndex + 2;
+                        _state[0, index % 3] = curUserIndex + 2;
+                        _state[1, index % 3] = curUserIndex + 2;
+                        _state[2, index % 3] = curUserIndex + 2;
 
-                        _phase = Phase.Ended;
+                        phase = Phase.Ended;
                     }
-                    else if (_curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] &&
+                    else if (curUserIndex == _state[0, 0] && _state[0, 0] == _state[1, 1] &&
                              _state[1, 1] == _state[2, 2])
                     {
-                        _state[0, 0] = _curUserIndex + 2;
-                        _state[1, 1] = _curUserIndex + 2;
-                        _state[2, 2] = _curUserIndex + 2;
+                        _state[0, 0] = curUserIndex + 2;
+                        _state[1, 1] = curUserIndex + 2;
+                        _state[2, 2] = curUserIndex + 2;
 
-                        _phase = Phase.Ended;
+                        phase = Phase.Ended;
                     }
-                    else if (_curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] &&
+                    else if (curUserIndex == _state[0, 2] && _state[0, 2] == _state[1, 1] &&
                              _state[1, 1] == _state[2, 0])
                     {
-                        _state[0, 2] = _curUserIndex + 2;
-                        _state[1, 1] = _curUserIndex + 2;
-                        _state[2, 0] = _curUserIndex + 2;
+                        _state[0, 2] = curUserIndex + 2;
+                        _state[1, 1] = curUserIndex + 2;
+                        _state[2, 0] = curUserIndex + 2;
 
-                        _phase = Phase.Ended;
+                        phase = Phase.Ended;
                     }
 
                     var reason = "";
 
-                    if (_phase == Phase.Ended) // if user won, stop receiving moves
+                    if (phase == Phase.Ended) // if user won, stop receiving moves
                     {
                         reason = GetText("ttt_matched_three");
-                        _winner = _users[_curUserIndex];
+                        winner = _users[curUserIndex];
                         _client.MessageReceived -= Client_MessageReceived;
                         OnEnded?.Invoke(this);
                     }
                     else if (IsDraw())
                     {
                         reason = GetText("ttt_a_draw");
-                        _phase = Phase.Ended;
+                        phase = Phase.Ended;
                         _client.MessageReceived -= Client_MessageReceived;
                         OnEnded?.Invoke(this);
                     }
 
-                    var sendstate = Task.Run(async () =>
+                    await Task.Run(async () =>
                     {
                         var del1 = msg.DeleteAsync();
-                        var del2 = _previousMessage?.DeleteAsync();
+                        var del2 = previousMessage?.DeleteAsync();
                         try
                         {
-                            _previousMessage = await _channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false);
+                            previousMessage = await _channel.EmbedAsync(GetEmbed(reason)).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -279,9 +277,9 @@ public class TicTacToe
                         {
                         }
                     });
-                    _curUserIndex ^= 1;
+                    curUserIndex ^= 1;
 
-                    _timeoutTimer.Change(_options.TurnTimer * 1000, Timeout.Infinite);
+                    timeoutTimer.Change(_options.TurnTimer * 1000, Timeout.Infinite);
                 }
             }
             finally
@@ -300,7 +298,7 @@ public class TicTacToe
 
         public void NormalizeOptions()
         {
-            if (TurnTimer < 5 || TurnTimer > 60)
+            if (TurnTimer is < 5 or > 60)
                 TurnTimer = 15;
         }
     }

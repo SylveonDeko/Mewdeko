@@ -17,9 +17,9 @@ public class RepeatRunner
 
     private readonly MessageRepeaterService _mrs;
 
-    private TimeSpan _initialInterval;
+    private TimeSpan initialInterval;
 
-    private Timer _t;
+    private Timer t;
 
     public RepeatRunner(DiscordSocketClient client, SocketGuild guild, Repeater repeater,
         MessageRepeaterService mrs)
@@ -41,10 +41,10 @@ public class RepeatRunner
 
     public TimeSpan InitialInterval
     {
-        get => _initialInterval;
+        get => initialInterval;
         private set
         {
-            _initialInterval = value;
+            initialInterval = value;
             NextDateTime = DateTime.UtcNow + value;
         }
     }
@@ -97,7 +97,7 @@ public class RepeatRunner
         if (InitialInterval < TimeSpan.FromMinutes(1))
             InitialInterval = TimeSpan.FromMinutes(1);
 
-        _t = new Timer(Callback, null, InitialInterval, Repeater.Interval);
+        t = new Timer(Callback, null, InitialInterval, Repeater.Interval);
     }
 
     private async void Callback(object _)
@@ -201,7 +201,7 @@ public class RepeatRunner
                 .Build();
 
             IMessage newMsg;
-            if (CREmbed.TryParse(toSend, out var crEmbed))
+            if (CrEmbed.TryParse(toSend, out var crEmbed))
             {
                 rep.Replace(crEmbed);
                 newMsg = await Channel.EmbedAsync(crEmbed);
@@ -238,7 +238,7 @@ public class RepeatRunner
         Run();
     }
 
-    public void Stop() => _t.Change(Timeout.Infinite, Timeout.Infinite);
+    public void Stop() => t.Change(Timeout.Infinite, Timeout.Infinite);
 
     public override string ToString() =>
         $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} " +

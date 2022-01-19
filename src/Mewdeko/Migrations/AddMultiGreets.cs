@@ -19,12 +19,9 @@ public partial class AddMultiGreets : Migration
                 WebhookUrl = table.Column<string>(nullable: true),
                 DateAdded = table.Column<DateTime>(nullable: true)
             },
-            constraints: table => { table.PrimaryKey("PK_MultiGreet", x => x.Id); });
+            constraints: table => table.PrimaryKey("PK_MultiGreet", x => x.Id));
         migrationBuilder.AddColumn<int>("MultiGreetType", "GuildConfigs", defaultValue: 0);
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
-        migrationBuilder.DropTable("MultiGreets");
-    }
+    protected override void Down(MigrationBuilder migrationBuilder) => migrationBuilder.DropTable("MultiGreets");
 }

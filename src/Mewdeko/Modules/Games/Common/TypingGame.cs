@@ -17,8 +17,8 @@ public class TypingGame
     private readonly GamesService _games;
     private readonly Options _options;
     private readonly string _prefix;
-    private readonly List<ulong> finishedUserIds;
-    private readonly Stopwatch sw;
+    private readonly List<ulong> _finishedUserIds;
+    private readonly Stopwatch _sw;
 
     public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel,
         string prefix, Options options)
@@ -30,8 +30,8 @@ public class TypingGame
 
         Channel = channel;
         IsActive = false;
-        sw = new Stopwatch();
-        finishedUserIds = new List<ulong>();
+        _sw = new Stopwatch();
+        _finishedUserIds = new List<ulong>();
     }
 
     public ITextChannel Channel { get; }
@@ -42,10 +42,10 @@ public class TypingGame
     {
         if (!IsActive) return false;
         _client.MessageReceived -= AnswerReceived;
-        finishedUserIds.Clear();
+        _finishedUserIds.Clear();
         IsActive = false;
-        sw.Stop();
-        sw.Reset();
+        _sw.Stop();
+        _sw.Reset();
         try
         {
             await Channel.SendConfirmAsync("Typing contest stopped.").ConfigureAwait(false);
@@ -94,11 +94,8 @@ public class TypingGame
                 }
             } while (time > 2);
 
-            await msg.ModifyAsync(m =>
-            {
-                m.Content = CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture);
-            }).ConfigureAwait(false);
-            sw.Start();
+            await msg.ModifyAsync(m => m.Content = CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).ConfigureAwait(false);
+            _sw.Start();
             HandleAnswers();
 
             while (i > 0)
@@ -144,22 +141,22 @@ public class TypingGame
 
                 var distance = CurrentSentence.LevenshteinDistance(guess);
                 var decision = Judge(distance, guess.Length);
-                if (decision && !finishedUserIds.Contains(msg.Author.Id))
+                if (decision && !_finishedUserIds.Contains(msg.Author.Id))
                 {
-                    var elapsed = sw.Elapsed;
+                    var elapsed = _sw.Elapsed;
                     var wpm = CurrentSentence.Length / WORD_VALUE / elapsed.TotalSeconds * 60;
-                    finishedUserIds.Add(msg.Author.Id);
+                    _finishedUserIds.Add(msg.Author.Id);
                     await Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                             .WithTitle($"{msg.Author} finished the race!")
                             .AddField(efb =>
-                                efb.WithName("Place").WithValue($"#{finishedUserIds.Count}").WithIsInline(true))
+                                efb.WithName("Place").WithValue($"#{_finishedUserIds.Count}").WithIsInline(true))
                             .AddField(efb =>
                                 efb.WithName("WPM").WithValue($"{wpm:F1} *[{elapsed.TotalSeconds:F2}sec]*")
                                     .WithIsInline(true))
                             .AddField(efb =>
                                 efb.WithName("Errors").WithValue(distance.ToString()).WithIsInline(true)))
                         .ConfigureAwait(false);
-                    if (finishedUserIds.Count % 4 == 0)
+                    if (_finishedUserIds.Count % 4 == 0)
                         await Channel.SendConfirmAsync(
                                 ":exclamation: A lot of people finished, here is the text for those still typing:" +
                                 $"\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
@@ -184,7 +181,7 @@ public class TypingGame
 
         public void NormalizeOptions()
         {
-            if (StartTime < 3 || StartTime > 30)
+            if (StartTime is < 3 or > 30)
                 StartTime = 5;
         }
     }

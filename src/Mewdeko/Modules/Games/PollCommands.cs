@@ -26,7 +26,7 @@ public partial class Games
             if (string.IsNullOrWhiteSpace(arg))
                 return;
 
-            var poll = Service.CreatePoll(ctx.Guild.Id,
+            var poll = PollService.CreatePoll(ctx.Guild.Id,
                 ctx.Channel.Id, arg);
             if (poll == null)
             {
@@ -62,8 +62,6 @@ public partial class Games
          RequireContext(ContextType.Guild)]
         public async Task Pollend()
         {
-            var channel = (ITextChannel) ctx.Channel;
-
             Poll p;
             if ((p = Service.StopPoll(ctx.Guild.Id)) == null)
                 return;
@@ -98,10 +96,10 @@ public partial class Games
 
             for (var i = 0; i < stats.Length; i++)
             {
-                var (Index, votes, Text) = stats[i];
+                var (index, votes, text) = stats[i];
                 sb.AppendLine(GetText("poll_result",
-                    Index + 1,
-                    Format.Bold(Text),
+                    index + 1,
+                    Format.Bold(text),
                     Format.Bold(votes.ToString())));
             }
 

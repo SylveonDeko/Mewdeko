@@ -111,7 +111,7 @@ public class GameVoiceChannelService : INService
         return Task.CompletedTask;
     }
 
-    private async Task TriggerGvc(SocketGuildUser gUser, string game)
+    private static async Task TriggerGvc(SocketGuildUser gUser, string game)
     {
         if (string.IsNullOrWhiteSpace(game))
             return;

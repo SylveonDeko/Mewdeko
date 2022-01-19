@@ -18,14 +18,14 @@ public partial class Games
     [Group]
     public class PlantPickCommands : GamblingSubmodule<PlantPickService>
     {
-        private readonly InteractiveService Interactivity;
-        private readonly LogCommandService logService;
+        private readonly InteractiveService _interactivity;
+        private readonly LogCommandService _logService;
 
         public PlantPickCommands(LogCommandService logService, GamblingConfigService gss,
             InteractiveService serv) : base(gss)
         {
-            Interactivity = serv;
-            this.logService = logService;
+            _interactivity = serv;
+            this._logService = logService;
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -45,7 +45,7 @@ public partial class Games
             if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
                 try
                 {
-                    logService.AddDeleteIgnore(ctx.Message.Id);
+                    _logService.AddDeleteIgnore(ctx.Message.Id);
                     await ctx.Message.DeleteAsync().ConfigureAwait(false);
                 }
                 catch
@@ -71,7 +71,7 @@ public partial class Games
 
             if (((SocketGuild) ctx.Guild).CurrentUser.GuildPermissions.ManageMessages)
             {
-                logService.AddDeleteIgnore(ctx.Message.Id);
+                _logService.AddDeleteIgnore(ctx.Message.Id);
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
         }
@@ -106,7 +106,7 @@ public partial class Games
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

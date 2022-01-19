@@ -24,7 +24,7 @@ public partial class RewriteTables : Migration
                 BlacklistUsers = table.Column<string>(nullable: true),
                 BlacklistRoles = table.Column<string>(nullable: true)
             },
-            constraints: table => { table.PrimaryKey("PK_Giveaways", x => x.Id); });
+            constraints: table => table.PrimaryKey("PK_Giveaways", x => x.Id));
         migrationBuilder.CreateTable(
             "Tickets",
             table => new
@@ -41,7 +41,7 @@ public partial class RewriteTables : Migration
                 ClosedBy = table.Column<ulong>(defaultValue: 0),
                 TicketNumber = table.Column<ulong>()
             },
-            constraints: table => { table.PrimaryKey("PK_Tickets", x => x.Id); });
+            constraints: table => table.PrimaryKey("PK_Tickets", x => x.Id));
         migrationBuilder.CreateTable(
             "StatusRoles",
             table => new
@@ -54,7 +54,7 @@ public partial class RewriteTables : Migration
                 ToAdd = table.Column<string>(nullable: true),
                 ToRemove = table.Column<string>(nullable: true)
             },
-            constraints: table => { table.PrimaryKey("PK_StatusRoles", x => x.Id); });
+            constraints: table => table.PrimaryKey("PK_StatusRoles", x => x.Id));
         migrationBuilder.AddColumn<ulong>("CleverbotChannel", "GuildConfigs", defaultValue: 0);
         migrationBuilder.AddColumn<string>("GRolesBlacklist", "GuildConfigs", defaultValue: "-");
         migrationBuilder.AddColumn<string>("GUsersBlacklist", "GuildConfigs", defaultValue: "-");

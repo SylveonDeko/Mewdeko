@@ -25,18 +25,18 @@ public partial class Searches
     public class AnimeCommands : MewdekoSubmodule
     {
         public static NekoClient NekoClient = new("Mewdeko");
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
-        public AnimeCommands(InteractiveService service) => Interactivity = service;
+        public AnimeCommands(InteractiveService service) => _interactivity = service;
 
         [MewdekoCommand, Usage, Description]
         public async Task Hug(IUser user)
         {
-            var Req = await NekoClient.Action_v3.HugGif();
+            var req = await NekoClient.Action_v3.HugGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} hugged {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build());
@@ -46,11 +46,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Kiss(IUser user)
         {
-            var Req = await NekoClient.Action_v3.KissGif();
+            var req = await NekoClient.Action_v3.KissGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} kissed {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -59,11 +59,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Pat(IUser user)
         {
-            var Req = await NekoClient.Action_v3.PatGif();
+            var req = await NekoClient.Action_v3.PatGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} gave pattus to {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -98,11 +98,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Cuddle(IUser user)
         {
-            var Req = await NekoClient.Action_v3.CuddleGif();
+            var req = await NekoClient.Action_v3.CuddleGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} cuddled with {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -111,11 +111,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Poke(IUser user)
         {
-            var Req = await NekoClient.Action_v3.PokeGif();
+            var req = await NekoClient.Action_v3.PokeGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} poked {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -124,11 +124,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Feed(IUser user)
         {
-            var Req = await NekoClient.Action_v3.FeedGif();
+            var req = await NekoClient.Action_v3.FeedGif();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} fed {user.Mention}",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -137,11 +137,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task RandomNeko()
         {
-            var Req = await NekoClient.Image_v3.Neko();
+            var req = await NekoClient.Image_v3.Neko();
             var em = new EmbedBuilder
             {
                 Description = "nya~",
-                ImageUrl = Req.ImageUrl,
+                ImageUrl = req.ImageUrl,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -178,7 +178,7 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task FindAnime(string e = null)
+        public async Task FindAnime(string? e = null)
         {
             var t = string.Empty;
             if (e != null) t = e;
@@ -202,32 +202,31 @@ public partial class Searches
             var er = await reader.ReadToEndAsync();
             var stuff = JsonConvert.DeserializeObject<MoeResponse>(er,
                 new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
-            var ert = stuff.MoeResults.FirstOrDefault();
-            if (ert.Filename is null)
+            var ert = stuff?.MoeResults.FirstOrDefault();
+            if (ert?.Filename is null)
                 await ctx.Channel.SendErrorAsync(
                     "No results found. Please try a different image, or avoid cropping the current one.");
-            var image = await c2.GetMediaById(ert.Anilist);
+            var image = await c2.GetMediaById(ert!.Anilist);
             var eb = new EmbedBuilder
             {
-                ImageUrl = image.CoverImageLarge,
+                ImageUrl = image?.CoverImageLarge,
                 Color = Mewdeko.Services.Mewdeko.OkColor
             };
             var te = string.Empty;
-            if (image.SeasonInt.ToString()[2..] is "") te = image.SeasonInt.ToString()[1..];
-            else te = image.SeasonInt.ToString()[2..];
-            var entitle = image.EnglishTitle;
-            if (image.EnglishTitle == null) entitle = "None";
+            te = image?.SeasonInt.ToString()?[2..] is "" ? image.SeasonInt.ToString()?[1..] : image?.SeasonInt.ToString()?[2..];
+            var entitle = image?.EnglishTitle;
+            if (image?.EnglishTitle == null) entitle = "None";
             eb.AddField("English Title", entitle);
-            eb.AddField("Japanese Title", image.NativeTitle);
-            eb.AddField("Romanji Title", image.RomajiTitle);
-            eb.AddField("Air Start Date", image.AiringStartDate);
-            eb.AddField("Air End Date", image.AiringEndDate);
+            eb.AddField("Japanese Title", image?.NativeTitle);
+            eb.AddField("Romanji Title", image?.RomajiTitle);
+            eb.AddField("Air Start Date", image?.AiringStartDate);
+            eb.AddField("Air End Date", image?.AiringEndDate);
             eb.AddField("Season Number", te);
             if (ert.Episode is not null) eb.AddField("Episode", ert.Episode);
-            eb.AddField("AniList Link", image.SiteUrl);
-            eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image.IdMal}");
-            eb.AddField("Score", image.MeanScore);
-            eb.AddField("Description", image.DescriptionMd.TrimTo(1024));
+            eb.AddField("AniList Link", image?.SiteUrl);
+            eb.AddField("MAL Link", $"https://myanimelist.net/anime/{image?.IdMal}");
+            eb.AddField("Score", image?.MeanScore);
+            eb.AddField("Description", image?.DescriptionMd.TrimTo(1024));
             _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
         }
 
@@ -273,10 +272,12 @@ public partial class Searches
                 return;
             }
 
-            var eb = new EmbedBuilder();
-            eb.ImageUrl = result?.CoverImageLarge;
-            var list = new List<string>();
-            if (result.Recommendations.Nodes.Any())
+            var eb = new EmbedBuilder
+            {
+                ImageUrl = result?.CoverImageLarge
+            };
+            var list = new List<string?>();
+            if (result != null && result.Recommendations.Nodes.Any())
                 result.Recommendations.Nodes.ForEach(x =>
                 {
                     if (c2.GetMediaById(x.Id).Result is not null)
@@ -284,11 +285,11 @@ public partial class Searches
                 });
 
             var te = string.Empty;
-            te = result.SeasonInt.ToString()[2..] is ""
-                ? result.SeasonInt.ToString()[1..]
-                : result.SeasonInt.ToString()[2..];
-            if (result.DescriptionMd != null) eb.AddField("Description", result.DescriptionMd.TrimTo(1024), true);
-            if (result.Genres.Any()) eb.AddField("Genres", string.Join("\n", result.Genres), true);
+            te = result?.SeasonInt.ToString()?[2..] is ""
+                ? result.SeasonInt.ToString()?[1..]
+                : result?.SeasonInt.ToString()?[2..];
+            if (result?.DescriptionMd != null) eb.AddField("Description", result.DescriptionMd.TrimTo(1024), true);
+            if (result!.Genres.Any()) eb.AddField("Genres", string.Join("\n", result.Genres), true);
             if (result.CountryOfOrigin is not null) eb.AddField("Country of Origin", result.CountryOfOrigin, true);
             if (!list.Contains(null) && list.Any())
                 eb.AddField("Recommendations based on this search",
@@ -312,31 +313,28 @@ public partial class Searches
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"<a:loading:847706744741691402> Getting results for {query}...");
             IJikan jikan = new Jikan(true);
-            var Result = await jikan.SearchManga(query);
+            var result = await jikan.SearchManga(query);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(Result.Results.Count - 1)
+                .WithMaxPageIndex(result.Results.Count - 1)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
             await msg.DeleteAsync();
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder()
-                    .WithTitle(Format.Bold($"{Result.Results.Skip(page).FirstOrDefault().Title}"))
-                    .AddField("First Publish Date", Result.Results.Skip(page).FirstOrDefault().StartDate)
-                    .AddField("Volumes", Result.Results.Skip(page).FirstOrDefault().Volumes)
-                    .AddField("Is Still Active", Result.Results.Skip(page).FirstOrDefault().Publishing)
-                    .AddField("Score", Result.Results.Skip(page).FirstOrDefault().Score)
-                    .AddField("Url", Result.Results.Skip(page).FirstOrDefault().URL)
-                    .WithDescription(Result.Results.Skip(page).FirstOrDefault().Description)
-                    .WithImageUrl(Result.Results.Skip(page).FirstOrDefault().ImageURL)
+            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
+                    .WithTitle(Format.Bold($"{result.Results.Skip(page).FirstOrDefault()?.Title}"))
+                    .AddField("First Publish Date", result.Results.Skip(page).FirstOrDefault()?.StartDate)
+                    .AddField("Volumes", result.Results.Skip(page).FirstOrDefault()?.Volumes)
+                    .AddField("Is Still Active", result.Results.Skip(page).FirstOrDefault()?.Publishing)
+                    .AddField("Score", result.Results.Skip(page).FirstOrDefault()?.Score)
+                    .AddField("Url", result.Results.Skip(page).FirstOrDefault()?.URL)
+                    .WithDescription(result.Results.Skip(page).FirstOrDefault()?.Description)
+                    .WithImageUrl(result.Results.Skip(page).FirstOrDefault()?.ImageURL)
                     .WithColor(Mewdeko.Services.Mewdeko.OkColor));
-            }
         }
     }
 }

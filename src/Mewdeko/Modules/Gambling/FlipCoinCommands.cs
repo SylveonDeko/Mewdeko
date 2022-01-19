@@ -26,7 +26,7 @@ public partial class Gambling
             Tails = 2
         }
 
-        private static readonly MewdekoRandom rng = new();
+        private static readonly MewdekoRandom _rng = new();
         private readonly ICurrencyService _cs;
         private readonly DbService _db;
         private readonly IImageCache _images;
@@ -42,7 +42,7 @@ public partial class Gambling
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Flip(int count = 1)
         {
-            if (count > 10 || count < 1)
+            if (count is > 10 or < 1)
             {
                 await ReplyErrorLocalizedAsync("flip_invalid", 10).ConfigureAwait(false);
                 return;
@@ -53,9 +53,9 @@ public partial class Gambling
             var imgs = new Image<Rgba32>[count];
             for (var i = 0; i < count; i++)
             {
-                var headsArr = _images.Heads[rng.Next(0, _images.Heads.Count)];
-                var tailsArr = _images.Tails[rng.Next(0, _images.Tails.Count)];
-                if (rng.Next(0, 10) < 5)
+                var headsArr = _images.Heads[_rng.Next(0, _images.Heads.Count)];
+                var tailsArr = _images.Tails[_rng.Next(0, _images.Tails.Count)];
+                if (_rng.Next(0, 10) < 5)
                 {
                     imgs[i] = Image.Load(headsArr);
                     headCount++;
@@ -96,21 +96,21 @@ public partial class Gambling
             BetFlipGuess result;
             Uri imageToSend;
             var coins = _images.ImageUrls.Coins;
-            if (rng.Next(0, 1000) <= 499)
+            if (_rng.Next(0, 1000) <= 499)
             {
-                imageToSend = coins.Heads[rng.Next(0, coins.Heads.Length)];
+                imageToSend = coins.Heads[_rng.Next(0, coins.Heads.Length)];
                 result = BetFlipGuess.Heads;
             }
             else
             {
-                imageToSend = coins.Tails[rng.Next(0, coins.Tails.Length)];
+                imageToSend = coins.Tails[_rng.Next(0, coins.Tails.Length)];
                 result = BetFlipGuess.Tails;
             }
 
             string str;
             if (guess == result)
             {
-                var toWin = (long) (amount * _config.BetFlip.Multiplier);
+                var toWin = (long) (amount * Config.BetFlip.Multiplier);
                 str = Format.Bold(ctx.User.ToString()) + " " + GetText("flip_guess", toWin + CurrencySign);
                 await _cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, true).ConfigureAwait(false);
             }

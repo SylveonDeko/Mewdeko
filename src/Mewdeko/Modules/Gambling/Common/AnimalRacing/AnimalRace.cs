@@ -57,25 +57,24 @@ public sealed class AnimalRace : IDisposable
     public event Func<AnimalRace, Task> OnEnded = delegate { return Task.CompletedTask; };
 
     public void Initialize() //lame name
-    {
-        var _t = Task.Run(async () =>
-        {
-            await Task.Delay(_options.StartTime * 1000).ConfigureAwait(false);
-
-            await _locker.WaitAsync().ConfigureAwait(false);
-            try
+        =>
+            Task.Run(async () =>
             {
-                if (CurrentPhase != Phase.WaitingForPlayers)
-                    return;
+                await Task.Delay(_options.StartTime * 1000).ConfigureAwait(false);
 
-                await Start().ConfigureAwait(false);
-            }
-            finally
-            {
-                _locker.Release();
-            }
-        });
-    }
+                await _locker.WaitAsync().ConfigureAwait(false);
+                try
+                {
+                    if (CurrentPhase != Phase.WaitingForPlayers)
+                        return;
+
+                    await Start().ConfigureAwait(false);
+                }
+                finally
+                {
+                    _locker.Release();
+                }
+            });
 
     public async Task<AnimalRacingUser> JoinRace(ulong userId, string userName, long bet = 0)
     {
@@ -123,13 +122,13 @@ public sealed class AnimalRace : IDisposable
                 if (user.Bet > 0)
                     await _currency.AddAsync(user.UserId, "Race refund", user.Bet).ConfigureAwait(false);
 
-            var _sf = OnStartingFailed?.Invoke(this);
+            OnStartingFailed?.Invoke(this);
             CurrentPhase = Phase.Ended;
             return;
         }
 
         var _ = OnStarted?.Invoke(this);
-        var _t = Task.Run(async () =>
+        await Task.Run(async () =>
         {
             var rng = new MewdekoRandom();
             while (!_users.All(x => x.Progress >= 60))
@@ -142,20 +141,20 @@ public sealed class AnimalRace : IDisposable
                 }
 
                 var finished = _users.Where(x => x.Progress >= 60 && !FinishedUsers.Contains(x))
-                    .Shuffle();
+                                     .Shuffle();
 
                 FinishedUsers.AddRange(finished);
 
-                var _ignore = OnStateUpdate?.Invoke(this);
+                OnStateUpdate?.Invoke(this);
                 await Task.Delay(2500).ConfigureAwait(false);
             }
 
             if (FinishedUsers[0].Bet > 0)
                 await _currency.AddAsync(FinishedUsers[0].UserId, "Won a Race",
-                        FinishedUsers[0].Bet * (_users.Count - 1))
-                    .ConfigureAwait(false);
+                                   FinishedUsers[0].Bet * (_users.Count - 1))
+                               .ConfigureAwait(false);
 
-            var _ended = OnEnded?.Invoke(this);
+            OnEnded?.Invoke(this);
         });
     }
 }

@@ -14,12 +14,12 @@ namespace Mewdeko.Modules.CustomReactions.Extensions;
 
 public static class Extensions
 {
-    private static readonly Regex imgRegex = new("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
+    private static readonly Regex _imgRegex = new("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
 
-    private static Dictionary<Regex, Func<Match, Task<string>>> regexPlaceholders { get; } = new()
+    private static Dictionary<Regex, Func<Match, Task<string>>> RegexPlaceholders { get; } = new()
     {
         {
-            imgRegex, async match =>
+            _imgRegex, async match =>
             {
                 var tag = match.Groups["tag"].ToString();
                 if (string.IsNullOrWhiteSpace(tag))
@@ -45,7 +45,7 @@ public static class Extensions
         }
     };
 
-    private static string ResolveTriggerString(this string str, IUserMessage ctx, DiscordSocketClient client) => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
+    private static string ResolveTriggerString(this string str, DiscordSocketClient client) => str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
 
     private static async Task<string> ResolveResponseStringAsync(this string str, IUserMessage ctx,
         DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere)
@@ -68,20 +68,21 @@ public static class Extensions
             .WithDefault(ctx.Author, ctx.Channel, (ctx.Channel as ITextChannel)?.Guild as SocketGuild, client)
             .WithOverride("%target%", () =>
                 canMentionEveryone
-                    ? ctx.Content.Substring(substringIndex).Trim()
-                    : ctx.Content.Substring(substringIndex).Trim().SanitizeMentions(true))
+                    ? ctx.Content[substringIndex..].Trim()
+                    : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
             .Build();
 
         str = rep.Replace(str);
-#if !GLOBAL_Mewdeko
-        foreach (var ph in regexPlaceholders) str = await ph.Key.ReplaceAsync(str, ph.Value).ConfigureAwait(false);
-#endif
+        foreach (var ph in RegexPlaceholders)
+        {
+            str = await ph.Key.ReplaceAsync(str, ph.Value).ConfigureAwait(false);
+        }
         return str;
     }
 
     public static Task<string> ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx,
         DiscordSocketClient client, bool containsAnywhere) =>
-        cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(ctx, client),
+        cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere);
 
     public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx,
@@ -91,9 +92,9 @@ public static class Extensions
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
             : ctx.Channel;
 
-        if (CREmbed.TryParse(cr.Response, out var crembed))
+        if (CrEmbed.TryParse(cr.Response, out var crembed))
         {
-            var trigger = cr.Trigger.ResolveTriggerString(ctx, client);
+            var trigger = cr.Trigger.ResolveTriggerString(client);
             var substringIndex = trigger.Length;
             if (cr.ContainsAnywhere)
             {
@@ -111,8 +112,8 @@ public static class Extensions
             var rep = new ReplacementBuilder()
                 .WithDefault(ctx.Author, ctx.Channel, (ctx.Channel as ITextChannel)?.Guild as SocketGuild, client)
                 .WithOverride("%target%", () => canMentionEveryone
-                    ? ctx.Content.Substring(substringIndex).Trim()
-                    : ctx.Content.Substring(substringIndex).Trim().SanitizeMentions(true))
+                    ? ctx.Content[substringIndex..].Trim()
+                    : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
                 .Build();
 
             rep.Replace(crembed);
@@ -135,15 +136,15 @@ public static class Extensions
 
         if (wordIndex == 0)
         {
-            if (word.Length < str.Length && str.isValidWordDivider(word.Length))
+            if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
                 return WordPosition.Start;
         }
         else if (wordIndex + word.Length == str.Length)
         {
-            if (str.isValidWordDivider(wordIndex - 1))
+            if (str.IsValidWordDivider(wordIndex - 1))
                 return WordPosition.End;
         }
-        else if (str.isValidWordDivider(wordIndex - 1) && str.isValidWordDivider(wordIndex + word.Length))
+        else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
         {
             return WordPosition.Middle;
         }
@@ -151,14 +152,14 @@ public static class Extensions
         return WordPosition.None;
     }
 
-    private static bool isValidWordDivider(this in ReadOnlySpan<char> str, int index)
+    private static bool IsValidWordDivider(this in ReadOnlySpan<char> str, int index)
     {
         var ch = str[index];
-        if (ch >= 'a' && ch <= 'z')
+        if (ch is >= 'a' and <= 'z')
             return false;
-        if (ch >= 'A' && ch <= 'Z')
+        if (ch is >= 'A' and <= 'Z')
             return false;
-        if (ch >= '1' && ch <= '9')
+        if (ch is >= '1' and <= '9')
             return false;
 
         return true;

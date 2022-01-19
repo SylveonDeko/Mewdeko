@@ -100,13 +100,10 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .Build();
             await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder()
+            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                     .WithTitle(
                         $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
                     .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
-            }
         }
 
         var banned = 0;
@@ -160,13 +157,10 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .Build();
             await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder()
+            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                     .WithTitle(
                         $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
                     .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20))));
-            }
         }
 
         var banned = 0;
@@ -427,7 +421,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
      UserPerm(GuildPermission.DeafenMembers), BotPerm(GuildPermission.DeafenMembers)]
     public async Task Deafen(params IGuildUser[] users)
     {
-        await Service.DeafenUsers(true, users).ConfigureAwait(false);
+        await AdministrationService.DeafenUsers(true, users).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("deafen").ConfigureAwait(false);
     }
 
@@ -435,7 +429,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
      UserPerm(GuildPermission.DeafenMembers), BotPerm(GuildPermission.DeafenMembers)]
     public async Task UnDeafen(params IGuildUser[] users)
     {
-        await Service.DeafenUsers(false, users).ConfigureAwait(false);
+        await AdministrationService.DeafenUsers(false, users).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("undeafen").ConfigureAwait(false);
     }
 
@@ -526,7 +520,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             return;
         }
 
-        await Service.EditMessage(ctx, channel, messageId, text);
+        await AdministrationService.EditMessage(ctx, channel, messageId, text);
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),

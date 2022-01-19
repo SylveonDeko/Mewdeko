@@ -28,9 +28,9 @@ public class TriviaOptions : IMewdekoCommandOptions
     {
         if (WinRequirement < 0)
             WinRequirement = 10;
-        if (QuestionTimer < 10 || QuestionTimer > 300)
+        if (QuestionTimer is < 10 or > 300)
             QuestionTimer = 30;
-        if (Timeout < 0 || Timeout > 20)
+        if (Timeout is < 0 or > 20)
             Timeout = 10;
     }
 }

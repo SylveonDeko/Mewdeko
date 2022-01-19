@@ -45,22 +45,16 @@ public partial class ServerManagement
                 {
                     var perms = i.Permissions;
                     var newperms = perms.Modify(sendMessages: false);
-                    await i.ModifyAsync(x => { x.Permissions = newperms; });
+                    await i.ModifyAsync(x => x.Permissions = newperms);
                 }
 
-                await msg.ModifyAsync(x =>
-                {
-                    x.Content =
-                        "<a:checkfragutil:854536148411744276> Roles checked! You may now run the lockdown command.";
-                });
+                await msg.ModifyAsync(x => x.Content =
+                        "<a:checkfragutil:854536148411744276> Roles checked! You may now run the lockdown command.");
             }
             else
             {
-                await msg.ModifyAsync(x =>
-                {
-                    x.Content =
-                        "<a:checkfragutil:854536148411744276> Roles checked! No roles are in the way of the lockdown command.";
-                });
+                await msg.ModifyAsync(x => x.Content =
+                        "<a:checkfragutil:854536148411744276> Roles checked! No roles are in the way of the lockdown command.");
             }
         }
 
@@ -87,7 +81,7 @@ public partial class ServerManagement
             {
                 var everyonerole = ctx.Guild.EveryoneRole;
                 var newperms = everyonerole.Permissions.Modify(sendMessages: false);
-                await everyonerole.ModifyAsync(x => { x.Permissions = newperms; });
+                await everyonerole.ModifyAsync(x => x.Permissions = newperms);
                 await ctx.Channel.SendConfirmAsync("Server has been locked down!");
             }
         }
@@ -103,7 +97,7 @@ public partial class ServerManagement
                 return;
             }
 
-            await use.ModifyAsync(x => { x.Channel = new Optional<IVoiceChannel>(channel); });
+            await use.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(channel));
             await ctx.Channel.SendConfirmAsync($"Succesfully moved you to {Format.Bold(channel.Name)}");
         }
 
@@ -117,7 +111,7 @@ public partial class ServerManagement
                 return;
             }
 
-            await user.ModifyAsync(x => { x.Channel = new Optional<IVoiceChannel>(channel); });
+            await user.ModifyAsync(x => x.Channel = new Optional<IVoiceChannel>(channel));
             await ctx.Channel.SendConfirmAsync($"Succesfully moved {user.Mention} to {Format.Bold(channel.Name)}");
         }
 
@@ -154,7 +148,7 @@ public partial class ServerManagement
 
             var everyonerole = ctx.Guild.EveryoneRole;
             var newperms = everyonerole.Permissions.Modify(sendMessages: true);
-            await everyonerole.ModifyAsync(x => { x.Permissions = newperms; });
+            await everyonerole.ModifyAsync(x => x.Permissions = newperms);
             await ctx.Channel.SendConfirmAsync("Server has been unlocked!");
         }
 
@@ -228,71 +222,71 @@ public partial class ServerManagement
         }
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
-        public async Task CreateCatAndTxtChannels(string CatName, params string[] Channels)
+        public async Task CreateCatAndTxtChannels(string catName, params string[] channels)
         {
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Creating the Category {CatName} with {Channels.Length} Text Channels!");
+                $"<a:loading:847706744741691402> Creating the Category {catName} with {channels.Length} Text Channels!");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            var cat = await ctx.Guild.CreateCategoryAsync(CatName);
-            foreach (var i in Channels) await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = cat.Id; });
+            var cat = await ctx.Guild.CreateCategoryAsync(catName);
+            foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = cat.Id);
 
             var eb2 = new EmbedBuilder();
-            eb2.WithDescription($"Created the category {CatName} with {Channels.Length} Text Channels!");
+            eb2.WithDescription($"Created the category {catName} with {channels.Length} Text Channels!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
+            await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
-        public async Task CreateCatAndVcChannels(string CatName, params string[] Channels)
+        public async Task CreateCatAndVcChannels(string catName, params string[] channels)
         {
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Creating the Category {CatName} with {Channels.Length} Voice Channels");
+                $"<a:loading:847706744741691402> Creating the Category {catName} with {channels.Length} Voice Channels");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            var cat = await ctx.Guild.CreateCategoryAsync(CatName);
-            foreach (var i in Channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => { x.CategoryId = cat.Id; });
+            var cat = await ctx.Guild.CreateCategoryAsync(catName);
+            foreach (var i in channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = cat.Id);
 
             var eb2 = new EmbedBuilder();
-            eb2.WithDescription($"Created the category {CatName} with {Channels.Length} Voice Channels!");
+            eb2.WithDescription($"Created the category {catName} with {channels.Length} Voice Channels!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
+            await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
-        public async Task CreateCatVcChans(ICategoryChannel chan, params string[] Channels)
+        public async Task CreateCatVcChans(ICategoryChannel chan, params string[] channels)
         {
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Adding {Channels.Length} Voice Channels to {chan.Name}");
+                $"<a:loading:847706744741691402> Adding {channels.Length} Voice Channels to {chan.Name}");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            foreach (var i in Channels)
-                await ctx.Guild.CreateVoiceChannelAsync(i, x => { x.CategoryId = chan.Id; });
+            foreach (var i in channels)
+                await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = chan.Id);
 
             var eb2 = new EmbedBuilder();
-            eb2.WithDescription($"Added {Channels.Length} Voice Channels to {chan.Name}!");
+            eb2.WithDescription($"Added {channels.Length} Voice Channels to {chan.Name}!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
+            await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
-        public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] Channels)
+        public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] channels)
         {
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Adding {Channels.Length} Text Channels to {chan.Name}");
+                $"<a:loading:847706744741691402> Adding {channels.Length} Text Channels to {chan.Name}");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
-            foreach (var i in Channels) await ctx.Guild.CreateTextChannelAsync(i, x => { x.CategoryId = chan.Id; });
+            foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = chan.Id);
 
             var eb2 = new EmbedBuilder();
-            eb2.WithDescription($"Added {Channels.Length} Text Channels to {chan.Name}!");
+            eb2.WithDescription($"Added {channels.Length} Text Channels to {chan.Name}!");
             eb2.WithOkColor();
-            await msg.ModifyAsync(x => { x.Embed = eb2.Build(); });
+            await msg.ModifyAsync(x => x.Embed = eb2.Build());
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -321,7 +315,7 @@ public partial class ServerManagement
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(0)]
-        public async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int) time.Time.TotalSeconds);
+        public static async Task Slowmode(StoopidTime time, ITextChannel channel) => await InternalSlowmode(channel, (int) time.Time.TotalSeconds);
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(1)]
@@ -329,7 +323,7 @@ public partial class ServerManagement
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(2)]
-        public async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel);
+        public static async Task Slowmode(ITextChannel channel) => await InternalSlowmode(channel);
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(4)]
@@ -366,7 +360,7 @@ public partial class ServerManagement
         }
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator), Priority(0)]
-        public async Task Webhook(ITextChannel Channel, string name, string imageurl)
+        public async Task Webhook(ITextChannel channel, string name, string imageurl)
         {
             var embeds = new List<Embed>();
             var attachment = ctx.Message.Attachments;
@@ -376,7 +370,7 @@ public partial class ServerManagement
                 var stream = await client.GetStreamAsync(i.Url);
                 var reader = new StreamReader(stream);
                 var content = await reader.ReadToEndAsync();
-                CREmbed.TryParse(content, out var embedData);
+                CrEmbed.TryParse(content, out var embedData);
                 embeds.Add(embedData.ToEmbed().Build());
             }
 
@@ -386,10 +380,10 @@ public partial class ServerManagement
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             await using var imgStream = imgData.ToStream();
-            var webhooks = await Channel.GetWebhooksAsync();
+            var webhooks = await channel.GetWebhooksAsync();
             DiscordWebhookClient web = null;
             if (webhooks.FirstOrDefault(x => x.Name == name) is null)
-                web = new DiscordWebhookClient(await Channel.CreateWebhookAsync(name, imgStream));
+                web = new DiscordWebhookClient(await channel.CreateWebhookAsync(name, imgStream));
             else
                 web = new DiscordWebhookClient(webhooks.FirstOrDefault(x => x.Name == name));
 
@@ -397,7 +391,7 @@ public partial class ServerManagement
         }
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task Webhook(ITextChannel Channel, string name, string imageurl, [Remainder] string urls)
+        public async Task Webhook(ITextChannel channel, string name, string imageurl, [Remainder] string urls)
         {
             var embeds = new List<Embed>();
             var splits = urls.Split(new[] {'\n', '\r', ' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
@@ -407,7 +401,7 @@ public partial class ServerManagement
                 var e = ur.Segments;
                 var wb = new HttpClient();
                 var download = await wb.GetStringAsync($"https://pastebin.com/raw/{e[1]}");
-                CREmbed.TryParse(download, out var embedData);
+                CrEmbed.TryParse(download, out var embedData);
                 embeds.Add(embedData.ToEmbed().Build());
             }
 
@@ -417,10 +411,10 @@ public partial class ServerManagement
                 .ConfigureAwait(false);
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             await using var imgStream = imgData.ToStream();
-            var webhooks = await Channel.GetWebhooksAsync();
+            var webhooks = await channel.GetWebhooksAsync();
             DiscordWebhookClient web = null;
             if (webhooks.FirstOrDefault(x => x.Name == name) is null)
-                web = new DiscordWebhookClient(await Channel.CreateWebhookAsync(name, imgStream));
+                web = new DiscordWebhookClient(await channel.CreateWebhookAsync(name, imgStream));
             else
                 web = new DiscordWebhookClient(webhooks.FirstOrDefault(x => x.Name == name));
 

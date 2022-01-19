@@ -216,7 +216,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ctx.OkAsync();
     }
 
-    private string GetPropsAndValuesString(IConfigService config, IEnumerable<string> names)
+    private static string GetPropsAndValuesString(IConfigService config, IEnumerable<string> names)
     {
         var propValues = names.Select(pr =>
         {
@@ -697,7 +697,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SetStream(string url, [Remainder] string name = null)
     {
-        name = name ?? "";
+        name ??= "";
 
         await _client.SetGameAsync(name, url, ActivityType.Streaming).ConfigureAwait(false);
 
@@ -725,11 +725,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         if (ids[1].ToUpperInvariant().StartsWith("C:", StringComparison.InvariantCulture))
         {
-            var cid = ulong.Parse(ids[1].Substring(2));
+            var cid = ulong.Parse(ids[1][2..]);
             var ch = server.GetTextChannelsAsync().Result.FirstOrDefault(c => c.Id == cid);
             if (ch == null) return;
 
-            if (CREmbed.TryParse(msg, out var crembed))
+            if (CrEmbed.TryParse(msg, out var crembed))
             {
                 rep.Replace(crembed);
                 await ch.EmbedAsync(crembed).ConfigureAwait(false);
@@ -741,11 +741,11 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
         else if (ids[1].ToUpperInvariant().StartsWith("U:", StringComparison.InvariantCulture))
         {
-            var uid = ulong.Parse(ids[1].Substring(2));
+            var uid = ulong.Parse(ids[1][2..]);
             var user = server.GetUsersAsync().FlattenAsync().Result.FirstOrDefault(u => u.Id == uid);
             if (user == null) return;
 
-            if (CREmbed.TryParse(msg, out var crembed))
+            if (CrEmbed.TryParse(msg, out var crembed))
             {
                 rep.Replace(crembed);
                 await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(crembed)
@@ -780,9 +780,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("bot_strings_reloaded").ConfigureAwait(false);
     }
 
-    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
-    {
-        return sus switch
+    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus) =>
+        sus switch
         {
             SettableUserStatus.Online => UserStatus.Online,
             SettableUserStatus.Invisible => UserStatus.Invisible,
@@ -790,7 +789,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             SettableUserStatus.Dnd => UserStatus.DoNotDisturb,
             _ => UserStatus.Online
         };
-    }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Bash([Remainder] string message)
@@ -847,7 +845,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (cs1 == -1 || cs2 == -1)
             throw new ArgumentException("You need to wrap the code into a code block.", nameof(code));
 
-        code = code.Substring(cs1, cs2 - cs1);
+        code = code[cs1..cs2];
 
         var embed = new EmbedBuilder
         {
@@ -923,7 +921,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                     "`."),
                 Color = new Color(0xD091B2)
             };
-            await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
+            await msg.ModifyAsync(x => x.Embed = embed.Build());
             return;
         }
 
@@ -941,7 +939,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         if (css.ReturnValue != null)
             embed.AddField("Return type", css.ReturnValue.GetType().ToString(), true);
 
-        await msg.ModifyAsync(x => { x.Embed = embed.Build(); });
+        await msg.ModifyAsync(x => x.Embed = embed.Build());
     }
 }
 

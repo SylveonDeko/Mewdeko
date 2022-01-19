@@ -107,9 +107,8 @@ public partial class Administration
                 .ConfigureAwait(false);
         }
 
-        private static ulong? GetLogProperty(LogSetting l, LogType type)
-        {
-            return type switch
+        private static ulong? GetLogProperty(LogSetting l, LogType type) =>
+            type switch
             {
                 LogType.Other => l.LogOtherId,
                 LogType.MessageUpdated => l.MessageUpdatedId,
@@ -124,11 +123,10 @@ public partial class Administration
                 LogType.ChannelUpdated => l.ChannelUpdatedId,
                 LogType.UserPresence => l.LogUserPresenceId,
                 LogType.VoicePresence => l.LogVoicePresenceId,
-                LogType.VoicePresenceTTS => l.LogVoicePresenceTTSId,
+                LogType.VoicePresenceTts => l.LogVoicePresenceTTSId,
                 LogType.UserMuted => l.UserMutedId,
                 _ => null
             };
-        }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(0)]

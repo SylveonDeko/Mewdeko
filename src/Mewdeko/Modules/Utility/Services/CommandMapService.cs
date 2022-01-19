@@ -17,7 +17,7 @@ public class CommandMapService : IInputTransformer, INService
     {
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow._context.Set<GuildConfig>()
+        var configs = uow.Context.Set<GuildConfig>()
             .Include(gc => gc.CommandAliases)
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();

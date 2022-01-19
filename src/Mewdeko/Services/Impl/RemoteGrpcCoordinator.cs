@@ -110,7 +110,7 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
         return Task.CompletedTask;
     }
 
-    private ConnState ToCoordConnState(ConnectionState state) =>
+    private static ConnState ToCoordConnState(ConnectionState state) =>
         state switch
         {
             ConnectionState.Connecting => ConnState.Connecting,
@@ -118,7 +118,7 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
             _ => ConnState.Disconnected
         };
 
-    private ConnectionState FromCoordConnState(ConnState state) =>
+    private static ConnectionState FromCoordConnState(ConnState state) =>
         state switch
         {
             ConnState.Connecting => ConnectionState.Connecting,
