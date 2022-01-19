@@ -10,34 +10,34 @@ public class StarboardService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    public Mewdeko.Services.Mewdeko _bot;
-    public CommandHandler _CmdHandler;
+    public Mewdeko.Services.Mewdeko Bot;
+    public CommandHandler CmdHandler;
 
     public StarboardService(DiscordSocketClient client, CommandHandler cmdhandler, DbService db,
         Mewdeko.Services.Mewdeko bot)
     {
-        _bot = bot;
+        Bot = bot;
         _client = client;
-        _CmdHandler = cmdhandler;
+        CmdHandler = cmdhandler;
         _db = db;
         _client.ReactionAdded += OnReactionAddedAsync;
         // _client.MessageDeleted += OnMessageDeletedAsync;
         _client.ReactionRemoved += OnReactionRemoveAsync;
-        _starboardchannels = bot.AllGuildConfigs
+        Starboardchannels = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.StarboardChannel)
             .ToConcurrent();
-        _starcount = bot.AllGuildConfigs
+        Starcount = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.Stars)
             .ToConcurrent();
-        _starboardstar = bot.AllGuildConfigs
+        Starboardstar = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.Star)
             .ToConcurrent();
         //_client.ReactionsCleared += OnAllReactionsClearedAsync;
     }
 
-    private ConcurrentDictionary<ulong, ulong> _starcount { get; } = new();
-    private ConcurrentDictionary<ulong, ulong> _starboardchannels { get; } = new();
-    private ConcurrentDictionary<ulong, ulong> _starboardstar { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Starcount { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Starboardchannels { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Starboardstar { get; } = new();
 
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
     {
@@ -48,7 +48,7 @@ public class StarboardService : INService
             await uow.SaveChangesAsync();
         }
 
-        _starboardchannels.AddOrUpdate(guild.Id, channel, (_, _) => channel);
+        Starboardchannels.AddOrUpdate(guild.Id, channel, (_, _) => channel);
     }
 
     public async Task SetStarCount(IGuild guild, ulong num)
@@ -60,12 +60,12 @@ public class StarboardService : INService
             await uow.SaveChangesAsync();
         }
 
-        _starcount.AddOrUpdate(guild.Id, num, (_, _) => num);
+        Starcount.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public ulong GetStarSetting(ulong? id)
     {
-        if (id == null || !_starcount.TryGetValue(id.Value, out var invw))
+        if (id == null || !Starcount.TryGetValue(id.Value, out var invw))
             return 0;
 
         return invw;
@@ -80,12 +80,12 @@ public class StarboardService : INService
             await uow.SaveChangesAsync();
         }
 
-        _starboardstar.AddOrUpdate(guild.Id, emote, (_, _) => emote);
+        Starboardstar.AddOrUpdate(guild.Id, emote, (_, _) => emote);
     }
 
     public ulong GetStar(ulong? id)
     {
-        if (id == null || !_starboardstar.TryGetValue(id.Value, out var star))
+        if (id == null || !Starboardstar.TryGetValue(id.Value, out var star))
             return 0;
 
         return star;
@@ -93,7 +93,7 @@ public class StarboardService : INService
 
     public ulong GetStarboardChannel(ulong? id)
     {
-        if (id == null || !_starboardchannels.TryGetValue(id.Value, out var invw))
+        if (id == null || !Starboardchannels.TryGetValue(id.Value, out var invw))
             return 0;
 
         return invw;
@@ -166,9 +166,9 @@ public class StarboardService : INService
 
             if (star1 != null) reactions = msg.Reactions[star1].ReactionCount;
 
-            var chanID = GetStarboardChannel(guild.Id);
-            if (chanID == 0) return;
-            var chan = guild.GetTextChannel(chanID);
+            var chanId = GetStarboardChannel(guild.Id);
+            if (chanId == 0) return;
+            var chan = guild.GetTextChannel(chanId);
             var stars = GetStarSetting(guild.Id);
             if (Convert.ToUInt64(reactions) >= stars)
             {
@@ -180,7 +180,7 @@ public class StarboardService : INService
                         await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault().PostId) as
                             IUserMessage;
 
-                if (msg.Channel.Id == chanID)
+                if (msg.Channel.Id == chanId)
                     return;
 
                 var em = new EmbedBuilder
@@ -297,8 +297,8 @@ public class StarboardService : INService
             var e = StarboardIds(message.Id);
             var stars = GetStarSetting(guild.Id);
             //get the values before doing anything
-            var chanID = GetStarboardChannel(guild.Id);
-            var chan = guild.GetTextChannel(chanID);
+            var chanId = GetStarboardChannel(guild.Id);
+            var chan = guild.GetTextChannel(chanId);
             if (Convert.ToUInt64(reactions) < stars)
             {
                 IUserMessage message2 = null;
@@ -308,7 +308,7 @@ public class StarboardService : INService
                     message2 = await chan.GetMessageAsync(e.OrderByDescending(e => e.DateAdded).FirstOrDefault()
                         .PostId) as IUserMessage;
 
-                if (msg.Channel.Id == chanID)
+                if (msg.Channel.Id == chanId)
                     return;
 
                 if (message2 != null) await message2.DeleteAsync();

@@ -21,11 +21,11 @@ public partial class Searches
     public class StreamNotificationCommands : MewdekoSubmodule<StreamNotificationService>
     {
         private readonly DbService _db;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public StreamNotificationCommands(DbService db, InteractiveService serv)
         {
-            Interactivity = serv;
+            _interactivity = serv;
             _db = db;
         }
 
@@ -108,7 +108,7 @@ public partial class Searches
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -128,7 +128,7 @@ public partial class Searches
                     {
                         var elem = elements[index];
                         eb.AddField(
-                            $"**#{index + 1 + 12 * page}** {elem.Username.ToLower()}",
+                            $"**#{index + 1 + (12 * page)}** {elem.Username.ToLower()}",
                             $"【{elem.Type}】\n<#{elem.ChannelId}>\n{elem.Message?.TrimTo(50)}",
                             true);
                     }

@@ -48,7 +48,7 @@ public partial class Gambling
 
             var result = await Service.WheelOfFortuneSpinAsync(ctx.User.Id, amount).ConfigureAwait(false);
 
-            var wofMultipliers = _config.WheelOfFortune.Multipliers;
+            var wofMultipliers = Config.WheelOfFortune.Multipliers;
             await ctx.Channel.SendConfirmAsync(
                 Format.Bold($@"{ctx.User} won: {result.Amount + CurrencySign}
 

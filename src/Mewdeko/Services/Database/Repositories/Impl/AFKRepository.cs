@@ -4,22 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Services.Database.Repositories.Impl;
 
-public class AFKRepository : Repository<AFK>, IAfkRepository
+public class AfkRepository : Repository<AFK>, IAfkRepository
 {
-    public AFKRepository(DbContext context) : base(context)
+    public AfkRepository(DbContext context) : base(context)
     {
     }
 
     public List<AFK> ForId(ulong guildId, ulong uid)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == uid);
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == uid);
 
         return query.ToList();
     }
 
     public AFK[] ForGuild(ulong guildId)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId);
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId);
 
         return query.ToArray();
     }

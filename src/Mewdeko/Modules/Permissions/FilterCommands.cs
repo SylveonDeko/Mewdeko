@@ -20,11 +20,11 @@ public partial class Permissions
     public class FilterCommands : MewdekoSubmodule<FilterService>
     {
         private readonly DbService _db;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public FilterCommands(DbService db, InteractiveService serv)
         {
-            Interactivity = serv;
+            _interactivity = serv;
             _db = db;
         }
 
@@ -32,7 +32,7 @@ public partial class Permissions
          RequireContext(ContextType.Guild)]
         public async Task AutoBanWord(string word)
         {
-            if (Service._blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
+            if (Service.Blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
             {
                 Service.UnBlacklist(word, ctx.Guild.Id);
                 await ctx.Channel.SendConfirmAsync($"Removed {Format.Code(word)} from the auto bans word list!");
@@ -48,7 +48,7 @@ public partial class Permissions
          RequireContext(ContextType.Guild)]
         public async Task AutoBanWordList(int page = 0)
         {
-            var words = Service._blacklist.Where(x => x.GuildId == ctx.Guild.Id);
+            var words = Service.Blacklist.Where(x => x.GuildId == ctx.Guild.Id);
             if (!words.Any())
             {
                 await ctx.Channel.SendErrorAsync("No AutoBanWords set.");
@@ -63,15 +63,12 @@ public partial class Permissions
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
-                {
-                    return Task.FromResult(new PageBuilder()
+                Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                         .WithTitle("AutoBanWords")
                         .WithDescription(string.Join("\n", words.Select(x => x.Word).Skip(page * 10).Take(10)))
                         .WithOkColor());
-                }
             }
         }
 
@@ -79,8 +76,8 @@ public partial class Permissions
          RequireContext(ContextType.Guild)]
         public async Task FWarn(string yesnt)
         {
-            await Service.fwarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
-            var t = Service.GetFW(ctx.Guild.Id);
+            await Service.SetFwarn(ctx.Guild, yesnt[..1].ToLower());
+            var t = Service.GetFw(ctx.Guild.Id);
             switch (t)
             {
                 case 1:
@@ -96,7 +93,7 @@ public partial class Permissions
          RequireContext(ContextType.Guild)]
         public async Task InvWarn(string yesnt)
         {
-            await Service.InvWarn(ctx.Guild, yesnt.Substring(0, 1).ToLower());
+            await Service.InvWarn(ctx.Guild, yesnt[..1].ToLower());
             var t = Service.GetInvWarn(ctx.Guild.Id);
             switch (t)
             {
@@ -161,7 +158,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilterInvitesChannelIds.Add(match);
                 else
-                    uow._context.Remove(removed);
+                    uow.Context.Remove(removed);
                 await uow.SaveChangesAsync();
             }
 
@@ -221,7 +218,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilterLinksChannelIds.Add(match);
                 else
-                    uow._context.Remove(removed);
+                    uow.Context.Remove(removed);
                 await uow.SaveChangesAsync();
             }
 
@@ -281,7 +278,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilterWordsChannelIds.Add(match);
                 else
-                    uow._context.Remove(removed);
+                    uow.Context.Remove(removed);
                 await uow.SaveChangesAsync();
             }
 
@@ -317,7 +314,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilteredWords.Add(new FilteredWord {Word = word});
                 else
-                    uow._context.Remove(removed);
+                    uow.Context.Remove(removed);
 
                 await uow.SaveChangesAsync();
             }
@@ -358,15 +355,13 @@ public partial class Permissions
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder()
-                    .WithTitle(GetText("filter_word_list"))
-                    .WithDescription(string.Join("\n", fws.Skip(page * 10).Take(10)))
-                    .WithOkColor());
-            }
+            Task<PageBuilder> PageFactory(int page) =>
+                Task.FromResult(new PageBuilder()
+                                .WithTitle(GetText("filter_word_list"))
+                                .WithDescription(string.Join("\n", fws.Skip(page * 10).Take(10)))
+                                .WithOkColor());
         }
     }
 }

@@ -38,9 +38,8 @@ public partial class Gambling
                 await ReplyErrorLocalizedAsync("start_event_fail").ConfigureAwait(false);
         }
 
-        private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot)
-        {
-            return type switch
+        private EmbedBuilder GetEmbed(CurrencyEvent.Type type, EventOptions opts, long currentPot) =>
+            type switch
             {
                 CurrencyEvent.Type.Reaction => new EmbedBuilder().WithOkColor()
                                                                  .WithTitle(GetText("event_title", type.ToString()))
@@ -57,7 +56,6 @@ public partial class Gambling
                                                                        opts.Hours)),
                 _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
-        }
 
         private string GetReactionDescription(long amount, long potSize)
         {

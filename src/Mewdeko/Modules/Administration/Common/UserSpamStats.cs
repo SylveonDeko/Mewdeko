@@ -32,7 +32,7 @@ public sealed class UserSpamStats : IDisposable
         lock (_applyLock)
         {
             var upperMsg = message.Content.ToUpperInvariant();
-            if (upperMsg != LastMessage || string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any())
+            if (upperMsg != LastMessage || (string.IsNullOrWhiteSpace(upperMsg) && message.Attachments.Any()))
             {
                 LastMessage = upperMsg;
                 while (Timers.TryDequeue(out var old))

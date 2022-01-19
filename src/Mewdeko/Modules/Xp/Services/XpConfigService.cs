@@ -7,11 +7,11 @@ namespace Mewdeko.Modules.Xp.Services;
 
 public sealed class XpConfigService : ConfigServiceBase<XpConfig>
 {
-    private new const string FilePath = "data/xp.yml";
-    private static readonly TypedKey<XpConfig> changeKey = new("config.xp.updated");
+    private const string FILE_PATH = "data/xp.yml";
+    private static readonly TypedKey<XpConfig> _changeKey = new("config.xp.updated");
 
-    public XpConfigService(IConfigSeria serializer, IPubSub pubSub) : base(FilePath, serializer, pubSub,
-        changeKey)
+    public XpConfigService(IConfigSeria serializer, IPubSub pubSub) : base(FILE_PATH, serializer, pubSub,
+        _changeKey)
     {
         AddParsedProp("txt.cooldown", conf => conf.MessageXpCooldown, int.TryParse,
             ConfigPrinters.ToString, x => x > 0);

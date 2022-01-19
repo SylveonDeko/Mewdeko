@@ -27,7 +27,7 @@ public class FeedsService : INService
         using (var uow = db.GetDbContext())
         {
             var guildConfigIds = bot.AllGuildConfigs.Select(x => x.Id).ToList();
-            _subs = uow._context.GuildConfigs
+            _subs = uow.Context.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))
                 .Include(x => x.FeedSubs)
@@ -71,7 +71,7 @@ public class FeedsService : INService
 
                     if (!_lastPosts.TryGetValue(kvp.Key, out var lastFeedUpdate))
                         lastFeedUpdate = _lastPosts[kvp.Key] =
-                            items.Any() ? items[items.Count - 1].LastUpdate : DateTime.UtcNow;
+                            items.Any() ? items[^1].LastUpdate : DateTime.UtcNow;
 
                     foreach (var (feedItem, itemUpdateDate) in items)
                     {
@@ -212,7 +212,7 @@ public class FeedsService : INService
             old.Remove(toRemove);
             return old;
         });
-        uow._context.Remove(toRemove);
+        uow.Context.Remove(toRemove);
         uow.SaveChanges();
 
         return true;

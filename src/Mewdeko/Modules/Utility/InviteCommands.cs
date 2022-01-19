@@ -16,9 +16,9 @@ public partial class Utility
     [Group]
     public class InviteCommands : MewdekoSubmodule<InviteService>
     {
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
-        public InviteCommands(InteractiveService serv) => Interactivity = serv;
+        public InviteCommands(InteractiveService serv) => _interactivity = serv;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.CreateInstantInvite), UserPerm(ChannelPermission.CreateInstantInvite),
@@ -54,7 +54,7 @@ public partial class Utility
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

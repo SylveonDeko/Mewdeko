@@ -11,8 +11,8 @@ public class PatreonData
 
 public class PatreonDataLinks
 {
-    public string first { get; set; }
-    public string next { get; set; }
+    public string First { get; set; }
+    public string Next { get; set; }
 }
 
 public class PatreonUserAndReward

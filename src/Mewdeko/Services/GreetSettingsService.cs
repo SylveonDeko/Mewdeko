@@ -18,9 +18,8 @@ public class GreetSettingsService : INService
     private readonly BotConfigService _bss;
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly GreetGrouper<IGuildUser> byes = new();
 
-    private readonly GreetGrouper<IGuildUser> greets = new();
+    private readonly GreetGrouper<IGuildUser> _greets = new();
 
     public GreetSettingsService(DiscordSocketClient client, Mewdeko bot, DbService db,
         BotConfigService bss)
@@ -38,10 +37,10 @@ public class GreetSettingsService : INService
 
         bot.JoinedGuild += Bot_JoinedGuild;
         _client.LeftGuild += Client_LeftGuild;
-        _greethooks = bot.AllGuildConfigs
+        Greethooks = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.GreetHook)
             .ToConcurrent();
-        _leavehooks = bot.AllGuildConfigs
+        Leavehooks = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.LeaveHook)
             .ToConcurrent();
 
@@ -50,13 +49,13 @@ public class GreetSettingsService : INService
 
 
     public ConcurrentDictionary<ulong, GreetSettings> GuildConfigsCache { get; }
-    private ConcurrentDictionary<ulong, string> _greethooks { get; } = new();
-    private ConcurrentDictionary<ulong, string> _leavehooks { get; } = new();
+    private ConcurrentDictionary<ulong, string> Greethooks { get; } = new();
+    private ConcurrentDictionary<ulong, string> Leavehooks { get; } = new();
     public bool GroupGreets => _bss.Data.GroupGreets;
 
     private async Task TriggerBoostMessage(GuildConfig conf, SocketGuildUser user, ITextChannel chan = null)
     {
-        ITextChannel channel = chan switch
+        var channel = chan switch
         {
             null => user.Guild.GetTextChannel(conf.BoostMessageChannelId),
             not null => chan
@@ -66,7 +65,7 @@ public class GreetSettingsService : INService
 
         if (string.IsNullOrWhiteSpace(conf.BoostMessage))
             return;
-        if (CREmbed.TryParse(conf.BoostMessage, out var embedData))
+        if (CrEmbed.TryParse(conf.BoostMessage, out var embedData))
         {
             var rep = new ReplacementBuilder()
                       .WithDefault(user, channel, user.Guild, _client)
@@ -111,10 +110,10 @@ public class GreetSettingsService : INService
         if (msg.Channel is not SocketGuildChannel chan) return;
         // if user is a new booster
         // or boosted again the same server
-        if (msg.Type != MessageType.UserPremiumGuildSubscription &&
-            msg.Type != MessageType.UserPremiumGuildSubscriptionTier1 &&
-            msg.Type != MessageType.UserPremiumGuildSubscriptionTier2 &&
-            msg.Type != MessageType.UserPremiumGuildSubscriptionTier3) return;
+        if (msg.Type is not MessageType.UserPremiumGuildSubscription and
+            not MessageType.UserPremiumGuildSubscriptionTier1 and
+            not MessageType.UserPremiumGuildSubscriptionTier2 and
+            not MessageType.UserPremiumGuildSubscriptionTier3) return;
         var uow = _db.GetDbContext();
         var conf = uow.GuildConfigs.ForId(chan.Guild.Id, set => set);
         if (!conf.SendBoostMessage) return;
@@ -228,7 +227,7 @@ public class GreetSettingsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _greethooks.AddOrUpdate(guild.Id, url, (_, _) => url);
+        Greethooks.AddOrUpdate(guild.Id, url, (_, _) => url);
     }
 
     public async Task SetWebLeaveUrl(IGuild guild, string url)
@@ -240,7 +239,7 @@ public class GreetSettingsService : INService
             await uow.SaveChangesAsync();
         }
 
-        _leavehooks.AddOrUpdate(guild.Id, url, (_, _) => url);
+        Leavehooks.AddOrUpdate(guild.Id, url, (_, _) => url);
     }
 
     public string GetDmGreetMsg(ulong id)
@@ -257,13 +256,13 @@ public class GreetSettingsService : INService
 
     public string GetGreetHook(ulong? gid)
     {
-        _greethooks.TryGetValue(gid.Value, out var snum);
+        Greethooks.TryGetValue(gid.Value, out var snum);
         return snum;
     }
 
     public string GetLeaveHook(ulong? gid)
     {
-        _leavehooks.TryGetValue(gid.Value, out var snum);
+        Leavehooks.TryGetValue(gid.Value, out var snum);
         return snum;
     }
 
@@ -282,7 +281,7 @@ public class GreetSettingsService : INService
                   .Build();
         var lh = GetLeaveHook(channel.GuildId);
 
-        if (CREmbed.TryParse(conf.ChannelByeMessageText, out var embedData))
+        if (CrEmbed.TryParse(conf.ChannelByeMessageText, out var embedData))
         {
             rep.Replace(embedData);
             try
@@ -295,8 +294,7 @@ public class GreetSettingsService : INService
                 else
                 {
                     var webhook = new DiscordWebhookClient(GetLeaveHook(channel.GuildId));
-                    var embeds = new List<Embed>();
-                    embeds.Add(embedData.ToEmbed().Build());
+                    var embeds = new List<Embed> {embedData.ToEmbed().Build()};
                     var toDelete = await webhook.SendMessageAsync(embedData.PlainText, embeds: embeds)
                                                 .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0)
@@ -355,7 +353,7 @@ public class GreetSettingsService : INService
                   .WithManyUsers(users)
                   .Build();
         var gh = GetGreetHook(channel.GuildId);
-        if (CREmbed.TryParse(conf.ChannelGreetMessageText, out var embedData))
+        if (CrEmbed.TryParse(conf.ChannelGreetMessageText, out var embedData))
         {
             rep.Replace(embedData);
             try
@@ -420,7 +418,7 @@ public class GreetSettingsService : INService
                   .WithDefault(user, channel, (SocketGuild) user.Guild, _client)
                   .Build();
 
-        if (CREmbed.TryParse(conf.DmGreetMessageText, out var embedData))
+        if (CrEmbed.TryParse(conf.DmGreetMessageText, out var embedData))
         {
             rep.Replace(embedData);
             try
@@ -467,7 +465,7 @@ public class GreetSettingsService : INService
                             // if group is newly created, greet that user right away,
                             // but any user which joins in the next 5 seconds will
                             // be greeted in a group greet
-                            if (greets.CreateOrAdd(user.GuildId, user))
+                            if (_greets.CreateOrAdd(user.GuildId, user))
                             {
                                 // greet single user
                                 await GreetUsers(conf, channel, new[] {user});
@@ -475,7 +473,7 @@ public class GreetSettingsService : INService
                                 while (!groupClear)
                                 {
                                     await Task.Delay(5000).ConfigureAwait(false);
-                                    groupClear = greets.ClearGroup(user.GuildId, 5, out var toGreet);
+                                    groupClear = _greets.ClearGroup(user.GuildId, 5, out var toGreet);
                                     await GreetUsers(conf, channel, toGreet);
                                 }
                             }
@@ -526,10 +524,7 @@ public class GreetSettingsService : INService
 
     public async Task<bool> SetSettings(ulong guildId, GreetSettings settings)
     {
-        if (settings.AutoDeleteByeMessagesTimer > 600 ||
-            settings.AutoDeleteByeMessagesTimer < 0 ||
-            settings.AutoDeleteGreetMessagesTimer > 600 ||
-            settings.AutoDeleteGreetMessagesTimer < 0)
+        if (settings.AutoDeleteByeMessagesTimer is > 600 or < 0 || settings.AutoDeleteGreetMessagesTimer is > 600 or < 0)
             return false;
 
         using var uow = _db.GetDbContext();
@@ -670,7 +665,7 @@ public class GreetSettingsService : INService
 
     public async Task SetByeDel(ulong guildId, int timer)
     {
-        if (timer < 0 || timer > 600)
+        if (timer is < 0 or > 600)
             return;
 
         using var uow = _db.GetDbContext();
@@ -685,7 +680,7 @@ public class GreetSettingsService : INService
 
     public async Task SetGreetDel(ulong id, int timer)
     {
-        if (timer < 0 || timer > 600)
+        if (timer is < 0 or > 600)
             return;
 
         using var uow = _db.GetDbContext();
@@ -742,11 +737,10 @@ public class GreetSettingsService : INService
         var conf = GetOrAddSettingsForGuild(user.GuildId);
         return GreetUsers(conf, channel, user);
     }
-    public Task BoostTest(ITextChannel channel, IGuildUser user)
+    public async Task BoostTest(ITextChannel channel, IGuildUser user)
     {
         var conf = _db.GetDbContext().GuildConfigs.ForId(user.GuildId);
-        TriggerBoostMessage(conf, user as SocketGuildUser, channel);
-        return Task.CompletedTask;
+        await TriggerBoostMessage(conf, user as SocketGuildUser, channel);
     }
 
     public Task<bool> GreetDmTest(IDMChannel channel, IGuildUser user)

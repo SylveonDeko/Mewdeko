@@ -26,7 +26,7 @@ public class UserPunishService2 : INService
                                    .ToConcurrent();
 
 
-        new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
+        new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
@@ -179,14 +179,14 @@ public class UserPunishService2 : INService
     public async Task CheckAllWarnExpiresAsync()
     {
         using var uow = _db.GetDbContext();
-        var cleared = await uow._context.Database.ExecuteSqlRawAsync(@"UPDATE Warnings2
+        var cleared = await uow.Context.Database.ExecuteSqlRawAsync(@"UPDATE Warnings2
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 0)
 	AND Forgiven = 0
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
 
-        var deleted = await uow._context.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings2
+        var deleted = await uow.Context.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings2
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 1)
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings2.GuildId));");
 
@@ -204,14 +204,14 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
 
         var hours = $"{-config.WarnExpireHours} hours";
         if (config.WarnExpireAction == WarnExpireAction.Clear)
-            await uow._context.Database.ExecuteSqlInterpolatedAsync($@"UPDATE warnings
+            await uow.Context.Database.ExecuteSqlInterpolatedAsync($@"UPDATE warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId={guildId}
     AND Forgiven = 0
     AND DateAdded < datetime('now', {hours})");
         else if (config.WarnExpireAction == WarnExpireAction.Delete)
-            await uow._context.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings
+            await uow.Context.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings
 WHERE GuildId={guildId}
     AND DateAdded < datetime('now', {hours})");
 
@@ -264,17 +264,16 @@ WHERE GuildId={guildId}
     public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime time, IRole role = null)
     {
         // these 3 don't make sense with time
-        if ((punish == PunishmentAction.Softban || punish == PunishmentAction.Kick ||
-             punish == PunishmentAction.RemoveRoles) && time != null)
+        if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
             return false;
-        if (number <= 0 || time != null && time.Time > TimeSpan.FromDays(49))
+        if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
             return false;
 
         using var uow = _db.GetDbContext();
         var ps = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.WarnPunishments2)).WarnPunishments2;
         var toDelete = ps.Where(x => x.Count == number);
 
-        uow._context.RemoveRange(toDelete);
+        uow.Context.RemoveRange(toDelete);
 
         ps.Add(new WarningPunishment2
         {
@@ -299,7 +298,7 @@ WHERE GuildId={guildId}
 
         if (p != null)
         {
-            uow._context.Remove(p);
+            uow.Context.Remove(p);
             uow.SaveChanges();
         }
 

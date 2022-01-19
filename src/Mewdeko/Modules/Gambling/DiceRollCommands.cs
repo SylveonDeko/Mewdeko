@@ -16,10 +16,10 @@ public partial class Gambling
     [Group]
     public class DiceRollCommands : MewdekoSubmodule
     {
-        private static readonly Regex dndRegex =
+        private static readonly Regex _dndRegex =
             new(@"^(?<n1>\d+)d(?<n2>\d+)(?:\+(?<add>\d+))?(?:\-(?<sub>\d+))?$", RegexOptions.Compiled);
 
-        private static readonly Regex fudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
+        private static readonly Regex _fudgeRegex = new(@"^(?<n1>\d+)d(?:F|f)$", RegexOptions.Compiled);
 
         private static readonly char[] _fateRolls = {'-', ' ', '+'};
         private readonly IImageCache _images;
@@ -61,7 +61,7 @@ public partial class Gambling
 
         private async Task InternalRoll(int num, bool ordered)
         {
-            if (num < 1 || num > 30)
+            if (num is < 1 or > 30)
             {
                 await ReplyErrorLocalizedAsync("dice_invalid_number", 1, 30).ConfigureAwait(false);
                 return;
@@ -111,7 +111,7 @@ public partial class Gambling
         private async Task InternallDndRoll(string arg, bool ordered)
         {
             Match match;
-            if ((match = fudgeRegex.Match(arg)).Length != 0 &&
+            if ((match = _fudgeRegex.Match(arg)).Length != 0 &&
                 int.TryParse(match.Groups["n1"].ToString(), out var n1) &&
                 n1 > 0 && n1 < 500)
             {
@@ -127,7 +127,7 @@ public partial class Gambling
                         .WithValue(string.Join(" ", rolls.Select(c => Format.Code($"[{c}]")))));
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             }
-            else if ((match = dndRegex.Match(arg)).Length != 0)
+            else if ((match = _dndRegex.Match(arg)).Length != 0)
             {
                 var rng = new MewdekoRandom();
                 if (int.TryParse(match.Groups["n1"].ToString(), out n1) &&
@@ -184,7 +184,7 @@ public partial class Gambling
 
         private Image<Rgba32> GetDice(int num)
         {
-            if (num < 0 || num > 10)
+            if (num is < 0 or > 10)
                 throw new ArgumentOutOfRangeException(nameof(num));
 
             if (num == 10)

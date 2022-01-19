@@ -30,7 +30,7 @@ public class Replacer
         return input;
     }
 
-    public void Replace(CREmbed embedData)
+    public void Replace(CrEmbed embedData)
     {
         embedData.PlainText = Replace(embedData.PlainText);
         embedData.Description = Replace(embedData.Description);

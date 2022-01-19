@@ -19,31 +19,31 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class FilterService : IEarlyBehavior, INService
 {
-    private readonly CultureInfo _CultureInfo = new("en-US");
+    private readonly CultureInfo _cultureInfo = new("en-US");
     private readonly DbService _db;
     private readonly IPubSub _pubSub;
 
-    private readonly TypedKey<AutoBanEntry[]> blPubKey = new("autobanword.reload");
-    private readonly DiscordSocketClient Client;
-    public IReadOnlyList<AutoBanEntry> _blacklist;
-    public AdministrationService ASS;
-    public UserPunishService upun;
+    private readonly TypedKey<AutoBanEntry[]> _blPubKey = new("autobanword.reload");
+    private readonly DiscordSocketClient _client;
+    public IReadOnlyList<AutoBanEntry> Blacklist;
+    public AdministrationService Ass;
+    public UserPunishService Upun;
 
     public FilterService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass)
     {
         _db = db;
-        Client = client;
+        _client = client;
         _pubSub = pubSub;
-        upun = upun2;
+        Upun = upun2;
         Strings = strng;
         Reload(false);
-        _pubSub.Sub(blPubKey, OnReload);
-        ASS = ass;
+        _pubSub.Sub(_blPubKey, OnReload);
+        Ass = ass;
         using (var uow = db.GetDbContext())
         {
             var ids = client.GetGuildIds();
-            var configs = uow._context.Set<GuildConfig>()
+            var configs = uow.Context.Set<GuildConfig>()
                 .AsQueryable()
                 .Include(x => x.FilteredWords)
                 .Include(x => x.FilterLinksChannelIds)
@@ -74,10 +74,10 @@ public class FilterService : IEarlyBehavior, INService
             WordFilteringChannels =
                 new ConcurrentHashSet<ulong>(configs.SelectMany(gc =>
                     gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
-            _fwarn = bot.AllGuildConfigs
+            Fwarn = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.fwarn)
                 .ToConcurrent();
-            _invwarn = bot.AllGuildConfigs
+            Invwarn = bot.AllGuildConfigs
                 .ToDictionary(x => x.GuildId, x => x.invwarn)
                 .ToConcurrent();
         }
@@ -109,15 +109,15 @@ public class FilterService : IEarlyBehavior, INService
 
     public ConcurrentHashSet<ulong> LinkFilteringChannels { get; }
     public ConcurrentHashSet<ulong> LinkFilteringServers { get; }
-    private ConcurrentDictionary<ulong, int> _fwarn { get; } = new();
+    private ConcurrentDictionary<ulong, int> Fwarn { get; } = new();
 
-    private ConcurrentDictionary<ulong, int> _invwarn { get; } = new();
+    private ConcurrentDictionary<ulong, int> Invwarn { get; } = new();
 
     public int Priority => -50;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
 
     public async Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage msg) =>
-        msg.Author is IGuildUser gu && !gu.RoleIds.Contains(ASS.GetStaffRole(guild.Id)) &&
+        msg.Author is IGuildUser gu && !gu.RoleIds.Contains(Ass.GetStaffRole(guild.Id)) &&
         !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false)
                                                || await FilterWords(guild, msg).ConfigureAwait(false)
                                                || await FilterLinks(guild, msg).ConfigureAwait(false)
@@ -125,23 +125,23 @@ public class FilterService : IEarlyBehavior, INService
 
     private ValueTask OnReload(AutoBanEntry[] blacklist)
     {
-        _blacklist = blacklist;
+        Blacklist = blacklist;
         return default;
     }
 
     public void Reload(bool publish = true)
     {
         using var uow = _db.GetDbContext();
-        var toPublish = uow._context.AutoBanWords.AsNoTracking().ToArray();
-        _blacklist = toPublish;
-        if (publish) _pubSub.Pub(blPubKey, toPublish);
+        var toPublish = uow.Context.AutoBanWords.AsNoTracking().ToArray();
+        Blacklist = toPublish;
+        if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
 
     public void WordBlacklist(string id, ulong id2)
     {
         using var uow = _db.GetDbContext();
         var item = new AutoBanEntry {Word = id, GuildId = id2};
-        uow._context.AutoBanWords.Add(item);
+        uow.Context.AutoBanWords.Add(item);
         uow.SaveChanges();
 
         Reload();
@@ -150,11 +150,11 @@ public class FilterService : IEarlyBehavior, INService
     public void UnBlacklist(string id, ulong id2)
     {
         using var uow = _db.GetDbContext();
-        var toRemove = uow._context.AutoBanWords
+        var toRemove = uow.Context.AutoBanWords
             .FirstOrDefault(bi => bi.Word == id && bi.GuildId == id2);
 
         if (toRemove is not null)
-            uow._context.AutoBanWords.Remove(toRemove);
+            uow.Context.AutoBanWords.Remove(toRemove);
 
         uow.SaveChanges();
 
@@ -171,7 +171,7 @@ public class FilterService : IEarlyBehavior, INService
 
     public int GetInvWarn(ulong? id)
     {
-        if (id == null || !_invwarn.TryGetValue(id.Value, out var invw))
+        if (id == null || !Invwarn.TryGetValue(id.Value, out var invw))
             return 0;
 
         return invw;
@@ -180,7 +180,7 @@ public class FilterService : IEarlyBehavior, INService
     public async Task InvWarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        using (var uow = _db.GetDbContext())
+        using (_db.GetDbContext())
         {
             yesno = yesnt switch
             {
@@ -197,21 +197,21 @@ public class FilterService : IEarlyBehavior, INService
             await uow.SaveChangesAsync();
         }
 
-        _invwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        Invwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
-    public int GetFW(ulong? id)
+    public int GetFw(ulong? id)
     {
-        if (id == null || !_fwarn.TryGetValue(id.Value, out var fw))
+        if (id == null || !Fwarn.TryGetValue(id.Value, out var fw))
             return 0;
 
         return fw;
     }
 
-    public async Task fwarn(IGuild guild, string yesnt)
+    public async Task SetFwarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        using (var uow = _db.GetDbContext())
+        using (_db.GetDbContext())
         {
             yesno = yesnt switch
             {
@@ -228,7 +228,7 @@ public class FilterService : IEarlyBehavior, INService
             await uow.SaveChangesAsync();
         }
 
-        _fwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        Fwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     public void ClearFilteredWords(ulong guildId)
@@ -258,7 +258,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    protected string GetText(string key, params object[] args) => Strings.GetText(key, _CultureInfo, args);
+    protected string GetText(string key, params object[] args) => Strings.GetText(key, _cultureInfo, args);
 
     public async Task<bool> FilterBannedWords(IGuild guild, IUserMessage msg)
     {
@@ -266,7 +266,7 @@ public class FilterService : IEarlyBehavior, INService
             return false;
         if (msg is null)
             return false;
-        var bannedwords = _blacklist.Where(x => x.GuildId == guild.Id);
+        var bannedwords = Blacklist.Where(x => x.GuildId == guild.Id);
         foreach (var i in bannedwords.Select(x => x.Word))
             if (msg.Content.ToLower().Contains(i))
                 try
@@ -274,8 +274,8 @@ public class FilterService : IEarlyBehavior, INService
                     await msg.DeleteAsync();
                     var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
                         $"Banned for saying autoban word {i}");
-                    var embed = upun.GetBanUserDmEmbed(Client, guild as SocketGuild,
-                        Client.CurrentUser as IGuildUser, msg.Author as IGuildUser, defaultMessage,
+                    var embed = Upun.GetBanUserDmEmbed(_client, guild as SocketGuild,
+                        _client.CurrentUser as IGuildUser, msg.Author as IGuildUser, defaultMessage,
                         $"Banned for saying autoban word {i}", null);
                     await msg.Author.CreateDMChannelAsync().Result.SendMessageAsync(embed: embed.ToEmbed().Build());
                     await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected");
@@ -308,7 +308,7 @@ public class FilterService : IEarlyBehavior, INService
         var filteredChannelWords =
             FilteredWordsForChannel(usrMsg.Channel.Id, guild.Id) ?? new ConcurrentHashSet<string>();
         var filteredServerWords = FilteredWordsForServer(guild.Id) ?? new ConcurrentHashSet<string>();
-        var wordsInMessage = usrMsg.Content.ToLowerInvariant().Split(' ');
+        usrMsg.Content.ToLowerInvariant().Split(' ');
         if (filteredChannelWords.Count != 0 || filteredServerWords.Count != 0)
             foreach (var word in filteredChannelWords)
                 if (usrMsg.Content.Contains(word))
@@ -316,9 +316,9 @@ public class FilterService : IEarlyBehavior, INService
                     try
                     {
                         await usrMsg.DeleteAsync().ConfigureAwait(false);
-                        if (GetFW(guild.Id) != 0)
+                        if (GetFw(guild.Id) != 0)
                         {
-                            await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser,
+                            await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser,
                                 "Warned for Filtered Word");
                             var user = await usrMsg.Author.CreateDMChannelAsync();
                             await user.SendErrorAsync(
@@ -340,9 +340,9 @@ public class FilterService : IEarlyBehavior, INService
                 try
                 {
                     await usrMsg.DeleteAsync().ConfigureAwait(false);
-                    if (GetFW(guild.Id) != 0)
+                    if (GetFw(guild.Id) != 0)
                     {
-                        await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser,
+                        await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser,
                             "Warned for Filtered Word");
                         var user = await usrMsg.Author.CreateDMChannelAsync();
                         await user.SendErrorAsync(
@@ -376,7 +376,7 @@ public class FilterService : IEarlyBehavior, INService
                 await usrMsg.DeleteAsync().ConfigureAwait(false);
                 if (GetInvWarn(guild.Id) != 0)
                 {
-                    await upun.Warn(guild, usrMsg.Author.Id, Client.CurrentUser, "Warned for Posting Invite");
+                    await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser, "Warned for Posting Invite");
                     var user = await usrMsg.Author.CreateDMChannelAsync();
                     await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!");
                 }

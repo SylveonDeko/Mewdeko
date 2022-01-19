@@ -5,94 +5,94 @@ namespace Mewdeko.Services.Database;
 
 public sealed class UnitOfWork : IUnitOfWork
 {
-    private IAfkRepository _AFK;
+    private IAfkRepository afk;
 
-    private IClubRepository _clubs;
+    private IClubRepository clubs;
 
-    private ICustomReactionRepository _customReactions;
+    private ICustomReactionRepository customReactions;
 
-    private IDiscordUserRepository _discordUsers;
-    private IGiveawaysRepository _giveaways;
-    private IGlobalBansRepository _globalbans;
+    private IDiscordUserRepository discordUsers;
+    private IGiveawaysRepository giveaways;
+    private IGlobalBansRepository globalbans;
 
-    private IGuildConfigRepository _guildConfigs;
+    private IGuildConfigRepository guildConfigs;
 
-    private IMusicPlaylistRepository _musicPlaylists;
-    private IMultiGreetRepository _multiGreets;
+    private IMusicPlaylistRepository musicPlaylists;
+    private IMultiGreetRepository multiGreets;
 
-    private IPlantedCurrencyRepository _planted;
+    private IPlantedCurrencyRepository planted;
 
-    private IPollsRepository _polls;
-    private IQuoteRepository _quotes;
-    private IReminderRepository _reminders;
+    private IPollsRepository polls;
+    private IQuoteRepository quotes;
+    private IReminderRepository reminders;
 
-    private ISelfAssignedRolesRepository _selfAssignedRoles;
-    private ISnipeStoreRepository _snipestore;
-    private IStarboardRepository _Starboard;
-    private ISuggestionsRepository _suggestions;
-    private ITicketRepository _tickets;
+    private ISelfAssignedRolesRepository selfAssignedRoles;
+    private ISnipeStoreRepository snipestore;
+    private IStarboardRepository starboard;
+    private ISuggestionsRepository suggestions;
+    private ITicketRepository tickets;
 
-    private IWaifuRepository _waifus;
+    private IWaifuRepository waifus;
 
-    private IWarningsRepository _warnings;
+    private IWarningsRepository warnings;
 
-    private IWarningsRepository2 _warnings2;
+    private IWarningsRepository2 warnings2;
 
-    private IXpRepository _xp;
+    private IXpRepository xp;
 
-    public UnitOfWork(MewdekoContext context) => _context = context;
+    public UnitOfWork(MewdekoContext context) => Context = context;
 
-    public MewdekoContext _context { get; }
-    public IQuoteRepository Quotes => _quotes ??= new QuoteRepository(_context);
+    public MewdekoContext Context { get; }
+    public IQuoteRepository Quotes => quotes ??= new QuoteRepository(Context);
 
 
     public IGuildConfigRepository GuildConfigs =>
-        _guildConfigs ??= new GuildConfigRepository(_context);
+        guildConfigs ??= new GuildConfigRepository(Context);
 
-    public IGlobalBansRepository GlobalBans => _globalbans ??= new GlobalBansRepository(_context);
+    public IGlobalBansRepository GlobalBans => globalbans ??= new GlobalBansRepository(Context);
 
-    public IReminderRepository Reminders => _reminders ??= new ReminderRepository(_context);
-    public IMultiGreetRepository MultiGreets => _multiGreets ??= new MultiGreetRepository(_context);
+    public IReminderRepository Reminders => reminders ??= new ReminderRepository(Context);
+    public IMultiGreetRepository MultiGreets => multiGreets ??= new MultiGreetRepository(Context);
 
     public ISelfAssignedRolesRepository SelfAssignedRoles =>
-        _selfAssignedRoles ??= new SelfAssignedRolesRepository(_context);
+        selfAssignedRoles ??= new SelfAssignedRolesRepository(Context);
 
-    public ITicketRepository Tickets => _tickets ??= new TicketRepository(_context);
+    public ITicketRepository Tickets => tickets ??= new TicketRepository(Context);
 
     public IMusicPlaylistRepository MusicPlaylists =>
-        _musicPlaylists ??= new MusicPlaylistRepository(_context);
+        musicPlaylists ??= new MusicPlaylistRepository(Context);
 
     public ICustomReactionRepository CustomReactions =>
-        _customReactions ??= new CustomReactionsRepository(_context);
+        customReactions ??= new CustomReactionsRepository(Context);
 
-    public IWaifuRepository Waifus => _waifus ??= new WaifuRepository(_context);
+    public IWaifuRepository Waifus => waifus ??= new WaifuRepository(Context);
 
     public IDiscordUserRepository DiscordUsers =>
-        _discordUsers ??= new DiscordUserRepository(_context);
+        discordUsers ??= new DiscordUserRepository(Context);
 
-    public IGiveawaysRepository Giveaways => _giveaways ??= new GiveawayRepository(_context);
-    public IWarningsRepository Warnings => _warnings ??= new WarningsRepository(_context);
-    public IWarningsRepository2 Warnings2 => _warnings2 ??= new WarningsRepository2(_context);
-    public ISuggestionsRepository Suggestions => _suggestions ??= new SuggestRepository(_context);
+    public IGiveawaysRepository Giveaways => giveaways ??= new GiveawayRepository(Context);
+    public IWarningsRepository Warnings => warnings ??= new WarningsRepository(Context);
+    public IWarningsRepository2 Warnings2 => warnings2 ??= new WarningsRepository2(Context);
+    public ISuggestionsRepository Suggestions => suggestions ??= new SuggestRepository(Context);
 
-    public ISnipeStoreRepository SnipeStore => _snipestore ??= new SnipeStoreRepository(_context);
-    public IAfkRepository AFK => _AFK ??= new AFKRepository(_context);
-    public IStarboardRepository Starboard => _Starboard ??= new StarboardRepository(_context);
-    public IXpRepository Xp => _xp ??= new XpRepository(_context);
-    public IClubRepository Clubs => _clubs ??= new ClubRepository(_context);
-    public IPollsRepository Polls => _polls ??= new PollsRepository(_context);
+    public ISnipeStoreRepository SnipeStore => snipestore ??= new SnipeStoreRepository(Context);
+    public IAfkRepository AFK => afk ??= new AfkRepository(Context);
+    public IStarboardRepository Starboard => starboard ??= new StarboardRepository(Context);
+    public IXpRepository Xp => xp ??= new XpRepository(Context);
+    public IClubRepository Clubs => clubs ??= new ClubRepository(Context);
+    public IPollsRepository Polls => polls ??= new PollsRepository(Context);
 
     public IPlantedCurrencyRepository PlantedCurrency =>
-        _planted ??= new PlantedCurrencyRepository(_context);
+        planted ??= new PlantedCurrencyRepository(Context);
 
-    public int SaveChanges() => _context.SaveChanges();
+    public int SaveChanges() => Context.SaveChanges();
     //it saved everything as null, that or it added an entry along with GuildCOnfigs
 
-    public Task<int> SaveChangesAsync() => _context.SaveChangesAsync();
+    public Task<int> SaveChangesAsync() => Context.SaveChangesAsync();
 
     public void Dispose()
     {
-        _context.Dispose();
+        Context.Dispose();
         GC.SuppressFinalize(this);
     }
 }

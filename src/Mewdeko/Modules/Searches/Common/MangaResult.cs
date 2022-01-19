@@ -24,5 +24,5 @@ public class MangaResult
     public string Link => "http://anilist.co/manga/" + Id;
 
     public string Synopsis =>
-        Description?.Substring(0, Description.Length > 500 ? 500 : Description.Length) + "...";
+        Description?[..(Description.Length > 500 ? 500 : Description.Length)] + "...";
 }

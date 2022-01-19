@@ -8,7 +8,7 @@ namespace Mewdeko.Services.Settings;
 
 public sealed class GamblingConfigMigrator : IConfigMigrator
 {
-    private const string WaifuItemUpdateQuery = @"UPDATE WaifuItem
+    private const string WAIFU_ITEM_UPDATE_QUERY = @"UPDATE WaifuItem
 SET Name = CASE ItemEmoji
      WHEN '🥔' THEN 'potato'
      WHEN '🍪' THEN 'cookie'
@@ -62,7 +62,7 @@ SET Name = CASE ItemEmoji
     public void EnsureMigrated()
     {
         using var uow = _db.GetDbContext();
-        using var conn = uow._context.Database.GetDbConnection();
+        using var conn = uow.Context.Database.GetDbConnection();
         Migrate(conn);
     }
 
@@ -103,7 +103,7 @@ FROM BotConfig";
 
         using (var itemsCommand = conn.CreateCommand())
         {
-            itemsCommand.CommandText = WaifuItemUpdateQuery;
+            itemsCommand.CommandText = WAIFU_ITEM_UPDATE_QUERY;
             itemsCommand.ExecuteNonQuery();
         }
 
