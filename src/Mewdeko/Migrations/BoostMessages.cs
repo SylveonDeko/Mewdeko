@@ -2,7 +2,7 @@
 
 namespace Mewdeko.Migrations;
 
-public partial class boostmessages : Migration
+public partial class Boostmessages : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
     {

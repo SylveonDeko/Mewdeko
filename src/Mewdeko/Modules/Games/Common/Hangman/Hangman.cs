@@ -15,7 +15,7 @@ public sealed class Hangman : IDisposable
 
     private readonly HashSet<ulong> _recentUsers = new();
 
-    private Phase _currentPhase = Phase.Active;
+    private Phase currentPhase = Phase.Active;
 
     public Hangman(string type, TermPool tp = null)
     {
@@ -41,13 +41,13 @@ public sealed class Hangman : IDisposable
 
     public Phase CurrentPhase
     {
-        get => _currentPhase;
+        get => currentPhase;
         set
         {
             if (value == Phase.Ended)
                 _endingCompletionSource.TrySetResult(true);
 
-            _currentPhase = value;
+            currentPhase = value;
         }
     }
 
@@ -147,7 +147,7 @@ public sealed class Hangman : IDisposable
                 return;
             }
 
-            var clearSpam = Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 await Task.Delay(3000).ConfigureAwait(false); // remove the user from the spamlist after 5 seconds
                 _recentUsers.Remove(userId);

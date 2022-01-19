@@ -38,7 +38,7 @@ public static class EnumerableExtensions
         var n = list.Count;
         while (n > 1)
         {
-            var box = new byte[n / byte.MaxValue + 1];
+            var box = new byte[(n / byte.MaxValue) + 1];
             int boxSum;
             do
             {
@@ -63,10 +63,8 @@ public static class EnumerableExtensions
     }
 
     public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> dict) =>
-        new ConcurrentDictionary<TKey, TValue>(dict);
+        this IEnumerable<KeyValuePair<TKey, TValue>> dict) => new(dict);
 
     public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
-        where T : class, IIndexed =>
-        new IndexedCollection<T>(enumerable);
+        where T : class, IIndexed => new(enumerable);
 }

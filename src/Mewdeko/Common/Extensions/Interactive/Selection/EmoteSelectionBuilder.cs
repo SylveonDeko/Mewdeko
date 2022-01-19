@@ -27,7 +27,7 @@ public sealed class EmoteSelectionBuilder<TValue>
 
     /// <inheritdoc />
     public override Selection<KeyValuePair<IEmote, TValue>> Build() =>
-        new Selection<KeyValuePair<IEmote, TValue>>(EmoteConverter, StringConverter,
+        new(EmoteConverter, StringConverter,
             EqualityComparer, AllowCancel, SelectionPage?.Build(), Users?.ToArray(), Options?.ToArray(),
             CanceledPage?.Build(), TimeoutPage?.Build(), SuccessPage?.Build(), Deletion, InputType,
             ActionOnCancellation, ActionOnTimeout, ActionOnSuccess);
@@ -69,7 +69,7 @@ public sealed class EmoteSelectionBuilder : BaseSelectionBuilder<Selection<IEmot
 
     /// <inheritdoc />
     public override Selection<IEmote> Build() =>
-        new Selection<IEmote>(EmoteConverter, StringConverter,
+        new(EmoteConverter, StringConverter,
             EqualityComparer, AllowCancel, SelectionPage?.Build(), Users?.ToArray(), Options?.ToArray(),
             CanceledPage?.Build(), TimeoutPage?.Build(), SuccessPage?.Build(), Deletion, InputType,
             ActionOnCancellation, ActionOnTimeout, ActionOnSuccess);

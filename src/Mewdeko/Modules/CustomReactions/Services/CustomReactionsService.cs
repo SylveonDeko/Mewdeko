@@ -34,9 +34,9 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         NoRespond
     }
 
-    private const string MentionPh = "%bot.mention%";
+    private const string MENTION_PH = "%bot.mention%";
 
-    private const string _prependExport =
+    private const string PREPEND_EXPORT =
         @"# Keys are triggers, Each key has a LIST of custom reactions in the following format:
 # - res: Response string
 #   react: 
@@ -82,8 +82,8 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     // 1. custom reactions are almost never added (compared to how many times they are being looped through)
     // 2. only need write locks for this as we'll rebuild+replace the array on every edit
     // 3. there's never many of them (at most a thousand, usually < 100)
-    private CustomReaction[] _globalReactions;
-    private ConcurrentDictionary<ulong, CustomReaction[]> _newGuildReactions;
+    private CustomReaction[] globalReactions;
+    private ConcurrentDictionary<ulong, CustomReaction[]> newGuildReactions;
 
     private bool ready;
 
@@ -209,7 +209,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
             .GroupBy(x => x.Trigger)
             .ToDictionary(x => x.Key, x => x.Select(ExportedExpr.FromModel));
 
-        return _prependExport + _exportSerializer
+        return PREPEND_EXPORT + _exportSerializer
             .Serialize(crsDict)
             .UnescapeUnicodeCodePoints();
     }
@@ -231,7 +231,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         using var uow = _db.GetDbContext();
         foreach (var (trigger, value) in data)
         {
-            await uow._context.CustomReactions.AddRangeAsync(value
+            await uow.Context.CustomReactions.AddRangeAsync(value
                                                              .Where(cr => !string.IsNullOrWhiteSpace(cr.Res))
                                                              .Select(cr => new CustomReaction
                                                              {
@@ -255,36 +255,36 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     private async Task ReloadInternal(IReadOnlyList<ulong> allGuildIds)
     {
         using var uow = _db.GetDbContext();
-        var guildItems = await uow._context.CustomReactions
+        var guildItems = await uow.Context.CustomReactions
             .AsNoTracking()
             .Where(x => allGuildIds.Contains(x.GuildId.Value))
             .ToListAsync();
 
-        _newGuildReactions = guildItems
+        newGuildReactions = guildItems
             .GroupBy(k => k.GuildId!.Value)
             .ToDictionary(g => g.Key,
                 g => g.Select(x =>
                 {
-                    x.Trigger = x.Trigger.Replace(MentionPh, _client.CurrentUser.Mention);
+                    x.Trigger = x.Trigger.Replace(MENTION_PH, _client.CurrentUser.Mention);
                     return x;
                 }).ToArray())
             .ToConcurrent();
 
         lock (_gcrWriteLock)
         {
-            var globalItems = uow._context
+            var globalItems = uow.Context
                 .CustomReactions
                 .AsNoTracking()
                 .Where(x => x.GuildId == null || x.GuildId == 0)
                 .AsEnumerable()
                 .Select(x =>
                 {
-                    x.Trigger = x.Trigger.Replace(MentionPh, _client.CurrentUser.Mention);
+                    x.Trigger = x.Trigger.Replace(MENTION_PH, _client.CurrentUser.Mention);
                     return x;
                 })
                 .ToArray();
 
-            _globalReactions = globalItems;
+            globalReactions = globalItems;
         }
 
         ready = true;
@@ -300,14 +300,14 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
         var content = umsg.Content.Trim().ToLowerInvariant();
 
-        if (_newGuildReactions.TryGetValue(channel.Guild.Id, out var reactions) && reactions.Length > 0)
+        if (newGuildReactions.TryGetValue(channel.Guild.Id, out var reactions) && reactions.Length > 0)
         {
             var cr = MatchCustomReactions(content, reactions);
             if (cr is not null)
                 return cr;
         }
 
-        var localGrs = _globalReactions;
+        var localGrs = globalReactions;
 
         return MatchCustomReactions(content, localGrs);
     }
@@ -389,7 +389,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     private void UpdateInternal(ulong? maybeGuildId, CustomReaction cr)
     {
         if (maybeGuildId is ulong guildId)
-            _newGuildReactions.AddOrUpdate(guildId, new[] {cr},
+            newGuildReactions.AddOrUpdate(guildId, new[] {cr},
                 (_, old) =>
                 {
                     var newArray = old.ToArray();
@@ -401,7 +401,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         else
             lock (_gcrWriteLock)
             {
-                var crs = _globalReactions;
+                var crs = globalReactions;
                 for (var i = 0; i < crs.Length; i++)
                     if (crs[i].Id == cr.Id)
                         crs[i] = cr;
@@ -411,10 +411,10 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     private Task AddInternalAsync(ulong? maybeGuildId, CustomReaction cr)
     {
         // only do this for perf purposes
-        cr.Trigger = cr.Trigger.Replace(MentionPh, _client.CurrentUser.Mention);
+        cr.Trigger = cr.Trigger.Replace(MENTION_PH, _client.CurrentUser.Mention);
 
         if (maybeGuildId is ulong guildId)
-            _newGuildReactions.AddOrUpdate(guildId,
+            newGuildReactions.AddOrUpdate(guildId,
                 new[] {cr},
                 (_, old) => old.With(cr));
         else
@@ -427,7 +427,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     {
         if (maybeGuildId is ulong guildId)
         {
-            _newGuildReactions.AddOrUpdate(guildId,
+            newGuildReactions.AddOrUpdate(guildId,
                 Array.Empty<CustomReaction>(),
                 (key, old) => DeleteInternal(old, id, out _));
 
@@ -436,14 +436,14 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
         lock (_gcrWriteLock)
         {
-            var cr = Array.Find(_globalReactions, item => item.Id == id);
+            var cr = Array.Find(globalReactions, item => item.Id == id);
             if (cr is not null) return _pubSub.Pub(_gcrDeletedkey, cr.Id);
         }
 
         return Task.CompletedTask;
     }
 
-    private CustomReaction[] DeleteInternal(IReadOnlyList<CustomReaction> crs, int id, out CustomReaction deleted)
+    private static CustomReaction[] DeleteInternal(IReadOnlyList<CustomReaction> crs, int id, out CustomReaction deleted)
     {
         deleted = null;
         if (crs is null || crs.Count == 0)
@@ -526,7 +526,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         var count = uow.CustomReactions.ClearFromGuild(guildId);
         uow.SaveChanges();
 
-        _newGuildReactions.TryRemove(guildId, out _);
+        newGuildReactions.TryRemove(guildId, out _);
 
         return count;
     }
@@ -542,16 +542,16 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     public Task OnReadyAsync() => ReloadInternal(_bot.GetCurrentGuildIds());
 
-    private ValueTask OnCrsShouldReload(bool _) => new ValueTask(ReloadInternal(_bot.GetCurrentGuildIds()));
+    private ValueTask OnCrsShouldReload(bool _) => new(ReloadInternal(_bot.GetCurrentGuildIds()));
 
     private ValueTask OnGcrAdded(CustomReaction c)
     {
         lock (_gcrWriteLock)
         {
-            var newGlobalReactions = new CustomReaction[_globalReactions.Length + 1];
-            Array.Copy(_globalReactions, newGlobalReactions, _globalReactions.Length);
-            newGlobalReactions[_globalReactions.Length] = c;
-            _globalReactions = newGlobalReactions;
+            var newGlobalReactions = new CustomReaction[globalReactions.Length + 1];
+            Array.Copy(globalReactions, newGlobalReactions, globalReactions.Length);
+            newGlobalReactions[globalReactions.Length] = c;
+            globalReactions = newGlobalReactions;
         }
 
         return default;
@@ -561,10 +561,10 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     {
         lock (_gcrWriteLock)
         {
-            for (var i = 0; i < _globalReactions.Length; i++)
-                if (_globalReactions[i].Id == c.Id)
+            for (var i = 0; i < globalReactions.Length; i++)
+                if (globalReactions[i].Id == c.Id)
                 {
-                    _globalReactions[i] = c;
+                    globalReactions[i] = c;
                     return default;
                 }
 
@@ -580,8 +580,8 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     {
         lock (_gcrWriteLock)
         {
-            var newGlobalReactions = DeleteInternal(_globalReactions, id, out _);
-            _globalReactions = newGlobalReactions;
+            var newGlobalReactions = DeleteInternal(globalReactions, id, out _);
+            globalReactions = newGlobalReactions;
         }
 
         return default;
@@ -595,7 +595,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     private Task OnLeftGuild(SocketGuild arg)
     {
-        _newGuildReactions.TryRemove(arg.Id, out _);
+        newGuildReactions.TryRemove(arg.Id, out _);
 
         return Task.CompletedTask;
     }
@@ -603,13 +603,13 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     private async Task OnJoinedGuild(GuildConfig gc)
     {
         using var uow = _db.GetDbContext();
-        var crs = await uow._context
+        var crs = await uow.Context
             .CustomReactions
             .AsNoTracking()
             .Where(x => x.GuildId == gc.GuildId)
             .ToArrayAsync();
 
-        _newGuildReactions[gc.GuildId] = crs;
+        newGuildReactions[gc.GuildId] = crs;
     }
 
     #endregion
@@ -674,7 +674,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         if (toDelete is null)
             return null;
 
-        if (toDelete.IsGlobal() && guildId == null || guildId == toDelete.GuildId)
+        if ((toDelete.IsGlobal() && guildId == null) || guildId == toDelete.GuildId)
         {
             uow.CustomReactions.Remove(toDelete);
             await uow.SaveChangesAsync();
@@ -689,11 +689,11 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     public CustomReaction[] GetCustomReactionsFor(ulong? maybeGuildId)
     {
         if (maybeGuildId is ulong guildId)
-            return _newGuildReactions.TryGetValue(guildId, out var crs)
+            return newGuildReactions.TryGetValue(guildId, out var crs)
                 ? crs
                 : Array.Empty<CustomReaction>();
 
-        return _globalReactions;
+        return globalReactions;
     }
 
     #endregion

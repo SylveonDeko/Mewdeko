@@ -46,7 +46,7 @@ public class RemindService : INService
                 // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
                 var i = 0;
                 foreach (var group in reminders
-                             .GroupBy(_ => ++i / (reminders.Count / 5 + 1)))
+                             .GroupBy(_ => ++i / ((reminders.Count / 5) + 1)))
                 {
                     var executedReminders = group.ToList();
                     await Task.WhenAll(executedReminders.Select(ReminderTimerAction));
@@ -65,7 +65,7 @@ public class RemindService : INService
     private async Task RemoveReminders(List<Reminder> reminders)
     {
         using var uow = _db.GetDbContext();
-        uow._context.Set<Reminder>()
+        uow.Context.Set<Reminder>()
             .RemoveRange(reminders);
 
         await uow.SaveChangesAsync();
@@ -74,7 +74,7 @@ public class RemindService : INService
     private Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
     {
         using var uow = _db.GetDbContext();
-        return uow._context.Reminders
+        return uow.Context.Reminders
             .FromSqlInterpolated(
                 $"select * from reminders where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
             .ToListAsync();
@@ -99,7 +99,7 @@ public class RemindService : INService
 
         foreach (var groupName in _regex.GetGroupNames())
         {
-            if (groupName == "0" || groupName == "what") continue;
+            if (groupName is "0" or "what") continue;
             if (string.IsNullOrWhiteSpace(m.Groups[groupName].Value))
             {
                 values[groupName] = 0;
@@ -123,7 +123,7 @@ public class RemindService : INService
 
         var ts = new TimeSpan
         (
-            30 * values["mo"] + 7 * values["w"] + values["d"],
+            (30 * values["mo"]) + (7 * values["w"]) + values["d"],
             values["h"],
             values["m"],
             0

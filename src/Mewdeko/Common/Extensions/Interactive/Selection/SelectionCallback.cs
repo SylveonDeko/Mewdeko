@@ -10,7 +10,7 @@ namespace Mewdeko.Common.Extensions.Interactive.Selection;
 /// <typeparam name="TOption">The type of the options of the selection.</typeparam>
 internal class SelectionCallback<TOption> : IInteractiveCallback
 {
-    private bool _disposed;
+    private bool disposed;
 
     public SelectionCallback(BaseSelection<TOption> selection, IUserMessage message,
         TimeoutTaskCompletionSource<(TOption, InteractiveStatus)> timeoutTaskSource, DateTimeOffset startTime)
@@ -129,17 +129,17 @@ internal class SelectionCallback<TOption> : IInteractiveCallback
 
     protected virtual void Dispose(bool disposing)
     {
-        if (_disposed) return;
+        if (disposed) return;
         if (disposing) TimeoutTaskSource.TryDispose();
 
-        _disposed = true;
+        disposed = true;
     }
 
 #if DNETLABS
     /// <inheritdoc />
     public Task ExecuteAsync(SocketInteraction interaction)
     {
-        if ((Selection.InputType == InputType.Buttons || Selection.InputType == InputType.SelectMenus)
+        if (Selection.InputType is InputType.Buttons or InputType.SelectMenus
             && interaction is SocketMessageComponent componentInteraction)
             return ExecuteAsync(componentInteraction);
 

@@ -63,7 +63,7 @@ public class PollService : IEarlyBehavior, INService
         return false;
     }
 
-    public Poll CreatePoll(ulong guildId, ulong channelId, string input)
+    public static Poll CreatePoll(ulong guildId, ulong channelId, string input)
     {
         if (string.IsNullOrWhiteSpace(input) || !input.Contains(";"))
             return null;

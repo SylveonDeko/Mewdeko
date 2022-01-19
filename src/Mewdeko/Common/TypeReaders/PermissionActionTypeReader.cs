@@ -16,29 +16,25 @@ public class PermissionActionTypeReader : MewdekoTypeReader<PermissionAction>
     public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {
         input = input.ToUpperInvariant();
-        switch (input)
+        return input switch
         {
-            case "1":
-            case "T":
-            case "TRUE":
-            case "ENABLE":
-            case "ENABLED":
-            case "ALLOW":
-            case "PERMIT":
-            case "UNBAN":
-                return Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable));
-            case "0":
-            case "F":
-            case "FALSE":
-            case "DENY":
-            case "DISABLE":
-            case "DISABLED":
-            case "DISALLOW":
-            case "BAN":
-                return Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable));
-            default:
-                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed,
-                    "Must be either deny or allow."));
-        }
+            "1" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "T" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "TRUE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "ENABLE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "ENABLED" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "ALLOW" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "PERMIT" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "UNBAN" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Enable)),
+            "0" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "F" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "FALSE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "DENY" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "DISABLE" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "DISABLED" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "DISALLOW" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            "BAN" => Task.FromResult(TypeReaderResult.FromSuccess(PermissionAction.Disable)),
+            _ => Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Must be either deny or allow."))
+        };
     }
 }

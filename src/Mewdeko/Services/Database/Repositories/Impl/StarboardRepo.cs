@@ -11,7 +11,7 @@ public class StarboardRepository : Repository<Starboard>, IStarboardRepository
 
     public Starboard[] ForMsgId(ulong msgid)
     {
-        var query = _set.AsQueryable().Where(x => x.MessageId == msgid);
+        var query = Set.AsQueryable().Where(x => x.MessageId == msgid);
 
         return query.ToArray();
     }

@@ -13,7 +13,7 @@ public interface IBotCredentials
     string PatreonAccessToken { get; }
     string CarbonKey { get; }
 
-    DBConfig Db { get; }
+    DbConfig Db { get; }
     string OsuApiKey { get; }
     int TotalShards { get; }
     string ShardRunCommand { get; }
@@ -46,9 +46,9 @@ public class RestartConfig
     public string Args { get; }
 }
 
-public class DBConfig
+public class DbConfig
 {
-    public DBConfig(string type, string connectionString)
+    public DbConfig(string type, string connectionString)
     {
         Type = type;
         ConnectionString = connectionString;

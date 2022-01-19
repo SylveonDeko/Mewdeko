@@ -102,7 +102,7 @@ public partial class Utility
                 if (item != null)
                 {
                     guildConfig.GuildRepeaters.Remove(item);
-                    uow._context.Remove(item);
+                    uow.Context.Remove(item);
                 }
 
                 await uow.SaveChangesAsync();
@@ -180,8 +180,8 @@ public partial class Utility
                 : TimeSpan.FromDays(1));
 
             if (string.IsNullOrWhiteSpace(message)
-                || interval != null &&
-                (interval.Time > TimeSpan.FromMinutes(25000) || interval.Time < TimeSpan.FromMinutes(1)))
+                || (interval != null &&
+                    (interval.Time > TimeSpan.FromMinutes(25000) || interval.Time < TimeSpan.FromMinutes(1))))
                 return;
 
             var toAdd = new Repeater

@@ -12,9 +12,7 @@ using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services.Database.Models;
-using Swan;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Victoria;
 using Victoria.Enums;
 using Victoria.Responses.Search;
@@ -50,7 +48,7 @@ public class Music : MewdekoModuleBase<MusicService>
     public async Task AutoDisconnect(AutoDisconnect disconnect)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-            (settings, _) => { settings.AutoDisconnect = disconnect; }, disconnect);
+            (settings, _) => settings.AutoDisconnect = disconnect, disconnect);
         await ctx.Channel.SendConfirmAsync(
             $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}");
     }
@@ -76,7 +74,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
         Task<PageBuilder> PageFactory(int page)
         {
-            int e = 1;
+            var e = 1;
             return Task.FromResult(new PageBuilder().WithOkColor()
                                                     .WithDescription(string.Join("\n",
                                                         plists.Skip(page).Take(15).Select(x =>
@@ -92,7 +90,7 @@ public class Music : MewdekoModuleBase<MusicService>
         {
 
             case PlaylistAction.Show:
-                MusicPlaylist plist = new MusicPlaylist();
+                var plist = new MusicPlaylist();
                 if (playlistOrSongName is null)
                 {
                     if (Service.GetDefaultPlaylist(ctx.User) is not null)
@@ -110,7 +108,7 @@ public class Music : MewdekoModuleBase<MusicService>
                                    .FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower())!;
                 }
 
-                int songcount = 1;
+                var songcount = 1;
                 if (plist is null)
                 {
                     await ctx.Channel.SendErrorAsync("This is not a valid playlist!");
@@ -129,16 +127,13 @@ public class Music : MewdekoModuleBase<MusicService>
                                                           .WithDefaultCanceledPage().WithDefaultEmotes().Build();
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
-                {
-                    return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(string.Join("\n",
+                Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor().WithDescription(string.Join("\n",
                         plist.Songs.Select(x =>
                             $"`{songcount++}.` [{x.Title.TrimTo(45)}]({x.Query}) `{x.Provider}`"))));
-                }
 
                 break;
             case PlaylistAction.Delete:
-                var plist1 = plists.FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower());
+                var plist1 = plists.FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName?.ToLower());
                 if (plist1 == null)
                 {
                     await ctx.Channel.SendErrorAsync("Playlist with that name could not be found!");
@@ -161,7 +156,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     await ctx.Channel.SendErrorAsync("You need to specify a playlist name!");
                 }
 
-                if (Service.GetPlaylists(ctx.User).Select(x => x.Name.ToLower()).Contains(playlistOrSongName.ToLower()))
+                if (Service.GetPlaylists(ctx.User).Select(x => x.Name.ToLower()).Contains(playlistOrSongName?.ToLower()))
                 {
                     await ctx.Channel.SendErrorAsync("You already have a playlist with this name!");
                 }
@@ -186,7 +181,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 if (!string.IsNullOrEmpty(playlistOrSongName))
                 {
                     var vstate = ctx.User as IVoiceState;
-                    if (vstate.VoiceChannel is null)
+                    if (vstate?.VoiceChannel is null)
                     {
                         await ctx.Channel.SendErrorAsync("You must be in a channel to use this!");
                         return;
@@ -210,36 +205,30 @@ public class Music : MewdekoModuleBase<MusicService>
                     }
 
                     var plist3 = Service.GetPlaylists(ctx.User).Where(x => x.Name.ToLower() == playlistOrSongName);
-                    if (!plist3.Any())
+                    var musicPlaylists = plist3 as MusicPlaylist[] ?? plist3.ToArray();
+                    if (!musicPlaylists.Any())
                     {
                         await ctx.Channel.SendErrorAsync("A playlist with that name wasnt found!");
                         return;
                     }
 
-                    var songs3 = plist3.Select(x => x.Songs).FirstOrDefault();
+                    var songs3 = musicPlaylists.Select(x => x.Songs).FirstOrDefault();
                     var msg = await ctx.Channel.SendConfirmAsync(
-                        $"Queueing {songs3.Count()} songs from {plist3.FirstOrDefault().Name}...");
-                    foreach (var i in songs3)
+                        $"Queueing {songs3!.Count()} songs from {musicPlaylists.FirstOrDefault()?.Name}...");
+                    foreach (var i in songs3!)
                     {
                         var search = await _lavaNode.SearchAsync(SearchType.Direct, i.Query);
-                        AdvancedLavaTrack.Platform platform = AdvancedLavaTrack.Platform.Youtube;
+                        var platform = AdvancedLavaTrack.Platform.Youtube;
                         if (search.Status != SearchStatus.NoMatches)
                         {
-                            switch (i.Provider)
+                            platform = i.Provider switch
                             {
-                                case "Spotify":
-                                    platform = AdvancedLavaTrack.Platform.Spotify;
-                                    break;
-                                case "Soundcloud":
-                                    platform = AdvancedLavaTrack.Platform.Soundcloud;
-                                    break;
-                                case "Direct Url / File":
-                                    platform = AdvancedLavaTrack.Platform.Url;
-                                    break;
-                                case "Youtube":
-                                    platform = AdvancedLavaTrack.Platform.Youtube;
-                                    break;
-                            }
+                                "Spotify" => AdvancedLavaTrack.Platform.Spotify,
+                                "Soundcloud" => AdvancedLavaTrack.Platform.Soundcloud,
+                                "Direct Url / File" => AdvancedLavaTrack.Platform.Url,
+                                "Youtube" => AdvancedLavaTrack.Platform.Youtube,
+                                _ => platform
+                            };
 
                             await Service.Enqueue(ctx.Guild.Id, ctx.User, search.Tracks.FirstOrDefault(), platform);
                         }
@@ -253,7 +242,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
                                                          .WithOkColor()
                                                          .WithDescription(
-                                                             $"Successfully loaded {songs3.Count()} songs from {plist3.FirstOrDefault().Name}!")
+                                                             $"Successfully loaded {songs3.Count()} songs from {musicPlaylists.FirstOrDefault()?.Name}!")
                                                          .Build());
                     return;
                 }
@@ -261,7 +250,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 if (Service.GetDefaultPlaylist(ctx.User) is not null && !string.IsNullOrEmpty(playlistOrSongName))
                 {
                     var vstate = ctx.User as IVoiceState;
-                    if (vstate.VoiceChannel is null)
+                    if (vstate?.VoiceChannel is null)
                     {
                         await ctx.Channel.SendErrorAsync("You must be in a channel to use this!");
                         return;
@@ -332,15 +321,16 @@ public class Music : MewdekoModuleBase<MusicService>
                 }
 
 
-                var trysearch = queue.Where(x => x.Title.ToLower().Contains(playlistOrSongName.ToLower())).Take(10);
-                if (!trysearch.Any())
+                var trysearch = queue.Where(x => x.Title.ToLower().Contains(playlistOrSongName?.ToLower() ?? "")).Take(20);
+                var advancedLavaTracks = trysearch as AdvancedLavaTrack[] ?? trysearch.ToArray();
+                if (!advancedLavaTracks.Any())
                 {
                     var search = await _lavaNode.SearchAsync(SearchType.YouTube, playlistOrSongName)
                                          .ConfigureAwait(false);
                     trysearch = search.Tracks.Select(x => new AdvancedLavaTrack(x, queue.Count+1, ctx.User));
                 }
 
-                if (trysearch.Count() == 1)
+                if (advancedLavaTracks.Length == 1)
                 {
                     var msg = await ctx.Channel.SendConfirmAsync(
                         "Please type the name of the playlist you wanna save this to!");
@@ -348,13 +338,12 @@ public class Music : MewdekoModuleBase<MusicService>
                     var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
                     if (plists6 is not null)
                     {
-                        var songs = plists6.Songs;
                         var toadd = new PlaylistSong
                         {
-                            Title = trysearch.FirstOrDefault()?.Title,
-                            ProviderType = trysearch.FirstOrDefault().QueuedPlatform,
-                            Provider = trysearch.FirstOrDefault().QueuedPlatform.ToString(),
-                            Query = trysearch.FirstOrDefault().Url
+                            Title = advancedLavaTracks.FirstOrDefault()?.Title,
+                            ProviderType = advancedLavaTracks.FirstOrDefault()!.QueuedPlatform,
+                            Provider = advancedLavaTracks.FirstOrDefault()!.QueuedPlatform.ToString(),
+                            Query = advancedLavaTracks.FirstOrDefault()!.Url
                         };
                         var newsongs = plists6.Songs.ToList();
                         newsongs.Add(toadd);
@@ -373,7 +362,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         await uow.SaveChangesAsync();
                         await msg.DeleteAsync();
                         await ctx.Channel.SendConfirmAsync(
-                            $"Added {trysearch.FirstOrDefault().Title} to {plists6.Name}.");
+                            $"Added {advancedLavaTracks.FirstOrDefault()?.Title} to {plists6.Name}.");
                     }
                     else
                     {
@@ -396,8 +385,7 @@ public class Music : MewdekoModuleBase<MusicService>
                             var plists7 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg1.ToLower());
                             if (plists7 is not null)
                             {
-                                var songs = plists7.Songs;
-                                var toadd = trysearch.Select(x => new PlaylistSong
+                                var toadd = advancedLavaTracks.Select(x => new PlaylistSong
                                 {
                                     Title = x.Title,
                                     ProviderType = x.QueuedPlatform,
@@ -431,10 +419,10 @@ public class Music : MewdekoModuleBase<MusicService>
                             break;
 
                         case "choose":
-                            ComponentBuilder components1 = new ComponentBuilder();
-                            int count1 = 1;
-                            int count = 1;
-                            foreach (var i in trysearch)
+                            var components1 = new ComponentBuilder();
+                            var count1 = 1;
+                            var count = 1;
+                            foreach (var i in advancedLavaTracks)
                             {
                                 if (count1 >= 6)
                                     components1.WithButton(count1++.ToString(), count1.ToString(), ButtonStyle.Primary,
@@ -447,17 +435,16 @@ public class Music : MewdekoModuleBase<MusicService>
                             await msg.DeleteAsync();
                             var msg2 = await ctx.Channel.SendConfirmAsync(
                                 string.Join("\n",
-                                    trysearch.Select(x => $"{count++}. {x.Title.TrimTo(140)} - {x.Author}")),
+                                    advancedLavaTracks.Select(x => $"{count++}. {x.Title.TrimTo(140)} - {x.Author}")),
                                 components1);
                             var response = await GetButtonInputAsync(ctx.Channel.Id, msg2.Id, ctx.User.Id);
-                            var track = trysearch.ElementAt(int.Parse(response) - 2);
+                            var track = advancedLavaTracks.ElementAt(int.Parse(response) - 2);
                             msg = await ctx.Channel.SendConfirmAsync(
                                 "Please type the name of the playlist you wanna save this to!");
                             var nmsg = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                             var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
                             if (plists6 is not null)
                             {
-                                var songs = plists6.Songs;
                                 var toadd = new PlaylistSong
                                 {
                                     Title = track.Title,
@@ -611,7 +598,7 @@ public class Music : MewdekoModuleBase<MusicService>
         if (!_lavaNode.TryGetPlayer(ctx.Guild, out var player))
         {
             var vc = ctx.User as IVoiceState;
-            if (vc.VoiceChannel is null)
+            if (vc?.VoiceChannel is null)
             {
                 await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
                 return;
@@ -640,7 +627,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     // ReSharper disable once MemberCanBePrivate.Global
-    public async Task Play([Remainder] string searchQuery = null)
+    public async Task Play([Remainder] string? searchQuery = null)
     {
         var count = 0;
         if (string.IsNullOrWhiteSpace(searchQuery))
@@ -652,13 +639,13 @@ public class Music : MewdekoModuleBase<MusicService>
                 return;
             }
 
-            searchQuery = firstattach.FirstOrDefault().Url;
+            searchQuery = firstattach.FirstOrDefault()?.Url;
         }
 
         if (!_lavaNode.HasPlayer(Context.Guild))
         {
             var vc = ctx.User as IVoiceState;
-            if (vc.VoiceChannel is null)
+            if (vc?.VoiceChannel is null)
             {
                 await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
                 return;
@@ -686,7 +673,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-            (settings, _) => { settings.MusicChannelId = ctx.Channel.Id; }, ctx.Channel.Id);
+            (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
         var player = _lavaNode.GetPlayer(ctx.Guild);
         SearchResponse searchResponse;
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
@@ -694,11 +681,11 @@ public class Music : MewdekoModuleBase<MusicService>
                 searchQuery.Contains("soundcloud.com") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
             {
                 if (ctx.Message.Attachments.IsValidAttachment())
-                    searchQuery = ctx.Message.Attachments.FirstOrDefault().Url;
+                    searchQuery = ctx.Message.Attachments.FirstOrDefault()?.Url;
                 searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                 var track1 = searchResponse.Tracks.FirstOrDefault();
                 var platform = AdvancedLavaTrack.Platform.Youtube;
-                if (searchQuery.Contains("soundcloud.com"))
+                if (searchQuery!.Contains("soundcloud.com"))
                     platform = AdvancedLavaTrack.Platform.Soundcloud;
                 if (searchQuery.CheckIfMusicUrl())
                     platform = AdvancedLavaTrack.Platform.Url;
@@ -709,7 +696,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     var eb = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(
-                            $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name}")
+                            $"Queued {searchResponse.Tracks.Count} tracks from {searchResponse.Playlist.Name}")
                         .WithFooter($"{count} songs now in the queue");
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
                     if (player.PlayerState != PlayerState.Playing)
@@ -722,16 +709,16 @@ public class Music : MewdekoModuleBase<MusicService>
                     var eb = new EmbedBuilder()
                         .WithOkColor()
                         .WithDescription(
-                            $"Queued {searchResponse.Tracks.Count()} tracks from {searchResponse.Playlist.Name} and bound the queue info to {ctx.Channel.Name}!");
+                            $"Queued {searchResponse.Tracks.Count} tracks from {searchResponse.Playlist.Name} and bound the queue info to {ctx.Channel.Name}!");
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
                     if (player.PlayerState != PlayerState.Playing)
-                        await player.PlayAsync(x => { x.Track = track1; });
+                        await player.PlayAsync(x => x.Track = track1);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
                     return;
                 }
             }
 
-        if (searchQuery.Contains("spotify"))
+        if (searchQuery!.Contains("spotify"))
         {
             await Service.SpotifyQueue(ctx.Guild, ctx.User, ctx.Channel as ITextChannel, player, searchQuery);
             return;
@@ -762,12 +749,12 @@ public class Music : MewdekoModuleBase<MusicService>
                 var track = searchResponse.Tracks.FirstOrDefault();
                 var eb1 = new EmbedBuilder()
                     .WithOkColor()
-                    .WithDescription($"Added {track.Title} along with {searchResponse.Tracks.Count} other tracks.")
+                    .WithDescription($"Added {track?.Title} along with {searchResponse.Tracks.Count} other tracks.")
                     .WithThumbnailUrl(await track.FetchArtworkAsync())
                     .WithFooter($"{count} songs in queue");
                 if (player.PlayerState != PlayerState.Playing)
                 {
-                    await player.PlayAsync(x => { x.Track = track; });
+                    await player.PlayAsync(x => x.Track = track);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
                 }
 
@@ -810,7 +797,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     .WithFooter($"{count} songs in queue");
                 if (player.PlayerState != PlayerState.Playing)
                 {
-                    await player.PlayAsync(x => { x.Track = chosen; });
+                    await player.PlayAsync(x => x.Track = chosen);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
                 }
 
@@ -826,7 +813,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 count = Service.GetQueue(ctx.Guild.Id).Count;
                 eb1 = new EmbedBuilder()
                     .WithOkColor()
-                    .WithDescription($"Added {track.Title} by {track.Author} to the queue.")
+                    .WithDescription($"Added {track?.Title} by {track?.Author} to the queue.")
                     .WithThumbnailUrl(await track.FetchArtworkAsync())
                     .WithFooter($"{count} songs in queue");
                 await msg.ModifyAsync(x =>
@@ -836,7 +823,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 });
                 if (player.PlayerState != PlayerState.Playing)
                 {
-                    await player.PlayAsync(x => { x.Track = track; });
+                    await player.PlayAsync(x => x.Track = track);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
                 }
 
@@ -963,7 +950,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
     {
-        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.PlayerRepeat = reptype; },
+        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.PlayerRepeat = reptype,
             reptype);
         await ctx.Channel.SendConfirmAsync($"Loop has now been set to {reptype}");
     }
@@ -984,7 +971,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
         await player.UpdateVolumeAsync(volume);
-        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => { settings.Volume = volume; }, volume);
+        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.Volume = volume, volume);
     }
 
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -1008,7 +995,7 @@ public class Music : MewdekoModuleBase<MusicService>
             .WithOkColor()
             .WithTitle($"Track #{track.Index}")
             .WithDescription($"Now Playing {track.Title} by {track.Author}")
-            .WithThumbnailUrl(track.FetchArtworkAsync().Result)
+            .WithThumbnailUrl(await track.FetchArtworkAsync())
             .WithFooter(
                 $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {qcount} Tracks in queue");
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
@@ -1041,7 +1028,7 @@ public class Music : MewdekoModuleBase<MusicService>
             return Task.FromResult(new PageBuilder()
                 .WithDescription(string.Join("\n", tracks.Select(x =>
                     $"`{x.Index}.` [{x.Title}]({x.Url})\n" +
-                    $"`{x.Duration:mm\\:ss} {x.QueueUser.ToString()} {x.QueuedPlatform}`")))
+                    $"`{x.Duration:mm\\:ss} {x.QueueUser} {x.QueuedPlatform}`")))
                 .WithOkColor());
         }
     }

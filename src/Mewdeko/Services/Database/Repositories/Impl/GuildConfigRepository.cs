@@ -35,7 +35,7 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
     {
     }
 
-    private List<WarningPunishment> DefaultWarnPunishments =>
+    private static List<WarningPunishment> DefaultWarnPunishments =>
         new()
         {
             new WarningPunishment
@@ -73,20 +73,20 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
         }
         else
         {
-            var set = includes(_set);
+            var set = includes(Set);
             config = set.FirstOrDefault(c => c.GuildId == guildId);
         }
 
         if (config == null)
         {
-            _set.Add(config = new GuildConfig
+            Set.Add(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
                 WarningsInitialized = true,
                 WarnPunishments = DefaultWarnPunishments
             });
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
 
         if (!config.WarningsInitialized)
@@ -100,7 +100,7 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
 
     public GuildConfig LogSettingsFor(ulong guildId)
     {
-        var config = _set
+        var config = Set
             .AsQueryable()
             .Include(gc => gc.LogSetting)
             .ThenInclude(gc => gc.IgnoredChannels)
@@ -108,14 +108,14 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
 
         if (config == null)
         {
-            _set.Add(config = new GuildConfig
+            Set.Add(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
                 WarningsInitialized = true,
                 WarnPunishments = DefaultWarnPunishments
             });
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
 
         if (!config.WarningsInitialized)
@@ -129,7 +129,7 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
 
     public IEnumerable<GuildConfig> Permissionsv2ForAll(List<ulong> include)
     {
-        var query = _set.AsQueryable()
+        var query = Set.AsQueryable()
             .Where(x => include.Contains(x.GuildId))
             .Include(gc => gc.Permissions);
 
@@ -138,45 +138,45 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
 
     public GuildConfig GcWithPermissionsv2For(ulong guildId)
     {
-        var config = _set.AsQueryable()
+        var config = Set.AsQueryable()
             .Where(gc => gc.GuildId == guildId)
             .Include(gc => gc.Permissions)
             .FirstOrDefault();
 
         if (config == null) // if there is no guildconfig, create new one
         {
-            _set.Add(config = new GuildConfig
+            Set.Add(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist
             });
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
         else if (config.Permissions == null || !config.Permissions.Any()) // if no perms, add default ones
         {
             config.Permissions = Permissionv2.GetDefaultPermlist;
-            _context.SaveChanges();
+            Context.SaveChanges();
         }
 
         return config;
     }
 
     public IEnumerable<FollowedStream> GetFollowedStreams() =>
-        _set
+        Set
             .AsQueryable()
             .Include(x => x.FollowedStreams)
             .SelectMany(gc => gc.FollowedStreams)
             .ToArray();
 
     public IEnumerable<FollowedStream> GetFollowedStreams(List<ulong> included) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(gc => included.Contains(gc.GuildId))
             .Include(gc => gc.FollowedStreams)
             .SelectMany(gc => gc.FollowedStreams)
             .ToList();
 
     public ulong GetCleverbotChannel(ulong guildid) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(x => x.GuildId == guildid)
             .Select(x => x.CleverbotChannel).Single();
 
@@ -197,7 +197,7 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
     }
 
     public IEnumerable<GeneratingChannel> GetGeneratingChannels() =>
-        _set
+        Set
             .AsQueryable()
             .Include(x => x.GenerateCurrencyChannelIds)
             .Where(x => x.GenerateCurrencyChannelIds.Any())
@@ -210,7 +210,7 @@ public class GuildConfigRepository : Repository<GuildConfig>, IGuildConfigReposi
             .ToArray();
 
     private IQueryable<GuildConfig> IncludeEverything() =>
-        _set
+        Set
             .AsQueryable()
             .Include(gc => gc.CommandCooldowns)
             .Include(gc => gc.GuildRepeaters)

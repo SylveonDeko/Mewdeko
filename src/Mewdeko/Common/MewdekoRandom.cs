@@ -33,7 +33,7 @@ public class MewdekoRandom : Random
         var bytes = new byte[sizeof(int)];
         _rng.GetBytes(bytes);
         var sign = Math.Sign(BitConverter.ToInt32(bytes, 0));
-        return sign * BitConverter.ToInt32(bytes, 0) % (maxValue - minValue) + minValue;
+        return (sign * BitConverter.ToInt32(bytes, 0) % (maxValue - minValue)) + minValue;
     }
 
     public long NextLong(long minValue, long maxValue)
@@ -45,7 +45,7 @@ public class MewdekoRandom : Random
         var bytes = new byte[sizeof(long)];
         _rng.GetBytes(bytes);
         var sign = Math.Sign(BitConverter.ToInt64(bytes, 0));
-        return sign * BitConverter.ToInt64(bytes, 0) % (maxValue - minValue) + minValue;
+        return (sign * BitConverter.ToInt64(bytes, 0) % (maxValue - minValue)) + minValue;
     }
 
     public override void NextBytes(byte[] buffer) => _rng.GetBytes(buffer);
@@ -54,7 +54,7 @@ public class MewdekoRandom : Random
     {
         var bytes = new byte[sizeof(double)];
         _rng.GetBytes(bytes);
-        return Math.Abs(BitConverter.ToDouble(bytes, 0) / double.MaxValue + 1);
+        return Math.Abs((BitConverter.ToDouble(bytes, 0) / double.MaxValue) + 1);
     }
 
     public override double NextDouble()

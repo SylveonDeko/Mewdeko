@@ -11,14 +11,14 @@ public class SnipeStoreRepository : Repository<SnipeStore>, ISnipeStoreRepositor
 
     public SnipeStore[] ForChannel(ulong guildId, ulong chanid)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId && x.ChannelId == chanid);
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId && x.ChannelId == chanid);
 
         return query.ToArray();
     }
 
     public SnipeStore[] All()
     {
-        var query = _set.AsQueryable();
+        var query = Set.AsQueryable();
 
         return query.ToArray();
     }
