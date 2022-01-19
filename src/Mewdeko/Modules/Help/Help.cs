@@ -66,7 +66,7 @@ public class Help : MewdekoModuleBase<HelpService>
             .WithOverride("%bot.prefix%", () => Prefix)
             .Build();
 
-        if (!CREmbed.TryParse(botSettings.HelpText, out var embed))
+        if (!CrEmbed.TryParse(botSettings.HelpText, out var embed))
         {
             var eb = new EmbedBuilder().WithOkColor()
                 .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
@@ -102,7 +102,7 @@ public class Help : MewdekoModuleBase<HelpService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Modules(int page = 1)
+    public async Task Modules()
     {
         var embed = new EmbedBuilder();
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
@@ -276,7 +276,7 @@ public class Help : MewdekoModuleBase<HelpService>
                 x => x.Distinct(x => x.Aliases.First())
                     .Select(com =>
                     {
-                        var module = com.Module.GetTopLevelModule();
+                        com.Module.GetTopLevelModule();
                         List<string> optHelpStr = null;
                         var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x =>
                             x is MewdekoOptionsAttribute))?.OptionType;
@@ -312,7 +312,7 @@ public class Help : MewdekoModuleBase<HelpService>
         {
             var config = new AmazonS3Config {ServiceURL = serviceUrl};
             using var client = new AmazonS3Client(accessKey, secretAcccessKey, config);
-            var res = await client.PutObjectAsync(new PutObjectRequest
+            await client.PutObjectAsync(new PutObjectRequest
             {
                 BucketName = "Mewdeko-pictures",
                 ContentType = "application/json",

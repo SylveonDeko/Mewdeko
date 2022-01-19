@@ -80,7 +80,7 @@ public class Localization : ILocalization
         }
     }
 
-    public void SetDefaultCulture(CultureInfo ci) => _bss.ModifyConfig(bs => { bs.DefaultLocale = ci; });
+    public void SetDefaultCulture(CultureInfo ci) => _bss.ModifyConfig(bs => bs.DefaultLocale = ci);
 
     public void ResetDefaultCulture() => SetDefaultCulture(CultureInfo.CurrentCulture);
 

@@ -18,9 +18,9 @@ public partial class Searches
     [Group]
     public class FeedCommands : MewdekoSubmodule<FeedsService>
     {
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
-        public FeedCommands(InteractiveService serv) => Interactivity = serv;
+        public FeedCommands(InteractiveService serv) => _interactivity = serv;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages)]
@@ -30,10 +30,10 @@ public partial class Searches
                           (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
             if (success)
             {
-                channel = channel ?? (ITextChannel) ctx.Channel;
+                channel ??= (ITextChannel) ctx.Channel;
                 try
                 {
-                    var feeds = await FeedReader.ReadAsync(url).ConfigureAwait(false);
+                    await FeedReader.ReadAsync(url).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +88,7 @@ public partial class Searches
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -98,7 +98,7 @@ public partial class Searches
                     var i = 0;
                     var fs = string.Join("\n", feeds.Skip(page * 10)
                         .Take(10)
-                        .Select(x => $"`{page * 10 + ++i}.` <#{x.ChannelId}> {x.Url}"));
+                        .Select(x => $"`{(page * 10) + ++i}.` <#{x.ChannelId}> {x.Url}"));
 
                     return Task.FromResult(embed.WithDescription(fs));
                 }

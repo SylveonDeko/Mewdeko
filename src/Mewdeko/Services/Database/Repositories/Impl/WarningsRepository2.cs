@@ -11,7 +11,7 @@ public class WarningsRepository : Repository<Warning>, IWarningsRepository
 
     public Warning[] ForId(ulong guildId, ulong userId)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
             .OrderByDescending(x => x.DateAdded);
 
         return query.ToArray();
@@ -22,7 +22,7 @@ public class WarningsRepository : Repository<Warning>, IWarningsRepository
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        var warn = _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        var warn = Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
             .OrderByDescending(x => x.DateAdded)
             .Skip(index)
             .FirstOrDefault();
@@ -36,7 +36,7 @@ public class WarningsRepository : Repository<Warning>, IWarningsRepository
     }
 
     public async Task ForgiveAll(ulong guildId, ulong userId, string mod) =>
-        await _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        await Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                   .ForEachAsync(x =>
                   {
                       if (x.Forgiven != true)
@@ -46,5 +46,5 @@ public class WarningsRepository : Repository<Warning>, IWarningsRepository
                       }
                   });
 
-    public Warning[] GetForGuild(ulong id) => _set.AsQueryable().Where(x => x.GuildId == id).ToArray();
+    public Warning[] GetForGuild(ulong id) => Set.AsQueryable().Where(x => x.GuildId == id).ToArray();
 }

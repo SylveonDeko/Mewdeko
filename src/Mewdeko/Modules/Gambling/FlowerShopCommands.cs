@@ -34,13 +34,13 @@ public partial class Gambling
 
         private readonly ICurrencyService _cs;
         private readonly DbService _db;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public FlowerShopCommands(DbService db, ICurrencyService cs, GamblingConfigService gamblingConf,
             InteractiveService serv)
             : base(gamblingConf)
         {
-            Interactivity = serv;
+            _interactivity = serv;
             _db = db;
             _cs = cs;
         }
@@ -63,7 +63,7 @@ public partial class Gambling
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -80,7 +80,7 @@ public partial class Gambling
                     {
                         var entry = theseEntries[i];
                         embed.AddField(
-                            $"#{page * 9 + i + 1} - {entry.Price}{CurrencySign}",
+                            $"#{(page * 9) + i + 1} - {entry.Price}{CurrencySign}",
                             EntryToString(entry),
                             true);
                     }
@@ -182,7 +182,7 @@ public partial class Gambling
                 {
                     using (var uow = _db.GetDbContext())
                     {
-                        var x = uow._context.Set<ShopEntryItem>().Remove(item);
+                        uow.Context.Set<ShopEntryItem>().Remove(item);
                         await uow.SaveChangesAsync();
                     }
 
@@ -346,8 +346,8 @@ public partial class Gambling
                 removed = entries.ElementAtOrDefault(index);
                 if (removed != null)
                 {
-                    uow._context.RemoveRange(removed.Items);
-                    uow._context.Remove(removed);
+                    uow.Context.RemoveRange(removed.Items);
+                    uow.Context.Remove(removed);
                     await uow.SaveChangesAsync();
                 }
             }

@@ -8,22 +8,14 @@ using Discord.WebSocket;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
-using StackExchange.Redis;
 
 namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
     public const string BotVersion = "3.82";
-    private readonly Mewdeko _bot;
 
-    private readonly Timer _botlistTimer;
     private readonly DiscordSocketClient _client;
-    private readonly ICoordinator _coord;
-    private readonly IBotCredentials _creds;
-    private readonly DllVersionChecker _dllVersionChecker;
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly ConnectionMultiplexer _redis;
     private readonly DateTime _started;
     private long _commandsRan;
     private long _messageCounter;
@@ -34,13 +26,8 @@ public class StatsService : IStatsService
     public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
         IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory, ICoordinator coord)
     {
-        _coord = coord;
         _client = client;
-        _creds = creds;
-        _redis = cache.Redis;
-        _httpFactory = factory;
-        _bot = Mewdeko;
-        _dllVersionChecker = new DllVersionChecker();
+        _ = new DllVersionChecker();
 
         _started = DateTime.UtcNow;
         _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
@@ -124,17 +111,17 @@ public class StatsService : IStatsService
 
         if (_client.ShardId == 0)
 
-            _botlistTimer = new Timer(async _ =>
+            _ = new Timer(async _ =>
             {
                 try
                 {
-                    using var http = _httpFactory.CreateClient();
+                    using var http = factory.CreateClient();
                     using var content = new FormUrlEncodedContent(
                         new Dictionary<string, string>
                         {
-                            {"shard_count", _creds.TotalShards.ToString()},
+                            {"shard_count", creds.TotalShards.ToString()},
                             {"shard_id", _client.ShardId.ToString()},
-                            {"server_count", _coord.GetGuildCount().ToString()}
+                            {"server_count", coord.GetGuildCount().ToString()}
                         });
                     content.Headers.Clear();
                     content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -142,8 +129,8 @@ public class StatsService : IStatsService
                         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
 
                     using (await http
-                               .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
-                                   content).ConfigureAwait(false))
+                                 .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
+                                     content).ConfigureAwait(false))
                     {
                     }
                 }
@@ -155,7 +142,7 @@ public class StatsService : IStatsService
             }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
     }
 
-    public string Library => $"Discord.Net Labs {_dllVersionChecker.GetDllVersion()} ";
+    public string Library => $"Discord.Net Labs {DllVersionChecker.GetDllVersion()} ";
 
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);

@@ -28,9 +28,9 @@ public sealed class AcrophobiaGame : IDisposable
     private readonly MewdekoRandom _rng;
 
     private readonly HashSet<ulong> _usersWhoVoted = new();
-    private readonly SemaphoreSlim locker = new(1, 1);
+    private readonly SemaphoreSlim _locker = new(1, 1);
 
-    private readonly Dictionary<AcrophobiaUser, int> submissions = new();
+    private readonly Dictionary<AcrophobiaUser, int> _submissions = new();
 
     public AcrophobiaGame(Options options)
     {
@@ -51,8 +51,8 @@ public sealed class AcrophobiaGame : IDisposable
         OnUserVoted = null;
         OnVotingStarted = null;
         _usersWhoVoted.Clear();
-        submissions.Clear();
-        locker.Dispose();
+        _submissions.Clear();
+        _locker.Dispose();
     }
 
     public event Func<AcrophobiaGame, Task> OnStarted = delegate { return Task.CompletedTask; };
@@ -71,10 +71,10 @@ public sealed class AcrophobiaGame : IDisposable
     {
         await OnStarted(this).ConfigureAwait(false);
         await Task.Delay(Opts.SubmissionTime * 1000).ConfigureAwait(false);
-        await locker.WaitAsync().ConfigureAwait(false);
+        await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
-            if (submissions.Count == 0)
+            if (_submissions.Count == 0)
             {
                 CurrentPhase = Phase.Ended;
                 await OnVotingStarted(this, ImmutableArray.Create<KeyValuePair<AcrophobiaUser, int>>())
@@ -82,32 +82,32 @@ public sealed class AcrophobiaGame : IDisposable
                 return;
             }
 
-            if (submissions.Count == 1)
+            if (_submissions.Count == 1)
             {
                 CurrentPhase = Phase.Ended;
-                await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                await OnVotingStarted(this, _submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
                 return;
             }
 
             CurrentPhase = Phase.Voting;
 
-            await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+            await OnVotingStarted(this, _submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
         }
         finally
         {
-            locker.Release();
+            _locker.Release();
         }
 
         await Task.Delay(Opts.VoteTime * 1000).ConfigureAwait(false);
-        await locker.WaitAsync().ConfigureAwait(false);
+        await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
             CurrentPhase = Phase.Ended;
-            await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+            await OnEnded(this, _submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
         }
         finally
         {
-            locker.Release();
+            _locker.Release();
         }
     }
 
@@ -130,26 +130,26 @@ public sealed class AcrophobiaGame : IDisposable
     {
         var user = new AcrophobiaUser(userId, userName, input.ToLowerInvariant().ToTitleCase());
 
-        await locker.WaitAsync().ConfigureAwait(false);
+        await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
             switch (CurrentPhase)
             {
                 case Phase.Submission:
-                    if (submissions.ContainsKey(user) || !IsValidAnswer(input))
+                    if (_submissions.ContainsKey(user) || !IsValidAnswer(input))
                         break;
 
-                    submissions.Add(user, 0);
+                    _submissions.Add(user, 0);
                     return true;
                 case Phase.Voting:
                     AcrophobiaUser toVoteFor;
                     if (!int.TryParse(input, out var index)
                         || --index < 0
-                        || index >= submissions.Count
-                        || (toVoteFor = submissions.ToArray()[index].Key).UserId == user.UserId
+                        || index >= _submissions.Count
+                        || (toVoteFor = _submissions.ToArray()[index].Key).UserId == user.UserId
                         || !_usersWhoVoted.Add(userId))
                         break;
-                    ++submissions[toVoteFor];
+                    ++_submissions[toVoteFor];
                     var _ = Task.Run(() => OnUserVoted(userName));
                     return true;
             }
@@ -158,7 +158,7 @@ public sealed class AcrophobiaGame : IDisposable
         }
         finally
         {
-            locker.Release();
+            _locker.Release();
         }
     }
 
@@ -196,9 +196,9 @@ public sealed class AcrophobiaGame : IDisposable
 
         public void NormalizeOptions()
         {
-            if (SubmissionTime < 15 || SubmissionTime > 300)
+            if (SubmissionTime is < 15 or > 300)
                 SubmissionTime = 60;
-            if (VoteTime < 15 || VoteTime > 120)
+            if (VoteTime is < 15 or > 120)
                 VoteTime = 30;
         }
     }

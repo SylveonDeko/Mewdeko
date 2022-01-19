@@ -11,14 +11,14 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
 
     public Ticket ForTicketId(ulong ticketNum, ulong guildId)
     {
-        var query = _set.AsQueryable().Where(x => x.TicketNumber == ticketNum && x.GuildId == guildId);
+        var query = Set.AsQueryable().Where(x => x.TicketNumber == ticketNum && x.GuildId == guildId);
 
         return query.FirstOrDefault();
     }
 
     public Ticket[] ForGuildId(ulong guildId)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId);
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId);
         return query.ToArray();
     }
 }

@@ -42,7 +42,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
 
     public static List<RedditCache> cache { get; set; } = new();
 
-    public bool CheckIfAlreadyPosted(IGuild guild, string url)
+    public static bool CheckIfAlreadyPosted(IGuild guild, string url)
     {
         var e = new RedditCache
         {

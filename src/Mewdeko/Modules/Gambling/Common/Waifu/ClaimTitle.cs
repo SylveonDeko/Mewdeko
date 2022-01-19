@@ -12,6 +12,6 @@ public enum ClaimTitle
     Expert,
     Veteran,
     Incubis,
-    Harem_King,
-    Harem_God
+    HaremKing,
+    HaremGod
 }

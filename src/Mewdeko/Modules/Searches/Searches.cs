@@ -37,22 +37,22 @@ namespace Mewdeko.Modules.Searches;
 
 public partial class Searches : MewdekoModuleBase<SearchesService>
 {
-    private static readonly ConcurrentDictionary<string, string> cachedShortenedLinks = new();
+    private static readonly ConcurrentDictionary<string, string> _cachedShortenedLinks = new();
     public static NekoClient NekoClient = new("Mewdeko");
     private readonly IMemoryCache _cache;
     private readonly IBotCredentials _creds;
     private readonly IGoogleApiService _google;
     private readonly IHttpClientFactory _httpFactory;
-    private readonly KSoftApi _kSoftAPI;
+    private readonly KSoftApi _kSoftApi;
     private readonly GuildTimezoneService _tzSvc;
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
-        KSoftApi kSoftAPI, InteractiveService serv)
+        KSoftApi kSoftApi, InteractiveService serv)
     {
-        Interactivity = serv;
-        _kSoftAPI = kSoftAPI;
+        _interactivity = serv;
+        _kSoftApi = kSoftApi;
         _creds = creds;
         _google = google;
         _httpFactory = factory;
@@ -66,10 +66,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task Meme()
     {
         var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
-        var image = await _kSoftAPI.ImagesApi.GetRandomMeme();
-        while (Service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+        var image = await _kSoftApi.ImagesApi.GetRandomMeme();
+        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
         {
-            image = await _kSoftAPI.ImagesApi.GetRandomMeme();
+            image = await _kSoftApi.ImagesApi.GetRandomMeme();
             await Task.Delay(500);
         }
 
@@ -94,7 +94,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task RandomAww()
     {
-        var image = await _kSoftAPI.ImagesApi.GetRandomAww();
+        var image = await _kSoftApi.ImagesApi.GetRandomAww();
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
@@ -131,7 +131,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         RedditPost image;
         try
         {
-            image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
+            image = await _kSoftApi.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
         }
         catch (ApiException)
         {
@@ -140,8 +140,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
         }
 
-        while (Service.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-            image = await _kSoftAPI.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
+        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+            image = await _kSoftApi.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
@@ -187,7 +187,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithDefault(ctx.User, channel, (SocketGuild) ctx.Guild, (DiscordSocketClient) ctx.Client)
             .Build();
 
-        if (CREmbed.TryParse(message, out var embedData))
+        if (CrEmbed.TryParse(message, out var embedData))
         {
             rep.Replace(embedData);
             await channel.EmbedAsync(embedData, !((IGuildUser) Context.User).GuildPermissions.MentionEveryone)
@@ -284,7 +284,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var (data, err) = await Service.GetTimeDataAsync(query).ConfigureAwait(false);
         if (err is not null)
         {
-            string errorKey = err switch
+            var errorKey = err switch
             {
                 TimeErrors.ApiKeyMissing => "api_key_missing",
                 TimeErrors.InvalidInput => "invalid_input",
@@ -441,7 +441,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         await ctx.Channel.SendConfirmAsync("<" +
                                            await _google
-                                               .ShortenUrl($"http://lmgtfy.com/?q={Uri.EscapeUriString(ffs)}")
+                                               .ShortenUrl($"http://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}")
                                                .ConfigureAwait(false) + ">")
             .ConfigureAwait(false);
     }
@@ -453,10 +453,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         query = query.Trim();
-        if (!cachedShortenedLinks.TryGetValue(query, out var shortLink))
+        if (!_cachedShortenedLinks.TryGetValue(query, out var shortLink))
             try
             {
-                using var _http = _httpFactory.CreateClient();
+                using var http = _httpFactory.CreateClient();
                 using var req = new HttpRequestMessage(HttpMethod.Post, "https://goolnk.com/api/v1/shorten");
                 var formData = new MultipartFormDataContent
                 {
@@ -464,12 +464,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 };
                 req.Content = formData;
 
-                using var res = await _http.SendAsync(req).ConfigureAwait(false);
+                using var res = await http.SendAsync(req).ConfigureAwait(false);
                 var content = await res.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<ShortenData>(content);
 
                 if (!string.IsNullOrWhiteSpace(data?.ResultUrl))
-                    cachedShortenedLinks.TryAdd(query, data.ResultUrl);
+                    _cachedShortenedLinks.TryAdd(query, data.ResultUrl);
                 else
                     return;
 
@@ -557,7 +557,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Hearthstone([Remainder] string name)
     {
-        var arg = name;
         if (!await ValidateQuery(ctx.Channel, name).ConfigureAwait(false))
             return;
 
@@ -595,7 +594,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
         using var http = _httpFactory.CreateClient();
         var res = await http
-            .GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeUriString(query)}")
+            .GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeDataString(query)}")
             .ConfigureAwait(false);
         try
         {
@@ -610,7 +609,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -681,7 +680,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -829,11 +828,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         http.DefaultRequestHeaders.Clear();
         try
         {
-            var res = await http.GetStringAsync($"https://{Uri.EscapeUriString(target)}.fandom.com/api.php" +
+            var res = await http.GetStringAsync($"https://{Uri.EscapeDataString(target)}.fandom.com/api.php" +
                                                 "?action=query" +
                                                 "&format=json" +
                                                 "&list=search" +
-                                                $"&srsearch={Uri.EscapeUriString(query)}" +
+                                                $"&srsearch={Uri.EscapeDataString(query)}" +
                                                 "&srlimit=1").ConfigureAwait(false);
             var items = JObject.Parse(res);
             var title = items["query"]?["search"]?.FirstOrDefault()?["title"]?.ToString();
@@ -844,7 +843,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 return;
             }
 
-            var url = Uri.EscapeUriString($"https://{target}.fandom.com/wiki/{title}");
+            var url = Uri.EscapeDataString($"https://{target}.fandom.com/wiki/{title}");
             var response = $@"`{GetText("title")}` {title?.SanitizeMentions()}
 `{GetText("url")}:` {url}";
             await ctx.Channel.SendMessageAsync(response).ConfigureAwait(false);

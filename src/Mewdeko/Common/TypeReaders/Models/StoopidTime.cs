@@ -35,9 +35,9 @@ public class StoopidTime
             namesAndValues[groupName] = value;
         }
 
-        var ts = new TimeSpan(365 * namesAndValues["years"] +
-                              30 * namesAndValues["months"] +
-                              7 * namesAndValues["weeks"] +
+        var ts = new TimeSpan((365 * namesAndValues["years"]) +
+                              (30 * namesAndValues["months"]) +
+                              (7 * namesAndValues["weeks"]) +
                               namesAndValues["days"],
             namesAndValues["hours"],
             namesAndValues["minutes"],

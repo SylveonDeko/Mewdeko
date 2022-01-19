@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Games.Services;
 
 public class GamesService : INService, IUnloadableService
 {
-    private const string TypingArticlesPath = "data/typing_articles3.json";
+    private const string TYPING_ARTICLES_PATH = "data/typing_articles3.json";
     private readonly GamesConfigService _gamesConfig;
     private readonly IHttpClientFactory _httpFactory;
     private readonly Random _rng;
@@ -34,12 +34,12 @@ public class GamesService : INService, IUnloadableService
         _rng = new MewdekoRandom();
 
         //girl ratings
-        _t = new Timer(_ => { GirlRatings.Clear(); }, null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
+        _t = new Timer(_ => GirlRatings.Clear(), null, TimeSpan.FromDays(1), TimeSpan.FromDays(1));
 
         try
         {
             TypingArticles =
-                JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TypingArticlesPath));
+                JsonConvert.DeserializeObject<List<TypingArticle>>(File.ReadAllText(TYPING_ARTICLES_PATH));
         }
         catch (Exception ex)
         {
@@ -104,7 +104,7 @@ public class GamesService : INService, IUnloadableService
             Text = text.SanitizeMentions(true)
         });
 
-        File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(TypingArticles));
+        File.WriteAllText(TYPING_ARTICLES_PATH, JsonConvert.SerializeObject(TypingArticles));
     }
 
     public string GetEightballResponse(string _) => EightBallResponses[_rng.Next(0, EightBallResponses.Count)];
@@ -118,7 +118,7 @@ public class GamesService : INService, IUnloadableService
         var removed = articles[index];
         TypingArticles.RemoveAt(index);
 
-        File.WriteAllText(TypingArticlesPath, JsonConvert.SerializeObject(articles));
+        File.WriteAllText(TYPING_ARTICLES_PATH, JsonConvert.SerializeObject(articles));
         return removed;
     }
 

@@ -7,8 +7,8 @@ namespace Mewdeko.Services;
 
 public class DbService
 {
-    private readonly DbContextOptions<MewdekoContext> migrateOptions;
-    private readonly DbContextOptions<MewdekoContext> options;
+    private readonly DbContextOptions<MewdekoContext> _migrateOptions;
+    private readonly DbContextOptions<MewdekoContext> _options;
 
     public DbService(IBotCredentials creds)
     {
@@ -17,19 +17,19 @@ public class DbService
 
         var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
         optionsBuilder.UseSqlite(builder.ToString());
-        options = optionsBuilder.Options;
+        _options = optionsBuilder.Options;
 
         optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
         optionsBuilder.UseSqlite(builder.ToString());
-        migrateOptions = optionsBuilder.Options;
+        _migrateOptions = optionsBuilder.Options;
     }
 
     public void Setup()
     {
-        using var context = new MewdekoContext(options);
+        using var context = new MewdekoContext(_options);
         if (context.Database.GetPendingMigrations().Any())
         {
-            var mContext = new MewdekoContext(migrateOptions);
+            var mContext = new MewdekoContext(_migrateOptions);
             mContext.Database.Migrate();
             mContext.SaveChanges();
             mContext.Dispose();
@@ -41,7 +41,7 @@ public class DbService
 
     private MewdekoContext GetDbContextInternal()
     {
-        var context = new MewdekoContext(options);
+        var context = new MewdekoContext(_options);
         var conn = context.Database.GetDbConnection();
         conn.OpenAsync();
         using var com = conn.CreateCommand();

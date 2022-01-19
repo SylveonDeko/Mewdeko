@@ -135,7 +135,7 @@ public partial class Moderation
          UserPerm(GuildPermission.Administrator), MewdekoOptions(typeof(WarnExpireOptions)), Priority(2)]
         public async Task MWarnExpire(int days, params string[] args)
         {
-            if (days < 0 || days > 366)
+            if (days is < 0 or > 366)
                 return;
 
             var opts = OptionsParser.ParseFrom<WarnExpireOptions>(args);

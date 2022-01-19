@@ -28,12 +28,12 @@ public partial class Administration
         }
 
         private readonly IServiceProvider _services;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public RoleCommands(IServiceProvider services, InteractiveService intserv)
         {
             _services = services;
-            Interactivity = intserv;
+            _interactivity = intserv;
         }
 
         public async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
@@ -147,7 +147,7 @@ public partial class Administration
                     .WithDefaultEmotes()
                     .Build();
 
-                await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
                 {
@@ -179,7 +179,6 @@ public partial class Administration
                 !rrs.Any() || rrs.Count < index)
                 return;
             index--;
-            var rr = rrs[index];
             Service.Remove(ctx.Guild.Id, index);
             await ReplyConfirmLocalizedAsync("reaction_role_removed", index + 1).ConfigureAwait(false);
         }
@@ -262,8 +261,8 @@ public partial class Administration
                 .Where(x => !x.IsManaged && x != x.Guild.EveryoneRole)
                 .ToList();
 
-            if (user.Id == ctx.Guild.OwnerId || ctx.User.Id != ctx.Guild.OwnerId &&
-                guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position))
+            if (user.Id == ctx.Guild.OwnerId || (ctx.User.Id != ctx.Guild.OwnerId &&
+                                                 guser.GetRoles().Max(x => x.Position) <= userRoles.Max(x => x.Position)))
                 return;
             try
             {

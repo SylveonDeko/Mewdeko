@@ -51,7 +51,7 @@ public class XpService : INService, IUnloadableService
     private readonly IImageCache _images;
     private readonly IBotStrings _strings;
     private readonly XpConfigService _xpConfig;
-    private XpTemplate _template;
+    private XpTemplate template;
 
     public XpService(DiscordSocketClient client, CommandHandler cmd, Mewdeko.Services.Mewdeko bot, DbService db,
         IBotStrings strings, IDataCache cache, FontProvider fonts, IBotCredentials creds,
@@ -120,14 +120,14 @@ public class XpService : INService, IUnloadableService
             allGuildConfigs.Where(x => x.XpSettings.ServerExcluded)
                 .Select(x => x.GuildId));
 
-        _cmd.OnMessageNoTrigger += _cmd_OnMessageNoTrigger;
+        _cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
 #if !GLOBAL_Mewdeko
-        _client.UserVoiceStateUpdated += _client_OnUserVoiceStateUpdated;
+        _client.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
 
         // Scan guilds on startup.
-        _client.GuildAvailable += _client_OnGuildAvailable;
-        foreach (var guild in _client.Guilds) _client_OnGuildAvailable(guild);
+        _client.GuildAvailable += Client_OnGuildAvailable;
+        foreach (var guild in _client.Guilds) Client_OnGuildAvailable(guild);
 #endif
         Task.Run(UpdateLoop);
     }
@@ -139,9 +139,9 @@ public class XpService : INService, IUnloadableService
 
     public Task Unload()
     {
-        _cmd.OnMessageNoTrigger -= _cmd_OnMessageNoTrigger;
-        _client.UserVoiceStateUpdated -= _client_OnUserVoiceStateUpdated;
-        _client.GuildAvailable -= _client_OnGuildAvailable;
+        _cmd.OnMessageNoTrigger -= Cmd_OnMessageNoTrigger;
+        _client.UserVoiceStateUpdated -= Client_OnUserVoiceStateUpdated;
+        _client.GuildAvailable -= Client_OnGuildAvailable;
         return Task.CompletedTask;
     }
 
@@ -288,15 +288,15 @@ public class XpService : INService, IUnloadableService
             {
                 ContractResolver = new RequireObjectPropertiesContractResolver()
             };
-            _template = JsonConvert.DeserializeObject<XpTemplate>(
+            template = JsonConvert.DeserializeObject<XpTemplate>(
                 File.ReadAllText("./data/xp_template.json"), settings);
         }
         catch (Exception ex)
         {
             Log.Error(ex, "Xp template is invalid. Loaded default values");
-            _template = new XpTemplate();
+            template = new XpTemplate();
             File.WriteAllText("./data/xp_template_backup.json",
-                JsonConvert.SerializeObject(_template, Formatting.Indented));
+                JsonConvert.SerializeObject(template, Formatting.Indented));
         }
     }
 
@@ -316,7 +316,7 @@ public class XpService : INService, IUnloadableService
             var toRemove = settings.CurrencyRewards.FirstOrDefault(x => x.Level == level);
             if (toRemove != null)
             {
-                uow._context.Remove(toRemove);
+                uow.Context.Remove(toRemove);
                 settings.CurrencyRewards.Remove(toRemove);
             }
         }
@@ -363,7 +363,7 @@ public class XpService : INService, IUnloadableService
             var toRemove = settings.RoleRewards.FirstOrDefault(x => x.Level == level);
             if (toRemove != null)
             {
-                uow._context.Remove(toRemove);
+                uow.Context.Remove(toRemove);
                 settings.RoleRewards.Remove(toRemove);
             }
         }
@@ -431,7 +431,7 @@ public class XpService : INService, IUnloadableService
         await uow.SaveChangesAsync();
     }
 
-    private Task _client_OnGuildAvailable(SocketGuild guild)
+    private Task Client_OnGuildAvailable(SocketGuild guild)
     {
         Task.Run(() =>
         {
@@ -441,7 +441,7 @@ public class XpService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    private Task _client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before,
+    private Task Client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before,
         SocketVoiceState after)
     {
         if (socketUser is not SocketGuildUser user || user.IsBot)
@@ -562,7 +562,7 @@ public class XpService : INService, IUnloadableService
         return !_excludedRoles.TryGetValue(user.Guild.Id, out var roles) || !user.Roles.Any(x => roles.Contains(x.Id));
     }
 
-    private Task _cmd_OnMessageNoTrigger(IUserMessage arg)
+    private Task Cmd_OnMessageNoTrigger(IUserMessage arg)
     {
         if (arg.Author is not SocketGuildUser user || user.IsBot)
             return Task.CompletedTask;
@@ -696,7 +696,7 @@ public class XpService : INService, IUnloadableService
             guildRank);
     }
 
-    public (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
+    public static (int Level, int LevelXp, int LevelRequiredXp) GetLevelData(UserXpStats stats)
     {
         const int baseXp = XP_REQUIRED_LVL_1;
         int required;
@@ -704,7 +704,7 @@ public class XpService : INService, IUnloadableService
         var lvl = 1;
         while (true)
         {
-            required = (int) (baseXp + baseXp / 4.0 * (lvl - 1));
+            required = (int) (baseXp + (baseXp / 4.0 * (lvl - 1)));
 
             if (required + totalXp > stats.Xp)
                 break;
@@ -755,7 +755,7 @@ public class XpService : INService, IUnloadableService
 
         var toDelete = xpSetting.ExclusionList.FirstOrDefault(x => x.Equals(excludeObj));
         if (toDelete == null) return false;
-        uow._context.Remove(toDelete);
+        uow.Context.Remove(toDelete);
         uow.SaveChanges();
 
         return false;
@@ -806,7 +806,7 @@ public class XpService : INService, IUnloadableService
                     }
                 }.WithFallbackFonts(_fonts.FallBackFonts);
 
-                var clubTextOptions = new TextGraphicsOptions
+                new TextGraphicsOptions
                 {
                     TextOptions = new TextOptions
                     {
@@ -816,9 +816,9 @@ public class XpService : INService, IUnloadableService
                 }.WithFallbackFonts(_fonts.FallBackFonts);
 
                 using var img = Image.Load<Rgba32>(_images.XpBackground, out var imageFormat);
-                if (_template.User.Name.Show)
+                if (template.User.Name.Show)
                 {
-                    var fontSize = (int) (_template.User.Name.FontSize * 0.9);
+                    var fontSize = (int) (template.User.Name.FontSize * 0.9);
                     var username = stats.User.Username;
                     var usernameFont = _fonts.NotoSans
                                              .CreateFont(fontSize, FontStyle.Bold);
@@ -827,94 +827,87 @@ public class XpService : INService, IUnloadableService
                     var scale = 400f / size.Width;
                     if (scale < 1)
                         usernameFont = _fonts.NotoSans
-                                             .CreateFont(_template.User.Name.FontSize * scale, FontStyle.Bold);
+                                             .CreateFont(template.User.Name.FontSize * scale, FontStyle.Bold);
 
-                    img.Mutate(x =>
-                    {
-                        x.DrawText(usernameTextOptions,
+                    img.Mutate(x => x.DrawText(usernameTextOptions,
                             username,
                             usernameFont,
-                            _template.User.Name.Color,
-                            new PointF(_template.User.Name.Pos.X, _template.User.Name.Pos.Y + 8));
-                    });
+                            template.User.Name.Color,
+                            new PointF(template.User.Name.Pos.X, template.User.Name.Pos.Y + 8)));
                 }
 
                 //club name
 
 
-                if (_template.User.GuildLevel.Show)
-                    img.Mutate(x =>
-                    {
-                        x.DrawText(
+                if (template.User.GuildLevel.Show)
+                    img.Mutate(x => x.DrawText(
                             stats.Guild.Level.ToString(),
-                            _fonts.NotoSans.CreateFont(_template.User.GuildLevel.FontSize, FontStyle.Bold),
-                            _template.User.GuildLevel.Color,
-                            new PointF(_template.User.GuildLevel.Pos.X, _template.User.GuildLevel.Pos.Y)
-                        );
-                    });
+                            _fonts.NotoSans.CreateFont(template.User.GuildLevel.FontSize, FontStyle.Bold),
+                            template.User.GuildLevel.Color,
+                            new PointF(template.User.GuildLevel.Pos.X, template.User.GuildLevel.Pos.Y)
+                        ));
 
 
                 var pen = new Pen(Color.Black, 1);
 
-                var global = stats.Global;
                 var guild = stats.Guild;
 
                 //xp bar
-                if (_template.User.Xp.Bar.Show)
+                if (template.User.Xp.Bar.Show)
                 {
                     var xpPercent = guild.LevelXp / (float) guild.RequiredXp;
-                    DrawXpBar(xpPercent, _template.User.Xp.Bar.Guild, img);
+                    DrawXpBar(xpPercent, template.User.Xp.Bar.Guild, img);
                 }
 
-                if (_template.User.Xp.Guild.Show)
+                if (template.User.Xp.Guild.Show)
                     img.Mutate(x => x.DrawText($"{guild.LevelXp}/{guild.RequiredXp}",
-                        _fonts.UniSans.CreateFont(_template.User.Xp.Guild.FontSize, FontStyle.Bold),
-                        Brushes.Solid(_template.User.Xp.Guild.Color),
-                        new PointF(_template.User.Xp.Guild.Pos.X, _template.User.Xp.Guild.Pos.Y)));
+                        _fonts.UniSans.CreateFont(template.User.Xp.Guild.FontSize, FontStyle.Bold),
+                        Brushes.Solid(template.User.Xp.Guild.Color),
+                        new PointF(template.User.Xp.Guild.Pos.X, template.User.Xp.Guild.Pos.Y)));
 
-                if (stats.FullGuildStats.AwardedXp != 0 && _template.User.Xp.Awarded.Show)
+                if (stats.FullGuildStats.AwardedXp != 0 && template.User.Xp.Awarded.Show)
                 {
                     var sign = stats.FullGuildStats.AwardedXp > 0
                         ? "+ "
                         : "";
-                    var awX = _template.User.Xp.Awarded.Pos.X -
-                              Math.Max(0, stats.FullGuildStats.AwardedXp.ToString().Length - 2) * 5;
-                    var awY = _template.User.Xp.Awarded.Pos.Y;
+                    var awX = template.User.Xp.Awarded.Pos.X -
+                              (Math.Max(0, stats.FullGuildStats.AwardedXp.ToString().Length - 2) * 5);
+                    var awY = template.User.Xp.Awarded.Pos.Y;
                     img.Mutate(x => x.DrawText($"({sign}{stats.FullGuildStats.AwardedXp})",
-                        _fonts.NotoSans.CreateFont(_template.User.Xp.Awarded.FontSize, FontStyle.Bold),
-                        Brushes.Solid(_template.User.Xp.Awarded.Color),
+                        _fonts.NotoSans.CreateFont(template.User.Xp.Awarded.FontSize, FontStyle.Bold),
+                        Brushes.Solid(template.User.Xp.Awarded.Color),
                         pen,
                         new PointF(awX, awY)));
                 }
 
                 //ranking
 
-                if (_template.User.GuildRank.Show)
+                if (template.User.GuildRank.Show)
                     img.Mutate(x => x.DrawText(stats.GuildRanking.ToString(),
-                        _fonts.UniSans.CreateFont(_template.User.GuildRank.FontSize, FontStyle.Bold),
-                        _template.User.GuildRank.Color,
-                        new PointF(_template.User.GuildRank.Pos.X, _template.User.GuildRank.Pos.Y)));
+                        _fonts.UniSans.CreateFont(template.User.GuildRank.FontSize, FontStyle.Bold),
+                        template.User.GuildRank.Color,
+                        new PointF(template.User.GuildRank.Pos.X, template.User.GuildRank.Pos.Y)));
 
                 //time on this level
 
-                string GetTimeSpent(DateTime time, string format)
+                static string GetTimeSpent(DateTime time, string format)
                 {
                     var offset = DateTime.UtcNow - time;
                     return $"{offset.Humanize()} ago";
                 }
 
 
-                if (_template.User.TimeOnLevel.Guild.Show)
+                if (template.User.TimeOnLevel.Guild.Show)
                     img.Mutate(x =>
                         x.DrawText(
-                            GetTimeSpent(stats.FullGuildStats.LastLevelUp, _template.User.TimeOnLevel.Format),
-                            _fonts.UniSans.CreateFont(_template.User.TimeOnLevel.Guild.FontSize),
-                            _template.User.TimeOnLevel.Guild.Color,
-                            new PointF(_template.User.TimeOnLevel.Guild.Pos.X,
-                                _template.User.TimeOnLevel.Guild.Pos.Y)));
+                            GetTimeSpent(stats.FullGuildStats.LastLevelUp, template.User.TimeOnLevel.Format),
+                            _fonts.UniSans.CreateFont(template.User.TimeOnLevel.Guild.FontSize),
+                            template.User.TimeOnLevel.Guild.Color,
+                            new PointF(template.User.TimeOnLevel.Guild.Pos.X,
+                                template.User.TimeOnLevel.Guild.Pos.Y)));
                 //avatar
 
-                if (stats.User.AvatarId != null && _template.User.Icon.Show)
+                if (stats.User.AvatarId != null && template.User.Icon.Show)
                     try
                     {
                         var avatarUrl = stats.User.RealAvatarUrl();
@@ -925,31 +918,27 @@ public class XpService : INService, IUnloadableService
                             using (var http = _httpFactory.CreateClient())
                             {
                                 var avatarData = await http.GetByteArrayAsync(avatarUrl);
-                                using (var tempDraw = Image.Load(avatarData))
-                                {
-                                    tempDraw.Mutate(x => x
-                                                         .Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y)
-                                                         .ApplyRoundedCorners(
-                                                             Math.Max(_template.User.Icon.Size.X,
-                                                                 _template.User.Icon.Size.Y) / 2));
-                                    await using (var stream = tempDraw.ToStream())
-                                    {
-                                        data = stream.ToArray();
-                                    }
-                                }
+                                using var tempDraw = Image.Load(avatarData);
+                                tempDraw.Mutate(x => x
+                                                     .Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y)
+                                                     .ApplyRoundedCorners(
+                                                         Math.Max(template.User.Icon.Size.X,
+                                                             template.User.Icon.Size.Y) / 2));
+                                await using var stream = tempDraw.ToStream();
+                                data = stream.ToArray();
                             }
 
                             await _cache.SetImageDataAsync(avatarUrl, data);
                         }
 
                         using var toDraw = Image.Load(data);
-                        if (toDraw.Size() != new Size(_template.User.Icon.Size.X,
-                                _template.User.Icon.Size.Y))
+                        if (toDraw.Size() != new Size(template.User.Icon.Size.X,
+                                template.User.Icon.Size.Y))
                             toDraw.Mutate(x =>
-                                x.Resize(_template.User.Icon.Size.X, _template.User.Icon.Size.Y));
+                                x.Resize(template.User.Icon.Size.X, template.User.Icon.Size.Y));
 
                         img.Mutate(x => x.DrawImage(toDraw,
-                            new Point(_template.User.Icon.Pos.X, _template.User.Icon.Pos.Y), 1));
+                            new Point(template.User.Icon.Pos.X, template.User.Icon.Pos.Y), 1));
                     }
                     catch (Exception ex)
                     {
@@ -958,11 +947,11 @@ public class XpService : INService, IUnloadableService
 
                 //club image
 
-                img.Mutate(x => x.Resize(_template.OutputSize.X, _template.OutputSize.Y));
+                img.Mutate(x => x.Resize(template.OutputSize.X, template.OutputSize.Y));
                 return ((Stream) img.ToStream(imageFormat), imageFormat);
             });
 
-    private void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
+    private static void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
     {
         var x1 = info.PointA.X;
         var y1 = info.PointA.Y;
