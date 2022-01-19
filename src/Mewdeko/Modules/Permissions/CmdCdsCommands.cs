@@ -36,7 +36,7 @@ public partial class Permissions
         public async Task CmdCooldown(CommandOrCrInfo command, int secs)
         {
             var channel = (ITextChannel) ctx.Channel;
-            if (secs < 0 || secs > 3600)
+            if (secs is < 0 or > 3600)
             {
                 await ReplyErrorLocalizedAsync("invalid_second_param_between", 0, 3600).ConfigureAwait(false);
                 return;
@@ -50,7 +50,7 @@ public partial class Permissions
 
                 var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);
                 if (toDelete != null)
-                    uow._context.Set<CommandCooldown>().Remove(toDelete);
+                    uow.Context.Set<CommandCooldown>().Remove(toDelete);
                 localSet.RemoveWhere(cc => cc.CommandName == name);
                 if (secs != 0)
                 {

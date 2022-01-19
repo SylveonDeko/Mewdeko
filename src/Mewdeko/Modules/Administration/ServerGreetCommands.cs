@@ -26,7 +26,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDel(int timer = 30)
         {
-            if (timer < 0 || timer > 600)
+            if (timer is < 0 or > 600)
                 return;
 
             await Service.SetGreetDel(ctx.Guild.Id, timer).ConfigureAwait(false);
@@ -58,7 +58,7 @@ public partial class Administration
         [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
         public async Task BoostDel(int timer = 30)
         {
-            if (timer < 0 || timer > 600)
+            if (timer is < 0 or > 600)
             {
                 await ctx.Channel.SendErrorAsync("The max delete time is 600 seconds!");
                 return;
@@ -359,7 +359,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task ByeTest([Remainder] IGuildUser user = null)
         {
-            user = user ?? (IGuildUser) Context.User;
+            user ??= (IGuildUser) Context.User;
 
             await Service.ByeTest((ITextChannel) Context.Channel, user);
             var enabled = Service.GetByeEnabled(Context.Guild.Id);
@@ -393,7 +393,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
         public async Task GreetDmTest([Remainder] IGuildUser user = null)
         {
-            user = user ?? (IGuildUser) Context.User;
+            user ??= (IGuildUser) Context.User;
 
             var channel = await user.CreateDMChannelAsync();
             var success = await Service.GreetDmTest(channel, user);

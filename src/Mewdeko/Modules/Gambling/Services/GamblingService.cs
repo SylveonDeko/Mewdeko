@@ -34,11 +34,11 @@ public class GamblingService : INService
 
         if (_bot.Client.ShardId == 0)
         {
-            var timer = new Timer(_ =>
+            new Timer(_ =>
             {
                 var config = _gss.Data;
                 var maxDecay = config.Decay.MaxDecay;
-                if (config.Decay.Percent <= 0 || config.Decay.Percent > 1 || maxDecay < 0)
+                if (config.Decay.Percent is <= 0 or > 1 || maxDecay < 0)
                     return;
 
                 using var uow = _db.GetDbContext();
@@ -54,7 +54,7 @@ public class GamblingService : INService
                 if (maxDecay == 0)
                     maxDecay = int.MaxValue;
 
-                uow._context.Database.ExecuteSqlInterpolated($@"
+                uow.Context.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=
     CASE WHEN
@@ -75,9 +75,9 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
     public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
     public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
 
-    public bool GetVoted(ulong Id)
+    public static bool GetVoted(ulong id)
     {
-        var url = $"https://top.gg/api/bots/752236274261426212/check?userId={Id}";
+        var url = $"https://top.gg/api/bots/752236274261426212/check?userId={id}";
 #pragma warning disable SYSLIB0014 // Type or member is obsolete
         var request = WebRequest.Create(url);
 #pragma warning restore SYSLIB0014 // Type or member is obsolete

@@ -10,7 +10,6 @@ public static class CommandNameLoadHelper
     private static readonly IDeserializer _deserializer
         = new Deserializer();
 
-    private static readonly LocalBotStringsProvider strings;
 
     public static Lazy<Dictionary<string, string[]>> LazyCommandAliases
         = new(() => LoadCommandNames());
@@ -27,7 +26,6 @@ public static class CommandNameLoadHelper
             ? aliases.Skip(1).ToArray()
             : Array.Empty<string>();
 
-    public static string GetRemarksFor(string methodName) => strings.GetCommandStrings(methodName, "en-US").Desc;
 
     public static string GetCommandNameFor(string methodName, string description = null)
     {

@@ -20,7 +20,7 @@ public class CommandTypeReader : MewdekoTypeReader<CommandInfo>
         input = input.ToUpperInvariant();
         var prefix = cmdHandler?.GetPrefix(context.Guild);
         if (input.StartsWith(prefix?.ToUpperInvariant()!))
-            input = input.Substring(prefix.Length);
+            input = input[prefix.Length..];
         var cmd = cmds?.Commands.FirstOrDefault(c =>
             c.Aliases.Select(a => a.ToUpperInvariant()).Contains(input));
         if (cmd == null)

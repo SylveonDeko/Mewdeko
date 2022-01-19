@@ -25,7 +25,7 @@ public partial class Gambling
 
         private async Task<(Stream ImageStream, string ToSend)> InternalDraw(int num, ulong? guildId = null)
         {
-            if (num < 1 || num > 10)
+            if (num is < 1 or > 10)
                 throw new ArgumentOutOfRangeException(nameof(num));
 
             var cards = guildId == null ? new Deck() : _allDecks.GetOrAdd(ctx.Guild, _ => new Deck());
@@ -74,10 +74,10 @@ public partial class Gambling
             if (num > 10)
                 num = 10;
 
-            var (ImageStream, ToSend) = await InternalDraw(num, ctx.Guild.Id).ConfigureAwait(false);
-            await using (ImageStream)
+            var (imageStream, toSend) = await InternalDraw(num, ctx.Guild.Id).ConfigureAwait(false);
+            await using (imageStream)
             {
-                await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+                await ctx.Channel.SendFileAsync(imageStream, num + " cards.jpg", toSend).ConfigureAwait(false);
             }
         }
 
@@ -89,10 +89,10 @@ public partial class Gambling
             if (num > 10)
                 num = 10;
 
-            var (ImageStream, ToSend) = await InternalDraw(num).ConfigureAwait(false);
-            await using (ImageStream)
+            var (imageStream, toSend) = await InternalDraw(num).ConfigureAwait(false);
+            await using (imageStream)
             {
-                await ctx.Channel.SendFileAsync(ImageStream, num + " cards.jpg", ToSend).ConfigureAwait(false);
+                await ctx.Channel.SendFileAsync(imageStream, num + " cards.jpg", toSend).ConfigureAwait(false);
             }
         }
 

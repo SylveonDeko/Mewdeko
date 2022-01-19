@@ -6,7 +6,7 @@ public readonly struct TypedKey<TData>
 
     public TypedKey(in string key) => Key = key;
 
-    public static implicit operator TypedKey<TData>(in string input) => new TypedKey<TData>(input);
+    public static implicit operator TypedKey<TData>(in string input) => new(input);
 
     public static implicit operator string(in TypedKey<TData> input) => input.Key;
 

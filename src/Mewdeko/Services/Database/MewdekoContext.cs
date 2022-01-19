@@ -33,7 +33,7 @@ public class MewdekoContext : DbContext
     public DbSet<Suggestionse> Suggestions { get; set; }
     public DbSet<SnipeStore> SnipeStore { get; set; }
     public DbSet<Warning2> Warnings2 { get; set; }
-    public DbSet<AFK> AFK { get; set; }
+    public DbSet<AFK> Afk { get; set; }
     public DbSet<MultiGreet> MultiGreets { get; set; }
     public DbSet<Giveaways> Giveaways { get; set; }
     public DbSet<Ticket> Ticket { get; set; }
@@ -169,7 +169,7 @@ public class MewdekoContext : DbContext
         //     .WithOne()
         //     .OnDelete(DeleteBehavior.Cascade);
 
-        var wu = modelBuilder.Entity<WaifuUpdate>();
+        modelBuilder.Entity<WaifuUpdate>();
 
         #endregion
 

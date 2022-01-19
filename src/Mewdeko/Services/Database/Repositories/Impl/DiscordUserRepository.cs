@@ -12,7 +12,7 @@ public class DiscordUserRepository : Repository<DiscordUser>, IDiscordUserReposi
     }
 
     public void EnsureCreated(ulong userId, string username, string discrim, string avatarId) =>
-        _context.Database.ExecuteSqlInterpolated($@"
+        Context.Database.ExecuteSqlInterpolated($@"
 UPDATE OR IGNORE DiscordUser
 SET Username={username},
     Discriminator={discrim},
@@ -27,7 +27,7 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
     public DiscordUser GetOrCreate(ulong userId, string username, string discrim, string avatarId)
     {
         EnsureCreated(userId, username, discrim, avatarId);
-        return _set
+        return Set
             .Include(x => x.Club)
             .First(u => u.UserId == userId);
     }
@@ -42,16 +42,16 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
         //    FROM DiscordUser
         //    WHERE UserId = @p1
         //    LIMIT 1), 0);"
-        _set
+        Set
             .AsQueryable()
-            .Count(x => x.TotalXp > _set
+            .Count(x => x.TotalXp > Set
                                     .AsQueryable()
                                     .Where(y => y.UserId == id)
                                     .Select(y => y.TotalXp)
                                     .FirstOrDefault()) + 1;
 
     public DiscordUser[] GetUsersXpLeaderboardFor(int page) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .OrderByDescending(x => x.TotalXp)
             .Skip(page * 9)
             .Take(9)
@@ -59,7 +59,7 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
             .ToArray();
 
     public List<DiscordUser> GetTopRichest(ulong botId, int count, int page = 0) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(c => c.CurrencyAmount > 0 && botId != c.UserId)
             .OrderByDescending(c => c.CurrencyAmount)
             .Skip(page * 9)
@@ -67,20 +67,20 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
             .ToList();
 
     public List<DiscordUser> GetTopRichest(ulong botId, int count) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(c => c.CurrencyAmount > 0 && botId != c.UserId)
             .OrderByDescending(c => c.CurrencyAmount)
             .Take(count)
             .ToList();
 
     public long GetUserCurrency(ulong userId) =>
-        _set.AsNoTracking()
+        Set.AsNoTracking()
             .FirstOrDefault(x => x.UserId == userId)
             ?.CurrencyAmount ?? 0;
 
     public void RemoveFromMany(IEnumerable<ulong> ids)
     {
-        var items = _set.AsQueryable().Where(x => ids.Contains(x.UserId));
+        var items = Set.AsQueryable().Where(x => ids.Contains(x.UserId));
         foreach (var item in items) item.CurrencyAmount = 0;
     }
 
@@ -94,7 +94,7 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
         // and return number of rows > 0 (was there a change)
         if (amount < 0 && !allowNegative)
         {
-            var rows = _context.Database.ExecuteSqlInterpolated($@"
+            var rows = Context.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount}
 WHERE UserId={userId} AND CurrencyAmount>={-amount};");
@@ -104,7 +104,7 @@ WHERE UserId={userId} AND CurrencyAmount>={-amount};");
         // if remove and negative is allowed, just remove without any condition
         if (amount < 0 && allowNegative)
         {
-            var rows = _context.Database.ExecuteSqlInterpolated($@"
+            var rows = Context.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount}
 WHERE UserId={userId};");
@@ -121,7 +121,7 @@ WHERE UserId={userId};");
 
         // just update the amount, there is no new user data
         if (!updatedUserData)
-            _context.Database.ExecuteSqlInterpolated($@"
+            Context.Database.ExecuteSqlInterpolated($@"
 UPDATE OR IGNORE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount}
 WHERE UserId={userId};
@@ -130,7 +130,7 @@ INSERT OR IGNORE INTO DiscordUser (UserId, Username, Discriminator, AvatarId, Cu
 VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
 ");
         else
-            _context.Database.ExecuteSqlInterpolated($@"
+            Context.Database.ExecuteSqlInterpolated($@"
 UPDATE OR IGNORE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount},
     Username={name},
@@ -145,13 +145,13 @@ VALUES ({userId}, {name}, {discrim}, {avatarId}, {amount});
     }
 
     public decimal GetTotalCurrency() =>
-        _set
+        Set
             .Sum(x => x.CurrencyAmount);
 
     public decimal GetTopOnePercentCurrency(ulong botId) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(x => x.UserId != botId)
             .OrderByDescending(x => x.CurrencyAmount)
-            .Take(_set.Count() / 100 == 0 ? 1 : _set.Count() / 100)
+            .Take(Set.Count() / 100 == 0 ? 1 : Set.Count() / 100)
             .Sum(x => x.CurrencyAmount);
 }

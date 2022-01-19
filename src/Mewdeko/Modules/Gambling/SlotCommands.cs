@@ -19,8 +19,8 @@ public partial class Gambling
     [Group]
     public class SlotCommands : GamblingSubmodule<GamblingService>
     {
-        private static long _totalBet;
-        private static long _totalPaidOut;
+        private static long totalBet;
+        private static long totalPaidOut;
 
         private static readonly HashSet<ulong> _runningUsers = new();
         private readonly ICurrencyService _cs;
@@ -41,8 +41,8 @@ public partial class Gambling
         public async Task SlotStats()
         {
             //i remembered to not be a moron
-            var paid = _totalPaidOut;
-            var bet = _totalBet;
+            var paid = totalPaidOut;
+            var bet = totalBet;
 
             if (bet <= 0)
                 bet = 1;
@@ -109,7 +109,7 @@ public partial class Gambling
                     return;
                 }
 
-                Interlocked.Add(ref _totalBet, amount.Value);
+                Interlocked.Add(ref totalBet, amount.Value);
                 using var bgImage = Image.Load(_images.SlotBackground);
                 var result = SlotMachine.Pull();
                 var numbers = result.Numbers;
@@ -118,7 +118,7 @@ public partial class Gambling
                 {
                     using var randomImage = Image.Load(_images.SlotEmojis[numbers[i]]);
                     bgImage.Mutate(x =>
-                        x.DrawImage(randomImage, new Point(95 + 142 * i, 330), new GraphicsOptions()));
+                        x.DrawImage(randomImage, new Point(95 + (142 * i), 330), new GraphicsOptions()));
                 }
 
                 var won = amount * result.Multiplier;
@@ -130,7 +130,7 @@ public partial class Gambling
                     using (var img = Image.Load(_images.SlotNumbers[digit]))
                     {
                         bgImage.Mutate(x =>
-                            x.DrawImage(img, new Point(230 - n * 16, 462), new GraphicsOptions()));
+                            x.DrawImage(img, new Point(230 - (n * 16), 462), new GraphicsOptions()));
                     }
 
                     n++;
@@ -144,7 +144,7 @@ public partial class Gambling
                     using (var img = Image.Load(_images.SlotNumbers[digit]))
                     {
                         bgImage.Mutate(x =>
-                            x.DrawImage(img, new Point(395 - n * 16, 462), new GraphicsOptions()));
+                            x.DrawImage(img, new Point(395 - (n * 16), 462), new GraphicsOptions()));
                     }
 
                     n++;
@@ -155,7 +155,7 @@ public partial class Gambling
                 {
                     await _cs.AddAsync(ctx.User, $"Slot Machine x{result.Multiplier}",
                         amount * result.Multiplier, false, true).ConfigureAwait(false);
-                    Interlocked.Add(ref _totalPaidOut, amount * result.Multiplier);
+                    Interlocked.Add(ref totalPaidOut, amount * result.Multiplier);
                     if (result.Multiplier == 1)
                         msg = GetText("slot_single", CurrencySign, 1);
                     else if (result.Multiplier == 4)
@@ -184,24 +184,24 @@ public partial class Gambling
 
         public sealed class SlotMachine
         {
-            public const int MaxValue = 5;
+            public const int MAX_VALUE = 5;
 
             private static readonly List<Func<int[], int>> _winningCombos = new()
             {
                 //three flowers
-                arr => arr.All(a => a == MaxValue) ? 30 : 0,
+                arr => arr.All(a => a == MAX_VALUE) ? 30 : 0,
                 //three of the same
                 arr => !arr.Any(a => a != arr[0]) ? 10 : 0,
                 //two flowers
-                arr => arr.Count(a => a == MaxValue) == 2 ? 4 : 0,
+                arr => arr.Count(a => a == MAX_VALUE) == 2 ? 4 : 0,
                 //one flower
-                arr => arr.Any(a => a == MaxValue) ? 1 : 0
+                arr => arr.Any(a => a == MAX_VALUE) ? 1 : 0
             };
 
             public static SlotResult Pull()
             {
                 var numbers = new int[3];
-                for (var i = 0; i < numbers.Length; i++) numbers[i] = new MewdekoRandom().Next(0, MaxValue + 1);
+                for (var i = 0; i < numbers.Length; i++) numbers[i] = new MewdekoRandom().Next(0, MAX_VALUE + 1);
                 var multi = 0;
                 foreach (var t in _winningCombos)
                 {

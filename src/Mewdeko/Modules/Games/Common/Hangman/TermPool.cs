@@ -9,13 +9,13 @@ namespace Mewdeko.Modules.Games.Common.Hangman;
 
 public class TermPool
 {
-    private const string termsPath = "data/hangman.json";
+    private const string TERMS_PATH = "data/hangman.json";
 
     public TermPool()
     {
         try
         {
-            Data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(termsPath));
+            Data = JsonConvert.DeserializeObject<Dictionary<string, HangmanObject[]>>(File.ReadAllText(TERMS_PATH));
             Data = Data.ToDictionary(
                 x => x.Key.ToLowerInvariant(),
                 x => x.Value);

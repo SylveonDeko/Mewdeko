@@ -10,6 +10,6 @@ public class MultiGreetRepository : Repository<MultiGreet>, IMultiGreetRepositor
     {
     }
 
-    public MultiGreet[] GetAllGreets(ulong guildId) => _set.AsQueryable().Where(x => x.GuildId == guildId).ToArray();
-    public MultiGreet[] GetForChannel(ulong channelId) => _set.AsQueryable().Where(x => x.ChannelId == channelId).ToArray();
+    public MultiGreet[] GetAllGreets(ulong guildId) => Set.AsQueryable().Where(x => x.GuildId == guildId).ToArray();
+    public MultiGreet[] GetForChannel(ulong channelId) => Set.AsQueryable().Where(x => x.ChannelId == channelId).ToArray();
 }

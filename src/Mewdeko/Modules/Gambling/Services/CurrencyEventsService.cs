@@ -33,7 +33,7 @@ public class CurrencyEventsService : INService
 
         if (_client.ShardId == 0)
         {
-            var t = BotlistUpvoteLoop();
+            _ = Task.Run(async () => await BotlistUpvoteLoop());
         }
     }
 

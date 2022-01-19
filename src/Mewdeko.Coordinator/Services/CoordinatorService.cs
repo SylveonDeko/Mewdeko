@@ -115,8 +115,8 @@ namespace Mewdeko.Coordinator.Services
                 ServerCallContext context)
             {
                 await Task.Yield();
-                string error = string.Empty;
-                bool success = true;
+                var error = string.Empty;
+                var success = true;
                 try
                 {
                     _runner.SetConfigText(request.ConfigYml);
@@ -127,7 +127,7 @@ namespace Mewdeko.Coordinator.Services
                     success = false;
                 }
 
-                return new(new()
+                return new SetConfigTextReply(new SetConfigTextReply
                 {
                     Success = success,
                     Error = error

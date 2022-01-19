@@ -15,34 +15,29 @@ public class PermValue : MewdekoTypeReader<PermValue>
     public override Task<TypeReaderResult> ReadAsync(ICommandContext context, string input, IServiceProvider _)
     {
         input = input.ToUpperInvariant();
-        switch (input)
+        return input switch
         {
-            case "1":
-            case "T":
-            case "TRUE":
-            case "ENABLE":
-            case "ENABLED":
-            case "ALLOW":
-            case "PERMIT":
-            case "UNBAN":
-                return Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow));
-            case "0":
-            case "F":
-            case "FALSE":
-            case "DENY":
-            case "DISABLE":
-            case "DISABLED":
-            case "DISALLOW":
-            case "BAN":
-                return Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny));
-            case "2":
-            case "N":
-            case "Neutral":
-            case "Inherit":
-                return Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Inherit));
-            default:
-                return Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed,
-                    "Must be either deny or allow."));
-        }
+            "1" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "T" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "TRUE" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "ENABLE" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "ENABLED" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "ALLOW" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "PERMIT" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "UNBAN" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Allow)),
+            "0" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "F" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "FALSE" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "DENY" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "DISABLE" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "DISABLED" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "DISALLOW" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "BAN" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Deny)),
+            "2" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Inherit)),
+            "N" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Inherit)),
+            "Neutral" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Inherit)),
+            "Inherit" => Task.FromResult(TypeReaderResult.FromSuccess(Discord.PermValue.Inherit)),
+            _ => Task.FromResult(TypeReaderResult.FromError(CommandError.ParseFailed, "Must be either deny or allow."))
+        };
     }
 }

@@ -84,13 +84,13 @@ public class PicartoProvider : Provider
         return toReturn;
     }
 
-    private StreamData ToStreamData(PicartoChannelResponse stream) =>
-        new StreamData
+    private static StreamData ToStreamData(PicartoChannelResponse? stream) =>
+        new()
         {
             StreamType = FollowedStream.FType.Picarto,
-            Name = stream.Name,
-            UniqueName = stream.Name,
-            Viewers = stream.Viewers,
+            Name = stream?.Name,
+            UniqueName = stream?.Name,
+            Viewers = stream!.Viewers,
             Title = stream.Title,
             IsLive = stream.Online,
             Preview = stream.Thumbnails.Web,

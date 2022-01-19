@@ -11,10 +11,7 @@ public class EventPubSub : IPubSub
 
     public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
     {
-        ValueTask LocalAction(object obj)
-        {
-            return action((TData) obj);
-        }
+        ValueTask LocalAction(object obj) => action((TData)obj);
 
         lock (_locker)
         {
