@@ -45,7 +45,7 @@ public class ProtectionService : INService
         var ids = client.GetGuildIds();
         using (var uow = db.GetDbContext())
         {
-            var configs = uow._context.Set<GuildConfig>()
+            var configs = uow.Context.Set<GuildConfig>()
                 .AsQueryable()
                 .Include(x => x.AntiRaidSetting)
                 .Include(x => x.AntiSpamSetting)
@@ -402,7 +402,7 @@ public class ProtectionService : INService
         else
         {
             var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
-            uow._context.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
+            uow.Context.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
             if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
                 temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
             added = false;
@@ -422,19 +422,17 @@ public class ProtectionService : INService
         return (antiSpamStats, antiRaidStats, antiAltStats);
     }
 
-    public bool IsDurationAllowed(PunishmentAction action)
+    public static bool IsDurationAllowed(PunishmentAction action)
     {
-        switch (action)
+        return action switch
         {
-            case PunishmentAction.Ban:
-            case PunishmentAction.Mute:
-            case PunishmentAction.ChatMute:
-            case PunishmentAction.VoiceMute:
-            case PunishmentAction.AddRole:
-                return true;
-            default:
-                return false;
-        }
+            PunishmentAction.Ban => true,
+            PunishmentAction.Mute => true,
+            PunishmentAction.ChatMute => true,
+            PunishmentAction.VoiceMute => true,
+            PunishmentAction.AddRole => true,
+            _ => false
+        };
     }
 
     public async Task StartAntiAltAsync(ulong guildId, int minAgeMinutes, PunishmentAction action,

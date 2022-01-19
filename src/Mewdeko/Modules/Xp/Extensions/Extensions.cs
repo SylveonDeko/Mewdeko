@@ -14,7 +14,7 @@ public static class Extensions
         var lvl = 1;
         while (true)
         {
-            required = (int) (baseXp + baseXp / 4.0 * (lvl - 1));
+            required = (int) (baseXp + (baseXp / 4.0 * (lvl - 1)));
 
             if (required + totalXp > stats.Xp)
                 break;

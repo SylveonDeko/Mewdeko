@@ -152,13 +152,13 @@ public class PageBuilder
     /// </summary>
     /// <param name="builder">The <see cref="EmbedBuilder" />.</param>
     /// <returns>A <see cref="PageBuilder" />.</returns>
-    public static PageBuilder FromEmbedBuilder(EmbedBuilder builder) => new PageBuilder(builder);
+    public static PageBuilder FromEmbedBuilder(EmbedBuilder builder) => new(builder);
 
     /// <summary>
     ///     Builds this builder to an immutable <see cref="Page" />.
     /// </summary>
     /// <returns>A <see cref="Page" />.</returns>
-    public Page Build() => new Page(Text, _builder);
+    public Page Build() => new(Text, _builder);
 
     /// <summary>
     ///     Sets the text of a <see cref="Page" />.

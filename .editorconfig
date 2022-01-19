@@ -66,7 +66,7 @@ dotnet_style_prefer_simplified_interpolation = true
 dotnet_style_readonly_field = true:suggestion
 
 # Parameter preferences
-dotnet_code_quality_unused_parameters = all:warning
+dotnet_code_quality_unused_parameters = non_public:warning
 
 #### C# Coding Conventions ####
 

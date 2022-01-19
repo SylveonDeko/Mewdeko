@@ -18,11 +18,11 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
 {
     private readonly IServiceProvider _servs;
     private readonly DbService _db;
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
     public Giveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService)
     {
-        Interactivity = interactiveService;
+        _interactivity = interactiveService;
         _db = db;
         _servs = servs;
     }
@@ -96,7 +96,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             .WithErrorColor()
             .WithDescription("Either something went wrong or you input a value incorrectly! Please start over.")
             .Build();
-        var win0embed = new EmbedBuilder()
+        var win0Embed = new EmbedBuilder()
             .WithErrorColor()
             .WithDescription("You can't have 0 winners!").Build();
         var tries = 0;
@@ -130,7 +130,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
 
         while (tries > 0)
         {
-            await msg.ModifyAsync(x => x.Embed = win0embed);
+            await msg.ModifyAsync(x => x.Embed = win0Embed);
             next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
             try
             {
@@ -167,7 +167,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                     "Who is the giveaway host? You can mention them or provide an ID, say none/skip to set yourself as the host.")
                 .Build());
         next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-        if (next.ToLower() == "none" || next.ToLower() == "skip")
+        if (next.ToLower() is "none" or "skip")
         {
             host = ctx.User;
         }
@@ -236,20 +236,17 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
                         .WithDefaultEmotes()
                         .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
-        {
-            return Task.FromResult(new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways").WithDescription(
+        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways").WithDescription(
                 string.Join("\n\n",
                     gways.Skip(page * 5).Take(5).Select(x =>
                         $"{x.MessageId}"
                         + $"\nPrize: {x.Item}"
                         + $"\nWinners: {x.Winners}"
                         + $"\nLink: {ctx.Guild.GetTextChannelAsync(x.ChannelId).Result.GetMessageAsync(x.MessageId).Result.GetJumpUrl()}"))));
-        }
-        
+
 
     }
 

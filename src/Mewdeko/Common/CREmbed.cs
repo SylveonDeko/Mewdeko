@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Mewdeko.Common;
 
-public class CREmbed
+public class CrEmbed
 {
     public CrEmbedAuthor Author { get; set; }
     public string PlainText { get; set; }
@@ -26,7 +26,7 @@ public class CREmbed
         !string.IsNullOrWhiteSpace(Url) ||
         !string.IsNullOrWhiteSpace(Thumbnail) ||
         !string.IsNullOrWhiteSpace(Image) ||
-        Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl)) ||
+        (Footer != null && (!string.IsNullOrWhiteSpace(Footer.Text) || !string.IsNullOrWhiteSpace(Footer.IconUrl))) ||
         Fields is {Length: > 0};
 
     public EmbedBuilder ToEmbed()
@@ -70,7 +70,7 @@ public class CREmbed
         return embed;
     }
 
-    public static bool TryParse(string input, out CREmbed embed)
+    public static bool TryParse(string input, out CrEmbed embed)
     {
         embed = null;
         if (string.IsNullOrWhiteSpace(input) || !input.Trim().StartsWith('{'))
@@ -78,7 +78,7 @@ public class CREmbed
 
         try
         {
-            var crembed = JsonConvert.DeserializeObject<CREmbed>(input);
+            var crembed = JsonConvert.DeserializeObject<CrEmbed>(input);
 
             if (crembed is {Fields: {Length: > 0}})
                 foreach (var f in crembed.Fields)

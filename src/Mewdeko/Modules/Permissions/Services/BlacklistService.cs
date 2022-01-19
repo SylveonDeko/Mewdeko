@@ -13,8 +13,8 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly DbService _db;
     private readonly IPubSub _pubSub;
 
-    private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
-    private IReadOnlyList<BlacklistEntry> _blacklist;
+    private readonly TypedKey<BlacklistEntry[]> _blPubKey = new("blacklist.reload");
+    private IReadOnlyList<BlacklistEntry> blacklist;
 
     public BlacklistService(DbService db, IPubSub pubSub)
     {
@@ -22,7 +22,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         _pubSub = pubSub;
 
         Reload(false);
-        _pubSub.Sub(blPubKey, OnReload);
+        _pubSub.Sub(_blPubKey, OnReload);
     }
 
     public int Priority => -100;
@@ -31,7 +31,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     public Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
     {
-        foreach (var bl in _blacklist)
+        foreach (var bl in blacklist)
         {
             if (guild != null && bl.Type == BlacklistType.Server && bl.ItemId == guild.Id)
                 return Task.FromResult(true);
@@ -48,23 +48,23 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     private ValueTask OnReload(BlacklistEntry[] blacklist)
     {
-        _blacklist = blacklist;
+        this.blacklist = blacklist;
         return default;
     }
 
     public void Reload(bool publish = true)
     {
         using var uow = _db.GetDbContext();
-        var toPublish = uow._context.Blacklist.AsNoTracking().ToArray();
-        _blacklist = toPublish;
-        if (publish) _pubSub.Pub(blPubKey, toPublish);
+        var toPublish = uow.Context.Blacklist.AsNoTracking().ToArray();
+        blacklist = toPublish;
+        if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
 
     public void Blacklist(BlacklistType type, ulong id)
     {
         using var uow = _db.GetDbContext();
         var item = new BlacklistEntry {ItemId = id, Type = type};
-        uow._context.Blacklist.Add(item);
+        uow.Context.Blacklist.Add(item);
         uow.SaveChanges();
 
         Reload();
@@ -73,11 +73,11 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     public void UnBlacklist(BlacklistType type, ulong id)
     {
         using var uow = _db.GetDbContext();
-        var toRemove = uow._context.Blacklist
+        var toRemove = uow.Context.Blacklist
             .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
 
         if (toRemove is not null)
-            uow._context.Blacklist.Remove(toRemove);
+            uow.Context.Blacklist.Remove(toRemove);
 
         uow.SaveChanges();
 
@@ -88,7 +88,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     {
         using (var uow = _db.GetDbContext())
         {
-            var bc = uow._context.Blacklist;
+            var bc = uow.Context.Blacklist;
             //blacklist the users
             bc.AddRange(toBlacklist.Select(x =>
                 new BlacklistEntry

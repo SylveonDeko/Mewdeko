@@ -10,7 +10,7 @@ namespace Mewdeko.Common.TypeReaders;
 
 public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
 {
-    private static readonly Regex percentRegex = new(@"^((?<num>100|\d{1,2})%)$", RegexOptions.Compiled);
+    private static readonly Regex _percentRegex = new(@"^((?<num>100|\d{1,2})%)$", RegexOptions.Compiled);
 
     public ShmartNumberTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
     {
@@ -47,25 +47,16 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
 
     private static void EvaluateParam(string name, ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
     {
-        switch (name.ToUpperInvariant())
+        args.Result = name.ToUpperInvariant() switch
         {
-            case "PI":
-                args.Result = Math.PI;
-                break;
-            case "E":
-                args.Result = Math.E;
-                break;
-            case "ALL":
-            case "ALLIN":
-                args.Result = Cur(svc, ctx);
-                break;
-            case "HALF":
-                args.Result = Cur(svc, ctx) / 2;
-                break;
-            case "MAX":
-                args.Result = Max(svc, ctx);
-                break;
-        }
+            "PI" => Math.PI,
+            "E" => Math.E,
+            "ALL" => Cur(svc, ctx),
+            "ALLIN" => Cur(svc, ctx),
+            "HALF" => Cur(svc, ctx) / 2,
+            "MAX" => Max(svc, ctx),
+            _ => args.Result
+        };
     }
 
     private static long Cur(IServiceProvider services, ICommandContext ctx)
@@ -94,7 +85,7 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
         out long num)
     {
         num = 0;
-        var m = percentRegex.Match(input);
+        var m = _percentRegex.Match(input);
         if (m.Captures.Count == 0) return false;
         if (!long.TryParse(m.Groups["num"].ToString(), out var percent))
             return false;

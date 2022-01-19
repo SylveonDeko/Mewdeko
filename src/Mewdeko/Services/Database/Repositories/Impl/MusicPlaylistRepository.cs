@@ -11,9 +11,9 @@ public class MusicPlaylistRepository : Repository<MusicPlaylist>, IMusicPlaylist
     }
 
     public IEnumerable<MusicPlaylist> GetPlaylistsByUser(ulong userId) 
-        => _set.AsQueryable().Where(x => x.AuthorId == userId)
+        => Set.AsQueryable().Where(x => x.AuthorId == userId)
                .Include(x => x.Songs);
 
     public MusicPlaylist GetDefaultPlaylist(ulong userId) =>
-        _set.AsQueryable().Where(x => x.AuthorId == userId && x.IsDefault).Include(x => x.Songs).FirstOrDefault();
+        Set.AsQueryable().Where(x => x.AuthorId == userId && x.IsDefault).Include(x => x.Songs).FirstOrDefault();
 }

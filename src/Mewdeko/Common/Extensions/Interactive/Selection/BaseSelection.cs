@@ -133,7 +133,7 @@ public abstract class BaseSelection<TOption> : IInteractiveElement<TOption>
     /// <inheritdoc />
     public virtual MessageComponent BuildComponents(bool disableAll)
     {
-        if (InputType != InputType.Buttons && InputType != InputType.SelectMenus)
+        if (InputType is not InputType.Buttons and not InputType.SelectMenus)
             throw new InvalidOperationException("InputType must be either Buttons or SelectMenus.");
 
         var builder = new ComponentBuilder();

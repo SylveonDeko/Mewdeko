@@ -435,7 +435,7 @@ public class InteractiveService
         // A CancellationTokenSource is used here for 2 things:
         // 1. To cancel NextMessageAsync() to avoid memory leaks
         // 2. To cancel InitializeMessageAsync() to avoid adding reactions after TimeoutTaskSource.Task has returned.
-        var cts = selection.InputType == InputType.Messages || selection.InputType == InputType.Reactions
+        var cts = selection.InputType is InputType.Messages or InputType.Reactions
             ? new CancellationTokenSource()
             : null;
 
@@ -510,7 +510,7 @@ public class InteractiveService
 #if DNETLABS
         MessageComponent component = null;
         var moreThanOnePage = element is not Paginator pag || pag.MaxPageIndex > 0;
-        if ((element.InputType == InputType.Buttons || element.InputType == InputType.SelectMenus) &&
+        if (element.InputType is InputType.Buttons or InputType.SelectMenus &&
             moreThanOnePage) component = element.BuildComponents(false);
 #endif
 
@@ -571,7 +571,7 @@ public class InteractiveService
         MessageComponent components = null;
         if (action.HasFlag(ActionOnStop.DisableInput))
         {
-            if (element.InputType == InputType.Buttons || element.InputType == InputType.SelectMenus)
+            if (element.InputType is InputType.Buttons or InputType.SelectMenus)
                 components = element.BuildComponents(true);
         }
         else if (action.HasFlag(ActionOnStop.DeleteInput) && element.InputType != InputType.Reactions)

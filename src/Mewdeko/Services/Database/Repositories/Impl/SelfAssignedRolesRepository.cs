@@ -12,17 +12,17 @@ public class SelfAssignedRolesRepository : Repository<SelfAssignedRole>, ISelfAs
 
     public bool DeleteByGuildAndRoleId(ulong guildId, ulong roleId)
     {
-        var role = _set.FirstOrDefault(s => s.GuildId == guildId && s.RoleId == roleId);
+        var role = Set.FirstOrDefault(s => s.GuildId == guildId && s.RoleId == roleId);
 
         if (role == null)
             return false;
 
-        _set.Remove(role);
+        Set.Remove(role);
         return true;
     }
 
     public IEnumerable<SelfAssignedRole> GetFromGuild(ulong guildId) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(s => s.GuildId == guildId)
             .ToArray();
 }

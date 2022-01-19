@@ -55,7 +55,7 @@ public class CommandHandler : INService
         _db = db;
         _services = services;
         _client.InteractionCreated += InteractionCreated;
-        _clearUsersOnShortCooldown = new Timer(_ => { UsersOnShortCooldown.Clear(); }, null, GlobalCommandsCooldown,
+        _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
             GlobalCommandsCooldown);
         _prefixes = bot.AllGuildConfigs
             .Where(x => x.Prefix != null)
@@ -111,12 +111,12 @@ public class CommandHandler : INService
         if (string.IsNullOrWhiteSpace(prefix))
             throw new ArgumentNullException(nameof(prefix));
 
-        _bss.ModifyConfig(bs => { bs.Prefix = prefix; });
+        _bss.ModifyConfig(bs => bs.Prefix = prefix);
 
         return prefix;
     }
 
-    public async Task AttemptJoinThread(SocketThreadChannel chan)
+    public static async Task AttemptJoinThread(SocketThreadChannel chan)
     {
         try
         {
@@ -207,7 +207,7 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    private Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
+    private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
     {
         Log.Information("Command Executed after " +
                         string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
@@ -224,7 +224,7 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    private void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
+    private static void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
         params int[] execPoints)
     {
         var errorafter = string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3")));
@@ -406,7 +406,7 @@ public class CommandHandler : INService
         }
 
         // Calculates the 'score' of a command given a parse result
-        float CalculateScore(CommandMatch match, ParseResult parseResult)
+        static float CalculateScore(CommandMatch match, ParseResult parseResult)
         {
             float argValuesScore = 0, paramValuesScore = 0;
 
@@ -423,7 +423,7 @@ public class CommandHandler : INService
             }
 
             var totalArgsScore = (argValuesScore + paramValuesScore) / 2;
-            return match.Command.Priority + totalArgsScore * 0.99f;
+            return match.Command.Priority + (totalArgsScore * 0.99f);
         }
 
         //Order the parse results by their score so that we choose the most likely result to execute
@@ -450,7 +450,7 @@ public class CommandHandler : INService
             return (false, null, cmd);
         //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
-        var commandName = cmd.Aliases.First();
+        var commandName = cmd.Aliases[0];
         foreach (var exec in _lateBlockers)
             if (await exec.TryBlockLate(_client, context, cmd.Module.GetTopLevelModule().Name, cmd)
                     .ConfigureAwait(false))

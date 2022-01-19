@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Help.Services;
 
 public class HelpService : ILateExecutor, INService
 {
-    public static HashSet<HelpInfo> list3 = new();
+    public static HashSet<HelpInfo> List3 = new();
     private readonly BotConfigService _bss;
     private readonly CommandHandler _ch;
     private readonly DiscordSocketClient _client;
@@ -45,7 +45,7 @@ public class HelpService : ILateExecutor, INService
             if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
                 return Task.CompletedTask;
 
-            if (CREmbed.TryParse(settings.DmHelpText, out var embed))
+            if (CrEmbed.TryParse(settings.DmHelpText, out var embed))
                 return msg.Channel.EmbedAsync(embed);
 
             return msg.Channel.SendMessageAsync(settings.DmHelpText);
@@ -54,7 +54,7 @@ public class HelpService : ILateExecutor, INService
         return Task.CompletedTask;
     }
 
-    public void UpdateHash(HelpInfo info) => list3.Add(info);
+    public static void UpdateHash(HelpInfo info) => List3.Add(info);
 
     private async Task HandlePing(SocketMessage msg)
     {
@@ -216,9 +216,9 @@ public class HelpService : ILateExecutor, INService
 
     public record HelpInfo
     {
-        public IUser user { get; set; }
-        public IUserMessage msg { get; set; }
-        public IChannel chan { get; set; }
+        public IUser User { get; set; }
+        public IUserMessage Msg { get; set; }
+        public IChannel Chan { get; set; }
         public SelectMenuBuilder Builder { get; set; }
     }
 }

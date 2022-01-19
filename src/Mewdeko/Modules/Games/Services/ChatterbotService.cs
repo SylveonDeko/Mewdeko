@@ -39,8 +39,8 @@ public class ChatterBotService : INService
 
     public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotChannels { get; }
 
-    public int Priority => -1;
-    public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
+    public static int Priority => -1;
+    public static ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
@@ -100,7 +100,7 @@ public class ChatterBotService : INService
     {
         if (!string.IsNullOrWhiteSpace(_creds.CleverbotApiKey))
             return new OfficialCleverbotSession(_creds.CleverbotApiKey, _httpFactory);
-        return new CleverbotIOSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
+        return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
     }
 
     private string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
@@ -114,15 +114,15 @@ public class ChatterBotService : INService
 
         cleverbot = lazyCleverbot.Value;
 
-        var MewdekoId = _client.CurrentUser.Id;
-        var normalMention = $"<@{MewdekoId}> ";
-        var nickMention = $"<@!{MewdekoId}> ";
+        var mewdekoId = _client.CurrentUser.Id;
+        var normalMention = $"<@{mewdekoId}> ";
+        var nickMention = $"<@!{mewdekoId}> ";
         string message;
 
         if (msg.Content.StartsWith(normalMention, StringComparison.InvariantCulture))
-            message = msg.Content.Substring(normalMention.Length).Trim();
+            message = msg.Content[normalMention.Length..].Trim();
         else if (msg.Content.StartsWith(nickMention, StringComparison.InvariantCulture))
-            message = msg.Content.Substring(nickMention.Length).Trim();
+            message = msg.Content[nickMention.Length..].Trim();
         else if (msg.Content.StartsWith(_cmd.GetPrefix(channel.Guild)))
             return null;
         else
