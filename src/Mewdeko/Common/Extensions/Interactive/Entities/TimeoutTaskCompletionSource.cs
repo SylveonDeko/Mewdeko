@@ -15,7 +15,7 @@ internal sealed class TimeoutTaskCompletionSource<TResult>
     private readonly Timer _timer;
     private readonly CancellationTokenRegistration _tokenRegistration;
 
-    private bool _disposed;
+    private bool disposed;
 
     private TimeoutTaskCompletionSource(TimeSpan delay, bool canReset = true,
         CancellationToken cancellationToken = default)
@@ -61,7 +61,7 @@ internal sealed class TimeoutTaskCompletionSource<TResult>
 
     private void OnTimerFired(object state)
     {
-        _disposed = true;
+        disposed = true;
         _timer.Dispose();
         _taskSource.TrySetResult(TimeoutResult);
         _tokenRegistration.Dispose();
@@ -69,24 +69,24 @@ internal sealed class TimeoutTaskCompletionSource<TResult>
 
     public bool TryReset()
     {
-        if (_disposed || !CanReset) return false;
+        if (disposed || !CanReset) return false;
 
         _timer.Change(Delay, Timeout.InfiniteTimeSpan);
         return true;
     }
 
-    public bool TryCancel() => !_disposed && _taskSource.TrySetResult(CancelResult);
+    public bool TryCancel() => !disposed && _taskSource.TrySetResult(CancelResult);
 
     public bool TrySetResult(TResult result) => _taskSource.TrySetResult(result);
 
     public bool TryDispose()
     {
-        if (_disposed) return false;
+        if (disposed) return false;
 
         _timer.Dispose();
         TryCancel();
         _tokenRegistration.Dispose();
-        _disposed = true;
+        disposed = true;
 
         return true;
     }

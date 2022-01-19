@@ -18,12 +18,12 @@ public partial class Xp
     public class Club : MewdekoSubmodule<ClubService>
     {
         private readonly XpService _xps;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public Club(XpService xps, InteractiveService serv)
         {
             _xps = xps;
-            Interactivity = serv;
+            _interactivity = serv;
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
@@ -82,7 +82,7 @@ public partial class Xp
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task ClubIcon([Remainder] string url = null)
         {
-            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null
+            if ((!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null)
                 || !await Service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)))
             {
                 await ReplyErrorLocalizedAsync("club_icon_error").ConfigureAwait(false);
@@ -129,7 +129,7 @@ public partial class Xp
                     if (club.OwnerId == x.Id)
                         return int.MaxValue;
                     if (x.IsClubAdmin)
-                        return int.MaxValue / 2 + l;
+                        return (int.MaxValue / 2) + l;
                     return l;
                 });
 
@@ -141,7 +141,7 @@ public partial class Xp
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -199,7 +199,7 @@ public partial class Xp
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -242,7 +242,7 @@ public partial class Xp
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

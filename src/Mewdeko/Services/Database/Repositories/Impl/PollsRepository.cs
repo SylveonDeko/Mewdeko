@@ -11,28 +11,28 @@ public class PollsRepository : Repository<Poll>, IPollsRepository
     }
 
     public IEnumerable<Poll> GetAllPolls() =>
-        _set.Include(x => x.Answers)
+        Set.Include(x => x.Answers)
             .Include(x => x.Votes)
             .ToArray();
 
     public void RemovePoll(int id)
     {
-        var p = _set
+        var p = Set
             .Include(x => x.Answers)
             .Include(x => x.Votes)
             .FirstOrDefault(x => x.Id == id);
         if (p.Votes != null)
         {
-            _context.Set<PollVote>().RemoveRange(p.Votes);
+            Context.Set<PollVote>().RemoveRange(p.Votes);
             p.Votes.Clear();
         }
 
         if (p.Answers != null)
         {
-            _context.Set<PollAnswer>().RemoveRange(p.Answers);
+            Context.Set<PollAnswer>().RemoveRange(p.Answers);
             p.Answers.Clear();
         }
 
-        _set.Remove(p);
+        Set.Remove(p);
     }
 }

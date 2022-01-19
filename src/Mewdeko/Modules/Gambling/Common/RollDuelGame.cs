@@ -114,7 +114,7 @@ public class RollDuelGame
                 await _cs.AddAsync(Winner, "Roll Duel win", won)
                     .ConfigureAwait(false);
 
-                await _cs.AddAsync(_botId, "Roll Duel fee", Amount * 2 - won)
+                await _cs.AddAsync(_botId, "Roll Duel fee", (Amount * 2) - won)
                     .ConfigureAwait(false);
             }
 

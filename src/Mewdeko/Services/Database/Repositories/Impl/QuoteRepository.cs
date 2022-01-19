@@ -13,7 +13,7 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
 
     public IEnumerable<Quote> GetGroup(ulong guildId, int page, OrderType order)
     {
-        var q = _set.AsQueryable().Where(x => x.GuildId == guildId);
+        var q = Set.AsQueryable().Where(x => x.GuildId == guildId);
         q = order == OrderType.Keyword ? q.OrderBy(x => x.Keyword) : q.OrderBy(x => x.Id);
 
         return q.Skip(15 * page).Take(15).ToArray();
@@ -22,7 +22,7 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
     public async Task<Quote> GetRandomQuoteByKeywordAsync(ulong guildId, string keyword)
     {
         var rng = new MewdekoRandom();
-        return (await _set.AsQueryable()
+        return (await Set.AsQueryable()
                 .Where(q => q.GuildId == guildId && q.Keyword == keyword)
                 .ToListAsync())
             .OrderBy(_ => rng.Next())
@@ -32,7 +32,7 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
     public async Task<Quote> SearchQuoteKeywordTextAsync(ulong guildId, string keyword, string text)
     {
         var rngk = new MewdekoRandom();
-        return (await _set.AsQueryable()
+        return (await Set.AsQueryable()
                 .Where(q => q.GuildId == guildId
                             && q.Keyword == keyword
                             && EF.Functions.Like(q.Text.ToUpper(), $"%{text.ToUpper()}%")
@@ -43,5 +43,5 @@ public class QuoteRepository : Repository<Quote>, IQuoteRepository
             .FirstOrDefault();
     }
 
-    public void RemoveAllByKeyword(ulong guildId, string keyword) => _set.RemoveRange(_set.AsQueryable().Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
+    public void RemoveAllByKeyword(ulong guildId, string keyword) => Set.RemoveRange(Set.AsQueryable().Where(x => x.GuildId == guildId && x.Keyword.ToUpper() == keyword));
 }

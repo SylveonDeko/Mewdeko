@@ -9,7 +9,7 @@ namespace Mewdeko.Common.Extensions.Interactive.Pagination;
 /// </summary>
 internal class PaginatorCallback : IInteractiveCallback
 {
-    private bool _disposed;
+    private bool disposed;
 
     public PaginatorCallback(Paginator paginator, IUserMessage message,
         TimeoutTaskCompletionSource<InteractiveStatus> timeoutTaskSource, DateTimeOffset startTime)
@@ -90,10 +90,10 @@ internal class PaginatorCallback : IInteractiveCallback
 
     protected virtual void Dispose(bool disposing)
     {
-        if (_disposed) return;
+        if (disposed) return;
         if (disposing) TimeoutTaskSource.TryDispose();
 
-        _disposed = true;
+        disposed = true;
     }
 
 #if DNETLABS

@@ -155,7 +155,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task StopJob(int jobnum)
         {
-            var list = Service.jobslist
+            var list = Service.Jobslist
                 .FirstOrDefault(x => x.JobId == jobnum && x.GuildId == ctx.Guild.Id);
             if (list == null)
             {
@@ -203,7 +203,7 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RoleJobs()
         {
-            var list = Service.jobslist;
+            var list = Service.Jobslist;
             if (!list.Any())
             {
                 await ctx.Channel.SendErrorAsync("No Mass Role Operations running!");
@@ -251,7 +251,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -268,10 +268,10 @@ public partial class ServerManagement
             }
 
             int jobId;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
-                jobId = Service.jobslist.Count + 1;
+                jobId = Service.Jobslist.Count + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Users and Bots",
                 role);
             var count2 = 0;
@@ -326,7 +326,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -343,10 +343,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Bots Only", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -399,7 +399,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -407,10 +407,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             var guild = ctx.Guild as SocketGuild;
             var users = guild.Users.Where(c => !c.Roles.Contains(role) && !c.IsBot);
             var count = users.Count();
@@ -472,7 +472,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -491,10 +491,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                 $"Adding a role to server members that have been here for {time.Time.Humanize()}", role);
             var count2 = 0;
@@ -548,7 +548,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -567,10 +567,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                 $"Adding a role to server members that have been here for {time.Time.Humanize()} or less", role);
             var count2 = 0;
@@ -624,7 +624,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -641,10 +641,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                 "Removing a role from all server members", role);
             var count2 = 0;
@@ -698,7 +698,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -715,10 +715,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                 "Removing a role from only users", role);
             var count2 = 0;
@@ -772,7 +772,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -789,10 +789,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
                 "Removing a role from all bots", role);
             var count2 = 0;
@@ -833,8 +833,8 @@ public partial class ServerManagement
         {
             var runnerUser = (IGuildUser) ctx.User;
             var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
-            if (ctx.User.Id != runnerUser.Guild.OwnerId &&
-                runnerUser.GetRoles().Max(x => x.Position) <= role2.Position ||
+            if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
+                 runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
             {
                 await ctx.Channel.SendErrorAsync("You cannot manage these roles!");
@@ -848,7 +848,7 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Service.jobslist.Count == 5)
+            if (Service.Jobslist.Count == 5)
             {
                 await ctx.Channel.SendErrorAsync(
                     $"Due to discord rate limits you may only have 5 mass role operations at a time, check your current jobs with `{Prefix}rolejobs`.");
@@ -865,10 +865,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
                 "Adding a role to users within a role", role, role2);
             await ctx.Channel.SendConfirmAsync(
@@ -909,8 +909,8 @@ public partial class ServerManagement
         {
             var runnerUser = (IGuildUser) ctx.User;
             var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
-            if (ctx.User.Id != runnerUser.Guild.OwnerId &&
-                runnerUser.GetRoles().Max(x => x.Position) <= role2.Position ||
+            if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
+                 runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
             {
                 await ctx.Channel.SendErrorAsync("You cannot manage these roles!");
@@ -934,10 +934,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
                 "Removing a role from users within a role", role, role2);
             var guildUsers = inrole as IGuildUser[] ?? inrole.ToArray();
@@ -980,8 +980,8 @@ public partial class ServerManagement
             await Task.Delay(500);
             var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             var runnerUser = (IGuildUser) ctx.User;
-            if (ctx.User.Id != runnerUser.Guild.OwnerId &&
-                runnerUser.GetRoles().Max(x => x.Position) <= role2.Position ||
+            if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
+                 runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
             {
                 await ctx.Channel.SendErrorAsync("You cannot manage these roles!");
@@ -1004,10 +1004,10 @@ public partial class ServerManagement
             }
 
             var JobId = 0;
-            if (Service.jobslist.FirstOrDefault() is null)
+            if (Service.Jobslist.FirstOrDefault() is null)
                 JobId = 1;
             else
-                JobId = Service.jobslist.FirstOrDefault().JobId + 1;
+                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
                 "Adding then Removing a Role", role, role2);
             await ctx.Channel.SendConfirmAsync(

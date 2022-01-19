@@ -23,18 +23,18 @@ namespace Mewdeko.Coordinator.Services
         private readonly Serializer _serializer;
         private readonly Deserializer _deserializer;
 
-        private Config _config;
-        private ShardStatus[] _shardStatuses;
+        private Config config;
+        private ShardStatus[] shardStatuses;
 
         private readonly object _locker = new();
         private readonly Random _rng;
-        private bool _gracefulImminent;
+        private bool gracefulImminent;
         
         public CoordinatorRunner()
         {
-            _serializer = new();
-            _deserializer = new();
-            _config = LoadConfig();
+            _serializer = new Serializer();
+            _deserializer = new Deserializer();
+            config = LoadConfig();
             _rng = new Random();
 
            if(!TryRestoreOldState())
@@ -62,13 +62,13 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                var oldConfig = _config;
+                var oldConfig = config;
                 var newConfig = LoadConfig();
                 if (oldConfig.TotalShards != newConfig.TotalShards)
                 {
                     KillAll();
                 }
-                _config = newConfig;
+                config = newConfig;
                 if (oldConfig.TotalShards != newConfig.TotalShards)
                 {
                     InitAll();
@@ -89,8 +89,8 @@ namespace Mewdeko.Coordinator.Services
                     lock (_locker)
                     {
                         var shardIds = Enumerable.Range(0, 1) // shard 0 is always first
-                            .Append((int)((900378009188565022 >> 22) % _config.TotalShards)) // then mewdeko server shard
-                            .Concat(Enumerable.Range(1, _config.TotalShards - 1)
+                            .Append((int)((900378009188565022 >> 22) % config.TotalShards)) // then mewdeko server shard
+                            .Concat(Enumerable.Range(1, config.TotalShards - 1)
                                 .OrderBy(_ => _rng.Next())) // then all other shards in a random order
                             .Distinct()
                             .ToList();
@@ -106,7 +106,7 @@ namespace Mewdeko.Coordinator.Services
                             if (stoppingToken.IsCancellationRequested)
                                 break;
                             
-                            var status = _shardStatuses[shardId];
+                            var status = shardStatuses[shardId];
 
                             if (status.ShouldRestart)
                             {
@@ -125,7 +125,7 @@ namespace Mewdeko.Coordinator.Services
                             }
                             
                             if (DateTime.UtcNow - status.LastUpdate >
-                                TimeSpan.FromSeconds(_config.UnresponsiveSec))
+                                TimeSpan.FromSeconds(config.UnresponsiveSec))
                             {
                                 Log.Warning("Shard {ShardId} is restarting (unresponsive)...", shardId);
                                 hadAction = true;
@@ -143,7 +143,7 @@ namespace Mewdeko.Coordinator.Services
 
                     if (hadAction)
                     {
-                        await Task.Delay(_config.RecheckIntervalMs, stoppingToken).ConfigureAwait(false);
+                        await Task.Delay(config.RecheckIntervalMs, stoppingToken).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex)
@@ -157,7 +157,7 @@ namespace Mewdeko.Coordinator.Services
 
         private void StartShard(int shardId)
         {
-            var status = _shardStatuses[shardId];
+            var status = shardStatuses[shardId];
             if (status.Process is {HasExited: false} p)
             {
                 try
@@ -173,7 +173,7 @@ namespace Mewdeko.Coordinator.Services
             status.Process?.Dispose();
 
             var proc = StartShardProcess(shardId);
-            _shardStatuses[shardId] = status with
+            shardStatuses[shardId] = status with
             {
                 Process = proc,
                 LastUpdate = DateTime.UtcNow,
@@ -186,10 +186,10 @@ namespace Mewdeko.Coordinator.Services
         private Process StartShardProcess(int shardId) =>
             Process.Start(new ProcessStartInfo()
             {
-                FileName = _config.ShardStartCommand,
-                Arguments = string.Format(_config.ShardStartArgs,
+                FileName = config.ShardStartCommand,
+                Arguments = string.Format(config.ShardStartArgs,
                     shardId,
-                    _config.TotalShards),
+                    config.TotalShards),
                 EnvironmentVariables =
                 {
                     {"MEWDEKO_IS_COORDINATED", "1"}
@@ -202,11 +202,11 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                if (shardId >= _shardStatuses.Length)
+                if (shardId >= shardStatuses.Length)
                     throw new ArgumentOutOfRangeException(nameof(shardId));
                 
-                var status = _shardStatuses[shardId];
-                status = _shardStatuses[shardId] = status with
+                var status = shardStatuses[shardId];
+                status = shardStatuses[shardId] = status with
                 {
                     GuildCount = guildCount,
                     State = state,
@@ -222,7 +222,7 @@ namespace Mewdeko.Coordinator.Services
                         status.StateCounter);
                 }
 
-                return _gracefulImminent;
+                return gracefulImminent;
             }
         }
 
@@ -230,13 +230,12 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                ref var toSave = ref _config;
                 SaveConfig(new Config(
                     totalShards,
-                    _config.RecheckIntervalMs,
-                    _config.ShardStartCommand,
-                    _config.ShardStartArgs,
-                    _config.UnresponsiveSec));
+                    config.RecheckIntervalMs,
+                    config.ShardStartCommand,
+                    config.ShardStartArgs,
+                    config.UnresponsiveSec));
             }
         }
 
@@ -244,10 +243,10 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                if (shardId >= _shardStatuses.Length)
+                if (shardId >= shardStatuses.Length)
                     throw new ArgumentOutOfRangeException(nameof(shardId));
 
-                _shardStatuses[shardId] = _shardStatuses[shardId] with
+                shardStatuses[shardId] = shardStatuses[shardId] with
                 {
                     ShouldRestart = true,
                     StateCounter = 0,
@@ -272,13 +271,13 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
+                for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
                 {
-                    var status = _shardStatuses[shardId];
+                    var status = shardStatuses[shardId];
                     if (status.Process is not { } p) continue;
                     p.Kill();
                     p.Dispose();
-                    _shardStatuses[shardId] = status with
+                    shardStatuses[shardId] = status with
                     {
                         Process = null,
                         ShouldRestart = true,
@@ -294,7 +293,7 @@ namespace Mewdeko.Coordinator.Services
         {
             var coordState = new CoordState()
             {
-                StatusObjects = _shardStatuses
+                StatusObjects = shardStatuses
                     .Select(x => new JsonStatusObject()
                     {
                         Pid = x.Process?.Id,
@@ -303,7 +302,7 @@ namespace Mewdeko.Coordinator.Services
                     })
                     .ToList()
             };
-            var jsonState = JsonSerializer.Serialize(coordState, new ()
+            var jsonState = JsonSerializer.Serialize(coordState, new JsonSerializerOptions
             {
                 WriteIndented = true,
             });
@@ -333,16 +332,16 @@ namespace Mewdeko.Coordinator.Services
                     return false;
                 }
 
-                if (savedState.StatusObjects.Count != _config.TotalShards)
+                if (savedState.StatusObjects.Count != config.TotalShards)
                 {
                     Log.Error("Unable to restore old state because shard count doesn't match.");
                     File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
                     return false;
                 }
 
-                _shardStatuses = new ShardStatus[_config.TotalShards];
+                shardStatuses = new ShardStatus[config.TotalShards];
 
-                for (int shardId = 0; shardId < _shardStatuses.Length; shardId++)
+                for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
                 {
                     var statusObj = savedState.StatusObjects[shardId];
                     Process p = null;
@@ -358,7 +357,7 @@ namespace Mewdeko.Coordinator.Services
                         }
                     }
 
-                    _shardStatuses[shardId] = new(
+                    shardStatuses[shardId] = new ShardStatus(
                         shardId,
                         DateTime.UtcNow,
                         statusObj.GuildCount,
@@ -377,10 +376,10 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                _shardStatuses = new ShardStatus[_config.TotalShards];
-                for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
+                shardStatuses = new ShardStatus[config.TotalShards];
+                for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
                 {
-                    _shardStatuses[shardId] = new ShardStatus(shardId, DateTime.UtcNow);
+                    shardStatuses[shardId] = new ShardStatus(shardId, DateTime.UtcNow);
                 }
             }
         }
@@ -389,9 +388,9 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
+                for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
                 {
-                    _shardStatuses[shardId] = _shardStatuses[shardId] with
+                    shardStatuses[shardId] = shardStatuses[shardId] with
                     {
                         ShouldRestart = true
                     };
@@ -404,10 +403,10 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                if (shardId >= _shardStatuses.Length)
+                if (shardId >= shardStatuses.Length)
                     throw new ArgumentOutOfRangeException(nameof(shardId));
 
-                return _shardStatuses[shardId];
+                return shardStatuses[shardId];
             }
         }
 
@@ -415,8 +414,8 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                var toReturn = new List<ShardStatus>(_shardStatuses.Length);
-                toReturn.AddRange(_shardStatuses);
+                var toReturn = new List<ShardStatus>(shardStatuses.Length);
+                toReturn.AddRange(shardStatuses);
                 return toReturn;
             }
         }
@@ -425,7 +424,7 @@ namespace Mewdeko.Coordinator.Services
         {
             lock (_locker)
             {
-                _gracefulImminent = true;
+                gracefulImminent = true;
             }
         }
 

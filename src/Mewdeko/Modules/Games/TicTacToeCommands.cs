@@ -31,7 +31,7 @@ public partial class Games
             {
                 if (Service.TicTacToeGames.TryGetValue(channel.Id, out var game))
                 {
-                    var _ = Task.Run(async () => { await game.Start((IGuildUser) ctx.User).ConfigureAwait(false); });
+                    var _ = Task.Run(async () => await game.Start((IGuildUser)ctx.User).ConfigureAwait(false));
                     return;
                 }
 

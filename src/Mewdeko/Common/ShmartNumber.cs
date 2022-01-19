@@ -11,11 +11,11 @@ public readonly struct ShmartNumber : IEquatable<ShmartNumber>
         Input = input;
     }
 
-    public static implicit operator ShmartNumber(long num) => new ShmartNumber(num);
+    public static implicit operator ShmartNumber(long num) => new(num);
 
     public static implicit operator long(ShmartNumber num) => num.Value;
 
-    public static implicit operator ShmartNumber(int num) => new ShmartNumber(num);
+    public static implicit operator ShmartNumber(int num) => new(num);
 
     public override string ToString() => Value.ToString();
 

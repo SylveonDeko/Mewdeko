@@ -12,7 +12,7 @@ public class
     /// </summary>
     /// <returns>A <see cref="Selection{TOption}" />.</returns>
     public override Selection<TOption> Build() =>
-        new Selection<TOption>(EmoteConverter, StringConverter,
+        new(EmoteConverter, StringConverter,
             EqualityComparer, AllowCancel, SelectionPage?.Build(), Users?.ToArray(), Options?.ToArray(),
             CanceledPage?.Build(), TimeoutPage?.Build(), SuccessPage?.Build(), Deletion, InputType,
             ActionOnCancellation, ActionOnTimeout, ActionOnSuccess);

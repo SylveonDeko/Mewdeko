@@ -4,7 +4,7 @@ namespace Mewdeko.Services.Database;
 
 public interface IUnitOfWork : IDisposable
 {
-    MewdekoContext _context { get; }
+    MewdekoContext Context { get; }
 
     IQuoteRepository Quotes { get; }
     IGuildConfigRepository GuildConfigs { get; }

@@ -17,9 +17,9 @@ public partial class Administration
     [Group]
     public class SelfAssignedRolesCommands : MewdekoSubmodule<SelfAssignedRolesService>
     {
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
-        public SelfAssignedRolesCommands(InteractiveService serv) => Interactivity = serv;
+        public SelfAssignedRolesCommands(InteractiveService serv) => _interactivity = serv;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
@@ -58,8 +58,6 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task Sargn(int group, [Remainder] string name = null)
         {
-            var guser = (IGuildUser) ctx.User;
-
             var set = await Service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
 
             if (set)
@@ -100,7 +98,7 @@ public partial class Administration
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -121,17 +119,17 @@ public partial class Administration
                         groupNameText = Format.Bold($"{kvp.Key} - {name.TrimTo(25, true)}");
 
                     rolesStr.AppendLine("\t\t\t\t ⟪" + groupNameText + "⟫");
-                    foreach (var (Model, Role) in kvp.AsEnumerable())
-                        if (Role == null)
+                    foreach (var (model, role) in kvp.AsEnumerable())
+                        if (role == null)
                         {
                         }
                         else
                         {
                             // first character is invisible space
-                            if (Model.LevelRequirement == 0)
-                                rolesStr.AppendLine("‌‌   " + Role.Name);
+                            if (model.LevelRequirement == 0)
+                                rolesStr.AppendLine("‌‌   " + role.Name);
                             else
-                                rolesStr.AppendLine("‌‌   " + Role.Name + $" (lvl {Model.LevelRequirement}+)");
+                                rolesStr.AppendLine("‌‌   " + role.Name + $" (lvl {model.LevelRequirement}+)");
                         }
 
                     rolesStr.AppendLine();
@@ -185,15 +183,15 @@ public partial class Administration
             var (result, autoDelete, extra) = await Service.Assign(guildUser, role).ConfigureAwait(false);
 
             IUserMessage msg;
-            if (result == SelfAssignedRolesService.AssignResult.Err_Not_Assignable)
+            if (result == SelfAssignedRolesService.AssignResult.ErrNotAssignable)
                 msg = await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
-            else if (result == SelfAssignedRolesService.AssignResult.Err_Lvl_Req)
+            else if (result == SelfAssignedRolesService.AssignResult.ErrLvlReq)
                 msg = await ReplyErrorLocalizedAsync("self_assign_not_level", Format.Bold(extra.ToString()))
                     .ConfigureAwait(false);
-            else if (result == SelfAssignedRolesService.AssignResult.Err_Already_Have)
+            else if (result == SelfAssignedRolesService.AssignResult.ErrAlreadyHave)
                 msg = await ReplyErrorLocalizedAsync("self_assign_already", Format.Bold(role.Name))
                     .ConfigureAwait(false);
-            else if (result == SelfAssignedRolesService.AssignResult.Err_Not_Perms)
+            else if (result == SelfAssignedRolesService.AssignResult.ErrNotPerms)
                 msg = await ReplyErrorLocalizedAsync("self_assign_perms").ConfigureAwait(false);
             else
                 msg = await ReplyConfirmLocalizedAsync("self_assign_success", Format.Bold(role.Name))
@@ -214,12 +212,12 @@ public partial class Administration
             var (result, autoDelete) = await Service.Remove(guildUser, role).ConfigureAwait(false);
 
             IUserMessage msg;
-            if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Assignable)
+            if (result == SelfAssignedRolesService.RemoveResult.ErrNotAssignable)
                 msg = await ReplyErrorLocalizedAsync("self_assign_not").ConfigureAwait(false);
-            else if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Have)
+            else if (result == SelfAssignedRolesService.RemoveResult.ErrNotHave)
                 msg = await ReplyErrorLocalizedAsync("self_assign_not_have", Format.Bold(role.Name))
                     .ConfigureAwait(false);
-            else if (result == SelfAssignedRolesService.RemoveResult.Err_Not_Perms)
+            else if (result == SelfAssignedRolesService.RemoveResult.ErrNotPerms)
                 msg = await ReplyErrorLocalizedAsync("self_assign_perms").ConfigureAwait(false);
             else
                 msg = await ReplyConfirmLocalizedAsync("self_assign_remove", Format.Bold(role.Name))

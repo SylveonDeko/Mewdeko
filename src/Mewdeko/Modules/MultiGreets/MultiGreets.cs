@@ -18,9 +18,9 @@ namespace Mewdeko.Modules.MultiGreets;
 
 public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 {
-    private InteractiveService Interactivity;
+    private InteractiveService interactivity;
 
-    public MultiGreets(InteractiveService interactivity) => Interactivity = interactivity;
+    public MultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
 
     public enum MultiGreetTypes
     {
@@ -87,7 +87,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             return;
         }
 
-        await Service.ChangeMGDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
+        await Service.ChangeMgDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
         await ctx.Channel.SendConfirmAsync(
             $"Successfully updated MultiGreet #{id} to delete after {time.Time.Humanize()}.");
 
@@ -104,7 +104,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             return;
         }
         
-        await Service.ChangeMGDelete(greet, howlong);
+        await Service.ChangeMgDelete(greet, howlong);
         if (howlong > 0)
             await ctx.Channel.SendConfirmAsync(
                 $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
@@ -142,7 +142,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 
         if (name is null)
         {
-            await Service.ChangeMGWebhook(greet, null);
+            await Service.ChangeMgWebhook(greet, null);
             await ctx.Channel.SendConfirmAsync($"Webhook disabled for MultiGreet #{id}!");
             return;
         }
@@ -161,13 +161,13 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             await using var imgStream = imgData.ToStream();
             var webhook = await channel.CreateWebhookAsync(name, imgStream);
-            await Service.ChangeMGWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
+            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
             await ctx.Channel.SendConfirmAsync("Webhook set!");
         }
         else
         {
             var webhook = await channel.CreateWebhookAsync(name);
-            await Service.ChangeMGWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
+            await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
             await ctx.Channel.SendConfirmAsync("Webhook set!");
         }
     }
@@ -193,7 +193,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                     await msg.DeleteAsync();
                     var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient).WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
-                    if (CREmbed.TryParse(content, out var embedData))
+                    if (CrEmbed.TryParse(content, out var embedData))
                     {
                         if (embedData.IsEmbedValid && embedData.PlainText is not null)
                         {
@@ -223,7 +223,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                     break;
             }
         }
-        await Service.ChangeMGMessage(greet, message);
+        await Service.ChangeMgMessage(greet, message);
         await ctx.Channel.SendConfirmAsync($"MultiGreet Message for MultiGreet #{id} set!");
     }
 
@@ -243,7 +243,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                         .WithDefaultEmotes()
                         .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
