@@ -14,6 +14,7 @@ using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Common.Extensions.Interactive.Pagination;
 using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Serilog;
 
@@ -177,9 +178,14 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-
-        var msg = Service.GetSnipes(ctx.Guild.Id).Result
-                         .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id);
+        
+        var msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 0)
+                         .LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
+        if (msg is null)
+        {
+            await ctx.Channel.SendErrorAsync("There is nothing to snipe here!");
+            return;
+        }
         var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
 
         var em = new EmbedBuilder
@@ -211,15 +217,16 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msgs = Service.GetSnipes(ctx.Guild.Id).Result.Where(x => x.ChannelId == ctx.Channel.Id);
+        var msgs = Service.GetSnipes(ctx.Guild.Id).Result.Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
         {
-            if (!msgs.Any() || msgs == null)
+            var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
+            if (!snipeStores.Any())
             {
                 await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
                 return;
             }
 
-            var msg = msgs.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
+            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -233,16 +240,18 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
             Task<PageBuilder> PageFactory(int page)
             {
-                var user = ctx.Channel.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result ??
-                           _client.Rest.GetUserAsync(msg.Skip(page).FirstOrDefault().UserId).Result;
+                var msg1 = msg.Skip(page).FirstOrDefault();
+                var user = ctx.Channel.GetUserAsync(msg1.UserId).Result ??
+                           _client.Rest.GetUserAsync(msg1.UserId).Result;
+                
                 return Task.FromResult(new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
                         new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} said:"))
-                    .WithDescription(msg.Skip(page).FirstOrDefault().Message
-                                     + $"\n\nMessage deleted {(DateTime.UtcNow - msg.Skip(page).FirstOrDefault().DateAdded.Value).Humanize()} ago"));
+                    .WithDescription(msg1.Message
+                                     + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
             }
         }
     }
@@ -259,13 +268,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         var msg = Service.GetSnipes(ctx.Guild.Id).Result
                          .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
-
-        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
-        if (msg == null)
+        if (msg is null)
         {
-            await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
+            await ctx.Channel.SendErrorAsync("There is nothing to snipe for this user!");
             return;
         }
+        var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
@@ -310,8 +318,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msg = Service.GetSnipes(ctx.Guild.Id).Result.OrderByDescending(x => x.DateAdded)
-                         .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id);
+        var msg = Service.GetSnipes(ctx.Guild.Id).Result.Where(x => x.Edited == 0)
+                         .LastOrDefault(x => x.ChannelId == chan.Id);
         if (msg == null)
         {
             await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
@@ -345,11 +353,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        var msg = Service.GetSnipes(ctx.Guild.Id).Result
-                         .OrderByDescending(x => x.DateAdded)
-                         .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id );
+        var msg = Service.GetSnipes(ctx.Guild.Id).Result.Where(x => x.Edited == 0)
+                         .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
         {
-
             if (msg == null)
             {
                 await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!");
@@ -360,11 +366,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
             var em = new EmbedBuilder
             {
-                Author = new EmbedAuthorBuilder
-                {
-                    IconUrl = user.GetAvatarUrl(),
-                    Name = $"{user} said:"
-                },
+                Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
@@ -407,8 +409,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = Service.GetSnipes(ctx.Guild.Id).Result
-                             .OrderByDescending(x => x.DateAdded)
-                             .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id);
+                             .Where(x => x.Edited == 1)
+                             .LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
             if (msg == null)
             {
                 await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
@@ -449,8 +451,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = Service.GetSnipes(ctx.Guild.Id).Result
-                             .OrderByDescending(x => x.DateAdded)
-                             .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id);
+                             .Where(x => x.Edited == 1)
+                             .LastOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
             if (msg == null)
             {
                 await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
@@ -491,8 +493,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = Service.GetSnipes(ctx.Guild.Id).Result
-                             .OrderByDescending(x => x.DateAdded)
-                             .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id);
+                             .Where(x => x.Edited == 1)
+                             .LastOrDefault(x => x.ChannelId == chan.Id);
             if (msg == null)
             {
                 await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
@@ -533,8 +535,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         {
             var msg = Service.GetSnipes(ctx.Guild.Id).Result
-                             .OrderByDescending(x => x.DateAdded)
-                             .FirstOrDefault(x => x.ChannelId == ctx.Channel.Id);
+                             .Where(x => x.Edited == 1)
+                             .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
             if (msg == null)
             {
                 await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user or channel!");
