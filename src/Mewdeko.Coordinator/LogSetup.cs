@@ -25,9 +25,5 @@ public static class LogSetup
     }
 
     private static ConsoleTheme GetTheme() => Environment.OSVersion.Platform == PlatformID.Unix ? AnsiConsoleTheme.Code : AnsiConsoleTheme.Code;
-#if DEBUG
-#else
-            return ConsoleTheme.None;
-#endif
 
 }
