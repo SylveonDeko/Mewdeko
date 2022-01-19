@@ -13,7 +13,7 @@ public partial class Searches
     [Group]
     public class XkcdCommands : MewdekoSubmodule
     {
-        private const string _xkcdUrl = "https://xkcd.com";
+        private const string XKCD_URL = "https://xkcd.com";
         private readonly IHttpClientFactory _httpFactory;
 
         public XkcdCommands(IHttpClientFactory factory) => _httpFactory = factory;
@@ -26,12 +26,12 @@ public partial class Searches
                 try
                 {
                     using var http = _httpFactory.CreateClient();
-                    var res = await http.GetStringAsync($"{_xkcdUrl}/info.0.json").ConfigureAwait(false);
+                    var res = await http.GetStringAsync($"{XKCD_URL}/info.0.json").ConfigureAwait(false);
                     var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
                     var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                         .WithImageUrl(comic.ImageLink)
                         .WithAuthor(eab =>
-                            eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{comic.Num}")
+                            eab.WithName(comic.Title).WithUrl($"{XKCD_URL}/{comic.Num}")
                                 .WithIconUrl("https://xkcd.com/s/919f27.ico"))
                         .AddField(efb =>
                             efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())
@@ -68,13 +68,13 @@ public partial class Searches
             try
             {
                 using var http = _httpFactory.CreateClient();
-                var res = await http.GetStringAsync($"{_xkcdUrl}/{num}/info.0.json").ConfigureAwait(false);
+                var res = await http.GetStringAsync($"{XKCD_URL}/{num}/info.0.json").ConfigureAwait(false);
 
                 var comic = JsonConvert.DeserializeObject<XkcdComic>(res);
                 var embed = new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                     .WithImageUrl(comic.ImageLink)
                     .WithAuthor(eab =>
-                        eab.WithName(comic.Title).WithUrl($"{_xkcdUrl}/{num}")
+                        eab.WithName(comic.Title).WithUrl($"{XKCD_URL}/{num}")
                             .WithIconUrl("https://xkcd.com/s/919f27.ico"))
                     .AddField(efb =>
                         efb.WithName(GetText("comic_number")).WithValue(comic.Num.ToString())

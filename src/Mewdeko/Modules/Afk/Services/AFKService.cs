@@ -10,47 +10,47 @@ using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Afk.Services;
 
-public class AFKService : INService
+public class AfkService : INService
 {
     private readonly DbService _db;
-    private readonly CommandHandler Cmd;
-    public DiscordSocketClient _client;
+    private readonly CommandHandler _cmd;
+    public DiscordSocketClient Client;
 
 
-    public AFKService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko.Services.Mewdeko bot)
+    public AfkService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko.Services.Mewdeko bot)
     {
         _db = db;
-        _client = client;
-        Cmd = handle;
-        _AfkType = bot.AllGuildConfigs
+        Client = client;
+        _cmd = handle;
+        AfkType = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.AfkType)
             .ToConcurrent();
-        _AfkTimeout = bot.AllGuildConfigs
+        AfkTimeout = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.AfkTimeout)
             .ToConcurrent();
-        _AfkDisabledChannels = bot.AllGuildConfigs
+        AfkDisabledChannels = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.AfkDisabledChannels)
             .ToConcurrent();
-        _AfkLengths = bot.AllGuildConfigs
+        AfkLengths = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.AfkLength)
             .ToConcurrent();
-        _AfkMessage = bot.AllGuildConfigs
+        AfkMessage = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.AfkMessage)
             .ToConcurrent();
-        _AfkDels = bot.AllGuildConfigs
+        AfkDels = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.AfkDel)
             .ToConcurrent();
-        _client.MessageReceived += MessageReceived;
-        _client.MessageUpdated += MessageUpdated;
-        _client.UserIsTyping += UserTyping;
+        Client.MessageReceived += MessageReceived;
+        Client.MessageUpdated += MessageUpdated;
+        Client.UserIsTyping += UserTyping;
     }
 
-    private ConcurrentDictionary<ulong, int> _AfkType { get; }
-    private ConcurrentDictionary<ulong, string> _AfkMessage { get; }
-    private ConcurrentDictionary<ulong, int> _AfkTimeout { get; }
-    private ConcurrentDictionary<ulong, int> _AfkLengths { get; }
-    private ConcurrentDictionary<ulong, string> _AfkDisabledChannels { get; }
-    private ConcurrentDictionary<ulong, int> _AfkDels { get; }
+    private ConcurrentDictionary<ulong, int> AfkType { get; }
+    private ConcurrentDictionary<ulong, string> AfkMessage { get; }
+    private ConcurrentDictionary<ulong, int> AfkTimeout { get; }
+    private ConcurrentDictionary<ulong, int> AfkLengths { get; }
+    private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
+    private ConcurrentDictionary<ulong, int> AfkDels { get; }
 
     public Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
@@ -60,12 +60,12 @@ public class AFKService : INService
                 if (GetAfkType(use.GuildId) == 2)
                     if (IsAfk(use.Guild, use))
                     {
-                        var t = AfkMessage(use.Guild.Id, user.Id).Last();
+                        var t = GetAfkMessage(use.Guild.Id, user.Id).Last();
                         if (t.DateAdded != null &&
                             t.DateAdded.Value.ToLocalTime() <
                             DateTime.Now.AddSeconds(-GetAfkTimeout(use.GuildId)) && t.WasTimed == 0)
                         {
-                            await AFKSet(use.Guild, use, "", 0);
+                            await AfkSet(use.Guild, use, "", 0);
                             var msg = await chan.Value.SendMessageAsync(
                                 $"Welcome back {user.Value.Mention}! I noticed you typing so I disabled your afk.");
                             msg.DeleteAfter(5);
@@ -84,12 +84,12 @@ public class AFKService : INService
                 if (GetAfkType(user.Guild.Id) == 3)
                     if (IsAfk(user.Guild, user))
                     {
-                        var t = AfkMessage(user.Guild.Id, user.Id).Last();
+                        var t = GetAfkMessage(user.Guild.Id, user.Id).Last();
                         if (t.DateAdded != null &&
                             t.DateAdded.Value.ToLocalTime() <
                             DateTime.Now.AddSeconds(-GetAfkTimeout(user.GuildId)) && t.WasTimed == 0)
                         {
-                            await AFKSet(user.Guild, user, "", 0);
+                            await AfkSet(user.Guild, user, "", 0);
                             var ms = await msg.Channel.SendMessageAsync(
                                 $"Welcome back {user.Mention}, I have disabled your AFK for you.");
                             ms.DeleteAfter(5);
@@ -99,11 +99,10 @@ public class AFKService : INService
 
                 if (msg.MentionedUsers.Count > 0 && !msg.Author.IsBot)
                 {
-                    if (msg.Content.Contains($"{Cmd.GetPrefix(user.Guild)}afkremove") ||
-                        msg.Content.Contains($"{Cmd.GetPrefix(user.Guild)}afkrm") ||
-                        msg.Content.Contains($"{Cmd.GetPrefix(user.Guild)}afk")) return;
-                    var IDs = msg.MentionedUsers;
-                    if (GetDisabledAfkChannels(user.GuildId) != "0" && GetDisabledAfkChannels(user.GuildId) != null)
+                    if (msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afkremove") ||
+                        msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afkrm") ||
+                        msg.Content.Contains($"{_cmd.GetPrefix(user.Guild)}afk")) return;
+                    if (GetDisabledAfkChannels(user.GuildId) is not "0" and not null)
                     {
                         var chans = GetDisabledAfkChannels(user.GuildId);
                         var e = chans.Split(",");
@@ -113,37 +112,37 @@ public class AFKService : INService
                     if (msg.MentionedUsers.FirstOrDefault() is not IGuildUser mentuser) return;
                     if (IsAfk(user.Guild, mentuser))
                     {
-                        var afkdel = GetAfkDel(((ITextChannel) msg.Channel).GuildId);
-                        CREmbed crEmbed = null;
+                        var afkdel = GetAfkDel(((ITextChannel)msg.Channel).GuildId);
                         var replacer = new ReplacementBuilder()
-                            .WithOverride("%afk.message%",
-                                () => AfkMessage(user.GuildId, mentuser.Id).Last().Message
-                                    .Truncate(GetAfkLength(user.GuildId)))
-                            .WithOverride("%afk.user%", () => mentuser.ToString())
-                            .WithOverride("%afk.user.mention%", () => mentuser.Mention)
-                            .WithOverride("%afk.user.avatar%", () => mentuser.GetAvatarUrl(size: 2048))
-                            .WithOverride("%afk.user.id%", () => mentuser.Id.ToString())
-                            .WithOverride("%afk.triggeruser%", () => msg.Author.ToString())
-                            .WithOverride("%afk.triggeruser.avatar%", () => msg.Author.RealAvatarUrl().ToString())
-                            .WithOverride("%afk.triggeruser.id%", () => msg.Author.Id.ToString())
-                            .WithOverride("%afk.triggeruser.mention%", () => msg.Author.Mention)
-                            .WithOverride("%afk.time%",
-                                () =>
-                                    $"{(DateTime.UtcNow - AfkMessage(user.GuildId, user.Id).Last().DateAdded.Value).Humanize()}")
-                            .Build();
-                        var ebe = CREmbed.TryParse(GetCustomAfkMessage(mentuser.GuildId), out crEmbed);
+                                       .WithOverride("%afk.message%",
+                                           () => GetAfkMessage(user.GuildId, mentuser.Id).Last().Message
+                                                                                         .Truncate(GetAfkLength(user.GuildId)))
+                                       .WithOverride("%afk.user%", () => mentuser.ToString())
+                                       .WithOverride("%afk.user.mention%", () => mentuser.Mention)
+                                       .WithOverride("%afk.user.avatar%", () => mentuser.GetAvatarUrl(size: 2048))
+                                       .WithOverride("%afk.user.id%", () => mentuser.Id.ToString())
+                                       .WithOverride("%afk.triggeruser%", () => msg.Author.ToString())
+                                       .WithOverride("%afk.triggeruser.avatar%", () => msg.Author.RealAvatarUrl().ToString())
+                                       .WithOverride("%afk.triggeruser.id%", () => msg.Author.Id.ToString())
+                                       .WithOverride("%afk.triggeruser.mention%", () => msg.Author.Mention)
+                                       .WithOverride("%afk.time%",
+                                           () =>
+                                               // ReSharper disable once PossibleInvalidOperationException
+                                               $"{(DateTime.UtcNow - GetAfkMessage(user.GuildId, user.Id).Last().DateAdded.Value).Humanize()}")
+                                       .Build();
+                        var ebe = CrEmbed.TryParse(GetCustomAfkMessage(mentuser.GuildId), out var crEmbed);
                         if (!ebe)
                         {
                             await SetCustomAfkMessage(user.Guild, "-");
                             var a = await msg.Channel.EmbedAsync(new EmbedBuilder()
                                 .WithAuthor(eab => eab.WithName($"{mentuser} is currently away")
                                     .WithIconUrl(mentuser.GetAvatarUrl()))
-                                .WithDescription(AfkMessage(user.GuildId, mentuser.Id).Last().Message
+                                .WithDescription(GetAfkMessage(user.GuildId, mentuser.Id).Last().Message
                                     .Truncate(GetAfkLength(user.Guild.Id)))
                                 .WithFooter(new EmbedFooterBuilder
                                 {
                                     Text =
-                                        $"AFK for {(DateTime.UtcNow - AfkMessage(user.GuildId, mentuser.Id).Last().DateAdded.Value).Humanize()}"
+                                        $"AFK for {(DateTime.UtcNow - GetAfkMessage(user.GuildId, mentuser.Id).Last().DateAdded.Value).Humanize()}"
                                 })
                                 .WithOkColor());
                             if (afkdel != 0)
@@ -187,28 +186,28 @@ public class AFKService : INService
            .Where(m => !string.IsNullOrEmpty(m.Last().Message))
            .Select(m => guild.GetUserAsync(m.Key).Result);
 
-    public async Task SetCustomAfkMessage(IGuild guild, string AfkMessage)
+    public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
     {
         using (var uow = _db.GetDbContext())
         {
             var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
-            gc.AfkMessage = AfkMessage;
+            gc.AfkMessage = afkMessage;
             await uow.SaveChangesAsync();
         }
 
-        _AfkMessage.AddOrUpdate(guild.Id, AfkMessage, (_, _) => AfkMessage);
+        AfkMessage.AddOrUpdate(guild.Id, afkMessage, (_, _) => afkMessage);
     }
 
     public async Task TimedAfk(IGuild guild, IUser user, string message, TimeSpan time)
     {
-        await AFKSet(guild, user as IGuildUser, message, 1);
+        await AfkSet(guild, user as IGuildUser, message, 1);
         await Task.Delay(time.Milliseconds);
-        await AFKSet(guild, user as IGuildUser, "", 0);
+        await AfkSet(guild, user as IGuildUser, "", 0);
     }
 
     public bool IsAfk(IGuild guild, IGuildUser user)
     {
-        var afkmsg = AfkMessage(guild.Id, user.Id);
+        var afkmsg = GetAfkMessage(guild.Id, user.Id);
         var result = afkmsg?.LastOrDefault()?.Message;
         return !string.IsNullOrEmpty(result);
     }
@@ -228,7 +227,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkType.AddOrUpdate(guild.Id, num, (_, _) => num);
+        AfkType.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task AfkDelSet(IGuild guild, int num)
@@ -240,7 +239,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkDels.AddOrUpdate(guild.Id, num, (_, _) => num);
+        AfkDels.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task AfkLengthSet(IGuild guild, int num)
@@ -252,7 +251,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkLengths.AddOrUpdate(guild.Id, num, (_, _) => num);
+        AfkLengths.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
 
@@ -265,7 +264,7 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkTimeout.AddOrUpdate(guild.Id, num, (_, _) => num);
+        AfkTimeout.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public async Task AfkDisabledSet(IGuild guild, string num)
@@ -277,61 +276,61 @@ public class AFKService : INService
             await uow.SaveChangesAsync();
         }
 
-        _AfkDisabledChannels.AddOrUpdate(guild.Id, num, (_, _) => num);
+        AfkDisabledChannels.AddOrUpdate(guild.Id, num, (_, _) => num);
     }
 
     public string GetCustomAfkMessage(ulong? id)
     {
-        _AfkMessage.TryGetValue(id.Value, out var snum);
+        AfkMessage.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
     public int GetAfkDel(ulong? id)
     {
-        _AfkDels.TryGetValue(id.Value, out var snum);
+        AfkDels.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
     public int GetAfkType(ulong? id)
     {
-        _AfkType.TryGetValue(id.Value, out var snum);
+        AfkType.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
     public int GetAfkLength(ulong? id)
     {
-        _AfkLengths.TryGetValue(id.Value, out var snum);
+        AfkLengths.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
     public string GetDisabledAfkChannels(ulong? id)
     {
-        _AfkDisabledChannels.TryGetValue(id.Value, out var snum);
+        AfkDisabledChannels.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
     public int GetAfkTimeout(ulong? id)
     {
-        _AfkTimeout.TryGetValue(id.Value, out var snum);
+        AfkTimeout.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
-    public async Task AFKSet(IGuild guild, IGuildUser user, string message, int timed)
+    public async Task AfkSet(IGuild guild, IGuildUser user, string message, int timed)
     {
-        var aFK = new AFK
+        var aFk = new AFK
         {
             GuildId = guild.Id,
             UserId = user.Id,
             Message = message,
             WasTimed = timed
         };
-        var afk = aFK;
+        var afk = aFk;
         using var uow = _db.GetDbContext();
         uow.AFK.Update(afk);
         await uow.SaveChangesAsync();
     }
 
-    public List<AFK> AfkMessage(ulong gid, ulong uid)
+    public List<Mewdeko.Services.Database.Models.AFK> GetAfkMessage(ulong gid, ulong uid)
     {
         using var uow = _db.GetDbContext();
         return uow.AFK.ForId(gid, uid);

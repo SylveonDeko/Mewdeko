@@ -17,11 +17,11 @@ public partial class Gambling
     [Group]
     public class WaifuClaimCommands : GamblingSubmodule<WaifuService>
     {
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public WaifuClaimCommands(GamblingConfigService gamblingConfService, InteractiveService serv) : base(
             gamblingConfService) =>
-            Interactivity = serv;
+            _interactivity = serv;
 
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task WaifuReset()
@@ -46,9 +46,9 @@ public partial class Gambling
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task WaifuClaim(int amount, [Remainder] IUser target)
         {
-            if (amount < _config.Waifu.MinPrice)
+            if (amount < Config.Waifu.MinPrice)
             {
-                await ReplyErrorLocalizedAsync("waifu_isnt_cheap", _config.Waifu.MinPrice + CurrencySign);
+                await ReplyErrorLocalizedAsync("waifu_isnt_cheap", Config.Waifu.MinPrice + CurrencySign);
                 return;
             }
 
@@ -197,7 +197,7 @@ public partial class Gambling
             {
                 var j = i++;
                 embed.AddField(efb =>
-                    efb.WithName("#" + (page * 9 + j + 1) + " - " + w.Price + CurrencySign).WithValue(w.ToString())
+                    efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + CurrencySign).WithValue(w.ToString())
                         .WithIsInline(false));
             }
 
@@ -219,7 +219,7 @@ public partial class Gambling
         private Task InternalWaifuInfo(ulong targetId, string name = null)
         {
             var wi = Service.GetFullWaifuInfoAsync(targetId);
-            var affInfo = Service.GetAffinityTitle(wi.AffinityCount);
+            var affInfo = WaifuService.GetAffinityTitle(wi.AffinityCount);
 
             var waifuItems = Service.GetWaifuItems()
                 .ToDictionary(x => x.ItemEmoji, x => x);
@@ -240,7 +240,7 @@ public partial class Gambling
             var embed = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle(GetText("waifu") + " " + (wi.FullName ?? name ?? targetId.ToString()) + " - \"the " +
-                           Service.GetClaimTitle(wi.ClaimCount) + "\"")
+                           WaifuService.GetClaimTitle(wi.ClaimCount) + "\"")
                 .AddField(efb => efb.WithName(GetText("price")).WithValue(wi.Price.ToString()).WithIsInline(true))
                 .AddField(efb =>
                     efb.WithName(GetText("claimed_by")).WithValue(wi.ClaimerName ?? nobody).WithIsInline(true))
@@ -275,7 +275,7 @@ public partial class Gambling
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

@@ -59,7 +59,7 @@ public partial class Utility
                 {
                     "C" => res - 273.15m //celcius!
                     ,
-                    "F" => res * (9m / 5m) - 459.67m,
+                    "F" => (res * (9m / 5m)) - 459.67m,
                     //don't really care too much about efficiency, so just convert to Kelvin, then to target
                     _ => originUnit.Triggers.First().ToUpperInvariant() switch
                     {

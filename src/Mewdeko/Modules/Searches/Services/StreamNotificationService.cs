@@ -51,7 +51,7 @@ public class StreamNotificationService : INService
         using (var uow = db.GetDbContext())
         {
             var ids = client.GetGuildIds();
-            var guildConfigs = uow._context.Set<GuildConfig>()
+            var guildConfigs = uow.Context.Set<GuildConfig>()
                 .AsQueryable()
                 .Include(x => x.FollowedStreams)
                 .Where(x => ids.Contains(x.GuildId))
@@ -77,7 +77,7 @@ public class StreamNotificationService : INService
             // shard 0 will keep track of when there are no more guilds which track a stream
             if (client.ShardId == 0)
             {
-                var allFollowedStreams = uow._context.Set<FollowedStream>()
+                var allFollowedStreams = uow.Context.Set<FollowedStream>()
                     .AsQueryable()
                     .ToList();
 
@@ -122,12 +122,12 @@ public class StreamNotificationService : INService
                         Log.Information($"Deleting {kvp.Value.Count} {kvp.Key} streams because " +
                                         $"they've been erroring for more than {errorLimit}: {string.Join(", ", kvp.Value)}");
 
-                        var toDelete = uow._context.Set<FollowedStream>()
+                        var toDelete = uow.Context.Set<FollowedStream>()
                             .AsQueryable()
                             .Where(x => x.Type == kvp.Key && kvp.Value.Contains(x.Username))
                             .ToList();
 
-                        uow._context.RemoveRange(toDelete);
+                        uow.Context.RemoveRange(toDelete);
                         uow.SaveChanges();
 
                         foreach (var loginToDelete in kvp.Value)
@@ -271,7 +271,7 @@ public class StreamNotificationService : INService
     {
         using (var uow = _db.GetDbContext())
         {
-            var gc = uow._context.GuildConfigs
+            var gc = uow.Context.GuildConfigs
                 .AsQueryable()
                 .Include(x => x.FollowedStreams)
                 .FirstOrDefault(x => x.GuildId == guildConfig.GuildId);
@@ -319,7 +319,7 @@ public class StreamNotificationService : INService
         FollowedStream fs;
         using (var uow = _db.GetDbContext())
         {
-            var fss = uow._context.Set<FollowedStream>()
+            var fss = uow.Context.Set<FollowedStream>()
                 .AsQueryable()
                 .Where(x => x.GuildId == guildId)
                 .OrderBy(x => x.Id)
@@ -330,7 +330,7 @@ public class StreamNotificationService : INService
                 return null;
 
             fs = fss[index];
-            uow._context.Remove(fs);
+            uow.Context.Remove(fs);
 
             await uow.SaveChangesAsync();
 
@@ -472,7 +472,7 @@ public class StreamNotificationService : INService
     public bool SetStreamMessage(ulong guildId, int index, string message, out FollowedStream fs)
     {
         using var uow = _db.GetDbContext();
-        var fss = uow._context.Set<FollowedStream>()
+        var fss = uow.Context.Set<FollowedStream>()
             .AsQueryable()
             .Where(x => x.GuildId == guildId)
             .OrderBy(x => x.Id)

@@ -10,24 +10,24 @@ public abstract class GamblingModuleBase<TService> : MewdekoModuleBase<TService>
 
     protected GamblingModuleBase(GamblingConfigService gambService) => _lazyConfig = new Lazy<GamblingConfig>(() => gambService.Data);
 
-    protected GamblingConfig _config => _lazyConfig.Value;
-    protected string CurrencySign => _config.Currency.Sign;
-    protected string CurrencyName => _config.Currency.Name;
+    protected GamblingConfig Config => _lazyConfig.Value;
+    protected string CurrencySign => Config.Currency.Sign;
+    protected string CurrencyName => Config.Currency.Name;
 
     private async Task<bool> InternalCheckBet(long amount)
     {
         if (amount < 1) return false;
-        if (amount < _config.MinBet)
+        if (amount < Config.MinBet)
         {
             await ReplyErrorLocalizedAsync("min_bet_limit",
-                Format.Bold(_config.MinBet.ToString()) + CurrencySign).ConfigureAwait(false);
+                Format.Bold(Config.MinBet.ToString()) + CurrencySign).ConfigureAwait(false);
             return false;
         }
 
-        if (_config.MaxBet > 0 && amount > _config.MaxBet)
+        if (Config.MaxBet > 0 && amount > Config.MaxBet)
         {
             await ReplyErrorLocalizedAsync("max_bet_limit",
-                Format.Bold(_config.MaxBet.ToString()) + CurrencySign).ConfigureAwait(false);
+                Format.Bold(Config.MaxBet.ToString()) + CurrencySign).ConfigureAwait(false);
             return false;
         }
 

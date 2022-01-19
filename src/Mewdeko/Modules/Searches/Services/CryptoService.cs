@@ -14,7 +14,7 @@ public class CryptoService : INService
     private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
-    private readonly SemaphoreSlim getCryptoLock = new(1, 1);
+    private readonly SemaphoreSlim _getCryptoLock = new(1, 1);
 
     public CryptoService(IDataCache cache, IHttpClientFactory httpFactory, IBotCredentials creds)
     {
@@ -52,15 +52,15 @@ public class CryptoService : INService
 
     public async Task<List<CryptoResponseData>> CryptoData()
     {
-        await getCryptoLock.WaitAsync();
+        await _getCryptoLock.WaitAsync();
         try
         {
             var fullStrData = await _cache.GetOrAddCachedDataAsync("Mewdeko:crypto_data", async _ =>
             {
                 try
                 {
-                    using var _http = _httpFactory.CreateClient();
-                    var strData = await _http.GetStringAsync(new Uri(
+                    using var http = _httpFactory.CreateClient();
+                    var strData = await http.GetStringAsync(new Uri(
                         "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?" +
                         $"CMC_PRO_API_KEY={_creds.CoinmarketcapApiKey}" +
                         "&start=1" +
@@ -87,7 +87,7 @@ public class CryptoService : INService
         }
         finally
         {
-            getCryptoLock.Release();
+            _getCryptoLock.Release();
         }
     }
 }

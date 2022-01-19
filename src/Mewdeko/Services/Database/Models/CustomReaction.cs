@@ -29,7 +29,7 @@ public class CustomReaction : DbEntity
             : Reactions.Split("@@@");
 
 
-    public bool IsGlobal() => GuildId is null || GuildId == 0;
+    public bool IsGlobal() => GuildId is null or 0;
 }
 
 public class ReactionResponse : DbEntity

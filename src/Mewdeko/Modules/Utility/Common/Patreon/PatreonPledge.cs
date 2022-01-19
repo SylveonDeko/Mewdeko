@@ -2,60 +2,60 @@
 
 public class Attributes
 {
-    public int amount_cents { get; set; }
-    public string created_at { get; set; }
-    public object declined_since { get; set; }
-    public bool is_twitch_pledge { get; set; }
-    public bool patron_pays_fees { get; set; }
-    public int? pledge_cap_cents { get; set; }
+    public int AmountCents { get; set; }
+    public string CreatedAt { get; set; }
+    public object DeclinedSince { get; set; }
+    public bool IsTwitchPledge { get; set; }
+    public bool PatronPaysFees { get; set; }
+    public int? PledgeCapCents { get; set; }
 }
 
 public class Address
 {
-    public object data { get; set; }
+    public object Data { get; set; }
 }
 
 public class Data
 {
-    public string id { get; set; }
-    public string type { get; set; }
+    public string Id { get; set; }
+    public string Type { get; set; }
 }
 
 public class Links
 {
-    public string related { get; set; }
+    public string Related { get; set; }
 }
 
 public class Creator
 {
-    public Data data { get; set; }
-    public Links links { get; set; }
+    public Data Data { get; set; }
+    public Links Links { get; set; }
 }
 
 public class Patron
 {
-    public Data data { get; set; }
-    public Links links { get; set; }
+    public Data Data { get; set; }
+    public Links Links { get; set; }
 }
 
 public class Reward
 {
-    public Data data { get; set; }
-    public Links links { get; set; }
+    public Data Data { get; set; }
+    public Links Links { get; set; }
 }
 
 public class Relationships
 {
-    public Address address { get; set; }
-    public Creator creator { get; set; }
-    public Patron patron { get; set; }
-    public Reward reward { get; set; }
+    public Address Address { get; set; }
+    public Creator Creator { get; set; }
+    public Patron Patron { get; set; }
+    public Reward Reward { get; set; }
 }
 
 public class PatreonPledge
 {
-    public Attributes attributes { get; set; }
-    public string id { get; set; }
-    public Relationships relationships { get; set; }
-    public string type { get; set; }
+    public Attributes Attributes { get; set; }
+    public string Id { get; set; }
+    public Relationships Relationships { get; set; }
+    public string Type { get; set; }
 }

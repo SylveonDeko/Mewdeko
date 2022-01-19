@@ -31,7 +31,6 @@ public class CurrencyService : ICurrencyService
         if (sendMessage)
             try
             {
-                var sign = _gss.Data.Currency.Sign;
                 await (await user.CreateDMChannelAsync())
                     .EmbedAsync(new EmbedBuilder()
                         .WithOkColor()
@@ -71,8 +70,8 @@ public class CurrencyService : ICurrencyService
         InternalRemoveAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount,
             gamble);
 
-    private CurrencyTransaction GetCurrencyTransaction(ulong userId, string reason, long amount) =>
-        new CurrencyTransaction
+    private static CurrencyTransaction GetCurrencyTransaction(ulong userId, string reason, long amount) =>
+        new()
         {
             Amount = amount,
             UserId = userId,
@@ -86,12 +85,12 @@ public class CurrencyService : ICurrencyService
         if (result)
         {
             var t = GetCurrencyTransaction(userId, reason, amount);
-            uow._context.CurrencyTransactions.Add(t);
+            uow.Context.CurrencyTransactions.Add(t);
 
             if (gamble)
             {
                 var t2 = GetCurrencyTransaction(_bot.Id, reason, -amount);
-                uow._context.CurrencyTransactions.Add(t2);
+                uow.Context.CurrencyTransactions.Add(t2);
                 uow.DiscordUsers.TryUpdateCurrencyState(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId,
                     -amount, true);
             }

@@ -32,7 +32,7 @@ public class LogCommandService : INService
         ChannelUpdated,
         UserPresence,
         VoicePresence,
-        VoicePresenceTTS,
+        VoicePresenceTts,
 
         UserMuted
         //ThreadArchived,
@@ -63,7 +63,7 @@ public class LogCommandService : INService
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow._context
+            var configs = uow.Context
                 .Set<GuildConfig>()
                 .AsQueryable()
                 .Include(gc => gc.LogSetting)
@@ -76,25 +76,25 @@ public class LogCommandService : INService
                 .ToConcurrent();
         }
 
-        var timer = new Timer(Callback, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
+        new Timer(Callback, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
 
-        //_client.MessageReceived += _client_MessageReceived;
-        _client.MessageUpdated += _client_MessageUpdated;
-        _client.MessageDeleted += _client_MessageDeleted;
-        _client.MessagesBulkDeleted += _client_BulkDelete;
-        _client.UserBanned += _client_UserBanned;
-        _client.UserUnbanned += _client_UserUnbanned;
-        _client.UserJoined += _client_UserJoined;
-        _client.UserLeft += _client_UserLeft;
-        //_client.UserPresenceUpdated += _client_UserPresenceUpdated;
-        _client.UserVoiceStateUpdated += _client_UserVoiceStateUpdated;
+        //_client.MessageReceived += Client_MessageReceived;
+        _client.MessageUpdated += Client_MessageUpdated;
+        _client.MessageDeleted += Client_MessageDeleted;
+        _client.MessagesBulkDeleted += Client_BulkDelete;
+        _client.UserBanned += Client_UserBanned;
+        _client.UserUnbanned += Client_UserUnbanned;
+        _client.UserJoined += Client_UserJoined;
+        _client.UserLeft += Client_UserLeft;
+        //_client.UserPresenceUpdated += Client_UserPresenceUpdated;
+        _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         _client.GuildMemberUpdated += Client_GuildUserUpdated;
 #if !GLOBAL_Mewdeko
         _client.UserUpdated += Client_UserUpdated;
 #endif
-        _client.ChannelCreated += _client_ChannelCreated;
-        _client.ChannelDestroyed += _client_ChannelDestroyed;
+        _client.ChannelCreated += Client_ChannelCreated;
+        _client.ChannelDestroyed += Client_ChannelDestroyed;
         _client.ChannelUpdated += Client_ChannelUpdated;
         _client.RoleDeleted += Client_RoleDeleted;
 
@@ -103,7 +103,7 @@ public class LogCommandService : INService
         //_client.ThreadCreated += ThreadCreated;
         prot.OnAntiProtectionTriggered += TriggeredAntiProtection;
 
-        ClearTimer = new Timer(_ => { _ignoreMessageIds.Clear(); }, null, TimeSpan.FromHours(1),
+        ClearTimer = new Timer(_ => _ignoreMessageIds.Clear(), null, TimeSpan.FromHours(1),
             TimeSpan.FromHours(1));
     }
 
@@ -288,7 +288,7 @@ public class LogCommandService : INService
                     logSetting.LogUserPresenceId == null ? cid : default,
                 LogType.VoicePresence => logSetting.LogVoicePresenceId =
                     logSetting.LogVoicePresenceId == null ? cid : default,
-                LogType.VoicePresenceTTS => logSetting.LogVoicePresenceTTSId =
+                LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId =
                     logSetting.LogVoicePresenceTTSId == null ? cid : default,
                 _ => null
             };
@@ -319,7 +319,7 @@ public class LogCommandService : INService
                     return;
 
                 ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTTS)
+                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTts)
                         .ConfigureAwait(false)) == null)
                     return;
 
@@ -664,7 +664,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_ChannelDestroyed(IChannel ich)
+    private Task Client_ChannelDestroyed(IChannel ich)
     {
         var _ = Task.Run(async () =>
         {
@@ -705,7 +705,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_ChannelCreated(IChannel ich)
+    private Task Client_ChannelCreated(IChannel ich)
     {
         var _ = Task.Run(async () =>
         {
@@ -742,7 +742,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
+    private Task Client_UserVoiceStateUpdated(SocketUser iusr, SocketVoiceState before, SocketVoiceState after)
     {
         var _ = Task.Run(async () =>
         {
@@ -798,7 +798,7 @@ public class LogCommandService : INService
     }
 
 
-    private Task _client_UserLeft(SocketGuild guild, SocketUser user)
+    private Task Client_UserLeft(SocketGuild guild, SocketUser user)
     {
         var _ = Task.Run(async () =>
         {
@@ -835,7 +835,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_UserJoined(IGuildUser usr)
+    private Task Client_UserJoined(IGuildUser usr)
     {
         var _ = Task.Run(async () =>
         {
@@ -876,7 +876,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_UserUnbanned(IUser usr, IGuild guild)
+    private Task Client_UserUnbanned(IUser usr, IGuild guild)
     {
         var _ = Task.Run(async () =>
         {
@@ -910,7 +910,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_UserBanned(IUser usr, IGuild guild)
+    private Task Client_UserBanned(IUser usr, IGuild guild)
     {
         var _ = Task.Run(async () =>
         {
@@ -947,7 +947,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
+    private Task Client_BulkDelete(IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
         Cacheable<IMessageChannel, ulong> channel)
     {
         var _ = Task.Run(async () =>
@@ -995,7 +995,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
+    private Task Client_MessageDeleted(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
         var _ = Task.Run(async () =>
         {
@@ -1046,7 +1046,7 @@ public class LogCommandService : INService
         return Task.CompletedTask;
     }
 
-    private Task _client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2,
+    private Task Client_MessageUpdated(Cacheable<IMessage, ulong> optmsg, SocketMessage imsg2,
         ISocketMessageChannel ch)
     {
         var _ = Task.Run(async () =>
@@ -1107,7 +1107,7 @@ public class LogCommandService : INService
 
     private async Task<ITextChannel> TryGetLogChannel(IGuild guild, LogSetting logSetting, LogType logChannelType)
     {
-        ulong? id = logChannelType switch
+        var id = logChannelType switch
         {
             LogType.Other => logSetting.LogOtherId,
             LogType.MessageUpdated => logSetting.MessageUpdatedId,
@@ -1122,12 +1122,12 @@ public class LogCommandService : INService
             LogType.ChannelUpdated => logSetting.ChannelUpdatedId,
             LogType.UserPresence => logSetting.LogUserPresenceId,
             LogType.VoicePresence => logSetting.LogVoicePresenceId,
-            LogType.VoicePresenceTTS => logSetting.LogVoicePresenceTTSId,
+            LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId,
             LogType.UserMuted => logSetting.UserMutedId,
             _ => null
         };
 
-        if (!id.HasValue || id == 0)
+        if (id is null or 0)
         {
             UnsetLogSetting(guild.Id, logChannelType);
             return null;
@@ -1192,7 +1192,7 @@ public class LogCommandService : INService
             case LogType.VoicePresence:
                 newLogSetting.LogVoicePresenceId = null;
                 break;
-            case LogType.VoicePresenceTTS:
+            case LogType.VoicePresenceTts:
                 newLogSetting.LogVoicePresenceTTSId = null;
                 break;
         }

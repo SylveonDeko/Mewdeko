@@ -11,7 +11,7 @@ namespace Mewdeko.Common.Replacements;
 
 public class ReplacementBuilder
 {
-    private static readonly Regex rngRegex =
+    private static readonly Regex _rngRegex =
         new("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled);
 
     private readonly DiscordSocketClient _client;
@@ -211,7 +211,7 @@ public class ReplacementBuilder
     public ReplacementBuilder WithRngRegex()
     {
         var rng = new MewdekoRandom();
-        _regex.TryAdd(rngRegex, match =>
+        _regex.TryAdd(_rngRegex, match =>
         {
             if (!int.TryParse(match.Groups["from"].ToString(), out var from))
                 from = 0;
@@ -233,7 +233,7 @@ public class ReplacementBuilder
     }
 
     public Replacer Build() =>
-        new Replacer(_reps.Select(x => (x.Key, x.Value)).ToArray(),
+        new(_reps.Select(x => (x.Key, x.Value)).ToArray(),
             _regex.Select(x => (x.Key, x.Value)).ToArray());
 
     public ReplacementBuilder WithProviders(IEnumerable<IPlaceholderProvider> phProviders)

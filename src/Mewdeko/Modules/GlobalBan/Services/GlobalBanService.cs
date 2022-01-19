@@ -13,14 +13,14 @@ public class GlobalBanService : INService
         _db = db;
     }
 
-    public async Task AddGlobalBan(ulong ToBan, string Reason, ulong addedby, string Type, string proof)
+    public async Task AddGlobalBan(ulong toBan, string reason, ulong addedby, string type, string proof)
     {
         var toadd = new Mewdeko.Services.Database.Models.GlobalBans
         {
-            UserId = ToBan,
-            Reason = Reason,
+            UserId = toBan,
+            Reason = reason,
             AddedBy = addedby,
-            Type = Type,
+            Type = type,
             Proof = proof
         };
         var uow = _db.GetDbContext();
