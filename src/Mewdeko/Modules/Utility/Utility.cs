@@ -738,32 +738,25 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public async Task Stats()
     {
         var user = await _client.Rest.GetUserAsync(280835732728184843);
-        var ownerIds = string.Join("\n", _creds.OwnerIds);
-        if (string.IsNullOrWhiteSpace(ownerIds))
-            ownerIds = "-";
-
         await ctx.Channel.EmbedAsync(
-                new EmbedBuilder().WithOkColor()
-                    .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BotVersion}")
-                        .WithUrl("https://discord.gg/6n3aa9Xapf")
-                        .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
-                    .AddField(efb =>
-                        efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}")
-                            .WithIsInline(false))
-                    .AddField(efb => efb.WithName("Library").WithValue(_stats.Library).WithIsInline(false))
-                    .AddField(efb =>
-                        efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}")
-                            .WithIsInline(false))
-                    .AddField(efb =>
-                        efb.WithName(GetText("commands_ran")).WithValue(_stats.CommandsRan.ToString())
-                            .WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
-                    .AddField(efb =>
-                        efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
-                    .AddField(efb => efb.WithName(GetText("presence")).WithValue(
-                        GetText("presence_txt",
-                            _coord.GetGuildCount(), _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false)))
-            .ConfigureAwait(false);
+                     new EmbedBuilder().WithOkColor()
+                                       .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BotVersion}")
+                                                             .WithUrl("https://discord.gg/6n3aa9Xapf")
+                                                             .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
+                                       .AddField(efb =>
+                                           efb.WithName(GetText("author")).WithValue($"{user.Username}#{user.Discriminator}")
+                                              .WithIsInline(false))
+                                       .AddField(efb => efb.WithName("Library").WithValue(_stats.Library).WithIsInline(false))
+                                       .AddField(efb =>
+                                           efb.WithName(GetText("shard")).WithValue($"#{_client.ShardId} / {_creds.TotalShards}")
+                                              .WithIsInline(false))
+                                       .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
+                                       .AddField(efb =>
+                                           efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
+                                       .AddField(efb => efb.WithName(GetText("presence")).WithValue(
+                                           GetText("presence_txt",
+                                               _coord.GetGuildCount(), _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false)))
+                 .ConfigureAwait(false);
     }
 
     [MewdekoCommand, Usage, Description, Aliases]

@@ -13,12 +13,10 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BotVersion = "3.82";
+    public const string BotVersion = "3.83";
 
     private readonly DiscordSocketClient _client;
     private readonly DateTime _started;
-    private long _commandsRan;
-    private long _messageCounter;
 
     private long _textChannels;
     private long _voiceChannels;
@@ -30,8 +28,6 @@ public class StatsService : IStatsService
         _ = new DllVersionChecker();
 
         _started = DateTime.UtcNow;
-        _client.MessageReceived += _ => Task.FromResult(Interlocked.Increment(ref _messageCounter));
-        cmdHandler.CommandExecuted += (_, _) => Task.FromResult(Interlocked.Increment(ref _commandsRan));
 
         _client.ChannelCreated += c =>
         {
@@ -147,11 +143,8 @@ public class StatsService : IStatsService
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
 
-    public double MessagesPerSecond => MessageCounter / GetUptime().TotalSeconds;
     public long TextChannels => Interlocked.Read(ref _textChannels);
     public long VoiceChannels => Interlocked.Read(ref _voiceChannels);
-    public long MessageCounter => Interlocked.Read(ref _messageCounter);
-    public long CommandsRan => Interlocked.Read(ref _commandsRan);
 
     public void Initialize()
     {
@@ -160,7 +153,7 @@ public class StatsService : IStatsService
         _voiceChannels = guilds.Sum(g => g.Channels.Count(cx => cx is IVoiceChannel));
     }
 
-    public TimeSpan GetUptime() => DateTime.UtcNow - _started;
+    private TimeSpan GetUptime() => DateTime.UtcNow - _started;
 
     public string GetUptimeString(string separator = ", ")
     {
