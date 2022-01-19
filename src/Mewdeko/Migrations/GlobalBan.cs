@@ -19,7 +19,7 @@ public partial class GlobalBan : Migration
                 AddedBy = table.Column<ulong>(nullable: true),
                 Type = table.Column<string>(nullable: true)
             },
-            constraints: table => { table.PrimaryKey("PK_GlobalBan", x => x.Id); });
+            constraints: table => table.PrimaryKey("PK_GlobalBan", x => x.Id));
         migrationBuilder.AddColumn<int>("GBAction", "GuildConfigs", defaultValue: 1);
         migrationBuilder.AddColumn<int>("GBEnabled", "GuildConfigs", defaultValue: 1);
 

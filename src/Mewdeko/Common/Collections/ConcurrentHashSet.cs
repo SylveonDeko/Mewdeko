@@ -19,14 +19,14 @@ namespace Mewdeko.Common.Collections;
 [DebuggerDisplay("Count = {Count}")]
 public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T>
 {
-    private const int DefaultCapacity = 31;
-    private const int MaxLockNumber = 1024;
+    private const int DEFAULT_CAPACITY = 31;
+    private const int MAX_LOCK_NUMBER = 1024;
 
     private readonly IEqualityComparer<T> _comparer;
     private readonly bool _growLockArray;
 
-    private int _budget;
-    private volatile Tables _tables;
+    private int budget;
+    private volatile Tables tables;
 
     /// <summary>
     ///     Initializes a new instance of the
@@ -36,7 +36,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     ///     uses the default comparer for the item type.
     /// </summary>
     public ConcurrentHashSet()
-        : this(DefaultConcurrencyLevel, DefaultCapacity, true, EqualityComparer<T>.Default)
+        : this(DefaultConcurrencyLevel, DEFAULT_CAPACITY, true, EqualityComparer<T>.Default)
     {
     }
 
@@ -98,7 +98,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     /// </param>
     /// <exception cref="T:System.ArgumentNullException"><paramref name="comparer" /> is a null reference.</exception>
     public ConcurrentHashSet(IEqualityComparer<T> comparer)
-        : this(DefaultConcurrencyLevel, DefaultCapacity, true, comparer)
+        : this(DefaultConcurrencyLevel, DEFAULT_CAPACITY, true, comparer)
     {
     }
 
@@ -164,7 +164,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     ///     <paramref name="concurrencyLevel" /> is less than 1.
     /// </exception>
     public ConcurrentHashSet(int concurrencyLevel, IEnumerable<T> collection, IEqualityComparer<T> comparer)
-        : this(concurrencyLevel, DefaultCapacity, false, comparer)
+        : this(concurrencyLevel, DEFAULT_CAPACITY, false, comparer)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
         if (comparer == null) throw new ArgumentNullException(nameof(comparer));
@@ -215,10 +215,10 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
         var countPerLock = new int[locks.Length];
         var buckets = new Node[capacity];
-        _tables = new Tables(buckets, locks, countPerLock);
+        tables = new Tables(buckets, locks, countPerLock);
 
         _growLockArray = growLockArray;
-        _budget = buckets.Length / locks.Length;
+        budget = buckets.Length / locks.Length;
         _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
@@ -240,8 +240,8 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             {
                 AcquireAllLocks(ref acquiredLocks);
 
-                for (var i = 0; i < _tables.CountPerLock.Length; i++)
-                    if (_tables.CountPerLock[i] != 0)
+                for (var i = 0; i < tables.CountPerLock.Length; i++)
+                    if (tables.CountPerLock[i] != 0)
                         return false;
             }
             finally
@@ -263,10 +263,10 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         {
             AcquireAllLocks(ref locksAcquired);
 
-            var newTables = new Tables(new Node[DefaultCapacity], _tables.Locks,
-                new int[_tables.CountPerLock.Length]);
-            _tables = newTables;
-            _budget = Math.Max(1, newTables.Buckets.Length / newTables.Locks.Length);
+            var newTables = new Tables(new Node[DEFAULT_CAPACITY], tables.Locks,
+                new int[tables.CountPerLock.Length]);
+            tables = newTables;
+            budget = Math.Max(1, newTables.Buckets.Length / newTables.Locks.Length);
         }
         finally
         {
@@ -286,7 +286,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         var hashcode = _comparer.GetHashCode(item);
 
         // We must capture the _buckets field in a local variable. It is set to a new table on each table resize.
-        var tables = _tables;
+        var tables = this.tables;
 
         var bucketNo = GetBucket(hashcode, tables.Buckets.Length);
 
@@ -319,7 +319,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
             var count = 0;
 
-            for (var i = 0; i < _tables.Locks.Length && count >= 0; i++) count += _tables.CountPerLock[i];
+            for (var i = 0; i < tables.Locks.Length && count >= 0; i++) count += tables.CountPerLock[i];
 
             if (array.Length - count < arrayIndex ||
                 count < 0) //"count" itself or "count + arrayIndex" can overflow
@@ -364,7 +364,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             {
                 AcquireAllLocks(ref acquiredLocks);
 
-                for (var i = 0; i < _tables.CountPerLock.Length; i++) count += _tables.CountPerLock[i];
+                for (var i = 0; i < tables.CountPerLock.Length; i++) count += tables.CountPerLock[i];
             }
             finally
             {
@@ -392,7 +392,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     /// </remarks>
     public IEnumerator<T> GetEnumerator()
     {
-        var buckets = _tables.Buckets;
+        var buckets = tables.Buckets;
 
         for (var i = 0; i < buckets.Length; i++)
         {
@@ -431,7 +431,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
         var hashcode = _comparer.GetHashCode(item);
         while (true)
         {
-            var tables = _tables;
+            var tables = this.tables;
 
             GetBucketAndLockNo(hashcode, out var bucketNo, out var lockNo, tables.Buckets.Length,
                 tables.Locks.Length);
@@ -440,13 +440,13 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             {
                 // If the table just got resized, we may not be holding the right lock, and must retry.
                 // This should be a rare occurrence.
-                if (tables != _tables) continue;
+                if (tables != this.tables) continue;
 
                 Node previous = null;
                 for (var current = tables.Buckets[bucketNo]; current != null; current = current.Next)
                 {
                     Debug.Assert(
-                        previous == null && current == tables.Buckets[bucketNo] || previous?.Next == current);
+                        (previous == null && current == tables.Buckets[bucketNo]) || previous?.Next == current);
 
                     if (hashcode == current.Hashcode && _comparer.Equals(current.Item, item))
                     {
@@ -471,14 +471,14 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     {
         foreach (var item in collection) AddInternal(item, _comparer.GetHashCode(item), false);
 
-        if (_budget == 0) _budget = _tables.Buckets.Length / _tables.Locks.Length;
+        if (budget == 0) budget = tables.Buckets.Length / tables.Locks.Length;
     }
 
     private bool AddInternal(T item, int hashcode, bool acquireLock)
     {
         while (true)
         {
-            var tables = _tables;
+            var tables = this.tables;
             GetBucketAndLockNo(hashcode, out var bucketNo, out var lockNo, tables.Buckets.Length,
                 tables.Locks.Length);
 
@@ -491,14 +491,14 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
                 // If the table just got resized, we may not be holding the right lock, and must retry.
                 // This should be a rare occurrence.
-                if (tables != _tables) continue;
+                if (tables != this.tables) continue;
 
                 // Try to find this item in the bucket
                 Node previous = null;
                 for (var current = tables.Buckets[bucketNo]; current != null; current = current.Next)
                 {
                     Debug.Assert(
-                        previous == null && current == tables.Buckets[bucketNo] || previous?.Next == current);
+                        (previous == null && current == tables.Buckets[bucketNo]) || previous?.Next == current);
                     if (hashcode == current.Hashcode && _comparer.Equals(current.Item, item)) return false;
                     previous = current;
                 }
@@ -515,7 +515,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                 // It is also possible that GrowTable will increase the budget but won't resize the bucket table.
                 // That happens if the bucket table is found to be poorly utilized due to a bad hash function.
                 //
-                if (tables.CountPerLock[lockNo] > _budget) resizeDesired = true;
+                if (tables.CountPerLock[lockNo] > budget) resizeDesired = true;
             }
             finally
             {
@@ -564,7 +564,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             AcquireLocks(0, 1, ref locksAcquired);
 
             // Make sure nobody resized the table while we were waiting for lock 0:
-            if (tables != _tables)
+            if (tables != this.tables)
                 // We assume that since the table reference is different, it was already resized (or the budget
                 // was adjusted). If we ever decide to do table shrinking, or replace the table for other reasons,
                 // we will have to revisit this logic.
@@ -579,8 +579,8 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             //
             if (approxCount < tables.Buckets.Length / 4)
             {
-                _budget = 2 * _budget;
-                if (_budget < 0) _budget = int.MaxValue;
+                budget = 2 * budget;
+                if (budget < 0) budget = int.MaxValue;
                 return;
             }
 
@@ -593,7 +593,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                 checked
                 {
                     // Double the size of the buckets table and add one, so that we have an odd integer.
-                    newLength = tables.Buckets.Length * 2 + 1;
+                    newLength = (tables.Buckets.Length * 2) + 1;
 
                     // Now, we only need to check odd integers, and find the first that is not divisible
                     // by 3, 5 or 7.
@@ -618,7 +618,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
                 //
                 // (There is one special case that would allow GrowTable() to be called in the future: 
                 // calling Clear() on the ConcurrentHashSet will shrink the table and lower the budget.)
-                _budget = int.MaxValue;
+                budget = int.MaxValue;
             }
 
             // Now acquire all other locks for the table
@@ -627,7 +627,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             var newLocks = tables.Locks;
 
             // Add more locks
-            if (_growLockArray && tables.Locks.Length < MaxLockNumber)
+            if (_growLockArray && tables.Locks.Length < MAX_LOCK_NUMBER)
             {
                 newLocks = new object[tables.Locks.Length * 2];
                 Array.Copy(tables.Locks, 0, newLocks, 0, tables.Locks.Length);
@@ -659,10 +659,10 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
             }
 
             // Adjust the budget
-            _budget = Math.Max(1, newBuckets.Length / newLocks.Length);
+            budget = Math.Max(1, newBuckets.Length / newLocks.Length);
 
             // Replace tables with the new versions
-            _tables = new Tables(newBuckets, newLocks, newCountPerLock);
+            this.tables = new Tables(newBuckets, newLocks, newCountPerLock);
         }
         finally
         {
@@ -688,14 +688,14 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
 
         // Now that we have lock 0, the _locks array will not change (i.e., grow),
         // and so we can safely read _locks.Length.
-        AcquireLocks(1, _tables.Locks.Length, ref locksAcquired);
-        Debug.Assert(locksAcquired == _tables.Locks.Length);
+        AcquireLocks(1, tables.Locks.Length, ref locksAcquired);
+        Debug.Assert(locksAcquired == tables.Locks.Length);
     }
 
     private void AcquireLocks(int fromInclusive, int toExclusive, ref int locksAcquired)
     {
         Debug.Assert(fromInclusive <= toExclusive);
-        var locks = _tables.Locks;
+        var locks = tables.Locks;
 
         for (var i = fromInclusive; i < toExclusive; i++)
         {
@@ -715,12 +715,12 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ICollection<T
     {
         Debug.Assert(fromInclusive <= toExclusive);
 
-        for (var i = fromInclusive; i < toExclusive; i++) Monitor.Exit(_tables.Locks[i]);
+        for (var i = fromInclusive; i < toExclusive; i++) Monitor.Exit(tables.Locks[i]);
     }
 
     private void CopyToItems(T[] array, int index)
     {
-        var buckets = _tables.Buckets;
+        var buckets = tables.Buckets;
         for (var i = 0; i < buckets.Length; i++)
         for (var current = buckets[i]; current != null; current = current.Next)
         {

@@ -26,15 +26,13 @@ public partial class Utility
                 await ctx.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error).ConfigureAwait(false);
         }
 
-        private static void Expr_EvaluateParameter(string name, ParameterArgs args)
-        {
+        private static void Expr_EvaluateParameter(string name, ParameterArgs args) =>
             args.Result = name.ToLowerInvariant() switch
             {
                 "pi" => Math.PI,
                 "e" => Math.E,
                 _ => args.Result
             };
-        }
 
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task CalcOps()

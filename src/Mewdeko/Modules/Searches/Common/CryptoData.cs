@@ -28,9 +28,9 @@ public class CurrencyQuotes
 public class Quote
 {
     public double Price { get; set; }
-    public double Market_Cap { get; set; }
-    public string Percent_Change_1h { get; set; }
-    public string Percent_Change_24h { get; set; }
-    public string Percent_Change_7d { get; set; }
-    public double? Volume_24h { get; set; }
+    public double MarketCap { get; set; }
+    public string PercentChange1H { get; set; }
+    public string PercentChange24H { get; set; }
+    public string PercentChange7D { get; set; }
+    public double? Volume24H { get; set; }
 }

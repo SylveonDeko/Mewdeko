@@ -14,27 +14,27 @@ using Mewdeko.Modules.Afk.Services;
 
 namespace Mewdeko.Modules.Afk;
 
-public class Afk : MewdekoModuleBase<AFKService>
+public class Afk : MewdekoModuleBase<AfkService>
 {
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
-    public Afk(InteractiveService serv) => Interactivity = serv;
+    public Afk(InteractiveService serv) => _interactivity = serv;
 
     [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
     public async Task SetAfk([Remainder] string message = null)
     {
         if (message == null)
         {
-            var afkmsg = Service.AfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
+            var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
             if (!afkmsg.Any() || afkmsg.Last() == "")
             {
-                await Service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
+                await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
                 await ctx.Channel.SendConfirmAsync("Afk message enabled!");
                 await ctx.Guild.DownloadUsersAsync();
                 return;
             }
 
-            await Service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, "", 0);
+            await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "", 0);
             await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
             await ctx.Guild.DownloadUsersAsync();
             return;
@@ -47,7 +47,7 @@ public class Afk : MewdekoModuleBase<AFKService>
             return;
         }
 
-        await Service.AFKSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
+        await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
         await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
         await ctx.Guild.DownloadUsersAsync();
     }
@@ -104,8 +104,7 @@ public class Afk : MewdekoModuleBase<AFKService>
     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.Administrator)]
     public async Task CustomAfkMessage([Remainder] string embed)
     {
-        CREmbed crEmbed;
-        CREmbed.TryParse(embed, out crEmbed);
+        CrEmbed.TryParse(embed, out var crEmbed);
         if (embed == "-")
         {
             await Service.SetCustomAfkMessage(ctx.Guild, embed);
@@ -113,14 +112,14 @@ public class Afk : MewdekoModuleBase<AFKService>
             return;
         }
 
-        if (crEmbed is not null && !crEmbed.IsValid || !embed.Contains("%afk"))
+        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%afk"))
         {
             await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
             return;
         }
 
         await Service.SetCustomAfkMessage(ctx.Guild, embed);
-        var ebe = CREmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out crEmbed);
+        var ebe = CrEmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out _);
         if (ebe is false)
         {
             await Service.SetCustomAfkMessage(ctx.Guild, "-");
@@ -150,7 +149,7 @@ public class Afk : MewdekoModuleBase<AFKService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -171,7 +170,7 @@ public class Afk : MewdekoModuleBase<AFKService>
             return;
         }
 
-        var msg = Service.AfkMessage(user.Guild.Id, user.Id).Last();
+        var msg = Service.GetAfkMessage(user.Guild.Id, user.Id).Last();
         await ctx.Channel.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
     }
 
@@ -201,7 +200,7 @@ public class Afk : MewdekoModuleBase<AFKService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -380,8 +379,8 @@ public class Afk : MewdekoModuleBase<AFKService>
         foreach (var i in user)
             try
             {
-                var afkmsg = Service.AfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
-                await Service.AFKSet(ctx.Guild, i, "", 0);
+                Service.GetAfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
+                await Service.AfkSet(ctx.Guild, i, "", 0);
                 users++;
             }
             catch (Exception)
@@ -395,14 +394,14 @@ public class Afk : MewdekoModuleBase<AFKService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task AfkRemove(IGuildUser user)
     {
-        var afkmsg = Service.AfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
+        var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
         if (afkmsg == "")
         {
             await ctx.Channel.SendErrorAsync("The mentioned user does not have an afk status set!");
             return;
         }
 
-        await Service.AFKSet(ctx.Guild, user, "", 0);
+        await Service.AfkSet(ctx.Guild, user, "", 0);
         await ctx.Channel.SendConfirmAsync($"AFK Message for {user.Mention} has been disabled!");
     }
 }

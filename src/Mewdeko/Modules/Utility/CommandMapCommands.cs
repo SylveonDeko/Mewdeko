@@ -23,11 +23,11 @@ public partial class Utility
     {
         private readonly DiscordSocketClient _client;
         private readonly DbService _db;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public CommandMapCommands(DbService db, DiscordSocketClient client, InteractiveService serv)
         {
-            Interactivity = serv;
+            _interactivity = serv;
             _db = db;
             _client = client;
         }
@@ -44,8 +44,6 @@ public partial class Utility
          RequireContext(ContextType.Guild)]
         public async Task Alias(string trigger, [Remainder] string mapping = null)
         {
-            var channel = (ITextChannel) ctx.Channel;
-
             if (string.IsNullOrWhiteSpace(trigger))
                 return;
 
@@ -63,14 +61,9 @@ public partial class Utility
                 using (var uow = _db.GetDbContext())
                 {
                     var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
-                    var toAdd = new CommandAlias
-                    {
-                        Mapping = mapping,
-                        Trigger = trigger
-                    };
                     var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
                     if (tr != null)
-                        uow._context.Set<CommandAlias>().Remove(tr);
+                        uow.Context.Set<CommandAlias>().Remove(tr);
                     await uow.SaveChangesAsync();
                 }
 
@@ -107,7 +100,7 @@ public partial class Utility
                     };
                     var toRemove = config.CommandAliases.Where(x => x.Trigger == trigger);
                     if (toRemove.Any())
-                        uow._context.RemoveRange(toRemove.ToArray());
+                        uow.Context.RemoveRange(toRemove.ToArray());
                     config.CommandAliases.Add(toAdd);
                     uow.SaveChanges();
                 }
@@ -124,7 +117,6 @@ public partial class Utility
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task AliasList(int page = 1)
         {
-            var channel = (ITextChannel) ctx.Channel;
             page -= 1;
 
             if (page < 0)
@@ -146,7 +138,7 @@ public partial class Utility
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

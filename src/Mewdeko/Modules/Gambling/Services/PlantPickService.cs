@@ -30,12 +30,12 @@ public class PlantPickService : INService
     private readonly DbService _db;
     private readonly FontProvider _fonts;
 
-    public readonly ConcurrentHashSet<ulong> _generationChannels = new();
+    public readonly ConcurrentHashSet<ulong> GenerationChannels = new();
     private readonly GamblingConfigService _gss;
     private readonly IImageCache _images;
     private readonly MewdekoRandom _rng;
     private readonly IBotStrings _strings;
-    private readonly SemaphoreSlim pickLock = new(1, 1);
+    private readonly SemaphoreSlim _pickLock = new(1, 1);
 
     public PlantPickService(DbService db, CommandHandler cmd, IBotStrings strings,
         IDataCache cache, FontProvider fonts, ICurrencyService cs,
@@ -54,13 +54,13 @@ public class PlantPickService : INService
         cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow._context.Set<GuildConfig>()
+        var configs = uow.Context.Set<GuildConfig>()
             .AsQueryable()
             .Include(x => x.GenerateCurrencyChannelIds)
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();
 
-        _generationChannels = new ConcurrentHashSet<ulong>(configs
+        GenerationChannels = new ConcurrentHashSet<ulong>(configs
             .SelectMany(c => c.GenerateCurrencyChannelIds.Select(obj => obj.ChannelId)));
     }
 
@@ -79,14 +79,14 @@ public class PlantPickService : INService
         if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
         {
             guildConfig.GenerateCurrencyChannelIds.Add(toAdd);
-            _generationChannels.Add(cid);
+            GenerationChannels.Add(cid);
             enabled = true;
         }
         else
         {
             var toDelete = guildConfig.GenerateCurrencyChannelIds.FirstOrDefault(x => x.Equals(toAdd));
-            if (toDelete != null) uow._context.Remove(toDelete);
-            _generationChannels.TryRemove(cid);
+            if (toDelete != null) uow.Context.Remove(toDelete);
+            GenerationChannels.TryRemove(cid);
             enabled = false;
         }
 
@@ -116,7 +116,7 @@ public class PlantPickService : INService
         if (string.IsNullOrWhiteSpace(pass))
         {
             // determine the extension
-            using (var img = Image.Load(curImg, out var format))
+            using (Image.Load(curImg, out var format))
             {
                 extension = format.FileExtensions.FirstOrDefault() ?? "png";
             }
@@ -176,7 +176,7 @@ public class PlantPickService : INService
         if (imsg.Channel is not ITextChannel channel)
             return Task.CompletedTask;
 
-        if (!_generationChannels.Contains(channel.Id))
+        if (!GenerationChannels.Contains(channel.Id))
             return Task.CompletedTask;
 
         var _ = Task.Run(async () =>
@@ -191,7 +191,7 @@ public class PlantPickService : INService
                     lastGeneration) //recently generated in this channel, don't generate again
                     return;
 
-                var num = rng.Next(1, 101) + config.Generation.Chance * 100;
+                var num = rng.Next(1, 101) + (config.Generation.Chance * 100);
                 if (num > 100 && LastGenerations.TryUpdate(channel.Id, DateTime.UtcNow, lastGeneration))
                 {
                     var dropAmount = config.Generation.MinAmount;
@@ -250,7 +250,7 @@ public class PlantPickService : INService
 
     public async Task<long> PickAsync(ulong gid, ITextChannel ch, ulong uid, string pass)
     {
-        await pickLock.WaitAsync();
+        await _pickLock.WaitAsync();
         try
         {
             long amount;
@@ -283,7 +283,7 @@ public class PlantPickService : INService
         }
         finally
         {
-            pickLock.Release();
+            _pickLock.Release();
         }
     }
 

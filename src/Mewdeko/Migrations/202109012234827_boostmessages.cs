@@ -10,7 +10,7 @@ namespace Mewdeko.Migrations
 {
     [DbContext(typeof(MewdekoContext))]
     [Migration("20210609234827_boostmessages")]
-    partial class boostmessages
+    partial class Boostmessages
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

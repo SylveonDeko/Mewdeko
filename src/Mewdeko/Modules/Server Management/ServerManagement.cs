@@ -105,7 +105,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     public async Task SetServerName([Remainder] string name)
     {
         var guild = ctx.Guild;
-        await guild.ModifyAsync(x => { x.Name = name; });
+        await guild.ModifyAsync(x => x.Name = name);
         await ctx.Channel.SendConfirmAsync("Succesfuly set server name to " + name);
     }
 
@@ -182,7 +182,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         {
             var emote1 = await ctx.Guild.GetEmoteAsync(tags.Id);
             var ogname = emote1.Name;
-            await ctx.Guild.ModifyEmoteAsync(emote1, x => { x.Name = name; });
+            await ctx.Guild.ModifyEmoteAsync(emote1, x => x.Name = name);
             var emote2 = await ctx.Guild.GetEmoteAsync(tags.Id);
             await ctx.Channel.SendConfirmAsync(
                 $"{emote1} has been renamed from {Format.Code(ogname)} to {Format.Code(emote2.Name)}");
@@ -233,7 +233,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         };
         if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
         if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
-        await msg.ModifyAsync(x => { x.Embed = b.Build(); });
+        await msg.ModifyAsync(x => x.Embed = b.Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -272,11 +272,13 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             }
         }
 
-        var b = new EmbedBuilder();
-        b.Color = Mewdeko.Services.Mewdeko.OkColor;
+        var b = new EmbedBuilder
+        {
+            Color = Mewdeko.Services.Mewdeko.OkColor
+        };
         if (emotes.Any())
             b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");
         if (errored.Any()) b.AddField($"{errored.Count} Errored Emotes", string.Join("\n\n", errored));
-        await msg.ModifyAsync(x => { x.Embed = b.Build(); });
+        await msg.ModifyAsync(x => x.Embed = b.Build());
     }
 }

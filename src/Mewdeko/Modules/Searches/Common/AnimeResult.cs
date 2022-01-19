@@ -25,5 +25,5 @@ public class AnimeResult
     public string Link => "http://anilist.co/anime/" + Id;
 
     public string Synopsis =>
-        Description?.Substring(0, Description.Length > 500 ? 500 : Description.Length) + "...";
+        Description?[..(Description.Length > 500 ? 500 : Description.Length)] + "...";
 }

@@ -7,10 +7,10 @@ namespace Mewdeko.Modules.Games.Common.Trivia;
 
 public class TriviaQuestion
 {
-    public const int maxStringLength = 22;
+    public const int MAX_STRING_LENGTH = 22;
 
     //represents the min size to judge levDistance with
-    private static readonly HashSet<Tuple<int, int>> strictness = new()
+    private static readonly HashSet<Tuple<int, int>> _strictness = new()
     {
         new Tuple<int, int>(9, 0),
         new Tuple<int, int>(14, 1),
@@ -18,7 +18,7 @@ public class TriviaQuestion
         new Tuple<int, int>(22, 3)
     };
 
-    private string _cleanAnswer;
+    private string cleanAnswer;
 
     public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
     {
@@ -34,7 +34,7 @@ public class TriviaQuestion
     public string ImageUrl { get; set; }
     public string AnswerImageUrl { get; set; }
     public string Answer { get; set; }
-    public string CleanAnswer => _cleanAnswer ?? (_cleanAnswer = Clean(Answer));
+    public string CleanAnswer => cleanAnswer ??= Clean(Answer);
 
     public string GetHint() => Scramble(Answer);
 
@@ -52,7 +52,7 @@ public class TriviaQuestion
 
     private static bool JudgeGuess(int guessLength, int answerLength, int levDistance)
     {
-        foreach (var level in strictness)
+        foreach (var level in _strictness)
             if (guessLength <= level.Item1 || answerLength <= level.Item1)
             {
                 if (levDistance <= level.Item2)
@@ -74,7 +74,7 @@ public class TriviaQuestion
         str = Regex.Replace(str, "^\\s+", "");
         str = Regex.Replace(str, "\\s+$", "");
         //Trim the really long answers
-        str = str.Length <= maxStringLength ? str : str.Substring(0, maxStringLength);
+        str = str.Length <= MAX_STRING_LENGTH ? str : str[..MAX_STRING_LENGTH];
         return str;
     }
 

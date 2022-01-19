@@ -21,7 +21,7 @@ public partial class AutoDisconnectAdd : Migration
                 AutoDisconnect = table.Column<int>(defaultValue: 0, nullable: false),
                 AutoPlay = table.Column<bool>(defaultValue: 0, nullable: true)
             },
-            constraints: table => { table.PrimaryKey("PK_MusicPlayerSettings", x => x.Id); });
+            constraints: table => table.PrimaryKey("PK_MusicPlayerSettings", x => x.Id));
 
         migrationBuilder.CreateIndex(
             "IX_MusicPlayerSettings_GuildId",

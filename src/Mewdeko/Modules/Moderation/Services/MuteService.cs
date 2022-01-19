@@ -26,7 +26,7 @@ public class MuteService : INService
         AddRole
     }
 
-    private static readonly OverwritePermissions denyOverwrite =
+    private static readonly OverwritePermissions _denyOverwrite =
         new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
             attachFiles: PermValue.Deny, sendMessagesInThreads: PermValue.Deny, createPublicThreads: PermValue.Deny);
 
@@ -44,7 +44,7 @@ public class MuteService : INService
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow._context.Set<GuildConfig>().AsQueryable()
+            var configs = uow.Context.Set<GuildConfig>().AsQueryable()
                 .Include(x => x.MutedUsers)
                 .Include(x => x.UnbanTimer)
                 .Include(x => x.UnmuteTimers)
@@ -320,7 +320,7 @@ public class MuteService : INService
                 };
                 var toRemove = config.MutedUsers.FirstOrDefault(x => x.Equals(match));
 
-                if (toRemove != null) uow._context.Remove(toRemove);
+                if (toRemove != null) uow.Context.Remove(toRemove);
                 if (MutedUsers.TryGetValue(guildId, out var muted))
                     muted.TryRemove(usrId);
 
@@ -406,7 +406,7 @@ public class MuteService : INService
                 if (!toOverwrite.PermissionOverwrites.Any(x => x.TargetId == muteRole.Id
                                                                && x.TargetType == PermissionTarget.Role))
                 {
-                    await toOverwrite.AddPermissionOverwriteAsync(muteRole, denyOverwrite)
+                    await toOverwrite.AddPermissionOverwriteAsync(muteRole, _denyOverwrite)
                         .ConfigureAwait(false);
 
                     await Task.Delay(200).ConfigureAwait(false);
@@ -558,7 +558,7 @@ public class MuteService : INService
             toDelete = config.UnbanTimer.FirstOrDefault(x => x.UserId == userId);
         }
 
-        if (toDelete != null) uow._context.Remove(toDelete);
+        if (toDelete != null) uow.Context.Remove(toDelete);
         uow.SaveChanges();
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Mewdeko.Coordinator.Shared
+﻿namespace Mewdeko.Coordinator.Shared;
+
+public class JsonStatusObject
 {
-    public class JsonStatusObject
-    {
-        public int? Pid { get; init; }
-        public int GuildCount { get; init; }
-        public ConnState ConnectionState { get; init; }
-    }
+    public int? Pid { get; init; }
+    public int GuildCount { get; init; }
+    public ConnState ConnectionState { get; init; }
 }

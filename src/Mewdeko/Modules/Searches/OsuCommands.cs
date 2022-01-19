@@ -194,16 +194,16 @@ public partial class Searches
             double totalHits;
             if (mode == 0)
             {
-                hitPoints = play.Count50 * 50 +
-                            play.Count100 * 100 +
-                            play.Count300 * 300;
+                hitPoints = (play.Count50 * 50) +
+                            (play.Count100 * 100) +
+                            (play.Count300 * 300);
                 totalHits = play.Count50 + play.Count100 +
                             play.Count300 + play.Countmiss;
                 totalHits *= 300;
             }
             else if (mode == 1)
             {
-                hitPoints = play.Countmiss * 0 + play.Count100 * 0.5 + play.Count300;
+                hitPoints = (play.Countmiss * 0) + (play.Count100 * 0.5) + play.Count300;
                 totalHits = (play.Countmiss + play.Count100 + play.Count300) * 300;
                 hitPoints *= 300;
             }
@@ -215,10 +215,10 @@ public partial class Searches
             }
             else
             {
-                hitPoints = play.Count50 * 50 +
-                            play.Count100 * 100 +
-                            play.Countkatu * 200 +
-                            (play.Count300 + play.Countgeki) * 300;
+                hitPoints = (play.Count50 * 50) +
+                            (play.Count100 * 100) +
+                            (play.Countkatu * 200) +
+                            ((play.Count300 + play.Countgeki) * 300);
 
                 totalHits = (play.Countmiss + play.Count50 + play.Count100 +
                              play.Countkatu + play.Count300 + play.Countgeki) * 300;
@@ -230,27 +230,21 @@ public partial class Searches
 
         private static int ResolveGameMode(string mode)
         {
-            switch (mode.ToUpperInvariant())
+            return mode.ToUpperInvariant() switch
             {
-                case "STD":
-                case "STANDARD":
-                    return 0;
-                case "TAIKO":
-                    return 1;
-                case "CTB":
-                case "CATCHTHEBEAT":
-                    return 2;
-                case "MANIA":
-                case "OSU!MANIA":
-                    return 3;
-                default:
-                    return 0;
-            }
+                "STD" => 0,
+                "STANDARD" => 0,
+                "TAIKO" => 1,
+                "CTB" => 2,
+                "CATCHTHEBEAT" => 2,
+                "MANIA" => 3,
+                "OSU!MANIA" => 3,
+                _ => 0
+            };
         }
 
-        private static string ResolveGameMode(int mode)
-        {
-            return mode switch
+        private static string ResolveGameMode(int mode) =>
+            mode switch
             {
                 0 => "Standard",
                 1 => "Taiko",
@@ -258,7 +252,6 @@ public partial class Searches
                 3 => "Mania",
                 _ => "Standard"
             };
-        }
 
         //https://github.com/ppy/osu-api/wiki#mods
         private static string ResolveMods(int mods)

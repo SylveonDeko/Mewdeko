@@ -45,12 +45,12 @@ public partial class Games
             {
             }
 
-            nunchi.OnGameEnded += Nunchi_OnGameEnded;
+            nunchi.OnGameEnded += NunchiOnGameEnded;
             //nunchi.OnGameStarted += Nunchi_OnGameStarted;
             nunchi.OnRoundEnded += Nunchi_OnRoundEnded;
             nunchi.OnUserGuessed += Nunchi_OnUserGuessed;
             nunchi.OnRoundStarted += Nunchi_OnRoundStarted;
-            _client.MessageReceived += _client_MessageReceived;
+            _client.MessageReceived += ClientMessageReceived;
 
             var success = await nunchi.Initialize().ConfigureAwait(false);
             if (!success)
@@ -60,7 +60,7 @@ public partial class Games
                 await ConfirmLocalizedAsync("nunchi_failed_to_start").ConfigureAwait(false);
             }
 
-            Task _client_MessageReceived(SocketMessage arg)
+            Task ClientMessageReceived(SocketMessage arg)
             {
                 var _ = Task.Run(async () =>
                 {
@@ -80,11 +80,11 @@ public partial class Games
                 return Task.CompletedTask;
             }
 
-            Task Nunchi_OnGameEnded(NunchiGame arg1, string arg2)
+            Task NunchiOnGameEnded(NunchiGame arg1, string arg2)
             {
                 if (Service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
                 {
-                    _client.MessageReceived -= _client_MessageReceived;
+                    _client.MessageReceived -= ClientMessageReceived;
                     game.Dispose();
                 }
 

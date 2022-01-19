@@ -13,7 +13,7 @@ public partial class Administration
     [Group]
     public class LocalizationCommands : MewdekoSubmodule
     {
-        private static readonly IReadOnlyDictionary<string, string> supportedLocales =
+        private static readonly IReadOnlyDictionary<string, string> _supportedLocales =
             new Dictionary<string, string>
             {
                 {"ar", "العربية"},
@@ -110,7 +110,7 @@ public partial class Administration
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                            .WithTitle(GetText("lang_list"))
                                                            .WithDescription(string.Join("\n",
-                                                               supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
+                                                               _supportedLocales.Select(x => $"{Format.Code(x.Key),-10} => {x.Value}")))).ConfigureAwait(false);
     }
 }
 /* list of language codes for reference. 
