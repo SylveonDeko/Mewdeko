@@ -201,8 +201,15 @@ public class GiveawayService : INService
                         }
                     }
 
-                    if (parsedreqs.Any())
-                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                    try
+                    {
+                        if (parsedreqs.Any())
+                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                    }
+                    catch
+                    {
+                        return;
+                    }
                 }
 
                 if (!users.Any())
@@ -242,8 +249,15 @@ public class GiveawayService : INService
                         }
                     }
 
-                    if (parsedreqs.Any())
-                        users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                    try
+                    {
+                        if (parsedreqs.Any())
+                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                    }
+                    catch
+                    {
+                        return;
+                    }
                 }
 
                 if (!users.Any())
