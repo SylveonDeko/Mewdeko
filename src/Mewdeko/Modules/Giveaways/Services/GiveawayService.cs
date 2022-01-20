@@ -170,6 +170,7 @@ public class GiveawayService : INService
         }
         catch
         {
+            return;
         }
         var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
