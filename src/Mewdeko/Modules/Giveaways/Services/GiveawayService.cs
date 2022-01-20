@@ -161,9 +161,17 @@ public class GiveawayService : INService
             return;
         if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is null)
             return;
-        if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
-            IUserMessage ch)
-            return;
+        IUserMessage ch = null;
+        try
+        {
+            if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
+                IUserMessage ch1)
+                return;
+            ch = ch1;
+        }
+        catch
+        {
+        }
         var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
         if (reacts.Count() - 1 <= r.Winners)
