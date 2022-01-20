@@ -19,7 +19,7 @@ public class GiveawayService : INService
         _client = client;
         _db = db;
         _creds = creds;
-        //_ = StartGiveawayLoop();
+        _ = StartGiveawayLoop();
     }
 
     private async Task StartGiveawayLoop()
