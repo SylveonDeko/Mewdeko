@@ -2,7 +2,7 @@
 
 namespace Mewdeko.Migrations;
 
-public partial class giveawayemotes : Migration
+public partial class Giveawayemotes : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder) =>
         migrationBuilder.AddColumn<string>(

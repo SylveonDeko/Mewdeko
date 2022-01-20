@@ -9,13 +9,13 @@ public class GlobalBansRepository : Repository<GlobalBans>, IGlobalBansRepositor
     {
     }
 
-    public GlobalBans[] AllGlobalBans() => _set.AsQueryable().ToArray();
+    public GlobalBans[] AllGlobalBans() => Set.AsQueryable().ToArray();
 
-    public GlobalBans[] GlobalBansByType(string type) => _set.AsQueryable().Where(x => x.Type == type).ToArray();
+    public GlobalBans[] GlobalBansByType(string type) => Set.AsQueryable().Where(x => x.Type == type).ToArray();
 
-    public GlobalBans[] GetGlobalBansAddedBy(ulong uid) => _set.AsQueryable().Where(x => x.AddedBy == uid).ToArray();
+    public GlobalBans[] GetGlobalBansAddedBy(ulong uid) => Set.AsQueryable().Where(x => x.AddedBy == uid).ToArray();
 
-    public GlobalBans[] GetGlobalBanById(int id) => _set.AsQueryable().Where(x => x.Id == id).ToArray();
+    public GlobalBans[] GetGlobalBanById(int id) => Set.AsQueryable().Where(x => x.Id == id).ToArray();
 
-    public GlobalBans[] GetGlobalBanByUserId(ulong uid) => _set.AsQueryable().Where(x => x.UserId == uid).ToArray();
+    public GlobalBans[] GetGlobalBanByUserId(ulong uid) => Set.AsQueryable().Where(x => x.UserId == uid).ToArray();
 }

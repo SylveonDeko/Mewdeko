@@ -16,16 +16,16 @@ public partial class Administration
     [Group]
     public class TimeZoneCommands : MewdekoSubmodule<GuildTimezoneService>
     {
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
-        public TimeZoneCommands(InteractiveService serv) => Interactivity = serv;
+        public TimeZoneCommands(InteractiveService serv) => _interactivity = serv;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Timezones(int page = 1)
         {
             page--;
 
-            if (page < 0 || page > 20)
+            if (page is < 0 or > 20)
                 return;
 
             var timezones = TimeZoneInfo.GetSystemTimeZones()
@@ -56,17 +56,14 @@ public partial class Administration
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder()
+            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                     .WithColor(Mewdeko.Services.Mewdeko.OkColor)
                     .WithTitle(GetText("timezones_available"))
                     .WithDescription(string.Join("\n", timezoneStrings
                         .Skip(page * timezonesPerPage)
                         .Take(timezonesPerPage))));
-            }
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]

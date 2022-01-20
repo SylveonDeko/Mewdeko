@@ -9,29 +9,29 @@ namespace Mewdeko.Modules.Server_Management.Services;
 
 public class ServerManagementService : INService
 {
-    private static readonly OverwritePermissions denyOverwrite =
+    private static readonly OverwritePermissions _denyOverwrite =
         new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
             attachFiles: PermValue.Deny, viewChannel: PermValue.Deny);
 
     private readonly Mewdeko.Services.Mewdeko _bot;
     private readonly DbService _db;
-    public DiscordSocketClient _client;
+    public DiscordSocketClient Client;
 
-    public CommandContext ctx;
+    public CommandContext Ctx;
 
     public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
     {
-        _client = client;
+        Client = client;
         _db = db;
         _bot = bot;
-        _ticketchannelids = bot.AllGuildConfigs
+        Ticketchannelids = bot.AllGuildConfigs
             .Where(x => x.TicketCategory != 0)
             .ToDictionary(x => x.GuildId, x => x.TicketCategory)
             .ToConcurrent();
 
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow._context.Set<GuildConfig>().AsQueryable()
+        var configs = uow.Context.Set<GuildConfig>().AsQueryable()
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();
 
@@ -42,11 +42,11 @@ public class ServerManagementService : INService
     }
 
     public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
-    private ConcurrentDictionary<ulong, ulong> _ticketchannelids { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Ticketchannelids { get; } = new();
 
     public ulong GetTicketCategory(ulong? id)
     {
-        if (id == null || !_ticketchannelids.TryGetValue(id.Value, out var ticketcat))
+        if (id == null || !Ticketchannelids.TryGetValue(id.Value, out var ticketcat))
             return 0;
 
         return ticketcat;
@@ -61,7 +61,7 @@ public class ServerManagementService : INService
             await uow.SaveChangesAsync();
         }
 
-        _ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
+        Ticketchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
     }
 
     public async Task<IRole> GetMuteRole(IGuild guild)

@@ -10,7 +10,7 @@ namespace Mewdeko.Migrations
 {
     [DbContext(typeof(MewdekoContext))]
     [Migration("Giveaway Emotes")]
-    partial class giveawayemotes
+    partial class Giveawayemotes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

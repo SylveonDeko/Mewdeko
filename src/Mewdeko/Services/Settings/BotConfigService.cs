@@ -10,11 +10,11 @@ namespace Mewdeko.Services.Settings;
 /// </summary>
 public sealed class BotConfigService : ConfigServiceBase<BotConfig>
 {
-    private new const string FilePath = "data/bot.yml";
-    private static readonly TypedKey<BotConfig> changeKey = new("config.bot.updated");
+    private const string FILE_PATH = "data/bot.yml";
+    private static readonly TypedKey<BotConfig> _changeKey = new("config.bot.updated");
 
     public BotConfigService(IConfigSeria serializer, IPubSub pubSub)
-        : base(FilePath, serializer, pubSub, changeKey)
+        : base(FILE_PATH, serializer, pubSub, _changeKey)
     {
         AddParsedProp("color.ok", bs => bs.Color.Ok, Rgba32.TryParseHex, ConfigPrinters.Color);
         AddParsedProp("color.error", bs => bs.Color.Error, Rgba32.TryParseHex, ConfigPrinters.Color);
@@ -32,8 +32,8 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
 
     private void UpdateColors()
     {
-        var ok = _data.Color.Ok;
-        var error = _data.Color.Error;
+        var ok = data.Color.Ok;
+        var error = data.Color.Error;
         Mewdeko.OkColor = new Color(ok.R, ok.G, ok.B);
         Mewdeko.ErrorColor = new Color(error.R, error.G, error.B);
     }

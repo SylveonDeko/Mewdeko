@@ -47,12 +47,14 @@ public class AdministrationService : INService
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
     public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
 
-    public async Task SendHelp(SocketGuild guild)
+    public static async Task SendHelp(SocketGuild guild)
     {
         var e = guild.DefaultChannel;
-        var eb = new EmbedBuilder();
-        eb.Description =
-            "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command.";
+        var eb = new EmbedBuilder
+        {
+            Description =
+            "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command."
+        };
         eb.AddField("How to look for commands",
             "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
         eb.AddField("Have any questions, or need my invite link?",
@@ -173,7 +175,7 @@ public class AdministrationService : INService
                 if (old is not null)
                 {
                     conf.DelMsgOnCmdChannels.Remove(old);
-                    uow._context.Remove(old);
+                    uow.Context.Remove(old);
                 }
             }
             else
@@ -204,7 +206,7 @@ public class AdministrationService : INService
         }
     }
 
-    public async Task DeafenUsers(bool value, params IGuildUser[] users)
+    public static async Task DeafenUsers(bool value, params IGuildUser[] users)
     {
         if (!users.Any())
             return;
@@ -219,7 +221,7 @@ public class AdministrationService : INService
             }
     }
 
-    public async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string text)
+    public static async Task EditMessage(ICommandContext context, ITextChannel chanl, ulong messageId, string text)
     {
         var msg = await chanl.GetMessageAsync(messageId);
 
@@ -230,7 +232,7 @@ public class AdministrationService : INService
             .WithDefault(context)
             .Build();
 
-        if (CREmbed.TryParse(text, out var crembed))
+        if (CrEmbed.TryParse(text, out var crembed))
         {
             rep.Replace(crembed);
             await umsg.ModifyAsync(x =>

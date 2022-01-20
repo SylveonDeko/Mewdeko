@@ -81,11 +81,11 @@ public class WaifuService : INService
         if (waifu == null)
             return settings.Waifu.MinPrice;
 
-        var divorces = uow._context.WaifuUpdates.Count(x => x.Old != null &&
+        var divorces = uow.Context.WaifuUpdates.Count(x => x.Old != null &&
                                                             x.Old.UserId == user.Id &&
                                                             x.UpdateType == WaifuUpdateType.Claimed &&
                                                             x.New == null);
-        var affs = uow._context.WaifuUpdates
+        var affs = uow.Context.WaifuUpdates
             .AsQueryable()
             .Where(w => w.User.UserId == user.Id && w.UpdateType == WaifuUpdateType.AffinityChanged &&
                         w.New != null)
@@ -94,7 +94,7 @@ public class WaifuService : INService
             .Count();
 
         return (int) Math.Ceiling(waifu.Price * 1.25f) +
-               (divorces + affs + 2) * settings.Waifu.Multipliers.WaifuReset;
+               ((divorces + affs + 2) * settings.Waifu.Multipliers.WaifuReset);
     }
 
     public async Task<bool> TryReset(IUser user)
@@ -104,13 +104,13 @@ public class WaifuService : INService
         if (!await _cs.RemoveAsync(user.Id, "Waifu Reset", price, true))
             return false;
 
-        var affs = uow._context.WaifuUpdates
+        var affs = uow.Context.WaifuUpdates
             .AsQueryable()
             .Where(w => w.User.UserId == user.Id
                         && w.UpdateType == WaifuUpdateType.AffinityChanged
                         && w.New != null);
 
-        var divorces = uow._context.WaifuUpdates
+        var divorces = uow.Context.WaifuUpdates
             .AsQueryable()
             .Where(x => x.Old != null &&
                         x.Old.UserId == user.Id &&
@@ -118,9 +118,9 @@ public class WaifuService : INService
                         x.New == null);
 
         //reset changes of heart to 0
-        uow._context.WaifuUpdates.RemoveRange(affs);
+        uow.Context.WaifuUpdates.RemoveRange(affs);
         //reset divorces to 0
-        uow._context.WaifuUpdates.RemoveRange(divorces);
+        uow.Context.WaifuUpdates.RemoveRange(divorces);
         var waifu = uow.Waifus.ByWaifuUserId(user.Id);
         //reset price, remove items
         //remove owner, remove affinity
@@ -163,7 +163,7 @@ public class WaifuService : INService
                         Affinity = null,
                         Price = amount
                     });
-                    uow._context.WaifuUpdates.Add(new WaifuUpdate
+                    uow.Context.WaifuUpdates.Add(new WaifuUpdate
                     {
                         User = waifu,
                         Old = null,
@@ -183,10 +183,10 @@ public class WaifuService : INService
                 {
                     var oldClaimer = w.Claimer;
                     w.Claimer = uow.DiscordUsers.GetOrCreate(user);
-                    w.Price = amount + amount / 4;
+                    w.Price = amount + (amount / 4);
                     result = WaifuClaimResult.Success;
 
-                    uow._context.WaifuUpdates.Add(new WaifuUpdate
+                    uow.Context.WaifuUpdates.Add(new WaifuUpdate
                     {
                         User = w.Waifu,
                         Old = oldClaimer,
@@ -208,7 +208,7 @@ public class WaifuService : INService
                     w.Price = amount;
                     result = WaifuClaimResult.Success;
 
-                    uow._context.WaifuUpdates.Add(new WaifuUpdate
+                    uow.Context.WaifuUpdates.Add(new WaifuUpdate
                     {
                         User = w.Waifu,
                         Old = oldClaimer,
@@ -256,7 +256,7 @@ public class WaifuService : INService
                 });
                 success = true;
 
-                uow._context.WaifuUpdates.Add(new WaifuUpdate
+                uow.Context.WaifuUpdates.Add(new WaifuUpdate
                 {
                     User = thisUser,
                     Old = null,
@@ -271,7 +271,7 @@ public class WaifuService : INService
                 w.Affinity = newAff;
                 success = true;
 
-                uow._context.WaifuUpdates.Add(new WaifuUpdate
+                uow.Context.WaifuUpdates.Add(new WaifuUpdate
                 {
                     User = w.Waifu,
                     Old = oldAff,
@@ -330,7 +330,7 @@ public class WaifuService : INService
                 var oldClaimer = w.Claimer;
                 w.Claimer = null;
 
-                uow._context.WaifuUpdates.Add(new WaifuUpdate
+                uow.Context.WaifuUpdates.Add(new WaifuUpdate
                 {
                     User = w.Waifu,
                     Old = oldClaimer,
@@ -399,15 +399,7 @@ public class WaifuService : INService
         return wi;
     }
 
-    public WaifuInfoStats GetFullWaifuInfoAsync(IGuildUser target)
-    {
-        using var uow = _db.GetDbContext();
-        var du = uow.DiscordUsers.GetOrCreate(target);
-
-        return GetFullWaifuInfoAsync(target.Id);
-    }
-
-    public string GetClaimTitle(int count)
+    public static string GetClaimTitle(int count)
     {
         ClaimTitle title;
         if (count == 0)
@@ -431,14 +423,14 @@ public class WaifuService : INService
         else if (count < 75)
             title = ClaimTitle.Incubis;
         else if (count < 100)
-            title = ClaimTitle.Harem_King;
+            title = ClaimTitle.HaremKing;
         else
-            title = ClaimTitle.Harem_God;
+            title = ClaimTitle.HaremGod;
 
         return title.ToString().Replace('_', ' ');
     }
 
-    public string GetAffinityTitle(int count)
+    public static string GetAffinityTitle(int count)
     {
         AffinityTitle title;
         if (count < 1)

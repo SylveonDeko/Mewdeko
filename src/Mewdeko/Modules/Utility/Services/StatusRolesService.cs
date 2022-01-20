@@ -184,7 +184,7 @@ public class StatusRoleService : INService
         var gc = uow.GuildConfigs.ForId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));
-        uow._context.Set<ReactionRole>()
+        uow.Context.Set<ReactionRole>()
             .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
         gc.ReactionRoleMessages.RemoveAt(index);
         _models.AddOrUpdate(id,

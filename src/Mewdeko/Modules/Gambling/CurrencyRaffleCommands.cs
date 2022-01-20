@@ -30,11 +30,8 @@ public partial class Gambling
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                 return;
 
-            async Task OnEnded(IUser arg, long won)
-            {
-                await ctx.Channel.SendConfirmAsync(GetText("rafflecur_ended", CurrencyName,
+            async Task OnEnded(IUser arg, long won) => await ctx.Channel.SendConfirmAsync(GetText("rafflecur_ended", CurrencyName,
                     Format.Bold(arg.ToString()), won + CurrencySign)).ConfigureAwait(false);
-            }
 
             var res = await Service.JoinOrCreateGame(ctx.Channel.Id,
                     ctx.User, amount, mixed, OnEnded)

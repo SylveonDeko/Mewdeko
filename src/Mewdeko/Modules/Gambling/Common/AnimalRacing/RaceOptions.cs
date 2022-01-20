@@ -10,7 +10,7 @@ public class RaceOptions : IMewdekoCommandOptions
 
     public void NormalizeOptions()
     {
-        if (StartTime < 10 || StartTime > 120)
+        if (StartTime is < 10 or > 120)
             StartTime = 20;
     }
 }

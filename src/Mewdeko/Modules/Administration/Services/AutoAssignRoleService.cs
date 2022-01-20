@@ -190,7 +190,7 @@ public sealed class AutoAssignRoleService : INService
     {
         using var uow = _db.GetDbContext();
 
-        await uow._context
+        await uow.Context
             .GuildConfigs
             .AsNoTracking()
             .Where(x => x.GuildId == guildId)
@@ -234,7 +234,7 @@ public sealed class AutoAssignRoleService : INService
     {
         using var uow = _db.GetDbContext();
 
-        await uow._context
+        await uow.Context
             .GuildConfigs
             .AsNoTracking()
             .Where(x => x.GuildId == guildId)

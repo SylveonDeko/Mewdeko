@@ -24,7 +24,7 @@ public class ClubService : INService
         club = null;
         using var uow = _db.GetDbContext();
         var du = uow.DiscordUsers.GetOrCreate(user);
-        uow._context.SaveChanges();
+        uow.Context.SaveChanges();
         var xp = new LevelStats(du.TotalXp);
 
         if (xp.Level >= 5 && du.Club == null)
@@ -37,15 +37,15 @@ public class ClubService : INService
                 Owner = du
             };
             uow.Clubs.Add(du.Club);
-            uow._context.SaveChanges();
+            uow.Context.SaveChanges();
         }
         else
         {
             return false;
         }
 
-        uow._context.Set<ClubApplicants>()
-            .RemoveRange(uow._context.Set<ClubApplicants>()
+        uow.Context.Set<ClubApplicants>()
+            .RemoveRange(uow.Context.Set<ClubApplicants>()
                 .AsQueryable()
                 .Where(x => x.UserId == du.Id));
         club = du.Club;
@@ -127,11 +127,11 @@ public class ClubService : INService
     {
         club = null;
         var arr = clubName.Split('#');
-        if (arr.Length < 2 || !int.TryParse(arr[arr.Length - 1], out var discrim))
+        if (arr.Length < 2 || !int.TryParse(arr[^1], out var discrim))
             return false;
 
         //incase club has # in it
-        var name = string.Concat(arr.Except(new[] {arr[arr.Length - 1]}));
+        var name = string.Concat(arr.Except(new[] {arr[^1]}));
 
         if (string.IsNullOrWhiteSpace(name))
             return false;
@@ -147,7 +147,7 @@ public class ClubService : INService
     {
         using var uow = _db.GetDbContext();
         var du = uow.DiscordUsers.GetOrCreate(user);
-        uow._context.SaveChanges();
+        uow.Context.SaveChanges();
 
         if (du.Club != null
             || new LevelStats(du.TotalXp).Level < club.MinimumLevelReq
@@ -163,7 +163,7 @@ public class ClubService : INService
             UserId = du.Id
         };
 
-        uow._context.Set<ClubApplicants>().Add(app);
+        uow.Context.Set<ClubApplicants>().Add(app);
 
         uow.SaveChanges();
 
@@ -188,8 +188,8 @@ public class ClubService : INService
         club.Applicants.Remove(applicant);
 
         //remove that user's all other applications
-        uow._context.Set<ClubApplicants>()
-            .RemoveRange(uow._context.Set<ClubApplicants>()
+        uow.Context.Set<ClubApplicants>()
+            .RemoveRange(uow.Context.Set<ClubApplicants>()
                 .AsQueryable()
                 .Where(x => x.UserId == applicant.User.Id));
 
@@ -275,7 +275,7 @@ public class ClubService : INService
             return false;
 
         if (club.OwnerId == usr.Id ||
-            usr.IsClubAdmin && club.Owner.UserId != bannerId) // can't ban the owner kek, whew
+            (usr.IsClubAdmin && club.Owner.UserId != bannerId)) // can't ban the owner kek, whew
             return false;
 
         club.Bans.Add(new ClubBans
@@ -324,7 +324,7 @@ public class ClubService : INService
         if (usr == null)
             return false;
 
-        if (club.OwnerId == usr.Id || usr.IsClubAdmin && club.Owner.UserId != kickerId)
+        if (club.OwnerId == usr.Id || (usr.IsClubAdmin && club.Owner.UserId != kickerId))
             return false;
 
         club.Users.Remove(usr);

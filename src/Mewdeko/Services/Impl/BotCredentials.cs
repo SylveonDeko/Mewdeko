@@ -102,7 +102,7 @@ public class BotCredentials : IBotCredentials
 
             CarbonKey = data[nameof(CarbonKey)];
             var dbSection = data.GetSection("db");
-            Db = new DBConfig(string.IsNullOrWhiteSpace(dbSection["Type"])
+            Db = new DbConfig(string.IsNullOrWhiteSpace(dbSection["Type"])
                     ? "sqlite"
                     : dbSection["Type"],
                 string.IsNullOrWhiteSpace(dbSection["ConnectionString"])
@@ -131,7 +131,7 @@ public class BotCredentials : IBotCredentials
     public string OsuApiKey { get; }
     public string CleverbotApiKey { get; }
     public RestartConfig RestartCommand { get; }
-    public DBConfig Db { get; }
+    public DbConfig Db { get; }
     public int TotalShards { get; }
     public string CarbonKey { get; }
     public string PatreonAccessToken { get; }
@@ -179,7 +179,7 @@ public class BotCredentials : IBotCredentials
         public string OsuApiKey { get; } = "";
         public string CleverbotApiKey { get; } = "";
         public string CarbonKey { get; } = "";
-        public DBConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
+        public DbConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
         public int TotalShards { get; } = 1;
         public string PatreonAccessToken { get; } = "";
         public string PatreonCampaignId { get; } = "334038";

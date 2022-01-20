@@ -63,7 +63,7 @@ public class SearchesService : INService, IUnloadableService
     private readonly MewdekoRandom _rng;
     private readonly List<string> _yomamaJokes;
 
-    private readonly object yomamaLock = new();
+    private readonly object _yomamaLock = new();
     private int yomamaJokeIndex;
 
     public SearchesService(DiscordSocketClient client, IGoogleApiService google,
@@ -156,7 +156,7 @@ public class SearchesService : INService, IUnloadableService
 
     public List<WoWJoke> WowJokes { get; } = new();
     public List<MagicItem> MagicItems { get; } = new();
-    public static List<RedditCache> cache { get; set; } = new();
+    public static List<RedditCache> Cache { get; set; } = new();
 
     public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
     public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
@@ -175,26 +175,26 @@ public class SearchesService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    public bool CheckIfAlreadyPosted(IGuild guild, string url)
+    public static bool CheckIfAlreadyPosted(IGuild guild, string url)
     {
         var e = new RedditCache
         {
             Guild = guild,
             Url = url
         };
-        if (!cache.Any())
+        if (!Cache.Any())
         {
-            cache.Add(e);
+            Cache.Add(e);
             return false;
         }
 
-        if (!cache.Contains(e))
+        if (!Cache.Contains(e))
         {
-            cache.Add(e);
+            Cache.Add(e);
             return false;
         }
 
-        if (cache.Contains(e)) return true;
+        if (Cache.Contains(e)) return true;
         return true;
     }
 
@@ -208,7 +208,7 @@ public class SearchesService : INService, IUnloadableService
         return data.ToStream();
     }
 
-    private void DrawAvatar(Image bg, Image avatarImage) => bg.Mutate(x => x.Grayscale().DrawImage(avatarImage, new Point(83, 139), new GraphicsOptions()));
+    private static void DrawAvatar(Image bg, Image avatarImage) => bg.Mutate(x => x.Grayscale().DrawImage(avatarImage, new Point(83, 139), new GraphicsOptions()));
 
     public async Task<byte[]> GetRipPictureFactory((string text, Uri avatarUrl) arg)
     {
@@ -310,7 +310,7 @@ public class SearchesService : INService, IUnloadableService
 
         try
         {
-            using var _http = _httpFactory.CreateClient();
+            using var http = _httpFactory.CreateClient();
             var res = await _cache.GetOrAddCachedDataAsync($"geo_{query}", _ =>
             {
                 var url = "https://eu1.locationiq.com/v1/search.php?" +
@@ -320,7 +320,7 @@ public class SearchesService : INService, IUnloadableService
                           $"q={Uri.EscapeDataString(query)}&" +
                           "format=json";
 
-                var res = _http.GetStringAsync(url);
+                var res = http.GetStringAsync(url);
                 return res;
             }, "", TimeSpan.FromHours(1));
 
@@ -338,7 +338,7 @@ public class SearchesService : INService, IUnloadableService
                 $"key={_creds.TimezoneDbApiKey}&format=json&" +
                 "by=position&" +
                 $"lat={geoData.Lat}&lng={geoData.Lon}");
-            using var geoRes = await _http.SendAsync(req);
+            using var geoRes = await http.SendAsync(req);
             var resString = await geoRes.Content.ReadAsStringAsync();
             var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(resString);
 
@@ -362,7 +362,7 @@ public class SearchesService : INService, IUnloadableService
     {
         var subpath = tag.ToString().ToLowerInvariant();
 
-        int max = tag switch
+        var max = tag switch
         {
             ImageTag.Food => 773,
             ImageTag.Dogs => 750,
@@ -391,7 +391,7 @@ public class SearchesService : INService, IUnloadableService
     public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild,
         bool isExplicit = false)
     {
-        tag = tag ?? "";
+        tag ??= "";
         if (string.IsNullOrWhiteSpace(tag)
             && (tag.Contains("loli") || tag.Contains("shota")))
             return null;
@@ -443,7 +443,7 @@ public class SearchesService : INService, IUnloadableService
             gc.NsfwBlacklistedTags.Remove(tagObj);
             var toRemove = gc.NsfwBlacklistedTags.FirstOrDefault(x => x.Equals(tagObj));
             if (toRemove != null)
-                uow._context.Remove(toRemove);
+                uow.Context.Remove(toRemove);
             added = false;
         }
 
@@ -470,7 +470,7 @@ public class SearchesService : INService, IUnloadableService
     public Task<string> GetYomamaJoke()
     {
         string joke;
-        lock (yomamaLock)
+        lock (_yomamaLock)
         {
             if (yomamaJokeIndex >= _yomamaJokes.Count)
             {
@@ -533,7 +533,7 @@ public class SearchesService : INService, IUnloadableService
                                                     "newSearch=false&" +
                                                     "ProductType=All&" +
                                                     "IsProductNameExact=false&" +
-                                                    $"ProductName={Uri.EscapeUriString(card.Name)}")
+                                                    $"ProductName={Uri.EscapeDataString(card.Name)}")
                     .ConfigureAwait(false);
             }
             catch
@@ -555,16 +555,16 @@ public class SearchesService : INService, IUnloadableService
         using var http = _httpFactory.CreateClient();
         http.DefaultRequestHeaders.Clear();
         var response = await http
-            .GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeUriString(search)}")
+            .GetStringAsync($"https://api.magicthegathering.io/v1/cards?name={Uri.EscapeDataString(search)}")
             .ConfigureAwait(false);
 
         var responseObject = JsonConvert.DeserializeObject<MtgResponse>(response);
         if (responseObject == null)
-            return new MtgData[0];
+            return Array.Empty<MtgData>();
 
         var cards = responseObject.Cards.Take(5).ToArray();
         if (cards.Length == 0)
-            return new MtgData[0];
+            return Array.Empty<MtgData>();
 
         var tasks = new List<Task<MtgData>>(cards.Length);
         for (var i = 0; i < cards.Length; i++)
@@ -594,7 +594,7 @@ public class SearchesService : INService, IUnloadableService
         try
         {
             var response = await http.GetStringAsync("https://omgvamp-hearthstone-v1.p.rapidapi.com/" +
-                                                     $"cards/search/{Uri.EscapeUriString(name)}")
+                                                     $"cards/search/{Uri.EscapeDataString(name)}")
                 .ConfigureAwait(false);
             var objs = JsonConvert.DeserializeObject<HearthstoneCardData[]>(response);
             if (objs == null || objs.Length == 0)
@@ -647,8 +647,8 @@ public class SearchesService : INService, IUnloadableService
     {
         var redis = _cache.Redis;
         var db = redis.GetDatabase();
-        const string STEAM_GAME_IDS_KEY = "steam_names_to_appid";
-        var exists = await db.KeyExistsAsync(STEAM_GAME_IDS_KEY).ConfigureAwait(false);
+        const string steamGameIdsKey = "steam_names_to_appid";
+        await db.KeyExistsAsync(steamGameIdsKey).ConfigureAwait(false);
 
         // if we didn't get steam name to id map already, get it
         //if (!exists)
@@ -665,7 +665,7 @@ public class SearchesService : INService, IUnloadableService
         //    }
         //}
 
-        var gamesMap = await _cache.GetOrAddCachedDataAsync(STEAM_GAME_IDS_KEY, async _ =>
+        var gamesMap = await _cache.GetOrAddCachedDataAsync(steamGameIdsKey, async _ =>
         {
             using var http = _httpFactory.CreateClient();
             // https://api.steampowered.com/ISteamApps/GetAppList/v2/

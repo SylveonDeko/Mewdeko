@@ -29,15 +29,15 @@ public partial class Moderation : MewdekoModule
         }
 
         private readonly MuteService _mute;
-        private readonly InteractiveService Interactivity;
-        public DbService _db;
+        private readonly InteractiveService _interactivity;
+        public DbService Db;
 
         public UserPunishCommands(MuteService mute, DbService db,
             InteractiveService serv)
         {
-            Interactivity = serv;
+            _interactivity = serv;
             _mute = mute;
-            _db = db;
+            Db = db;
         }
 
         private async Task<bool> CheckRoleHierarchy(IGuildUser target)
@@ -50,7 +50,7 @@ public partial class Moderation : MewdekoModule
             // bot can't punish a user who is higher in the hierarchy. Discord will return 403
             // moderator can be owner, in which case role hierarchy doesn't matter
             // otherwise, moderator has to have a higher role
-            if (botMaxRole <= targetMaxRole || Context.User.Id != ownerId && targetMaxRole >= modMaxRole ||
+            if (botMaxRole <= targetMaxRole || (Context.User.Id != ownerId && targetMaxRole >= modMaxRole) ||
                 target.Id == ownerId)
             {
                 await ReplyErrorLocalizedAsync("hierarchy");
@@ -76,8 +76,8 @@ public partial class Moderation : MewdekoModule
             if (WarnlogChannel == 0)
             {
                 await Service.SetWarnlogChannelId(ctx.Guild, channel);
-                var WarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
-                await ctx.Channel.SendConfirmAsync("Your warnlog channel has been set to " + WarnChannel.Mention);
+                var warnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
+                await ctx.Channel.SendConfirmAsync("Your warnlog channel has been set to " + warnChannel.Mention);
                 return;
             }
 
@@ -142,7 +142,7 @@ public partial class Moderation : MewdekoModule
             await ctx.Channel.EmbedAsync(embed);
             if (WarnlogChannel != 0)
             {
-                var uow = _db.GetDbContext();
+                var uow = Db.GetDbContext();
                 var warnings = uow.Warnings
                     .ForId(ctx.Guild.Id, user.Id)
                     .Count(w => !w.Forgiven && w.UserId == user.Id);
@@ -167,7 +167,7 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.Administrator), MewdekoOptions(typeof(WarnExpireOptions)), Priority(2)]
         public async Task WarnExpire(int days, params string[] args)
         {
-            if (days < 0 || days > 366)
+            if (days is < 0 or > 366)
                 return;
 
             var opts = OptionsParser.ParseFrom<WarnExpireOptions>(args);
@@ -215,7 +215,7 @@ public partial class Moderation : MewdekoModule
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
@@ -269,7 +269,7 @@ public partial class Moderation : MewdekoModule
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

@@ -26,7 +26,7 @@ public static class StringExtensions
     public static string PadBoth(this string str, int length)
     {
         var spaces = length - str.Length;
-        var padLeft = spaces / 2 + str.Length;
+        var padLeft = (spaces / 2) + str.Length;
         return str.PadLeft(padLeft).PadRight(length);
     }
 
@@ -87,7 +87,7 @@ public static class StringExtensions
         for (var i = 0; i < tokens.Length; i++)
         {
             var token = tokens[i];
-            tokens[i] = token.Substring(0, 1).ToUpperInvariant() + token.Substring(1);
+            tokens[i] = token[..1].ToUpperInvariant() + token[1..];
         }
 
         return string.Join(" ", tokens)

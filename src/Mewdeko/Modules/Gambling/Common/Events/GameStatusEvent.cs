@@ -35,10 +35,10 @@ public class GameStatusEvent : ICurrencyEvent
     private readonly Timer _timeout;
     private readonly ConcurrentQueue<ulong> _toAward = new();
 
-    private readonly object potLock = new();
+    private readonly object _potLock = new();
 
-    private readonly object stopLock = new();
-    private IUserMessage _msg;
+    private readonly object _stopLock = new();
+    private IUserMessage msg;
 
     public GameStatusEvent(DiscordSocketClient client, ICurrencyService cs, SocketGuild g, ITextChannel ch,
         EventOptions opt, Func<CurrencyEvent.Type, EventOptions, long, EmbedBuilder> embedFunc)
@@ -68,7 +68,7 @@ public class GameStatusEvent : ICurrencyEvent
 
     public async Task StartEvent()
     {
-        _msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
+        msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
         await _client.SetGameAsync(_code).ConfigureAwait(false);
         _client.MessageDeleted += OnMessageDeleted;
         _client.MessageReceived += HandleMessage;
@@ -78,7 +78,7 @@ public class GameStatusEvent : ICurrencyEvent
     public async Task StopEvent()
     {
         await Task.Yield();
-        lock (stopLock)
+        lock (_stopLock)
         {
             if (Stopped)
                 return;
@@ -90,13 +90,13 @@ public class GameStatusEvent : ICurrencyEvent
             _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
             try
             {
-                var _ = _msg.DeleteAsync();
+                var _ = msg.DeleteAsync();
             }
             catch
             {
             }
 
-            var os = OnEnded(_guild.Id);
+            OnEnded(_guild.Id);
         }
     }
 
@@ -122,7 +122,7 @@ public class GameStatusEvent : ICurrencyEvent
                 true).ConfigureAwait(false);
 
             if (_isPotLimited)
-                await _msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
+                await msg.ModifyAsync(m => m.Embed = GetEmbed(PotSize).Build(),
                     new RequestOptions {RetryMode = RetryMode.AlwaysRetry}).ConfigureAwait(false);
 
             Log.Information("Awarded {0} users {1} currency.{2}",
@@ -145,7 +145,7 @@ public class GameStatusEvent : ICurrencyEvent
 
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, Cacheable<IMessageChannel, ulong> _)
     {
-        if (msg.Id == _msg.Id) await StopEvent().ConfigureAwait(false);
+        if (msg.Id == this.msg.Id) await StopEvent().ConfigureAwait(false);
     }
 
     private Task HandleMessage(SocketMessage msg)
@@ -183,7 +183,7 @@ public class GameStatusEvent : ICurrencyEvent
     private bool TryTakeFromPot()
     {
         if (_isPotLimited)
-            lock (potLock)
+            lock (_potLock)
             {
                 if (PotSize < _amount)
                     return false;

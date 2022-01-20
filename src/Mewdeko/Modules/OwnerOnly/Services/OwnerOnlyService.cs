@@ -35,9 +35,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly ConnectionMultiplexer _redis;
     private readonly Replacer _rep;
     private readonly IBotStrings _strings;
-    private readonly Timer _t;
 
-    private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> _autoCommands =
+    private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
         new();
 
     private ImmutableDictionary<ulong, IDMChannel> ownerChannels =
@@ -65,7 +64,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 .WithProviders(phProviders)
                 .Build();
 
-            _t = new Timer(RotatingStatuses, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+            _ = new Timer(RotatingStatuses, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
 
         var sub = _redis.GetSubscriber();
@@ -153,7 +152,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         using var uow = _db.GetDbContext();
 
-        _autoCommands = uow._context
+        autoCommands = uow.Context
             .AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
@@ -164,7 +163,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     .ToConcurrent())
             .ToConcurrent();
 
-        var startupCommands = uow._context.AutoCommands.AsNoTracking().Where(x => x.Interval == 0);
+        var startupCommands = uow.Context.AutoCommands.AsNoTracking().Where(x => x.Interval == 0);
         foreach (var cmd in startupCommands)
             try
             {
@@ -188,7 +187,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
             using (var uow = _db.GetDbContext())
             {
-                rotatingStatuses = uow._context.RotatingStatus
+                rotatingStatuses = uow.Context.RotatingStatus
                     .AsNoTracking()
                     .OrderBy(x => x.Id)
                     .ToList();
@@ -216,7 +215,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             throw new ArgumentOutOfRangeException(nameof(index));
 
         using var uow = _db.GetDbContext();
-        var toRemove = await uow._context.RotatingStatus
+        var toRemove = await uow.Context.RotatingStatus
             .AsQueryable()
             .AsNoTracking()
             .Skip(index)
@@ -225,7 +224,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (toRemove is null)
             return null;
 
-        uow._context.Remove(toRemove);
+        uow.Context.Remove(toRemove);
         await uow.SaveChangesAsync();
         return toRemove.Status;
     }
@@ -234,25 +233,25 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         using var uow = _db.GetDbContext();
         var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
-        uow._context.Add(toAdd);
+        uow.Context.Add(toAdd);
         await uow.SaveChangesAsync();
     }
 
     public bool ToggleRotatePlaying()
     {
         var enabled = false;
-        _bss.ModifyConfig(bs => { enabled = bs.RotateStatuses = !bs.RotateStatuses; });
+        _bss.ModifyConfig(bs => enabled = bs.RotateStatuses = !bs.RotateStatuses);
         return enabled;
     }
 
     public IReadOnlyList<RotatingPlayingStatus> GetRotatingStatuses()
     {
         using var uow = _db.GetDbContext();
-        return uow._context.RotatingStatus.AsNoTracking().ToList();
+        return uow.Context.RotatingStatus.AsNoTracking().ToList();
     }
 
     private Timer TimerFromAutoCommand(AutoCommand x) =>
-        new Timer(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
+        new(async obj => await ExecuteCommand((AutoCommand) obj).ConfigureAwait(false),
             x,
             x.Interval * 1000,
             x.Interval * 1000);
@@ -283,13 +282,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         using (var uow = _db.GetDbContext())
         {
-            uow._context.AutoCommands.Add(cmd);
+            uow.Context.AutoCommands.Add(cmd);
             uow.SaveChanges();
         }
 
         if (cmd.Interval >= 5)
         {
-            var autos = _autoCommands.GetOrAdd(cmd.GuildId, new ConcurrentDictionary<int, Timer>());
+            var autos = autoCommands.GetOrAdd(cmd.GuildId, new ConcurrentDictionary<int, Timer>());
             autos.AddOrUpdate(cmd.Id, _ => TimerFromAutoCommand(cmd), (_, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
@@ -301,7 +300,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IEnumerable<AutoCommand> GetStartupCommands()
     {
         using var uow = _db.GetDbContext();
-        return uow._context
+        return uow.Context
             .AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0)
@@ -312,7 +311,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IEnumerable<AutoCommand> GetAutoCommands()
     {
         using var uow = _db.GetDbContext();
-        return uow._context
+        return uow.Context
             .AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
@@ -361,7 +360,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool RemoveStartupCommand(int index, out AutoCommand cmd)
     {
         using var uow = _db.GetDbContext();
-        cmd = uow._context.AutoCommands
+        cmd = uow.Context.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0)
             .Skip(index)
@@ -369,7 +368,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         if (cmd != null)
         {
-            uow._context.Remove(cmd);
+            uow.Context.Remove(cmd);
             uow.SaveChanges();
             return true;
         }
@@ -380,7 +379,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool RemoveAutoCommand(int index, out AutoCommand cmd)
     {
         using var uow = _db.GetDbContext();
-        cmd = uow._context.AutoCommands
+        cmd = uow.Context.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
             .Skip(index)
@@ -388,8 +387,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         if (cmd != null)
         {
-            uow._context.Remove(cmd);
-            if (_autoCommands.TryGetValue(cmd.GuildId, out var autos))
+            uow.Context.Remove(cmd);
+            if (autoCommands.TryGetValue(cmd.GuildId, out var autos))
                 if (autos.TryRemove(cmd.Id, out var timer))
                     timer.Change(Timeout.Infinite, Timeout.Infinite);
             uow.SaveChanges();
@@ -425,12 +424,12 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public void ClearStartupCommands()
     {
         using var uow = _db.GetDbContext();
-        var toRemove = uow._context
+        var toRemove = uow.Context
             .AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0);
 
-        uow._context.AutoCommands.RemoveRange(toRemove);
+        uow.Context.AutoCommands.RemoveRange(toRemove);
         uow.SaveChanges();
     }
 
@@ -469,7 +468,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool ForwardMessages()
     {
         var isForwarding = false;
-        _bss.ModifyConfig(config => { isForwarding = config.ForwardMessages = !config.ForwardMessages; });
+        _bss.ModifyConfig(config => isForwarding = config.ForwardMessages = !config.ForwardMessages);
 
         return isForwarding;
     }
@@ -477,7 +476,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool ForwardToAll()
     {
         var isToAll = false;
-        _bss.ModifyConfig(config => { isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners; });
+        _bss.ModifyConfig(config => isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners);
         return isToAll;
     }
 

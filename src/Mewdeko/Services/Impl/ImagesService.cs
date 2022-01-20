@@ -16,23 +16,23 @@ public sealed class RedisImagesCache : IImageCache
 {
     public enum ImageKey
     {
-        Coins_Heads,
-        Coins_Tails,
+        CoinsHeads,
+        CoinsTails,
         Dice,
-        Slots_Bg,
-        Slots_Numbers,
-        Slots_Emojis,
-        Rategirl_Matrix,
-        Rategirl_Dot,
-        Xp_Bg,
-        Rip_Bg,
-        Rip_Overlay,
+        SlotsBg,
+        SlotsNumbers,
+        SlotsEmojis,
+        RategirlMatrix,
+        RategirlDot,
+        XpBg,
+        RipBg,
+        RipOverlay,
         Currency
     }
 
-    private const string _basePath = "data/";
-    private const string _oldBasePath = "data/images/";
-    private const string _cardsPath = "data/images/cards";
+    private const string BASE_PATH = "data/";
+    private const string OLD_BASE_PATH = "data/images/";
+    private const string CARDS_PATH = "data/images/cards";
     private readonly ConnectionMultiplexer _con;
     private readonly IBotCredentials _creds;
     private readonly HttpClient _http;
@@ -45,36 +45,36 @@ public sealed class RedisImagesCache : IImageCache
 
         Migrate();
         ImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(_basePath, "images.json")));
+            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
     }
 
-    private IDatabase _db => _con.GetDatabase();
+    private IDatabase Db => _con.GetDatabase();
 
     public ImageUrls ImageUrls { get; private set; }
 
-    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKey.Coins_Heads);
+    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKey.CoinsHeads);
 
-    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKey.Coins_Tails);
+    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKey.CoinsTails);
 
     public IReadOnlyList<byte[]> Dice => GetByteArrayData(ImageKey.Dice);
 
-    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKey.Slots_Emojis);
+    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKey.SlotsEmojis);
 
-    public IReadOnlyList<byte[]> SlotNumbers => GetByteArrayData(ImageKey.Slots_Numbers);
+    public IReadOnlyList<byte[]> SlotNumbers => GetByteArrayData(ImageKey.SlotsNumbers);
 
     public IReadOnlyList<byte[]> Currency => GetByteArrayData(ImageKey.Currency);
 
-    public byte[] SlotBackground => GetByteData(ImageKey.Slots_Bg);
+    public byte[] SlotBackground => GetByteData(ImageKey.SlotsBg);
 
-    public byte[] RategirlMatrix => GetByteData(ImageKey.Rategirl_Matrix);
+    public byte[] RategirlMatrix => GetByteData(ImageKey.RategirlMatrix);
 
-    public byte[] RategirlDot => GetByteData(ImageKey.Rategirl_Dot);
+    public byte[] RategirlDot => GetByteData(ImageKey.RategirlDot);
 
-    public byte[] XpBackground => GetByteData(ImageKey.Xp_Bg);
+    public byte[] XpBackground => GetByteData(ImageKey.XpBg);
 
-    public byte[] Rip => GetByteData(ImageKey.Rip_Bg);
+    public byte[] Rip => GetByteData(ImageKey.RipBg);
 
-    public byte[] RipOverlay => GetByteData(ImageKey.Rip_Overlay);
+    public byte[] RipOverlay => GetByteData(ImageKey.RipOverlay);
 
     public byte[] GetCard(string key) => _con.GetDatabase().StringGet(GetKey("card_" + key));
 
@@ -84,22 +84,19 @@ public sealed class RedisImagesCache : IImageCache
         {
             var sw = Stopwatch.StartNew();
             var obj = JObject.Parse(
-                await File.ReadAllTextAsync(Path.Combine(_basePath, "images.json")));
+                await File.ReadAllTextAsync(Path.Combine(BASE_PATH, "images.json")));
 
             ImageUrls = obj.ToObject<ImageUrls>();
             var t = new ImageLoader(_http, _con, GetKey)
                 .LoadAsync(obj);
 
-            var loadCards = Task.Run(async () =>
-            {
-                await _db.StringSetAsync(Directory.GetFiles(_cardsPath)
+            var loadCards = Task.Run(async () => await Db.StringSetAsync(Directory.GetFiles(CARDS_PATH)
                         .ToDictionary(
                             x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
-                            x => (RedisValue) File
+                            x => (RedisValue)File
                                 .ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
                         .ToArray())
-                    .ConfigureAwait(false);
-            });
+                    .ConfigureAwait(false));
 
             await Task.WhenAll(t, loadCards).ConfigureAwait(false);
 
@@ -129,17 +126,17 @@ public sealed class RedisImagesCache : IImageCache
         }
     }
 
-    private void Migrate1()
+    private static void Migrate1()
     {
-        if (!File.Exists(Path.Combine(_oldBasePath, "images.json")))
+        if (!File.Exists(Path.Combine(OLD_BASE_PATH, "images.json")))
             return;
         Log.Information("Migrating images v0 to images v1.");
         // load old images
         var oldUrls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(_oldBasePath, "images.json")));
+            File.ReadAllText(Path.Combine(OLD_BASE_PATH, "images.json")));
         // load new images
         var newUrls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(_basePath, "images.json")));
+            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
 
         //swap new links with old ones if set. Also update old links.
         newUrls.Coins = oldUrls.Coins;
@@ -150,16 +147,16 @@ public sealed class RedisImagesCache : IImageCache
         newUrls.Xp = oldUrls.Xp;
         newUrls.Version = 1;
 
-        File.WriteAllText(Path.Combine(_basePath, "images.json"),
+        File.WriteAllText(Path.Combine(BASE_PATH, "images.json"),
             JsonConvert.SerializeObject(newUrls, Formatting.Indented));
-        File.Delete(Path.Combine(_oldBasePath, "images.json"));
+        File.Delete(Path.Combine(OLD_BASE_PATH, "images.json"));
     }
 
     private void Migrate2()
     {
         // load new images
         var urls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(_basePath, "images.json")));
+            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
 
         if (urls.Version >= 2)
             return;
@@ -167,7 +164,7 @@ public sealed class RedisImagesCache : IImageCache
         urls.Version = 2;
 
         var prefix = $"{_creds.RedisKey()}_localimg_";
-        _db.KeyDelete(new[]
+        Db.KeyDelete(new[]
             {
                 prefix + "heads",
                 prefix + "tails",
@@ -183,14 +180,14 @@ public sealed class RedisImagesCache : IImageCache
             }
             .Select(x => (RedisKey) x).ToArray());
 
-        File.WriteAllText(Path.Combine(_basePath, "images.json"),
+        File.WriteAllText(Path.Combine(BASE_PATH, "images.json"),
             JsonConvert.SerializeObject(urls, Formatting.Indented));
     }
 
-    private void Migrate3()
+    private static void Migrate3()
     {
         var urls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(_basePath, "images.json")));
+            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
 
         if (urls.Version >= 3)
             return;
@@ -212,7 +209,7 @@ public sealed class RedisImagesCache : IImageCache
                     : x).Append(new Uri(baseStr + "3.png"))
                 .ToArray();
 
-        File.WriteAllText(Path.Combine(_basePath, "images.json"),
+        File.WriteAllText(Path.Combine(BASE_PATH, "images.json"),
             JsonConvert.SerializeObject(urls, Formatting.Indented));
     }
 
@@ -222,15 +219,13 @@ public sealed class RedisImagesCache : IImageCache
         {
             var results = await Task.WhenAll(Enum.GetNames(typeof(ImageKey))
                     .Select(x => x.ToLowerInvariant())
-                    .Select(x => _db.KeyExistsAsync(GetKey(x))))
+                    .Select(x => Db.KeyExistsAsync(GetKey(x))))
                 .ConfigureAwait(false);
 
             var cardsExist = await Task.WhenAll(GetAllCardNames()
                     .Select(x => "card_" + x)
-                    .Select(x => _db.KeyExistsAsync(GetKey(x))))
+                    .Select(x => Db.KeyExistsAsync(GetKey(x))))
                 .ConfigureAwait(false);
-
-            var num = results.Where(x => !x).Count();
 
             return results.All(x => x) && cardsExist.All(x => x);
         }
@@ -241,19 +236,19 @@ public sealed class RedisImagesCache : IImageCache
         }
     }
 
-    private IEnumerable<string> GetAllCardNames(bool showExtension = false) =>
-        Directory.GetFiles(_cardsPath) // gets all cards from the cards folder
+    private static IEnumerable<string> GetAllCardNames(bool showExtension = false) =>
+        Directory.GetFiles(CARDS_PATH) // gets all cards from the cards folder
                  .Select(x => showExtension
                      ? Path.GetFileName(x)
                      : Path.GetFileNameWithoutExtension(x)); // gets their names
 
     public RedisKey GetKey(string key) => $"{_creds.RedisKey()}_localimg_{key.ToLowerInvariant()}";
 
-    public byte[] GetByteData(string key) => _db.StringGet(GetKey(key));
+    public byte[] GetByteData(string key) => Db.StringGet(GetKey(key));
 
     public byte[] GetByteData(ImageKey key) => GetByteData(key.ToString());
 
-    private RedisImageArray GetByteArrayData(string key) => new RedisImageArray(GetKey(key), _con);
+    private RedisImageArray GetByteArrayData(string key) => new(GetKey(key), _con);
 
     public RedisImageArray GetByteArrayData(ImageKey key) => GetByteArrayData(key.ToString());
 }

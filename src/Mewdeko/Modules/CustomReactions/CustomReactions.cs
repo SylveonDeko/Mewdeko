@@ -22,18 +22,18 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
     private readonly IHttpClientFactory _clientFactory;
     private readonly IBotCredentials _creds;
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
     public CustomReactions(IBotCredentials creds, IHttpClientFactory clientFactory, InteractiveService serv)
     {
-        Interactivity = serv;
+        _interactivity = serv;
         _creds = creds;
         _clientFactory = clientFactory;
     }
 
     private bool AdminInGuildOrOwnerInDm() =>
-        ctx.Guild == null && _creds.IsOwner(ctx.User)
-        || ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator;
+        (ctx.Guild == null && _creds.IsOwner(ctx.User))
+        || (ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
@@ -98,7 +98,6 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task AddCustReact(string key, [Remainder] string message)
     {
-        var channel = ctx.Channel as ITextChannel;
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
             return;
 
@@ -127,8 +126,8 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         if (string.IsNullOrWhiteSpace(message) || id < 0)
             return;
 
-        if (channel == null && !_creds.IsOwner(ctx.User) ||
-            channel != null && !((IGuildUser) ctx.User).GuildPermissions.Administrator)
+        if ((channel == null && !_creds.IsOwner(ctx.User)) ||
+            (channel != null && !((IGuildUser) ctx.User).GuildPermissions.Administrator))
         {
             await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
             return;
@@ -170,11 +169,9 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
-        {
-            return Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                 .WithTitle(GetText("custom_reactions"))
                 .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
                     .Skip(page * 20)
@@ -189,7 +186,6 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
                         return str;
                     }))));
-        }
     }
 
 
@@ -219,17 +215,14 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
-            {
-                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
                     .WithTitle(GetText("name"))
                     .WithDescription(string.Join("\r\n", ordered
                         .Skip(page * 20)
                         .Take(20)
                         .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))));
-            }
         }
     }
 
