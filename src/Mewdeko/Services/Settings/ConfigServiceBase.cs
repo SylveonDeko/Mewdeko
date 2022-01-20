@@ -18,7 +18,7 @@ namespace Mewdeko.Services.Settings;
 public abstract class ConfigServiceBase<TSettings> : IConfigService
     where TSettings : new()
 {
-    private static readonly JsonSerializerOptions serializerOptions = new()
+    private static readonly JsonSerializerOptions _serializerOptions = new()
     {
         MaxDepth = 0,
         Converters = {new Rgba32Converter(), new CultureInfoConverter()}
@@ -32,9 +32,9 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     private readonly Dictionary<string, Func<TSettings, string, bool>> _propSetters = new();
     protected readonly IPubSub _pubSub;
     protected readonly IConfigSeria _serializer;
-    protected readonly string FilePath;
+    protected readonly string _filePath;
 
-    protected TSettings _data;
+    protected TSettings data;
 
     /// <summary>
     ///     Initialized an instance of <see cref="ConfigServiceBase{TSettings}" />
@@ -46,7 +46,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     protected ConfigServiceBase(string filePath, IConfigSeria serializer, IPubSub pubSub,
         TypedKey<TSettings> changeKey)
     {
-        FilePath = filePath;
+        _filePath = filePath;
         _serializer = serializer;
         _pubSub = pubSub;
         _changeKey = changeKey;
@@ -65,7 +65,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     public void Reload()
     {
         Load();
-        _pubSub.Pub(_changeKey, _data);
+        _pubSub.Pub(_changeKey, data);
     }
 
     public IReadOnlyList<string> GetSettableProps() => _propSetters.Keys.ToList();
@@ -91,7 +91,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     public bool SetSetting(string prop, string newValue)
     {
         var success = true;
-        ModifyConfig(bs => { success = SetProperty(bs, prop, newValue); });
+        ModifyConfig(bs => success = SetProperty(bs, prop, newValue));
 
         if (success)
             PublishChange();
@@ -99,19 +99,19 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         return success;
     }
 
-    private void PublishChange() => _pubSub.Pub(_changeKey, _data);
+    private void PublishChange() => _pubSub.Pub(_changeKey, data);
 
     private ValueTask OnChangePublished(TSettings newData)
     {
-        _data = newData;
+        data = newData;
         OnStateUpdate();
         return default;
     }
 
     private TSettings CreateCopy1()
     {
-        var serializedData = JsonSerializer.Serialize(_data, serializerOptions);
-        return JsonSerializer.Deserialize<TSettings>(serializedData, serializerOptions);
+        var serializedData = JsonSerializer.Serialize(data, _serializerOptions);
+        return JsonSerializer.Deserialize<TSettings>(serializedData, _serializerOptions);
 
         // var serializedData = _serializer.Serialize(_data);
         //
@@ -124,18 +124,18 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     private void Load()
     {
         // if file is deleted, regenerate it with default values
-        if (!File.Exists(FilePath))
+        if (!File.Exists(_filePath))
         {
-            _data = new TSettings();
+            data = new TSettings();
             Save();
         }
 
-        _data = _serializer.Deserialize<TSettings>(File.ReadAllText(FilePath));
+        data = _serializer.Deserialize<TSettings>(File.ReadAllText(_filePath));
     }
 
     /// <summary>
     ///     Doesn't do anything by default. This method will be executed after
-    ///     <see cref="_data" /> is reloaded from <see cref="FilePath" /> or new data is recieved
+    ///     <see cref="data" /> is reloaded from <see cref="_filePath" /> or new data is recieved
     ///     from the publish event
     /// </summary>
     protected virtual void OnStateUpdate()
@@ -146,15 +146,15 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
     {
         var copy = CreateCopy1();
         action(copy);
-        _data = copy;
+        data = copy;
         Save();
         PublishChange();
     }
 
     private void Save()
     {
-        var strData = _serializer.Serialize(_data);
-        File.WriteAllText(FilePath, strData);
+        var strData = _serializer.Serialize(data);
+        File.WriteAllText(_filePath, strData);
     }
 
     protected void AddParsedProp<TProp>(
@@ -167,13 +167,13 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         checker ??= _ => true;
         key = key.ToLowerInvariant();
         _propPrinters[key] = obj => printer((TProp) obj);
-        _propSelectors[key] = () => selector.Compile()(_data);
+        _propSelectors[key] = () => selector.Compile()(data);
         _propSetters[key] = Magic(selector, parser, checker);
         _propComments[key] = ((MemberExpression) selector.Body).Member.GetCustomAttribute<CommentAttribute>()
             ?.Comment;
     }
 
-    private Func<TSettings, string, bool> Magic<TProp>(Expression<Func<TSettings, TProp>> selector,
+    private static Func<TSettings, string, bool> Magic<TProp>(Expression<Func<TSettings, TProp>> selector,
         SettingParser<TProp> parser, Func<TProp, bool> checker) =>
         (target, input) =>
         {

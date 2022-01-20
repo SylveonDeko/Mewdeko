@@ -21,12 +21,12 @@ public class VcRoleService : INService
         _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
         VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
         ToAssign = new ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
-        var missingRoles = new ConcurrentBag<VcRoleInfo>();
+        new ConcurrentBag<VcRoleInfo>();
 
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow._context.Set<GuildConfig>()
+            var configs = uow.Context.Set<GuildConfig>()
                 .AsQueryable()
                 .Include(x => x.VcRoleInfos)
                 .Where(x => guildIds.Contains(x.GuildId))
@@ -131,7 +131,7 @@ public class VcRoleService : INService
         {
             using var uow = _db.GetDbContext();
             Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
-            uow._context.RemoveRange(missingRoles);
+            uow.Context.RemoveRange(missingRoles);
             await uow.SaveChangesAsync();
         }
     }
@@ -147,7 +147,7 @@ public class VcRoleService : INService
         using var uow = _db.GetDbContext();
         var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
-        if (toDelete != null) uow._context.Remove(toDelete);
+        if (toDelete != null) uow.Context.Remove(toDelete);
         conf.VcRoleInfos.Add(new VcRoleInfo
         {
             VoiceChannelId = vcId,
@@ -167,7 +167,7 @@ public class VcRoleService : INService
         using var uow = _db.GetDbContext();
         var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
-        uow._context.RemoveRange(toRemove);
+        uow.Context.RemoveRange(toRemove);
         uow.SaveChanges();
 
         return true;

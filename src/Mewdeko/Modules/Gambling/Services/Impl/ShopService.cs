@@ -89,7 +89,7 @@ public class ShopService : IShopService
         return true;
     }
 
-    private IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId) =>
+    private static IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId) =>
         uow.GuildConfigs.ForId(
                guildId,
                set => set.Include(x => x.ShopEntries)

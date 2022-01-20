@@ -12,11 +12,11 @@ public class SuggestRepository : Repository<Suggestionse>, ISuggestionsRepositor
 
     public Suggestionse[] ForId(ulong guildId, ulong sugid)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId && x.SuggestID == sugid);
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId && x.SuggestID == sugid);
 
         return query.ToArray();
     }
 
     public Suggestionse[] ForUser(ulong guildId, ulong userId) 
-        => _set.AsQueryable().Where(x => x.GuildId == guildId && x.UserID == userId).ToArray();
+        => Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserID == userId).ToArray();
 }

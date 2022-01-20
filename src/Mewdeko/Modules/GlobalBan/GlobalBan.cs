@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.GlobalBan;
 public class GlobalBans : MewdekoModuleBase<GlobalBanService>
 {
     [MewdekoCommand, Alias, Description, RequireContext(ContextType.Guild)]
-    public async Task GBRep()
+    public async Task GbRep()
     {
         var cancelled = new EmbedBuilder()
             .WithErrorColor()
@@ -173,7 +173,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription("Please provide a reason as to why you think they are a scammer.")
                         .WithOkColor();
                     await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var Reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                     var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid);
                     var channel =
                         ((DiscordSocketClient) ctx.Client).Rest.GetChannelAsync(905109141620682782).Result as
@@ -184,7 +184,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("Reported By", $"{ctx.User} {ctx.User.Id}")
                         .AddField("Reported In", $"{ctx.Guild.Name} {ctx.Guild.Id}")
                         .AddField("User Reported", $"{user} {user.Id}")
-                        .AddField("Reasoning", Reasoning)
+                        .AddField("Reasoning", reasoning)
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
                     await channel.SendMessageAsync(embed: eb1.Build());
@@ -256,13 +256,13 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription("How did they raid?")
                         .WithOkColor();
                     await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var Reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                    var eb5 = new EmbedBuilder()
+                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    new EmbedBuilder()
                         .WithDescription(
                             "Were there any other users? If so please separate IDs with `,` otherwise just say no or none")
                         .WithOkColor();
                     await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var OtherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    var otherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                     var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid);
                     var channel =
                         ((DiscordSocketClient) ctx.Client).Rest.GetChannelAsync(905109141620682782).Result as
@@ -273,8 +273,8 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("Reported By", $"{ctx.User} {ctx.User.Id}")
                         .AddField("Reported In", $"{ctx.Guild.Name} {ctx.Guild.Id}")
                         .AddField("User Reported", $"{user} {user.Id}")
-                        .AddField("Reasoning", Reasoning)
-                        .AddField("Other Users", OtherUsers)
+                        .AddField("Reasoning", reasoning)
+                        .AddField("Other Users", otherUsers)
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
                     await channel.SendMessageAsync(embed: eb1.Build());
@@ -346,12 +346,12 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .WithDescription("How did they abuse?")
                         .WithOkColor();
                     await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var Reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                    var eb5 = new EmbedBuilder()
+                    var reasoning = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    new EmbedBuilder()
                         .WithDescription("How did this happen? Did they use an exploit to get perms? Explain")
                         .WithOkColor();
                     await msg.ModifyAsync(x => x.Embed = eb4.Build());
-                    var OtherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                    var otherUsers = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                     var user = await ((DiscordSocketClient) ctx.Client).Rest.GetUserAsync(uid);
                     var channel =
                         ((DiscordSocketClient) ctx.Client).Rest.GetChannelAsync(905109141620682782).Result as
@@ -362,8 +362,8 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                         .AddField("Reported By", $"{ctx.User} {ctx.User.Id}")
                         .AddField("Reported In", $"{ctx.Guild.Name} {ctx.Guild.Id}")
                         .AddField("User Reported", $"{user} {user.Id}")
-                        .AddField("Reasoning", Reasoning)
-                        .AddField("How did they abuse perms?", OtherUsers)
+                        .AddField("Reasoning", reasoning)
+                        .AddField("How did they abuse perms?", otherUsers)
                         .AddField("Proof", string.Join("\n", split, 1, split.Length - 1))
                         .WithOkColor();
                     await channel.SendMessageAsync(embed: eb1.Build());

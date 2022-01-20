@@ -11,7 +11,7 @@ public class ReminderRepository : Repository<Reminder>, IReminderRepository
     }
 
     public IEnumerable<Reminder> RemindersFor(ulong userId, int page) =>
-        _set.AsQueryable()
+        Set.AsQueryable()
             .Where(x => x.UserId == userId)
             .OrderBy(x => x.DateAdded)
             .Skip(page * 10)

@@ -3,12 +3,10 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
-using Swan;
 
 namespace Mewdeko.Common;
 
@@ -27,7 +25,7 @@ public abstract class MewdekoModule : ModuleBase
     public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
     public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
     public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
-    public ulong TTicketCategory => Sms.GetTicketCategory(ctx.Guild.Id);
+    public ulong TicketCategory => Sms.GetTicketCategory(ctx.Guild.Id);
     public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 

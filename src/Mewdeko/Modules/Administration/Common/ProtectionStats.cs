@@ -32,7 +32,7 @@ public class AntiAltStats
 {
     private readonly AntiAltSetting _setting;
 
-    private int _counter;
+    private int counter;
 
     public AntiAltStats(AntiAltSetting setting) => _setting = setting;
 
@@ -40,7 +40,7 @@ public class AntiAltStats
     public int ActionDurationMinutes => _setting.ActionDurationMinutes;
     public ulong? RoleId => _setting.RoleId;
     public TimeSpan MinAge => _setting.MinAge;
-    public int Counter => _counter;
+    public int Counter => counter;
 
-    public void Increment() => Interlocked.Increment(ref _counter);
+    public void Increment() => Interlocked.Increment(ref counter);
 }

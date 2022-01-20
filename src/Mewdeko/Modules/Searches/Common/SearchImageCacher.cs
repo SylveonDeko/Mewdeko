@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Searches.Common;
 
 public class SearchImageCacher
 {
-    private static readonly List<string> defaultTagBlacklist = new()
+    private static readonly List<string> _defaultTagBlacklist = new()
     {
         "loli",
         "lolicon",
@@ -34,9 +34,9 @@ public class SearchImageCacher
     {
         tags = tags.Select(tag => tag?.ToLowerInvariant()).ToArray();
 
-        blacklistedTags = blacklistedTags ?? new HashSet<string>();
+        blacklistedTags ??= new HashSet<string>();
 
-        foreach (var item in defaultTagBlacklist) blacklistedTags.Add(item);
+        foreach (var item in _defaultTagBlacklist) blacklistedTags.Add(item);
 
         blacklistedTags = blacklistedTags.Select(t => t.ToLowerInvariant()).ToHashSet();
 
@@ -133,12 +133,11 @@ public class SearchImageCacher
 
         try
         {
-            using var _http = _httpFactory.CreateClient();
-            _http.AddFakeHeaders();
-            if (type == DapiSearchType.Konachan || type == DapiSearchType.Yandere ||
-                type == DapiSearchType.Danbooru)
+            using var http = _httpFactory.CreateClient();
+            http.AddFakeHeaders();
+            if (type is DapiSearchType.Konachan or DapiSearchType.Yandere or DapiSearchType.Danbooru)
             {
-                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                var data = await http.GetStringAsync(website).ConfigureAwait(false);
                 return (JsonConvert.DeserializeObject<DapiImageObject[]>(data) ?? Array.Empty<DapiImageObject>())
                     .Where(x => x.FileUrl != null)
                     .Select(x => new ImageCacherObject(x, type))
@@ -147,7 +146,7 @@ public class SearchImageCacher
 
             if (type == DapiSearchType.E621)
             {
-                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                var data = await http.GetStringAsync(website).ConfigureAwait(false);
                 return JsonConvert.DeserializeAnonymousType(data, new {posts = new List<E621Object>()})
                     .posts
                     .Where(x => !string.IsNullOrWhiteSpace(x.File?.Url))
@@ -158,7 +157,7 @@ public class SearchImageCacher
 
             if (type == DapiSearchType.Derpibooru)
             {
-                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                var data = await http.GetStringAsync(website).ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<DerpiContainer>(data)
                     .Images
                     .Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl))
@@ -169,7 +168,7 @@ public class SearchImageCacher
 
             if (type == DapiSearchType.Safebooru)
             {
-                var data = await _http.GetStringAsync(website).ConfigureAwait(false);
+                var data = await http.GetStringAsync(website).ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<SafebooruElement[]>(data)
                     .Select(x => new ImageCacherObject(x.FileUrl, type, x.Tags, x.Rating))
                     .ToArray();

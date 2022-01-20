@@ -1,6 +1,4 @@
-﻿using Amazon.Runtime.Internal.Util;
-using Discord;
-using Discord.Rest;
+﻿using Discord;
 using Discord.Webhook;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -9,23 +7,22 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Services.Database.Models;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Net.Sockets;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 
 public class MultiGreetService : INService
 {
     private readonly DbService _db;
-    private DiscordSocketClient Client;
-    private ConcurrentDictionary<ulong, int> _MultiGreetTypes;
+    private DiscordSocketClient client;
+    private ConcurrentDictionary<ulong, int> multiGreetTypes;
 
 
     public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko.Services.Mewdeko bot)
     {
-        Client = client;
+        this.client = client;
         _db = db;
-        Client.UserJoined += DoMultiGreet;
-        _MultiGreetTypes = bot.AllGuildConfigs
+        this.client.UserJoined += DoMultiGreet;
+        multiGreetTypes = bot.AllGuildConfigs
                    .ToDictionary(x => x.GuildId, x => x.MultiGreetType)
                    .ToConcurrent();
     }
@@ -59,12 +56,12 @@ public class MultiGreetService : INService
     
     public async Task HandleRandomGreet(MultiGreet greet, SocketGuildUser user)
     {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(Client).WithServer(Client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         if (greet.WebhookUrl is not null)
         {
             var webhook = new DiscordWebhookClient(greet.WebhookUrl);
             var content = replacer.Replace(greet.Message);
-            if (CREmbed.TryParse(content, out var embedData))
+            if (CrEmbed.TryParse(content, out var embedData))
             {
                 if (embedData.IsEmbedValid && embedData.PlainText is not null)
                 {
@@ -98,7 +95,7 @@ public class MultiGreetService : INService
         {
             var channel = user.Guild.GetTextChannel(greet.ChannelId);
             var content = replacer.Replace(greet.Message);
-            if (CREmbed.TryParse(content, out var embedData))
+            if (CrEmbed.TryParse(content, out var embedData))
             {
                 if (embedData.IsEmbedValid && embedData.PlainText is not null)
                 {
@@ -144,13 +141,13 @@ public class MultiGreetService : INService
     }
     private async Task HandleChannelGreets(IEnumerable<MultiGreet> multiGreets, SocketGuildUser user)
     {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(Client).WithServer(Client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
         {
             if (i.WebhookUrl is not null) continue;
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             var content = replacer.Replace(i.Message);
-            if (CREmbed.TryParse(content, out var embedData))
+            if (CrEmbed.TryParse(content, out var embedData))
             {
                 if (embedData.IsEmbedValid && embedData.PlainText is not null)
                 {
@@ -184,14 +181,14 @@ public class MultiGreetService : INService
     }
     private async Task HandleWebhookGreets(IEnumerable<MultiGreet> multiGreets, SocketGuildUser user)
     {
-        var replacer = new ReplacementBuilder().WithUser(user).WithClient(Client).WithServer(Client, user.Guild).Build();
+        var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in multiGreets)
         {
             
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
             var content = replacer.Replace(i.Message);
-            if (CREmbed.TryParse(content, out var embedData))
+            if (CrEmbed.TryParse(content, out var embedData))
             {
                 if (embedData.IsEmbedValid && embedData.PlainText is not null)
                 {
@@ -232,13 +229,13 @@ public class MultiGreetService : INService
             await uow.SaveChangesAsync();
         }
 
-        _MultiGreetTypes.AddOrUpdate(guild.Id, type, (_, _) => type);
+        multiGreetTypes.AddOrUpdate(guild.Id, type, (_, _) => type);
     }
 
     public int GetMultiGreetType(ulong? id)
     {
-        _MultiGreetTypes.TryGetValue(id.Value, out var MGType);
-        return MGType;
+        multiGreetTypes.TryGetValue(id.Value, out var mgType);
+        return mgType;
     }
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {
@@ -253,7 +250,7 @@ public class MultiGreetService : INService
         return true;
     }
 
-    public async Task ChangeMGMessage(MultiGreet greet, string code)
+    public async Task ChangeMgMessage(MultiGreet greet, string code)
     {
         var uow = _db.GetDbContext();
         var toadd = new MultiGreet
@@ -269,7 +266,7 @@ public class MultiGreetService : INService
         await uow.SaveChangesAsync();
     }
 
-    public async Task ChangeMGDelete(MultiGreet greet, ulong howlong)
+    public async Task ChangeMgDelete(MultiGreet greet, ulong howlong)
     {
         var uow = _db.GetDbContext();
         var toadd = new MultiGreet
@@ -284,7 +281,7 @@ public class MultiGreetService : INService
         uow.MultiGreets.Update(toadd);
         await uow.SaveChangesAsync();
     }
-    public async Task ChangeMGWebhook(MultiGreet greet, string webhookurl)
+    public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
     {
         var uow = _db.GetDbContext();
         var toadd = new MultiGreet

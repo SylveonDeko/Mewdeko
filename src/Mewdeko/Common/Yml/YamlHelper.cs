@@ -23,15 +23,15 @@ public class YamlHelper
 
         // Check the value and write the character.
 
-        if (character >= 0xD800 && character <= 0xDFFF || character > 0x10FFFF) return point;
+        if (character is >= 0xD800 and <= 0xDFFF or > 0x10FFFF) return point;
 
         return char.ConvertFromUtf32(character);
     }
 
     public static bool IsHex(char c) =>
-        c >= '0' && c <= '9' ||
-        c >= 'A' && c <= 'F' ||
-        c >= 'a' && c <= 'f';
+c is >= '0' and <= '9' or
+        >= 'A' and <= 'F' or
+        >= 'a' and <= 'f';
 
     public static int AsHex(char c)
     {

@@ -11,18 +11,18 @@ public class SelfAssignedRolesService : INService
     public enum AssignResult
     {
         Assigned, // successfully removed
-        Err_Not_Assignable, // not assignable (error)
-        Err_Already_Have, // you already have that role (error)
-        Err_Not_Perms, // bot doesn't have perms (error)
-        Err_Lvl_Req // you are not required level (error)
+        ErrNotAssignable, // not assignable (error)
+        ErrAlreadyHave, // you already have that role (error)
+        ErrNotPerms, // bot doesn't have perms (error)
+        ErrLvlReq // you are not required level (error)
     }
 
     public enum RemoveResult
     {
         Removed, // successfully removed
-        Err_Not_Assignable, // not assignable (error)
-        Err_Not_Have, // you don't have a role you want to remove (error)
-        Err_Not_Perms // bot doesn't have perms (error)
+        ErrNotAssignable, // not assignable (error)
+        ErrNotHave, // you don't have a role you want to remove (error)
+        ErrNotPerms // bot doesn't have perms (error)
     }
 
     private readonly DbService _db;
@@ -71,10 +71,10 @@ public class SelfAssignedRolesService : INService
         var selfAssignedRoles = roles as SelfAssignedRole[] ?? roles.ToArray();
         var theRoleYouWant = selfAssignedRoles.FirstOrDefault(r => r.RoleId == role.Id);
         if (theRoleYouWant == null)
-            return (AssignResult.Err_Not_Assignable, autoDelete, null);
+            return (AssignResult.ErrNotAssignable, autoDelete, null);
         if (theRoleYouWant.LevelRequirement > userLevelData.Level)
-            return (AssignResult.Err_Lvl_Req, autoDelete, theRoleYouWant.LevelRequirement);
-        if (guildUser.RoleIds.Contains(role.Id)) return (AssignResult.Err_Already_Have, autoDelete, null);
+            return (AssignResult.ErrLvlReq, autoDelete, theRoleYouWant.LevelRequirement);
+        if (guildUser.RoleIds.Contains(role.Id)) return (AssignResult.ErrAlreadyHave, autoDelete, null);
 
         var roleIds = selfAssignedRoles
             .Where(x => x.Group == theRoleYouWant.Group)
@@ -106,7 +106,7 @@ public class SelfAssignedRolesService : INService
         }
         catch (Exception ex)
         {
-            return (AssignResult.Err_Not_Perms, autoDelete, ex);
+            return (AssignResult.ErrNotPerms, autoDelete, ex);
         }
 
         return (AssignResult.Assigned, autoDelete, null);
@@ -149,15 +149,15 @@ public class SelfAssignedRolesService : INService
         var (autoDelete, _, roles) = GetAdAndRoles(guildUser.Guild.Id);
 
         if (roles.FirstOrDefault(r => r.RoleId == role.Id) == null)
-            return (RemoveResult.Err_Not_Assignable, autoDelete);
-        if (!guildUser.RoleIds.Contains(role.Id)) return (RemoveResult.Err_Not_Have, autoDelete);
+            return (RemoveResult.ErrNotAssignable, autoDelete);
+        if (!guildUser.RoleIds.Contains(role.Id)) return (RemoveResult.ErrNotHave, autoDelete);
         try
         {
             await guildUser.RemoveRoleAsync(role).ConfigureAwait(false);
         }
         catch (Exception)
         {
-            return (RemoveResult.Err_Not_Perms, autoDelete);
+            return (RemoveResult.ErrNotPerms, autoDelete);
         }
 
         return (RemoveResult.Removed, autoDelete);

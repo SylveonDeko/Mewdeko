@@ -11,7 +11,7 @@ public class StatusRolesRepository : Repository<StatusRoles>, IStatusRolesReposi
 
     public StatusRoles[] ForGuild(ulong guildId)
     {
-        var query = _set.AsQueryable().Where(x => x.GuildId == guildId);
+        var query = Set.AsQueryable().Where(x => x.GuildId == guildId);
 
         return query.ToArray();
     }

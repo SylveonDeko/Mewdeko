@@ -151,13 +151,13 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         if (setting != null && setting.ToLower() == "xptextrate")
         {
-            if (value != 999999999 && value != 0)
+            if (value is not 999999999 and not 0)
             {
                 await Service.XpTxtRateSet(ctx.Guild, value);
                 await ctx.Channel.SendConfirmAsync($"Users will now recieve {value} xp per message.");
             }
 
-            if (value == 999999999 || value == 0)
+            if (value is 999999999 or 0)
             {
                 await Service.XpTxtRateSet(ctx.Guild, 0);
                 await ctx.Channel.SendConfirmAsync("User xp per message will now be the global default.");
@@ -168,13 +168,13 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         if (setting != null && setting.ToLower() == "txtxptimeout")
         {
-            if (value != 999999999 && value != 0)
+            if (value is not 999999999 and not 0)
             {
                 await Service.XpTxtTimeoutSet(ctx.Guild, value);
                 await ctx.Channel.SendConfirmAsync($"Message XP will be given every {value} minutes.");
             }
 
-            if (value == 999999999 || value == 0)
+            if (value is 999999999 or 0)
             {
                 await Service.XpTxtTimeoutSet(ctx.Guild, 0);
                 await ctx.Channel.SendConfirmAsync("XP Timeout will now follow the global default.");
@@ -185,14 +185,14 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         if (setting != null && setting.ToLower() == "xpvoicerate")
         {
-            if (value != 999999999 && value != 0)
+            if (value is not 999999999 and not 0)
             {
                 await Service.XpVoiceRateSet(ctx.Guild, value);
                 await ctx.Channel.SendConfirmAsync(
                     $"Users will now recieve {value} every minute they are in voice. Make sure to set voiceminutestimeout or this is usless.");
             }
 
-            if (value == 999999999 || value == 0)
+            if (value is 999999999 or 0)
             {
                 await Service.XpVoiceRateSet(ctx.Guild, 0);
                 await Service.XpVoiceTimeoutSet(ctx.Guild, 0);
@@ -204,14 +204,14 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         if (setting != null && setting.ToLower() == "voiceminutestimeout")
         {
-            if (value != 999999999 && value != 0)
+            if (value is not 999999999 and not 0)
             {
                 await Service.XpVoiceTimeoutSet(ctx.Guild, value);
                 await ctx.Channel.SendConfirmAsync(
                     $"XP will now stop being given in vc after {value} minutes. Make sure to set voicexprate or this is useless.");
             }
 
-            if (value == 999999999 || value == 0)
+            if (value is 999999999 or 0)
             {
                 await Service.XpVoiceRateSet(ctx.Guild, 0);
                 await Service.XpVoiceTimeoutSet(ctx.Guild, 0);
@@ -509,7 +509,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
                     awardStr = $"({userXpData.AwardedXp})";
 
                 embed.AddField(
-                    $"#{i + 1 + page * 9} {user?.ToString() ?? users[i].UserId.ToString()}",
+                    $"#{i + 1 + (page * 9)} {user?.ToString() ?? users[i].UserId.ToString()}",
                     $"{GetText("level_x", levelStats.Level)} - {levelStats.TotalXp}xp {awardStr}");
             }
 

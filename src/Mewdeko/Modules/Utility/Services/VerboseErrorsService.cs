@@ -13,7 +13,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly DbService _db;
     private readonly HelpService _hs;
     private readonly IBotStrings _strings;
-    private readonly ConcurrentHashSet<ulong> guildsEnabled;
+    private readonly ConcurrentHashSet<ulong> _guildsEnabled;
 
     public VerboseErrorsService(Mewdeko.Services.Mewdeko bot, DbService db, CommandHandler ch, HelpService hs,
         IBotStrings strings)
@@ -25,7 +25,7 @@ public class VerboseErrorsService : INService, IUnloadableService
 
         _ch.CommandErrored += LogVerboseError;
 
-        guildsEnabled = new ConcurrentHashSet<ulong>(bot
+        _guildsEnabled = new ConcurrentHashSet<ulong>(bot
             .AllGuildConfigs
             .Where(x => x.VerboseErrors)
             .Select(x => x.GuildId));
@@ -39,7 +39,7 @@ public class VerboseErrorsService : INService, IUnloadableService
 
     private async Task LogVerboseError(CommandInfo cmd, ITextChannel channel, string reason)
     {
-        if (channel == null || !guildsEnabled.Contains(channel.GuildId))
+        if (channel == null || !_guildsEnabled.Contains(channel.GuildId))
             return;
 
         try
@@ -74,9 +74,9 @@ public class VerboseErrorsService : INService, IUnloadableService
         }
 
         if ((bool) enabled) // This doesn't need to be duplicated inside the using block
-            guildsEnabled.Add(guildId);
+            _guildsEnabled.Add(guildId);
         else
-            guildsEnabled.TryRemove(guildId);
+            _guildsEnabled.TryRemove(guildId);
 
         return (bool) enabled;
     }

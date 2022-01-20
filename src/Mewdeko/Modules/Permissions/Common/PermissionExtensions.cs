@@ -33,10 +33,10 @@ public static class PermissionExtensions
     public static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName,
         string moduleName)
     {
-        if (!(perm.SecondaryTarget == SecondaryPermissionType.Command &&
-              perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant() ||
-              perm.SecondaryTarget == SecondaryPermissionType.Module &&
-              perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant() ||
+        if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
+               perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant()) ||
+              (perm.SecondaryTarget == SecondaryPermissionType.Module &&
+               perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant()) ||
               perm.SecondaryTarget == SecondaryPermissionType.AllModules))
             return null;
 

@@ -7,12 +7,12 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
 {
-    private new const string FilePath = "data/gambling.yml";
-    private static readonly TypedKey<GamblingConfig> changeKey = new("config.gambling.updated");
+    private const string FILE_PATH = "data/gambling.yml";
+    private static readonly TypedKey<GamblingConfig> _changeKey = new("config.gambling.updated");
 
 
     public GamblingConfigService(IConfigSeria serializer, IPubSub pubSub)
-        : base(FilePath, serializer, pubSub, changeKey)
+        : base(FILE_PATH, serializer, pubSub, _changeKey)
     {
         AddParsedProp("currency.name", gs => gs.Currency.Name, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("currency.sign", gs => gs.Currency.Sign, ConfigParsers.String, ConfigPrinters.ToString);
@@ -27,7 +27,7 @@ public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
         AddParsedProp("gen.cd", gs => gs.Generation.GenCooldown, int.TryParse, ConfigPrinters.ToString,
             val => val > 0);
         AddParsedProp("gen.chance", gs => gs.Generation.Chance, decimal.TryParse, ConfigPrinters.ToString,
-            val => val >= 0 && val <= 1);
+            val => val is >= 0 and <= 1);
         AddParsedProp("gen.has_pw", gs => gs.Generation.HasPassword, bool.TryParse, ConfigPrinters.ToString);
         AddParsedProp("bf.multi", gs => gs.BetFlip.Multiplier, decimal.TryParse, ConfigPrinters.ToString,
             val => val >= 1);
@@ -46,7 +46,7 @@ public sealed class GamblingConfigService : ConfigServiceBase<GamblingConfig>
         AddParsedProp("waifu.multi.gift_effect", gs => gs.Waifu.Multipliers.GiftEffect, decimal.TryParse,
             ConfigPrinters.ToString, val => val >= 0);
         AddParsedProp("decay.percent", gs => gs.Decay.Percent, decimal.TryParse, ConfigPrinters.ToString,
-            val => val >= 0 && val <= 1);
+            val => val is >= 0 and <= 1);
         AddParsedProp("decay.maxdecay", gs => gs.Decay.MaxDecay, int.TryParse, ConfigPrinters.ToString,
             val => val >= 0);
         AddParsedProp("decay.threshold", gs => gs.Decay.MinThreshold, int.TryParse, ConfigPrinters.ToString,
