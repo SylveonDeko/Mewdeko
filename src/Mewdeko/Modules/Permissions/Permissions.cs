@@ -25,11 +25,11 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     }
 
     private readonly DbService _db;
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
     public Permissions(DbService db, InteractiveService inter)
     {
-        Interactivity = inter;
+        _interactivity = inter;
         _db = db;
     }
 
@@ -112,25 +112,21 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .WithMaxPageIndex(perms.Count / 10)
             .WithDefaultEmotes()
             .Build();
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
-        {
-            var startPos = 20 * (page - 1);
-            return Task.FromResult(new PageBuilder().WithDescription(string.Join("\n",
+        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithDescription(string.Join("\n",
                 perms
                     .Skip(page * 10)
                     .Take(10)
                     .Select(p =>
                     {
                         var str =
-                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild) ctx.Guild))}";
+                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
                         if (p.Index == 0)
                             str +=
                                 $" [{GetText("uneditable")}]";
                         return str;
                     }))).WithTitle(Format.Bold(GetText("page", page + 1))).WithOkColor());
-        }
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -148,7 +144,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                 var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                 p = permsCol[index];
                 permsCol.RemoveAt(index);
-                uow._context.Remove(p);
+                uow.Context.Remove(p);
                 await uow.SaveChangesAsync();
                 Service.UpdateCache(config);
             }
@@ -207,7 +203,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
                     .ConfigureAwait(false);
                 return;
             }
-            catch (Exception e) when (e is ArgumentOutOfRangeException || e is IndexOutOfRangeException)
+            catch (Exception e) when (e is ArgumentOutOfRangeException or IndexOutOfRangeException)
             {
             }
 

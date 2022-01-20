@@ -35,7 +35,7 @@ public static class Extensions
 
     public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
 
-    public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CREmbed crEmbed,
+    public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CrEmbed crEmbed,
         bool sanitizeAll = false)
     {
         var plainText = sanitizeAll
@@ -45,12 +45,10 @@ public static class Extensions
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
 
-    public static EmbedAuthorBuilder WithMusicIcon(this EmbedAuthorBuilder eab) => eab.WithIconUrl("https://i.imgur.com/nhKS3PT.png");
-
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
         var first = attachments.FirstOrDefault();
-        return first.Url.CheckIfMusicUrl();
+        return first != null && first!.Url.CheckIfMusicUrl();
     }
     public static List<ulong> GetGuildIds(this DiscordSocketClient client) => client.Guilds.Select(x => x.Id).ToList();
 
@@ -73,8 +71,6 @@ public static class Extensions
 
         return list;
     }
-
-    public static DateTime GetDateTimeFromTimeSpan(TimeSpan span) => DateTime.Now.Subtract(span);
 
     public static bool TryGetUrlPath(this string input, out string path)
     {
@@ -137,7 +133,7 @@ public static class Extensions
     /// <summary>
     ///     First 10 characters of teh bot token.
     /// </summary>
-    public static string RedisKey(this IBotCredentials bc) => bc.Token.Substring(0, 10);
+    public static string RedisKey(this IBotCredentials bc) => bc.Token[..10];
 
     public static async Task<string> ReplaceAsync(this Regex regex, string input,
         Func<Match, Task<string>> replacementFn)
@@ -314,20 +310,16 @@ public static class Extensions
 
     public static bool IsImage(this HttpResponseMessage msg, out string? mimeType)
     {
-        if (msg.Content.Headers.ContentType != null) mimeType = msg.Content.Headers.ContentType.MediaType;
+        if (msg.Content.Headers.ContentType != null) _ = msg.Content.Headers.ContentType.MediaType;
         mimeType = null;
-        if (mimeType == "image/png"
-            || mimeType == "image/jpeg"
-            || mimeType == "image/gif")
-            return true;
-        return false;
+        return mimeType is "image/png" or "image/jpeg" or "image/gif";
     }
 
     public static long? GetImageSize(this HttpResponseMessage msg)
     {
         if (msg.Content.Headers.ContentLength == null) return null;
 
-        return msg.Content.Headers.ContentLength / 1.MB();
+        return msg.Content.Headers.ContentLength / 1.Mb();
     }
 
 

@@ -88,11 +88,11 @@ public class TwitchProvider : Provider
                         StreamType = FollowedStream.FType.Twitch,
                         Name = ch?.DisplayName,
                         UniqueName = ch?.Name,
-                        Title = ch.Status,
+                        Title = ch?.Status,
                         IsLive = false,
-                        AvatarUrl = ch.Logo,
-                        StreamUrl = $"https://twitch.tv/{ch.Name}",
-                        Preview = ch.VideoBanner // set video banner as the preview,
+                        AvatarUrl = ch?.Logo,
+                        StreamUrl = $"https://twitch.tv/{ch?.Name}",
+                        Preview = ch?.VideoBanner // set video banner as the preview,
                     });
                     continue; // move on
                 }
@@ -110,8 +110,8 @@ public class TwitchProvider : Provider
         return toReturn;
     }
 
-    private StreamData ToStreamData(TwitchResponseV5.Stream stream) =>
-        new StreamData
+    private static StreamData ToStreamData(TwitchResponseV5.Stream stream) =>
+        new()
         {
             StreamType = FollowedStream.FType.Twitch,
             Name = stream.Channel.DisplayName,

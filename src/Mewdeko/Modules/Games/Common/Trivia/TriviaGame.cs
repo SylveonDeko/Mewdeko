@@ -24,9 +24,9 @@ public class TriviaGame
     private readonly TriviaQuestionPool _questionPool;
     private readonly string _quitCommand;
     private readonly IBotStrings _strings;
-    private int _timeoutCount;
+    private int timeoutCount;
 
-    private CancellationTokenSource _triviaCancelSource;
+    private CancellationTokenSource triviaCancelSource;
 
     public TriviaGame(IBotStrings strings, DiscordSocketClient client, GamesConfig config,
         IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
@@ -64,7 +64,7 @@ public class TriviaGame
         while (!ShouldStopGame)
         {
             // reset the cancellation source    
-            _triviaCancelSource = new CancellationTokenSource();
+            triviaCancelSource = new CancellationTokenSource();
             showHowToQuit = !showHowToQuit;
 
             // load question
@@ -96,9 +96,7 @@ public class TriviaGame
 
                 questionMessage = await Channel.EmbedAsync(questionEmbed).ConfigureAwait(false);
             }
-            catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.NotFound ||
-                                           ex.HttpCode == HttpStatusCode.Forbidden ||
-                                           ex.HttpCode == HttpStatusCode.BadRequest)
+            catch (HttpException ex) when (ex.HttpCode is HttpStatusCode.NotFound or HttpStatusCode.Forbidden or HttpStatusCode.BadRequest)
             {
                 return;
             }
@@ -119,7 +117,7 @@ public class TriviaGame
                 try
                 {
                     //hint
-                    await Task.Delay(_options.QuestionTimer * 1000 / 2, _triviaCancelSource.Token)
+                    await Task.Delay(_options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
                         .ConfigureAwait(false);
                     if (!_options.NoHint)
                         try
@@ -129,8 +127,7 @@ public class TriviaGame
                                         .WithFooter(efb => efb.WithText(CurrentQuestion.GetHint())).Build())
                                 .ConfigureAwait(false);
                         }
-                        catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.NotFound ||
-                                                       ex.HttpCode == HttpStatusCode.Forbidden)
+                        catch (HttpException ex) when (ex.HttpCode is HttpStatusCode.NotFound or HttpStatusCode.Forbidden)
                         {
                             break;
                         }
@@ -140,12 +137,12 @@ public class TriviaGame
                         }
 
                     //timeout
-                    await Task.Delay(_options.QuestionTimer * 1000 / 2, _triviaCancelSource.Token)
+                    await Task.Delay(_options.QuestionTimer * 1000 / 2, triviaCancelSource.Token)
                         .ConfigureAwait(false);
                 }
                 catch (TaskCanceledException)
                 {
-                    _timeoutCount = 0;
+                    timeoutCount = 0;
                 } //means someone guessed the answer
             }
             finally
@@ -154,7 +151,7 @@ public class TriviaGame
                 _client.MessageReceived -= PotentialGuess;
             }
 
-            if (!_triviaCancelSource.IsCancellationRequested)
+            if (!triviaCancelSource.IsCancellationRequested)
                 try
                 {
                     var embed = new EmbedBuilder().WithErrorColor()
@@ -165,7 +162,7 @@ public class TriviaGame
 
                     await Channel.EmbedAsync(embed).ConfigureAwait(false);
 
-                    if (_options.Timeout != 0 && ++_timeoutCount >= _options.Timeout)
+                    if (_options.Timeout != 0 && ++timeoutCount >= _options.Timeout)
                         await StopGame().ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -224,7 +221,7 @@ public class TriviaGame
                 try
                 {
                     if (GameActive && CurrentQuestion.IsAnswerCorrect(umsg.Content) &&
-                        !_triviaCancelSource.IsCancellationRequested)
+                        !triviaCancelSource.IsCancellationRequested)
                     {
                         Users.AddOrUpdate(guildUser, 1, (_, old) => ++old);
                         guess = true;
@@ -236,7 +233,7 @@ public class TriviaGame
                 }
 
                 if (!guess) return;
-                _triviaCancelSource.Cancel();
+                triviaCancelSource.Cancel();
 
 
                 if (_options.WinRequirement != 0 && Users[guildUser] == _options.WinRequirement)

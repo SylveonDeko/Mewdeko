@@ -5,15 +5,13 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Suggestions.Services;
-using Mewdeko.Services.Database.Models;
-using Microsoft.VisualBasic;
 
 namespace Mewdeko.Modules.Suggestions;
 public class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
-    public DiscordSocketClient _client;
+    public DiscordSocketClient Client;
 
-    public Suggestions(DiscordSocketClient client) => _client = client;
+    public Suggestions(DiscordSocketClient client) => Client = client;
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels)]

@@ -87,24 +87,24 @@ public partial class Administration
                 return;
             }
 
-            if (userThreshold < 2 || userThreshold > 30)
+            if (userThreshold is < 2 or > 30)
             {
                 await ReplyErrorLocalizedAsync("raid_cnt", 2, 30).ConfigureAwait(false);
                 return;
             }
 
-            if (seconds < 2 || seconds > 300)
+            if (seconds is < 2 or > 300)
             {
                 await ReplyErrorLocalizedAsync("raid_time", 2, 300).ConfigureAwait(false);
                 return;
             }
 
             if (punishTime is not null)
-                if (!Service.IsDurationAllowed(action))
+                if (!ProtectionService.IsDurationAllowed(action))
                     await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
             var time = (int?) punishTime?.Time.TotalMinutes ?? 0;
-            if (time < 0 || time > 60 * 24)
+            if (time is < 0 or > 60 * 24)
                 return;
 
             var stats = await Service.StartAntiRaidAsync(ctx.Guild.Id, userThreshold, seconds,
@@ -147,15 +147,15 @@ public partial class Administration
         public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
             StoopidTime timeData = null, IRole role = null)
         {
-            if (messageCount < 2 || messageCount > 10)
+            if (messageCount is < 2 or > 10)
                 return;
 
             if (timeData is not null)
-                if (!Service.IsDurationAllowed(action))
+                if (!ProtectionService.IsDurationAllowed(action))
                     await ReplyErrorLocalizedAsync("prot_cant_use_time");
 
             var time = (int?) timeData?.Time.TotalMinutes ?? 0;
-            if (time < 0 || time > 60 * 24)
+            if (time is < 0 or > 60 * 24)
                 return;
 
             var stats = await Service.StartAntiSpamAsync(ctx.Guild.Id, messageCount, action, time, role?.Id)

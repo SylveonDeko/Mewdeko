@@ -3,7 +3,6 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 using Serilog;
 using Swan;
 
@@ -20,7 +19,7 @@ public class GiveawayService : INService
         _client = client;
         _db = db;
         _creds = creds;
-        //_ = StartGiveawayLoop();
+        _ = StartGiveawayLoop();
     }
 
     private async Task StartGiveawayLoop()
@@ -84,14 +83,14 @@ public class GiveawayService : INService
     private Task<List<Mewdeko.Services.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
         using var uow = _db.GetDbContext();
-        return uow._context.Giveaways
+        return uow.Context.Giveaways
             .FromSqlInterpolated(
                 $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
             .ToListAsync();
     }
 
     public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host,
-        ulong ServerId, ITextChannel CurrentChannel, IGuild guild, string reqroles = null, string blacklistusers = null,
+        ulong serverId, ITextChannel currentChannel, IGuild guild, string reqroles = null, string blacklistusers = null,
         string blacklistroles = null)
     {
         var hostuser = await guild.GetUserAsync(host);
@@ -136,7 +135,7 @@ public class GiveawayService : INService
         {
             ChannelId = chan.Id,
             UserId = host,
-            ServerId = ServerId,
+            ServerId = serverId,
             Ended = 0,
             When = time,
             Item = item,
@@ -152,7 +151,7 @@ public class GiveawayService : INService
             await uow.SaveChangesAsync();
         }
 
-        await CurrentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
+        await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
     
     public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)

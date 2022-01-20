@@ -103,7 +103,7 @@ public class XpTemplate
                 }
             }
         },
-        Xp = new XpTemplateXP
+        Xp = new XpTemplateXp
         {
             Bar = new XpTemplateXpBar
             {
@@ -225,7 +225,7 @@ public class XpTemplateUser
     public XpTemplateText GlobalRank { get; set; }
     public XpTemplateText GuildRank { get; set; }
     public XpTemplateTimeOnLevel TimeOnLevel { get; set; }
-    public XpTemplateXP Xp { get; set; }
+    public XpTemplateXp Xp { get; set; }
 }
 
 public class XpTemplateTimeOnLevel
@@ -251,7 +251,7 @@ public class XpTemplateText
     public XpTemplatePos Pos { get; set; }
 }
 
-public class XpTemplateXP
+public class XpTemplateXp
 {
     public XpTemplateXpBar Bar { get; set; }
     public XpTemplateText Global { get; set; }

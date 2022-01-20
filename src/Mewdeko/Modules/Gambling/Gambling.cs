@@ -52,8 +52,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     private readonly NumberFormatInfo _enUsCulture;
     private readonly DownloadTracker _tracker;
 
-    private readonly InteractiveService Interactivity;
-    public KSoftApi _ksoft;
+    private readonly InteractiveService _interactivity;
+    public KSoftApi Ksoft;
 
     private IUserMessage rdMsg;
 
@@ -62,8 +62,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         DownloadTracker tracker, GamblingConfigService configService, KSoftApi ks, InteractiveService serv) : base(
         configService)
     {
-        Interactivity = serv;
-        _ksoft = ks;
+        _interactivity = serv;
+        Ksoft = ks;
         _db = db;
         _cs = currency;
         _cache = cache;
@@ -109,8 +109,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Timely()
     {
-        var val = _config.Timely.Amount;
-        var period = _config.Timely.Cooldown;
+        var val = Config.Timely.Amount;
+        var period = Config.Timely.Cooldown;
         if (val <= 0 || period <= 0)
         {
             await ReplyErrorLocalizedAsync("timely_none").ConfigureAwait(false);
@@ -136,7 +136,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var val = 25000;
         var period = 3;
         TimeSpan? rem;
-        if (!Service.GetVoted(ctx.User.Id))
+        if (!GamblingService.GetVoted(ctx.User.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 "You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
@@ -234,7 +234,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var trs = new List<CurrencyTransaction>();
         using (var uow = _db.GetDbContext())
         {
-            trs = uow._context.CurrencyTransactions.GetPageFor(userId, page);
+            trs = uow.Context.CurrencyTransactions.GetPageFor(userId, page);
         }
 
         var embed = new EmbedBuilder()
@@ -390,8 +390,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
         if (Service.Duels.TryAdd((u.Id, ctx.User.Id), game))
         {
-            game.OnGameTick += Game_OnGameTick;
-            game.OnEnded += Game_OnEnded;
+            game.OnGameTick += GameOnGameTick;
+            game.OnEnded += GameOnEnded;
 
             await ReplyConfirmLocalizedAsync("roll_duel_challenge",
                     Format.Bold(ctx.User.ToString()),
@@ -400,7 +400,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 .ConfigureAwait(false);
         }
 
-        async Task Game_OnGameTick(RollDuelGame arg)
+        async Task GameOnGameTick(RollDuelGame arg)
         {
             var rolls = arg.Rolls.Last();
             embed.Description += $@"{Format.Bold(ctx.User.ToString())} rolled **{rolls.Item1}**
@@ -412,10 +412,10 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 rdMsg = await ctx.Channel.EmbedAsync(embed)
                     .ConfigureAwait(false);
             else
-                await rdMsg.ModifyAsync(x => { x.Embed = embed.Build(); }).ConfigureAwait(false);
+                await rdMsg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
         }
 
-        async Task Game_OnEnded(RollDuelGame rdGame, RollDuelGame.Reason reason)
+        async Task GameOnEnded(RollDuelGame rdGame, RollDuelGame.Reason reason)
         {
             try
             {
@@ -456,7 +456,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             return;
         }
 
-        var br = new Betroll(_config.BetRoll);
+        var br = new Betroll(Config.BetRoll);
 
         var result = br.Roll();
 
@@ -499,8 +499,6 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
         if (opts.Clean)
         {
-            var now = DateTime.UtcNow;
-
             using (var uow = _db.GetDbContext())
             {
                 cleanRichest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 10_000);
@@ -527,7 +525,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -558,7 +556,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 var usrStr = x.ToString().TrimTo(20, true);
 
                 var j = i;
-                embed.AddField(efb => efb.WithName("#" + (9 * page + j + 1) + " " + usrStr)
+                embed.AddField(efb => efb.WithName("#" + ((9 * page) + j + 1) + " " + usrStr)
                     .WithValue(N(x.CurrencyAmount) + " " + CurrencySign)
                     .WithIsInline(true));
             }
@@ -593,11 +591,11 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             embed.WithOkColor();
             msg = GetText("rps_draw", GetRpsPick(pick));
         }
-        else if (pick == RpsPick.Paper && mewdekoPick == RpsPick.Rock ||
-                 pick == RpsPick.Rock && mewdekoPick == RpsPick.Scissors ||
-                 pick == RpsPick.Scissors && mewdekoPick == RpsPick.Paper)
+        else if ((pick == RpsPick.Paper && mewdekoPick == RpsPick.Rock) ||
+                 (pick == RpsPick.Rock && mewdekoPick == RpsPick.Scissors) ||
+                 (pick == RpsPick.Scissors && mewdekoPick == RpsPick.Paper))
         {
-            amount = (long) (amount * _config.BetFlip.Multiplier);
+            amount = (long) (amount * Config.BetFlip.Multiplier);
             await _cs.AddAsync(ctx.User.Id,
                 "Rps-win", amount, true).ConfigureAwait(false);
             embed.WithOkColor();
@@ -618,7 +616,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
     }
 
-    private string GetRpsPick(RpsPick p) =>
+    private static string GetRpsPick(RpsPick p) =>
         p switch
         {
             RpsPick.R => "🚀",

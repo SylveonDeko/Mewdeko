@@ -4,6 +4,7 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Services.Database.Models;
+using System.Collections.Generic;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 
@@ -13,36 +14,54 @@ public class UtilityService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly Mewdeko.Services.Mewdeko bot;
+    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly ConcurrentDictionary<ulong, IList<SnipeStore>> _snipes;
 
-    public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko _bot)
+    public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
     {
-        bot = _bot;
+        this._bot = bot;
         _client = client;
         client.MessageDeleted += MsgStore;
         client.MessageUpdated += MsgStore2;
         client.MessageReceived += MsgReciev;
         client.MessageReceived += MsgReciev2;
         _db = db;
-        _snipeset = bot.AllGuildConfigs
-            .ToDictionary(x => x.GuildId, x => x.snipeset)
-            .ToConcurrent();
-        _plinks = bot.AllGuildConfigs
-            .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
-            .ToConcurrent();
-        _reactchans = bot.AllGuildConfigs
-            .ToDictionary(x => x.GuildId, x => x.ReactChannel)
-            .ToConcurrent();
+        Snipeset = this._bot.AllGuildConfigs
+                        .ToDictionary(x => x.GuildId, x => x.snipeset)
+                        .ToConcurrent();
+        Plinks = this._bot.AllGuildConfigs
+                      .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
+                      .ToConcurrent();
+        Reactchans = this._bot.AllGuildConfigs
+                          .ToDictionary(x => x.GuildId, x => x.ReactChannel)
+                          .ToConcurrent();
+        _snipes = new ConcurrentDictionary<ulong, IList<SnipeStore>>();
+        _ = StoreSnipesOnStart();
+
     }
 
-    private ConcurrentDictionary<ulong, ulong> _snipeset { get; } = new();
-    private ConcurrentDictionary<ulong, int> _plinks { get; } = new();
-    private ConcurrentDictionary<ulong, ulong> _reactchans { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Snipeset { get; } = new();
+    private ConcurrentDictionary<ulong, int> Plinks { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Reactchans { get; } = new();
 
+    private async Task StoreSnipesOnStart() =>
+#pragma warning disable CS1998
+        await Task.Run(async () =>
+#pragma warning restore CS1998
+        {
+            var snipes = AllSnipes();
+            foreach (var snipe in snipes)
+            {
+                var snipe1 = _snipes.GetOrAdd(snipe.GuildId, new List<SnipeStore>());
+                snipe1.Add(snipe);
+            }
+        });
 
+    public Task<IList<SnipeStore>> GetSnipes(ulong guildId) 
+        => Task.FromResult(_snipes.FirstOrDefault(x => x.Key == guildId).Value);
     public int GetPLinks(ulong? id)
     {
-        if (id == null || !_plinks.TryGetValue(id.Value, out var invw))
+        if (id == null || !Plinks.TryGetValue(id.Value, out var invw))
             return 0;
 
         return invw;
@@ -50,7 +69,7 @@ public class UtilityService : INService
 
     public ulong GetReactChans(ulong? id)
     {
-        if (id == null || !_reactchans.TryGetValue(id.Value, out var invw))
+        if (id == null || !Reactchans.TryGetValue(id.Value, out var invw))
             return 0;
 
         return invw;
@@ -65,13 +84,13 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        _reactchans.AddOrUpdate(guild.Id, yesnt, (_, _) => yesnt);
+        Reactchans.AddOrUpdate(guild.Id, yesnt, (_, _) => yesnt);
     }
 
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        using (var uow = _db.GetDbContext())
+        using (_db.GetDbContext())
         {
             yesno = yesnt switch
             {
@@ -88,12 +107,12 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        _plinks.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        Plinks.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     public ulong GetSnipeSet(ulong? id)
     {
-        _snipeset.TryGetValue(id.Value, out var snipeset);
+        Snipeset.TryGetValue(id.Value, out var snipeset);
         return snipeset;
     }
 
@@ -107,7 +126,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        _snipeset.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        Snipeset.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
     private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
@@ -131,8 +150,9 @@ public class UtilityService : INService
                 };
                 using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
-
                 await uow.SaveChangesAsync();
+                var snipes = _snipes.GetOrAdd(((SocketTextChannel)ch.Value).Guild.Id, new List<SnipeStore>());
+                snipes.Add(snipemsg);
             }
         });
         return Task.CompletedTask;
@@ -160,19 +180,13 @@ public class UtilityService : INService
                 };
                 using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
-
                 _ = await uow.SaveChangesAsync();
+                var snipes = _snipes.GetOrAdd(((SocketTextChannel) ch).Guild.Id, new List<SnipeStore>());
+                snipes.Add(snipemsg);
             }
         });
         return Task.CompletedTask;
     }
-
-    public SnipeStore[] Snipemsg(ulong gid, ulong chanid)
-    {
-        using var uow = _db.GetDbContext();
-        return uow.SnipeStore.ForChannel(gid, chanid);
-    }
-
     public SnipeStore[] AllSnipes()
     {
         using var uow = _db.GetDbContext();
@@ -196,7 +210,7 @@ public class UtilityService : INService
         }
     }
 
-    public async Task<UrlReport> UrlChecker(string url)
+    public static async Task<UrlReport> UrlChecker(string url)
     {
         var vcheck = new VirusTotal("e49046afa41fdf4e8ca72ea58a5542d0b8fbf72189d54726eed300d2afe5d9a9");
         return await vcheck.GetUrlReportAsync(url, true);

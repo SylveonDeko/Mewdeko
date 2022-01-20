@@ -19,7 +19,6 @@ namespace Mewdeko.Modules.Moderation.Services;
 public class UserPunishService : INService
 {
     private readonly BlacklistService _blacklistService;
-    private readonly Mewdeko.Services.Mewdeko _bot;
     private readonly DbService _db;
     private readonly MuteService _mute;
 
@@ -31,11 +30,10 @@ public class UserPunishService : INService
                                 .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
                                 .ToConcurrent();
         _mute = mute;
-        _bot = bot;
         _db = db;
         _blacklistService = blacklistService;
         //Client.MessageReceived += NsfwCheck;
-        _ = new Timer(async _ => { await CheckAllWarnExpiresAsync(); }, null,
+        _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
@@ -186,14 +184,14 @@ public class UserPunishService : INService
     public async Task CheckAllWarnExpiresAsync()
     {
         using var uow = _db.GetDbContext();
-        var cleared = await uow._context.Database.ExecuteSqlRawAsync(@"UPDATE Warnings
+        var cleared = await uow.Context.Database.ExecuteSqlRawAsync(@"UPDATE Warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 0)
 	AND Forgiven = 0
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings.GuildId));");
 
-        var deleted = await uow._context.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings
+        var deleted = await uow.Context.Database.ExecuteSqlRawAsync(@"DELETE FROM Warnings
 WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND WarnExpireAction = 1)
 	AND DateAdded < datetime('now', (SELECT '-' || WarnExpireHours || ' hours' FROM GuildConfigs as gc WHERE gc.GuildId = Warnings.GuildId));");
 
@@ -211,14 +209,14 @@ WHERE GuildId in (SELECT GuildId FROM GuildConfigs WHERE WarnExpireHours > 0 AND
 
         var hours = $"{-config.WarnExpireHours} hours";
         if (config.WarnExpireAction == WarnExpireAction.Clear)
-            await uow._context.Database.ExecuteSqlInterpolatedAsync($@"UPDATE warnings
+            await uow.Context.Database.ExecuteSqlInterpolatedAsync($@"UPDATE warnings
 SET Forgiven = 1,
     ForgivenBy = 'Expiry'
 WHERE GuildId={guildId}
     AND Forgiven = 0
     AND DateAdded < datetime('now', {hours})");
         else if (config.WarnExpireAction == WarnExpireAction.Delete)
-            await uow._context.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings
+            await uow.Context.Database.ExecuteSqlInterpolatedAsync($@"DELETE FROM warnings
 WHERE GuildId={guildId}
     AND DateAdded < datetime('now', {hours})");
 
@@ -271,17 +269,16 @@ WHERE GuildId={guildId}
     public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime time, IRole role = null)
     {
         // these 3 don't make sense with time
-        if ((punish == PunishmentAction.Softban || punish == PunishmentAction.Kick ||
-             punish == PunishmentAction.RemoveRoles) && time != null)
+        if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
             return false;
-        if (number <= 0 || time != null && time.Time > TimeSpan.FromDays(49))
+        if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
             return false;
 
         using var uow = _db.GetDbContext();
         var ps = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.WarnPunishments)).WarnPunishments;
         var toDelete = ps.Where(x => x.Count == number);
 
-        uow._context.RemoveRange(toDelete);
+        uow.Context.RemoveRange(toDelete);
 
         ps.Add(new WarningPunishment
         {
@@ -306,7 +303,7 @@ WHERE GuildId={guildId}
 
         if (p != null)
         {
-            uow._context.Remove(p);
+            uow.Context.Remove(p);
             uow.SaveChanges();
         }
 
@@ -363,7 +360,7 @@ WHERE GuildId={guildId}
     public string GetBanTemplate(ulong guildId)
     {
         using var uow = _db.GetDbContext();
-        var template = uow._context.BanTemplates
+        var template = uow.Context.BanTemplates
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
         return template?.Text;
@@ -372,7 +369,7 @@ WHERE GuildId={guildId}
     public void SetBanTemplate(ulong guildId, string text)
     {
         using var uow = _db.GetDbContext();
-        var template = uow._context.BanTemplates
+        var template = uow.Context.BanTemplates
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
 
@@ -381,11 +378,11 @@ WHERE GuildId={guildId}
             if (template is null)
                 return;
 
-            uow._context.Remove(template);
+            uow.Context.Remove(template);
         }
         else if (template == null)
         {
-            uow._context.BanTemplates.Add(new BanTemplate
+            uow.Context.BanTemplates.Add(new BanTemplate
             {
                 GuildId = guildId,
                 Text = text
@@ -399,7 +396,7 @@ WHERE GuildId={guildId}
         uow.SaveChanges();
     }
 
-    public CREmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
+    public CrEmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
         string banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient) context.Client,
@@ -410,7 +407,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public CREmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public CrEmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -434,7 +431,7 @@ WHERE GuildId={guildId}
             .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm") ?? "perma")
             .Build();
 
-        CREmbed crEmbed = null;
+        CrEmbed crEmbed = null;
         // if template isn't set, use the old message style
         if (string.IsNullOrWhiteSpace(template))
         {
@@ -444,7 +441,7 @@ WHERE GuildId={guildId}
                 description = defaultMessage
             });
 
-            CREmbed.TryParse(template, out crEmbed);
+            CrEmbed.TryParse(template, out crEmbed);
         }
         // if template is set to "-" do not dm the user
         else if (template == "-")
@@ -452,7 +449,7 @@ WHERE GuildId={guildId}
             return default;
         }
         // if template is an embed, send that embed with replacements
-        else if (CREmbed.TryParse(template, out crEmbed))
+        else if (CrEmbed.TryParse(template, out crEmbed))
         {
             replacer.Replace(crEmbed);
         }
@@ -465,7 +462,7 @@ WHERE GuildId={guildId}
                 description = replacer.Replace(template)
             });
 
-            CREmbed.TryParse(template, out crEmbed);
+            CrEmbed.TryParse(template, out crEmbed);
         }
 
         return crEmbed;

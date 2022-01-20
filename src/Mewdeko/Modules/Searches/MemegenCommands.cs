@@ -32,11 +32,11 @@ public partial class Searches
         }.ToImmutableDictionary();
 
         private readonly IHttpClientFactory _httpFactory;
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
         public MemegenCommands(IHttpClientFactory factory, InteractiveService serv)
         {
-            Interactivity = serv;
+            _interactivity = serv;
             _httpFactory = factory;
         }
 
@@ -62,7 +62,7 @@ public partial class Searches
                 .WithDefaultEmotes()
                 .Build();
 
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

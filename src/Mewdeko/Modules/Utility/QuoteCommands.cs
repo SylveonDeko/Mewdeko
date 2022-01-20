@@ -66,7 +66,7 @@ public partial class Utility
                 .WithDefault(Context)
                 .Build();
 
-            if (CREmbed.TryParse(quote.Text, out var crembed))
+            if (CrEmbed.TryParse(quote.Text, out var crembed))
             {
                 rep.Replace(crembed);
                 await ctx.Channel.EmbedAsync(crembed.ToEmbed(),
@@ -158,7 +158,7 @@ public partial class Utility
             var infoText = $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ " +
                            quote.Keyword.ToLowerInvariant().SanitizeAllMentions() + ":\n";
 
-            if (CREmbed.TryParse(quote.Text, out var crembed))
+            if (CrEmbed.TryParse(quote.Text, out var crembed))
             {
                 rep.Replace(crembed);
 
@@ -208,7 +208,7 @@ public partial class Utility
             {
                 var q = uow.Quotes.GetById(id);
 
-                if (q?.GuildId != ctx.Guild.Id || !isAdmin && q.AuthorId != ctx.Message.Author.Id)
+                if (q?.GuildId != ctx.Guild.Id || (!isAdmin && q.AuthorId != ctx.Message.Author.Id))
                 {
                     response = GetText("quotes_remove_none");
                 }

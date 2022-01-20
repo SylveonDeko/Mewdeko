@@ -25,7 +25,7 @@ public partial class Moderation
         {
             var user = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
-            if (parameter == "-s" || parameter == "--safe")
+            if (parameter is "-s" or "--safe")
                 await Service
                     .PurgeWhere((ITextChannel) ctx.Channel, 100, x => x.Author.Id == user.Id && !x.IsPinned)
                     .ConfigureAwait(false);
@@ -135,7 +135,7 @@ public partial class Moderation
             if (count > 1000)
                 count = 1000;
 
-            if (parameter == "-s" || parameter == "--safe")
+            if (parameter is "-s" or "--safe")
                 await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
                         m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks && !m.IsPinned)
                     .ConfigureAwait(false);
