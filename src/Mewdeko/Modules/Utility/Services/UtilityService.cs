@@ -49,11 +49,11 @@ public class UtilityService : INService
         await Task.Run(async () =>
 #pragma warning restore CS1998
         {
-            var snipes = AllSnipes();
-            foreach (var snipe in snipes)
+            foreach (var i in _client.Guilds.Select(x => x.Id))
             {
-                var snipe1 = _snipes.GetOrAdd(snipe.GuildId, new List<SnipeStore>());
-                snipe1.Add(snipe);
+                var snipes = AllSnipes().Where(x => x.GuildId == i && DateTime.Now - x.DateAdded.Value <= TimeSpan.FromDays(3));
+                var get = _snipes.GetOrAdd(i, new List<SnipeStore>());
+                get.AddRange(snipes);
             }
         });
 
@@ -150,9 +150,11 @@ public class UtilityService : INService
                 };
                 using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
-                await uow.SaveChangesAsync();
-                var snipes = _snipes.GetOrAdd(((SocketTextChannel)ch.Value).Guild.Id, new List<SnipeStore>());
-                snipes.Add(snipemsg);
+                uow.SnipeStore.RemoveRange(AllSnipes().Where(x => DateTime.UtcNow - x.DateAdded.Value >= TimeSpan.FromDays(3)).ToArray());
+                _ = await uow.SaveChangesAsync();
+                var snipes = _snipes.GetOrAdd( snipemsg.GuildId, new List<SnipeStore>());
+                snipes.Clear();
+                snipes.AddRange(AllSnipes().Where(x => x.GuildId == snipemsg.GuildId));
             }
         });
         return Task.CompletedTask;
@@ -180,9 +182,11 @@ public class UtilityService : INService
                 };
                 using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
+                uow.SnipeStore.RemoveRange(AllSnipes().Where(x => DateTime.UtcNow - x.DateAdded.Value >= TimeSpan.FromDays(3)).ToArray());
                 _ = await uow.SaveChangesAsync();
-                var snipes = _snipes.GetOrAdd(((SocketTextChannel) ch).Guild.Id, new List<SnipeStore>());
-                snipes.Add(snipemsg);
+                var snipes = _snipes.GetOrAdd(snipemsg.GuildId, new List<SnipeStore>());
+                snipes.Clear();
+                snipes.AddRange(AllSnipes().Where(x => x.GuildId == snipemsg.GuildId));
             }
         });
         return Task.CompletedTask;

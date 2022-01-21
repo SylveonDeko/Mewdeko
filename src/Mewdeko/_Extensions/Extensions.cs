@@ -64,13 +64,15 @@ public static class Extensions
         return $"{(int) span.TotalHours:D2}h {span:mm}m";
     }
 
-    public static IList<AdvancedLavaTrack>? AddRange(this IList<AdvancedLavaTrack> list,
-        IEnumerable<AdvancedLavaTrack> tracks)
+    public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)
     {
-        foreach (var i in tracks) list.Add(i);
-
-        return list;
+        foreach (var i in items) list.Add(i);
     }
+    public static void RemoveRange<T>(this IList<T> list, IEnumerable<T> items)
+    {
+        foreach (var i in items) list.Remove(i);
+    }
+
 
     public static bool TryGetUrlPath(this string input, out string path)
     {
