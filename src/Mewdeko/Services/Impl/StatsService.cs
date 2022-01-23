@@ -127,6 +127,8 @@ public class StatsService : IStatsService
                     using (await http
                                  .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
                                      content).ConfigureAwait(false))
+var chan = _client.Rest.GetChannelAsync(934661783480832000).Result as RestTextChannel;
+chan.SendMessageAsync("Sent count to top.gg!");
                     {
                     }
                 }
@@ -135,7 +137,7 @@ public class StatsService : IStatsService
                     Log.Error(ex.ToString());
                     // ignored
                 }
-            }, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+            }, null, TimeSpan.FromMinutes(10), TimeSpan.FromMinutes(10));
     }
 
     public string Library => $"Discord.Net Labs {DllVersionChecker.GetDllVersion()} ";
