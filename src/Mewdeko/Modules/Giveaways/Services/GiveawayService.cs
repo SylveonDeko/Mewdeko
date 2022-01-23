@@ -232,7 +232,7 @@ public class GiveawayService : INService
                     await ch.ModifyAsync(x => x.Embed = eb1);
                 }
                 var rand = new Random();
-                var index = rand.Next(users.Count());
+                var index = rand.Next(users.Count);
                 var user = users.ToList()[index];
                 var eb = new EmbedBuilder
                 {
