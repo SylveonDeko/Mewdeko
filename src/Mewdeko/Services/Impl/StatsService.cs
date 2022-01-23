@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
@@ -127,10 +128,10 @@ public class StatsService : IStatsService
                     using (await http
                                  .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),
                                      content).ConfigureAwait(false))
-var chan = _client.Rest.GetChannelAsync(934661783480832000).Result as RestTextChannel;
-chan.SendMessageAsync("Sent count to top.gg!");
                     {
                     }
+                    var chan = _client.Rest.GetChannelAsync(934661783480832000).Result as RestTextChannel;
+                    chan.SendMessageAsync("Sent count to top.gg!");
                 }
                 catch (Exception ex)
                 {

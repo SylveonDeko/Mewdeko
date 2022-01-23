@@ -37,10 +37,10 @@ public class CryptoService : INService
         (CryptoResponseData Elem, int Distance)? nearest = null;
         if (crypto == null)
         {
-            nearest = cryptos.Select(x => (x, Distance: x.Name.ToUpperInvariant().LevenshteinDistance(name)))
-                .OrderBy(x => x.Distance)
-                .Where(x => x.Distance <= 2)
-                .FirstOrDefault();
+            nearest = cryptos
+                      .Select(x => (x, Distance: StringExtensions.LevenshteinDistance(x.Name.ToUpperInvariant(), name)))
+                      .OrderBy(x => x.Distance)
+                      .FirstOrDefault(x => x.Distance <= 2);
 
             crypto = nearest?.Elem;
         }
@@ -61,11 +61,7 @@ public class CryptoService : INService
                 {
                     using var http = _httpFactory.CreateClient();
                     var strData = await http.GetStringAsync(new Uri(
-                        "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?" +
-                        $"CMC_PRO_API_KEY={_creds.CoinmarketcapApiKey}" +
-                        "&start=1" +
-                        "&limit=500" +
-                        "&convert=USD"));
+                        "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=8e6b4b51-3399-4ffb-ac25-0e11667a1a23&start=1&convert=USD"));
 
                     JsonConvert.DeserializeObject<CryptoResponse>(strData); // just to see if its' valid
 
