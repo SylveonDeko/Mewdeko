@@ -204,7 +204,8 @@ public class GiveawayService : INService
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Select(s => s).Any(a => parsedreqs.Any(y => y == a))).ToList();
+                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
+                                         .ToList();
                     }
                     catch
                     {
@@ -262,7 +263,8 @@ public class GiveawayService : INService
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Select(s => s).Any(a => parsedreqs.Any(y => y == a))).ToList();
+                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
+                                         .ToList();
                     }
                     catch
                     {
@@ -343,7 +345,7 @@ public class GiveawayService : INService
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Select(s => s).Any(a => parsedreqs.Any(y => y == a)))
+                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
                                          .ToList();
                     }
                     catch
@@ -405,7 +407,7 @@ public class GiveawayService : INService
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Select(s => s).Any(a => parsedreqs.Any(y => y == a)))
+                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
                                          .ToList();
                     }
                     catch
