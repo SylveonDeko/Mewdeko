@@ -103,7 +103,7 @@ public class GiveawayService : INService
             Description =
                 $"React with {emote} to enter!\n" +
                 $"Hosted by {hostuser.Mention}\n" +
-                $"End Time: <t:{DateTime.Now.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.Now.Add(ts).ToUnixEpochDate()}>)\n",
+                $"End Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n",
             Footer = new EmbedFooterBuilder()
                 .WithText($"{winners} Winners | Mewdeko Giveaways")
         };
@@ -189,7 +189,7 @@ public class GiveawayService : INService
             if (r.Winners == 1)
             {
                 
-                var users = reacts.Where(x => !x.IsBot).ToList();
+                var users = reacts.OfType<IGuildUser>().Where(x => !x.IsBot).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -201,21 +201,10 @@ public class GiveawayService : INService
                             parsedreqs.Add(parsed);
                         }
                     }
-                    foreach (var user1 in users)
-                    {
-                        try
-                        {
-                            _ = user1 as IGuildUser;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            users.Remove(user1);
-                        }
-                    }
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a))).ToList();
+                            users = users.Where(x => x.RoleIds.Select(s => s).Any(a => parsedreqs.Any(y => y == a))).ToList();
                     }
                     catch
                     {
@@ -247,7 +236,7 @@ public class GiveawayService : INService
             else
             {
                 var rand = new Random();
-                var users = reacts.Where(x => !x.IsBot).ToList();
+                var users = reacts.OfType<IGuildUser>().Where(x => !x.IsBot).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -273,7 +262,7 @@ public class GiveawayService : INService
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a))).ToList();
+                            users = users.Where(x => x.RoleIds.Select(s => s).Any(a => parsedreqs.Any(y => y == a))).ToList();
                     }
                     catch
                     {
