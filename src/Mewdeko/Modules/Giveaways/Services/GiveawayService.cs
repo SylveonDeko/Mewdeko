@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -188,7 +189,7 @@ public class GiveawayService : INService
             if (r.Winners == 1)
             {
                 
-                var users = reacts.Where(x => !x.IsBot);
+                var users = reacts.Where(x => !x.IsBot && x is not RestUser);
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -236,7 +237,7 @@ public class GiveawayService : INService
             else
             {
                 var rand = new Random();
-                var users = reacts.Where(x => !x.IsBot);
+                var users = reacts.Where(x => !x.IsBot && x is not RestUser);
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
