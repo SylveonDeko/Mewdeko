@@ -43,13 +43,12 @@ public class UtilityService : INService
     private ConcurrentDictionary<ulong, ulong> Snipeset { get; } = new();
     private ConcurrentDictionary<ulong, int> Plinks { get; } = new();
     private ConcurrentDictionary<ulong, ulong> Reactchans { get; } = new();
-
     private async Task StoreSnipesOnStart() =>
 #pragma warning disable CS1998
         await Task.Run(async () =>
 #pragma warning restore CS1998
         {
-            var snipes = AllSnipes();
+            var snipes = AllSnipes().Where(x => DateTime.UtcNow.Subtract(x.DateAdded.Value).TotalDays <= 3);
             foreach (var snipe in snipes)
             {
                 var snipe1 = _snipes.GetOrAdd(snipe.GuildId, new List<SnipeStore>());

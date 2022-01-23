@@ -14,16 +14,23 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BotVersion = "3.83";
+    public const string BotVersion = "3.84";
 
     private readonly DiscordSocketClient _client;
     private readonly DateTime _started;
 
     private long _textChannels;
+    private readonly Timer _botlistTimer;
     private long _voiceChannels;
 
-    public StatsService(DiscordSocketClient client, CommandHandler cmdHandler,
-        IBotCredentials creds, Mewdeko Mewdeko, IDataCache cache, IHttpClientFactory factory, ICoordinator coord)
+    public StatsService(
+        DiscordSocketClient client,
+        CommandHandler cmdHandler,
+        IBotCredentials creds,
+        Mewdeko Mewdeko,
+        IDataCache cache,
+        IHttpClientFactory factory,
+        ICoordinator coord)
     {
         _client = client;
         _ = new DllVersionChecker();
@@ -105,10 +112,12 @@ public class StatsService : IStatsService
 
             return Task.CompletedTask;
         };
-
         if (_client.ShardId == 0)
+        {
 
-            _ = new Timer(async _ =>
+#if !DEBUG
+
+            _botlistTimer = new Timer(async (state) =>
             {
                 try
                 {
@@ -131,14 +140,16 @@ public class StatsService : IStatsService
                     {
                     }
                     var chan = _client.Rest.GetChannelAsync(934661783480832000).Result as RestTextChannel;
-                    chan.SendMessageAsync("Sent count to top.gg!");
+                    await chan.SendMessageAsync("Sent count to top.gg!");
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex.ToString());
                     // ignored
                 }
-            }, null, TimeSpan.FromMinutes(10), TimeSpan.FromMinutes(10));
+            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(10));
+#endif
+        }
     }
 
     public string Library => $"Discord.Net Labs {DllVersionChecker.GetDllVersion()} ";
