@@ -33,7 +33,7 @@
         <PackageReference Include="Google.Apis.YouTube.v3" Version="1.55.0.2449" />
         <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084" />
         <PackageReference Include="Google.Protobuf" Version="3.19.3" />
-        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0-pre1" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
         <PackageReference Include="Grpc.Tools" Version="2.43.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
