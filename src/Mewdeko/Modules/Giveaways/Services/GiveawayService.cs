@@ -127,7 +127,7 @@ public class GiveawayService : INService
                 eb.WithDescription($"React with {emote} to enter!\n"
                                + $"Hosted by {hostuser.Mention}\n"
                                + $"Required Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\n"
-                               + $"End Time: <t:{DateTime.Now.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.Now.Add(ts).ToUnixEpochDate()}>)\n");
+                               + $"End Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n");
         }
         var msg = await chan.SendMessageAsync(embed: eb.Build());
         await msg.AddReactionAsync(emote);
@@ -161,7 +161,8 @@ public class GiveawayService : INService
             return;
         if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is null)
             return;
-        IUserMessage ch = null;
+        var guild = _client.GetGuild(r.ServerId);
+        IUserMessage ch;
         try
         {
             if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
@@ -189,9 +190,10 @@ public class GiveawayService : INService
             if (r.Winners == 1)
             {
                 
-                var users = reacts.OfType<IGuildUser>().Where(x => !x.IsBot).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
+
                     var parsedreqs = new List<ulong>();
                     var split = r.RestrictTo.Split(" ");
                     foreach (var i in split)
@@ -201,10 +203,11 @@ public class GiveawayService : INService
                             parsedreqs.Add(parsed);
                         }
                     }
+
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
+                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
@@ -220,6 +223,7 @@ public class GiveawayService : INService
                                                     "Looks like nobody that actually met the role requirements joined..")
                                                 .Build();
                     await ch.ModifyAsync(x => x.Embed = eb1);
+                    return;
                 }
                 var rand = new Random();
                 var index = rand.Next(users.Count);
@@ -237,11 +241,13 @@ public class GiveawayService : INService
             else
             {
                 var rand = new Random();
-                var users = reacts.OfType<IGuildUser>().Where(x => !x.IsBot).ToList();
+                 var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
+
                     var parsedreqs = new List<ulong>();
                     var split = r.RestrictTo.Split(" ");
+                    Console.Write(split.Length);
                     foreach (var i in split)
                     {
                         if (ulong.TryParse(i, out var parsed))
@@ -249,21 +255,11 @@ public class GiveawayService : INService
                             parsedreqs.Add(parsed);
                         }
                     }
-                    foreach (var user in users)
-                    {
-                        try
-                        {
-                            _ = user as IGuildUser;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            users.Remove(user);
-                        }
-                    }
+
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
+                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
@@ -301,7 +297,8 @@ public class GiveawayService : INService
             return;
         if (_client.GetGuild(r.ServerId).GetTextChannel(r.ChannelId) is null)
             return;
-        IUserMessage ch = null;
+        var guild = _client.GetGuild(r.ServerId);
+        IUserMessage ch;
         try
         {
             if (await _client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId).GetMessageAsync(r.MessageId)! is not
@@ -329,9 +326,10 @@ public class GiveawayService : INService
             if (r.Winners == 1)
             {
 
-                var users = reacts.OfType<IGuildUser>().Where(x => !x.IsBot).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
+
                     var parsedreqs = new List<ulong>();
                     var split = r.RestrictTo.Split(" ");
                     foreach (var i in split)
@@ -345,7 +343,7 @@ public class GiveawayService : INService
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
+                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
@@ -379,9 +377,10 @@ public class GiveawayService : INService
             else
             {
                 var rand = new Random();
-                var users = reacts.OfType<IGuildUser>().Where(x => !x.IsBot).ToList();
+                var users = reacts.Where(x => !x.IsBot).Select(x => guild.GetUser(x.Id)).ToList();
                 if (r.RestrictTo is not null)
                 {
+
                     var parsedreqs = new List<ulong>();
                     var split = r.RestrictTo.Split(" ");
                     foreach (var i in split)
@@ -392,22 +391,10 @@ public class GiveawayService : INService
                         }
                     }
 
-                    foreach (var user in users)
-                    {
-                        try
-                        {
-                            _ = user as IGuildUser;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            users.Remove(user);
-                        }
-                    }
-
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.RoleIds.Intersect(parsedreqs).Any())
+                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
