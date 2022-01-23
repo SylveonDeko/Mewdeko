@@ -189,7 +189,7 @@ public class GiveawayService : INService
             if (r.Winners == 1)
             {
                 
-                var users = reacts.Where(x => !x.IsBot && x is not RestUser);
+                var users = reacts.Where(x => !x.IsBot);
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -237,7 +237,7 @@ public class GiveawayService : INService
             else
             {
                 var rand = new Random();
-                var users = reacts.Where(x => !x.IsBot && x is not RestUser);
+                var users = reacts.Where(x => !x.IsBot);
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
