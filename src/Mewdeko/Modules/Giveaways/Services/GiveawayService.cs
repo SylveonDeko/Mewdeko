@@ -189,7 +189,7 @@ public class GiveawayService : INService
             if (r.Winners == 1)
             {
                 
-                var users = reacts.Where(x => !x.IsBot);
+                var users = reacts.Where(x => !x.IsBot).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -201,11 +201,21 @@ public class GiveawayService : INService
                             parsedreqs.Add(parsed);
                         }
                     }
-
+                    foreach (var user1 in users)
+                    {
+                        try
+                        {
+                            _ = user1 as IGuildUser;
+                        }
+                        catch (InvalidCastException)
+                        {
+                            users.Remove(user1);
+                        }
+                    }
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a))).ToList();
                     }
                     catch
                     {
@@ -237,7 +247,7 @@ public class GiveawayService : INService
             else
             {
                 var rand = new Random();
-                var users = reacts.Where(x => !x.IsBot);
+                var users = reacts.Where(x => !x.IsBot).ToList();
                 if (r.RestrictTo is not null)
                 {
                     var parsedreqs = new List<ulong>();
@@ -249,11 +259,21 @@ public class GiveawayService : INService
                             parsedreqs.Add(parsed);
                         }
                     }
-
+                    foreach (var user in users)
+                    {
+                        try
+                        {
+                            _ = user as IGuildUser;
+                        }
+                        catch (InvalidCastException)
+                        {
+                            users.Remove(user);
+                        }
+                    }
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a)));
+                            users = users.Where(x => ((SocketGuildUser)x).Roles.Select(s => s.Id).Any(a => parsedreqs.Any(y => y == a))).ToList();
                     }
                     catch
                     {
