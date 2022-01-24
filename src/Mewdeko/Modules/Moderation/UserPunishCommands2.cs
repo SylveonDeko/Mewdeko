@@ -53,9 +53,9 @@ public partial class Moderation
             if (MWarnlogChannel == 0)
             {
                 await Service.SetMWarnlogChannelId(ctx.Guild, channel);
-                var WarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
+                var warnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
                 await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been set to " +
-                                                   WarnChannel.Mention);
+                                                   warnChannel.Mention);
                 return;
             }
 

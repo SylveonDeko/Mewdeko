@@ -24,19 +24,19 @@ public class DbService
         _migrateOptions = optionsBuilder.Options;
     }
 
-    public void Setup()
+    public async void Setup()
     {
-        using var context = new MewdekoContext(_options);
-        if (context.Database.GetPendingMigrations().Any())
+        await using var context = new MewdekoContext(_options);
+        if ((await context.Database.GetPendingMigrationsAsync()).Any())
         {
             var mContext = new MewdekoContext(_migrateOptions);
-            mContext.Database.Migrate();
-            mContext.SaveChanges();
-            mContext.Dispose();
+            await mContext.Database.MigrateAsync();
+            await mContext.SaveChangesAsync();
+            await mContext.DisposeAsync();
         }
 
-        context.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL");
-        context.SaveChanges();
+        await context.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL");
+        await context.SaveChangesAsync();
     }
 
     private MewdekoContext GetDbContextInternal()
