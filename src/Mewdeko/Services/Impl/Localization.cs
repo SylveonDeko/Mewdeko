@@ -38,6 +38,7 @@ public class Localization : ILocalization
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 return cultureInfo;

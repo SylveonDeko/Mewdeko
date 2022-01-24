@@ -342,12 +342,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Bots Only", role);
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Bots Only", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
                 $"Adding {role.Mention} to {count} Members.\nThis will take about {users.Count()}s.");
@@ -356,18 +356,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} bots before stopped.");
                             return;
                         }
 
                         await i.AddRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -376,7 +376,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} bots!");
         }
 
@@ -406,11 +406,11 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
             var guild = ctx.Guild as SocketGuild;
             var users = guild.Users.Where(c => !c.Roles.Contains(role) && !c.IsBot);
             var count = users.Count();
@@ -420,7 +420,7 @@ public partial class ServerManagement
                 return;
             }
 
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count, "Adding to Users Only", role);
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count, "Adding to Users Only", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
                 $"Adding {role.Mention} to {count} users.\n + This will take about {users.Count()}s.");
@@ -429,18 +429,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} users before stopped.");
                             return;
                         }
 
                         await i.AddRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -449,7 +449,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
         }
 
@@ -490,12 +490,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count,
                 $"Adding a role to server members that have been here for {time.Time.Humanize()}", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -505,18 +505,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} users before stopped.");
                             return;
                         }
 
                         await i.AddRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -525,7 +525,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Applied {role.Mention} to {count2} out of {count} users!");
         }
 
@@ -566,12 +566,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count,
                 $"Adding a role to server members that have been here for {time.Time.Humanize()} or less", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -581,18 +581,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nApplied {role.Mention} to {count2} out of {count} users before stopped.");
                             return;
                         }
 
                         await i.AddRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -640,12 +640,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count,
                 "Removing a role from all server members", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -655,18 +655,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nRemoved {role.Mention} from {count2} out of {count} server members before stopped.");
                             return;
                         }
 
                         await i.RemoveRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -675,7 +675,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} members!");
         }
 
@@ -714,12 +714,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count,
                 "Removing a role from only users", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -729,18 +729,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nRemoved {role.Mention} from {count2} out of {count} users before stopped.");
                             return;
                         }
 
                         await i.RemoveRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -749,7 +749,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} users!");
         }
 
@@ -788,12 +788,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, count,
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, count,
                 "Removing a role from all bots", role);
             var count2 = 0;
             await ctx.Channel.SendConfirmAsync(
@@ -803,18 +803,18 @@ public partial class ServerManagement
                 foreach (var i in users)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nRemoved {role.Mention} from {count2} out of {count} bots before stopped.");
                             return;
                         }
 
                         await i.RemoveRoleAsync(role);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -823,7 +823,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Removed {role.Mention} from {count2} out of {count} bots!");
         }
 
@@ -832,7 +832,7 @@ public partial class ServerManagement
         public async Task AddRoleToRole(IRole role, IRole role2)
         {
             var runnerUser = (IGuildUser) ctx.User;
-            var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+            var client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
                  runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -841,8 +841,8 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Client.GetRoles().Max(x => x.Position) <= role2.Position ||
-                Client.GetRoles().Max(x => x.Position) <= role.Position)
+            if (client.GetRoles().Max(x => x.Position) <= role2.Position ||
+                client.GetRoles().Max(x => x.Position) <= role.Position)
             {
                 await ctx.Channel.SendErrorAsync("I cannot manage these roles!");
                 return;
@@ -864,12 +864,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, inrole.Count(),
                 "Adding a role to users within a role", role, role2);
             await ctx.Channel.SendConfirmAsync(
                 $"Adding {role2.Mention} to users in {role.Mention}.\nThis will take about {inrole.Count()}s.");
@@ -879,18 +879,18 @@ public partial class ServerManagement
                 foreach (var i in inrole)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nAdded {role2.Mention} to {count2} out of {inrole.Count()} users before stopped.");
                             return;
                         }
 
                         await i.AddRoleAsync(role2);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -899,7 +899,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Added {role2.Mention} to {count2} users.");
         }
 
@@ -908,7 +908,7 @@ public partial class ServerManagement
         public async Task RemoveFromRole(IRole role, IRole role2)
         {
             var runnerUser = (IGuildUser) ctx.User;
-            var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+            var client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
                  runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
                 runnerUser.GetRoles().Max(x => x.Position) <= role.Position)
@@ -917,8 +917,8 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Client.GetRoles().Max(x => x.Position) <= role2.Position ||
-                Client.GetRoles().Max(x => x.Position) <= role.Position)
+            if (client.GetRoles().Max(x => x.Position) <= role2.Position ||
+                client.GetRoles().Max(x => x.Position) <= role.Position)
             {
                 await ctx.Channel.SendErrorAsync("I cannot manage these roles!");
                 return;
@@ -933,12 +933,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, inrole.Count(),
                 "Removing a role from users within a role", role, role2);
             var guildUsers = inrole as IGuildUser[] ?? inrole.ToArray();
             await ctx.Channel.SendConfirmAsync(
@@ -949,18 +949,18 @@ public partial class ServerManagement
                 foreach (var i in inrole)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nRemoved {role2.Mention} from {count2} out of {inrole.Count()} users before stopped.");
                             return;
                         }
 
                         await i.RemoveRoleAsync(role2);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -969,7 +969,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync($"Removed {role2.Mention} from {count2} users.");
         }
 
@@ -978,7 +978,7 @@ public partial class ServerManagement
         public async Task AddThenRemove(IRole role, IRole role2)
         {
             await Task.Delay(500);
-            var Client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+            var client = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             var runnerUser = (IGuildUser) ctx.User;
             if ((ctx.User.Id != runnerUser.Guild.OwnerId &&
                  runnerUser.GetRoles().Max(x => x.Position) <= role2.Position) ||
@@ -988,8 +988,8 @@ public partial class ServerManagement
                 return;
             }
 
-            if (Client.GetRoles().Max(x => x.Position) <= role2.Position ||
-                Client.GetRoles().Max(x => x.Position) <= role.Position)
+            if (client.GetRoles().Max(x => x.Position) <= role2.Position ||
+                client.GetRoles().Max(x => x.Position) <= role.Position)
             {
                 await ctx.Channel.SendErrorAsync("I cannot manage these roles!");
                 return;
@@ -1003,12 +1003,12 @@ public partial class ServerManagement
                 return;
             }
 
-            var JobId = 0;
+            var jobId = 0;
             if (Service.Jobslist.FirstOrDefault() is null)
-                JobId = 1;
+                jobId = 1;
             else
-                JobId = Service.Jobslist.FirstOrDefault().JobId + 1;
-            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, JobId, inrole.Count(),
+                jobId = Service.Jobslist.FirstOrDefault().JobId + 1;
+            await Service.AddToList(ctx.Guild, ctx.User as IGuildUser, jobId, inrole.Count(),
                 "Adding then Removing a Role", role, role2);
             await ctx.Channel.SendConfirmAsync(
                 $"Adding {role.Mention} to users in {role2.Mention} and removing {role2.Mention}.\nThis will take about {inrole.Count() * 2}s.");
@@ -1018,11 +1018,11 @@ public partial class ServerManagement
                 foreach (var i in inrole)
                     try
                     {
-                        var e = Service.JobCheck(ctx.Guild, JobId).FirstOrDefault().StoppedOrNot;
+                        var e = Service.JobCheck(ctx.Guild, jobId).FirstOrDefault().StoppedOrNot;
                         var t = e == "Stopped";
                         if (t)
                         {
-                            await Service.RemoveJob(ctx.Guild, JobId);
+                            await Service.RemoveJob(ctx.Guild, jobId);
                             await ctx.Channel.SendConfirmAsync(
                                 $"Massrole Stopped.\nAdded {role2.Mention} and removed {role.Mention} from {count2} users out of {inrole.Count()} users before stopped.");
                             return;
@@ -1030,7 +1030,7 @@ public partial class ServerManagement
 
                         await i.AddRoleAsync(role);
                         await i.RemoveRoleAsync(role2);
-                        await Service.UpdateCount(ctx.Guild, JobId, count2);
+                        await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
                     catch (HttpException e)
@@ -1039,7 +1039,7 @@ public partial class ServerManagement
                     }
             }
 
-            await Service.RemoveJob(ctx.Guild, JobId);
+            await Service.RemoveJob(ctx.Guild, jobId);
             await ctx.Channel.SendConfirmAsync(
                 $"Added {role2.Mention} to {count2} users and removed {role.Mention}.");
         }

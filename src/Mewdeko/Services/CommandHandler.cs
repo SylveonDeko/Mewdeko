@@ -23,22 +23,22 @@ namespace Mewdeko.Services;
 
 public class CommandHandler : INService
 {
-    public const int GlobalCommandsCooldown = 750;
+    public const int GLOBAL_COMMANDS_COOLDOWN = 750;
 
-    private const float _oneThousandth = 1.0f / 1000;
+    private const float ONE_THOUSANDTH = 1.0f / 1000;
     private readonly Mewdeko _bot;
     private readonly BotConfigService _bss;
     private readonly Timer _clearUsersOnShortCooldown;
 
     private readonly DiscordSocketClient _client;
-    public readonly CommandService _commandService;
+    public readonly CommandService CommandService;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
-    private readonly IBotStrings strings;
-    private IEnumerable<IEarlyBehavior> _earlyBehaviors;
-    private IEnumerable<IInputTransformer> _inputTransformers;
-    private IEnumerable<ILateBlocker> _lateBlockers;
-    private IEnumerable<ILateExecutor> _lateExecutors;
+    private readonly IBotStrings _strings;
+    private IEnumerable<IEarlyBehavior> earlyBehaviors;
+    private IEnumerable<IInputTransformer> inputTransformers;
+    private IEnumerable<ILateBlocker> lateBlockers;
+    private IEnumerable<ILateExecutor> lateExecutors;
     public InteractionService InteractionService;
 
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
@@ -46,24 +46,29 @@ public class CommandHandler : INService
         InteractionService interactionService)
     {
         InteractionService = interactionService;
-        strings = strngs;
+        _strings = strngs;
         _client = client;
         _client.ThreadCreated += AttemptJoinThread;
-        _commandService = commandService;
+        CommandService = commandService;
         _bss = bss;
         _bot = bot;
         _db = db;
         _services = services;
         _client.InteractionCreated += InteractionCreated;
-        _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
-            GlobalCommandsCooldown);
-        _prefixes = bot.AllGuildConfigs
+        _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
+            GLOBAL_COMMANDS_COOLDOWN);
+        Prefixes = bot.AllGuildConfigs
             .Where(x => x.Prefix != null)
             .ToDictionary(x => x.GuildId, x => x.Prefix)
             .ToConcurrent();
+        _client.MessageReceived += msg =>
+        {
+            var _ = Task.Run(async () => await MessageReceivedHandler(msg));
+            return Task.CompletedTask;
+        };
     }
 
-    private ConcurrentDictionary<ulong, string> _prefixes { get; } = new();
+    private ConcurrentDictionary<ulong, string> Prefixes { get; } = new();
 
     //userid/msg count
 
@@ -100,7 +105,7 @@ public class CommandHandler : INService
 
     public string GetPrefix(ulong? id = null)
     {
-        if (id is null || !_prefixes.TryGetValue(id.Value, out var prefix))
+        if (id is null || !Prefixes.TryGetValue(id.Value, out var prefix))
             return _bss.Data.Prefix;
 
         return prefix;
@@ -116,7 +121,7 @@ public class CommandHandler : INService
         return prefix;
     }
 
-    public static async Task AttemptJoinThread(SocketThreadChannel chan)
+    private static async Task AttemptJoinThread(SocketThreadChannel chan)
     {
         try
         {
@@ -142,7 +147,7 @@ public class CommandHandler : INService
             uow.SaveChanges();
         }
 
-        _prefixes.AddOrUpdate(guild.Id, prefix, (_, _) => prefix);
+        Prefixes.AddOrUpdate(guild.Id, prefix, (_, _) => prefix);
 
         return prefix;
     }
@@ -150,23 +155,23 @@ public class CommandHandler : INService
 
     public void AddServices(IServiceCollection services)
     {
-        _lateBlockers = services
+        lateBlockers = services
             .Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
             .Select(x => _services.GetService(x.ImplementationType) as ILateBlocker)
             .OrderByDescending(x => x.Priority)
             .ToArray();
 
-        _lateExecutors = services.Where(x =>
+        lateExecutors = services.Where(x =>
                 x.ImplementationType?.GetInterfaces().Contains(typeof(ILateExecutor)) ?? false)
             .Select(x => _services.GetService(x.ImplementationType) as ILateExecutor)
             .ToArray();
 
-        _inputTransformers = services.Where(x =>
+        inputTransformers = services.Where(x =>
                 x.ImplementationType?.GetInterfaces().Contains(typeof(IInputTransformer)) ?? false)
             .Select(x => _services.GetService(x.ImplementationType) as IInputTransformer)
             .ToArray();
 
-        _earlyBehaviors = services.Where(x =>
+        earlyBehaviors = services.Where(x =>
                 x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
             .Select(x => _services.GetService(x.ImplementationType) as IEarlyBehavior)
             .ToArray();
@@ -188,7 +193,6 @@ public class CommandHandler : INService
                 IUserMessage msg = await channel.SendMessageAsync(commandText).ConfigureAwait(false);
                 msg = (IUserMessage) await channel.GetMessageAsync(msg.Id).ConfigureAwait(false);
                 await TryRunCommand(guild, channel, msg).ConfigureAwait(false);
-                //msg.DeleteAfter(5);
             }
             catch
             {
@@ -196,21 +200,12 @@ public class CommandHandler : INService
             }
         }
     }
-
-    public Task StartHandling()
-    {
-        _client.MessageReceived += msg =>
-        {
-            var _ = Task.Run(() => MessageReceivedHandler(msg));
-            return Task.CompletedTask;
-        };
-        return Task.CompletedTask;
-    }
+    
 
     private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
     {
         Log.Information("Command Executed after " +
-                        string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3"))) +
+                        string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3"))) +
                         "s\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
@@ -227,7 +222,7 @@ public class CommandHandler : INService
     private static void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
         params int[] execPoints)
     {
-        var errorafter = string.Join("/", execPoints.Select(x => (x * _oneThousandth).ToString("F3")));
+        var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));
         Log.Warning($"Command Errored after {errorafter}\n\t" +
                     "User: {0}\n\t" +
                     "Server: {1}\n\t" +
@@ -265,23 +260,28 @@ public class CommandHandler : INService
         }
     }
 
-    public async Task TryRunCommand(SocketGuild guild, IChannel channel, IUserMessage usrMsg)
+    private async Task TryRunCommand(SocketGuild guild, IChannel channel, IUserMessage usrMsg)
     {
         var execTime = Environment.TickCount;
 
         //its nice to have early blockers and early blocking executors separate, but
         //i could also have one interface with priorities, and just put early blockers on
         //highest priority. :thinking:
-        foreach (var beh in _earlyBehaviors)
+        foreach (var beh in earlyBehaviors)
             if (await beh.RunBehavior(_client, guild, usrMsg).ConfigureAwait(false))
             {
-                if (beh.BehaviorType == ModuleBehaviorType.Blocker)
-                    Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
-                        usrMsg.Content, beh.GetType().Name);
-                else if (beh.BehaviorType == ModuleBehaviorType.Executor)
-                    Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
-                        usrMsg.Content,
-                        beh.GetType().Name, usrMsg.Author.Id);
+                switch (beh.BehaviorType)
+                {
+                    case ModuleBehaviorType.Blocker:
+                        Log.Information("Blocked User: [{0}] Message: [{1}] Service: [{2}]", usrMsg.Author,
+                            usrMsg.Content, beh.GetType().Name);
+                        break;
+                    case ModuleBehaviorType.Executor:
+                        Log.Information("User [{0}] executed [{1}] in [{2}] User ID: {3}", usrMsg.Author,
+                            usrMsg.Content,
+                            beh.GetType().Name, usrMsg.Author.Id);
+                        break;
+                }
 
 
                 return;
@@ -291,15 +291,14 @@ public class CommandHandler : INService
 
 
         var messageContent = usrMsg.Content;
-        foreach (var exec in _inputTransformers)
+        foreach (var exec in inputTransformers)
         {
             string newContent;
             if ((newContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent)
-                    .ConfigureAwait(false)) != messageContent.ToLowerInvariant())
-            {
-                messageContent = newContent;
-                break;
-            }
+                                        .ConfigureAwait(false))
+                == messageContent.ToLowerInvariant()) continue;
+            messageContent = newContent;
+            break;
         }
 
         var prefix = GetPrefix(guild?.Id);
@@ -330,7 +329,7 @@ public class CommandHandler : INService
                 LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
                 if (guild != null)
                 {
-                    var perms = new PermissionService(_client, _db, this, strings);
+                    var perms = new PermissionService(_client, _db, this, _strings);
                     var pc = perms.GetCacheFor(guild.Id);
                     if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                         await CommandErrored(info, channel as ITextChannel, error).ConfigureAwait(false);
@@ -344,20 +343,20 @@ public class CommandHandler : INService
             await OnMessageNoTrigger(usrMsg).ConfigureAwait(false);
         }
 
-        foreach (var exec in _lateExecutors) await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
+        foreach (var exec in lateExecutors) await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
     }
 
-    public Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
+    private Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos, IServiceProvider serviceProvider,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception) =>
         ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
 
 
-    public async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
+    private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
         string input, IServiceProvider services,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
-        var searchResult = _commandService.Search(context, input);
+        var searchResult = CommandService.Search(context, input);
         if (!searchResult.IsSuccess)
             return (false, null, null);
 
@@ -451,7 +450,7 @@ public class CommandHandler : INService
         //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
         var commandName = cmd.Aliases[0];
-        foreach (var exec in _lateBlockers)
+        foreach (var exec in lateBlockers)
             if (await exec.TryBlockLate(_client, context, cmd.Module.GetTopLevelModule().Name, cmd)
                     .ConfigureAwait(false))
             {

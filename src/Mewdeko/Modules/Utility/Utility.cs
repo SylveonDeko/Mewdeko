@@ -23,24 +23,20 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility : MewdekoModuleBase<UtilityService>
 {
     private static readonly SemaphoreSlim _sem = new(1, 1);
-    private readonly Mewdeko.Services.Mewdeko _bot;
     private readonly DiscordSocketClient _client;
-    private readonly ICoordinator _coord;
     private readonly IBotCredentials _creds;
     private readonly IStatsService _stats;
     private readonly DownloadTracker _tracker;
     private readonly InteractiveService _interactivity;
 
-    public Utility(Mewdeko.Services.Mewdeko mewdeko, DiscordSocketClient client,
-        IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv,
-        ICoordinator coord)
+    public Utility(
+        DiscordSocketClient client,
+        IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv)
     {
-        _coord = coord;
         _interactivity = serv;
         _client = client;
         _stats = stats;
         _creds = creds;
-        _bot = mewdeko;
         _tracker = tracker;
     }
 
@@ -724,8 +720,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task ChannelTopic([Remainder] ITextChannel channel = null)
     {
-        if (channel == null)
-            channel = (ITextChannel) ctx.Channel;
+        channel ??= (ITextChannel)ctx.Channel;
 
         var topic = channel.Topic;
         if (string.IsNullOrWhiteSpace(topic))
@@ -740,7 +735,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var user = await _client.Rest.GetUserAsync(280835732728184843);
         await ctx.Channel.EmbedAsync(
                      new EmbedBuilder().WithOkColor()
-                                       .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BotVersion}")
+                                       .WithAuthor(eab => eab.WithName($"{_client.CurrentUser.Username} v{StatsService.BOT_VERSION}")
                                                              .WithUrl("https://discord.gg/6n3aa9Xapf")
                                                              .WithIconUrl(_client.CurrentUser.GetAvatarUrl()))
                                        .AddField(efb =>
@@ -753,9 +748,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                                        .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
                                        .AddField(efb =>
                                            efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
-                                       .AddField(efb => efb.WithName(GetText("presence")).WithValue(
-                                           GetText("presence_txt",
-                                               _coord.GetGuildCount(), _stats.TextChannels, _stats.VoiceChannels)).WithIsInline(false)))
+                                       .AddField(efb => efb.WithName("Servers").WithValue($"{_client.Guilds.Count} Servers").WithIsInline(false)))
                  .ConfigureAwait(false);
     }
 

@@ -17,9 +17,9 @@ public partial class Administration
     [Group]
     public class DiscordPermOverrideCommands : MewdekoSubmodule<DiscordPermOverrideService>
     {
-        private readonly InteractiveService Interactivity;
+        private readonly InteractiveService _interactivity;
 
-        public DiscordPermOverrideCommands(InteractiveService serv) => Interactivity = serv;
+        public DiscordPermOverrideCommands(InteractiveService serv) => _interactivity = serv;
 
         // override stats, it should require that the user has managessages guild permission
         // .po 'stats' add user guild managemessages
@@ -73,7 +73,7 @@ public partial class Administration
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {

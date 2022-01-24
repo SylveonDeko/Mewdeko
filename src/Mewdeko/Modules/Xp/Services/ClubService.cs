@@ -11,10 +11,10 @@ public class ClubService : INService
     private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
 
-    public ClubService(DbService db, IHttpClientFactory _httpFactory)
+    public ClubService(DbService db, IHttpClientFactory httpFactory)
     {
         _db = db;
-        this._httpFactory = _httpFactory;
+        this._httpFactory = httpFactory;
     }
 
     public bool CreateClub(IUser user, string clubName, out ClubInfo club)
