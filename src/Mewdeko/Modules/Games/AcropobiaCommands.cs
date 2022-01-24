@@ -35,19 +35,19 @@ public partial class Games
                     game.OnEnded += Game_OnEnded;
                     game.OnVotingStarted += Game_OnVotingStarted;
                     game.OnUserVoted += Game_OnUserVoted;
-                    _client.MessageReceived += _client_MessageReceived;
+                    _client.MessageReceived += ClientMessageReceived;
                     await game.Run().ConfigureAwait(false);
                 }
                 finally
                 {
-                    _client.MessageReceived -= _client_MessageReceived;
+                    _client.MessageReceived -= ClientMessageReceived;
                     Service.AcrophobiaGames.TryRemove(channel.Id, out game);
                     game.Dispose();
                 }
             else
                 await ReplyErrorLocalizedAsync("acro_running").ConfigureAwait(false);
 
-            Task _client_MessageReceived(SocketMessage msg)
+            Task ClientMessageReceived(SocketMessage msg)
             {
                 if (msg.Channel.Id != ctx.Channel.Id)
                     return Task.CompletedTask;

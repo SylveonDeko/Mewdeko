@@ -18,16 +18,16 @@ public class RedisLocalDataCache : ILocalDataCache
         _con = con;
         _creds = creds;
 
-        if (shardId == 0)
-            try
-            {
-                TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(QUESTIONS_FILE));
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error loading local data");
-                throw;
-            }
+        if (shardId != 0) return;
+        try
+        {
+            TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(QUESTIONS_FILE));
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error loading local data");
+            throw;
+        }
     }
 
     private IDatabase Db => _con.GetDatabase();

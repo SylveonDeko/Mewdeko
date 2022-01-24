@@ -162,7 +162,7 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          RequireUserPermission(GuildPermission.MuteMembers)]
-        public async Task UNSTFU(IUser user)
+        public async Task Unstfu(IUser user)
         {
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
