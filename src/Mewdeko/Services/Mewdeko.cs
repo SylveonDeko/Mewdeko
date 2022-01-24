@@ -67,7 +67,9 @@ public class Mewdeko
             CaseSensitiveCommands = false,
             DefaultRunMode = RunMode.Async
         });
-        Client.Log += Client_Log;
+        #if DEBUG
+            Client.Log += Client_Log;
+        #endif
     }
 
     private BotCredentials Credentials { get; }
