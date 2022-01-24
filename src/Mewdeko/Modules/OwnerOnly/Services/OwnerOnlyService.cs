@@ -97,6 +97,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }
             catch
             {
+                // ignored
             }
         }, CommandFlags.FireAndForget);
     }
@@ -171,6 +172,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }
             catch
             {
+                // ignored
             }
 
         if (_client.ShardId == 0) await LoadOwnerChannels().ConfigureAwait(false);
