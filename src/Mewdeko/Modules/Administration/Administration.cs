@@ -44,9 +44,9 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         Inherit
     }
 
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
-    public Administration(InteractiveService serv) => Interactivity = serv;
+    public Administration(InteractiveService serv) => _interactivity = serv;
 
     [MewdekoCommand, Usage, Description, Aliases, BotPerm(GuildPermission.ManageNicknames),
      UserPerm(GuildPermission.ManageNicknames), Priority(1)]
@@ -98,7 +98,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                     .WithTitle(
@@ -155,7 +155,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
-            await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                     .WithTitle(

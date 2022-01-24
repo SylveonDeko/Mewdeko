@@ -25,22 +25,22 @@ using Serilog;
 namespace Mewdeko.Modules.Nsfw;
 
 // thanks to halitalf for adding autoboob and autobutt features :D
-public class NSFW : MewdekoModuleBase<SearchesService>
+public class Nsfw : MewdekoModuleBase<SearchesService>
 {
     private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
     public static NekoClient NekoClient = new("Mewdeko");
     private readonly IHttpClientFactory _httpFactory;
     public InteractiveService Interactivity;
-    public KSoftApi ksoftapi;
+    public KSoftApi Ksoftapi;
 
-    public NSFW(IHttpClientFactory factory, KSoftApi kSoftApi, InteractiveService inte)
+    public Nsfw(IHttpClientFactory factory, KSoftApi kSoftApi, InteractiveService inte)
     {
         Interactivity = inte;
         _httpFactory = factory;
-        ksoftapi = kSoftApi;
+        Ksoftapi = kSoftApi;
     }
 
-    public static List<RedditCache> cache { get; set; } = new();
+    public static List<RedditCache> Cache { get; set; } = new();
 
     public static bool CheckIfAlreadyPosted(IGuild guild, string url)
     {
@@ -49,19 +49,19 @@ public class NSFW : MewdekoModuleBase<SearchesService>
             Guild = guild,
             Url = url
         };
-        if (!cache.Any())
+        if (!Cache.Any())
         {
-            cache.Add(e);
+            Cache.Add(e);
             return false;
         }
 
-        if (!cache.Contains(e))
+        if (!Cache.Contains(e))
         {
-            cache.Add(e);
+            Cache.Add(e);
             return false;
         }
 
-        if (cache.Contains(e)) return true;
+        if (Cache.Contains(e)) return true;
         return true;
     }
 
@@ -107,13 +107,13 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     }
 
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task RedditNSFW(string subreddit)
+    public async Task RedditNsfw(string subreddit)
     {
         try
         {
-            var image = await ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
+            var image = await Ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
             while (CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-                image = await ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
+                image = await Ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
             var eb = new EmbedBuilder
             {
                 Description = $"[{image.Title}]({image.Source})",
@@ -132,16 +132,16 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task LewdNeko()
     {
-        var Request = await NekoClient.Nsfw_v3.Neko();
-        var eb = new EmbedBuilder().WithOkColor().WithImageUrl(Request.ImageUrl).WithDescription("nya~");
+        var request = await NekoClient.Nsfw_v3.Neko();
+        var eb = new EmbedBuilder().WithOkColor().WithImageUrl(request.ImageUrl).WithDescription("nya~");
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task LewdNekoGif()
     {
-        var Request = await NekoClient.Nsfw_v3.NekoGif();
-        var eb = new EmbedBuilder().WithOkColor().WithImageUrl(Request.ImageUrl).WithDescription("nya~");
+        var request = await NekoClient.Nsfw_v3.NekoGif();
+        var eb = new EmbedBuilder().WithOkColor().WithImageUrl(request.ImageUrl).WithDescription("nya~");
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
@@ -241,7 +241,7 @@ public class NSFW : MewdekoModuleBase<SearchesService>
     public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist);
 
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
-    private async Task InternalBoobs(IMessageChannel Channel)
+    private async Task InternalBoobs(IMessageChannel channel)
     {
         try
         {
@@ -253,15 +253,15 @@ public class NSFW : MewdekoModuleBase<SearchesService>
                     .ConfigureAwait(false))[0];
             }
 
-            await Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            await Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+            await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
         }
     }
 
-    private async Task InternalButts(IMessageChannel Channel)
+    private async Task InternalButts(IMessageChannel channel)
     {
         try
         {
@@ -273,11 +273,11 @@ public class NSFW : MewdekoModuleBase<SearchesService>
                     .ConfigureAwait(false))[0];
             }
 
-            await Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            await Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+            await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
         }
     }
 

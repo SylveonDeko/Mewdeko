@@ -12,7 +12,7 @@ public class ImageLoader
     private readonly ConnectionMultiplexer _con;
     private readonly HttpClient _http;
 
-    private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> uriTasks = new();
+    private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> _uriTasks = new();
 
     public ImageLoader(HttpClient http, ConnectionMultiplexer con, Func<string, RedisKey> getKey)
     {
@@ -23,7 +23,7 @@ public class ImageLoader
 
     public Func<string, RedisKey> GetKey { get; }
 
-    private IDatabase _db => _con.GetDatabase();
+    private IDatabase Db => _con.GetDatabase();
 
     private async Task<byte[]> GetImageData(Uri uri)
     {
@@ -63,8 +63,8 @@ public class ImageLoader
         if (vals.Any(x => x == null))
             vals = vals.Where(x => x != null).ToArray();
 
-        await _db.KeyDeleteAsync(GetKey(key)).ConfigureAwait(false);
-        await _db.ListRightPushAsync(GetKey(key),
+        await Db.KeyDeleteAsync(GetKey(key)).ConfigureAwait(false);
+        await Db.ListRightPushAsync(GetKey(key),
             vals.Where(x => x != null)
                 .Select(x => (RedisValue) x)
                 .ToArray()).ConfigureAwait(false);
@@ -113,7 +113,7 @@ public class ImageLoader
             else if (kvp.Value.Type == JTokenType.String)
             {
                 var uriTask = HandleUri((Uri) kvp.Value, GetParentString() + kvp.Key);
-                uriTasks.Add(uriTask);
+                _uriTasks.Add(uriTask);
             }
             else if (kvp.Value.Type == JTokenType.Object)
             {
@@ -127,7 +127,7 @@ public class ImageLoader
     public async Task LoadAsync(JObject obj)
     {
         await HandleJObject(obj).ConfigureAwait(false);
-        var results = await Task.WhenAll(uriTasks).ConfigureAwait(false);
-        await _db.StringSetAsync(results.Where(x => x.Key != "").ToArray()).ConfigureAwait(false);
+        var results = await Task.WhenAll(_uriTasks).ConfigureAwait(false);
+        await Db.StringSetAsync(results.Where(x => x.Key != "").ToArray()).ConfigureAwait(false);
     }
 }

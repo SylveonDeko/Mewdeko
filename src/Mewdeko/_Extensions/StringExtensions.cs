@@ -9,13 +9,13 @@ namespace Mewdeko._Extensions;
 
 public static class StringExtensions
 {
-    private static readonly HashSet<char> lettersAndDigits = new(Enumerable.Range(48, 10)
+    private static readonly HashSet<char> _lettersAndDigits = new(Enumerable.Range(48, 10)
         .Concat(Enumerable.Range(65, 26))
         .Concat(Enumerable.Range(97, 26))
         .Select(x => (char) x));
 
 
-    private static readonly Regex filterRegex =
+    private static readonly Regex _filterRegex =
         new(@"discord(?:\.gg|\.io|\.me|\.li|(?:app)?\.com\/invite)\/(\w+)", RegexOptions.Compiled |
                                                                             RegexOptions.IgnoreCase);
 
@@ -160,7 +160,7 @@ public static class StringExtensions
         return ms;
     }
 
-    public static bool IsDiscordInvite(this string str) => filterRegex.IsMatch(str);
+    public static bool IsDiscordInvite(this string str) => _filterRegex.IsMatch(str);
 
 
     public static string SanitizeMentions(this string str, bool sanitizeRoleMentions = false)
@@ -185,5 +185,5 @@ public static class StringExtensions
 
     public static string GetInitials(this string txt, string glue = "") => string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
 
-    public static bool IsAlphaNumeric(this string txt) => txt.All(c => lettersAndDigits.Contains(c));
+    public static bool IsAlphaNumeric(this string txt) => txt.All(c => _lettersAndDigits.Contains(c));
 }
