@@ -35,7 +35,7 @@ namespace Mewdeko.Services;
 public class Mewdeko
 {
     private readonly DbService _db;
-    private readonly string _token = "95dd4f5d54692fc533bd1da43f1cab773c71d894";
+    private const string TOKEN = "95dd4f5d54692fc533bd1da43f1cab773c71d894";
 
     public Mewdeko(int shardId)
     {
@@ -70,19 +70,18 @@ public class Mewdeko
         Client.Log += Client_Log;
     }
 
-    public BotCredentials Credentials { get; }
+    private BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
-    public CommandService CommandService { get; }
+    private CommandService CommandService { get; }
     public ImmutableArray<GuildConfig> AllGuildConfigs { get; private set; }
 
-    /* Will have to be removed soon, it's been way too long */
     public static Color OkColor { get; set; }
     public static Color ErrorColor { get; set; }
 
     public TaskCompletionSource<bool> Ready { get; } = new();
 
-    public IServiceProvider Services { get; private set; }
-    public IDataCache Cache { get; }
+    private IServiceProvider Services { get; set; }
+    private IDataCache Cache { get; }
 
 
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
@@ -94,11 +93,11 @@ public class Mewdeko
     {
         var startingGuildIdList = GetCurrentGuildIds();
         var sw = Stopwatch.StartNew();
-        var _bot = Client.CurrentUser;
+        var bot = Client.CurrentUser;
 
         using (var uow = _db.GetDbContext())
         {
-            uow.DiscordUsers.EnsureCreated(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId);
+            uow.DiscordUsers.EnsureCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
         }
 
@@ -109,7 +108,7 @@ public class Mewdeko
             .AddSingleton(CommandService)
             .AddSingleton(this)
             .AddSingleton(Cache)
-            .AddSingleton(new KSoftApi(_token))
+            .AddSingleton(new KSoftApi(TOKEN))
             .AddSingleton(Cache.Redis)
             .AddSingleton<ISeria, JsonSeria>()
             .AddSingleton<IPubSub, RedisPubSub>()
@@ -291,7 +290,7 @@ public class Mewdeko
         return Task.CompletedTask;
     }
 
-    public async Task RunAsync()
+    private async Task RunAsync()
     {
         var sw = Stopwatch.StartNew();
 
@@ -310,22 +309,18 @@ public class Mewdeko
 
         sw.Stop();
         Log.Information("Shard {ShardId} connected in {Elapsed:F2}s", Client.ShardId, sw.Elapsed.TotalSeconds);
-
-        var stats = Services.GetService<IStatsService>();
-        stats.Initialize();
-        var commandHandler = Services.GetService<CommandHandler>();
-        var CommandService = Services.GetService<CommandService>();
-        var InteractionService = Services.GetRequiredService<InteractionService>();
+        var commandService = Services.GetService<CommandService>();
+        var interactionService = Services.GetRequiredService<InteractionService>();
         var lava = Services.GetRequiredService<LavaNode>();
-        await lava.ConnectAsync();await CommandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
-            .ConfigureAwait(false);
-        await InteractionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+        await lava.ConnectAsync();
+        await commandService!.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+                             .ConfigureAwait(false);
+        await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
         if (Client.ShardId == 0)
-            await InteractionService.RegisterCommandsGloballyAsync();
+            await interactionService.RegisterCommandsGloballyAsync();
 
         // start handling messages received in commandhandler
-        await commandHandler.StartHandling().ConfigureAwait(false);
 
 
         HandleStatusChanges();
@@ -353,7 +348,7 @@ public class Mewdeko
         return Task.WhenAll(tasks);
     }
 
-    private Task Client_Log(LogMessage arg)
+    private static Task Client_Log(LogMessage arg)
     {
         if (arg.Exception != null)
             Log.Warning(arg.Exception, arg.Source + " | " + arg.Message);
@@ -372,7 +367,7 @@ public class Mewdeko
 
     private void HandleStatusChanges()
     {
-        var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
+        var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
         sub.Subscribe(Client.CurrentUser.Id + "_status.game_set", async (_, game) =>
         {
             try
@@ -393,7 +388,7 @@ public class Mewdeko
             {
                 var obj = new {Name = "", Url = ""};
                 obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
-                await Client.SetGameAsync(obj.Name, obj.Url, ActivityType.Streaming).ConfigureAwait(false);
+                await Client.SetGameAsync(obj?.Name, obj!.Url, ActivityType.Streaming).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -405,7 +400,7 @@ public class Mewdeko
     public Task SetGameAsync(string game, ActivityType type)
     {
         var obj = new {Name = game, Activity = type};
-        var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
+        var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
         return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
     }
 }

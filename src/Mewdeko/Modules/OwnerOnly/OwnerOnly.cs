@@ -40,13 +40,13 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly ICoordinator _coord;
     private readonly IEnumerable<IConfigService> _settingServices;
     private readonly IBotStrings _strings;
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
 
     public OwnerOnly(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, IBotStrings strings,
         InteractiveService serv, ICoordinator coord, IEnumerable<IConfigService> settingServices)
     {
-        Interactivity = serv;
+        _interactivity = serv;
         _client = client;
         _bot = bot;
         _strings = strings;
@@ -553,7 +553,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -945,14 +945,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
 public sealed class EvaluationEnvironment
 {
-    public EvaluationEnvironment(CommandContext ctx) => this.ctx = ctx;
+    public EvaluationEnvironment(CommandContext ctx) => this.Ctx = ctx;
 
-    public CommandContext ctx { get; }
+    public CommandContext Ctx { get; }
 
-    public IUserMessage Message => ctx.Message;
-    public IMessageChannel Channel => ctx.Channel;
-    public IGuild Guild => ctx.Guild;
-    public IUser User => ctx.User;
-    public IGuildUser Member => (IGuildUser) ctx.User;
-    public DiscordSocketClient Client => ctx.Client as DiscordSocketClient;
+    public IUserMessage Message => Ctx.Message;
+    public IMessageChannel Channel => Ctx.Channel;
+    public IGuild Guild => Ctx.Guild;
+    public IUser User => Ctx.User;
+    public IGuildUser Member => (IGuildUser) Ctx.User;
+    public DiscordSocketClient Client => Ctx.Client as DiscordSocketClient;
 }

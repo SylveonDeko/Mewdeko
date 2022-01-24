@@ -13,7 +13,7 @@ public partial class Moderation
     [Group]
     public class PurgeCommands : MewdekoSubmodule<PurgeService>
     {
-        private static readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
+        private static readonly TimeSpan _twoWeeks = TimeSpan.FromDays(14);
         private readonly IServiceProvider _services;
 
         public PurgeCommands(IServiceProvider servs) => _services = servs;
@@ -81,7 +81,7 @@ public partial class Moderation
                 case "--before":
                     if (time is null)
                         return;
-                    if (time.Time > twoWeeks)
+                    if (time.Time > _twoWeeks)
                         return;
                     await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
                         x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= time.Time.TotalSeconds);
@@ -90,7 +90,7 @@ public partial class Moderation
                 case "--after":
                     if (time is null)
                         return;
-                    if (time.Time > twoWeeks)
+                    if (time.Time > _twoWeeks)
                         return;
                     await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
                         x => DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds >= time.Time.TotalSeconds);
@@ -137,11 +137,11 @@ public partial class Moderation
 
             if (parameter is "-s" or "--safe")
                 await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
-                        m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks && !m.IsPinned)
+                        m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < _twoWeeks && !m.IsPinned)
                     .ConfigureAwait(false);
             else
                 await Service.PurgeWhere((ITextChannel) ctx.Channel, count,
-                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < twoWeeks).ConfigureAwait(false);
+                    m => m.Author.Id == userId && DateTime.UtcNow - m.CreatedAt < _twoWeeks).ConfigureAwait(false);
         }
     }
 }

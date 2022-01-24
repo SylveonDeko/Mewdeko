@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Net.Http;
 using System.Threading;
 using Discord;
 using Discord.Rest;
@@ -14,110 +13,23 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BotVersion = "3.84";
+    public const string BOT_VERSION = "3.84";
 
-    private readonly DiscordSocketClient _client;
     private readonly DateTime _started;
 
-    private long _textChannels;
-    private readonly Timer _botlistTimer;
-    private long _voiceChannels;
-
     public StatsService(
-        DiscordSocketClient client,
-        CommandHandler cmdHandler,
-        IBotCredentials creds,
-        Mewdeko Mewdeko,
-        IDataCache cache,
-        IHttpClientFactory factory,
-        ICoordinator coord)
+        DiscordSocketClient client)
     {
-        _client = client;
         _ = new DllVersionChecker();
 
         _started = DateTime.UtcNow;
-
-        _client.ChannelCreated += c =>
-        {
-            var _ = Task.Run(() =>
-            {
-                if (c is ITextChannel)
-                    Interlocked.Increment(ref _textChannels);
-                else if (c is IVoiceChannel)
-                    Interlocked.Increment(ref _voiceChannels);
-            });
-
-            return Task.CompletedTask;
-        };
-
-        _client.ChannelDestroyed += c =>
-        {
-            var _ = Task.Run(() =>
-            {
-                if (c is ITextChannel)
-                    Interlocked.Decrement(ref _textChannels);
-                else if (c is IVoiceChannel)
-                    Interlocked.Decrement(ref _voiceChannels);
-            });
-
-            return Task.CompletedTask;
-        };
-
-        _client.GuildAvailable += g =>
-        {
-            var _ = Task.Run(() =>
-            {
-                var tc = g.Channels.Count(cx => cx is ITextChannel);
-                var vc = g.Channels.Count - tc;
-                Interlocked.Add(ref _textChannels, tc);
-                Interlocked.Add(ref _voiceChannels, vc);
-            });
-            return Task.CompletedTask;
-        };
-
-        _client.JoinedGuild += g =>
-        {
-            var _ = Task.Run(() =>
-            {
-                var tc = g.Channels.Count(cx => cx is ITextChannel);
-                var vc = g.Channels.Count - tc;
-                Interlocked.Add(ref _textChannels, tc);
-                Interlocked.Add(ref _voiceChannels, vc);
-            });
-            return Task.CompletedTask;
-        };
-
-        _client.GuildUnavailable += g =>
-        {
-            var _ = Task.Run(() =>
-            {
-                var tc = g.Channels.Count(cx => cx is ITextChannel);
-                var vc = g.Channels.Count - tc;
-                Interlocked.Add(ref _textChannels, -tc);
-                Interlocked.Add(ref _voiceChannels, -vc);
-            });
-
-            return Task.CompletedTask;
-        };
-
-        _client.LeftGuild += g =>
-        {
-            var _ = Task.Run(() =>
-            {
-                var tc = g.Channels.Count(cx => cx is ITextChannel);
-                var vc = g.Channels.Count - tc;
-                Interlocked.Add(ref _textChannels, -tc);
-                Interlocked.Add(ref _voiceChannels, -vc);
-            });
-
-            return Task.CompletedTask;
-        };
-        if (_client.ShardId == 0)
+        
+        if (client.ShardId == 0)
         {
 
 #if !DEBUG
 
-            _botlistTimer = new Timer(async (state) =>
+            _ = new Timer(async (state) =>
             {
                 try
                 {
@@ -156,16 +68,8 @@ public class StatsService : IStatsService
 
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
-
-    public long TextChannels => Interlocked.Read(ref _textChannels);
-    public long VoiceChannels => Interlocked.Read(ref _voiceChannels);
-
-    public void Initialize()
-    {
-        var guilds = _client.Guilds.ToArray();
-        _textChannels = guilds.Sum(g => g.Channels.Count(cx => cx is ITextChannel));
-        _voiceChannels = guilds.Sum(g => g.Channels.Count(cx => cx is IVoiceChannel));
-    }
+    
+    
 
     private TimeSpan GetUptime() => DateTime.UtcNow - _started;
 

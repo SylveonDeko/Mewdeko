@@ -158,7 +158,7 @@ public sealed class RedisImagesCache : IImageCache
         var urls = JsonConvert.DeserializeObject<ImageUrls>(
             File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
 
-        if (urls.Version >= 2)
+        if (urls!.Version >= 2)
             return;
         Log.Information("Migrating images v1 to images v2.");
         urls.Version = 2;

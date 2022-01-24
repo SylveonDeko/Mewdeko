@@ -25,7 +25,7 @@ public class UserPunishService : INService
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         Mewdeko.Services.Mewdeko bot, DiscordSocketClient client)
     {
-        _warnlogchannelids = bot.AllGuildConfigs
+        Warnlogchannelids = bot.AllGuildConfigs
                                 .Where(x => x.WarnlogChannelId != 0)
                                 .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
                                 .ToConcurrent();
@@ -37,11 +37,11 @@ public class UserPunishService : INService
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    private ConcurrentDictionary<ulong, ulong> _warnlogchannelids { get; } = new();
+    private ConcurrentDictionary<ulong, ulong> Warnlogchannelids { get; } = new();
 
     public ulong GetWarnlogChannel(ulong? id)
     {
-        if (id == null || !_warnlogchannelids.TryGetValue(id.Value, out var warnlogchannel))
+        if (id == null || !Warnlogchannelids.TryGetValue(id.Value, out var warnlogchannel))
             return 0;
 
         return warnlogchannel;
@@ -56,7 +56,7 @@ public class UserPunishService : INService
             await uow.SaveChangesAsync();
         }
 
-        _warnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
+        Warnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
     }
 
     public async Task<WarningPunishment> Warn(IGuild guild, ulong userId, IUser mod, string reason)
