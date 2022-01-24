@@ -43,14 +43,14 @@ public partial class Xp : MewdekoModuleBase<XpService>
     private readonly GamblingConfigService _gss;
     private readonly DownloadTracker _tracker;
     private readonly XpConfigService _xpConfig;
-    private readonly InteractiveService Interactivity;
+    private readonly InteractiveService _interactivity;
 
     public Xp(DownloadTracker tracker, GamblingConfigService gss, XpConfigService xpconfig, InteractiveService serv)
     {
         _xpConfig = xpconfig;
         _tracker = tracker;
         _gss = gss;
-        Interactivity = serv;
+        _interactivity = serv;
     }
 
     private async Task SendXpSettings(ITextChannel chan)
@@ -60,8 +60,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "xptextrate",
-                value = $"{_xpConfig.Data.XpPerMessage} (Global Default)"
+                Setting = "xptextrate",
+                Value = $"{_xpConfig.Data.XpPerMessage} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -69,8 +69,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "xptextrate",
-                value = $"{Service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
+                Setting = "xptextrate",
+                Value = $"{Service.GetTxtXpRate(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -79,8 +79,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "voicexprate",
-                value = $"{_xpConfig.Data.VoiceXpPerMinute} (Global Default)"
+                Setting = "voicexprate",
+                Value = $"{_xpConfig.Data.VoiceXpPerMinute} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -88,8 +88,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "xpvoicerate",
-                value = $"{Service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
+                Setting = "xpvoicerate",
+                Value = $"{Service.GetVoiceXpRate(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -98,8 +98,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "txtxptimeout",
-                value = $"{_xpConfig.Data.MessageXpCooldown} (Global Default)"
+                Setting = "txtxptimeout",
+                Value = $"{_xpConfig.Data.MessageXpCooldown} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -107,8 +107,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "txtxptimeout",
-                value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                Setting = "txtxptimeout",
+                Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
@@ -117,8 +117,8 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "voiceminutestimeout",
-                value = $"{_xpConfig.Data.VoiceMaxMinutes} (Global Default)"
+                Setting = "voiceminutestimeout",
+                Value = $"{_xpConfig.Data.VoiceMaxMinutes} (Global Default)"
             };
             list.Add(toadd);
         }
@@ -126,14 +126,14 @@ public partial class Xp : MewdekoModuleBase<XpService>
         {
             var toadd = new XpStuffs
             {
-                setting = "voiceminutestimeout",
-                value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
+                Setting = "voiceminutestimeout",
+                Value = $"{Service.GetXpTimeout(ctx.Guild.Id)} (Server Set)"
             };
             list.Add(toadd);
         }
 
         var strings = new List<string>();
-        foreach (var i in list) strings.Add($"{i.setting,-25} = {i.value}\n");
+        foreach (var i in list) strings.Add($"{i.Setting,-25} = {i.Value}\n");
 
         await chan.SendConfirmAsync(Format.Code(string.Concat(strings), "hs"));
     }
@@ -272,7 +272,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -431,7 +431,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -479,7 +479,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -545,7 +545,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
     private class XpStuffs
     {
-        public string setting { get; set; }
-        public string value { get; set; }
+        public string Setting { get; set; }
+        public string Value { get; set; }
     }
 }

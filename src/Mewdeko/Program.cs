@@ -8,7 +8,6 @@ using Serilog;
 var pid = Environment.ProcessId;
 
 var shardId = 0;
-int? totalShards = null; // 0 to read from creds.yml
 if (args.Length > 0)
 {
     if (!int.TryParse(args[0], out shardId))
@@ -19,13 +18,11 @@ if (args.Length > 0)
 
     if (args.Length > 1)
     {
-        if (!int.TryParse(args[1], out var shardCount))
+        if (!int.TryParse(args[1], out _))
         {
             Console.Error.WriteLine("Invalid second argument (total shards): {0}", args[1]);
             return;
         }
-
-        totalShards = shardCount;
     }
 }
 

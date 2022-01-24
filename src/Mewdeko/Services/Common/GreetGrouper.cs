@@ -4,10 +4,10 @@ namespace Mewdeko.Services.Common;
 
 public class GreetGrouper<T>
 {
-    private readonly Dictionary<ulong, HashSet<T>> group;
-    private readonly object locker = new();
+    private readonly Dictionary<ulong, HashSet<T>> _group;
+    private readonly object _locker = new();
 
-    public GreetGrouper() => group = new Dictionary<ulong, HashSet<T>>();
+    public GreetGrouper() => _group = new Dictionary<ulong, HashSet<T>>();
 
 
     /// <summary>
@@ -18,15 +18,15 @@ public class GreetGrouper<T>
     /// <returns></returns>
     public bool CreateOrAdd(ulong guildId, T toAddIfExists)
     {
-        lock (locker)
+        lock (_locker)
         {
-            if (group.TryGetValue(guildId, out var list))
+            if (_group.TryGetValue(guildId, out var list))
             {
                 list.Add(toAddIfExists);
                 return false;
             }
 
-            group[guildId] = new HashSet<T>();
+            _group[guildId] = new HashSet<T>();
             return true;
         }
     }
@@ -40,15 +40,15 @@ public class GreetGrouper<T>
     /// <returns>Whether the group has no more items left and is deleted</returns>
     public bool ClearGroup(ulong guildId, int count, out IEnumerable<T> items)
     {
-        lock (locker)
+        lock (_locker)
         {
-            if (group.TryGetValue(guildId, out var set))
+            if (_group.TryGetValue(guildId, out var set))
             {
                 // if we want more than there are, return everything
                 if (count >= set.Count)
                 {
                     items = set;
-                    group.Remove(guildId);
+                    _group.Remove(guildId);
                     return true;
                 }
 
