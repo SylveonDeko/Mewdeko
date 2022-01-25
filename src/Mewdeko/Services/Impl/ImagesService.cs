@@ -16,17 +16,17 @@ public sealed class RedisImagesCache : IImageCache
 {
     public enum ImageKey
     {
-        CoinsHeads,
-        CoinsTails,
+        Coins_Heads,
+        Coins_Tails,
         Dice,
-        SlotsBg,
-        SlotsNumbers,
-        SlotsEmojis,
-        RategirlMatrix,
-        RategirlDot,
-        XpBg,
-        RipBg,
-        RipOverlay,
+        Slots_Bg,
+        Slots_Numbers,
+        Slots_Emojis,
+        Rategirl_Matrix,
+        Rategirl_Dot,
+        Xp_Bg,
+        Rip_Bg,
+        Rip_Overlay,
         Currency
     }
 
@@ -52,29 +52,29 @@ public sealed class RedisImagesCache : IImageCache
 
     public ImageUrls ImageUrls { get; private set; }
 
-    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKey.CoinsHeads);
+    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKey.Coins_Heads);
 
-    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKey.CoinsTails);
+    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKey.Coins_Tails);
 
     public IReadOnlyList<byte[]> Dice => GetByteArrayData(ImageKey.Dice);
 
-    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKey.SlotsEmojis);
+    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKey.Slots_Emojis);
 
-    public IReadOnlyList<byte[]> SlotNumbers => GetByteArrayData(ImageKey.SlotsNumbers);
+    public IReadOnlyList<byte[]> SlotNumbers => GetByteArrayData(ImageKey.Slots_Numbers);
 
     public IReadOnlyList<byte[]> Currency => GetByteArrayData(ImageKey.Currency);
 
-    public byte[] SlotBackground => GetByteData(ImageKey.SlotsBg);
+    public byte[] SlotBackground => GetByteData(ImageKey.Slots_Bg);
 
-    public byte[] RategirlMatrix => GetByteData(ImageKey.RategirlMatrix);
+    public byte[] RategirlMatrix => GetByteData(ImageKey.Rategirl_Matrix);
 
-    public byte[] RategirlDot => GetByteData(ImageKey.RategirlDot);
+    public byte[] RategirlDot => GetByteData(ImageKey.Rategirl_Dot);
 
-    public byte[] XpBackground => GetByteData(ImageKey.XpBg);
+    public byte[] XpBackground => GetByteData(ImageKey.Xp_Bg);
 
-    public byte[] Rip => GetByteData(ImageKey.RipBg);
+    public byte[] Rip => GetByteData(ImageKey.Rip_Bg);
 
-    public byte[] RipOverlay => GetByteData(ImageKey.RipOverlay);
+    public byte[] RipOverlay => GetByteData(ImageKey.Rip_Overlay);
 
     public byte[] GetCard(string key) => _con.GetDatabase().StringGet(GetKey("card_" + key));
 

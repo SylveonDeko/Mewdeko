@@ -883,7 +883,7 @@ public class SuggestionsService : INService
         else
         {
             string sug;
-            if (suggest.Suggestion == null)
+            if (suggest.Suggestion is null)
                 sug = guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result
                     .GetMessageAsync(suggest.MessageID).Result.Embeds.FirstOrDefault().Description;
             else
@@ -1024,7 +1024,7 @@ public class SuggestionsService : INService
 
             replacer.Replace(crEmbed);
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
+            if (crEmbed.PlainText is not null && crEmbed.IsEmbedValid)
             {
                 var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true),
                     embed: crEmbed.ToEmbed().Build());
@@ -1053,7 +1053,7 @@ public class SuggestionsService : INService
                 await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             }
 
-            if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
+            if (crEmbed.PlainText is not null && !crEmbed.IsEmbedValid)
             {
                 var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
                 IEmote[] reacts = {tup, tdown};

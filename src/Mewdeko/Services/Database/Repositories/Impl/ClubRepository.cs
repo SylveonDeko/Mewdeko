@@ -49,11 +49,11 @@ public class ClubRepository : Repository<ClubInfo>, IClubRepository
     {
         if (func == null)
             return Set.AsQueryable()
-                .Where(x => x.Name == name && x.Discrim == discrim)
-                .Include(x => x.Users)
-                .Include(x => x.Bans)
-                .Include(x => x.Applicants)
-                .FirstOrDefault();
+                .Where(x => EF.Functions.Collate(x.Name, "NOCASE").Equals(EF.Functions.Collate(x.Name, "NOCASE")) && x.Discrim == discrim)
+                              .Include(x => x.Users)
+                              .Include(x => x.Bans)
+                              .Include(x => x.Applicants)
+                              .FirstOrDefault();
 
         return func(Set).FirstOrDefault(x => x.Name == name && x.Discrim == discrim);
     }
