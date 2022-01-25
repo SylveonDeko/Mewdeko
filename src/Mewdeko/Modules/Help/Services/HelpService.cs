@@ -64,8 +64,12 @@ public class HelpService : ILateExecutor, INService
                 var eb = new EmbedBuilder();
                 eb.WithOkColor();
                 eb.WithDescription(
-                    $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`\n My current Prefix is `{_ch.GetPrefix(chan.Guild)}`\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!\n\n I hope you have a great day!");
-                eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/866321565393748008.png?size=2048");
+                    $"Hi there! To see my command categories do `{_ch.GetPrefix(chan.Guild)}cmds`"
+                    + $"\nMy current Prefix is `{_ch.GetPrefix(chan.Guild)}`"
+                    + $"\nIf you need help using the bot feel free to join the [Support Server](https://discord.gg/6n3aa9Xapf)!"
+                    + $"\n**Please support me! While this bot is free it's not free to run! https://ko-fi.com/mewdeko**"
+                    + $"\n\n I hope you have a great day!");
+                eb.WithThumbnailUrl("https://cdn.discordapp.com/emojis/914307922287276052.gif");
                 eb.WithFooter(new EmbedFooterBuilder().WithText(_client.CurrentUser.Username)
                     .WithIconUrl(_client.CurrentUser.RealAvatarUrl().ToString()));
                 await chan.SendMessageAsync(embed: eb.Build());
