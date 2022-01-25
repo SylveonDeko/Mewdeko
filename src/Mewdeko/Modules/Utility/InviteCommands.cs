@@ -1,5 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Rest;
+using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -17,8 +19,13 @@ public partial class Utility
     public class InviteCommands : MewdekoSubmodule<InviteService>
     {
         private readonly InteractiveService _interactivity;
+        private readonly DiscordSocketClient _client;
 
-        public InviteCommands(InteractiveService serv) => _interactivity = serv;
+        public InviteCommands(InteractiveService serv, DiscordSocketClient client)
+        {
+            _client = client;
+            _interactivity = serv;
+        }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.CreateInstantInvite), UserPerm(ChannelPermission.CreateInstantInvite),
@@ -37,6 +44,44 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        public async Task InviteInfo(string text)
+        {
+            RestGuild guild = null;
+            var invinfo = await _client.Rest.GetInviteAsync(text);
+            try
+            {
+                guild = await _client.Rest.GetGuildAsync(invinfo.GuildId.Value);
+            }
+            catch
+            {
+                // ignored
+            }
+            
+            var eb = new EmbedBuilder().WithOkColor().WithTitle(invinfo.GuildName).WithThumbnailUrl(guild?.IconUrl)
+                                       .WithDescription($"Online: {invinfo.PresenceCount}"
+                                                        + $"\nTotal Count: {invinfo.MemberCount}")
+                                       .AddField("Full Link", invinfo.Url, true)
+                                       .AddField("Channel",
+                                           $"[{invinfo.ChannelName}]"
+                                           + $"(https://discord.com/channels/{invinfo.GuildId}/{invinfo.ChannelId})",
+                                           true).AddField("Inviter",
+                                           $"{invinfo.Inviter.Mention} ({invinfo.Inviter.Id})", true);
+            if (guild is not null)
+            {
+                eb.AddField("Partnered", guild.Features.HasFeature(GuildFeature.Partnered), true)
+                  .AddField("Server Created",
+                      $"{TimestampTag.FromDateTime(guild.CreatedAt.DateTime)}", true)
+                  .AddField("Verified", guild.Features.HasFeature(GuildFeature.Verified), true).AddField("Discovery",
+                      guild.Features.HasFeature(GuildFeature.Discoverable), true);
+            }
+            eb.AddField("Expires",
+                invinfo.MaxAge.HasValue
+                    ? TimestampTag.FromDateTime(
+                        DateTime.UtcNow.Add(TimeSpan.FromDays(invinfo.MaxAge.Value)))
+                    : "Permanent", true);
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.ManageChannels)]
         public async Task InviteList(int page = 1)
