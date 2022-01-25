@@ -18,7 +18,7 @@
     <ItemGroup>
         <PackageReference Include="AngleSharp" Version="1.0.0-alpha-844" />
         <PackageReference Include="Anilist4Net" Version="1.3.0" />
-        <PackageReference Include="AWSSDK.S3" Version="3.7.7.14" />
+        <PackageReference Include="AWSSDK.S3" Version="3.7.7.15" />
         <PackageReference Include="CodeHollow.FeedReader" Version="1.2.4" />
         <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
@@ -81,7 +81,6 @@
             <Link>Protos\coordinator.proto</Link>
         </Protobuf>
         <Compile Remove="credentials.json" />
-        <None Remove="C:\Users\crims\.nuget\packages\nsfwspy\2.5.0\contentFiles\any\netcoreapp2.0\NsfwSpyModel.zip" />
         <None Include="..\..\.editorconfig" Link=".editorconfig" />
         <None Update="data\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -136,15 +135,6 @@
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="credentials_example.json" />
-    </ItemGroup>
-    <ItemGroup>
-        <_ContentIncludedByDefault Remove="Pages\Error.cshtml" />
-        <_ContentIncludedByDefault Remove="Pages\Index.cshtml" />
-        <_ContentIncludedByDefault Remove="Pages\Privacy.cshtml" />
-        <_ContentIncludedByDefault Remove="Pages\Shared\_Layout.cshtml" />
-        <_ContentIncludedByDefault Remove="Pages\Shared\_ValidationScriptsPartial.cshtml" />
-        <_ContentIncludedByDefault Remove="Pages\_ViewImports.cshtml" />
-        <_ContentIncludedByDefault Remove="Pages\_ViewStart.cshtml" />
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
