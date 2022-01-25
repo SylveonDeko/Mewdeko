@@ -8,6 +8,7 @@ using Discord.WebSocket;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
+using System.Net.Http;
 
 namespace Mewdeko.Services.Impl;
 
@@ -16,23 +17,28 @@ public class StatsService : IStatsService
     public const string BOT_VERSION = "3.84";
 
     private readonly DateTime _started;
+    private readonly IHttpClientFactory factory;
+    private readonly DiscordSocketClient _client;
 
     public StatsService(
-        DiscordSocketClient client)
+        DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord)
     {
         _ = new DllVersionChecker();
-
+        _client = client;
         _started = DateTime.UtcNow;
+#if  !DEBUG
         
+
         if (client.ShardId == 0)
         {
 
-#if !DEBUG
+
 
             _ = new Timer(async (state) =>
             {
                 try
                 {
+                    
                     using var http = factory.CreateClient();
                     using var content = new FormUrlEncodedContent(
                         new Dictionary<string, string>
@@ -60,8 +66,8 @@ public class StatsService : IStatsService
                     // ignored
                 }
             }, null, TimeSpan.Zero, TimeSpan.FromMinutes(10));
-#endif
         }
+#endif
     }
 
     public string Library => $"Discord.Net Labs {DllVersionChecker.GetDllVersion()} ";
