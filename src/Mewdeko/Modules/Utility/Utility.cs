@@ -28,11 +28,13 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     private readonly IStatsService _stats;
     private readonly DownloadTracker _tracker;
     private readonly InteractiveService _interactivity;
+    private readonly ICoordinator _coordinator;
 
     public Utility(
         DiscordSocketClient client,
-        IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv)
+        IStatsService stats, IBotCredentials creds, DownloadTracker tracker, InteractiveService serv, ICoordinator coordinator)
     {
+        _coordinator = coordinator;
         _interactivity = serv;
         _client = client;
         _stats = stats;
@@ -748,7 +750,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                                        .AddField(efb => efb.WithName(GetText("memory")).WithValue($"{_stats.Heap} MB").WithIsInline(false))
                                        .AddField(efb =>
                                            efb.WithName(GetText("uptime")).WithValue(_stats.GetUptimeString("\n")).WithIsInline(false))
-                                       .AddField(efb => efb.WithName("Servers").WithValue($"{_client.Guilds.Count} Servers").WithIsInline(false)))
+                                       .AddField(efb => efb.WithName("Servers").WithValue($"{_coordinator.GetGuildCount()} Servers").WithIsInline(false)))
                  .ConfigureAwait(false);
     }
 

@@ -17,23 +17,16 @@ public class StatsService : IStatsService
     public const string BOT_VERSION = "3.84";
 
     private readonly DateTime _started;
-    private readonly IHttpClientFactory factory;
     private readonly DiscordSocketClient _client;
 
     public StatsService(
         DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord)
     {
         _ = new DllVersionChecker();
-        _client = client;
         _started = DateTime.UtcNow;
 #if  !DEBUG
-        
-
         if (client.ShardId == 0)
         {
-
-
-
             _ = new Timer(async (state) =>
             {
                 try
@@ -44,7 +37,7 @@ public class StatsService : IStatsService
                         new Dictionary<string, string>
                         {
                             {"shard_count", creds.TotalShards.ToString()},
-                            {"shard_id", _client.ShardId.ToString()},
+                            {"shard_id", client.ShardId.ToString()},
                             {"server_count", coord.GetGuildCount().ToString()}
                         });
                     content.Headers.Clear();
@@ -57,7 +50,7 @@ public class StatsService : IStatsService
                                      content).ConfigureAwait(false))
                     {
                     }
-                    var chan = _client.Rest.GetChannelAsync(934661783480832000).Result as RestTextChannel;
+                    var chan = client.Rest.GetChannelAsync(934661783480832000).Result as RestTextChannel;
                     await chan.SendMessageAsync("Sent count to top.gg!");
                 }
                 catch (Exception ex)
