@@ -17,7 +17,6 @@ public class StatsService : IStatsService
     public const string BOT_VERSION = "3.84";
 
     private readonly DateTime _started;
-    private readonly DiscordSocketClient _client;
 
     public StatsService(
         DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord)
