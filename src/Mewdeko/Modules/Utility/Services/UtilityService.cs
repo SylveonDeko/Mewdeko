@@ -25,6 +25,7 @@ public class UtilityService : INService
         client.MessageUpdated += MsgStore2;
         client.MessageReceived += MsgReciev;
         client.MessageReceived += MsgReciev2;
+        client.MessagesBulkDeleted += BulkMsgStore;
         _db = db;
         Snipeset = this._bot.AllGuildConfigs
                         .ToDictionary(x => x.GuildId, x => x.snipeset)
@@ -127,6 +128,35 @@ public class UtilityService : INService
 
         Snipeset.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
+
+    private async Task BulkMsgStore(
+        IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
+        Cacheable<IMessageChannel, ulong> channel) =>
+        _ = Task.Run(async () =>
+        {
+            if (!channel.HasValue)
+                return;
+
+            if (channel.Value is not SocketTextChannel chan)
+                return;
+
+            if (!messages.Select(x => x.HasValue).Any())
+                return;
+
+            var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore()
+            {
+                GuildId = chan.Guild.Id,
+                ChannelId = chan.Id,
+                Message = x.Value.Content,
+                UserId = x.Value.Author.Id,
+                Edited = 0
+            });
+            using var uow = _db.GetDbContext();
+            uow.SnipeStore.AddRange(msgs.ToArray());
+            await uow.SaveChangesAsync();
+            var snipes = _snipes.GetOrAdd(chan.Guild.Id, new List<SnipeStore>());
+            snipes.AddRange(msgs);
+        });
 
     private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
