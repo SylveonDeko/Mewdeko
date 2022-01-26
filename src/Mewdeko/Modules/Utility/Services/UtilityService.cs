@@ -139,7 +139,10 @@ public class UtilityService : INService
 
             if (channel.Value is not SocketTextChannel chan)
                 return;
-
+            
+            if (GetSnipeSet(chan.Guild.Id) == 0) 
+                return;
+            
             if (!messages.Select(x => x.HasValue).Any())
                 return;
 
