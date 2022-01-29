@@ -45,6 +45,17 @@ public static class Extensions
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
 
+    public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
+    
+    public static async Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
+    
+    public static async Task SendErrorAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build());
+    
+    public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true);
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
         var first = attachments.FirstOrDefault();
