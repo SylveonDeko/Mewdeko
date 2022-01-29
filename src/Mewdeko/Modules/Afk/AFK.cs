@@ -52,7 +52,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Guild.DownloadUsersAsync();
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0), RequireUserPermission(GuildPermission.ManageGuild)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
     public async Task AfkDel()
     {
         if (Service.GetAfkDel(ctx.Guild.Id) == 0)
@@ -101,7 +101,7 @@ public class Afk : MewdekoModuleBase<AfkService>
                 $"Welcome back {ctx.User.Mention} I have removed your timed AFK.");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task CustomAfkMessage([Remainder] string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -161,7 +161,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [Priority(0), MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages)]
+    [Priority(0), MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task AfkView(IGuildUser user)
     {
         if (!Service.IsAfk(user.Guild, user))
@@ -174,7 +174,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
     }
 
-    [Priority(0), MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageChannels)]
+    [Priority(0), MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
@@ -212,7 +212,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0), RequireUserPermission(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
         if (num > 4096)
@@ -227,7 +227,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(0), RequireUserPermission(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(string ehm)
     {
         switch (ehm.ToLower())
@@ -254,7 +254,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(1), RequireUserPermission(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(int ehm)
     {
         switch (ehm)
@@ -271,7 +271,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.Administrator)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AfkTimeout(StoopidTime time)
     {
         if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
@@ -284,7 +284,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         await ctx.Channel.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageChannels)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
         var mentions = new List<string>();
@@ -323,7 +323,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageChannels)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
         var list = new HashSet<string>();

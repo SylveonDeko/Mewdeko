@@ -28,11 +28,11 @@ public partial class Moderation
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         RequireUserPermission(GuildPermission.MuteMembers), Priority(1)]
+         UserPerm(GuildPermission.MuteMembers), Priority(1)]
         public async Task Stfu(StoopidTime time, IUser user) => await Stfu(user, time);
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         RequireUserPermission(GuildPermission.Administrator)]
+         UserPerm(GuildPermission.Administrator)]
         public async Task RemoveOnMute(string yesnt)
         {
             var users = ctx.Guild.GetUsersAsync().Result.Where(x => x.RoleIds.ToList().Contains(824321516468043779));
@@ -54,7 +54,7 @@ public partial class Moderation
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         RequireUserPermission(GuildPermission.MuteMembers), Priority(0)]
+         UserPerm(GuildPermission.MuteMembers), Priority(0)]
         public async Task Stfu(IUser user, StoopidTime time = null)
         {
             var channel = ctx.Channel as SocketGuildChannel;
@@ -80,7 +80,7 @@ public partial class Moderation
         }
 
         [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild),
-         RequireUserPermission(GuildPermission.Administrator)]
+         UserPerm(GuildPermission.Administrator)]
         public async Task UnmuteAll([Remainder] string reason = null)
         {
             var users = ctx.Guild.GetUsersAsync().Result
@@ -161,7 +161,7 @@ public partial class Moderation
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         RequireUserPermission(GuildPermission.MuteMembers)]
+         UserPerm(GuildPermission.MuteMembers)]
         public async Task Unstfu(IUser user)
         {
             var channel = ctx.Channel as SocketGuildChannel;
