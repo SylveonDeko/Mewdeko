@@ -17,7 +17,7 @@ public class GuildConfig : DbEntity
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
     public int MultiGreetType { get; set; } = 0;
-    public int MinSuggestLength { get; set; } = 4098;
+    public int MinSuggestLength { get; set; } = 0;
     public int MaxSuggestLength { get; set; } = 4098;
     public ulong MemberRole { get; set; } = 0;
     public string TOpenMessage { get; set; } = "none";
@@ -54,7 +54,7 @@ public class GuildConfig : DbEntity
     public AntiAltSetting AntiAltSetting { get; set; }
     public string AfkDisabledChannels { get; set; }
     public int AfkDel { get; set; }
-    public int AfkTimeout { get; set; } = 5;
+    public int AfkTimeout { get; set; } = 20;
     public ulong Joins { get; set; }
     public ulong Leaves { get; set; }
     public ulong Star { get; set; }
