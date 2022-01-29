@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Suggestions;
 public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsService>
 {
     [SlashCommand("suggestmessage", "Allows to set a custom embed when suggesting."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task SuggestMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -43,7 +43,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("minlength", "Set the minimum suggestion length."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task MinSuggestionLength(int length)
     {
         if (length >= 2048)
@@ -58,7 +58,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
     
     [SlashCommand("maxlength", "Set the maximum suggestion length."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task MaxSuggestionLength(int length)
     {
         if (length <= 0)
@@ -73,7 +73,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
     
     [SlashCommand("acceptmessage", "Allows to set a custom embed when a suggestion is accepted."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task AcceptMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -105,7 +105,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("implementmessage", "Allows to set a custom embed when a suggestion is set implemented."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task ImplementMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -137,7 +137,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("denymessage", "Allows to set a custom embed when a suggestion is denied."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task DenyMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -169,7 +169,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
     }
 
     [SlashCommand("considermessage", "Allows to set a custom embed when a suggestion is considered."), RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task ConsiderMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
