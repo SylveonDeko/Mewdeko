@@ -76,7 +76,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
     [SlashCommand("afkmessage", "Allows you to set a custom embed for AFK messages."), 
      RequireContext(ContextType.Guild), 
-     UserPerm(GuildPermission.Administrator)]
+     RequireUserPermission(GuildPermission.Administrator)]
     public async Task CustomAfkMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -136,7 +136,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("view", "View another user's afk message"), UserPerm(GuildPermission.ManageMessages)]
+    [SlashCommand("view", "View another user's afk message"), RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task AfkView(IGuildUser user)
     {
         if (!Service.IsAfk(user.Guild, user))
@@ -149,7 +149,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
     }
 
-    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"), UserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"), RequireUserPermission(GuildPermission.ManageChannels)]
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
@@ -188,7 +188,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("maxlength", "Sets the maximum length of afk messages."), UserPerm(GuildPermission.Administrator)]
+    [SlashCommand("maxlength", "Sets the maximum length of afk messages."), RequireUserPermission(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
         if (num > 4096)
@@ -203,7 +203,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."), UserPerm(GuildPermission.Administrator)]
+    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."), RequireUserPermission(GuildPermission.Administrator)]
     public async Task AfkType(string ehm)
     {
         switch (ehm.ToLower())
@@ -230,7 +230,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."), Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
+    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."), Usage, Description, Aliases, RequireUserPermission(GuildPermission.Administrator)]
     public async Task AfkTimeout(string input)
     {
         var time = StoopidTime.FromInput(input);
@@ -250,7 +250,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
     }
 
-    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."), Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."), Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(ITextChannel channel)
     {
         var chan = new[] {channel};
@@ -290,7 +290,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
     }
 
-    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."), Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."), Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageChannels)]
     public async Task AfkDisable(ITextChannel channel)
     {
         var chan = new[] {channel};
@@ -340,7 +340,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("remove", "Removes afk from a user"), UserPerm(GuildPermission.ManageMessages)]
+    [SlashCommand("remove", "Removes afk from a user"), RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task AfkRemove(IGuildUser user)
     {
         var msg = Service.GetAfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
