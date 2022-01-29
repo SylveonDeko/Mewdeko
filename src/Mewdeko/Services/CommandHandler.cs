@@ -87,17 +87,18 @@ public class CommandHandler : INService
         if (interaction is SocketSlashCommand command)
         {
             var chan = interaction.Channel as ITextChannel;
-            Log.Information("Slash Command Executed" +
-                            "\n\t" +
-                            "User: {0}\n\t" +
-                            "Server: {1}\n\t" +
-                            "Channel: {2}\n\t" +
-                            "Options {3}",
-                interaction.User + " [" + interaction.User.Id + "]", // {0}
-                chan == null ? "PRIVATE" : chan.Guild.Name + " [" + chan.Guild.Id + "]", // {1}
-                chan == null ? "PRIVATE" : chan.Name + " [" + chan.Id + "]", // {2}
-                string.Join(",", command.Data.Options.Select(x => x.Value)) // {3}
-            );
+            Log.Information(
+                "Slash Command Executed"
+                + "\n\t"
+                + "User: {0}\n\t"
+                + "Server: {1}\n\t"
+                + "Channel: {2}\n\t"
+                + "Command: {3}\n\t"
+                + "Options: {4}", $"{interaction.User} [{interaction.User.Id}]", // {0}
+                chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
+                chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
+                command.CommandName, 
+                string.Join(",", command.Data.Options.Select(x => x.Value))); // {3}
         }
     }
 
