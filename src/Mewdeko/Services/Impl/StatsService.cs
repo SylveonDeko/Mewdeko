@@ -17,6 +17,9 @@ public class StatsService : IStatsService
     public const string BOT_VERSION = "3.84";
 
     private readonly DateTime _started;
+#pragma warning disable CS0169
+    private Timer BotListTimer;
+#pragma warning restore CS0169
 
     public StatsService(
         DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord)
@@ -26,7 +29,7 @@ public class StatsService : IStatsService
 #if  !DEBUG
         if (client.ShardId == 0)
         {
-            _ = new Timer(async (state) =>
+            BotListTimer = new Timer(async (state) =>
             {
                 try
                 {
