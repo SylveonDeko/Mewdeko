@@ -11,10 +11,10 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
     public async Task Modules()
     {
         var embed = new EmbedBuilder();
-        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(Ctx.Client.CurrentUser.RealAvatarUrl().ToString())
+        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
             .WithName("Mewdeko Help Menu"));
         embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
-        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(Ctx.Client.CurrentUser.RealAvatarUrl().ToString())
+        embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
                                                  .WithName("Mewdeko Help Menu"));
         embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
         embed.WithDescription(
@@ -43,7 +43,7 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
             true);
         embed.AddField(" Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
-        await Ctx.Interaction.RespondAsync(embed: embed.Build());
+        await ctx.Interaction.RespondAsync(embed: embed.Build());
     }
 
     [SlashCommand("invite", "You should invite me to your server and check all my features!")]
@@ -55,6 +55,6 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
             .WithOkColor();
-        await Ctx.Interaction.RespondAsync(embed: eb.Build());
+        await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 }

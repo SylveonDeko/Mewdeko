@@ -22,17 +22,17 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public UserPunishService2 UPun2 { get; set; }
     public MuteService MServ { get; set; }
 
-    public string Prefix => CmdHandler.GetPrefix(Ctx.Guild);
-    public IRole MuteRole => MServ.GetMuteRole(Ctx.Guild).Result;
-    public ulong WarnlogChannel => UPun.GetWarnlogChannel(Ctx.Guild.Id);
-    public ulong TicketCategory => Sms.GetTicketCategory(Ctx.Guild.Id);
-    public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(Ctx.Guild.Id);
-    public ulong SuggestChannel => SugServ.GetSuggestionChannel(Ctx.Guild.Id);
+    public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
+    public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
+    public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
+    public ulong TicketCategory => Sms.GetTicketCategory(ctx.Guild.Id);
+    public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
+    public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
 
-    protected IInteractionContext Ctx => Context;
+    protected IInteractionContext ctx => Context;
 
-    public override void BeforeExecute(ICommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(Ctx.Guild?.Id);
+    public override void BeforeExecute(ICommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
 
     protected string GetText(string key) => Strings.GetText(key, CultureInfo);
 
@@ -41,25 +41,25 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return Ctx.Channel.SendErrorAsync(text);
+        return ctx.Channel.SendErrorAsync(text);
     }
 
     public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return Ctx.Channel.SendErrorAsync(Format.Bold(Ctx.User.ToString()) + " " + text);
+        return ctx.Channel.SendErrorAsync(Format.Bold(ctx.User.ToString()) + " " + text);
     }
 
     public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return Ctx.Channel.SendConfirmAsync(text);
+        return ctx.Channel.SendConfirmAsync(text);
     }
 
     public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return Ctx.Channel.SendConfirmAsync(Format.Bold(Ctx.User.ToString()) + " " + text);
+        return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
     }
 
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
@@ -67,7 +67,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         embed.WithOkColor();
         var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
             .WithButton("No", "no", ButtonStyle.Danger);
-        var msg = await Ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build())
+        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build())
             .ConfigureAwait(false);
         try
         {
@@ -86,7 +86,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task<string> GetButtonInputAsync(ulong channelId, ulong msgId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) Ctx.Client;
+        var dsc = (DiscordSocketClient) ctx.Client;
         try
         {
             dsc.InteractionCreated += Interaction;
@@ -128,7 +128,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public async Task<string> NextMessageAsync(ulong channelId, ulong userId)
     {
         var userInputTask = new TaskCompletionSource<string>();
-        var dsc = (DiscordSocketClient) Ctx.Client;
+        var dsc = (DiscordSocketClient) ctx.Client;
         try
         {
             dsc.MessageReceived += Interaction;
