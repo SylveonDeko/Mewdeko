@@ -52,12 +52,12 @@ public class AfkService : INService
     private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
     private ConcurrentDictionary<ulong, int> AfkDels { get; }
 
-    public Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
+    private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
         _ = Task.Run(async () =>
         {
             if (user.Value is IGuildUser use)
-                if (GetAfkType(use.GuildId) == 2)
+                if (GetAfkType(use.GuildId) is 2 or 4)
                     if (IsAfk(use.Guild, use))
                     {
                         var t = GetAfkMessage(use.Guild.Id, user.Id).Last();
@@ -68,6 +68,14 @@ public class AfkService : INService
                             await AfkSet(use.Guild, use, "", 0);
                             var msg = await chan.Value.SendMessageAsync(
                                 $"Welcome back {user.Value.Mention}! I noticed you typing so I disabled your afk.");
+                            try
+                            {
+                                await use.ModifyAsync(x => x.Nickname = use.Nickname.Replace("[AFK]", ""));
+                            }
+                            catch
+                            {
+                                //ignored
+                            }
                             msg.DeleteAfter(5);
                         }
                     }
@@ -75,13 +83,13 @@ public class AfkService : INService
         return Task.CompletedTask;
     }
 
-    public Task MessageReceived(SocketMessage msg)
+    private Task MessageReceived(SocketMessage msg)
     {
         _ = Task.Run(async () =>
         {
             if (msg.Author is IGuildUser user)
             {
-                if (GetAfkType(user.Guild.Id) == 3)
+                if (GetAfkType(user.Guild.Id) is 3 or 4)
                     if (IsAfk(user.Guild, user))
                     {
                         var t = GetAfkMessage(user.Guild.Id, user.Id).Last();
@@ -93,6 +101,14 @@ public class AfkService : INService
                             var ms = await msg.Channel.SendMessageAsync(
                                 $"Welcome back {user.Mention}, I have disabled your AFK for you.");
                             ms.DeleteAfter(5);
+                            try
+                            {
+                                await user.ModifyAsync(x => x.Nickname = user.Nickname.Replace("[AFK]", ""));
+                            }
+                            catch
+                            {
+                                //ignored
+                            }
                             return;
                         }
                     }
