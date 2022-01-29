@@ -17,7 +17,7 @@
 //
 //     public SuggestionsModeration(PermissionService permissionService) => this.permissionService = permissionService;
 //
-//     // [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     // [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //     //  RequireBotPermission(GuildPermission.ManageMessages)]
 //     // public async Task DeleteSuggestions(IUser user)
 //     // {
@@ -51,7 +51,7 @@
 //     //     }
 //     //     
 //     // }
-//     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //      RequireBotPermission(GuildPermission.ManageMessages)]
 //     public async Task SuggestBlacklist(IUser user)
 //     {
@@ -66,7 +66,7 @@
 //         await ctx.Channel.SendConfirmAsync($"Blacklisted {user.Mention} from suggestions.");
 //     }
 //     
-//     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //      RequireBotPermission(GuildPermission.ManageMessages)]
 //     public async Task SuggestBlacklist(IRole role)
 //     {
@@ -81,7 +81,7 @@
 //         await ctx.Channel.SendConfirmAsync($"Blacklisted {role.Mention} from suggestions.");
 //     }
 //     
-//     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //      RequireBotPermission(GuildPermission.ManageMessages)]
 //     public async Task SuggestBlacklist(ITextChannel chan)
 //     {
@@ -95,7 +95,7 @@
 //         }).ConfigureAwait(false);
 //         await ctx.Channel.SendConfirmAsync($"Blacklisted {chan.Mention} from suggestions.");
 //     }
-//     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //      RequireBotPermission(GuildPermission.ManageMessages)]
 //     public async Task SuggestUnblacklist(IUser user)
 //     {
@@ -103,7 +103,7 @@
 //         await ctx.Channel.SendConfirmAsync($"Blacklisted {user.Mention} from suggestions.");
 //     }
 //     
-//     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //      RequireBotPermission(GuildPermission.ManageMessages)]
 //     public async Task SuggestBlacklist(IRole role)
 //     {
@@ -118,7 +118,7 @@
 //         await ctx.Channel.SendConfirmAsync($"Blacklisted {role.Mention} from suggestions.");
 //     }
 //     
-//     [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+//     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
 //      RequireBotPermission(GuildPermission.ManageMessages)]
 //     public async Task SuggestBlacklist(ITextChannel chan)
 //     {
