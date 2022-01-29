@@ -139,7 +139,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-     RequireUserPermission(GuildPermission.ManageGuild)]
+     UserPerm(GuildPermission.ManageGuild)]
     public async Task XpSetting(string setting = null, int value = 999999999)
     {
         if (value < 0) return;
