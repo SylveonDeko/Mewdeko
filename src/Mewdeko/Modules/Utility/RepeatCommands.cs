@@ -181,7 +181,7 @@ public partial class Utility
 
             if (string.IsNullOrWhiteSpace(message)
                 || (interval != null &&
-                    (interval.Time > TimeSpan.FromMinutes(25000) || interval.Time < TimeSpan.FromMinutes(1))))
+                    (interval.Time > TimeSpan.FromMinutes(25000) || interval.Time < TimeSpan.FromSeconds(10))))
                 return;
 
             var toAdd = new Repeater

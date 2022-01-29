@@ -19,7 +19,7 @@ public partial class Moderation
         public PurgeCommands(IServiceProvider servs) => _services = servs;
 
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages),
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Purge(string parameter = null)
         {
