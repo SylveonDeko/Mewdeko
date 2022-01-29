@@ -27,7 +27,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         _servs = servs;
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
         using var uow = _db.GetDbContext();
@@ -76,12 +76,12 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what) =>
         await Service.GiveawaysInternal(chan, time.Time, what, winners, ctx.User.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild);
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
         ITextChannel chan = null;
@@ -218,7 +218,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             ctx.Guild, reqroles);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireUserPermission(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
         using var uow = _db.GetDbContext();
@@ -250,7 +250,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
 
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), RequireUserPermission(GuildPermission.ManageMessages)]
+    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
         using var uow = _db.GetDbContext();
