@@ -761,7 +761,7 @@ greetmsg:
     Sets a new join announcement message which will be shown in the server's
     channel. Type `%user.mention%` if you want to mention the new member. Using
     it with no message will show the current greet message. You can use embed
-    json from <https://eb.Mewdeko.bot/> instead of a regular text, if you want
+    json from <https://eb.Mewdeko.tech/> instead of a regular text, if you want
     the message to be embedded.
   args:
     - 'Welcome, %user.mention%.'
@@ -774,7 +774,7 @@ byemsg:
     Sets a new leave announcement message. Type `%user.mention%` if you want to
     show the name the user who left. Type `%id%` to show id. Using this command
     with no message will show the current bye message. You can use embed json
-    from <https://eb.Mewdeko.bot/> instead of a regular text, if you want the
+    from <https://eb.Mewdeko.tech/> instead of a regular text, if you want the
     message to be embedded.
   args:
     - '%user.mention% has left.'
@@ -2202,7 +2202,7 @@ greetdmmsg:
     Sets a new join announcement message which will be sent to the user who
     joined. Type `%user.mention%` if you want to mention the new member. Using
     it with no message will show the current DM greet message. You can use embed
-    json from <https://eb.Mewdeko.bot> instead of a regular text, if you want
+    json from <https://eb.Mewdeko.tech> instead of a regular text, if you want
     the message to be embedded.
   args:
     - 'Welcome to the server, %user.mention%'
