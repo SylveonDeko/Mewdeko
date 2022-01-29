@@ -348,15 +348,24 @@ public class SuggestionsService : INService
     //         $"delete from Suggestions where UserID={suggestions.FirstOrDefault().UserID} and GuildId={channel.GuildId};");
     // }
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null)
+        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
     {
         string rs;
         rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         var use = await guild.GetUserAsync(suggest.UserID);
+        if (suggest.Suggestion is null)
+        {
+            if (interaction is null)
+            {
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.");
+                return;
+            }
 
+            interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
+            return;
+        }
         var eb = new EmbedBuilder();
-        GetDenyMessage(guild);
         if (GetDenyMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
@@ -405,11 +414,17 @@ public class SuggestionsService : INService
                 emb.AddField("Denied By", user);
                 emb.WithErrorColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as denied and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as denied but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as denied but the user had their DMs off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.");
             }
         }
         else
@@ -423,7 +438,6 @@ public class SuggestionsService : INService
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
-            GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserID);
             var replacer = new ReplacementBuilder()
                 .WithServer(client, guild as SocketGuild)
@@ -442,8 +456,12 @@ public class SuggestionsService : INService
             var ebe = CrEmbed.TryParse(GetDenyMessage(guild), out var crEmbed);
             if (ebe is false)
             {
-                await channel.SendErrorAsync(
-                    "The deny message is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                if (interaction is null)
+                    await channel.SendErrorAsync(
+                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
+                if (interaction is not null)
+                    await interaction.SendErrorAsync(
+                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                 await SetDenyMessage(guild, "-");
                 return;
             }
@@ -469,8 +487,12 @@ public class SuggestionsService : INService
                 });
             if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
             {
-                await channel.SendErrorAsync(
-                    "The deny message is invalid,  Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
+                if (interaction is null)
+                    await channel.SendErrorAsync(
+                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
+                if (interaction is not null)
+                    await interaction.SendErrorAsync(
+                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                 return;
             }
 
@@ -484,17 +506,23 @@ public class SuggestionsService : INService
                 emb.AddField("Denied By", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as denied and the user has been dmed the denial!");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as denied and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as denied but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as denied but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as denied but the user had DMs off.");
             }
         }
     }
 
     public async Task SendConsiderEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null)
+        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
     {
         string rs;
         if (reason == null)
@@ -503,15 +531,19 @@ public class SuggestionsService : INService
             rs = reason;
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         var use = await guild.GetUserAsync(suggest.UserID);
-        if (suggest is null)
+        if (suggest.Suggestion is null)
         {
-            await channel.SendErrorAsync(
-                "That suggestion number doesnt exist! Please double check it exists and try again.");
+            if (interaction is null)
+            {
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.");
+                return;
+            }
+
+            await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
 
         var eb = new EmbedBuilder();
-        GetConsiderMessage(guild);
         if (GetConsiderMessage(guild) is "-" or "" or
             null)
         {
@@ -561,12 +593,17 @@ public class SuggestionsService : INService
                 emb.AddField("Denied By", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync(
-                    "Suggestion set as considering and the user has been dmed the consideration!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as considered and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as considered and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as considering but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as considered but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as considered but the user had DMs off.");
             }
         }
         else
@@ -579,7 +616,6 @@ public class SuggestionsService : INService
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
             var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
-            GetSNum(guild.Id);
             var suguse = await guild.GetUserAsync(suggest.UserID);
             var replacer = new ReplacementBuilder()
                 .WithServer(client, guild as SocketGuild)
@@ -598,8 +634,12 @@ public class SuggestionsService : INService
             var ebe = CrEmbed.TryParse(GetConsiderMessage(guild), out var crEmbed);
             if (ebe is false)
             {
-                await channel.SendErrorAsync(
-                    "The consider message is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                if (interaction is null)
+                    await channel.SendErrorAsync(
+                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
+                if (interaction is not null)
+                    await interaction.SendErrorAsync(
+                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                 await SetConsiderMessage(guild, "-");
                 return;
             }
@@ -625,8 +665,12 @@ public class SuggestionsService : INService
                 });
             if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
             {
-                await channel.SendErrorAsync(
-                    "The consider message set is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                if (interaction is null)
+                    await channel.SendErrorAsync(
+                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
+                if (interaction is not null)
+                    await interaction.SendErrorAsync(
+                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                 return;
             }
 
@@ -640,18 +684,23 @@ public class SuggestionsService : INService
                 emb.AddField("Considered by", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync(
-                    "Suggestion set as considering and the user has been dmed the consideration!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as considered and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as considered and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as considering but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as considered but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as considered but the user had DMs off.");
             }
         }
     }
 
     public async Task SendImplementEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null)
+        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
     {
         string rs;
         if (reason == null)
@@ -660,10 +709,15 @@ public class SuggestionsService : INService
             rs = reason;
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         var use = await guild.GetUserAsync(suggest.UserID);
-        if (suggest is null)
+        if (suggest.Suggestion is null)
         {
-            await channel.SendErrorAsync(
-                "That suggestion number doesnt exist! Please double check it exists and try again.");
+            if (interaction is null)
+            {
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.");
+                return;
+            }
+
+            await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
 
@@ -717,11 +771,18 @@ public class SuggestionsService : INService
                 emb.AddField("Implemented By", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync("Suggestion set as implemented and the user has been dmed that!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as implemented and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as implemented and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as implemented but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as implemented but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as implemented but the user had DMs off.");
+
             }
         }
         else
@@ -796,17 +857,24 @@ public class SuggestionsService : INService
                 emb.AddField("Implemented By", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync("Suggestion set as implemented and the user has been dmed that!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as implemented and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as implemented and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as implemented but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as implemented but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as implemented but the user had DMs off.");
+
             }
         }
     }
 
     public async Task SendAcceptEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null)
+        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
     {
         string rs;
         if (reason == null)
@@ -815,15 +883,19 @@ public class SuggestionsService : INService
             rs = reason;
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         var use = await guild.GetUserAsync(suggest.UserID);
-        if (suggest is null)
+        if (suggest.Suggestion is null)
         {
-            await channel.SendErrorAsync(
-                "That suggestion number doesnt exist! Please double check it exists and try again.");
+            if (interaction is null)
+            {
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.");
+                return;
+            }
+
+            await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
 
         var eb = new EmbedBuilder();
-        GetAcceptMessage(guild);
         if (GetAcceptMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
@@ -872,12 +944,18 @@ public class SuggestionsService : INService
                 emb.AddField("Accepted By", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync(
-                    "Suggestion set as accepted and the user has been dmed the acceptance!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as accepted and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as accepted and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as accepted but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as accepted but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as accepted but the user had DMs off.");
+
             }
         }
         else
@@ -951,24 +1029,36 @@ public class SuggestionsService : INService
                 emb.AddField("Accepted By", user);
                 emb.WithOkColor();
                 await guild.GetUserAsync(suggest.UserID).Result.SendMessageAsync(embed: emb.Build());
-                await channel.SendConfirmAsync(
-                    "Suggestion set as accepted and the user has been dmed the acceptance!");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as accepted and the user has been dmed.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as accepted and the user has been dmed.");
             }
             catch
             {
-                await channel.SendConfirmAsync("Suggestion set as accepted but the user had their dms off.");
+                if (interaction is null)
+                    await channel.SendConfirmAsync("Suggestion set as accepted but the user had their dms off.");
+                else
+                    await interaction.SendConfirmAsync("Suggestion set as accepted but the user had DMs off.");
             }
         }
     }
 
     public async Task SendSuggestion(IGuild guild, IGuildUser user, DiscordSocketClient client, string suggestion,
-        ITextChannel channel)
+        ITextChannel channel, IDiscordInteraction interaction = null)
     {
         if (GetSuggestionChannel(guild.Id) == 0)
-        {
-            var msg = await channel.SendErrorAsync(
+        {   
+            if (interaction is null)
+            {
+                var msg = await channel.SendErrorAsync(
                 "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` and try again!");
-            msg.DeleteAfter(3);
+                msg.DeleteAfter(3);
+                return;
+            }
+
+            await interaction.SendEphemeralErrorAsync(
+                "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` then try again!");
             return;
         }
 
@@ -1001,6 +1091,7 @@ public class SuggestionsService : INService
                     await t.AddReactionAsync(ei);
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
+            await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
         }
         else
         {
@@ -1016,8 +1107,16 @@ public class SuggestionsService : INService
             var ebe = CrEmbed.TryParse(GetSuggestionMessage(guild), out var crEmbed);
             if (ebe is false)
             {
-                await channel.SendErrorAsync(
-                    "The custom suggest message set is invalid, I have set it back to default to avoid further issues. Please suggest again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
+                if (interaction is null)
+                {
+                    await channel.SendErrorAsync(
+                    "The custom suggest message set is invalid, I have set it back to default to avoid further issues. Please suggest again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
+                    await SetSuggestionMessage(guild, "-");
+                    return;
+                }
+
+                await interaction.SendEphemeralErrorAsync(
+                    "The custom suggest message set is invalid, I have set it back to default to avoid further issues. Please suggest again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
                 await SetSuggestionMessage(guild, "-");
                 return;
             }
@@ -1066,6 +1165,8 @@ public class SuggestionsService : INService
                 await Sugnum(guild, sugnum1 + 1);
                 await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             }
+
+            await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
         }
     }
 
