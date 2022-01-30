@@ -8,6 +8,11 @@ snipelist:
   args:
     - ""
     - "20"
+editsnipelist:
+  desc: "Shows the last 5 edited messages, unless a different number is specified"
+  args:
+    - ""
+    - "20"
 gstart:
   desc: "Starts giveaway configuration, or predefined values to start one immediately"
   args:
