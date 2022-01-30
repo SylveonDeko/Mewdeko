@@ -253,6 +253,55 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             }
         }
     }
+    
+    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+    public async Task EditSnipeList(int amount = 5)
+    {
+        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        {
+            await ctx.Channel.SendErrorAsync(
+                $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            return;
+        }
+
+        var msgs = Service.GetSnipes(ctx.Guild.Id).Result.Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
+        {
+            var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
+            if (!snipeStores.Any())
+            {
+                await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
+                return;
+            }
+
+            var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(msg.Count() - 1)
+                .WithDefaultEmotes()
+                .Build();
+
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
+                TimeSpan.FromMinutes(60));
+
+            Task<PageBuilder> PageFactory(int page)
+            {
+                var msg1 = msg.Skip(page).FirstOrDefault();
+                var user = ctx.Channel.GetUserAsync(msg1.UserId).Result ??
+                           _client.Rest.GetUserAsync(msg1.UserId).Result;
+                
+                return Task.FromResult(new PageBuilder()
+                    .WithOkColor()
+                    .WithAuthor(
+                        new EmbedAuthorBuilder()
+                            .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
+                            .WithName($"{user} originally said:"))
+                    .WithDescription(msg1.Message
+                                     + $"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+            }
+        }
+    }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Snipe(IUser user1)
