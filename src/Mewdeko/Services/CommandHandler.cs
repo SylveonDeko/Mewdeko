@@ -92,8 +92,11 @@ public class CommandHandler : INService
             var pc = perms.GetCacheFor(user.GuildId);
             if (pc == null)
                 await InteractionService.ExecuteCommandAsync(ctx, _services);
-            if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out _))
-                await command.SendEphemeralErrorAsync("This command has been disabled!");
+            if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out var index))
+                await interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", user.GuildId, index + 1,
+                                 Format.Bold(
+                                     pc.Permissions[index].GetCommand(GetPrefix(user.GuildId), user.Guild as SocketGuild))))
+                             .ConfigureAwait(false);
             else
             {
                 await InteractionService.ExecuteCommandAsync(ctx, _services);

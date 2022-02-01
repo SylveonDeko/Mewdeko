@@ -13,7 +13,7 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BOT_VERSION = "3.85";
+    public const string BOT_VERSION = "3.86";
 
     private readonly DateTime _started;
 #pragma warning disable CS0169
