@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Mewdeko.Services.strings.impl;
 using YamlDotNet.Serialization;
 
 namespace Mewdeko.Common.Attributes;

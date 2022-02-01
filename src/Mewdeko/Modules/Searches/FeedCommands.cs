@@ -1,13 +1,11 @@
 ﻿using CodeHollow.FeedReader;
 using Discord;
 using Discord.Commands;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Extensions.Interactive;
-using Mewdeko.Common.Extensions.Interactive.Entities.Page;
-using Mewdeko.Common.Extensions.Interactive.Pagination;
-using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using Mewdeko.Modules.Searches.Services;
 using Serilog;
 

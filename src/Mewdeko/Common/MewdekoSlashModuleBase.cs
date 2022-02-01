@@ -62,6 +62,9 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
     }
 
+    public async Task<bool> PromptUserConfirmAsync(string text, ulong uid) =>
+        await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription(text), uid);
+
     public async Task<bool> PromptUserConfirmAsync(EmbedBuilder embed, ulong userid)
     {
         embed.WithOkColor();
