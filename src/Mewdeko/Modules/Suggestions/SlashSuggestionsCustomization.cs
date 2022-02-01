@@ -2,12 +2,10 @@
 using Discord.Interactions;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
 
-[Group("suggestcustomize", "Allows you to customize how suggestions work.")]
 public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsService>
 {
     [SlashCommand("suggestmessage", "Allows to set a custom embed when suggesting."), RequireContext(ContextType.Guild),
@@ -42,7 +40,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated suggestion message!");
     }
 
-    [SlashCommand("minlength", "Set the minimum suggestion length."), RequireContext(ContextType.Guild),
+    [SlashCommand("suggestminlength", "Set the minimum suggestion length."), RequireContext(ContextType.Guild),
      RequireUserPermission(GuildPermission.Administrator)]
     public async Task MinSuggestionLength(int length)
     {
@@ -57,7 +55,7 @@ public class SlashSuggestionsCustomization : MewdekoSlashModuleBase<SuggestionsS
         await ctx.Interaction.SendConfirmAsync($"Minimum length set to {length} characters!");
     }
     
-    [SlashCommand("maxlength", "Set the maximum suggestion length."), RequireContext(ContextType.Guild),
+    [SlashCommand("suggestmaxlength", "Set the maximum suggestion length."), RequireContext(ContextType.Guild),
      RequireUserPermission(GuildPermission.Administrator)]
     public async Task MaxSuggestionLength(int length)
     {

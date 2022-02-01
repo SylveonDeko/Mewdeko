@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Help.Services;
@@ -50,6 +51,28 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .AddField("Usages",
                     string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, _ch.GetPrefix(channel.Guild))))
                 .WithErrorColor();
+
+
+            await channel.EmbedAsync(embed).ConfigureAwait(false);
+        }
+        catch
+        {
+            //ignore
+        }
+    }
+    private async Task LogVerboseError(SlashCommandInfo cmd, ITextChannel channel, string reason)
+    {
+        if (channel == null || !_guildsEnabled.Contains(channel.GuildId))
+            return;
+
+        try
+        {
+            var embed = new EmbedBuilder()
+                        .WithTitle("Command Error")
+                        .WithDescription(reason)
+                        .AddField("Usages",
+                            string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, "/")))
+                        .WithErrorColor();
 
 
             await channel.EmbedAsync(embed).ConfigureAwait(false);

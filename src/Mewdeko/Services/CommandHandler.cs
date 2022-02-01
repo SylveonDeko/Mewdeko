@@ -55,6 +55,7 @@ public class CommandHandler : INService
         _db = db;
         _services = services;
         _client.InteractionCreated += InteractionCreated;
+        _client.SlashCommandExecuted += LogSuccesfulExecution;
         _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
         Prefixes = bot.AllGuildConfigs
@@ -77,16 +78,38 @@ public class CommandHandler : INService
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
     public event Func<CommandInfo, ITextChannel, string, Task> CommandErrored = delegate { return Task.CompletedTask; };
-
+    
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
     private async Task InteractionCreated(SocketInteraction interaction)
     {
         var ctx = new SocketInteractionContext(_client, interaction);
-        await InteractionService.ExecuteCommandAsync(ctx, _services);
-        if (interaction is SocketSlashCommand command)
+        if (interaction is not SocketSlashCommand command)
+            return;
+        var perms = new PermissionService(_client, _db, this, _strings);
+        if (interaction.User is IGuildUser user)
         {
-            var chan = interaction.Channel as ITextChannel;
+            var pc = perms.GetCacheFor(user.GuildId);
+            if (pc == null)
+                await InteractionService.ExecuteCommandAsync(ctx, _services);
+            if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out _))
+                await command.SendEphemeralErrorAsync("This command has been disabled!");
+            else
+            {
+                await InteractionService.ExecuteCommandAsync(ctx, _services);
+            }
+        }
+        else
+        {
+            await InteractionService.ExecuteCommandAsync(ctx, _services);
+        }
+    }
+
+    private async Task LogSuccesfulExecution(SocketSlashCommand command) =>
+        await Task.Run(() =>
+        {
+
+            var chan = command.Channel as ITextChannel;
             Log.Information(
                 "Slash Command Executed"
                 + "\n\t"
@@ -94,13 +117,11 @@ public class CommandHandler : INService
                 + "Server: {1}\n\t"
                 + "Channel: {2}\n\t"
                 + "Command: {3}\n\t"
-                + "Options: {4}", $"{interaction.User} [{interaction.User.Id}]", // {0}
+                + "Options: {4}", $"{command.User} [{command.User.Id}]", // {0}
                 chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
-                command.CommandName, 
-                string.Join(",", command.Data.Options.Select(x => x.Value))); // {3}
-        }
-    }
+                command.CommandName, string.Join(",", command.Data.Options.Select(x => x.Value))); // {3}
+        });
 
     public string GetPrefix(IGuild guild) => GetPrefix(guild?.Id);
 

@@ -7,12 +7,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
+using Fergun.Interactive;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Extensions.Interactive.Entities.Page;
 using Mewdeko.Modules.Administration.Services;
-using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -25,6 +25,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
+using ModuleInfo = Discord.Commands.ModuleInfo;
 
 #nullable enable
 namespace Mewdeko._Extensions;
@@ -56,6 +57,20 @@ public static class Extensions
     
     public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string message) 
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true);
+    
+    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
+    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message, ComponentBuilder builder) 
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), components: builder.Build());
+    
+    public static async Task<IUserMessage> SendEphemeralFollowupConfirmAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
+    
+    public static async Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build());
+    
+    public static async Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction, string message) 
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true);
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
         var first = attachments.FirstOrDefault();
@@ -178,6 +193,9 @@ public static class Extensions
 
     public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
+            arg => GetFullUsage(cmd.Name, arg, prefix));
+    public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
+        Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
 
     public static string GetCommandImage(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) => strings.GetCommandStrings(cmd.MethodName(), guildId).Image;
