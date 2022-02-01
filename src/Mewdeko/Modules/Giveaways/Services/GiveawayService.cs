@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Discord;
-using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Microsoft.EntityFrameworkCore;

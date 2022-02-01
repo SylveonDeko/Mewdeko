@@ -1,12 +1,13 @@
 ﻿#nullable enable
 using Discord;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services.Database.Models;
@@ -16,14 +17,13 @@ using Victoria.Enums;
 using Victoria.Responses.Search;
 
 namespace Mewdeko.Modules.Music;
-
-public class Music : MewdekoModuleBase<MusicService>
+public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 {
     private readonly InteractiveService _interactivity;
     private readonly LavaNode _lavaNode;
     private readonly DbService _db;
 
-    public Music(LavaNode lava, InteractiveService interactive, DbService dbService)
+    public SlashMusic(LavaNode lava, InteractiveService interactive, DbService dbService)
     {
         _db = dbService;
         _interactivity = interactive;
@@ -42,22 +42,22 @@ public class Music : MewdekoModuleBase<MusicService>
         Default
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("autodisconnect", "Set the autodisconnect type"), RequireContext(ContextType.Guild)]
     public async Task AutoDisconnect(AutoDisconnect disconnect)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
             (settings, _) => settings.AutoDisconnect = disconnect, disconnect);
-        await ctx.Channel.SendConfirmAsync(
+        await ctx.Interaction.SendConfirmAsync(
             $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("playlists", "Lists your playlists"), RequireContext(ContextType.Guild)]
     public async Task Playlists()
     {
         var plists = Service.GetPlaylists(ctx.User);
         if (!plists.Any())
         {
-            await ctx.Channel.SendErrorAsync("You dont have any saved playlists!");
+            await ctx.Interaction.SendErrorAsync("You dont have any saved playlists!");
             return;
         }
         var paginator = new LazyPaginatorBuilder()
@@ -68,7 +68,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         .WithDefaultCanceledPage()
                         .WithDefaultEmotes()
                         .Build();
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -80,9 +80,10 @@ public class Music : MewdekoModuleBase<MusicService>
         }
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Playlist(PlaylistAction action, [Remainder] string? playlistOrSongName = null)
+    [SlashCommand("playlist", "Create or manage your playlists"), RequireContext(ContextType.Guild)]
+    public async Task Playlist(PlaylistAction action, string? playlistOrSongName = null)
     {
+        await ctx.Interaction.DeferAsync();
         var plists = Service.GetPlaylists(ctx.User);
         switch (action)
         {
@@ -95,7 +96,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         plist = Service.GetDefaultPlaylist(ctx.User);
                     else
                     {
-                        await ctx.Channel.SendErrorAsync(
+                        await ctx.Interaction.SendErrorFollowupAsync(
                             "You have not specified a playlist name and do not have a default playlist set, there's nothing to show!");
                         return;
                     }
@@ -109,12 +110,12 @@ public class Music : MewdekoModuleBase<MusicService>
                 var songcount = 1;
                 if (plist is null)
                 {
-                    await ctx.Channel.SendErrorAsync("This is not a valid playlist!");
+                    await ctx.Interaction.SendErrorFollowupAsync("This is not a valid playlist!");
                     return;
                 }
                 if (!plist.Songs.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("This playlist has no songs!");
+                    await ctx.Interaction.SendErrorFollowupAsync("This playlist has no songs!");
                     return;
                 }
 
@@ -134,7 +135,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 var plist1 = plists.FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName?.ToLower());
                 if (plist1 == null)
                 {
-                    await ctx.Channel.SendErrorAsync("Playlist with that name could not be found!");
+                    await ctx.Interaction.SendErrorFollowupAsync("Playlist with that name could not be found!");
                     return;
                 }
 
@@ -143,7 +144,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Remove(plist1);
                     await uow.SaveChangesAsync();
-                    await ctx.Channel.SendConfirmAsync("Playlist deleted.");
+                    await ctx.Interaction.SendConfirmFollowupAsync("Playlist deleted.");
                 }
 
                 break;
@@ -151,12 +152,12 @@ public class Music : MewdekoModuleBase<MusicService>
             case PlaylistAction.Create:
                 if (playlistOrSongName is null)
                 {
-                    await ctx.Channel.SendErrorAsync("You need to specify a playlist name!");
+                    await ctx.Interaction.SendErrorFollowupAsync("You need to specify a playlist name!");
                 }
 
                 if (Service.GetPlaylists(ctx.User).Select(x => x.Name.ToLower()).Contains(playlistOrSongName?.ToLower()))
                 {
-                    await ctx.Channel.SendErrorAsync("You already have a playlist with this name!");
+                    await ctx.Interaction.SendErrorFollowupAsync("You already have a playlist with this name!");
                 }
                 else
                 {
@@ -170,7 +171,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Add(toadd);
                     await uow.SaveChangesAsync();
-                    await ctx.Channel.SendConfirmAsync(
+                    await ctx.Interaction.SendConfirmFollowupAsync(
                         $"Successfully created playlist with name `{playlistOrSongName}`!");
                 }
 
@@ -181,7 +182,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     var vstate = ctx.User as IVoiceState;
                     if (vstate?.VoiceChannel is null)
                     {
-                        await ctx.Channel.SendErrorAsync("You must be in a channel to use this!");
+                        await ctx.Interaction.SendErrorFollowupAsync("You must be in a channel to use this!");
                         return;
                     }
 
@@ -197,7 +198,7 @@ public class Music : MewdekoModuleBase<MusicService>
                         }
                         catch (Exception)
                         {
-                            await ctx.Channel.SendErrorAsync("Seems I may not have permission to join...");
+                            await ctx.Interaction.SendErrorFollowupAsync("Seems I may not have permission to join...");
                             return;
                         }
                     }
@@ -206,12 +207,12 @@ public class Music : MewdekoModuleBase<MusicService>
                     var musicPlaylists = plist3 as MusicPlaylist[] ?? plist3.ToArray();
                     if (!musicPlaylists.Any())
                     {
-                        await ctx.Channel.SendErrorAsync("A playlist with that name wasnt found!");
+                        await ctx.Interaction.SendErrorFollowupAsync("A playlist with that name wasnt found!");
                         return;
                     }
 
                     var songs3 = musicPlaylists.Select(x => x.Songs).FirstOrDefault();
-                    var msg = await ctx.Channel.SendConfirmAsync(
+                    var msg = await ctx.Interaction.SendConfirmFollowupAsync(
                         $"Queueing {songs3!.Count()} songs from {musicPlaylists.FirstOrDefault()?.Name}...");
                     foreach (var i in songs3!)
                     {
@@ -250,7 +251,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     var vstate = ctx.User as IVoiceState;
                     if (vstate?.VoiceChannel is null)
                     {
-                        await ctx.Channel.SendErrorAsync("You must be in a channel to use this!");
+                        await ctx.Interaction.SendErrorFollowupAsync("You must be in a channel to use this!");
                         return;
                     }
 
@@ -259,7 +260,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     var songs2 = plist2.Songs;
                     if (!songs2.Any())
                     {
-                        await ctx.Channel.SendErrorAsync(
+                        await ctx.Interaction.SendErrorFollowupAsync(
                             "Your default playlist has no songs! Please add songs and try again.");
                         return;
                     }
@@ -276,12 +277,12 @@ public class Music : MewdekoModuleBase<MusicService>
                         }
                         catch (Exception)
                         {
-                            await ctx.Channel.SendErrorAsync("Seems I may not have permission to join...");
+                            await ctx.Interaction.SendErrorFollowupAsync("Seems I may not have permission to join...");
                             return;
                         }
                     }
 
-                    var msg = await ctx.Channel.SendConfirmAsync(
+                    var msg = await ctx.Interaction.SendConfirmFollowupAsync(
                         $"Queueing {songs2.Count()} songs from {plist2.Name}...");
                     foreach (var i in songs2)
                     {
@@ -304,7 +305,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
                 if (Service.GetDefaultPlaylist(ctx.User) is null && string.IsNullOrEmpty(playlistOrSongName))
                 {
-                    await ctx.Channel.SendErrorAsync(
+                    await ctx.Interaction.SendErrorFollowupAsync(
                         "You don't have a default playlist set and have not specified a playlist name!");
                 }
 
@@ -314,7 +315,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 var plists5 = Service.GetPlaylists(ctx.User);
                 if (!plists5.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("You do not have any playlists!");
+                    await ctx.Interaction.SendErrorFollowupAsync("You do not have any playlists!");
                     return;
                 }
 
@@ -330,7 +331,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
                 if (advancedLavaTracks.Length == 1)
                 {
-                    var msg = await ctx.Channel.SendConfirmAsync(
+                    var msg = await ctx.Interaction.SendConfirmFollowupAsync(
                         "Please type the name of the playlist you wanna save this to!");
                     var nmsg = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                     var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
@@ -359,25 +360,25 @@ public class Music : MewdekoModuleBase<MusicService>
                         uow.MusicPlaylists.Update(toupdate);
                         await uow.SaveChangesAsync();
                         await msg.DeleteAsync();
-                        await ctx.Channel.SendConfirmAsync(
+                        await ctx.Interaction.SendConfirmFollowupAsync(
                             $"Added {advancedLavaTracks.FirstOrDefault()?.Title} to {plists6.Name}.");
                     }
                     else
                     {
-                        await ctx.Channel.SendErrorAsync("Please make sure you put in the right playlist name.");
+                        await ctx.Interaction.SendErrorFollowupAsync("Please make sure you put in the right playlist name.");
                     }
                 }
                 else
                 {
                     var components = new ComponentBuilder().WithButton("Save All", "all")
                                                            .WithButton("Choose", "choose");
-                    var msg = await ctx.Channel.SendConfirmAsync(
+                    var msg = await ctx.Interaction.SendConfirmFollowupAsync(
                         "I found more than one result for that name. Would you like me to save all or choose from 10?",
                         components);
                     switch (await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id))
                     {
                         case "all":
-                            msg = await ctx.Channel.SendConfirmAsync(
+                            msg = await ctx.Interaction.SendConfirmFollowupAsync(
                                 "Please type the name of the playlist you wanna save this to!");
                             var nmsg1 = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                             var plists7 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg1.ToLower());
@@ -406,11 +407,11 @@ public class Music : MewdekoModuleBase<MusicService>
                                 uow.MusicPlaylists.Update(toupdate);
                                 await uow.SaveChangesAsync();
                                 await msg.DeleteAsync();
-                                await ctx.Channel.SendConfirmAsync($"Added {toadd.Count()} tracks to {plists7.Name}.");
+                                await ctx.Interaction.SendConfirmFollowupAsync($"Added {toadd.Count()} tracks to {plists7.Name}.");
                             }
                             else
                             {
-                                await ctx.Channel.SendErrorAsync(
+                                await ctx.Interaction.SendErrorFollowupAsync(
                                     "Please make sure you put in the right playlist name.");
                             }
 
@@ -431,13 +432,13 @@ public class Music : MewdekoModuleBase<MusicService>
 
 
                             await msg.DeleteAsync();
-                            var msg2 = await ctx.Channel.SendConfirmAsync(
+                            var msg2 = await ctx.Interaction.SendConfirmFollowupAsync(
                                 string.Join("\n",
                                     advancedLavaTracks.Select(x => $"{count++}. {x.Title.TrimTo(140)} - {x.Author}")),
                                 components1);
                             var response = await GetButtonInputAsync(ctx.Channel.Id, msg2.Id, ctx.User.Id);
                             var track = advancedLavaTracks.ElementAt(int.Parse(response) - 2);
-                            msg = await ctx.Channel.SendConfirmAsync(
+                            msg = await ctx.Interaction.SendConfirmFollowupAsync(
                                 "Please type the name of the playlist you wanna save this to!");
                             var nmsg = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
                             var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
@@ -466,11 +467,11 @@ public class Music : MewdekoModuleBase<MusicService>
                                 uow.MusicPlaylists.Update(toupdate);
                                 await uow.SaveChangesAsync();
                                 await msg.DeleteAsync();
-                                await ctx.Channel.SendConfirmAsync($"Added {track.Title} to {plists6.Name}.");
+                                await ctx.Interaction.SendConfirmFollowupAsync($"Added {track.Title} to {plists6.Name}.");
                             }
                             else
                             {
-                                await ctx.Channel.SendErrorAsync(
+                                await ctx.Interaction.SendErrorFollowupAsync(
                                     "Please make sure you put in the right playlist name.");
                             }
 
@@ -483,13 +484,13 @@ public class Music : MewdekoModuleBase<MusicService>
                 var defaultplaylist = Service.GetDefaultPlaylist(ctx.User);
                 if (string.IsNullOrEmpty(playlistOrSongName) && defaultplaylist is not null)
                 {
-                    await ctx.Channel.SendConfirmAsync($"Your current default playlist is {defaultplaylist.Name}");
+                    await ctx.Interaction.SendConfirmFollowupAsync($"Your current default playlist is {defaultplaylist.Name}");
                     return;
                 }
 
                 if (string.IsNullOrEmpty(playlistOrSongName) && defaultplaylist is null)
                 {
-                    await ctx.Channel.SendErrorAsync("You do not have a default playlist set.");
+                    await ctx.Interaction.SendErrorFollowupAsync("You do not have a default playlist set.");
                     return;
                 }
 
@@ -499,21 +500,21 @@ public class Music : MewdekoModuleBase<MusicService>
                                         .FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower());
                     if (plist4 is null)
                     {
-                        await ctx.Channel.SendErrorAsync(
+                        await ctx.Interaction.SendErrorFollowupAsync(
                             "Playlist by that name wasn't found. Please try another name!");
                         return;
                     }
 
                     if (plist4.Name == defaultplaylist.Name)
                     {
-                        await ctx.Channel.SendErrorAsync("This is already your default playlist!");
+                        await ctx.Interaction.SendErrorFollowupAsync("This is already your default playlist!");
                         return;
                     }
 
                     if (await PromptUserConfirmAsync("Are you sure you want to switch default playlists?", ctx.User.Id))
                     {
                         await Service.UpdateDefaultPlaylist(ctx.User, plist4);
-                        await ctx.Channel.SendConfirmAsync("Default Playlist Updated.");
+                        await ctx.Interaction.SendConfirmFollowupAsync("Default Playlist Updated.");
                     }
                 }
 
@@ -523,32 +524,32 @@ public class Music : MewdekoModuleBase<MusicService>
                                         .FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName.ToLower());
                     if (plist4 is null)
                     {
-                        await ctx.Channel.SendErrorAsync(
+                        await ctx.Interaction.SendErrorFollowupAsync(
                             "Playlist by that name wasn't found. Please try another name!");
                         return;
                     }
 
                     await Service.UpdateDefaultPlaylist(ctx.User, plist4);
-                    await ctx.Channel.SendConfirmAsync("Default Playlist Set.");
+                    await ctx.Interaction.SendConfirmFollowupAsync("Default Playlist Set.");
                 }
 
                 break;
         }
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("join", "Join your current voice channel."), RequireContext(ContextType.Guild)]
     public async Task Join()
     {
         if (_lavaNode.HasPlayer(Context.Guild))
         {
-            await ctx.Channel.SendErrorAsync("I'm already connected to a voice channel!");
+            await ctx.Interaction.SendErrorAsync("I'm already connected to a voice channel!");
             return;
         }
 
         var voiceState = Context.User as IVoiceState;
         if (voiceState?.VoiceChannel == null)
         {
-            await ctx.Channel.SendErrorAsync("You must be connected to a voice channel!");
+            await ctx.Interaction.SendErrorAsync("You must be connected to a voice channel!");
             return;
         }
 
@@ -564,32 +565,32 @@ public class Music : MewdekoModuleBase<MusicService>
             {//
             }
         }
-        await ctx.Channel.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!");
+        await ctx.Interaction.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("leave", "Leave your current voice channel"), RequireContext(ContextType.Guild)]
     public async Task Leave()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to any voice channels!");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to any voice channels!");
             return;
         }
 
         var voiceChannel = (Context.User as IVoiceState)?.VoiceChannel ?? player.VoiceChannel;
         if (voiceChannel == null)
         {
-            await ctx.Channel.SendErrorAsync("Not sure which voice channel to disconnect from.");
+            await ctx.Interaction.SendErrorAsync("Not sure which voice channel to disconnect from.");
             return;
         }
 
         await _lavaNode.LeaveAsync(voiceChannel);
-        await ctx.Channel.SendConfirmAsync($"I've left {voiceChannel.Name}!");
+        await ctx.Interaction.SendConfirmAsync($"I've left {voiceChannel.Name}!");
         await Service.QueueClear(ctx.Guild.Id);
     }
 
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("queueplay", "Plays a song from a number in queue"), RequireContext(ContextType.Guild)]
     public async Task Play(int number)
     {
         var queue = Service.GetQueue(ctx.Guild.Id);
@@ -598,7 +599,7 @@ public class Music : MewdekoModuleBase<MusicService>
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
+                await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
                 return;
             }
         }
@@ -623,29 +624,19 @@ public class Music : MewdekoModuleBase<MusicService>
         }
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("play", "play a song using the name or a link"), RequireContext(ContextType.Guild)]
     // ReSharper disable once MemberCanBePrivate.Global
-    public async Task Play([Remainder] string? searchQuery = null)
+    public async Task Play(string? searchQuery)
     {
         var count = 0;
-        if (string.IsNullOrWhiteSpace(searchQuery))
-        {
-            var firstattach = ctx.Message.Attachments;
-            if (!firstattach.Any())
-            {
-                await ctx.Channel.SendErrorAsync("Please provide a url or file to play.");
-                return;
-            }
-
-            searchQuery = firstattach.FirstOrDefault()?.Url;
-        }
+        await ctx.Interaction.DeferAsync();
 
         if (!_lavaNode.HasPlayer(Context.Guild))
         {
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
+                await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
                 return;
             }
 
@@ -659,13 +650,13 @@ public class Music : MewdekoModuleBase<MusicService>
                     }
                     catch
                     {
-                        await ctx.Channel.SendErrorAsync(
+                        await ctx.Interaction.SendErrorAsync(
                             "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.");
                     }
             }
             catch
             {
-                await ctx.Channel.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!");
+                await ctx.Interaction.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!");
                 return;
             }
         }
@@ -676,10 +667,8 @@ public class Music : MewdekoModuleBase<MusicService>
         SearchResponse searchResponse;
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
             if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
-                searchQuery.Contains("soundcloud.com") || searchQuery.CheckIfMusicUrl() || ctx.Message.Attachments.IsValidAttachment())
+                searchQuery.Contains("soundcloud.com") || searchQuery.CheckIfMusicUrl())
             {
-                if (ctx.Message.Attachments.IsValidAttachment())
-                    searchQuery = ctx.Message.Attachments.FirstOrDefault()?.Url;
                 searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                 var track1 = searchResponse.Tracks.FirstOrDefault();
                 var platform = AdvancedLavaTrack.Platform.Youtube;
@@ -725,7 +714,7 @@ public class Music : MewdekoModuleBase<MusicService>
         searchResponse = await _lavaNode.SearchAsync(SearchType.YouTube, searchQuery);
         if (searchResponse.Status is SearchStatus.LoadFailed or SearchStatus.NoMatches)
         {
-            await ctx.Channel.SendErrorAsync("Seems like I can't find that video, please try again.");
+            await ctx.Interaction.SendErrorAsync("Seems like I can't find that video, please try again.");
             return;
         }
 
@@ -737,7 +726,7 @@ public class Music : MewdekoModuleBase<MusicService>
             .WithDescription("Play all that I found\n" +
                              "Let you select from the top 5\n" +
                              "Just play the first thing I found");
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb12.Build(), components: components.Build());
+        var msg = await ctx.Interaction.FollowupAsync(embed: eb12.Build(), components: components.Build());
         var button = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
         switch (button)
         {
@@ -839,140 +828,144 @@ public class Music : MewdekoModuleBase<MusicService>
         }
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("pause", "Pauses the current track"), RequireContext(ContextType.Guild)]
     public async Task Pause()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.");
             return;
         }
 
         if (player.PlayerState != PlayerState.Playing)
         {
             await player.ResumeAsync();
-            await ctx.Channel.SendConfirmAsync("Resumed player.");
+            await ctx.Interaction.SendConfirmAsync("Resumed player.");
             return;
         }
 
         await player.PauseAsync();
-        await ctx.Channel.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
+        await ctx.Interaction.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("shuffle", "Shuffles the current queue"), RequireContext(ContextType.Guild)]
     public async Task Shuffle()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out _))
         {
-            await ctx.Channel.SendErrorAsync("I'm not even playing anything.");
+            await ctx.Interaction.SendErrorAsync("I'm not even playing anything.");
             return;
         }
 
         if (!Service.GetQueue(ctx.Guild.Id).Any())
         {
-            await ctx.Channel.SendErrorAsync("There's nothing in queue.");
+            await ctx.Interaction.SendErrorAsync("There's nothing in queue.");
             return;
         }
 
         if (Service.GetQueue(ctx.Guild.Id).Count == 1)
         {
-            await ctx.Channel.SendErrorAsync("... There's literally only one thing in queue.");
+            await ctx.Interaction.SendErrorAsync("... There's literally only one thing in queue.");
             return;
         }
 
         Service.Shuffle(ctx.Guild);
-        await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!");
+        await ctx.Interaction.SendConfirmAsync("Successfully shuffled the queue!");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("stop", "Stops the player and clears all current songs"), RequireContext(ContextType.Guild)]
     public async Task Stop()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a channel!");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a channel!");
             return;
         }
 
         await player.StopAsync();
         await Service.QueueClear(ctx.Guild.Id);
-        await ctx.Channel.SendConfirmAsync("Stopped the player and cleared the queue!");
+        await ctx.Interaction.SendConfirmAsync("Stopped the player and cleared the queue!");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("skip", "Skip to the next song, if there is one"), RequireContext(ContextType.Guild)]
     public async Task Skip()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.");
             return;
         }
 
         await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player);
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Seek(TimeSpan timeSpan)
+    [SlashCommand("seek", "Seek to a certain time in the current song"), RequireContext(ContextType.Guild)]
+    public async Task Seek(string input)
     {
+        var time = StoopidTime.FromInput(input);
+        if (time is null)
+            return;
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.");
             return;
         }
 
         if (player.PlayerState != PlayerState.Playing)
         {
-            await ctx.Channel.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.");
+            await ctx.Interaction.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.");
             return;
         }
 
-        if (timeSpan > player.Track.Duration)
-            await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.");
-        await player.SeekAsync(timeSpan);
-        await ctx.Channel.SendConfirmAsync($"I've seeked `{player.Track.Title}` to {timeSpan}.");
+        if (time.Time > player.Track.Duration)
+            await ctx.Interaction.SendErrorAsync("That's longer than the song lol, try again.");
+        await player.SeekAsync(time.Time);
+        await ctx.Interaction.SendConfirmAsync($"I've seeked `{player.Track.Title}` to {time.Time}.");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("clearqueue", "Clears the current queue"), RequireContext(ContextType.Guild)]
     public async Task ClearQueue()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.");
             return;
         }
 
         await player.StopAsync();
         await Service.QueueClear(ctx.Guild.Id);
-        await ctx.Channel.SendConfirmAsync("Cleared the queue!");
+        await ctx.Interaction.SendConfirmAsync("Cleared the queue!");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("loop", "Sets the loop type"), RequireContext(ContextType.Guild)]
     public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.PlayerRepeat = reptype,
             reptype);
-        await ctx.Channel.SendConfirmAsync($"Loop has now been set to {reptype}");
+        await ctx.Interaction.SendConfirmAsync($"Loop has now been set to {reptype}");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("volume", "Sets the current volume"), RequireContext(ContextType.Guild)]
     public async Task Volume(ushort volume)
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.");
             return;
         }
 
         if (volume > 100)
         {
-            await ctx.Channel.SendErrorAsync("Max is 100 m8");
+            await ctx.Interaction.SendErrorAsync("Max is 100 m8");
             return;
         }
 
         await player.UpdateVolumeAsync(volume);
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.Volume = volume, volume);
+        await ctx.Interaction.SendConfirmAsync($"Set the volume to {volume}");
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("nowplaying", "Shows the currently playing song"), RequireContext(ContextType.Guild)]
     public async Task NowPlaying()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -999,12 +992,12 @@ public class Music : MewdekoModuleBase<MusicService>
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
-    [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
+    [SlashCommand("queue", "Lists all songs"), RequireContext(ContextType.Guild)]
     public async Task Queue()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out _))
         {
-            await ctx.Channel.SendErrorAsync("I am not playing anything at the moment!");
+            await ctx.Interaction.SendErrorAsync("I am not playing anything at the moment!");
             return;
         }
 
@@ -1018,7 +1011,7 @@ public class Music : MewdekoModuleBase<MusicService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {

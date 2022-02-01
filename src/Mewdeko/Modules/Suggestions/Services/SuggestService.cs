@@ -362,7 +362,7 @@ public class SuggestionsService : INService
                 return;
             }
 
-            interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
+            await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
         var eb = new EmbedBuilder();
