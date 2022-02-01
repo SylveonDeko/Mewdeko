@@ -60,28 +60,6 @@ public class VerboseErrorsService : INService, IUnloadableService
             //ignore
         }
     }
-    private async Task LogVerboseError(SlashCommandInfo cmd, ITextChannel channel, string reason)
-    {
-        if (channel == null || !_guildsEnabled.Contains(channel.GuildId))
-            return;
-
-        try
-        {
-            var embed = new EmbedBuilder()
-                        .WithTitle("Command Error")
-                        .WithDescription(reason)
-                        .AddField("Usages",
-                            string.Join("\n", cmd.RealRemarksArr(_strings, channel.Guild.Id, "/")))
-                        .WithErrorColor();
-
-
-            await channel.EmbedAsync(embed).ConfigureAwait(false);
-        }
-        catch
-        {
-            //ignore
-        }
-    }
 
     public bool ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
