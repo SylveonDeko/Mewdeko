@@ -26,6 +26,25 @@ public static class PermissionExtensions
         permIndex = -1; //defaut behaviour
         return true;
     }
+    public static bool CheckPermissions(this IEnumerable<Permissionv2> permsEnumerable,
+        string commandName,IUser user, IMessageChannel chan, out int permIndex)
+    {
+        var perms = permsEnumerable as List<Permissionv2> ?? permsEnumerable.ToList();
+
+        for (var i = perms.Count - 1; i >= 0; i--)
+        {
+            var perm = perms[i];
+
+            var result = perm.CheckPermission(user, commandName, chan);
+
+            if (result == null) continue;
+            permIndex = i;
+            return result.Value;
+        }
+
+        permIndex = -1; //defaut behaviour
+        return true;
+    }
 
     //null = not applicable
     //true = applicable, allowed
@@ -54,6 +73,42 @@ public static class PermissionExtensions
                 break;
             case PrimaryPermissionType.Category:
                 if (perm.PrimaryTargetId == ((ITextChannel) message.Channel).CategoryId)
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Role:
+                if (guildUser == null)
+                    break;
+                if (guildUser.RoleIds.Contains(perm.PrimaryTargetId))
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Server:
+                if (guildUser == null)
+                    break;
+                return perm.State;
+        }
+
+        return null;
+    }
+    public static bool? CheckPermission(this Permissionv2 perm, IUser user, string commandName, IMessageChannel chan)
+    {
+        if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
+               perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant())))
+        return null;
+
+        var guildUser = user as IGuildUser;
+
+        switch (perm.PrimaryTarget)
+        {
+            case PrimaryPermissionType.User:
+                if (perm.PrimaryTargetId == user.Id)
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Channel:
+                if (perm.PrimaryTargetId == chan.Id)
+                    return perm.State;
+                break;
+            case PrimaryPermissionType.Category:
+                if (perm.PrimaryTargetId == ((ITextChannel) chan).CategoryId)
                     return perm.State;
                 break;
             case PrimaryPermissionType.Role:

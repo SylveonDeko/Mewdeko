@@ -24,6 +24,7 @@
         <PackageReference Include="CoreCLR-NCalc" Version="2.2.92" />
         <PackageReference Include="Discord.Net.Labs" Version="3.6.1" />
         <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5" />
+        <PackageReference Include="Fergun.Interactive.Labs" Version="1.4.1" />
         <PackageReference Include="Html2Markdown" Version="5.0.1.524" />
         <PackageReference Include="Humanizer" Version="2.13.14" />
         <PackageReference Include="JikanDotNet" Version="1.6.0" />
