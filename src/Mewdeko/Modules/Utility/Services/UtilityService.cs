@@ -132,7 +132,7 @@ public class UtilityService : INService
     private async Task BulkMsgStore(
         IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
         Cacheable<IMessageChannel, ulong> channel) =>
-        _ = Task.Run(async () =>
+        await Task.Run(async () =>
         {
             if (!channel.HasValue)
                 return;

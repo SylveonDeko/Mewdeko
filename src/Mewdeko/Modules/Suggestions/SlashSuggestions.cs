@@ -3,15 +3,12 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
-
-[Group("suggestions", "Send and manage suggestions.")]
 public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
 {
-    [SlashCommand("setchannel", "Sets the suggestion channel."), RequireContext(ContextType.Guild),
+    [SlashCommand("setsuggestchannel", "Sets the suggestion channel."), RequireContext(ContextType.Guild),
      RequireUserPermission(GuildPermission.ManageChannels)]
     public async Task SetSuggestChannel(ITextChannel channel = null)
     {

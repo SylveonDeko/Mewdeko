@@ -6,14 +6,12 @@ using Anilist4Net;
 using Anilist4Net.Enums;
 using Discord;
 using Discord.Commands;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using JikanDotNet;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Extensions.Interactive;
-using Mewdeko.Common.Extensions.Interactive.Entities.Page;
-using Mewdeko.Common.Extensions.Interactive.Pagination;
-using Mewdeko.Common.Extensions.Interactive.Pagination.Lazy;
 using NekosSharp;
 using Newtonsoft.Json;
 
@@ -327,13 +325,13 @@ public partial class Searches
 
             Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
                     .WithTitle(Format.Bold($"{result.Results.Skip(page).FirstOrDefault()?.Title}"))
-                    .AddField("First Publish Date", result.Results.Skip(page).FirstOrDefault()?.StartDate)
-                    .AddField("Volumes", result.Results.Skip(page).FirstOrDefault()?.Volumes)
-                    .AddField("Is Still Active", result.Results.Skip(page).FirstOrDefault()?.Publishing)
-                    .AddField("Score", result.Results.Skip(page).FirstOrDefault()?.Score)
-                    .AddField("Url", result.Results.Skip(page).FirstOrDefault()?.URL)
-                    .WithDescription(result.Results.Skip(page).FirstOrDefault()?.Description)
-                    .WithImageUrl(result.Results.Skip(page).FirstOrDefault()?.ImageURL)
+                    .AddField("First Publish Date", result.Results.Skip(page).FirstOrDefault()?.StartDate!)
+                    .AddField("Volumes", result.Results.Skip(page).FirstOrDefault()?.Volumes!)
+                    .AddField("Is Still Active", result.Results.Skip(page).FirstOrDefault()?.Publishing!)
+                    .AddField("Score", result.Results.Skip(page).FirstOrDefault()?.Score!)
+                    .AddField("Url", result.Results.Skip(page).FirstOrDefault()?.URL!)
+                    .WithDescription(result.Results.Skip(page).FirstOrDefault()?.Description!)
+                    .WithImageUrl(result.Results.Skip(page).FirstOrDefault()?.ImageURL!)
                     .WithColor(Mewdeko.Services.Mewdeko.OkColor));
         }
     }
