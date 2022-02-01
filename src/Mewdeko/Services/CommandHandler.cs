@@ -10,10 +10,12 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ExecuteResult = Discord.Commands.ExecuteResult;
@@ -32,6 +34,7 @@ public class CommandHandler : INService
 
     private readonly DiscordSocketClient _client;
     public readonly CommandService CommandService;
+    private readonly DiscordPermOverrideService dpo;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
     private readonly IBotStrings _strings;
@@ -43,8 +46,9 @@ public class CommandHandler : INService
 
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
-        InteractionService interactionService)
+        InteractionService interactionService, DiscordPermOverrideService dpos)
     {
+        dpo = dpos;
         InteractionService = interactionService;
         _strings = strngs;
         _client = client;
@@ -89,17 +93,35 @@ public class CommandHandler : INService
         var perms = new PermissionService(_client, _db, this, _strings);
         if (interaction.User is IGuildUser user)
         {
-            var pc = perms.GetCacheFor(user.GuildId);
-            if (pc == null)
-                await InteractionService.ExecuteCommandAsync(ctx, _services);
-            if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out var index))
-                await interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", user.GuildId, index + 1,
-                                 Format.Bold(
-                                     pc.Permissions[index].GetCommand(GetPrefix(user.GuildId), user.Guild as SocketGuild))))
-                             .ConfigureAwait(false);
+            var dp = dpo.TryGetOverrides(user.GuildId, command.CommandName, out var perm);
+            if (!dp)
+            {
+                var pc = perms.GetCacheFor(user.GuildId);
+                if (pc == null)
+                    await InteractionService.ExecuteCommandAsync(ctx, _services);
+                if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out var index))
+                    await interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", user.GuildId, index + 1,
+                                         Format.Bold(
+                                             pc.Permissions[index].GetCommand(GetPrefix(user.GuildId), user.Guild as SocketGuild))))
+                                     .ConfigureAwait(false);
+            }
             else
             {
-                await InteractionService.ExecuteCommandAsync(ctx, _services);
+                if (user.GuildPermissions.Has(perm.Value))
+                {
+                    var pc = perms.GetCacheFor(user.GuildId);
+                    if (pc == null)
+                        await InteractionService.ExecuteCommandAsync(ctx, _services);
+                    if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out var index))
+                        await interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", user.GuildId, index + 1,
+                                             Format.Bold(
+                                                 pc.Permissions[index].GetCommand(GetPrefix(user.GuildId), user.Guild as SocketGuild))))
+                                         .ConfigureAwait(false);
+                }
+                else
+                {
+                    await command.SendEphemeralErrorAsync($"This command requires `{perm}` to run!");
+                }
             }
         }
         else
