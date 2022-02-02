@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
+using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services.Database.Models;
@@ -331,7 +332,7 @@ public sealed class MusicService : INService
 
     public int GetVolume(ulong guildid) => GetSettingsInternalAsync(guildid).Result.Volume;
 
-    public async Task Skip(IGuild guild, ITextChannel? chan, LavaPlayer player)
+    public async Task Skip(IGuild guild, ITextChannel? chan, LavaPlayer player, IInteractionContext ctx = null)
     {
         var e = _queues.FirstOrDefault(x => x.Key == guild.Id).Value;
         if (e.Any())
@@ -340,6 +341,11 @@ public sealed class MusicService : INService
             var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack!.Index + 1);
             if (nextTrack is null)
             {
+                if (ctx is not null)
+                {
+                    await ctx.Interaction.SendErrorAsync("This is the last track!");
+                    return;
+                }
                 await chan.SendErrorAsync("This is the last track!");
                 return;
             }
@@ -347,10 +353,15 @@ public sealed class MusicService : INService
             if (GetSettingsInternalAsync(guild.Id).Result.PlayerRepeat == PlayerRepeatType.Track)
             {
                 await player.PlayAsync(currentTrack);
+                if (ctx is not null)
+                    await ctx.Interaction.SendConfirmAsync(
+                        "Because of the repeat type I am replaying the current song!");
                 return;
             }
 
             await player.PlayAsync(nextTrack);
+            if (ctx is not null)
+                await ctx.Interaction.SendConfirmAsync("Playing the next track.");
         }
     }
 
