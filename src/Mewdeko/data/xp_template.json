@@ -122,7 +122,7 @@
       },
       "Guild": {
         "Color": "ffffffff",
-        "Show": true,
+        "Show": false,
         "FontSize": 50,
         "Pos": {
           "X": 435,
