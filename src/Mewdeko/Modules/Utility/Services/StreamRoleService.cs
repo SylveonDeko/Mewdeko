@@ -2,6 +2,7 @@
 using System.Net;
 using Discord;
 using Discord.Net;
+using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.TypeReaders;
@@ -50,7 +51,7 @@ public class StreamRoleService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> before, SocketGuildUser after)
+    private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, RestGuildUser,IGuildUser, ulong> before, SocketGuildUser after)
     {
         var _ = Task.Run(async () =>
         {

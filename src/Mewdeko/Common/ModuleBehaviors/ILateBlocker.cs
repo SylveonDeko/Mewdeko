@@ -12,5 +12,5 @@ public interface ILateBlocker
     Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context,
         string moduleName, CommandInfo command);
     Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
-        SlashCommandInfo command);
+        ICommandInfo command);
 }

@@ -7,6 +7,7 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
+using Serilog;
 
 namespace Mewdeko.Common;
 
@@ -33,8 +34,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 
     protected IInteractionContext ctx => Context;
 
-    public override void BeforeExecute(ICommandInfo cmd) =>
-        CultureInfo = Localization.GetCultureInfo(ctx.Guild);
+    public override void BeforeExecute(ICommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild);
 
     protected string GetText(string key) => Strings.GetText(key, CultureInfo);
 
@@ -72,7 +72,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
         embed.WithOkColor();
         var buttons = new ComponentBuilder().WithButton("Yes", "yes", ButtonStyle.Success)
             .WithButton("No", "no", ButtonStyle.Danger);
-        var msg = await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: buttons.Build())
+        var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build(), components: buttons.Build())
             .ConfigureAwait(false);
         try
         {

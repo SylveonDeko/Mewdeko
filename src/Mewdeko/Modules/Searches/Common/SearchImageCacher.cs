@@ -92,9 +92,8 @@ public class SearchImageCacher
 
     public async Task<ImageCacherObject[]> DownloadImagesAsync(string[] tags, bool isExplicit, DapiSearchType type)
     {
-        isExplicit = type == DapiSearchType.Safebooru
-            ? false
-            : isExplicit;
+        isExplicit = type != DapiSearchType.Safebooru
+&& isExplicit;
         var tag = "";
         tag += string.Join('+',
             tags.Select(x => x.Replace(" ", "_", StringComparison.InvariantCulture).ToLowerInvariant()));

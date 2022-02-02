@@ -46,10 +46,11 @@ multigreetmessage:
     - "2"
     - "2 embedcode/message"
 multigreettype:
-  desc: "Sets wether to use MultiGreet(greets in all set channels) or RandomGreet(randomly chooses between all set MultiGreets then sends it to that channel)"
+  desc: "Sets wether to use MultiGreet(greets in all set channels), RandomGreet(randomly chooses between all set MultiGreets then sends it to that channel), or Off (Completely disables the MultiGreet system)"
   args:
     - "RandomGreet"
     - "MultiGreet"
+    - "Off"
 multigreetwebhook:
   desc: "Allows you to set/update/remove a MultiGreet name and avatar. Put just the MultiGreet ID to remove the webhook. Avatar is optional, but must be a direct url to the img used."
   args:

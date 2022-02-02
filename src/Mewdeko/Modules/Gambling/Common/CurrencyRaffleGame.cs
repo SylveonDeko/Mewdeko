@@ -65,7 +65,6 @@ public class CurrencyRaffleGame
 
         public override bool Equals(object obj) =>
             obj is User u
-                ? u.DiscordUser == DiscordUser
-                : false;
+&& u.DiscordUser == DiscordUser;
     }
 }

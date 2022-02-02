@@ -155,10 +155,10 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var t = Service.GetSnipeSet(ctx.Guild.Id);
         switch (t)
         {
-            case 1:
+            case true:
                 await ctx.Channel.SendConfirmAsync("Sniping Enabled!");
                 break;
-            case 0:
+            case false:
                 await ctx.Channel.SendConfirmAsync("Sniping Disabled!");
                 break;
         }
@@ -167,7 +167,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Snipe()
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -206,7 +206,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task SnipeList(int amount = 5)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -255,7 +255,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(int amount = 5)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -304,7 +304,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task Snipe(IUser user1)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -356,7 +356,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
@@ -391,7 +391,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
     public async Task Snipe(ITextChannel chan, IUser user1)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
@@ -445,7 +445,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipe()
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
@@ -487,7 +487,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(IUser user1)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
@@ -529,7 +529,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
@@ -571,7 +571,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
     public async Task EditSnipe(ITextChannel chan, IUser user1)
     {
-        if (Service.GetSnipeSet(ctx.Guild.Id) == 0)
+        if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
