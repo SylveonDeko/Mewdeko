@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
@@ -22,6 +23,15 @@ public class CmdCdService : ILateBlocker, INService
 
     public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
         CommandInfo command)
+    {
+        var guild = ctx.Guild;
+        var user = ctx.User;
+        var commandName = command.Name.ToLowerInvariant();
+
+        return TryBlock(guild, user, commandName);
+    }
+    public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
+        SlashCommandInfo command)
     {
         var guild = ctx.Guild;
         var user = ctx.User;
