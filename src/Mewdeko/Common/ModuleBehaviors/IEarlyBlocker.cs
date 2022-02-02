@@ -12,6 +12,7 @@ public interface IEarlyBehavior
     ModuleBehaviorType BehaviorType { get; }
 
     Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg);
+    Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUser user, IMessageChannel message);
 }
 
 public enum ModuleBehaviorType

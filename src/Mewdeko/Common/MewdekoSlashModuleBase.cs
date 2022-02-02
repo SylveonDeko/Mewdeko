@@ -14,6 +14,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 {
     protected CultureInfo CultureInfo { get; set; }
     public IBotStrings Strings { get; set; }
+    public event Func<ICommandInfo, ITextChannel, Task> SlashCommandInf = delegate { return Task.CompletedTask; };
     public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
     public SuggestionsService SugServ { get; set; }
@@ -32,7 +33,8 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 
     protected IInteractionContext ctx => Context;
 
-    public override void BeforeExecute(ICommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
+    public override void BeforeExecute(ICommandInfo cmd) =>
+        CultureInfo = Localization.GetCultureInfo(ctx.Guild);
 
     protected string GetText(string key) => Strings.GetText(key, CultureInfo);
 
