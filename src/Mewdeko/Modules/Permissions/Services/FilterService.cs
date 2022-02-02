@@ -122,6 +122,12 @@ public class FilterService : IEarlyBehavior, INService
                                                || await FilterWords(guild, msg).ConfigureAwait(false)
                                                || await FilterLinks(guild, msg).ConfigureAwait(false)
                                                || await FilterBannedWords(guild, msg).ConfigureAwait(false));
+    public async Task<bool> RunBehavior(
+        DiscordSocketClient client,
+        IGuild guild,
+        IUser user,
+        IMessageChannel channel) =>
+        false;
 
     private ValueTask OnReload(AutoBanEntry[] blacklist)
     {

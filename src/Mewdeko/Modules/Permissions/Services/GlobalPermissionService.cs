@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Discord;
+using System.Collections.Generic;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
@@ -26,6 +28,18 @@ public class GlobalPermissionService : ILateBlocker, INService
         if (commandName != "resetglobalperms" &&
             (settings.Blocked.Commands.Contains(commandName) ||
              settings.Blocked.Modules.Contains(moduleName.ToLowerInvariant())))
+            return Task.FromResult(true);
+
+        return Task.FromResult(false);
+    }
+    public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
+        SlashCommandInfo command)
+    {
+        var settings = _bss.Data;
+        var commandName = command.Name.ToLowerInvariant();
+
+        if (commandName != "resetglobalperms" &&
+            settings.Blocked.Commands.Contains(commandName))
             return Task.FromResult(true);
 
         return Task.FromResult(false);

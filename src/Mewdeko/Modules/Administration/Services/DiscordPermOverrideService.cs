@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
@@ -36,9 +37,22 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     {
         if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && perm is not null)
         {
-            var result = await new RequireUserPermissionAttribute((GuildPermission) perm)
+            var result = await new Discord.Commands.RequireUserPermissionAttribute((GuildPermission) perm)
                 .CheckPermissionsAsync(context, command, _services);
+            return !result.IsSuccess;
+        }
 
+        return false;
+    }
+    public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
+        SlashCommandInfo command)
+    {
+        if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && perm is not null)
+        {
+            var result = await new Discord.Interactions.RequireUserPermissionAttribute((GuildPermission) perm)
+                .CheckRequirementsAsync(context, command, _services);
+            if (!result.IsSuccess)
+                await context.Interaction.SendEphemeralErrorAsync($"You need `{perm}` to use this command.");
             return !result.IsSuccess;
         }
 
@@ -58,11 +72,17 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         return false;
     }
 
-    public static Task<PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
+    public static Task<Discord.Commands.PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
         GuildPermission perms, IServiceProvider services)
     {
-        var rupa = new RequireUserPermissionAttribute(perms);
+        var rupa = new Discord.Commands.RequireUserPermissionAttribute(perms);
         return rupa.CheckPermissionsAsync(ctx, command, services);
+    }
+    public static Task<Discord.Interactions.PreconditionResult> ExecuteOverrides(IInteractionContext ctx, ICommandInfo command,
+        GuildPermission perms, IServiceProvider services)
+    {
+        var rupa = new Discord.Interactions.RequireUserPermissionAttribute(perms);
+        return rupa.CheckRequirementsAsync(ctx, command, services);
     }
 
     public async Task AddOverride(ulong guildId, string commandName, GuildPermission perm)
