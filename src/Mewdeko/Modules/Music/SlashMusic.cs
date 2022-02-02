@@ -124,7 +124,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                                               PaginatorFooter.PageNumber | PaginatorFooter.Users)
                                                           .WithMaxPageIndex(plist.Songs.Count() / 15)
                                                           .WithDefaultCanceledPage().WithDefaultEmotes().Build();
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+                await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor().WithDescription(string.Join("\n",
                         plist.Songs.Select(x =>
@@ -897,7 +897,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-        await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player);
+        await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, ctx);
     }
 
     [SlashCommand("seek", "Seek to a certain time in the current song"), RequireContext(ContextType.Guild)]
@@ -990,7 +990,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             .WithThumbnailUrl(await track.FetchArtworkAsync())
             .WithFooter(
                 $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {qcount} Tracks in queue");
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
     [SlashCommand("queue", "Lists all songs"), RequireContext(ContextType.Guild)]
