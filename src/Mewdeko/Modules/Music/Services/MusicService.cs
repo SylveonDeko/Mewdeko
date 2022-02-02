@@ -332,7 +332,7 @@ public sealed class MusicService : INService
 
     public int GetVolume(ulong guildid) => GetSettingsInternalAsync(guildid).Result.Volume;
 
-    public async Task Skip(IGuild guild, ITextChannel? chan, LavaPlayer player, IInteractionContext ctx = null)
+    public async Task Skip(IGuild guild, ITextChannel? chan, LavaPlayer player, IInteractionContext? ctx = null)
     {
         var e = _queues.FirstOrDefault(x => x.Key == guild.Id).Value;
         if (e.Any())

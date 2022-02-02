@@ -26,8 +26,8 @@ public static class PermissionExtensions
         permIndex = -1; //defaut behaviour
         return true;
     }
-    public static bool CheckPermissions(this IEnumerable<Permissionv2> permsEnumerable,
-        string commandName,IUser user, IMessageChannel chan, out int permIndex)
+    public static bool CheckSlashPermissions(this IEnumerable<Permissionv2> permsEnumerable,
+        string moduleName, string commandName, IUser user, IMessageChannel chan, out int permIndex)
     {
         var perms = permsEnumerable as List<Permissionv2> ?? permsEnumerable.ToList();
 
@@ -35,7 +35,7 @@ public static class PermissionExtensions
         {
             var perm = perms[i];
 
-            var result = perm.CheckPermission(user, commandName, chan);
+            var result = perm.CheckSlashPermission(moduleName, user, commandName, chan);
 
             if (result == null) continue;
             permIndex = i;
@@ -89,11 +89,14 @@ public static class PermissionExtensions
 
         return null;
     }
-    public static bool? CheckPermission(this Permissionv2 perm, IUser user, string commandName, IMessageChannel chan)
+    public static bool? CheckSlashPermission(this Permissionv2 perm, string moduleName, IUser user, string commandName, IMessageChannel chan)
     {
         if (!((perm.SecondaryTarget == SecondaryPermissionType.Command &&
-               perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant())))
-        return null;
+               perm.SecondaryTargetName.ToLowerInvariant() == commandName.ToLowerInvariant()) ||
+              (perm.SecondaryTarget == SecondaryPermissionType.Module &&
+               perm.SecondaryTargetName.ToLowerInvariant() == moduleName.ToLowerInvariant()) ||
+              perm.SecondaryTarget == SecondaryPermissionType.AllModules))
+            return null;
 
         var guildUser = user as IGuildUser;
 

@@ -41,9 +41,9 @@ public class CommandHandler : INService
     private readonly DbService _db;
     private readonly IServiceProvider _services;
     private readonly IBotStrings _strings;
-    private IEnumerable<IEarlyBehavior> earlyBehaviors;
+    public IEnumerable<IEarlyBehavior> earlyBehaviors;
     private IEnumerable<IInputTransformer> inputTransformers;
-    private IEnumerable<ILateBlocker> lateBlockers;
+    public IEnumerable<ILateBlocker> lateBlockers;
     private IEnumerable<ILateExecutor> lateExecutors;
     public InteractionService InteractionService;
 
@@ -92,55 +92,37 @@ public class CommandHandler : INService
         {
             await ctx.Interaction.SendEphemeralErrorAsync(
                 $"Command failed for the following reason:\n{result.ErrorReason}");
-        }
-    }
-    private async Task TryRunInteraction(SocketInteraction interaction)
-    {
-        var ctx = new SocketInteractionContext(_client, interaction);
-        if (interaction is not SocketSlashCommand command)
+            Log.Warning($"Slash Command Errored\n\t" +
+                        "User: {0}\n\t" +
+                        "Server: {1}\n\t" +
+                        "Channel: {2}\n\t" +
+                        "Message: {3}\n\t" +
+                        "Error: {4}",
+                $"{ctx.User} [{ctx.User.Id}]", // {0}
+                ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
+                ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
+                slashInfo.MethodName,
+                result.ErrorReason);
             return;
-        var cmd = InteractionService.SlashCommands.FirstOrDefault(x => x.Name == command.CommandName);
-        foreach (var eb in earlyBehaviors)
-        {
-            if (await eb.RunBehavior(ctx.Client, ctx.Guild, ctx.User, ctx.Channel))
-            {
-                await ctx.Interaction.SendEphemeralErrorAsync(
-                    "You/This Server have been blacklisted from Mewdeko. Join https://discord.gg/wB9FBMreRk to try and appeal.");
-                return;
-            }
         }
-        foreach (var eb in lateBlockers)
-        {
-            if (await eb.TryBlockLate(_client, ctx, cmd))
-            {
-                Log.Information("Late blocking User [{0}] Command: [{1}] in [{2}]", ctx.User, cmd.Name,
-                    eb.GetType().Name);
-
-                return;
-            }
-        }
-
-        await InteractionService.ExecuteCommandAsync(ctx, _services);
-
-    }
-
-    private async Task LogSuccesfulExecution(SocketSlashCommand command) =>
-        await Task.Run(() =>
-        {
-
-            var chan = command.Channel as ITextChannel;
+        var chan = ctx.Channel as ITextChannel;
             Log.Information(
                 "Slash Command Executed"
                 + "\n\t"
                 + "User: {0}\n\t"
                 + "Server: {1}\n\t"
                 + "Channel: {2}\n\t"
-                + "Command: {3}\n\t"
-                + "Options: {4}", $"{command.User} [{command.User.Id}]", // {0}
+                + "Module: {3}\n\t"
+                + "Command: {4}", $"{ctx.User} [{ctx.User.Id}]", // {0}
                 chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
-                command.CommandName, string.Join(",", command.Data.Options.Select(x => x.Value))); // {3}
-        });
+                slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
+    }
+    private async Task TryRunInteraction(SocketInteraction interaction)
+    {
+        var ctx = new SocketInteractionContext(_client, interaction);
+        await InteractionService.ExecuteCommandAsync(ctx, _services);
+    }
 
     public string GetPrefix(IGuild guild) => GetPrefix(guild?.Id);
 

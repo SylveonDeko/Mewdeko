@@ -9,6 +9,5 @@ public class PollVote : DbEntity
 
     public override bool Equals(object obj) =>
         obj is PollVote p
-            ? p.UserId == UserId
-            : false;
+&& p.UserId == UserId;
 }

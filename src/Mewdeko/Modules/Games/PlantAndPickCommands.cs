@@ -23,7 +23,7 @@ public partial class Games
             InteractiveService serv) : base(gss)
         {
             _interactivity = serv;
-            this._logService = logService;
+            _logService = logService;
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
