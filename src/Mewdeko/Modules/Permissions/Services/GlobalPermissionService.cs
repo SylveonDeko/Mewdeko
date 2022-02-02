@@ -33,10 +33,10 @@ public class GlobalPermissionService : ILateBlocker, INService
         return Task.FromResult(false);
     }
     public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
-        SlashCommandInfo command)
+        ICommandInfo command)
     {
         var settings = _bss.Data;
-        var commandName = command.Name.ToLowerInvariant();
+        var commandName = command.MethodName.ToLowerInvariant();
 
         if (commandName != "resetglobalperms" &&
             settings.Blocked.Commands.Contains(commandName))

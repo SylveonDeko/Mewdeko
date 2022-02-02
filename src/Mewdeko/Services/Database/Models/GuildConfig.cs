@@ -35,7 +35,7 @@ public class GuildConfig : DbEntity
     public string GiveawayEmote { get; set; }
     public ulong TicketChannel { get; set; } = 0;
     public ulong TicketCategory { get; set; } = 0;
-    public ulong snipeset { get; set; }
+    public bool snipeset { get; set; }
     public string SuggestEmotes { get; set; }
     public int AfkLength { get; set; } = 250;
     public string SuggestMessage { get; set; } = "";
