@@ -1,11 +1,15 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Humanizer;
+using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -15,8 +19,13 @@ public partial class Utility
     public class SlashSnipes : MewdekoSlashModuleBase<UtilityService>
     {
         private readonly DiscordSocketClient _client;
+        private readonly InteractiveService _interactivity;
 
-        public SlashSnipes(DiscordSocketClient client) => _client = client;
+        public SlashSnipes(DiscordSocketClient client, InteractiveService interactiveService)
+        {
+            _client = client;
+            _interactivity = interactiveService;
+        }
 
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
          RequireContext(ContextType.Guild), CheckPermissions]
@@ -74,11 +83,11 @@ public partial class Utility
             }
 
 
-            var msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 0)
+            var msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 1)
                              .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
-                msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 0)
+                msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 1)
                              .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
 
             if (msg is null)
@@ -104,7 +113,101 @@ public partial class Utility
             await ctx.Interaction.RespondAsync(embed: em.Build());
         }
 
-        [SlashCommand("set", "Enable or Disable sniping"), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
+         RequireContext(ContextType.Guild), CheckPermissions]
+        public async Task SnipeList(int amount = 5)
+        {
+            if (!Service.GetSnipeSet(ctx.Guild.Id))
+            {
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+
+            var msgs = Service.GetSnipes(ctx.Guild.Id).Result
+                              .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
+            {
+                var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
+                if (!snipeStores.Any())
+                {
+                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!");
+                    return;
+                }
+
+                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 0).Take(amount);
+                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                                                          .WithFooter(
+                                                              PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                          .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
+                                                          .Build();
+
+                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    var msg1 = msg.Skip(page).FirstOrDefault();
+                    var user = ctx.Channel.GetUserAsync(msg1.UserId).Result
+                               ?? _client.Rest.GetUserAsync(msg1.UserId).Result;
+
+                    return Task.FromResult(new PageBuilder().WithOkColor()
+                                                            .WithAuthor(new EmbedAuthorBuilder()
+                                                                        .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
+                                                                        .WithName($"{user} said:"))
+                                                            .WithDescription(msg1.Message
+                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                }
+            }
+        }
+        
+        [SlashCommand("editedlist", "Lists the last 5 edit snipes unless specified otherwise."),
+         RequireContext(ContextType.Guild), CheckPermissions]
+        public async Task EditSnipeList(int amount = 5)
+        {
+            if (!Service.GetSnipeSet(ctx.Guild.Id))
+            {
+                await ctx.Channel.SendErrorAsync(
+                    $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+                return;
+            }
+
+            var msgs = Service.GetSnipes(ctx.Guild.Id).Result
+                              .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
+            {
+                var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
+                if (!snipeStores.Any())
+                {
+                    await ctx.Interaction.SendErrorAsync("There's nothing to snipe!");
+                    return;
+                }
+
+                var msg = snipeStores.OrderByDescending(d => d.DateAdded).Where(x => x.Edited == 1).Take(amount);
+                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                                                          .WithFooter(
+                                                              PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                          .WithMaxPageIndex(msg.Count() - 1).WithDefaultEmotes()
+                                                          .Build();
+
+                await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    var msg1 = msg.Skip(page).FirstOrDefault();
+                    var user = ctx.Channel.GetUserAsync(msg1.UserId).Result
+                               ?? _client.Rest.GetUserAsync(msg1.UserId).Result;
+
+                    return Task.FromResult(new PageBuilder().WithOkColor()
+                                                            .WithAuthor(new EmbedAuthorBuilder()
+                                                                        .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
+                                                                        .WithName($"{user} said:"))
+                                                            .WithDescription(msg1.Message
+                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                }
+            }
+        }
+
+        [SlashCommand("set", "Enable or Disable sniping"), 
+         SlashUserPerm(GuildPermission.Administrator), 
+         CheckPermissions]
         public async Task SnipeSet(bool enabled)
         {
             await Service.SnipeSetBool(ctx.Guild, enabled);
