@@ -45,6 +45,22 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
         return Task.FromResult(false);
     }
+    public Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUser user, IMessageChannel channel)
+    {
+        foreach (var bl in blacklist)
+        {
+            if (guild != null && bl.Type == BlacklistType.Server && bl.ItemId == guild.Id)
+                return Task.FromResult(true);
+
+            if (bl.Type == BlacklistType.Channel && bl.ItemId == channel.Id)
+                return Task.FromResult(true);
+
+            if (bl.Type == BlacklistType.User && bl.ItemId == user.Id)
+                return Task.FromResult(true);
+        }
+
+        return Task.FromResult(false);
+    }
 
     private ValueTask OnReload(BlacklistEntry[] blacklist)
     {
