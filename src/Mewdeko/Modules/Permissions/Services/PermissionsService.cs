@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
@@ -18,30 +19,36 @@ public class PermissionService : ILateBlocker, INService
     private readonly DbService _db;
     private readonly IBotStrings _strings;
 
-    public PermissionService(DiscordSocketClient client, DbService db, CommandHandler cmd, IBotStrings strings)
+    public PermissionService(
+        DiscordSocketClient client,
+        DbService db,
+        CommandHandler cmd,
+        IBotStrings strings)
     {
         _db = db;
         _cmd = cmd;
         _strings = strings;
 
         using var uow = _db.GetDbContext();
-        foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id)
-                     .ToList()))
-            Cache.TryAdd(x.GuildId, new PermissionCache
-            {
-                Verbose = x.VerbosePermissions,
-                PermRole = x.PermissionRole,
-                Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
-            });
+        foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
+            Cache.TryAdd(x.GuildId,
+                new PermissionCache
+                {
+                    Verbose = x.VerbosePermissions,
+                    PermRole = x.PermissionRole,
+                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                });
     }
 
     //guildid, root permission
-    public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } =
-        new();
+    public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } = new();
 
     public int Priority { get; } = 0;
 
-    public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
+    public async Task<bool> TryBlockLate(
+        DiscordSocketClient client,
+        ICommandContext ctx,
+        string moduleName,
         CommandInfo command)
     {
         var guild = ctx.Guild;
@@ -62,9 +69,9 @@ public class PermissionService : ILateBlocker, INService
                 try
                 {
                     await channel.SendErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
-                            Format.Bold(
-                                pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild) guild))))
-                        .ConfigureAwait(false);
+                                     Format.Bold(pc.Permissions[index]
+                                                   .GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
+                                 .ConfigureAwait(false);
                 }
                 catch
                 {
@@ -118,6 +125,38 @@ public class PermissionService : ILateBlocker, INService
             }
 
             return false;
+        }
+
+        return false;
+    }
+
+    public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx, SlashCommandInfo command)
+    {
+        var guild = ctx.Guild;
+        var user = ctx.User;
+        var channel = ctx.Channel;
+        var commandName = command.Name.ToLowerInvariant();
+        var gUser = await guild.GetUserAsync(user.Id);
+
+        await Task.Yield();
+        if (guild == null) return false;
+
+        var resetCommand = commandName == "resetperms";
+
+        var pc = GetCacheFor(guild.Id);
+        if (!resetCommand && !pc.Permissions.CheckPermissions(commandName, ctx.User, ctx.Channel, out var index))
+        {
+            try
+            {
+                await ctx.Interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
+                             Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
+                         .ConfigureAwait(false);
+            }
+            catch
+            {
+            }
+
+            return true;
         }
 
         return false;

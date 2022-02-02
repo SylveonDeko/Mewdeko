@@ -7,6 +7,8 @@ using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
 using Discord.WebSocket;
+using Humanizer;
+using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
@@ -19,6 +21,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ExecuteResult = Discord.Commands.ExecuteResult;
+using IResult = Discord.Interactions.IResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;
 
 namespace Mewdeko.Services;
@@ -58,8 +61,8 @@ public class CommandHandler : INService
         _bot = bot;
         _db = db;
         _services = services;
-        _client.InteractionCreated += InteractionCreated;
-        _client.SlashCommandExecuted += LogSuccesfulExecution;
+        _client.InteractionCreated += TryRunInteraction;
+        InteractionService.SlashCommandExecuted += HandleCommands;
         _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
         Prefixes = bot.AllGuildConfigs
@@ -75,8 +78,6 @@ public class CommandHandler : INService
 
     private ConcurrentDictionary<ulong, string> Prefixes { get; } = new();
 
-    //userid/msg count
-
     public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
@@ -85,49 +86,42 @@ public class CommandHandler : INService
     
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    private async Task InteractionCreated(SocketInteraction interaction)
+    private async Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
+    {
+        if (!result.IsSuccess)
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(
+                $"Command failed for the following reason:\n{result.ErrorReason}");
+        }
+    }
+    private async Task TryRunInteraction(SocketInteraction interaction)
     {
         var ctx = new SocketInteractionContext(_client, interaction);
         if (interaction is not SocketSlashCommand command)
             return;
-        var perms = new PermissionService(_client, _db, this, _strings);
-        if (interaction.User is IGuildUser user)
+        var cmd = InteractionService.SlashCommands.FirstOrDefault(x => x.Name == command.CommandName);
+        foreach (var eb in earlyBehaviors)
         {
-            var dp = dpo.TryGetOverrides(user.GuildId, command.CommandName, out var perm);
-            if (!dp)
+            if (await eb.RunBehavior(ctx.Client, ctx.Guild, ctx.User, ctx.Channel))
             {
-                var pc = perms.GetCacheFor(user.GuildId);
-                if (pc == null)
-                    await InteractionService.ExecuteCommandAsync(ctx, _services);
-                if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out var index))
-                    await interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", user.GuildId, index + 1,
-                                         Format.Bold(
-                                             pc.Permissions[index].GetCommand(GetPrefix(user.GuildId), user.Guild as SocketGuild))))
-                                     .ConfigureAwait(false);
-            }
-            else
-            {
-                if (user.GuildPermissions.Has(perm.Value))
-                {
-                    var pc = perms.GetCacheFor(user.GuildId);
-                    if (pc == null)
-                        await InteractionService.ExecuteCommandAsync(ctx, _services);
-                    if (pc != null && !pc.Permissions.CheckPermissions(command.CommandName, interaction.User, interaction.Channel, out var index))
-                        await interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", user.GuildId, index + 1,
-                                             Format.Bold(
-                                                 pc.Permissions[index].GetCommand(GetPrefix(user.GuildId), user.Guild as SocketGuild))))
-                                         .ConfigureAwait(false);
-                }
-                else
-                {
-                    await command.SendEphemeralErrorAsync($"This command requires `{perm}` to run!");
-                }
+                await ctx.Interaction.SendEphemeralErrorAsync(
+                    "You/This Server have been blacklisted from Mewdeko. Join https://discord.gg/wB9FBMreRk to try and appeal.");
+                return;
             }
         }
-        else
+        foreach (var eb in lateBlockers)
         {
-            await InteractionService.ExecuteCommandAsync(ctx, _services);
+            if (await eb.TryBlockLate(_client, ctx, cmd))
+            {
+                Log.Information("Late blocking User [{0}] Command: [{1}] in [{2}]", ctx.User, cmd.Name,
+                    eb.GetType().Name);
+
+                return;
+            }
         }
+
+        await InteractionService.ExecuteCommandAsync(ctx, _services);
+
     }
 
     private async Task LogSuccesfulExecution(SocketSlashCommand command) =>
