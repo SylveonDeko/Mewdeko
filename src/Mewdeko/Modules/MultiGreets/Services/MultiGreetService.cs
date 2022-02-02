@@ -36,6 +36,8 @@ public class MultiGreetService : INService
         {
             var greets = GetGreets(user.Guild.Id);
             if (!greets.Any()) return;
+            if (GetMultiGreetType(user.Guild.Id) == 3)
+                return;
             if (GetMultiGreetType(user.Guild.Id) == 1)
             {
                 var random = new Random();

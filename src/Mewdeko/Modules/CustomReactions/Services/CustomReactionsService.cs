@@ -114,13 +114,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     public int Priority => -1;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
-
-    public async Task<bool> RunBehavior(
-        DiscordSocketClient client,
-        IGuild guild,
-        IUser user,
-        IMessageChannel channel) =>
-        false;
+    
 
     public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
     {

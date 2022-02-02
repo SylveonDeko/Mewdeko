@@ -17,7 +17,7 @@ public class PermissionService : ILateBlocker, INService
     private readonly CommandHandler _cmd;
 
     private readonly DbService _db;
-    private readonly IBotStrings _strings;
+    public readonly IBotStrings _strings;
 
     public PermissionService(
         DiscordSocketClient client,
@@ -130,13 +130,11 @@ public class PermissionService : ILateBlocker, INService
         return false;
     }
 
-    public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx, SlashCommandInfo command)
+    public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx, ICommandInfo command)
     {
         var guild = ctx.Guild;
         var user = ctx.User;
-        var channel = ctx.Channel;
-        var commandName = command.Name.ToLowerInvariant();
-        var gUser = await guild.GetUserAsync(user.Id);
+        var commandName = command.MethodName.ToLowerInvariant();
 
         await Task.Yield();
         if (guild == null) return false;
@@ -144,7 +142,7 @@ public class PermissionService : ILateBlocker, INService
         var resetCommand = commandName == "resetperms";
 
         var pc = GetCacheFor(guild.Id);
-        if (!resetCommand && !pc.Permissions.CheckPermissions(commandName, ctx.User, ctx.Channel, out var index))
+        if (!resetCommand && !pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName ,commandName, ctx.User, ctx.Channel, out var index))
         {
             try
             {

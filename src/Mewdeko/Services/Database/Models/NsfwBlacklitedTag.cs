@@ -8,6 +8,5 @@ public class NsfwBlacklitedTag : DbEntity
 
     public override bool Equals(object obj) =>
         obj is NsfwBlacklitedTag x
-            ? x.Tag == Tag
-            : false;
+&& x.Tag == Tag;
 }

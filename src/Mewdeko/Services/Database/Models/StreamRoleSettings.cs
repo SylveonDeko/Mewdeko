@@ -62,8 +62,7 @@ public class StreamRoleWhitelistedUser : DbEntity
 
     public override bool Equals(object obj) =>
         obj is StreamRoleWhitelistedUser x
-            ? x.UserId == UserId
-            : false;
+&& x.UserId == UserId;
 
     public override int GetHashCode() => UserId.GetHashCode();
 }

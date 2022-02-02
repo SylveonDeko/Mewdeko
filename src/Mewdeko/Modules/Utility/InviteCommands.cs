@@ -41,7 +41,7 @@ public partial class Utility
             await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}")
                 .ConfigureAwait(false);
         }
-
+    
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task InviteInfo(string text)
         {
