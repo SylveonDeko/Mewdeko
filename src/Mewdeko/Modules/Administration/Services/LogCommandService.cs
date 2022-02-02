@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
@@ -506,7 +507,7 @@ public class LogCommandService : INService
         return isDeleted;
     }
 
-    private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> before, SocketGuildUser after)
+    private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, RestGuildUser,IGuildUser, ulong> before, SocketGuildUser after)
     {
         var _ = Task.Run(async () =>
         {

@@ -16,7 +16,6 @@ using Victoria.Enums;
 using Victoria.Responses.Search;
 
 namespace Mewdeko.Modules.Music;
-
 public class Music : MewdekoModuleBase<MusicService>
 {
     private readonly InteractiveService _interactivity;

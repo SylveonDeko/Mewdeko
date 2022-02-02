@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
@@ -30,7 +31,7 @@ public class GameVoiceChannelService : INService
 
     public ConcurrentHashSet<ulong> GameVoiceChannels { get; }
 
-    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> before, SocketGuildUser after)
+    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, RestGuildUser,IGuildUser, ulong> before, SocketGuildUser after)
     {
         var _ = Task.Run(async () =>
         {

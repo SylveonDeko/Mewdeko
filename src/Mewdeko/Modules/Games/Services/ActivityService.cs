@@ -10,7 +10,7 @@ public class ActivityService : INService
 
     public ActivityService(DbService db, Mewdeko.Services.Mewdeko bot)
     {
-        this._db = db;
+        _db = db;
         GameMasterRoles = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.GameMasterRole)
             .ToConcurrent();

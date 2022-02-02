@@ -9,6 +9,5 @@ public class UnmuteTimer : DbEntity
 
     public override bool Equals(object obj) =>
         obj is UnmuteTimer ut
-            ? ut.UserId == UserId
-            : false;
+&& ut.UserId == UserId;
 }

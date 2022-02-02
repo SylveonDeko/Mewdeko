@@ -19,8 +19,7 @@ public class DiscordUser : DbEntity
 
     public override bool Equals(object obj) =>
         obj is DiscordUser du
-            ? du.UserId == UserId
-            : false;
+&& du.UserId == UserId;
 
     public override int GetHashCode() => UserId.GetHashCode();
 
