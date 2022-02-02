@@ -14,7 +14,7 @@ public class ClubService : INService
     public ClubService(DbService db, IHttpClientFactory httpFactory)
     {
         _db = db;
-        this._httpFactory = httpFactory;
+        _httpFactory = httpFactory;
     }
 
     public bool CreateClub(IUser user, string clubName, out ClubInfo club)

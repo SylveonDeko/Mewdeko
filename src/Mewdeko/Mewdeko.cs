@@ -149,9 +149,7 @@ public class Mewdeko
         //initialize Services
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
-
-        //what the fluff
-        commandHandler?.AddServices(s);
+        commandHandler.AddServices(s);
         _ = LoadTypeReaders(typeof(Mewdeko).Assembly);
 
         sw.Stop();
@@ -268,14 +266,6 @@ public class Mewdeko
 
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
         });
-        try
-        {
-            arg.CurrentUser.ModifyAsync(x => x.Nickname = "Hanekawa");
-        }
-        catch
-        {
-            // ignored
-        }
 
         var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
         var eb = new EmbedBuilder();

@@ -1,24 +1,24 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Discord.Interactions;
+using LinqToDB.Tools;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.MultiGreets;
-
-public class MultiGreets : MewdekoModuleBase<MultiGreetService>
+[Group("multigreets", "Set or manage MultiGreets.")]
+public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
 {
     private InteractiveService interactivity;
-
-    public MultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
+    public SlashMultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
 
     public enum MultiGreetTypes
     {
@@ -26,127 +26,111 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         RandomGreet,
         Off
     }
-    
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetAdd ([Remainder] ITextChannel channel = null)
+
+    [SlashCommand("add","Add a channel to MultiGreets."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    public async Task MultiGreetAdd(ITextChannel channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
         var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
         switch (added)
         {
             case true:
-                await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!");
+                await ctx.Interaction.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!");
                 break;
             case false:
-                await ctx.Channel.SendErrorAsync(
+                await ctx.Interaction.SendErrorAsync(
                     "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again");
                 break;
         }
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetRemove (int id)
+    [SlashCommand("remove","Remove a channel from MultiGreets"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    public async Task MultiGreetRemove(int id)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No greet with that ID found!");
+            await ctx.Interaction.SendErrorAsync("No greet with that ID found!");
             return;
         }
 
         await Service.RemoveMultiGreetInternal(greet);
-        await ctx.Channel.SendConfirmAsync("MultiGreet removed!");
+        await ctx.Interaction.SendConfirmAsync("MultiGreet removed!");
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetRemove ([Remainder]ITextChannel channel)
+    [SlashCommand("removechannel","Removes all MultiGreets on that channel."),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    public async Task MultiGreetRemove(ITextChannel channel)
     {
+        await ctx.Interaction.DeferAsync();
         var greet = Service.GetGreets(ctx.Guild.Id).Where(x => x.ChannelId == channel.Id);
         if (!greet.Any())
         {
-            await ctx.Channel.SendErrorAsync("There are no greets in that channel!");
+            await ctx.Interaction.SendErrorFollowupAsync("There are no greets in that channel!");
             return;
         }
 
         if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all MultiGreets for this channel?"), ctx.User.Id))
         {
             await Service.MultiRemoveMultiGreetInternal(greet.ToArray());
-            await ctx.Channel.SendConfirmAsync("MultiGreets removed!");
+            await ctx.Interaction.SendConfirmFollowupAsync("MultiGreets removed!");
         }
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, StoopidTime time)
+    [SlashCommand("delete","Set how long it takes for a greet to delete"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
+     RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
+    public async Task MultiGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] ulong howlong)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Interaction.SendErrorAsync("No MultiGreet found for that Id!");
             return;
         }
 
-        await Service.ChangeMgDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
-        await ctx.Channel.SendConfirmAsync(
-            $"Successfully updated MultiGreet #{id} to delete after {time.Time.Humanize()}.");
-
-    }
-
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, ulong howlong)
-    {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
-        if (greet is null)
-        {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
-            return;
-        }
-        
         await Service.ChangeMgDelete(greet, howlong);
         if (howlong > 0)
-            await ctx.Channel.SendConfirmAsync(
+            await ctx.Interaction.SendConfirmAsync(
                 $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
         else
-            await ctx.Channel.SendConfirmAsync($"MultiGreet #{id} will no longer delete.");
+            await ctx.Interaction.SendConfirmAsync($"MultiGreet #{id} will no longer delete.");
 
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [SlashCommand("type","Enable RandomGreet, MultiGreet, or turn off the entire system."),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task MultiGreetType(MultiGreetTypes types)
     {
         switch (types)
         {
             case MultiGreetTypes.MultiGreet:
                 await Service.SetMultiGreetType(ctx.Guild, 0);
-                await ctx.Channel.SendConfirmAsync("Regular MultiGreet enabled!");
+                await ctx.Interaction.SendConfirmAsync("Regular MultiGreet enabled!");
                 break;
             case MultiGreetTypes.RandomGreet:
                 await Service.SetMultiGreetType(ctx.Guild, 1);
-                await ctx.Channel.SendConfirmAsync("RandomGreet enabled!");
+                await ctx.Interaction.SendConfirmAsync("RandomGreet enabled!");
                 break;
             case MultiGreetTypes.Off:
                 await Service.SetMultiGreetType(ctx.Guild, 3);
-                await ctx.Channel.SendConfirmAsync("MultiGreets Disabled!");
+                await ctx.Interaction.SendConfirmAsync("MultiGreets Disabled!");
                 break;
         }
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageWebhooks)]
+    [SlashCommand("webhook","Set a custom name and avatar to use for each MultiGreet"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
+     RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
     public async Task MultiGreetWebhook(int id, string name = null, string avatar = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Interaction.SendErrorAsync("No MultiGreet found for that Id!");
             return;
         }
 
         if (name is null)
         {
             await Service.ChangeMgWebhook(greet, null);
-            await ctx.Channel.SendConfirmAsync($"Webhook disabled for MultiGreet #{id}!");
+            await ctx.Interaction.SendConfirmAsync($"Webhook disabled for MultiGreet #{id}!");
             return;
         }
         var channel = await ctx.Guild.GetTextChannelAsync(greet.ChannelId);
@@ -154,7 +138,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         {
             if (!Uri.IsWellFormedUriString(avatar, UriKind.Absolute))
             {
-                await ctx.Channel.SendErrorAsync(
+                await ctx.Interaction.SendErrorAsync(
                     "The avatar url used is not a direct url or is invalid! Please use a different url.");
                 return;
             }
@@ -165,31 +149,32 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             await using var imgStream = imgData.ToStream();
             var webhook = await channel.CreateWebhookAsync(name, imgStream);
             await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
-            await ctx.Channel.SendConfirmAsync("Webhook set!");
+            await ctx.Interaction.SendConfirmAsync("Webhook set!");
         }
         else
         {
             var webhook = await channel.CreateWebhookAsync(name);
             await Service.ChangeMgWebhook(greet, $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
-            await ctx.Channel.SendConfirmAsync("Webhook set!");
+            await ctx.Interaction.SendConfirmAsync("Webhook set!");
         }
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetMessage(int id, [Remainder]string message = null)
+    [SlashCommand("message","Set a custom message for each MultiGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    public async Task MultiGreetMessage(int id, string message = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        await ctx.Interaction.DeferAsync();
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Interaction.SendErrorFollowupAsync("No MultiGreet found for that Id!");
             return;
         }
         if (message is null)
         {
             var components = new ComponentBuilder().WithButton("Preview", "preview").WithButton("Regular", "regular");
-            var msg = await ctx.Channel.SendConfirmAsync(
+            var msg = await ctx.Interaction.SendConfirmFollowupAsync(
                 "Would you like to view this as regular text or would you like to preview how it actually looks?", components);
-            var response = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+            var response = await GetButtonInputAsync(ctx.Interaction.Id, msg.Id, ctx.User.Id);
             switch (response)
             {
                 case "preview":
@@ -200,53 +185,53 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                     {
                         if (embedData.IsEmbedValid && embedData.PlainText is not null)
                         {
-                            await ctx.Channel.SendMessageAsync(embedData.PlainText, embed: embedData.ToEmbed().Build());
+                            await ctx.Interaction.FollowupAsync(embedData.PlainText, embed: embedData.ToEmbed().Build());
 
                         }
 
                         if (!embedData.IsEmbedValid && embedData.PlainText is not null)
                         {
-                            await ctx.Channel.SendMessageAsync(embedData.PlainText);
+                            await ctx.Interaction.FollowupAsync(embedData.PlainText);
                         }
 
                         if (embedData.IsEmbedValid && embedData.PlainText is null)
                         {
-                            await ctx.Channel.SendMessageAsync(embed: embedData.ToEmbed().Build());
+                            await ctx.Interaction.FollowupAsync(embed: embedData.ToEmbed().Build());
                         }
                     }
                     else
                     {
-                        await ctx.Channel.SendMessageAsync(content);
+                        await ctx.Interaction.FollowupAsync(content);
                     }
 
                     break;
                 case "regular":
                     await msg.DeleteAsync();
-                    await ctx.Channel.SendConfirmAsync(greet.Message);
+                    await ctx.Interaction.SendConfirmFollowupAsync(greet.Message);
                     break;
             }
         }
         await Service.ChangeMgMessage(greet, message);
-        await ctx.Channel.SendConfirmAsync($"MultiGreet Message for MultiGreet #{id} set!");
+        await ctx.Interaction.SendConfirmFollowupAsync($"MultiGreet Message for MultiGreet #{id} set!");
     }
 
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [SlashCommand("list","Lists all current MultiGreets"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task MultiGreetList()
     {
         var greets = Service.GetGreets(ctx.Guild.Id);
         if (!greets.Any())
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreets setup!");
+            await ctx.Interaction.SendErrorAsync("No MultiGreets setup!");
         }
         var paginator = new LazyPaginatorBuilder()
                         .AddUser(ctx.User)
                         .WithPageFactory(PageFactory)
                         .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                        .WithMaxPageIndex(greets.Length-1)
+                        .WithMaxPageIndex(greets.Length - 1)
                         .WithDefaultEmotes()
                         .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,
             TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
@@ -259,6 +244,6 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                                                             + $"\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                                     .WithOkColor());
         }
-        
+
     }
 }

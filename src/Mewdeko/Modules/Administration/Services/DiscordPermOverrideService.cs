@@ -35,7 +35,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context, string moduleName,
         CommandInfo command)
     {
-        if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && perm is not null)
+        if (TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName(), out var perm) && perm is not null)
         {
             var result = await new Discord.Commands.RequireUserPermissionAttribute((GuildPermission) perm)
                 .CheckPermissionsAsync(context, command, _services);
@@ -45,9 +45,9 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         return false;
     }
     public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
-        SlashCommandInfo command)
+        ICommandInfo command)
     {
-        if (TryGetOverrides(context.Guild?.Id ?? 0, command.Name, out var perm) && perm is not null)
+        if (TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName, out var perm) && perm is not null)
         {
             var result = await new Discord.Interactions.RequireUserPermissionAttribute((GuildPermission) perm)
                 .CheckRequirementsAsync(context, command, _services);

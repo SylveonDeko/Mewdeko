@@ -6,8 +6,7 @@ public class FilterLinksChannelId : DbEntity
 
     public override bool Equals(object obj) =>
         obj is FilterLinksChannelId f
-            ? f.ChannelId == ChannelId
-            : false;
+&& f.ChannelId == ChannelId;
 
     public override int GetHashCode() => ChannelId.GetHashCode();
 }

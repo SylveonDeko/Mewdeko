@@ -19,7 +19,7 @@ public class UtilityService : INService
 
     public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
     {
-        this._bot = bot;
+        _bot = bot;
         _client = client;
         client.MessageDeleted += MsgStore;
         client.MessageUpdated += MsgStore2;
@@ -27,13 +27,13 @@ public class UtilityService : INService
         client.MessageReceived += MsgReciev2;
         client.MessagesBulkDeleted += BulkMsgStore;
         _db = db;
-        Snipeset = this._bot.AllGuildConfigs
+        Snipeset = _bot.AllGuildConfigs
                         .ToDictionary(x => x.GuildId, x => x.snipeset)
                         .ToConcurrent();
-        Plinks = this._bot.AllGuildConfigs
+        Plinks = _bot.AllGuildConfigs
                       .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
                       .ToConcurrent();
-        Reactchans = this._bot.AllGuildConfigs
+        Reactchans = _bot.AllGuildConfigs
                           .ToDictionary(x => x.GuildId, x => x.ReactChannel)
                           .ToConcurrent();
         _snipes = new ConcurrentDictionary<ulong, IList<SnipeStore>>();
@@ -41,7 +41,7 @@ public class UtilityService : INService
 
     }
 
-    private ConcurrentDictionary<ulong, ulong> Snipeset { get; } = new();
+    private ConcurrentDictionary<ulong, bool> Snipeset { get; } = new();
     private ConcurrentDictionary<ulong, int> Plinks { get; } = new();
     private ConcurrentDictionary<ulong, ulong> Reactchans { get; } = new();
     private async Task StoreSnipesOnStart() =>
@@ -110,7 +110,7 @@ public class UtilityService : INService
         Plinks.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
     }
 
-    public ulong GetSnipeSet(ulong? id)
+    public bool GetSnipeSet(ulong? id)
     {
         Snipeset.TryGetValue(id.Value, out var snipeset);
         return snipeset;
@@ -118,7 +118,7 @@ public class UtilityService : INService
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
-        var yesno = (ulong) (endis == "enable" ? 1 : 0);
+        var yesno = (endis == "enable");
         using (var uow = _db.GetDbContext())
         {
             var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
@@ -127,6 +127,17 @@ public class UtilityService : INService
         }
 
         Snipeset.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+    }
+    public async Task SnipeSetBool(IGuild guild, bool enabled)
+    {
+        using (var uow = _db.GetDbContext())
+        {
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.snipeset = enabled;
+            await uow.SaveChangesAsync();
+        }
+
+        Snipeset.AddOrUpdate(guild.Id, enabled, (_, _) => enabled);
     }
 
     private async Task BulkMsgStore(
@@ -140,7 +151,7 @@ public class UtilityService : INService
             if (channel.Value is not SocketTextChannel chan)
                 return;
             
-            if (GetSnipeSet(chan.Guild.Id) == 0) 
+            if (!GetSnipeSet(chan.Guild.Id)) 
                 return;
             
             if (!messages.Select(x => x.HasValue).Any())
@@ -165,7 +176,7 @@ public class UtilityService : INService
     {
         _ = Task.Run(async () =>
         {
-            if (GetSnipeSet(((SocketTextChannel) ch.Value).Guild.Id) == 0) return;
+            if (!GetSnipeSet(((SocketTextChannel) ch.Value).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
             var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
@@ -195,7 +206,7 @@ public class UtilityService : INService
     {
         _ = Task.Run(async () =>
         {
-            if (GetSnipeSet(((SocketTextChannel) ch).Guild.Id) == 0) return;
+            if (!GetSnipeSet(((SocketTextChannel) ch).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
             var user = await msg.Channel.GetUserAsync(msg.Author.Id);

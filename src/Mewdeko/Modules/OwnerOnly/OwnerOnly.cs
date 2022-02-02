@@ -943,7 +943,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
 public sealed class EvaluationEnvironment
 {
-    public EvaluationEnvironment(CommandContext ctx) => this.Ctx = ctx;
+    public EvaluationEnvironment(CommandContext ctx) => Ctx = ctx;
 
     public CommandContext Ctx { get; }
 
