@@ -15,7 +15,6 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 {
     protected CultureInfo CultureInfo { get; set; }
     public IBotStrings Strings { get; set; }
-    public event Func<ICommandInfo, ITextChannel, Task> SlashCommandInf = delegate { return Task.CompletedTask; };
     public CommandHandler CmdHandler { get; set; }
     public ILocalization Localization { get; set; }
     public SuggestionsService SugServ { get; set; }
