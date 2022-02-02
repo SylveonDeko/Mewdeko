@@ -636,7 +636,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.");
+                await ctx.Interaction.SendErrorFollowupAsync("Looks like both you and the bot are not in a voice channel.");
                 return;
             }
 
@@ -650,13 +650,13 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     }
                     catch
                     {
-                        await ctx.Interaction.SendErrorAsync(
+                        await ctx.Interaction.SendErrorFollowupAsync(
                             "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.");
                     }
             }
             catch
             {
-                await ctx.Interaction.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!");
+                await ctx.Interaction.SendErrorFollowupAsync("Seems I'm unable to join the channel! Check permissions!");
                 return;
             }
         }
@@ -685,7 +685,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         .WithDescription(
                             $"Queued {searchResponse.Tracks.Count} tracks from {searchResponse.Playlist.Name}")
                         .WithFooter($"{count} songs now in the queue");
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                    await ctx.Interaction.FollowupAsync(embed: eb.Build());
                     if (player.PlayerState != PlayerState.Playing)
                         await player.PlayAsync(track1);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
@@ -697,7 +697,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         .WithOkColor()
                         .WithDescription(
                             $"Queued {searchResponse.Tracks.Count} tracks from {searchResponse.Playlist.Name} and bound the queue info to {ctx.Channel.Name}!");
-                    await ctx.Channel.SendMessageAsync(embed: eb.Build());
+                    await ctx.Interaction.FollowupAsync(embed: eb.Build());
                     if (player.PlayerState != PlayerState.Playing)
                         await player.PlayAsync(x => x.Track = track1);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
@@ -707,6 +707,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
         if (searchQuery!.Contains("spotify"))
         {
+            await ctx.Interaction.SendConfirmFollowupAsync("Starting spotify queue...");
             await Service.SpotifyQueue(ctx.Guild, ctx.User, ctx.Channel as ITextChannel, player, searchQuery);
             return;
         }
@@ -714,7 +715,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         searchResponse = await _lavaNode.SearchAsync(SearchType.YouTube, searchQuery);
         if (searchResponse.Status is SearchStatus.LoadFailed or SearchStatus.NoMatches)
         {
-            await ctx.Interaction.SendErrorAsync("Seems like I can't find that video, please try again.");
+            await ctx.Interaction.SendErrorFollowupAsync("Seems like I can't find that video, please try again.");
             return;
         }
 
