@@ -3,13 +3,15 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
+[Group("suggestions", "Send or manage suggestions!")]
 public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
 {
-    [SlashCommand("setsuggestchannel", "Sets the suggestion channel."), RequireContext(ContextType.Guild),
-     RequireUserPermission(GuildPermission.ManageChannels)]
+    [SlashCommand("setchannel", "Sets the suggestion channel."), RequireContext(ContextType.Guild),
+     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetSuggestChannel(ITextChannel channel = null)
     {
         if (channel == null)
@@ -25,7 +27,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
     }
 
-    [SlashCommand("suggest", "Sends a suggestion to the suggestion channel, if there is one set."), RequireContext(ContextType.Guild)]
+    [SlashCommand("suggest", "Sends a suggestion to the suggestion channel, if there is one set."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task Suggest(string suggestion)
     {
         if (suggestion.Length > Service.GetMaxLength(ctx.Guild.Id))
@@ -46,25 +48,25 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
     }
 
     [SlashCommand("deny", "Denies a suggestion"), RequireContext(ContextType.Guild),
-     RequireUserPermission(GuildPermission.ManageMessages)]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Deny([Summary(description:"The number of the suggestion.")]ulong suggestid, string reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason, ctx.Interaction);
 
     [SlashCommand("accept", "Accepts a suggestion"),RequireContext(ContextType.Guild),
-     RequireUserPermission(GuildPermission.ManageMessages)]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Accept([Summary(description:"The number of the suggestion.")]ulong suggestid, string reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason, ctx.Interaction);
 
     [SlashCommand("implement", "Sets a suggestion as implemented"), RequireContext(ContextType.Guild),
-     RequireUserPermission(GuildPermission.ManageMessages)]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Implemented([Summary(description:"The number of the suggestion.")]ulong suggestid, string reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason, ctx.Interaction);
 
     [SlashCommand("consider", "Sets a suggestion as considered"), RequireContext(ContextType.Guild),
-     RequireUserPermission(GuildPermission.ManageMessages)]
+     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task Consider([Summary(description:"The number of the suggestion.")]ulong suggestid, string reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason, ctx.Interaction);
