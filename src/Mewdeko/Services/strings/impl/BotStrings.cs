@@ -54,8 +54,7 @@ public class BotStrings : IBotStrings
         return new CommandStrings
         {
             Args = new[] {""},
-            Desc = "?",
-            Image = ""
+            Desc = "?"
         };
     }
 
@@ -88,5 +87,4 @@ public class CommandStrings
     [YamlMember(Alias = "desc")] public string Desc { get; set; }
 
     [YamlMember(Alias = "args")] public string[] Args { get; set; }
-    [YamlMember(Alias = "image")] public string Image { get; set; }
 }
