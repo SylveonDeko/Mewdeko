@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Mewdeko.Coordinator.Shared;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Mewdeko.Coordinator.Shared;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Coordinator.Services;
+namespace Mewdeko.Coordinator;
 
 public sealed class CoordinatorRunner : BackgroundService
 {
@@ -23,52 +24,52 @@ public sealed class CoordinatorRunner : BackgroundService
     private readonly Serializer _serializer;
     private readonly Deserializer _deserializer;
 
-    private Config config;
-    private ShardStatus[] shardStatuses;
+    private Config _config;
+    private ShardStatus[] _shardStatuses;
 
-    private readonly object _locker = new();
+    private readonly object locker = new object();
     private readonly Random _rng;
-    private bool gracefulImminent;
-        
-    public CoordinatorRunner()
+    private bool _gracefulImminent;
+
+    public CoordinatorRunner(IConfiguration configuration)
     {
-        _serializer = new Serializer();
-        _deserializer = new Deserializer();
-        config = LoadConfig();
+        _serializer = new();
+        _deserializer = new();
+        _config = LoadConfig();
         _rng = new Random();
 
-        if(!TryRestoreOldState())
+        if (!TryRestoreOldState())
             InitAll();
     }
-        
+
     private Config LoadConfig()
     {
-        lock (_locker)
+        lock (locker)
         {
             return _deserializer.Deserialize<Config>(File.ReadAllText(CONFIG_PATH));
         }
     }
 
-    private void SaveConfig(in Config sConfig)
+    private void SaveConfig(in Config config)
     {
-        lock (_locker)
+        lock (locker)
         {
-            var output = _serializer.Serialize(sConfig);
+            var output = _serializer.Serialize(config);
             File.WriteAllText(CONFIG_PATH, output);
         }
     }
 
     public void ReloadConfig()
     {
-        lock (_locker)
+        lock (locker)
         {
-            var oldConfig = config;
+            var oldConfig = _config;
             var newConfig = LoadConfig();
             if (oldConfig.TotalShards != newConfig.TotalShards)
             {
                 KillAll();
             }
-            config = newConfig;
+            _config = newConfig;
             if (oldConfig.TotalShards != newConfig.TotalShards)
             {
                 InitAll();
@@ -80,33 +81,33 @@ public sealed class CoordinatorRunner : BackgroundService
     {
         // Log.Information("Executing");
 
-        var first = true;
+        bool first = true;
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                var hadAction = false;
-                lock (_locker)
+                bool hadAction = false;
+                lock (locker)
                 {
                     var shardIds = Enumerable.Range(0, 1) // shard 0 is always first
-                                             .Append((int)((900378009188565022 >> 22) % config.TotalShards)) // then mewdeko server shard
-                                             .Concat(Enumerable.Range(1, config.TotalShards - 1)
-                                                               .OrderBy(_ => _rng.Next())) // then all other shards in a random order
+                                             .Append((int)((117523346618318850 >> 22) % _config.TotalShards)) // then nadeko server shard
+                                             .Concat(Enumerable.Range(1, _config.TotalShards - 1)
+                                                               .OrderBy(x => _rng.Next())) // then all other shards in a random order
                                              .Distinct()
                                              .ToList();
-                        
+
                     if (first)
                     {
                         // Log.Information("Startup order: {StartupOrder}",string.Join(' ', shardIds));
                         first = false;
                     }
-                        
+
                     foreach (var shardId in shardIds)
                     {
                         if (stoppingToken.IsCancellationRequested)
                             break;
-                            
-                        var status = shardStatuses[shardId];
+
+                        var status = _shardStatuses[shardId];
 
                         if (status.ShouldRestart)
                         {
@@ -116,16 +117,16 @@ public sealed class CoordinatorRunner : BackgroundService
                             break;
                         }
 
-                        if (status.Process is null or {HasExited: true})
+                        if (status.Process is null or { HasExited: true })
                         {
                             Log.Warning("Shard {ShardId} is starting (process)...", shardId);
                             hadAction = true;
                             StartShard(shardId);
                             break;
                         }
-                            
+
                         if (DateTime.UtcNow - status.LastUpdate >
-                            TimeSpan.FromSeconds(config.UnresponsiveSec))
+                            TimeSpan.FromSeconds(_config.UnresponsiveSec))
                         {
                             Log.Warning("Shard {ShardId} is restarting (unresponsive)...", shardId);
                             hadAction = true;
@@ -133,17 +134,19 @@ public sealed class CoordinatorRunner : BackgroundService
                             break;
                         }
 
-                        if (status.StateCounter <= 8 || status.State == ConnState.Connected) continue;
-                        Log.Warning("Shard {ShardId} is restarting (stuck)...", shardId);
-                        hadAction = true;
-                        StartShard(shardId);
-                        break;
+                        if (status.StateCounter > 8 && status.State != ConnState.Connected)
+                        {
+                            Log.Warning("Shard {ShardId} is restarting (stuck)...", shardId);
+                            hadAction = true;
+                            StartShard(shardId);
+                            break;
+                        }
                     }
                 }
 
                 if (hadAction)
                 {
-                    await Task.Delay(config.RecheckIntervalMs, stoppingToken).ConfigureAwait(false);
+                    await Task.Delay(_config.RecheckIntervalMs, stoppingToken).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -157,23 +160,28 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private void StartShard(int shardId)
     {
-        var status = shardStatuses[shardId];
-        if (status.Process is {HasExited: false} p)
+        var status = _shardStatuses[shardId];
+        try
         {
-            try
+            if (status.Process is { HasExited: false } p)
             {
-                p.Kill(true);
+                try
+                {
+                    p.Kill(true);
+                }
+                catch
+                {
+                }
             }
-            catch
-            {
-                // ignored
-            }
+
+            status.Process?.Dispose();
+        }
+        catch
+        {
         }
 
-        status.Process?.Dispose();
-
         var proc = StartShardProcess(shardId);
-        shardStatuses[shardId] = status with
+        _shardStatuses[shardId] = status with
         {
             Process = proc,
             LastUpdate = DateTime.UtcNow,
@@ -183,13 +191,14 @@ public sealed class CoordinatorRunner : BackgroundService
         };
     }
 
-    private Process StartShardProcess(int shardId) =>
-        Process.Start(new ProcessStartInfo
+    private Process StartShardProcess(int shardId)
+    {
+        return Process.Start(new ProcessStartInfo()
         {
-            FileName = config.ShardStartCommand,
-            Arguments = string.Format(config.ShardStartArgs,
+            FileName = _config.ShardStartCommand,
+            Arguments = string.Format(_config.ShardStartArgs,
                 shardId,
-                config.TotalShards),
+                _config.TotalShards),
             EnvironmentVariables =
             {
                 {"MEWDEKO_IS_COORDINATED", "1"}
@@ -197,16 +206,17 @@ public sealed class CoordinatorRunner : BackgroundService
             // CreateNoWindow = true,
             // UseShellExecute = false,
         });
+    }
 
     public bool Heartbeat(int shardId, int guildCount, ConnState state)
     {
-        lock (_locker)
+        lock (locker)
         {
-            if (shardId >= shardStatuses.Length)
+            if (shardId >= _shardStatuses.Length)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
-                
-            var status = shardStatuses[shardId];
-            status = shardStatuses[shardId] = status with
+
+            var status = _shardStatuses[shardId];
+            status = _shardStatuses[shardId] = status with
             {
                 GuildCount = guildCount,
                 State = state,
@@ -222,31 +232,32 @@ public sealed class CoordinatorRunner : BackgroundService
                     status.StateCounter);
             }
 
-            return gracefulImminent;
+            return _gracefulImminent;
         }
     }
 
     public void SetShardCount(int totalShards)
     {
-        lock (_locker)
+        lock (locker)
         {
+            ref var toSave = ref _config;
             SaveConfig(new Config(
                 totalShards,
-                config.RecheckIntervalMs,
-                config.ShardStartCommand,
-                config.ShardStartArgs,
-                config.UnresponsiveSec));
+                _config.RecheckIntervalMs,
+                _config.ShardStartCommand,
+                _config.ShardStartArgs,
+                _config.UnresponsiveSec));
         }
     }
 
     public void RestartShard(int shardId, bool queue)
     {
-        lock (_locker)
+        lock (locker)
         {
-            if (shardId >= shardStatuses.Length)
+            if (shardId >= _shardStatuses.Length)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
 
-            shardStatuses[shardId] = shardStatuses[shardId] with
+            _shardStatuses[shardId] = _shardStatuses[shardId] with
             {
                 ShouldRestart = true,
                 StateCounter = 0,
@@ -256,7 +267,7 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public void RestartAll(bool nuke)
     {
-        lock (_locker)
+        lock (locker)
         {
             if (nuke)
             {
@@ -269,32 +280,34 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private void KillAll()
     {
-        lock (_locker)
+        lock (locker)
         {
-            for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
+            for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
             {
-                var status = shardStatuses[shardId];
-                if (status.Process is not { } p) continue;
-                p.Kill();
-                p.Dispose();
-                shardStatuses[shardId] = status with
+                var status = _shardStatuses[shardId];
+                if (status.Process is Process p)
                 {
-                    Process = null,
-                    ShouldRestart = true,
-                    LastUpdate = DateTime.UtcNow,
-                    State = ConnState.Disconnected,
-                    StateCounter = 0,
-                };
+                    p.Kill();
+                    p.Dispose();
+                    _shardStatuses[shardId] = status with
+                    {
+                        Process = null,
+                        ShouldRestart = true,
+                        LastUpdate = DateTime.UtcNow,
+                        State = ConnState.Disconnected,
+                        StateCounter = 0,
+                    };
+                }
             }
         }
     }
 
     public void SaveState()
     {
-        var coordState = new CoordState
+        var coordState = new CoordState()
         {
-            StatusObjects = shardStatuses
-                            .Select(x => new JsonStatusObject
+            StatusObjects = _shardStatuses
+                            .Select(x => new JsonStatusObject()
                             {
                                 Pid = x.Process?.Id,
                                 ConnectionState = x.State,
@@ -310,13 +323,13 @@ public sealed class CoordinatorRunner : BackgroundService
     }
     private bool TryRestoreOldState()
     {
-        lock (_locker)
+        lock (locker)
         {
             if (!File.Exists(GRACEFUL_STATE_PATH))
                 return false;
 
             Log.Information("Restoring old coordinator state...");
-                
+
             CoordState savedState;
             try
             {
@@ -332,20 +345,20 @@ public sealed class CoordinatorRunner : BackgroundService
                 return false;
             }
 
-            if (savedState.StatusObjects.Count != config.TotalShards)
+            if (savedState.StatusObjects.Count != _config.TotalShards)
             {
                 Log.Error("Unable to restore old state because shard count doesn't match.");
                 File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
                 return false;
             }
 
-            shardStatuses = new ShardStatus[config.TotalShards];
+            _shardStatuses = new ShardStatus[_config.TotalShards];
 
-            for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
+            for (int shardId = 0; shardId < _shardStatuses.Length; shardId++)
             {
                 var statusObj = savedState.StatusObjects[shardId];
                 Process p = null;
-                if (statusObj.Pid is { } pid)
+                if (statusObj.Pid is int pid)
                 {
                     try
                     {
@@ -353,11 +366,11 @@ public sealed class CoordinatorRunner : BackgroundService
                     }
                     catch (Exception ex)
                     {
-                        Log.Warning(ex, $"Process for shard {shardId} is not running.");
+                        Log.Warning(ex, $"Process for shard {shardId} is not runnning.");
                     }
                 }
 
-                shardStatuses[shardId] = new ShardStatus(
+                _shardStatuses[shardId] = new(
                     shardId,
                     DateTime.UtcNow,
                     statusObj.GuildCount,
@@ -365,7 +378,7 @@ public sealed class CoordinatorRunner : BackgroundService
                     p is null,
                     p);
             }
-                
+
             File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);
             Log.Information("Old state restored!");
             return true;
@@ -374,23 +387,23 @@ public sealed class CoordinatorRunner : BackgroundService
 
     private void InitAll()
     {
-        lock (_locker)
+        lock (locker)
         {
-            shardStatuses = new ShardStatus[config.TotalShards];
-            for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
+            _shardStatuses = new ShardStatus[_config.TotalShards];
+            for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
             {
-                shardStatuses[shardId] = new ShardStatus(shardId, DateTime.UtcNow);
+                _shardStatuses[shardId] = new ShardStatus(shardId, DateTime.UtcNow);
             }
         }
     }
 
     private void QueueAll()
     {
-        lock (_locker)
+        lock (locker)
         {
-            for (var shardId = 0; shardId < shardStatuses.Length; shardId++)
+            for (var shardId = 0; shardId < _shardStatuses.Length; shardId++)
             {
-                shardStatuses[shardId] = shardStatuses[shardId] with
+                _shardStatuses[shardId] = _shardStatuses[shardId] with
                 {
                     ShouldRestart = true
                 };
@@ -401,41 +414,44 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public ShardStatus GetShardStatus(int shardId)
     {
-        lock (_locker)
+        lock (locker)
         {
-            if (shardId >= shardStatuses.Length)
+            if (shardId >= _shardStatuses.Length)
                 throw new ArgumentOutOfRangeException(nameof(shardId));
 
-            return shardStatuses[shardId];
+            return _shardStatuses[shardId];
         }
     }
 
     public List<ShardStatus> GetAllStatuses()
     {
-        lock (_locker)
+        lock (locker)
         {
-            var toReturn = new List<ShardStatus>(shardStatuses.Length);
-            toReturn.AddRange(shardStatuses);
+            var toReturn = new List<ShardStatus>(_shardStatuses.Length);
+            toReturn.AddRange(_shardStatuses);
             return toReturn;
         }
     }
 
     public void PrepareGracefulShutdown()
     {
-        lock (_locker)
+        lock (locker)
         {
-            gracefulImminent = true;
+            _gracefulImminent = true;
         }
     }
 
-    public string GetConfigText() => File.ReadAllText(CONFIG_PATH);
+    public string GetConfigText()
+    {
+        return File.ReadAllText(CONFIG_PATH);
+    }
 
     public void SetConfigText(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
             throw new ArgumentNullException(nameof(text), "coord.yml can't be empty");
-        var deserialize = _deserializer.Deserialize<Config>(text);
-        SaveConfig(in deserialize);
+        var config = _deserializer.Deserialize<Config>(text);
+        SaveConfig(in config);
         ReloadConfig();
     }
 }
