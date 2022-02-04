@@ -46,6 +46,7 @@ public class LogCommandService : INService
     private readonly ConcurrentHashSet<ulong> _ignoreMessageIds = new();
     private readonly IMemoryCache _memoryCache;
     private readonly IBotStrings _strings;
+    private readonly Timer SendPresences;
 
     private readonly GuildTimezoneService _tz;
 
@@ -77,7 +78,7 @@ public class LogCommandService : INService
                 .ToConcurrent();
         }
 
-        new Timer(Callback, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
+        SendPresences = new Timer(Callback, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
 
         //_client.MessageReceived += Client_MessageReceived;
         _client.MessageUpdated += Client_MessageUpdated;
@@ -91,6 +92,7 @@ public class LogCommandService : INService
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         _client.GuildMemberUpdated += Client_GuildUserUpdated;
+        _client.PresenceUpdated += Client_UserPresenceUpdated;
 #if !GLOBAL_Mewdeko
         _client.UserUpdated += Client_UserUpdated;
 #endif
@@ -108,6 +110,7 @@ public class LogCommandService : INService
             TimeSpan.FromHours(1));
     }
 
+
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     private ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } =
@@ -123,7 +126,7 @@ public class LogCommandService : INService
                 if (!PresenceUpdates.TryRemove(key, out var msgs)) return Task.CompletedTask;
                 var title = GetText(key.Guild, "presence_updates");
                 var desc = string.Join(Environment.NewLine, msgs);
-                return key.SendConfirmAsync(title, desc.TrimTo(2048));
+                return key.SendConfirmAsync(title, desc.TrimTo(4098));
             }))
             .ConfigureAwait(false);
     }
@@ -513,7 +516,13 @@ public class LogCommandService : INService
         {
             try
             {
-                if (!GuildLogSettings.TryGetValue(before.Value.Guild.Id, out var logSetting))
+                if (!before.HasValue)
+                    return;
+
+                if (after is null)
+                    return;
+
+                if (!GuildLogSettings.TryGetValue((ulong)(before.Value?.Guild.Id), out var logSetting))
                     return;
 
                 ITextChannel logChannel;
@@ -571,41 +580,59 @@ public class LogCommandService : INService
                         }
                     }
                 }
-
-                if (!before.Value.IsBot && logSetting.LogUserPresenceId != null && (logChannel =
-                        await TryGetLogChannel(before.Value.Guild, logSetting, LogType.UserPresence)
-                            .ConfigureAwait(false)) != null)
-                {
-                    if (before.Value.Status != after.Status)
-                    {
-                        var str = "🎭" + Format.Code(PrettyCurrentTime(after.Guild)) +
-                                  GetText(logChannel.Guild, "user_status_change",
-                                      "👤" + Format.Bold(after.Username),
-                                      Format.Bold(after.Status.ToString()));
-                        PresenceUpdates.AddOrUpdate(logChannel,
-                            new List<string> {str}, (_, list) =>
-                            {
-                                list.Add(str);
-                                return list;
-                            });
-                    }
-                    else if (before.Value.Activities.FirstOrDefault()?.Name !=
-                             after.Activities.FirstOrDefault()?.Name)
-                    {
-                        var str =
-                            $"👾`{PrettyCurrentTime(after.Guild)}`👤__**{after.Username}**__ is now playing **{after.Activities.FirstOrDefault()?.Name ?? "-"}**.";
-                        PresenceUpdates.AddOrUpdate(logChannel,
-                            new List<string> {str}, (_, list) =>
-                            {
-                                list.Add(str);
-                                return list;
-                            });
-                    }
-                }
             }
             catch
             {
                 // ignored
+            }
+        });
+        return Task.CompletedTask;
+    }
+    private Task Client_UserPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
+    {
+        _ = Task.Run(async () =>
+        {
+            if (arg1 is not SocketGuildUser user)
+                return;
+
+            if (!GuildLogSettings.TryGetValue(user.Guild.Id, out var logSetting))
+                return;
+
+            var logChannel = await TryGetLogChannel(user.Guild, logSetting, LogType.UserPresence)
+                            .ConfigureAwait(false);
+
+            if (!arg1.IsBot && logSetting.LogUserPresenceId != null && logChannel != null)
+            {
+                if (arg2.Status != arg3.Status)
+                {
+                    var str = "🎭" + Format.Code(PrettyCurrentTime(user.Guild)) +
+                              GetText(logChannel.Guild, "user_status_change",
+                                  "👤" + Format.Bold(arg1.Username),
+                                  Format.Bold(arg3.Status.ToString()));
+                    PresenceUpdates.AddOrUpdate(logChannel,
+                        new List<string> { str }, (_, list) =>
+                        {
+                            list.Add(str);
+                            return list;
+                        });
+                }
+                else if (arg2.Activities.FirstOrDefault()?.Name !=
+                         arg3.Activities.FirstOrDefault()?.Name)
+                {
+                    string status;
+                    if (arg3.Activities.FirstOrDefault() is CustomStatusGame game)
+                        status = $"{game.Emote} {game}";
+                    else
+                        status = arg3.Activities.FirstOrDefault()?.Name;
+                    var str =
+                        $"👾`{PrettyCurrentTime(user.Guild)}`👤__**{user.Username}**__ is now playing **{status ?? "-"}**.";
+                    PresenceUpdates.AddOrUpdate(logChannel,
+                        new List<string> { str }, (_, list) =>
+                        {
+                            list.Add(str);
+                            return list;
+                        });
+                }
             }
         });
         return Task.CompletedTask;
@@ -920,7 +947,7 @@ public class LogCommandService : INService
                 if (!GuildLogSettings.TryGetValue(guild.Id, out var logSetting)
                     || logSetting.UserBannedId == null)
                     return;
-
+                var bannedby = guild.GetAuditLogsAsync(actionType: ActionType.Ban).Result.FirstOrDefault();
                 ITextChannel logChannel;
                 if ((logChannel =
                         await TryGetLogChannel(guild, logSetting, LogType.UserBanned).ConfigureAwait(false)) ==
@@ -929,8 +956,14 @@ public class LogCommandService : INService
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("🚫 " + GetText(logChannel.Guild, "user_banned"))
-                    .WithDescription(usr.ToString())
-                    .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
+                    .WithDescription(usr.ToString());
+
+                if (bannedby != null)
+                    embed
+                    .AddField("Banned by", bannedby.User)
+                    .AddField("Reason", bannedby.Reason == null ? bannedby.Reason : "None");
+
+                embed.AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
                     .WithFooter(efb => efb.WithText(CurrentTime(guild)));
 
                 var avatarUrl = usr.GetAvatarUrl();
