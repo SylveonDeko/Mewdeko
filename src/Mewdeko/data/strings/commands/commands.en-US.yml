@@ -17,7 +17,7 @@ gstart:
   desc: "Starts giveaway configuration, or predefined values to start one immediately"
   args:
     - ""
-    - "#channel 2d nitro!"
+    - "#channel 2d 1 nitro!"
 gend:
   desc: "Ends a giveaway using the number in `{0}glist`."
   args:
@@ -920,7 +920,9 @@ asar:
     - 1 Alliance
     - 1 Horde
 seek:
-
+  desc: "Allows you to play a song from a certain time."
+  args:
+    - "2m30s"
 rsar:
   desc: Removes a specified role from the list of self-assignable roles.
   args:
@@ -1239,8 +1241,6 @@ considermessage:
     https://mewdeko.tech/placeholders.
   args:
     - embedcodehere
-  image: >-
-    https://media.discordapp.net/attachments/866308739334406174/870301575371948082/imgonline-com-ua-twotoone-IHpgQIykBfw.png
 denymessage:
   desc: >-
     Allows you to set the message sent when a suggestion is denied. Use the
@@ -3382,8 +3382,6 @@ reactionroleslist:
   desc: Lists all ReactionRole messages on this channel and their indexes.
   args:
     - ''
-  image: >-
-    https://media.discordapp.net/attachments/870854253793644585/870996601911525407/Screenshot_20210731-154849.jpg
 reactionrolesremove:
   desc: Removed a ReactionRole message on the specified index.
   args:

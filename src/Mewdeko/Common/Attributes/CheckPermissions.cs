@@ -17,7 +17,9 @@ public sealed class CheckPermissions : PreconditionAttribute
         var perms = services.GetService<PermissionService>();
         var cmhandl = services.GetService<CommandHandler>();
         string groupname = executingCommand.Module.SlashGroupName;
-        if (executingCommand.Module.SlashGroupName.ToLower() == "snipe")
+        if (executingCommand.MethodName == "StealEmotes")
+            groupname = "servermanagement";
+        if (executingCommand.Module.SlashGroupName?.ToLower() == "snipe")
             groupname = "utility";
         var pc = perms.GetCacheFor(context.Guild.Id);
         int index = 0;

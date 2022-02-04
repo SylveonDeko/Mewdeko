@@ -104,7 +104,6 @@ public class HelpService : ILateExecutor, INService
                     arg => Format.Code(arg))))
                 .WithIsInline(false))
             .WithFooter(efb => efb.WithText(GetText("module", guild, com.Module.GetTopLevelModule().Name)))
-            .WithImageUrl(com.GetCommandImage(_strings, guild?.Id, prefix))
             .WithColor(Mewdeko.Services.Mewdeko.OkColor);
 
         var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x => x is MewdekoOptionsAttribute))
