@@ -63,6 +63,7 @@ public class CommandHandler : INService
         _services = services;
         _client.InteractionCreated += TryRunInteraction;
         InteractionService.SlashCommandExecuted += HandleCommands;
+        InteractionService.ContextCommandExecuted += HandleContextCommands;
         _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
         Prefixes = bot.AllGuildConfigs
@@ -86,6 +87,38 @@ public class CommandHandler : INService
     
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
+    public async Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
+    {
+        if (!result.IsSuccess)
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(
+                $"Command failed for the following reason:\n{result.ErrorReason}");
+            Log.Warning($"Slash Command Errored\n\t" +
+                        "User: {0}\n\t" +
+                        "Server: {1}\n\t" +
+                        "Channel: {2}\n\t" +
+                        "Message: {3}\n\t" +
+                        "Error: {4}",
+                $"{ctx.User} [{ctx.User.Id}]", // {0}
+                ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
+                ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
+                info.MethodName,
+                result.ErrorReason);
+            return;
+        }
+        var chan = ctx.Channel as ITextChannel;
+        Log.Information(
+            "Slash Command Executed"
+            + "\n\t"
+            + "User: {0}\n\t"
+            + "Server: {1}\n\t"
+            + "Channel: {2}\n\t"
+            + "Module: {3}\n\t"
+            + "Command: {4}", $"{ctx.User} [{ctx.User.Id}]", // {0}
+            chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
+            chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
+            info.Module.SlashGroupName, info.MethodName); // {3}
+    }
     private async Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
         if (!result.IsSuccess)
@@ -118,7 +151,7 @@ public class CommandHandler : INService
                 chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
                 slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
     }
-    private async Task TryRunInteraction(SocketInteraction interaction)
+    private async Task TryRunInteraction(SocketInteraction interaction) 
     {
         var ctx = new SocketInteractionContext(_client, interaction);
         await InteractionService.ExecuteCommandAsync(ctx, _services);
@@ -334,6 +367,9 @@ public class CommandHandler : INService
                 prefix = $"<@{_client.CurrentUser.Id}> ";
             if (messageContent.StartsWith($"<@!{_client.CurrentUser.Id}>"))
                 prefix = $"<@!{_client.CurrentUser.Id}> ";
+            if (messageContent == $"<@{_client.CurrentUser.Id}>"
+                || messageContent == $"<@!{_client.CurrentUser.Id}>")
+                return;
             var (success, error, info) = await ExecuteCommandAsync(new CommandContext(_client, usrMsg),
                     messageContent, prefix.Length, _services, MultiMatchHandling.Best)
                 .ConfigureAwait(false);
