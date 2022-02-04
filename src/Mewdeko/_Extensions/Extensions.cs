@@ -197,8 +197,7 @@ public static class Extensions
     public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
-
-    public static string GetCommandImage(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) => strings.GetCommandStrings(cmd.MethodName(), guildId).Image;
+    
 
     public static string MethodName(this CommandInfo cmd) =>
         ((MewdekoCommandAttribute) cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)

@@ -20,7 +20,7 @@ public class SlashUserPermAttribute : PreconditionAttribute
     {
         var permService = services.GetService<DiscordPermOverrideService>();
         Debug.Assert(permService != null, nameof(permService) + " != null");
-        return permService.TryGetOverrides(context.Guild?.Id ?? 0, command.Name.ToUpperInvariant(), out var _)
+        return permService.TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName.ToUpperInvariant(), out var _)
             ? Task.FromResult(PreconditionResult.FromSuccess())
             : UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
     }
