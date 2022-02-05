@@ -4,7 +4,10 @@ global using Mewdeko.Services;
 global using Mewdeko;
 global using System.Threading.Tasks;
 using Serilog;
+using System.Threading;
 
+ThreadPool.GetMinThreads(out _, out var completionPortThreads);
+ThreadPool.SetMinThreads( 200, completionPortThreads);
 var pid = Environment.ProcessId;
 
 var shardId = 0;
