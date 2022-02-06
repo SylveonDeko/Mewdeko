@@ -100,7 +100,7 @@ public class Mewdeko
         using (var uow = _db.GetDbContext())
         {
             uow.DiscordUsers.EnsureCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
-            AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
+            //AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
         }
 
         var s = new ServiceCollection()
