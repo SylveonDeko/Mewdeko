@@ -109,11 +109,11 @@ public class XpService : INService, IUnloadableService
         _cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
 #if !GLOBAL_Mewdeko
-        //_client.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
+        _client.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
 
         // Scan guilds on startup.
-        //_client.GuildAvailable += Client_OnGuildAvailable;
-        //foreach (var guild in _client.Guilds) Client_OnGuildAvailable(guild);
+        _client.GuildAvailable += Client_OnGuildAvailable;
+        foreach (var guild in _client.Guilds) Client_OnGuildAvailable(guild);
 #endif
         Task.Run(UpdateLoop);
     }
@@ -466,7 +466,6 @@ public class XpService : INService, IUnloadableService
         int e;
         e = GetVoiceXpTimeout(user.Guild.Id) == 0 ? _xpConfig.Data.VoiceMaxMinutes : GetVoiceXpTimeout(user.Guild.Id);
         _cache.Redis.GetDatabase().StringSet(key, value, TimeSpan.FromMinutes(e), When.NotExists);
-        Log.Warning($"{user.Guild} {user} joined vc");
     }
 
     public int GetXpTimeout(ulong? id)
@@ -495,7 +494,6 @@ public class XpService : INService, IUnloadableService
 
     private void UserLeftVoiceChannel(SocketGuildUser user, SocketVoiceChannel channel)
     {
-        Log.Warning($"{user.Guild} {user} left vc");
         var key = $"{_creds.RedisKey()}_user_xp_vc_join_{user.Id}";
         var value = _cache.Redis.GetDatabase().StringGet(key);
         _cache.Redis.GetDatabase().KeyDelete(key);
