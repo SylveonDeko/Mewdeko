@@ -1,0 +1,37 @@
+version: 3
+coins:
+  heads:
+    - https://media.discordapp.net/attachments/826932328450097162/836231198136074310/nekoha-head.gif
+  tails:
+    - https://media.discordapp.net/attachments/826932328450097162/836231197956505620/nekoha-tail.gif
+currency:
+  - https://media.discordapp.net/attachments/774304724870103040/824457845126332436/anime-anime-girls-nekoha-shizuku-amashiro-natsuki-cat-girl-hd-wallpaper-preview-140954ea-8d0b-11eb-8.jpg
+dice:
+  - https://cdn.nadeko.bot/other/dice/0.png
+  - https://cdn.nadeko.bot/other/dice/1.png
+  - https://cdn.nadeko.bot/other/dice/2.png
+  - https://cdn.nadeko.bot/other/dice/3.png
+  - https://cdn.nadeko.bot/other/dice/4.png
+  - https://cdn.nadeko.bot/other/dice/5.png
+  - https://cdn.nadeko.bot/other/dice/6.png
+  - https://cdn.nadeko.bot/other/dice/7.png
+  - https://cdn.nadeko.bot/other/dice/8.png
+  - https://cdn.nadeko.bot/other/dice/9.png
+rategirl:
+  matrix: https://cdn.nadeko.bot/other/rategirl/matrix.png
+  dot: https://cdn.nadeko.bot/other/rategirl/dot.png
+xp:
+  bg: https://cdn.discordapp.com/attachments/915770282579484693/938299686610141184/mewdeko_xp.png
+rip:
+  bg: https://cdn.nadeko.bot/other/rip/rip.png
+  overlay: https://cdn.nadeko.bot/other/rip/overlay.png
+slots:
+  emojis:
+    - https://cdn.nadeko.bot/slots/0.png
+    - https://cdn.nadeko.bot/slots/1.png
+    - https://cdn.nadeko.bot/slots/2.png
+    - https://cdn.nadeko.bot/slots/3.png
+    - https://cdn.nadeko.bot/slots/4.png
+    - https://cdn.nadeko.bot/slots/5.png
+  numbers: 
+  bg: https://media.discordapp.net/attachments/866308739334406174/881247064279875614/SlotsTest2.png

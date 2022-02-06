@@ -35,6 +35,9 @@ public static class Extensions
     public static Regex UrlRegex = new(@"^(https?|ftp)://(?<path>[^\s/$.?#].[^\s]*)$", RegexOptions.Compiled);
 
     public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
+    private const string OldCdnUrl = "nadeko-pictures.nyc3.digitaloceanspaces.com";
+    private const string NewCdnUrl = "cdn.nadeko.bot";
+
 
     public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CrEmbed crEmbed,
         bool sanitizeAll = false)
@@ -45,6 +48,10 @@ public static class Extensions
 
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
+    
+    public static Uri ToNewCdn(this Uri uri)
+        => new(uri.ToString().Replace(OldCdnUrl, NewCdnUrl));
+
 
     public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message) 
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());

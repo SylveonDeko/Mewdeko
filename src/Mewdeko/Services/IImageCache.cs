@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Mewdeko.Common;
+﻿using Mewdeko.Common;
+using System.Collections.Generic;
 
 namespace Mewdeko.Services;
 
@@ -13,7 +13,6 @@ public interface IImageCache
     IReadOnlyList<byte[]> Dice { get; }
 
     IReadOnlyList<byte[]> SlotEmojis { get; }
-    IReadOnlyList<byte[]> SlotNumbers { get; }
     IReadOnlyList<byte[]> Currency { get; }
 
     byte[] SlotBackground { get; }
