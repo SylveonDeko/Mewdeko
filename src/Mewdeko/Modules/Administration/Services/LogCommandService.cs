@@ -597,6 +597,9 @@ public class LogCommandService : INService
     {
         _ = Task.Run(async () =>
         {
+            if (!_bot.Ready.Task.IsCompleted)
+                return;
+            
             if (arg1 is not SocketGuildUser user)
                 return;
 
