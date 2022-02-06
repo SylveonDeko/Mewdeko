@@ -121,7 +121,6 @@ public partial class Administration
                 LogType.ChannelCreated => l.ChannelCreatedId,
                 LogType.ChannelDestroyed => l.ChannelDestroyedId,
                 LogType.ChannelUpdated => l.ChannelUpdatedId,
-                LogType.UserPresence => l.LogUserPresenceId,
                 LogType.VoicePresence => l.LogVoicePresenceId,
                 LogType.VoicePresenceTts => l.LogVoicePresenceTTSId,
                 LogType.UserMuted => l.UserMutedId,
