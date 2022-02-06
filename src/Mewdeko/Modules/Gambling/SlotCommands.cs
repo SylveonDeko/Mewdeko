@@ -127,7 +127,7 @@ public partial class Gambling
                 do
                 {
                     var digit = (int) (printWon % 10);
-                    using (var img = Image.Load(_images.SlotNumbers[digit]))
+                    using (var img = Image.Load(_images.SlotEmojis[digit]))
                     {
                         bgImage.Mutate(x =>
                             x.DrawImage(img, new Point(230 - (n * 16), 462), new GraphicsOptions()));
@@ -141,11 +141,11 @@ public partial class Gambling
                 do
                 {
                     var digit = (int) (printAmount % 10);
-                    using (var img = Image.Load(_images.SlotNumbers[digit]))
+                    using (var img = Image.Load(_images.SlotEmojis[numbers[digit]]))
                     {
-                        bgImage.Mutate(x =>
-                            x.DrawImage(img, new Point(395 - (n * 16), 462), new GraphicsOptions()));
+                        bgImage.Mutate(x => x.DrawImage(img, new Point(148 + 105 * digit, 217), 1f));
                     }
+
 
                     n++;
                 } while ((printAmount /= 10) != 0);
