@@ -90,7 +90,6 @@ public class LogCommandService : INService
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         _client.GuildMemberUpdated += Client_GuildUserUpdated;
-        _client.PresenceUpdated += PresennceUpdated;
 #if !GLOBAL_Mewdeko
         _client.UserUpdated += Client_UserUpdated;
 #endif
@@ -107,9 +106,7 @@ public class LogCommandService : INService
         ClearTimer = new Timer(_ => _ignoreMessageIds.Clear(), null, TimeSpan.FromHours(1),
             TimeSpan.FromHours(1));
     }
-
-    private async Task PresennceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3) 
-        => Serilog.Log.Warning("AAAAA");
+    
 
 
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
