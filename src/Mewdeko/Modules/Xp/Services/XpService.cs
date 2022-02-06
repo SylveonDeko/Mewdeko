@@ -113,7 +113,7 @@ public class XpService : INService, IUnloadableService
 
         // Scan guilds on startup.
         //_client.GuildAvailable += Client_OnGuildAvailable;
-        foreach (var guild in _client.Guilds) Client_OnGuildAvailable(guild);
+        //foreach (var guild in _client.Guilds) Client_OnGuildAvailable(guild);
 #endif
         Task.Run(UpdateLoop);
     }
