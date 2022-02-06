@@ -109,10 +109,10 @@ public class XpService : INService, IUnloadableService
         _cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
 #if !GLOBAL_Mewdeko
-        _client.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
+        //_client.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
 
         // Scan guilds on startup.
-        _client.GuildAvailable += Client_OnGuildAvailable;
+        //_client.GuildAvailable += Client_OnGuildAvailable;
         foreach (var guild in _client.Guilds) Client_OnGuildAvailable(guild);
 #endif
         Task.Run(UpdateLoop);
