@@ -1091,7 +1091,6 @@ public class LogCommandService : INService
             LogType.ChannelCreated => logSetting.ChannelCreatedId,
             LogType.ChannelDestroyed => logSetting.ChannelDestroyedId,
             LogType.ChannelUpdated => logSetting.ChannelUpdatedId,
-            LogType.UserPresence => logSetting.LogUserPresenceId,
             LogType.VoicePresence => logSetting.LogVoicePresenceId,
             LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId,
             LogType.UserMuted => logSetting.UserMutedId,
