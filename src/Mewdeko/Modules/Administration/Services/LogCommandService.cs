@@ -31,7 +31,6 @@ public class LogCommandService : INService
         ChannelCreated,
         ChannelDestroyed,
         ChannelUpdated,
-        UserPresence,
         VoicePresence,
         VoicePresenceTts,
 
@@ -80,8 +79,6 @@ public class LogCommandService : INService
                 .ToConcurrent();
         }
 
-        SendPresences = new Timer(Callback, null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
-
         //_client.MessageReceived += Client_MessageReceived;
         _client.MessageUpdated += Client_MessageUpdated;
         _client.MessageDeleted += Client_MessageDeleted;
@@ -90,11 +87,10 @@ public class LogCommandService : INService
         _client.UserUnbanned += Client_UserUnbanned;
         _client.UserJoined += Client_UserJoined;
         _client.UserLeft += Client_UserLeft;
-        //_client.UserPresenceUpdated += Client_UserPresenceUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         _client.GuildMemberUpdated += Client_GuildUserUpdated;
-        //_client.PresenceUpdated += Client_UserPresenceUpdated;
+        _client.PresenceUpdated += PresennceUpdated;
 #if !GLOBAL_Mewdeko
         _client.UserUpdated += Client_UserUpdated;
 #endif
@@ -112,26 +108,14 @@ public class LogCommandService : INService
             TimeSpan.FromHours(1));
     }
 
+    private async Task PresennceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3) 
+        => Serilog.Log.Warning("AAAAA");
+
 
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     private ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } =
         new();
-
-    private async void Callback(object state)
-    {
-        var keys = PresenceUpdates.Keys.ToList();
-
-        await Task.WhenAll(keys.Select(key =>
-            {
-                if (!((SocketGuild) key.Guild).CurrentUser.GetPermissions(key).SendMessages) return Task.CompletedTask;
-                if (!PresenceUpdates.TryRemove(key, out var msgs)) return Task.CompletedTask;
-                var title = GetText(key.Guild, "presence_updates");
-                var desc = string.Join(Environment.NewLine, msgs);
-                return key.SendConfirmAsync(title, desc.TrimTo(4098));
-            }))
-            .ConfigureAwait(false);
-    }
 
     public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
 
@@ -193,7 +177,6 @@ public class LogCommandService : INService
                                         logSetting.ChannelCreatedId =
                                             logSetting.ChannelDestroyedId =
                                                 logSetting.ChannelUpdatedId =
-                                                    logSetting.LogUserPresenceId =
                                                         logSetting.LogVoicePresenceId =
                                                             logSetting.UserMutedId =
                                                                 logSetting.LogVoicePresenceTTSId =
@@ -290,8 +273,6 @@ public class LogCommandService : INService
                     logSetting.ChannelDestroyedId == null ? cid : default,
                 LogType.ChannelUpdated => logSetting.ChannelUpdatedId =
                     logSetting.ChannelUpdatedId == null ? cid : default,
-                LogType.UserPresence => logSetting.LogUserPresenceId =
-                    logSetting.LogUserPresenceId == null ? cid : default,
                 LogType.VoicePresence => logSetting.LogVoicePresenceId =
                     logSetting.LogVoicePresenceId == null ? cid : default,
                 LogType.VoicePresenceTts => logSetting.LogVoicePresenceTTSId =
@@ -589,58 +570,6 @@ public class LogCommandService : INService
             catch
             {
                 // ignored
-            }
-        });
-        return Task.CompletedTask;
-    }
-    private Task Client_UserPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
-    {
-        _ = Task.Run(async () =>
-        {
-            if (!_bot.Ready.Task.IsCompleted)
-                return;
-            
-            if (arg1 is not SocketGuildUser user)
-                return;
-
-            if (!GuildLogSettings.TryGetValue(user.Guild.Id, out var logSetting))
-                return;
-
-            var logChannel = await TryGetLogChannel(user.Guild, logSetting, LogType.UserPresence)
-                            .ConfigureAwait(false);
-
-            if (!arg1.IsBot && logSetting.LogUserPresenceId != null && logChannel != null)
-            {
-                if (arg2.Status != arg3.Status)
-                {
-                    var str = "🎭" + Format.Code(PrettyCurrentTime(user.Guild)) +
-                              GetText(logChannel.Guild, "user_status_change",
-                                  "👤" + Format.Bold(arg1.Username),
-                                  Format.Bold(arg3.Status.ToString()));
-                    PresenceUpdates.AddOrUpdate(logChannel,
-                        new List<string> { str }, (_, list) =>
-                        {
-                            list.Add(str);
-                            return list;
-                        });
-                }
-                else if (arg2.Activities.FirstOrDefault()?.Name !=
-                         arg3.Activities.FirstOrDefault()?.Name)
-                {
-                    string status;
-                    if (arg3.Activities.FirstOrDefault() is CustomStatusGame game)
-                        status = $"{game.Emote} {game}";
-                    else
-                        status = arg3.Activities.FirstOrDefault()?.Name;
-                    var str =
-                        $"👾`{PrettyCurrentTime(user.Guild)}`👤__**{user.Username}**__ is now playing **{status ?? "-"}**.";
-                    PresenceUpdates.AddOrUpdate(logChannel,
-                        new List<string> { str }, (_, list) =>
-                        {
-                            list.Add(str);
-                            return list;
-                        });
-                }
             }
         });
         return Task.CompletedTask;
@@ -1227,9 +1156,6 @@ public class LogCommandService : INService
                 break;
             case LogType.ChannelUpdated:
                 newLogSetting.ChannelUpdatedId = null;
-                break;
-            case LogType.UserPresence:
-                newLogSetting.LogUserPresenceId = null;
                 break;
             case LogType.VoicePresence:
                 newLogSetting.LogVoicePresenceId = null;
