@@ -4,6 +4,8 @@ using System.IO;
 using System.Net.Http;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Common.Yml;
 using Mewdeko.Services.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,243 +14,290 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Services.Impl;
 
-public sealed class RedisImagesCache : IImageCache
+public sealed class RedisImagesCache : IImageCache, IReadyExecutor
 {
-    public enum ImageKey
-    {
-        Coins_Heads,
-        Coins_Tails,
-        Dice,
-        Slots_Bg,
-        Slots_Numbers,
-        Slots_Emojis,
-        Rategirl_Matrix,
-        Rategirl_Dot,
-        Xp_Bg,
-        Rip_Bg,
-        Rip_Overlay,
-        Currency
-    }
-
-    private const string BASE_PATH = "data/";
-    private const string OLD_BASE_PATH = "data/images/";
-    private const string CARDS_PATH = "data/images/cards";
     private readonly ConnectionMultiplexer _con;
-    private readonly IBotCredentials _creds;
-    private readonly HttpClient _http;
+        private readonly IBotCredentials _creds;
+        private readonly HttpClient _http;
+        private readonly string _imagesPath;
+        private const string OldCdnUrl = "nadeko-pictures.nyc3.digitaloceanspaces.com";
+        private const string NewCdnUrl = "cdn.nadeko.bot";
 
-    public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
-    {
-        _con = con;
-        _creds = creds;
-        _http = new HttpClient();
 
-        Migrate();
-        ImageUrls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
-    }
+        private IDatabase _db => _con.GetDatabase();
 
-    private IDatabase Db => _con.GetDatabase();
+        private const string _basePath = "data/";
+        private const string _cardsPath = "data/images/cards";
 
-    public ImageUrls ImageUrls { get; private set; }
+        public ImageUrls ImageUrls { get; private set; }
 
-    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKey.Coins_Heads);
-
-    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKey.Coins_Tails);
-
-    public IReadOnlyList<byte[]> Dice => GetByteArrayData(ImageKey.Dice);
-
-    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKey.Slots_Emojis);
-
-    public IReadOnlyList<byte[]> SlotNumbers => GetByteArrayData(ImageKey.Slots_Numbers);
-
-    public IReadOnlyList<byte[]> Currency => GetByteArrayData(ImageKey.Currency);
-
-    public byte[] SlotBackground => GetByteData(ImageKey.Slots_Bg);
-
-    public byte[] RategirlMatrix => GetByteData(ImageKey.Rategirl_Matrix);
-
-    public byte[] RategirlDot => GetByteData(ImageKey.Rategirl_Dot);
-
-    public byte[] XpBackground => GetByteData(ImageKey.Xp_Bg);
-
-    public byte[] Rip => GetByteData(ImageKey.Rip_Bg);
-
-    public byte[] RipOverlay => GetByteData(ImageKey.Rip_Overlay);
-
-    public byte[] GetCard(string key) => _con.GetDatabase().StringGet(GetKey("card_" + key));
-
-    public async Task Reload()
-    {
-        try
+        public enum ImageKeys
         {
-            var sw = Stopwatch.StartNew();
-            var obj = JObject.Parse(
-                await File.ReadAllTextAsync(Path.Combine(BASE_PATH, "images.json")));
-
-            ImageUrls = obj.ToObject<ImageUrls>();
-            var t = new ImageLoader(_http, _con, GetKey)
-                .LoadAsync(obj);
-
-            var loadCards = Task.Run(async () => await Db.StringSetAsync(Directory.GetFiles(CARDS_PATH)
-                        .ToDictionary(
-                            x => GetKey("card_" + Path.GetFileNameWithoutExtension(x)),
-                            x => (RedisValue)File
-                                .ReadAllBytes(x)) // loads them and creates <name, bytes> pairs to store in redis
-                        .ToArray())
-                    .ConfigureAwait(false));
-
-            await Task.WhenAll(t, loadCards).ConfigureAwait(false);
-
-            sw.Stop();
-            Log.Information($"Images reloaded in {sw.Elapsed.TotalSeconds:F2}s");
+            CoinHeads,
+            CoinTails,
+            Dice,
+            SlotBg,
+            SlotEmojis,
+            Currency,
+            RategirlMatrix,
+            RategirlDot,
+            RipOverlay,
+            RipBg,
+            XpBg
         }
-        catch (Exception ex)
+
+        public IReadOnlyList<byte[]> Heads 
+            => GetByteArrayData(ImageKeys.CoinHeads);
+
+        public IReadOnlyList<byte[]> Tails 
+            => GetByteArrayData(ImageKeys.CoinTails);
+
+        public IReadOnlyList<byte[]> Dice 
+            => GetByteArrayData(ImageKeys.Dice);
+
+        public IReadOnlyList<byte[]> SlotEmojis 
+            => GetByteArrayData(ImageKeys.SlotEmojis);
+
+        public IReadOnlyList<byte[]> Currency 
+            => GetByteArrayData(ImageKeys.Currency);
+
+        public byte[] SlotBackground 
+            => GetByteData(ImageKeys.SlotBg);
+
+        public byte[] RategirlMatrix 
+            => GetByteData(ImageKeys.RategirlMatrix);
+
+        public byte[] RategirlDot 
+            => GetByteData(ImageKeys.RategirlDot);
+
+        public byte[] XpBackground 
+            => GetByteData(ImageKeys.XpBg);
+
+        public byte[] Rip 
+            => GetByteData(ImageKeys.RipBg);
+
+        public byte[] RipOverlay 
+            => GetByteData(ImageKeys.RipOverlay);
+
+        public byte[] GetCard(string key)
         {
-            Log.Error(ex, "Error reloading image service");
-            throw;
-        }
-    }
+            // since cards are always local for now, don't cache them
+            return File.ReadAllBytes(Path.Join(_cardsPath, key + ".jpg"));
 
-    private void Migrate()
-    {
-        try
+        }
+        
+
+        public async Task OnReadyAsync()
         {
-            Migrate1();
-            Migrate2();
-            Migrate3();
+            if (await AllKeysExist())
+                return;
+
+            await Reload();
         }
-        catch (Exception ex)
+
+        public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
         {
-            Log.Warning(ex.Message);
-            Log.Error("Something has been incorrectly formatted in your 'images.json' file.\n" +
-                      "Use the 'images_example.json' file as reference to fix it and restart the bot.");
+            _con = con;
+            _creds = creds;
+            _http = new HttpClient();
+            _imagesPath = Path.Combine(_basePath, "images.yml");
+
+            Migrate();
+
+            ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(_imagesPath));
         }
-    }
-
-    private static void Migrate1()
-    {
-        if (!File.Exists(Path.Combine(OLD_BASE_PATH, "images.json")))
-            return;
-        Log.Information("Migrating images v0 to images v1.");
-        // load old images
-        var oldUrls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(OLD_BASE_PATH, "images.json")));
-        // load new images
-        var newUrls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
-
-        //swap new links with old ones if set. Also update old links.
-        newUrls.Coins = oldUrls.Coins;
-
-        newUrls.Currency = oldUrls.Currency;
-        newUrls.Dice = oldUrls.Dice;
-        newUrls.Rategirl = oldUrls.Rategirl;
-        newUrls.Xp = oldUrls.Xp;
-        newUrls.Version = 1;
-
-        File.WriteAllText(Path.Combine(BASE_PATH, "images.json"),
-            JsonConvert.SerializeObject(newUrls, Formatting.Indented));
-        File.Delete(Path.Combine(OLD_BASE_PATH, "images.json"));
-    }
-
-    private void Migrate2()
-    {
-        // load new images
-        var urls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
-
-        if (urls!.Version >= 2)
-            return;
-        Log.Information("Migrating images v1 to images v2.");
-        urls.Version = 2;
-
-        var prefix = $"{_creds.RedisKey()}_localimg_";
-        Db.KeyDelete(new[]
+        
+        private void Migrate()
+        {
+            // migrate to yml
+            if (File.Exists(Path.Combine(_basePath, "images.json")))
             {
-                prefix + "heads",
-                prefix + "tails",
-                prefix + "dice",
-                prefix + "slot_background",
-                prefix + "slotnumbers",
-                prefix + "slotemojis",
-                prefix + "wife_matrix",
-                prefix + "rategirl_dot",
-                prefix + "xp_card",
-                prefix + "rip",
-                prefix + "rip_overlay"
+                var oldFilePath = Path.Combine(_basePath, "images.json");
+                var backupFilePath = Path.Combine(_basePath, "images.json.backup");
+                
+                var oldData = JsonConvert.DeserializeObject<OldImageUrls>(
+                    File.ReadAllText(oldFilePath));
+
+                if (oldData is not null)
+                {
+                    var newData = new ImageUrls()
+                    {
+                        Coins = new ImageUrls.CoinData()
+                        {
+                            Heads = oldData.Coins.Heads.Length == 1 && 
+                                oldData.Coins.Heads[0].ToString() == "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/heads.png"
+                            ? new[] { new Uri("https://cdn.nadeko.bot/coins/heads3.png") }
+                            : oldData.Coins.Heads,
+                            Tails = oldData.Coins.Tails.Length == 1 && 
+                                    oldData.Coins.Tails[0].ToString() == "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/tails.png"
+                                ? new[] { new Uri("https://cdn.nadeko.bot/coins/tails3.png") }
+                                : oldData.Coins.Tails,
+                        },
+                        Dice = oldData.Dice.Map(x => x.ToNewCdn()),
+                        Currency = oldData.Currency.Map(x => x.ToNewCdn()),
+                        Rategirl = new ImageUrls.RategirlData()
+                        {
+                            Dot = oldData.Rategirl.Dot.ToNewCdn(),
+                            Matrix = oldData.Rategirl.Matrix.ToNewCdn()
+                        },
+                        Rip = new ImageUrls.RipData()
+                        {
+                            Bg = oldData.Rip.Bg.ToNewCdn(),
+                            Overlay = oldData.Rip.Overlay.ToNewCdn(),
+                        },
+                        Slots = new ImageUrls.SlotData()
+                        {
+                            Bg = new Uri("https://cdn.nadeko.bot/slots/slots_bg.png"),
+                            Emojis = new[]
+                            {
+                                "https://cdn.nadeko.bot/slots/0.png",
+                                "https://cdn.nadeko.bot/slots/1.png",
+                                "https://cdn.nadeko.bot/slots/2.png",
+                                "https://cdn.nadeko.bot/slots/3.png",
+                                "https://cdn.nadeko.bot/slots/4.png",
+                                "https://cdn.nadeko.bot/slots/5.png"
+                            }.Map(x => new Uri(x))
+                        },
+                        Xp = new ImageUrls.XpData()
+                        {
+                            Bg = oldData.Xp.Bg.ToNewCdn(),
+                        },
+                        Version = 2,
+                    };
+
+                    File.Move(oldFilePath, backupFilePath, true);
+                    File.WriteAllText(_imagesPath, Yaml.Serializer.Serialize(newData));
+                }
             }
-            .Select(x => (RedisKey) x).ToArray());
 
-        File.WriteAllText(Path.Combine(BASE_PATH, "images.json"),
-            JsonConvert.SerializeObject(urls, Formatting.Indented));
-    }
+            // removed numbers from slots
+            var localImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(_imagesPath));
+            if (localImageUrls.Version == 2)
+            {
+                localImageUrls.Version = 3;
+                File.WriteAllText(_imagesPath, Yaml.Serializer.Serialize(localImageUrls));
+            }
+        }
 
-    private static void Migrate3()
-    {
-        var urls = JsonConvert.DeserializeObject<ImageUrls>(
-            File.ReadAllText(Path.Combine(BASE_PATH, "images.json")));
-
-        if (urls.Version >= 3)
-            return;
-        urls.Version = 3;
-        Log.Information("Migrating images v2 to images v3.");
-
-        var baseStr = "https://Mewdeko-pictures.nyc3.digitaloceanspaces.com/other/currency/";
-
-        var replacementTable = new Dictionary<Uri, Uri>
+        public async Task Reload()
         {
-            {new Uri(baseStr + "0.jpg"), new Uri(baseStr + "0.png")},
-            {new Uri(baseStr + "1.jpg"), new Uri(baseStr + "1.png")},
-            {new Uri(baseStr + "2.jpg"), new Uri(baseStr + "2.png")}
-        };
+            ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(_imagesPath));
+            foreach (var key in GetAllKeys())
+            {
+                switch (key)
+                {
+                    case ImageKeys.CoinHeads:
+                        await Load(key, ImageUrls.Coins.Heads);
+                        break;
+                    case ImageKeys.CoinTails:
+                        await Load(key, ImageUrls.Coins.Tails);
+                        break;
+                    case ImageKeys.Dice:
+                        await Load(key, ImageUrls.Dice);
+                        break;
+                    case ImageKeys.SlotBg:
+                        await Load(key, ImageUrls.Slots.Bg);
+                        break;
+                    case ImageKeys.SlotEmojis:
+                        await Load(key, ImageUrls.Slots.Emojis);
+                        break;
+                    case ImageKeys.Currency:
+                        await Load(key, ImageUrls.Currency);
+                        break;
+                    case ImageKeys.RategirlMatrix:
+                        await Load(key, ImageUrls.Rategirl.Matrix);
+                        break;
+                    case ImageKeys.RategirlDot:
+                        await Load(key, ImageUrls.Rategirl.Dot);
+                        break;
+                    case ImageKeys.RipOverlay:
+                        await Load(key, ImageUrls.Rip.Overlay);
+                        break;
+                    case ImageKeys.RipBg:
+                        await Load(key, ImageUrls.Rip.Bg);
+                        break;
+                    case ImageKeys.XpBg:
+                        await Load(key, ImageUrls.Xp.Bg);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
-        if (replacementTable.Keys.Any(x => urls.Currency.Contains(x)))
-            urls.Currency = urls.Currency.Select(x => replacementTable.TryGetValue(x, out var newUri)
-                    ? newUri
-                    : x).Append(new Uri(baseStr + "3.png"))
+        private async Task Load(ImageKeys key, Uri uri)
+        {
+            var data = await GetImageData(uri);
+            if (data is null)
+                return;
+
+            await _db.StringSetAsync(GetRedisKey(key), data);
+        }
+
+        private async Task Load(ImageKeys key, Uri[] uris)
+        {
+            await _db.KeyDeleteAsync(GetRedisKey(key));
+            var imageData = await Task.WhenAll(uris.Select(GetImageData));
+            var vals = imageData
+                .Where(x => x is not null)
+                .Select(x => (RedisValue)x)
                 .ToArray();
 
-        File.WriteAllText(Path.Combine(BASE_PATH, "images.json"),
-            JsonConvert.SerializeObject(urls, Formatting.Indented));
-    }
-
-    public async Task<bool> AllKeysExist()
-    {
-        try
-        {
-            var results = await Task.WhenAll(Enum.GetNames(typeof(ImageKey))
-                    .Select(x => x.ToLowerInvariant())
-                    .Select(x => Db.KeyExistsAsync(GetKey(x))))
-                .ConfigureAwait(false);
-
-            var cardsExist = await Task.WhenAll(GetAllCardNames()
-                    .Select(x => "card_" + x)
-                    .Select(x => Db.KeyExistsAsync(GetKey(x))))
-                .ConfigureAwait(false);
-
-            return results.All(x => x) && cardsExist.All(x => x);
+            await _db.ListRightPushAsync(GetRedisKey(key), vals);
+            
+            if (uris.Length != vals.Length)
+            {
+                Log.Information("{Loaded}/{Max} URIs for the key '{ImageKey}' have been loaded.\n" +
+                                "Some of the supplied URIs are either unavailable or invalid.", 
+                    vals.Length, uris.Length, key);
+            }
         }
-        catch (Exception ex)
+
+        private async Task<byte[]> GetImageData(Uri uri)
         {
-            Log.Warning(ex, "Error checking for Image keys");
-            return false;
+            if (uri.IsFile)
+            {
+                try
+                {
+                    var bytes = await File.ReadAllBytesAsync(uri.LocalPath);
+                    return bytes;
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "Failed reading image bytes from uri: {Uri}", uri.ToString());
+                    return null;
+                }
+            }
+
+            try
+            {
+                return await _http.GetByteArrayAsync(uri);
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Image url you provided is not a valid image: {Uri}", uri.ToString());
+                return null;
+            }
         }
+        
+        private async Task<bool> AllKeysExist()
+        {
+            var tasks = await Task.WhenAll(GetAllKeys()
+                .Select(x => _db.KeyExistsAsync(GetRedisKey(x))));
+
+            return tasks.All(exist => exist);
+        }
+
+        private IEnumerable<ImageKeys> GetAllKeys() =>
+            Enum.GetValues<ImageKeys>();
+
+        private byte[][] GetByteArrayData(ImageKeys key)
+            => _db.ListRange(GetRedisKey(key)).Map(x => (byte[])x);
+
+        private byte[] GetByteData(ImageKeys key)
+            => _db.StringGet(GetRedisKey(key));
+
+        private RedisKey GetRedisKey(ImageKeys key) 
+            => _creds.RedisKey() + "_image_" + key;
     }
-
-    private static IEnumerable<string> GetAllCardNames(bool showExtension = false) =>
-        Directory.GetFiles(CARDS_PATH) // gets all cards from the cards folder
-                 .Select(x => showExtension
-                     ? Path.GetFileName(x)
-                     : Path.GetFileNameWithoutExtension(x)); // gets their names
-
-    public RedisKey GetKey(string key) => $"{_creds.RedisKey()}_localimg_{key.ToLowerInvariant()}";
-
-    public byte[] GetByteData(string key) => Db.StringGet(GetKey(key));
-
-    public byte[] GetByteData(ImageKey key) => GetByteData(key.ToString());
-
-    private RedisImageArray GetByteArrayData(string key) => new(GetKey(key), _con);
-
-    public RedisImageArray GetByteArrayData(ImageKey key) => GetByteArrayData(key.ToString());
-}
+    
