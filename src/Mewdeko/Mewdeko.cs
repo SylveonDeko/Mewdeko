@@ -194,18 +194,9 @@ public class Mewdeko
 
         Task SetClientReady()
         {
-            var _ = Task.Run(async () =>
+            var _ = Task.Run( () =>
             {
                 clientReady.TrySetResult(true);
-                try
-                {
-                    foreach (var chan in await Client.GetDMChannelsAsync().ConfigureAwait(false))
-                        await chan.CloseAsync().ConfigureAwait(false);
-                }
-                catch
-                {
-                    // ignored
-                }
             });
             return Task.CompletedTask;
         }
