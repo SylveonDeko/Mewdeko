@@ -94,7 +94,7 @@ public class LogCommandService : INService
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
         _client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated_TTS;
         _client.GuildMemberUpdated += Client_GuildUserUpdated;
-        _client.PresenceUpdated += Client_UserPresenceUpdated;
+        //_client.PresenceUpdated += Client_UserPresenceUpdated;
 #if !GLOBAL_Mewdeko
         _client.UserUpdated += Client_UserUpdated;
 #endif
@@ -526,7 +526,7 @@ public class LogCommandService : INService
 
                 if (after is null)
                     return;
-
+                    
                 if (!GuildLogSettings.TryGetValue((ulong)(before.Value?.Guild.Id), out var logSetting))
                     return;
 
