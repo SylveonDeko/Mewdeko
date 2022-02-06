@@ -104,25 +104,44 @@ public class Mewdeko
         }
 
         var s = new ServiceCollection()
-            .AddSingleton<IBotCredentials>(Credentials)
-            .AddSingleton(_db)
-            .AddSingleton(Client)
-            .AddSingleton(CommandService)
-            .AddSingleton(this)
-            .AddSingleton(Cache)
-            .AddSingleton(new KSoftApi(TOKEN))
-            .AddSingleton(Cache.Redis)
-            .AddSingleton<ISeria, JsonSeria>()
-            .AddSingleton<IPubSub, RedisPubSub>()
-            .AddSingleton<IConfigSeria, YamlSeria>()
-            .AddSingleton<InteractiveService>()
-            .AddSingleton<InteractionService>()
-            .AddConfigServices()
-            .AddBotStringsServices()
-            .AddMemoryCache()
-            .AddSingleton<LavaNode>()
-            .AddSingleton<LavaConfig>()
-            .AddSingleton<IShopService, ShopService>();
+            .AddSingleton<IBotCredentials>(Credentials);
+            Log.Warning("Got to creds");
+                s.AddSingleton(_db);
+                Log.Warning("Got to db");
+                s.AddSingleton(Client);
+                Log.Warning("Got to client");
+                s.AddSingleton(CommandService);
+                Log.Warning("Got to commandservice");
+                s.AddSingleton(this);
+                Log.Warning("Got to Mewdeko");
+                s.AddSingleton(Cache);
+                Log.Warning("Got to Cache");
+                s.AddSingleton(new KSoftApi(TOKEN));
+                Log.Warning("Got to ksoft");
+                s.AddSingleton(Cache.Redis);
+                Log.Warning("Got to Redis");
+                s.AddSingleton<ISeria, JsonSeria>();
+                Log.Warning("Got to configs");
+                s.AddSingleton<IPubSub, RedisPubSub>();
+                Log.Warning("Got to pubsub");
+                s.AddSingleton<IConfigSeria, YamlSeria>();
+                Log.Warning("Got to gconfigs");
+                s.AddSingleton<InteractiveService>();
+                Log.Warning("Got to InteractiveService");
+                s.AddSingleton<InteractionService>();
+                Log.Warning("Got to InteractionService");
+                s.AddConfigServices();
+                Log.Warning("Got to ConfigService");
+                s.AddBotStringsServices();
+                Log.Warning("Got to BotStrings");
+                s.AddMemoryCache();
+                Log.Warning("Got to MemoryCache");
+                s.AddSingleton<LavaNode>();
+                Log.Warning("Got to lavanode");
+                s.AddSingleton<LavaConfig>();
+                Log.Warning("Got to LavaConfig");
+            s.AddSingleton<IShopService, ShopService>();
+            Log.Warning("Got to ShopService");
         s.AddLavaNode(x =>
         {
             x.SelfDeaf = true;
