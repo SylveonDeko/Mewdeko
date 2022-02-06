@@ -47,6 +47,7 @@ public class LogCommandService : INService
     private readonly IMemoryCache _memoryCache;
     private readonly IBotStrings _strings;
     private readonly Timer SendPresences;
+    private readonly Mewdeko.Services.Mewdeko _bot;
 
     private readonly GuildTimezoneService _tz;
 
@@ -54,8 +55,9 @@ public class LogCommandService : INService
 
     public LogCommandService(DiscordSocketClient client, IBotStrings strings,
         DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache, Mewdeko.Services.Mewdeko bot)
     {
+        _bot = bot;
         _client = client;
         _memoryCache = memoryCache;
         _strings = strings;
@@ -516,6 +518,9 @@ public class LogCommandService : INService
         {
             try
             {
+                if (!_bot.Ready.Task.IsCompleted)
+                    return;
+                
                 if (!before.HasValue)
                     return;
 
