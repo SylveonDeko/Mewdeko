@@ -51,7 +51,7 @@ public class StreamRoleService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, RestGuildUser,IGuildUser, ulong> before, SocketGuildUser after)
+    private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
         var _ = Task.Run(async () =>
         {
