@@ -9,10 +9,13 @@ public class StarboardRepository : Repository<Starboard>, IStarboardRepository
     {
     }
 
-    public Starboard[] ForMsgId(ulong msgid)
+    public Starboard ForMsgId(ulong msgid)
     {
         var query = Set.AsQueryable().Where(x => x.MessageId == msgid);
 
-        return query.ToArray();
+        return query.FirstOrDefault();
     }
+
+    public Starboard[] GetAll() 
+        => Set.AsQueryable().ToArray();
 }
