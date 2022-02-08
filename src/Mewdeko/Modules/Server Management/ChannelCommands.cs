@@ -158,7 +158,7 @@ public partial class ServerManagement
         {
             var embed = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.ErrorColor,
+                Color = Mewdeko.ErrorColor,
                 Description =
                     "Are you sure you want to nuke this channel? This will delete the entire channel and remake it."
             };

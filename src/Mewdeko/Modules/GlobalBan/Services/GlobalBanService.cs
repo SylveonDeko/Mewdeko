@@ -15,7 +15,7 @@ public class GlobalBanService : INService
 
     public async Task AddGlobalBan(ulong toBan, string reason, ulong addedby, string type, string proof)
     {
-        var toadd = new Mewdeko.Services.Database.Models.GlobalBans
+        var toadd = new global::Mewdeko.Services.Database.Models.GlobalBans
         {
             UserId = toBan,
             Reason = reason,
@@ -28,7 +28,7 @@ public class GlobalBanService : INService
         await uow.SaveChangesAsync();
     }
 
-    public Mewdeko.Services.Database.Models.GlobalBans[] GetAllGlobals()
+    public global::Mewdeko.Services.Database.Models.GlobalBans[] GetAllGlobals()
     {
         var uow = _db.GetDbContext();
         return uow.GlobalBans.AllGlobalBans();

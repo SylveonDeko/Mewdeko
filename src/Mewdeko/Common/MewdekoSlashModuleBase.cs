@@ -7,7 +7,6 @@ using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Modules.Suggestions.Services;
 using Mewdeko.Services.strings;
-using Serilog;
 
 namespace Mewdeko.Common;
 

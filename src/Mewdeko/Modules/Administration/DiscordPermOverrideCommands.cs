@@ -81,11 +81,11 @@ public partial class Administration
                     .ToList();
                 if (thisPageOverrides.Count == 0)
                     return Task.FromResult(new PageBuilder().WithDescription(GetText("perm_override_page_none"))
-                        .WithColor(Mewdeko.Services.Mewdeko.ErrorColor));
+                        .WithColor(Mewdeko.ErrorColor));
                 return Task.FromResult(new PageBuilder()
                     .WithDescription(string.Join("\n",
                         thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}")))
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor));
+                    .WithColor(Mewdeko.OkColor));
             }
         }
     }

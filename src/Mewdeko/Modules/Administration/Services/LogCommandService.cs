@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using Discord;
-using Discord.Rest;
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
@@ -33,11 +32,7 @@ public class LogCommandService : INService
         ChannelUpdated,
         VoicePresence,
         VoicePresenceTts,
-
         UserMuted
-        //ThreadArchived,
-        //ThreadCreated,
-        //ThreadDeleted
     }
 
     private readonly DiscordSocketClient _client;
@@ -45,8 +40,7 @@ public class LogCommandService : INService
     private readonly ConcurrentHashSet<ulong> _ignoreMessageIds = new();
     private readonly IMemoryCache _memoryCache;
     private readonly IBotStrings _strings;
-    private readonly Timer SendPresences;
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
 
     private readonly GuildTimezoneService _tz;
 
@@ -54,7 +48,7 @@ public class LogCommandService : INService
 
     public LogCommandService(DiscordSocketClient client, IBotStrings strings,
         DbService db, MuteService mute, ProtectionService prot, GuildTimezoneService tz,
-        IMemoryCache memoryCache, Mewdeko.Services.Mewdeko bot)
+        IMemoryCache memoryCache, Mewdeko bot)
     {
         _bot = bot;
         _client = client;

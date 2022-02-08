@@ -22,7 +22,7 @@ namespace Mewdeko.Modules.OwnerOnly.Services;
 
 public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 {
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly BotConfigService _bss;
 
     private readonly IDataCache _cache;
@@ -44,7 +44,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
         IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
-        BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko.Services.Mewdeko bot)
+        BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot)
     {
         _redis = cache.Redis;
         _cmdHandler = cmdHandler;

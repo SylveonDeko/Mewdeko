@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
-using Mewdeko.Services.Common;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using StackExchange.Redis;
 

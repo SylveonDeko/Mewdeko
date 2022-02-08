@@ -2,8 +2,8 @@
 
 namespace Mewdeko.Services.Database.Repositories;
 
-public interface IStarboardRepository : IRepository<Starboard>
+public interface IStarboardRepository : IRepository<StarboardPosts>
 {
-    Starboard ForMsgId(ulong msgid);
-    Starboard[] GetAll();
+    StarboardPosts ForMsgId(ulong msgid);
+    StarboardPosts[] All();
 }

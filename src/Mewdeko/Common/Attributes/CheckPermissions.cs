@@ -3,7 +3,6 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.strings.impl;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.Attributes;
