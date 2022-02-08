@@ -11,7 +11,7 @@ public class GlobalBanService : INService
     {
         _client = client;
         _db = db;
-    }
+    }   
 
     public async Task AddGlobalBan(ulong toBan, string reason, ulong addedby, string type, string proof)
     {
