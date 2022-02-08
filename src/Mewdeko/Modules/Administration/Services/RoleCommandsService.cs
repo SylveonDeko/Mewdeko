@@ -15,7 +15,7 @@ public class RoleCommandsService : INService
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
     public RoleCommandsService(DiscordSocketClient client, DbService db,
-        Mewdeko.Services.Mewdeko bot)
+        Mewdeko bot)
     {
         _db = db;
 #if !GLOBAL_Mewdeko

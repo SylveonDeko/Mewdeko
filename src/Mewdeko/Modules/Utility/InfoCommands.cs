@@ -152,7 +152,7 @@ public partial class Utility
                 .AddField("Owner", ownername.Mention)
                 .AddField("Total Users", guild.Users.Count.ToString())
                 .WithImageUrl($"{guild.SplashUrl}?size=2048")
-                .WithColor(Mewdeko.Services.Mewdeko.OkColor);
+                .WithColor(Mewdeko.OkColor);
             if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                 embed.WithThumbnailUrl(guild.IconUrl);
             if (guild.Emotes.Any())
@@ -196,7 +196,7 @@ public partial class Utility
                 .AddField(GetText("created_at"), $"{createdAt:dd.MM.yyyy HH:mm}")
                 .AddField(GetText("users"), ch.GetUsersAsync().FlattenAsync().Result.Count())
                 .AddField("Topic", ch.Topic ?? "None")
-                .WithColor(Mewdeko.Services.Mewdeko.OkColor);
+                .WithColor(Mewdeko.OkColor);
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 

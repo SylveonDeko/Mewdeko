@@ -18,7 +18,7 @@ public class AdministrationService : INService
     private readonly DbService _db;
     private readonly LogCommandService _logService;
 
-    public AdministrationService(Mewdeko.Services.Mewdeko bot, CommandHandler cmdHandler, DbService db,
+    public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
         LogCommandService logService, DiscordSocketClient client)
     {
         StaffRole = bot.AllGuildConfigs

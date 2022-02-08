@@ -84,7 +84,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
             },
             ImageUrl = image.ImageUrl,
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
@@ -106,7 +106,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
             },
             ImageUrl = image.ImageUrl,
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         await ctx.Channel.SendMessageAsync("", embed: em.Build());
     }
@@ -120,7 +120,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             var emt = new EmbedBuilder
             {
                 Description = "This subreddit is nsfw!",
-                Color = Mewdeko.Services.Mewdeko.ErrorColor
+                Color = Mewdeko.ErrorColor
             };
             await msg.ModifyAsync(x => x.Embed = emt.Build());
             return;
@@ -152,7 +152,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 Text = $"{image.Upvotes} Upvotes! | {image.Subreddit} Powered by KSoft.si"
             },
             ImageUrl = image.ImageUrl,
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
@@ -480,7 +480,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             }
 
         await ctx.Channel.EmbedAsync(new EmbedBuilder()
-                .WithColor(Mewdeko.Services.Mewdeko.OkColor)
+                .WithColor(Mewdeko.OkColor)
                 .AddField(efb => efb.WithName(GetText("original_url"))
                     .WithValue($"<{query}>"))
                 .AddField(efb => efb.WithName(GetText("short_url"))

@@ -129,7 +129,7 @@ public static class Extensions
             : new Emoji(emojiStr);
 
     // https://github.com/SixLabors/Samples/blob/master/ImageSharp/AvatarWithRoundedCorner/Program.cs
-    public static IImageProcessingContext ApplyRoundedCorners(this IImageProcessingContext ctx, float cornerRadius)
+    public static void ApplyRoundedCorners(this IImageProcessingContext ctx, float cornerRadius)
     {
         var size = ctx.GetCurrentSize();
         var corners = BuildCorners(size.Width, size.Height, cornerRadius);
@@ -143,7 +143,6 @@ public static class Extensions
         });
 
         foreach (var c in corners) ctx = ctx.Fill(Color.Red, c);
-        return ctx;
     }
 
     private static IPathCollection BuildCorners(int imageWidth, int imageHeight, float cornerRadius)
@@ -225,13 +224,13 @@ public static class Extensions
         return embed.WithFooter(efb => efb.WithText(curPage.ToString()));
     }
 
-    public static EmbedBuilder WithOkColor(this EmbedBuilder eb) => eb.WithColor(Services.Mewdeko.OkColor);
+    public static EmbedBuilder WithOkColor(this EmbedBuilder eb) => eb.WithColor(Mewdeko.OkColor);
 
-    public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) => eb.WithColor(Services.Mewdeko.ErrorColor);
+    public static EmbedBuilder WithErrorColor(this EmbedBuilder eb) => eb.WithColor(Mewdeko.ErrorColor);
 
-    public static PageBuilder WithOkColor(this PageBuilder eb) => eb.WithColor(Services.Mewdeko.OkColor);
+    public static PageBuilder WithOkColor(this PageBuilder eb) => eb.WithColor(Mewdeko.OkColor);
 
-    public static PageBuilder WithErrorColor(this PageBuilder eb) => eb.WithColor(Services.Mewdeko.ErrorColor);
+    public static PageBuilder WithErrorColor(this PageBuilder eb) => eb.WithColor(Mewdeko.ErrorColor);
 
     public static HttpClient AddFakeHeaders(this HttpClient http)
     {

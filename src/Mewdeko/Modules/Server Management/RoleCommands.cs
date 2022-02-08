@@ -40,7 +40,7 @@ public partial class ServerManagement
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.OkColor,
+                Color = Mewdeko.OkColor,
                 Description =
                     $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories!!"
             };
@@ -66,7 +66,7 @@ public partial class ServerManagement
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.OkColor,
+                Color = Mewdeko.OkColor,
                 Description =
                     $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels!"
             };
@@ -92,7 +92,7 @@ public partial class ServerManagement
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.OkColor,
+                Color = Mewdeko.OkColor,
                 Description =
                     $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count} Categories!"
             };
@@ -145,7 +145,7 @@ public partial class ServerManagement
                 var newemb = new EmbedBuilder
                 {
                     Description = $"Succesfully deleted {roles.Length} roles!",
-                    Color = Mewdeko.Services.Mewdeko.OkColor
+                    Color = Mewdeko.OkColor
                 };
                 await msg.ModifyAsync(x => x.Embed = newemb.Build());
             }
@@ -166,7 +166,7 @@ public partial class ServerManagement
 
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.OkColor,
+                Color = Mewdeko.OkColor,
                 Description = "Are you sure you want to stop this job?"
             };
             eb.AddField(list.JobType,
@@ -213,7 +213,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder
             {
                 Title = $"{list.Count} Mass Role Operations Running",
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             foreach (var i in list)
             {

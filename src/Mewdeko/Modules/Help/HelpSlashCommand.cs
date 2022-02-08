@@ -13,10 +13,10 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
         var embed = new EmbedBuilder();
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
             .WithName("Mewdeko Help Menu"));
-        embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
+        embed.WithColor(Mewdeko.OkColor);
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
                                                  .WithName("Mewdeko Help Menu"));
-        embed.WithColor(Mewdeko.Services.Mewdeko.OkColor);
+        embed.WithColor(Mewdeko.OkColor);
         embed.WithDescription(
             $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk" +
             $"\nJoin our partner server: https://discord.gg/nezuko");

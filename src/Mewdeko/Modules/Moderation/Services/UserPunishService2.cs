@@ -16,7 +16,7 @@ public class UserPunishService2 : INService
     private readonly MuteService _mute;
 
 
-    public UserPunishService2(MuteService mute, DbService db, Mewdeko.Services.Mewdeko bot)
+    public UserPunishService2(MuteService mute, DbService db, Mewdeko bot)
     {
         _mute = mute;
         _db = db;

@@ -23,7 +23,7 @@ public class UserPunishService : INService
     private readonly MuteService _mute;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
-        Mewdeko.Services.Mewdeko bot, DiscordSocketClient client)
+        Mewdeko bot, DiscordSocketClient client)
     {
         Warnlogchannelids = bot.AllGuildConfigs
                                 .Where(x => x.WarnlogChannelId != 0)
@@ -437,7 +437,7 @@ WHERE GuildId={guildId}
         {
             template = JsonConvert.SerializeObject(new
             {
-                color = Mewdeko.Services.Mewdeko.ErrorColor.RawValue,
+                color = Mewdeko.ErrorColor.RawValue,
                 description = defaultMessage
             });
 
@@ -458,7 +458,7 @@ WHERE GuildId={guildId}
         {
             template = JsonConvert.SerializeObject(new
             {
-                color = Mewdeko.Services.Mewdeko.ErrorColor.RawValue,
+                color = Mewdeko.ErrorColor.RawValue,
                 description = replacer.Replace(template)
             });
 

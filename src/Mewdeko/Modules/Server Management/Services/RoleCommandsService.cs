@@ -69,7 +69,7 @@ public class RoleCommandsService : INService
         {
             Description =
                 $"Stopping Job {jobId}\nTask: {Format.Bold(list1.JobType)}\nProgress: {list1.AddedTo}/{list1.TotalUsers}\nStarted By: {list1.StartedBy.Mention}",
-            Color = Mewdeko.Services.Mewdeko.ErrorColor
+            Color = Mewdeko.ErrorColor
         };
         await ch.SendMessageAsync(embed: eb.Build());
     }

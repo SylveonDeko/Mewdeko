@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Discord;
 using Discord.Interactions;
-using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -30,7 +25,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
         var eb = new EmbedBuilder
         {
             Description = $"<a:loading:847706744741691402> Adding Emotes...",
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value);
         if (!tags.Any())
@@ -63,7 +58,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
 
         var b = new EmbedBuilder
         {
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
         if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));

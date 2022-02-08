@@ -14,10 +14,10 @@ public class UtilityService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly ConcurrentDictionary<ulong, IList<SnipeStore>> _snipes;
 
-    public UtilityService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
+    public UtilityService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _bot = bot;
         _client = client;
@@ -298,7 +298,7 @@ public class UtilityService : INService
                     if (msg2 is null) return;
                     var en2 = new EmbedBuilder
                     {
-                        Color = Mewdeko.Services.Mewdeko.OkColor,
+                        Color = Mewdeko.OkColor,
                         Author = new EmbedAuthorBuilder
                         {
                             Name = msg2.Author.Username,

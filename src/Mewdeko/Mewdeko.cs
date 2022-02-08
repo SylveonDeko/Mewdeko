@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Reflection;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
@@ -28,10 +23,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Reflection;
 using Victoria;
 using RunMode = Discord.Commands.RunMode;
 
-namespace Mewdeko.Services;
+namespace Mewdeko;
 
 public class Mewdeko
 {
@@ -77,6 +77,7 @@ public class Mewdeko
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
     public ImmutableArray<GuildConfig> AllGuildConfigs { get; private set; }
+    
 
     public static Color OkColor { get; set; }
     public static Color ErrorColor { get; set; }
@@ -160,6 +161,7 @@ public class Mewdeko
 
     private IEnumerable<object> LoadTypeReaders(Assembly assembly)
     {
+        var interactionService = Services.GetService<InteractionService>();
         Type[] allTypes;
         try
         {

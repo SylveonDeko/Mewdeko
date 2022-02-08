@@ -13,13 +13,13 @@ public class ServerManagementService : INService
         new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
             attachFiles: PermValue.Deny, viewChannel: PermValue.Deny);
 
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly DbService _db;
     public DiscordSocketClient Client;
 
     public CommandContext Ctx;
 
-    public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
+    public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         Client = client;
         _db = db;

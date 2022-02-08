@@ -8,7 +8,7 @@ public class ActivityService : INService
     private readonly DbService _db;
     private ConcurrentDictionary<ulong, ulong> GameMasterRoles { get; }
 
-    public ActivityService(DbService db, Mewdeko.Services.Mewdeko bot)
+    public ActivityService(DbService db, Mewdeko bot)
     {
         _db = db;
         GameMasterRoles = bot.AllGuildConfigs

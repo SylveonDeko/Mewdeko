@@ -30,7 +30,7 @@ public sealed class AutoAssignRoleService : INService
     private readonly ConcurrentDictionary<ulong, string> _brcheck;
     private readonly DbService _db;
 
-    public AutoAssignRoleService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, DbService db)
+    public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
         var client1 = client;
         _db = db;
