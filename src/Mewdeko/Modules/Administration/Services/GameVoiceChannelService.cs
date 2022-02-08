@@ -31,7 +31,7 @@ public class GameVoiceChannelService : INService
 
     public ConcurrentHashSet<ulong> GameVoiceChannels { get; }
 
-    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, RestGuildUser,IGuildUser, ulong> before, SocketGuildUser after)
+    private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
         var _ = Task.Run(async () =>
         {
@@ -44,7 +44,7 @@ public class GameVoiceChannelService : INService
 
                 //if the activity has changed, and is a playing activity
                 Debug.Assert(after.Activities != null, "after.Activities != null");
-                if (!Equals(before.Value.Activities, after.Activities)
+                if (!Equals(cacheable.Value.Activities, after.Activities)
                     && after.Activities != null
                     && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
                     //trigger gvc
