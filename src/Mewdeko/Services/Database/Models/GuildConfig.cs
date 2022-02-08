@@ -12,7 +12,7 @@ public class GuildConfig : DbEntity
     public ulong GameMasterRole { get; set; }
     public bool DeleteMessageOnCommand { get; set; }
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
-    public string AutoAssignRoleId { get; set; }
+    public string AutoAssignRoleId { get; set; } = "0";
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
@@ -49,7 +49,7 @@ public class GuildConfig : DbEntity
     public int XpVoiceRate { get; set; }
     public int XpVoiceTimeout { get; set; }
     public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
-    public ulong Stars { get; set; } = 3;
+    public int Stars { get; set; } = 3;
     public int AfkType { get; set; } = 2;
     public AntiAltSetting AntiAltSetting { get; set; }
     public string AfkDisabledChannels { get; set; }
@@ -57,8 +57,9 @@ public class GuildConfig : DbEntity
     public int AfkTimeout { get; set; } = 20;
     public ulong Joins { get; set; }
     public ulong Leaves { get; set; }
-    public ulong Star { get; set; }
+    public string Star2 { get; set; } = "⭐";
     public ulong StarboardChannel { get; set; }
+    public int RepostThreshold { get; set; }
     public int PreviewLinks { get; set; }
     public ulong ReactChannel { get; set; }
     public ulong sugnum { get; set; }
