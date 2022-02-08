@@ -490,7 +490,7 @@ public class LogCommandService : INService
         return isDeleted;
     }
 
-    private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, RestGuildUser,IGuildUser, ulong> before, SocketGuildUser after)
+    private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
         var _ = Task.Run(async () =>
         {
@@ -499,24 +499,24 @@ public class LogCommandService : INService
                 if (!_bot.Ready.Task.IsCompleted)
                     return;
                 
-                if (!before.HasValue)
+                if (!cacheable.HasValue)
                     return;
 
                 if (after is null)
                     return;
                     
-                if (!GuildLogSettings.TryGetValue((ulong)(before.Value?.Guild.Id), out var logSetting))
+                if (!GuildLogSettings.TryGetValue((ulong)(cacheable.Value?.Guild.Id), out var logSetting))
                     return;
 
                 ITextChannel logChannel;
                 if (logSetting.UserUpdatedId != null &&
-                    (logChannel = await TryGetLogChannel(before.Value.Guild, logSetting, LogType.UserUpdated)
+                    (logChannel = await TryGetLogChannel(cacheable.Value.Guild, logSetting, LogType.UserUpdated)
                         .ConfigureAwait(false)) != null)
                 {
                     var embed = new EmbedBuilder().WithOkColor()
-                        .WithFooter(efb => efb.WithText(CurrentTime(before.Value.Guild)))
-                        .WithTitle($"{before.Value.Username}#{before.Value.Discriminator} | {before.Id}");
-                    if (before.Value.Nickname != after.Nickname)
+                        .WithFooter(efb => efb.WithText(CurrentTime(cacheable.Value.Guild)))
+                        .WithTitle($"{cacheable.Value.Username}#{cacheable.Value.Discriminator} | {cacheable.Id}");
+                    if (cacheable.Value.Nickname != after.Nickname)
                     {
                         var channel = logChannel;
                         var channel1 = logChannel;
@@ -524,18 +524,18 @@ public class LogCommandService : INService
                         embed.WithAuthor(eab => eab.WithName("👥 " + GetText(logChannel1.Guild, "nick_change")))
                             .AddField(efb =>
                                 efb.WithName(GetText(channel.Guild, "old_nick"))
-                                    .WithValue($"{before.Value.Nickname}#{before.Value.Discriminator}"))
+                                    .WithValue($"{cacheable.Value.Nickname}#{cacheable.Value.Discriminator}"))
                             .AddField(efb =>
                                 efb.WithName(GetText(channel1.Guild, "new_nick"))
                                     .WithValue($"{after.Nickname}#{after.Discriminator}"));
 
                         await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                     }
-                    else if (!before.Value.Roles.SequenceEqual(after.Roles))
+                    else if (!cacheable.Value.Roles.SequenceEqual(after.Roles))
                     {
-                        if (before.Value.Roles.Count < after.Roles.Count)
+                        if (cacheable.Value.Roles.Count < after.Roles.Count)
                         {
-                            var diffRoles = after.Roles.Where(r => !before.Value.Roles.Contains(r))
+                            var diffRoles = after.Roles.Where(r => !cacheable.Value.Roles.Contains(r))
                                 .Select(r => r.Name);
                             var channel = logChannel;
                             embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(channel.Guild, "user_role_add")))
@@ -543,10 +543,10 @@ public class LogCommandService : INService
 
                             await logChannel.EmbedAsync(embed).ConfigureAwait(false);
                         }
-                        else if (before.Value.Roles.Count > after.Roles.Count)
+                        else if (cacheable.Value.Roles.Count > after.Roles.Count)
                         {
                             await Task.Delay(1000);
-                            var diffRoles = before.Value.Roles
+                            var diffRoles = cacheable.Value.Roles
                                 .Where(r => !after.Roles.Contains(r) && !IsRoleDeleted(r.Id))
                                 .Select(r => r.Name)
                                 .ToList();

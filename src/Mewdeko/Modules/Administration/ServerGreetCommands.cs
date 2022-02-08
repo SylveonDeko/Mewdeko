@@ -15,13 +15,7 @@ public partial class Administration
         private readonly IHttpClientFactory _httpFactory;
 
         public ServerGreetCommands(IHttpClientFactory fact) => _httpFactory = fact;
-
-        public enum MultiGreetMode
-        {
-            MultiGreet,
-            RandomGreet
-        }
-
+        
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDel(int timer = 30)
