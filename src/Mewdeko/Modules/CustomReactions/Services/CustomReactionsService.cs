@@ -59,7 +59,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         .DisableAliases()
         .Build();
 
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
     private readonly CommandHandler _cmd;
     private readonly CmdCdService _cmdCds;
@@ -88,7 +88,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     private bool ready;
 
     public CustomReactionsService(PermissionService perms, DbService db, IBotStrings strings,
-        Mewdeko.Services.Mewdeko bot,
+        Mewdeko bot,
         DiscordSocketClient client, CommandHandler cmd, GlobalPermissionService gperm, CmdCdService cmdCds,
         IPubSub pubSub)
     {

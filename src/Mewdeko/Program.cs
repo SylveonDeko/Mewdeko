@@ -32,4 +32,4 @@ if (args.Length > 0)
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
-await new Mewdeko.Services.Mewdeko(shardId).RunAndBlockAsync();
+await new Mewdeko.Mewdeko(shardId).RunAndBlockAsync();

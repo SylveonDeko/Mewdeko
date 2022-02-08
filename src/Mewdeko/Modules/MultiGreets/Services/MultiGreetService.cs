@@ -17,7 +17,7 @@ public class MultiGreetService : INService
     private ConcurrentDictionary<ulong, int> multiGreetTypes;
 
 
-    public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko.Services.Mewdeko bot)
+    public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         this.client = client;
         _db = db;

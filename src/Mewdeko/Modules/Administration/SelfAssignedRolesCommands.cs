@@ -133,7 +133,7 @@ public partial class Administration
                     rolesStr.AppendLine();
                 }
 
-                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
                     .WithTitle(Format.Bold(GetText("self_assign_list", roles.Count())))
                     .WithDescription(rolesStr.ToString())
                     .WithFooter(exclusive

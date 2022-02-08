@@ -55,7 +55,7 @@ public class XpService : INService, IUnloadableService
     public XpService(
         DiscordSocketClient client,
         CommandHandler cmd,
-        Mewdeko.Services.Mewdeko bot,
+        Mewdeko bot,
         DbService db,
         IBotStrings strings,
         IDataCache cache,

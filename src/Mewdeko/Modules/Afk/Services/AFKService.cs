@@ -17,7 +17,7 @@ public class AfkService : INService
     public DiscordSocketClient Client;
 
 
-    public AfkService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko.Services.Mewdeko bot)
+    public AfkService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko bot)
     {
         _db = db;
         Client = client;
@@ -346,7 +346,7 @@ public class AfkService : INService
         await uow.SaveChangesAsync();
     }
 
-    public List<Mewdeko.Services.Database.Models.AFK> GetAfkMessage(ulong gid, ulong uid)
+    public List<AFK> GetAfkMessage(ulong gid, ulong uid)
     {
         using var uow = _db.GetDbContext();
         return uow.AFK.ForId(gid, uid);

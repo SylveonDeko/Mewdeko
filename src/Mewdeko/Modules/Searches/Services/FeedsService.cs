@@ -20,7 +20,7 @@ public class FeedsService : INService
 
     private readonly ConcurrentDictionary<string, HashSet<FeedSub>> _subs;
 
-    public FeedsService(Mewdeko.Services.Mewdeko bot, DbService db, DiscordSocketClient client)
+    public FeedsService(Mewdeko bot, DbService db, DiscordSocketClient client)
     {
         _db = db;
 
