@@ -10,6 +10,7 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -49,15 +50,16 @@ public class AdministrationService : INService
         if (arg.Channel is not ITextChannel channel)
             return;
         
-        if (channel.Id != 940654772070019132)
-            if (channel.Id != 940669747282980954)
+        if (channel.Id != 809636962599829574)
+            if (channel.Id != 940654772070019132)
                 return;
-
+        
         var gUser = arg.Author as SocketGuildUser;
+        Log.Error("e");
         if (gUser.Roles.Select(x => x.Id).Contains<ulong>(940669747282980954))
             return;
         
-        if (!MessagesSent.TryGetValue(gUser.Id, out var amount) || amount < 2)
+        if (!MessagesSent.TryGetValue(gUser.Id, out var amount) || amount < 1)
             MessagesSent.AddOrUpdate(gUser.Id, amount++, (_, _) => amount++);
         
         else
