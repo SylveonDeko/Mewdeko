@@ -39,7 +39,7 @@ public class StreamNotificationService : INService
 
     public StreamNotificationService(DbService db, DiscordSocketClient client,
         IBotStrings strings, IDataCache cache, IBotCredentials creds, IHttpClientFactory httpFactory,
-        Mewdeko.Services.Mewdeko bot)
+        Mewdeko bot)
     {
         _db = db;
         _client = client;
@@ -416,7 +416,7 @@ public class StreamNotificationService : INService
             .AddField(efb => efb.WithName(GetText(guildId, "viewers"))
                 .WithValue(status.IsLive ? status.Viewers.ToString() : "-")
                 .WithIsInline(true))
-            .WithColor(status.IsLive ? Mewdeko.Services.Mewdeko.OkColor : Mewdeko.Services.Mewdeko.ErrorColor);
+            .WithColor(status.IsLive ? Mewdeko.OkColor : Mewdeko.ErrorColor);
 
         if (!string.IsNullOrWhiteSpace(status.Title))
             embed.WithAuthor(status.Title);

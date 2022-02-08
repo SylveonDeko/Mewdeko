@@ -11,12 +11,12 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class MessageRepeaterService : INService
 {
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
 
-    public MessageRepeaterService(Mewdeko.Services.Mewdeko bot, DiscordSocketClient client, DbService db,
+    public MessageRepeaterService(Mewdeko bot, DiscordSocketClient client, DbService db,
         IBotCredentials creds)
     {
         _db = db;

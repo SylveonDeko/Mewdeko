@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
-using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Services.Database.Models;
@@ -30,7 +29,7 @@ public sealed class MusicService : INService
     private readonly SpotifyClient _spotifyClient;
 
 
-    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko.Services.Mewdeko bot)
+    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         _client = client;
         _db = db;

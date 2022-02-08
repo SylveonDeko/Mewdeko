@@ -29,7 +29,7 @@ public class FilterService : IEarlyBehavior, INService
     public AdministrationService Ass;
     public UserPunishService Upun;
 
-    public FilterService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot, IPubSub pubSub,
+    public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass)
     {
         _db = db;

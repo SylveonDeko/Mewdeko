@@ -3,19 +3,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Services.Database.Repositories.Impl;
 
-public class StarboardRepository : Repository<Starboard>, IStarboardRepository
+public class StarboardRepository : Repository<StarboardPosts>, IStarboardRepository
 {
     public StarboardRepository(DbContext context) : base(context)
     {
     }
 
-    public Starboard ForMsgId(ulong msgid)
+    public StarboardPosts ForMsgId(ulong msgid)
     {
         var query = Set.AsQueryable().Where(x => x.MessageId == msgid);
 
         return query.FirstOrDefault();
     }
 
-    public Starboard[] GetAll() 
+    public StarboardPosts[] All() 
         => Set.AsQueryable().ToArray();
 }

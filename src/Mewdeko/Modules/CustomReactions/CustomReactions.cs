@@ -169,7 +169,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
                 .WithTitle(GetText("custom_reactions"))
                 .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
                     .Skip(page * 20)
@@ -215,7 +215,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
                     .WithTitle(GetText("name"))
                     .WithDescription(string.Join("\r\n", ordered
                         .Skip(page * 20)

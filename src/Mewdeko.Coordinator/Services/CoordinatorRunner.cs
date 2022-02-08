@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Mewdeko.Coordinator.Shared;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,13 +10,9 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Mewdeko.Coordinator.Shared;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Coordinator;
+namespace Mewdeko.Coordinator.Services;
 
 public sealed class CoordinatorRunner : BackgroundService
 {

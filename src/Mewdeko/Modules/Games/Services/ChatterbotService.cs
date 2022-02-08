@@ -20,7 +20,7 @@ public class ChatterBotService : INService
     public List<ulong> LimitUser = new();
 
     public ChatterBotService(DiscordSocketClient client,
-        Mewdeko.Services.Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
+        Mewdeko bot, CommandHandler cmd, IHttpClientFactory factory,
         IBotCredentials creds, DbService db)
     {
         _db = db;

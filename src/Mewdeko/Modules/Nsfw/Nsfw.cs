@@ -116,7 +116,7 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
             {
                 Description = $"[{image.Title}]({image.Source})",
                 ImageUrl = image.ImageUrl,
-                Color = Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: eb.Build());
         }

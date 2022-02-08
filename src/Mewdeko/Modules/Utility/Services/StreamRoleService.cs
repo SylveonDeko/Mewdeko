@@ -2,7 +2,6 @@
 using System.Net;
 using Discord;
 using Discord.Net;
-using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.TypeReaders;
@@ -20,7 +19,7 @@ public class StreamRoleService : INService, IUnloadableService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, StreamRoleSettings> _guildSettings;
 
-    public StreamRoleService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
+    public StreamRoleService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _db = db;
         _client = client;

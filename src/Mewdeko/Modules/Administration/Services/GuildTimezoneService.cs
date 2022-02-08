@@ -10,7 +10,7 @@ public class GuildTimezoneService : INService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, TimeZoneInfo> _timezones;
 
-    public GuildTimezoneService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, DbService db)
+    public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
         _timezones = bot.AllGuildConfigs
             .Select(GetTimzezoneTuple)

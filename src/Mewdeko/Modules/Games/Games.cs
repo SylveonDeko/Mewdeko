@@ -45,7 +45,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
             return;
 
         var res = Service.GetEightballResponse(question);
-        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.Services.Mewdeko.OkColor)
+        await ctx.Channel.EmbedAsync(new EmbedBuilder().WithColor(Mewdeko.OkColor)
             .WithDescription(ctx.User.ToString())
             .AddField(efb => efb.WithName("❓ " + GetText("question")).WithValue(question).WithIsInline(false))
             .AddField("🎱 " + GetText("8ball"), res));
