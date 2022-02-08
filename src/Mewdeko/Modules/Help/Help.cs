@@ -117,7 +117,8 @@ public class Help : MewdekoModuleBase<HelpService>
             $"\n>  `{Prefix}cmds Server Management`" +
             $"\n>  `{Prefix}cmds Permissions`" +
             $"\n>  `{Prefix}cmds Xp`" +
-            $"\n>  `{Prefix}cmds Afk`",
+            $"\n>  `{Prefix}cmds Afk`" +
+            $"\n>  `{Prefix}cmds Starboard`",
             true);
         embed.AddField("_ _",
             $">  `{Prefix}cmds NSFW`" +
