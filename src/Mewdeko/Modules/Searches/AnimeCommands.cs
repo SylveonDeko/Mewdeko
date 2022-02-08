@@ -35,7 +35,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} hugged {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
@@ -49,7 +49,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} kissed {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -62,7 +62,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} gave pattus to {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -75,7 +75,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} tickled {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -88,7 +88,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} slapped {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -101,7 +101,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} cuddled with {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -114,7 +114,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} poked {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -127,7 +127,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} fed {user.Mention}",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -140,7 +140,7 @@ public partial class Searches
             {
                 Description = "nya~",
                 ImageUrl = req.ImageUrl,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -170,7 +170,7 @@ public partial class Searches
             {
                 Description = $"{ctx.User.Mention} shot {user.Mention}",
                 ImageUrl = shootarray[index],
-                Color = Mewdeko.Services.Mewdeko.ErrorColor
+                Color = Mewdeko.ErrorColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -208,7 +208,7 @@ public partial class Searches
             var eb = new EmbedBuilder
             {
                 ImageUrl = image?.CoverImageLarge,
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             var te = string.Empty;
             te = image?.SeasonInt.ToString()?[2..] is "" ? image.SeasonInt.ToString()?[1..] : image?.SeasonInt.ToString()?[2..];
@@ -248,7 +248,7 @@ public partial class Searches
             eb.AddField("Native Name", te.NativeName);
             eb.AddField("Description/Backstory", desc);
             eb.ImageUrl = te.ImageLarge;
-            eb.Color = Mewdeko.Services.Mewdeko.OkColor;
+            eb.Color = Mewdeko.OkColor;
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
 
@@ -300,7 +300,7 @@ public partial class Searches
             eb.AddField("Mean Score", result.MeanScore, true);
             eb.AddField("Is this NSFW?", result.IsAdult, true);
             eb.Title = $"{result.EnglishTitle}";
-            eb.Color = Mewdeko.Services.Mewdeko.OkColor;
+            eb.Color = Mewdeko.OkColor;
             eb.WithUrl(result.SiteUrl);
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
@@ -332,7 +332,7 @@ public partial class Searches
                     .AddField("Url", result.Results.Skip(page).FirstOrDefault()?.URL!)
                     .WithDescription(result.Results.Skip(page).FirstOrDefault()?.Description!)
                     .WithImageUrl(result.Results.Skip(page).FirstOrDefault()?.ImageURL!)
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor));
+                    .WithColor(Mewdeko.OkColor));
         }
     }
 }

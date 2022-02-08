@@ -200,7 +200,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var eb = new EmbedBuilder
         {
             Description = "<a:loading:847706744741691402> Adding Emotes...",
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         var errored = new List<string>();
         var emotes = new List<string>();
@@ -229,7 +229,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 
         var b = new EmbedBuilder
         {
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         if (emotes.Any()) b.WithDescription($"**Added Emotes**\n{string.Join("\n", emotes)}");
         if (errored.Any()) b.AddField("Errored Emotes", string.Join("\n\n", errored));
@@ -243,7 +243,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         var eb = new EmbedBuilder
         {
             Description = $"<a:loading:847706744741691402> Adding Emotes to {role.Mention}...",
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         var list = new Optional<IEnumerable<IRole>>(new[] {role});
         var errored = new List<string>();
@@ -274,7 +274,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 
         var b = new EmbedBuilder
         {
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         if (emotes.Any())
             b.WithDescription($"**Added {emotes.Count} Emotes to {role.Mention}**\n{string.Join("\n", emotes)}");

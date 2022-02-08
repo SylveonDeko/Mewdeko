@@ -57,7 +57,7 @@ public partial class Administration
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor)
+                    .WithColor(Mewdeko.OkColor)
                     .WithTitle(GetText("timezones_available"))
                     .WithDescription(string.Join("\n", timezoneStrings
                         .Skip(page * timezonesPerPage)

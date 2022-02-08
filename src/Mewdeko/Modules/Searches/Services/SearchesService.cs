@@ -67,7 +67,7 @@ public class SearchesService : INService, IUnloadableService
     private int yomamaJokeIndex;
 
     public SearchesService(DiscordSocketClient client, IGoogleApiService google,
-        DbService db, Mewdeko.Services.Mewdeko bot, IDataCache cache, IHttpClientFactory factory,
+        DbService db, Mewdeko bot, IDataCache cache, IHttpClientFactory factory,
         FontProvider fonts, IBotCredentials creds)
     {
         _httpFactory = factory;

@@ -6,12 +6,10 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Discord.Interactions;
-using LinqToDB.Tools;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.MultiGreets;
 [Group("multigreets", "Set or manage MultiGreets.")]

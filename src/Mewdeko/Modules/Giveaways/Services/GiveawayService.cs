@@ -55,12 +55,12 @@ public class GiveawayService : INService
         }
     }
 
-    private async Task UpdateGiveaways(List<Mewdeko.Services.Database.Models.Giveaways> g)
+    private async Task UpdateGiveaways(List<global::Mewdeko.Services.Database.Models.Giveaways> g)
     {
         using var uow = _db.GetDbContext();
         foreach (var i in g)
         {
-            var toupdate = new Mewdeko.Services.Database.Models.Giveaways
+            var toupdate = new global::Mewdeko.Services.Database.Models.Giveaways
             {
                 When = i.When,
                 BlacklistRoles = i.BlacklistRoles,
@@ -80,7 +80,7 @@ public class GiveawayService : INService
         }
     }
 
-    private Task<List<Mewdeko.Services.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
+    private Task<List<global::Mewdeko.Services.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
         using var uow = _db.GetDbContext();
         return uow.Context.Giveaways
@@ -97,7 +97,7 @@ public class GiveawayService : INService
         var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
         var eb = new EmbedBuilder
         {
-            Color = Mewdeko.Services.Mewdeko.OkColor,
+            Color = Mewdeko.OkColor,
             Title = item,
             Description =
                 $"React with {emote} to enter!\n" +
@@ -131,7 +131,7 @@ public class GiveawayService : INService
         var msg = await chan.SendMessageAsync(embed: eb.Build());
         await msg.AddReactionAsync(emote);
         var time = DateTime.UtcNow + ts;
-        var rem = new Mewdeko.Services.Database.Models.Giveaways
+        var rem = new global::Mewdeko.Services.Database.Models.Giveaways
         {
             ChannelId = chan.Id,
             UserId = host,
@@ -154,7 +154,7 @@ public class GiveawayService : INService
         await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
     
-    public async Task GiveawayTimerAction(Mewdeko.Services.Database.Models.Giveaways r)
+    public async Task GiveawayTimerAction(global::Mewdeko.Services.Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
             return;
@@ -179,7 +179,7 @@ public class GiveawayService : INService
         {
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.ErrorColor,
+                Color = Mewdeko.ErrorColor,
                 Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build());
@@ -229,7 +229,7 @@ public class GiveawayService : INService
                 var user = users.ToList()[index];
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.Services.Mewdeko.OkColor,
+                    Color = Mewdeko.OkColor,
                     Description = $"{user.Mention} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build());
@@ -278,7 +278,7 @@ public class GiveawayService : INService
                 var winners = users.ToList().OrderBy(_ => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.Services.Mewdeko.OkColor,
+                    Color = Mewdeko.OkColor,
                     Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build());
@@ -290,7 +290,7 @@ public class GiveawayService : INService
         }
     }
 
-    public async Task GiveawayReroll(Mewdeko.Services.Database.Models.Giveaways r)
+    public async Task GiveawayReroll(global::Mewdeko.Services.Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
             return;
@@ -316,7 +316,7 @@ public class GiveawayService : INService
         {
             var eb = new EmbedBuilder
             {
-                Color = Mewdeko.Services.Mewdeko.ErrorColor, Description = "There were not enough participants!"
+                Color = Mewdeko.ErrorColor, Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build());
         }
@@ -365,7 +365,7 @@ public class GiveawayService : INService
                 var user = users.ToList()[index];
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.Services.Mewdeko.OkColor,
+                    Color = Mewdeko.OkColor,
                     Description = $"{user.Mention} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build());
@@ -414,7 +414,7 @@ public class GiveawayService : INService
                 var winners = users.ToList().OrderBy(_ => rand.Next()).Take(r.Winners);
                 var eb = new EmbedBuilder
                 {
-                    Color = Mewdeko.Services.Mewdeko.OkColor,
+                    Color = Mewdeko.OkColor,
                     Description =
                         $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                 };

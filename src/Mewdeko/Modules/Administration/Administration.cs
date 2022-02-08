@@ -203,7 +203,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             var eb = new EmbedBuilder
             {
                 Description = $"Are you sure you want to prune {toprune} Members?",
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             if (!await PromptUserConfirmAsync(eb, ctx.User.Id))
             {
@@ -217,7 +217,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.",
-                    Color = Mewdeko.Services.Mewdeko.OkColor
+                    Color = Mewdeko.OkColor
                 };
                 await msg.ModifyAsync(x => x.Embed = ebi.Build());
             }
@@ -236,7 +236,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
             var eb = new EmbedBuilder
             {
                 Description = $"Are you sure you want to prune {toprune} Members?",
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             if (!await PromptUserConfirmAsync(eb, ctx.User.Id))
             {
@@ -250,7 +250,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 var ebi = new EmbedBuilder
                 {
                     Description = $"Pruned {toprune} members.",
-                    Color = Mewdeko.Services.Mewdeko.OkColor
+                    Color = Mewdeko.OkColor
                 };
                 await msg.ModifyAsync(x => x.Embed = ebi.Build());
             }

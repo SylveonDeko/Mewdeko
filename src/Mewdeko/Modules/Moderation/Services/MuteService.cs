@@ -34,7 +34,7 @@ public class MuteService : INService
     private readonly DbService _db;
     public string[] Uroles;
 
-    public MuteService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
+    public MuteService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _client = client;
         _db = db;

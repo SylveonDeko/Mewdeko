@@ -34,7 +34,7 @@ public class ProtectionService : INService
             SingleWriter = false
         });
 
-    public ProtectionService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot,
+    public ProtectionService(DiscordSocketClient client, Mewdeko bot,
         MuteService mute, DbService db, UserPunishService punishService)
     {
         _client = client;

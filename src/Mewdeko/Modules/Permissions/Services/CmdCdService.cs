@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class CmdCdService : ILateBlocker, INService
 {
-    public CmdCdService(Mewdeko.Services.Mewdeko bot) =>
+    public CmdCdService(Mewdeko bot) =>
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
             bot.AllGuildConfigs.ToDictionary(k => k.GuildId,
                 v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));

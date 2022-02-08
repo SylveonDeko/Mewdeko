@@ -198,7 +198,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Text =
                     $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
             },
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
@@ -329,7 +329,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Text =
                     $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
             },
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
@@ -383,7 +383,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Text =
                     $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
             },
-            Color = Mewdeko.Services.Mewdeko.OkColor
+            Color = Mewdeko.OkColor
         };
         await ctx.Channel.SendMessageAsync("", embed: em.Build());
     }
@@ -419,7 +419,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     Text =
                         $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -478,7 +478,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     Text =
                         $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -520,7 +520,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     Text =
                         $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -562,7 +562,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     Text =
                         $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
@@ -605,7 +605,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     Text =
                         $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }

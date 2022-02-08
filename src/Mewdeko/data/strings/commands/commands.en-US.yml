@@ -472,7 +472,7 @@ reactchannel:
   args:
     - '#channel'
 setstar:
-  desc: Sets the star used for starboard. ***Must be a custom emote***
+  desc: Sets the star used for starboard.
   args:
     - emote
 setstarboard:
@@ -483,6 +483,11 @@ setstars:
   desc: Sets the amount of stars needed to reach starboard.
   args:
     - '90'
+repostthreshold:
+  desc: "Sets after how many messages mewdeko reposts a starboard message"
+  args:
+    - 0
+    - 5
 character:
   desc: 'Finds an anime character using the AniList Api '
   args:
