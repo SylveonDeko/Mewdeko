@@ -49,9 +49,10 @@ public class AdministrationService : INService
         if (arg.Channel is not ITextChannel channel)
             return;
         
-        if (channel.Id != 940654772070019132 && channel.Id != 809636962599829574)
-            return;
-        
+        if (channel.Id != 940654772070019132)
+            if (channel.Id != 940669747282980954)
+                return;
+
         var gUser = arg.Author as SocketGuildUser;
         if (gUser.Roles.Select(x => x.Id).Contains<ulong>(940669747282980954))
             return;
