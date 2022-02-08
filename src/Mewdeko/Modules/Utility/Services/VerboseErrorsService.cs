@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Interactions;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Help.Services;
@@ -16,7 +15,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly IBotStrings _strings;
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
 
-    public VerboseErrorsService(Mewdeko.Services.Mewdeko bot, DbService db, CommandHandler ch, HelpService hs,
+    public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch, HelpService hs,
         IBotStrings strings)
     {
         _strings = strings;

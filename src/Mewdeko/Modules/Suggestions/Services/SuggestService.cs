@@ -23,7 +23,7 @@ public class SuggestionsService : INService
 
     public SuggestionsService(
         DbService db,
-        Mewdeko.Services.Mewdeko bot,
+        Mewdeko bot,
         CommandHandler cmd,
         DiscordSocketClient client,
         AdministrationService aserv,

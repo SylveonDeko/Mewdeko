@@ -37,7 +37,7 @@ public class MewdekoContext : DbContext
     public DbSet<MultiGreet> MultiGreets { get; set; }
     public DbSet<Giveaways> Giveaways { get; set; }
     public DbSet<Ticket> Ticket { get; set; }
-    public DbSet<Starboard> Starboard { get; set; }
+    public DbSet<StarboardPosts> Starboard { get; set; }
     public DbSet<Quote> Quotes { get; set; }
     public DbSet<Reminder> Reminders { get; set; }
     public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }

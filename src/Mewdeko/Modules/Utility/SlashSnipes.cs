@@ -4,7 +4,6 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common;
@@ -65,7 +64,7 @@ public partial class Utility
                     Text =
                         $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Interaction.RespondAsync(embed: em.Build());
         }
@@ -108,7 +107,7 @@ public partial class Utility
                     Text =
                         $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
                 },
-                Color = Mewdeko.Services.Mewdeko.OkColor
+                Color = Mewdeko.OkColor
             };
             await ctx.Interaction.RespondAsync(embed: em.Build());
         }

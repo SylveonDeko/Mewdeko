@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using Serilog;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace Mewdeko.Services;
+namespace Mewdeko.Services.Impl;
 
 public class SingleProcessCoordinator : ICoordinator
 {

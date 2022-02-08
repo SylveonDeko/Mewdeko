@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Discord;
-using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
@@ -12,7 +11,7 @@ public class GameVoiceChannelService : INService
 {
     private readonly DbService _db;
 
-    public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko.Services.Mewdeko bot)
+    public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _db = db;
         var client1 = client;

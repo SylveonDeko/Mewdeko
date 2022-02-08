@@ -33,7 +33,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         Dnd
     }
 
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
     private readonly ICoordinator _coord;
     private readonly IEnumerable<IConfigService> _settingServices;
@@ -41,7 +41,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly InteractiveService _interactivity;
 
 
-    public OwnerOnly(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, IBotStrings strings,
+    public OwnerOnly(DiscordSocketClient client, Mewdeko bot, IBotStrings strings,
         InteractiveService serv, ICoordinator coord, IEnumerable<IConfigService> settingServices)
     {
         _interactivity = serv;
@@ -564,7 +564,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 return Task.FromResult(new PageBuilder()
                     .WithAuthor(a => a.WithName(GetText("shard_stats")))
                     .WithTitle(status)
-                    .WithColor(Mewdeko.Services.Mewdeko.OkColor)
+                    .WithColor(Mewdeko.OkColor)
                     .WithDescription(str));
             }
         }

@@ -13,7 +13,7 @@ public class VcRoleService : INService
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
 
-    public VcRoleService(DiscordSocketClient client, Mewdeko.Services.Mewdeko bot, DbService db)
+    public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
         _db = db;
         _client = client;

@@ -14,7 +14,7 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public class GamblingService : INService
 {
-    private readonly Mewdeko.Services.Mewdeko _bot;
+    private readonly Mewdeko _bot;
     private readonly IDataCache _cache;
     private readonly DiscordSocketClient _client;
     private readonly ICurrencyService _cs;
@@ -22,7 +22,7 @@ public class GamblingService : INService
 
     private readonly GamblingConfigService _gss;
 
-    public GamblingService(DbService db, Mewdeko.Services.Mewdeko bot, ICurrencyService cs,
+    public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs,
         DiscordSocketClient client, IDataCache cache, GamblingConfigService gss)
     {
         _db = db;
