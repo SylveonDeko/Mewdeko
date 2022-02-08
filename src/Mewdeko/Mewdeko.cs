@@ -17,6 +17,7 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
+using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.CustomReactions.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
@@ -184,6 +185,10 @@ public class Mewdeko
             if (typeArgs != null) CommandService.AddTypeReader(typeArgs[0], x);
             toReturn.Add(x);
         }
+        
+        CommandService.AddTypeReaders<IEmote>(
+            new TryParseTypeReader<Emote>(Emote.TryParse),
+            new TryParseTypeReader<Emoji>(Emoji.TryParse));
 
         return toReturn;
     }

@@ -12,6 +12,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
@@ -106,7 +107,9 @@ public static class Extensions
         foreach (var i in items) list.Remove(i);
     }
 
-
+    public static void AddTypeReaders<TResult>(this CommandService commands, params TypeReader[] readers)
+        => commands.AddTypeReader<TResult>(new TypeReaderCollection(readers));
+    
     public static bool TryGetUrlPath(this string input, out string path)
     {
         var match = UrlRegex.Match(input);
