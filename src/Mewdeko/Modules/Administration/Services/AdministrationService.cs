@@ -55,7 +55,6 @@ public class AdministrationService : INService
                 return;
         
         var gUser = arg.Author as SocketGuildUser;
-        Log.Error("e");
         if (gUser.Roles.Select(x => x.Id).Contains<ulong>(940669747282980954))
             return;
         
