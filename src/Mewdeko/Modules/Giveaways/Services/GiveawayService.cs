@@ -3,8 +3,10 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Serilog;
 using Swan;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
@@ -13,13 +15,17 @@ public class GiveawayService : INService
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
+    public ConcurrentDictionary<ulong, string> GiveawayEmotes;
 
-    public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds)
+    public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds, Mewdeko bot)
     {
         _client = client;
         _db = db;
         _creds = creds;
         _ = StartGiveawayLoop();
+        GiveawayEmotes = bot.AllGuildConfigs
+                            .ToDictionary(x => x.GuildId, x => x.GiveawayEmote)
+                            .ToConcurrent();
     }
 
     private async Task StartGiveawayLoop()
@@ -55,6 +61,23 @@ public class GiveawayService : INService
         }
     }
 
+    public async Task SetGiveawayEmote(IGuild guild, string emote)
+    {
+        using (var uow = _db.GetDbContext())
+        {
+            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            gc.GiveawayEmote = emote;
+            await uow.SaveChangesAsync();
+        }
+
+        GiveawayEmotes.AddOrUpdate(guild.Id, emote, (_, _) => emote);
+    }
+
+    public string GetGiveawayEmote(ulong? id)
+    {
+        GiveawayEmotes.TryGetValue(id.Value, out var emote);
+        return emote;
+    }
     private async Task UpdateGiveaways(List<global::Mewdeko.Services.Database.Models.Giveaways> g)
     {
         using var uow = _db.GetDbContext();
@@ -91,10 +114,10 @@ public class GiveawayService : INService
 
     public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host,
         ulong serverId, ITextChannel currentChannel, IGuild guild, string reqroles = null, string blacklistusers = null,
-        string blacklistroles = null)
+        string blacklistroles = null, IDiscordInteraction interaction = null)
     {
         var hostuser = await guild.GetUserAsync(host);
-        var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
+        var emote = GetGiveawayEmote(guild.Id).ToIEmote();
         var eb = new EmbedBuilder
         {
             Color = Mewdeko.OkColor,
@@ -140,7 +163,8 @@ public class GiveawayService : INService
             When = time,
             Item = item,
             MessageId = msg.Id,
-            Winners = winners
+            Winners = winners,
+            Emote = emote.ToString()
         };
         if (!string.IsNullOrWhiteSpace(reqroles))
             rem.RestrictTo = reqroles;
@@ -151,7 +175,10 @@ public class GiveawayService : INService
             await uow.SaveChangesAsync();
         }
 
-        await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
+        if (interaction is not null)
+            await interaction.SendConfirmFollowupAsync($"Giveaway started in {chan.Mention}");
+        else
+            await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
     
     public async Task GiveawayTimerAction(global::Mewdeko.Services.Database.Models.Giveaways r)
@@ -173,7 +200,14 @@ public class GiveawayService : INService
         {
             return;
         }
-        var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
+
+        var uow = _db.GetDbContext();
+        var emote = r.Emote.ToIEmote();
+        if (emote.Name == null)
+        {
+            await ch.Channel.SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!");
+            
+        }
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
         if (reacts.Count() - 1 <= r.Winners)
         {
@@ -183,6 +217,9 @@ public class GiveawayService : INService
                 Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build());
+            r.Ended = 1;
+            uow.Giveaways.Update(r);
+            await uow.SaveChangesAsync();
         }
         else
         {
@@ -236,6 +273,9 @@ public class GiveawayService : INService
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
                         .Build());
+                r.Ended = 1;
+                uow.Giveaways.Update(r);
+                await uow.SaveChangesAsync();
             }
             else
             {
@@ -282,10 +322,16 @@ public class GiveawayService : INService
                     Description = $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build());
-                await ch.Channel.SendMessageAsync(
-                    $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!",
-                    embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                        .Build());
+                foreach (var winners2 in winners.Chunk(50))
+                {
+                    await ch.Channel.SendMessageAsync(
+                        $"{string.Join("", winners2.Select(x => x.Mention))} won the giveaway for {r.Item}!",
+                        embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
+                                                 .Build());
+                }
+                r.Ended = 1;
+                uow.Giveaways.Update(r);
+                await uow.SaveChangesAsync();
             }
         }
     }
@@ -310,7 +356,21 @@ public class GiveawayService : INService
             return;
         }
 
-        var emote = Emote.Parse("<a:HaneMeow:914307922287276052>");
+        var uow = _db.GetDbContext();
+        var emote = r.Emote.ToIEmote();
+        if (emote.Name == null)
+        {
+            var eb = new EmbedBuilder().WithErrorColor()
+                                       .WithDescription(
+                                           "Giveaway failed because the emote used in this giveaway is invalid!");
+            await ch.ModifyAsync(x => x.Embed = eb.Build());
+            r.Ended = 1;
+            uow.Giveaways.Update(r);
+            await uow.SaveChangesAsync();
+            return;
+            
+            
+        }
         var reacts = await ch.GetReactionUsersAsync(emote, 999999).FlattenAsync();
         if (reacts.Count() - 1 <= r.Winners)
         {
@@ -319,6 +379,9 @@ public class GiveawayService : INService
                 Color = Mewdeko.ErrorColor, Description = "There were not enough participants!"
             };
             await ch.ModifyAsync(x => x.Embed = eb.Build());
+            r.Ended = 1;
+            uow.Giveaways.Update(r);
+            await uow.SaveChangesAsync();
         }
         else
         {
@@ -372,6 +435,9 @@ public class GiveawayService : INService
                 await ch.Channel.SendMessageAsync($"{user.Mention} won the giveaway for {r.Item}!",
                     embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
                                              .Build());
+                r.Ended = 1;
+                uow.Giveaways.Update(r);
+                await uow.SaveChangesAsync();
             }
             else
             {
@@ -419,10 +485,16 @@ public class GiveawayService : INService
                         $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!"
                 };
                 await ch.ModifyAsync(x => x.Embed = eb.Build());
-                await ch.Channel.SendMessageAsync(
-                    $"{string.Join("", winners.Select(x => x.Mention))} won the giveaway for {r.Item}!",
-                    embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
-                                             .Build());
+                foreach (var winners2 in winners.Chunk(50))
+                {
+                    await ch.Channel.SendMessageAsync(
+                        $"{string.Join("", winners2.Select(x => x.Mention))} won the giveaway for {r.Item}!",
+                        embed: new EmbedBuilder().WithOkColor().WithDescription($"[Jump To Giveaway]({ch.GetJumpUrl()})")
+                                                 .Build());
+                }
+                r.Ended = 1;
+                uow.Giveaways.Update(r);
+                await uow.SaveChangesAsync();
             }
         }
     }

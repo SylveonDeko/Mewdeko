@@ -26,6 +26,24 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    public async Task GEmote(IEmote emote)
+    {
+        try
+        {
+            await ctx.Message.AddReactionAsync(emote);
+        }
+        catch
+        {
+            await ctx.Channel.SendErrorAsync(
+                "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.");
+            return;
+        }
+
+        await Service.SetGiveawayEmote(ctx.Guild, emote.ToString());
+        await ctx.Channel.SendConfirmAsync(
+            $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.");
+    }
+    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
         using var uow = _db.GetDbContext();
@@ -34,6 +52,12 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         if (gway is null)
         {
             await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!");
+            return;
+        }
+
+        if (gway.Ended != 1)
+        {
+            await ctx.Channel.SendErrorAsync("This giveaway hasn't ended yet!");
             return;
         }
 
@@ -75,13 +99,50 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
-    public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what) =>
+    public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what)
+    {
+        var emote = Service.GetGiveawayEmote(ctx.Guild.Id).ToIEmote();
+        try
+        {
+            await ctx.Message.AddReactionAsync(emote);
+        }
+        catch
+        {
+            await ctx.Channel.SendErrorAsync(
+                "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.");
+            return;
+        }
+        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+        var perms = user.GetPermissions(chan);
+        if (!perms.Has(ChannelPermission.AddReactions))
+        {
+            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!");
+            return;
+        }
+
+        if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
+        {
+            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!");
+            return;
+        }
         await Service.GiveawaysInternal(chan, time.Time, what, winners, ctx.User.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild);
+    }
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
+        var emote = Service.GetGiveawayEmote(ctx.Guild.Id).ToIEmote();
+        try
+        {
+            await ctx.Message.AddReactionAsync(emote);
+        }
+        catch
+        {
+            await ctx.Channel.SendErrorAsync(
+                "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.");
+            return;
+        }
         ITextChannel chan = null;
         var winners = 0;
         string prize;
@@ -111,8 +172,20 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             await msg.ModifyAsync(x => x.Embed = erorrembed);
             return;
         }
-
         chan = (ITextChannel) e.BestMatch;
+        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+        var perms = user.GetPermissions(chan);
+        if (!perms.Has(ChannelPermission.AddReactions))
+        {
+            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!");
+            return;
+        }
+
+        if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
+        {
+            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!");
+            return;
+        }
         await msg.ModifyAsync(x => x.Embed = eb.WithDescription("How many winners will there be?").Build());
         next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         try

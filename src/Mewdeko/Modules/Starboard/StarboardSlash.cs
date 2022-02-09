@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Starboard;
 [Group("starboard", "Manage the starboard!")]
 public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
-    [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStarboard(ITextChannel chn = null)
     {
         if (chn is null)
@@ -23,7 +23,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Interaction.SendConfirmAsync($"Channel set to {chn.Mention}");
     }
 
-    [SlashCommand("repostthreshold", "Set after how many messages mewdeko reposts a starboard message"), SlashUserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("repostthreshold", "Set after how many messages mewdeko reposts a starboard message"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetRepostThreshold(int num)
     {
         if (num == 0)
@@ -36,7 +36,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Interaction.SendConfirmAsync($"Successfully set the Repost Threshold to {num}");
     }
 
-    [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard"), SlashUserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStars(int num)
     {
         var count = Service.GetStarCount(ctx.Guild.Id);
@@ -45,7 +45,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
         await ctx.Channel.SendConfirmAsync($"Your star count was successfully changed from {count} to {count2}!");
     }
 
-    [SlashCommand("star", "Sets or gets the current starboard emote"), SlashUserPerm(GuildPermission.ManageChannels)]
+    [SlashCommand("star", "Sets or gets the current starboard emote"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task SetStar(string emoteText = null)
     {
         await ctx.Interaction.DeferAsync();
