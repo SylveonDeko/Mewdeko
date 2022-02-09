@@ -13,4 +13,6 @@ public class Giveaways : DbEntity
     public string RestrictTo { get; set; }
     public string BlacklistUsers { get; set; }
     public string BlacklistRoles { get; set; }
+
+    public string Emote { get; set; } = "<a:HaneMeow:914307922287276052>";
 }

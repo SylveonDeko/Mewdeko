@@ -13,7 +13,7 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BOT_VERSION = "3.89";
+    public const string BOT_VERSION = "3.90";
 
     private readonly DateTime _started;
 #pragma warning disable CS0169
@@ -64,7 +64,7 @@ public class StatsService : IStatsService
         }, null, TimeSpan.Zero, TimeSpan.FromMinutes(10));
     }
 
-    public string Library => $"Discord.Net Labs {DllVersionChecker.GetDllVersion()} ";
+    public string Library => $"Discord.Net {DllVersionChecker.GetDllVersion()} ";
 
     public string Heap => ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Megabytes
         .ToString(CultureInfo.InvariantCulture);
