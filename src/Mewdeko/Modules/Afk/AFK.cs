@@ -177,7 +177,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     {
         var mentions = new List<string>();
         var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
-        if (string.IsNullOrEmpty(chans) || chans.Contains('0'))
+        if (string.IsNullOrEmpty(chans) || chans == "0")
         {
             await ctx.Channel.SendErrorAsync("You don't have any disabled Afk channels.");
             return;

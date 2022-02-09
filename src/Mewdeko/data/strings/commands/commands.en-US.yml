@@ -465,6 +465,10 @@ greethook:
     - channel name image
     - channel name
     - disable
+gemote:
+  desc: "Sets a custom emote used in giveaways!"
+  args:
+    - "<:HaneBomb:914307912044802059>"
 reactchannel:
   desc: >-
     Sets a channel where mewdeko will react with upvote and downvote arrows to
