@@ -9,6 +9,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Database.Models;
+using System.Dynamic;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
@@ -292,9 +293,7 @@ public class SuggestionsService : INService
     public string GetSuggestionMessage(IGuild guild)
     {
         Suggestmsgs.TryGetValue(guild.Id, out var snum);
-        if (snum == "")
-            return "";
-        return snum;
+        return snum == "" ? "" : snum;
     }
 
     public string GetAcceptMessage(IGuild guild)
@@ -343,9 +342,9 @@ public class SuggestionsService : INService
     //         }
     //     }
     //
-    //     var uow = _db.GetDbContext();
-    //     var e = uow._context.Suggestions.FromSqlInterpolated(
-    //         $"delete from Suggestions where UserID={suggestions.FirstOrDefault().UserID} and GuildId={channel.GuildId};");
+    //     var uow = Db.GetDbContext();
+    //     uow.Suggestions.RemoveRange(suggestions);
+    //     await uow.SaveChangesAsync();
     // }
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
         ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
@@ -611,7 +610,7 @@ public class SuggestionsService : INService
             string sug;
             if (suggest.Suggestion == null)
                 sug = guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id)).Result
-                    .GetMessageAsync(suggest.MessageID).Result.Embeds.FirstOrDefault().Description;
+                           .GetMessageAsync(suggest.MessageID).Result.Embeds.FirstOrDefault()!.Description;
             else
                 sug = suggest.Suggestion;
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
@@ -1091,7 +1090,8 @@ public class SuggestionsService : INService
                     await t.AddReactionAsync(ei);
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
-            await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
+            if (interaction is not null)
+                await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
         }
         else
         {
@@ -1166,7 +1166,10 @@ public class SuggestionsService : INService
                 await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             }
 
-            await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
+            if (interaction is not null)
+                await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");
+            else
+                await channel.SendConfirmAsync("Suggestion sent!");
         }
     }
 
