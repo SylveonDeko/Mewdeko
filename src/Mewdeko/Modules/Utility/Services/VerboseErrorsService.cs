@@ -52,7 +52,8 @@ public class VerboseErrorsService : INService, IUnloadableService
                 .WithErrorColor();
 
 
-            await channel.EmbedAsync(embed).ConfigureAwait(false);
+            await channel.SendMessageAsync(embed: embed.Build(),  components: new ComponentBuilder()
+                                                                              .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build()).ConfigureAwait(false);
         }
         catch
         {

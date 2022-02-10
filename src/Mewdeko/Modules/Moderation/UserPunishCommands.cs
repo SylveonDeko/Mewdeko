@@ -48,14 +48,12 @@ public partial class Moderation : MewdekoModule
             // bot can't punish a user who is higher in the hierarchy. Discord will return 403
             // moderator can be owner, in which case role hierarchy doesn't matter
             // otherwise, moderator has to have a higher role
-            if (botMaxRole <= targetMaxRole || (Context.User.Id != ownerId && targetMaxRole >= modMaxRole) ||
-                target.Id == ownerId)
-            {
-                await ReplyErrorLocalizedAsync("hierarchy");
-                return false;
-            }
+            if (botMaxRole > targetMaxRole
+                && (Context.User.Id == ownerId || targetMaxRole < modMaxRole)
+                && target.Id != ownerId) return true;
+            await ReplyErrorLocalizedAsync("hierarchy");
+            return false;
 
-            return true;
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),

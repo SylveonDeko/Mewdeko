@@ -28,6 +28,18 @@ public class Afk : MewdekoModuleBase<AfkService>
             {
                 await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
                 await ctx.Channel.SendConfirmAsync("Afk message enabled!");
+                try
+                {
+                    var user = await ctx.Guild.GetUserAsync(ctx.User.Id);
+                    var toset = user.Nickname is null
+                        ? $"[AFK] {user.Username.TrimTo(26)}"
+                        : $"[AFK] {user.Nickname.Replace("[AFK]", "").TrimTo(26)}";
+                    await user.ModifyAsync(x => x.Nickname = toset);
+                }
+                catch
+                {
+                  // ignored
+                }
                 await ctx.Guild.DownloadUsersAsync();
                 return;
             }
@@ -47,6 +59,18 @@ public class Afk : MewdekoModuleBase<AfkService>
 
         await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, message, 0);
         await ctx.Channel.SendConfirmAsync($"AFK Message set to:\n{message}");
+        try
+        {
+            var user1 = await ctx.Guild.GetUserAsync(ctx.User.Id);
+            var toset1 = user1.Nickname is null
+                ? $"[AFK] {user1.Username.TrimTo(26)}"
+                : $"[AFK] {user1.Nickname.Replace("[AFK]", "").TrimTo(26)}";
+            await user1.ModifyAsync(x => x.Nickname = toset1);
+        }
+        catch
+        {
+            // ignored
+        }
         await ctx.Guild.DownloadUsersAsync();
     }
 
@@ -383,6 +407,14 @@ public class Afk : MewdekoModuleBase<AfkService>
                 Service.GetAfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
                 await Service.AfkSet(ctx.Guild, i, "", 0);
                 users++;
+                try
+                {
+                    await i.ModifyAsync(x => x.Nickname = i.Nickname.Replace("[AFK]", ""));
+                }
+                catch
+                {
+                    //ignored
+                }
             }
             catch (Exception)
             {
@@ -403,6 +435,14 @@ public class Afk : MewdekoModuleBase<AfkService>
         }
 
         await Service.AfkSet(ctx.Guild, user, "", 0);
+        try
+        {
+            await user.ModifyAsync(x => x.Nickname = user.Nickname.Replace("[AFK]", ""));
+        }
+        catch
+        {
+            //ignored
+        }
         await ctx.Channel.SendConfirmAsync($"AFK Message for {user.Mention} has been disabled!");
     }
 }

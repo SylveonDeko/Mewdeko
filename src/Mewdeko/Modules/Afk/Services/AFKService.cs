@@ -15,10 +15,12 @@ public class AfkService : INService
     private readonly DbService _db;
     private readonly CommandHandler _cmd;
     public DiscordSocketClient Client;
-    public List<AFK> CachedAfk;
+    public ConcurrentDictionary<ulong, List<AFK>> CachedAfk = new();
+    private Mewdeko _bot;
 
     public AfkService(DbService db, DiscordSocketClient client, CommandHandler handle, Mewdeko bot)
     {
+        _bot = bot;
         _db = db;
         Client = client;
         _cmd = handle;
@@ -57,7 +59,11 @@ public class AfkService : INService
         _ = Task.Run(() =>
         {
             var uow = _db.GetDbContext();
-            CachedAfk = uow.AFK.GetAll().ToList();
+            foreach (var i in _bot.AllGuildConfigs.Select(x => x.GuildId))
+            {
+                var addto = CachedAfk.GetOrAdd(i, new List<AFK>());
+                addto.AddRange(uow.AFK.ForGuild(i));
+            }
         });
 
     private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
@@ -209,9 +215,11 @@ public class AfkService : INService
     }
 
     public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild) =>
-        CachedAfk.Where(x => x.GuildId == guild.Id).GroupBy(m => m.UserId)
-           .Where(m => !string.IsNullOrEmpty(m.Last().Message))
-           .Select(m => guild.GetUserAsync(m.Key).Result);
+        CachedAfk.Select(x => x.Key).Contains(guild.Id)
+            ? new IGuildUser[]{}
+            : CachedAfk.FirstOrDefault(x => x.Key == guild.Id).Value.GroupBy(m => m.UserId)
+                     .Where(m => !string.IsNullOrEmpty(m.Last().Message))
+                     .Select(m => guild.GetUserAsync(m.Key).Result);
 
     public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
     {
@@ -354,9 +362,10 @@ public class AfkService : INService
         using var uow = _db.GetDbContext();
         uow.AFK.Update(afk);
         await uow.SaveChangesAsync();
-        CachedAfk.Add(afk);
+        var toaddto = CachedAfk.GetOrAdd(guild.Id, new List<AFK>());
+        toaddto.Add(afk);
     }
 
-    public List<AFK> GetAfkMessage(ulong gid, ulong uid) 
-        => CachedAfk.Where(x => x.GuildId == gid && x.UserId == uid).ToList();
+    public List<AFK> GetAfkMessage(ulong gid, ulong uid) =>
+        CachedAfk.FirstOrDefault(x => x.Key == gid).Value.Where(x => x.UserId == uid).ToList();
 }
