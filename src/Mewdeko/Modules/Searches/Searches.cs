@@ -8,6 +8,9 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using GScraper;
+using GScraper.DuckDuckGo;
+using GScraper.Google;
 using KSoftNet;
 using KSoftNet.Enums;
 using KSoftNet.Models.Images;
@@ -284,9 +287,9 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             var errorKey = err switch
             {
-                TimeErrors.ApiKeyMissing => "api_key_missing",
-                TimeErrors.InvalidInput => "invalid_input",
-                TimeErrors.NotFound => "not_found",
+                SearchesService.TimeErrors.ApiKeyMissing => "api_key_missing",
+                SearchesService.TimeErrors.NotFound => "not_found",
+                SearchesService.TimeErrors.InvalidInput => "invalid_input",
                 _ => "error_occured"
             };
 
@@ -380,54 +383,60 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Image([Remainder] string query = null)
+    public async Task Image([Remainder] string query)
     {
-        var oterms = query?.Trim();
-        if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
-            return;
-        query = WebUtility.UrlEncode(oterms).Replace(' ', '+');
-        try
+        using var gscraper = new GoogleScraper();
+        using var dscraper = new DuckDuckGoScraper();
+        var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict);
+        var googleImageResults = search as GoogleImageResult[] ?? search.ToArray();
+        if (!googleImageResults.Any())
         {
-            var res = await _google.GetImageAsync(oterms).ConfigureAwait(false);
-            var embed = new EmbedBuilder()
-                .WithOkColor()
-                .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                    .WithUrl("https://www.google.com/search?q=" + query + "&source=lnms&tbm=isch")
-                    .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
-                .WithDescription(res.Link)
-                .WithImageUrl(res.Link)
-                .WithTitle(ctx.User.ToString());
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict);
+            var duckDuckGoImageResults = search2 as DuckDuckGoImageResult[] ?? search2.ToArray();
+            if (!duckDuckGoImageResults.Any())
+            {
+                await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!");
+            }
+            else
+            {
+                var paginator = new LazyPaginatorBuilder()
+                                .AddUser(ctx.User)
+                                .WithPageFactory(PageFactory)
+                                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                .WithMaxPageIndex(duckDuckGoImageResults.Length)
+                                .WithDefaultEmotes()
+                                .Build();
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+
+                Task<PageBuilder> PageFactory(int page)
+                {
+                    var result = duckDuckGoImageResults.Skip(page).FirstOrDefault();
+                    return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(result!.Title)
+                                                            .WithImageUrl(result.Url)
+                                                            .WithAuthor(name: "DuckDuckGo Image Result", iconUrl:
+                                                                "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png"));
+                }
+            }
         }
-        catch
+        else
         {
-            Log.Warning("Falling back to Imgur");
+            var paginator = new LazyPaginatorBuilder()
+                            .AddUser(ctx.User)
+                            .WithPageFactory(PageFactory)
+                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                            .WithMaxPageIndex(googleImageResults.Length)
+                            .WithDefaultEmotes()
+                            .Build();
+            await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            var fullQueryLink = $"http://imgur.com/search?q={query}";
-            var config = Configuration.Default.WithDefaultLoader();
-            using var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false);
-            var elems = document.QuerySelectorAll("a.image-list-link").ToList();
-
-            if (!elems.Any())
-                return;
-
-            var img = elems.ElementAtOrDefault(new MewdekoRandom().Next(0, elems.Count))?.Children
-                ?.FirstOrDefault() as IHtmlImageElement;
-
-            if (img?.Source == null)
-                return;
-
-            var source = img.Source.Replace("b.", ".", StringComparison.InvariantCulture);
-
-            var embed = new EmbedBuilder()
-                .WithOkColor()
-                .WithAuthor(eab => eab.WithName(GetText("image_search_for") + " " + oterms.TrimTo(50))
-                    .WithUrl(fullQueryLink)
-                    .WithIconUrl("http://s.imgur.com/images/logo-1200-630.jpg?"))
-                .WithDescription(source)
-                .WithImageUrl(source)
-                .WithTitle(ctx.User.ToString());
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+            Task<PageBuilder> PageFactory(int page)
+            {
+                var result = googleImageResults.Skip(page).FirstOrDefault();
+                return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(result!.Title)
+                                                 .WithImageUrl(result.Url)
+                                                 .WithAuthor(name: "Google Image Result", iconUrl: 
+                                                     "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png"));
+            }
         }
     }
 
@@ -499,24 +508,29 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _ = ctx.Channel.TriggerTypingAsync();
 
         var data = await Service.GoogleSearchAsync(query);
-        if (data is null)
+        if (data.TotalResults is null)
         {
-            await ReplyErrorLocalizedAsync("no_results");
-            return;
+            data = await Service.DuckDuckGoSearchAsync(query);
+            if (data is null)
+            {
+                await ctx.Channel.SendErrorAsync(
+                    "Neither google nor duckduckgo returned a result! Please search something else!");
+                return;
+            }
         }
 
         var desc = data.Results.Take(5).Select(res =>
-            $@"[**{res.Title}**]({res.Link})
+                $@"[**{res.Title}**]({res.Link})
 {res.Text.TrimTo(400 - res.Title.Length - res.Link.Length)}");
+
 
         var descStr = string.Join("\n\n", desc);
 
         var embed = new EmbedBuilder()
             .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + query.TrimTo(50))
                 .WithUrl(data.FullQueryLink)
-                .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                .WithIconUrl(data.FullQueryLink.Contains("google") ? "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png" : "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png"))
             .WithTitle(ctx.User.ToString())
-            .WithFooter(efb => efb.WithText(data.TotalResults))
             .WithDescription(descStr)
             .WithOkColor();
 
