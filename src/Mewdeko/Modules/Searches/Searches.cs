@@ -287,9 +287,9 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             var errorKey = err switch
             {
-                SearchesService.TimeErrors.ApiKeyMissing => "api_key_missing",
-                SearchesService.TimeErrors.NotFound => "not_found",
-                SearchesService.TimeErrors.InvalidInput => "invalid_input",
+                TimeErrors.ApiKeyMissing => "api_key_missing",
+                TimeErrors.InvalidInput => "invalid_input",
+                TimeErrors.NotFound => "not_found",
                 _ => "error_occured"
             };
 
@@ -399,13 +399,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             }
             else
             {
-                var paginator = new LazyPaginatorBuilder()
-                                .AddUser(ctx.User)
-                                .WithPageFactory(PageFactory)
-                                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                                .WithMaxPageIndex(duckDuckGoImageResults.Length)
-                                .WithDefaultEmotes()
-                                .Build();
+                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                                                          .WithFooter(
+                                                              PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                          .WithMaxPageIndex(duckDuckGoImageResults.Length)
+                                                          .WithDefaultEmotes().Build();
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
                 Task<PageBuilder> PageFactory(int page)
@@ -413,29 +411,28 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     var result = duckDuckGoImageResults.Skip(page).FirstOrDefault();
                     return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(result!.Title)
                                                             .WithImageUrl(result.Url)
-                                                            .WithAuthor(name: "DuckDuckGo Image Result", iconUrl:
-                                                                "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png"));
+                                                            .WithAuthor(name: "DuckDuckGo Image Result",
+                                                                iconUrl:
+                                                                "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png%22"));
                 }
             }
         }
         else
         {
-            var paginator = new LazyPaginatorBuilder()
-                            .AddUser(ctx.User)
-                            .WithPageFactory(PageFactory)
-                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                            .WithMaxPageIndex(googleImageResults.Length)
-                            .WithDefaultEmotes()
-                            .Build();
+            var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
+                                                      .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                                                      .WithMaxPageIndex(googleImageResults.Length).WithDefaultEmotes()
+                                                      .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page)
             {
                 var result = googleImageResults.Skip(page).FirstOrDefault();
                 return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(result!.Title)
-                                                 .WithImageUrl(result.Url)
-                                                 .WithAuthor(name: "Google Image Result", iconUrl: 
-                                                     "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png"));
+                                                        .WithImageUrl(result.Url)
+                                                        .WithAuthor(name: "Google Image Result",
+                                                            iconUrl:
+                                                            "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22"));
             }
         }
     }
@@ -520,17 +517,17 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
 
         var desc = data.Results.Take(5).Select(res =>
-                $@"[**{res.Title}**]({res.Link})
+            $@"[{res.Title}]({res.Link})
 {res.Text.TrimTo(400 - res.Title.Length - res.Link.Length)}");
-
 
         var descStr = string.Join("\n\n", desc);
 
         var embed = new EmbedBuilder()
             .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + query.TrimTo(50))
                 .WithUrl(data.FullQueryLink)
-                .WithIconUrl(data.FullQueryLink.Contains("google") ? "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png" : "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png"))
+                .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
             .WithTitle(ctx.User.ToString())
+            .WithFooter(efb => efb.WithText(data.TotalResults))
             .WithDescription(descStr)
             .WithOkColor();
 

@@ -62,7 +62,7 @@ public partial class Moderation : MewdekoModule
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
                 return;
-
+            
             if (WarnlogChannel == channel.Id)
             {
                 await ctx.Channel.SendErrorAsync("This is already your warnlog channel!");
