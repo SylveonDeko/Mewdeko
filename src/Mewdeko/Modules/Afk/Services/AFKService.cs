@@ -24,6 +24,7 @@ public class AfkService : INService
         CommandHandler handle,
         Mewdeko bot)
     {
+        _bot = bot;
         _db = db;
         Client = client;
         _cmd = handle;
@@ -47,8 +48,8 @@ public class AfkService : INService
     private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
     private ConcurrentDictionary<ulong, int> AfkDels { get; }
 
-    private Task CacheAfk() =>
-        _ = Task.Run(() =>
+    private async Task CacheAfk()
+    {
         {
             var uow = _db.GetDbContext();
             foreach (var i in _bot.AllGuildConfigs.Select(x => x.GuildId))
@@ -56,7 +57,9 @@ public class AfkService : INService
                 var addto = CachedAfk.GetOrAdd(i, new List<AFK>());
                 addto.AddRange(uow.AFK.ForGuild(i));
             }
-        });
+        }
+    }
+    
 
     private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
@@ -391,6 +394,9 @@ public class AfkService : INService
         toaddto.Add(afk);
     }
 
-    public List<AFK> GetAfkMessage(ulong gid, ulong uid) =>
-        CachedAfk.FirstOrDefault(x => x.Key == gid).Value.Where(x => x.UserId == uid).ToList();
+    public List<AFK> GetAfkMessage(ulong gid, ulong uid)
+    {
+        var e = CachedAfk.FirstOrDefault(x => x.Key == gid).Value.Where(x => x.UserId == uid).ToList();
+        return e;
+    }
 }

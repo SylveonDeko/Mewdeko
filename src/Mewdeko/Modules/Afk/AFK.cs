@@ -24,7 +24,8 @@ public class Afk : MewdekoModuleBase<AfkService>
         if (message == null)
         {
             var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
-            if (!afkmsg.Any() || afkmsg.Last() == "")
+            var enumerable = afkmsg as string[] ?? afkmsg.ToArray();
+            if (!enumerable.Any() || enumerable.Last() == "")
             {
                 await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "_ _", 0);
                 await ctx.Channel.SendConfirmAsync("Afk message enabled!");
