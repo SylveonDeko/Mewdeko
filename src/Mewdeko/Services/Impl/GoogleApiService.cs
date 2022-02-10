@@ -22,7 +22,6 @@ public class GoogleApiService : IGoogleApiService
 
     private static readonly Regex _plRegex =
         new("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
-
     private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
@@ -367,8 +366,6 @@ public class GoogleApiService : IGoogleApiService
         if (!_languageDictionary.ContainsKey(sourceLanguage) ||
             !_languageDictionary.ContainsKey(targetLanguage))
             throw new ArgumentException(nameof(sourceLanguage) + "/" + nameof(targetLanguage));
-
-
         var url = new Uri(
             $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={ConvertToLanguageCode(sourceLanguage)}&tl={ConvertToLanguageCode(targetLanguage)}&dt=t&q={WebUtility.UrlEncode(sourceText)}");
         using (var http = _httpFactory.CreateClient())

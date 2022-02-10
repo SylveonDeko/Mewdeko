@@ -190,7 +190,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 IconUrl = user.GetAvatarUrl(),
                 Name = $"{user} said:"
             },
-            Description = $"{msg.Message}",
+            Description = msg.Message,
             Footer = new EmbedFooterBuilder
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
@@ -322,7 +322,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
-            Description = $"{msg.Message}",
+
+            Description = msg.Message,
             Footer = new EmbedFooterBuilder
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
@@ -377,7 +378,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
-            Description = $"{msg.Message}",
+            Description = msg.Message,
             Footer = new EmbedFooterBuilder
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
@@ -387,7 +388,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             Color = Mewdeko.OkColor
         };
         await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+                                                                          .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -414,7 +415,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
-                Description = $"{msg.Message}",
+                Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -424,7 +425,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+
         }
     }
 
@@ -474,7 +476,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = $"{msg.Message}",
+                Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -484,7 +486,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 
@@ -517,7 +519,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = $"{msg.Message}",
+                Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -560,7 +562,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = $"{msg.Message}",
+                Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -570,7 +572,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 
@@ -604,7 +606,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = $"{msg.Message}",
+                Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -614,7 +616,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 

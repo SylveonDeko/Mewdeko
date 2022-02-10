@@ -71,6 +71,7 @@ public class Afk : MewdekoModuleBase<AfkService>
         {
             // ignored
         }
+
         await ctx.Guild.DownloadUsersAsync();
     }
 
@@ -443,6 +444,8 @@ public class Afk : MewdekoModuleBase<AfkService>
         {
             //ignored
         }
+
+        await Service.AfkSet(ctx.Guild, user, "", 0);
         await ctx.Channel.SendConfirmAsync($"AFK Message for {user.Mention} has been disabled!");
     }
 }
