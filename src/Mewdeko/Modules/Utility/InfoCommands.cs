@@ -151,8 +151,9 @@ public partial class Utility
                 .AddField("Id", guild.Id.ToString())
                 .AddField("Owner", ownername.Mention)
                 .AddField("Total Users", guild.Users.Count.ToString())
-                .WithImageUrl($"{guild.SplashUrl}?size=2048")
                 .WithColor(Mewdeko.OkColor);
+            if (guild.SplashUrl != null)
+                embed.WithImageUrl($"{guild.SplashUrl}?size=2048");
             if (Uri.IsWellFormedUriString(guild.IconUrl, UriKind.Absolute))
                 embed.WithThumbnailUrl(guild.IconUrl);
             if (guild.Emotes.Any())

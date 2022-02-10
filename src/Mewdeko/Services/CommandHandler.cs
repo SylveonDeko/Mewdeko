@@ -353,10 +353,10 @@ public class CommandHandler : INService
             messageContent = newContent;
             break;
         }
-        #if DEBUG
-        if (usrMsg.Author.Id != 280835732728184843)
-            return;
-        #endif
+        // #if DEBUG
+        // if (usrMsg.Author.Id != 280835732728184843)
+        //     return;
+        // #endif
         var prefix = GetPrefix(guild?.Id);
         // execute the command and measure the time it took
         if (messageContent.StartsWith(prefix, StringComparison.InvariantCulture) ||

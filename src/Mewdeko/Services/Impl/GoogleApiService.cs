@@ -23,7 +23,6 @@ public class GoogleApiService : IGoogleApiService
     private static readonly Regex _plRegex =
         new("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
 
-    //private readonly Regex YtVideoIdRegex = new Regex(@"(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)(?<id>[a-zA-Z0-9_-]{6,11})", RegexOptions.Compiled);
     private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
@@ -370,11 +369,8 @@ public class GoogleApiService : IGoogleApiService
             throw new ArgumentException(nameof(sourceLanguage) + "/" + nameof(targetLanguage));
 
 
-        var url = new Uri(string.Format(
-            "https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",
-            ConvertToLanguageCode(sourceLanguage),
-            ConvertToLanguageCode(targetLanguage),
-            WebUtility.UrlEncode(sourceText)));
+        var url = new Uri(
+            $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={ConvertToLanguageCode(sourceLanguage)}&tl={ConvertToLanguageCode(targetLanguage)}&dt=t&q={WebUtility.UrlEncode(sourceText)}");
         using (var http = _httpFactory.CreateClient())
         {
             http.DefaultRequestHeaders.Add("user-agent",

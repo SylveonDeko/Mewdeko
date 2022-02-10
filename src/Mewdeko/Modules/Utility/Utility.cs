@@ -120,7 +120,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             if (e == 0) return;
             await Service.SetReactChan(ctx.Guild, 0);
-            ;
             await ctx.Channel.SendConfirmAsync("React Channel Disabled!");
         }
         else
@@ -191,7 +190,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 IconUrl = user.GetAvatarUrl(),
                 Name = $"{user} said:"
             },
-            Description = msg.Message,
+            Description = $"{msg.Message}",
             Footer = new EmbedFooterBuilder
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
@@ -200,7 +199,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                                                                          .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -246,8 +246,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                         new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} said:"))
-                    .WithDescription(msg1.Message
-                                     + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                    .WithDescription($"{msg1.Message}")
+                    .WithFooter($"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
             }
         }
     }
@@ -295,8 +295,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                         new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} originally said:"))
-                    .WithDescription(msg1.Message
-                                     + $"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                    .WithDescription($"{msg1.Message}")
+                    .WithFooter($"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
             }
         }
     }
@@ -322,7 +322,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
-            Description = msg.Message,
+            Description = $"{msg.Message}",
             Footer = new EmbedFooterBuilder
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
@@ -331,7 +331,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                                                                          .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -376,7 +377,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
-            Description = msg.Message,
+            Description = $"{msg.Message}",
             Footer = new EmbedFooterBuilder
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
@@ -385,7 +386,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync("", embed: em.Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -412,7 +414,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             var em = new EmbedBuilder
             {
                 Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
-                Description = msg.Message,
+                Description = $"{msg.Message}",
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -421,7 +423,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 
@@ -471,7 +474,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = msg.Message,
+                Description = $"{msg.Message}",
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -480,7 +483,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 
@@ -513,7 +517,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = msg.Message,
+                Description = $"{msg.Message}",
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -522,7 +526,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 
@@ -555,7 +560,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = msg.Message,
+                Description = $"{msg.Message}",
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -564,7 +569,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 
@@ -598,7 +604,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     IconUrl = user.GetAvatarUrl(),
                     Name = $"{user} originally said:"
                 },
-                Description = msg.Message,
+                Description = $"{msg.Message}",
                 Footer = new EmbedFooterBuilder
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
@@ -607,7 +613,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
+                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
         }
     }
 

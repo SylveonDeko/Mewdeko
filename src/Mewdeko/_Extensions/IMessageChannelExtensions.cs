@@ -22,7 +22,8 @@ public static class MessageChannelExtensions
         return ch.SendMessageAsync("", embed: eb.Build());
     }
 
-    public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error) => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build());
+    public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string error) => ch.SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build(), components: new ComponentBuilder()
+        .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build());
 
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string title, string text,
         string url = null, string footer = null)
@@ -36,8 +37,12 @@ public static class MessageChannelExtensions
         return ch.SendMessageAsync("", embed: eb.Build());
     }
 
+    public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text) =>
+        ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(), components: new ComponentBuilder()
+            .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+    
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text,
-        ComponentBuilder builder = null) =>
+        ComponentBuilder builder) =>
         ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
             components: builder?.Build());
 
