@@ -107,15 +107,27 @@ public class Mewdeko
             AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
         }
 
-        var s = new ServiceCollection().AddSingleton<IBotCredentials>(Credentials).AddSingleton(_db)
-                                       .AddSingleton(Client).AddSingleton(CommandService).AddSingleton(this)
-                                       .AddSingleton(Cache).AddSingleton(new KSoftApi(TOKEN)).AddSingleton(Cache.Redis)
-                                       .AddSingleton<ISeria, JsonSeria>().AddSingleton<IPubSub, RedisPubSub>()
-                                       .AddSingleton<IConfigSeria, YamlSeria>().AddSingleton<InteractiveService>()
-                                       .AddSingleton<InteractionService>().AddConfigServices().AddBotStringsServices()
-                                       .AddMemoryCache().AddSingleton<LavaNode>().AddSingleton<LavaConfig>()
-                                       .AddSingleton<IShopService, ShopService>()
-                                       .AddScoped<ISearchImagesService, SearchImagesService>();
+        var s = new ServiceCollection()
+                .AddSingleton<IBotCredentials>(Credentials)
+                .AddSingleton(_db)
+                .AddSingleton(Client)
+                .AddSingleton(CommandService)
+                .AddSingleton(this)
+                .AddSingleton(Cache)
+                .AddSingleton(new KSoftApi(TOKEN))
+                .AddSingleton(Cache.Redis)
+                .AddSingleton<ISeria, JsonSeria>()
+                .AddSingleton<IPubSub, RedisPubSub>()
+                .AddSingleton<IConfigSeria, YamlSeria>()
+                .AddSingleton<InteractiveService>()
+                .AddSingleton<InteractionService>()
+                .AddConfigServices()
+                .AddBotStringsServices()
+                .AddMemoryCache()
+                .AddSingleton<LavaNode>()
+                .AddSingleton<LavaConfig>()
+                .AddSingleton<IShopService, ShopService>()
+                .AddScoped<ISearchImagesService, SearchImagesService>();
         s.AddLavaNode(x =>
         {
             x.SelfDeaf = true;
