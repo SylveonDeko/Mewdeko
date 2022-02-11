@@ -48,7 +48,7 @@ public class SearchesService : INService, IUnloadableService
         IsNotSupportingFrames = true
     });
 
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new();
+    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags;
     private readonly IDataCache _cache;
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;

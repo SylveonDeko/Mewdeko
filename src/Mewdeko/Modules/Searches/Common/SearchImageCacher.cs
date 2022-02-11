@@ -112,7 +112,7 @@ public class SearchImageCacher
                 website = $"http://danbooru.donmai.us/posts.json?limit=100&tags={tag}";
                 break;
             case DapiSearchType.Gelbooru:
-                website = $"http://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";
+                website = $"https://gelbooru.com/index.php?page=dapi&s=post&json=1&q=index&limit=100&tags={tag}";
                 break;
             case DapiSearchType.Rule34:
                 website = $"https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={tag}";

@@ -1,45 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using Discord;
+using Discord.Commands;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Collections;
+using Mewdeko._Extensions;
+using Mewdeko.Modules.Searches.Common;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using Discord;
-using Discord.Commands;
+using System.Threading.Tasks;
+using CommandLine;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using KSoftNet;
 using KSoftNet.Enums;
-using Mewdeko._Extensions;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Collections;
-using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Modules.Searches.Services;
 using NekosSharp;
-using Newtonsoft.Json.Linq;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Refit;
 using Serilog;
+using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Nsfw;
 
-// thanks to halitalf for adding autoboob and autobutt features :D
-public class Nsfw : MewdekoModuleBase<SearchesService>
+public class NSFW : MewdekoModuleBase<ISearchImagesService>
 {
-    private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
-    public static NekoClient NekoClient = new("Mewdeko");
+    private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
     private readonly IHttpClientFactory _httpFactory;
-    public InteractiveService Interactivity;
-    public KSoftApi Ksoftapi;
-
-    public Nsfw(IHttpClientFactory factory, KSoftApi kSoftApi, InteractiveService inte)
-    {
-        Interactivity = inte;
-        _httpFactory = factory;
-        Ksoftapi = kSoftApi;
-    }
-
+    private readonly MewdekoRandom _rng;
+    private readonly InteractiveService _interactivity;
+    private static readonly NekoClient NekoClient = new("Mewdeko");
+    private readonly KSoftApi Ksoftapi;
     public static List<RedditCache> Cache { get; set; } = new();
 
+    public NSFW(IHttpClientFactory factory, InteractiveService interactivity, KSoftApi kSoftApi)
+    {
+        Ksoftapi = kSoftApi;
+        _interactivity = interactivity;
+        _httpFactory = factory;
+        _rng = new MewdekoRandom();
+    }
+    public record RedditCache
+    {
+        public IGuild Guild { get; set; }
+        public string Url { get; set; }
+    }
     public static bool CheckIfAlreadyPosted(IGuild guild, string url)
     {
         var e = new RedditCache
@@ -62,48 +69,45 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
         if (Cache.Contains(e)) return true;
         return true;
     }
-
-    private async Task InternalHentai(IMessageChannel channel, string tag)
+    private async Task InternalBoobs()
     {
-        // create a random number generator
-        var rng = new MewdekoRandom();
-
-        // get all of the DAPI search types, except first 3 
-        // which are safebooru (not nsfw), and 2 furry ones 🤢
-        var listOfProviders = Enum.GetValues(typeof(DapiSearchType))
-            .Cast<DapiSearchType>()
-            .Skip(3)
-            .ToList();
-
-        // now try to get an image, if it fails return an error,
-        // keep trying for each provider until one of them is successful, or until 
-        // we run out of providers. If we run out, then return an error
-        ImageCacherObject img;
-        do
+        try
         {
-            // random index of the providers
-            var num = rng.Next(0, listOfProviders.Count);
-            // get the type
-            var type = listOfProviders[num];
-            // remove it 
-            listOfProviders.RemoveAt(num);
-            // get the image
-            img = await Service.DapiSearch(tag, type, ctx.Guild?.Id, true).ConfigureAwait(false);
-            // if i can't find the image, ran out of providers, or tag is blacklisted
-            // return the error
-            if (img == null && !listOfProviders.Any())
+            JToken obj;
+            using (var http = _httpFactory.CreateClient())
             {
-                await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
-                return;
+                obj = JArray.Parse(await http
+                                         .GetStringAsync($"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 10330)}")
+                                         .ConfigureAwait(false))[0];
             }
-        } while (img == null);
 
-        await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                .WithImageUrl(img.FileUrl)
-                .WithDescription($"[{GetText("tag")}: {tag}]({img})"))
-            .ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+        }
     }
 
+    private async Task InternalButts(IMessageChannel Channel)
+    {
+        try
+        {
+            JToken obj;
+            using (var http = _httpFactory.CreateClient())
+            {
+                obj = JArray.Parse(await http
+                                         .GetStringAsync($"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 4335)}")
+                                         .ConfigureAwait(false))[0];
+            }
+
+            await Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+        }
+    }
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task RedditNsfw(string subreddit)
     {
@@ -166,7 +170,7 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -205,7 +209,7 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
             .WithDefaultEmotes()
             .Build();
 
-        await Interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {
@@ -237,219 +241,11 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
 
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentaiSearch(string search, int page, string type, [Remainder] string blacklist) => await InternalNHentaiSearch(search, page, type, blacklist);
-
-    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
-    private async Task InternalBoobs(IMessageChannel channel)
-    {
-        try
-        {
-            JToken obj;
-            using (var http = _httpFactory.CreateClient())
-            {
-                obj = JArray.Parse(await http
-                    .GetStringAsync($"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 10330)}")
-                    .ConfigureAwait(false))[0];
-            }
-
-            await channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-        }
-    }
-
-    private async Task InternalButts(IMessageChannel channel)
-    {
-        try
-        {
-            JToken obj;
-            using (var http = _httpFactory.CreateClient())
-            {
-                obj = JArray.Parse(await http
-                    .GetStringAsync($"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 4335)}")
-                    .ConfigureAwait(false))[0];
-            }
-
-            await channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            await channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-        }
-    }
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Hentai([Remainder] string tag = null) => InternalHentai(ctx.Channel, tag);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task HentaiBomb([Remainder] string tag = null)
-    {
-        if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
-            return;
-        try
-        {
-            var images = await Task.WhenAll(Service.DapiSearch(tag, DapiSearchType.Gelbooru, ctx.Guild?.Id, true),
-                Service.DapiSearch(tag, DapiSearchType.Danbooru, ctx.Guild?.Id, true),
-                Service.DapiSearch(tag, DapiSearchType.Konachan, ctx.Guild?.Id, true),
-                Service.DapiSearch(tag, DapiSearchType.Yandere, ctx.Guild?.Id, true)).ConfigureAwait(false);
-
-            var linksEnum = images?.Where(l => l != null).ToArray();
-            if (images == null || !linksEnum.Any())
-            {
-                await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
-                return;
-            }
-
-            await ctx.Channel.SendMessageAsync(string.Join("\n\n", linksEnum.Select(x => x.FileUrl)))
-                .ConfigureAwait(false);
-        }
-        finally
-        {
-            _hentaiBombBlacklist.TryRemove(ctx.Guild?.Id ?? ctx.User.Id);
-        }
-    }
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Yandere([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Yandere, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Konachan([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Konachan, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task E621([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.E621, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Rule34([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Rule34, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Danbooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Danbooru, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Gelbooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Gelbooru, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public Task Derpibooru([Remainder] string tag = null) => InternalDapiCommand(tag, DapiSearchType.Derpibooru, false);
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Boobs()
-    {
-        try
-        {
-            JToken obj;
-            using (var http = _httpFactory.CreateClient())
-            {
-                obj = JArray.Parse(await http
-                    .GetStringAsync($"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 12000)}")
-                    .ConfigureAwait(false))[0];
-            }
-
-            await ctx.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-        }
-    }
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
-    public async Task Butts()
-    {
-        try
-        {
-            JToken obj;
-            using (var http = _httpFactory.CreateClient())
-            {
-                obj = JArray.Parse(await http
-                    .GetStringAsync($"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 6100)}")
-                    .ConfigureAwait(false))[0];
-            }
-
-            await ctx.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
-        }
-    }
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.ManageMessages)]
-    public async Task NsfwTagBlacklist([Remainder] string tag = null)
-    {
-        if (string.IsNullOrWhiteSpace(tag))
-        {
-            var blTags = Service.GetBlacklistedTags(ctx.Guild.Id);
-            await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
-                blTags.Any()
-                    ? string.Join(", ", blTags)
-                    : "-").ConfigureAwait(false);
-        }
-        else
-        {
-            tag = tag.Trim().ToLowerInvariant();
-            var added = Service.ToggleBlacklistedTag(ctx.Guild.Id, tag);
-
-            if (added)
-                await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag).ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag).ConfigureAwait(false);
-        }
-    }
-
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
-    public Task NsfwClearCache()
-    {
-        Service.ClearCache();
-        return Context.OkAsync();
-    }
-
-    public async Task InternalDapiCommand(string tag, DapiSearchType type, bool forceExplicit)
-    {
-        ImageCacherObject imgObj;
-
-        imgObj = await Service.DapiSearch(tag, type, ctx.Guild?.Id, forceExplicit).ConfigureAwait(false);
-
-        if (imgObj == null)
-        {
-            await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
-        }
-        else
-        {
-            var embed = new EmbedBuilder().WithOkColor()
-                .WithDescription($"{ctx.User} [{tag ?? "url"}]({imgObj}) ")
-                .WithFooter(efb => efb.WithText(type.ToString()));
-
-            if (Uri.IsWellFormedUriString(imgObj.FileUrl, UriKind.Absolute))
-                embed.WithImageUrl(imgObj.FileUrl);
-            else
-                Log.Error($"Image link from {type} is not a proper Url: {imgObj.FileUrl}");
-
-            await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
-        }
-    }
-
-    public record RedditCache
-    {
-        public IGuild Guild { get; set; }
-        public string Url { get; set; }
-    }
-
-#if !GLOBAL_Mewdeko
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw, RequireContext(ContextType.Guild),
-     UserPerm(ChannelPermission.ManageMessages)]
-    public async Task AutoHentai(int interval = 0, string tags = null)
+    [MewdekoCommand, Aliases]
+    [RequireNsfw]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(ChannelPermission.ManageMessages)]
+    public async Task AutoHentai(int interval = 0, [Remainder] string tags = null)
     {
         Timer t;
 
@@ -465,17 +261,18 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
         if (interval < 20)
             return;
 
-        var tagsArr = tags?.Split('|');
-
-        t = new Timer(async _ =>
+        t = new Timer(async (state) =>
         {
             try
             {
-                if (tagsArr == null || tagsArr.Length == 0)
-                    await InternalHentai(ctx.Channel, null).ConfigureAwait(false);
+                if (tags is null || tags.Length == 0)
+                    await InternalDapiCommand(null, true, Service.Hentai).ConfigureAwait(false);
                 else
-                    await InternalHentai(ctx.Channel, tagsArr[new MewdekoRandom().Next(0, tagsArr.Length)])
-                        .ConfigureAwait(false);
+                {
+                    var groups = tags.Split('|');
+                    var group = groups[_rng.Next(0, groups.Length)];
+                    await InternalDapiCommand(group.Split(' '), true, Service.Hentai).ConfigureAwait(false);
+                }
             }
             catch
             {
@@ -483,40 +280,39 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
+        Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("autohentai_started",
+        await ReplyConfirmLocalizedAsync("autohentai_started",(
             interval,
-            string.Join(", ", tagsArr)).ConfigureAwait(false);
+            string.Join(", ", tags)));
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw, RequireContext(ContextType.Guild),
-     UserPerm(ChannelPermission.ManageMessages)]
+    [MewdekoCommand, Aliases]
+    [RequireNsfw]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoBoobs(int interval = 0)
     {
         Timer t;
 
         if (interval == 0)
         {
-            if (!Service.AutoBoobTimers.TryRemove(ctx.Channel.Id, out t)) return;
+            if (!Service.AutoHentaiTimers.TryRemove(ctx.Channel.Id, out t)) return;
 
             t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
             await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
             return;
         }
 
-        if (interval < 20)
-            return;
-
-        t = new Timer(async _ =>
+        t = new Timer(async (state) =>
         {
             try
             {
-                await InternalBoobs(ctx.Channel).ConfigureAwait(false);
+                await InternalBoobs().ConfigureAwait(false);
             }
             catch
             {
@@ -524,17 +320,18 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
+        Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("started", interval);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireNsfw(Group = "nsfw_or_dm"),
-     RequireContext(ContextType.DM, Group = "nsfw_or_dm"), UserPerm(ChannelPermission.ManageMessages)]
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    [UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoButts(int interval = 0)
     {
         Timer t;
@@ -551,7 +348,7 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
         if (interval < 20)
             return;
 
-        t = new Timer(async _ =>
+        t = new Timer(async (state) =>
         {
             try
             {
@@ -563,13 +360,179 @@ public class Nsfw : MewdekoModuleBase<SearchesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
+        Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("started", interval).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("started", interval);
     }
-#endif
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Hentai(params string[] tags) 
+        => InternalDapiCommand(tags, true, Service.Hentai);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public async Task HentaiBomb(params string[] tags)
+    {
+        if (!_hentaiBombBlacklist.Add(ctx.Guild?.Id ?? ctx.User.Id))
+            return;
+        try
+        {
+            var images = await Task.WhenAll(Service.Yandere(ctx.Guild?.Id, true, tags),
+                Service.Danbooru(ctx.Guild?.Id, true, tags),
+                Service.Konachan(ctx.Guild?.Id, true, tags),
+                Service.Gelbooru(ctx.Guild?.Id, true, tags));
+
+            var linksEnum = images?.Where(l => l != null).ToArray();
+            if (images is null || !linksEnum.Any())
+            {
+                await ReplyErrorLocalizedAsync("no_results").ConfigureAwait(false);
+                return;
+            }
+
+            await ctx.Channel.SendMessageAsync(string.Join("\n\n", linksEnum.Select(x => x.Url)))
+                     .ConfigureAwait(false);
+        }
+        finally
+        {
+            _hentaiBombBlacklist.TryRemove(ctx.Guild?.Id ?? ctx.User.Id);
+        }
+    }
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Yandere(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.Yandere);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Konachan(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.Konachan);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Sankaku(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.Sankaku);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task E621(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.E621);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Rule34(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.Rule34);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Danbooru(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.Danbooru);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Gelbooru(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.Gelbooru);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Derpibooru(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.DerpiBooru);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public Task Safebooru(params string[] tags)
+        => InternalDapiCommand(tags, false, Service.SafeBooru);
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public async Task Boobs()
+    {
+        try
+        {
+            JToken obj;
+            using (var http = _httpFactory.CreateClient())
+            {
+                obj = JArray.Parse(await http
+                                         .GetStringAsync($"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 12000)}")
+                                         .ConfigureAwait(false))[0];
+            }
+
+            await ctx.Channel.SendMessageAsync($"http://media.oboobs.ru/{obj["preview"]}").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+        }
+    }
+
+    [MewdekoCommand, Aliases]
+    [RequireNsfw(Group = "nsfw_or_dm"), RequireContext(ContextType.DM, Group = "nsfw_or_dm")]
+    public async Task Butts()
+    {
+        try
+        {
+            JToken obj;
+            using (var http = _httpFactory.CreateClient())
+            {
+                obj = JArray.Parse(await http
+                                         .GetStringAsync($"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 6100)}")
+                                         .ConfigureAwait(false))[0];
+            }
+
+            await ctx.Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
+        }
+    }
+
+    [MewdekoCommand, Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageMessages)]
+    public async Task NsfwTagBlacklist([Remainder] string tag = null)
+    {
+        if (string.IsNullOrWhiteSpace(tag))
+        {
+            var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id);
+            await ctx.Channel.SendConfirmAsync(GetText("blacklisted_tag_list"),
+                blTags.Any()
+                    ? string.Join(", ", blTags)
+                    : "-").ConfigureAwait(false);
+        }
+        else
+        {
+            tag = tag.Trim().ToLowerInvariant();
+            var added = await Service.ToggleBlacklistTag(ctx.Guild.Id, tag);
+
+            if (added)
+                await ReplyConfirmLocalizedAsync("blacklisted_tag_add", tag);
+            else
+                await ReplyConfirmLocalizedAsync("blacklisted_tag_remove", tag);
+        }
+    }
+
+    private async Task InternalDapiCommand(string[] tags,
+        bool forceExplicit,
+        Func<ulong?, bool, string[], Task<UrlReply>> func)
+    {
+        var data = await func(ctx.Guild?.Id, forceExplicit, tags);
+            
+        if (data is null || !string.IsNullOrWhiteSpace(data.Error))
+        {
+            await ReplyErrorLocalizedAsync("no_results");
+            return;
+        }
+
+        await ctx.Channel.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithImageUrl(data.Url)
+                                                                    .WithDescription($"[link]({data.Url})")
+                                                                    .WithFooter(
+                                                                        $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
+                                                                    .Build());
+    }
 }
