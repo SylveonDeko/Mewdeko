@@ -16,6 +16,8 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.CustomReactions.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
+using Mewdeko.Modules.Nsfw;
+using Mewdeko.Modules.Nsfw.Common;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
@@ -105,26 +107,15 @@ public class Mewdeko
             AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
         }
 
-        var s = new ServiceCollection()
-            .AddSingleton<IBotCredentials>(Credentials)
-            .AddSingleton(_db)
-            .AddSingleton(Client)
-            .AddSingleton(CommandService)
-            .AddSingleton(this)
-            .AddSingleton(Cache)
-            .AddSingleton(new KSoftApi(TOKEN))
-            .AddSingleton(Cache.Redis)
-            .AddSingleton<ISeria, JsonSeria>()
-            .AddSingleton<IPubSub, RedisPubSub>()
-            .AddSingleton<IConfigSeria, YamlSeria>()
-            .AddSingleton<InteractiveService>()
-            .AddSingleton<InteractionService>()
-            .AddConfigServices()
-            .AddBotStringsServices()
-            .AddMemoryCache()
-            .AddSingleton<LavaNode>()
-            .AddSingleton<LavaConfig>()
-            .AddSingleton<IShopService, ShopService>();
+        var s = new ServiceCollection().AddSingleton<IBotCredentials>(Credentials).AddSingleton(_db)
+                                       .AddSingleton(Client).AddSingleton(CommandService).AddSingleton(this)
+                                       .AddSingleton(Cache).AddSingleton(new KSoftApi(TOKEN)).AddSingleton(Cache.Redis)
+                                       .AddSingleton<ISeria, JsonSeria>().AddSingleton<IPubSub, RedisPubSub>()
+                                       .AddSingleton<IConfigSeria, YamlSeria>().AddSingleton<InteractiveService>()
+                                       .AddSingleton<InteractionService>().AddConfigServices().AddBotStringsServices()
+                                       .AddMemoryCache().AddSingleton<LavaNode>().AddSingleton<LavaConfig>()
+                                       .AddSingleton<IShopService, ShopService>()
+                                       .AddScoped<ISearchImagesService, SearchImagesService>();
         s.AddLavaNode(x =>
         {
             x.SelfDeaf = true;
