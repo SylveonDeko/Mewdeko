@@ -1,5 +1,6 @@
-﻿using System.IO;
-using Mewdeko.Services.Database;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database;
+using System.IO;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ public class DbService
 
     public DbService(IBotCredentials creds)
     {
+        LinqToDBForEFTools.Initialize();
+            
         var builder = new SqliteConnectionStringBuilder(creds.Db.ConnectionString);
         builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
 
@@ -51,5 +54,5 @@ public class DbService
         return context;
     }
 
-    public IUnitOfWork GetDbContext() => new UnitOfWork(GetDbContextInternal());
+    public MewdekoContext GetDbContext() => GetDbContextInternal();
 }

@@ -9,8 +9,9 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services.Database.Models;
 using Serilog;
 using Swan;
 

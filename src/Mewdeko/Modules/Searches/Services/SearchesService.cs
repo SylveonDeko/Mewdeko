@@ -12,8 +12,9 @@ using Discord.WebSocket;
 using Html2Markdown;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -433,7 +434,7 @@ public class SearchesService : INService, IUnloadableService
 
         bool added;
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+        var gc = uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
             added = true;
@@ -443,7 +444,7 @@ public class SearchesService : INService, IUnloadableService
             gc.NsfwBlacklistedTags.Remove(tagObj);
             var toRemove = gc.NsfwBlacklistedTags.FirstOrDefault(x => x.Equals(tagObj));
             if (toRemove != null)
-                uow.Context.Remove(toRemove);
+                uow.Remove(toRemove);
             added = false;
         }
 

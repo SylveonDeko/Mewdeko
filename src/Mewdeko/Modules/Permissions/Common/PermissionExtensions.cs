@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Permissions.Common;
 

@@ -1,7 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿using Mewdeko.Database.Models;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
-using Mewdeko.Services.Database.Models;
 
 #nullable enable
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;

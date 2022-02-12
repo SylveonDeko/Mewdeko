@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Services.strings;
 
@@ -64,7 +65,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     {
         using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guildId, set => set);
+            var gc = uow.ForGuildId(guildId, set => set);
 
             if (enabled == null)
                 enabled = gc.VerboseErrors = !gc.VerboseErrors; // Old behaviour, now behind a condition

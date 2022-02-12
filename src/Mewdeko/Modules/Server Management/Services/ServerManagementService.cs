@@ -3,7 +3,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
 
 namespace Mewdeko.Modules.Server_Management.Services;
 
@@ -31,7 +31,7 @@ public class ServerManagementService : INService
 
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow.Context.Set<GuildConfig>().AsQueryable()
+        var configs = uow.GuildConfigs.AsQueryable()
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();
 
@@ -54,9 +54,9 @@ public class ServerManagementService : INService
 
     public async Task SetTicketCategoryId(IGuild guild, ICategoryChannel channel)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.TicketCategory = channel.Id;
             await uow.SaveChangesAsync();
         }

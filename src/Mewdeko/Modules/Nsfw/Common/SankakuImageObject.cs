@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Mewdeko.Modules.Nsfw.Common;

@@ -2,7 +2,8 @@
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Starboard.Services;
@@ -57,7 +58,7 @@ public class StarboardService : INService
 
     private async Task AddStarboardPost(ulong messageId, ulong postId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var post = starboardPosts.FirstOrDefault(x => x.MessageId == messageId);
         if (post is null)
         {
@@ -81,7 +82,7 @@ public class StarboardService : INService
     private async Task RemoveStarboardPost(ulong messageId)
     {
         var toRemove = starboardPosts.FirstOrDefault(x => x.MessageId == messageId);
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         uow.Starboard.Remove(toRemove);
         starboardPosts.Remove(toRemove);
         await uow.SaveChangesAsync();
@@ -89,9 +90,9 @@ public class StarboardService : INService
     
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardChannel = channel;
             await uow.SaveChangesAsync();
         }
@@ -101,9 +102,9 @@ public class StarboardService : INService
 
     public async Task SetStarCount(IGuild guild, int num)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.Stars = num;
             await uow.SaveChangesAsync();
         }
@@ -128,9 +129,9 @@ public class StarboardService : INService
     }
     public async Task SetStar(IGuild guild, string emote)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.Star2 = emote;
             await uow.SaveChangesAsync();
         }
@@ -140,9 +141,9 @@ public class StarboardService : INService
     
     public async Task SetRepostThreshold(IGuild guild, int threshold)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.RepostThreshold = threshold;
             await uow.SaveChangesAsync();
         }

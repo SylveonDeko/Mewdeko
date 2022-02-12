@@ -2,8 +2,8 @@
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using Serilog;
 using Swan;
 using System.Collections.Concurrent;
@@ -63,9 +63,9 @@ public class GiveawayService : INService
 
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.GiveawayEmote = emote;
             await uow.SaveChangesAsync();
         }
@@ -78,12 +78,12 @@ public class GiveawayService : INService
         GiveawayEmotes.TryGetValue(id.Value, out var emote);
         return emote;
     }
-    private async Task UpdateGiveaways(List<global::Mewdeko.Services.Database.Models.Giveaways> g)
+    private async Task UpdateGiveaways(List<global::Mewdeko.Database.Models.Giveaways> g)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         foreach (var i in g)
         {
-            var toupdate = new global::Mewdeko.Services.Database.Models.Giveaways
+            var toupdate = new global::Mewdeko.Database.Models.Giveaways
             {
                 When = i.When,
                 BlacklistRoles = i.BlacklistRoles,
@@ -103,10 +103,10 @@ public class GiveawayService : INService
         }
     }
 
-    private Task<List<global::Mewdeko.Services.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
+    private Task<List<global::Mewdeko.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
         using var uow = _db.GetDbContext();
-        return uow.Context.Giveaways
+        return uow.Giveaways
             .FromSqlInterpolated(
                 $"select * from giveaways where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now} and \"Ended\" == 0;")
             .ToListAsync();
@@ -154,7 +154,7 @@ public class GiveawayService : INService
         var msg = await chan.SendMessageAsync(embed: eb.Build());
         await msg.AddReactionAsync(emote);
         var time = DateTime.UtcNow + ts;
-        var rem = new global::Mewdeko.Services.Database.Models.Giveaways
+        var rem = new global::Mewdeko.Database.Models.Giveaways
         {
             ChannelId = chan.Id,
             UserId = host,
@@ -169,7 +169,7 @@ public class GiveawayService : INService
         if (!string.IsNullOrWhiteSpace(reqroles))
             rem.RestrictTo = reqroles;
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
             uow.Giveaways.Add(rem);
             await uow.SaveChangesAsync();
@@ -181,7 +181,7 @@ public class GiveawayService : INService
             await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
     
-    public async Task GiveawayTimerAction(global::Mewdeko.Services.Database.Models.Giveaways r)
+    public async Task GiveawayTimerAction(global::Mewdeko.Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
             return;
@@ -336,7 +336,7 @@ public class GiveawayService : INService
         }
     }
 
-    public async Task GiveawayReroll(global::Mewdeko.Services.Database.Models.Giveaways r)
+    public async Task GiveawayReroll(global::Mewdeko.Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
             return;

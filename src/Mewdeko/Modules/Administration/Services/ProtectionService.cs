@@ -3,9 +3,10 @@ using System.Threading.Channels;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -45,7 +46,7 @@ public class ProtectionService : INService
         var ids = client.GetGuildIds();
         using (var uow = db.GetDbContext())
         {
-            var configs = uow.Context.Set<GuildConfig>()
+            var configs = uow.GuildConfigs
                 .AsQueryable()
                 .Include(x => x.AntiRaidSetting)
                 .Include(x => x.AntiSpamSetting)
@@ -107,7 +108,7 @@ public class ProtectionService : INService
     private Task _bot_JoinedGuild(GuildConfig gc)
     {
         using var uow = _db.GetDbContext();
-        var gcWithData = uow.GuildConfigs.ForId(gc.GuildId,
+        var gcWithData = uow.ForGuildId(gc.GuildId,
             set => set
                 .Include(x => x.AntiRaidSetting)
                 .Include(x => x.AntiAltSetting)
@@ -290,8 +291,8 @@ public class ProtectionService : INService
 
         _antiRaidGuilds.AddOrUpdate(guildId, stats, (_, _) => stats);
 
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
         gc.AntiRaidSetting = stats.AntiRaidSettings;
         await uow.SaveChangesAsync();
@@ -304,7 +305,7 @@ public class ProtectionService : INService
         if (_antiRaidGuilds.TryRemove(guildId, out _))
         {
             using var uow = _db.GetDbContext();
-            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiRaidSetting));
+            var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
             gc.AntiRaidSetting = null;
             uow.SaveChanges();
@@ -321,7 +322,7 @@ public class ProtectionService : INService
         {
             removed.UserStats.ForEach(x => x.Value.Dispose());
             using var uow = _db.GetDbContext();
-            var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting)
+            var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting)
                 .ThenInclude(x => x.IgnoredChannels));
 
             gc.AntiSpamSetting = null;
@@ -360,8 +361,8 @@ public class ProtectionService : INService
             return stats1;
         });
 
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiSpamSetting));
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting));
 
         if (gc.AntiSpamSetting != null)
         {
@@ -382,34 +383,39 @@ public class ProtectionService : INService
 
     public async Task<bool?> AntiSpamIgnoreAsync(ulong guildId, ulong channelId)
     {
-        var obj = new AntiSpamIgnore
+        var obj = new AntiSpamIgnore()
         {
             ChannelId = channelId
         };
         bool added;
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId,
-            set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
-        var spam = gc.AntiSpamSetting;
-        if (spam is null) return null;
-
-        if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
+        await using (var uow = _db.GetDbContext())
         {
-            if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                temp.AntiSpamSettings.IgnoredChannels.Add(obj); // add to local cache
-            added = true;
-        }
-        else
-        {
-            var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
-            uow.Context.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
-            if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
-            added = false;
-        }
+            var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
+            var spam = gc.AntiSpamSetting;
+            if (spam is null)
+            {
+                return null;
+            }
 
-        await uow.SaveChangesAsync();
+            if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
+            {
+                if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
+                    temp.AntiSpamSettings.IgnoredChannels.Add(obj); // add to local cache
+                added = true;
+            }
+            else
+            {
+                var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
+                uow.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
+                if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
+                {
+                    temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
+                }
+                added = false;
+            }
 
+            await uow.SaveChangesAsync();
+        }
         return added;
     }
 
@@ -438,8 +444,8 @@ public class ProtectionService : INService
     public async Task StartAntiAltAsync(ulong guildId, int minAgeMinutes, PunishmentAction action,
         int actionDurationMinutes = 0, ulong? roleId = null)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiAltSetting));
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiAltSetting));
         gc.AntiAltSetting = new AntiAltSetting
         {
             Action = action,
@@ -457,8 +463,8 @@ public class ProtectionService : INService
         if (!_antiAltGuilds.TryRemove(guildId, out _))
             return false;
 
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.AntiAltSetting));
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiAltSetting));
         gc.AntiAltSetting = null;
         await uow.SaveChangesAsync();
         return true;

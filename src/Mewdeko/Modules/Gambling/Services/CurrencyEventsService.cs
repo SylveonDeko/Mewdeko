@@ -2,8 +2,8 @@
 using System.Net.Http;
 using Discord;
 using Discord.WebSocket;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common.Events;
-using Mewdeko.Services.Database.Models;
 using Newtonsoft.Json;
 using Serilog;
 

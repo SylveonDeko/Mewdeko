@@ -5,11 +5,11 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.Database.Models;
-using System.Dynamic;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
@@ -165,9 +165,9 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.SuggestEmotes = parsedEmotes;
             await uow.SaveChangesAsync();
         }
@@ -177,9 +177,9 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.sugchan = channel;
             await uow.SaveChangesAsync();
         }
@@ -188,9 +188,9 @@ public class SuggestionsService : INService
     }
     public async Task SetMinLength(IGuild guild, int minLength)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.MinSuggestLength = minLength;
             await uow.SaveChangesAsync();
         }
@@ -199,9 +199,9 @@ public class SuggestionsService : INService
     }
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.MaxSuggestLength = maxLength;
             await uow.SaveChangesAsync();
         }
@@ -212,9 +212,9 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.SuggestMessage = message;
             await uow.SaveChangesAsync();
         }
@@ -224,9 +224,9 @@ public class SuggestionsService : INService
 
     public async Task SetAcceptMessage(IGuild guild, string message)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AcceptMessage = message;
             await uow.SaveChangesAsync();
         }
@@ -236,9 +236,9 @@ public class SuggestionsService : INService
 
     public async Task SetDenyMessage(IGuild guild, string message)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.DenyMessage = message;
             await uow.SaveChangesAsync();
         }
@@ -248,9 +248,9 @@ public class SuggestionsService : INService
 
     public async Task SetImplementMessage(IGuild guild, string message)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ImplementMessage = message;
             await uow.SaveChangesAsync();
         }
@@ -260,9 +260,9 @@ public class SuggestionsService : INService
 
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ConsiderMessage = message;
             await uow.SaveChangesAsync();
         }
@@ -272,9 +272,9 @@ public class SuggestionsService : INService
 
     public async Task Sugnum(IGuild guild, ulong num)
     {
-        using (var uow = Db.GetDbContext())
+        await using (var uow = Db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.sugnum = num;
             await uow.SaveChangesAsync();
         }
@@ -1185,7 +1185,7 @@ public class SuggestionsService : INService
             UserID = userId,
             Suggestion = suggestion
         };
-        using var uow = Db.GetDbContext();
+        await using var uow = Db.GetDbContext();
         uow.Suggestions.Add(suggest);
 
         await uow.SaveChangesAsync();

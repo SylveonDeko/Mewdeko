@@ -10,10 +10,10 @@ using KSoftNet;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services.Database.Models;
-using Mewdeko.Services.Database.Repositories;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -78,7 +78,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     public string GetCurrency(ulong id)
     {
         using var uow = _db.GetDbContext();
-        return N(uow.DiscordUsers.GetUserCurrency(id));
+        return N(uow.DiscordUser.GetUserCurrency(id));
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
@@ -230,9 +230,9 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             return;
 
         var trs = new List<CurrencyTransaction>();
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            trs = uow.Context.CurrencyTransactions.GetPageFor(userId, page);
+            trs = uow.CurrencyTransactions.GetPageFor(userId, page);
         }
 
         var embed = new EmbedBuilder()
@@ -497,9 +497,9 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
         if (opts.Clean)
         {
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                cleanRichest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 10_000);
+                cleanRichest = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id, 10_000);
             }
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -511,8 +511,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         }
         else
         {
-            using var uow = _db.GetDbContext();
-            cleanRichest = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page).ToList();
+            await using var uow = _db.GetDbContext();
+            cleanRichest = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id, 9, page).ToList();
         }
 
         var paginator = new LazyPaginatorBuilder()
@@ -535,7 +535,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             if (!opts.Clean)
             {
                 using var uow = _db.GetDbContext();
-                toSend = uow.DiscordUsers.GetTopRichest(_client.CurrentUser.Id, 9, page);
+                toSend = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id, 9, page);
             }
             else
             {

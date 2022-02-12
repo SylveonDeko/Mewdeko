@@ -3,7 +3,8 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Permissions.Services;
@@ -55,7 +56,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     public void Reload(bool publish = true)
     {
         using var uow = _db.GetDbContext();
-        var toPublish = uow.Context.Blacklist.AsNoTracking().ToArray();
+        var toPublish = uow.Blacklist.AsNoTracking().ToArray();
         blacklist = toPublish;
         if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
@@ -64,7 +65,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     {
         using var uow = _db.GetDbContext();
         var item = new BlacklistEntry {ItemId = id, Type = type};
-        uow.Context.Blacklist.Add(item);
+        uow.Blacklist.Add(item);
         uow.SaveChanges();
 
         Reload();
@@ -73,11 +74,11 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     public void UnBlacklist(BlacklistType type, ulong id)
     {
         using var uow = _db.GetDbContext();
-        var toRemove = uow.Context.Blacklist
+        var toRemove = uow.Blacklist
             .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
 
         if (toRemove is not null)
-            uow.Context.Blacklist.Remove(toRemove);
+           uow.Blacklist.Remove(toRemove);
 
         uow.SaveChanges();
 
@@ -88,7 +89,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     {
         using (var uow = _db.GetDbContext())
         {
-            var bc = uow.Context.Blacklist;
+            var bc = uow.Blacklist;
             //blacklist the users
             bc.AddRange(toBlacklist.Select(x =>
                 new BlacklistEntry
@@ -98,7 +99,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                 }));
 
             //clear their currencies
-            uow.DiscordUsers.RemoveFromMany(toBlacklist);
+            uow.DiscordUser.RemoveFromMany(toBlacklist);
             uow.SaveChanges();
         }
 

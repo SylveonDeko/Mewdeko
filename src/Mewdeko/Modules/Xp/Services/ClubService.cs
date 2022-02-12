@@ -1,8 +1,10 @@
 ﻿using System.Net.Http;
 using Discord;
 using Mewdeko._Extensions;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Xp.Common;
-using Mewdeko.Services.Database.Models;
+using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Xp.Services;
 
@@ -23,8 +25,8 @@ public class ClubService : INService
 
         club = null;
         using var uow = _db.GetDbContext();
-        var du = uow.DiscordUsers.GetOrCreate(user);
-        uow.Context.SaveChanges();
+        var du = uow.GetOrCreateUser(user);
+        uow.SaveChanges();
         var xp = new LevelStats(du.TotalXp);
 
         if (xp.Level >= 5 && du.Club == null)
@@ -37,15 +39,15 @@ public class ClubService : INService
                 Owner = du
             };
             uow.Clubs.Add(du.Club);
-            uow.Context.SaveChanges();
+            uow.SaveChanges();
         }
         else
         {
             return false;
         }
 
-        uow.Context.Set<ClubApplicants>()
-            .RemoveRange(uow.Context.Set<ClubApplicants>()
+        uow.Set<ClubApplicants>()
+            .RemoveRange(uow.Set<ClubApplicants>()
                 .AsQueryable()
                 .Where(x => x.UserId == du.Id));
         club = du.Club;
@@ -59,7 +61,7 @@ public class ClubService : INService
         ClubInfo club;
         using var uow = _db.GetDbContext();
         club = uow.Clubs.GetByOwner(from.Id);
-        var newOwnerUser = uow.DiscordUsers.GetOrCreate(newOwner);
+        var newOwnerUser = uow.GetOrCreateUser(newOwner);
 
         if (club == null ||
             club.Owner.UserId != from.Id ||
@@ -79,7 +81,7 @@ public class ClubService : INService
         bool newState;
         using var uow = _db.GetDbContext();
         var club = uow.Clubs.GetByOwner(owner.Id);
-        var adminUser = uow.DiscordUsers.GetOrCreate(toAdmin);
+        var adminUser = uow.GetOrCreateUser(toAdmin);
 
         if (club == null || club.Owner.UserId != owner.Id ||
             !club.Users.Contains(adminUser))
@@ -111,8 +113,8 @@ public class ClubService : INService
                     return false;
             }
 
-        using var uow = _db.GetDbContext();
-        var club = uow.Clubs.GetByOwner(ownerUserId, set => set);
+        await using var uow = _db.GetDbContext();
+        var club = uow.Clubs.GetByOwner(ownerUserId);
 
         if (club == null)
             return false;
@@ -146,8 +148,8 @@ public class ClubService : INService
     public bool ApplyToClub(IUser user, ClubInfo club)
     {
         using var uow = _db.GetDbContext();
-        var du = uow.DiscordUsers.GetOrCreate(user);
-        uow.Context.SaveChanges();
+        var du = uow.GetOrCreateUser(user);
+        uow.SaveChanges();
 
         if (du.Club != null
             || new LevelStats(du.TotalXp).Level < club.MinimumLevelReq
@@ -163,7 +165,7 @@ public class ClubService : INService
             UserId = du.Id
         };
 
-        uow.Context.Set<ClubApplicants>().Add(app);
+        uow.Set<ClubApplicants>().Add(app);
 
         uow.SaveChanges();
 
@@ -188,8 +190,8 @@ public class ClubService : INService
         club.Applicants.Remove(applicant);
 
         //remove that user's all other applications
-        uow.Context.Set<ClubApplicants>()
-            .RemoveRange(uow.Context.Set<ClubApplicants>()
+        uow.Set<ClubApplicants>()
+            .RemoveRange(uow.Set<ClubApplicants>()
                 .AsQueryable()
                 .Where(x => x.UserId == applicant.User.Id));
 
@@ -208,7 +210,7 @@ public class ClubService : INService
     public bool LeaveClub(IUser user)
     {
         using var uow = _db.GetDbContext();
-        var du = uow.DiscordUsers.GetOrCreate(user);
+        var du = uow.GetOrCreateUser(user);
         if (du.Club == null || du.Club.OwnerId == du.Id)
             return false;
 
@@ -336,7 +338,7 @@ public class ClubService : INService
         return true;
     }
 
-    public ClubInfo[] GetClubLeaderboardPage(int page)
+    public List<ClubInfo> GetClubLeaderboardPage(int page)
     {
         if (page < 0)
             throw new ArgumentOutOfRangeException(nameof(page));
