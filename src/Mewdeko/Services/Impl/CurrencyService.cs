@@ -2,9 +2,10 @@
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services.Database;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Services.Impl;
 
@@ -55,7 +56,7 @@ public class CurrencyService : ICurrencyService
             throw new ArgumentException("Cannot perform bulk operation. Arrays are not of equal length.");
 
         var userIdHashSet = new HashSet<ulong>(idArray.Length);
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         for (var i = 0; i < idArray.Length; i++)
             // i have to prevent same user changing more than once as it will cause db error
             if (userIdHashSet.Add(idArray[i]))
@@ -79,19 +80,19 @@ public class CurrencyService : ICurrencyService
         };
 
     private bool InternalChange(ulong userId, string userName, string discrim, string avatar,
-        string reason, long amount, bool gamble, IUnitOfWork uow)
+        string reason, long amount, bool gamble, MewdekoContext uow)
     {
-        var result = uow.DiscordUsers.TryUpdateCurrencyState(userId, userName, discrim, avatar, amount);
+        var result = uow.TryUpdateCurrencyState(userId, userName, discrim, avatar, amount);
         if (result)
         {
             var t = GetCurrencyTransaction(userId, reason, amount);
-            uow.Context.CurrencyTransactions.Add(t);
+            uow.CurrencyTransactions.Add(t);
 
             if (gamble)
             {
                 var t2 = GetCurrencyTransaction(_bot.Id, reason, -amount);
-                uow.Context.CurrencyTransactions.Add(t2);
-                uow.DiscordUsers.TryUpdateCurrencyState(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId,
+                uow.CurrencyTransactions.Add(t2);
+                uow.TryUpdateCurrencyState(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId,
                     -amount, true);
             }
         }
@@ -106,7 +107,7 @@ public class CurrencyService : ICurrencyService
             throw new ArgumentException("You can't add negative amounts. Use RemoveAsync method for that.",
                 nameof(amount));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         InternalChange(userId, userName, discrim, avatar, reason, amount, gamble, uow);
         await uow.SaveChangesAsync();
     }
@@ -119,7 +120,7 @@ public class CurrencyService : ICurrencyService
                 nameof(amount));
 
         bool result;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         result = InternalChange(userId, userName, userDiscrim, avatar, reason, -amount, gamble, uow);
         await uow.SaveChangesAsync();
 

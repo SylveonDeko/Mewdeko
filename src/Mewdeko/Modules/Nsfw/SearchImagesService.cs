@@ -1,22 +1,16 @@
 using Newtonsoft.Json.Linq;
 using Serilog;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Threading;
-using LinqToDB;
 using Mewdeko.Common;
 using Mewdeko._Extensions;
-using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Services;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Booru = Mewdeko.Modules.Nsfw.Common.Booru;
-using SearchImageCacher = Mewdeko.Modules.Nsfw.Common.SearchImageCacher;
+using SearchImageCacher = Mewdeko.Modules.Nsfw.SearchImageCacher;
 
 namespace Mewdeko.Modules.Nsfw;
 
@@ -238,7 +232,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
         bool added;
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+        var gc = uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
             added = true;
@@ -248,7 +242,7 @@ public class SearchImagesService : ISearchImagesService, INService
             gc.NsfwBlacklistedTags.Remove(tagObj);
             var toRemove = gc.NsfwBlacklistedTags.FirstOrDefault(x => x.Equals(tagObj));
             if (toRemove != null)
-                uow.Context.Remove(toRemove);
+                uow.Remove(toRemove);
             added = false;
         }
 

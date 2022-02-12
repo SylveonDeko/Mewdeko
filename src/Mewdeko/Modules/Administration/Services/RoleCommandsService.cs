@@ -3,7 +3,8 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -166,7 +167,7 @@ public class RoleCommandsService : INService
     public bool Add(ulong id, ReactionRoleMessage rrm)
     {
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(id, set => set
+        var gc = uow.ForGuildId(id, set => set
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
         gc.ReactionRoleMessages.Add(rrm);
@@ -181,10 +182,10 @@ public class RoleCommandsService : INService
     public void Remove(ulong id, int index)
     {
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(id,
+        var gc = uow.ForGuildId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));
-        uow.Context.Set<ReactionRole>()
+        uow.Set<ReactionRole>()
             .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
         gc.ReactionRoleMessages.RemoveAt(index);
         _models.AddOrUpdate(id,

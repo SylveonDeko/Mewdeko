@@ -8,9 +8,9 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -68,8 +68,8 @@ public class AdministrationService : INService
 
     public async Task StaffRoleSet(IGuild guild, ulong role)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
         await uow.SaveChangesAsync();
 
@@ -78,8 +78,8 @@ public class AdministrationService : INService
 
     public async Task MemberRoleSet(IGuild guild, ulong role)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await uow.SaveChangesAsync();
 
@@ -103,7 +103,7 @@ public class AdministrationService : INService
     public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
     {
         using var uow = _db.GetDbContext();
-        var conf = uow.GuildConfigs.ForId(guildId,
+        var conf = uow.ForGuildId(guildId,
             set => set.Include(x => x.DelMsgOnCmdChannels));
 
         return (conf.DeleteMessageOnCommand, conf.DelMsgOnCmdChannels);
@@ -155,7 +155,7 @@ public class AdministrationService : INService
     {
         bool enabled;
         using var uow = _db.GetDbContext();
-        var conf = uow.GuildConfigs.ForId(guildId, set => set);
+        var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
 
         uow.SaveChanges();
@@ -165,9 +165,9 @@ public class AdministrationService : INService
 
     public async Task SetDelMsgOnCmdState(ulong guildId, ulong chId, Administration.State newState)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var conf = uow.GuildConfigs.ForId(guildId,
+            var conf = uow.ForGuildId(guildId,
                 set => set.Include(x => x.DelMsgOnCmdChannels));
 
             var old = conf.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == chId);
@@ -176,14 +176,14 @@ public class AdministrationService : INService
                 if (old is not null)
                 {
                     conf.DelMsgOnCmdChannels.Remove(old);
-                    uow.Context.Remove(old);
+                    uow.Remove(old);
                 }
             }
             else
             {
                 if (old is null)
                 {
-                    old = new DelMsgOnCmdChannel {ChannelId = chId};
+                    old = new DelMsgOnCmdChannel { ChannelId = chId };
                     conf.DelMsgOnCmdChannels.Add(old);
                 }
 

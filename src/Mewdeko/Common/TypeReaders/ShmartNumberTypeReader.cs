@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Discord.Commands;
 using Discord.WebSocket;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NCalc;
@@ -65,7 +66,7 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
         long cur;
         Debug.Assert(db != null, nameof(db) + " != null");
         using var uow = db.GetDbContext();
-        cur = uow.DiscordUsers.GetUserCurrency(ctx.User.Id);
+        cur = uow.DiscordUser.GetUserCurrency(ctx.User.Id);
         uow.SaveChanges();
 
         return cur;

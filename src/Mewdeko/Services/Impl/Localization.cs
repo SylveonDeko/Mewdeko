@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using Discord;
 using Mewdeko.Common;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Services.Settings;
 using Newtonsoft.Json;
 
@@ -60,7 +61,7 @@ public class Localization : ILocalization
 
         using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guildId, set => set);
+            var gc = uow.ForGuildId(guildId, set => set);
             gc.Locale = ci.Name;
             uow.SaveChanges();
         }
@@ -75,7 +76,7 @@ public class Localization : ILocalization
         if (GuildCultureInfos.TryRemove(guildId, out var _))
         {
             using var uow = _db.GetDbContext();
-            var gc = uow.GuildConfigs.ForId(guildId, set => set);
+            var gc = uow.ForGuildId(guildId, set => set);
             gc.Locale = null;
             uow.SaveChanges();
         }

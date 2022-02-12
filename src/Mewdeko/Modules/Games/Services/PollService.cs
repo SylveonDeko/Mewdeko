@@ -5,8 +5,9 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Games.Common;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Serilog;
 
@@ -28,7 +29,7 @@ public class PollService : IEarlyBehavior, INService
         _strs = strs;
 
         using var uow = db.GetDbContext();
-        ActivePolls = uow.Polls.GetAllPolls()
+        ActivePolls = uow.Poll.GetAllPolls()
             .ToDictionary(x => x.GuildId, x =>
             {
                 var pr = new PollRunner(db, x);
@@ -90,7 +91,7 @@ public class PollService : IEarlyBehavior, INService
         {
             using (var uow = _db.GetDbContext())
             {
-                uow.Polls.Add(p);
+                uow.Poll.Add(p);
                 uow.SaveChanges();
             }
 
@@ -108,7 +109,7 @@ public class PollService : IEarlyBehavior, INService
             pr.OnVoted -= Pr_OnVoted;
             using (var uow = _db.GetDbContext())
             {
-                uow.Polls.RemovePoll(pr.Poll.Id);
+                uow.RemovePoll(pr.Poll.Id);
                 uow.SaveChanges();
             }
 

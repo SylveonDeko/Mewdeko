@@ -5,6 +5,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
 using System.Collections.Generic;
 
@@ -52,7 +53,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
         if (gway is null)
@@ -142,7 +143,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
@@ -174,7 +175,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
     [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
                        .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
         if (gway is null)

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Discord;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Games.Common;
 
@@ -57,8 +58,8 @@ public class PollRunner
             _locker.Release();
         }
 
-        using var uow = _db.GetDbContext();
-        var trackedPoll = uow.Polls.GetById(Poll.Id);
+        await using var uow = _db.GetDbContext();
+        var trackedPoll = uow.Poll.GetById(Poll.Id);
         trackedPoll.Votes.Add(voteObj);
         await uow.SaveChangesAsync();
 

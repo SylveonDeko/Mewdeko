@@ -5,6 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Serilog;
 
@@ -44,9 +45,9 @@ public class ChatterBotService : INService
 
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.CleverbotChannel = id;
             await uow.SaveChangesAsync();
         }

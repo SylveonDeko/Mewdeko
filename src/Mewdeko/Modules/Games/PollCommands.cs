@@ -5,8 +5,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Games.Services;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Games;
 

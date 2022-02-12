@@ -3,6 +3,7 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database.Extensions;
 using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -61,7 +62,7 @@ public class GameVoiceChannelService : INService
     {
         ulong? id;
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set);
+        var gc = uow.ForGuildId(guildId, set => set);
 
         if (gc.GameVoiceChannel == vchId)
         {

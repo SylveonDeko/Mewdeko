@@ -6,6 +6,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -46,7 +47,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
                       .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
         if (gway is null)
@@ -292,7 +293,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
@@ -324,7 +325,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var gway = uow.Giveaways
                        .GiveawaysForGuild(ctx.Guild.Id).ToList().FirstOrDefault(x => x.MessageId == messageid);
         if (gway is null)

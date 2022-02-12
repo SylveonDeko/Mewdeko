@@ -10,7 +10,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -151,10 +151,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     public async Task OnReadyAsync()
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
 
-        autoCommands = uow.Context
-            .AutoCommands
+        autoCommands = 
+            uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
             .AsEnumerable()
@@ -164,7 +164,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                     .ToConcurrent())
             .ToConcurrent();
 
-        var startupCommands = uow.Context.AutoCommands.AsNoTracking().Where(x => x.Interval == 0);
+        var startupCommands = uow.AutoCommands.AsNoTracking().Where(x => x.Interval == 0);
         foreach (var cmd in startupCommands)
             try
             {
@@ -187,9 +187,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (!_bss.Data.RotateStatuses) return;
 
             IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                rotatingStatuses = uow.Context.RotatingStatus
+                rotatingStatuses = uow.RotatingStatus
                     .AsNoTracking()
                     .OrderBy(x => x.Id)
                     .ToList();
@@ -216,8 +216,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        using var uow = _db.GetDbContext();
-        var toRemove = await uow.Context.RotatingStatus
+        await using var uow = _db.GetDbContext();
+        var toRemove = await uow.RotatingStatus
             .AsQueryable()
             .AsNoTracking()
             .Skip(index)
@@ -226,16 +226,16 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         if (toRemove is null)
             return null;
 
-        uow.Context.Remove(toRemove);
+        uow.Remove(toRemove);
         await uow.SaveChangesAsync();
         return toRemove.Status;
     }
 
     public async Task AddPlaying(ActivityType t, string status)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var toAdd = new RotatingPlayingStatus {Status = status, Type = t};
-        uow.Context.Add(toAdd);
+        uow.Add(toAdd);
         await uow.SaveChangesAsync();
     }
 
@@ -249,7 +249,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IReadOnlyList<RotatingPlayingStatus> GetRotatingStatuses()
     {
         using var uow = _db.GetDbContext();
-        return uow.Context.RotatingStatus.AsNoTracking().ToList();
+        return uow.RotatingStatus.AsNoTracking().ToList();
     }
 
     private Timer TimerFromAutoCommand(AutoCommand x) =>
@@ -284,7 +284,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         using (var uow = _db.GetDbContext())
         {
-            uow.Context.AutoCommands.Add(cmd);
+           uow .AutoCommands.Add(cmd);
             uow.SaveChanges();
         }
 
@@ -302,8 +302,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IEnumerable<AutoCommand> GetStartupCommands()
     {
         using var uow = _db.GetDbContext();
-        return uow.Context
-            .AutoCommands
+        return 
+            uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0)
             .OrderBy(x => x.Id)
@@ -313,8 +313,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public IEnumerable<AutoCommand> GetAutoCommands()
     {
         using var uow = _db.GetDbContext();
-        return uow.Context
-            .AutoCommands
+        return 
+            uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
             .OrderBy(x => x.Id)
@@ -362,7 +362,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool RemoveStartupCommand(int index, out AutoCommand cmd)
     {
         using var uow = _db.GetDbContext();
-        cmd = uow.Context.AutoCommands
+        cmd = uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0)
             .Skip(index)
@@ -370,7 +370,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         if (cmd != null)
         {
-            uow.Context.Remove(cmd);
+            uow.Remove(cmd);
             uow.SaveChanges();
             return true;
         }
@@ -381,23 +381,20 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public bool RemoveAutoCommand(int index, out AutoCommand cmd)
     {
         using var uow = _db.GetDbContext();
-        cmd = uow.Context.AutoCommands
+        cmd = uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval >= 5)
             .Skip(index)
             .FirstOrDefault();
 
-        if (cmd != null)
-        {
-            uow.Context.Remove(cmd);
-            if (autoCommands.TryGetValue(cmd.GuildId, out var autos))
-                if (autos.TryRemove(cmd.Id, out var timer))
-                    timer.Change(Timeout.Infinite, Timeout.Infinite);
-            uow.SaveChanges();
-            return true;
-        }
+        if (cmd == null) return false;
+        uow.Remove(cmd);
+        if (autoCommands.TryGetValue(cmd.GuildId, out var autos))
+            if (autos.TryRemove(cmd.Id, out var timer))
+                timer.Change(Timeout.Infinite, Timeout.Infinite);
+        uow.SaveChanges();
+        return true;
 
-        return false;
     }
 
     public async Task<bool> SetAvatar(string img)
@@ -426,12 +423,12 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public void ClearStartupCommands()
     {
         using var uow = _db.GetDbContext();
-        var toRemove = uow.Context
-            .AutoCommands
+        var toRemove = 
+            uow.AutoCommands
             .AsNoTracking()
             .Where(x => x.Interval == 0);
 
-        uow.Context.AutoCommands.RemoveRange(toRemove);
+        uow.AutoCommands.RemoveRange(toRemove);
         uow.SaveChanges();
     }
 

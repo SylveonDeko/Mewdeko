@@ -4,8 +4,8 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
-using Mewdeko.Services.Database.Models;
 using static Mewdeko.Modules.Administration.Services.LogCommandService;
 
 namespace Mewdeko.Modules.Administration;

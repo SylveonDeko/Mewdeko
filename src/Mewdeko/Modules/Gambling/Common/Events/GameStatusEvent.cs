@@ -5,7 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Common.Events;

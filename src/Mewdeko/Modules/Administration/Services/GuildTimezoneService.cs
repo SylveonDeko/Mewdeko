@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -64,7 +65,7 @@ public class GuildTimezoneService : INService
     public void SetTimeZone(ulong guildId, TimeZoneInfo tz)
     {
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set);
+        var gc = uow.ForGuildId(guildId, set => set);
 
         gc.TimeZoneId = tz?.Id;
         uow.SaveChanges();

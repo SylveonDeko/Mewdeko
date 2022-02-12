@@ -4,9 +4,10 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -80,7 +81,7 @@ public partial class Utility
                 .WithTitle(GetText("reminder_list"));
 
             List<Reminder> rems;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
                 rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
                     .ToList();
@@ -118,7 +119,7 @@ public partial class Utility
             new EmbedBuilder();
 
             Reminder rem = null;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
                 var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
                     .ToList();
@@ -160,7 +161,7 @@ public partial class Utility
                 ServerId = ctx.Guild?.Id ?? 0
             };
 
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
                 uow.Reminders.Add(rem);
                 await uow.SaveChangesAsync();

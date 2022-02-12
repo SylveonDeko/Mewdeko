@@ -6,7 +6,8 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Afk.Services;
 
@@ -55,7 +56,7 @@ public class AfkService : INService
             foreach (var i in _bot.AllGuildConfigs.Select(x => x.GuildId))
             {
                 var addto = CachedAfk.GetOrAdd(i, new List<AFK>());
-                addto.AddRange(uow.AFK.ForGuild(i));
+                addto.AddRange(uow.Afk.ForGuild(i));
             }
         }
     }
@@ -249,9 +250,9 @@ public class AfkService : INService
 
     public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AfkMessage = afkMessage;
             await uow.SaveChangesAsync();
         }
@@ -285,9 +286,9 @@ public class AfkService : INService
 
     public async Task AfkTypeSet(IGuild guild, int num)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AfkType = num;
             await uow.SaveChangesAsync();
         }
@@ -297,9 +298,9 @@ public class AfkService : INService
 
     public async Task AfkDelSet(IGuild guild, int num)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AfkDel = num;
             await uow.SaveChangesAsync();
         }
@@ -309,9 +310,9 @@ public class AfkService : INService
 
     public async Task AfkLengthSet(IGuild guild, int num)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AfkLength = num;
             await uow.SaveChangesAsync();
         }
@@ -322,9 +323,9 @@ public class AfkService : INService
 
     public async Task AfkTimeoutSet(IGuild guild, int num)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AfkTimeout = num;
             await uow.SaveChangesAsync();
         }
@@ -334,9 +335,9 @@ public class AfkService : INService
 
     public async Task AfkDisabledSet(IGuild guild, string num)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AfkDisabledChannels = num;
             await uow.SaveChangesAsync();
         }
@@ -387,8 +388,8 @@ public class AfkService : INService
         int timed)
     {
         var afk = new AFK {GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed};
-        using var uow = _db.GetDbContext();
-        uow.AFK.Update(afk);
+        await using var uow = _db.GetDbContext();
+        uow.Afk.Update(afk);
         await uow.SaveChangesAsync();
         var toaddto = CachedAfk.GetOrAdd(guild.Id, new List<AFK>());
         toaddto.Add(afk);

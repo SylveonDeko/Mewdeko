@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -26,7 +27,7 @@ public class VcRoleService : INService
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow.Context.Set<GuildConfig>()
+            var configs = uow.GuildConfigs
                 .AsQueryable()
                 .Include(x => x.VcRoleInfos)
                 .Where(x => guildIds.Contains(x.GuildId))
@@ -89,7 +90,7 @@ public class VcRoleService : INService
         // includeall no longer loads vcrole
         // need to load new guildconfig with vc role included 
         using var uow = _db.GetDbContext();
-        var configWithVcRole = uow.GuildConfigs.ForId(
+        var configWithVcRole = uow.ForGuildId(
             arg.GuildId,
             set => set.Include(x => x.VcRoleInfos)
         );
@@ -129,9 +130,9 @@ public class VcRoleService : INService
 
         if (missingRoles.Any())
         {
-            using var uow = _db.GetDbContext();
+            await using var uow = _db.GetDbContext();
             Log.Warning($"Removing {missingRoles.Count} missing roles from {nameof(VcRoleService)}");
-            uow.Context.RemoveRange(missingRoles);
+            uow.RemoveRange(missingRoles);
             await uow.SaveChangesAsync();
         }
     }
@@ -145,9 +146,9 @@ public class VcRoleService : INService
 
         guildVcRoles.AddOrUpdate(vcId, role, (_, _) => role);
         using var uow = _db.GetDbContext();
-        var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
+        var conf = uow.ForGuildId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toDelete = conf.VcRoleInfos.FirstOrDefault(x => x.VoiceChannelId == vcId); // remove old one
-        if (toDelete != null) uow.Context.Remove(toDelete);
+        if (toDelete != null) uow.Remove(toDelete);
         conf.VcRoleInfos.Add(new VcRoleInfo
         {
             VoiceChannelId = vcId,
@@ -165,9 +166,9 @@ public class VcRoleService : INService
             return false;
 
         using var uow = _db.GetDbContext();
-        var conf = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.VcRoleInfos));
+        var conf = uow.ForGuildId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
-        uow.Context.RemoveRange(toRemove);
+        uow.RemoveRange(toRemove);
         uow.SaveChanges();
 
         return true;

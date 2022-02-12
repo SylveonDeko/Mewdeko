@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility.Services;
@@ -17,7 +18,7 @@ public class CommandMapService : IInputTransformer, INService
     {
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow.Context.Set<GuildConfig>()
+        var configs = uow.GuildConfigs
             .Include(gc => gc.CommandAliases)
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();
@@ -69,7 +70,7 @@ public class CommandMapService : IInputTransformer, INService
 
         int count;
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set.Include(x => x.CommandAliases));
+        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
         count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
         uow.SaveChanges();

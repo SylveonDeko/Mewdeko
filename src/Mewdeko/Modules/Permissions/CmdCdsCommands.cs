@@ -6,8 +6,9 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Permissions;
@@ -43,14 +44,14 @@ public partial class Permissions
             }
 
             var name = command.Name.ToLowerInvariant();
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
+                var config = uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
                 var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);
                 if (toDelete != null)
-                    uow.Context.Set<CommandCooldown>().Remove(toDelete);
+                    uow.CommandCooldown.Remove(toDelete);
                 localSet.RemoveWhere(cc => cc.CommandName == name);
                 if (secs != 0)
                 {

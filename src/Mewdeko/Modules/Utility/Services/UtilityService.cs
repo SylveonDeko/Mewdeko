@@ -3,7 +3,8 @@ using System.Text.RegularExpressions;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using System.Collections.Generic;
 using VirusTotalNet;
 using VirusTotalNet.Results;
@@ -77,9 +78,9 @@ public class UtilityService : INService
 
     public async Task SetReactChan(IGuild guild, ulong yesnt)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ReactChannel = yesnt;
             await uow.SaveChangesAsync();
         }
@@ -90,7 +91,7 @@ public class UtilityService : INService
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        using (_db.GetDbContext())
+        await using (_db.GetDbContext())
         {
             yesno = yesnt switch
             {
@@ -100,9 +101,9 @@ public class UtilityService : INService
             };
         }
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
             await uow.SaveChangesAsync();
         }
@@ -119,9 +120,9 @@ public class UtilityService : INService
     public async Task SnipeSet(IGuild guild, string endis)
     {
         var yesno = (endis == "enable");
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.snipeset = yesno;
             await uow.SaveChangesAsync();
         }
@@ -130,9 +131,9 @@ public class UtilityService : INService
     }
     public async Task SnipeSetBool(IGuild guild, bool enabled)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.snipeset = enabled;
             await uow.SaveChangesAsync();
         }
@@ -165,7 +166,7 @@ public class UtilityService : INService
                 UserId = x.Value.Author.Id,
                 Edited = 0
             });
-            using var uow = _db.GetDbContext();
+            await using var uow = _db.GetDbContext();
             uow.SnipeStore.AddRange(msgs.ToArray());
             await uow.SaveChangesAsync();
             var snipes = _snipes.GetOrAdd(chan.Guild.Id, new List<SnipeStore>());
@@ -191,7 +192,7 @@ public class UtilityService : INService
                     UserId = msg.Author.Id,
                     Edited = 0
                 };
-                using var uow = _db.GetDbContext();
+                await using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
                 await uow.SaveChangesAsync();
                 var snipes = _snipes.GetOrAdd(((SocketTextChannel)ch.Value).Guild.Id, new List<SnipeStore>());
@@ -221,7 +222,7 @@ public class UtilityService : INService
                     UserId = msg.Author.Id,
                     Edited = 1
                 };
-                using var uow = _db.GetDbContext();
+                await using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
                 _ = await uow.SaveChangesAsync();
                 var snipes = _snipes.GetOrAdd(((SocketTextChannel) ch).Guild.Id, new List<SnipeStore>());

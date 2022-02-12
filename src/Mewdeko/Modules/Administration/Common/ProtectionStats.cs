@@ -2,7 +2,7 @@
 using System.Threading;
 using Discord;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Administration.Common;
 

@@ -8,8 +8,9 @@ using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility;
@@ -56,12 +57,12 @@ public partial class Utility
                     return;
                 }
 
-                using (var uow = _db.GetDbContext())
+                await using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                     var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
                     if (tr != null)
-                        uow.Context.Set<CommandAlias>().Remove(tr);
+                        uow.Set<CommandAlias>().Remove(tr);
                     await uow.SaveChangesAsync();
                 }
 
@@ -73,7 +74,7 @@ public partial class Utility
             {
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                     config.CommandAliases.Add(new CommandAlias
                     {
                         Mapping = mapping,
@@ -90,7 +91,7 @@ public partial class Utility
             {
                 using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                     var toAdd = new CommandAlias
                     {
                         Mapping = mapping,
@@ -98,7 +99,7 @@ public partial class Utility
                     };
                     var toRemove = config.CommandAliases.Where(x => x.Trigger == trigger);
                     if (toRemove.Any())
-                        uow.Context.RemoveRange(toRemove.ToArray());
+                        uow.RemoveRange(toRemove);
                     config.CommandAliases.Add(toAdd);
                     uow.SaveChanges();
                 }

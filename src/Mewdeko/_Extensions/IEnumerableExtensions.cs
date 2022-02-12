@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko._Extensions;
 

@@ -4,14 +4,9 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
 using Mewdeko._Extensions;
-using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
-using CommandLine;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using KSoftNet;
@@ -20,14 +15,13 @@ using NekosSharp;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Refit;
-using Serilog;
 using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Nsfw;
 
 public class NSFW : MewdekoModuleBase<ISearchImagesService>
 {
-    private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new ConcurrentHashSet<ulong>();
+    private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
     private readonly IHttpClientFactory _httpFactory;
     private readonly MewdekoRandom _rng;
     private readonly InteractiveService _interactivity;
