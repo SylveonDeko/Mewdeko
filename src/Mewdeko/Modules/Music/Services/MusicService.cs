@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Extensions;
-using Mewdeko.Services.Database.Models;
-using Mewdeko.Services.Database.Repositories.Impl;
 using SpotifyAPI.Web;
 using System.Diagnostics;
 using Victoria;
@@ -366,7 +366,7 @@ public sealed class MusicService : INService
 
     public async Task UpdateDefaultPlaylist(IUser user, MusicPlaylist mpl)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var def = uow.MusicPlaylists.GetDefaultPlaylist(user.Id);
         if (def != null)
         {
@@ -411,8 +411,8 @@ public sealed class MusicService : INService
         if (_settings.TryGetValue(guildId, out var settings))
             return settings;
 
-        using var uow = _db.GetDbContext();
-        var toReturn = _settings[guildId] = await uow.Context.MusicPlayerSettings.ForGuildAsync(guildId);
+        await using var uow = _db.GetDbContext();
+        var toReturn = _settings[guildId] = await uow.MusicPlayerSettings.ForGuildAsync(guildId);
         await uow.SaveChangesAsync();
 
         return toReturn;
@@ -423,8 +423,8 @@ public sealed class MusicService : INService
         Action<MusicPlayerSettings, TState> action,
         TState state)
     {
-        using var uow = _db.GetDbContext();
-        var ms = await uow.Context.MusicPlayerSettings.ForGuildAsync(guildId);
+        await using var uow = _db.GetDbContext();
+        var ms = await uow.MusicPlayerSettings.ForGuildAsync(guildId);
         action(ms, state);
         await uow.SaveChangesAsync();
         _settings[guildId] = ms;

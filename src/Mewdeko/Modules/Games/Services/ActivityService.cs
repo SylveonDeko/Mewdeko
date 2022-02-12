@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using Mewdeko._Extensions;
+using Mewdeko.Database.Extensions;
 
 namespace Mewdeko.Modules.Games.Services;
 
@@ -23,8 +24,8 @@ public class ActivityService : INService
     }
     public async Task GameMasterRoleSet(ulong guildid, ulong role)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildid, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildid, set => set);
         gc.GameMasterRole = role;
         await uow.SaveChangesAsync();
         GameMasterRoles.AddOrUpdate(guildid, role, (_, _) => role);

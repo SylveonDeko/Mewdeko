@@ -8,16 +8,18 @@ using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.CustomReactions.Common;
 using Mewdeko.Modules.CustomReactions.Extensions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using CustomReaction = Mewdeko.Database.Models.CustomReaction;
 
 namespace Mewdeko.Modules.CustomReactions.Services;
 
@@ -228,10 +230,10 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
             return false;
         }
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         foreach (var (trigger, value) in data)
         {
-            await uow.Context.CustomReactions.AddRangeAsync(value
+            await uow.CustomReactions.AddRangeAsync(value
                                                              .Where(cr => !string.IsNullOrWhiteSpace(cr.Res))
                                                              .Select(cr => new CustomReaction
                                                              {
@@ -254,8 +256,8 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     private async Task ReloadInternal(IReadOnlyList<ulong> allGuildIds)
     {
-        using var uow = _db.GetDbContext();
-        var guildItems = await uow.Context.CustomReactions
+        await using var uow = _db.GetDbContext();
+        var guildItems = await uow.CustomReactions
             .AsNoTracking()
             .Where(x => allGuildIds.Contains(x.GuildId.Value))
             .ToListAsync();
@@ -272,8 +274,8 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
         lock (_gcrWriteLock)
         {
-            var globalItems = uow.Context
-                .CustomReactions
+            var globalItems = 
+                uow.CustomReactions
                 .AsNoTracking()
                 .Where(x => x.GuildId == null || x.GuildId == 0)
                 .AsEnumerable()
@@ -366,7 +368,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     public async Task ResetCrReactions(ulong? maybeGuildId, int id)
     {
         CustomReaction cr;
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         cr = uow.CustomReactions.GetById(id);
         if (cr is null)
             return;
@@ -468,7 +470,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     public async Task SetCrReactions(ulong? guildId, int id, IEnumerable<string> emojis)
     {
         CustomReaction cr;
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
             cr = uow.CustomReactions.GetById(id);
             if (cr is null)
@@ -486,7 +488,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
     {
         var newVal = false;
         CustomReaction cr;
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
             cr = uow.CustomReactions.GetById(id);
             if (cr is null)
@@ -602,8 +604,9 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     private async Task OnJoinedGuild(GuildConfig gc)
     {
-        using var uow = _db.GetDbContext();
-        var crs = await uow.Context
+        await using var uow = _db.GetDbContext();
+        var crs = await 
+            uow
             .CustomReactions
             .AsNoTracking()
             .Where(x => x.GuildId == gc.GuildId)
@@ -629,7 +632,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         if (cr.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
             cr.AllowTarget = true;
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
             uow.CustomReactions.Add(cr);
             await uow.SaveChangesAsync();
@@ -642,7 +645,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     public async Task<CustomReaction> EditAsync(ulong? guildId, int id, string message)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var cr = uow.CustomReactions.GetById(id);
 
         if (cr == null || cr.GuildId != guildId)
@@ -668,7 +671,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
 
     public async Task<CustomReaction> DeleteAsync(ulong? guildId, int id)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var toDelete = uow.CustomReactions.GetById(id);
 
         if (toDelete is null)

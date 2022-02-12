@@ -8,9 +8,10 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility;
@@ -94,15 +95,15 @@ public partial class Utility
             var description = GetRepeaterInfoString(runner);
             runner.Stop();
 
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var guildConfig = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+                var guildConfig = uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                 var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == value.Repeater.Id);
                 if (item != null)
                 {
                     guildConfig.GuildRepeaters.Remove(item);
-                    uow.Context.Remove(item);
+                    uow.Remove(item);
                 }
 
                 await uow.SaveChangesAsync();
@@ -134,9 +135,9 @@ public partial class Utility
 
             var repeater = repeaterList[index].Value.Repeater;
             var newValue = repeater.NoRedundant = !repeater.NoRedundant;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var guildConfig = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+                var guildConfig = uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                 var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
                 if (item != null) item.NoRedundant = newValue;
@@ -196,9 +197,9 @@ public partial class Utility
                 StartTimeOfDay = startTimeOfDay
             };
 
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var gc = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+                var gc = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
                 gc.GuildRepeaters.Add(toAdd);
 
                 await uow.SaveChangesAsync();

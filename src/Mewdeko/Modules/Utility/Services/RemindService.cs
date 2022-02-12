@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -64,8 +64,8 @@ public class RemindService : INService
 
     private async Task RemoveReminders(List<Reminder> reminders)
     {
-        using var uow = _db.GetDbContext();
-        uow.Context.Set<Reminder>()
+        await using var uow = _db.GetDbContext();
+        uow.Set<Reminder>()
             .RemoveRange(reminders);
 
         await uow.SaveChangesAsync();
@@ -74,7 +74,7 @@ public class RemindService : INService
     private Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
     {
         using var uow = _db.GetDbContext();
-        return uow.Context.Reminders
+        return uow.Reminders
             .FromSqlInterpolated(
                 $"select * from reminders where ((serverid >> 22) % {_creds.TotalShards}) == {_client.ShardId} and \"when\" < {now};")
             .ToListAsync();

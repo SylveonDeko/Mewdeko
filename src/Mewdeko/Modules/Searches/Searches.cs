@@ -1,8 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
-using AngleSharp;
-using AngleSharp.Html.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -32,7 +30,6 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
-using Configuration = AngleSharp.Configuration;
 
 namespace Mewdeko.Modules.Searches;
 

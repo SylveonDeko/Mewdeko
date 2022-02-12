@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -71,18 +72,18 @@ public class MessageRepeaterService : INService
 
     public async Task RemoveRepeater(Repeater r)
     {
-        using var uow = _db.GetDbContext();
-        var gr = uow.GuildConfigs.ForId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
+        await using var uow = _db.GetDbContext();
+        var gr = uow.ForGuildId(r.GuildId, x => x.Include(y => y.GuildRepeaters)).GuildRepeaters;
         var toDelete = gr.FirstOrDefault(x => x.Id == r.Id);
         if (toDelete != null)
-            uow.Context.Set<Repeater>().Remove(toDelete);
+           uow .Set<Repeater>().Remove(toDelete);
         await uow.SaveChangesAsync();
     }
 
     public void SetRepeaterLastMessage(int repeaterId, ulong lastMsgId)
     {
         using var uow = _db.GetDbContext();
-        uow.Context.Database.ExecuteSqlInterpolated($@"UPDATE GuildRepeater SET 
+        uow.Database.ExecuteSqlInterpolated($@"UPDATE GuildRepeater SET 
                     LastMessageId={lastMsgId} WHERE Id={repeaterId}");
     }
 }

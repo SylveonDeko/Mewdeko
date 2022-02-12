@@ -8,9 +8,10 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Extensions;
 using Mewdeko.Modules.Music.Services;
-using Mewdeko.Services.Database.Models;
 using System.Collections.Generic;
 using Victoria;
 using Victoria.Enums;
@@ -142,7 +143,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
                 if (await PromptUserConfirmAsync("Are you sure you want to delete this playlist", ctx.User.Id))
                 {
-                    using var uow = _db.GetDbContext();
+                    await using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Remove(plist1);
                     await uow.SaveChangesAsync();
                     await ctx.Interaction.SendConfirmFollowupAsync("Playlist deleted.");
@@ -169,7 +170,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         Name = playlistOrSongName,
                         Songs = new List<PlaylistSong>()
                     };
-                    using var uow = _db.GetDbContext();
+                    await using var uow = _db.GetDbContext();
                     uow.MusicPlaylists.Add(toadd);
                     await uow.SaveChangesAsync();
                     await ctx.Interaction.SendConfirmFollowupAsync(
@@ -256,7 +257,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         return;
                     }
 
-                    using var uow = _db.GetDbContext();
+                    await using var uow = _db.GetDbContext();
                     var plist2 = uow.MusicPlaylists.GetDefaultPlaylist(ctx.User.Id);
                     var songs2 = plist2.Songs;
                     if (!songs2.Any())
@@ -357,7 +358,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                             Name = plists6.Name,
                             Songs = newsongs
                         };
-                        using var uow = _db.GetDbContext();
+                        await using var uow = _db.GetDbContext();
                         uow.MusicPlaylists.Update(toupdate);
                         await uow.SaveChangesAsync();
                         await msg.DeleteAsync();
@@ -404,7 +405,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                     Name = plists7.Name,
                                     Songs = newsongs
                                 };
-                                using var uow = _db.GetDbContext();
+                                await using var uow = _db.GetDbContext();
                                 uow.MusicPlaylists.Update(toupdate);
                                 await uow.SaveChangesAsync();
                                 await msg.DeleteAsync();
@@ -464,7 +465,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                     Name = plists6.Name,
                                     Songs = newsongs
                                 };
-                                using var uow = _db.GetDbContext();
+                                await using var uow = _db.GetDbContext();
                                 uow.MusicPlaylists.Update(toupdate);
                                 await uow.SaveChangesAsync();
                                 await msg.DeleteAsync();

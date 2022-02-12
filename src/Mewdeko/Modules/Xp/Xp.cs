@@ -7,10 +7,10 @@ using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Xp;
 

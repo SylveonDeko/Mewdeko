@@ -6,8 +6,9 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Permissions;
@@ -118,9 +119,9 @@ public partial class Permissions
             var channel = (ITextChannel) ctx.Channel;
 
             bool enabled;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
+                var config = uow.ForGuildId(channel.Guild.Id, set => set);
                 enabled = config.FilterInvites = !config.FilterInvites;
                 await uow.SaveChangesAsync();
             }
@@ -143,9 +144,9 @@ public partial class Permissions
             var channel = (ITextChannel) ctx.Channel;
 
             FilterChannelId removed;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id,
+                var config = uow.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterInvitesChannelIds));
                 var match = new FilterChannelId
                 {
@@ -156,7 +157,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilterInvitesChannelIds.Add(match);
                 else
-                    uow.Context.Remove(removed);
+                    uow.Remove(removed);
                 await uow.SaveChangesAsync();
             }
 
@@ -178,9 +179,9 @@ public partial class Permissions
             var channel = (ITextChannel) ctx.Channel;
 
             bool enabled;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
+                var config = uow.ForGuildId(channel.Guild.Id, set => set);
                 enabled = config.FilterLinks = !config.FilterLinks;
                 await uow.SaveChangesAsync();
             }
@@ -203,9 +204,9 @@ public partial class Permissions
             var channel = (ITextChannel) ctx.Channel;
 
             FilterLinksChannelId removed;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id,
+                var config = uow.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterLinksChannelIds));
                 var match = new FilterLinksChannelId
                 {
@@ -216,7 +217,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilterLinksChannelIds.Add(match);
                 else
-                    uow.Context.Remove(removed);
+                    uow.Remove(removed);
                 await uow.SaveChangesAsync();
             }
 
@@ -238,9 +239,9 @@ public partial class Permissions
             var channel = (ITextChannel) ctx.Channel;
 
             bool enabled;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set);
+                var config = uow.ForGuildId(channel.Guild.Id, set => set);
                 enabled = config.FilterWords = !config.FilterWords;
                 await uow.SaveChangesAsync();
             }
@@ -263,9 +264,9 @@ public partial class Permissions
             var channel = (ITextChannel) ctx.Channel;
 
             FilterChannelId removed;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id,
+                var config = uow.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterWordsChannelIds));
 
                 var match = new FilterChannelId
@@ -276,7 +277,7 @@ public partial class Permissions
                 if (removed == null)
                     config.FilterWordsChannelIds.Add(match);
                 else
-                    uow.Context.Remove(removed);
+                    uow.Remove(removed);
                 await uow.SaveChangesAsync();
             }
 
@@ -303,16 +304,16 @@ public partial class Permissions
                 return;
 
             FilteredWord removed;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
+                var config = uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
 
                 removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
                 if (removed == null)
                     config.FilteredWords.Add(new FilteredWord {Word = word});
                 else
-                    uow.Context.Remove(removed);
+                    uow.Remove(removed);
 
                 await uow.SaveChangesAsync();
             }

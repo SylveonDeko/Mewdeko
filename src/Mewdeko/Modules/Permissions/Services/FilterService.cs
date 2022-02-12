@@ -8,9 +8,10 @@ using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -43,7 +44,7 @@ public class FilterService : IEarlyBehavior, INService
         using (var uow = db.GetDbContext())
         {
             var ids = client.GetGuildIds();
-            var configs = uow.Context.Set<GuildConfig>()
+            var configs = uow.GuildConfigs
                 .AsQueryable()
                 .Include(x => x.FilteredWords)
                 .Include(x => x.FilterLinksChannelIds)
@@ -132,7 +133,7 @@ public class FilterService : IEarlyBehavior, INService
     public void Reload(bool publish = true)
     {
         using var uow = _db.GetDbContext();
-        var toPublish = uow.Context.AutoBanWords.AsNoTracking().ToArray();
+        var toPublish = uow.AutoBanWords.AsNoTracking().ToArray();
         Blacklist = toPublish;
         if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
@@ -141,7 +142,7 @@ public class FilterService : IEarlyBehavior, INService
     {
         using var uow = _db.GetDbContext();
         var item = new AutoBanEntry {Word = id, GuildId = id2};
-        uow.Context.AutoBanWords.Add(item);
+        uow.AutoBanWords.Add(item);
         uow.SaveChanges();
 
         Reload();
@@ -150,11 +151,11 @@ public class FilterService : IEarlyBehavior, INService
     public void UnBlacklist(string id, ulong id2)
     {
         using var uow = _db.GetDbContext();
-        var toRemove = uow.Context.AutoBanWords
+        var toRemove = uow.AutoBanWords
             .FirstOrDefault(bi => bi.Word == id && bi.GuildId == id2);
 
         if (toRemove is not null)
-            uow.Context.AutoBanWords.Remove(toRemove);
+            uow.AutoBanWords.Remove(toRemove);
 
         uow.SaveChanges();
 
@@ -180,7 +181,7 @@ public class FilterService : IEarlyBehavior, INService
     public async Task InvWarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        using (_db.GetDbContext())
+        await using (_db.GetDbContext())
         {
             yesno = yesnt switch
             {
@@ -190,9 +191,9 @@ public class FilterService : IEarlyBehavior, INService
             };
         }
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
             await uow.SaveChangesAsync();
         }
@@ -211,7 +212,7 @@ public class FilterService : IEarlyBehavior, INService
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        using (_db.GetDbContext())
+        await using (_db.GetDbContext())
         {
             yesno = yesnt switch
             {
@@ -221,9 +222,9 @@ public class FilterService : IEarlyBehavior, INService
             };
         }
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var gc = uow.GuildConfigs.ForId(guild.Id, set => set);
+            var gc = uow.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
             await uow.SaveChangesAsync();
         }
@@ -234,7 +235,7 @@ public class FilterService : IEarlyBehavior, INService
     public void ClearFilteredWords(ulong guildId)
     {
         using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId,
+        var gc = uow.ForGuildId(guildId,
             set => set.Include(x => x.FilteredWords)
                 .Include(x => x.FilterWordsChannelIds));
 

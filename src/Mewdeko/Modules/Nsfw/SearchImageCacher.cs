@@ -1,18 +1,15 @@
-﻿using Serilog;
-using System;
+﻿using Mewdeko._Extensions;
+using Mewdeko.Common;
+using Mewdeko.Modules.Nsfw.Common;
+using Mewdeko.Modules.Nsfw.Common.Downloaders;
+using Microsoft.Extensions.Caching.Memory;
+using Serilog;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
-using Mewdeko.Common;
-using Mewdeko._Extensions;
-using Mewdeko.Modules.Nsfw.Common.Downloaders;
-using Mewdeko.Services;
 
-namespace Mewdeko.Modules.Nsfw.Common;
+namespace Mewdeko.Modules.Nsfw;
 
 public class SearchImageCacher : INService
 {

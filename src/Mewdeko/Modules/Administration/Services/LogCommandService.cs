@@ -6,9 +6,10 @@ using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -60,13 +61,12 @@ public class LogCommandService : INService
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
-            var configs = uow.Context
-                .Set<GuildConfig>()
-                .AsQueryable()
-                .Include(gc => gc.LogSetting)
-                .ThenInclude(ls => ls.IgnoredChannels)
-                .Where(x => guildIds.Contains(x.GuildId))
-                .ToList();
+            var configs = uow.GuildConfigs
+                             .AsQueryable()
+                             .Include(gc => gc.LogSetting)
+                             .ThenInclude(ls => ls.IgnoredChannels)
+                             .Where(x => guildIds.Contains(x.GuildId))
+                             .ToList();
 
             GuildLogSettings = configs
                 .ToDictionary(g => g.GuildId, g => g.LogSetting)
@@ -115,7 +115,7 @@ public class LogCommandService : INService
         int removed;
         using (var uow = _db.GetDbContext())
         {
-            var config = uow.GuildConfigs.LogSettingsFor(gid);
+            var config = uow.LogSettingsFor(gid);
             var logSetting = GuildLogSettings.GetOrAdd(gid, _ => config.LogSetting);
             removed = logSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
             config.LogSetting.IgnoredChannels.RemoveWhere(ilc => ilc.ChannelId == cid);
@@ -154,8 +154,8 @@ public class LogCommandService : INService
 
     public async Task LogServer(ulong guildId, ulong channelId, bool value)
     {
-        using var uow = _db.GetDbContext();
-        var logSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
+        await using var uow = _db.GetDbContext();
+        var logSetting = uow.LogSettingsFor(guildId).LogSetting;
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         logSetting.LogOtherId =
             logSetting.MessageUpdatedId =
@@ -240,9 +240,9 @@ public class LogCommandService : INService
     public async Task<bool> Log(ulong gid, ulong? cid, LogType type /*, string options*/)
     {
         ulong? channelId = null;
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var logSetting = uow.GuildConfigs.LogSettingsFor(gid).LogSetting;
+            var logSetting = uow.LogSettingsFor(gid).LogSetting;
             GuildLogSettings.AddOrUpdate(gid, _ => logSetting, (_, _) => logSetting);
             channelId = type switch
             {
@@ -1108,7 +1108,7 @@ public class LogCommandService : INService
     private void UnsetLogSetting(ulong guildId, LogType logChannelType)
     {
         using var uow = _db.GetDbContext();
-        var newLogSetting = uow.GuildConfigs.LogSettingsFor(guildId).LogSetting;
+        var newLogSetting = uow.LogSettingsFor(guildId).LogSetting;
         switch (logChannelType)
         {
             case LogType.Other:

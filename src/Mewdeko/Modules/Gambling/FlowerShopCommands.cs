@@ -7,9 +7,10 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -48,8 +49,8 @@ public partial class Gambling
             if (page < 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
 
-            using var uow = _db.GetDbContext();
-            var entries = uow.GuildConfigs.ForId(ctx.Guild.Id,
+            await using var uow = _db.GetDbContext();
+            var entries = uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items)).ShopEntries
                 .ToIndexed();
@@ -104,9 +105,9 @@ public partial class Gambling
             if (index < 0)
                 return;
             ShopEntry entry;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
+                var config = uow.ForGuildId(ctx.Guild.Id, set => set
                     .Include(x => x.ShopEntries)
                     .ThenInclude(x => x.Items));
                 var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
@@ -178,9 +179,9 @@ public partial class Gambling
                 if (await _cs.RemoveAsync(ctx.User.Id, $"Shop purchase - {entry.Type}", entry.Price)
                         .ConfigureAwait(false))
                 {
-                    using (var uow = _db.GetDbContext())
+                    await using (var uow = _db.GetDbContext())
                     {
-                        uow.Context.Set<ShopEntryItem>().Remove(item);
+                        uow.Set<ShopEntryItem>().Remove(item);
                         await uow.SaveChangesAsync();
                     }
 
@@ -207,9 +208,9 @@ public partial class Gambling
                         await _cs.AddAsync(ctx.User.Id,
                             $"Shop error refund - {entry.Name}",
                             entry.Price).ConfigureAwait(false);
-                        using (var uow = _db.GetDbContext())
+                        await using (var uow = _db.GetDbContext())
                         {
-                            var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
+                            var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                                     set => set.Include(x => x.ShopEntries)
                                         .ThenInclude(x => x.Items))
                                 .ShopEntries);
@@ -247,15 +248,15 @@ public partial class Gambling
                 RoleId = role.Id,
                 RoleName = role.Name
             };
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
+                var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items)).ShopEntries)
                 {
                     entry
                 };
-                uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
+                uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                 await uow.SaveChangesAsync();
             }
 
@@ -275,15 +276,15 @@ public partial class Gambling
                 AuthorId = ctx.User.Id,
                 Items = new HashSet<ShopEntryItem>()
             };
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
+                var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items)).ShopEntries)
                 {
                     entry
                 };
-                uow.GuildConfigs.ForId(ctx.Guild.Id, set => set).ShopEntries = entries;
+                uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                 await uow.SaveChangesAsync();
             }
 
@@ -305,9 +306,9 @@ public partial class Gambling
             ShopEntry entry;
             var rightType = false;
             var added = false;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var entries = new IndexedCollection<ShopEntry>(uow.GuildConfigs.ForId(ctx.Guild.Id,
+                var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
                         .ThenInclude(x => x.Items)).ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
@@ -334,9 +335,9 @@ public partial class Gambling
             if (index < 0)
                 return;
             ShopEntry removed;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(ctx.Guild.Id, set => set
+                var config = uow.ForGuildId(ctx.Guild.Id, set => set
                     .Include(x => x.ShopEntries)
                     .ThenInclude(x => x.Items));
 
@@ -344,8 +345,8 @@ public partial class Gambling
                 removed = entries.ElementAtOrDefault(index);
                 if (removed != null)
                 {
-                    uow.Context.RemoveRange(removed.Items);
-                    uow.Context.Remove(removed);
+                    uow.RemoveRange(removed.Items);
+                    uow.Remove(removed);
                     await uow.SaveChangesAsync();
                 }
             }

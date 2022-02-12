@@ -6,7 +6,7 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Permissions.Services; 
 

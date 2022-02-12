@@ -5,8 +5,9 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Common;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 
@@ -166,7 +167,7 @@ public class PermissionService : ILateBlocker, INService
         {
             using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.ForId(guildId,
+                var config = uow.ForGuildId(guildId,
                     set => set.Include(x => x.Permissions));
                 UpdateCache(config);
             }
@@ -181,8 +182,8 @@ public class PermissionService : ILateBlocker, INService
 
     public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
     {
-        using var uow = _db.GetDbContext();
-        var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
+        await using var uow = _db.GetDbContext();
+        var config = uow.GcWithPermissionsv2For(guildId);
         //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
         var max = config.Permissions.Max(x => x.Index); //have to set its index to be the highest
         foreach (var perm in perms)
@@ -211,8 +212,8 @@ public class PermissionService : ILateBlocker, INService
 
     public async Task Reset(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
-        var config = uow.GuildConfigs.GcWithPermissionsv2For(guildId);
+        await using var uow = _db.GetDbContext();
+        var config = uow.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
         await uow.SaveChangesAsync();
         UpdateCache(config);

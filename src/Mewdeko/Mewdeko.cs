@@ -13,13 +13,13 @@ using Mewdeko.Common.Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.CustomReactions.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Nsfw;
-using Mewdeko.Modules.Nsfw.Common;
 using Mewdeko.Modules.OwnerOnly.Services;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -103,7 +103,7 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
-            uow.DiscordUsers.EnsureCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
+            uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
         }
 
@@ -262,9 +262,9 @@ public class Mewdeko
         var _ = Task.Run(async () =>
         {
             GuildConfig gc;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                gc = uow.GuildConfigs.ForId(arg.Id);
+                gc = uow.ForGuildId(arg.Id);
             }
 
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);

@@ -1,7 +1,8 @@
 ﻿using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Database;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Gambling.Services.Impl;
@@ -19,7 +20,7 @@ public class ShopService : IShopService
         if (newPrice <= 0)
             throw new ArgumentOutOfRangeException(nameof(newPrice));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var entries = GetEntriesInternal(uow, guildId);
 
         if (index >= entries.Count)
@@ -37,7 +38,7 @@ public class ShopService : IShopService
         if (string.IsNullOrWhiteSpace(newName))
             throw new ArgumentNullException(nameof(newName));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var entries = GetEntriesInternal(uow, guildId);
 
         if (index >= entries.Count)
@@ -55,7 +56,7 @@ public class ShopService : IShopService
         if (index2 < 0)
             throw new ArgumentOutOfRangeException(nameof(index2));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var entries = GetEntriesInternal(uow, guildId);
 
         if (index1 >= entries.Count || index2 >= entries.Count || index1 == index2)
@@ -75,7 +76,7 @@ public class ShopService : IShopService
         if (toIndex < 0)
             throw new ArgumentOutOfRangeException(nameof(toIndex));
 
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var entries = GetEntriesInternal(uow, guildId);
 
         if (fromIndex >= entries.Count || toIndex >= entries.Count || fromIndex == toIndex)
@@ -89,8 +90,8 @@ public class ShopService : IShopService
         return true;
     }
 
-    private static IndexedCollection<ShopEntry> GetEntriesInternal(IUnitOfWork uow, ulong guildId) =>
-        uow.GuildConfigs.ForId(
+    private static IndexedCollection<ShopEntry> GetEntriesInternal(MewdekoContext uow, ulong guildId) =>
+        uow.ForGuildId(
                guildId,
                set => set.Include(x => x.ShopEntries)
                          .ThenInclude(x => x.Items)

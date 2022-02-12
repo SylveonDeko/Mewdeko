@@ -5,8 +5,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services.Database.Models;
 using Serilog;
 
 namespace Mewdeko.Modules.Utility.Common;

@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using Discord.WebSocket;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.WheelOfFortune;
 using Mewdeko.Modules.Gambling.Connect4;
@@ -54,7 +55,7 @@ public class GamblingService : INService
                 if (maxDecay == 0)
                     maxDecay = int.MaxValue;
 
-                uow.Context.Database.ExecuteSqlInterpolated($@"
+                uow.Database.ExecuteSqlInterpolated($@"
 UPDATE DiscordUser
 SET CurrencyAmount=
     CASE WHEN
@@ -113,11 +114,11 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
 
         using (var uow = _db.GetDbContext())
         {
-            cash = uow.DiscordUsers.GetTotalCurrency();
-            onePercent = uow.DiscordUsers.GetTopOnePercentCurrency(_client.CurrentUser.Id);
-            planted = uow.PlantedCurrency.GetTotalPlanted();
-            waifus = uow.Waifus.GetTotalValue();
-            bot = uow.DiscordUsers.GetUserCurrency(_client.CurrentUser.Id);
+            cash = uow.DiscordUser.GetTotalCurrency();
+            onePercent = uow.DiscordUser.GetTopOnePercentCurrency(_client.CurrentUser.Id);
+            planted = uow.PlantedCurrency.AsQueryable().Sum(x => x.Amount);
+            waifus = uow.WaifuInfo.GetTotalValue();
+            bot = uow.DiscordUser.GetUserCurrency(_client.CurrentUser.Id);
         }
 
         var result = new EconomyResult

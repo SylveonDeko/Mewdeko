@@ -9,9 +9,10 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Permissions;
 
@@ -34,9 +35,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Verbose(PermissionAction action = null)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
             action ??= new PermissionAction(!config.VerbosePermissions);
             config.VerbosePermissions = action.Value;
             await uow.SaveChangesAsync();
@@ -68,9 +69,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             return;
         }
 
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
             await uow.SaveChangesAsync();
             Service.UpdateCache(config);
@@ -83,9 +84,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
      UserPerm(GuildPermission.Administrator), Priority(1)]
     public async Task PermRole(Reset _)
     {
-        using (var uow = _db.GetDbContext())
+        await using (var uow = _db.GetDbContext())
         {
-            var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = null;
             await uow.SaveChangesAsync();
             Service.UpdateCache(config);
@@ -136,13 +137,13 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
         try
         {
             Permissionv2 p;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
+                var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
                 var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                 p = permsCol[index];
                 permsCol.RemoveAt(index);
-                uow.Context.Remove(p);
+                uow.Remove(p);
                 await uow.SaveChangesAsync();
                 Service.UpdateCache(config);
             }
@@ -166,9 +167,9 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             try
             {
                 Permissionv2 fromPerm;
-                using (var uow = _db.GetDbContext())
+                await using (var uow = _db.GetDbContext())
                 {
-                    var config = uow.GuildConfigs.GcWithPermissionsv2For(ctx.Guild.Id);
+                    var config = uow.GcWithPermissionsv2For(ctx.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
                     var fromFound = from < permsCol.Count;

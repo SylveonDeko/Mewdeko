@@ -3,10 +3,10 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Events;
 using Mewdeko.Modules.Gambling.Services;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Gambling;
 

@@ -7,7 +7,8 @@ using Discord.Net;
 using Discord.WebSocket;
 using LinqToDB;
 using Mewdeko._Extensions;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -169,8 +170,8 @@ public sealed class AutoAssignRoleService : INService
 
     public async Task<IReadOnlyList<ulong>> ToggleAarAsync(ulong guildId, ulong roleId)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set);
         var roles = gc.GetAutoAssignableRoles();
         if (!roles.Remove(roleId) && roles.Count < 10)
             roles.Add(roleId);
@@ -188,9 +189,10 @@ public sealed class AutoAssignRoleService : INService
 
     private async Task DisableAarAsync(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
 
-        await uow.Context
+        await 
+            uow
             .GuildConfigs
             .AsNoTracking()
             .Where(x => x.GuildId == guildId)
@@ -203,9 +205,9 @@ public sealed class AutoAssignRoleService : INService
 
     public async Task SetAabrRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
 
-        var gc = uow.GuildConfigs.ForId(guildId, set => set);
+        var gc = uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableBotRoles(newRoles);
 
         await uow.SaveChangesAsync();
@@ -213,8 +215,8 @@ public sealed class AutoAssignRoleService : INService
 
     public async Task<IReadOnlyList<ulong>> ToggleAabrAsync(ulong guildId, ulong roleId)
     {
-        using var uow = _db.GetDbContext();
-        var gc = uow.GuildConfigs.ForId(guildId, set => set);
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set);
         var roles = gc.GetAutoAssignableBotRoles();
         if (!roles.Remove(roleId) && roles.Count < 10)
             roles.Add(roleId);
@@ -232,9 +234,10 @@ public sealed class AutoAssignRoleService : INService
 
     public async Task DisableAabrAsync(ulong guildId)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
 
-        await uow.Context
+        await 
+                uow
             .GuildConfigs
             .AsNoTracking()
             .Where(x => x.GuildId == guildId)
@@ -247,9 +250,9 @@ public sealed class AutoAssignRoleService : INService
 
     public async Task SetAarRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
 
-        var gc = uow.GuildConfigs.ForId(guildId, set => set);
+        var gc = uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableRoles(newRoles);
 
         await uow.SaveChangesAsync();

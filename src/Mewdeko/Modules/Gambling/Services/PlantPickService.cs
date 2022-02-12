@@ -7,8 +7,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Database.Models;
-using Mewdeko.Services.Database.Repositories;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +30,7 @@ public class PlantPickService : INService
     private readonly DbService _db;
     private readonly FontProvider _fonts;
 
-    public readonly ConcurrentHashSet<ulong> GenerationChannels = new();
+    public readonly ConcurrentHashSet<ulong> GenerationChannels;
     private readonly GamblingConfigService _gss;
     private readonly IImageCache _images;
     private readonly MewdekoRandom _rng;
@@ -54,7 +54,7 @@ public class PlantPickService : INService
         cmd.OnMessageNoTrigger += PotentialFlowerGeneration;
         using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow.Context.Set<GuildConfig>()
+        var configs = uow.GuildConfigs
             .AsQueryable()
             .Include(x => x.GenerateCurrencyChannelIds)
             .Where(x => guildIds.Contains(x.GuildId))
@@ -73,7 +73,7 @@ public class PlantPickService : INService
     {
         bool enabled;
         using var uow = _db.GetDbContext();
-        var guildConfig = uow.GuildConfigs.ForId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
+        var guildConfig = uow.ForGuildId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
         var toAdd = new GCChannelId {ChannelId = cid};
         if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
@@ -85,7 +85,7 @@ public class PlantPickService : INService
         else
         {
             var toDelete = guildConfig.GenerateCurrencyChannelIds.FirstOrDefault(x => x.Equals(toAdd));
-            if (toDelete != null) uow.Context.Remove(toDelete);
+            if (toDelete != null) uow.Remove(toDelete);
             GenerationChannels.TryRemove(cid);
             enabled = false;
         }
@@ -95,7 +95,7 @@ public class PlantPickService : INService
         return enabled;
     }
 
-    public IEnumerable<GeneratingChannel> GetAllGeneratingChannels()
+    public IEnumerable<GuildConfigExtensions.GeneratingChannel> GetAllGeneratingChannels()
     {
         using var uow = _db.GetDbContext();
         var chs = uow.GuildConfigs.GetGeneratingChannels();
@@ -106,6 +106,7 @@ public class PlantPickService : INService
     ///     Get a random currency image stream, with an optional password sticked onto it.
     /// </summary>
     /// <param name="pass">Optional password to add to top left corner.</param>
+    /// <param name="extension"></param>
     /// <returns>Stream of the currency image</returns>
     public Stream GetRandomCurrencyImage(string pass, out string extension)
     {
@@ -231,6 +232,7 @@ public class PlantPickService : INService
             }
             catch
             {
+                // ignored
             }
         });
         return Task.CompletedTask;
@@ -260,12 +262,24 @@ public class PlantPickService : INService
                 // this method will sum all plants with that password,
                 // remove them, and get messageids of the removed plants
 
-                (amount, ids) = uow.PlantedCurrency.RemoveSumAndGetMessageIdsFor(ch.Id, pass);
+                pass = pass?.Trim().TrimTo(10, hideDots: true).ToUpperInvariant();
+                // gets all plants in this channel with the same password
+                var entries = uow.PlantedCurrency
+                                 .AsQueryable()
+                                 .Where(x => x.ChannelId == ch.Id && pass == x.Password)
+                                 .ToList();
+                // sum how much currency that is, and get all of the message ids (so that i can delete them)
+                amount = entries.Sum(x => x.Amount);
+                ids = entries.Select(x => x.MessageId).ToArray();
+                // remove them from the database
+                uow.RemoveRange(entries);
 
 
                 if (amount > 0)
+                {
                     // give the picked currency to the user
-                    await _cs.AddAsync(uid, "Picked currency", amount);
+                    await _cs.AddAsync(uid, "Picked currency", amount, gamble: false);
+                }
                 await uow.SaveChangesAsync();
             }
 
@@ -276,6 +290,7 @@ public class PlantPickService : INService
             }
             catch
             {
+                // ignored
             }
 
             // return the amount of currency the user picked
@@ -351,7 +366,7 @@ public class PlantPickService : INService
 
     private async Task AddPlantToDatabase(ulong gid, ulong cid, ulong uid, ulong mid, long amount, string pass)
     {
-        using var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         uow.PlantedCurrency.Add(new PlantedCurrency
         {
             Amount = amount,

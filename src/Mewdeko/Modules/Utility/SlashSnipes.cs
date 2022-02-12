@@ -7,8 +7,8 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services.Database.Models;
 
 namespace Mewdeko.Modules.Utility;
 

@@ -1,5 +1,5 @@
 ﻿using Discord;
-using Mewdeko.Services.Database.Models;
+using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Administration.Common;
 

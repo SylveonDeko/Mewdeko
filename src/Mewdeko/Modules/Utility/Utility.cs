@@ -11,8 +11,8 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Services;
-using Mewdeko.Services.Database.Models;
 using Mewdeko.Services.Impl;
 using Serilog;
 

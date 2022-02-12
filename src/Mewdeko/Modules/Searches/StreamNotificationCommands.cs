@@ -7,8 +7,9 @@ using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Services;
-using Mewdeko.Services.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Searches;
@@ -80,10 +81,10 @@ public partial class Searches
             if (page-- < 1) return;
 
             var streams = new List<FollowedStream>();
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
-                var all = uow.GuildConfigs
-                    .ForId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
+                var all = uow
+                    .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams))
                     .FollowedStreams
                     .OrderBy(x => x.Id)
                     .ToList();
