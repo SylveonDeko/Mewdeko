@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Confessions;
 
 public class Confessions : MewdekoModuleBase<ConfessionService>
 {
-    [MewdekoCommand, Aliases, RequireContext(ContextType.DM)]
+    [MewdekoCommand, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
     public async Task Confess(ulong serverId, string confession = null)
     {
         var attachment = ctx.Message.Attachments.FirstOrDefault().Url == null
