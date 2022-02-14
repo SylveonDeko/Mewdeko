@@ -30,6 +30,7 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
             $"\n>  `{Prefix}cmds Permissions`" +
             $"\n>  `{Prefix}cmds Xp`" +
             $"\n>  `{Prefix}cmds Afk`" +
+            $"\n>  `{Prefix}cmds Confessions`" +
             $"\n>  `{Prefix}cmds Starboard`",
             true);
         embed.AddField("_ _",
