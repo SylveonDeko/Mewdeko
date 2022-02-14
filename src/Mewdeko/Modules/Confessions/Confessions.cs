@@ -14,6 +14,9 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     [MewdekoCommand, Aliases, RequireContext(ContextType.DM)]
     public async Task Confess(ulong serverId, string confession = null)
     {
+        var attachment = ctx.Message.Attachments.FirstOrDefault().Url == null
+            ? null
+            : ctx.Message.Attachments.FirstOrDefault().Url;
         var user = ctx.User as SocketUser;
         if (user!.MutualGuilds.Select(x => x.Id).Contains(serverId))
         {
@@ -29,11 +32,11 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                     await ctx.Channel.SendErrorAsync("You are blacklisted from suggestions in that server!");
                     return;
                 }
-                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel);
+                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment);
             }
             else
             {
-                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel);
+                await Service.SendConfession(serverId, ctx.User, confession, ctx.Channel, null, attachment);
             }
         }
         else
