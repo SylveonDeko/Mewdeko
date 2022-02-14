@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Confessions;
 public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
 {
     [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task Confess(string confession)
+    public async Task Confess(string confession, IAttachment attachment = null)
     {
         if (!Service.ConfessionChannels.TryGetValue(ctx.Guild.Id, out _))
         {
@@ -25,11 +25,11 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
                 await ctx.Interaction.SendEphemeralErrorAsync("You are blacklisted from confessions here!!");
                 return;
             }
-            await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx);
+            await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx, attachment.Url);
         }
         else
         {
-            await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx);
+            await Service.SendConfession(ctx.Guild.Id, ctx.User, confession, ctx.Channel, ctx, attachment.Url);
         }
     }
 
