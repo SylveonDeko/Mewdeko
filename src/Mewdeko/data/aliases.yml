@@ -11,6 +11,21 @@ modules:
 commands:
   - commands
   - cmds
+confessionchannel:
+  - confesschannel
+  - confessionchannel
+confessionblacklist:
+  - confessblacklist
+  - confessionblacklist
+  - confessbl
+confessionunblacklist:
+  - confessunblacklist
+  - confessionunblacklist
+  - confessunbl
+confessionlogchannel:
+  - confesslogchannel
+  - confessionlogchannel
+  - confessionlogchnl
 greetdel:
   - greetdel
   - grdel
