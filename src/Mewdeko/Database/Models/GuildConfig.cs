@@ -16,6 +16,9 @@ public class GuildConfig : DbEntity
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
+    public ulong ConfessionLogChannel { get; set; } = 0;
+    public ulong ConfessionChannel { get; set; } = 0;
+    public string ConfessionBlacklist { get; set; } = "0";
     public int MultiGreetType { get; set; } = 0;
     public int MinSuggestLength { get; set; } = 0;
     public int MaxSuggestLength { get; set; } = 4098;

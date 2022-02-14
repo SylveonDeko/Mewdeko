@@ -142,7 +142,7 @@ public class NSFW : MewdekoModuleBase<ISearchImagesService>
     }
 
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task NHentai(int num, int page = 0)
+    public async Task NHentai(int num)
     {
         var client = new HentaiClient();
         var book = await client.SearchBookAsync(num);
@@ -170,7 +170,6 @@ public class NSFW : MewdekoModuleBase<ISearchImagesService>
         {
             var enumerable = pages as string[] ?? pages.ToArray();
             return Task.FromResult(new PageBuilder()
-                .WithText((page + 1).ToString())
                 .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
                 .WithImageUrl(pages.Skip(page).FirstOrDefault())
                 .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500)));
