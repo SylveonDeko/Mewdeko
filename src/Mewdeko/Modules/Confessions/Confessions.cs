@@ -5,6 +5,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Confessions.Services;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Mewdeko.Modules.Confessions;
 
@@ -42,8 +43,14 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     }
 
     [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
-    public async Task ConfessionChannel(ITextChannel channel)
+    public async Task ConfessionChannel(ITextChannel channel = null)
     {
+        if (channel is null)
+        {
+            await Service.SetConfessionChannel(ctx.Guild, 0);
+            await ctx.Channel.SendConfirmAsync("Confessions disabled!");
+            return;
+        }
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
@@ -57,8 +64,14 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     }
 
     [MewdekoCommand, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task ConfessionLogChannel(ITextChannel channel)
+    public async Task ConfessionLogChannel(ITextChannel channel = null)
     {
+        if (channel is null)
+        {
+            await Service.SetConfessionChannel(ctx.Guild, 0);
+            await ctx.Channel.SendConfirmAsync("Confessions logging disabled!");
+            return;
+        }
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)

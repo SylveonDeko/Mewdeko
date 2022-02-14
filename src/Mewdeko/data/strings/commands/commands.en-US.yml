@@ -22,6 +22,28 @@ gend:
   desc: "Ends a giveaway using the number in `{0}glist`."
   args:
     - "2"
+confess:
+  desc: "Sends a confession via dms. Or via the slash command in a server."
+  args:
+    - "serverId confession"
+    - "confession (If in server, using the slash command)"
+confesschannel:
+  desc: "Sets the confession channel. Put nothing to disable."
+  args:
+    - "#channel"
+    - ""
+confesslogchannel:
+  desc: "Sets the channel used to log who made confessions. Put nothing to disable. ***Keep in mind if I find you misusing this function I will find out, blacklist this server. And tear out whatever reproductive organs you have.***"
+  args:
+    - "#channel"
+confessblacklist:
+  desc: "Blacklist a user from confessions"
+  args:
+    - "@user"
+confessunblacklist:
+  desc: "Unblacklist a user from confessions"
+  args:
+    - "@user"
 glist:
   desc: "Lists the currently running giveaways."
   args:
