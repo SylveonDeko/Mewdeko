@@ -63,8 +63,6 @@ public class Mewdeko
             GatewayIntents = GatewayIntents.All,
             LogGatewayIntentWarnings = false
         });
-        ;
-
         CommandService = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
