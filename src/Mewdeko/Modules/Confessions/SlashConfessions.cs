@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using LinqToDB.Tools;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko._Extensions;
@@ -35,8 +34,14 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     }
 
     [SlashCommand("channel", "Set the confession channel"),  SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task ConfessionChannel(ITextChannel channel)
+    public async Task ConfessionChannel(ITextChannel channel = null)
     {
+        if (channel is null)
+        {
+            await Service.SetConfessionChannel(ctx.Guild, 0);
+            await ctx.Channel.SendConfirmAsync("Confessions disabled!");
+            return;
+        }
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
@@ -49,9 +54,15 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
         await ctx.Interaction.SendConfirmAsync($"Set {channel.Mention} as the Confession Channel!");
     }
 
-    [SlashCommand("logchannel", "Set the confession channel"),  SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task ConfessionLogChannel(ITextChannel channel)
+    [SlashCommand("logchannel", "Set the confession channel"),  SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    public async Task ConfessionLogChannel(ITextChannel channel = null)
     {
+        if (channel is null)
+        {
+            await Service.SetConfessionLogChannel(ctx.Guild, 0);
+            await ctx.Channel.SendConfirmAsync("Confessions logging disabled!");
+            return;
+        }
         var currentUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
         var perms = currentUser.GetPermissions(channel);
         if (!perms.SendMessages || !perms.EmbedLinks)
