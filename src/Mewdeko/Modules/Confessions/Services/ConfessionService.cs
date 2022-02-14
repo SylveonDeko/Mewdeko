@@ -37,7 +37,7 @@ public class ConfessionService : INService
         ulong serverId,
         IUser user,
         string confession,
-        IMessageChannel currentChannel, IInteractionContext ctx = null)
+        IMessageChannel currentChannel, IInteractionContext ctx = null, string imageUrl = null)
     {
         var uow = _db.GetDbContext();
         var confessions = uow.Confessions.ForGuild(serverId);
@@ -67,6 +67,8 @@ public class ConfessionService : INService
                                        .WithFooter(
                                            $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
                                        .WithCurrentTimestamp();
+            if (imageUrl != null)
+                eb.WithImageUrl(imageUrl);
             var perms = currentUser.GetPermissions(confessionChannel);
             if (!perms.EmbedLinks || !perms.SendMessages)
             {
@@ -140,6 +142,8 @@ public class ConfessionService : INService
                                        .WithFooter(
                                            $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
                                        .WithCurrentTimestamp();
+            if (imageUrl != null)
+                eb.WithImageUrl(imageUrl);
             var perms = currentUser.GetPermissions(confessionChannel);
             if (!perms.EmbedLinks || !perms.SendMessages)
             {
