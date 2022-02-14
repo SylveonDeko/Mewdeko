@@ -15,7 +15,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly IPubSub _pubSub;
 
     private readonly TypedKey<BlacklistEntry[]> _blPubKey = new("blacklist.reload");
-    private IReadOnlyList<BlacklistEntry> blacklist;
+    public IReadOnlyList<BlacklistEntry> blacklist;
 
     public BlacklistService(DbService db, IPubSub pubSub)
     {

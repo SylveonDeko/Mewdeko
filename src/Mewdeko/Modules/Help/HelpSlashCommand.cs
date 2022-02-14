@@ -2,12 +2,13 @@ using Discord;
 using Discord.Interactions;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 
 namespace Mewdeko.Modules.Help;
 
 public class HelpSlashCommand : MewdekoSlashCommandModule
 {
-    [SlashCommand("help", "Shows help on how to use the bot")]
+    [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
     public async Task Modules()
     {
         var embed = new EmbedBuilder();
@@ -47,7 +48,7 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
         await ctx.Interaction.RespondAsync(embed: embed.Build());
     }
 
-    [SlashCommand("invite", "You should invite me to your server and check all my features!")]
+    [SlashCommand("invite", "You should invite me to your server and check all my features!"), BlacklistCheck]
     public async Task Invite()
     {
         var eb = new EmbedBuilder()

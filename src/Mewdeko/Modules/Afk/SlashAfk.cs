@@ -19,7 +19,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
     public SlashAfk(InteractiveService serv) => _interactivity = serv;
 
-    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions]
+    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Afk(string message = null)
     {
         if (message == null)
@@ -74,7 +74,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 
     [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), 
      RequireContext(ContextType.Guild), 
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+     SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task CustomAfkMessage(string embed)
     {
         CrEmbed.TryParse(embed, out var crEmbed);
@@ -104,7 +104,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated afk message!");
     }
 
-    [SlashCommand("listactive", "Sends a list of active afk users"), CheckPermissions]
+    [SlashCommand("listactive", "Sends a list of active afk users"), CheckPermissions, BlacklistCheck]
     public async Task GetActiveAfks()
     {
         var afks = Service.GetAfkUsers(ctx.Guild);
@@ -134,7 +134,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("view", "View another user's afk message"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("view", "View another user's afk message"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
     public async Task AfkView(IGuildUser user)
     {
         if (!Service.IsAfk(user.Guild, user))
@@ -147,7 +147,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync($"{user}'s Afk is:\n{msg.Message}");
     }
 
-    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
@@ -185,7 +185,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             }
         }
     }
-    [SlashCommand("maxlength", "Sets the maximum length of afk messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("maxlength", "Sets the maximum length of afk messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task AfkLength(int num)
     {
         if (num > 4096)
@@ -200,7 +200,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task AfkType(string ehm)
     {
         switch (ehm.ToLower())
@@ -227,7 +227,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task AfkTimeout(string input)
     {
         var time = StoopidTime.FromInput(input);
@@ -247,7 +247,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await ctx.Interaction.SendConfirmAsync($"Your AFK Timeout has been set to {time.Time.Humanize()}");
     }
 
-    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
     public async Task AfkUndisable(ITextChannel channel)
     {
         var chan = new[] {channel};
@@ -287,7 +287,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             $"Successfully removed the channels {string.Join(",", mentions)} from the list of ignored Afk channels.");
     }
 
-    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
     public async Task AfkDisable(ITextChannel channel)
     {
         var chan = new[] {channel};
@@ -337,7 +337,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
     }
 
-    [SlashCommand("remove", "Removes afk from a user"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("remove", "Removes afk from a user"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
     public async Task AfkRemove(IGuildUser user)
     {
         var msg = Service.GetAfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
