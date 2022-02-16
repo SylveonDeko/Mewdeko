@@ -3,14 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B2F1537-4BF0-422B-A0DD-8F9CCEFB340F}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewdeko.csproj", "{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Coordinator", "src\Mewdeko.Coordinator\Mewdeko.Coordinator.csproj", "{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko.Database", "src\Mewdeko.Database\Mewdeko.Database.csproj", "{D7C563AB-F1E7-4D2B-98CB-418846CFBCC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +23,10 @@ Global
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B58EE18-B30E-4F30-95BB-6C8C6AED3DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C563AB-F1E7-4D2B-98CB-418846CFBCC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C563AB-F1E7-4D2B-98CB-418846CFBCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C563AB-F1E7-4D2B-98CB-418846CFBCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C563AB-F1E7-4D2B-98CB-418846CFBCC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,7 +48,5 @@ Global
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

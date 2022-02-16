@@ -6,6 +6,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database;
+using Mewdeko.Database.Common;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications;
@@ -15,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using System.Linq;
 
 namespace Mewdeko.Modules.Searches.Services;
 

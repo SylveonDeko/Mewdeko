@@ -13,6 +13,7 @@ using Mewdeko.Common.Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.CustomReactions.Services;
@@ -48,7 +49,7 @@ public class Mewdeko
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
-        _db = new DbService(Credentials);
+        _db = new DbService();
 
         if (shardId == 0) _db.Setup();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;

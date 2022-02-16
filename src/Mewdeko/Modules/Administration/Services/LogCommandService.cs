@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Common;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Discord;
+using Mewdeko.Database;
 using Mewdeko.Modules.Gambling.Common;
 
 namespace Mewdeko.Modules.Gambling.Services;
