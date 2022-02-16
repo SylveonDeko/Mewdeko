@@ -15,7 +15,6 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
-using System.Text;
 
 namespace Mewdeko.Modules.Gambling;
 

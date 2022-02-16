@@ -11,7 +11,6 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Booru = Mewdeko.Modules.Nsfw.Common.Booru;
-using SearchImageCacher = Mewdeko.Modules.Nsfw.SearchImageCacher;
 
 namespace Mewdeko.Modules.Nsfw;
 

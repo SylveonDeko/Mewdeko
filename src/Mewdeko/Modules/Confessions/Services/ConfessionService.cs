@@ -1,5 +1,4 @@
-﻿using AngleSharp.Common;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;

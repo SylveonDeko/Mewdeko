@@ -5,7 +5,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Confessions.Services;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Mewdeko.Modules.Confessions;
 
