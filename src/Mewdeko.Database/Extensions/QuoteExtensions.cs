@@ -19,7 +19,7 @@ public static class QuoteExtensions
         return q.Skip(15 * page).Take(15).ToArray();
     }
 
-    public static async Task<Quote?> GetRandomQuoteByKeywordAsync(this DbSet<Quote?> quotes, ulong guildId, string keyword)
+    public static async Task<Quote> GetRandomQuoteByKeywordAsync(this DbSet<Quote> quotes, ulong guildId, string keyword)
     {
         var rng = new Random();
         return (await quotes.AsQueryable()
@@ -29,7 +29,7 @@ public static class QuoteExtensions
                .FirstOrDefault();
     }
 
-    public static async Task<Quote?> SearchQuoteKeywordTextAsync(this DbSet<Quote?> quotes, ulong guildId, string keyword, string text)
+    public static async Task<Quote> SearchQuoteKeywordTextAsync(this DbSet<Quote> quotes, ulong guildId, string keyword, string text)
     {
         var rngk = new Random();
         return (await quotes.AsQueryable()

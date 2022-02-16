@@ -5,7 +5,7 @@ namespace Mewdeko.Database.Extensions;
 
 public static class ClubExtensions
 {
-    private static IQueryable<ClubInfo?> Include(this DbSet<ClubInfo> clubs)
+    private static IQueryable<ClubInfo> Include(this DbSet<ClubInfo> clubs)
         => clubs.Include(x => x.Owner)
                 .Include(x => x.Applicants)
                 .ThenInclude(x => x.User)
@@ -13,7 +13,7 @@ public static class ClubExtensions
                 .ThenInclude(x => x.User)
                 .Include(x => x.Users)
                 .AsQueryable();
-    public static ClubInfo? GetByOwner(this DbSet<ClubInfo> clubs, ulong userId)
+    public static ClubInfo GetByOwner(this DbSet<ClubInfo> clubs, ulong userId)
         => Include(clubs).FirstOrDefault(c => c.Owner.UserId == userId);
         
     public static ClubInfo GetByOwnerOrAdmin(this DbSet<ClubInfo> clubs, ulong userId)

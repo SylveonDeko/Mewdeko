@@ -17,7 +17,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
-using System.Linq;
 
 namespace Mewdeko.Modules.Searches.Services;
 
