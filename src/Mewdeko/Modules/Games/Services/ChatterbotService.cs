@@ -5,6 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Serilog;

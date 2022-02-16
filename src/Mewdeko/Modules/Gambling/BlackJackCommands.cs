@@ -3,6 +3,8 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Blackjack;
 using Mewdeko.Modules.Gambling.Services;

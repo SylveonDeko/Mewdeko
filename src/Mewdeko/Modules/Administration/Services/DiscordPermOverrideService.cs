@@ -6,6 +6,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 

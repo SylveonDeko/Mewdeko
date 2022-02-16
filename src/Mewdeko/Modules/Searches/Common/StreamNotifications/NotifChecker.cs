@@ -1,4 +1,5 @@
-﻿using Mewdeko.Database.Models;
+﻿using Mewdeko.Database.Common;
+using Mewdeko.Database.Models;
 using System.Collections.Generic;
 using System.Net.Http;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;

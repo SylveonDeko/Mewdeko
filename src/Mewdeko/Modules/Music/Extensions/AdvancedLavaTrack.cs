@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Mewdeko.Database.Models;
 using Victoria;
 
 namespace Mewdeko.Modules.Music.Extensions;
@@ -6,14 +7,6 @@ namespace Mewdeko.Modules.Music.Extensions;
 public class AdvancedLavaTrack : LavaTrack
 
 {
-    public enum Platform
-    {
-        Youtube,
-        Spotify,
-        Soundcloud,
-        Url,
-        File
-    }
 
     public AdvancedLavaTrack(LavaTrack track, int index, IUser queueUser, Platform queuedPlatform = Platform.Youtube)
         : base(track)

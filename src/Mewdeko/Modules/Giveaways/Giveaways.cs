@@ -6,6 +6,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
 using System.Collections.Generic;

@@ -8,6 +8,7 @@ using Mewdeko.Common;
 using Discord.Interactions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.MultiGreets.Services;
 using System.Net.Http;
 

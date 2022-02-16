@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
 

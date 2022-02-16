@@ -7,6 +7,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Extensions;
@@ -216,15 +217,15 @@ public class Music : MewdekoModuleBase<MusicService>
                     foreach (var i in songs3!)
                     {
                         var search = await _lavaNode.SearchAsync(SearchType.Direct, i.Query);
-                        var platform = AdvancedLavaTrack.Platform.Youtube;
+                        var platform = Platform.Youtube;
                         if (search.Status != SearchStatus.NoMatches)
                         {
                             platform = i.Provider switch
                             {
-                                "Spotify" => AdvancedLavaTrack.Platform.Spotify,
-                                "Soundcloud" => AdvancedLavaTrack.Platform.Soundcloud,
-                                "Direct Url / File" => AdvancedLavaTrack.Platform.Url,
-                                "Youtube" => AdvancedLavaTrack.Platform.Youtube,
+                                "Spotify" => Platform.Spotify,
+                                "Soundcloud" => Platform.Soundcloud,
+                                "Direct Url / File" => Platform.Url,
+                                "Youtube" => Platform.Youtube,
                                 _ => platform
                             };
 
@@ -682,11 +683,11 @@ public class Music : MewdekoModuleBase<MusicService>
                     searchQuery = ctx.Message.Attachments.FirstOrDefault()?.Url;
                 searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                 var track1 = searchResponse.Tracks.FirstOrDefault();
-                var platform = AdvancedLavaTrack.Platform.Youtube;
+                var platform = Platform.Youtube;
                 if (searchQuery!.Contains("soundcloud.com"))
-                    platform = AdvancedLavaTrack.Platform.Soundcloud;
+                    platform = Platform.Soundcloud;
                 if (searchQuery.CheckIfMusicUrl())
-                    platform = AdvancedLavaTrack.Platform.Url;
+                    platform = Platform.Url;
                 await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray(), platform);
                 count = Service.GetQueue(ctx.Guild.Id).Count;
                 if (searchResponse.Playlist.Name is not null)

@@ -5,6 +5,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database;
+using Mewdeko.Database.Common;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Games.Common;
@@ -72,7 +74,7 @@ public class PollService : IEarlyBehavior, INService
             return null;
 
         var col = new IndexedCollection<PollAnswer>(data.Skip(1)
-            .Select(x => new PollAnswer {Text = x}));
+                                                        .Select(x => new PollAnswer {Text = x}));
 
         return new Poll
         {
