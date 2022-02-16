@@ -11,6 +11,7 @@ using Google.Apis.Urlshortener.v1.Data;
 using Google.Apis.YouTube.v3;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Database.Extensions;
 using Newtonsoft.Json.Linq;
 using Serilog;
 

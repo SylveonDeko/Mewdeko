@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Discord;
 using Mewdeko._Extensions;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Xp.Common;

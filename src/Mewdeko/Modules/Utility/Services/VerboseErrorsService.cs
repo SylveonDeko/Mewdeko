@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Services.strings;

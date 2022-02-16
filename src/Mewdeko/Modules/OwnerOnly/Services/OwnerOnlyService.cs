@@ -10,6 +10,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Extensions;
@@ -50,7 +51,7 @@ public sealed class MusicService : INService
     }
 
     public Task Enqueue(ulong guildId, IUser user, LavaTrack? lavaTrack,
-        AdvancedLavaTrack.Platform queuedPlatform = AdvancedLavaTrack.Platform.Youtube)
+        Platform queuedPlatform = Platform.Youtube)
     {
         var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
         queue.Add(new AdvancedLavaTrack(lavaTrack, queue.Count + 1, user, queuedPlatform));
@@ -58,7 +59,7 @@ public sealed class MusicService : INService
     }
 
     public Task Enqueue(ulong guildId, IUser user, LavaTrack[] lavaTracks,
-        AdvancedLavaTrack.Platform queuedPlatform = AdvancedLavaTrack.Platform.Youtube)
+        Platform queuedPlatform = Platform.Youtube)
     {
         var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
         queue.AddRange(lavaTracks.Select(x => new AdvancedLavaTrack(x, queue.Count + 1, user, queuedPlatform)));
@@ -141,7 +142,7 @@ public sealed class MusicService : INService
                             $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}");
                         if (lavaTrack.Status is SearchStatus.NoMatches) continue;
                         await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(),
-                            AdvancedLavaTrack.Platform.Spotify);
+                            Platform.Spotify);
                         if (player.PlayerState != PlayerState.Playing)
                         {
                             await player.PlayAsync(x => x.Track = lavaTrack.Tracks.FirstOrDefault());
@@ -184,7 +185,7 @@ public sealed class MusicService : INService
                             $"{track.Name} {track.Artists.FirstOrDefault()?.Name}");
                         if (lavaTrack.Status is SearchStatus.NoMatches) continue;
                         await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(),
-                            AdvancedLavaTrack.Platform.Spotify);
+                            Platform.Spotify);
                         if (player.PlayerState != PlayerState.Playing)
                         {
                             await player.PlayAsync(x => x.Track = lavaTrack.Tracks.FirstOrDefault());
@@ -221,7 +222,7 @@ public sealed class MusicService : INService
 
                 var lavaTrack3 = await _lavaNode.SearchAsync(SearchType.YouTubeMusic,
                     $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}");
-                await Enqueue(guild.Id, user, lavaTrack3.Tracks.FirstOrDefault(), AdvancedLavaTrack.Platform.Spotify);
+                await Enqueue(guild.Id, user, lavaTrack3.Tracks.FirstOrDefault(), Platform.Spotify);
                 if (player.PlayerState != PlayerState.Playing)
                 {
                     await player.PlayAsync(x => x.Track = lavaTrack3.Tracks.FirstOrDefault());

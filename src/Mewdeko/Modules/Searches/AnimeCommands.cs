@@ -12,6 +12,7 @@ using JikanDotNet;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database.Extensions;
 using NekosSharp;
 using Newtonsoft.Json;
 

@@ -4,6 +4,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Database;
 using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions;

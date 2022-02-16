@@ -12,6 +12,7 @@ using Discord.WebSocket;
 using Html2Markdown;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common;
