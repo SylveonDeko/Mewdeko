@@ -123,7 +123,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction, TimeSpan.FromMinutes(60));
+        await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
         Task<PageBuilder> PageFactory(int page)
         {

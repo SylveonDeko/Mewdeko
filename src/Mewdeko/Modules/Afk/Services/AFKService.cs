@@ -50,7 +50,7 @@ public class AfkService : INService
     private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
     private ConcurrentDictionary<ulong, int> AfkDels { get; }
 
-    private async Task CacheAfk()
+    private Task CacheAfk()
     {
         {
             var uow = _db.GetDbContext();
@@ -60,6 +60,7 @@ public class AfkService : INService
                 addto.AddRange(uow.Afk.ForGuild(i));
             }
         }
+        return  Task.CompletedTask;
     }
     
 
