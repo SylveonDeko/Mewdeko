@@ -10,4 +10,5 @@ public static class AfkExtensions
             .AsQueryable()
             .AsNoTracking().
             Where(x => x.GuildId == guildId).ToArray();
+
 }

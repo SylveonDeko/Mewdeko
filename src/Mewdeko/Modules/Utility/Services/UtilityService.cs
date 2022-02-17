@@ -17,10 +17,11 @@ public class UtilityService : INService
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
     private readonly Mewdeko _bot;
-    private readonly ConcurrentDictionary<ulong, IList<SnipeStore>> _snipes;
+    private readonly IDataCache _cache;
 
-    public UtilityService(DiscordSocketClient client, DbService db, Mewdeko bot)
+    public UtilityService(DiscordSocketClient client, DbService db, Mewdeko bot, IDataCache cache)
     {
+        _cache = cache;
         _bot = bot;
         _client = client;
         client.MessageDeleted += MsgStore;
@@ -38,29 +39,25 @@ public class UtilityService : INService
         Reactchans = _bot.AllGuildConfigs
                           .ToDictionary(x => x.GuildId, x => x.ReactChannel)
                           .ToConcurrent();
-        _snipes = new ConcurrentDictionary<ulong, IList<SnipeStore>>();
-        _ = StoreSnipesOnStart();
+        if (client.ShardId == 0)
+            _ = StoreSnipesOnStart();
 
     }
 
-    private ConcurrentDictionary<ulong, bool> Snipeset { get; } = new();
-    private ConcurrentDictionary<ulong, int> Plinks { get; } = new();
-    private ConcurrentDictionary<ulong, ulong> Reactchans { get; } = new();
-    private async Task StoreSnipesOnStart() =>
-#pragma warning disable CS1998
-        await Task.Run(async () =>
-#pragma warning restore CS1998
-        {
-            var snipes = AllSnipes().Where(x => DateTime.UtcNow.Subtract(x.DateAdded.Value).TotalDays <= 3);
-            foreach (var snipe in snipes)
+    private ConcurrentDictionary<ulong, bool> Snipeset { get; }
+    private ConcurrentDictionary<ulong, int> Plinks { get; }
+    private ConcurrentDictionary<ulong, ulong> Reactchans { get; }
+    private Task StoreSnipesOnStart()
+    {
+        var uow = _db.GetDbContext();
+            foreach (var i in _bot.GetCurrentGuildIds())
             {
-                var snipe1 = _snipes.GetOrAdd(snipe.GuildId, new List<SnipeStore>());
-                snipe1.Add(snipe);
+                var e = uow.SnipeStore.ForGuild(i).Where(x => DateTime.UtcNow.Subtract(x.DateAdded.Value).TotalHours <= 24).ToList();
+                _cache.CacheSnipes(i, e);
             }
-        });
+            return Task.CompletedTask;
+    }
 
-    public Task<IList<SnipeStore>> GetSnipes(ulong guildId) 
-        => Task.FromResult(_snipes.FirstOrDefault(x => x.Key == guildId).Value);
     public int GetPLinks(ulong? id)
     {
         if (id == null || !Plinks.TryGetValue(id.Value, out var invw))
@@ -120,7 +117,7 @@ public class UtilityService : INService
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
-        var yesno = (endis == "enable");
+        var yesno = endis == "enable";
         await using (var uow = _db.GetDbContext())
         {
             var gc = uow.ForGuildId(guild.Id, set => set);
@@ -170,37 +167,38 @@ public class UtilityService : INService
             await using var uow = _db.GetDbContext();
             uow.SnipeStore.AddRange(msgs.ToArray());
             await uow.SaveChangesAsync();
-            var snipes = _snipes.GetOrAdd(chan.Guild.Id, new List<SnipeStore>());
-            snipes.AddRange(msgs);
+            var cursnipes = _cache.GetSnipesForGuild(chan.Guild.Id);
+            cursnipes.AddRange(msgs);
+            await _cache.AddSnipesToCache(chan.Guild.Id, cursnipes);
         });
 
-    private Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
+    private async Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
-        _ = Task.Run(async () =>
-        {
-            if (!GetSnipeSet(((SocketTextChannel) ch.Value).Guild.Id)) return;
+        if (!ch.HasValue || ch.Value is not ITextChannel chan)
+                return;
+            
+        if (!GetSnipeSet(chan.GuildId)) return;
 
-            if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
-            var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
-            if (user is null) return;
-            if (!user.IsBot)
+        if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
+        var user = await msg.Channel.GetUserAsync(optMsg.Value.Author.Id);
+        if (user is null) return;
+        if (!user.IsBot)
+        {
+            var snipemsg = new SnipeStore
             {
-                var snipemsg = new SnipeStore
-                {
-                    GuildId = ((SocketTextChannel) ch.Value).Guild.Id,
-                    ChannelId = ch.Id,
-                    Message = msg.Content,
-                    UserId = msg.Author.Id,
-                    Edited = 0
-                };
-                await using var uow = _db.GetDbContext();
-                uow.SnipeStore.Add(snipemsg);
-                await uow.SaveChangesAsync();
-                var snipes = _snipes.GetOrAdd(((SocketTextChannel)ch.Value).Guild.Id, new List<SnipeStore>());
-                snipes.Add(snipemsg);
-            }
-        });
-        return Task.CompletedTask;
+                GuildId = chan.Guild.Id,
+                ChannelId = ch.Id,
+                Message = msg.Content,
+                UserId = msg.Author.Id,
+                Edited = 0
+            };
+            await using var uow = _db.GetDbContext();
+            uow.SnipeStore.Add(snipemsg);
+            await uow.SaveChangesAsync();
+            var cursnipes = _cache.GetSnipesForGuild(chan.GuildId);
+            cursnipes.Add(snipemsg);
+            await _cache.AddSnipesToCache(chan.Guild.Id, cursnipes);
+        }
     }
 
     private Task MsgStore2(Cacheable<IMessage, ulong> optMsg, SocketMessage imsg2,
@@ -208,7 +206,11 @@ public class UtilityService : INService
     {
         _ = Task.Run(async () =>
         {
-            if (!GetSnipeSet(((SocketTextChannel) ch).Guild.Id)) return;
+            if (ch is not ITextChannel chan)
+                return;
+            
+            if (!GetSnipeSet(chan.GuildId))
+                return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;
             var user = await msg.Channel.GetUserAsync(msg.Author.Id);
@@ -226,17 +228,15 @@ public class UtilityService : INService
                 await using var uow = _db.GetDbContext();
                 uow.SnipeStore.Add(snipemsg);
                 _ = await uow.SaveChangesAsync();
-                var snipes = _snipes.GetOrAdd(((SocketTextChannel) ch).Guild.Id, new List<SnipeStore>());
-                snipes.Add(snipemsg);
+                var cursnipes = _cache.GetSnipesForGuild(chan.GuildId);
+                cursnipes.Add(snipemsg);
+                await _cache.AddSnipesToCache(chan.Guild.Id, cursnipes);
             }
         });
         return Task.CompletedTask;
     }
-    public SnipeStore[] AllSnipes()
-    {
-        using var uow = _db.GetDbContext();
-        return uow.SnipeStore.All();
-    }
+    public List<SnipeStore> GetSnipes(ulong guildId) 
+        => _cache.GetSnipesForGuild(guildId);
 
     public async Task MsgReciev2(SocketMessage msg)
     {
