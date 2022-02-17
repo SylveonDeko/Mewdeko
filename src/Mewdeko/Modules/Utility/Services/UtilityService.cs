@@ -141,36 +141,35 @@ public class UtilityService : INService
 
     private async Task BulkMsgStore(
         IReadOnlyCollection<Cacheable<IMessage, ulong>> messages,
-        Cacheable<IMessageChannel, ulong> channel) =>
-        await Task.Run(async () =>
+        Cacheable<IMessageChannel, ulong> channel)
+    {
+        if (!channel.HasValue)
+                return;
+
+        if (channel.Value is not SocketTextChannel chan)
+            return;
+
+        if (!GetSnipeSet(chan.Guild.Id))
+            return;
+
+        if (!messages.Select(x => x.HasValue).Any())
+            return;
+
+        var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore()
         {
-            if (!channel.HasValue)
-                return;
-
-            if (channel.Value is not SocketTextChannel chan)
-                return;
-            
-            if (!GetSnipeSet(chan.Guild.Id)) 
-                return;
-            
-            if (!messages.Select(x => x.HasValue).Any())
-                return;
-
-            var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore()
-            {
-                GuildId = chan.Guild.Id,
-                ChannelId = chan.Id,
-                Message = x.Value.Content,
-                UserId = x.Value.Author.Id,
-                Edited = 0
-            });
-            await using var uow = _db.GetDbContext();
-            uow.SnipeStore.AddRange(msgs.ToArray());
-            await uow.SaveChangesAsync();
-            var cursnipes = _cache.GetSnipesForGuild(chan.Guild.Id);
-            cursnipes.AddRange(msgs);
-            await _cache.AddSnipesToCache(chan.Guild.Id, cursnipes);
+            GuildId = chan.Guild.Id,
+            ChannelId = chan.Id,
+            Message = x.Value.Content,
+            UserId = x.Value.Author.Id,
+            Edited = 0
         });
+        await using var uow = _db.GetDbContext();
+        uow.SnipeStore.AddRange(msgs.ToArray());
+        await uow.SaveChangesAsync();
+        var cursnipes = _cache.GetSnipesForGuild(chan.Guild.Id);
+        cursnipes.AddRange(msgs);
+        await _cache.AddSnipesToCache(chan.Guild.Id, cursnipes);
+    }
 
     private async Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
     {
