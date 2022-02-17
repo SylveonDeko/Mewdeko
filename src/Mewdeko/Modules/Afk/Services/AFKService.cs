@@ -17,16 +17,18 @@ public class AfkService : INService
     private readonly DbService _db;
     private readonly CommandHandler _cmd;
     public DiscordSocketClient Client;
-    public ConcurrentDictionary<ulong, List<AFK>> CachedAfk = new();
-    private Mewdeko _bot;
+    private Mewdeko bot;
+    private IDataCache _cache;
 
     public AfkService(
         DbService db,
         DiscordSocketClient client,
         CommandHandler handle,
-        Mewdeko bot)
+        Mewdeko bot, IDataCache cache)
     {
-        _bot = bot;
+        
+        this.bot = bot;
+        _cache = cache;
         _db = db;
         Client = client;
         _cmd = handle;
@@ -40,7 +42,8 @@ public class AfkService : INService
         Client.MessageReceived += MessageReceived;
         Client.MessageUpdated += MessageUpdated;
         Client.UserIsTyping += UserTyping;
-        _ = CacheAfk();
+        if (client.ShardId == 0)
+            _ = CacheToRedis();
     }
 
     private ConcurrentDictionary<ulong, int> AfkType { get; }
@@ -50,19 +53,14 @@ public class AfkService : INService
     private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
     private ConcurrentDictionary<ulong, int> AfkDels { get; }
 
-    private Task CacheAfk()
+    public Task CacheToRedis()
     {
-        {
-            var uow = _db.GetDbContext();
-            foreach (var i in _bot.AllGuildConfigs.Select(x => x.GuildId))
-            {
-                var addto = CachedAfk.GetOrAdd(i, new List<AFK>());
-                addto.AddRange(uow.Afk.ForGuild(i));
-            }
-        }
-        return  Task.CompletedTask;
+        using var uow = _db.GetDbContext();
+        var guilds = bot.GetCurrentGuildIds();
+        foreach (var i in guilds)
+            _cache.CacheAfk(i, uow.Afk.ForGuild(i).ToList());
+        return Task.CompletedTask;
     }
-    
 
     private Task UserTyping(Cacheable<IUser, ulong> user, Cacheable<IMessageChannel, ulong> chan)
     {
@@ -224,11 +222,11 @@ public class AfkService : INService
     }
 
     public IEnumerable<IGuildUser> GetAfkUsers(IGuild guild) =>
-        CachedAfk.Select(x => x.Key).Contains(guild.Id)
-            ? new IGuildUser[] { }
-            : CachedAfk.FirstOrDefault(x => x.Key == guild.Id).Value.GroupBy(m => m.UserId)
-                       .Where(m => !string.IsNullOrEmpty(m.Last().Message))
-                       .Select(m => guild.GetUserAsync(m.Key).Result);
+        _cache.GetAfkForGuild(guild.Id) == null
+            ? Array.Empty<IGuildUser>()
+            : _cache.GetAfkForGuild(guild.Id).GroupBy(m => m.UserId)
+                    .Where(m => !string.IsNullOrEmpty(m.Last().Message))
+                    .Select(m => guild.GetUserAsync(m.Key).Result);
 
     public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
     {
@@ -373,13 +371,14 @@ public class AfkService : INService
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync();
-        var toaddto = CachedAfk.GetOrAdd(guild.Id, new List<AFK>());
-        toaddto.Add(afk);
+        var afkList = _cache.GetAfkForGuild(guild.Id);
+        afkList.Add(afk);
+        await _cache.AddAfkToCache(guild.Id, afkList);
     }
 
     public List<AFK> GetAfkMessage(ulong gid, ulong uid)
     {
-        var e = CachedAfk.FirstOrDefault(x => x.Key == gid).Value.Where(x => x.UserId == uid).ToList();
+        var e = _cache.GetAfkForGuild(gid).Where(x => x.UserId == uid).ToList();
         return e;
     }
 }

@@ -14,7 +14,8 @@ public class DbService
         LinqToDBForEFTools.Initialize();
             
         var builder = new SqliteConnectionStringBuilder("Data Source=data/Mewdeko.db");
-        builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
+        builder.DataSource =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Mewdeko.db");
 
         var optionsBuilder = new DbContextOptionsBuilder<MewdekoContext>();
         optionsBuilder.UseSqlite(builder.ToString());
