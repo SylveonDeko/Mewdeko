@@ -295,6 +295,9 @@ public class CommandHandler : INService
     {
         try
         {
+            if (msg.Author.Id != 280835732728184843)
+                return;
+            
             if (msg.Author.IsBot ||
                 !_bot.Ready.Task.IsCompleted) //no bots, wait until bot connected and initialized
                 return;

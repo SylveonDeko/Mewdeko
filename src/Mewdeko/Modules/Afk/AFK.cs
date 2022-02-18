@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
@@ -16,12 +17,21 @@ namespace Mewdeko.Modules.Afk;
 public class Afk : MewdekoModuleBase<AfkService>
 {
     private readonly InteractiveService _interactivity;
-
-    public Afk(InteractiveService serv) => _interactivity = serv;
+    private readonly DiscordSocketClient _client;
+    public Afk(InteractiveService serv, DiscordSocketClient client)
+    {
+        _interactivity = serv;
+        _client = client;
+    }
 
     [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
     public async Task SetAfk([Remainder] string message = null)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         if (message == null)
         {
             var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, ctx.User.Id).Select(x => x.Message);
@@ -80,6 +90,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
     public async Task AfkDel()
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         if (Service.GetAfkDel(ctx.Guild.Id) == 0)
         {
             await ctx.Channel.SendConfirmAsync("Afk messages are currently not being deleted.");
@@ -93,6 +108,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
     public async Task AfkDel(int num)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         switch (num)
         {
             case < 0:
@@ -111,6 +131,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
     public async Task TimedAfk(StoopidTime time, [Remainder] string message)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         if (Service.IsAfk(ctx.Guild, ctx.User as IGuildUser))
         {
             await ctx.Channel.SendErrorAsync(
@@ -159,6 +184,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Priority(0), MewdekoCommand, Usage, Description, Aliases]
     public async Task GetActiveAfks()
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         var afks = Service.GetAfkUsers(ctx.Guild);
         if (!afks.Any())
         {
@@ -189,6 +219,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [Priority(0), MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task AfkView(IGuildUser user)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         if (!Service.IsAfk(user.Guild, user))
         {
             await ctx.Channel.SendErrorAsync("This user isn't afk!");
@@ -240,6 +275,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         if (num > 4096)
         {
             await ctx.Channel.SendErrorAsync(
@@ -255,6 +295,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(string ehm)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         switch (ehm.ToLower())
         {
             case "typeorsend":
@@ -282,6 +327,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(int ehm)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         switch (ehm)
         {
             case 4:
@@ -302,6 +352,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AfkTimeout(StoopidTime time)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         if (time.Time < TimeSpan.FromSeconds(1) || time.Time > TimeSpan.FromHours(2))
         {
             await ctx.Channel.SendErrorAsync("The maximum Afk timeout is 2 Hours. Minimum is 1 Second.");
@@ -315,6 +370,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         var mentions = new List<string>();
         var toremove = new List<string>();
         var chans = Service.GetDisabledAfkChannels(ctx.Guild.Id);
@@ -354,6 +414,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         var list = new HashSet<string>();
         var newchans = new HashSet<string>();
         var mentions = new HashSet<string>();
@@ -403,6 +468,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
     public async Task AfkRemove(params IGuildUser[] user)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         var users = 0;
         foreach (var i in user)
             try
@@ -430,6 +500,11 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(1)]
     public async Task AfkRemove(IGuildUser user)
     {
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
+        {
+            await ctx.Channel.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
+            return;
+        }
         var afkmsg = Service.GetAfkMessage(ctx.Guild.Id, user.Id).Select(x => x.Message).Last();
         if (afkmsg == "")
         {

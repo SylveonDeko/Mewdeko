@@ -17,7 +17,7 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
 
     public RemoteGrpcCoordinator(DiscordSocketClient client)
     {
-        var channel = GrpcChannel.ForAddress("http://localhost:3442");
+        var channel = GrpcChannel.ForAddress("http://localhost:3444");
         _coordClient = new Coordinator.Coordinator.CoordinatorClient(channel);
         _client = client;
     }
