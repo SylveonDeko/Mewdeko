@@ -311,13 +311,13 @@ public partial class Searches
         {
             var msg = await ctx.Channel.SendConfirmAsync(
                 $"<a:loading:847706744741691402> Getting results for {query}...");
-            IJikan jikan = new Jikan(true);
-            var result = await jikan.SearchManga(query);
+            IJikan jikan = new Jikan();
+            var result = await jikan.SearchMangaAsync(query);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(result.Results.Count - 1)
+                .WithMaxPageIndex(result.Data.Count - 1)
                 .WithDefaultCanceledPage()
                 .WithDefaultEmotes()
                 .Build();
@@ -325,14 +325,14 @@ public partial class Searches
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
             Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                    .WithTitle(Format.Bold($"{result.Results.Skip(page).FirstOrDefault()?.Title}"))
-                    .AddField("First Publish Date", result.Results.Skip(page).FirstOrDefault()?.StartDate!)
-                    .AddField("Volumes", result.Results.Skip(page).FirstOrDefault()?.Volumes!)
-                    .AddField("Is Still Active", result.Results.Skip(page).FirstOrDefault()?.Publishing!)
-                    .AddField("Score", result.Results.Skip(page).FirstOrDefault()?.Score!)
-                    .AddField("Url", result.Results.Skip(page).FirstOrDefault()?.URL!)
-                    .WithDescription(result.Results.Skip(page).FirstOrDefault()?.Description!)
-                    .WithImageUrl(result.Results.Skip(page).FirstOrDefault()?.ImageURL!)
+                    .WithTitle(Format.Bold($"{result.Data.Skip(page).FirstOrDefault()?.Title}"))
+                    .AddField("First Publish Date", result.Data.Skip(page).FirstOrDefault()?.Published!)
+                    .AddField("Volumes", result.Data.Skip(page).FirstOrDefault()?.Volumes!)
+                    .AddField("Is Still Active", result.Data.Skip(page).FirstOrDefault()?.Publishing!)
+                    .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
+                    .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
+                    .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
+                    .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP.MaximumImageUrl)
                     .WithColor(Mewdeko.OkColor));
         }
     }

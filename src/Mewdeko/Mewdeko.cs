@@ -7,6 +7,7 @@ using Discord.WebSocket;
 using Fergun.Interactive;
 using KSoftNet;
 using Mewdeko._Extensions;
+using MartineApiNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.Extensions;
@@ -114,6 +115,7 @@ public class Mewdeko
                 .AddSingleton(this)
                 .AddSingleton(Cache)
                 .AddSingleton(new KSoftApi(TOKEN))
+                .AddSingleton(new MartineApi())
                 .AddSingleton(Cache.Redis)
                 .AddSingleton<ISeria, JsonSeria>()
                 .AddSingleton<IPubSub, RedisPubSub>()

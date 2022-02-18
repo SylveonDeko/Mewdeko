@@ -29,7 +29,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
 
     public override Task<RestartShardReply> RestartShard(RestartShardRequest request, ServerCallContext context)
     {
-        _runner.RestartShard(request.ShardId, request.Queue);
+        _runner.RestartShard(request.ShardId);
         return Task.FromResult(new RestartShardReply());
     }
 
@@ -137,7 +137,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
     public override Task<GetConfigTextReply> GetConfigText(GetConfigTextRequest request,
         ServerCallContext context)
     {
-        var text = _runner.GetConfigText();
+        var text = CoordinatorRunner.GetConfigText();
         return Task.FromResult(new GetConfigTextReply
         {
             ConfigYml = text,
