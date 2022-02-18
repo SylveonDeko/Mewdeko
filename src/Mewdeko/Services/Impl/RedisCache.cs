@@ -2,7 +2,6 @@
 using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using Mewdeko._Extensions;
 using Mewdeko.Database.Models;
 using System.Collections.Generic;
 
@@ -46,6 +45,9 @@ public class RedisCache : IDataCache
 
     public void CacheAfk(ulong id, List<AFK> objectList) 
         => new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis){{id, objectList}};
+    
+    public void CacheGuildConfigs(ulong id, List<GuildConfig> objectList) 
+        => new RedisDictionary<ulong, List<GuildConfig>>($"{_redisKey}_afk", Redis){{id, objectList}};
 
     public List<AFK> GetAfkForGuild(ulong id)
     {
@@ -184,7 +186,43 @@ public class RedisCache : IDataCache
             data,
             TimeSpan.FromMinutes(3));
     }
-
+    public async Task SetGuildSettingBool(ulong guildId, string setting, bool value)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+    }
+    
+    public async Task<bool> GetGuildSettingBool(ulong guildId, string setting)
+    {
+        var db = Redis.GetDatabase();
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        return JsonConvert.DeserializeObject<bool>(toget);
+    }
+    public async Task SetGuildSettingInt(ulong guildId, string setting, int value)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+    }
+    
+    public async Task<int> GetGuildSettingInt(ulong guildId, string setting)
+    {
+        var db = Redis.GetDatabase();
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        return JsonConvert.DeserializeObject<int>(toget);
+    }
+    
+    public async Task SetGuildSettingString(ulong guildId, string setting, string value)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+    }
+    
+    public async Task<string> GetGuildSettingString(ulong guildId, string setting)
+    {
+        var db = Redis.GetDatabase();
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        return JsonConvert.DeserializeObject<string>(toget);
+    }
     public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory,
         TParam param, TimeSpan expiry) where TOut : class
     {

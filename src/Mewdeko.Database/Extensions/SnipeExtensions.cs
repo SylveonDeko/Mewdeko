@@ -5,9 +5,9 @@ namespace Mewdeko.Database.Extensions;
 
 public static class SnipeExtensions
 {
-    public static List<SnipeStore> ForGuild(this DbSet<SnipeStore> set, ulong guildId) =>
+    public static List<SnipeStore> All(this DbSet<SnipeStore> set) =>
         set
             .AsQueryable()
             .AsNoTracking()
-            .Where(x => x.GuildId == guildId).ToList();
+            .ToList();
 }
