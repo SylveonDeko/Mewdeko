@@ -2,6 +2,8 @@
 using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using Mewdeko.Database.Models;
+using System.Collections.Generic;
 
 namespace Mewdeko.Services.Impl;
 
@@ -41,10 +43,47 @@ public class RedisCache : IDataCache
         return (x != null, x);
     }
 
-    public Task SetImageDataAsync(Uri key, byte[] data)
+    public void CacheAfk(ulong id, List<AFK> objectList) 
+        => new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis){{id, objectList}};
+    
+    public void CacheGuildConfigs(ulong id, List<GuildConfig> objectList) 
+        => new RedisDictionary<ulong, List<GuildConfig>>($"{_redisKey}_afk", Redis){{id, objectList}};
+
+    public List<AFK> GetAfkForGuild(ulong id)
+    {
+        var customers = new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis);
+        return customers[id];
+    }
+
+    public Task AddAfkToCache(ulong id, List<AFK> newAfk)
+    {
+        var customers = new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis);
+        customers.Remove(id);
+        customers.Add(id, newAfk);
+        return Task.CompletedTask;
+    }
+    
+    public void CacheSnipes(ulong id, List<SnipeStore> objectList) =>
+        new RedisDictionary<ulong, List<SnipeStore>>($"{_redisKey}_snipes", Redis){{id, objectList}};
+
+    public List<SnipeStore> GetSnipesForGuild(ulong id)
+    {
+        var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{_redisKey}_snipes", Redis);
+        return customers[id];
+    }
+
+    public Task AddSnipesToCache(ulong id, List<SnipeStore> newAfk)
+    {
+        var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{_redisKey}_snipes", Redis);
+        customers.Remove(id);
+        customers.Add(id, newAfk);
+        return Task.CompletedTask;
+    }
+
+    public async Task SetImageDataAsync(Uri key, byte[] data)
     {
         var db = Redis.GetDatabase();
-        return db.StringSetAsync("image_" + key, data);
+        await db.StringSetAsync("image_" + key, data);
     }
 
 
@@ -147,7 +186,43 @@ public class RedisCache : IDataCache
             data,
             TimeSpan.FromMinutes(3));
     }
-
+    public async Task SetGuildSettingBool(ulong guildId, string setting, bool value)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+    }
+    
+    public async Task<bool> GetGuildSettingBool(ulong guildId, string setting)
+    {
+        var db = Redis.GetDatabase();
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        return JsonConvert.DeserializeObject<bool>(toget);
+    }
+    public async Task SetGuildSettingInt(ulong guildId, string setting, int value)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+    }
+    
+    public async Task<int> GetGuildSettingInt(ulong guildId, string setting)
+    {
+        var db = Redis.GetDatabase();
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        return JsonConvert.DeserializeObject<int>(toget);
+    }
+    
+    public async Task SetGuildSettingString(ulong guildId, string setting, string value)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{_redisKey}_{setting}_{guildId}", JsonConvert.SerializeObject(value));
+    }
+    
+    public async Task<string> GetGuildSettingString(ulong guildId, string setting)
+    {
+        var db = Redis.GetDatabase();
+        var toget = await db.StringGetAsync($"{_redisKey}_{setting}_{guildId}");
+        return JsonConvert.DeserializeObject<string>(toget);
+    }
     public async Task<TOut> GetOrAddCachedDataAsync<TParam, TOut>(string key, Func<TParam, Task<TOut>> factory,
         TParam param, TimeSpan expiry) where TOut : class
     {

@@ -19,8 +19,7 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
                                                  .WithName("Mewdeko Help Menu"));
         embed.WithColor(Mewdeko.OkColor);
         embed.WithDescription(
-            $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk" +
-            $"\nJoin our partner server: https://discord.gg/nezuko");
+            $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk");
         embed.AddField("**Categories**",
             $">  `{Prefix}cmds Administration`" +
             $"\n>  `{Prefix}cmds Moderation`" +
