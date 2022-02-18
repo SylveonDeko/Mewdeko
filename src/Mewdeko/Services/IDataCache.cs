@@ -1,5 +1,4 @@
-﻿using Mewdeko._Extensions;
-using Mewdeko.Database.Models;
+﻿using Mewdeko.Database.Models;
 using StackExchange.Redis;
 using System.Collections.Generic;
 
@@ -16,6 +15,12 @@ public interface IDataCache
     Task AddAfkToCache(ulong Id, List<AFK> newAfk);
     void CacheSnipes(ulong Id, List<SnipeStore> objectList);
     List<SnipeStore> GetSnipesForGuild(ulong Id);
+    Task SetGuildSettingInt(ulong guildId, string setting, int value);
+    Task<int> GetGuildSettingInt(ulong guildId, string setting);
+    Task SetGuildSettingString(ulong guildId, string setting, string value);
+    Task<string> GetGuildSettingString(ulong guildId, string setting);
+    Task SetGuildSettingBool(ulong guildId, string setting, bool value);
+    Task<bool> GetGuildSettingBool(ulong guildId, string setting);
     Task AddSnipesToCache(ulong Id, List<SnipeStore> newSnipes);
     Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key);
     Task SetImageDataAsync(Uri key, byte[] data);

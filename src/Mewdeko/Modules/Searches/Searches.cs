@@ -15,6 +15,7 @@ using KSoftNet.Models.Images;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using MartineApiNet;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Administration.Services;
@@ -45,12 +46,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     private readonly KSoftApi _kSoftApi;
     private readonly GuildTimezoneService _tzSvc;
     private readonly InteractiveService _interactivity;
+    private readonly MartineApi _martineApi;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
-        KSoftApi kSoftApi, InteractiveService serv)
+        KSoftApi kSoftApi, InteractiveService serv,
+        MartineApi martineApi)
     {
         _interactivity = serv;
+        _martineApi = martineApi;
         _kSoftApi = kSoftApi;
         _creds = creds;
         _google = google;
@@ -59,7 +63,12 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _tzSvc = tzSvc;
     }
 
-
+    [MewdekoCommand, Usage, Description, Aliases]
+    public async Task Test()
+    {
+        var meme = await _martineApi.RedditApi.GetRandomMeme();
+        await ctx.Channel.SendConfirmAsync(meme.Data.Title);
+    }
     //for anonymasen :^)
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Meme()

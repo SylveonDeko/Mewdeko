@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Mewdeko.WebApp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Mewdeko.Database\Mewdeko.Database.csproj" />
+    <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
   </ItemGroup>
 
 </Project>
