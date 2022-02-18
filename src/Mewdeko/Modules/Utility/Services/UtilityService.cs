@@ -16,12 +16,10 @@ public class UtilityService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
     private readonly ConcurrentDictionary<ulong, IList<SnipeStore>> _snipes;
 
     public UtilityService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
-        _bot = bot;
         _client = client;
         client.MessageDeleted += MsgStore;
         client.MessageUpdated += MsgStore2;
@@ -29,29 +27,27 @@ public class UtilityService : INService
         client.MessageReceived += MsgReciev2;
         client.MessagesBulkDeleted += BulkMsgStore;
         _db = db;
-        Snipeset = _bot.AllGuildConfigs
-                        .ToDictionary(x => x.GuildId, x => x.snipeset)
-                        .ToConcurrent();
-        Plinks = _bot.AllGuildConfigs
-                      .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
+        Snipeset = bot.AllGuildConfigs
+                      .ToDictionary(x => x.GuildId, x => x.snipeset)
                       .ToConcurrent();
-        Reactchans = _bot.AllGuildConfigs
-                          .ToDictionary(x => x.GuildId, x => x.ReactChannel)
-                          .ToConcurrent();
+        Plinks = bot.AllGuildConfigs
+                    .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
+                    .ToConcurrent();
+        Reactchans = bot.AllGuildConfigs
+                        .ToDictionary(x => x.GuildId, x => x.ReactChannel)
+                        .ToConcurrent();
         _snipes = new ConcurrentDictionary<ulong, IList<SnipeStore>>();
         _ = StoreSnipesOnStart();
 
     }
 
-    private ConcurrentDictionary<ulong, bool> Snipeset { get; } = new();
-    private ConcurrentDictionary<ulong, int> Plinks { get; } = new();
-    private ConcurrentDictionary<ulong, ulong> Reactchans { get; } = new();
-    private async Task StoreSnipesOnStart() =>
-#pragma warning disable CS1998
-        await Task.Run(async () =>
-#pragma warning restore CS1998
+    private ConcurrentDictionary<ulong, bool> Snipeset { get; }
+    private ConcurrentDictionary<ulong, int> Plinks { get; }
+    private ConcurrentDictionary<ulong, ulong> Reactchans { get; }
+    private Task StoreSnipesOnStart() =>
+        Task.Run(() =>
         {
-            var snipes = AllSnipes().Where(x => DateTime.UtcNow.Subtract(x.DateAdded.Value).TotalDays <= 3);
+            var snipes = AllSnipes().Where(x => DateTime.UtcNow.Subtract(x.DateAdded.Value).TotalHours <= 24);
             foreach (var snipe in snipes)
             {
                 var snipe1 = _snipes.GetOrAdd(snipe.GuildId, new List<SnipeStore>());
@@ -120,7 +116,7 @@ public class UtilityService : INService
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
-        var yesno = (endis == "enable");
+        var yesno = endis == "enable";
         await using (var uow = _db.GetDbContext())
         {
             var gc = uow.ForGuildId(guild.Id, set => set);
@@ -232,7 +228,7 @@ public class UtilityService : INService
         });
         return Task.CompletedTask;
     }
-    public SnipeStore[] AllSnipes()
+    public List<SnipeStore> AllSnipes()
     {
         using var uow = _db.GetDbContext();
         return uow.SnipeStore.All();
@@ -266,8 +262,7 @@ public class UtilityService : INService
         if (msg.Channel is SocketTextChannel t)
         {
             if (msg.Author.IsBot) return;
-            SocketGuild gid;
-            gid = t.Guild;
+            var gid = t.Guild;
             if (GetPLinks(gid.Id) == 1)
             {
                 var linkParser =

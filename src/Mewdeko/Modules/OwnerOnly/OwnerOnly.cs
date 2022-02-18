@@ -601,6 +601,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task Die()
     {
+
         try
         {
             await ReplyConfirmLocalizedAsync("shutting_down").ConfigureAwait(false);
@@ -611,6 +612,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
 
         await Task.Delay(2000).ConfigureAwait(false);
+        Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
+        Environment.SetEnvironmentVariable("AFK_CACHED", "0");
         _coord.Die();
     }
 

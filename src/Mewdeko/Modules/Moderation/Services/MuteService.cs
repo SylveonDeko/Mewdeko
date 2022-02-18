@@ -405,14 +405,14 @@ public class MuteService : INService
         foreach (var toOverwrite in await guild.GetTextChannelsAsync().ConfigureAwait(false))
             try
             {
-                if (!toOverwrite.PermissionOverwrites.Any(x => x.TargetId == muteRole.Id
-                                                               && x.TargetType == PermissionTarget.Role))
-                {
-                    await toOverwrite.AddPermissionOverwriteAsync(muteRole, _denyOverwrite)
-                        .ConfigureAwait(false);
+                if (toOverwrite is IThreadChannel)
+                    continue;
+                if (toOverwrite.PermissionOverwrites.Any(x => x.TargetId == muteRole.Id
+                                                              && x.TargetType == PermissionTarget.Role)) continue;
+                await toOverwrite.AddPermissionOverwriteAsync(muteRole, _denyOverwrite)
+                                 .ConfigureAwait(false);
 
-                    await Task.Delay(200).ConfigureAwait(false);
-                }
+                await Task.Delay(200).ConfigureAwait(false);
             }
             catch
             {

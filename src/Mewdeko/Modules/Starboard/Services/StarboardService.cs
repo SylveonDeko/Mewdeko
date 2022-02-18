@@ -173,7 +173,8 @@ public class StarboardService : INService
         SocketReaction reaction)
     {
         
-        if (reaction.User.Value.IsBot 
+        if (!reaction.User.IsSpecified
+            || reaction.User.Value.IsBot 
             || !channel.HasValue 
             || channel.Value is not ITextChannel textChannel 
             || GetStarCount(textChannel.GuildId) == 0)
@@ -321,7 +322,8 @@ public class StarboardService : INService
         Cacheable<IMessageChannel, ulong> channel,
         SocketReaction reaction)
     {
-        if (reaction.User.Value.IsBot 
+        if (!reaction.User.IsSpecified
+            || reaction.User.Value.IsBot 
             || !channel.HasValue 
             || channel.Value is not ITextChannel textChannel 
             || GetStarCount(textChannel.GuildId) == 0)

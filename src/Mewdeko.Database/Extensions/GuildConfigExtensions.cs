@@ -11,6 +11,7 @@ public static class GuildConfigExtensions
         public ulong ChannelId { get; set; } 
     }
 
+    public static GuildConfig[] All(this DbSet<GuildConfig> set) => set.AsQueryable().ToArray();
     public static GuildConfig ForGuildId(this MewdekoContext ctx, ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
     {
         GuildConfig config;

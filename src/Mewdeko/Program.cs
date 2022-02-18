@@ -28,7 +28,7 @@ if (args.Length > 0)
         }
     }
 }
-
+Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
 
 LogSetup.SetupLogger(shardId);
 Log.Information($"Pid: {pid}");
