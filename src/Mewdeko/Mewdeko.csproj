@@ -29,7 +29,6 @@
         <PackageReference Include="Html2Markdown" Version="5.0.2.561" />
         <PackageReference Include="Humanizer" Version="2.14.1" />
         <PackageReference Include="JikanDotNet" Version="2.0.0" />
-        <PackageReference Include="KSoftNet" Version="4.0.0" />
         <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138" />
         <PackageReference Include="Google.Apis.YouTube.v3" Version="1.56.0.2449" />
         <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084" />
@@ -40,9 +39,9 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="linq2db.EntityFrameworkCore" Version="6.6.1" />
-        <PackageReference Include="MartineApiNet" Version="1.0.2" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.1.0" />
+        <PackageReference Include="MartineApiNet" Version="1.0.5" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.2.0-1.final" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.1.22076.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.1.22076.6">
             <PrivateAssets>all</PrivateAssets>
@@ -71,7 +70,7 @@
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta11" />
         <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
         <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.2" />
-        <PackageReference Include="StackExchange.Redis" Version="2.5.27-prerelease" />
+        <PackageReference Include="StackExchange.Redis" Version="2.5.30-prerelease" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0-preview.1.22076.8" />
         <PackageReference Include="System.Threading.Channels" Version="7.0.0-preview.1.22076.8" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />

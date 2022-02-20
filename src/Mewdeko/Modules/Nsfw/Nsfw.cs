@@ -9,8 +9,8 @@ using System.Net.Http;
 using System.Threading;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using KSoftNet;
-using KSoftNet.Enums;
+using MartineApiNet;
+using MartineApiNet.Endpoints;
 using NekosSharp;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
@@ -19,19 +19,19 @@ using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Nsfw;
 
-public class NSFW : MewdekoModuleBase<ISearchImagesService>
+public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 {
     private static readonly ConcurrentHashSet<ulong> _hentaiBombBlacklist = new();
     private readonly IHttpClientFactory _httpFactory;
     private readonly MewdekoRandom _rng;
     private readonly InteractiveService _interactivity;
     private static readonly NekoClient NekoClient = new("Mewdeko");
-    private readonly KSoftApi Ksoftapi;
+    private readonly MartineApi _martineApi;
     public static List<RedditCache> Cache { get; set; } = new();
 
-    public NSFW(IHttpClientFactory factory, InteractiveService interactivity, KSoftApi kSoftApi)
+    public Nsfw(IHttpClientFactory factory, InteractiveService interactivity, MartineApi martineApi)
     {
-        Ksoftapi = kSoftApi;
+        _martineApi = martineApi;
         _interactivity = interactivity;
         _httpFactory = factory;
         _rng = new MewdekoRandom();
@@ -107,13 +107,13 @@ public class NSFW : MewdekoModuleBase<ISearchImagesService>
     {
         try
         {
-            var image = await Ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
-            while (CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-                image = await Ksoftapi.ImagesApi.GetRandomReddit(subreddit, Span.Year);
+            var image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
+            while (CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
+                image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
             var eb = new EmbedBuilder
             {
-                Description = $"[{image.Title}]({image.Source})",
-                ImageUrl = image.ImageUrl,
+                Description = $"[{image.Data.Title}]({image.Data.PostUrl})",
+                ImageUrl = image.Data.ImageUrl,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: eb.Build());
