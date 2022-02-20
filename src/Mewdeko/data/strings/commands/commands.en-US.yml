@@ -18,6 +18,11 @@ gstart:
   args:
     - ""
     - "#channel 2d 1 nitro!"
+ship:
+  desc: "Ship two users or ship yourself with another user!"
+  args:
+    - "@user"
+    - "@user1 @user2"
 gend:
   desc: "Ends a giveaway using the number in `{0}glist`."
   args:
