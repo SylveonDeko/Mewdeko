@@ -6,7 +6,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using KSoftNet;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -52,17 +51,15 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     private readonly DownloadTracker _tracker;
 
     private readonly InteractiveService _interactivity;
-    public KSoftApi Ksoft;
 
     private IUserMessage rdMsg;
 
     public Gambling(DbService db, ICurrencyService currency,
         IDataCache cache, DiscordSocketClient client,
-        DownloadTracker tracker, GamblingConfigService configService, KSoftApi ks, InteractiveService serv) : base(
+        DownloadTracker tracker, GamblingConfigService configService, InteractiveService serv) : base(
         configService)
     {
         _interactivity = serv;
-        Ksoft = ks;
         _db = db;
         _cs = currency;
         _cache = cache;

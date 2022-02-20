@@ -55,12 +55,10 @@ public static class Extensions
 
 
     public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message)
-        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), components: new ComponentBuilder()
-            .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
     
     public static async Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message) 
-        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
-            .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
     
     public static async Task SendErrorAsync(this IDiscordInteraction interaction, string message) 
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()
@@ -71,15 +69,13 @@ public static class Extensions
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build());
     
     public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message) 
-        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), components: new ComponentBuilder()
-            .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
 
     public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message, ComponentBuilder builder) 
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), components: builder.Build());
     
     public static async Task<IUserMessage> SendEphemeralFollowupConfirmAsync(this IDiscordInteraction interaction, string message)
-        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
-            .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
     
     public static async Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message) 
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()

@@ -36,8 +36,7 @@ public static class MessageChannelExtensions
         return ch.SendMessageAsync("", embed: eb.Build());
     }
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string text) =>
-        ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(), components: new ComponentBuilder()
-            .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
     
 
     public static Task<IUserMessage> SendConfirmAsync(this ITextChannel ch, string text,
