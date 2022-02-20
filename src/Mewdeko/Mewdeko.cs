@@ -5,7 +5,6 @@ using Discord.Net;
 using Discord.Rest;
 using Discord.WebSocket;
 using Fergun.Interactive;
-using KSoftNet;
 using Mewdeko._Extensions;
 using MartineApiNet;
 using Mewdeko.Common;
@@ -40,7 +39,6 @@ namespace Mewdeko;
 public class Mewdeko
 {
     private readonly DbService _db;
-    private const string TOKEN = "95dd4f5d54692fc533bd1da43f1cab773c71d894";
 
     public Mewdeko(int shardId)
     {
@@ -114,7 +112,6 @@ public class Mewdeko
                 .AddSingleton(CommandService)
                 .AddSingleton(this)
                 .AddSingleton(Cache)
-                .AddSingleton(new KSoftApi(TOKEN))
                 .AddSingleton(new MartineApi())
                 .AddSingleton(Cache.Redis)
                 .AddSingleton<ISeria, JsonSeria>()

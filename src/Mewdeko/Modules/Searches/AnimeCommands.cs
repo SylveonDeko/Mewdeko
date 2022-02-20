@@ -299,7 +299,7 @@ public partial class Searches
             eb.AddField("Air End Date", result.AiringEndDate, true);
             eb.AddField("Average Score", result.AverageScore, true);
             eb.AddField("Mean Score", result.MeanScore, true);
-            eb.AddField("Is this NSFW?", result.IsAdult, true);
+            eb.AddField("Is this Nsfw?", result.IsAdult, true);
             eb.Title = $"{result.EnglishTitle}";
             eb.Color = Mewdeko.OkColor;
             eb.WithUrl(result.SiteUrl);
