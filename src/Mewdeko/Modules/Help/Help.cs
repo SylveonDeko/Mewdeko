@@ -121,7 +121,7 @@ public class Help : MewdekoModuleBase<HelpService>
             $"\n>  `{Prefix}cmds Starboard`",
             true);
         embed.AddField("_ _",
-            $">  `{Prefix}cmds NSFW`" +
+            $">  `{Prefix}cmds Nsfw`" +
             $"\n>  `{Prefix}cmds Music`" +
             $"\n>  `{Prefix}cmds Gambling`" +
             $"\n>  `{Prefix}cmds Searches`" +

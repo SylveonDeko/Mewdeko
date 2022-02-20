@@ -9,13 +9,12 @@ using Fergun.Interactive.Pagination;
 using GScraper;
 using GScraper.DuckDuckGo;
 using GScraper.Google;
-using KSoftNet;
-using KSoftNet.Enums;
-using KSoftNet.Models.Images;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using MartineApiNet;
+using MartineApiNet.Endpoints;
+using MartineApiNet.Models.Images;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Administration.Services;
@@ -31,6 +30,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Globalization;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Searches;
@@ -43,19 +43,17 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     private readonly IBotCredentials _creds;
     private readonly IGoogleApiService _google;
     private readonly IHttpClientFactory _httpFactory;
-    private readonly KSoftApi _kSoftApi;
     private readonly GuildTimezoneService _tzSvc;
     private readonly InteractiveService _interactivity;
     private readonly MartineApi _martineApi;
 
     public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache,
         GuildTimezoneService tzSvc,
-        KSoftApi kSoftApi, InteractiveService serv,
+        InteractiveService serv,
         MartineApi martineApi)
     {
         _interactivity = serv;
         _martineApi = martineApi;
-        _kSoftApi = kSoftApi;
         _creds = creds;
         _google = google;
         _httpFactory = factory;
@@ -79,7 +77,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             Author = new EmbedAuthorBuilder
             {
-                Name = image.Data.Author.Name
+                Name = $"u/{image.Data.Author.Name}"
             },
             Description = $"Title: {image.Data.Title}\n[Source]({image.Data.PostUrl})",
             Footer = new EmbedFooterBuilder
@@ -93,27 +91,27 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
-    public async Task RandomAww()
-    {
-        var image = await _kSoftApi.ImagesApi.GetRandomAww();
-        var em = new EmbedBuilder
-        {
-            Author = new EmbedAuthorBuilder
-            {
-                Name = image.Author
-            },
-            Description = $"Title: {image.Title}\n[Source]({image.Source})",
-            Footer = new EmbedFooterBuilder
-            {
-                Text =
-                    $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | r/{image.Subreddit} | Powered by Ksoft.Si"
-            },
-            ImageUrl = image.ImageUrl,
-            Color = Mewdeko.OkColor
-        };
-        await ctx.Channel.SendMessageAsync("", embed: em.Build());
-    }
+    // [MewdekoCommand, Usage, Description, Aliases]
+    // public async Task RandomAww()
+    // {
+    //     var image = await _kSoftApi.ImagesApi.GetRandomAww();
+    //     var em = new EmbedBuilder
+    //     {
+    //         Author = new EmbedAuthorBuilder
+    //         {
+    //             Name = image.Author
+    //         },
+    //         Description = $"Title: {image.Title}\n[Source]({image.Source})",
+    //         Footer = new EmbedFooterBuilder
+    //         {
+    //             Text =
+    //                 $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | r/{image.Subreddit} | Powered by Ksoft.Si"
+    //         },
+    //         ImageUrl = image.ImageUrl,
+    //         Color = Mewdeko.OkColor
+    //     };
+    //     await ctx.Channel.SendMessageAsync("", embed: em.Build());
+    // }
 
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task RandomReddit(string subreddit)
@@ -133,7 +131,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         RedditPost image;
         try
         {
-            image = await _kSoftApi.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
+            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit);
         }
         catch (ApiException)
         {
@@ -142,20 +140,20 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
         }
 
-        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
-            image = await _kSoftApi.ImagesApi.GetRandomReddit(subreddit, Span.Year, true);
+        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
+            image = await _martineApi.RedditApi.GetRandomFromSubreddit(subreddit, Toptype.year);
         var em = new EmbedBuilder
         {
             Author = new EmbedAuthorBuilder
             {
-                Name = image.Author
+                Name = $"u/{image.Data.Author.Name}"
             },
-            Description = $"Title: {image.Title}\n[Source]({image.Source})",
+            Description = $"Title: {image.Data.Title}\n[Source]({image.Data.PostUrl})",
             Footer = new EmbedFooterBuilder
             {
-                Text = $"{image.Upvotes} Upvotes! | {image.Subreddit} Powered by KSoft.si"
+                Text = $"{image.Data.Upvotes} Upvotes! | r/{image.Data.Subreddit} Powered by martineAPI"
             },
-            ImageUrl = image.ImageUrl,
+            ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
@@ -268,7 +266,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                 .WithOkColor()
                 .WithFooter(efb =>
                     efb.WithText("Powered by openweathermap.org")
-                        .WithIconUrl($"http://openweathermap.org/img/w/{data.Weather[0].Icon}.png"));
+                        .WithIconUrl($"https://openweathermap.org/img/w/{data.Weather[0].Icon}.png"));
         }
 
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -307,7 +305,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var eb = new EmbedBuilder()
             .WithOkColor()
             .WithTitle(GetText("time_new"))
-            .WithDescription(Format.Code(data.Time.ToString()))
+            .WithDescription(Format.Code(data.Time.ToString(CultureInfo.InvariantCulture)))
             .AddField(GetText("location"), string.Join('\n', data.Address.Split(", ")), true)
             .AddField(GetText("timezone"), data.TimeZoneName, true);
 
@@ -315,7 +313,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     // done in 3.0
-    [MewdekoCommand, Usage, Description, Aliases]
+    [MewdekoCommand, Usage, Description, Aliases]   
     public async Task Youtube([Remainder] string query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -349,7 +347,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
             .WithTitle(movie.Title)
-            .WithUrl($"http://www.imdb.com/title/{movie.ImdbId}/")
+            .WithUrl($"httpS://www.imdb.com/title/{movie.ImdbId}/")
             .WithDescription(movie.Plot.TrimTo(1000))
             .AddField(efb => efb.WithName("Rating").WithValue(movie.ImdbRating).WithIsInline(true))
             .AddField(efb => efb.WithName("Genre").WithValue(movie.Genre).WithIsInline(true))
@@ -446,7 +444,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
         await ctx.Channel.SendConfirmAsync("<" +
                                            await _google
-                                               .ShortenUrl($"http://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}")
+                                               .ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs!)}")
                                                .ConfigureAwait(false) + ">")
             .ConfigureAwait(false);
     }
@@ -526,7 +524,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var embed = new EmbedBuilder()
             .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + query.TrimTo(50))
                 .WithUrl(data.FullQueryLink)
-                .WithIconUrl("http://i.imgur.com/G46fm8J.png"))
+                .WithIconUrl("https://i.imgur.com/G46fm8J.png"))
             .WithTitle(ctx.User.ToString())
             .WithFooter(efb => efb.WithText(data.TotalResults))
             .WithDescription(descStr)
@@ -604,7 +602,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
         using var http = _httpFactory.CreateClient();
         var res = await http
-            .GetStringAsync($"http://api.urbandictionary.com/v0/define?term={Uri.EscapeDataString(query)}")
+            .GetStringAsync($"https://api.urbandictionary.com/v0/define?term={Uri.EscapeDataString(query!)}")
             .ConfigureAwait(false);
         try
         {
@@ -627,7 +625,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     return Task.FromResult(new PageBuilder().WithOkColor()
                         .WithUrl(item.Permalink)
                         .WithAuthor(
-                            eab => eab.WithIconUrl("http://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
+                            eab => eab.WithIconUrl("https://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
                         .WithDescription(item.Definition));
                 }
             }
@@ -646,14 +644,13 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         using var http = _httpFactory.CreateClient();
-        string res;
         try
         {
-            res = await _cache.GetOrCreateAsync($"define_{word}", e =>
+            var res = await _cache.GetOrCreateAsync($"define_{word}", e =>
             {
                 e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
                 return http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
-                                            WebUtility.UrlEncode(word));
+                                           WebUtility.UrlEncode(word));
             }).ConfigureAwait(false);
 
             var data = JsonConvert.DeserializeObject<DefineModel>(res);
