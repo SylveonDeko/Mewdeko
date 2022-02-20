@@ -6,7 +6,7 @@ using Mewdeko.Database.Models;
 namespace Mewdeko.WebApp.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]/[action]")]
 public class AfkController : ControllerBase
 {
     private readonly DbService _db;
@@ -16,11 +16,13 @@ public class AfkController : ControllerBase
         _db = db;
     }
 
-    [HttpGet(Name = "GetAfkForUser")]
+    [HttpGet]
+    [ActionName("GetAfkForUser")]
     public IEnumerable<AFK> Get(ulong serverId, ulong userId) =>
         _db.GetDbContext().Afk.ForGuild(serverId).Where(x => x.UserId == userId);
 
-    [HttpGet(Name = "IsAfk")]
+    [HttpGet]
+    [ActionName("IsAfk")]
     public bool IsAfk(ulong serverId, ulong userId)
     {
         var result = _db.GetDbContext().Afk.ForGuild(serverId).LastOrDefault(x => x.UserId == userId);
