@@ -62,22 +62,16 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         _cache = cache;
         _tzSvc = tzSvc;
     }
-
-    [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Test()
-    {
-        var meme = await _martineApi.RedditApi.GetRandomMeme();
-        await ctx.Channel.SendConfirmAsync(meme.Data.Title);
-    }
+    
     //for anonymasen :^)
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Meme()
     {
         var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
-        var image = await _kSoftApi.ImagesApi.GetRandomMeme();
-        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.ImageUrl))
+        var image = await _martineApi.RedditApi.GetRandomMeme();
+        while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
         {
-            image = await _kSoftApi.ImagesApi.GetRandomMeme();
+            image = await _martineApi.RedditApi.GetRandomMeme();
             await Task.Delay(500);
         }
 
@@ -85,15 +79,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             Author = new EmbedAuthorBuilder
             {
-                Name = image.Author
+                Name = image.Data.Author.Name
             },
-            Description = $"Title: {image.Title}\n[Source]({image.Source})",
+            Description = $"Title: {image.Data.Title}\n[Source]({image.Data.PostUrl})",
             Footer = new EmbedFooterBuilder
             {
                 Text =
-                    $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
+                    $"{image.Data.Upvotes} Upvotes {image.Data.Downvotes} Downvotes | r/{image.Data.Subreddit.Name} | Powered by MartineApi"
             },
-            ImageUrl = image.ImageUrl,
+            ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
@@ -113,7 +107,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             Footer = new EmbedFooterBuilder
             {
                 Text =
-                    $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | {image.Subreddit} Powered by Ksoft.Si"
+                    $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | r/{image.Subreddit} | Powered by Ksoft.Si"
             },
             ImageUrl = image.ImageUrl,
             Color = Mewdeko.OkColor
