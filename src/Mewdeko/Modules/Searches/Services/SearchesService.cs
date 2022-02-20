@@ -147,7 +147,6 @@ public class SearchesService : INService, IUnloadableService
                 .ToList();
         if (File.Exists("data/ultimatelist.txt"))
             _nsfwreddits = File.ReadAllLines("data/ultimatelist.txt")
-                .Shuffle()
                 .ToList();
     }
 
@@ -190,14 +189,10 @@ public class SearchesService : INService, IUnloadableService
             return false;
         }
 
-        if (!Cache.Contains(e))
-        {
-            Cache.Add(e);
-            return false;
-        }
+        if (Cache.Contains(e)) return Cache.Contains(e) || true;
+        Cache.Add(e);
+        return false;
 
-        if (Cache.Contains(e)) return true;
-        return true;
     }
 
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
@@ -464,9 +459,7 @@ public class SearchesService : INService, IUnloadableService
 
     public bool NsfwCheck(string reddit)
     {
-        if (_nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase))
-            return true;
-        return false;
+        return _nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
     }
 
     public Task<string> GetYomamaJoke()

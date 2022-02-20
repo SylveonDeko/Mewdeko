@@ -13,7 +13,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using MartineApiNet;
-using MartineApiNet.Endpoints;
+using MartineApiNet.Enums;
 using MartineApiNet.Models.Images;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;
@@ -66,7 +66,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     public async Task Meme()
     {
         var msg = await ctx.Channel.SendConfirmAsync("Fetching random meme...");
-        var image = await _martineApi.RedditApi.GetRandomMeme();
+        var image = await _martineApi.RedditApi.GetRandomMeme(Toptype.year);
         while (SearchesService.CheckIfAlreadyPosted(ctx.Guild, image.Data.ImageUrl))
         {
             image = await _martineApi.RedditApi.GetRandomMeme();
@@ -158,6 +158,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
+    
 
     //for anonymasen :^)
     [MewdekoCommand, Usage, Description, Aliases]
