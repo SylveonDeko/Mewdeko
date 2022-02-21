@@ -200,8 +200,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                          .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -333,8 +332,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                          .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -388,8 +386,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             },
             Color = Mewdeko.OkColor
         };
-        await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                          .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+        await ctx.Channel.SendMessageAsync(embed: em.Build());
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
@@ -425,8 +422,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
 
         }
     }
@@ -486,8 +482,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
     }
 
@@ -529,8 +524,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
     }
 
@@ -572,8 +566,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
     }
 
@@ -616,8 +609,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 },
                 Color = Mewdeko.OkColor
             };
-            await ctx.Channel.SendMessageAsync(embed: em.Build(), components: new ComponentBuilder()
-                                                                              .WithButton(label:"Invite Me!", style: ButtonStyle.Link, url: "https://top.gg/bot/752236274261426212").Build());
+            await ctx.Channel.SendMessageAsync(embed: em.Build());
         }
     }
 
