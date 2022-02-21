@@ -136,7 +136,7 @@ public class ConfessionService : INService
                 return;
             }
 
-            var eb = new EmbedBuilder().WithOkColor().WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
+            var eb = new EmbedBuilder().WithOkColor()
                                        .WithAuthor($"Anonymous confession #1", guild.IconUrl)
                                        .WithDescription(confession)
                                        .WithFooter(
