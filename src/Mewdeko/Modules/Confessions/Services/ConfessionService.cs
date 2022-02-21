@@ -109,7 +109,7 @@ public class ConfessionService : INService
                 var logChannel = guild.GetTextChannel(GetConfessionLogChannel(serverId));
                 if (logChannel is null)
                     return;
-                var eb2 = new EmbedBuilder().WithErrorColor().WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
+                var eb2 = new EmbedBuilder().WithErrorColor()
                                             .AddField("User", $"{user} | {user.Id}")
                                             .AddField($"Confession {current.ConfessNumber + 1}", confession)
                                             .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
@@ -184,7 +184,7 @@ public class ConfessionService : INService
                 var logChannel = guild.GetTextChannel(GetConfessionLogChannel(serverId));
                 if (logChannel is null)
                     return;
-                var eb2 = new EmbedBuilder().WithErrorColor().WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
+                var eb2 = new EmbedBuilder().WithErrorColor()
                                             .AddField("User", $"{user} | {user.Id}")
                                             .AddField($"Confession 1", confession)
                                             .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
