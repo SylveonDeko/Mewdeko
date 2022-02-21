@@ -13,9 +13,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     [MewdekoCommand, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
     public async Task Confess(ulong serverId, string confession = null)
     {
-        var attachment = ctx.Message.Attachments.FirstOrDefault().Url == null
-            ? null
-            : ctx.Message.Attachments.FirstOrDefault().Url;
+        var attachment = ctx.Message.Attachments.FirstOrDefault().Url ?? null;
         var user = ctx.User as SocketUser;
         if (user!.MutualGuilds.Select(x => x.Id).Contains(serverId))
         {
