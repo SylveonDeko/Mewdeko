@@ -95,7 +95,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                 return;
             }
 
-            await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, ctx.User.Id);
+            await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, user.Id);
             await ctx.Channel.SendConfirmAsync($"Added {user.Mention} to the confession blacklist!!");
         }
     }
@@ -111,7 +111,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
                 return;
             }
 
-            await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, ctx.User.Id);
+            await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, user.Id);
             await ctx.Channel.SendConfirmAsync($"Removed {user.Mention} from the confession blacklist!!");
         }
     }

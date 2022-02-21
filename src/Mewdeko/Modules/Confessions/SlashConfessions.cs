@@ -103,7 +103,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
                 return;
             }
 
-            await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, ctx.User.Id);
+            await Service.ToggleUserBlacklistAsync(ctx.Guild.Id, user.Id);
             await ctx.Interaction.SendConfirmAsync($"Removed {user.Mention} from the confession blacklist!!");
         }
     }
