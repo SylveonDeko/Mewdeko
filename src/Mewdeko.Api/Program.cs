@@ -1,7 +1,10 @@
+using Mewdeko.Services.Impl;
+using Mewdeko;
 using Mewdeko.Database;
+using Mewdeko.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var db = new DbService();
+var db = new DbService(2);
 // Add services to the container.
 
 builder.Services.AddControllers();
