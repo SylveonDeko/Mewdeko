@@ -17,14 +17,12 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
         private readonly IBotCredentials _creds;
         private readonly HttpClient _http;
         private readonly string _imagesPath;
-        private const string OldCdnUrl = "nadeko-pictures.nyc3.digitaloceanspaces.com";
-        private const string NewCdnUrl = "cdn.nadeko.bot";
 
 
-        private IDatabase _db => _con.GetDatabase();
+        private IDatabase Db => _con.GetDatabase();
 
-        private const string _basePath = "data/";
-        private const string _cardsPath = "data/images/cards";
+        private const string BASE_PATH = "data/";
+        private const string CARDS_PATH = "data/images/cards";
 
         public ImageUrls ImageUrls { get; private set; }
 
@@ -76,13 +74,10 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
         public byte[] RipOverlay 
             => GetByteData(ImageKeys.RipOverlay);
 
-        public byte[] GetCard(string key)
-        {
+        public byte[] GetCard(string key) =>
             // since cards are always local for now, don't cache them
-            return File.ReadAllBytes(Path.Join(_cardsPath, key + ".jpg"));
+            File.ReadAllBytes(Path.Join(CARDS_PATH, key + ".jpg"));
 
-        }
-        
 
         public async Task OnReadyAsync()
         {
@@ -97,7 +92,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
             _con = con;
             _creds = creds;
             _http = new HttpClient();
-            _imagesPath = Path.Combine(_basePath, "images.yml");
+            _imagesPath = Path.Combine(BASE_PATH, "images.yml");
 
             Migrate();
 
@@ -107,10 +102,10 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
         private void Migrate()
         {
             // migrate to yml
-            if (File.Exists(Path.Combine(_basePath, "images.json")))
+            if (File.Exists(Path.Combine(BASE_PATH, "images.json")))
             {
-                var oldFilePath = Path.Combine(_basePath, "images.json");
-                var backupFilePath = Path.Combine(_basePath, "images.json.backup");
+                var oldFilePath = Path.Combine(BASE_PATH, "images.json");
+                var backupFilePath = Path.Combine(BASE_PATH, "images.json.backup");
                 
                 var oldData = JsonConvert.DeserializeObject<OldImageUrls>(
                     File.ReadAllText(oldFilePath));
@@ -228,19 +223,19 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
             if (data is null)
                 return;
 
-            await _db.StringSetAsync(GetRedisKey(key), data);
+            await Db.StringSetAsync(GetRedisKey(key), data);
         }
 
         private async Task Load(ImageKeys key, Uri[] uris)
         {
-            await _db.KeyDeleteAsync(GetRedisKey(key));
+            await Db.KeyDeleteAsync(GetRedisKey(key));
             var imageData = await Task.WhenAll(uris.Select(GetImageData));
             var vals = imageData
                 .Where(x => x is not null)
                 .Select(x => (RedisValue)x)
                 .ToArray();
 
-            await _db.ListRightPushAsync(GetRedisKey(key), vals);
+            await Db.ListRightPushAsync(GetRedisKey(key), vals);
             
             if (uris.Length != vals.Length)
             {
@@ -280,7 +275,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
         private async Task<bool> AllKeysExist()
         {
             var tasks = await Task.WhenAll(GetAllKeys()
-                .Select(x => _db.KeyExistsAsync(GetRedisKey(x))));
+                .Select(x => Db.KeyExistsAsync(GetRedisKey(x))));
 
             return tasks.All(exist => exist);
         }
@@ -289,10 +284,10 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor
             Enum.GetValues<ImageKeys>();
 
         private byte[][] GetByteArrayData(ImageKeys key)
-            => _db.ListRange(GetRedisKey(key)).Map(x => (byte[])x);
+            => Db.ListRange(GetRedisKey(key)).Map(x => (byte[])x);
 
         private byte[] GetByteData(ImageKeys key)
-            => _db.StringGet(GetRedisKey(key));
+            => Db.StringGet(GetRedisKey(key));
 
         private RedisKey GetRedisKey(ImageKeys key) 
             => _creds.RedisKey() + "_image_" + key;
