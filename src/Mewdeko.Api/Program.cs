@@ -1,7 +1,4 @@
-using Mewdeko.Services.Impl;
-using Mewdeko;
 using Mewdeko.Database;
-using Mewdeko.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var db = new DbService(2);
