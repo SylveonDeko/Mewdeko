@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
-    <ProjectReference Include="..\Mewdeko\Mewdeko.csproj" />
   </ItemGroup>
 
 </Project>
