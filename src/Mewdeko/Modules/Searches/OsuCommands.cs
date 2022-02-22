@@ -9,7 +9,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;
-using System.IO;
 
 namespace Mewdeko.Modules.Searches;
 
