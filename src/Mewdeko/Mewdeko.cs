@@ -120,7 +120,7 @@ public class Mewdeko
                 .AddSingleton<InteractiveService>()
                 .AddSingleton<InteractionService>()
                 .AddConfigServices()
-                .AddBotStringsServices()
+                .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()
                 .AddSingleton<LavaNode>()
                 .AddSingleton<LavaConfig>()
