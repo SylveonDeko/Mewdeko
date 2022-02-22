@@ -8,11 +8,17 @@ namespace Mewdeko.Common.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddBotStringsServices(this IServiceCollection services) =>
-        services
-            .AddSingleton<IStringsSource, LocalFileStringsSource>()
-            .AddSingleton<IBotStringsProvider, LocalBotStringsProvider>()
-            .AddSingleton<IBotStrings, BotStrings>();
+    public static IServiceCollection AddBotStringsServices(this IServiceCollection services, int shardCount)
+    {
+        if (shardCount == 1)
+            return services.AddSingleton<IStringsSource, LocalFileStringsSource>()
+                           .AddSingleton<IBotStringsProvider, LocalBotStringsProvider>()
+                           .AddSingleton<IBotStrings, BotStrings>();
+        
+        return services.AddSingleton<IStringsSource, LocalFileStringsSource>()
+                       .AddSingleton<IBotStringsProvider, RedisBotStringsProvider>()
+                       .AddSingleton<IBotStrings, BotStrings>();
+    }
 
     public static IServiceCollection AddConfigServices(this IServiceCollection services)
     {
