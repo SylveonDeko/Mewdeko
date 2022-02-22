@@ -180,41 +180,6 @@ public class GoogleApiService : IGoogleApiService
         _cs = new CustomsearchService(bcs);
     }
 
-    public async Task<IEnumerable<string>> GetPlaylistIdsByKeywordsAsync(string keywords, int count = 1)
-    {
-        await Task.Yield();
-        if (string.IsNullOrWhiteSpace(keywords))
-            throw new ArgumentNullException(nameof(keywords));
-
-        if (count <= 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-
-        var match = _plRegex.Match(keywords);
-        if (match.Length > 1) return new[] {match.Groups["id"].Value};
-        var query = _yt.Search.List("snippet");
-        query.MaxResults = count;
-        query.Type = "playlist";
-        query.Q = keywords;
-
-        return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i => i.Id.PlaylistId);
-    }
-
-    public async Task<IEnumerable<string>> GetRelatedVideosAsync(string id, int count = 1)
-    {
-        await Task.Yield();
-        if (string.IsNullOrWhiteSpace(id))
-            throw new ArgumentNullException(nameof(id));
-
-        if (count <= 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-        var query = _yt.Search.List("snippet");
-        query.MaxResults = count;
-        query.RelatedToVideoId = id;
-        query.Type = "video";
-        return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-            "http://www.youtube.com/watch?v=" + i.Id.VideoId);
-    }
-
     public async Task<IEnumerable<string>> GetVideoLinksByKeywordAsync(string keywords, int count = 1)
     {
         await Task.Yield();
@@ -230,26 +195,9 @@ public class GoogleApiService : IGoogleApiService
         query.Type = "video";
         query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-            "http://www.youtube.com/watch?v=" + i.Id.VideoId);
+            "https://www.youtube.com/watch?v=" + i.Id.VideoId);
     }
-
-    public async Task<IEnumerable<(string Name, string Id, string Url)>> GetVideoInfosByKeywordAsync(
-        string keywords, int count = 1)
-    {
-        await Task.Yield();
-        if (string.IsNullOrWhiteSpace(keywords))
-            throw new ArgumentNullException(nameof(keywords));
-
-        if (count <= 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-
-        var query = _yt.Search.List("snippet");
-        query.MaxResults = count;
-        query.Q = keywords;
-        query.Type = "video";
-        return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-            (i.Snippet.Title.TrimTo(50), i.Id.VideoId, "http://www.youtube.com/watch?v=" + i.Id.VideoId));
-    }
+    
 
     public Task<string> ShortenUrl(Uri url) => ShortenUrl(url.ToString());
 
@@ -277,84 +225,7 @@ public class GoogleApiService : IGoogleApiService
             return url;
         }
     }
-
-    public async Task<IEnumerable<string>> GetPlaylistTracksAsync(string playlistId, int count = 50)
-    {
-        await Task.Yield();
-        if (string.IsNullOrWhiteSpace(playlistId))
-            throw new ArgumentNullException(nameof(playlistId));
-
-        if (count <= 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-
-        string nextPageToken = null;
-
-        var toReturn = new List<string>(count);
-
-        do
-        {
-            var toGet = count > 50 ? 50 : count;
-            count -= toGet;
-
-            var query = _yt.PlaylistItems.List("contentDetails");
-            query.MaxResults = toGet;
-            query.PlaylistId = playlistId;
-            query.PageToken = nextPageToken;
-
-            var data = await query.ExecuteAsync().ConfigureAwait(false);
-
-            toReturn.AddRange(data.Items.Select(i => i.ContentDetails.VideoId));
-            nextPageToken = data.NextPageToken;
-        } while (count > 0 && !string.IsNullOrWhiteSpace(nextPageToken));
-
-        return toReturn;
-    }
-
-    public async Task<IReadOnlyDictionary<string, TimeSpan>> GetVideoDurationsAsync(IEnumerable<string> videoIds)
-    {
-        await Task.Yield();
-        var videoIdsList = videoIds as List<string> ?? videoIds.ToList();
-
-        var toReturn = new Dictionary<string, TimeSpan>();
-
-        if (!videoIdsList.Any())
-            return toReturn;
-        var remaining = videoIdsList.Count;
-
-        do
-        {
-            var toGet = remaining > 50 ? 50 : remaining;
-            remaining -= toGet;
-
-            var q = _yt.Videos.List("contentDetails");
-            q.Id = string.Join(",", videoIdsList.Take(toGet));
-            videoIdsList = videoIdsList.Skip(toGet).ToList();
-            var items = (await q.ExecuteAsync().ConfigureAwait(false)).Items;
-            foreach (var i in items) toReturn.Add(i.Id, XmlConvert.ToTimeSpan(i.ContentDetails.Duration));
-        } while (remaining > 0);
-
-        return toReturn;
-    }
-
-    public async Task<ImageResult> GetImageAsync(string query)
-    {
-        await Task.Yield();
-        if (string.IsNullOrWhiteSpace(query))
-            throw new ArgumentNullException(nameof(query));
-
-        var req = _cs.Cse.List();
-        req.Q = query;
-        req.Cx = SEARCH_ENGINE_ID;
-        req.Num = 1;
-        req.Fields = "items(image(contextLink,thumbnailLink),link)";
-        req.SearchType = CseResource.ListRequest.SearchTypeEnum.Image;
-        req.Start = new MewdekoRandom().Next(0, 20);
-        req.Safe = CseResource.ListRequest.SafeEnum.Active;
-
-        var search = await req.ExecuteAsync().ConfigureAwait(false);
-
-        return new ImageResult(search.Items[0].Image, search.Items[0].Link);
-    }
+    
 
     public IEnumerable<string> Languages => _languageDictionary.Keys.OrderBy(x => x);
 
