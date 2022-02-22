@@ -10,7 +10,6 @@ using System.Threading;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
-using MartineApiNet.Endpoints;
 using MartineApiNet.Enums;
 using NekosSharp;
 using NHentai.NET.Client;
