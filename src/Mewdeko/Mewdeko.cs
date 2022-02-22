@@ -48,7 +48,7 @@ public class Mewdeko
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
-        _db = new DbService();
+        _db = new DbService(Credentials.TotalShards);
 
         if (shardId == 0) _db.Setup();
 
@@ -73,7 +73,7 @@ public class Mewdeko
         #endif
     }
 
-    private BotCredentials Credentials { get; }
+    public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
     public ImmutableArray<GuildConfig> AllGuildConfigs { get; private set; }
