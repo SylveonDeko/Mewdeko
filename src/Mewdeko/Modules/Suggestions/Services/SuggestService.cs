@@ -453,7 +453,7 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-            var ebe = CrEmbed.TryParse(GetDenyMessage(guild), out var crEmbed);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetDenyMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
             {
                 if (interaction is null)
@@ -466,26 +466,12 @@ public class SuggestionsService : INService
                 return;
             }
 
-            replacer.Replace(crEmbed);
-            if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText is null)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = null;
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = null;
-                });
-            if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
+            await message.ModifyAsync(x =>
+            {
+                x.Content = plainText;
+                x.Embed = embed?.Build();
+            });
+            if (plainText is null && embed == null)
             {
                 if (interaction is null)
                     await channel.SendErrorAsync(
@@ -631,7 +617,7 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-            var ebe = CrEmbed.TryParse(GetConsiderMessage(guild), out var crEmbed);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetConsiderMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
             {
                 if (interaction is null)
@@ -644,35 +630,11 @@ public class SuggestionsService : INService
                 return;
             }
 
-            replacer.Replace(crEmbed);
-            if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText is null)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = null;
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = null;
-                });
-            if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
+            await message.ModifyAsync(x =>
             {
-                if (interaction is null)
-                    await channel.SendErrorAsync(
-                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                if (interaction is not null)
-                    await interaction.SendErrorAsync(
-                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                return;
-            }
+                x.Content = plainText;
+                x.Embed = embed?.Build();
+            });
 
             try
             {
@@ -806,13 +768,13 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
-                .WithOverride("%suggest.mod.user%", () => user.ToString())
+                .WithOverride("%suggest.mod.user%", user.ToString)
                 .WithOverride("%suggest.mod.avatar%", () => user.RealAvatarUrl().ToString())
                 .WithOverride("%suggest.mod.name%", () => user.Username)
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-            var ebe = CrEmbed.TryParse(GetImplementMessage(guild), out var crEmbed);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetImplementMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
             {
                 await channel.SendErrorAsync(
@@ -821,31 +783,11 @@ public class SuggestionsService : INService
                 return;
             }
 
-            replacer.Replace(crEmbed);
-            if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText is null)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = null;
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = null;
-                });
-            if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
+            await message.ModifyAsync(x =>
             {
-                await channel.SendErrorAsync(
-                    "The implement message is invalid, please set it again and try again. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
-                return;
-            }
+                x.Content = plainText;
+                x.Embed = embed?.Build();
+            });
 
             try
             {
@@ -876,11 +818,7 @@ public class SuggestionsService : INService
     public async Task SendAcceptEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
         ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
     {
-        string rs;
-        if (reason == null)
-            rs = "none";
-        else
-            rs = reason;
+        var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
         var use = await guild.GetUserAsync(suggest.UserID);
         if (suggest.Suggestion is null)
@@ -984,7 +922,7 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.mod.message%", () => rs)
                 .WithOverride("%suggest.mod.Id%", () => user.Id.ToString())
                 .Build();
-            var ebe = CrEmbed.TryParse(GetAcceptMessage(guild), out var crEmbed);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetAcceptMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
             {
                 await channel.SendErrorAsync(
@@ -993,31 +931,11 @@ public class SuggestionsService : INService
                 return;
             }
 
-            replacer.Replace(crEmbed);
-            if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText is null)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = null;
-                    x.Embed = crEmbed.ToEmbed().Build();
-                });
-            if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                await message.ModifyAsync(x =>
-                {
-                    x.Content = crEmbed.PlainText.SanitizeAllMentions();
-                    x.Embed = null;
-                });
-            if (crEmbed.PlainText is null && !crEmbed.IsEmbedValid)
+            await message.ModifyAsync(x =>
             {
-                await channel.SendErrorAsync(
-                    "The accept message is invalid, please set it again and try again. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                return;
-            }
+                x.Content = plainText;
+                x.Embed = embed?.Build();
+            });
 
             try
             {
@@ -1105,7 +1023,7 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.user.name%", () => user.Username)
                 .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl().ToString())
                 .Build();
-            var ebe = CrEmbed.TryParse(GetSuggestionMessage(guild), out var crEmbed);
+            var ebe = SmartEmbed.TryParse(replacer.Replace(GetSuggestionMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
             {
                 if (interaction is null)
@@ -1122,50 +1040,19 @@ public class SuggestionsService : INService
                 return;
             }
 
-            replacer.Replace(crEmbed);
+            
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            if (crEmbed.PlainText is not null && crEmbed.IsEmbedValid)
-            {
-                var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true),
-                    embed: crEmbed.ToEmbed().Build());
-                IEmote[] reacts = {tup, tdown};
-                if (em is null or "disabled" or "-")
-                    foreach (var i in reacts)
-                        await t.AddReactionAsync(i);
-                else
-                    foreach (var ei in emotes)
-                        await t.AddReactionAsync(ei);
-                await Sugnum(guild, sugnum1 + 1);
-                await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
-            }
-
-            if (crEmbed.PlainText is null)
-            {
-                var t = await chan.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
-                IEmote[] reacts = {tup, tdown};
-                if (em is null or "disabled" or "-")
-                    foreach (var i in reacts)
-                        await t.AddReactionAsync(i);
-                else
-                    foreach (var ei in emotes)
-                        await t.AddReactionAsync(ei);
-                await Sugnum(guild, sugnum1 + 1);
-                await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
-            }
-
-            if (crEmbed.PlainText is not null && !crEmbed.IsEmbedValid)
-            {
-                var t = await chan.SendMessageAsync(crEmbed.PlainText.SanitizeMentions(true));
-                IEmote[] reacts = {tup, tdown};
-                if (em is null or "disabled" or "-")
-                    foreach (var i in reacts)
-                        await t.AddReactionAsync(i);
-                else
-                    foreach (var ei in emotes)
-                        await t.AddReactionAsync(ei);
-                await Sugnum(guild, sugnum1 + 1);
-                await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
-            }
+            var msg = await chan.SendMessageAsync(plainText,
+                embed: embed?.Build());
+            IEmote[] reacts = {tup, tdown};
+            if (em is null or "disabled" or "-")
+                foreach (var i in reacts)
+                    await msg.AddReactionAsync(i);
+            else
+                foreach (var ei in emotes)
+                    await msg.AddReactionAsync(ei);
+            await Sugnum(guild, sugnum1 + 1);
+            await Suggest(guild, sugnum1, msg.Id, user.Id, suggestion);
 
             if (interaction is not null)
                 await interaction.SendEphemeralConfirmAsync("Suggestion has been sent!");

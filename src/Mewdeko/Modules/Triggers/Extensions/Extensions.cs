@@ -92,7 +92,7 @@ public static class Extensions
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
             : ctx.Channel;
 
-        if (CrEmbed.TryParse(cr.Response, out var crembed))
+        if (SmartEmbed.TryParse(cr.Response, out var crembed, out var plainText))
         {
             var trigger = cr.Trigger.ResolveTriggerString(client);
             var substringIndex = trigger.Length;
@@ -116,9 +116,10 @@ public static class Extensions
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
                 .Build();
 
-            rep.Replace(crembed);
-
-            return await channel.EmbedAsync(crembed, sanitize).ConfigureAwait(false);
+            SmartEmbed.TryParse(rep.Replace(cr.Response), out crembed, out plainText );
+            if (sanitize)
+                plainText = plainText.SanitizeMentions();
+            return await channel.SendMessageAsync(plainText, embed: crembed?.Build()).ConfigureAwait(false);
         }
 
         return await channel

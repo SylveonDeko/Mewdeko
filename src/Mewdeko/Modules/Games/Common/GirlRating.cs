@@ -26,7 +26,7 @@ public class GirlRating
         {
             try
             {
-                using var img = Image.Load(_images.RategirlMatrix);
+                using var img = SixLabors.ImageSharp.Image.Load(_images.RategirlMatrix);
                 const int minx = 35;
                 const int miny = 385;
                 const int length = 345;
@@ -34,7 +34,7 @@ public class GirlRating
                 var pointx = (int) (minx + (length * (Hot / 10)));
                 var pointy = (int) (miny - (length * ((Crazy - 4) / 6)));
 
-                using (var pointImg = Image.Load(_images.RategirlDot))
+                using (var pointImg = SixLabors.ImageSharp.Image.Load(_images.RategirlDot))
                 {
                     img.Mutate(x =>
                         x.DrawImage(pointImg, new Point(pointx - 10, pointy - 10), new GraphicsOptions()));

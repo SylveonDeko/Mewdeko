@@ -48,7 +48,6 @@ public class Help : MewdekoModuleBase<HelpService>
         _lazyClientId = new AsyncLazy<ulong>(async () => (await _client.GetApplicationInfoAsync()).Id);
     }
 
-
     public async Task<(string plainText, EmbedBuilder embed)> GetHelpStringEmbed()
     {
         var botSettings = _bss.Data;
@@ -64,16 +63,12 @@ public class Help : MewdekoModuleBase<HelpService>
             .WithOverride("%bot.prefix%", () => Prefix)
             .Build();
 
-        if (!CrEmbed.TryParse(botSettings.HelpText, out var embed))
-        {
-            var eb = new EmbedBuilder().WithOkColor()
-                .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
-            return ("", eb);
-        }
+        if (SmartEmbed.TryParse(r.Replace(botSettings.HelpText), out var embed, out var plainText))
+            return (plainText, embed);
+        var eb = new EmbedBuilder().WithOkColor()
+                                   .WithDescription(string.Format(botSettings.HelpText, clientId, Prefix));
+        return (plainText, eb);
 
-        r.Replace(embed);
-
-        return (embed.PlainText, embed.ToEmbed());
     }
 
     [MewdekoCommand, Usage, Description, Aliases]

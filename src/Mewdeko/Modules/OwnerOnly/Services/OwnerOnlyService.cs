@@ -416,7 +416,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         // i can't just do ReadAsStreamAsync because dicord.net's image poops itself
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         await using var imgStream = imgData.ToStream();
-        await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
+        await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Discord.Image(imgStream)).ConfigureAwait(false);
 
         return true;
     }
