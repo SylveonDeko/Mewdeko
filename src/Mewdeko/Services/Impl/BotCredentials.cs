@@ -21,6 +21,7 @@ public class BotCredentials : IBotCredentials
         }
         catch
         {
+            // ignored
         }
 
         if (!File.Exists(_credsFileName))
@@ -60,10 +61,7 @@ public class BotCredentials : IBotCredentials
             if (string.IsNullOrWhiteSpace(CoinmarketcapApiKey))
                 CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
 
-            if (!string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]))
-                RedisOptions = data[nameof(RedisOptions)];
-            else
-                RedisOptions = "127.0.0.1,syncTimeout=3000";
+            RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)]) ? data[nameof(RedisOptions)] : "127.0.0.1,syncTimeout=3000";
 
             VotesToken = data[nameof(VotesToken)];
             VotesUrl = data[nameof(VotesUrl)];
@@ -91,10 +89,7 @@ public class BotCredentials : IBotCredentials
             }
 
             var portStr = data[nameof(ShardRunPort)];
-            if (string.IsNullOrWhiteSpace(portStr))
-                ShardRunPort = new MewdekoRandom().Next(5000, 6000);
-            else
-                ShardRunPort = int.Parse(portStr);
+            ShardRunPort = string.IsNullOrWhiteSpace(portStr) ? new MewdekoRandom().Next(5000, 6000) : int.Parse(portStr);
 
             if (!int.TryParse(data[nameof(TotalShards)], out var ts))
                 ts = 0;
