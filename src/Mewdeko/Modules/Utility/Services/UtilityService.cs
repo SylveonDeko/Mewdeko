@@ -204,6 +204,9 @@ public class UtilityService : INService
     {
         _ = Task.Run(async () =>
         {
+            if (ch is not ITextChannel)
+                return;
+            
             if (!GetSnipeSet(((SocketTextChannel) ch).Guild.Id)) return;
 
             if ((optMsg.HasValue ? optMsg.Value : null) is not IUserMessage msg || msg.Author.IsBot) return;

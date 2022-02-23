@@ -40,18 +40,12 @@ public class HelpService : ILateExecutor, INService
     public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
     {
         var settings = _bss.Data;
-        if (guild == null)
-        {
-            if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
-                return Task.CompletedTask;
+        if (guild != null) return Task.CompletedTask;
+        if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
+            return Task.CompletedTask;
 
-            if (CrEmbed.TryParse(settings.DmHelpText, out var embed))
-                return msg.Channel.EmbedAsync(embed);
+        return SmartEmbed.TryParse(settings.DmHelpText, out var embed, out var plainText) ? msg.Channel.EmbedAsync(embed, plainText) : msg.Channel.SendMessageAsync(settings.DmHelpText);
 
-            return msg.Channel.SendMessageAsync(settings.DmHelpText);
-        }
-
-        return Task.CompletedTask;
     }
 
     public static void UpdateHash(HelpInfo info) => List3.Add(info);

@@ -188,10 +188,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             .WithDefault(ctx.User, channel, (SocketGuild) ctx.Guild, (DiscordSocketClient) ctx.Client)
             .Build();
 
-        if (CrEmbed.TryParse(message, out var embedData))
+        if (SmartEmbed.TryParse(rep.Replace(message), out var embedData, out var plainText))
         {
-            rep.Replace(embedData);
-            await channel.EmbedAsync(embedData, !((IGuildUser) Context.User).GuildPermissions.MentionEveryone)
+            if (!((IGuildUser)ctx.User).GuildPermissions.MentionEveryone)
+                plainText = plainText.SanitizeMentions(true);
+            await channel.SendMessageAsync(plainText, embed: embedData?.Build())
                 .ConfigureAwait(false);
         }
         else

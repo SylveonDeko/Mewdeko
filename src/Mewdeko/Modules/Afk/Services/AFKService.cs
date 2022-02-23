@@ -178,7 +178,7 @@ public class AfkService : INService
                                            // ReSharper disable once PossibleInvalidOperationException
                                            $"{(DateTime.UtcNow - GetAfkMessage(user.GuildId, user.Id).Last().DateAdded.Value).Humanize()}")
                                        .Build();
-                        var ebe = CrEmbed.TryParse(GetCustomAfkMessage(mentuser.GuildId), out var crEmbed);
+                        var ebe = SmartEmbed.TryParse(replacer.Replace(GetCustomAfkMessage(mentuser.GuildId)), out var embed, out var plainText);
                         if (!ebe)
                         {
                             await SetCustomAfkMessage(user.Guild, "-");
@@ -198,31 +198,10 @@ public class AfkService : INService
                                 a.DeleteAfter(afkdel);
                             return;
                         }
-
-                        replacer.Replace(crEmbed);
-                        if (crEmbed.PlainText != null && crEmbed.IsEmbedValid)
-                        {
-                            var a = await msg.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeAllMentions(),
-                                embed: crEmbed.ToEmbed().Build());
-                            if (afkdel != 0)
-                                a.DeleteAfter(afkdel);
-                            return;
-                        }
-
-                        if (crEmbed.PlainText is null)
-                        {
-                            var a = await msg.Channel.SendMessageAsync(embed: crEmbed.ToEmbed().Build());
-                            if (afkdel != 0)
-                                a.DeleteAfter(afkdel);
-                            return;
-                        }
-
-                        if (crEmbed.PlainText != null && !crEmbed.IsEmbedValid)
-                        {
-                            var a = await msg.Channel.SendMessageAsync(crEmbed.PlainText.SanitizeAllMentions());
-                            if (afkdel != 0)
-                                a.DeleteAfter(afkdel);
-                        }
+                        var b = await msg.Channel.SendMessageAsync(plainText,
+                            embed: embed?.Build());
+                        if (afkdel > 0)
+                            b.DeleteAfter(afkdel);
                     }
                 }
             }

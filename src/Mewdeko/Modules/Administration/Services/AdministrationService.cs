@@ -234,13 +234,12 @@ public class AdministrationService : INService
             .WithDefault(context)
             .Build();
 
-        if (CrEmbed.TryParse(text, out var crembed))
+        if (SmartEmbed.TryParse(rep.Replace(text), out var embed, out var plainText))
         {
-            rep.Replace(crembed);
             await umsg.ModifyAsync(x =>
             {
-                x.Embed = crembed.ToEmbed().Build();
-                x.Content = crembed.PlainText?.SanitizeMentions() ?? "";
+                x.Embed = embed?.Build();
+                x.Content = plainText.SanitizeMentions() ?? "";
             }).ConfigureAwait(false);
         }
         else

@@ -65,25 +65,25 @@ public class MultiGreetService : INService
         {
             var webhook = new DiscordWebhookClient(greet.WebhookUrl);
             var content = replacer.Replace(greet.Message);
-            if (CrEmbed.TryParse(content, out var embedData))
+            if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
-                if (embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is not null && plainText is not null)
                 {
-                    var msg = await webhook.SendMessageAsync(embedData.PlainText, embeds: new[] { embedData.ToEmbed().Build() });
+                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() });
                     if (greet.DeleteTime > 0)
                         user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
                 }
 
-                if (!embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is null && plainText is not null)
                 {
-                    var msg = await webhook.SendMessageAsync(embedData.PlainText);
+                    var msg = await webhook.SendMessageAsync(plainText);
                     if (greet.DeleteTime > 0)
                         user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
                 }
 
-                if (embedData.IsEmbedValid && embedData.PlainText is null)
+                if (embedData is not null && plainText is "")
                 {
-                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.ToEmbed().Build() });
+                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() });
                     if (greet.DeleteTime > 0)
                         user.Guild.GetTextChannel(greet.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
                 }
@@ -99,11 +99,11 @@ public class MultiGreetService : INService
         {
             var channel = user.Guild.GetTextChannel(greet.ChannelId);
             var content = replacer.Replace(greet.Message);
-            if (CrEmbed.TryParse(content, out var embedData))
+            if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
-                if (embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is not null && plainText is not "")
                 {
-                    var msg = await channel.SendMessageAsync(embedData.PlainText, embed: embedData.ToEmbed().Build(), options: new RequestOptions()
+                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), options: new RequestOptions()
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     });
@@ -112,9 +112,9 @@ public class MultiGreetService : INService
 
                 }
 
-                if (!embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is null && plainText is not null)
                 {
-                    var msg = await channel.SendMessageAsync(embedData.PlainText, options: new RequestOptions()
+                    var msg = await channel.SendMessageAsync(plainText, options: new RequestOptions()
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     });;
@@ -122,9 +122,9 @@ public class MultiGreetService : INService
                         msg.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
                 }
 
-                if (embedData.IsEmbedValid && embedData.PlainText is null)
+                if (embedData is not null && plainText is "")
                 {
-                    var msg = await channel.SendMessageAsync(embed: embedData.ToEmbed().Build(), options: new RequestOptions()
+                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), options: new RequestOptions()
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     });;
@@ -151,26 +151,26 @@ public class MultiGreetService : INService
             if (i.WebhookUrl is not null) continue;
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             var content = replacer.Replace(i.Message);
-            if (CrEmbed.TryParse(content, out var embedData))
+            if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
-                if (embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is not null && plainText is not "")
                 {
-                    var msg = await channel.SendMessageAsync(embedData.PlainText, embed: embedData.ToEmbed().Build());
+                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
 
                 }
 
-                if (!embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is null && plainText is not null)
                 {
-                    var msg = await channel.SendMessageAsync(embedData.PlainText);
+                    var msg = await channel.SendMessageAsync(plainText);
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
 
-                if (embedData.IsEmbedValid && embedData.PlainText is null)
+                if (embedData is not null && plainText is "")
                 {
-                    var msg = await channel.SendMessageAsync(embed: embedData.ToEmbed().Build());
+                    var msg = await channel.SendMessageAsync(embed: embedData.Build());
                     if (i.DeleteTime > 0)
                         msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
@@ -192,25 +192,25 @@ public class MultiGreetService : INService
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
             var content = replacer.Replace(i.Message);
-            if (CrEmbed.TryParse(content, out var embedData))
+            if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
             {
-                if (embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is not null && plainText is not "")
                 {
-                    var msg = await webhook.SendMessageAsync(embedData.PlainText, embeds: new[] { embedData.ToEmbed().Build() });
+                    var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)
                         user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
 
-                if (!embedData.IsEmbedValid && embedData.PlainText is not null)
+                if (embedData is null && plainText is not null)
                 {
-                    var msg = await webhook.SendMessageAsync(embedData.PlainText);
+                    var msg = await webhook.SendMessageAsync(plainText);
                     if (i.DeleteTime > 0)
                         user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
 
-                if (embedData.IsEmbedValid && embedData.PlainText is null)
+                if (embedData is not null && plainText is "")
                 {
-                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.ToEmbed().Build() });
+                    var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)
                         user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }

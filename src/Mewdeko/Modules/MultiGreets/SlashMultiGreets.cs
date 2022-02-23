@@ -6,6 +6,7 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Discord.Interactions;
+using LinqToDB.Tools;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;
@@ -180,23 +181,9 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                     await msg.DeleteAsync();
                     var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient).WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
-                    if (CrEmbed.TryParse(content, out var embedData))
+                    if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
                     {
-                        if (embedData.IsEmbedValid && embedData.PlainText is not null)
-                        {
-                            await ctx.Interaction.FollowupAsync(embedData.PlainText, embed: embedData.ToEmbed().Build());
-
-                        }
-
-                        if (!embedData.IsEmbedValid && embedData.PlainText is not null)
-                        {
-                            await ctx.Interaction.FollowupAsync(embedData.PlainText);
-                        }
-
-                        if (embedData.IsEmbedValid && embedData.PlainText is null)
-                        {
-                            await ctx.Interaction.FollowupAsync(embed: embedData.ToEmbed().Build());
-                        }
+                        await ctx.Interaction.FollowupAsync(plainText, embed: embedData?.Build());
                     }
                     else
                     {

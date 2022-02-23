@@ -398,7 +398,7 @@ WHERE GuildId={guildId}
         uow.SaveChanges();
     }
 
-    public CrEmbed GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
+    public Task<(EmbedBuilder, string)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target, string defaultMessage,
         string banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
             (DiscordSocketClient) context.Client,
@@ -409,7 +409,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public CrEmbed GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public async Task<(EmbedBuilder, string)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -420,20 +420,20 @@ WHERE GuildId={guildId}
 
         var replacer = new ReplacementBuilder()
             .WithServer(client, guild)
-            .WithOverride("%ban.mod%", () => moderator.ToString())
-            .WithOverride("%ban.mod.fullname%", () => moderator.ToString())
+            .WithOverride("%ban.mod%", moderator.ToString)
+            .WithOverride("%ban.mod.fullname%", moderator.ToString)
             .WithOverride("%ban.mod.name%", () => moderator.Username)
             .WithOverride("%ban.mod.discrim%", () => moderator.Discriminator)
-            .WithOverride("%ban.user%", () => target.ToString())
-            .WithOverride("%ban.user.fullname%", () => target.ToString())
+            .WithOverride("%ban.user%", target.ToString)
+            .WithOverride("%ban.user.fullname%", target.ToString)
             .WithOverride("%ban.user.name%", () => target.Username)
             .WithOverride("%ban.user.discrim%", () => target.Discriminator)
             .WithOverride("%reason%", () => banReason)
             .WithOverride("%ban.reason%", () => banReason)
             .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm") ?? "perma")
             .Build();
-
-        CrEmbed crEmbed = null;
+        EmbedBuilder embed;
+        string plainText;
         // if template isn't set, use the old message style
         if (string.IsNullOrWhiteSpace(template))
         {
@@ -443,17 +443,12 @@ WHERE GuildId={guildId}
                 description = defaultMessage
             });
 
-            CrEmbed.TryParse(template, out crEmbed);
+            SmartEmbed.TryParse(replacer.Replace(template), out embed, out plainText);
         }
         // if template is set to "-" do not dm the user
         else if (template == "-")
         {
-            return default;
-        }
-        // if template is an embed, send that embed with replacements
-        else if (CrEmbed.TryParse(template, out crEmbed))
-        {
-            replacer.Replace(crEmbed);
+            return (null, null);
         }
         // otherwise, treat template as a regular string with replacements
         else
@@ -464,9 +459,9 @@ WHERE GuildId={guildId}
                 description = replacer.Replace(template)
             });
 
-            CrEmbed.TryParse(template, out crEmbed);
+            SmartEmbed.TryParse(replacer.Replace(template), out embed, out plainText);
         }
 
-        return crEmbed;
+        return (embed, plainText);
     }
 }

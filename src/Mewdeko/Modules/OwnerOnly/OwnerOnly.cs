@@ -18,9 +18,11 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using Serilog;
+using Swan;
 
 namespace Mewdeko.Modules.OwnerOnly;
 
@@ -707,65 +709,47 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task Send(string where, [Remainder] string msg = null)
+    public async Task Send(ulong where, ulong to, [Remainder] string msg = null)
     {
-        if (string.IsNullOrWhiteSpace(msg))
-            return;
-
-        var ids = where.Split('|');
-        if (ids.Length != 2)
-            return;
-        var sid = ulong.Parse(ids[0]);
-        var server = _client.Rest.GetGuildAsync(sid).Result;
-
-        if (server == null)
-            return;
-
-        var rep = new ReplacementBuilder()
-            .WithDefault(Context)
-            .Build();
-
-        if (ids[1].ToUpperInvariant().StartsWith("C:", StringComparison.InvariantCulture))
+        var rep = new ReplacementBuilder().WithDefault(Context).Build();
+        var potentialServer = await _client.Rest.GetGuildAsync(where);
+        if (potentialServer is null)
         {
-            var cid = ulong.Parse(ids[1][2..]);
-            var ch = server.GetTextChannelsAsync().Result.FirstOrDefault(c => c.Id == cid);
-            if (ch == null) return;
+            await ctx.Channel.SendErrorAsync("Can't find that guild!");
+            return;
+        }
 
-            if (CrEmbed.TryParse(msg, out var crembed))
+        var channel = await potentialServer.GetTextChannelAsync(to);
+        if (channel is not null)
+        {
+            if (SmartEmbed.TryParse(rep.Replace(msg), out var embed, out var plainText))
             {
-                rep.Replace(crembed);
-                await ch.EmbedAsync(crembed).ConfigureAwait(false);
-                await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
+                await channel.SendMessageAsync(plainText, embed: embed?.Build());
+                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}");
                 return;
             }
 
-            await ch.SendMessageAsync(rep.Replace(msg).SanitizeMentions()).ConfigureAwait(false);
-        }
-        else if (ids[1].ToUpperInvariant().StartsWith("U:", StringComparison.InvariantCulture))
-        {
-            var uid = ulong.Parse(ids[1][2..]);
-            var user = server.GetUsersAsync().FlattenAsync().Result.FirstOrDefault(u => u.Id == uid);
-            if (user == null) return;
-
-            if (CrEmbed.TryParse(msg, out var crembed))
-            {
-                rep.Replace(crembed);
-                await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(crembed)
-                    .ConfigureAwait(false);
-                await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
-                return;
-            }
-
-            await (await user.CreateDMChannelAsync().ConfigureAwait(false))
-                .SendMessageAsync(rep.Replace(msg).SanitizeMentions()).ConfigureAwait(false);
-        }
-        else
-        {
-            await ReplyErrorLocalizedAsync("invalid_format").ConfigureAwait(false);
+            await channel.SendMessageAsync(rep.Replace(msg));
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}");
             return;
         }
 
-        await ReplyConfirmLocalizedAsync("message_sent").ConfigureAwait(false);
+        var user = await potentialServer.GetUserAsync(to);
+        if (user is null)
+        {
+            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.");
+            return;
+        }
+        if (SmartEmbed.TryParse(rep.Replace(msg), out var embed1, out var plainText1))
+        {
+            await channel.SendMessageAsync(plainText1, embed: embed1?.Build());
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}");
+            return;
+        }
+
+        await channel.SendMessageAsync(rep.Replace(msg));
+        await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}");
+        return;
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]

@@ -408,11 +408,11 @@ public partial class Moderation : MewdekoModule
                 try
                 {
                     var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                    var embed = Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
-                    if (embed is not null)
+                    var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, guildUser, defaultMessage, msg, time.Time);
+                    if (embedBuilder is not null && item2 is not null)
                     {
                         var userChannel = await guildUser.CreateDMChannelAsync();
-                        await userChannel.EmbedAsync(embed);
+                        await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
                     }
                 }
                 catch
@@ -469,11 +469,11 @@ public partial class Moderation : MewdekoModule
             try
             {
                 var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), msg);
-                var embed = Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
-                if (embed is not null)
+                var (embedBuilder, item2) = await Service.GetBanUserDmEmbed(Context, user, defaultMessage, msg, null);
+                if (embedBuilder is not null && item2 is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync();
-                    await userChannel.EmbedAsync(embed);
+                    await userChannel.SendMessageAsync(item2, embed: embedBuilder.Build());
                 }
             }
             catch
@@ -535,13 +535,13 @@ public partial class Moderation : MewdekoModule
         {
             var dmChannel = await ctx.User.CreateDMChannelAsync();
             var defaultMessage = GetText("bandm", Format.Bold(ctx.Guild.Name), reason);
-            var crEmbed = Service.GetBanUserDmEmbed(Context,
+            var crEmbed = await Service.GetBanUserDmEmbed(Context,
                 (IGuildUser) Context.User,
                 defaultMessage,
                 reason,
                 duration);
 
-            if (crEmbed is null)
+            if (crEmbed.Item1 is null && crEmbed.Item2 is null)
             {
                 await ConfirmLocalizedAsync("bandm_disabled");
             }
@@ -549,7 +549,7 @@ public partial class Moderation : MewdekoModule
             {
                 try
                 {
-                    await dmChannel.EmbedAsync(crEmbed);
+                    await dmChannel.SendMessageAsync(crEmbed.Item2, embed: crEmbed.Item1.Build());
                 }
                 catch (Exception)
                 {

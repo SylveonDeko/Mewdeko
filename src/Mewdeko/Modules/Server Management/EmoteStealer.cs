@@ -46,7 +46,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream));
+                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Discord.Image(imgStream));
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
                 catch (Exception)

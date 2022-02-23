@@ -86,29 +86,29 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), 
      RequireContext(ContextType.Guild), 
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
-    public async Task CustomAfkMessage(string embed)
+    public async Task CustomAfkMessage(string embedCode)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {
             await ctx.Interaction.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
             return;
         }
-        CrEmbed.TryParse(embed, out var crEmbed);
-        if (embed == "-")
+        var toCheck = SmartEmbed.TryParse(embedCode, out _, out _) ;
+        if (embedCode == "-")
         {
-            await Service.SetCustomAfkMessage(ctx.Guild, embed);
+            await Service.SetCustomAfkMessage(ctx.Guild, "-");
             await ctx.Interaction.SendConfirmAsync("Afk messages will now have the default look.");
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%afk"))
+        if (!toCheck || !embedCode.Contains("%afk"))
         {
             await ctx.Interaction.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
             return;
         }
 
-        await Service.SetCustomAfkMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out _);
+        await Service.SetCustomAfkMessage(ctx.Guild, embedCode);
+        var ebe = SmartEmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out _, out _);
         if (ebe is false)
         {
             await Service.SetCustomAfkMessage(ctx.Guild, "-");

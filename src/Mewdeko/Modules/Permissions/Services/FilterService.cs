@@ -276,10 +276,10 @@ public class FilterService : IEarlyBehavior, INService
                     await msg.DeleteAsync();
                     var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
                         $"Banned for saying autoban word {i}");
-                    var embed = Upun.GetBanUserDmEmbed(_client, guild as SocketGuild,
+                    var embed = await Upun.GetBanUserDmEmbed(_client, guild as SocketGuild,
                         _client.CurrentUser as IGuildUser, msg.Author as IGuildUser, defaultMessage,
                         $"Banned for saying autoban word {i}", null);
-                    await msg.Author.CreateDMChannelAsync().Result.SendMessageAsync(embed: embed.ToEmbed().Build());
+                    await msg.Author.CreateDMChannelAsync().Result.SendMessageAsync(embed.Item2, embed: embed.Item1?.Build());
                     await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected");
                     return true;
                 }
