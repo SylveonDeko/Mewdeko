@@ -74,7 +74,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task SuggestMessage(string embed)
     {
-        CrEmbed.TryParse(embed, out var crEmbed);
+        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetSuggestionMessage(ctx.Guild, embed);
@@ -82,7 +82,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%suggest"))
+        if (!e|| !embed.Contains("%suggest"))
         {
             await ctx.Interaction.SendErrorAsync(
                 "The embed code you provided cannot be used for suggestion messages!");
@@ -90,7 +90,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
 
         await Service.SetSuggestionMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetSuggestionMessage(ctx.Guild), out crEmbed);
+        var ebe = SmartEmbed.TryParse(Service.GetSuggestionMessage(ctx.Guild), out _, out _);
         if (ebe is false)
         {
             await Service.SetSuggestionMessage(ctx.Guild, "-");
@@ -98,7 +98,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
                 "There was an error checking the embed, it may be invalid, so I set the suggest message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
             return;
         }
-
+        
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated suggestion message!");
     }
 
@@ -136,7 +136,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task AcceptMessage(string embed)
     {
-        CrEmbed.TryParse(embed, out var crEmbed);
+        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetAcceptMessage(ctx.Guild, embed);
@@ -144,7 +144,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%suggest"))
+        if (!e || !embed.Contains("%suggest"))
         {
             await ctx.Interaction.SendErrorAsync(
                 "The embed code you provided cannot be used for accepted suggestion messages!");
@@ -152,7 +152,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
 
         await Service.SetAcceptMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetAcceptMessage(ctx.Guild), out crEmbed);
+        var ebe = SmartEmbed.TryParse(Service.GetAcceptMessage(ctx.Guild), out _, out _);
         if (ebe is false)
         {
             await Service.SetAcceptMessage(ctx.Guild, "-");
@@ -168,7 +168,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task ImplementMessage(string embed)
     {
-        CrEmbed.TryParse(embed, out var crEmbed);
+        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetImplementMessage(ctx.Guild, embed);
@@ -176,7 +176,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%suggest"))
+        if (!e || !embed.Contains("%suggest"))
         {
             await ctx.Interaction.SendErrorAsync(
                 "The embed code you provided cannot be used for implemented suggestion messages!");
@@ -184,7 +184,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
 
         await Service.SetImplementMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetImplementMessage(ctx.Guild), out crEmbed);
+        var ebe = SmartEmbed.TryParse(Service.GetImplementMessage(ctx.Guild), out _, out _);
         if (ebe is false)
         {
             await Service.SetImplementMessage(ctx.Guild, "-");
@@ -200,7 +200,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task DenyMessage(string embed)
     {
-        CrEmbed.TryParse(embed, out var crEmbed);
+        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetDenyMessage(ctx.Guild, embed);
@@ -208,7 +208,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%suggest"))
+        if (!e || !embed.Contains("%suggest"))
         {
             await ctx.Interaction.SendErrorAsync(
                 "The embed code you provided cannot be used for denied suggestion messages!");
@@ -216,7 +216,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
 
         await Service.SetDenyMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetDenyMessage(ctx.Guild), out crEmbed);
+        var ebe = SmartEmbed.TryParse(Service.GetDenyMessage(ctx.Guild), out _, out _);
         if (ebe is false)
         {
             await Service.SetDenyMessage(ctx.Guild, "-");
@@ -232,7 +232,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task ConsiderMessage(string embed)
     {
-        CrEmbed.TryParse(embed, out var crEmbed);
+        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetConsiderMessage(ctx.Guild, embed);
@@ -240,7 +240,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%suggest"))
+        if (!e || !embed.Contains("%suggest"))
         {
             await ctx.Interaction.SendErrorAsync(
                 "The embed code you provided cannot be used for considered suggestion messages!");
@@ -248,7 +248,7 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
         }
 
         await Service.SetConsiderMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetConsiderMessage(ctx.Guild), out crEmbed);
+        var ebe = SmartEmbed.TryParse(Service.GetConsiderMessage(ctx.Guild), out _, out _);
         if (ebe is false)
         {
             await Service.SetConsiderMessage(ctx.Guild, "-");

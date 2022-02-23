@@ -152,24 +152,24 @@ public class Afk : MewdekoModuleBase<AfkService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
-    public async Task CustomAfkMessage([Remainder] string embed)
+    public async Task CustomAfkMessage([Remainder] string embedCode)
     {
-        CrEmbed.TryParse(embed, out var crEmbed);
-        if (embed == "-")
+        var toCheck = SmartEmbed.TryParse(embedCode, out var embed, out var plainText);
+        if (embedCode == "-")
         {
-            await Service.SetCustomAfkMessage(ctx.Guild, embed);
+            await Service.SetCustomAfkMessage(ctx.Guild, "-");
             await ctx.Channel.SendConfirmAsync("Afk messages will now have the default look.");
             return;
         }
 
-        if ((crEmbed is not null && !crEmbed.IsValid) || !embed.Contains("%afk"))
+        if (!toCheck || !embedCode.Contains("%afk"))
         {
             await ctx.Channel.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
             return;
         }
 
-        await Service.SetCustomAfkMessage(ctx.Guild, embed);
-        var ebe = CrEmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out _);
+        await Service.SetCustomAfkMessage(ctx.Guild, embedCode);
+        var ebe = SmartEmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out _, out _);
         if (ebe is false)
         {
             await Service.SetCustomAfkMessage(ctx.Guild, "-");

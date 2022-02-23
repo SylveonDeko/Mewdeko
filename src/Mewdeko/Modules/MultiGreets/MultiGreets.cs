@@ -197,34 +197,21 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                     await msg.DeleteAsync();
                     var replacer = new ReplacementBuilder().WithUser(ctx.User).WithClient(ctx.Client as DiscordSocketClient).WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
-                    if (CrEmbed.TryParse(content, out var embedData))
+                    if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
                     {
-                        if (embedData.IsEmbedValid && embedData.PlainText is not null)
-                        {
-                            await ctx.Channel.SendMessageAsync(embedData.PlainText, embed: embedData.ToEmbed().Build());
-
-                        }
-
-                        if (!embedData.IsEmbedValid && embedData.PlainText is not null)
-                        {
-                            await ctx.Channel.SendMessageAsync(embedData.PlainText);
-                        }
-
-                        if (embedData.IsEmbedValid && embedData.PlainText is null)
-                        {
-                            await ctx.Channel.SendMessageAsync(embed: embedData.ToEmbed().Build());
-                        }
+                        await ctx.Channel.SendMessageAsync(plainText,
+                            embed: embedData?.Build());
+                        return;
                     }
                     else
                     {
                         await ctx.Channel.SendMessageAsync(content);
+                        return;
                     }
-
-                    break;
                 case "regular":
                     await msg.DeleteAsync();
                     await ctx.Channel.SendConfirmAsync(greet.Message);
-                    break;
+                    return;
             }
         }
         await Service.ChangeMgMessage(greet, message);

@@ -62,42 +62,16 @@ public class CrEmbed
             embed.WithAuthor(Author.Name, Author.IconUrl, Author.Url);
         }
 
-        if (Fields != null)
+        if (Fields == null) return embed;
+        {
             foreach (var f in Fields)
                 if (!string.IsNullOrWhiteSpace(f.Name) && !string.IsNullOrWhiteSpace(f.Value))
                     embed.AddField(efb => efb.WithName(f.Name).WithValue(f.Value).WithIsInline(f.Inline));
+        }
 
         return embed;
     }
-
-    public static bool TryParse(string input, out CrEmbed embed)
-    {
-        embed = null;
-        if (string.IsNullOrWhiteSpace(input) || !input.Trim().StartsWith('{'))
-            return false;
-
-        try
-        {
-            var crembed = JsonConvert.DeserializeObject<CrEmbed>(input);
-
-            if (crembed is {Fields: {Length: > 0}})
-                foreach (var f in crembed.Fields)
-                {
-                    f.Name = f.Name.TrimTo(256);
-                    f.Value = f.Value.TrimTo(1024);
-                }
-
-            if (crembed is {IsValid: false})
-                return false;
-
-            embed = crembed;
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    
 }
 
 public class CrEmbedField

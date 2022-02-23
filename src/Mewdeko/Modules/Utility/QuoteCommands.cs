@@ -68,12 +68,11 @@ public partial class Utility
                 .WithDefault(Context)
                 .Build();
 
-            if (CrEmbed.TryParse(quote.Text, out var crembed))
+            if (SmartEmbed.TryParse(rep.Replace(quote.Text), out var embed, out var plainText))
             {
-                rep.Replace(crembed);
-                await ctx.Channel.EmbedAsync(crembed.ToEmbed(),
-                        $"`#{quote.Id}` 📣 " + crembed.PlainText?.SanitizeAllMentions() ?? "")
-                    .ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync(embed: embed?.Build(),
+                             text: $"`#{quote.Id}` 📣 " + plainText?.SanitizeAllMentions())
+                         .ConfigureAwait(false);
                 return;
             }
 
@@ -160,12 +159,11 @@ public partial class Utility
             var infoText = $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ " +
                            quote.Keyword.ToLowerInvariant().SanitizeAllMentions() + ":\n";
 
-            if (CrEmbed.TryParse(quote.Text, out var crembed))
+            if (SmartEmbed.TryParse(rep.Replace(quote.Text), out var embed, out var plainText))
             {
-                rep.Replace(crembed);
 
-                await ctx.Channel.EmbedAsync(crembed.ToEmbed(), infoText + crembed.PlainText?.SanitizeAllMentions())
-                    .ConfigureAwait(false);
+                await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embed: embed?.Build())
+                         .ConfigureAwait(false);
             }
             else
             {

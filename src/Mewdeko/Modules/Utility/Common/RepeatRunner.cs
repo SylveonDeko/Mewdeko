@@ -2,7 +2,6 @@
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;
@@ -202,10 +201,9 @@ public class RepeatRunner
                 .Build();
 
             IMessage newMsg;
-            if (CrEmbed.TryParse(toSend, out var crEmbed))
+            if (SmartEmbed.TryParse(rep.Replace(toSend), out var embed, out var plainText))
             {
-                rep.Replace(crEmbed);
-                newMsg = await Channel.EmbedAsync(crEmbed);
+                newMsg = await Channel.SendMessageAsync(plainText, embed: embed?.Build());
             }
             else
             {

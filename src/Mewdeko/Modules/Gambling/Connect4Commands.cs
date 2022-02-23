@@ -115,7 +115,7 @@ public partial class Gambling
                         if (RepostCounter == 0)
                             try
                             {
-                                msg = await ctx.Channel.SendMessageAsync("", embed: (Embed) msg.Embeds.First())
+                                msg = await ctx.Channel.SendMessageAsync("", embed: (Discord.Embed) msg.Embeds.First())
                                     .ConfigureAwait(false);
                             }
                             catch
