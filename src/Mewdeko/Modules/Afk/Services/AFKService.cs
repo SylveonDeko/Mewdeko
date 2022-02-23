@@ -380,15 +380,18 @@ public class AfkService : INService
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync();
-        var current = _cache.GetAfkForGuild(guild.Id);
+        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<AFK>(); 
         current.Add(afk);
         await _cache.AddAfkToCache(guild.Id, current);
     }
 
     public List<AFK> GetAfkMessage(ulong gid, ulong uid)
     {
-        var e = _cache.GetAfkForGuild(gid).Where(x => x.UserId == uid).ToList();
-        return e;
+        var e = _cache.GetAfkForGuild(gid);
+        if (e is null)
+            return new List<AFK>();
+
+        return e.Where(x => x.UserId == uid).ToList();
     }
     
 }
