@@ -309,10 +309,9 @@ sfr:
     - roleid emote emote
 afktimeout:
   desc: >-
-    Sets the timeout of after how long it disables your afk in minutes if you
-    have type 2 or 3 selected. Default is 5. Max is 60.
+    Sets how long it takes for Mewdeko to time out Active AFKs..
   args:
-    - '6'
+    - '30s'
 afktype:
   desc: >-
     Sets the type of Afk used in the server.Default is type 3.
@@ -326,6 +325,8 @@ afktype:
 
     Type 3: Is disabled when a user sends a message after having their afk
     enabled for the time you set.
+
+    Type 4: Combines both 2 and 3
   args:
     - onmessage
     - ontype
@@ -520,15 +521,15 @@ repostthreshold:
     - 0
     - 5
 character:
-  desc: 'Finds an anime character using the AniList Api '
+  desc: 'Finds an anime character using the AniList Api'
   args:
     - Zero Two
 findanime:
-  desc: 'Finds an anime using a clip or screenshot or a url. Not perfect. '
+  desc: 'Finds an anime using a clip or screenshot or a url. Not perfect.'
   args:
     - ''
 addroletorole:
-  desc: 'Adds a role to people in that role '
+  desc: 'Adds a role to users in a different role'
   args:
     - inrole addrole
 addthenremove:
@@ -538,21 +539,17 @@ addthenremove:
   args:
     - roletoremove roletoadd
 addtoall:
-  desc: Adds a role to all users
+  desc: Adds a role to everyone
   args:
     - roletoadd
 addtoallbots:
-  desc: 'Adds a role to all bots. '
+  desc: 'Adds a role to only bots. '
   args:
     - roletoadd
 addtoallusers:
-  desc: 'Adds a role to all users. '
+  desc: 'Adds a role to only users. '
   args:
     - roletoadd
-onlineinfo:
-  desc: 'Shows the online stats for the server, or if specified, a role. '
-  args:
-    - '@role'
 removefromall:
   desc: Removes a role from everyone.
   args:
@@ -697,35 +694,10 @@ steal:
   desc: 'Steals one or more emotes you mention. '
   args:
     - emote emote emote
-allowperm:
-  desc: 'Allows a permission for a user/role '
-  args:
-    - channel perm user
-    - channel perm role
-    - category perm user
-    - category perm role
-rep+:
-  desc: 'Gives a user a positive review, limit 30 per server.'
-  args:
-    - '@user'
-    - '@user Good Mod!'
-rep-:
-  desc: 'Gives a user a negative review, limit 30 per server per day to avoid abuse.'
-  args:
-    - '@user'
-    - '@user Shitty Mod!'
-reviews:
-  desc: >-
-    Allows you to view an overview of yours or someone elses reputation. You can
-    specify negative or positive to see each review of that type for yourself or
-    another user.
-  args:
-    - '@user'
-    - '@user Positive'
-    - '@user Negative'
-    - ''
-    - Negative
-    - Positive
+permcontrol:
+   desc: "Allows you to set multiple permission for a role/user in a channel"
+   args:
+   - "#channel allow/deny user/role managemessages viewchannel"
 moveto:
   desc: >-
     Moves you to a vc you name. ***You must already be in a vc for this to
@@ -744,13 +716,6 @@ grab:
     be in a vc.***
   args:
     - '@user'
-denyperm:
-  desc: 'Denies a permission for a user/role '
-  args:
-    - channel perm user
-    - channel perm role
-    - category perm user
-    - category perm role
 staffrole:
   desc: >-
     sets a staff role that is used for the bot to ignore users when filtered
@@ -773,20 +738,11 @@ autobanwordlist:
   desc: Lists all autoban words.
   args:
     - ''
-neutralperm:
-  desc: 'Allows a permission for a user/role '
-  args:
-    - channel perm user
-    - channel perm role
-    - category perm user
-    - category perm role
 commands:
   desc: >-
-    List all of the bot's commands from a certain module. You can either specify
-    the full name or only the first few letters of the module name.
+    Lists all bot modules.
   args:
-    - Admin
-    - Admin --view 1
+    - ""
 greetdel:
   desc: >-
     Sets the time it takes (in seconds) for greet messages to be auto-deleted.
@@ -802,8 +758,8 @@ greetmsg:
   desc: >-
     Sets a new join announcement message which will be shown in the server's
     channel. Type `%user.mention%` if you want to mention the new member. Using
-    it with no message will show the current greet message. You can use embed
-    json from <https://eb.Mewdeko.tech/> instead of a regular text, if you want
+    it with no message will show the current greet message. You can use make embeds 
+    using https://eb.Mewdeko.tech/ instead of regular text, if you want
     the message to be embedded.
   args:
     - 'Welcome, %user.mention%.'
@@ -815,8 +771,8 @@ byemsg:
   desc: >-
     Sets a new leave announcement message. Type `%user.mention%` if you want to
     show the name the user who left. Type `%id%` to show id. Using this command
-    with no message will show the current bye message. You can use embed json
-    from <https://eb.Mewdeko.tech/> instead of a regular text, if you want the
+    with no message will show the current bye message. You can use make embeds 
+    using https://eb.Mewdeko.tech/ instead of regular text, if you want the
     message to be embedded.
   args:
     - '%user.mention% has left.'
@@ -996,7 +952,7 @@ addcustreact:
     Add a custom reaction with a trigger and a response. Running this command in
     server requires the Administration permission. Running this command in DM is
     Bot Owner only and adds a new global custom reaction. Guide here:
-    <http://Mewdeko.readthedocs.io/en/latest/custom-reactions/>
+    https://mewdeko.tech/customreactions
   args:
     - '"hello" Hi there %user.mention%'
 listcustreact:
@@ -1334,7 +1290,7 @@ setnick:
     - '@SomeUser New Nickname'
 setavatar:
   desc: >-
-    Sets a new avatar image for the Mewdeko. Parameter is a direct link to an
+    Sets a new avatar image for Mewdeko. Parameter is a direct link to an
     image.
   args:
     - 'http://i.imgur.com/xTG3a1I.jpg'
@@ -1845,33 +1801,8 @@ pause:
   desc: Pauses or Unpauses the song.
   args:
     - ''
-queue:
-  desc: >-
-    Queue a song using keywords or a link. Bot will join your voice channel.
-    **You must be in a voice channel**.
-  args:
-    - Dream Of Venice
-queuenext:
-  desc: >-
-    Works the same as `{0}queue` command, except it enqueues the new song after
-    the current one. **You must be in a voice channel**.
-  args:
-    - Dream Of Venice
-queuesearch:
-  desc: >-
-    Search for top 5 youtube song result using keywords, and type the index of
-    the song to play that song. Bot will join your voice channel. **You must be
-    in a voice channel**.
-  args:
-    - Dream Of Venice
-soundcloudqueue:
-  desc: >-
-    Queue a soundcloud song using keywords. Bot will join your voice channel.
-    **You must be in a voice channel**.
-  args:
-    - Dream Of Venice
 listqueue:
-  desc: Lists 10 currently queued songs per page. Default page is 1.
+  desc: Lists the current queue.
   args:
     - ''
     - '2'
@@ -1940,14 +1871,13 @@ reptcursong:
     - ''
 loop:
   desc: |-
-    Sets music player repeat strategy for this server.
-    - `n` / `no` - player will stop once it reaches the end of the queue
-    - `s` / `song` - player will repeat current song
-    - `q` / `queue` or empty - player will repeat entire music queue
+    - `none` Doesnt loop anything and stops when the queue ends
+    - `track` Loops the current song. Skip replays the current song.
+    - `queue` Loops the queue until its stopped
   args:
     - ''
-    - 'n'
-    - song
+    - 'none'
+    - track
 streamrole:
   desc: >-
     Sets a role which is monitored for streamers (FromRole), and a role to add
@@ -2836,7 +2766,7 @@ aclist:
 unban:
   desc: 'Unbans a user with the provided user#discrim or id.'
   args:
-    - 'kwoth#1234'
+    - 'Sylveon#0069'
     - '123123123'
 banmessage:
   desc: >-
