@@ -43,9 +43,23 @@ public class RedisCache : IDataCache
         return (x != null, x);
     }
 
-    public void CacheAfk(ulong id, List<AFK> objectList) 
-        => new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis){{id, objectList}};
-    
+    public async Task CacheAfk(ulong id, List<AFK> objectList) =>
+        await Task.Run(() => 
+            new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis) { { id, objectList } });
+
+    public async Task CacheHighlights(ulong id, List<Highlights> objectList) =>
+        await Task.Run(() =>
+            _ = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_Highlights", Redis) { { id, objectList } });
+
+    public async Task CacheHighlightSettings(ulong id, List<HighlightSettings> objectList) =>
+        await Task.Run(() =>
+        {
+            _ = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis)
+            {
+                { id, objectList }
+            };
+        });
+
     public void CacheGuildConfigs(ulong id, List<GuildConfig> objectList) 
         => new RedisDictionary<ulong, List<GuildConfig>>($"{_redisKey}_afk", Redis){{id, objectList}};
 
@@ -58,6 +72,14 @@ public class RedisCache : IDataCache
     public Task AddAfkToCache(ulong id, List<AFK> newAfk)
     {
         var customers = new RedisDictionary<ulong, List<AFK>>($"{_redisKey}_afk", Redis);
+        customers.Remove(id);
+        customers.Add(id, newAfk);
+        return Task.CompletedTask;
+    }
+    
+    public Task AddHighlightToCache(ulong id, List<Highlights> newAfk)
+    {
+        var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
         customers.Remove(id);
         customers.Add(id, newAfk);
         return Task.CompletedTask;

@@ -54,7 +54,7 @@ public class AfkService : INService
     private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
     private ConcurrentDictionary<ulong, int> AfkDels { get; }
 
-    public Task CacheAfk()
+    public async Task CacheAfk()
     {
         {
             var uow = _db.GetDbContext();
@@ -62,12 +62,11 @@ public class AfkService : INService
             var gconfigs = _bot.AllGuildConfigs;
             foreach (var i in gconfigs.Where(i => allafk.Any(x => x.GuildId == i.GuildId)))
             {
-                _cache.CacheAfk(i.GuildId, allafk.Where(x => x.GuildId == i.GuildId).ToList());
+                await _cache.CacheAfk(i.GuildId, allafk.Where(x => x.GuildId == i.GuildId).ToList());
             }
             Environment.SetEnvironmentVariable($"AFK_CACHED_{Client.ShardId}", "1");
             Log.Information("AFK Cached!");
         }
-        return  Task.CompletedTask;
     }
     
 

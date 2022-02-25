@@ -9,6 +9,7 @@
     <PropertyGroup>
         <RestoreAdditionalProjectSources>https://www.myget.org/F/discord-net-labs/api/v3/index.json</RestoreAdditionalProjectSources>
         <UserSecretsId>d3ef62a0-c76a-4271-95db-7d414756fb15</UserSecretsId>
+        <BaseOutputPath>bin\</BaseOutputPath>
     </PropertyGroup>
 
     <ItemGroup>

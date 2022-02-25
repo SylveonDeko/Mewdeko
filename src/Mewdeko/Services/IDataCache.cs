@@ -10,9 +10,11 @@ public interface IDataCache
     IImageCache LocalImages { get; }
     ILocalDataCache LocalData { get; }
 
-    void CacheAfk(ulong Id, List<AFK> objectList);
+    Task CacheAfk(ulong Id, List<AFK> objectList);
     List<AFK> GetAfkForGuild(ulong Id);
     Task AddAfkToCache(ulong Id, List<AFK> newAfk);
+    Task CacheHighlights(ulong id, List<Highlights> highlights);
+    Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
     void CacheSnipes(ulong Id, List<SnipeStore> objectList);
     List<SnipeStore> GetSnipesForGuild(ulong Id);
     Task SetGuildSettingInt(ulong guildId, string setting, int value);
