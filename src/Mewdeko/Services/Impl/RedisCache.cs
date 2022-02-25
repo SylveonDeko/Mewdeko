@@ -77,11 +77,19 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
     
-    public Task AddHighlightToCache(ulong id, List<Highlights> newAfk)
+    public Task AddHighlightToCache(ulong id, List<Highlights> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
         customers.Remove(id);
-        customers.Add(id, newAfk);
+        customers.Add(id, newHighlight);
+        return Task.CompletedTask;
+    }
+    
+    public Task AddHighlightSettingToCache(ulong id, List<HighlightSettings> newHighlight)
+    {
+        var customers = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis);
+        customers.Remove(id);
+        customers.Add(id, newHighlight);
         return Task.CompletedTask;
     }
     
@@ -91,6 +99,18 @@ public class RedisCache : IDataCache
     public List<SnipeStore> GetSnipesForGuild(ulong id)
     {
         var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{_redisKey}_snipes", Redis);
+        return customers[id];
+    }
+
+    public List<Highlights> GetHighlightsForGuild(ulong id)
+    {
+        var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
+        return customers[id];
+    }
+    
+    public List<HighlightSettings> GetHighlightSettingsForGuild(ulong id)
+    {
+        var customers = new RedisDictionary<ulong, List<HighlightSettings>>($"{_redisKey}_highlightSettings", Redis);
         return customers[id];
     }
 

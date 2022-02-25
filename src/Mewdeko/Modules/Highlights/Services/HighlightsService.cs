@@ -36,6 +36,10 @@ public class HighlightsService : INService
         var toadd = new Database.Models.Highlights { UserId = userId, GuildId = guildId, Word = word };
         var uow = _db.GetDbContext();
         uow.Highlights.Add(toadd);
-        
+        var current = _cache.GetHighlightsForGuild(guildId);
+        current.Add(toadd);
+        await _cache.AddHighlightToCache(guildId, current);
     }
+    
+        
 }
