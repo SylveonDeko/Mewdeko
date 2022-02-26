@@ -5,7 +5,7 @@ sleep 5s
 dotnet build -c Release
 cd bin/Release/net6.0/ || echo "Seems like the build failed. Please ensure you have dotnet 6 sdk installed." && exit
 FILE=data/Mewdeko.db
-if [ test -f "$FILE" ] 
+if test -f "$FILE" 
 then
   echo "Starting Mewdeko..."
   dotnet run Mewdeko.dll
