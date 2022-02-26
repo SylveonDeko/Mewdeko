@@ -6,10 +6,6 @@
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <OutputType>exe</OutputType>
     </PropertyGroup>
-    <PropertyGroup>
-        <RestoreAdditionalProjectSources>https://www.myget.org/F/discord-net-labs/api/v3/index.json</RestoreAdditionalProjectSources>
-        <UserSecretsId>d3ef62a0-c76a-4271-95db-7d414756fb15</UserSecretsId>
-    </PropertyGroup>
 
     <ItemGroup>
         <Compile Remove="Modules\Administration\ModuleCommands.cs" />
@@ -120,19 +116,6 @@
         </None>
     </ItemGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'GlobalNadeko' ">
-        <DefineConstants>$(DefineConstants);GLOBAL_NADEKO</DefineConstants>
-        <NoWarn>$(NoWarn);CS1573;CS1591;CS8032</NoWarn>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DefineConstants>DEBUG;TRACE</DefineConstants>
     </PropertyGroup>
@@ -146,14 +129,6 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
         <DefineConstants>$(DefineConstants);GLOBAL_Mewdeko</DefineConstants>
         <NoWarn>$(NoWarn);CS1573;CS1591</NoWarn>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
