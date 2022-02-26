@@ -1,4 +1,5 @@
-﻿echo "Starting Mewdeko Build..."
+﻿#! /bin/bash
+echo "Starting Mewdeko Build..."
 sleep 5s
 dotnet build -c Release
 cd bin/Release/net6.0/ || echo "Seems like the build failed. Please ensure you have dotnet 6 sdk installed." && exit
