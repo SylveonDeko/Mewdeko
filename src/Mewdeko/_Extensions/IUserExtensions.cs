@@ -12,7 +12,7 @@ public static class UserExtensions
               .ConfigureAwait(false);
 
     public static async Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text,
-        string url = null)
+        string? url = null)
     {
         var eb = new EmbedBuilder().WithOkColor().WithDescription(text).WithTitle(title);
         if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
@@ -22,7 +22,7 @@ public static class UserExtensions
     }
 
     public static async Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error,
-        string url = null)
+        string? url = null)
     {
         var eb = new EmbedBuilder().WithErrorColor().WithDescription(error).WithTitle(title);
         if (url != null && Uri.IsWellFormedUriString(url, UriKind.Absolute))
@@ -37,8 +37,8 @@ public static class UserExtensions
               .SendMessageAsync("", embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build())
               .ConfigureAwait(false);
 
-    public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string caption = null,
-        string text = null, bool isTts = false)
+    public static async Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string? caption = null,
+        string? text = null, bool isTts = false)
     {
         await using var file = File.Open(filePath, FileMode.Open);
         return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
@@ -46,7 +46,7 @@ public static class UserExtensions
     }
 
     public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName,
-        string caption = null, bool isTts = false) =>
+        string? caption = null, bool isTts = false) =>
         await (await user.CreateDMChannelAsync().ConfigureAwait(false))
               .SendFileAsync(fileStream, fileName, caption, isTts).ConfigureAwait(false);
 

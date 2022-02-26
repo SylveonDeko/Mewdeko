@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Starboard;
 public class Starboard : MewdekoSubmodule<StarboardService>
 {
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
-    public async Task SetStarboard(ITextChannel chn = null)
+    public async Task SetStarboard(ITextChannel? chn = null)
     {
         if (chn is null)
         {
@@ -46,7 +46,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
     }
 
     [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
-    public async Task SetStar(IEmote emote = null)
+    public async Task SetStar(IEmote? emote = null)
     {
         if (emote is null)
         {

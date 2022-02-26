@@ -165,7 +165,7 @@ public partial class Utility
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(2)]
-        public async Task Repeat(GuildDateTime dt, StoopidTime interval, [Remainder] string message)
+        public async Task Repeat(GuildDateTime? dt, StoopidTime? interval, [Remainder] string message)
         {
             if (!Service.RepeaterReady)
                 return;

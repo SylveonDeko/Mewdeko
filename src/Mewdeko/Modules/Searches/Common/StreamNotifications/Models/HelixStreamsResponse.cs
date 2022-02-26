@@ -1,7 +1,7 @@
 ﻿#nullable disable
 using System.Text.Json.Serialization;
 
-namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 
 public class HelixStreamsResponse
 {

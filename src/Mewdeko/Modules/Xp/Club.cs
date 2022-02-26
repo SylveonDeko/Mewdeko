@@ -78,7 +78,7 @@ public partial class Xp
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task ClubIcon([Remainder] string url = null)
+        public async Task ClubIcon([Remainder] string? url = null)
         {
             if ((!Uri.IsWellFormedUriString(url, UriKind.Absolute) && url != null)
                 || !await Service.SetClubIcon(ctx.User.Id, url == null ? null : new Uri(url)))
@@ -91,7 +91,7 @@ public partial class Xp
         }
 
         [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
-        public async Task ClubInformation(IUser user = null)
+        public async Task ClubInformation(IUser? user = null)
         {
             user ??= ctx.User;
             var club = Service.GetClubByMember(user);
@@ -105,7 +105,7 @@ public partial class Xp
         }
 
         [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
-        public async Task ClubInformation([Remainder] string clubName = null)
+        public async Task ClubInformation([Remainder] string? clubName = null)
         {
             if (string.IsNullOrWhiteSpace(clubName))
             {
@@ -344,7 +344,7 @@ public partial class Xp
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task ClubDescription([Remainder] string desc = null)
+        public async Task ClubDescription([Remainder] string? desc = null)
         {
             if (Service.ChangeClubDescription(ctx.User.Id, desc))
                 await ReplyConfirmLocalizedAsync("club_desc_updated", Format.Bold(desc ?? "-"))

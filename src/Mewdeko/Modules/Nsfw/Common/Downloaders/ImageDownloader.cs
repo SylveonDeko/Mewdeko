@@ -22,7 +22,7 @@ public abstract class ImageDownloader<T> : IImageDownloader
     public ImageDownloader(Booru booru, HttpClient http)
     {
         _http = http;
-        this.Booru = booru;
+        Booru = booru;
     }
 
     public abstract Task<List<T>> DownloadImagesAsync(string[] tags, int page, bool isExplicit = false, CancellationToken cancel = default);

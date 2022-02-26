@@ -24,7 +24,7 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
 
     [SlashCommand("setgamemasterrole", "Allows you to set the game master role"),
      RequireUserPermission(GuildPermission.ManageGuild), RequireContext(ContextType.Guild)]
-    public async Task SetGameMaster(IRole role = null)
+    public async Task SetGameMaster(IRole? role = null)
     {
         var eb = new EmbedBuilder().WithOkColor();
         if (role is null)

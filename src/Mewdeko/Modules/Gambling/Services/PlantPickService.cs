@@ -250,7 +250,7 @@ public class PlantPickService : INService
         return num.ToString("x4");
     }
 
-    public async Task<long> PickAsync(ulong gid, ITextChannel ch, ulong uid, string pass)
+    public async Task<long> PickAsync(ulong gid, ITextChannel ch, ulong uid, string? pass)
     {
         await _pickLock.WaitAsync();
         try
@@ -335,7 +335,7 @@ public class PlantPickService : INService
     }
 
     public async Task<bool> PlantAsync(ulong gid, IMessageChannel ch, ulong uid, string user, long amount,
-        string pass)
+        string? pass)
     {
         // normalize it - no more than 10 chars, uppercase
         pass = pass?.Trim().TrimTo(10, true).ToUpperInvariant();

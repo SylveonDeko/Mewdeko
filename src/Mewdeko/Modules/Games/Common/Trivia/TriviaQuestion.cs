@@ -19,7 +19,7 @@ public class TriviaQuestion
 
     private string cleanAnswer;
 
-    public TriviaQuestion(string q, string a, string c, string img = null, string answerImage = null)
+    public TriviaQuestion(string q, string a, string c, string? img = null, string? answerImage = null)
     {
         Question = q;
         Answer = a;

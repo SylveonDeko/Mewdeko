@@ -347,7 +347,7 @@ public class SuggestionsService : INService
     //     await uow.SaveChangesAsync();
     // }
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
+        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
     {
         string rs;
         rs = reason ?? "none";
@@ -507,7 +507,7 @@ public class SuggestionsService : INService
     }
 
     public async Task SendConsiderEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
+        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
     {
         string rs;
         if (reason == null)
@@ -661,7 +661,7 @@ public class SuggestionsService : INService
     }
 
     public async Task SendImplementEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
+        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
     {
         string rs;
         if (reason == null)
@@ -815,7 +815,7 @@ public class SuggestionsService : INService
     }
 
     public async Task SendAcceptEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
-        ITextChannel channel, string reason = null, IDiscordInteraction interaction = null)
+        ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
     {
         var rs = reason ?? "none";
         var suggest = Suggestions(guild.Id, suggestion).FirstOrDefault();
@@ -962,7 +962,7 @@ public class SuggestionsService : INService
     }
 
     public async Task SendSuggestion(IGuild guild, IGuildUser user, DiscordSocketClient client, string suggestion,
-        ITextChannel channel, IDiscordInteraction interaction = null)
+        ITextChannel channel, IDiscordInteraction? interaction = null)
     {
         if (GetSuggestionChannel(guild.Id) == 0)
         {   

@@ -15,7 +15,7 @@ public class Suggestions : MewdekoModuleBase<SuggestionsService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels)]
-    public async Task SetSuggestChannel(ITextChannel channel = null)
+    public async Task SetSuggestChannel(ITextChannel? channel = null)
     {
         if (channel == null)
         {
@@ -62,25 +62,25 @@ public class Suggestions : MewdekoModuleBase<SuggestionsService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Deny(ulong sid, [Remainder] string reason = null) =>
+    public async Task Deny(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Accept(ulong sid, [Remainder] string reason = null) =>
+    public async Task Accept(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Implemented(ulong sid, [Remainder] string reason = null) =>
+    public async Task Implemented(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
-    public async Task Consider(ulong sid, [Remainder] string reason = null) =>
+    public async Task Consider(ulong sid, [Remainder] string? reason = null) =>
         await Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordSocketClient, ctx.User, sid,
             ctx.Channel as ITextChannel, reason);
 }

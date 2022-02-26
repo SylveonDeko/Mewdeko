@@ -7,7 +7,7 @@ public class RoleCommandsService : INService
     public List<RoleJobs> Jobslist = new();
 
     public Task AddToList(IGuild guild, IGuildUser user, int jobId, int totalUsers, string jobType, IRole role,
-        IRole role2 = null)
+        IRole? role2 = null)
     {
         var add = new RoleJobs
         {

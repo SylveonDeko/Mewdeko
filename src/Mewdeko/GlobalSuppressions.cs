@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles")]
+[assembly: SuppressMessage("Style", "CS8625:Cannot convert null literal to non-nullable reference type.")]
 [assembly: SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible")]
 [assembly: SuppressMessage("Design", "CA1069:Enums values should not be duplicated")]
 [assembly: SuppressMessage("Performance", "CA1806:Do not ignore method results", Justification = "<Pending>", Scope = "member", Target = "~M:Mewdeko.Modules.Administration.Services.LogCommandService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.DbService,Mewdeko.Modules.Moderation.Services.MuteService,Mewdeko.Modules.Administration.Services.ProtectionService,Mewdeko.Modules.Administration.Services.GuildTimezoneService,Microsoft.Extensions.Caching.Memory.IMemoryCache)")]

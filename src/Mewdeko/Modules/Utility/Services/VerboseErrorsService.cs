@@ -39,7 +39,7 @@ public class VerboseErrorsService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    private async Task LogVerboseError(CommandInfo cmd, ITextChannel channel, string reason)
+    private async Task LogVerboseError(CommandInfo cmd, ITextChannel? channel, string reason)
     {
         if (channel == null || !_guildsEnabled.Contains(channel.GuildId))
             return;

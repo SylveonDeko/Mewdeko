@@ -54,7 +54,7 @@ public class SearchImagesService : ISearchImagesService, INService
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }
 
-    private Task<UrlReply> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[] tags, Booru dapi, CancellationToken cancel = default)
+    private Task<UrlReply> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi, CancellationToken cancel = default)
     {
         return GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
     }

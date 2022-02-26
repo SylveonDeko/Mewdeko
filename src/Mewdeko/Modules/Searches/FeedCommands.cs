@@ -22,7 +22,7 @@ public partial class Searches
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages)]
-        public async Task Feed(string url, [Remainder] ITextChannel channel = null)
+        public async Task Feed(string url, [Remainder] ITextChannel? channel = null)
         {
             var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
                           (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);

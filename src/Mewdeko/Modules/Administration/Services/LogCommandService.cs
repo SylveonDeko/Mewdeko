@@ -135,7 +135,7 @@ public class LogCommandService : INService
     private string GetText(IGuild guild, string key, params object[] replacements) => _strings.GetText(key, guild.Id, replacements);
 
 
-    private string PrettyCurrentTime(IGuild g)
+    private string PrettyCurrentTime(IGuild? g)
     {
         var time = DateTime.UtcNow;
         if (g != null)
@@ -143,7 +143,7 @@ public class LogCommandService : INService
         return $"【{time:HH:mm:ss}】";
     }
 
-    private string CurrentTime(IGuild g)
+    private string CurrentTime(IGuild? g)
     {
         var time = DateTime.UtcNow;
         if (g != null)
@@ -484,7 +484,7 @@ public class LogCommandService : INService
         return isDeleted;
     }
 
-    private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
+    private Task Client_GuildUserUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser? after)
     {
         var _ = Task.Run(async () =>
         {
@@ -499,7 +499,7 @@ public class LogCommandService : INService
                 if (after is null)
                     return;
                     
-                if (!GuildLogSettings.TryGetValue((ulong)(cacheable.Value?.Guild.Id), out var logSetting))
+                if (!GuildLogSettings.TryGetValue((ulong)cacheable.Value?.Guild.Id, out var logSetting))
                     return;
 
                 ITextChannel logChannel;

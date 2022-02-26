@@ -29,7 +29,7 @@ public class SearchImageCacher
     }
 
     public async Task<ImageCacherObject> GetImage(string[] tags, bool forceExplicit, DapiSearchType type,
-        HashSet<string> blacklistedTags = null)
+        HashSet<string>? blacklistedTags = null)
     {
         tags = tags.Select(tag => tag?.ToLowerInvariant()).ToArray();
 

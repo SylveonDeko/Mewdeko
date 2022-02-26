@@ -89,7 +89,7 @@ public class Localization : ILocalization
 
     public void ResetDefaultCulture() => SetDefaultCulture(CultureInfo.CurrentCulture);
 
-    public CultureInfo GetCultureInfo(IGuild guild) => GetCultureInfo(guild?.Id);
+    public CultureInfo GetCultureInfo(IGuild? guild) => GetCultureInfo(guild?.Id);
 
     public CultureInfo GetCultureInfo(ulong? guildId)
     {

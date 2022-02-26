@@ -5,6 +5,7 @@
         <LangVersion>10.0</LangVersion>
         <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
         <OutputType>exe</OutputType>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -133,12 +134,14 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>
+        <NoWarn>$(NoWarn);CS8625;CS8609;CS8767;CS8603;CS8618;CS8600;CS8602;CS8605;CS8601;CS8619;CS8604;CS8619;CS8607;CS9627;CS8629;CS8620;CS8620;CS8622;CS9714;CS8621;CS8714;CS8634</NoWarn>
         <Optimize>false</Optimize>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <DefineConstants>TRACE;DNETLABS</DefineConstants>
         <Optimize>true</Optimize>
+        <WarningLevel>0</WarningLevel>
     </PropertyGroup>
 
 </Project>

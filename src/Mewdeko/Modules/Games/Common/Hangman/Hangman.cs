@@ -16,7 +16,7 @@ public sealed class Hangman : IDisposable
 
     private Phase currentPhase = Phase.Active;
 
-    public Hangman(string type, TermPool tp = null)
+    public Hangman(string type, TermPool? tp = null)
     {
         TermType = type.Trim().ToLowerInvariant().ToTitleCase();
         TermPool = tp ?? new TermPool();

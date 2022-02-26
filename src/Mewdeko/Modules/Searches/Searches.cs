@@ -316,7 +316,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]   
-    public async Task Youtube([Remainder] string query = null)
+    public async Task Youtube([Remainder] string? query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
             return;
@@ -333,7 +333,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Movie([Remainder] string query = null)
+    public async Task Movie([Remainder] string? query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
             return;
@@ -439,7 +439,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Lmgtfy([Remainder] string ffs = null)
+    public async Task Lmgtfy([Remainder] string? ffs = null)
     {
         if (!await ValidateQuery(ctx.Channel, ffs).ConfigureAwait(false))
             return;
@@ -497,7 +497,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Google([Remainder] string query = null)
+    public async Task Google([Remainder] string? query = null)
     {
         query = query?.Trim();
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
@@ -596,7 +596,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task UrbanDict([Remainder] string query = null)
+    public async Task UrbanDict([Remainder] string? query = null)
     {
         if (!await ValidateQuery(ctx.Channel, query).ConfigureAwait(false))
             return;
@@ -730,7 +730,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     //done in 3.0
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Revav([Remainder] IGuildUser usr = null)
+    public async Task Revav([Remainder] IGuildUser? usr = null)
     {
         if (usr == null)
             usr = (IGuildUser) ctx.User;
@@ -745,7 +745,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     //done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Revimg([Remainder] string imageLink = null)
+    public async Task Revimg([Remainder] string? imageLink = null)
     {
         imageLink = imageLink?.Trim() ?? "";
 
@@ -756,11 +756,11 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public Task Safebooru([Remainder] string tag = null) => InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
+    public Task Safebooru([Remainder] string? tag = null) => InternalDapiCommand(ctx.Message, tag, DapiSearchType.Safebooru);
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Wiki([Remainder] string query = null)
+    public async Task Wiki([Remainder] string? query = null)
     {
         query = query?.Trim();
 
@@ -802,7 +802,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
     // done in 3.0
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Avatar([Remainder] IGuildUser usr = null)
+    public async Task Avatar([Remainder] IGuildUser? usr = null)
     {
         if (usr == null)
             usr = (IGuildUser) ctx.User;
@@ -922,7 +922,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.SendMessageAsync($"https://store.steampowered.com/app/{appId}").ConfigureAwait(false);
     }
 
-    public async Task InternalDapiCommand(IUserMessage umsg, string tag, DapiSearchType type)
+    public async Task InternalDapiCommand(IUserMessage umsg, string? tag, DapiSearchType type)
     {
         var channel = umsg.Channel;
 

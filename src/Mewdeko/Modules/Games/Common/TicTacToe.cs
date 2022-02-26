@@ -73,7 +73,7 @@ public class TicTacToe
         return sb.ToString();
     }
 
-    public EmbedBuilder GetEmbed(string title = null)
+    public EmbedBuilder GetEmbed(string? title = null)
     {
         var embed = new EmbedBuilder()
             .WithOkColor()

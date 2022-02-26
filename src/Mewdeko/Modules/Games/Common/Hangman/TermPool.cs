@@ -27,7 +27,7 @@ public class TermPool
 
     public IReadOnlyDictionary<string, HangmanObject[]> Data { get; } = new Dictionary<string, HangmanObject[]>();
 
-    public HangmanObject GetTerm(string type)
+    public HangmanObject GetTerm(string? type)
     {
         type = type?.Trim().ToLowerInvariant();
         var rng = new MewdekoRandom();

@@ -13,7 +13,9 @@ public sealed class BlacklistCheck : PreconditionAttribute
         ICommandInfo executingCommand, IServiceProvider services)
     {
         var blacklistService = services.GetService<BlacklistService>();
+#pragma warning disable CS8602
         foreach (var bl in blacklistService.blacklist)
+#pragma warning restore CS8602
         {
             if (context.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == context.Guild.Id)
                 return Task.FromResult(PreconditionResult.FromError("***This guild is blacklisted from Mewdeko! You can visit the support server below to try and resolve this.***"));

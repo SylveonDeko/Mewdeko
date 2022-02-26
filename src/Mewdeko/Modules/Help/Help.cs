@@ -136,7 +136,7 @@ public class Help : MewdekoModuleBase<HelpService>
             "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!");
 
     [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(CommandsOptions))]
-    public async Task Commands([Remainder] string module = null)
+    public async Task Commands([Remainder] string? module = null)
     {
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
@@ -238,7 +238,7 @@ public class Help : MewdekoModuleBase<HelpService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
-    public async Task H([Remainder] CommandInfo com = null)
+    public async Task H([Remainder] CommandInfo? com = null)
     {
         var channel = ctx.Channel;
 
@@ -253,7 +253,7 @@ public class Help : MewdekoModuleBase<HelpService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task GenCmdList([Remainder] string path = null)
+    public async Task GenCmdList([Remainder] string? path = null)
     {
         _ = ctx.Channel.TriggerTypingAsync();
 
@@ -269,7 +269,7 @@ public class Help : MewdekoModuleBase<HelpService>
                     .Select(com =>
                     {
                         com.Module.GetTopLevelModule();
-                        List<string> optHelpStr = null;
+                        List<string> optHelpStr = null!;
                         var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x =>
                             x is MewdekoOptionsAttribute))?.OptionType;
                         if (opt != null) optHelpStr = HelpService.GetCommandOptionHelpList(opt);
@@ -327,7 +327,7 @@ public class Help : MewdekoModuleBase<HelpService>
 
 public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 {
-    public bool Equals(CommandInfo x, CommandInfo y) => x.Aliases[0] == y.Aliases[0];
+    public bool Equals(CommandInfo? x, CommandInfo? y) => x.Aliases[0] == y.Aliases[0];
 
     public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
 }

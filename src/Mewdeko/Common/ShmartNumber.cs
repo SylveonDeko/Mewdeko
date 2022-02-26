@@ -5,7 +5,7 @@ public readonly struct ShmartNumber : IEquatable<ShmartNumber>
     public long Value { get; }
     public string Input { get; }
 
-    public ShmartNumber(long val, string input = null)
+    public ShmartNumber(long val, string? input = null)
     {
         Value = val;
         Input = input;
@@ -19,7 +19,7 @@ public readonly struct ShmartNumber : IEquatable<ShmartNumber>
 
     public override string ToString() => Value.ToString();
 
-    public override bool Equals(object obj) => obj is ShmartNumber sn && Equals(sn);
+    public override bool Equals(object? obj) => obj is ShmartNumber sn && Equals(sn);
 
     public bool Equals(ShmartNumber other) => other.Value == Value;
 

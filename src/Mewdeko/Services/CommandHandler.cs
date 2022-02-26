@@ -155,7 +155,7 @@ public class CommandHandler : INService
         await InteractionService.ExecuteCommandAsync(ctx, _services);
     }
 
-    public string GetPrefix(IGuild guild) => GetPrefix(guild?.Id);
+    public string GetPrefix(IGuild? guild) => GetPrefix(guild?.Id);
 
     public string GetPrefix(ulong? id = null)
     {
@@ -256,7 +256,7 @@ public class CommandHandler : INService
     }
     
 
-    private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel channel, params int[] execPoints)
+    private static Task LogSuccessfulExecution(IUserMessage usrMsg, ITextChannel? channel, params int[] execPoints)
     {
         Log.Information("Command Executed after " +
                         string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3"))) +
@@ -273,7 +273,7 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
-    private static void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel channel,
+    private static void LogErroredExecution(string errorMessage, IUserMessage usrMsg, ITextChannel? channel,
         params int[] execPoints)
     {
         var errorafter = string.Join("/", execPoints.Select(x => (x * ONE_THOUSANDTH).ToString("F3")));

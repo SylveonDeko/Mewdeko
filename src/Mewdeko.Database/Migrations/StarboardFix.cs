@@ -10,8 +10,6 @@ public partial class StarboardFix : Migration
         migrationBuilder.AddColumn<int>("RepostThreshold", "GuildConfigs", defaultValue: 5);
     }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
-        migrationBuilder.DropColumn("Star", "GuildConfigs");
-    }
+    protected override void Down(MigrationBuilder migrationBuilder) 
+        => migrationBuilder.DropColumn("Star", "GuildConfigs");
 }

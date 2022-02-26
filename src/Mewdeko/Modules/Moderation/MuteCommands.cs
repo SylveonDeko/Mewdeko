@@ -55,7 +55,7 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers), Priority(0)]
-        public async Task Stfu(IUser user, StoopidTime time = null)
+        public async Task Stfu(IUser user, StoopidTime? time = null)
         {
             var channel = ctx.Channel as SocketGuildChannel;
             var currentPerms = channel.GetPermissionOverwrite(user) ?? new OverwritePermissions();
@@ -81,7 +81,7 @@ public partial class Moderation
 
         [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
-        public async Task UnmuteAll([Remainder] string reason = null)
+        public async Task UnmuteAll([Remainder] string? reason = null)
         {
             var users = ctx.Guild.GetUsersAsync().Result
                            .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
@@ -173,7 +173,7 @@ public partial class Moderation
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
 #pragma warning disable 108,114
-        public async Task MuteRole([Remainder] IRole role = null)
+        public async Task MuteRole([Remainder] IRole? role = null)
 #pragma warning restore 108,114
         {
             if (role is null)

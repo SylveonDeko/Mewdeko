@@ -110,7 +110,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageEmojisAndStickers), BotPerm(GuildPermission.ManageEmojisAndStickers), Priority(0)]
-    public async Task AddEmote(string name, string url = null)
+    public async Task AddEmote(string name, string? url = null)
     {
         var guild = ctx.Guild;
         var acturl = string.Empty;

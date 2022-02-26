@@ -72,7 +72,7 @@ public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
             yield return new KeyValuePair<TKey, TValue>(Deserialize<TKey>(hashKey.ToString()), Deserialize<TValue>(redisValue.ToString()));
         }
     }
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    IEnumerator IEnumerable.GetEnumerator()
     {
         yield return GetEnumerator();
     }

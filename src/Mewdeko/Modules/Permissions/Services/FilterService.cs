@@ -261,7 +261,7 @@ public class FilterService : IEarlyBehavior, INService
 
     protected string GetText(string key, params object[] args) => Strings.GetText(key, _cultureInfo, args);
 
-    public async Task<bool> FilterBannedWords(IGuild guild, IUserMessage msg)
+    public async Task<bool> FilterBannedWords(IGuild? guild, IUserMessage? msg)
     {
         if (guild is null)
             return false;
@@ -299,7 +299,7 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
-    public async Task<bool> FilterWords(IGuild guild, IUserMessage usrMsg)
+    public async Task<bool> FilterWords(IGuild? guild, IUserMessage? usrMsg)
     {
         if (guild is null)
             return false;
@@ -362,7 +362,7 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
-    public async Task<bool> FilterInvites(IGuild guild, IUserMessage usrMsg)
+    public async Task<bool> FilterInvites(IGuild? guild, IUserMessage? usrMsg)
     {
         if (guild is null)
             return false;
@@ -394,7 +394,7 @@ public class FilterService : IEarlyBehavior, INService
         return false;
     }
 
-    public async Task<bool> FilterLinks(IGuild guild, IUserMessage usrMsg)
+    public async Task<bool> FilterLinks(IGuild? guild, IUserMessage? usrMsg)
     {
         if (guild is null)
             return false;

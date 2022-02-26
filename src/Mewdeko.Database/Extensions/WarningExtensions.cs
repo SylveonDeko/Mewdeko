@@ -5,20 +5,20 @@ namespace Mewdeko.Database.Extensions;
 
 public static class WarningExtensions
 {
-    public static Warning[] ForId(this DbSet<Warning> Set, ulong guildId, ulong userId)
+    public static Warning[] ForId(this DbSet<Warning> set, ulong guildId, ulong userId)
     {
-        var query = Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        var query = set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                        .OrderByDescending(x => x.DateAdded);
 
         return query.ToArray();
     }
 
-    public static bool Forgive(this DbSet<Warning> Set,ulong guildId, ulong userId, string mod, int index)
+    public static bool Forgive(this DbSet<Warning> set,ulong guildId, ulong userId, string mod, int index)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        var warn = Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+        var warn = set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                                  .OrderByDescending(x => x.DateAdded)
                                  .Skip(index)
                                  .FirstOrDefault();
@@ -31,8 +31,8 @@ public static class WarningExtensions
         return true;
     }
 
-    public static async Task ForgiveAll(this DbSet<Warning> Set, ulong guildId, ulong userId, string mod) =>
-        await Set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
+    public static async Task ForgiveAll(this DbSet<Warning> set, ulong guildId, ulong userId, string mod) =>
+        await set.AsQueryable().Where(x => x.GuildId == guildId && x.UserId == userId)
                             .ForEachAsync(x =>
                             {
                                 if (x.Forgiven) return;
@@ -40,5 +40,5 @@ public static class WarningExtensions
                                 x.ForgivenBy = mod;
                             });
 
-    public static Warning[] GetForGuild(this DbSet<Warning> Set, ulong id) => Set.AsQueryable().Where(x => x.GuildId == id).ToArray();
+    public static Warning[] GetForGuild(this DbSet<Warning> set, ulong id) => set.AsQueryable().Where(x => x.GuildId == id).ToArray();
 }

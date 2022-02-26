@@ -15,7 +15,7 @@ public sealed class AnimalRace : IDisposable
         Ended
     }
 
-    private readonly Queue<RaceAnimal> _animalsQueue;
+    private readonly Queue<RaceAnimal?> _animalsQueue;
     private readonly ICurrencyService _currency;
 
     private readonly SemaphoreSlim _locker = new(1, 1);
@@ -26,7 +26,7 @@ public sealed class AnimalRace : IDisposable
     {
         _currency = currency;
         _options = options;
-        _animalsQueue = new Queue<RaceAnimal>(availableAnimals);
+        _animalsQueue = new Queue<RaceAnimal?>(availableAnimals);
         MaxUsers = _animalsQueue.Count;
 
         if (_animalsQueue.Count == 0)
