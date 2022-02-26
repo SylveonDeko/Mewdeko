@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 echo "Starting Mewdeko Build..."
 sleep 5s
