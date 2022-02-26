@@ -33,7 +33,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Verbose(PermissionAction action = null)
+    public async Task Verbose(PermissionAction? action = null)
     {
         await using (var uow = _db.GetDbContext())
         {
@@ -52,7 +52,7 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator), Priority(0)]
-    public async Task PermRole([Remainder] IRole role = null)
+    public async Task PermRole([Remainder] IRole? role = null)
     {
         if (role != null && role == role.Guild.EveryoneRole)
             return;

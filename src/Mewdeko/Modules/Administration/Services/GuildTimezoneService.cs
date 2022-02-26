@@ -63,7 +63,7 @@ public class GuildTimezoneService : INService
         return null;
     }
 
-    public void SetTimeZone(ulong guildId, TimeZoneInfo tz)
+    public void SetTimeZone(ulong guildId, TimeZoneInfo? tz)
     {
         using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);

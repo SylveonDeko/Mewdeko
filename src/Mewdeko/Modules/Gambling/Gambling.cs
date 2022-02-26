@@ -178,7 +178,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Raffle([Remainder] IRole role = null)
+    public async Task Raffle([Remainder] IRole? role = null)
     {
         role ??= ctx.Guild.EveryoneRole;
 
@@ -192,7 +192,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task RaffleAny([Remainder] IRole role = null)
+    public async Task RaffleAny([Remainder] IRole? role = null)
     {
         role ??= ctx.Guild.EveryoneRole;
 
@@ -205,7 +205,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
-    public async Task Cash([Remainder] IUser user = null)
+    public async Task Cash([Remainder] IUser? user = null)
     {
         user ??= ctx.User;
         await ConfirmLocalizedAsync("has", Format.Bold(user.ToString()), $"{GetCurrency(user.Id)} {CurrencySign}")
@@ -256,7 +256,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             $"{GetCurrency(userId)} {CurrencySign}").ConfigureAwait(false);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0)]
-    public async Task Give(ShmartNumber amount, IGuildUser receiver, [Remainder] string msg = null)
+    public async Task Give(ShmartNumber amount, IGuildUser receiver, [Remainder] string? msg = null)
     {
         if (amount <= 0 || ctx.User.Id == receiver.Id || receiver.IsBot)
             return;
@@ -285,7 +285,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     public Task Award(ShmartNumber amount, [Remainder] IGuildUser usr) => Award(amount, usr.Id);
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly, Priority(2)]
-    public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string msg = null)
+    public async Task Award(ShmartNumber amount, ulong usrId, [Remainder] string? msg = null)
     {
         if (amount <= 0)
             return;

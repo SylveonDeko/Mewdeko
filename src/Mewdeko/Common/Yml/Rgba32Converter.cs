@@ -17,7 +17,7 @@ public class Rgba32Converter : IYamlTypeConverter
         return result;
     }
 
-    public void WriteYaml(IEmitter emitter, object value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
         var color = (Rgba32) value;
         var val = (uint) ((color.B << 0) | (color.G << 8) | (color.R << 16));
@@ -36,7 +36,7 @@ public class CultureInfoConverter : IYamlTypeConverter
         return result;
     }
 
-    public void WriteYaml(IEmitter emitter, object value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
         var ci = (CultureInfo) value;
         emitter.Emit(new Scalar(ci.Name));

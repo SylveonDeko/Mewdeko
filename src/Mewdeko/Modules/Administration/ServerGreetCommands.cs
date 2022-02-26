@@ -97,8 +97,8 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetHook(ITextChannel chan, string name, string image = null,
-            string text = null)
+        public async Task GreetHook(ITextChannel? chan, string? name, string? image = null,
+            string? text = null)
         {
             if (text is not null && text.ToLower() == "disable")
             {
@@ -164,8 +164,8 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task LeaveHook(ITextChannel chan, string name, string image = null,
-            string text = null)
+        public async Task LeaveHook(ITextChannel? chan, string? name, string? image = null,
+            string? text = null)
         {
             if (text is not null && text.ToLower() == "disable")
             {
@@ -284,7 +284,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetDmMsg([Remainder] string text = null)
+        public async Task GreetDmMsg([Remainder] string? text = null)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -351,7 +351,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
-        public async Task ByeTest([Remainder] IGuildUser user = null)
+        public async Task ByeTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser) Context.User;
 
@@ -362,7 +362,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
-        public async Task BoostTest([Remainder] IGuildUser user = null)
+        public async Task BoostTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser)Context.User;
             await Service.BoostTest(ctx.Channel as ITextChannel, user);
@@ -373,7 +373,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
-        public async Task GreetTest([Remainder] IGuildUser user = null)
+        public async Task GreetTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser) Context.User;
 
@@ -385,7 +385,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
-        public async Task GreetDmTest([Remainder] IGuildUser user = null)
+        public async Task GreetDmTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser) Context.User;
 

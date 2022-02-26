@@ -36,7 +36,7 @@ public class HelpService : ILateExecutor, INService
         _client.MessageReceived += HandlePing;
     }
 
-    public Task LateExecute(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+    public Task LateExecute(DiscordSocketClient client, IGuild? guild, IUserMessage msg)
     {
         var settings = _bss.Data;
         if (guild != null) return Task.CompletedTask;
@@ -208,7 +208,7 @@ public class HelpService : ILateExecutor, INService
         (perm + " Server Permission")
         .Replace("Guild", "Server", StringComparison.InvariantCulture);
 
-    private string GetText(string text, IGuild guild, params object[] replacements) => _strings.GetText(text, guild?.Id, replacements);
+    private string GetText(string text, IGuild? guild, params object[] replacements) => _strings.GetText(text, guild?.Id, replacements);
 
     public record HelpInfo
     {

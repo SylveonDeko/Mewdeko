@@ -10,5 +10,5 @@ public class SafebooruElement : IImageData
     public string Rating { get; set; }
     public string Tags { get; set; }
     public ImageData ToCachedImageData(Booru type)
-        => new ImageData(FileUrl, Booru.Safebooru, this.Tags.Split(' '), Rating);
+        => new ImageData(FileUrl, Booru.Safebooru, Tags.Split(' '), Rating);
 }

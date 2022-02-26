@@ -21,9 +21,9 @@ public static class LogSetup
                      .Enrich.WithProperty("LogSource", source)
                      .CreateLogger();
             
-        System.Console.OutputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = Encoding.UTF8;
     }
 
-    private static ConsoleTheme GetTheme() => Environment.OSVersion.Platform == PlatformID.Unix ? AnsiConsoleTheme.Code : AnsiConsoleTheme.Code;
+    private static ConsoleTheme GetTheme() => AnsiConsoleTheme.Code;
 
 }

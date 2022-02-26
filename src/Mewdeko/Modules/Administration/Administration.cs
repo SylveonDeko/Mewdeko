@@ -47,7 +47,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, BotPerm(GuildPermission.ManageNicknames),
      UserPerm(GuildPermission.ManageNicknames), Priority(1)]
-    public async Task SetNick(IGuildUser gu, [Remainder] string newNick = null)
+    public async Task SetNick(IGuildUser gu, [Remainder] string? newNick = null)
     {
         var sg = (SocketGuild) Context.Guild;
         if (sg.OwnerId == gu.Id ||
@@ -65,7 +65,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
      BotPerm(GuildPermission.BanMembers)]
-    public async Task BanUnder(StoopidTime time, string option = null, StoopidTime time1 = null)
+    public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
         await ctx.Guild.DownloadUsersAsync();
         IEnumerable<IUser> users = null;
@@ -130,7 +130,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
      BotPerm(GuildPermission.KickMembers)]
-    public async Task KickUnder(StoopidTime time, string option = null)
+    public async Task KickUnder(StoopidTime time, string? option = null)
     {
         await ctx.Guild.DownloadUsersAsync();
         var users = ((SocketGuild) ctx.Guild).Users.Where(c =>
@@ -258,7 +258,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
-    public async Task MemberRole(IRole role)
+    public async Task MemberRole(IRole? role)
     {
         var rol = Service.GetMemberRole(ctx.Guild.Id);
         if (rol is 0 && role != null)
@@ -297,7 +297,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
-    public async Task StaffRole([Remainder] IRole role = null)
+    public async Task StaffRole([Remainder] IRole? role = null)
     {
         var rol = Service.GetStaffRole(ctx.Guild.Id);
         if (rol is 0 && role != null)
@@ -464,7 +464,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageChannels), BotPerm(GuildPermission.ManageChannels)]
-    public async Task SetTopic([Remainder] string topic = null)
+    public async Task SetTopic([Remainder] string? topic = null)
     {
         var channel = (ITextChannel) ctx.Channel;
         topic ??= "";
@@ -522,12 +522,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages)]
-    public Task Delete(ulong messageId, StoopidTime time = null) => Delete((ITextChannel) ctx.Channel, messageId, time);
+    public Task Delete(ulong messageId, StoopidTime? time = null) => Delete((ITextChannel) ctx.Channel, messageId, time);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime time = null) => await InternalMessageAction(channel, messageId, time);
+    public async Task Delete(ITextChannel channel, ulong messageId, StoopidTime? time = null) => await InternalMessageAction(channel, messageId, time);
 
-    private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime time)
+    private async Task InternalMessageAction(ITextChannel channel, ulong messageId, StoopidTime? time)
     {
         var userPerms = ((SocketGuildUser) ctx.User).GetPermissions(channel);
         var botPerms = ((SocketGuild) ctx.Guild).CurrentUser.GetPermissions(channel);

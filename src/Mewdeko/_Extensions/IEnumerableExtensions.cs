@@ -7,17 +7,17 @@ namespace Mewdeko._Extensions;
 
 public static class EnumerableExtensions
 {
-    public static string Join<T>(this IEnumerable<T> data, char separator, Func<T, string> func = null)
+    public static string Join<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
         => string.Join(separator, data.Select(func ?? (x => x?.ToString() ?? string.Empty)));
 
-    public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string> func = null)
+    public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
     {
         func ??= x => x?.ToString() ?? string.Empty;
 
         return string.Join(separator, data.Select(func));
     }
 
-    public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string> func = null)
+    public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string>? func = null)
     {
         func ??= x => x?.ToString() ?? string.Empty;
 
@@ -65,7 +65,8 @@ public static class EnumerableExtensions
     }
 
     public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
-        this IEnumerable<KeyValuePair<TKey, TValue>> dict) => new(dict);
+        this IEnumerable<KeyValuePair<TKey, TValue>> dict)
+        where TKey : notnull => new(dict);
 
     public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
         where T : class, IIndexed => new(enumerable);

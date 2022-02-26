@@ -28,7 +28,7 @@ public class ImageCacherObject : IComparable<ImageCacherObject>
     public HashSet<string> Tags { get; }
     public string Rating { get; }
 
-    public int CompareTo(ImageCacherObject other) => string.Compare(FileUrl, other.FileUrl, StringComparison.InvariantCulture);
+    public int CompareTo(ImageCacherObject? other) => string.Compare(FileUrl, other?.FileUrl, StringComparison.InvariantCulture);
 
     public override string ToString() => FileUrl;
 }

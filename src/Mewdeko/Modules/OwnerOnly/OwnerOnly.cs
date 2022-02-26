@@ -114,7 +114,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task Config(string name = null, string prop = null, [Remainder] string value = null)
+    public async Task Config(string? name = null, string? prop = null, [Remainder] string? value = null)
     {
         var configNames = _settingServices.Select(x => x.Name);
 
@@ -266,7 +266,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task DefPrefix([Remainder] string prefix = null)
+    public async Task DefPrefix([Remainder] string? prefix = null)
     {
         if (string.IsNullOrWhiteSpace(prefix))
         {
@@ -656,7 +656,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageNicknames),
      BotPerm(GuildPermission.ChangeNickname), Priority(0)]
-    public async Task SetNick([Remainder] string newNick = null)
+    public async Task SetNick([Remainder] string? newNick = null)
     {
         if (string.IsNullOrWhiteSpace(newNick))
             return;
@@ -676,7 +676,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task SetAvatar([Remainder] string img = null)
+    public async Task SetAvatar([Remainder] string? img = null)
     {
         var success = await Service.SetAvatar(img);
 
@@ -684,7 +684,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task SetGame(ActivityType type, [Remainder] string game = null)
+    public async Task SetGame(ActivityType type, [Remainder] string? game = null)
     {
         var rep = new ReplacementBuilder()
             .WithDefault(Context)
@@ -696,7 +696,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task SetStream(string url, [Remainder] string name = null)
+    public async Task SetStream(string url, [Remainder] string? name = null)
     {
         name ??= "";
 
@@ -706,7 +706,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task Send(ulong where, ulong to, [Remainder] string msg = null)
+    public async Task Send(ulong where, ulong to, [Remainder] string? msg = null)
     {
         var rep = new ReplacementBuilder().WithDefault(Context).Build();
         var potentialServer = await _client.Rest.GetGuildAsync(where);

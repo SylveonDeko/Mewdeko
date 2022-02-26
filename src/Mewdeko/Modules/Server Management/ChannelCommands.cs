@@ -151,7 +151,7 @@ public partial class ServerManagement
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels)]
-        public async Task Nuke(ITextChannel chan3 = null)
+        public async Task Nuke(ITextChannel? chan3 = null)
         {
             var embed = new EmbedBuilder
             {
@@ -195,7 +195,7 @@ public partial class ServerManagement
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
-        public async Task Lock(SocketTextChannel channel = null)
+        public async Task Lock(SocketTextChannel? channel = null)
         {
             if (channel == null)
             {
@@ -288,7 +288,7 @@ public partial class ServerManagement
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
-        public async Task Unlock(SocketTextChannel channel = null)
+        public async Task Unlock(SocketTextChannel? channel = null)
         {
             if (channel == null)
             {

@@ -125,7 +125,7 @@ WHERE UserId={userId};");
         // just update the amount, there is no new user data
         if (!updatedUserData)
         {
-            var rows = ctx.Database.ExecuteSqlInterpolated($@"
+            ctx.Database.ExecuteSqlInterpolated($@"
 UPDATE OR IGNORE DiscordUser
 SET CurrencyAmount=CurrencyAmount+{amount}
 WHERE UserId={userId};

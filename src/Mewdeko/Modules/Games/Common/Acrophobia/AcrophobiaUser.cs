@@ -15,7 +15,7 @@ public class AcrophobiaUser
 
     public override int GetHashCode() => UserId.GetHashCode();
 
-    public override bool Equals(object obj) =>
+    public override bool Equals(object? obj) =>
         obj is AcrophobiaUser x
 && x.UserId == UserId;
 }

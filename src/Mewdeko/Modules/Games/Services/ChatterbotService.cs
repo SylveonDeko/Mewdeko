@@ -104,7 +104,7 @@ public class ChatterBotService : INService
         return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
     }
 
-    private string PrepareMessage(IUserMessage msg, out IChatterBotSession cleverbot)
+    private string PrepareMessage(IUserMessage? msg, out IChatterBotSession cleverbot)
     {
         cleverbot = null;
         if (msg?.Channel is not ITextChannel channel)

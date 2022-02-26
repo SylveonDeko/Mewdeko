@@ -27,7 +27,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     [SlashCommand("add","Add a channel to MultiGreets."), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
-    public async Task MultiGreetAdd(ITextChannel channel = null)
+    public async Task MultiGreetAdd(ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
         var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
@@ -117,7 +117,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
 
     [SlashCommand("webhook","Set a custom name and avatar to use for each MultiGreet"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions, BlacklistCheck]
-    public async Task MultiGreetWebhook(int id, string name = null, string avatar = null)
+    public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
@@ -159,7 +159,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     [SlashCommand("message","Set a custom message for each MultiGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
-    public async Task MultiGreetMessage(int id, string message = null)
+    public async Task MultiGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync();
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);

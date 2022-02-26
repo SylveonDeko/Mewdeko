@@ -207,7 +207,7 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
-    public async Task SuggestMotes([Remainder] string _ = null)
+    public async Task SuggestMotes([Remainder] string? _ = null)
     {
         if (_ == null)
         {

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿#nullable enable
+using System.Net.Http;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
@@ -57,7 +58,7 @@ public class NotifChecker
         return toReturn;
     }
 
-    public Task RunAsync()
+     public Task RunAsync()
         => Task.Run(async () =>
         {
             while (true)
@@ -67,6 +68,7 @@ public class NotifChecker
                     var allStreamData = CacheGetAllData();
 
                     var oldStreamDataDict = allStreamData
+                                            // group by type
                                             .GroupBy(entry => entry.Key.Type)
                                             .ToDictionary(entry => entry.Key,
                                                 entry => entry.AsEnumerable()
@@ -160,14 +162,16 @@ public class NotifChecker
             }
         });
 
-    public bool CacheAddData(StreamDataKey key, StreamData data, bool replace)
-    {
-        var db = _multi.GetDatabase();
-        return db.HashSet(_key,
-            JsonConvert.SerializeObject(key),
-            JsonConvert.SerializeObject(data),
-            replace ? When.Always : When.NotExists);
-    }
+
+     public bool CacheAddData(StreamDataKey key, StreamData? data, bool replace)
+     {
+         var db = _multi.GetDatabase();
+         return db.HashSet(_key,
+             JsonConvert.SerializeObject(key),
+             JsonConvert.SerializeObject(data),
+             replace ? When.Always : When.NotExists);
+     }
+
 
     public void CacheDeleteData(StreamDataKey key)
     {
@@ -181,56 +185,64 @@ public class NotifChecker
         db.KeyDelete(_key);
     }
 
-    public Dictionary<StreamDataKey, StreamData> CacheGetAllData()
+    public Dictionary<StreamDataKey, StreamData?> CacheGetAllData()
     {
         var db = _multi.GetDatabase();
         if (!db.KeyExists(_key))
             return new();
 
-        return db.HashGetAll(_key)
-                 .ToDictionary(entry => JsonConvert.DeserializeObject<StreamDataKey>(entry.Name),
-                     entry => entry.Value.IsNullOrEmpty
-                         ? default
-                         : JsonConvert.DeserializeObject<StreamData>(entry.Value));
+        return db.HashGetAll(_key).ToDictionary(entry => JsonConvert.DeserializeObject<StreamDataKey>(entry.Name),
+            entry => entry.Value.IsNullOrEmpty ? default : JsonConvert.DeserializeObject<StreamData>(entry.Value));
     }
 
-    public async Task<StreamData> GetStreamDataByUrlAsync(string url)
-    {
-        // loop through all providers and see which regex matches
-        foreach (var (_, provider) in _streamProviders)
+
+    public async Task<StreamData?> GetStreamDataByUrlAsync(string url)
         {
-            var isValid = await provider.IsValidUrl(url);
-            if (!isValid)
-                continue;
-            // if it's not a valid url, try another provider
-            var data = await provider.GetStreamDataByUrlAsync(url);
-            return data;
+            // loop through all providers and see which regex matches
+            foreach (var (_, provider) in _streamProviders)
+            {
+                var isValid = await provider.IsValidUrl(url);
+                if (!isValid)
+                    continue;
+                // if it's not a valid url, try another provider
+                var data = await provider.GetStreamDataByUrlAsync(url);
+                return data;
+            }
+
+            // if no provider found, return null
+            return null;
         }
 
-        // if no provider found, return null
-        return null;
-    }
 
     /// <summary>
     ///     Return currently available stream data, get new one if none available, and start tracking the stream.
     /// </summary>
     /// <param name="url">Url of the stream</param>
     /// <returns>Stream data, if any</returns>
-    public async Task<StreamData> TrackStreamByUrlAsync(string url)
+    public async Task<StreamData?> TrackStreamByUrlAsync(string url)
     {
         var data = await GetStreamDataByUrlAsync(url);
         EnsureTracked(data);
         return data;
     }
 
+
     /// <summary>
     ///     Make sure a stream is tracked using its stream data.
     /// </summary>
     /// <param name="data">Data to try to track if not already tracked</param>
     /// <returns>Whether it's newly added</returns>
-    private bool EnsureTracked(StreamData data) =>
+    private bool EnsureTracked(StreamData? data)
+    {
         // something failed, don't add anything to cache
-        data is not null && CacheAddData(data.CreateKey(), data, false);
+        if (data is null)
+            return false;
+
+        // if stream is found, add it to the cache for tracking only if it doesn't already exist
+        // because stream will be checked and events will fire in a loop. We don't want to override old state
+        return CacheAddData(data.CreateKey(), data, false);
+    }
+
 
     // if stream is found, add it to the cache for tracking only if it doesn't already exist
     // because stream will be checked and events will fire in a loop. We don't want to override old state

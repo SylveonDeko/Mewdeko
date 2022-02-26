@@ -27,7 +27,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task Choose([Remainder] string list = null)
+    public async Task Choose([Remainder] string? list = null)
     {
         if (string.IsNullOrWhiteSpace(list))
             return;
@@ -39,7 +39,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task EightBall([Remainder] string question = null)
+    public async Task EightBall([Remainder] string? question = null)
     {
         if (string.IsNullOrWhiteSpace(question))
             return;

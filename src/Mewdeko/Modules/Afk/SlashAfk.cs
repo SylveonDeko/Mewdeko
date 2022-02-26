@@ -25,7 +25,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task Afk(string message = null)
+    public async Task Afk(string? message = null)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {

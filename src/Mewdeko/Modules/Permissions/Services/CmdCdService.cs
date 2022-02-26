@@ -41,7 +41,7 @@ public class CmdCdService : ILateBlocker, INService
         return TryBlock(guild, user, commandName);
     }
 
-    public Task<bool> TryBlock(IGuild guild, IUser user, string commandName)
+    public Task<bool> TryBlock(IGuild? guild, IUser user, string commandName)
     {
         if (guild is null)
             return Task.FromResult(false);

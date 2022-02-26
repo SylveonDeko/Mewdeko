@@ -36,7 +36,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly Replacer _rep;
     private readonly IBotStrings _strings;
 
+#pragma warning disable CS8714
     private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
+#pragma warning restore CS8714
         new();
 
     private ImmutableDictionary<ulong, IDMChannel> ownerChannels =

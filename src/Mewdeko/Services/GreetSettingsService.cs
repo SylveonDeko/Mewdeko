@@ -54,7 +54,7 @@ public class GreetSettingsService : INService
     private ConcurrentDictionary<ulong, string> Leavehooks { get; } = new();
     public bool GroupGreets => _bss.Data.GroupGreets;
 
-    private async Task TriggerBoostMessage(GuildConfig conf, SocketGuildUser user, ITextChannel chan = null)
+    private async Task TriggerBoostMessage(GuildConfig conf, SocketGuildUser user, ITextChannel? chan = null)
     {
         var channel = chan switch
         {

@@ -24,7 +24,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
-    public async Task SetAfk([Remainder] string message = null)
+    public async Task SetAfk([Remainder] string? message = null)
     {
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{_client.ShardId}") != "1")
         {

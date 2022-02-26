@@ -230,7 +230,7 @@ public class WaifuService : INService
         return (w, isAffinity, result);
     }
 
-    public async Task<(DiscordUser, bool, TimeSpan?)> ChangeAffinityAsync(IUser user, IGuildUser target)
+    public async Task<(DiscordUser, bool, TimeSpan?)> ChangeAffinityAsync(IUser user, IGuildUser? target)
     {
         DiscordUser oldAff = null;
         var success = false;

@@ -16,7 +16,7 @@ public class JsonSeria : ISeria
 
     public byte[] Serialize<T>(T data) => JsonSerializer.SerializeToUtf8Bytes(data, _serializerOptions);
 
-    public T Deserialize<T>(byte[] data)
+    public T Deserialize<T>(byte[]? data)
     {
         if (data is null)
             return default;

@@ -255,7 +255,7 @@ public class Deck
             }
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             if (obj is not Card card) return 0;
             return Number - card.Number;

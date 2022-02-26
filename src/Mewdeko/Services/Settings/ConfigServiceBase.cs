@@ -161,7 +161,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
         Expression<Func<TSettings, TProp>> selector,
         SettingParser<TProp> parser,
         Func<TProp, string> printer,
-        Func<TProp, bool> checker = null)
+        Func<TProp, bool>? checker = null)
     {
         checker ??= _ => true;
         key = key.ToLowerInvariant();

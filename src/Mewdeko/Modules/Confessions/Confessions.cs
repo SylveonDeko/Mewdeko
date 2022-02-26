@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Confessions;
 public class Confessions : MewdekoModuleBase<ConfessionService>
 {
     [MewdekoCommand, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
-    public async Task Confess(ulong serverId, string confession = null)
+    public async Task Confess(ulong serverId, string? confession = null)
     {
         var attachment = ctx.Message.Attachments.FirstOrDefault().Url ?? null;
         var user = ctx.User as SocketUser;
@@ -43,7 +43,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     }
 
     [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
-    public async Task ConfessionChannel(ITextChannel channel = null)
+    public async Task ConfessionChannel(ITextChannel? channel = null)
     {
         if (channel is null)
         {
@@ -64,7 +64,7 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     }
 
     [MewdekoCommand, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
-    public async Task ConfessionLogChannel(ITextChannel channel = null)
+    public async Task ConfessionLogChannel(ITextChannel? channel = null)
     {
         if (channel is null)
         {

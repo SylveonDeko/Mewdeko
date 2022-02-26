@@ -19,7 +19,7 @@ public partial class Searches
         public XkcdCommands(IHttpClientFactory factory) => _httpFactory = factory;
 
         [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
-        public async Task Xkcd(string arg = null)
+        public async Task Xkcd(string? arg = null)
         {
             if (arg?.ToLowerInvariant().Trim() == "latest")
             {

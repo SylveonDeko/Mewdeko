@@ -18,7 +18,7 @@ public partial class Confessions : Migration
                 Confession = builder.Column<string>(nullable: false),
                 DateAdded = builder.Column<DateTime>(nullable: false)
             },
-            constraints: table => table.PrimaryKey("PK_Confessions", x => x.Id));;
+            constraints: table => table.PrimaryKey("PK_Confessions", x => x.Id));
         migrationBuilder.AddColumn<ulong>("ConfessionLogChannel", "GuildConfigs", defaultValue: 0);
         migrationBuilder.AddColumn<ulong>("ConfessionChannel", "GuildConfigs", defaultValue: 0);
         migrationBuilder.AddColumn<string>("ConfessionBlacklist", "GuildConfigs", defaultValue: "0");

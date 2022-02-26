@@ -267,7 +267,7 @@ WHERE GuildId={guildId}
         return toReturn;
     }
 
-    public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime time, IRole role = null)
+    public bool WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time, IRole? role = null)
     {
         // these 3 don't make sense with time
         if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
@@ -367,7 +367,7 @@ WHERE GuildId={guildId}
         return template?.Text;
     }
 
-    public void SetBanTemplate(ulong guildId, string text)
+    public void SetBanTemplate(ulong guildId, string? text)
     {
         using var uow = _db.GetDbContext();
         var template = uow.BanTemplates

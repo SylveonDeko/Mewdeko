@@ -81,11 +81,11 @@ public static class GuildConfigExtensions
 
         if (config is null) // if there is no guildconfig, create new one
         {
-            ctx.GuildConfigs.Add((config = new GuildConfig
+            ctx.GuildConfigs.Add(config = new GuildConfig
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist
-            }));
+            });
             ctx.SaveChanges();
         }
         else if (config.Permissions is null || !config.Permissions.Any()) // if no perms, add default ones

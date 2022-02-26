@@ -137,7 +137,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageGuild)]
-    public async Task XpSetting(string setting = null, int value = 999999999)
+    public async Task XpSetting(string? setting = null, int value = 999999999)
     {
         if (value < 0) return;
         if (setting is null)
@@ -227,7 +227,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Experience([Remainder] IGuildUser user = null)
+    public async Task Experience([Remainder] IGuildUser? user = null)
     {
         user ??= ctx.User as IGuildUser;
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -295,7 +295,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
      RequireContext(ContextType.Guild)]
-    public async Task XpRoleReward(int level, [Remainder] IRole role = null)
+    public async Task XpRoleReward(int level, [Remainder] IRole? role = null)
     {
         if (level < 1)
             return;
@@ -383,7 +383,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels),
      RequireContext(ContextType.Guild)]
-    public async Task XpExclude(Channel _, [Remainder] IChannel channel = null)
+    public async Task XpExclude(Channel _, [Remainder] IChannel? channel = null)
     {
         if (channel == null)
             channel = ctx.Channel;

@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Starboard;
 public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
     [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
-    public async Task SetStarboard(ITextChannel chn = null)
+    public async Task SetStarboard(ITextChannel? chn = null)
     {
         if (chn is null)
         {
@@ -46,7 +46,7 @@ public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
     }
 
     [SlashCommand("star", "Sets or gets the current starboard emote"), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]
-    public async Task SetStar(string emoteText = null)
+    public async Task SetStar(string? emoteText = null)
     {
         await ctx.Interaction.DeferAsync();
         if (emoteText is null)

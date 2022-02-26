@@ -138,7 +138,7 @@ public partial class Gambling
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Affinity([Remainder] IGuildUser u = null)
+        public async Task Affinity([Remainder] IGuildUser? u = null)
         {
             if (u?.Id == ctx.User.Id)
             {
@@ -203,7 +203,7 @@ public partial class Gambling
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
-        public Task WaifuInfo([Remainder] IUser target = null)
+        public Task WaifuInfo([Remainder] IUser? target = null)
         {
             if (target == null)
                 target = ctx.User;
@@ -214,7 +214,7 @@ public partial class Gambling
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0)]
         public Task WaifuInfo(ulong targetId) => InternalWaifuInfo(targetId);
 
-        private Task InternalWaifuInfo(ulong targetId, string name = null)
+        private Task InternalWaifuInfo(ulong targetId, string? name = null)
         {
             var wi = Service.GetFullWaifuInfoAsync(targetId);
             var affInfo = WaifuService.GetAffinityTitle(wi.AffinityCount);

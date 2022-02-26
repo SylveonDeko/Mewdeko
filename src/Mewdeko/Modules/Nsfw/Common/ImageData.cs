@@ -11,28 +11,26 @@ public class ImageData : IComparable<ImageData>
     {
         if (type == Booru.Danbooru && !Uri.IsWellFormedUriString(url, UriKind.Absolute))
         {
-            this.FileUrl = "https://danbooru.donmai.us" + url;
+            FileUrl = "https://danbooru.donmai.us" + url;
         }
         else
         {
-            this.FileUrl = url.StartsWith("http", StringComparison.InvariantCulture) ? url : "https:" + url;
+            FileUrl = url.StartsWith("http", StringComparison.InvariantCulture) ? url : "https:" + url;
         }
             
-        this.SearchType = type;
-        this.FileUrl = url;
-        this.Tags = tags.ToHashSet();
-        this.Rating = rating;
+        SearchType = type;
+        FileUrl = url;
+        Tags = tags.ToHashSet();
+        Rating = rating;
     }
 
-    public override string ToString()
-    {
-        return FileUrl;
-    }
+    public override string ToString() 
+        => FileUrl;
 
     public override int GetHashCode() => FileUrl.GetHashCode();
-    public override bool Equals(object obj)
-        => obj is ImageData ico && ico.FileUrl == this.FileUrl;
+    public override bool Equals(object? obj)
+        => obj is ImageData ico && ico.FileUrl == FileUrl;
 
-    public int CompareTo(ImageData other)
+    public int CompareTo(ImageData? other)
         => string.Compare(FileUrl, other.FileUrl, StringComparison.InvariantCulture);
 }

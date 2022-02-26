@@ -43,7 +43,9 @@ public class PicartoProvider : Provider
         return Task.FromResult<StreamData?>(null);
     }
 
+#pragma warning disable CS8609
     public override async Task<StreamData?> GetStreamDataAsync(string login)
+#pragma warning restore CS8609
     {
         var data = await GetStreamDataAsync(new List<string>
         {
@@ -104,4 +106,5 @@ public class PicartoProvider : Provider
             StreamUrl = $"https://picarto.tv/{stream.Name}",
             AvatarUrl = stream.Avatar
         };
+
 }

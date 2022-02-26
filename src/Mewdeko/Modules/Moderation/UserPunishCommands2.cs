@@ -68,7 +68,7 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers)]
-        public async Task MWarn(IGuildUser user, [Remainder] string reason = null)
+        public async Task MWarn(IGuildUser user, [Remainder] string? reason = null)
         {
             if (ctx.User.Id != user.Guild.OwnerId
                 && user.GetRoles().Select(r => r.Position).Max() >=
@@ -162,7 +162,7 @@ public partial class Moderation
         public Task MWarnlog(int page, IGuildUser user) => MWarnlog(page, user.Id);
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(3)]
-        public Task MWarnlog(IGuildUser user = null)
+        public Task MWarnlog(IGuildUser? user = null)
         {
             if (user == null)
                 user = (IGuildUser) ctx.User;
@@ -286,7 +286,7 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime time = null)
+        public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime? time = null)
         {
             var punish = PunishmentAction.AddRole;
             var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time, role);
@@ -307,7 +307,7 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
-        public async Task MWarnPunish(int number, PunishmentAction punish, StoopidTime time = null)
+        public async Task MWarnPunish(int number, PunishmentAction punish, StoopidTime? time = null)
         {
             // this should never happen. Addrole has its own method with higher priority
             if (punish == PunishmentAction.AddRole)

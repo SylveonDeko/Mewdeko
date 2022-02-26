@@ -43,7 +43,7 @@ public class PollService : IEarlyBehavior, INService
 
     public int Priority => -5;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
-    public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild guild, IUserMessage msg)
+    public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild? guild, IUserMessage msg)
     {
         if (guild == null)
             return false;

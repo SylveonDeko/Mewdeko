@@ -15,7 +15,7 @@ public class UriConverter : IYamlTypeConverter
         return result;
     }
 
-    public void WriteYaml(IEmitter emitter, object value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type)
     {
         var uri = (Uri) value;
         emitter.Emit(new Scalar(uri.ToString()));
