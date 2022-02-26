@@ -55,7 +55,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
-        public async Task Sargn(int group, [Remainder] string name = null)
+        public async Task Sargn(int group, [Remainder] string? name = null)
         {
             var set = await Service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
 

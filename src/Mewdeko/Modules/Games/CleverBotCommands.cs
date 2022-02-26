@@ -14,7 +14,7 @@ public partial class Games
     {
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages)]
-        public async Task Cleverbot(ITextChannel chan = null)
+        public async Task Cleverbot(ITextChannel? chan = null)
         {
             var channel = chan ?? (ITextChannel) ctx.Channel;
             var cbid = Service.GetCleverbotChannel(ctx.Guild.Id);

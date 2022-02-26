@@ -128,7 +128,7 @@ public static class PermissionExtensions
         return null;
     }
 
-    public static string GetCommand(this Permissionv2 perm, string prefix, SocketGuild guild = null)
+    public static string GetCommand(this Permissionv2 perm, string prefix, SocketGuild? guild = null)
     {
         var com = "";
         switch (perm.PrimaryTarget)

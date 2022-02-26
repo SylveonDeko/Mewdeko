@@ -141,7 +141,7 @@ public class StreamRoleService : INService, IUnloadableService
     /// <param name="guild">Guild Id</param>
     /// <param name="keyword">Keyword to set</param>
     /// <returns>The keyword set</returns>
-    public async Task<string> SetKeyword(IGuild guild, string keyword)
+    public async Task<string> SetKeyword(IGuild guild, string? keyword)
     {
         keyword = keyword?.Trim()?.ToLowerInvariant();
 
@@ -229,7 +229,7 @@ public class StreamRoleService : INService, IUnloadableService
             await RescanUsers(guild).ConfigureAwait(false);
     }
 
-    private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole addRole = null)
+    private async Task RescanUser(IGuildUser user, StreamRoleSettings setting, IRole? addRole = null)
     {
         var g = (StreamingGame) user.Activities
             .FirstOrDefault(a => a is StreamingGame &&

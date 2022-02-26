@@ -80,7 +80,7 @@ public partial class Games
                 return Task.CompletedTask;
             }
 
-            Task NunchiOnGameEnded(NunchiGame arg1, string arg2)
+            Task NunchiOnGameEnded(NunchiGame arg1, string? arg2)
             {
                 if (Service.NunchiGames.TryRemove(ctx.Guild.Id, out var game))
                 {

@@ -32,7 +32,7 @@ public partial class Administration
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AntiAlt(StoopidTime minAge, PunishmentAction action,
-            [Remainder] StoopidTime punishTime = null)
+            [Remainder] StoopidTime? punishTime = null)
         {
             var minAgeMinutes = (int) minAge.Time.TotalMinutes;
             var punishTimeMinutes = (int?) punishTime?.Time.TotalMinutes ?? 0;
@@ -80,7 +80,7 @@ public partial class Administration
         public Task AntiRaid(int userThreshold, int seconds, PunishmentAction action) => InternalAntiRaid(userThreshold, seconds, action);
 
         private async Task InternalAntiRaid(int userThreshold, int seconds = 10,
-            PunishmentAction action = PunishmentAction.Mute, StoopidTime punishTime = null)
+            PunishmentAction action = PunishmentAction.Mute, StoopidTime? punishTime = null)
         {
             if (action == PunishmentAction.AddRole)
             {
@@ -146,7 +146,7 @@ public partial class Administration
         public Task AntiSpam(int messageCount, PunishmentAction action) => InternalAntiSpam(messageCount, action);
 
         public async Task InternalAntiSpam(int messageCount, PunishmentAction action,
-            StoopidTime timeData = null, IRole role = null)
+            StoopidTime? timeData = null, IRole? role = null)
         {
             if (messageCount is < 2 or > 10)
                 return;

@@ -79,7 +79,7 @@ public partial class Games
             }
         }
 
-        private Task Hm_OnGameEnded(Hangman game, string winner)
+        private Task Hm_OnGameEnded(Hangman game, string? winner)
         {
             if (winner == null)
             {

@@ -22,7 +22,7 @@ public class PollRunner
 
     public event Func<IUserMessage, IGuildUser, Task> OnVoted;
 
-    public async Task<bool> TryVote(IUserMessage msg)
+    public async Task<bool> TryVote(IUserMessage? msg)
     {
         PollVote voteObj;
         await _locker.WaitAsync().ConfigureAwait(false);

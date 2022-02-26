@@ -62,7 +62,7 @@ public class CurrencyRaffleGame
 
         public override int GetHashCode() => DiscordUser.GetHashCode();
 
-        public override bool Equals(object obj) =>
+        public override bool Equals(object? obj) =>
             obj is User u
 && u.DiscordUser == DiscordUser;
     }

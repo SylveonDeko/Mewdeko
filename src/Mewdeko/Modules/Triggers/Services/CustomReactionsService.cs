@@ -445,7 +445,7 @@ public sealed class CustomReactionsService : IEarlyBehavior, INService, IReadyEx
         return Task.CompletedTask;
     }
 
-    private static CustomReaction[] DeleteInternal(IReadOnlyList<CustomReaction> crs, int id, out CustomReaction deleted)
+    private static CustomReaction[] DeleteInternal(IReadOnlyList<CustomReaction>? crs, int id, out CustomReaction deleted)
     {
         deleted = null;
         if (crs is null || crs.Count == 0)

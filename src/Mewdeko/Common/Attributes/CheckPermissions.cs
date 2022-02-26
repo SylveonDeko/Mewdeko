@@ -23,7 +23,7 @@ public sealed class CheckPermissions : PreconditionAttribute
         };
         if (executingCommand.Module.SlashGroupName?.ToLower() == "snipe")
             groupname = "utility";
-        var pc = perms.GetCacheFor(context.Guild.Id);
+        var pc = perms!.GetCacheFor(context.Guild.Id);
         int index = 0;
         return Task.FromResult(
             pc.Permissions != null && pc.Permissions.CheckSlashPermissions(groupname, executingCommand.MethodName.ToLower(), context.User, context.Channel, out index)

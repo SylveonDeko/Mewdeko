@@ -39,7 +39,7 @@ public partial class Utility
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task VInfo([Remainder] IVoiceChannel channel = null)
+        public async Task VInfo([Remainder] IVoiceChannel? channel = null)
         {
             var voiceChannel = ((IGuildUser) ctx.User).VoiceChannel;
             var eb = new EmbedBuilder();
@@ -125,7 +125,7 @@ public partial class Utility
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task ServerInfo(string guildName = null)
+        public async Task ServerInfo(string? guildName = null)
         {
             var channel = (ITextChannel) ctx.Channel;
             guildName = guildName?.ToUpperInvariant();
@@ -187,7 +187,7 @@ public partial class Utility
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task ChannelInfo(ITextChannel channel = null)
+        public async Task ChannelInfo(ITextChannel? channel = null)
         {
             var ch = channel ?? (ITextChannel) ctx.Channel;
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(ch.Id >> 22);
@@ -202,7 +202,7 @@ public partial class Utility
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task UserInfo(IGuildUser usr = null)
+        public async Task UserInfo(IGuildUser? usr = null)
         {
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var user = usr ?? ctx.User as IGuildUser;

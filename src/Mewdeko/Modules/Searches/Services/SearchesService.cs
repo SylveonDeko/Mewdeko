@@ -371,7 +371,7 @@ public class SearchesService : INService, IUnloadableService
                _rng.Next(1, max).ToString("000") + ".png";
     }
 
-    public async Task<string> Translate(string langs, string text = null)
+    public async Task<string> Translate(string langs, string? text = null)
     {
         if (string.IsNullOrWhiteSpace(text))
             throw new ArgumentException("Text is empty or null", nameof(text));
@@ -384,7 +384,7 @@ public class SearchesService : INService, IUnloadableService
         return (await _google.Translate(text, from, to).ConfigureAwait(false)).SanitizeMentions(true);
     }
 
-    public Task<ImageCacherObject> DapiSearch(string tag, DapiSearchType type, ulong? guild,
+    public Task<ImageCacherObject> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
         bool isExplicit = false)
     {
         tag ??= "";

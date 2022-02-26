@@ -62,7 +62,7 @@ public class TimeSpanConverter : TypeConverter<TimeSpan>
 
     private TimeSpan Days(string match) => new(int.Parse(match), 0, 0, 0);
 
-    private TimeSpan Weeks(string match) => new((int.Parse(match) * 7), 0, 0, 0);
+    private TimeSpan Weeks(string match) => new(int.Parse(match) * 7, 0, 0, 0);
 
-    private TimeSpan Months(string match) => new((int.Parse(match) * 30), 0, 0, 0);
+    private TimeSpan Months(string match) => new(int.Parse(match) * 30, 0, 0, 0);
 }

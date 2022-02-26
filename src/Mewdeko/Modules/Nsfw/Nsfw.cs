@@ -176,7 +176,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     }
 
     public async Task InternalNHentaiSearch(string search, int page = 1, string type = "popular",
-        string exclude = null)
+        string? exclude = null)
     {
         var client = new HentaiClient();
         var e = type.ToLower() switch
@@ -237,7 +237,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [RequireNsfw]
     [RequireContext(ContextType.Guild)]
     [UserPerm(ChannelPermission.ManageMessages)]
-    public async Task AutoHentai(int interval = 0, [Remainder] string tags = null)
+    public async Task AutoHentai(int interval = 0, [Remainder] string? tags = null)
     {
         Timer t;
 
@@ -487,7 +487,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [MewdekoCommand, Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageMessages)]
-    public async Task NsfwTagBlacklist([Remainder] string tag = null)
+    public async Task NsfwTagBlacklist([Remainder] string? tag = null)
     {
         if (string.IsNullOrWhiteSpace(tag))
         {

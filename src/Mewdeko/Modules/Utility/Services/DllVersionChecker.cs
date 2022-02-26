@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Utility.Services;
 
 public class DllVersionChecker
 {
-    public static string GetDllVersion(string dllName = null)
+    public static string GetDllVersion(string? dllName = null)
     {
         try
         {

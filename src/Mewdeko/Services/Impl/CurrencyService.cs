@@ -70,7 +70,7 @@ public class CurrencyService : ICurrencyService
         InternalRemoveAsync(user.Id, user.Username, user.Discriminator, user.AvatarId, reason, amount,
             gamble);
 
-    private static CurrencyTransaction GetCurrencyTransaction(ulong userId, string reason, long amount) =>
+    private static CurrencyTransaction GetCurrencyTransaction(ulong userId, string? reason, long amount) =>
         new()
         {
             Amount = amount,

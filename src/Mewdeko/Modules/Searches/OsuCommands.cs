@@ -36,7 +36,7 @@ public partial class Searches
         //     await ctx.Channel.SendFileAsync(ms, "OsuProfile.png");
         // }
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Osu(string user, [Remainder] string mode = null)
+        public async Task Osu(string user, [Remainder] string? mode = null)
         {
             if (string.IsNullOrWhiteSpace(user))
                 return;
@@ -94,7 +94,7 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Gatari(string user, [Remainder] string mode = null)
+        public async Task Gatari(string user, [Remainder] string? mode = null)
         {
             using var http = _httpFactory.CreateClient();
             var modeNumber = string.IsNullOrWhiteSpace(mode)
@@ -135,7 +135,7 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Osu5(string user, [Remainder] string mode = null)
+        public async Task Osu5(string user, [Remainder] string? mode = null)
         {
             var channel = (ITextChannel) ctx.Channel;
             if (string.IsNullOrWhiteSpace(_creds.OsuApiKey))

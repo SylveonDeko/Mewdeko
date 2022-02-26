@@ -237,7 +237,7 @@ public class ClubService : INService
         return true;
     }
 
-    public bool ChangeClubDescription(ulong userId, string desc)
+    public bool ChangeClubDescription(ulong userId, string? desc)
     {
         using var uow = _db.GetDbContext();
         var club = uow.Clubs.GetByOwner(userId);

@@ -36,7 +36,7 @@ public class ConfessionService : INService
         ulong serverId,
         IUser user,
         string confession,
-        IMessageChannel currentChannel, IInteractionContext ctx = null, string imageUrl = null)
+        IMessageChannel currentChannel, IInteractionContext? ctx = null, string? imageUrl = null)
     {
         var uow = _db.GetDbContext();
         var confessions = uow.Confessions.ForGuild(serverId);

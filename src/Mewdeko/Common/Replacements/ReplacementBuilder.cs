@@ -18,7 +18,7 @@ public class ReplacementBuilder
     private readonly ConcurrentDictionary<Regex, Func<Match, string>> _regex = new();
     private readonly ConcurrentDictionary<string, Func<string>> _reps = new();
 
-    public ReplacementBuilder(DiscordSocketClient client = null)
+    public ReplacementBuilder(DiscordSocketClient? client = null)
     {
         _client = client;
         WithRngRegex();
@@ -65,7 +65,7 @@ public class ReplacementBuilder
         return this;
     }
 
-    public ReplacementBuilder WithServer(DiscordSocketClient client, SocketGuild g)
+    public ReplacementBuilder WithServer(DiscordSocketClient client, SocketGuild? g)
     {
         /*OBSOLETE*/
         _reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
@@ -115,7 +115,7 @@ public class ReplacementBuilder
         return this;
     }
 
-    public ReplacementBuilder WithChannel(IMessageChannel ch)
+    public ReplacementBuilder WithChannel(IMessageChannel? ch)
     {
         /*OBSOLETE*/
         _reps.TryAdd("%channel%", () => (ch as ITextChannel)?.Mention ?? "#" + ch.Name);

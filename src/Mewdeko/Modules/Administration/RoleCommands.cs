@@ -275,7 +275,7 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
-        public async Task CreateRole([Remainder] string roleName = null)
+        public async Task CreateRole([Remainder] string? roleName = null)
         {
             if (string.IsNullOrWhiteSpace(roleName))
                 return;

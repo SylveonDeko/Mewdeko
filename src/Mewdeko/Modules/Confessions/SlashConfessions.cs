@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Confessions;
 public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
 {
     [SlashCommand("confess", "Sends your confession to the confession channel.", true), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task Confess(string confession, IAttachment attachment = null)
+    public async Task Confess(string confession, IAttachment? attachment = null)
     {
         var attachUrl = attachment?.Url;
         if (!Service.ConfessionChannels.TryGetValue(ctx.Guild.Id, out _))
@@ -35,7 +35,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     }
 
     [SlashCommand("channel", "Set the confession channel"),  SlashUserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task ConfessionChannel(ITextChannel channel = null)
+    public async Task ConfessionChannel(ITextChannel? channel = null)
     {
         if (channel is null)
         {
@@ -56,7 +56,7 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
     }
 
     [SlashCommand("logchannel", "Set the confession channel"),  SlashUserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task ConfessionLogChannel(ITextChannel channel = null)
+    public async Task ConfessionLogChannel(ITextChannel? channel = null)
     {
         if (channel is null)
         {

@@ -1,5 +1,4 @@
-﻿
-using Mewdeko.Database.Models;
+﻿using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Serilog;
 using System.Net.Http;
@@ -57,7 +56,7 @@ public class TwitchHelixProvider : Provider
         return Task.FromResult(true);
     }
 
-    public override Task<StreamData> GetStreamDataByUrlAsync(string url)
+    public override Task<StreamData?> GetStreamDataByUrlAsync(string url)
     {
         var match = Regex.Match(url);
         if (!match.Success) return Task.FromResult<StreamData>(null);
@@ -66,7 +65,7 @@ public class TwitchHelixProvider : Provider
 
     }
 
-    public override async Task<StreamData> GetStreamDataAsync(string login)
+    public override async Task<StreamData?> GetStreamDataAsync(string login)
     {
         var data = await GetStreamDataAsync(new List<string>
         {

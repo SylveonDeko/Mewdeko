@@ -28,7 +28,7 @@ public partial class Utility
 
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
          RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-        public async Task Snipe(IMessageChannel channel = null, IUser user = null)
+        public async Task Snipe(IMessageChannel? channel = null, IUser? user = null)
         {
             channel ??= ctx.Channel;
             if (!Service.GetSnipeSet(ctx.Guild.Id))
@@ -71,7 +71,7 @@ public partial class Utility
 
         [SlashCommand("edited", "Snipes edited messages for the current or mentioned channel"),
          RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-        public async Task EditSnipe(IMessageChannel channel = null, IUser user = null)
+        public async Task EditSnipe(IMessageChannel? channel = null, IUser? user = null)
         {
             channel ??= ctx.Channel;
             if (!Service.GetSnipeSet(ctx.Guild.Id))

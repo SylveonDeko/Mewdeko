@@ -52,7 +52,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
-    public async Task CrsImport([Remainder] string input = null)
+    public async Task CrsImport([Remainder] string? input = null)
     {
         if (!AdminInGuildOrOwnerInDm())
         {

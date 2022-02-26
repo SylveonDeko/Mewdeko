@@ -14,10 +14,10 @@ public class AnimalRacingUser
     public long Bet { get; }
     public string Username { get; }
     public ulong UserId { get; }
-    public RaceAnimal Animal { get; set; }
+    public RaceAnimal? Animal { get; set; }
     public int Progress { get; set; }
 
-    public override bool Equals(object obj) =>
+    public override bool Equals(object? obj) =>
         obj is AnimalRacingUser x
 && x.UserId == UserId;
 

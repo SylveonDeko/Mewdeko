@@ -10,7 +10,7 @@ public class PermValue
 
     public Discord.PermValue Value { get; }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj == null || GetType() != obj.GetType()) return false;
 

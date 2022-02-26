@@ -41,7 +41,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
     [MewdekoCommand, Usage, Description, Alias]
-    public async Task EmoteList([Remainder] string emotetype = null)
+    public async Task EmoteList([Remainder] string? emotetype = null)
     {
         var emotes = emotetype switch
         {
@@ -113,7 +113,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
-    public async Task ReactChannel(ITextChannel chan = null)
+    public async Task ReactChannel(ITextChannel? chan = null)
     {
         var e = Service.GetReactChans(ctx.Guild.Id);
         if (chan == null)
@@ -335,7 +335,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(2)]
-    public async Task VCheck([Remainder] string url = null)
+    public async Task VCheck([Remainder] string? url = null)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
@@ -613,7 +613,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task WhosPlaying([Remainder] string game)
+    public async Task WhosPlaying([Remainder] string? game)
     {
         game = game?.Trim().ToUpperInvariant();
         if (string.IsNullOrWhiteSpace(game))
@@ -708,7 +708,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task UserId([Remainder] IGuildUser target = null)
+    public async Task UserId([Remainder] IGuildUser? target = null)
     {
         var usr = target ?? ctx.User;
         await ReplyConfirmLocalizedAsync("userid", "🆔", Format.Bold(usr.ToString()),
@@ -731,7 +731,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .ConfigureAwait(false);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Roles(IGuildUser target, int page = 1)
+    public async Task Roles(IGuildUser? target, int page = 1)
     {
         var channel = (ITextChannel) ctx.Channel;
         var guild = channel.Guild;
@@ -768,7 +768,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     public Task Roles(int page = 1) => Roles(null, page);
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task ChannelTopic([Remainder] ITextChannel channel = null)
+    public async Task ChannelTopic([Remainder] ITextChannel? channel = null)
     {
         channel ??= (ITextChannel)ctx.Channel;
 

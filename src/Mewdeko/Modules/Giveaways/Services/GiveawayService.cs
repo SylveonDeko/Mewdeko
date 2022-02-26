@@ -113,8 +113,8 @@ public class GiveawayService : INService
     }
 
     public async Task GiveawaysInternal(ITextChannel chan, TimeSpan ts, string item, int winners, ulong host,
-        ulong serverId, ITextChannel currentChannel, IGuild guild, string reqroles = null, string blacklistusers = null,
-        string blacklistroles = null, IDiscordInteraction interaction = null)
+        ulong serverId, ITextChannel currentChannel, IGuild guild, string? reqroles = null, string? blacklistusers = null,
+        string? blacklistroles = null, IDiscordInteraction? interaction = null)
     {
         var hostuser = await guild.GetUserAsync(host);
         var emote = GetGiveawayEmote(guild.Id).ToIEmote();

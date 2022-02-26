@@ -35,7 +35,7 @@ public class CommandMapService : IInputTransformer, INService
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; } = new();
 
-    public async Task<string> TransformInput(IGuild guild, IMessageChannel channel, IUser user, string input)
+    public async Task<string> TransformInput(IGuild? guild, IMessageChannel channel, IUser user, string input)
     {
         await Task.Yield();
 
@@ -81,7 +81,7 @@ public class CommandMapService : IInputTransformer, INService
 
 public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
 {
-    public bool Equals(CommandAlias x, CommandAlias y) => x.Trigger == y.Trigger;
+    public bool Equals(CommandAlias? x, CommandAlias? y) => x?.Trigger == y?.Trigger;
 
     public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
 }

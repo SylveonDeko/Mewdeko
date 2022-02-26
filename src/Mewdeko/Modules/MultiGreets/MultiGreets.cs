@@ -29,7 +29,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
     
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetAdd ([Remainder] ITextChannel channel = null)
+    public async Task MultiGreetAdd ([Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
         var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
@@ -135,7 +135,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageWebhooks)]
-    public async Task MultiGreetWebhook(int id, string name = null, string avatar = null)
+    public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)
@@ -177,7 +177,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetMessage(int id, [Remainder]string message = null)
+    public async Task MultiGreetMessage(int id, [Remainder]string? message = null)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)

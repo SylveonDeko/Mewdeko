@@ -25,7 +25,7 @@ public static class QuoteExtensions
         return (await quotes.AsQueryable()
                             .Where(q => q.GuildId == guildId && q.Keyword == keyword)
                             .ToListAsync())
-               .OrderBy(q => rng.Next())
+               .OrderBy(_ => rng.Next())
                .FirstOrDefault();
     }
 
@@ -39,7 +39,7 @@ public static class QuoteExtensions
                                 // && q.Text.Contains(text, StringComparison.OrdinalIgnoreCase)
                             )
                             .ToListAsync())
-               .OrderBy(q => rngk.Next())
+               .OrderBy(_ => rngk.Next())
                .FirstOrDefault();
     }
 

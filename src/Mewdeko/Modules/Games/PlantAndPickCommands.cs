@@ -27,7 +27,7 @@ public partial class Games
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Pick(string pass = null)
+        public async Task Pick(string? pass = null)
         {
             if (!string.IsNullOrWhiteSpace(pass) && !pass.IsAlphaNumeric()) return;
 
@@ -52,7 +52,7 @@ public partial class Games
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Plant(int amount = 1, string pass = null)
+        public async Task Plant(int amount = 1, string? pass = null)
         {
             if (amount < 1)
                 return;

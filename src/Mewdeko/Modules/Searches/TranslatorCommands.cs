@@ -28,7 +28,7 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Translate(string langs, [Remainder] string text = null)
+        public async Task Translate(string langs, [Remainder] string? text = null)
         {
             try
             {
@@ -67,7 +67,7 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task AutoTransLang([Remainder] string langs = null)
+        public async Task AutoTransLang([Remainder] string? langs = null)
         {
             var ucp = (ctx.User.Id, ctx.Channel.Id);
 

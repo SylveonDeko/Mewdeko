@@ -41,7 +41,7 @@ public partial class Utility
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
          RequireContext(ContextType.Guild)]
-        public async Task Alias(string trigger, [Remainder] string mapping = null)
+        public async Task Alias(string trigger, [Remainder] string? mapping = null)
         {
             if (string.IsNullOrWhiteSpace(trigger))
                 return;

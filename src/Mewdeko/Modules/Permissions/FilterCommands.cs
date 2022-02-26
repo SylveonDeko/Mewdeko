@@ -295,7 +295,7 @@ public partial class Permissions
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task FilterWord([Remainder] string word)
+        public async Task FilterWord([Remainder] string? word)
         {
             var channel = (ITextChannel) ctx.Channel;
 

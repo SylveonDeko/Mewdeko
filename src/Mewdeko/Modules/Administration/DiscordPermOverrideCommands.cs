@@ -23,7 +23,7 @@ public partial class Administration
         // .po 'stats' add user guild managemessages
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
-        public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[] perms)
+        public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[]? perms)
         {
             if (perms is null || perms.Length == 0)
             {

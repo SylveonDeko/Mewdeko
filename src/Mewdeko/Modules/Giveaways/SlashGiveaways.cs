@@ -10,7 +10,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
 
 namespace Mewdeko.Modules.Giveaways;
-[Discord.Interactions.Group("giveaways", "Create or manage giveaways!")]
+[Group("giveaways", "Create or manage giveaways!")]
 public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
 {
     private readonly IServiceProvider _servs;

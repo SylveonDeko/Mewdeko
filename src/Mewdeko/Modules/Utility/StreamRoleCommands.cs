@@ -32,7 +32,7 @@ public partial class Utility
 
         [MewdekoCommand, Usage, Description, Aliases, BotPerm(GuildPermission.ManageRoles),
          UserPerm(GuildPermission.ManageRoles), RequireContext(ContextType.Guild)]
-        public async Task StreamRoleKeyword([Remainder] string keyword = null)
+        public async Task StreamRoleKeyword([Remainder] string? keyword = null)
         {
             var kw = await Service.SetKeyword(ctx.Guild, keyword).ConfigureAwait(false);
 

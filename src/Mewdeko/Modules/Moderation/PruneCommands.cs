@@ -21,7 +21,7 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
-        public async Task Purge(string parameter = null)
+        public async Task Purge(string? parameter = null)
         {
             var user = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
 
@@ -38,7 +38,7 @@ public partial class Moderation
         // Purge x
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
-        public async Task Purge(int count, string parameter = null, string input = null)
+        public async Task Purge(int count, string? parameter = null, string? input = null)
         {
             StoopidTime time = null;
             try
@@ -119,12 +119,12 @@ public partial class Moderation
         //Purge @user [x]
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public Task Purge(IGuildUser user, int count = 100, string parameter = null) => Purge(user.Id, count, parameter);
+        public Task Purge(IGuildUser user, int count = 100, string? parameter = null) => Purge(user.Id, count, parameter);
 
         //Purge userid [x]
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public async Task Purge(ulong userId, int count = 100, string parameter = null)
+        public async Task Purge(ulong userId, int count = 100, string? parameter = null)
         {
             if (userId == ctx.User.Id)
                 count++;

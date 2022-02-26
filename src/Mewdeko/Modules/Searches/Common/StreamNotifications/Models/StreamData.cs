@@ -18,5 +18,4 @@ public record StreamData
 
     public StreamDataKey CreateKey()
         => new(StreamType, UniqueName.ToLower());
-
 }
