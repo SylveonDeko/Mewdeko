@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Discord;
 using Discord.Commands;

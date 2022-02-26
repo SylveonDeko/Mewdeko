@@ -15,7 +15,6 @@ using NekosSharp;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Refit;
-using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Nsfw;
 

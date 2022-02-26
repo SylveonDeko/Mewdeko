@@ -6,7 +6,6 @@ using Discord.WebSocket;
 using Humanizer.Bytes;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
-using System.Collections.Generic;
 using System.Net.Http;
 
 namespace Mewdeko.Services.Impl;

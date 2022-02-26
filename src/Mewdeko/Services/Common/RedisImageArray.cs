@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 
 namespace Mewdeko.Services.Common;
 

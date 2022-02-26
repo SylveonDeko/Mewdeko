@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Mewdeko._Extensions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help

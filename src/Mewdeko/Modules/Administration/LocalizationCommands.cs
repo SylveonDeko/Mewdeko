@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;

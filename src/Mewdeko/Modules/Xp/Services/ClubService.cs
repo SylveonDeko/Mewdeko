@@ -5,7 +5,6 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Xp.Common;
-using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Xp.Services;
 

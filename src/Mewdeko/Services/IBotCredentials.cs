@@ -16,6 +16,8 @@ public interface IBotCredentials
     DbConfig Db { get; }
     string OsuApiKey { get; }
     int TotalShards { get; }
+    string TwitchClientSecret { get; }
+    string TrovoClientId { get; }
     string ShardRunCommand { get; }
     string ShardRunArguments { get; }
     string PatreonCampaignId { get; }

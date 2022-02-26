@@ -4,7 +4,6 @@ using Discord;
 using Discord.WebSocket;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common.Events;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Services;
@@ -30,52 +29,6 @@ public class CurrencyEventsService : INService
         _creds = creds;
         _http = http;
         _configService = configService;
-
-        if (_client.ShardId == 0)
-        {
-            _ = Task.Run(async () => await BotlistUpvoteLoop());
-        }
-    }
-
-    private async Task BotlistUpvoteLoop()
-    {
-        if (string.IsNullOrWhiteSpace(_creds.VotesUrl))
-            return;
-        while (true)
-        {
-            await Task.Delay(TimeSpan.FromMinutes(30)).ConfigureAwait(false);
-            await TriggerVoteCheck().ConfigureAwait(false);
-        }
-    }
-
-    private async Task TriggerVoteCheck()
-    {
-        try
-        {
-            using var req = new HttpRequestMessage(HttpMethod.Get, _creds.VotesUrl);
-            if (!string.IsNullOrWhiteSpace(_creds.VotesToken))
-                req.Headers.Add("Authorization", _creds.VotesToken);
-            using var http = _http.CreateClient();
-            using var res = await http.SendAsync(req).ConfigureAwait(false);
-            if (!res.IsSuccessStatusCode)
-            {
-                Log.Warning("Botlist API not reached.");
-                return;
-            }
-
-            var resStr = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var ids = JsonConvert.DeserializeObject<VoteModel[]>(resStr)
-                .Select(x => x.User)
-                .Distinct();
-            await _cs.AddBulkAsync(ids,
-                ids.Select(_ => "Voted - <https://top.gg/bot/752236274261426212/vote>"),
-                ids.Select(_ => 50L), true).ConfigureAwait(false);
-            Log.Information($"Vote currency given to {ids.Count()} users.");
-        }
-        catch (Exception ex)
-        {
-            Log.Warning(ex, "Error in TriggerVoteCheck");
-        }
     }
 
     public async Task<bool> TryCreateEventAsync(ulong guildId, ulong channelId, CurrencyEvent.Type type,

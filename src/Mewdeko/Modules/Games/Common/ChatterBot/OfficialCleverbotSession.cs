@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Mewdeko.Common;
 using Newtonsoft.Json;
 using Serilog;

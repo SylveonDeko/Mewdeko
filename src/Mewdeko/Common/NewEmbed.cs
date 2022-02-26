@@ -1,5 +1,4 @@
 ﻿using Discord;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Common;
