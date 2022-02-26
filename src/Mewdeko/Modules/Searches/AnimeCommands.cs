@@ -411,7 +411,7 @@ public partial class Searches
                     .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
                     .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
                     .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
-                    .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP.MaximumImageUrl)
+                    .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP.MaximumImageUrl!)
                     .WithColor(Mewdeko.OkColor));
         }
     }

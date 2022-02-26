@@ -408,7 +408,7 @@ WHERE GuildId={guildId}
             banReason,
             duration);
 
-    public async Task<(EmbedBuilder, string)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
+    public Task<(EmbedBuilder, string)> GetBanUserDmEmbed(DiscordSocketClient client, SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string defaultMessage, string banReason, TimeSpan? duration)
     {
         var template = GetBanTemplate(guild.Id);
@@ -447,7 +447,7 @@ WHERE GuildId={guildId}
         // if template is set to "-" do not dm the user
         else if (template == "-")
         {
-            return (null, null);
+            return Task.FromResult<(EmbedBuilder, string)>((null, null));
         }
         // otherwise, treat template as a regular string with replacements
         else
@@ -461,6 +461,6 @@ WHERE GuildId={guildId}
             SmartEmbed.TryParse(replacer.Replace(template), out embed, out plainText);
         }
 
-        return (embed, plainText);
+        return Task.FromResult((embed, plainText));
     }
 }
