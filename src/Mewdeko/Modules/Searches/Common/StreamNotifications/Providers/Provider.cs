@@ -39,14 +39,14 @@ public abstract class Provider
     /// </summary>
     /// <param name="url">Url of the stream</param>
     /// <returns><see cref="StreamData" /> of the specified stream. Null if none found</returns>
-    public abstract Task<StreamData?> GetStreamDataByUrlAsync(string url);
+    public abstract Task<StreamData> GetStreamDataByUrlAsync(string url);
 
     /// <summary>
     ///     Gets stream data of the specified id/username on this <see cref="Platform" />
     /// </summary>
     /// <param name="login">Name (or id where applicable) of the user on the platform</param>
     /// <returns><see cref="StreamData" /> of the user. Null if none found</returns>
-    public abstract Task<StreamData?> GetStreamDataAsync(string login);
+    public abstract Task<StreamData> GetStreamDataAsync(string login);
 
     /// <summary>
     ///     Gets stream data of all specified ids/usernames on this <see cref="Platform" />
