@@ -421,7 +421,7 @@ public sealed class StreamNotificationService : INService
                 GuildId = guildId
             };
 
-            if (gc.FollowedStreams.Count >= 10)
+            if (gc.FollowedStreams.Count >= 40)
                 return null;
 
             gc.FollowedStreams.Add(fs);
