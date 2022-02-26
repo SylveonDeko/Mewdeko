@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;

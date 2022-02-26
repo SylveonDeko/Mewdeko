@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Google.Apis.Customsearch.v1.Data;
-
-namespace Mewdeko.Services;
+﻿namespace Mewdeko.Services;
 
 public interface IGoogleApiService : INService
 {

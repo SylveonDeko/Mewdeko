@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Discord;
+﻿using Discord;
 
 namespace Mewdeko.Modules.Server_Management.Services;
 

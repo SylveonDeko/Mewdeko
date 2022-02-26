@@ -5,7 +5,6 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Confessions.Services;
 

@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Discord;
 using Discord.Commands;
-using Discord.Webhook;
 using Discord.WebSocket;
 using Humanizer;
 using Humanizer.Localisation;

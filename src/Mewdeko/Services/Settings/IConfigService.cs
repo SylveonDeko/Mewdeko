@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Services.Settings;
+﻿namespace Mewdeko.Services.Settings;
 
 /// <summary>
 ///     Interface that all services which deal with configs should implement

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using Mewdeko._Extensions;
 using Mewdeko.Modules.Searches.Common;

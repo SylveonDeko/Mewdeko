@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Discord;

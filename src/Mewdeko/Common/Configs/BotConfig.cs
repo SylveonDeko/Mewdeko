@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using Mewdeko.Common.Yml;
 using SixLabors.ImageSharp.PixelFormats;
 using YamlDotNet.Core;

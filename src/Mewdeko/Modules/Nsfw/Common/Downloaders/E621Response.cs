@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
+﻿namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
 public class E621Response
 {

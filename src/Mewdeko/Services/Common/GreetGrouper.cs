@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Services.Common;
+﻿namespace Mewdeko.Services.Common;
 
 public class GreetGrouper<T>
 {

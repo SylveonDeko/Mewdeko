@@ -1,9 +1,7 @@
 ﻿using Mewdeko.Database.Models;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using System.Collections.Concurrent;
 
-#nullable enable
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 /// <summary>
@@ -12,12 +10,6 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 public abstract class Provider
 {
     /// <summary>
-    ///     When was the first time the stream continually had errors while being retrieved
-    /// </summary>
-    protected readonly ConcurrentDictionary<string, DateTime> _failingStreams =
-        new();
-
-    /// <summary>
     ///     Type of the platform.
     /// </summary>
     public abstract FollowedStream.FType Platform { get; }
@@ -25,9 +17,15 @@ public abstract class Provider
     /// <summary>
     ///     Gets the stream usernames which fail to execute due to an error, and when they started throwing errors.
     ///     This can happen if stream name is invalid, or if the stream doesn't exist anymore.
+    ///     Override to provide a custom implementation
     /// </summary>
-    public IEnumerable<(string Login, DateTime ErroringSince)> FailingStreams2 =>
-        _failingStreams.Select(entry => (entry.Key, entry.Value)).ToList();
+    public virtual IReadOnlyDictionary<string, DateTime> FailingStreams
+        => _failingStreams;
+
+    /// <summary>
+    ///     When was the first time the stream continually had errors while being retrieved
+    /// </summary>
+    protected readonly ConcurrentDictionary<string, DateTime> _failingStreams = new();
 
     /// <summary>
     ///     Checks whether the specified url is a valid stream url for this platform.
@@ -46,16 +44,22 @@ public abstract class Provider
     /// <summary>
     ///     Gets stream data of the specified id/username on this <see cref="Platform" />
     /// </summary>
-    /// <param name="id">Name (or id where applicable) of the user on the platform</param>
+    /// <param name="login">Name (or id where applicable) of the user on the platform</param>
     /// <returns><see cref="StreamData" /> of the user. Null if none found</returns>
-    public abstract Task<StreamData?> GetStreamDataAsync(string id);
+    public abstract Task<StreamData?> GetStreamDataAsync(string login);
 
     /// <summary>
     ///     Gets stream data of all specified ids/usernames on this <see cref="Platform" />
     /// </summary>
     /// <param name="usernames">List of ids/usernames</param>
     /// <returns><see cref="StreamData" /> of all users, in the same order. Null for every id/user not found.</returns>
-    public abstract Task<List<StreamData>> GetStreamDataAsync(List<string> usernames);
+    public abstract Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> usernames);
 
-    public void ClearErrorsFor(string login) => _failingStreams.TryRemove(login, out _);
+    /// <summary>
+    /// Unmark the stream as errored. You should override this method
+    /// if you've overridden the <see cref="FailingStreams"/> property.
+    /// </summary>
+    /// <param name="login"></param>
+    public virtual void ClearErrorsFor(string login)
+        => _failingStreams.Clear();
 }

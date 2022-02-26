@@ -1,113 +1,199 @@
-﻿namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
+﻿
+using Mewdeko.Database.Models;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
+using Serilog;
+using System.Net.Http;
+using Mewdeko._Extensions;
+using System.Text.RegularExpressions;
+using TwitchLib.Api;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
+namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
-// public class TwitchProvider : IProvider
-// {
-//         //
-//     private static Regex Regex { get; } = new Regex(@"twitch.tv/(?<name>.+[^/])/?",
-//         RegexOptions.Compiled | RegexOptions.IgnoreCase);
-//
-//     public FollowedStream.FType Platform => FollowedStream.FType.Twitch;
-//
-//     public TwitchProvider()
-//     {
-//         _log = LogManager.GetCurrentClassLogger();
-//     }
-//
-//     public Task<bool> IsValidUrl(string url)
-//     {
-//         var match = Regex.Match(url);
-//         if (!match.Success)
-//             return Task.FromResult(false);
-//
-//         var username = match.Groups["name"].Value;
-//         return Task.FromResult(true);
-//     }
-//     
-//     public Task<StreamData?> GetStreamDataByUrlAsync(string url)
-//     {
-//         var match = Regex.Match(url);
-//         if (match.Success)
-//         {
-//             var name = match.Groups["name"].Value;
-//             return GetStreamDataAsync(name);
-//         }
-//
-//         return Task.FromResult<StreamData?>(null);
-//     }
-//
-//     public async Task<StreamData?> GetStreamDataAsync(string id)
-//     {
-//         var data = await GetStreamDataAsync(new List<string> {id});
-//
-//         return data.FirstOrDefault();
-//     }
-//
-//     public async Task<List<StreamData>> GetStreamDataAsync(List<string> logins)
-//     {
-//         if (logins.Count == 0)
-//             return new List<StreamData>();
-//
-//         using (var http = new HttpClient())
-//         {
-//             http.DefaultRequestHeaders.Add("Client-Id","67w6z9i09xv2uoojdm9l0wsyph4hxo6");
-//             http.DefaultRequestHeaders.Add("Authorization","Bearer ");
-//
-//             string str;
-//             TwitchResponse res;
-//             try
-//             {
-//                 str = await http.GetStringAsync($"https://api.twitch.tv/helix/streams" +
-//                                                 $"?user_login={logins}" +
-//                                                 $"&first=100");
-//                 res = JsonConvert.DeserializeObject<TwitchResponse>(str);
-//             }
-//             catch (Exception ex)
-//             {
-//                 Log.Warning($"Something went wrong retreiving {Platform} streams.");
-//                 Log.Warning(ex.ToString());
-//                 return new List<StreamData>();
-//             }
-//
-//             if (res.Data.Count == 0)
-//             {
-//                 return new List<StreamData>();
-//             }
-//
-//             return res.Data.Select(ToStreamData).ToList();
-//         }
-//     }
-//
-//     private StreamData ToStreamData(TwitchResponse.StreamApiData apiData)
-//     {
-//         return new StreamData()
-//         {
-//             StreamType = FollowedStream.FType.Twitch,
-//             Name = apiData.UserName,
-//             Viewers = apiData.ViewerCount,
-//             Title = apiData.Title,
-//             IsLive = apiData.Type == "live",
-//             Preview = apiData.ThumbnailUrl,
-//             Game = apiData.GameId,
-//         };
-//     }
-// }
-//
-// public class TwitchResponse
-// {
-//     public List<StreamApiData> Data { get; set; }
-//
-//     public class StreamApiData
-//     {
-//         public string Id { get; set; }
-//         public string UserId { get; set; }
-//         public string UserName { get; set; }
-//         public string GameId { get; set; }
-//         public string Type { get; set; }
-//         public string Title { get; set; }
-//         public int ViewerCount { get; set; }
-//         public string Language { get; set; }
-//         public string ThumbnailUrl { get; set; }
-//         public DateTime StartedAt { get; set; }
-//     }
-// }
+public class TwitchHelixProvider : Provider
+{
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    private static Regex Regex { get; } = new(@"twitch.tv/(?<name>[\w\d\-_]+)/?",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    public override FollowedStream.FType Platform
+        => FollowedStream.FType.Twitch;
+
+    private readonly Lazy<TwitchAPI> _api;
+    private readonly string _clientId;
+
+    public TwitchHelixProvider(IHttpClientFactory httpClientFactory, IBotCredentials credsProvider)
+    {
+        _httpClientFactory = httpClientFactory;
+
+        var creds = credsProvider;
+        _clientId = creds.TwitchClientId;
+        var clientSecret = creds.TwitchClientSecret;
+        _api = new Lazy<TwitchAPI>(() => new TwitchAPI
+        {
+            Helix =
+            {
+                Settings =
+                {
+                    ClientId = _clientId,
+                    Secret = clientSecret
+                }
+            }
+        });
+    }
+
+    private async Task<string> EnsureTokenValidAsync()
+        => await _api.Value.Auth.GetAccessTokenAsync();
+
+    public override Task<bool> IsValidUrl(string url)
+    {
+        var match = Regex.Match(url);
+        if (!match.Success)
+        {
+            return Task.FromResult(false);
+        }
+
+        return Task.FromResult(true);
+    }
+
+    public override Task<StreamData> GetStreamDataByUrlAsync(string url)
+    {
+        var match = Regex.Match(url);
+        if (!match.Success) return Task.FromResult<StreamData>(null);
+        var name = match.Groups["name"].Value;
+        return GetStreamDataAsync(name);
+
+    }
+
+    public override async Task<StreamData> GetStreamDataAsync(string login)
+    {
+        var data = await GetStreamDataAsync(new List<string>
+        {
+            login
+        });
+
+        return data.FirstOrDefault();
+    }
+
+    public override async Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> logins)
+    {
+        if (logins.Count == 0)
+        {
+            return Array.Empty<StreamData>();
+        }
+
+        var token = await EnsureTokenValidAsync();
+
+        if (token is null)
+        {
+            Log.Warning("Twitch client ID and Secret are incorrect! Please go to https://dev.twitch.tv and create an application!");
+            return Array.Empty<StreamData>();
+        }
+
+        using var http = _httpClientFactory.CreateClient();
+        http.DefaultRequestHeaders.Clear();
+        http.DefaultRequestHeaders.Add("Client-Id", _clientId);
+        http.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+        var loginsSet = logins.Select(x => x.ToLowerInvariant())
+                              .Distinct()
+                              .ToHashSet();
+        
+        var dataDict = new Dictionary<string, StreamData>();
+        
+        foreach (var chunk in logins.Chunk(100))
+        {
+            try
+            {
+                var str = await http.GetStringAsync($"https://api.twitch.tv/helix/users"
+                                                    + $"?{chunk.Select(x => $"login={x}").Join('&')}"
+                                                    + $"&first=100");
+
+                var resObj = JsonSerializer.Deserialize<HelixUsersResponse>(str);
+
+                if (resObj?.Data is null || resObj.Data.Count == 0)
+                    continue;
+
+                foreach (var user in resObj.Data)
+                {
+                    var lowerLogin = user.Login.ToLowerInvariant();
+                    if (loginsSet.Remove(lowerLogin))
+                    {
+                        dataDict[lowerLogin] = UserToStreamData(user);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Something went wrong retreiving {StreamPlatform} streams", Platform);
+                return new List<StreamData>();
+            }
+        }
+        
+        // any item left over loginsSet is an invalid username
+        foreach (var login in loginsSet)
+        {
+            _failingStreams.TryAdd(login, DateTime.UtcNow);
+        }
+        
+        // only get streams for users which exist
+        foreach (var chunk in dataDict.Keys.Chunk(100))
+        {
+            try
+            {
+                var str = await http.GetStringAsync($"https://api.twitch.tv/helix/streams"
+                                                    + $"?{chunk.Select(x => $"user_login={x}").Join('&')}"
+                                                    + "&first=100");
+
+                var res = JsonSerializer.Deserialize<HelixStreamsResponse>(str);
+
+                if (res?.Data is null || res.Data.Count == 0)
+                {
+                    continue;
+                }
+
+                foreach (var helixStreamData in res.Data)
+                {
+                    var login = helixStreamData.UserLogin.ToLowerInvariant();
+                    if (dataDict.TryGetValue(login, out var old))
+                    {
+                        dataDict[login] = FillStreamData(old, helixStreamData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Something went wrong retreiving {StreamPlatform} streams", Platform);
+                return new List<StreamData>();
+            }
+        }
+
+        return dataDict.Values;
+    }
+
+    private StreamData UserToStreamData(HelixUsersResponse.User user)
+        => new()
+        {
+            UniqueName = user.Login,
+            Name = user.DisplayName,
+            AvatarUrl = user.ProfileImageUrl,
+            IsLive = false,
+            StreamUrl = $"https://twitch.tv/{user.Login}",
+            StreamType = FollowedStream.FType.Twitch,
+            Preview = user.OfflineImageUrl
+        };
+    
+    private StreamData FillStreamData(StreamData partial, HelixStreamsResponse.StreamData apiData)
+        => partial with
+        {
+            StreamType = FollowedStream.FType.Twitch,
+            Viewers = apiData.ViewerCount,
+            Title = apiData.Title,
+            IsLive = apiData.Type == "live",
+            Preview = apiData.ThumbnailUrl
+                             .Replace("{width}", "640")
+                             .Replace("{height}", "480"),
+            Game = apiData.GameName,
+        };
+}

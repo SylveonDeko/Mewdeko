@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using Discord;
 using Discord.Commands;
@@ -18,11 +17,9 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using Serilog;
-using Swan;
 
 namespace Mewdeko.Modules.OwnerOnly;
 

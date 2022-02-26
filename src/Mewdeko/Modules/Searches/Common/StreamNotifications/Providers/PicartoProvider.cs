@@ -1,7 +1,5 @@
 ﻿using Mewdeko.Database.Models;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Newtonsoft.Json;
@@ -12,14 +10,16 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
 public class PicartoProvider : Provider
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-
-    public PicartoProvider(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
-
     private static Regex Regex { get; } = new(@"picarto.tv/(?<name>.+[^/])/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    public override FollowedStream.FType Platform => FollowedStream.FType.Picarto;
+    public override FollowedStream.FType Platform
+        => FollowedStream.FType.Picarto;
+
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public PicartoProvider(IHttpClientFactory httpClientFactory)
+        => _httpClientFactory = httpClientFactory;
 
     public override Task<bool> IsValidUrl(string url)
     {
@@ -43,14 +43,17 @@ public class PicartoProvider : Provider
         return Task.FromResult<StreamData?>(null);
     }
 
-    public override async Task<StreamData?> GetStreamDataAsync(string id)
+    public override async Task<StreamData?> GetStreamDataAsync(string login)
     {
-        var data = await GetStreamDataAsync(new List<string> {id});
+        var data = await GetStreamDataAsync(new List<string>
+        {
+            login
+        });
 
         return data.FirstOrDefault();
     }
 
-    public override async Task<List<StreamData>> GetStreamDataAsync(List<string> logins)
+    public override async Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> logins)
     {
         if (logins.Count == 0)
             return new List<StreamData>();
@@ -58,9 +61,10 @@ public class PicartoProvider : Provider
         using var http = _httpClientFactory.CreateClient();
         var toReturn = new List<StreamData>();
         foreach (var login in logins)
+        {
             try
             {
-                http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                http.DefaultRequestHeaders.Accept.Add(new("application/json"));
                 // get id based on the username
                 var res = await http.GetAsync($"https://api.picarto.tv/v1/channel/name/{login}");
 
@@ -68,29 +72,31 @@ public class PicartoProvider : Provider
                     continue;
 
                 var userData =
-                    JsonConvert.DeserializeObject<PicartoChannelResponse>(
-                        await res.Content.ReadAsStringAsync());
+                    JsonConvert.DeserializeObject<PicartoChannelResponse>(await res.Content.ReadAsStringAsync())!;
 
                 toReturn.Add(ToStreamData(userData));
                 _failingStreams.TryRemove(login, out _);
             }
             catch (Exception ex)
             {
-                Log.Warning(ex,
-                    $"Something went wrong retreiving {Platform} stream data for {login}: {ex.Message}");
+                Log.Warning("Something went wrong retreiving {StreamPlatform} stream data for {Login}: {ErrorMessage}",
+                    Platform,
+                    login,
+                    ex.Message);
                 _failingStreams.TryAdd(login, DateTime.UtcNow);
             }
+        }
 
         return toReturn;
     }
 
-    private static StreamData ToStreamData(PicartoChannelResponse? stream) =>
-        new()
+    private StreamData ToStreamData(PicartoChannelResponse stream)
+        => new()
         {
             StreamType = FollowedStream.FType.Picarto,
-            Name = stream?.Name,
-            UniqueName = stream?.Name,
-            Viewers = stream!.Viewers,
+            Name = stream.Name,
+            UniqueName = stream.Name,
+            Viewers = stream.Viewers,
             Title = stream.Title,
             IsLive = stream.Online,
             Preview = stream.Thumbnails.Web,

@@ -9,7 +9,6 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Giveaways;

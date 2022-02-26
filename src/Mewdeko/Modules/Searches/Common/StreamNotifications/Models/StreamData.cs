@@ -3,7 +3,7 @@ using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 
-public class StreamData
+public record StreamData
 {
     public FollowedStream.FType StreamType { get; set; }
     public string Name { get; set; }
@@ -16,5 +16,7 @@ public class StreamData
     public string StreamUrl { get; set; }
     public string AvatarUrl { get; set; }
 
-    public StreamDataKey CreateKey() => new(StreamType, UniqueName.ToLower());
+    public StreamDataKey CreateKey()
+        => new(StreamType, UniqueName.ToLower());
+
 }

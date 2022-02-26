@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using StackExchange.Redis;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Mewdeko._Extensions;

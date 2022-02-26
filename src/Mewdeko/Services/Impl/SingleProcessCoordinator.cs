@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using Serilog;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Mewdeko.Services.Impl;

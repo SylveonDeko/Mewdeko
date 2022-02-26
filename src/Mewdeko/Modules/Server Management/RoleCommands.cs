@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Net;
 using Discord;
 using Discord.Commands;

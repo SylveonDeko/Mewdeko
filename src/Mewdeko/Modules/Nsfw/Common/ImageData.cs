@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Modules.Nsfw.Common;
+﻿namespace Mewdeko.Modules.Nsfw.Common;
 
 public class ImageData : IComparable<ImageData>
 {

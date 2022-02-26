@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Services.strings.impl;
+﻿namespace Mewdeko.Services.strings.impl;
 
 public class LocalBotStringsProvider : IBotStringsProvider
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Modules.Searches.Common;
+﻿namespace Mewdeko.Modules.Searches.Common;
 
 public class ImageCacherObject : IComparable<ImageCacherObject>
 {

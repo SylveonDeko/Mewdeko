@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
