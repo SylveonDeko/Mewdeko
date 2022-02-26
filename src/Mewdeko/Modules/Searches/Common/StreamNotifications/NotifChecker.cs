@@ -50,11 +50,9 @@ public class NotifChecker
                                                .Select(fs => new StreamDataKey(prov.Value.Platform, fs.Key)))
                        .ToList();
 
-        if (remove)
-        {
-            foreach (var toBeRemoved in toReturn)
-                _streamProviders[toBeRemoved.Type].ClearErrorsFor(toBeRemoved.Name);
-        }
+        if (!remove) return toReturn;
+        foreach (var toBeRemoved in toReturn)
+            _streamProviders[toBeRemoved.Type].ClearErrorsFor(toBeRemoved.Name);
 
         return toReturn;
     }
@@ -69,7 +67,6 @@ public class NotifChecker
                     var allStreamData = CacheGetAllData();
 
                     var oldStreamDataDict = allStreamData
-                                            // group by type
                                             .GroupBy(entry => entry.Key.Type)
                                             .ToDictionary(entry => entry.Key,
                                                 entry => entry.AsEnumerable()

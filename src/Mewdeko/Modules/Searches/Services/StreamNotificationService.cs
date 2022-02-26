@@ -22,7 +22,7 @@ using System.Threading;
 
 namespace Mewdeko.Modules.Searches.Services;
 
-public sealed class StreamNotificationService : INService, IReadyExecutor
+public sealed class StreamNotificationService : INService
 {
     private readonly DbService _db;
     private readonly IBotStrings _strings;
@@ -130,6 +130,7 @@ public sealed class StreamNotificationService : INService, IReadyExecutor
 
         bot.JoinedGuild += ClientOnJoinedGuild;
         client.LeftGuild += ClientOnLeftGuild;
+        _ = OnReadyAsync();
     }
 
     public async Task OnReadyAsync()
