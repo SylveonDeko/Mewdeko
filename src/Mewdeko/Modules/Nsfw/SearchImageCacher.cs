@@ -5,7 +5,6 @@ using Mewdeko.Modules.Nsfw.Common.Downloaders;
 using Microsoft.Extensions.Caching.Memory;
 using Serilog;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 

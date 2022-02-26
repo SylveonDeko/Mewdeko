@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Grpc.Core;
 using Grpc.Net.Client;

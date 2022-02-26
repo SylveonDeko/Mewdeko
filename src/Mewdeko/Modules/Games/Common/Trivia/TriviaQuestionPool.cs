@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mewdeko.Common;
+﻿using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Games.Common.Trivia;
 

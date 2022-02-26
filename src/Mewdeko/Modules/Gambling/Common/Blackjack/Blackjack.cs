@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Discord;
 using Mewdeko.Database;
 using Serilog;

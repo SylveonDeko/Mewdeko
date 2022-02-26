@@ -51,6 +51,9 @@ public class BotCredentials : IBotCredentials
             MashapeKey = data[nameof(MashapeKey)];
             OsuApiKey = data[nameof(OsuApiKey)];
             PatreonAccessToken = data[nameof(PatreonAccessToken)];
+            TwitchClientId = data[nameof(TwitchClientId)];
+            TwitchClientSecret = data[nameof(TwitchClientSecret)];
+            TrovoClientId = data[nameof(TrovoClientId)];
             PatreonCampaignId = data[nameof(PatreonCampaignId)] ?? "334038";
             ShardRunCommand = data[nameof(ShardRunCommand)];
             ShardRunArguments = data[nameof(ShardRunArguments)];
@@ -136,6 +139,8 @@ public class BotCredentials : IBotCredentials
     public string PatreonCampaignId { get; }
 
     public string TwitchClientId { get; }
+    public string TwitchClientSecret { get; }
+    public string TrovoClientId { get; }
 
     public string VotesUrl { get; }
     public string VotesToken { get; }
@@ -172,6 +177,8 @@ public class BotCredentials : IBotCredentials
         public string GoogleApiKey { get; } = "";
         public string MashapeKey { get; } = "";
         public string OsuApiKey { get; } = "";
+        public string TrovoClientId { get; } = "";
+        public string TwitchClientId { get; } = "";
         public string CleverbotApiKey { get; } = "";
         public string CarbonKey { get; } = "";
         public DbConfig Db { get; } = new("sqlite", "Data Source=data/Mewdeko.db");
@@ -183,7 +190,7 @@ public class BotCredentials : IBotCredentials
         public string ShardRunArguments { get; } = "";
 
         public string BotListToken { get; set; }
-        public string TwitchClientId { get; set; }
+        public string TwitchClientSecret { get; set; }
         public string VotesToken { get; set; }
         public string VotesUrl { get; set; }
         public string RedisOptions { get; set; }

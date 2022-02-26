@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Discord;
+﻿using Discord;
 using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Gambling.Common;

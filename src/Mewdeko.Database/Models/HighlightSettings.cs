@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Mewdeko.Database.Models;
+﻿namespace Mewdeko.Database.Models;
 public class HighlightSettings : DbEntity
 {
     public ulong GuildId { get; set; }

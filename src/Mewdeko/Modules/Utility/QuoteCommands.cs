@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;

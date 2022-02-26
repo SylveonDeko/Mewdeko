@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Xml;
 using Google;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
 using Google.Apis.YouTube.v3;
-using Mewdeko.Common;
-using Mewdeko.Database.Extensions;
 using Newtonsoft.Json.Linq;
 using Serilog;
 

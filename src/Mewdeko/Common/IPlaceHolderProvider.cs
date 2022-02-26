@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mewdeko.Common;
+﻿namespace Mewdeko.Common;
 
 public interface IPlaceholderProvider
 {

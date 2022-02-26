@@ -3,6 +3,8 @@ global using System.Linq;
 global using Mewdeko.Services;
 global using Mewdeko;
 global using System.Threading.Tasks;
+global using System.Collections;
+global using System.Collections.Generic;
 using Serilog;
 using System.Threading;
 

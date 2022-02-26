@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mewdeko.Database.Common;
+﻿using Mewdeko.Database.Common;
 using Mewdeko.Database.Models;
 
 namespace Mewdeko.Modules.Permissions.Common;

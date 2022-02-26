@@ -1,6 +1,5 @@
 ﻿using Mewdeko.Database.Models;
 using StackExchange.Redis;
-using System.Collections.Generic;
 
 namespace Mewdeko.Services;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Discord;
 using Discord.Commands;
 using Fergun.Interactive;

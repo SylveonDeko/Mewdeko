@@ -6,7 +6,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using System.Collections.Generic;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 

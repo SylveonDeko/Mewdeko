@@ -8,7 +8,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
-using System.Collections.Generic;
 
 namespace Mewdeko.Modules.Giveaways;
 [Discord.Interactions.Group("giveaways", "Create or manage giveaways!")]

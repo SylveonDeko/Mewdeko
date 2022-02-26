@@ -7,11 +7,8 @@ public class FollowedStream : DbEntity
     public enum FType
     {
         Twitch = 0,
-        [Obsolete("No longer supported.")] Smashcast = 1,
-        [Obsolete("No longer supported.")] Mixer = 2,
-        Picarto = 3,
-        Youtube = 4,
-        Facebook = 5
+        Picarto = 1,
+        Trovo = 3
     }
 
     public ulong GuildId { get; set; }

@@ -1,8 +1,6 @@
 ﻿// License MIT
 // Source: https://github.com/i3arnon/ConcurrentHashSet
 
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
