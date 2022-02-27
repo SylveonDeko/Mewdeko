@@ -11,13 +11,13 @@ cd bin/Release/net6.0/ || fail "Looks like the build failed. Please check you ha
 FILE=data/Mewdeko.db
 if test -f "$FILE" 
 then
-  
   echo "Starting Mewdeko..."
-  dotnet Mewdeko.dll
+  cd ../../..
+  dotnet run -c Release
 else
   echo "Running first start script..."
   cd data
   wget https://cdn.discordapp.com/attachments/915770282579484693/946967102680621087/Mewdeko.db
-  cd ..
-  dotnet Mewdeko.dll
+  cd ../../../..
+  dotnet run -c Release
 fi
