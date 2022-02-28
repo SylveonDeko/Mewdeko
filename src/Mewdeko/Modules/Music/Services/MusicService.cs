@@ -19,7 +19,6 @@ namespace Mewdeko.Modules.Music.Services;
 
 public sealed class MusicService : INService
 {
-    private readonly DiscordSocketClient _client;
     private readonly DbService _db;
     private readonly LavaNode _lavaNode;
     private readonly ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>> _queues;
@@ -30,7 +29,6 @@ public sealed class MusicService : INService
 
     public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko bot)
     {
-        _client = client;
         _db = db;
         _lavaNode = lava;
         _lavaNode.OnTrackEnded += TrackEnded;
@@ -38,7 +36,7 @@ public sealed class MusicService : INService
         _queues = new ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>>();
         _lavaNode.OnTrackStarted += TrackStarted;
         _runningShuffles = new List<ulong>();
-        _client.UserVoiceStateUpdated += HandleDisconnect;
+        client.UserVoiceStateUpdated += HandleDisconnect;
     }
 
     private async Task<SpotifyClient> GetSpotifyClient()

@@ -3,6 +3,7 @@ using System.Globalization;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
+using Discord.Rest;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -706,16 +707,43 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
-    public async Task Send(ulong where, ulong to, [Remainder] string? msg = null)
+    public async Task Send(ulong whereOrTo, [Remainder] string msg) 
+        => await Send(whereOrTo, 0, msg);
+    
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+    public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
     {
         var rep = new ReplacementBuilder().WithDefault(Context).Build();
-        var potentialServer = await _client.Rest.GetGuildAsync(where);
-        if (potentialServer is null)
+        RestGuild potentialServer;
+        try
         {
-            await ctx.Channel.SendErrorAsync("Can't find that guild!");
+            potentialServer = await _client.Rest.GetGuildAsync(whereOrTo);
+        }
+        catch (Exception e)
+        {
+            var potentialUser = _client.GetUser(whereOrTo);
+            if (potentialUser is null)
+            {
+                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!");
+                return;
+            }
+            if (SmartEmbed.TryParse(rep.Replace(msg), out var embed, out var plainText))
+            {
+                await potentialUser.SendMessageAsync(plainText, embed: embed?.Build());
+                await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!");
+                return;
+            }
+
+            await potentialUser.SendMessageAsync(rep.Replace(msg));
+            await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!");
             return;
         }
 
+        if (to == 0)
+        {
+            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!");
+            return;
+        }
         var channel = await potentialServer.GetTextChannelAsync(to);
         if (channel is not null)
         {
