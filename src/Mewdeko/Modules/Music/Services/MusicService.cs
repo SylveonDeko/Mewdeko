@@ -25,7 +25,6 @@ public sealed class MusicService : INService
     private readonly List<ulong> _runningShuffles;
 
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
-    private readonly SpotifyClient _spotifyClient;
 
 
     public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko bot)
@@ -36,17 +35,18 @@ public sealed class MusicService : INService
         _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
         _queues = new ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>>();
         _lavaNode.OnTrackStarted += TrackStarted;
-        var config = SpotifyClientConfig.CreateDefault();
         _runningShuffles = new List<ulong>();
-
-        var request =
-            new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
-        var response = new OAuthClient(config).RequestToken(request).Result;
-
-        _spotifyClient = new SpotifyClient(config.WithToken(response.AccessToken));
         client.UserVoiceStateUpdated += HandleDisconnect;
     }
 
+    private async Task<SpotifyClient> GetSpotifyClient()
+    {
+        var config = SpotifyClientConfig.CreateDefault();
+        var request =
+            new ClientCredentialsRequest("dc237c779f55479fae3d5418c4bb392e", "db01b63b808040efbdd02098e0840d90");
+        var response = await new OAuthClient(config).RequestToken(request);
+        return new SpotifyClient(config.WithToken(response.AccessToken));
+    }
     public Task Enqueue(ulong guildId, IUser user, LavaTrack? lavaTrack,
         Platform queuedPlatform = Platform.Youtube)
     {
@@ -121,7 +121,7 @@ public sealed class MusicService : INService
         switch (spotifyUrl.Segments[1])
         {
             case "playlist/":
-                var result = await _spotifyClient.Playlists.Get(spotifyUrl.Segments[2]);
+                var result = await (await GetSpotifyClient()).Playlists.Get(spotifyUrl.Segments[2]);
                 if (result.Tracks != null && result.Tracks.Items!.Any())
                 {
                     var items = result.Tracks.Items;
@@ -163,7 +163,7 @@ public sealed class MusicService : INService
 
                 break;
             case "album/":
-                var result1 = await _spotifyClient.Albums.Get(spotifyUrl.Segments[2]);
+                var result1 = await (await GetSpotifyClient()).Albums.Get(spotifyUrl.Segments[2]);
 #pragma warning disable CS8629 // Nullable value type may be null.
                 if ((bool)result1.Tracks.Items?.Any())
 #pragma warning restore CS8629 // Nullable value type may be null.
@@ -209,7 +209,7 @@ public sealed class MusicService : INService
                 break;
 
             case "track/":
-                var result3 = await _spotifyClient.Tracks.Get(spotifyUrl.Segments[2]);
+                var result3 = await (await GetSpotifyClient()).Tracks.Get(spotifyUrl.Segments[2]);
                 if (result3.Name is null)
                 {
                     await chan.SendErrorAsync(
