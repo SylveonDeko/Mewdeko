@@ -21,7 +21,6 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using Serilog;
-using TwitchLib.Api.Helix.Models.Users.GetUsers;
 
 namespace Mewdeko.Modules.OwnerOnly;
 
