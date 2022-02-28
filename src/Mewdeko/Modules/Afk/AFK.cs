@@ -57,6 +57,15 @@ public class Afk : MewdekoModuleBase<AfkService>
 
             await Service.AfkSet(ctx.Guild, (IGuildUser) ctx.User, "", 0);
             await ctx.Channel.SendConfirmAsync("AFK Message has been disabled!");
+            try
+            {
+                var user = await ctx.Guild.GetUserAsync(ctx.User.Id);
+                await user.ModifyAsync(x => x.Nickname = user.Nickname.Replace("[AFK]", ""));
+            }
+            catch
+            {
+                // ignored
+            }
             await ctx.Guild.DownloadUsersAsync();
             return;
         }
