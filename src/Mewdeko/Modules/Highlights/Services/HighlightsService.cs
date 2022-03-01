@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.WebSocket;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 
@@ -16,6 +17,21 @@ public class HighlightsService : INService
         _cache = cache;
         _db = db;
         _ = CacheToRedis();
+        _client.MessageReceived += CheckHighlights;
+    }
+
+    private async Task CheckHighlights(SocketMessage message)
+    {
+        if (message.Channel is not ITextChannel channel)
+            return;
+        
+        if (string.IsNullOrWhiteSpace(message.Content))
+            return;
+
+        var splitwords = message.Content.Split("");
+        var highlightWords = GetForGuild(channel.Guild.Id);
+        var toSend = (from i in splitwords from j in highlightWords where String.Equals(j.Word, i, StringComparison.CurrentCultureIgnoreCase) select j).ToList();
+        
     }
     
     public async Task CacheToRedis()
@@ -40,6 +56,9 @@ public class HighlightsService : INService
         current.Add(toadd);
         await _cache.AddHighlightToCache(guildId, current);
     }
-    
-        
+
+    public List<Database.Models.Highlights> GetForGuild(ulong guildId) 
+        => _cache.GetHighlightsForGuild(guildId);
+
+
 }
