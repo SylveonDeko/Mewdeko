@@ -106,6 +106,11 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
+    public Task<bool> TryAddHighlightStaggerUser(ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{userId}", 0, TimeSpan.FromMinutes(2), When.NotExists));
+    }
     public string GetIgnoredUsers(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();

@@ -27,7 +27,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
         List,
         Delete,
         Match,
-        ToggleIgnore
+        ToggleIgnore,
+        Toggle
     }
 
     [MewdekoCommand, Aliases, Description, Discord.Commands.RequireContext(ContextType.Guild)]
@@ -37,6 +38,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
         switch (action)
         {
             case HighlightActions.Add:
+                if (string.IsNullOrWhiteSpace(words))
+                    return;
                 if (highlights.Any() && highlights.Any(x => x.UserId == ctx.User.Id))
                 {
                     if (highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
@@ -102,6 +105,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
                 break;
             case HighlightActions.Match:
+                if (string.IsNullOrWhiteSpace(words))
+                    return;
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id);
                 if (!highlightsForUser.Any())
                 {
@@ -137,6 +142,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 break;
             
             case HighlightActions.ToggleIgnore:
+                if (string.IsNullOrWhiteSpace(words))
+                    return;
                 var reader1 = new ChannelTypeReader<ITextChannel>();
                 ITextChannel channel;
                 var result = await reader1.ReadAsync(ctx, words, _svcs);
@@ -170,6 +177,27 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 else
                     await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
                 break;
+            
+            case HighlightActions.Toggle:
+                if (string.IsNullOrWhiteSpace(words))
+                    return;
+                if (!bool.TryParse(words, out var enabled))
+                {
+                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.");
+                    return;
+                }
+
+                if (enabled)
+                {
+                    await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
+                    await ctx.Channel.SendConfirmAsync("Highlights enabled!");
+                    return;
+                }
+
+                await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
+                await ctx.Channel.SendConfirmAsync("Highlights disabled.");
+                break;
+            
         }
     }
     

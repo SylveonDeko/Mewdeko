@@ -19,6 +19,7 @@ public interface IDataCache
     Task AddHighlightToCache(ulong id, List<Highlights> newHighlight);
     Task RemoveHighlightFromCache(ulong id, List<Highlights> newHighlight);
     Task AddHighlightSettingToCache(ulong id, List<HighlightSettings> newHighlightSetting);
+    Task<bool> TryAddHighlightStaggerUser(ulong id);
     List<Highlights> GetHighlightsForGuild(ulong id);
     List<HighlightSettings> GetHighlightSettingsForGuild(ulong id);
     void CacheSnipes(ulong id, List<SnipeStore> objectList);

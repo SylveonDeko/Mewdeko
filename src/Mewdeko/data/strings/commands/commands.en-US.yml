@@ -8,6 +8,19 @@ snipelist:
   args:
     - ""
     - "20"
+highlights:
+  desc: |-
+    - `add` Adds a word to your highlights
+    - `delete/remove` Removes a word from your highlights
+    - `list` Lists your current highlights
+    - `toggleignore` Toggles the ignoring of a channnel or user.
+    - `enabled` Enables or disables highlights
+  args:
+    - "add Sylveon"
+    - "delete Sylveon"
+    - "list"
+    - "toggleignore #chat/@user"
+    - "enabled true"
 editsnipelist:
   desc: "Shows the last 5 edited messages, unless a different number is specified"
   args:
