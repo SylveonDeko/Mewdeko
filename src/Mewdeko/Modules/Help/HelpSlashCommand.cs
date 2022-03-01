@@ -41,7 +41,8 @@ public class HelpSlashCommand : MewdekoSlashCommandModule
             $"\n>  `{Prefix}cmds Help`" +
             $"\n>  `{Prefix}cmds Custom Reactions`" + 
             $"\n>  `{Prefix}cmds Giveaways`" + 
-            $"\n>  `{Prefix}cmds MultiGreet`",
+            $"\n>  `{Prefix}cmds MultiGreet`"+
+            $"\n> `{Prefix}cmds Highlights",
             true);
         embed.AddField(" Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
