@@ -11,10 +11,13 @@ public interface IDataCache
 
     Task CacheAfk(ulong id, List<AFK> objectList);
     List<AFK> GetAfkForGuild(ulong id);
+    Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
+    Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
     Task AddAfkToCache(ulong id, List<AFK> newAfk);
     Task CacheHighlights(ulong id, List<Highlights> highlights);
     Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
     Task AddHighlightToCache(ulong id, List<Highlights> newHighlight);
+    Task RemoveHighlightFromCache(ulong id, List<Highlights> newHighlight);
     Task AddHighlightSettingToCache(ulong id, List<HighlightSettings> newHighlightSetting);
     List<Highlights> GetHighlightsForGuild(ulong id);
     List<HighlightSettings> GetHighlightSettingsForGuild(ulong id);
