@@ -1,5 +1,7 @@
-﻿using Discord;
+﻿using Amazon.S3.Model;
+using Discord;
 using Discord.WebSocket;
+using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 
@@ -27,10 +29,25 @@ public class HighlightsService : INService
         
         if (string.IsNullOrWhiteSpace(message.Content))
             return;
-
-        var splitwords = message.Content.Split("");
+        var usersDMd = new List<ulong>();
+        var splitwords = message.Content.Split(" ");
         var highlightWords = GetForGuild(channel.Guild.Id);
         var toSend = (from i in splitwords from j in highlightWords where String.Equals(j.Word, i, StringComparison.CurrentCultureIgnoreCase) select j).ToList();
+        foreach (var i in toSend)
+        {
+            if (usersDMd.Contains(i.UserId))
+                return;
+            var user = await channel.Guild.GetUserAsync(i.UserId);
+            var permissions = user.GetPermissions(channel);
+            if (!permissions.ViewChannel)
+                return;
+            var messages = await channel.GetMessagesAsync(5, Direction.Before).FlattenAsync();
+            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n",
+                messages.Select(x => $"{x.Timestamp}: {Format.Bold(user.ToString())}: {x.Content?.TrimTo(100)}")));
+            await user.SendMessageAsync(
+                $"In {channel.Guild} {channel.Mention} you were mentioned with highlight word {i.Word}",
+                embed: eb.Build());
+        }
         
     }
     
