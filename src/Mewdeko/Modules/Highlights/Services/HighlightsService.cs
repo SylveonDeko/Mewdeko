@@ -1,13 +1,10 @@
-﻿using Amazon.S3.Model;
-using Discord;
-using Discord.Interactions;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using System.Collections.Concurrent;
 using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Highlights.Services;
@@ -71,6 +68,7 @@ public class HighlightsService : INService, IReadyExecutor
     {
         if (message.Channel is not ITextChannel channel)
             return true;
+        
         if (string.IsNullOrWhiteSpace(message.Content))
             return true;
         var usersDMd = new List<ulong>();
@@ -82,13 +80,30 @@ public class HighlightsService : INService, IReadyExecutor
         foreach (var i in toSend)
         {
             if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
-                return true;
+                continue;
             if (usersDMd.Contains(i.UserId))
-                return true;
+                continue;
+            if (GetSettingsForGuild(channel.GuildId).Any())
+            {
+                var settings = GetSettingsForGuild(channel.GuildId)
+                    .FirstOrDefault(x => x.UserId == i.UserId && x.GuildId == channel.GuildId);
+                if (settings is not null)
+                {
+                    if (!settings.HighlightsOn)
+                        continue;
+                    if (settings.IgnoredChannels.Split(" ").Contains(channel.Id.ToString()))
+                        continue;
+                    if (settings.IgnoredUsers.Split(" ").Contains(message.Author.Id.ToString()))
+                        continue;
+                }
+            }
+
+            if (!await _cache.TryAddHighlightStaggerUser(i.UserId))
+                continue;
             var user = await channel.Guild.GetUserAsync(i.UserId);
             var permissions = user.GetPermissions(channel);
             if (!permissions.ViewChannel)
-                return true;
+                continue;
             var messages = await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync();
             var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n",
                                            messages.OrderBy(x => x.Timestamp).Select(x => $"**[{x.Timestamp:h:mm:ss}]**: {Format.Bold(x.Author.ToString())}: {x.Content?.TrimTo(100)}")))
@@ -125,7 +140,35 @@ public class HighlightsService : INService, IReadyExecutor
         current.Add(toadd);
         await _cache.AddHighlightToCache(guildId, current);
     }
-    
+
+    public async Task ToggleHighlights(ulong guildId, ulong userId, bool enabled)
+    {
+        var uow = _db.GetDbContext();
+        var toupdate = uow.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
+        if (toupdate is null)
+        {
+            var toadd = new HighlightSettings()
+            {
+                GuildId = guildId,
+                UserId = userId,
+                HighlightsOn = enabled,
+                IgnoredChannels = "0",
+                IgnoredUsers = "0"
+            };
+            uow.HighlightSettings.Add(toadd);
+            await uow.SaveChangesAsync();
+            var current1 = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+            current1.Add(toadd);
+            await _cache.AddHighlightSettingToCache(guildId, current1);
+        }
+
+        toupdate.HighlightsOn = enabled;
+        uow.HighlightSettings.Update(toupdate);
+        await uow.SaveChangesAsync();
+        var current = _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
+        current.Add(toupdate);
+        await _cache.AddHighlightSettingToCache(guildId, current);
+    }
     public async Task<bool> ToggleIgnoredChannel(ulong guildId, ulong userId, string channelId)
     {
         bool ignored = true;
