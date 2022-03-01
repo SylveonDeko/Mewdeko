@@ -719,7 +719,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         {
             potentialServer = await _client.Rest.GetGuildAsync(whereOrTo);
         }
-        catch (Exception e)
+        catch
         {
             var potentialUser = _client.GetUser(whereOrTo);
             if (potentialUser is null)

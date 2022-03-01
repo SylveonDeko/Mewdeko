@@ -12,6 +12,8 @@ public interface IBotCredentials
     string MashapeKey { get; }
     string PatreonAccessToken { get; }
     string CarbonKey { get; }
+    string SpotifyClientId { get; }
+    string SpotifyClientSecret { get; }
 
     DbConfig Db { get; }
     string OsuApiKey { get; }

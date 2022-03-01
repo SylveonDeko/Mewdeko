@@ -3,6 +3,7 @@ using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using Mewdeko.Database.Models;
+using Swan.Formatters;
 
 namespace Mewdeko.Services.Impl;
 
@@ -77,6 +78,41 @@ public class RedisCache : IDataCache
     }
     
     public Task AddHighlightToCache(ulong id, List<Highlights> newHighlight)
+    {
+        var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
+        customers.Remove(id);
+        customers.Add(id, newHighlight);
+        return Task.CompletedTask;
+    }
+
+    public Task AddIgnoredChannels(ulong guildId, ulong userId, string ignored)
+    {
+        var db = Redis.GetDatabase();
+        db.StringSet($"{_redisKey}_ignoredchannels_{guildId}_{userId}", ignored);
+        return Task.CompletedTask;
+    }
+
+    public string GetIgnoredChannels(ulong guildId, ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        var value = db.StringGet($"{_redisKey}_ignoredchannels_{guildId}_{userId}");
+        return JsonConvert.DeserializeObject<string>(value);
+    }
+    
+    public Task AddIgnoredUsers(ulong guildId, ulong userId, string ignored)
+    {
+        var db = Redis.GetDatabase();
+        db.StringSet($"{_redisKey}_ignoredchannels_{guildId}_{userId}", ignored);
+        return Task.CompletedTask;
+    }
+
+    public string GetIgnoredUsers(ulong guildId, ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        var value = db.StringGet($"{_redisKey}_ignoredchannels_{guildId}_{userId}");
+        return JsonConvert.DeserializeObject<string>(value);
+    }
+    public Task RemoveHighlightFromCache(ulong id, List<Highlights> newHighlight)
     {
         var customers = new RedisDictionary<ulong, List<Highlights>>($"{_redisKey}_highlights", Redis);
         customers.Remove(id);
@@ -200,6 +236,17 @@ public class RedisCache : IDataCache
         return false;
     }
 
+    public Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        return Task.FromResult(db.StringSet($"{_redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(10), When.NotExists));
+    }
+
+    public Task<bool> GetHighlightStagger(ulong guildId, ulong userId)
+    {
+        var db = Redis.GetDatabase();
+        return Task.FromResult(db.StringGet($"{_redisKey}_hstagger_{guildId}_{userId}").HasValue);
+    }
     public TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn)
     {
         var db = Redis.GetDatabase();

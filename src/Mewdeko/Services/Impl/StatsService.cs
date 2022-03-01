@@ -45,7 +45,7 @@ public class StatsService : IStatsService
                 content.Headers.Clear();
                 content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 http.DefaultRequestHeaders.Add("Authorization",
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
+                    creds.VotesToken);
 
                 using (await http
                              .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"),

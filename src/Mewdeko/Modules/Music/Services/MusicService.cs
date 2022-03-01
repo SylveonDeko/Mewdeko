@@ -23,13 +23,15 @@ public sealed class MusicService : INService
     private readonly LavaNode _lavaNode;
     private readonly ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>> _queues;
     private readonly List<ulong> _runningShuffles;
-
+    private readonly IBotCredentials creds;
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
 
 
-    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko bot)
+    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko bot,
+        IBotCredentials creds)
     {
         _db = db;
+        this.creds = creds;
         _lavaNode = lava;
         _lavaNode.OnTrackEnded += TrackEnded;
         _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
@@ -43,7 +45,7 @@ public sealed class MusicService : INService
     {
         var config = SpotifyClientConfig.CreateDefault();
         var request =
-            new ClientCredentialsRequest("***REMOVED***", "***REMOVED***");
+            new ClientCredentialsRequest(creds.SpotifyClientId, creds.SpotifyClientSecret);
         var response = await new OAuthClient(config).RequestToken(request);
         return new SpotifyClient(config.WithToken(response.AccessToken));
     }
@@ -121,6 +123,12 @@ public sealed class MusicService : INService
         switch (spotifyUrl.Segments[1])
         {
             case "playlist/":
+                if (creds.SpotifyClientId == "")
+                {
+                    await chan.SendErrorAsync(
+                        "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
+                    return;
+                }
                 var result = await (await GetSpotifyClient()).Playlists.Get(spotifyUrl.Segments[2]);
                 if (result.Tracks != null && result.Tracks.Items!.Any())
                 {
@@ -163,6 +171,12 @@ public sealed class MusicService : INService
 
                 break;
             case "album/":
+                if (creds.SpotifyClientId == "")
+                {
+                    await chan.SendErrorAsync(
+                        "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
+                    return;
+                }
                 var result1 = await (await GetSpotifyClient()).Albums.Get(spotifyUrl.Segments[2]);
 #pragma warning disable CS8629 // Nullable value type may be null.
                 if ((bool)result1.Tracks.Items?.Any())
@@ -209,6 +223,12 @@ public sealed class MusicService : INService
                 break;
 
             case "track/":
+                if (creds.SpotifyClientId == "")
+                {
+                    await chan.SendErrorAsync(
+                        "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
+                    return;
+                }
                 var result3 = await (await GetSpotifyClient()).Tracks.Get(spotifyUrl.Segments[2]);
                 if (result3.Name is null)
                 {

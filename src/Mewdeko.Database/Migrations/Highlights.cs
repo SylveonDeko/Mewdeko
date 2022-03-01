@@ -14,7 +14,7 @@ public partial class Highlights : Migration
                 UserId = columns.Column<ulong>(),
                 Word = columns.Column<string>(),
                 DateAdded = columns.Column<DateTime>()
-            });
+            },  constraints: table => table.PrimaryKey("PK_Highlights", x => x.Id));
 
         migrationBuilder.CreateTable("HighlightSettings",
             columns => new
@@ -26,6 +26,6 @@ public partial class Highlights : Migration
                 IgnoredChannels = columns.Column<string>(),
                 HighlightsOn = columns.Column<bool>(),
                 DateAdded = columns.Column<DateTime>()
-            });
+            },  constraints: table => table.PrimaryKey("PK_HighlightSettings", x => x.Id));
     }
 }
