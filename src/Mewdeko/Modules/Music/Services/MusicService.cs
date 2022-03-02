@@ -1,18 +1,24 @@
-﻿using System.Collections.Concurrent;
+﻿using AngleSharp.Dom;
+using System.Collections.Concurrent;
 using Discord;
 using Discord.WebSocket;
+using Lavalink4NET;
+using Lavalink4NET.Artwork;
+using Lavalink4NET.Events;
+using Lavalink4NET.Player;
+using Lavalink4NET.Rest;
+using LinqToDB.Tools;
 using Mewdeko._Extensions;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using Mewdeko.Modules.Music.Extensions;
-using SixLabors.ImageSharp.Processing.Processors.Quantization;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using SpotifyAPI.Web;
+using Swan;
 using System.Diagnostics;
-using Victoria;
-using Victoria.Enums;
-using Victoria.EventArgs;
-using Victoria.Responses.Search;
+
 
 #nullable enable
 
@@ -21,25 +27,38 @@ namespace Mewdeko.Modules.Music.Services;
 public class MusicService : INService
 {
     private readonly DbService _db;
-    private readonly LavaNode _lavaNode;
-    private readonly ConcurrentDictionary<ulong, List<AdvancedLavaTrack>> _queues;
+    private readonly LavalinkNode _lavaNode;
+    private DiscordSocketClient _client;
+    private readonly ConcurrentDictionary<ulong, List<LavalinkTrack>> _queues;
     private readonly IBotCredentials _creds;
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
+    private readonly IServiceProvider _services;
 
-
-    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client,
-        IBotCredentials creds)
+    public class AdvancedTrackContext
+    {
+        public AdvancedTrackContext( IUser queueUser, Platform queuedPlatform = Platform.Youtube)
+        {
+            QueueUser = queueUser;
+            QueuedPlatform = queuedPlatform;
+        }
+        public IUser QueueUser { get; }
+        public Platform QueuedPlatform { get; }
+    }
+    public MusicService(LavalinkNode lava, DbService db, DiscordSocketClient client,
+        IBotCredentials creds,
+        IServiceProvider services)
     {
         _db = db;
+        _client = client;
         this._creds = creds;
+        _services = services;
         _lavaNode = lava;
-        _lavaNode.OnTrackEnded += TrackEnded;
+        _lavaNode.TrackEnd += TrackEnded;
         _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
-        _queues = new ConcurrentDictionary<ulong, List<AdvancedLavaTrack>>();
-        _lavaNode.OnTrackStarted += TrackStarted;
+        _queues = new ConcurrentDictionary<ulong, List<LavalinkTrack>>();
+        _lavaNode.TrackEnd += TrackStarted;
         client.UserVoiceStateUpdated += HandleDisconnect;
     }
-
     private async Task<SpotifyClient> GetSpotifyClient()
     {
         var config = SpotifyClientConfig.CreateDefault();
@@ -48,19 +67,24 @@ public class MusicService : INService
         var response = await new OAuthClient(config).RequestToken(request);
         return new SpotifyClient(config.WithToken(response.AccessToken));
     }
-    public Task Enqueue(ulong guildId, IUser user, LavaTrack? lavaTrack,
+    public Task Enqueue(ulong guildId, IUser user, LavalinkTrack? lavaTrack,
         Platform queuedPlatform = Platform.Youtube)
     {
-        var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
-        queue.Add(new AdvancedLavaTrack(lavaTrack, user, queuedPlatform));
+        var queue = _queues.GetOrAdd(guildId, new List<LavalinkTrack>());
+        lavaTrack.Context = new AdvancedTrackContext(user, queuedPlatform);
+        queue.Add(lavaTrack);
         return Task.CompletedTask;
     }
 
-    public Task Enqueue(ulong guildId, IUser user, LavaTrack[] lavaTracks,
+    public Task Enqueue(ulong guildId, IUser user, LavalinkTrack[] lavaTracks,
         Platform queuedPlatform = Platform.Youtube)
     {
-        var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
-        queue.AddRange(lavaTracks.Select(x => new AdvancedLavaTrack(x, user, queuedPlatform)));
+        var queue = _queues.GetOrAdd(guildId, new List<LavalinkTrack>());
+        foreach (var i in lavaTracks)
+        {
+            i.Context = new AdvancedTrackContext(user, queuedPlatform);
+            queue.Add(i);
+        }
         return Task.CompletedTask;
     }
 
@@ -69,18 +93,17 @@ public class MusicService : INService
 
     public Task QueueClear(ulong guildid)
     {
-        var toremove = _queues.GetOrAdd(guildid, new List<AdvancedLavaTrack>());
-        toremove.Clear();
+        _queues[guildid].Clear();
         return Task.CompletedTask;
     }
 
-    public AdvancedLavaTrack GetCurrentTrack(LavaPlayer player, IGuild guild)
+    public LavalinkTrack GetCurrentTrack(LavalinkPlayer player, IGuild guild)
     {
         var queue = GetQueue(guild.Id);
-        return queue.FirstOrDefault(x => x.Hash == player.Track.Hash);
+        return queue.FirstOrDefault(x => x.Identifier == player.CurrentTrack.Identifier);
     }
 
-    public async Task SpotifyQueue(IGuild guild, IUser user, ITextChannel? chan, LavaPlayer player, string? uri)
+    public async Task SpotifyQueue(IGuild guild, IUser user, ITextChannel? chan, LavalinkPlayer player, string? uri)
     {
         Debug.Assert(uri != null, nameof(uri) + " != null");
         var spotifyUrl = new Uri(uri);
@@ -107,15 +130,15 @@ public class MusicService : INService
                     var addedcount = 0;
                     foreach (var track in items.Select(i => i.Track as FullTrack))
                     {
-                        var lavaTrack = await _lavaNode.SearchAsync(SearchType.YouTubeMusic,
-                            $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}");
-                        if (lavaTrack.Status is SearchStatus.NoMatches) continue;
-                        await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(),
+                        var lavaTrack = await _lavaNode.GetTrackAsync(
+                            $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}", SearchMode.YouTube);
+                        if (lavaTrack is null) continue;
+                        await Enqueue(guild.Id, user, lavaTrack,
                             Platform.Spotify);
-                        if (player.PlayerState != PlayerState.Playing)
+                        if (player.State != PlayerState.Playing)
                         {
-                            await player.PlayAsync(x => x.Track = lavaTrack.Tracks.FirstOrDefault());
-                            await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                            await player.PlayAsync(lavaTrack);
+                            await player.SetVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
                             await ModifySettingsInternalAsync(guild.Id,
                                 (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                         }
@@ -158,15 +181,15 @@ public class MusicService : INService
                     var addedcount = 0;
                     foreach (var track in items)
                     {
-                        var lavaTrack = await _lavaNode.SearchAsync(SearchType.YouTubeMusic,
+                        var lavaTrack = await _lavaNode.GetTrackAsync(
                             $"{track.Name} {track.Artists.FirstOrDefault()?.Name}");
-                        if (lavaTrack.Status is SearchStatus.NoMatches) continue;
-                        await Enqueue(guild.Id, user, lavaTrack.Tracks.FirstOrDefault(),
+                        if (lavaTrack is null) continue;
+                        await Enqueue(guild.Id, user, lavaTrack,
                             Platform.Spotify);
-                        if (player.PlayerState != PlayerState.Playing)
+                        if (player.State != PlayerState.Playing)
                         {
-                            await player.PlayAsync(x => x.Track = lavaTrack.Tracks.FirstOrDefault());
-                            await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                            await player.PlayAsync(lavaTrack);
+                            await player.SetVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
                             await ModifySettingsInternalAsync(guild.Id,
                                 (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                         }
@@ -205,13 +228,13 @@ public class MusicService : INService
                     return;
                 }
 
-                var lavaTrack3 = await _lavaNode.SearchAsync(SearchType.YouTubeMusic,
+                var lavaTrack3 = await _lavaNode.GetTrackAsync(
                     $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}");
-                await Enqueue(guild.Id, user, lavaTrack3.Tracks.FirstOrDefault(), Platform.Spotify);
-                if (player.PlayerState != PlayerState.Playing)
+                await Enqueue(guild.Id, user, lavaTrack3, Platform.Spotify);
+                if (player.State != PlayerState.Playing)
                 {
-                    await player.PlayAsync(x => x.Track = lavaTrack3.Tracks.FirstOrDefault());
-                    await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                    await player.PlayAsync(lavaTrack3);
+                    await player.SetVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
                     await ModifySettingsInternalAsync(guild.Id,
                         (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                 }
@@ -228,7 +251,7 @@ public class MusicService : INService
         var queue = GetQueue(guild.Id);
         if (!queue.Any())
             return false;
-        _lavaNode.TryGetPlayer(guild, out var player);
+        var player = _lavaNode.GetPlayer(guild.Id);
         var toRemove = queue.ElementAt(trackNum - 1);
         var curTrack = GetCurrentTrack(player, guild);
         if (toRemove.Source is null)
@@ -244,9 +267,9 @@ public class MusicService : INService
         return true;
     }
 
-    public List<AdvancedLavaTrack> GetQueue(ulong guildid) =>
+    public List<LavalinkTrack> GetQueue(ulong guildid) =>
         !_queues.Select(x => x.Key).Contains(guildid)
-            ? new List<AdvancedLavaTrack>
+            ? new List<LavalinkTrack>
             {
                 Capacity = 0
             }
@@ -254,13 +277,14 @@ public class MusicService : INService
 
     private async Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
     {
-        if (before.VoiceChannel is not null && _lavaNode.TryGetPlayer(before.VoiceChannel.Guild, out _))
+        var player = _lavaNode.GetPlayer(before.VoiceChannel.Guild.Id);
+        if (before.VoiceChannel is not null && player is not null)
             if (before.VoiceChannel.Users.Count == 1 &&
                 GetSettingsInternalAsync(before.VoiceChannel.Guild.Id).Result.AutoDisconnect is AutoDisconnect.Either
                     or AutoDisconnect.Voice)
                 try
                 {
-                    await _lavaNode.LeaveAsync(before.VoiceChannel);
+                    await player.StopAsync(true);
                     await QueueClear(before.VoiceChannel.Guild.Id);
                 }
                 catch
@@ -269,27 +293,31 @@ public class MusicService : INService
                 }
     }
 
-    private async Task TrackStarted(TrackStartEventArgs args)
+    private async Task TrackStarted(object sender, TrackEndEventArgs args)
     {
-        var queue = GetQueue(args.Player.VoiceChannel.GuildId);
-        var track = queue.FirstOrDefault(x => x.Url == args.Track.Url);
+        var queue = GetQueue(args.Player.GuildId);
+        var track = queue.FirstOrDefault(x => x.Identifier == args.Player.CurrentTrack.Identifier);
         var nextTrack = queue.ElementAt(queue.IndexOf(track) + 1);
-        var resultMusicChannelId = GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId).Result.MusicChannelId;
+        var resultMusicChannelId = GetSettingsInternalAsync(args.Player.GuildId).Result.MusicChannelId;
         if (resultMusicChannelId != null)
         {
-            var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(
-                resultMusicChannelId.Value);
+            
+            var channel = _client.GetChannel(
+                resultMusicChannelId.Value) as SocketTextChannel;
             if (channel is not null)
             {
                 if (track.Source != null)
                 {
+                    using var artworkService = new ArtworkService();
+                    var artWork = await artworkService.ResolveAsync(track);
+                    var currentContext = track.Context as AdvancedTrackContext;
                     var eb = new EmbedBuilder()
                              .WithOkColor()
                              .WithDescription($"Now playing {track.Title} by {track.Author}")
                              .WithTitle($"Track #{queue.IndexOf(track)+1}")
                              .WithFooter(
-                                 $"{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {queue.Count} tracks in queue")
-                             .WithThumbnailUrl(track.FetchArtworkAsync().Result);
+                                 $"{track.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | {queue.Count} tracks in queue")
+                             .WithThumbnailUrl(artWork.AbsoluteUri);
                     if (nextTrack.Source is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
 
                     await channel.SendMessageAsync(embed: eb.Build());
@@ -298,16 +326,16 @@ public class MusicService : INService
         }
     }
 
-    private async Task TrackEnded(TrackEndedEventArgs args)
+    private async Task TrackEnded(object sender, TrackEndEventArgs args)
     {
-        var queue = GetQueue(args.Player.VoiceChannel.GuildId);
+        var queue = GetQueue(args.Player.GuildId);
         if (queue.Any())
         {
-            var gid = args.Player.VoiceChannel.GuildId;
+            var gid = args.Player.GuildId;
             var msettings = await GetSettingsInternalAsync(gid);
-            var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(msettings.MusicChannelId!.Value);
-            if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.Cleanup) return;
-            var currentTrack = queue.FirstOrDefault(x => args.Track.Hash == x.Hash);
+            var channel = _client.GetChannel(msettings.MusicChannelId!.Value) as ITextChannel;
+            if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.CleanUp) return;
+            var currentTrack = queue.FirstOrDefault(x => args.Player.CurrentTrack.Identifier == x.Identifier);
             if (msettings.PlayerRepeat == PlayerRepeatType.Track)
             {
                 await args.Player.PlayAsync(currentTrack);
@@ -327,10 +355,10 @@ public class MusicService : INService
                     .WithOkColor()
                     .WithDescription("I have reached the end of the queue!");
                 await channel.SendMessageAsync(embed: eb1.Build());
-                if (GetSettingsInternalAsync(args.Player.VoiceChannel.Guild.Id).Result.AutoDisconnect is
+                if (GetSettingsInternalAsync(args.Player.GuildId).Result.AutoDisconnect is
                     AutoDisconnect.Either or AutoDisconnect.Queue)
                 {
-                    await _lavaNode.LeaveAsync(args.Player.VoiceChannel);
+                    await args.Player.StopAsync(true);
                     return;
                 }
             }
@@ -341,21 +369,25 @@ public class MusicService : INService
 
     public int GetVolume(ulong guildid) => GetSettingsInternalAsync(guildid).Result.Volume;
 
-    public async Task Skip(IGuild guild, ITextChannel? chan, LavaPlayer player, IInteractionContext? ctx = null)
+    public async Task Skip(IGuild guild, ITextChannel? chan, LavalinkPlayer player, IInteractionContext? ctx = null)
     {
         var queue = GetQueue(guild.Id);
         if (queue.Any())
         {
-            var currentTrack = queue.FirstOrDefault(x => player.Track.Hash == x.Hash);
-            var nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
-            if (nextTrack.Source is null)
+            LavalinkTrack nextTrack;
+            var currentTrack = queue.FirstOrDefault(x => player.CurrentTrack.Identifier == x.Identifier);
+            try
+            {
+                nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
+            }
+            catch (Exception e)
             {
                 if (ctx is not null)
                 {
-                    await ctx.Interaction.SendErrorAsync("This is the last track!");
+                    await ctx.Interaction.SendErrorAsync("This is the last/only track!");
                     return;
                 }
-                await chan.SendErrorAsync("This is the last track!");
+                await chan.SendErrorAsync("This is the last/only track!");
                 return;
             }
 

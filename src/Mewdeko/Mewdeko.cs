@@ -30,7 +30,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
-using Victoria;
+using Lavalink4NET;
+using Lavalink4NET.DiscordNet;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Mewdeko;
@@ -121,16 +122,20 @@ public class Mewdeko
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()
-                .AddSingleton<LavaNode>()
-                .AddSingleton<LavaConfig>()
+                .AddSingleton<IDiscordClientWrapper, DiscordClientWrapper>()
+                .AddSingleton<IAudioService, LavalinkNode>()
+                .AddSingleton<LavalinkNode>()
+                .AddSingleton(new LavalinkNodeOptions()
+                {
+                    AllowResuming = true,
+                    CacheTime = TimeSpan.FromSeconds(60),
+                    Password = "Hope4a11",
+                    WebSocketUri = "ws://127.0.0.1:2333",
+                    RestUri = "http://127.0.0.1:2333",
+                    DisconnectOnStop = false
+                })
                 .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>();
-        s.AddLavaNode(x =>
-        {
-            x.SelfDeaf = true;
-            x.Authorization = "Hope4a11";
-            x.Port = 2333;
-        });
 
         s.AddHttpClient();
         s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -303,12 +308,12 @@ public class Mewdeko
         Log.Information("Shard {ShardId} connected in {Elapsed:F2}s", Client.ShardId, sw.Elapsed.TotalSeconds);
         var commandService = Services.GetService<CommandService>();
         var interactionService = Services.GetRequiredService<InteractionService>();
-        var lava = Services.GetRequiredService<LavaNode>();
-        await lava.ConnectAsync();
         await commandService!.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
                              .ConfigureAwait(false);
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
+        var lava = Services.GetRequiredService<LavalinkNode>();
+        await lava.InitializeAsync();
 #if  !DEBUG
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync();
