@@ -46,15 +46,13 @@ public class HighlightsService : INService, IReadyExecutor
         }
     }
 
-    private async Task StaggerHighlights(SocketMessage message)
-    {
-        _ = Task.Run(async () =>
+    private Task StaggerHighlights(SocketMessage message) =>
+        Task.Run(async () =>
         {
             var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             await _highlightQueue.Writer.WriteAsync((message, completionSource));
             return await completionSource.Task;
         });
-    }
 
 
     private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> _highlightQueue =

@@ -284,6 +284,7 @@ public class MusicService : INService
                 if (track.Source != null)
                 {
                     var eb = new EmbedBuilder()
+                             .WithOkColor()
                              .WithDescription($"Now playing {track.Title} by {track.Author}")
                              .WithTitle($"Track #{queue.IndexOf(track)+1}")
                              .WithFooter(
