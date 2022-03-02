@@ -18,7 +18,7 @@ using Victoria.Enums;
 using Victoria.Responses.Search;
 
 namespace Mewdeko.Modules.Music;
-[Group("music", "Play Music!")]
+[Discord.Interactions.Group("music", "Play Music!")]
 public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 {
     private readonly InteractiveService _interactivity;
@@ -44,7 +44,28 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         Default
     }
 
-    [SlashCommand("autodisconnect", "Set the autodisconnect type"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("remove", "Removes a song from the queue using its number"), Discord.Interactions.RequireContext(ContextType.Guild),
+     CheckPermissions, BlacklistCheck]
+    public async Task SongRemove(int songNum)
+    {
+        if (_lavaNode.TryGetPlayer(ctx.Guild, out var player))
+        {
+            var chanUsers = await player.VoiceChannel.GetUsersAsync().FlattenAsync();
+            if (!chanUsers.Contains(ctx.User as IGuildUser))
+            {
+                await ctx.Interaction.SendErrorAsync("You are not in the bots music channel!");
+                return;
+            }
+
+            if (await Service.RemoveSong(ctx.Guild, songNum))
+            {
+                await ctx.Interaction.SendConfirmAsync($"Track {songNum} removed.");
+            }
+            else
+                await ctx.Interaction.SendErrorAsync("Seems like that track doesn't exist or you have nothing in queue.");
+        }
+    }
+    [SlashCommand("autodisconnect", "Set the autodisconnect type"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task AutoDisconnect(AutoDisconnect disconnect)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
@@ -53,7 +74,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             $"Successfully set AutoDisconnect to {Format.Code(disconnect.ToString())}");
     }
 
-    [SlashCommand("playlists", "Lists your playlists"), RequireContext(ContextType.Guild)]
+    [SlashCommand("playlists", "Lists your playlists"), Discord.Interactions.RequireContext(ContextType.Guild)]
     public async Task Playlists()
     {
         var plists = Service.GetPlaylists(ctx.User);
@@ -82,7 +103,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
     }
 
-    [SlashCommand("playlist", "Create or manage your playlists"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("playlist", "Create or manage your playlists"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Playlist(PlaylistAction action, string? playlistOrSongName = null)
     {
         await ctx.Interaction.DeferAsync();
@@ -91,7 +112,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         {
 
             case PlaylistAction.Show:
-                var plist = new MusicPlaylist();
+                MusicPlaylist plist;
                 if (playlistOrSongName is null)
                 {
                     if (Service.GetDefaultPlaylist(ctx.User) is not null)
@@ -328,7 +349,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 {
                     var search = await _lavaNode.SearchAsync(SearchType.YouTube, playlistOrSongName)
                                          .ConfigureAwait(false);
-                    trysearch = search.Tracks.Select(x => new AdvancedLavaTrack(x, queue.Count+1, ctx.User));
                 }
 
                 if (advancedLavaTracks.Length == 1)
@@ -539,7 +559,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
     }
 
-    [SlashCommand("join", "Join your current voice channel."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("join", "Join your current voice channel."), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Join()
     {
         if (_lavaNode.HasPlayer(Context.Guild))
@@ -570,7 +590,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync($"Joined {voiceState.VoiceChannel.Name}!");
     }
 
-    [SlashCommand("leave", "Leave your current voice channel"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("leave", "Leave your current voice channel"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Leave()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -592,7 +612,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     }
 
 
-    [SlashCommand("queueplay", "Plays a song from a number in queue"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("queueplay", "Plays a song from a number in queue"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Play(int number)
     {
         var queue = Service.GetQueue(ctx.Guild.Id);
@@ -608,8 +628,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
         if (queue.Any())
         {
-            var track = queue.FirstOrDefault(x => x.Index == number);
-            if (track is null)
+            var track = queue.ElementAt(number + 1);
+            if (track.Source is null)
             {
                 await Play($"{number}");
                 return;
@@ -619,14 +639,14 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             var e = await track.FetchArtworkAsync();
             var eb = new EmbedBuilder()
                 .WithDescription($"Playing {track.Title}")
-                .WithFooter($"Track {track.Index} | {track.Duration:hh\\:mm\\:ss} | {track.QueueUser}")
+                .WithFooter($"Track {queue.IndexOf(track)+1} | {track.Duration:hh\\:mm\\:ss} | {track.QueueUser}")
                 .WithThumbnailUrl(e)
                 .WithOkColor();
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
     }
 
-    [SlashCommand("play", "play a song using the name or a link"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("play", "play a song using the name or a link"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     // ReSharper disable once MemberCanBePrivate.Global
     public async Task Play(string? searchQuery)
     {
@@ -662,22 +682,22 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 return;
             }
         }
-
-        await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
-            (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
+        
         var player = _lavaNode.GetPlayer(ctx.Guild);
         SearchResponse searchResponse;
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
             if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
-                searchQuery.Contains("soundcloud.com") || searchQuery.CheckIfMusicUrl())
+                searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl())
             {
                 searchResponse = await _lavaNode.SearchAsync(SearchType.Direct, searchQuery);
                 var track1 = searchResponse.Tracks.FirstOrDefault();
                 var platform = Platform.Youtube;
-                if (searchQuery!.Contains("soundcloud.com"))
+                if (searchQuery.Contains("soundcloud.com"))
                     platform = Platform.Soundcloud;
                 if (searchQuery.CheckIfMusicUrl())
                     platform = Platform.Url;
+                if (searchQuery.Contains("twitch.tv"))
+                    platform = Platform.Twitch;
                 await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks.ToArray(), platform);
                 count = Service.GetQueue(ctx.Guild.Id).Count;
                 if (searchResponse.Playlist.Name is not null)
@@ -689,7 +709,11 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         .WithFooter($"{count} songs now in the queue");
                     await ctx.Interaction.FollowupAsync(embed: eb.Build());
                     if (player.PlayerState != PlayerState.Playing)
+                    {
                         await player.PlayAsync(track1);
+                        await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                            (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
+                    }
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
                     return;
                 }
@@ -701,7 +725,11 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                             $"Queued {searchResponse.Tracks.Count} tracks from {searchResponse.Playlist.Name} and bound the queue info to {ctx.Channel.Name}!");
                     await ctx.Interaction.FollowupAsync(embed: eb.Build());
                     if (player.PlayerState != PlayerState.Playing)
-                        await player.PlayAsync(x => x.Track = track1);
+                    {
+                        await player.PlayAsync(track1);
+                        await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                            (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
+                    }
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
                     return;
                 }
@@ -746,6 +774,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 {
                     await player.PlayAsync(x => x.Track = track);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                        (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
                 }
 
                 await msg.ModifyAsync(x =>
@@ -789,6 +819,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 {
                     await player.PlayAsync(x => x.Track = chosen);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                        (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
                 }
 
                 await msg.ModifyAsync(x =>
@@ -815,6 +847,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 {
                     await player.PlayAsync(x => x.Track = track);
                     await player.UpdateVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
+                        (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
                 }
 
                 break;
@@ -831,7 +865,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
     }
 
-    [SlashCommand("pause", "Pauses the current track"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("pause", "Pauses the current track"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Pause()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -851,7 +885,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync($"Paused player. Do {Prefix}pause again to resume.");
     }
 
-    [SlashCommand("shuffle", "Shuffles the current queue"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("shuffle", "Shuffles the current queue"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Shuffle()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out _))
@@ -876,7 +910,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync("Successfully shuffled the queue!");
     }
 
-    [SlashCommand("stop", "Stops the player and clears all current songs"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("stop", "Stops the player and clears all current songs"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Stop()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -890,7 +924,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync("Stopped the player and cleared the queue!");
     }
 
-    [SlashCommand("skip", "Skip to the next song, if there is one"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("skip", "Skip to the next song, if there is one"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Skip()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -902,7 +936,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, ctx);
     }
 
-    [SlashCommand("seek", "Seek to a certain time in the current song"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("seek", "Seek to a certain time in the current song"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Seek(string input)
     {
         var time = StoopidTime.FromInput(input);
@@ -926,7 +960,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync($"I've seeked `{player.Track.Title}` to {time.Time}.");
     }
 
-    [SlashCommand("clearqueue", "Clears the current queue"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("clearqueue", "Clears the current queue"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ClearQueue()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -940,7 +974,17 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync("Cleared the queue!");
     }
 
-    [SlashCommand("loop", "Sets the loop type"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("channel", "Set the channel where music events go"), RequireContext(ContextType.Guild),
+     CheckPermissions, BlacklistCheck]
+    public async Task SetMusicChannel()
+    {
+        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
+        if (!user.GetPermissions(ctx.Channel as ITextChannel).EmbedLinks)
+            return;
+        await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
+        await ctx.Interaction.SendConfirmAsync("Set this channel to recieve music events.");
+    }
+    [SlashCommand("loop", "Sets the loop type"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
     {
         await Service.ModifySettingsInternalAsync(ctx.Guild.Id, (settings, _) => settings.PlayerRepeat = reptype,
@@ -948,7 +992,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync($"Loop has now been set to {reptype}");
     }
 
-    [SlashCommand("volume", "Sets the current volume"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("volume", "Sets the current volume"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Volume(ushort volume)
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -968,7 +1012,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         await ctx.Interaction.SendConfirmAsync($"Set the volume to {volume}");
     }
 
-    [SlashCommand("nowplaying", "Shows the currently playing song"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    [SlashCommand("nowplaying", "Shows the currently playing song"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task NowPlaying()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
@@ -983,19 +1027,19 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-        var qcount = Service.GetQueue(ctx.Guild.Id).Count;
+        var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = Service.GetCurrentTrack(player, ctx.Guild);
         var eb = new EmbedBuilder()
             .WithOkColor()
-            .WithTitle($"Track #{track.Index}")
+            .WithTitle($"Track #{qcount.IndexOf(track)+1}")
             .WithDescription($"Now Playing {track.Title} by {track.Author}")
             .WithThumbnailUrl(await track.FetchArtworkAsync())
             .WithFooter(
-                $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {qcount} Tracks in queue");
+                $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {qcount.Count} Tracks in queue");
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
-
-    [SlashCommand("queue", "Lists all songs"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    
+    [SlashCommand("queue", "Lists all songs"), Discord.Interactions.RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task Queue()
     {
         if (!_lavaNode.TryGetPlayer(Context.Guild, out _))
@@ -1023,10 +1067,10 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
         Task<PageBuilder> PageFactory(int page)
         {
-            var tracks = queue.OrderBy(x => x.Index).Skip(page * 10).Take(10);
+            var tracks = queue.OrderBy(x => queue.IndexOf(x)).Skip(page * 10).Take(10);
             return Task.FromResult(new PageBuilder()
                 .WithDescription(string.Join("\n", tracks.Select(x =>
-                    $"`{x.Index}.` [{x.Title}]({x.Url})\n" +
+                    $"`{queue.IndexOf(x)+1}.` [{x.Title}]({x.Url})\n" +
                     $"`{x.Duration:mm\\:ss} {x.QueueUser} {x.QueuedPlatform}`")))
                 .WithOkColor());
         }
