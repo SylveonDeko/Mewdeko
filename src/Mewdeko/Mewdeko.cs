@@ -16,6 +16,7 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Modules.CustomReactions.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Nsfw;
@@ -29,13 +30,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
-using Lavalink4NET;
-using Lavalink4NET.DiscordNet;
-using Mewdeko.Modules.Chat_Triggers.Services;
-using Mewdeko.Modules.Music.Services;
-using NekosBestApiNet;
+using Victoria;
 using RunMode = Discord.Commands.RunMode;
-using TypeReader = Discord.Commands.TypeReader;
 
 namespace Mewdeko;
 
@@ -121,26 +117,20 @@ public class Mewdeko
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
-                .AddSingleton(new NekosBestApi())
                 .AddSingleton<InteractionService>()
-                .AddSingleton<Localization>()
-                .AddSingleton<MusicService>()
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()
-                .AddSingleton<IDiscordClientWrapper, DiscordClientWrapper>()
-                .AddSingleton<IAudioService, LavalinkNode>()
-                .AddSingleton<LavalinkNode>()
-                .AddSingleton(new LavalinkNodeOptions()
-                {
-                    AllowResuming = true,
-                    Password = "Hope4a11",
-                    WebSocketUri = "ws://127.0.0.1:2333",
-                    RestUri = "http://127.0.0.1:2333",
-                    DisconnectOnStop = false,
-                })
+                .AddSingleton<LavaNode>()
+                .AddSingleton<LavaConfig>()
                 .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>();
+        s.AddLavaNode(x =>
+        {
+            x.SelfDeaf = true;
+            x.Authorization = "Hope4a11";
+            x.Port = 2333;
+        });
 
         s.AddHttpClient();
         s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -153,24 +143,11 @@ public class Mewdeko
             s.AddSingleton<RemoteGrpcCoordinator>()
                 .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
                 .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
-        
-        s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
-                                  .AddClasses(classes => classes.AssignableToAny(
-                                      // services
-                                      typeof(INService),
-                                      // behaviours
-                                      typeof(IEarlyBehavior),
-                                      typeof(ILateBlocker),
-                                      typeof(IInputTransformer),
-                                      typeof(ILateExecutor))).AsSelfWithInterfaces()
-                                  .WithSingletonLifetime()
-        );
-
 
         s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
 
         s.AddSingleton<IReadyExecutor>(x => x.GetService<OwnerOnlyService>());
-        s.AddSingleton<IReadyExecutor>(x => x.GetService<ChatTriggersService>());
+        s.AddSingleton<IReadyExecutor>(x => x.GetService<CustomReactionsService>());
         //initialize Services
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();
@@ -261,30 +238,26 @@ public class Mewdeko
 
     private Task Client_LeftGuild(SocketGuild arg)
     {
-        _ = Task.Run(async () =>
+        try
         {
-            try
-            {
-                var chan = await Client.Rest.GetChannelAsync(892789588739891250);
-                await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
-            }
-            catch
-            {
-                //ignored
-            }
+            var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
+            chan.SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
+        }
+        catch
+        {
+            //ignored
+        }
 
-            Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
-        });
+        Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
         return Task.CompletedTask;
     }
 
-    private  Task Client_JoinedGuild(SocketGuild arg)
+    private Task Client_JoinedGuild(SocketGuild arg)
     {
-        _ = Task.Run(async () =>
+        arg.DownloadUsersAsync();
+        Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
+        var _ = Task.Run(async () =>
         {
-            await arg.DownloadUsersAsync();
-            Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
-
             GuildConfig gc;
             await using (var uow = _db.GetDbContext())
             {
@@ -292,20 +265,20 @@ public class Mewdeko
             }
 
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
-
-            var chan = await Client.Rest.GetChannelAsync(892789588739891250) as RestTextChannel;
-            var eb = new EmbedBuilder();
-            eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
-            eb.AddField("Server ID", arg.Id);
-            eb.AddField("Members", arg.MemberCount);
-            eb.AddField("Boosts", arg.PremiumSubscriptionCount);
-            eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
-            eb.AddField("Text Channels", arg.TextChannels.Count);
-            eb.AddField("Voice Channels", arg.VoiceChannels.Count);
-            eb.WithThumbnailUrl(arg.IconUrl);
-            eb.WithColor(OkColor);
-            await chan.SendMessageAsync(embed: eb.Build());
         });
+
+        var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
+        var eb = new EmbedBuilder();
+        eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
+        eb.AddField("Server ID", arg.Id);
+        eb.AddField("Members", arg.MemberCount);
+        eb.AddField("Boosts", arg.PremiumSubscriptionCount);
+        eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
+        eb.AddField("Text Channels", arg.TextChannels.Count);
+        eb.AddField("Voice Channels", arg.VoiceChannels.Count);
+        eb.WithThumbnailUrl(arg.IconUrl);
+        eb.WithColor(OkColor);
+        chan.SendMessageAsync(embed: eb.Build());
         return Task.CompletedTask;
     }
 
@@ -330,26 +303,14 @@ public class Mewdeko
         Log.Information("Shard {ShardId} connected in {Elapsed:F2}s", Client.ShardId, sw.Elapsed.TotalSeconds);
         var commandService = Services.GetService<CommandService>();
         var interactionService = Services.GetRequiredService<InteractionService>();
+        var lava = Services.GetRequiredService<LavaNode>();
+        await lava.ConnectAsync();
         await commandService!.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
                              .ConfigureAwait(false);
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
-        var lava = Services.GetRequiredService<LavalinkNode>();
-        try
-        {
-            await lava.InitializeAsync();
-        }
-        catch
-        {
-            Log.Information("Unable to connect to lavalink. If you want music please launch tha lavalink binary separately.");
-        }
-#if  !DEBUG
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync();
-#endif
-#if DEBUG
-        await interactionService.RegisterCommandsToGuildAsync(900378009188565022);
-#endif
 
         // start handling messages received in commandhandler
 
@@ -362,7 +323,7 @@ public class Mewdeko
 
     private Task ExecuteReadySubscriptions()
     {
-       var readyExecutors = Services.GetServices<IReadyExecutor>();
+        var readyExecutors = Services.GetServices<IReadyExecutor>();
         var tasks = readyExecutors.Select(async toExec =>
         {
             try
@@ -371,15 +332,12 @@ public class Mewdeko
             }
             catch (Exception ex)
             {
-                Log.Error(ex,
-                    "Failed running OnReadyAsync method on {Type} type: {Message}",
-                    toExec.GetType().Name,
-                    ex.Message);
+                Log.Error(ex, "Failed running OnReadyAsync method on {Type} type: {Message}",
+                    toExec.GetType().Name, ex.Message);
             }
         });
 
-        return tasks.WhenAll();
-
+        return Task.WhenAll(tasks);
     }
 
     private static Task Client_Log(LogMessage arg)
@@ -402,8 +360,7 @@ public class Mewdeko
     private void HandleStatusChanges()
     {
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
-        // ReSharper disable once AsyncVoidLambda
-        sub.Subscribe($"{Client.CurrentUser.Id}_status.game_set", async (_, game) =>
+        sub.Subscribe(Client.CurrentUser.Id + "_status.game_set", async (_, game) =>
         {
             try
             {
@@ -417,8 +374,7 @@ public class Mewdeko
             }
         }, CommandFlags.FireAndForget);
 
-        // ReSharper disable once AsyncVoidLambda
-        sub.Subscribe($"{Client.CurrentUser.Id}_status.stream_set", async (_, streamData) =>
+        sub.Subscribe(Client.CurrentUser.Id + "_status.stream_set", async (_, streamData) =>
         {
             try
             {
@@ -437,6 +393,6 @@ public class Mewdeko
     {
         var obj = new {Name = game, Activity = type};
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
-        return sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj));
+        return sub.PublishAsync(Client.CurrentUser.Id + "_status.game_set", JsonConvert.SerializeObject(obj));
     }
 }
