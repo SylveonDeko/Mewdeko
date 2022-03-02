@@ -16,5 +16,6 @@ public enum Platform
     Spotify,
     Soundcloud,
     Url,
-    File
+    File,
+    Twitch
 }

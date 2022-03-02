@@ -6,6 +6,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Extensions;
+using SixLabors.ImageSharp.Processing.Processors.Quantization;
 using SpotifyAPI.Web;
 using System.Diagnostics;
 using Victoria;
@@ -17,27 +18,25 @@ using Victoria.Responses.Search;
 
 namespace Mewdeko.Modules.Music.Services;
 
-public sealed class MusicService : INService
+public class MusicService : INService
 {
     private readonly DbService _db;
     private readonly LavaNode _lavaNode;
-    private readonly ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>> _queues;
-    private readonly List<ulong> _runningShuffles;
-    private readonly IBotCredentials creds;
+    private readonly ConcurrentDictionary<ulong, List<AdvancedLavaTrack>> _queues;
+    private readonly IBotCredentials _creds;
     private readonly ConcurrentDictionary<ulong, MusicPlayerSettings> _settings;
 
 
-    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client, Mewdeko bot,
+    public MusicService(LavaNode lava, DbService db, DiscordSocketClient client,
         IBotCredentials creds)
     {
         _db = db;
-        this.creds = creds;
+        this._creds = creds;
         _lavaNode = lava;
         _lavaNode.OnTrackEnded += TrackEnded;
         _settings = new ConcurrentDictionary<ulong, MusicPlayerSettings>();
-        _queues = new ConcurrentDictionary<ulong, IList<AdvancedLavaTrack>>();
+        _queues = new ConcurrentDictionary<ulong, List<AdvancedLavaTrack>>();
         _lavaNode.OnTrackStarted += TrackStarted;
-        _runningShuffles = new List<ulong>();
         client.UserVoiceStateUpdated += HandleDisconnect;
     }
 
@@ -45,7 +44,7 @@ public sealed class MusicService : INService
     {
         var config = SpotifyClientConfig.CreateDefault();
         var request =
-            new ClientCredentialsRequest(creds.SpotifyClientId, creds.SpotifyClientSecret);
+            new ClientCredentialsRequest(_creds.SpotifyClientId, _creds.SpotifyClientSecret);
         var response = await new OAuthClient(config).RequestToken(request);
         return new SpotifyClient(config.WithToken(response.AccessToken));
     }
@@ -53,7 +52,7 @@ public sealed class MusicService : INService
         Platform queuedPlatform = Platform.Youtube)
     {
         var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
-        queue.Add(new AdvancedLavaTrack(lavaTrack, queue.Count + 1, user, queuedPlatform));
+        queue.Add(new AdvancedLavaTrack(lavaTrack, user, queuedPlatform));
         return Task.CompletedTask;
     }
 
@@ -61,47 +60,12 @@ public sealed class MusicService : INService
         Platform queuedPlatform = Platform.Youtube)
     {
         var queue = _queues.GetOrAdd(guildId, new List<AdvancedLavaTrack>());
-        queue.AddRange(lavaTracks.Select(x => new AdvancedLavaTrack(x, queue.Count + 1, user, queuedPlatform)));
+        queue.AddRange(lavaTracks.Select(x => new AdvancedLavaTrack(x, user, queuedPlatform)));
         return Task.CompletedTask;
     }
 
-    public void Shuffle(IGuild guild)
-    {
-        if (_runningShuffles.Contains(guild.Id))
-            return;
-        var random = new Random();
-        var queue = GetQueue(guild.Id);
-        var numbers = new List<int>();
-        IList<AdvancedLavaTrack> toadd = new List<AdvancedLavaTrack>();
-        try
-        {
-            _runningShuffles.Add(guild.Id);
-            foreach (var i in queue)
-                try
-                {
-                    var rng = random.Next(1, queue.Count + 1);
-                    while (numbers.Contains(rng)) rng = random.Next(1, queue.Count);
-
-                    var toremove = i;
-                    toremove.Index = rng;
-                    toadd.Add(toremove);
-                    numbers.Add(rng);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-
-            queue.Clear();
-            queue.AddRange(toadd);
-            _runningShuffles.Remove(guild.Id);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
+    public void Shuffle(IGuild guild) => 
+        _queues[guild.Id] = _queues[guild.Id].Shuffle().ToList();
 
     public Task QueueClear(ulong guildid)
     {
@@ -113,7 +77,7 @@ public sealed class MusicService : INService
     public AdvancedLavaTrack GetCurrentTrack(LavaPlayer player, IGuild guild)
     {
         var queue = GetQueue(guild.Id);
-        return queue.FirstOrDefault(x => x.Hash == player.Track.Hash)!;
+        return queue.FirstOrDefault(x => x.Hash == player.Track.Hash);
     }
 
     public async Task SpotifyQueue(IGuild guild, IUser user, ITextChannel? chan, LavaPlayer player, string? uri)
@@ -123,7 +87,7 @@ public sealed class MusicService : INService
         switch (spotifyUrl.Segments[1])
         {
             case "playlist/":
-                if (creds.SpotifyClientId == "")
+                if (_creds.SpotifyClientId == "")
                 {
                     await chan.SendErrorAsync(
                         "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
@@ -152,6 +116,8 @@ public sealed class MusicService : INService
                         {
                             await player.PlayAsync(x => x.Track = lavaTrack.Tracks.FirstOrDefault());
                             await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                            await ModifySettingsInternalAsync(guild.Id,
+                                (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                         }
 
                         addedcount++;
@@ -171,7 +137,7 @@ public sealed class MusicService : INService
 
                 break;
             case "album/":
-                if (creds.SpotifyClientId == "")
+                if (_creds.SpotifyClientId == "")
                 {
                     await chan.SendErrorAsync(
                         "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
@@ -201,6 +167,8 @@ public sealed class MusicService : INService
                         {
                             await player.PlayAsync(x => x.Track = lavaTrack.Tracks.FirstOrDefault());
                             await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                            await ModifySettingsInternalAsync(guild.Id,
+                                (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                         }
 
                         addedcount++;
@@ -223,7 +191,7 @@ public sealed class MusicService : INService
                 break;
 
             case "track/":
-                if (creds.SpotifyClientId == "")
+                if (_creds.SpotifyClientId == "")
                 {
                     await chan.SendErrorAsync(
                         "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
@@ -244,6 +212,8 @@ public sealed class MusicService : INService
                 {
                     await player.PlayAsync(x => x.Track = lavaTrack3.Tracks.FirstOrDefault());
                     await player.UpdateVolumeAsync(Convert.ToUInt16(GetVolume(guild.Id)));
+                    await ModifySettingsInternalAsync(guild.Id,
+                        (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                 }
 
                 break;
@@ -253,7 +223,28 @@ public sealed class MusicService : INService
         }
     }
 
-    public IList<AdvancedLavaTrack> GetQueue(ulong guildid) =>
+    public async Task<bool> RemoveSong(IGuild guild, int trackNum)
+    {
+        var queue = GetQueue(guild.Id);
+        if (!queue.Any())
+            return false;
+        _lavaNode.TryGetPlayer(guild, out var player);
+        var toRemove = queue.ElementAt(trackNum - 1);
+        var curTrack = GetCurrentTrack(player, guild);
+        if (toRemove.Source is null)
+            return false;
+        var toReplace = queue.ElementAt(queue.IndexOf(curTrack) + 1);
+        if (curTrack == toRemove && toReplace.Source != null)
+            await player.PlayAsync(queue.ElementAt(queue.IndexOf(curTrack) + 1));
+        else
+        {
+            await player.StopAsync();
+        }
+        _queues[guild.Id].Remove(queue.ElementAt(trackNum - 1));
+        return true;
+    }
+
+    public List<AdvancedLavaTrack> GetQueue(ulong guildid) =>
         !_queues.Select(x => x.Key).Contains(guildid)
             ? new List<AdvancedLavaTrack>
             {
@@ -282,7 +273,7 @@ public sealed class MusicService : INService
     {
         var queue = GetQueue(args.Player.VoiceChannel.GuildId);
         var track = queue.FirstOrDefault(x => x.Url == args.Track.Url);
-        var nextTrack = queue.FirstOrDefault(x => x.Index == track!.Index + 1);
+        var nextTrack = queue.ElementAt(queue.IndexOf(track) + 1);
         var resultMusicChannelId = GetSettingsInternalAsync(args.Player.VoiceChannel.GuildId).Result.MusicChannelId;
         if (resultMusicChannelId != null)
         {
@@ -290,15 +281,15 @@ public sealed class MusicService : INService
                 resultMusicChannelId.Value);
             if (channel is not null)
             {
-                if (track != null)
+                if (track.Source != null)
                 {
                     var eb = new EmbedBuilder()
-                             .WithDescription($"Now playing {track?.Title} by {track?.Author}")
-                             .WithTitle($"Track #{track!.Index}")
+                             .WithDescription($"Now playing {track.Title} by {track.Author}")
+                             .WithTitle($"Track #{queue.IndexOf(track)+1}")
                              .WithFooter(
                                  $"{track.Duration:hh\\:mm\\:ss} | {track.QueueUser} | {track.QueuedPlatform} | {queue.Count} tracks in queue")
                              .WithThumbnailUrl(track.FetchArtworkAsync().Result);
-                    if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
+                    if (nextTrack.Source is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
 
                     await channel.SendMessageAsync(embed: eb.Build());
                 }
@@ -308,22 +299,22 @@ public sealed class MusicService : INService
 
     private async Task TrackEnded(TrackEndedEventArgs args)
     {
-        var e = _queues.FirstOrDefault(x => x.Key == args.Player.VoiceChannel.GuildId).Value;
-        if (e.Any())
+        var queue = GetQueue(args.Player.VoiceChannel.GuildId);
+        if (queue.Any())
         {
             var gid = args.Player.VoiceChannel.GuildId;
             var msettings = await GetSettingsInternalAsync(gid);
             var channel = await args.Player.VoiceChannel.Guild.GetTextChannelAsync(msettings.MusicChannelId!.Value);
             if (args.Reason is TrackEndReason.Replaced or TrackEndReason.Stopped or TrackEndReason.Cleanup) return;
-            var currentTrack = e.FirstOrDefault(x => args.Track.Url == x.Url);
+            var currentTrack = queue.FirstOrDefault(x => args.Track.Hash == x.Hash);
             if (msettings.PlayerRepeat == PlayerRepeatType.Track)
             {
                 await args.Player.PlayAsync(currentTrack);
                 return;
             }
 
-            var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack!.Index + 1);
-            if (nextTrack is null && channel != null)
+            var nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
+            if (nextTrack.Source is null && channel != null)
             {
                 if (msettings.PlayerRepeat == PlayerRepeatType.Queue)
                 {
@@ -351,12 +342,12 @@ public sealed class MusicService : INService
 
     public async Task Skip(IGuild guild, ITextChannel? chan, LavaPlayer player, IInteractionContext? ctx = null)
     {
-        var e = _queues.FirstOrDefault(x => x.Key == guild.Id).Value;
-        if (e.Any())
+        var queue = GetQueue(guild.Id);
+        if (queue.Any())
         {
-            var currentTrack = e.FirstOrDefault(x => player.Track.Hash == x.Hash);
-            var nextTrack = e.FirstOrDefault(x => x.Index == currentTrack!.Index + 1);
-            if (nextTrack is null)
+            var currentTrack = queue.FirstOrDefault(x => player.Track.Hash == x.Hash);
+            var nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
+            if (nextTrack.Source is null)
             {
                 if (ctx is not null)
                 {
