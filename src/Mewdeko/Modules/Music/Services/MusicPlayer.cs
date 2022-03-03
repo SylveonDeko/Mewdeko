@@ -78,8 +78,7 @@ public class MusicPlayer : LavalinkPlayer
                              .WithOkColor()
                              .WithDescription($"Now playing {track.Title} by {track.Author}")
                              .WithTitle($"Track #{queue.IndexOf(track)+1}")
-                             .WithFooter(
-                                 $"{track.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | {queue.Count} tracks in queue")
+                             .WithFooter(await _musicService.GetPrettyInfo(args.Player, _client.GetGuild(args.Player.GuildId)))
                              .WithThumbnailUrl(artWork?.AbsoluteUri);
                     if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
 

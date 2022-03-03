@@ -1087,7 +1087,7 @@ public class Music : MewdekoModuleBase<MusicService>
             .WithDescription($"Now Playing {track.Title} by {track.Author}")
             .WithThumbnailUrl(info?.AbsoluteUri)
             .WithFooter(
-                $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | {qcount.Count} Tracks in queue");
+                await Service.GetPrettyInfo(player, ctx.Guild));
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
 
