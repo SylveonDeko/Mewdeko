@@ -132,7 +132,7 @@ public class Mewdeko
                     Password = "Hope4a11",
                     WebSocketUri = "ws://127.0.0.1:2333",
                     RestUri = "http://127.0.0.1:2333",
-                    DisconnectOnStop = false
+                    DisconnectOnStop = false,
                 })
                 .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>();

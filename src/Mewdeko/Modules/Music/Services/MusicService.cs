@@ -256,9 +256,9 @@ public class MusicService : INService
         var curTrack = GetCurrentTrack(player, guild);
         if (toRemove.Source is null)
             return false;
-        var toReplace = queue.ElementAt(queue.IndexOf(curTrack) + 1);
+        var toReplace = queue.ElementAt(queue.IndexOf(curTrack) - 1);
         if (curTrack == toRemove && toReplace.Source != null)
-            await player.PlayAsync(queue.ElementAt(queue.IndexOf(curTrack) + 1));
+            await player.PlayAsync(queue.ElementAt(queue.IndexOf(curTrack) - 1));
         else
         {
             await player.StopAsync();
@@ -297,7 +297,15 @@ public class MusicService : INService
     {
         var queue = GetQueue(args.Player.GuildId);
         var track = queue.FirstOrDefault(x => x.Identifier == args.Player.CurrentTrack.Identifier);
-        var nextTrack = queue.ElementAt(queue.IndexOf(track) + 1);
+        LavalinkTrack nextTrack = null;
+        try
+        {
+            nextTrack = queue.ElementAt(queue.IndexOf(track) + 1);
+        }
+        catch 
+        {
+           //ignored
+        }
         var resultMusicChannelId = GetSettingsInternalAsync(args.Player.GuildId).Result.MusicChannelId;
         if (resultMusicChannelId != null)
         {
@@ -318,7 +326,7 @@ public class MusicService : INService
                              .WithFooter(
                                  $"{track.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | {queue.Count} tracks in queue")
                              .WithThumbnailUrl(artWork.AbsoluteUri);
-                    if (nextTrack.Source is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
+                    if (nextTrack is not null) eb.AddField("Up Next", $"{nextTrack.Title} by {nextTrack.Author}");
 
                     await channel.SendMessageAsync(embed: eb.Build());
                 }

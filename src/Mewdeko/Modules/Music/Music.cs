@@ -16,6 +16,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Modules.Searches.Common.StreamNotifications;
 using SpotifyAPI.Web;
 
 namespace Mewdeko.Modules.Music;
@@ -629,7 +630,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
         if (queue.Any())
         {
-            var track = queue.ElementAt(number + 1);
+            var track = queue.ElementAt(number - 1);
             if (track.Source is null)
             {
                 await Play($"{number}");
@@ -645,6 +646,10 @@ public class Music : MewdekoModuleBase<MusicService>
                 .WithThumbnailUrl(e.AbsoluteUri)
                 .WithOkColor();
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        else
+        {
+            await Play($"{number}");
         }
     }
 
@@ -715,7 +720,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     platform = Platform.Twitch;
                 await Service.Enqueue(ctx.Guild.Id, ctx.User, searchResponse.Tracks, platform);
                 count = Service.GetQueue(ctx.Guild.Id).Count;
-                if (searchResponse.PlaylistInfo is not null)
+                if (searchResponse.PlaylistInfo.Name is not null)
                 {
                     var eb = new EmbedBuilder()
                         .WithOkColor()
@@ -725,19 +730,30 @@ public class Music : MewdekoModuleBase<MusicService>
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                    await player.SetVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    await player.SetVolumeAsync(Service.GetVolume(ctx.Guild.Id)/100.0F);
                     return;
                 }
                 else
                 {
+                    var artworkService = new ArtworkService();
+                    Uri art = null;
+                    try
+                    {
+                        art = await artworkService.ResolveAsync(searchResponse.Tracks.FirstOrDefault());
+                    }
+                    catch
+                    {
+                        //ignored
+                    }
                     var eb = new EmbedBuilder()
-                        .WithOkColor()
-                        .WithDescription(
-                            $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name} and bound the queue info to {ctx.Channel.Name}!");
+                             .WithOkColor()
+                             .WithThumbnailUrl(art?.AbsoluteUri)
+                             .WithDescription(
+                                 $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
                     await ctx.Channel.SendMessageAsync(embed: eb.Build());
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                    await player.SetVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    await player.SetVolumeAsync(Service.GetVolume(ctx.Guild.Id)/100.0F);
                     return;
                 }
             }
@@ -858,7 +874,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 if (player.State != PlayerState.Playing)
                 {
                     await player.PlayAsync(track);
-                    await player.SetVolumeAsync(Convert.ToUInt16(Service.GetVolume(ctx.Guild.Id)));
+                    await player.SetVolumeAsync(Service.GetVolume(ctx.Guild.Id)/100.0F);
                     await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
                         (settings, _) => settings.MusicChannelId = ctx.Channel.Id, ctx.Channel.Id);
                 }
@@ -1048,12 +1064,20 @@ public class Music : MewdekoModuleBase<MusicService>
         var track = player.CurrentTrack;
         var currentContext = track.Context as MusicService.AdvancedTrackContext;
         var artService = new ArtworkService();
-        var info = await artService.ResolveAsync(track);
+        Uri info = null;
+        try
+        {
+            info = await artService.ResolveAsync(track);
+        }
+        catch 
+        {
+            //ignored
+        }
         var eb = new EmbedBuilder()
             .WithOkColor()
             .WithTitle($"Track #{qcount.IndexOf(track)+1}")
             .WithDescription($"Now Playing {track.Title} by {track.Author}")
-            .WithThumbnailUrl(info.AbsoluteUri)
+            .WithThumbnailUrl(info?.AbsoluteUri)
             .WithFooter(
                 $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | {qcount.Count} Tracks in queue");
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
