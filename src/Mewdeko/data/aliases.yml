@@ -449,6 +449,8 @@ permrole:
   - pr
 verbose:
   - verbose
+verify:
+  - verify
   - v
 srvrmdl:
   - srvrmdl
