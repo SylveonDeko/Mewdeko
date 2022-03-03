@@ -16,7 +16,6 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Services;
-using Mewdeko.Services.Impl;
 
 namespace Mewdeko.Modules.Music;
 public class Music : MewdekoModuleBase<MusicService>
