@@ -494,6 +494,9 @@ permrole:
   - pr
 verbose:
   - verbose
+verify:
+  - verify
+  - v
 srvrmdl:
   - srvrmdl
   - sm
@@ -1402,6 +1405,3 @@ nsfwtoggle:
   - nsfwtgl
 economy:
   - economy
-verify:
-  - verify
-  - v
