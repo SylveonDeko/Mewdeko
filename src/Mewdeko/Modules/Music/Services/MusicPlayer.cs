@@ -5,13 +5,9 @@ using Lavalink4NET;
 using Lavalink4NET.Artwork;
 using Lavalink4NET.Events;
 using Lavalink4NET.Player;
-using Lavalink4NET.Rest;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using SpotifyAPI.Web;
-using System.Diagnostics;
 
 
 #nullable enable
