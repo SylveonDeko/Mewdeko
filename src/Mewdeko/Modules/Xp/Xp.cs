@@ -271,8 +271,9 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var embed = new PageBuilder()
                 .WithTitle(GetText("level_up_rewards"))
                 .WithOkColor();
@@ -283,13 +284,13 @@ public partial class Xp : MewdekoModuleBase<XpService>
                 .ToList();
 
             if (!localRewards.Any())
-                return Task.FromResult(embed.WithDescription(GetText("no_level_up_rewards")));
+                return embed.WithDescription(GetText("no_level_up_rewards"));
 
             foreach (var reward in localRewards)
                 embed.AddField(GetText("level_x", reward.Key),
                     string.Join("\n", reward.Select(y => y.Item2)));
 
-            return Task.FromResult(embed);
+            return embed;
         }
     }
 
@@ -430,14 +431,15 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var embed = new PageBuilder()
                 .WithTitle(GetText("exclusion_list"))
                 .WithDescription(string.Join('\n', lines.Skip(15 * page).Take(15)))
                 .WithOkColor();
 
-            return Task.FromResult(embed);
+            return embed;
         }
     }
 
@@ -478,8 +480,9 @@ public partial class Xp : MewdekoModuleBase<XpService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var embed = new PageBuilder()
                 .WithTitle(GetText("server_leaderboard"))
                 .WithOkColor();
@@ -490,7 +493,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
             else
                 users = Service.GetUserXps(ctx.Guild.Id, page);
 
-            if (!users.Any()) return Task.FromResult(embed.WithDescription("-"));
+            if (!users.Any()) return embed.WithDescription("-");
 
             for (var i = 0; i < users.Count; i++)
             {
@@ -510,7 +513,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
                     $"{GetText("level_x", levelStats.Level)} - {levelStats.TotalXp}xp {awardStr}");
             }
 
-            return Task.FromResult(embed);
+            return embed;
         }
     }
 

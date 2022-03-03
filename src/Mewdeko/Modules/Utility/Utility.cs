@@ -67,8 +67,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var titleText = emotetype switch
             {
                 "animated" => $"{emotes.Length} Animated Emotes",
@@ -77,12 +78,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                     $"{emotes.Count(x => x.Animated)} Animated Emotes | {emotes.Count(x => !x.Animated)} Non Animated Emotes"
             };
 
-            return Task.FromResult(new PageBuilder()
+            return new PageBuilder()
                                    .WithTitle(titleText)
                                    .WithDescription(string.Join("\n",
                                        emotes.OrderBy(x => x.Name).Skip(10 * page).Take(10)
                                              .Select(x => $"{x} `{x.Name}` [Link]({x.Url})")))
-                                   .WithOkColor());
+                                   .WithOkColor();
         }
     }
 
@@ -233,20 +234,20 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                 TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
                 var msg1 = msg.Skip(page).FirstOrDefault();
-                var user = ctx.Channel.GetUserAsync(msg1.UserId).Result ??
-                           _client.Rest.GetUserAsync(msg1.UserId).Result;
+                var user = await ctx.Channel.GetUserAsync(msg1.UserId) ??
+                           await _client.Rest.GetUserAsync(msg1.UserId);
                 
-                return Task.FromResult(new PageBuilder()
+                return new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
                         new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} said:"))
                     .WithDescription($"{msg1.Message}")
-                    .WithFooter($"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                    .WithFooter($"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
             }
         }
     }
@@ -282,20 +283,20 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                 TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
                 var msg1 = msg.Skip(page).FirstOrDefault();
-                var user = ctx.Channel.GetUserAsync(msg1.UserId).Result ??
-                           _client.Rest.GetUserAsync(msg1.UserId).Result;
+                var user = await ctx.Channel.GetUserAsync(msg1.UserId) ??
+                           await _client.Rest.GetUserAsync(msg1.UserId);
                 
-                return Task.FromResult(new PageBuilder()
+                return new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
                         new EmbedAuthorBuilder()
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} originally said:"))
                     .WithDescription($"{msg1.Message}")
-                    .WithFooter($"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                    .WithFooter($"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
             }
         }
     }
@@ -670,14 +671,21 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor()
-                .WithTitle(Format.Bold(GetText("inrole_list", Format.Bold(role.Name))) + $" - {roleUsers.Length}")
-                .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20).Select(x => $"{x} `{x.Id}`")))
-                .AddField("User Stats",
-                    $"<:online:914548119730024448> {roleUsers.Count(x => x.Status == UserStatus.Offline)}" +
-                    $"\n<:dnd:914548634178187294> {roleUsers.Count(x => x.Status == UserStatus.DoNotDisturb)}" +
-                    $"\n<:idle:914548262424412172> {roleUsers.Count(x => x.Status == UserStatus.Idle)}" +
-                    $"\n<:offline:914548368037003355> {roleUsers.Count(x => x.Status == UserStatus.Offline)}"));
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            return new PageBuilder().WithOkColor()
+                                                    .WithTitle(Format.Bold(GetText("inrole_list",
+                                                                   Format.Bold(role.Name)))
+                                                               + $" - {roleUsers.Length}")
+                                                    .WithDescription(string.Join("\n",
+                                                        roleUsers.Skip(page * 20).Take(20)
+                                                                 .Select(x => $"{x} `{x.Id}`"))).AddField("User Stats",
+                                                        $"<:online:914548119730024448> {roleUsers.Count(x => x.Status == UserStatus.Online)}"
+                                                        + $"\n<:dnd:914548634178187294> {roleUsers.Count(x => x.Status == UserStatus.DoNotDisturb)}"
+                                                        + $"\n<:idle:914548262424412172> {roleUsers.Count(x => x.Status == UserStatus.Idle)}"
+                                                        + $"\n<:offline:914548368037003355> {roleUsers.Count(x => x.Status == UserStatus.Offline)}");
+        }
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -702,9 +710,15 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor()
-                .WithTitle(Format.Bold($"Users in the roles: {role.Name} | {role2.Name} - {roleUsers.Length}"))
-                .WithDescription(string.Join("\n", roleUsers.Skip(page * 20).Take(20))));
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            return new PageBuilder().WithOkColor()
+                                                    .WithTitle(Format.Bold(
+                                                        $"Users in the roles: {role.Name} | {role2.Name} - {roleUsers.Length}"))
+                                                    .WithDescription(string.Join("\n",
+                                                        roleUsers.Skip(page * 20).Take(20)));
+        }
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]

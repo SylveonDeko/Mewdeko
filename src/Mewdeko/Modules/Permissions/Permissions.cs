@@ -113,19 +113,18 @@ public partial class Permissions : MewdekoModuleBase<PermissionService>
             .Build();
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithDescription(string.Join("\n",
-                perms
-                    .Skip(page * 10)
-                    .Take(10)
-                    .Select(p =>
-                    {
-                        var str =
-                            $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
-                        if (p.Index == 0)
-                            str +=
-                                $" [{GetText("uneditable")}]";
-                        return str;
-                    }))).WithTitle(Format.Bold(GetText("page", page + 1))).WithOkColor());
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            return new PageBuilder().WithDescription(string.Join("\n",
+                perms.Skip(page * 10).Take(10).Select(p =>
+                {
+                    var str = $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(Prefix, (SocketGuild)ctx.Guild))}";
+                    if (p.Index == 0)
+                        str += $" [{GetText("uneditable")}]";
+                    return str;
+                }))).WithTitle(Format.Bold(GetText("page", page + 1))).WithOkColor();
+        }
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]

@@ -238,9 +238,8 @@ public partial class Searches
             return Math.Round(hitPoints / totalHits * 100, 2);
         }
 
-        private static int ResolveGameMode(string mode)
-        {
-            return mode.ToUpperInvariant() switch
+        private static int ResolveGameMode(string mode) =>
+            mode.ToUpperInvariant() switch
             {
                 "STD" => 0,
                 "STANDARD" => 0,
@@ -251,7 +250,6 @@ public partial class Searches
                 "OSU!MANIA" => 3,
                 _ => 0
             };
-        }
 
         private static string ResolveGameMode(int mode) =>
             mode switch

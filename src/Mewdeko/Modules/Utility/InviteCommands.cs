@@ -100,21 +100,17 @@ public partial class Utility
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var i = 1;
-                    var invs = invites.OrderByDescending(x => x.Uses).Skip(page * 9).Take(9);
-                    if (!invs.Any())
-                        return Task.FromResult(new PageBuilder()
-                            .WithErrorColor()
-                            .WithDescription(GetText("no_invites")));
-                    return Task.FromResult(invs.Aggregate(new PageBuilder().WithOkColor(),
-                        (acc, inv) => acc.AddField(
-                            $"#{i++} {inv.Inviter.ToString().TrimTo(15)} " +
-                            $"({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})",
-                            inv.Url)));
-                }
+                await Task.CompletedTask;
+                var i = 1;
+                var invs = invites.OrderByDescending(x => x.Uses).Skip(page * 9).Take(9);
+                if (!invs.Any())
+                    return new PageBuilder().WithErrorColor().WithDescription(GetText("no_invites"));
+                return invs.Aggregate(new PageBuilder().WithOkColor(),
+                    (acc, inv) => acc.AddField(
+                        $"#{i++} {inv.Inviter.ToString().TrimTo(15)} "
+                        + $"({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})", inv.Url));
             }
         }
 

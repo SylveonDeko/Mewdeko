@@ -214,13 +214,12 @@ public class Afk : MewdekoModuleBase<AfkService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
-            {
-                return Task.FromResult(new PageBuilder().WithOkColor()
-                    .WithTitle(Format.Bold("Active AFKs") + $" - {afks.ToArray().Length}")
-                    .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20))));
-            }
+            await Task.CompletedTask;
+            return new PageBuilder().WithOkColor()
+                                    .WithTitle(Format.Bold("Active AFKs") + $" - {afks.ToArray().Length}")
+                                    .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20)));
         }
     }
 
@@ -270,13 +269,12 @@ public class Afk : MewdekoModuleBase<AfkService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
-            {
-                return Task.FromResult(new PageBuilder().WithOkColor()
-                    .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
-                    .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20))));
-            }
+            await Task.CompletedTask;
+            return new PageBuilder().WithOkColor()
+                                                    .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
+                                                    .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20)));
         }
     }
 

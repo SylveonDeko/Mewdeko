@@ -522,8 +522,9 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var embed = new PageBuilder()
                 .WithOkColor()
                 .WithTitle(CurrencySign + " " + GetText("leaderboard"));
@@ -542,7 +543,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             if (!toSend.Any())
             {
                 embed.WithDescription(GetText("no_user_on_this_page"));
-                return Task.FromResult(embed);
+                return embed;
             }
 
             for (var i = 0; i < toSend.Count; i++)
@@ -556,7 +557,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                     .WithIsInline(true));
             }
 
-            return Task.FromResult(embed);
+            return embed;
         }
     }
 

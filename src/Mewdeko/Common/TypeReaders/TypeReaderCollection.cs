@@ -6,7 +6,7 @@ public class TypeReaderCollection : TypeReader
 {
     private readonly IEnumerable<TypeReader> _readers;
 
-    public TypeReaderCollection(IEnumerable<TypeReader> readers) { _readers = readers; }
+    public TypeReaderCollection(IEnumerable<TypeReader> readers) => _readers = readers;
 
     public override async Task<TypeReaderResult> ReadAsync(
         ICommandContext context, string input, IServiceProvider services)
