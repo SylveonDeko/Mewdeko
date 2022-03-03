@@ -106,18 +106,15 @@ public partial class Games
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var items = enabledIn.Skip(page * 9).Take(9);
-
-                    if (!items.Any())
-                        return Task.FromResult(new PageBuilder().WithErrorColor()
-                            .WithDescription("-"));
-
-                    return Task.FromResult(items.Aggregate(new PageBuilder().WithOkColor(),
-                        (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId)));
-                }
+                await Task.CompletedTask;
+                var items = enabledIn.Skip(page * 9).Take(9);
+                if (!items.Any())
+                        return new PageBuilder().WithErrorColor()
+                            .WithDescription("-");
+                return items.Aggregate(new PageBuilder().WithOkColor(),
+                        (eb, i) => eb.AddField(i.GuildId.ToString(), i.ChannelId));
             }
         }
     }

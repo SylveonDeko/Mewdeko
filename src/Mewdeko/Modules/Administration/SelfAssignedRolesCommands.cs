@@ -99,8 +99,9 @@ public partial class Administration
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var rolesStr = new StringBuilder();
                 var roleGroups = roles
                     .OrderBy(x => x.Model.Group)
@@ -134,12 +135,12 @@ public partial class Administration
                     rolesStr.AppendLine();
                 }
 
-                return Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
+                return new PageBuilder().WithColor(Mewdeko.OkColor)
                     .WithTitle(Format.Bold(GetText("self_assign_list", roles.Count())))
                     .WithDescription(rolesStr.ToString())
                     .WithFooter(exclusive
                         ? GetText("self_assign_are_exclusive")
-                        : GetText("self_assign_are_not_exclusive")));
+                        : GetText("self_assign_are_not_exclusive"));
             }
         }
 

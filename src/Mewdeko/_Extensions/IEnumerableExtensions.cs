@@ -27,7 +27,16 @@ public static class EnumerableExtensions
     public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey) =>
         data.GroupBy(getKey)
             .Select(x => x.First());
+    
+    public static async Task<List<T>> GetResults<T>(this IEnumerable<Task<T>> tasks) {
+        var res = new List<T>();
 
+        // Awaits each task and adds the result to the result list.
+        foreach(var task in tasks) 
+            res.Add(await task);
+			
+        return res;
+    }
     /// <summary>
     ///     Randomize element order by performing the Fisher-Yates shuffle
     /// </summary>

@@ -407,14 +407,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                           .WithDefaultEmotes().Build();
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+                async Task<PageBuilder> PageFactory(int page)
                 {
+                    await Task.CompletedTask;
                     var result = duckDuckGoImageResults.Skip(page).FirstOrDefault();
-                    return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(result!.Title)
+                    return new PageBuilder().WithOkColor().WithDescription(result!.Title)
                                                             .WithImageUrl(result.Url)
                                                             .WithAuthor(name: "DuckDuckGo Image Result",
                                                                 iconUrl:
-                                                                "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png%22"));
+                                                                "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png%22");
                 }
             }
         }
@@ -426,14 +427,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                                                       .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var result = googleImageResults.Skip(page).FirstOrDefault();
-                return Task.FromResult(new PageBuilder().WithOkColor().WithDescription(result!.Title)
+                return new PageBuilder().WithOkColor().WithDescription(result!.Title)
                                                         .WithImageUrl(result.Url)
                                                         .WithAuthor(name: "Google Image Result",
                                                             iconUrl:
-                                                            "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22"));
+                                                            "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
             }
         }
     }
@@ -621,14 +623,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+                async Task<PageBuilder> PageFactory(int page)
                 {
+                    await Task.CompletedTask;
                     var item = items[page];
-                    return Task.FromResult(new PageBuilder().WithOkColor()
+                    return new PageBuilder().WithOkColor()
                         .WithUrl(item.Permalink)
                         .WithAuthor(
                             eab => eab.WithIconUrl("https://i.imgur.com/nwERwQE.jpg").WithName(item.Word))
-                        .WithDescription(item.Definition));
+                        .WithDescription(item.Definition);
                 }
             }
         }
@@ -691,10 +694,10 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var data = col.Skip(page).First();
+                await Task.CompletedTask;
+                var data = col.Skip(page).First();
                     var embed = new PageBuilder()
                         .WithDescription(ctx.User.Mention)
                         .AddField(GetText("word"), data.Word, true)
@@ -705,8 +708,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
                     if (!string.IsNullOrWhiteSpace(data.Example))
                         embed.AddField(efb => efb.WithName(GetText("example")).WithValue(data.Example));
 
-                    return Task.FromResult(embed);
-                }
+                    return embed;
             }
         }
         catch (Exception ex)

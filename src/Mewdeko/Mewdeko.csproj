@@ -126,9 +126,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Modules\Music\Extensions" />
-    </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'GlobalMewdeko' ">
         <DefineConstants>$(DefineConstants);GLOBAL_Mewdeko</DefineConstants>

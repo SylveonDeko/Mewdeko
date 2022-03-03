@@ -88,21 +88,18 @@ public partial class Searches
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var embed = new PageBuilder()
+                await Task.CompletedTask;
+                var embed = new PageBuilder()
                         .WithOkColor();
                     var i = 0;
                     var fs = string.Join("\n", feeds.Skip(page * 10)
                         .Take(10)
                         .Select(x => $"`{(page * 10) + ++i}.` <#{x.ChannelId}> {x.Url}"));
 
-                    return Task.FromResult(embed.WithDescription(fs));
-                }
+                    return embed.WithDescription(fs);
             }
-
-            ;
         }
     }
 }

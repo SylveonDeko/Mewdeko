@@ -554,21 +554,20 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
-            {
-                var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
+            await Task.CompletedTask;
+            var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
 
                 if (string.IsNullOrWhiteSpace(str))
                     str = GetText("no_shards_on_page");
 
-                return Task.FromResult(new PageBuilder()
+                return new PageBuilder()
                     .WithAuthor(a => a.WithName(GetText("shard_stats")))
                     .WithTitle(status)
                     .WithColor(Mewdeko.OkColor)
-                    .WithDescription(str));
+                    .WithDescription(str);
             }
-        }
     }
 
     private static string ConnectionStateToEmoji(ShardStatus status)

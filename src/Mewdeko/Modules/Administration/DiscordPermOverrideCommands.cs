@@ -73,19 +73,20 @@ public partial class Administration
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var thisPageOverrides = overrides
                     .Skip(9 * page)
                     .Take(9)
                     .ToList();
                 if (thisPageOverrides.Count == 0)
-                    return Task.FromResult(new PageBuilder().WithDescription(GetText("perm_override_page_none"))
-                        .WithColor(Mewdeko.ErrorColor));
-                return Task.FromResult(new PageBuilder()
+                    return new PageBuilder().WithDescription(GetText("perm_override_page_none"))
+                        .WithColor(Mewdeko.ErrorColor);
+                return new PageBuilder()
                     .WithDescription(string.Join("\n",
                         thisPageOverrides.Select(ov => $"{ov.Command} => {ov.Perm.ToString()}")))
-                    .WithColor(Mewdeko.OkColor));
+                    .WithColor(Mewdeko.OkColor);
             }
         }
     }

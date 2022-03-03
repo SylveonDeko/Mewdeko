@@ -236,7 +236,7 @@ public partial class Moderation
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
                 {
                     var ws = warnings.Skip(page * 15)
@@ -251,9 +251,9 @@ public partial class Moderation
                             return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
                         });
 
-                    return Task.FromResult(new PageBuilder().WithOkColor()
+                    return new PageBuilder().WithOkColor()
                         .WithTitle(GetText("warnings_list"))
-                        .WithDescription(string.Join("\n", ws)));
+                        .WithDescription(string.Join("\n", ws));
                 }
             }
         }

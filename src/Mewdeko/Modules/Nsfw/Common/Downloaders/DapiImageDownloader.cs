@@ -8,10 +8,7 @@ public abstract class DapiImageDownloader : ImageDownloader<DapiImageObject>
 {
     protected readonly string _baseUrl;
 
-    protected DapiImageDownloader(Booru booru, HttpClient http, string baseUrl) : base(booru, http)
-    {
-        _baseUrl = baseUrl;
-    }
+    protected DapiImageDownloader(Booru booru, HttpClient http, string baseUrl) : base(booru, http) => _baseUrl = baseUrl;
 
     public abstract Task<bool> IsTagValid(string tag, CancellationToken cancel = default);
     protected async Task<bool> AllTagsValid(string[] tags, CancellationToken cancel = default)

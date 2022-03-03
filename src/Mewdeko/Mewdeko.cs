@@ -32,6 +32,7 @@ using System.Net.Http;
 using System.Reflection;
 using Lavalink4NET;
 using Lavalink4NET.DiscordNet;
+using Mewdeko.Modules.Music.Services;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Mewdeko;
@@ -119,6 +120,7 @@ public class Mewdeko
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
                 .AddSingleton<InteractionService>()
+                .AddSingleton<MusicService>()
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
                 .AddMemoryCache()
@@ -128,7 +130,6 @@ public class Mewdeko
                 .AddSingleton(new LavalinkNodeOptions()
                 {
                     AllowResuming = true,
-                    CacheTime = TimeSpan.FromSeconds(60),
                     Password = "Hope4a11",
                     WebSocketUri = "ws://127.0.0.1:2333",
                     RestUri = "http://127.0.0.1:2333",

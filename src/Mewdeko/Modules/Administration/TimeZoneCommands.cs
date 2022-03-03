@@ -19,16 +19,12 @@ public partial class Administration
         public TimeZoneCommands(InteractiveService serv) => _interactivity = serv;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Timezones(int page = 1)
+        public async Task Timezones()
         {
-            page--;
-
-            if (page is < 0 or > 20)
-                return;
 
             var timezones = TimeZoneInfo.GetSystemTimeZones()
-                .OrderBy(x => x.BaseUtcOffset)
-                .ToArray();
+                                        .OrderBy(x => x.BaseUtcOffset)
+                                        .ToArray();
             var timezonesPerPage = 20;
 
             var curTime = DateTimeOffset.UtcNow;
@@ -56,12 +52,15 @@ public partial class Administration
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                    .WithColor(Mewdeko.OkColor)
-                    .WithTitle(GetText("timezones_available"))
-                    .WithDescription(string.Join("\n", timezoneStrings
-                        .Skip(page * timezonesPerPage)
-                        .Take(timezonesPerPage))));
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                return new PageBuilder().WithColor(Mewdeko.OkColor)
+                                                        .WithTitle(GetText("timezones_available"))
+                                                        .WithDescription(string.Join("\n",
+                                                            timezoneStrings.Skip(page * timezonesPerPage)
+                                                                           .Take(timezonesPerPage)));
+            }
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]

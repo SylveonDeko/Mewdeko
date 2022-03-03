@@ -16,8 +16,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Music.Services;
-using Mewdeko.Modules.Searches.Common.StreamNotifications;
-using SpotifyAPI.Web;
+using Mewdeko.Services.Impl;
 
 namespace Mewdeko.Modules.Music;
 public class Music : MewdekoModuleBase<MusicService>
@@ -25,10 +24,16 @@ public class Music : MewdekoModuleBase<MusicService>
     private readonly InteractiveService _interactivity;
     private readonly LavalinkNode _lavaNode;
     private readonly DbService _db;
+    private readonly IBotCredentials _creds;
+    private readonly DiscordSocketClient _client;
 
-    public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService)
+    public Music(LavalinkNode lava, InteractiveService interactive, DbService dbService,
+        IBotCredentials creds,
+        DiscordSocketClient client)
     {
         _db = dbService;
+        _creds = creds;
+        _client = client;
         _interactivity = interactive;
         _lavaNode = lava;
     }
@@ -48,7 +53,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task SongRemove(int songNum)
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is not null)
         {
             var voiceChannel = await ctx.Guild.GetVoiceChannelAsync(player.VoiceChannelId.Value);
@@ -95,13 +100,13 @@ public class Music : MewdekoModuleBase<MusicService>
                         .Build();
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var e = 1;
-            return Task.FromResult(new PageBuilder().WithOkColor()
-                                                    .WithDescription(string.Join("\n",
+            return new PageBuilder().WithOkColor().WithDescription(string.Join("\n",
                                                         plists.Skip(page).Take(15).Select(x =>
-                                                            $"{e++}. {x.Name} - {x.Songs.Count()} songs"))));
+                                                            $"{e++}. {x.Name} - {x.Songs.Count()} songs")));
         }
     }
 
@@ -150,9 +155,13 @@ public class Music : MewdekoModuleBase<MusicService>
                                                           .WithDefaultCanceledPage().WithDefaultEmotes().Build();
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor().WithDescription(string.Join("\n",
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask;
+                    return new PageBuilder().WithOkColor().WithDescription(string.Join("\n",
                         plist.Songs.Select(x =>
-                            $"`{songcount++}.` [{x.Title.TrimTo(45)}]({x.Query}) `{x.Provider}`"))));
+                            $"`{songcount++}.` [{x.Title.TrimTo(45)}]({x.Query}) `{x.Provider}`")));
+                }
 
                 break;
             case PlaylistAction.Delete:
@@ -214,7 +223,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     {
                         try
                         {
-                            await _lavaNode.JoinAsync(vstate.VoiceChannel);
+                            await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, vstate.VoiceChannel.Id);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
                                 await chan.BecomeSpeakerAsync();
@@ -294,7 +303,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     {
                         try
                         {
-                            await _lavaNode.JoinAsync(vstate.VoiceChannel);
+                            await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, vstate.VoiceChannel.Id);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
                                 await chan.BecomeSpeakerAsync();
@@ -357,7 +366,7 @@ public class Music : MewdekoModuleBase<MusicService>
                     if (plists6 is not null)
                     {
                         var currentContext =
-                            advancedLavaTracks.FirstOrDefault().Context as MusicService.AdvancedTrackContext;
+                            advancedLavaTracks.FirstOrDefault().Context as MusicPlayer.AdvancedTrackContext;
                         var toadd = new PlaylistSong
                         {
                             Title = advancedLavaTracks.FirstOrDefault()?.Title,
@@ -408,8 +417,8 @@ public class Music : MewdekoModuleBase<MusicService>
                                 var toadd = advancedLavaTracks.Select(x => new PlaylistSong
                                 {
                                     Title = x.Title,
-                                    ProviderType = (x.Context as MusicService.AdvancedTrackContext).QueuedPlatform,
-                                    Provider = (x.Context as MusicService.AdvancedTrackContext).QueuedPlatform.ToString(),
+                                    ProviderType = (x.Context as MusicPlayer.AdvancedTrackContext).QueuedPlatform,
+                                    Provider = (x.Context as MusicPlayer.AdvancedTrackContext).QueuedPlatform.ToString(),
                                     Query = x.Source
                                 });
                                 var newsongs = plists7.Songs.ToList();
@@ -465,7 +474,7 @@ public class Music : MewdekoModuleBase<MusicService>
                             var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
                             if (plists6 is not null)
                             {
-                                var currentContext = track.Context as MusicService.AdvancedTrackContext;
+                                var currentContext = track.Context as MusicPlayer.AdvancedTrackContext;
                                 var toadd = new PlaylistSong
                                 {
                                     Title = track.Title,
@@ -576,7 +585,7 @@ public class Music : MewdekoModuleBase<MusicService>
         }
 
 
-        await _lavaNode.JoinAsync(voiceState.VoiceChannel);
+        await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, voiceState.VoiceChannel.Id);
         if (voiceState.VoiceChannel is IStageChannel chan)
         {
             try
@@ -593,7 +602,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Leave()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player == null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to any voice channels!");
@@ -616,7 +625,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Play(int number)
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         var queue = Service.GetQueue(ctx.Guild.Id);
         if (player is null)
         {
@@ -642,7 +651,7 @@ public class Music : MewdekoModuleBase<MusicService>
             var e = await artworkService.ResolveAsync(track);
             var eb = new EmbedBuilder()
                 .WithDescription($"Playing {track.Title}")
-                .WithFooter($"Track {queue.IndexOf(track)+1} | {track.Duration:hh\\:mm\\:ss} | {((MusicService.AdvancedTrackContext)track.Context).QueueUser}")
+                .WithFooter($"Track {queue.IndexOf(track)+1} | {track.Duration:hh\\:mm\\:ss} | {((MusicPlayer.AdvancedTrackContext)track.Context).QueueUser}")
                 .WithThumbnailUrl(e.AbsoluteUri)
                 .WithOkColor();
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
@@ -681,7 +690,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
             try
             {
-                await _lavaNode.JoinAsync(vc.VoiceChannel);
+                await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, vc.VoiceChannel.Id);
                 if (vc.VoiceChannel is SocketStageChannel chan)
                     try
                     {
@@ -896,7 +905,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Pause()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
@@ -917,7 +926,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Shuffle()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not even playing anything.");
@@ -943,7 +952,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Stop()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to a channel!");
@@ -958,7 +967,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Skip()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
@@ -971,7 +980,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Seek(TimeSpan timeSpan)
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
@@ -993,7 +1002,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task ClearQueue()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
@@ -1016,7 +1025,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Volume(ushort volume)
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.");
@@ -1047,7 +1056,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task NowPlaying()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ReplyAsync("I'm not connected to a voice channel.");
@@ -1062,7 +1071,7 @@ public class Music : MewdekoModuleBase<MusicService>
 
         var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = player.CurrentTrack;
-        var currentContext = track.Context as MusicService.AdvancedTrackContext;
+        var currentContext = track.Context as MusicPlayer.AdvancedTrackContext;
         var artService = new ArtworkService();
         Uri info = null;
         try
@@ -1086,7 +1095,7 @@ public class Music : MewdekoModuleBase<MusicService>
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Queue()
     {
-        var player = _lavaNode.GetPlayer(ctx.Guild.Id);
+        var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
             await ctx.Channel.SendErrorAsync("I am not playing anything at the moment!");
@@ -1105,18 +1114,18 @@ public class Music : MewdekoModuleBase<MusicService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
-            
+            await Task.CompletedTask;
             var tracks = queue.OrderBy(x => queue.IndexOf(x)).Skip(page * 10).Take(10);
-            return Task.FromResult(new PageBuilder()
+            return new PageBuilder()
                 .WithDescription(string.Join("\n", tracks.Select(x =>
                     $"`{queue.IndexOf(x)+1}.` [{x.Title}]({x.Source})\n" +
                     $"`{x.Duration:mm\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
-                .WithOkColor());
+                .WithOkColor();
         }
     }
     
-    private MusicService.AdvancedTrackContext GetContext (LavalinkTrack track) 
-        => track.Context as MusicService.AdvancedTrackContext;
+    private MusicPlayer.AdvancedTrackContext GetContext (LavalinkTrack track) 
+        => track.Context as MusicPlayer.AdvancedTrackContext;
 }

@@ -429,9 +429,8 @@ public class ProtectionService : INService
         return (antiSpamStats, antiRaidStats, antiAltStats);
     }
 
-    public static bool IsDurationAllowed(PunishmentAction action)
-    {
-        return action switch
+    public static bool IsDurationAllowed(PunishmentAction action) =>
+        action switch
         {
             PunishmentAction.Ban => true,
             PunishmentAction.Mute => true,
@@ -440,7 +439,6 @@ public class ProtectionService : INService
             PunishmentAction.AddRole => true,
             _ => false
         };
-    }
 
     public async Task StartAntiAltAsync(ulong guildId, int minAgeMinutes, PunishmentAction action,
         int actionDurationMinutes = 0, ulong? roleId = null)

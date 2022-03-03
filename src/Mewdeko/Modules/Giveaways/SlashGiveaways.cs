@@ -161,17 +161,24 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways").WithDescription(
-                string.Join("\n\n",
-                    gways.Skip(page * 5).Take(5).Select(x =>
-                        $"{x.MessageId}"
-                        + $"\nPrize: {x.Item}"
-                        + $"\nWinners: {x.Winners}"
-                        + $"\nLink: {ctx.Guild.GetTextChannelAsync(x.ChannelId).Result.GetMessageAsync(x.MessageId).Result.GetJumpUrl()}"))));
-
-
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            return new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways")
+                                    .WithDescription(string.Join("\n\n",
+                                        await gways.Skip(page * 5).Take(5).Select(async x =>
+                                            $"{x.MessageId}"
+                                            + $"\nPrize: {x.Item}"
+                                            + $"\nWinners: {x.Winners}"
+                                            + $"\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId)}").GetResults()));
+        }
     }
 
+    private async Task<string> GetJumpUrl(ulong channelId, ulong messageId)
+    {
+        var channel = await ctx.Guild.GetTextChannelAsync(channelId);
+        var message = await channel.GetMessageAsync(messageId);
+        return message.GetJumpUrl();
+    }
     [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {

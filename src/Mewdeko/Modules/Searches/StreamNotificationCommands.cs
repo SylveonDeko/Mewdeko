@@ -109,16 +109,16 @@ public partial class Searches
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var elements = streams.Skip(page * 12).Take(12)
-                        .ToList();
+                await Task.CompletedTask;
+                var elements = streams.Skip(page * 12).Take(12)
+                                      .ToList();
 
                     if (elements.Count == 0)
-                        return Task.FromResult(new PageBuilder()
+                        return new PageBuilder()
                             .WithDescription(GetText("streams_none"))
-                            .WithErrorColor());
+                            .WithErrorColor();
 
                     var eb = new PageBuilder()
                         .WithTitle(GetText("streams_follow_title"))
@@ -132,8 +132,7 @@ public partial class Searches
                             true);
                     }
 
-                    return Task.FromResult(eb);
-                }
+                    return eb;
             }
         }
 
