@@ -30,6 +30,21 @@ public class MusicService : INService
             Queues = new ConcurrentDictionary<ulong, List<LavalinkTrack>>();
             client.UserVoiceStateUpdated += HandleDisconnect;
         }
+
+        public async Task<string> GetPrettyInfo(LavalinkPlayer player, IGuild guild)
+        {
+            var currentTrack = player.CurrentTrack;
+            var currentContext = currentTrack.Context as MusicPlayer.AdvancedTrackContext;
+            var musicSettings = await GetSettingsInternalAsync(guild.Id);
+            return
+                $"{player.Position.Position:hh\\:mm\\:ss}/{currentTrack.Duration:hh\\:mm\\:ss} | " + 
+                $"{currentContext.QueueUser} | " + 
+                $"{currentContext.QueuedPlatform} | " + 
+                $"Vol: {musicSettings.Volume} | " + 
+                $"Loop: {musicSettings.PlayerRepeat} | " +
+                $"{GetQueue(guild.Id).Count} tracks in queue";
+
+        }
         public async Task UpdateDefaultPlaylist(IUser user, MusicPlaylist mpl)
         {
             await using var uow = _db.GetDbContext();
