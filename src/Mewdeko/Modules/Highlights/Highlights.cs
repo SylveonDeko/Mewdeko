@@ -76,12 +76,13 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+                async Task<PageBuilder> PageFactory(int page)
                 {
+                    await Task.CompletedTask;
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10).Select(x => x.Word);
-                    return Task.FromResult(new PageBuilder().WithOkColor()
-                                                            .WithTitle($"{highlightsForUser.Count()} Highlights")
-                                                            .WithDescription(String.Join("\n", highlightsEnumerable)));
+                    return new PageBuilder().WithOkColor()
+                                     .WithTitle($"{highlightsForUser.Count()} Highlights")
+                                     .WithDescription(String.Join("\n", highlightsEnumerable));
                 }
 
                 break;
@@ -131,12 +132,13 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory1(int page)
+                async Task<PageBuilder> PageFactory1(int page)
                 {
+                    await Task.CompletedTask;
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10).Select(x => x.Word);
-                    return Task.FromResult(new PageBuilder().WithOkColor()
-                                                            .WithTitle($"{matched.Count()} Highlights")
-                                                            .WithDescription(String.Join("\n", highlightsEnumerable)));
+                    return new PageBuilder().WithOkColor()
+                                            .WithTitle($"{matched.Count()} Highlights")
+                                            .WithDescription(String.Join("\n", highlightsEnumerable));
                 }
                 
                 break;

@@ -219,15 +219,15 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
         await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
-            return Task.FromResult(new PageBuilder().WithDescription($"#{Array.IndexOf(greets, curgreet) + 1}"
-                                                            + $"\n`Channel:` {ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).Result.Mention} {curgreet.ChannelId}"
-                                                            + $"\n`Delete After:` {curgreet.DeleteTime}s"
-                                                            + $"\n`Webhook:` {curgreet.WebhookUrl != null}"
-                                                            + $"\n`Message:` {curgreet.Message.TrimTo(1000)}")
-                                                    .WithOkColor());
+            return new PageBuilder().WithDescription($"#{Array.IndexOf(greets, curgreet) + 1}"
+                                                     + $"\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}"
+                                                     + $"\n`Delete After:` {curgreet.DeleteTime}s"
+                                                     + $"\n`Webhook:` {curgreet.WebhookUrl != null}"
+                                                     + $"\n`Message:` {curgreet.Message.TrimTo(1000)}")
+                                    .WithOkColor();
         }
 
     }

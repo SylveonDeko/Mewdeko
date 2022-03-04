@@ -165,13 +165,14 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var enumerable = pages as string[] ?? pages.ToArray();
-            return Task.FromResult(new PageBuilder()
+            return new PageBuilder()
                 .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
                 .WithImageUrl(pages.Skip(page).FirstOrDefault())
-                .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500)));
+                .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500));
         }
     }
 
@@ -203,19 +204,18 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
-            var list = new List<string>();
-            foreach (var i in result.Books.Skip(page).FirstOrDefault().Tags)
-                list.Add($"[{i.Name}](https://nhentai.net{i.Url})");
-            return Task.FromResult(new PageBuilder().WithOkColor()
-                .WithTitle(result.Books.Skip(page).FirstOrDefault().Titles.English)
-                .WithDescription(string.Join("|", list.Take(20)))
-                .AddField("NHentai Magic Number", result.Books.Skip(page).FirstOrDefault().Id)
-                .AddField("NHentai Magic URL",
-                    $"https://nhentai.net/g/{result.Books.Skip(page).FirstOrDefault().Id}")
-                .AddField("Pages", result.Books.Skip(page).FirstOrDefault().PagesCount)
-                .WithImageUrl(result.Books.Skip(page).FirstOrDefault().GetCover()));
+            await Task.CompletedTask;
+            var list = result.Books.Skip(page).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
+            return new PageBuilder().WithOkColor()
+                                    .WithTitle(result.Books.Skip(page).FirstOrDefault().Titles.English)
+                                    .WithDescription(string.Join("|", list.Take(20)))
+                                    .AddField("NHentai Magic Number", result.Books.Skip(page).FirstOrDefault().Id)
+                                    .AddField("NHentai Magic URL",
+                                        $"https://nhentai.net/g/{result.Books.Skip(page).FirstOrDefault().Id}")
+                                    .AddField("Pages", result.Books.Skip(page).FirstOrDefault().PagesCount)
+                                    .WithImageUrl(result.Books.Skip(page).FirstOrDefault().GetCover());
         }
     }
 

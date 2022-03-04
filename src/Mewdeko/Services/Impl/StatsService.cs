@@ -12,10 +12,11 @@ namespace Mewdeko.Services.Impl;
 
 public class StatsService : IStatsService
 {
-    public const string BOT_VERSION = "4.02";
+    public const string BOT_VERSION = "4.04";
 
     private readonly DateTime _started;
 #pragma warning disable CS0169
+    // ReSharper disable once NotAccessedField.Local
     private Timer BotListTimer;
 #pragma warning restore CS0169
 

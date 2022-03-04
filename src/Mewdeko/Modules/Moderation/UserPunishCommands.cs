@@ -215,8 +215,9 @@ public partial class Moderation : MewdekoModule
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 warnings = warnings.Skip(page)
                     .Take(9)
                     .ToArray();
@@ -247,7 +248,7 @@ public partial class Moderation : MewdekoModule
                     }
                 }
 
-                return Task.FromResult(embed);
+                return embed;
             }
         }
 
@@ -269,24 +270,24 @@ public partial class Moderation : MewdekoModule
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
                 {
-                    var ws = warnings.Skip(page * 15)
+                    var ws = await warnings.Skip(page * 15)
                         .Take(15)
                         .ToArray()
-                        .Select(x =>
+                        .Select(async x =>
                         {
                             var all = x.Count();
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
-                            var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
+                            var usr = await ctx.Guild.GetUserAsync(x.Key);
                             return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
-                        });
+                        }).GetResults();
 
-                    return Task.FromResult(new PageBuilder().WithOkColor()
+                    return new PageBuilder().WithOkColor()
                         .WithTitle(GetText("warnings_list"))
-                        .WithDescription(string.Join("\n", ws)));
+                        .WithDescription(string.Join("\n", ws));
                 }
             }
         }

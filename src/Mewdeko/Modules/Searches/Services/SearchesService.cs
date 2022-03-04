@@ -456,10 +456,7 @@ public class SearchesService : INService, IUnloadableService
         foreach (var c in _imageCacher) c.Value?.Clear();
     }
 
-    public bool NsfwCheck(string reddit)
-    {
-        return _nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
-    }
+    public bool NsfwCheck(string reddit) => _nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
 
     public Task<string> GetYomamaJoke()
     {

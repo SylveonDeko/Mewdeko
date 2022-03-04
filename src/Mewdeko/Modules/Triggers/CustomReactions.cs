@@ -169,21 +169,26 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
-                .WithTitle(GetText("custom_reactions"))
-                .WithDescription(string.Join("\n", customReactions.OrderBy(cr => cr.Trigger)
-                    .Skip(page * 20)
-                    .Take(20)
-                    .Select(cr =>
-                    {
-                        var str = $"`#{cr.Id}` {cr.Trigger}";
-                        if (cr.AutoDeleteTrigger) str = "🗑" + str;
-                        if (cr.DmResponse) str = "📪" + str;
-                        var reactions = cr.GetReactions();
-                        if (reactions.Any()) str = str + " // " + string.Join(" ", reactions);
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("custom_reactions"))
+                                                    .WithDescription(string.Join("\n",
+                                                        customReactions.OrderBy(cr => cr.Trigger).Skip(page * 20)
+                                                                       .Take(20).Select(cr =>
+                                                                       {
+                                                                           var str = $"`#{cr.Id}` {cr.Trigger}";
+                                                                           if (cr.AutoDeleteTrigger) str = "🗑" + str;
+                                                                           if (cr.DmResponse) str = "📪" + str;
+                                                                           var reactions = cr.GetReactions();
+                                                                           if (reactions.Any())
+                                                                               str = str
+                                                                                   + " // "
+                                                                                   + string.Join(" ", reactions);
 
-                        return str;
-                    }))));
+                                                                           return str;
+                                                                       })));
+        }
     }
 
 
@@ -215,12 +220,14 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder().WithColor(Mewdeko.OkColor)
-                    .WithTitle(GetText("name"))
-                    .WithDescription(string.Join("\r\n", ordered
-                        .Skip(page * 20)
-                        .Take(20)
-                        .Select(cr => $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`"))));
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                return new PageBuilder().WithColor(Mewdeko.OkColor).WithTitle(GetText("name"))
+                                                        .WithDescription(string.Join("\r\n",
+                                                            ordered.Skip(page * 20).Take(20).Select(cr =>
+                                                                $"**{cr.Key.Trim().ToLowerInvariant()}** `x{cr.Count()}`")));
+            }
         }
     }
 

@@ -147,23 +147,23 @@ public partial class Administration
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+                async Task<PageBuilder> PageFactory(int page)
                 {
                     var rr = rrs.Skip(page).FirstOrDefault();
                     var g = ctx.Guild;
-                    var ch = g.GetTextChannelAsync(rr.ChannelId).Result;
+                    var ch = await g.GetTextChannelAsync(rr.ChannelId);
                     IUserMessage msg = null;
                     if (ch is not null)
                         msg = ch.GetMessageAsync(rr.MessageId).Result as IUserMessage;
                     var eb = new PageBuilder().WithOkColor();
-                    return Task.FromResult(
+                    return
                         eb.AddField("ID", rr.Index + 1).AddField($"Roles ({rr.ReactionRoles.Count})",
                                 string.Join(",",
                                     rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
                             .AddField("Users can select more than one role", !rr.Exclusive)
                             .AddField("Was Deleted?", msg == null ? "Yes" : "No")
                             .AddField("Message Link",
-                                msg == null ? "None, Message was Deleted." : $"[Link]({msg.GetJumpUrl()})"));
+                                msg == null ? "None, Message was Deleted." : $"[Link]({msg.GetJumpUrl()})");
                 }
             }
         }

@@ -142,18 +142,18 @@ public partial class Utility
 
                 await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+                async Task<PageBuilder> PageFactory(int page)
                 {
                     var msg1 = msg.Skip(page).FirstOrDefault();
-                    var user = ctx.Channel.GetUserAsync(msg1.UserId).Result
-                               ?? _client.Rest.GetUserAsync(msg1.UserId).Result;
+                    var user = await ctx.Channel.GetUserAsync(msg1.UserId)
+                               ?? await _client.Rest.GetUserAsync(msg1.UserId);
 
-                    return Task.FromResult(new PageBuilder().WithOkColor()
+                    return new PageBuilder().WithOkColor()
                                                             .WithAuthor(new EmbedAuthorBuilder()
                                                                         .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                                                         .WithName($"{user} said:"))
                                                             .WithDescription(msg1.Message
-                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
                 }
             }
         }
@@ -188,18 +188,18 @@ public partial class Utility
 
                 await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page)
+                async Task<PageBuilder> PageFactory(int page)
                 {
                     var msg1 = msg.Skip(page).FirstOrDefault();
-                    var user = ctx.Channel.GetUserAsync(msg1.UserId).Result
-                               ?? _client.Rest.GetUserAsync(msg1.UserId).Result;
+                    var user = await ctx.Channel.GetUserAsync(msg1.UserId)
+                               ?? await _client.Rest.GetUserAsync(msg1.UserId);
 
-                    return Task.FromResult(new PageBuilder().WithOkColor()
+                    return new PageBuilder().WithOkColor()
                                                             .WithAuthor(new EmbedAuthorBuilder()
                                                                         .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                                                         .WithName($"{user} said:"))
                                                             .WithDescription(msg1.Message
-                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago"));
+                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
                 }
             }
         }

@@ -139,14 +139,12 @@ public partial class Utility
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    return Task.FromResult(new PageBuilder().WithOkColor()
-                        .WithTitle(GetText("alias_list"))
-                        .WithDescription(string.Join("\n",
-                            arr.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`"))));
-                }
+                return new PageBuilder().WithOkColor()
+                                                        .WithTitle(GetText("alias_list"))
+                                                        .WithDescription(string.Join("\n",
+                                                            arr.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
             }
         }
     }
