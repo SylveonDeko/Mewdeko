@@ -141,8 +141,9 @@ public partial class Xp
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var embed = new PageBuilder()
                     .WithOkColor()
                     .WithTitle($"{club}")
@@ -164,18 +165,13 @@ public partial class Xp
                             return x + lvlStr;
                         })));
 
-                if (Uri.IsWellFormedUriString(club.ImageUrl, UriKind.Absolute))
-                    return Task.FromResult(embed.WithThumbnailUrl(club.ImageUrl));
-
-                return Task.FromResult(embed);
+                return Uri.IsWellFormedUriString(club.ImageUrl, UriKind.Absolute) ? embed.WithThumbnailUrl(club.ImageUrl) : embed;
             }
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task ClubBans(int page = 1)
+        public async Task ClubBans()
         {
-            if (--page < 0)
-                return;
 
             var club = Service.GetClubWithBansAndApplications(ctx.User.Id);
             if (club == null)
@@ -199,17 +195,18 @@ public partial class Xp
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var toShow = string.Join("\n", bans
                     .Skip(page * 10)
                     .Take(10)
                     .Select(x => x.ToString()));
 
-                return Task.FromResult(new PageBuilder()
+                return new PageBuilder()
                     .WithTitle(GetText("club_bans_for", club.ToString()))
                     .WithDescription(toShow)
-                    .WithOkColor());
+                    .WithOkColor();
             }
         }
 
@@ -242,17 +239,18 @@ public partial class Xp
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var toShow = string.Join("\n", apps
                     .Skip(page * 10)
                     .Take(10)
                     .Select(x => x.ToString()));
 
-                return Task.FromResult(new PageBuilder()
+                return new PageBuilder()
                     .WithTitle(GetText("club_apps_for", club.ToString()))
                     .WithDescription(toShow)
-                    .WithOkColor());
+                    .WithOkColor();
             }
         }
 

@@ -61,8 +61,9 @@ public partial class Searches
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 var templates = "";
                 foreach (var template in data.Skip(page * 15).Take(15))
                     templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
@@ -70,7 +71,7 @@ public partial class Searches
                     .WithOkColor()
                     .WithDescription(templates);
 
-                return Task.FromResult(embed);
+                return embed;
             }
         }
 

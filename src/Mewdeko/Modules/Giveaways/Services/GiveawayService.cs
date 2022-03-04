@@ -201,7 +201,7 @@ public class GiveawayService : INService
             return;
         }
 
-        var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var emote = r.Emote.ToIEmote();
         if (emote.Name == null)
         {
@@ -356,7 +356,7 @@ public class GiveawayService : INService
             return;
         }
 
-        var uow = _db.GetDbContext();
+        await using var uow = _db.GetDbContext();
         var emote = r.Emote.ToIEmote();
         if (emote.Name == null)
         {

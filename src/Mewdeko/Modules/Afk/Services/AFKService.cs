@@ -56,7 +56,7 @@ public class AfkService : INService
     public async Task CacheAfk()
     {
         {
-            var uow = _db.GetDbContext();
+            await using var uow = _db.GetDbContext();
             var allafk = uow.Afk.GetAll();
             var gconfigs = _bot.AllGuildConfigs;
             foreach (var i in gconfigs.Where(i => allafk.Any(x => x.GuildId == i.GuildId)))

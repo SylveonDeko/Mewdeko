@@ -3,7 +3,6 @@ using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using Mewdeko.Database.Models;
-using Swan.Formatters;
 
 namespace Mewdeko.Services.Impl;
 

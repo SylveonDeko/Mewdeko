@@ -275,12 +275,12 @@ public partial class Gambling
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var embed = new PageBuilder()
-                        .WithTitle(GetText("waifu_gift_shop"))
-                        .WithOkColor();
+                await Task.CompletedTask;
+                var embed = new PageBuilder()
+                            .WithTitle(GetText("waifu_gift_shop"))
+                            .WithOkColor();
 
                     waifuItems
                         .OrderBy(x => x.Price)
@@ -288,8 +288,7 @@ public partial class Gambling
                         .Take(9)
                         .ForEach(x => embed.AddField($"{x.ItemEmoji} {x.Name}", x.Price, true));
 
-                    return Task.FromResult(embed);
-                }
+                    return embed;
             }
         }
 

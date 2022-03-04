@@ -14,7 +14,7 @@ public class HighlightsService : INService, IReadyExecutor
     private readonly DiscordSocketClient _client;
     private readonly IDataCache _cache;
     private readonly DbService _db;
-
+    
 
     public HighlightsService(DiscordSocketClient client, IDataCache cache, DbService db)
     {
