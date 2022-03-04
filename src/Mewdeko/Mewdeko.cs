@@ -311,7 +311,7 @@ public class Mewdeko
             .ConfigureAwait(false);
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync();
-
+#endif
         // start handling messages received in commandhandler
 
 
