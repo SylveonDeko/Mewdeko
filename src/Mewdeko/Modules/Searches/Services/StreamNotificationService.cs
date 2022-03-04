@@ -5,7 +5,6 @@ using System.Net.Http;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
-using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;

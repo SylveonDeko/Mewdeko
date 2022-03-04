@@ -191,8 +191,9 @@ public class Help : MewdekoModuleBase<HelpService>
         await _interactive.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
-        Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             var transformed = groups.Select(x => x.ElementAt(page).Select(x =>
                     $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {"[" + x.Aliases.Skip(1).FirstOrDefault() + "]",-8}"))
                 .FirstOrDefault();
@@ -212,7 +213,7 @@ public class Help : MewdekoModuleBase<HelpService>
                         });
                 }
 
-            return Task.FromResult(new PageBuilder()
+            return new PageBuilder()
                 .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
                     $"```css\n{string.Join("\n", transformed)}\n```")
                 .WithDescription(
@@ -220,7 +221,7 @@ public class Help : MewdekoModuleBase<HelpService>
                     + $"\n✅: You can use this command.\n❌: You cannot use this command."
                     + $"\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)"
                     + $"\nDo `{Prefix}h commandname` to see info on that command")
-                .WithOkColor());
+                .WithOkColor();
         }
     }
 

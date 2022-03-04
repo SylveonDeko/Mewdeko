@@ -47,8 +47,7 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
         }
     }
 
-    private static void EvaluateParam(string name, ParameterArgs args, ICommandContext ctx, IServiceProvider svc)
-    {
+    private static void EvaluateParam(string name, ParameterArgs args, ICommandContext ctx, IServiceProvider svc) =>
         args.Result = name.ToUpperInvariant() switch
         {
             "PI" => Math.PI,
@@ -59,7 +58,6 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
             "MAX" => Max(svc, ctx),
             _ => args.Result
         };
-    }
 
     private static long Cur(IServiceProvider services, ICommandContext ctx)
     {

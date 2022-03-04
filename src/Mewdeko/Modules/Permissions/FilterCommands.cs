@@ -65,10 +65,14 @@ public partial class Permissions
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-                Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                        .WithTitle("AutoBanWords")
-                        .WithDescription(string.Join("\n", words.Select(x => x.Word).Skip(page * 10).Take(10)))
-                        .WithOkColor());
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask;
+                    return new PageBuilder().WithTitle("AutoBanWords")
+                                                            .WithDescription(string.Join("\n",
+                                                                words.Select(x => x.Word).Skip(page * 10).Take(10)))
+                                                            .WithOkColor();
+                }
             }
         }
 
@@ -357,11 +361,14 @@ public partial class Permissions
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) =>
-                Task.FromResult(new PageBuilder()
-                                .WithTitle(GetText("filter_word_list"))
-                                .WithDescription(string.Join("\n", fws.Skip(page * 10).Take(10)))
-                                .WithOkColor());
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                return new PageBuilder().WithTitle(GetText("filter_word_list"))
+                                                        .WithDescription(
+                                                            string.Join("\n", fws.Skip(page * 10).Take(10)))
+                                                        .WithOkColor();
+            }
         }
     }
 }

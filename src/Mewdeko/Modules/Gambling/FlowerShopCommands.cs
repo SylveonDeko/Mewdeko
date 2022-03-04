@@ -44,10 +44,8 @@ public partial class Gambling
             _cs = cs;
         }
 
-        private async Task ShopInternalAsync(int page = 0)
+        private async Task ShopInternalAsync()
         {
-            if (page < 0)
-                throw new ArgumentOutOfRangeException(nameof(page));
 
             await using var uow = _db.GetDbContext();
             var entries = uow.ForGuildId(ctx.Guild.Id,
@@ -64,14 +62,14 @@ public partial class Gambling
 
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page)
+            async Task<PageBuilder> PageFactory(int page)
             {
-                {
-                    var theseEntries = entries.Skip(page * 9).Take(9).ToArray();
+                await Task.CompletedTask;
+                var theseEntries = entries.Skip(page * 9).Take(9).ToArray();
 
                     if (!theseEntries.Any())
-                        return Task.FromResult(new PageBuilder().WithErrorColor()
-                            .WithDescription(GetText("shop_none")));
+                        return new PageBuilder().WithErrorColor()
+                            .WithDescription(GetText("shop_none"));
                     var embed = new PageBuilder().WithOkColor()
                         .WithTitle(GetText("shop", CurrencySign));
 
@@ -84,19 +82,13 @@ public partial class Gambling
                             true);
                     }
 
-                    return Task.FromResult(embed);
+                    return embed;
                 }
-            }
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public Task Shop(int page = 1)
-        {
-            if (--page < 0)
-                return Task.CompletedTask;
-
-            return ShopInternalAsync(page);
-        }
+        public Task Shop() 
+            => ShopInternalAsync();
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Buy(int index)
@@ -368,7 +360,7 @@ public partial class Gambling
             var succ = await Service.ChangeEntryPriceAsync(Context.Guild.Id, index, price);
             if (succ)
             {
-                await ShopInternalAsync(index / 9);
+                await ShopInternalAsync();
                 await ctx.OkAsync();
             }
             else
@@ -387,7 +379,7 @@ public partial class Gambling
             var succ = await Service.ChangeEntryNameAsync(Context.Guild.Id, index, newName);
             if (succ)
             {
-                await ShopInternalAsync(index / 9);
+                await ShopInternalAsync();
                 await ctx.OkAsync();
             }
             else
@@ -406,7 +398,7 @@ public partial class Gambling
             var succ = await Service.SwapEntriesAsync(Context.Guild.Id, index1, index2);
             if (succ)
             {
-                await ShopInternalAsync(index1 / 9);
+                await ShopInternalAsync();
                 await ctx.OkAsync();
             }
             else
@@ -425,7 +417,7 @@ public partial class Gambling
             var succ = await Service.MoveEntryAsync(Context.Guild.Id, fromIndex, toIndex);
             if (succ)
             {
-                await ShopInternalAsync(toIndex / 9);
+                await ShopInternalAsync();
                 await ctx.OkAsync();
             }
             else

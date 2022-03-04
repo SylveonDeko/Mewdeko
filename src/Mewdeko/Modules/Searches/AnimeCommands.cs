@@ -403,16 +403,22 @@ public partial class Searches
             await msg.DeleteAsync();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                    .WithTitle(Format.Bold($"{result.Data.Skip(page).FirstOrDefault()?.Title}"))
-                    .AddField("First Publish Date", result.Data.Skip(page).FirstOrDefault()?.Published!)
-                    .AddField("Volumes", result.Data.Skip(page).FirstOrDefault()?.Volumes!)
-                    .AddField("Is Still Active", result.Data.Skip(page).FirstOrDefault()?.Publishing!)
-                    .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
-                    .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
-                    .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
-                    .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP.MaximumImageUrl!)
-                    .WithColor(Mewdeko.OkColor));
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                return new PageBuilder()
+                                       .WithTitle(Format.Bold($"{result.Data.Skip(page).FirstOrDefault()?.Title}"))
+                                       .AddField("First Publish Date",
+                                           result.Data.Skip(page).FirstOrDefault()?.Published!)
+                                       .AddField("Volumes", result.Data.Skip(page).FirstOrDefault()?.Volumes!)
+                                       .AddField("Is Still Active",
+                                           result.Data.Skip(page).FirstOrDefault()?.Publishing!)
+                                       .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
+                                       .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
+                                       .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
+                                       .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP
+                                                           .MaximumImageUrl!).WithColor(Mewdeko.OkColor);
+            }
         }
     }
 }

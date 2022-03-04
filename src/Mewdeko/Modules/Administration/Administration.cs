@@ -97,10 +97,16 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                    .WithTitle(
-                        $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                    .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20))));
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                return new PageBuilder()
+                       .WithTitle(
+                           $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                       .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
+            }
+
+            ;
         }
 
         var banned = 0;
@@ -154,10 +160,14 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                 .Build();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-            Task<PageBuilder> PageFactory(int page) => Task.FromResult(new PageBuilder()
-                    .WithTitle(
-                        $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
-                    .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20))));
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask;
+                return new PageBuilder()
+                                       .WithTitle(
+                                           $"Previewing {guildUsers.Length} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
+                                       .WithDescription(string.Join("\n", guildUsers.Skip(page * 20).Take(20)));
+            }
         }
 
         var banned = 0;
