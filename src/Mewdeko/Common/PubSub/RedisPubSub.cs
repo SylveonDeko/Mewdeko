@@ -4,6 +4,7 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Common.PubSub;
 
+
 public sealed class RedisPubSub : IPubSub
 {
     private readonly IBotCredentials _creds;
@@ -18,29 +19,37 @@ public sealed class RedisPubSub : IPubSub
     }
 
     public Task Pub<TData>(in TypedKey<TData> key, TData data)
+        where TData : notnull
     {
         var serialized = _serializer.Serialize(data);
         return _multi.GetSubscriber()
-            .PublishAsync($"{_creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
+                     .PublishAsync($"{_creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
     }
 
     public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
+        where TData : notnull
     {
         var eventName = key.Key;
 
-        async void Handler(RedisChannel ch, RedisValue data)
+        async void OnSubscribeHandler(RedisChannel _, RedisValue data)
         {
             try
             {
                 var dataObj = _serializer.Deserialize<TData>(data);
-                await action(dataObj);
+                if (dataObj is not null)
+                    await action(dataObj);
+                else
+                {
+                    Log.Warning("Publishing event {EventName} with a null value. This is not allowed",
+                        eventName);
+                }
             }
             catch (Exception ex)
             {
-                Log.Error($"Error handling the event {eventName}: {ex.Message}");
+                Log.Error("Error handling the event {EventName}: {ErrorMessage}", eventName, ex.Message);
             }
         }
 
-        return _multi.GetSubscriber().SubscribeAsync($"{_creds.RedisKey()}:{eventName}", Handler);
+        return _multi.GetSubscriber().SubscribeAsync($"{_creds.RedisKey()}:{eventName}", OnSubscribeHandler);
     }
 }

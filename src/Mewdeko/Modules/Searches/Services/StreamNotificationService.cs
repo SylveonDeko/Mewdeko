@@ -1,10 +1,11 @@
 #nullable disable
 using Discord;
 using Discord.WebSocket;
-using System.Net.Http;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Collections;
+using Microsoft.EntityFrameworkCore;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
@@ -14,14 +15,14 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.strings;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 using StackExchange.Redis;
+using System.Net.Http;
 using System.Threading;
 
 namespace Mewdeko.Modules.Searches.Services;
 
-public sealed class StreamNotificationService : INService
+public class StreamNotificationService : IReadyExecutor, INService
 {
     private readonly DbService _db;
     private readonly IBotStrings _strings;
@@ -43,6 +44,7 @@ public sealed class StreamNotificationService : INService
 
     private readonly TypedKey<FollowStreamPubData> _streamFollowKey;
     private readonly TypedKey<FollowStreamPubData> _streamUnfollowKey;
+
 
     public StreamNotificationService(
         DbService db,
@@ -129,7 +131,6 @@ public sealed class StreamNotificationService : INService
 
         bot.JoinedGuild += ClientOnJoinedGuild;
         client.LeftGuild += ClientOnLeftGuild;
-        _ = OnReadyAsync();
     }
 
     public async Task OnReadyAsync()
@@ -282,8 +283,11 @@ public sealed class StreamNotificationService : INService
         }
     }
 
+
+
     private Task OnStreamsOnline(List<StreamData> data)
         => _pubSub.Pub(_streamsOnlineKey, data);
+
 
     private Task OnStreamsOffline(List<StreamData> data)
         => _pubSub.Pub(_streamsOfflineKey, data);
@@ -336,16 +340,17 @@ public sealed class StreamNotificationService : INService
 
     public async Task<int> ClearAllStreams(ulong guildId)
     {
+        int removedCount;
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set.Include(x => x.FollowedStreams));
         uow.RemoveRange(gc.FollowedStreams);
-
+        removedCount = gc.FollowedStreams.Count;
         foreach (var s in gc.FollowedStreams)
             await PublishUnfollowStream(s);
 
-        uow.SaveChanges();
+        await uow.SaveChangesAsync();
 
-        return gc.FollowedStreams.Count;
+        return removedCount;
     }
 
     public async Task<FollowedStream> UnfollowStreamAsync(ulong guildId, int index)
@@ -420,7 +425,7 @@ public sealed class StreamNotificationService : INService
                 GuildId = guildId
             };
 
-            if (gc.FollowedStreams.Count >= 40)
+            if (gc.FollowedStreams.Count >= 10)
                 return null;
 
             gc.FollowedStreams.Add(fs);
@@ -436,9 +441,8 @@ public sealed class StreamNotificationService : INService
                 streams.Add(fs);
             }
         }
-
+    
         PublishFollowStream(fs);
-
         return data;
     }
 
@@ -471,8 +475,8 @@ public sealed class StreamNotificationService : INService
         return embed;
     }
 
-
-    private string GetText(ulong guildId, string key, params object[] replacements) => _strings.GetText(key, guildId, replacements);
+    private string GetText(ulong guildId, string key, params object[] replacements) 
+        => _strings.GetText(key, guildId, replacements);
 
     public bool ToggleStreamOffline(ulong guildId)
     {
@@ -562,5 +566,4 @@ public sealed class StreamNotificationService : INService
         public StreamDataKey Key { get; init; }
         public ulong GuildId { get; init; }
     }
-
 }
