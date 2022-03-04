@@ -98,7 +98,7 @@ public class Help : MewdekoModuleBase<HelpService>
     {
         var embed = new EmbedBuilder();
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
-            .WithName("Mewdeko Help Menu"));
+            .WithName($"{ctx.Client.CurrentUser.Username} Help Menu"));
         embed.WithColor(Mewdeko.OkColor);
         embed.WithDescription(
             $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk");
@@ -124,10 +124,8 @@ public class Help : MewdekoModuleBase<HelpService>
             $"\n>  `{Prefix}cmds Custom Reactions`" + 
             $"\n>  `{Prefix}cmds Giveaways`" + 
             $"\n>  `{Prefix}cmds MultiGreet`" +
-            $"\n> `{Prefix}cmds Highlights",
-            true);
-        embed.AddField(" Links",
-            "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
+            $"\n> `{Prefix}cmds Highlights`",
+            true); 
         await ctx.Channel.SendMessageAsync(embed: embed.Build());
     }
 
@@ -219,7 +217,6 @@ public class Help : MewdekoModuleBase<HelpService>
                 .WithDescription(
                     $"<:Nekoha_Hmm:866320787865731093>: Your current prefix is {Format.Code(Prefix)}"
                     + $"\n✅: You can use this command.\n❌: You cannot use this command."
-                    + $"\n<:Nekoha_Oooo:866320687810740234>: If you need any help don't hesitate to join [The Support Server](https://discord.gg/wB9FBMreRk)"
                     + $"\nDo `{Prefix}h commandname` to see info on that command")
                 .WithOkColor();
         }
