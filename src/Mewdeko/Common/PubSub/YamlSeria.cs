@@ -7,8 +7,8 @@ namespace Mewdeko.Common.PubSub;
 
 public class YamlSeria : IConfigSeria
 {
-    private static readonly Regex _codePointRegex
-        = new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
+    private static readonly Regex _codePointRegex =
+        new(@"(\\U(?<code>[a-zA-Z0-9]{8})|\\u(?<code>[a-zA-Z0-9]{4})|\\x(?<code>[a-zA-Z0-9]{2}))",
             RegexOptions.Compiled);
 
     private readonly IDeserializer _deserializer;
@@ -21,16 +21,20 @@ public class YamlSeria : IConfigSeria
     }
 
     public string Serialize<T>(T obj)
+        where T : notnull
     {
         var escapedOutput = _serializer.Serialize(obj);
-        var output = _codePointRegex.Replace(escapedOutput, me =>
-        {
-            var str = me.Groups["code"].Value;
-            var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
-            return newString;
-        });
+        var output = _codePointRegex.Replace(escapedOutput,
+            me =>
+            {
+                var str = me.Groups["code"].Value;
+                var newString = YamlHelper.UnescapeUnicodeCodePoint(str);
+                return newString;
+            });
         return output;
     }
 
-    public T Deserialize<T>(string data) => _deserializer.Deserialize<T>(data);
+    public T Deserialize<T>(string data)
+        => _deserializer.Deserialize<T>(data);
+
 }

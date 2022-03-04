@@ -10,7 +10,7 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Services.Impl;
 
-public sealed class RedisImagesCache : IImageCache, IReadyExecutor
+public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 {
     private readonly ConnectionMultiplexer _con;
         private readonly IBotCredentials _creds;
