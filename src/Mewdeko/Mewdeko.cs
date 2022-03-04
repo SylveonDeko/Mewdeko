@@ -339,7 +339,7 @@ public class Mewdeko
 #if  !DEBUG
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync();
-
+#endif
         // start handling messages received in commandhandler
 
 
