@@ -136,6 +136,8 @@ public class MusicService : INService
                         var addedcount = 0;
                         foreach (var track in items.Select(i => i.Track as FullTrack))
                         {
+                            if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
+                                return;
                             var lavaTrack = await _lavaNode.GetTrackAsync(
                                 $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}", SearchMode.YouTube);
                             if (lavaTrack is null) continue;
@@ -187,6 +189,8 @@ public class MusicService : INService
                         var addedcount = 0;
                         foreach (var track in items)
                         {
+                            if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
+                                return;
                             var lavaTrack = await _lavaNode.GetTrackAsync(
                                 $"{track.Name} {track.Artists.FirstOrDefault()?.Name}");
                             if (lavaTrack is null) continue;
@@ -234,8 +238,10 @@ public class MusicService : INService
 
                     var lavaTrack3 = await _lavaNode.GetTrackAsync(
                         $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}");
+                    if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
+                        return;
                     await Enqueue(guild.Id, user, lavaTrack3, Platform.Spotify);
-                    if (player.State != PlayerState.Playing)
+                    if (player.State != PlayerState.Playing )
                     {
                         await player.PlayAsync(lavaTrack3);
                         await player.SetVolumeAsync(GetVolume(guild.Id) / 100.0F);
