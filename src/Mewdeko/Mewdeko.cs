@@ -120,6 +120,7 @@ public class Mewdeko
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
                 .AddSingleton<InteractionService>()
+                .AddSingleton<Localization>()
                 .AddSingleton<MusicService>()
                 .AddConfigServices()
                 .AddBotStringsServices(Credentials.TotalShards)
@@ -149,6 +150,19 @@ public class Mewdeko
             s.AddSingleton<RemoteGrpcCoordinator>()
                 .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
                 .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
+        
+        s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
+                                  .AddClasses(classes => classes.AssignableToAny(
+                                      // services
+                                      typeof(INService),
+                                      // behaviours
+                                      typeof(IEarlyBehavior),
+                                      typeof(ILateBlocker),
+                                      typeof(IInputTransformer),
+                                      typeof(ILateExecutor))).AsSelfWithInterfaces()
+                                  .WithSingletonLifetime()
+        );
+
 
         s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
 
@@ -314,7 +328,14 @@ public class Mewdeko
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
         var lava = Services.GetRequiredService<LavalinkNode>();
-        await lava.InitializeAsync();
+        try
+        {
+            await lava.InitializeAsync();
+        }
+        catch
+        {
+            Log.Information("Unable to connect to lavalink. If you want music please launch tha lavalink binary separately.");
+        }
 #if  !DEBUG
         if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync();
@@ -334,7 +355,7 @@ public class Mewdeko
 
     private Task ExecuteReadySubscriptions()
     {
-        var readyExecutors = Services.GetServices<IReadyExecutor>();
+       var readyExecutors = Services.GetServices<IReadyExecutor>();
         var tasks = readyExecutors.Select(async toExec =>
         {
             try
@@ -343,12 +364,15 @@ public class Mewdeko
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed running OnReadyAsync method on {Type} type: {Message}",
-                    toExec.GetType().Name, ex.Message);
+                Log.Error(ex,
+                    "Failed running OnReadyAsync method on {Type} type: {Message}",
+                    toExec.GetType().Name,
+                    ex.Message);
             }
         });
 
-        return Task.WhenAll(tasks);
+        return tasks.WhenAll();
+
     }
 
     private static Task Client_Log(LogMessage arg)

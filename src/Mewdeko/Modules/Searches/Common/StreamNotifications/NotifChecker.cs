@@ -163,7 +163,7 @@ public class NotifChecker
         });
 
 
-     public bool CacheAddData(StreamDataKey key, StreamData? data, bool replace)
+     public bool CacheAddData(StreamDataKey key, StreamData data, bool replace)
      {
          var db = _multi.GetDatabase();
          return db.HashSet(_key,
@@ -192,7 +192,7 @@ public class NotifChecker
             return new();
 
         return db.HashGetAll(_key).ToDictionary(entry => JsonConvert.DeserializeObject<StreamDataKey>(entry.Name),
-            entry => entry.Value.IsNullOrEmpty ? default : JsonConvert.DeserializeObject<StreamData>(entry.Value));
+            entry => entry.Value.IsNullOrEmpty ? default : JsonConvert.DeserializeObject<StreamData?>(entry.Value));
     }
 
 

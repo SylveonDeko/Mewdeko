@@ -59,7 +59,7 @@ public partial class Searches
 
             await Xkcd(new MewdekoRandom().Next(1, 1750)).ConfigureAwait(false);
         }
-
+    
         [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
         public async Task Xkcd(int num)
         {
