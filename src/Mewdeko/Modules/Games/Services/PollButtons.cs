@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Games.Services;
 
 public class PollButtons : MewdekoSlashCommandModule
 {
-    public readonly PollService PollService;
+    private readonly PollService PollService;
 
     public PollButtons(PollService pollService) 
         => PollService = pollService;
@@ -16,7 +16,7 @@ public class PollButtons : MewdekoSlashCommandModule
     [ComponentInteraction("pollbutton:*")]
     public async Task Pollbutton(string num)
     {
-        var (allowed, type) = await PollService.TryVote(ctx.Guild, int.Parse(num), ctx.User);
+        var (allowed, type) = await PollService.TryVote(ctx.Guild, int.Parse(num)-1, ctx.User);
         switch (type)
         {
             case PollType.PollEnded:
