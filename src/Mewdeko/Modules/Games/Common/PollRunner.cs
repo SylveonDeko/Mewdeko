@@ -19,40 +19,47 @@ public class PollRunner
     }
 
     public Poll Poll { get; }
+    
 
-    public event Func<IUserMessage, IGuildUser, Task> OnVoted;
-
-    public async Task<bool> TryVote(IUserMessage? msg)
+    public async Task<(bool allowed, PollType type)> TryVote(int num, IUser user)
     {
         PollVote voteObj;
         await _locker.WaitAsync().ConfigureAwait(false);
         try
         {
-            // has to be a user message
-            // channel must be the same the poll started in
-            if (msg == null || msg.Author.IsBot || msg.Channel.Id != Poll.ChannelId)
-                return false;
 
-            // has to be an integer
-            if (!int.TryParse(msg.Content, out var vote))
-                return false;
-            --vote;
-            if (vote < 0 || vote >= Poll.Answers.Count)
-                return false;
-
-            var usr = msg.Author as IGuildUser;
-            if (usr == null)
-                return false;
 
             voteObj = new PollVote
             {
-                UserId = msg.Author.Id,
-                VoteIndex = vote
+                UserId = user.Id,
+                VoteIndex = num
             };
-            if (!Poll.Votes.Add(voteObj))
-                return false;
-
-            var _ = OnVoted?.Invoke(msg, usr);
+            var voteCheck = Poll.Votes.FirstOrDefault(x => x.UserId == user.Id && x.VoteIndex == num) == null;
+            switch (Poll.PollType)
+            {
+                case PollType.SingleAnswer when !Poll.Votes.Contains(voteObj):
+                    Poll.Votes.Add(voteObj);
+                    return (true, PollType.SingleAnswer);
+                
+                case PollType.SingleAnswer:
+                    return (false, PollType.SingleAnswer);
+                
+                case PollType.AllowChange when voteCheck:
+                    Poll.Votes.Remove(Poll.Votes.FirstOrDefault(x => x.UserId == user.Id));
+                    Poll.Votes.Add(voteObj);
+                    return (true, PollType.AllowChange);
+                
+                case PollType.AllowChange when !voteCheck:
+                    return (false, PollType.AllowChange);
+                
+                case PollType.MultiAnswer when !voteCheck:
+                    Poll.Votes.Remove(voteObj);
+                    return (false, PollType.MultiAnswer);
+                
+                case PollType.MultiAnswer when voteCheck:
+                    Poll.Votes.Add(voteObj);
+                    return (true, PollType.MultiAnswer);
+            }
         }
         finally
         {
@@ -64,8 +71,6 @@ public class PollRunner
         trackedPoll.Votes.Add(voteObj);
         await uow.SaveChangesAsync();
 
-        return true;
+        return (true, Poll.PollType);
     }
-
-    public void End() => OnVoted = null;
 }
