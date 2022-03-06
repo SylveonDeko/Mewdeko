@@ -238,7 +238,7 @@ public class AdministrationService : INService
             await umsg.ModifyAsync(x =>
             {
                 x.Embed = embed?.Build();
-                x.Content = plainText.SanitizeMentions() ?? "";
+                x.Content = plainText?.SanitizeMentions();
             }).ConfigureAwait(false);
         }
         else
