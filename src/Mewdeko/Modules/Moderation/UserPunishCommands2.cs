@@ -238,6 +238,7 @@ public partial class Moderation
 
             async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 {
                     var ws = warnings.Skip(page * 15)
                         .Take(15)

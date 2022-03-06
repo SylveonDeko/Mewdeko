@@ -207,6 +207,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         
         async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             return new PageBuilder().WithOkColor()
                                     .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
                                     .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20)));
