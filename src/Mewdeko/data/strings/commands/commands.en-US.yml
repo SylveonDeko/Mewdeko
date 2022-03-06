@@ -102,6 +102,48 @@ multigreetdelete:
   args:
     - "1s"
     - "1"
+rolegreetadd:
+  desc: "Adds a role to RoleGreets. Uses the current or mentioned channel to greet. 10 per guild,"
+  args:
+    - "@role"
+    - "@role #channel"
+rolegreetremove:
+  desc: "Removes a MultiGreet channel using the ID in {0}rgl. Can also remove all RoleGreets for a mentioned role."
+  args:
+    - "1"
+    - "@role"
+rolegreetlist:
+  desc: "Lists all RoleGreets and their properties."
+  args:
+    - ""
+rolegreetmessage:
+  desc: "Gets or sets a roleGreet message for a given RoleGreet ID. To set a custom embed use https://eb.mewdeko.tech together with https://mewdeko.tech/placeholders"
+  args:
+    - "2"
+    - "2 embedcode/message"
+rolegreetwebhook:
+  desc: "Allows you to set/update/remove a RoleGreet name and avatar. Put just the RoleGreet ID to remove the webhook. Avatar is optional, but must be a direct url to the img used."
+  args:
+    - "26 Mewdeko avatarurl"
+    - "26 Mewdeko"
+    - "26"
+rolegreetdelete:
+  desc: "Sets after how much time a RoleGreet is deleted. You can either use seconds directly or format it like 2m2s. Setting it to 0 disables deletion. Default is 0."
+  args:
+    - "1s"
+    - "1"
+rolegreetdisable:
+  desc: "Disables a RoleGreet by Id"
+  args:
+    - "1"
+rolegreetgreetbots:
+  desc: "Sets whether a RoleGreet will also greet bots."
+  args:
+    - "1 false"
+multigreetgreetbots:
+  desc: "Sets whether a RoleGreet will also greet bots."
+  args:
+    - "1 false"
 unmuteall:
   desc: "Unmutes all users with an optional reason."
   args:

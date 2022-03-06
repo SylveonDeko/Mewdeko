@@ -38,6 +38,7 @@ public class MewdekoContext : DbContext
     public DbSet<Reminder> Reminders { get; set; }
     public DbSet<Confessions> Confessions { get; set; }
     public DbSet<SelfAssignedRole> SelfAssignableRoles { get; set; }
+    public DbSet<RoleGreet> RoleGreets { get; set; }
     public DbSet<Highlights> Highlights { get; set; }
     public DbSet<HighlightSettings> HighlightSettings { get; set; }
     public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
