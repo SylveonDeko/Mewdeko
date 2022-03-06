@@ -10,157 +10,142 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.Extensions;
-using Mewdeko.Modules.MultiGreets.Services;
+using Mewdeko.Modules.RoleGreets.Services;
 using System.Net.Http;
 
-namespace Mewdeko.Modules.MultiGreets;
+namespace Mewdeko.Modules.RoleGreets;
 
-public class MultiGreets : MewdekoModuleBase<MultiGreetService>
+public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 {
-    private InteractiveService interactivity;
+    private readonly InteractiveService _interactivity;
 
-    public MultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
+    public RoleGreets(InteractiveService interactivity) => _interactivity = interactivity;
 
-    public enum MultiGreetTypes
-    {
-        MultiGreet,
-        RandomGreet,
-        Off
-    }
-    
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetAdd ([Remainder] ITextChannel? channel = null)
+    public async Task RoleGreetAdd (IRole role, [Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
-        var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
+        var added = Service.AddRoleGreet(ctx.Guild.Id, channel.Id, role.Id);
         switch (added)
         {
             case true:
-                await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} as a MultiGreet channel!");
+                await ctx.Channel.SendConfirmAsync($"Added {role.Mention} to greet in {channel.Mention}!");
                 break;
             case false:
                 await ctx.Channel.SendErrorAsync(
-                    "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again");
+                    "Seems like you reached your maximum of 10 RoleGreets! Please remove one to continue.");
                 break;
         }
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetRemove (int id)
+    public async Task RoleGreetRemove (int id)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No greet with that ID found!");
             return;
         }
 
-        await Service.RemoveMultiGreetInternal(greet);
-        await ctx.Channel.SendConfirmAsync("MultiGreet removed!");
+        await Service.RemoveRoleGreetInternal(greet);
+        await ctx.Channel.SendConfirmAsync("RoleGreet removed!");
     }
-
+    
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetRemove ([Remainder]ITextChannel channel)
+    public async Task RoleGreetRemove ([Remainder]IRole role)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).Where(x => x.ChannelId == channel.Id);
+        var greet = Service.GetListGreets(ctx.Guild.Id).Where(x => x.RoleId == role.Id);
         if (!greet.Any())
         {
-            await ctx.Channel.SendErrorAsync("There are no greets in that channel!");
+            await ctx.Channel.SendErrorAsync("There are no greets for that role!");
             return;
         }
 
-        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all MultiGreets for this channel?"), ctx.User.Id))
+        if (await PromptUserConfirmAsync(new EmbedBuilder().WithOkColor().WithDescription("Are you sure you want to remove all RoleGreets for this role?"), ctx.User.Id))
         {
-            await Service.MultiRemoveMultiGreetInternal(greet.ToArray());
-            await ctx.Channel.SendConfirmAsync("MultiGreets removed!");
+            await Service.MultiRemoveRoleGreetInternal(greet.ToArray());
+            await ctx.Channel.SendConfirmAsync("RoleGreets removed!");
         }
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, StoopidTime time)
+    public async Task RoleGreetDelete (int id, StoopidTime time)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
             return;
         }
 
-        await Service.ChangeMgDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
+        await Service.ChangeRgDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
         await ctx.Channel.SendConfirmAsync(
-            $"Successfully updated MultiGreet #{id} to delete after {time.Time.Humanize()}.");
+            $"Successfully updated RoleGreet #{id} to delete after {time.Time.Humanize()}.");
 
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, ulong howlong)
+    public async Task RoleGreetDelete(int id, ulong howlong)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
             return;
         }
         
-        await Service.ChangeMgDelete(greet, howlong);
+        await Service.ChangeRgDelete(greet, howlong);
         if (howlong > 0)
             await ctx.Channel.SendConfirmAsync(
-                $"Successfully updated MultiGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
+                $"Successfully updated RoleGreet #{id} to delete after {TimeSpan.FromSeconds(howlong).Humanize()}.");
         else
-            await ctx.Channel.SendConfirmAsync($"MultiGreet #{id} will no longer delete.");
+            await ctx.Channel.SendConfirmAsync($"RoleGreet #{id} will no longer delete.");
 
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetType(MultiGreetTypes types)
+    public async Task RoleGreetGreetBots(int num, bool enabled)
     {
-        switch (types)
-        {
-            case MultiGreetTypes.MultiGreet:
-                await Service.SetMultiGreetType(ctx.Guild, 0);
-                await ctx.Channel.SendConfirmAsync("Regular MultiGreet enabled!");
-                break;
-            case MultiGreetTypes.RandomGreet:
-                await Service.SetMultiGreetType(ctx.Guild, 1);
-                await ctx.Channel.SendConfirmAsync("RandomGreet enabled!");
-                break;
-            case MultiGreetTypes.Off:
-                await Service.SetMultiGreetType(ctx.Guild, 3);
-                await ctx.Channel.SendConfirmAsync("MultiGreets Disabled!");
-                break;
-        }
-    }
-
-    [MewdekoCommand, Alias, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetGreetBots(int num, bool enabled)
-    {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num-1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!");
+            await ctx.Channel.SendErrorAsync("That RoleGreet does not exist!");
             return;
         }
-
-        await Service.ChangeMgGb(greet, enabled);
-        await ctx.Channel.SendConfirmAsync($"MultiGreet {num} GreetBots set to {enabled}");
+        await Service.ChangeRgGb(greet, enabled);
+        await ctx.Channel.SendConfirmAsync($"RoleGreet {num} GreetBots set to {enabled}");
     }
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageWebhooks)]
-    public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
+    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    public async Task RoleGreetDisable(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(num-1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Channel.SendErrorAsync("That RoleGreet does not exist!");
+            return;
+        }
+        await Service.RoleGreetDisable(greet, enabled);
+        await ctx.Channel.SendConfirmAsync($"RoleGreet {num} set to {enabled}");
+    }
+
+    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
+     RequireBotPermission(GuildPermission.ManageWebhooks)]
+    public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
+    {
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
+        if (greet is null)
+        {
+            await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
             return;
         }
 
         if (name is null)
         {
             await Service.ChangeMgWebhook(greet, null);
-            await ctx.Channel.SendConfirmAsync($"Webhook disabled for MultiGreet #{id}!");
+            await ctx.Channel.SendConfirmAsync($"Webhook disabled for RoleGreet #{id}!");
             return;
         }
         var channel = await ctx.Guild.GetTextChannelAsync(greet.ChannelId);
@@ -190,12 +175,12 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetMessage(int id, [Remainder]string? message = null)
+    public async Task RoleGreetMessage(int id, [Remainder]string? message = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
+        var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!");
+            await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!");
             return;
         }
         if (message is null)
@@ -228,16 +213,16 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             }
         }
         await Service.ChangeMgMessage(greet, message);
-        await ctx.Channel.SendConfirmAsync($"MultiGreet Message for MultiGreet #{id} set!");
+        await ctx.Channel.SendConfirmAsync($"RoleGreet Message for RoleGreet #{id} set!");
     }
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-    public async Task MultiGreetList()
+    public async Task RoleGreetList()
     {
-        var greets = Service.GetGreets(ctx.Guild.Id);
+        var greets = Service.GetListGreets(ctx.Guild.Id);
         if (!greets.Any())
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreets setup!");
+            await ctx.Channel.SendErrorAsync("No RoleGreets setup!");
         }
         var paginator = new LazyPaginatorBuilder()
                         .AddUser(ctx.User)
@@ -247,15 +232,17 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
                         .WithDefaultEmotes()
                         .Build();
 
-        await interactivity.SendPaginatorAsync(paginator, Context.Channel,
+        await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
             TimeSpan.FromMinutes(60));
 
         async Task<PageBuilder> PageFactory(int page)
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
             return new PageBuilder().WithDescription($"#{Array.IndexOf(greets, curgreet) + 1}"
+                                                            + $"\n`Role:` {ctx.Guild.GetRole(curgreet.RoleId).Mention} `{curgreet.RoleId}`"
                                                             + $"\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}"
                                                             + $"\n`Delete After:` {curgreet.DeleteTime}s"
+                                                            + $"\n`Disabled:` {curgreet.Disabled}"
                                                             + $"\n`Webhook:` {curgreet.WebhookUrl != null}"
                                                             + $"\n`Greet Bots:` {curgreet.GreetBots}"
                                                             + $"\n`Message:` {curgreet.Message.TrimTo(1000)}")
