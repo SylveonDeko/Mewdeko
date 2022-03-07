@@ -1,5 +1,4 @@
 ﻿using Discord.Interactions;
-using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Database.Models;
