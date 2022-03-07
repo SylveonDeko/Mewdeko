@@ -343,9 +343,13 @@ public partial class Moderation : MewdekoModule
          UserPerm(GuildPermission.BanMembers)]
         public async Task WarnPunish(int number, PunishmentAction punish, StoopidTime? time = null)
         {
-            // this should never happen. Addrole has its own method with higher priority
-            if (punish == PunishmentAction.AddRole)
-                return;
+            switch (punish)
+            {
+                // this should never happen. Addrole has its own method with higher priority
+                case PunishmentAction.AddRole:
+                case PunishmentAction.Warn:
+                    return;
+            }
 
             var success = Service.WarnPunish(ctx.Guild.Id, number, punish, time);
 
