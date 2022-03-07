@@ -1,5 +1,4 @@
-﻿using Mewdeko.Database.Models;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations;
 

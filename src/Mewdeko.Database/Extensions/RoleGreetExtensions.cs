@@ -1,7 +1,5 @@
-﻿using LinqToDB;
-using Mewdeko.Database.Models;
+﻿using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace Mewdeko.Database.Extensions;
 
