@@ -14,10 +14,6 @@ namespace Mewdeko.Services.Impl;
 
 public class GoogleApiService : IGoogleApiService
 {
-    private const string SEARCH_ENGINE_ID = "018084019232060951019:hs5piey28-e";
-
-    private static readonly Regex _plRegex =
-        new("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
     private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
