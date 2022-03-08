@@ -48,7 +48,7 @@ public class CommandOrCrTypeReader : MewdekoTypeReader<CommandOrCrInfo>
 
         var crs = services.GetService<CustomReactionsService>();
 
-        Debug.Assert(crs != null, nameof(crs) + " != null");
+        Debug.Assert(crs != null, $"{nameof(crs)} != null");
         if (crs.ReactionExists(context.Guild?.Id, input))
             return TypeReaderResult.FromSuccess(new CommandOrCrInfo(input, CommandOrCrInfo.Type.Custom));
 

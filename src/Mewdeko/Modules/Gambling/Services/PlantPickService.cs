@@ -205,10 +205,8 @@ public class PlantPickService : INService
                     {
                         var prefix = _cmdHandler.GetPrefix(channel.Guild.Id);
                         var toSend = dropAmount == 1
-                            ? GetText(channel.GuildId, "curgen_sn", config.Currency.Sign)
-                              + " " + GetText(channel.GuildId, "pick_sn", prefix)
-                            : GetText(channel.GuildId, "curgen_pl", dropAmount, config.Currency.Sign)
-                              + " " + GetText(channel.GuildId, "pick_pl", prefix);
+                            ? $"{GetText(channel.GuildId, "curgen_sn", config.Currency.Sign)} {GetText(channel.GuildId, "pick_sn", prefix)}"
+                            : $"{GetText(channel.GuildId, "curgen_pl", dropAmount, config.Currency.Sign)} {GetText(channel.GuildId, "pick_pl", prefix)}";
 
                         var pw = config.Generation.HasPassword
                             ? GenerateCurrencyPassword().ToUpperInvariant()
@@ -316,9 +314,9 @@ public class PlantPickService : INService
                 prefix);
 
             if (amount > 1)
-                msgToSend += " " + GetText(gid, "pick_pl", prefix);
+                msgToSend += $" {GetText(gid, "pick_pl", prefix)}";
             else
-                msgToSend += " " + GetText(gid, "pick_sn", prefix);
+                msgToSend += $" {GetText(gid, "pick_sn", prefix)}";
 
             //get the image
             await using var stream = GetRandomCurrencyImage(pass, out var ext);

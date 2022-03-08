@@ -171,9 +171,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             await Service.GetRipPictureAsync(usr.Nickname ?? usr.Username, av).ConfigureAwait(false);
         await ctx.Channel.SendFileAsync(
                 picStream,
-                "rip.png",
-                $"Rip {Format.Bold(usr.ToString())} \n\t- " +
-                Format.Italics(ctx.User.ToString()))
+                "rip.png", $"Rip {Format.Bold(usr.ToString())} \n\t- {Format.Italics(ctx.User.ToString())}")
             .ConfigureAwait(false);
     }
 
@@ -235,35 +233,35 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             var timezone = $"UTC{sunrise:zzz}";
 
             embed.AddField(fb =>
-                    fb.WithName("🌍 " + Format.Bold(GetText("location")))
+                    fb.WithName($"🌍 {Format.Bold(GetText("location"))}")
                         .WithValue(
-                            $"[{data.Name + ", " + data.Sys.Country}](https://openweathermap.org/city/{data.Id})")
+                            $"[{$"{data.Name}, {data.Sys.Country}"}](https://openweathermap.org/city/{data.Id})")
                         .WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("📏 " + Format.Bold(GetText("latlong")))
+                    fb.WithName($"📏 {Format.Bold(GetText("latlong"))}")
                         .WithValue($"{data.Coord.Lat}, {data.Coord.Lon}").WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("☁ " + Format.Bold(GetText("condition")))
+                    fb.WithName($"☁ {Format.Bold(GetText("condition"))}")
                         .WithValue(string.Join(", ", data.Weather.Select(w => w.Main))).WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("😓 " + Format.Bold(GetText("humidity"))).WithValue($"{data.Main.Humidity}%")
+                    fb.WithName($"😓 {Format.Bold(GetText("humidity"))}").WithValue($"{data.Main.Humidity}%")
                         .WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("💨 " + Format.Bold(GetText("wind_speed"))).WithValue(data.Wind.Speed + " m/s")
+                    fb.WithName($"💨 {Format.Bold(GetText("wind_speed"))}").WithValue($"{data.Wind.Speed} m/s")
                         .WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("🌡 " + Format.Bold(GetText("temperature")))
+                    fb.WithName($"🌡 {Format.Bold(GetText("temperature"))}")
                         .WithValue($"{data.Main.Temp:F1}°C / {f(data.Main.Temp):F1}°F").WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("🔆 " + Format.Bold(GetText("min_max")))
+                    fb.WithName($"🔆 {Format.Bold(GetText("min_max"))}")
                         .WithValue(
                             $"{data.Main.TempMin:F1}°C - {data.Main.TempMax:F1}°C\n{f(data.Main.TempMin):F1}°F - {f(data.Main.TempMax):F1}°F")
                         .WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("🌄 " + Format.Bold(GetText("sunrise"))).WithValue($"{sunrise:HH:mm} {timezone}")
+                    fb.WithName($"🌄 {Format.Bold(GetText("sunrise"))}").WithValue($"{sunrise:HH:mm} {timezone}")
                         .WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName("🌇 " + Format.Bold(GetText("sunset"))).WithValue($"{sunset:HH:mm} {timezone}")
+                    fb.WithName($"🌇 {Format.Bold(GetText("sunset"))}").WithValue($"{sunset:HH:mm} {timezone}")
                         .WithIsInline(true))
                 .WithOkColor()
                 .WithFooter(efb =>
@@ -446,10 +444,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         if (!await ValidateQuery(ctx.Channel, ffs).ConfigureAwait(false))
             return;
 
-        await ctx.Channel.SendConfirmAsync("<" +
-                                           await _google
-                                               .ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs!)}")
-                                               .ConfigureAwait(false) + ">")
+        await ctx.Channel.SendConfirmAsync(
+                     $"<{await _google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs!)}").ConfigureAwait(false)}>")
             .ConfigureAwait(false);
     }
 
@@ -526,7 +522,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var descStr = string.Join("\n\n", desc);
 
         var embed = new EmbedBuilder()
-            .WithAuthor(eab => eab.WithName(GetText("search_for") + " " + query.TrimTo(50))
+            .WithAuthor(eab => eab.WithName($"{GetText("search_for")} {query.TrimTo(50)}")
                 .WithUrl(data.FullQueryLink)
                 .WithIconUrl("https://i.imgur.com/G46fm8J.png"))
             .WithTitle(ctx.User.ToString())
@@ -654,8 +650,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             var res = await _cache.GetOrCreateAsync($"define_{word}", e =>
             {
                 e.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
-                return http.GetStringAsync("https://api.pearson.com/v2/dictionaries/entries?headword=" +
-                                           WebUtility.UrlEncode(word));
+                return http.GetStringAsync(
+                    $"https://api.pearson.com/v2/dictionaries/entries?headword={WebUtility.UrlEncode(word)}");
             }).ConfigureAwait(false);
 
             var data = JsonConvert.DeserializeObject<DefineModel>(res);
@@ -727,7 +723,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         var fact = JObject.Parse(response)["fact"].ToString();
-        await ctx.Channel.SendConfirmAsync("🐈" + GetText("catfact"), fact).ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"🐈{GetText("catfact")}", fact).ConfigureAwait(false);
     }
 
     //done in 3.0
@@ -772,8 +768,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         using var http = _httpFactory.CreateClient();
         var result = await http
             .GetStringAsync(
-                "https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles=" +
-                Uri.EscapeDataString(query)).ConfigureAwait(false);
+                $"https://en.wikipedia.org//w/api.php?action=query&format=json&prop=info&redirects=1&formatversion=2&inprop=url&titles={Uri.EscapeDataString(query)}").ConfigureAwait(false);
         var data = JsonConvert.DeserializeObject<WikipediaApiModel>(result);
         if (data.Query.Pages[0].Missing || string.IsNullOrWhiteSpace(data.Query.Pages[0].FullUrl))
             await ReplyErrorLocalizedAsync("wiki_page_not_found").ConfigureAwait(false);
@@ -820,7 +815,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
             .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
             .AddField(efb =>
-                efb.WithName("Avatar Url").WithValue("[Link]" + "(" + avatarUrl + ")").WithIsInline(true))
+                efb.WithName("Avatar Url").WithValue($"[Link]({avatarUrl})").WithIsInline(true))
             .WithImageUrl(avatarUrl));
     }
 
@@ -839,12 +834,8 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         http.DefaultRequestHeaders.Clear();
         try
         {
-            var res = await http.GetStringAsync($"https://{Uri.EscapeDataString(target)}.fandom.com/api.php" +
-                                                "?action=query" +
-                                                "&format=json" +
-                                                "&list=search" +
-                                                $"&srsearch={Uri.EscapeDataString(query)}" +
-                                                "&srlimit=1").ConfigureAwait(false);
+            var res = await http.GetStringAsync(
+                $"https://{Uri.EscapeDataString(target)}.fandom.com/api.php?action=query&format=json&list=search&srsearch={Uri.EscapeDataString(query)}&srlimit=1").ConfigureAwait(false);
             var items = JObject.Parse(res);
             var title = items["query"]?["search"]?.FirstOrDefault()?["title"]?.ToString();
 
@@ -874,7 +865,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         {
             using var http = _httpFactory.CreateClient();
             var res = await http
-                .GetStringAsync("https://bible-api.com/" + book + " " + chapterAndVerse).ConfigureAwait(false);
+                .GetStringAsync($"https://bible-api.com/{book} {chapterAndVerse}").ConfigureAwait(false);
 
             obj = JsonConvert.DeserializeObject<BibleVerses>(res);
         }
@@ -933,7 +924,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         var imgObj = await Service.DapiSearch(tag, type, ctx.Guild?.Id).ConfigureAwait(false);
 
         if (imgObj == null)
-            await channel.SendErrorAsync(umsg.Author.Mention + " " + GetText("no_results")).ConfigureAwait(false);
+            await channel.SendErrorAsync($"{umsg.Author.Mention} {GetText("no_results")}").ConfigureAwait(false);
         else
             await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithDescription($"{umsg.Author.Mention} [{tag ?? "url"}]({imgObj.FileUrl})")

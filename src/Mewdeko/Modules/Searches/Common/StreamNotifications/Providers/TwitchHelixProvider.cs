@@ -105,9 +105,8 @@ public class TwitchHelixProvider : Provider
         {
             try
             {
-                var str = await http.GetStringAsync($"https://api.twitch.tv/helix/users"
-                                                    + $"?{chunk.Select(x => $"login={x}").Join('&')}"
-                                                    + $"&first=100");
+                var str = await http.GetStringAsync(
+                    $"https://api.twitch.tv/helix/users?{chunk.Select(x => $"login={x}").Join('&')}&first=100");
 
                 var resObj = JsonSerializer.Deserialize<HelixUsersResponse>(str);
 
@@ -141,9 +140,8 @@ public class TwitchHelixProvider : Provider
         {
             try
             {
-                var str = await http.GetStringAsync($"https://api.twitch.tv/helix/streams"
-                                                    + $"?{chunk.Select(x => $"user_login={x}").Join('&')}"
-                                                    + "&first=100");
+                var str = await http.GetStringAsync(
+                    $"https://api.twitch.tv/helix/streams?{chunk.Select(x => $"user_login={x}").Join('&')}&first=100");
 
                 var res = JsonSerializer.Deserialize<HelixStreamsResponse>(str);
 

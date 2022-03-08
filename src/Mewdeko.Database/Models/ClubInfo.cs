@@ -21,7 +21,7 @@ public class ClubInfo : DbEntity
     public List<ClubBans> Bans { get; set; } = new();
     public string Description { get; set; }
 
-    public override string ToString() => Name + "#" + Discrim;
+    public override string ToString() => $"{Name}#{Discrim}";
 }
 
 public class ClubApplicants

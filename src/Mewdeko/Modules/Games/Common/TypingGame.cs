@@ -157,8 +157,7 @@ public class TypingGame
                         .ConfigureAwait(false);
                     if (_finishedUserIds.Count % 4 == 0)
                         await Channel.SendConfirmAsync(
-                                ":exclamation: A lot of people finished, here is the text for those still typing:" +
-                                $"\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
+                                         $":exclamation: A lot of people finished, here is the text for those still typing:\n\n**{Format.Sanitize(CurrentSentence.Replace(" ", " \x200B", StringComparison.InvariantCulture)).SanitizeMentions(true)}**")
                             .ConfigureAwait(false);
                 }
             }

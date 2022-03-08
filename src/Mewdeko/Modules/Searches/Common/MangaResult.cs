@@ -21,8 +21,8 @@ public class MangaResult
 
     [JsonProperty("average_score")] public string AverageScore { get; set; }
 
-    public string Link => "http://anilist.co/manga/" + Id;
+    public string Link => $"http://anilist.co/manga/{Id}";
 
     public string Synopsis =>
-        Description?[..(Description.Length > 500 ? 500 : Description.Length)] + "...";
+        $"{Description?[..(Description.Length > 500 ? 500 : Description.Length)]}...";
 }

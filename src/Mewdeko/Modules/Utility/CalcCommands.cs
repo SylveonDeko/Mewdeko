@@ -19,10 +19,10 @@ public partial class Utility
             expr.EvaluateParameter += Expr_EvaluateParameter;
             var result = expr.Evaluate();
             if (!expr.HasErrors())
-                await ctx.Channel.SendConfirmAsync("⚙ " + GetText("result"), result.ToString())
+                await ctx.Channel.SendConfirmAsync($"⚙ {GetText("result")}", result.ToString())
                     .ConfigureAwait(false);
             else
-                await ctx.Channel.SendErrorAsync("⚙ " + GetText("error"), expr.Error).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync($"⚙ {GetText("error")}", expr.Error).ConfigureAwait(false);
         }
 
         private static void Expr_EvaluateParameter(string name, ParameterArgs args) =>

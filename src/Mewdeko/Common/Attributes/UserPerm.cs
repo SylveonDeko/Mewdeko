@@ -19,7 +19,7 @@ public class UserPermAttribute : PreconditionAttribute
         IServiceProvider services)
     {
         var permService = services.GetService<DiscordPermOverrideService>();
-        Debug.Assert(permService != null, nameof(permService) + " != null");
+        Debug.Assert(permService != null, $"{nameof(permService)} != null");
         return permService.TryGetOverrides(context.Guild?.Id ?? 0, command.Name.ToUpperInvariant(), out var _)
             ? Task.FromResult(PreconditionResult.FromSuccess())
             : UserPermissionAttribute.CheckPermissionsAsync(context, command, services);

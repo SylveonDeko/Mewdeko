@@ -38,7 +38,7 @@ public partial class Administration
         {
             await Service.LogServer(ctx.Guild.Id, channel.Id, action.Value).ConfigureAwait(false);
             if (action.Value)
-                await ctx.Channel.SendConfirmAsync("Logging of all events have been enabled in " + channel.Mention)
+                await ctx.Channel.SendConfirmAsync($"Logging of all events have been enabled in {channel.Mention}")
                     .ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("log_disabled").ConfigureAwait(false);
@@ -54,10 +54,10 @@ public partial class Administration
 
             if (!removed)
                 await ReplyConfirmLocalizedAsync("log_ignore",
-                    Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("log_not_ignore",
-                    Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -68,10 +68,10 @@ public partial class Administration
 
             if (!removed)
                 await ReplyConfirmLocalizedAsync("log_ignore",
-                    Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("log_not_ignore",
-                    Format.Bold(channel.Mention + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    Format.Bold($"{channel.Mention}({channel.Id})")).ConfigureAwait(false);
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -81,11 +81,11 @@ public partial class Administration
             var removed = Service.LogIgnore(ctx.Guild.Id, channel.Id);
 
             if (!removed)
-                await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold(channel.Name + "(" + channel.Id + ")"))
+                await ReplyConfirmLocalizedAsync("log_ignore", Format.Bold($"{channel.Name}({channel.Id})"))
                     .ConfigureAwait(false);
             else
                 await ReplyConfirmLocalizedAsync("log_not_ignore",
-                    Format.Bold(channel.Name + "(" + channel.Id + ")")).ConfigureAwait(false);
+                    Format.Bold($"{channel.Name}({channel.Id})")).ConfigureAwait(false);
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -102,8 +102,7 @@ public partial class Administration
                     return Format.Bold(x);
                 }));
 
-            await ctx.Channel.SendConfirmAsync(Format.Bold(GetText("log_events")) + "\n" +
-                                               str)
+            await ctx.Channel.SendConfirmAsync($"{Format.Bold(GetText("log_events"))}\n{str}")
                 .ConfigureAwait(false);
         }
 
@@ -147,15 +146,15 @@ public partial class Administration
 
             if (val)
             {
-                await ctx.Channel.SendConfirmAsync("Logging has been enabled for the event " +
-                                                   Format.Bold(type.ToString()) + " in " + channel.Mention);
+                await ctx.Channel.SendConfirmAsync(
+                    $"Logging has been enabled for the event {Format.Bold(type.ToString())} in {channel.Mention}");
                 return;
             }
 
             await Service.Log(ctx.Guild.Id, channel.Id, type);
 
-            await ctx.Channel.SendConfirmAsync("Event Logging for " + Format.Bold(type.ToString()) +
-                                               " has been switched to " + channel.Mention);
+            await ctx.Channel.SendConfirmAsync(
+                $"Event Logging for {Format.Bold(type.ToString())} has been switched to {channel.Mention}");
         }
     }
 }

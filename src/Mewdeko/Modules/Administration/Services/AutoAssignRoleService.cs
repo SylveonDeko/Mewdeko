@@ -145,7 +145,7 @@ public sealed class AutoAssignRoleService : INService
 
     public string GetStaffRole(ulong? id)
     {
-        Debug.Assert(id != null, nameof(id) + " != null");
+        Debug.Assert(id != null, $"{nameof(id)} != null");
         _brcheck.TryGetValue(id.Value, out var snum);
         return snum;
     }

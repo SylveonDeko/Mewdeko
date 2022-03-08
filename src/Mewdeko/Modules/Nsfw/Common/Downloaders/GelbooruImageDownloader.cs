@@ -15,8 +15,8 @@ public class GelbooruImageDownloader : ImageDownloader<DapiImageObject>
         bool isExplicit = false, CancellationToken cancel = default)
     {
         var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit);
-        var uri = $"https://gelbooru.com/index.php?page=dapi&s=post&json=1&q=index&limit=100" +
-                  $"&tags={tagString}&pid={page}";
+        var uri =
+            $"https://gelbooru.com/index.php?page=dapi&s=post&json=1&q=index&limit=100&tags={tagString}&pid={page}";
         using var req = new HttpRequestMessage(HttpMethod.Get, uri);
         using var res = await _http.SendAsync(req, cancel).ConfigureAwait(false);
         res.EnsureSuccessStatusCode();

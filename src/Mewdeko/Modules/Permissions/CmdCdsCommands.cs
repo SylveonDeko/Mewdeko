@@ -93,7 +93,7 @@ public partial class Permissions
                 await ReplyConfirmLocalizedAsync("cmdcd_none").ConfigureAwait(false);
             else
                 await channel.SendTableAsync("",
-                        localSet.Select(c => c.CommandName + ": " + c.Seconds + GetText("sec")), s => $"{s,-30}", 2)
+                        localSet.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"), s => $"{s,-30}", 2)
                     .ConfigureAwait(false);
         }
     }

@@ -159,15 +159,14 @@ public static class PermissionExtensions
                 com += "c";
                 break;
             case SecondaryPermissionType.AllModules:
-                com = "a" + com + "m";
+                com = $"a{com}m";
                 break;
         }
 
         var secName = perm.SecondaryTarget == SecondaryPermissionType.Command && !perm.IsCustomCommand
             ? prefix + perm.SecondaryTargetName
             : perm.SecondaryTargetName;
-        com += " " + (perm.SecondaryTargetName != "*" ? secName + " " : "") + (perm.State ? "enable" : "disable") +
-               " ";
+        com += $" {(perm.SecondaryTargetName != "*" ? $"{secName} " : "")}{(perm.State ? "enable" : "disable")} ";
 
         switch (perm.PrimaryTarget)
         {

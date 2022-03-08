@@ -115,11 +115,8 @@ public class SearchesService : INService, IUnloadableService
                         {
                         }
 
-                    await umsg.Channel.SendConfirmAsync($"{umsg.Author.Mention} `:` "
-                                                        + text.Replace("<@ ", "<@",
-                                                                StringComparison.InvariantCulture)
-                                                            .Replace("<@! ", "<@!",
-                                                                StringComparison.InvariantCulture))
+                    await umsg.Channel.SendConfirmAsync(
+                                  $"{umsg.Author.Mention} `:` {text.Replace("<@ ", "<@", StringComparison.InvariantCulture).Replace("<@! ", "<@!", StringComparison.InvariantCulture)}")
                         .ConfigureAwait(false);
                 }
                 catch
@@ -270,10 +267,8 @@ public class SearchesService : INService, IUnloadableService
         using var http = _httpFactory.CreateClient();
         try
         {
-            var data = await http.GetStringAsync("http://api.openweathermap.org/data/2.5/weather?" +
-                                                 $"q={query}&" +
-                                                 "appid=42cd627dd60debf25a5739e50a217d74&" +
-                                                 "units=metric").ConfigureAwait(false);
+            var data = await http.GetStringAsync(
+                $"http://api.openweathermap.org/data/2.5/weather?q={query}&appid=42cd627dd60debf25a5739e50a217d74&units=metric").ConfigureAwait(false);
 
             if (data == null)
                 return null;
@@ -309,12 +304,8 @@ public class SearchesService : INService, IUnloadableService
             using var http = _httpFactory.CreateClient();
             var res = await _cache.GetOrAddCachedDataAsync($"geo_{query}", _ =>
             {
-                var url = "https://eu1.locationiq.com/v1/search.php?" +
-                          (string.IsNullOrWhiteSpace(_creds.LocationIqApiKey)
-                              ? "key="
-                              : $"key={_creds.LocationIqApiKey}&") +
-                          $"q={Uri.EscapeDataString(query)}&" +
-                          "format=json";
+                var url =
+                    $"https://eu1.locationiq.com/v1/search.php?{(string.IsNullOrWhiteSpace(_creds.LocationIqApiKey) ? "key=" : $"key={_creds.LocationIqApiKey}&")}q={Uri.EscapeDataString(query)}&format=json";
 
                 var res = http.GetStringAsync(url);
                 return res;
@@ -330,10 +321,7 @@ public class SearchesService : INService, IUnloadableService
             var geoData = responses[0];
 
             using var req = new HttpRequestMessage(HttpMethod.Get,
-                "http://api.timezonedb.com/v2.1/get-time-zone?" +
-                $"key={_creds.TimezoneDbApiKey}&format=json&" +
-                "by=position&" +
-                $"lat={geoData.Lat}&lng={geoData.Lon}");
+                $"http://api.timezonedb.com/v2.1/get-time-zone?key={_creds.TimezoneDbApiKey}&format=json&by=position&lat={geoData.Lat}&lng={geoData.Lon}");
             using var geoRes = await http.SendAsync(req);
             var resString = await geoRes.Content.ReadAsStringAsync();
             var timeObj = JsonConvert.DeserializeObject<TimeZoneResult>(resString);
@@ -367,8 +355,7 @@ public class SearchesService : INService, IUnloadableService
             _ => 100
         };
 
-        return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/" +
-               _rng.Next(1, max).ToString("000") + ".png";
+        return $"https://nadeko-pictures.nyc3.digitaloceanspaces.com/{subpath}/{_rng.Next(1, max):000}.png";
     }
 
     public async Task<string> Translate(string langs, string? text = null)
@@ -496,7 +483,7 @@ public class SearchesService : INService, IUnloadableService
         using var http = _httpFactory.CreateClient();
         var response = await http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/"))
             .ConfigureAwait(false);
-        return JObject.Parse(response)["value"]["joke"] + " 😆";
+        return $"{JObject.Parse(response)["value"]["joke"]} 😆";
     }
 
     public async Task<MtgData> GetMtgCardAsync(string search)
@@ -520,11 +507,8 @@ public class SearchesService : INService, IUnloadableService
             string storeUrl;
             try
             {
-                storeUrl = await _google.ShortenUrl("https://shop.tcgplayer.com/productcatalog/product/show?" +
-                                                    "newSearch=false&" +
-                                                    "ProductType=All&" +
-                                                    "IsProductNameExact=false&" +
-                                                    $"ProductName={Uri.EscapeDataString(card.Name)}")
+                storeUrl = await _google.ShortenUrl(
+                                            $"https://shop.tcgplayer.com/productcatalog/product/show?newSearch=false&ProductType=All&IsProductNameExact=false&ProductName={Uri.EscapeDataString(card.Name)}")
                     .ConfigureAwait(false);
             }
             catch
@@ -584,8 +568,8 @@ public class SearchesService : INService, IUnloadableService
         http.DefaultRequestHeaders.Add("x-rapidapi-key", _creds.MashapeKey);
         try
         {
-            var response = await http.GetStringAsync("https://omgvamp-hearthstone-v1.p.rapidapi.com/" +
-                                                     $"cards/search/{Uri.EscapeDataString(name)}")
+            var response = await http.GetStringAsync(
+                                         $"https://omgvamp-hearthstone-v1.p.rapidapi.com/cards/search/{Uri.EscapeDataString(name)}")
                 .ConfigureAwait(false);
             var objs = JsonConvert.DeserializeObject<HearthstoneCardData[]>(response);
             if (objs == null || objs.Length == 0)

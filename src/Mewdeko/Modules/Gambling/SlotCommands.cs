@@ -167,8 +167,7 @@ public partial class Gambling
 
                 await using var imgStream = bgImage.ToStream();
                 await ctx.Channel.SendFileAsync(imgStream, "result.png",
-                        ctx.User.Mention + " " + msg +
-                        $"\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
+                             $"{ctx.User.Mention} {msg}\n`{GetText("slot_bet")}:`{amount} `{GetText("won")}:` {amount * result.Multiplier}{CurrencySign}")
                     .ConfigureAwait(false);
             }
             finally

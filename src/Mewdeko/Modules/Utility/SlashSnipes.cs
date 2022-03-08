@@ -152,8 +152,8 @@ public partial class Utility
                                                             .WithAuthor(new EmbedAuthorBuilder()
                                                                         .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                                                         .WithName($"{user} said:"))
-                                                            .WithDescription(msg1.Message
-                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
+                                                            .WithDescription(
+                                                                $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
                 }
             }
         }
@@ -198,8 +198,8 @@ public partial class Utility
                                                             .WithAuthor(new EmbedAuthorBuilder()
                                                                         .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                                                         .WithName($"{user} said:"))
-                                                            .WithDescription(msg1.Message
-                                                                             + $"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
+                                                            .WithDescription(
+                                                                $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
                 }
             }
         }

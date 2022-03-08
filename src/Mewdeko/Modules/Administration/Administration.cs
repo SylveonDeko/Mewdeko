@@ -105,8 +105,6 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
                            $"Previewing {users.Count()} users who's accounts joined under {time.Time.Humanize(maxUnit: TimeUnit.Year)} ago")
                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
             }
-
-            ;
         }
 
         var banned = 0;
@@ -416,12 +414,18 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         var actualChId = chId ?? ctx.Channel.Id;
         await Service.SetDelMsgOnCmdState(ctx.Guild.Id, actualChId, s).ConfigureAwait(false);
 
-        if (s == State.Disable)
-            await ReplyConfirmLocalizedAsync("delmsg_channel_off").ConfigureAwait(false);
-        else if (s == State.Enable)
-            await ReplyConfirmLocalizedAsync("delmsg_channel_on").ConfigureAwait(false);
-        else
-            await ReplyConfirmLocalizedAsync("delmsg_channel_inherit").ConfigureAwait(false);
+        switch (s)
+        {
+            case State.Disable:
+                await ReplyConfirmLocalizedAsync("delmsg_channel_off").ConfigureAwait(false);
+                break;
+            case State.Enable:
+                await ReplyConfirmLocalizedAsync("delmsg_channel_on").ConfigureAwait(false);
+                break;
+            default:
+                await ReplyConfirmLocalizedAsync("delmsg_channel_inherit").ConfigureAwait(false);
+                break;
+        }
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),

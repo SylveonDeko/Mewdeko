@@ -200,7 +200,7 @@ public class LogCommandService : INService
 
                 if (before.Username != guildUser.Username)
                 {
-                    embed.WithTitle("👥 " + GetText(g, "username_changed"))
+                    embed.WithTitle($"👥 {GetText(g, "username_changed")}")
                         .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
                         .AddField(fb => fb.WithName("Old Name").WithValue($"{before.Username}").WithIsInline(true))
                         .AddField(fb => fb.WithName("New Name").WithValue($"{guildUser.Username}").WithIsInline(true))
@@ -209,7 +209,7 @@ public class LogCommandService : INService
                 }
                 else if (before.AvatarId != guildUser.AvatarId)
                 {
-                    embed.WithTitle("👥" + GetText(g, "avatar_changed"))
+                    embed.WithTitle($"👥{GetText(g, "avatar_changed")}")
                         .WithDescription($"{before.Username}#{before.Discriminator} | {before.Id}")
                         .WithFooter(fb => fb.WithText(CurrentTime(g)))
                         .WithOkColor();
@@ -338,11 +338,10 @@ public class LogCommandService : INService
                 var mutedLocalized = GetText(logChannel.Guild, "muted_sn");
                 mutes = muteType switch
                 {
-                    MuteType.Voice => "🔇 " + GetText(logChannel.Guild, "xmuted_voice", mutedLocalized, mod.ToString()),
-                    MuteType.Chat => "🔇 " + GetText(logChannel.Guild, "xmuted_text", mutedLocalized, mod.ToString()),
-                    MuteType.All => "🔇 "
-                                    + GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized,
-                                        mod.ToString()),
+                    MuteType.Voice => $"🔇 {GetText(logChannel.Guild, "xmuted_voice", mutedLocalized, mod.ToString())}",
+                    MuteType.Chat => $"🔇 {GetText(logChannel.Guild, "xmuted_text", mutedLocalized, mod.ToString())}",
+                    MuteType.All =>
+                        $"🔇 {GetText(logChannel.Guild, "xmuted_text_and_voice", mutedLocalized, mod.ToString())}",
                     _ => mutes
                 };
 
@@ -379,12 +378,11 @@ public class LogCommandService : INService
                 var unmutedLocalized = GetText(logChannel.Guild, "unmuted_sn");
                 mutes = muteType switch
                 {
-                    MuteType.Voice => "🔊 " + GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized,
-                        mod.ToString()),
-                    MuteType.Chat => "🔊 " + GetText(logChannel.Guild, "xmuted_text", unmutedLocalized,
-                        mod.ToString()),
-                    MuteType.All => "🔊 " + GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized,
-                        mod.ToString()),
+                    MuteType.Voice =>
+                        $"🔊 {GetText(logChannel.Guild, "xmuted_voice", unmutedLocalized, mod.ToString())}",
+                    MuteType.Chat => $"🔊 {GetText(logChannel.Guild, "xmuted_text", unmutedLocalized, mod.ToString())}",
+                    MuteType.All =>
+                        $"🔊 {GetText(logChannel.Guild, "xmuted_text_and_voice", unmutedLocalized, mod.ToString())}",
                     _ => mutes
                 };
 
@@ -427,19 +425,19 @@ public class LogCommandService : INService
                 switch (action)
                 {
                     case PunishmentAction.Mute:
-                        punishment = "🔇 " + GetText(logChannel.Guild, "muted_pl").ToUpperInvariant();
+                        punishment = $"🔇 {GetText(logChannel.Guild, "muted_pl").ToUpperInvariant()}";
                         break;
                     case PunishmentAction.Kick:
-                        punishment = "👢 " + GetText(logChannel.Guild, "kicked_pl").ToUpperInvariant();
+                        punishment = $"👢 {GetText(logChannel.Guild, "kicked_pl").ToUpperInvariant()}";
                         break;
                     case PunishmentAction.Softban:
-                        punishment = "☣ " + GetText(logChannel.Guild, "soft_banned_pl").ToUpperInvariant();
+                        punishment = $"☣ {GetText(logChannel.Guild, "soft_banned_pl").ToUpperInvariant()}";
                         break;
                     case PunishmentAction.Ban:
-                        punishment = "⛔️ " + GetText(logChannel.Guild, "banned_pl").ToUpperInvariant();
+                        punishment = $"⛔️ {GetText(logChannel.Guild, "banned_pl").ToUpperInvariant()}";
                         break;
                     case PunishmentAction.RemoveRoles:
-                        punishment = "⛔️ " + GetText(logChannel.Guild, "remove_roles_pl").ToUpperInvariant();
+                        punishment = $"⛔️ {GetText(logChannel.Guild, "remove_roles_pl").ToUpperInvariant()}";
                         break;
                     case PunishmentAction.ChatMute:
                         break;
@@ -452,7 +450,7 @@ public class LogCommandService : INService
                 }
 
                 var embed = new EmbedBuilder().WithAuthor(eab => eab.WithName($"🛡 Anti-{protection}"))
-                    .WithTitle(GetText(logChannel.Guild, "users") + " " + punishment)
+                    .WithTitle($"{GetText(logChannel.Guild, "users")} {punishment}")
                     .WithDescription(string.Join("\n", users.Select(u => u.ToString())))
                     .WithFooter(fb => fb.WithText(CurrentTime(logChannel.Guild)))
                     .WithOkColor();
@@ -515,7 +513,7 @@ public class LogCommandService : INService
                         var channel = logChannel;
                         var channel1 = logChannel;
                         var logChannel1 = logChannel;
-                        embed.WithAuthor(eab => eab.WithName("👥 " + GetText(logChannel1.Guild, "nick_change")))
+                        embed.WithAuthor(eab => eab.WithName($"👥 {GetText(logChannel1.Guild, "nick_change")}"))
                             .AddField(efb =>
                                 efb.WithName(GetText(channel.Guild, "old_nick"))
                                     .WithValue($"{cacheable.Value.Nickname}#{cacheable.Value.Discriminator}"))
@@ -532,7 +530,7 @@ public class LogCommandService : INService
                             var diffRoles = after.Roles.Where(r => !cacheable.Value.Roles.Contains(r))
                                 .Select(r => r.Name);
                             var channel = logChannel;
-                            embed.WithAuthor(eab => eab.WithName("⚔ " + GetText(channel.Guild, "user_role_add")))
+                            embed.WithAuthor(eab => eab.WithName($"⚔ {GetText(channel.Guild, "user_role_add")}"))
                                 .WithDescription(string.Join(", ", diffRoles));
 
                             await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -549,7 +547,7 @@ public class LogCommandService : INService
                             {
                                 var channel = logChannel;
                                 embed.WithAuthor(eab =>
-                                        eab.WithName("⚔ " + GetText(channel.Guild, "user_role_rem")))
+                                        eab.WithName($"⚔ {GetText(channel.Guild, "user_role_rem")}"))
                                     .WithDescription(string.Join(", ", diffRoles).SanitizeMentions());
 
                                 await logChannel.EmbedAsync(embed).ConfigureAwait(false);
@@ -594,12 +592,12 @@ public class LogCommandService : INService
                 var afterTextChannel = cafter as ITextChannel;
 
                 if (before.Name != after.Name)
-                    embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_name_change"))
+                    embed.WithTitle($"ℹ️ {GetText(logChannel.Guild, "ch_name_change")}")
                         .WithDescription($"{after} | {after.Id}")
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "ch_old_name")).WithValue(before.Name));
                 else if (beforeTextChannel?.Topic != afterTextChannel?.Topic)
-                    embed.WithTitle("ℹ️ " + GetText(logChannel.Guild, "ch_topic_change"))
+                    embed.WithTitle($"ℹ️ {GetText(logChannel.Guild, "ch_topic_change")}")
                         .WithDescription($"{after} | {after.Id}")
                         .AddField(efb =>
                             efb.WithName(GetText(logChannel.Guild, "old_topic"))
@@ -648,7 +646,7 @@ public class LogCommandService : INService
                 var e = audits.FirstOrDefault(x => x.Action == ActionType.ChannelDeleted);
                 await logChannel.EmbedAsync(new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("🆕 " + title)
+                    .WithTitle($"🆕 {title}")
                     .WithDescription($"{ch.Name} | {ch.Id}")
                     .AddField("Yeeted By", e?.User)
                     .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
@@ -686,7 +684,7 @@ public class LogCommandService : INService
 
                 await logChannel.EmbedAsync(new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("🆕 " + title)
+                    .WithTitle($"🆕 {title}")
                     .WithDescription($"{ch.Name} | {ch.Id}")
                     .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
             }
@@ -724,19 +722,14 @@ public class LogCommandService : INService
 
                 string str = null;
                 if (beforeVch?.Guild == afterVch?.Guild)
-                    str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild,
-                        "user_vmoved",
-                        "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
-                        Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""));
+                    str =
+                        $"🎙{Format.Code(PrettyCurrentTime(usr.Guild))}{GetText(logChannel.Guild, "user_vmoved", $"👤{Format.Bold($"{usr.Username}#{usr.Discriminator}")}", Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""))}";
                 else if (beforeVch == null)
-                    str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild,
-                        "user_vjoined",
-                        "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
-                        Format.Bold(afterVch.Name ?? ""));
+                    str =
+                        $"🎙{Format.Code(PrettyCurrentTime(usr.Guild))}{GetText(logChannel.Guild, "user_vjoined", $"👤{Format.Bold($"{usr.Username}#{usr.Discriminator}")}", Format.Bold(afterVch.Name ?? ""))}";
                 else if (afterVch == null)
-                    str = "🎙" + Format.Code(PrettyCurrentTime(usr.Guild)) + GetText(logChannel.Guild, "user_vleft",
-                        "👤" + Format.Bold(usr.Username + "#" + usr.Discriminator),
-                        Format.Bold(beforeVch.Name ?? ""));
+                    str =
+                        $"🎙{Format.Code(PrettyCurrentTime(usr.Guild))}{GetText(logChannel.Guild, "user_vleft", $"👤{Format.Bold($"{usr.Username}#{usr.Discriminator}")}", Format.Bold(beforeVch.Name ?? ""))}";
 
                 if (!string.IsNullOrWhiteSpace(str))
                     PresenceUpdates.AddOrUpdate(logChannel, new List<string> {str}, (_, list) =>
@@ -771,7 +764,7 @@ public class LogCommandService : INService
                     return;
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("❌ " + GetText(logChannel.Guild, "user_left"))
+                    .WithTitle($"❌ {GetText(logChannel.Guild, "user_left")}")
                     .WithDescription(usr.ToString())
                     .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
                     .AddField("Roles", string.Join("|", usr.GetRoles().Select(x => x.Mention)))
@@ -808,7 +801,7 @@ public class LogCommandService : INService
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("✅ " + GetText(logChannel.Guild, "user_joined"))
+                    .WithTitle($"✅ {GetText(logChannel.Guild, "user_joined")}")
                     .WithDescription($"{usr.Mention} `{usr}`")
                     .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
                     .AddField(fb =>
@@ -848,7 +841,7 @@ public class LogCommandService : INService
                     return;
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("♻️ " + GetText(logChannel.Guild, "user_unbanned"))
+                    .WithTitle($"♻️ {GetText(logChannel.Guild, "user_unbanned")}")
                     .WithDescription(usr.ToString())
                     .AddField(efb => efb.WithName("Id").WithValue(usr.Id.ToString()))
                     .WithFooter(efb => efb.WithText(CurrentTime(guild)));
@@ -883,7 +876,7 @@ public class LogCommandService : INService
                     return;
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("🚫 " + GetText(logChannel.Guild, "user_banned"))
+                    .WithTitle($"🚫 {GetText(logChannel.Guild, "user_banned")}")
                     .WithDescription(usr.ToString());
 
                 if (bannedby != null)
@@ -985,7 +978,7 @@ public class LogCommandService : INService
                 var resolvedMessage = msg.Resolve(TagHandling.FullName);
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("🗑 " + GetText(logChannel.Guild, "msg_del", ((ITextChannel) msg.Channel).Name))
+                    .WithTitle($"🗑 {GetText(logChannel.Guild, "msg_del", ((ITextChannel)msg.Channel).Name)}")
                     .WithDescription(msg.Author.ToString())
                     .AddField(efb =>
                         efb.WithName(GetText(logChannel.Guild, "content"))
@@ -1042,7 +1035,7 @@ public class LogCommandService : INService
 
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("📝 " + GetText(logChannel.Guild, "msg_update", ((ITextChannel) after.Channel).Name))
+                    .WithTitle($"📝 {GetText(logChannel.Guild, "msg_update", ((ITextChannel)after.Channel).Name)}")
                     .WithDescription(after.Author.ToString())
                     .AddField(efb =>
                         efb.WithName(GetText(logChannel.Guild, "old_msg"))

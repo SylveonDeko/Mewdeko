@@ -26,7 +26,7 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
 
     public int IndexOf(T item)
     {
-        Debug.Assert(item != null, nameof(item) + " != null");
+        Debug.Assert(item != null, $"{nameof(item)} != null");
         return item.Index;
     }
 
@@ -38,7 +38,7 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
     {
         lock (_locker)
         {
-            Debug.Assert(item != null, nameof(item) + " != null");
+            Debug.Assert(item != null, $"{nameof(item)} != null");
             item.Index = Source.Count;
             Source.Add(item);
         }

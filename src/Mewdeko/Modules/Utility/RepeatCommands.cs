@@ -266,12 +266,10 @@ public partial class Utility
 
             var description = "";
             if (runner.Repeater.NoRedundant)
-                description = Format.Underline(Format.Bold(GetText("no_redundant:"))) + "\n\n";
+                description = $"{Format.Underline(Format.Bold(GetText("no_redundant:")))}\n\n";
 
-            description += $"<#{runner.Repeater.ChannelId}>\n" +
-                           $"`{GetText("interval:")}` {intervalString}\n" +
-                           $"`{GetText("executes_in:")}` {executesInString}\n" +
-                           $"`{GetText("message:")}` {message}";
+            description +=
+                $"<#{runner.Repeater.ChannelId}>\n`{GetText("interval:")}` {intervalString}\n`{GetText("executes_in:")}` {executesInString}\n`{GetText("message:")}` {message}";
 
             return description;
         }

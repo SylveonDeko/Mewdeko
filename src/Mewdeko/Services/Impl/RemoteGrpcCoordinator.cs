@@ -58,7 +58,6 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
                 LastUpdate = s.LastUpdate.ToDateTime()
             });
     }
-
     public int GetGuildCount()
     {
         var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());

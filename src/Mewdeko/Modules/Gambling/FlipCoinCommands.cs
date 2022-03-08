@@ -72,10 +72,8 @@ public partial class Gambling
             await using var stream = img.ToStream(format);
             foreach (var i in imgs) i.Dispose();
             var msg = count != 1
-                ? Format.Bold(ctx.User.ToString()) + " " + GetText("flip_results", count, headCount, tailCount)
-                : Format.Bold(ctx.User.ToString()) + " " + GetText("flipped", headCount > 0
-                    ? Format.Bold(GetText("heads"))
-                    : Format.Bold(GetText("tails")));
+                ? $"{Format.Bold(ctx.User.ToString())} {GetText("flip_results", count, headCount, tailCount)}"
+                : $"{Format.Bold(ctx.User.ToString())} {GetText("flipped", headCount > 0 ? Format.Bold(GetText("heads")) : Format.Bold(GetText("tails")))}";
             await ctx.Channel.SendFileAsync(stream, $"{count} coins.{format.FileExtensions.First()}", msg)
                 .ConfigureAwait(false);
         }
@@ -112,12 +110,12 @@ public partial class Gambling
             if (guess == result)
             {
                 var toWin = (long) (amount * Config.BetFlip.Multiplier);
-                str = Format.Bold(ctx.User.ToString()) + " " + GetText("flip_guess", toWin + CurrencySign);
+                str = $"{Format.Bold(ctx.User.ToString())} {GetText("flip_guess", toWin + CurrencySign)}";
                 await _cs.AddAsync(ctx.User, "Betflip Gamble", toWin, false, true).ConfigureAwait(false);
             }
             else
             {
-                str = ctx.User + " " + GetText("better_luck");
+                str = $"{ctx.User} {GetText("better_luck")}";
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()

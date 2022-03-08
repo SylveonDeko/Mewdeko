@@ -34,7 +34,7 @@ public partial class Searches
             {
                 await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
                 var translation = await _searches.Translate(langs, text).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync(GetText("translation") + " " + langs, translation)
+                await ctx.Channel.SendConfirmAsync($"{GetText("translation")} {langs}", translation)
                     .ConfigureAwait(false);
             }
             catch

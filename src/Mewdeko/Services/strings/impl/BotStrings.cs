@@ -36,8 +36,7 @@ public class BotStrings : IBotStrings
             if (cultureInfo.Name != _usCultureInfo.Name)
                 return GetText(key, _usCultureInfo, data);
             return
-                "I can't tell you if the command is executed, because there was an error printing out the response.\n" +
-                $"Key '{key}' is not properly formatted. Please report this.";
+                $"I can't tell you if the command is executed, because there was an error printing out the response.\nKey '{key}' is not properly formatted. Please report this.";
         }
     }
 
@@ -74,8 +73,7 @@ public class BotStrings : IBotStrings
             text = GetString(key, _usCultureInfo) ?? $"Error: dkey {key} not found!";
             if (string.IsNullOrWhiteSpace(text))
                 return
-                    "I can't tell you if the command is executed, because there was an error printing out the response." +
-                    $" Key '{key}' is missing from resources. You may ignore this message.";
+                    $"I can't tell you if the command is executed, because there was an error printing out the response. Key '{key}' is missing from resources. You may ignore this message.";
         }
 
         return text;

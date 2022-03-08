@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using Google;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Services;
@@ -14,10 +13,6 @@ namespace Mewdeko.Services.Impl;
 
 public class GoogleApiService : IGoogleApiService
 {
-    private const string SEARCH_ENGINE_ID = "018084019232060951019:hs5piey28-e";
-
-    private static readonly Regex _plRegex =
-        new("(?:youtu\\.be\\/|list=)(?<id>[\\da-zA-Z\\-_]*)", RegexOptions.Compiled);
     private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
@@ -191,7 +186,7 @@ public class GoogleApiService : IGoogleApiService
         query.Type = "video";
         query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-            "https://www.youtube.com/watch?v=" + i.Id.VideoId);
+            $"https://www.youtube.com/watch?v={i.Id.VideoId}");
     }
     
 
@@ -232,7 +227,7 @@ public class GoogleApiService : IGoogleApiService
 
         if (!_languageDictionary.ContainsKey(sourceLanguage) ||
             !_languageDictionary.ContainsKey(targetLanguage))
-            throw new ArgumentException(nameof(sourceLanguage) + "/" + nameof(targetLanguage));
+            throw new ArgumentException($"{nameof(sourceLanguage)}/{nameof(targetLanguage)}");
         var url = new Uri(
             $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={ConvertToLanguageCode(sourceLanguage)}&tl={ConvertToLanguageCode(targetLanguage)}&dt=t&q={WebUtility.UrlEncode(sourceText)}");
         using (var http = _httpFactory.CreateClient())

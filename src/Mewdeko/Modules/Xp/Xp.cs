@@ -412,13 +412,13 @@ public partial class Xp : MewdekoModuleBase<XpService>
             .Select(x => $"`channel` {x.Name}")
             .ToList();
 
-        var rolesStr = roles.Any() ? string.Join("\n", roles) + "\n" : string.Empty;
-        var chansStr = chans.Count > 0 ? string.Join("\n", chans) + "\n" : string.Empty;
+        var rolesStr = roles.Any() ? $"{string.Join("\n", roles)}\n" : string.Empty;
+        var chansStr = chans.Count > 0 ? $"{string.Join("\n", chans)}\n" : string.Empty;
         var desc = Format.Code(serverExcluded
             ? GetText("server_is_excluded")
             : GetText("server_is_not_excluded"));
 
-        desc += "\n\n" + rolesStr + chansStr;
+        desc += $"\n\n{rolesStr}{chansStr}";
 
         var lines = desc.Split('\n');
         var paginator = new LazyPaginatorBuilder()

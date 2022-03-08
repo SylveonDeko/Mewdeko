@@ -97,7 +97,7 @@ public class SearchImageCacher
         tag += string.Join('+',
             tags.Select(x => x.Replace(" ", "_", StringComparison.InvariantCulture).ToLowerInvariant()));
         if (isExplicit)
-            tag = "rating%3Aexplicit+" + tag;
+            tag = $"rating%3Aexplicit+{tag}";
         var website = "";
         switch (type)
         {

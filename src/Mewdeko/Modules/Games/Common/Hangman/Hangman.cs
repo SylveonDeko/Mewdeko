@@ -27,16 +27,8 @@ public sealed class Hangman : IDisposable
     public TermPool TermPool { get; }
     public HangmanObject Term { get; }
 
-    public string ScrambledWord => "`" + string.Concat(Term.Word.Select(c =>
-    {
-        if (c == ' ')
-            return " \u2000";
-        if (!(char.IsLetter(c) || char.IsDigit(c)))
-            return $" {c}";
-
-        c = char.ToLowerInvariant(c);
-        return _previousGuesses.Contains(c) ? $" {c}" : " ◯";
-    })) + "`";
+    public string ScrambledWord =>
+        $"`{string.Concat(Term.Word.Select(c => { if (c == ' ') return " \u2000"; if (!(char.IsLetter(c) || char.IsDigit(c))) return $" {c}"; c = char.ToLowerInvariant(c); return _previousGuesses.Contains(c) ? $" {c}" : " ◯"; }))}`";
 
     public Phase CurrentPhase
     {

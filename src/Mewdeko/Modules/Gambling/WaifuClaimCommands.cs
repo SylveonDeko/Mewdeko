@@ -75,9 +75,9 @@ public partial class Gambling
                 Format.Bold(target.ToString()),
                 amount + CurrencySign);
             if (w.Affinity?.UserId == ctx.User.Id)
-                msg += "\n" + GetText("waifu_fulfilled", target, w.Price + CurrencySign);
+                msg += $"\n{GetText("waifu_fulfilled", target, w.Price + CurrencySign)}";
             else
-                msg = " " + msg;
+                msg = $" {msg}";
             await ctx.Channel.SendConfirmAsync(ctx.User.Mention + msg);
         }
 
@@ -195,7 +195,7 @@ public partial class Gambling
             {
                 var j = i++;
                 embed.AddField(efb =>
-                    efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + CurrencySign).WithValue(w.ToString())
+                    efb.WithName($"#{((page * 9) + j + 1)} - {w.Price}{CurrencySign}").WithValue(w.ToString())
                         .WithIsInline(false));
             }
 
@@ -237,8 +237,8 @@ public partial class Gambling
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(GetText("waifu") + " " + (wi.FullName ?? name ?? targetId.ToString()) + " - \"the " +
-                           WaifuService.GetClaimTitle(wi.ClaimCount) + "\"")
+                .WithTitle(
+                    $"{GetText("waifu")} {(wi.FullName ?? name ?? targetId.ToString())} - \"the {WaifuService.GetClaimTitle(wi.ClaimCount)}\"")
                 .AddField(efb => efb.WithName(GetText("price")).WithValue(wi.Price.ToString()).WithIsInline(true))
                 .AddField(efb =>
                     efb.WithName(GetText("claimed_by")).WithValue(wi.ClaimerName ?? nobody).WithIsInline(true))
@@ -310,7 +310,7 @@ public partial class Gambling
 
             if (sucess)
                 await ReplyConfirmLocalizedAsync("waifu_gift",
-                    Format.Bold(item + " " + item.ItemEmoji),
+                    Format.Bold($"{item} {item.ItemEmoji}"),
                     Format.Bold(waifu.ToString()));
             else
                 await ReplyErrorLocalizedAsync("not_enough", CurrencySign);

@@ -64,7 +64,7 @@ public class TriviaQuestion
 
     private static string Clean(string str)
     {
-        str = " " + str.ToLowerInvariant() + " ";
+        str = $" {str.ToLowerInvariant()} ";
         str = Regex.Replace(str, "\\s+", " ");
         str = Regex.Replace(str, "[^\\w\\d\\s]", "");
         //Here's where custom modification can be done

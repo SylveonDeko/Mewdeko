@@ -10,7 +10,8 @@ public enum ProtectionType
 {
     Raiding,
     Spamming,
-    Alting
+    Alting,
+    MassMention
 }
 
 public class AntiRaidStats
@@ -20,6 +21,10 @@ public class AntiRaidStats
     public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = new();
 }
 
+public class AntiMassMentionStats
+{
+    
+}
 public class AntiSpamStats
 {
     public AntiSpamSetting AntiSpamSettings { get; set; }

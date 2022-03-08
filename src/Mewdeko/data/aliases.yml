@@ -71,6 +71,44 @@ multigreetwebhook:
   - mgwebhook
   - mghook
   - mgh
+rolegreetadd:
+  - rolegreetadd
+  - rgadd
+  - rga
+rolegreetdelete:
+  - rolegreetdelete
+  - rgdel
+  - rgd
+rolegreetlist:
+  - rolegreetlist
+  - rglist
+  - rgl
+rolegreetmessage:
+  - rolegreetmessage
+  - rgmsg
+  - rgm
+rolegreetremove:
+  - rolegreetremove
+  - rgrem
+  - rgrm
+  - rgr
+rolegreetdisable:
+  - rolegreetdisable
+  - rgdisable
+  - rgdis
+rolegreetwebhook:
+  - rolegreetwebhook
+  - rgwebhook
+  - rghook
+  - rgh
+rolegreetgreetbots:
+  - rolegreetgreetbots
+  - rolegreetbots
+  - rggb
+multigreetgreetbots:
+  - multigreetgreetbots
+  - multigreetbots
+  - mggb
 greet:
   - greet
 seek:

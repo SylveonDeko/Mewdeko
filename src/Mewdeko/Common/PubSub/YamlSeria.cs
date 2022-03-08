@@ -20,7 +20,9 @@ public class YamlSeria : IConfigSeria
         _deserializer = Yaml.Deserializer;
     }
 
+#pragma warning disable CS8633
     public string Serialize<T>(T obj)
+#pragma warning restore CS8633
         where T : notnull
     {
         var escapedOutput = _serializer.Serialize(obj);

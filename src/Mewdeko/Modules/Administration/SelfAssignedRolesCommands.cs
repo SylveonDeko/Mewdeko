@@ -118,7 +118,7 @@ public partial class Administration
                     else
                         groupNameText = Format.Bold($"{kvp.Key} - {name.TrimTo(25, true)}");
 
-                    rolesStr.AppendLine("\t\t\t\t ⟪" + groupNameText + "⟫");
+                    rolesStr.AppendLine($"\t\t\t\t ⟪{groupNameText}⟫");
                     foreach (var (model, role) in kvp.AsEnumerable())
                         if (role == null)
                         {
@@ -127,9 +127,9 @@ public partial class Administration
                         {
                             // first character is invisible space
                             if (model.LevelRequirement == 0)
-                                rolesStr.AppendLine("‌‌   " + role.Name);
+                                rolesStr.AppendLine($"‌‌   {role.Name}");
                             else
-                                rolesStr.AppendLine("‌‌   " + role.Name + $" (lvl {model.LevelRequirement}+)");
+                                rolesStr.AppendLine($"‌‌   {role.Name} (lvl {model.LevelRequirement}+)");
                         }
 
                     rolesStr.AppendLine();

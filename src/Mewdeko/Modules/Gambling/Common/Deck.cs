@@ -170,8 +170,7 @@ public class Deck
         if (handValues == null)
             InitHandValues();
         foreach (var kvp in handValues.Where(x => x.Value(cards))) return kvp.Key;
-        return "High card " +
-               (cards.FirstOrDefault(c => c.Number == 1)?.GetValueText() ?? cards.Max().GetValueText());
+        return $"High card {(cards.FirstOrDefault(c => c.Number == 1)?.GetValueText() ?? cards.Max().GetValueText())}";
     }
 
     public class Card : IComparable
@@ -248,10 +247,10 @@ public class Deck
                 var str = "";
 
                 if (Number is <= 10 and > 1)
-                    str += "_" + Number;
+                    str += $"_{Number}";
                 else
                     str += GetValueText().ToLowerInvariant();
-                return str + "_of_" + Suit.ToString().ToLowerInvariant();
+                return $"{str}_of_{Suit.ToString().ToLowerInvariant()}";
             }
         }
 
@@ -263,7 +262,7 @@ public class Deck
 
         public string GetValueText() => _cardNames[Number];
 
-        public override string ToString() => _cardNames[Number] + " Of " + Suit;
+        public override string ToString() => $"{_cardNames[Number]} Of {Suit}";
 
         public static Card Parse(string input)
         {

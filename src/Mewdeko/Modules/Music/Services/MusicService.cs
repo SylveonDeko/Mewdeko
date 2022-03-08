@@ -37,12 +37,7 @@ public class MusicService : INService
             var currentContext = currentTrack.Context as MusicPlayer.AdvancedTrackContext;
             var musicSettings = await GetSettingsInternalAsync(guild.Id);
             return
-                $"{player.Position.Position:hh\\:mm\\:ss}/{currentTrack.Duration:hh\\:mm\\:ss} | " + 
-                $"{currentContext.QueueUser} | " + 
-                $"{currentContext.QueuedPlatform} | " + 
-                $"Vol: {musicSettings.Volume} | " + 
-                $"Loop: {musicSettings.PlayerRepeat} | " +
-                $"{GetQueue(guild.Id).Count} tracks in queue";
+                $"{player.Position.Position:hh\\\\:mm\\\\:ss}/{currentTrack.Duration:hh\\\\:mm\\\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | Vol: {musicSettings.Volume} | Loop: {musicSettings.PlayerRepeat} | {GetQueue(guild.Id).Count} tracks in queue";
 
         }
         public async Task UpdateDefaultPlaylist(IUser user, MusicPlaylist mpl)
@@ -111,7 +106,7 @@ public class MusicService : INService
             LavalinkPlayer player,
             string? uri)
         {
-            Debug.Assert(uri != null, nameof(uri) + " != null");
+            Debug.Assert(uri != null, $"{nameof(uri)} != null");
             var spotifyUrl = new Uri(uri);
             switch (spotifyUrl.Segments[1])
             {
