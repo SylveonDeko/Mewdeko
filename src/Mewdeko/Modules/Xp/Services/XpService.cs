@@ -85,7 +85,7 @@ public class XpService : INService, IUnloadableService
         if (client.ShardId == 0)
         {
             var sub = _cache.Redis.GetSubscriber();
-            sub.Subscribe(_creds.RedisKey() + "_reload_xp_template", (_, _) => InternalReloadXpTemplate());
+            sub.Subscribe($"{_creds.RedisKey()}_reload_xp_template", (_, _) => InternalReloadXpTemplate());
         }
 
         //load settings
@@ -285,7 +285,7 @@ public class XpService : INService, IUnloadableService
     public void ReloadXpTemplate()
     {
         var sub = _cache.Redis.GetSubscriber();
-        sub.Publish(_creds.RedisKey() + "_reload_xp_template", "");
+        sub.Publish($"{_creds.RedisKey()}_reload_xp_template", "");
     }
 
     public void SetCurrencyReward(ulong guildId, int level, int amount)

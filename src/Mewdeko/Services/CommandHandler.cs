@@ -264,10 +264,9 @@ public class CommandHandler : INService
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +
-                        "Message: {3}",
-            usrMsg.Author + " [" + usrMsg.Author.Id + "]", // {0}
-            channel == null ? "PRIVATE" : channel.Guild.Name + " [" + channel.Guild.Id + "]", // {1}
-            channel == null ? "PRIVATE" : channel.Name + " [" + channel.Id + "]", // {2}
+                        "Message: {3}", $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
+            channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
+            channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
             usrMsg.Content // {3}
         );
         return Task.CompletedTask;

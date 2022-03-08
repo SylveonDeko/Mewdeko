@@ -53,8 +53,7 @@ public partial class Administration
                 await Service.SetAarRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
 
             await ReplyConfirmLocalizedAsync("aar_roles",
-                '\n' + existing.Select(x => Format.Bold(x.Mention))
-                    .JoinWith("\n"));
+                $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}");
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -98,8 +97,7 @@ public partial class Administration
                 await Service.SetAabrRolesAsync(ctx.Guild.Id, existing.Select(x => x.Id));
 
             await ReplyConfirmLocalizedAsync("aabr_roles",
-                '\n' + existing.Select(x => Format.Bold(x.Mention))
-                    .JoinWith("\n"));
+                $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}");
         }
     }
 }

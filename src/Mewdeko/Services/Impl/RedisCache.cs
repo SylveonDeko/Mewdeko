@@ -38,7 +38,7 @@ public class RedisCache : IDataCache
     public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key)
     {
         var db = Redis.GetDatabase();
-        byte[] x = await db.StringGetAsync("image_" + key).ConfigureAwait(false);
+        byte[] x = await db.StringGetAsync($"image_{key}").ConfigureAwait(false);
         return (x != null, x);
     }
 
@@ -164,7 +164,7 @@ public class RedisCache : IDataCache
     public async Task SetImageDataAsync(Uri key, byte[] data)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync("image_" + key, data);
+        await db.StringSetAsync($"image_{key}", data);
     }
 
 

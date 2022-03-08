@@ -218,13 +218,8 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
         async Task<PageBuilder> PageFactory(int page)
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
-            return new PageBuilder().WithDescription($"#{Array.IndexOf(greets, curgreet) + 1}"
-                                                     + $"\n`Role:` {ctx.Guild.GetRole(curgreet.RoleId).Mention} `{curgreet.RoleId}`"
-                                                     + $"\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}"
-                                                     + $"\n`Delete After:` {curgreet.DeleteTime}s"
-                                                     + $"\n`Webhook:` {curgreet.WebhookUrl != null}"
-                                                     + $"\n`Disabled:` {curgreet.Disabled}"
-                                                     + $"\n`Message:` {curgreet.Message.TrimTo(1000)}")
+            return new PageBuilder().WithDescription(
+                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Role:` {ctx.Guild.GetRole(curgreet.RoleId).Mention} `{curgreet.RoleId}`\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Disabled:` {curgreet.Disabled}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                     .WithOkColor();
         }
 

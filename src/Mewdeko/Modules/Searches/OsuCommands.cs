@@ -77,7 +77,7 @@ public partial class Searches
                     .AddField("Official Rank", $"#{obj.PpRank}", true)
                     .AddField("Country Rank", $"#{obj.PpCountryRank} :flag_{obj.Country.ToLower()}:", true)
                     .AddField("Total PP", Math.Round(obj.PpRaw, 2), true)
-                    .AddField("Accuracy", Math.Round(obj.Accuracy, 2) + "%", true)
+                    .AddField("Accuracy", $"{Math.Round(obj.Accuracy, 2)}%", true)
                     .AddField("Playcount", obj.Playcount, true)
                     .AddField("Level", Math.Round(obj.Level), true)
                 );
@@ -154,21 +154,15 @@ public partial class Searches
             var m = 0;
             if (!string.IsNullOrWhiteSpace(mode)) m = ResolveGameMode(mode);
 
-            var reqString = "https://osu.ppy.sh/api/get_user_best" +
-                            $"?k={_creds.OsuApiKey}" +
-                            $"&u={Uri.EscapeDataString(user)}" +
-                            "&type=string" +
-                            "&limit=5" +
-                            $"&m={m}";
+            var reqString =
+                $"https://osu.ppy.sh/api/get_user_best?k={_creds.OsuApiKey}&u={Uri.EscapeDataString(user)}&type=string&limit=5&m={m}";
 
             var resString = await http.GetStringAsync(reqString).ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<List<OsuUserBests>>(resString);
 
             var mapTasks = obj.Select(async item =>
             {
-                var mapReqString = "https://osu.ppy.sh/api/get_beatmaps" +
-                                   $"?k={_creds.OsuApiKey}" +
-                                   $"&b={item.BeatmapId}";
+                var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={_creds.OsuApiKey}&b={item.BeatmapId}";
 
                 var mapResString = await http.GetStringAsync(mapReqString).ConfigureAwait(false);
                 var map = JsonConvert.DeserializeObject<List<OsuMapData>>(mapResString).FirstOrDefault();
@@ -180,7 +174,7 @@ public partial class Searches
 
                 var title = $"{map.Artist}-{map.Title} ({map.Version})";
                 var desc = $@"[/b/{item.BeatmapId}](https://osu.ppy.sh/b/{item.BeatmapId})
-{pp + "pp",-7} | {acc + "%",-7}
+{$"{pp}pp",-7} | {$"{acc}%",-7}
 ";
                 if (mods != "+") desc += Format.Bold(mods);
 

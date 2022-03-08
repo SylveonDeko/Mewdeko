@@ -90,7 +90,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var embed = new EmbedBuilder()
             .WithTitle(GetText("economy_state"))
             .AddField(GetText("currency_owned"), (BigInteger) (ec.Cash - ec.Bot) + CurrencySign)
-            .AddField(GetText("currency_one_percent"), (onePercent * 100).ToString("F2") + "%")
+            .AddField(GetText("currency_one_percent"), $"{(onePercent * 100):F2}%")
             .AddField(GetText("currency_planted"), (BigInteger) ec.Planted + CurrencySign)
             .AddField(GetText("owned_waifus_total"), (BigInteger) ec.Waifus + CurrencySign)
             .AddField(GetText("bot_currency"), ec.Bot + CurrencySign)
@@ -187,7 +187,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var membersArray = members as IUser[] ?? members.ToArray();
         if (membersArray.Length == 0) return;
         var usr = membersArray[new MewdekoRandom().Next(0, membersArray.Length)];
-        await ctx.Channel.SendConfirmAsync("🎟 " + GetText("raffled_user"),
+        await ctx.Channel.SendConfirmAsync($"🎟 {GetText("raffled_user")}",
             $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
     }
 
@@ -200,7 +200,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var membersArray = members as IUser[] ?? members.ToArray();
         if (membersArray.Length == 0) return;
         var usr = membersArray[new MewdekoRandom().Next(0, membersArray.Length)];
-        await ctx.Channel.SendConfirmAsync("🎟 " + GetText("raffled_user"),
+        await ctx.Channel.SendConfirmAsync($"🎟 {GetText("raffled_user")}",
             $"**{usr.Username}#{usr.Discriminator}**", footer: $"ID: {usr.Id}").ConfigureAwait(false);
     }
 
@@ -527,7 +527,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             await Task.CompletedTask;
             var embed = new PageBuilder()
                 .WithOkColor()
-                .WithTitle(CurrencySign + " " + GetText("leaderboard"));
+                .WithTitle($"{CurrencySign} {GetText("leaderboard")}");
 
             List<DiscordUser> toSend;
             if (!opts.Clean)
@@ -552,8 +552,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 var usrStr = x.ToString().TrimTo(20, true);
 
                 var j = i;
-                embed.AddField(efb => efb.WithName("#" + ((9 * page) + j + 1) + " " + usrStr)
-                    .WithValue(N(x.CurrencyAmount) + " " + CurrencySign)
+                embed.AddField(efb => efb.WithName($"#{((9 * page) + j + 1)} {usrStr}")
+                    .WithValue($"{N(x.CurrencyAmount)} {CurrencySign}")
                     .WithIsInline(true));
             }
 

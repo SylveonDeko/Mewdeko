@@ -75,7 +75,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
         public byte[] GetCard(string key) =>
             // since cards are always local for now, don't cache them
-            File.ReadAllBytes(Path.Join(CARDS_PATH, key + ".jpg"));
+            File.ReadAllBytes(Path.Join(CARDS_PATH, $"{key}.jpg"));
 
 
         public async Task OnReadyAsync()
@@ -289,6 +289,6 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
             => Db.StringGet(GetRedisKey(key));
 
         private RedisKey GetRedisKey(ImageKeys key) 
-            => _creds.RedisKey() + "_image_" + key;
+            => $"{_creds.RedisKey()}_image_{key}";
     }
     

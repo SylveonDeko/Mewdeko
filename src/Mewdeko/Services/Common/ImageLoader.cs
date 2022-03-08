@@ -95,7 +95,7 @@ public class ImageLoader
         {
             if (string.IsNullOrWhiteSpace(parent))
                 return "";
-            return parent + "_";
+            return $"{parent}_";
         }
 
         var tasks = new List<Task>();

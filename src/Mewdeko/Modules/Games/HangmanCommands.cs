@@ -22,8 +22,8 @@ public partial class Games
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangmanlist() =>
             await ctx.Channel
-                     .SendConfirmAsync(Format.Code(GetText("hangman_types", Prefix)) + "\n" +
-                                       string.Join("\n", Service.TermPool.Data.Keys)).ConfigureAwait(false);
+                     .SendConfirmAsync(
+                         $"{Format.Code(GetText("hangman_types", Prefix))}\n{string.Join("\n", Service.TermPool.Data.Keys)}").ConfigureAwait(false);
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")
@@ -53,8 +53,8 @@ public partial class Games
 
             try
             {
-                await ctx.Channel.SendConfirmAsync(GetText("hangman_game_started") + $" ({hm.TermType})",
-                        hm.ScrambledWord + "\n" + hm.GetHangman())
+                await ctx.Channel.SendConfirmAsync($"{GetText("hangman_game_started")} ({hm.TermType})",
+                             $"{hm.ScrambledWord}\n{hm.GetHangman()}")
                     .ConfigureAwait(false);
             }
             catch
@@ -109,19 +109,17 @@ public partial class Games
 
         private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess) =>
             ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
-                $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n" +
-                game.ScrambledWord + "\n" + game.GetHangman(),
+                $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
 
         private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess) =>
             ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})",
-                $"{user} guessed a letter `{guess}`!\n" + game.ScrambledWord + "\n" + game.GetHangman(),
+                $"{user} guessed a letter `{guess}`!\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
 
         private Task Hm_OnGuessFailed(Hangman game, string user, char guess) =>
             ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
-                $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n" +
-                game.ScrambledWord + "\n" + game.GetHangman(),
+                $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]

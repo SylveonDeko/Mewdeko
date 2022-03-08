@@ -109,12 +109,9 @@ public partial class Games
             var i = 0;
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(GetText("acrophobia") + " - " + GetText("submissions_closed"))
+                .WithTitle($"{GetText("acrophobia")} - {GetText("submissions_closed")}")
                 .WithDescription(GetText("acro_nym_was",
-                    Format.Bold(string.Join(".", game.StartingLetters)) + "\n" +
-                    $@"--
-{submissions.Aggregate("", (agg, cur) => agg + $"`{++i}.` **{cur.Key.Input}**\n")}
---"))
+                    $"{Format.Bold(string.Join(".", game.StartingLetters))}\n--\n{submissions.Aggregate("", (agg, cur) => $"{agg}`{++i}.` **{cur.Key.Input}**\n")}\n--"))
                 .WithFooter(efb => efb.WithText(GetText("acro_vote")));
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);

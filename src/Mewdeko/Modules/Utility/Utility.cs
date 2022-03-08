@@ -638,8 +638,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         if (arr.Length == 0)
             await ReplyErrorLocalizedAsync("nobody_playing_game").ConfigureAwait(false);
         else
-            await ctx.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(_ => i++ / 2)
-                    .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
+            await ctx.Channel.SendConfirmAsync(
+                         $"```css\n{string.Join("\n", arr.GroupBy(_ => i++ / 2).Select(ig => string.Concat(ig.Select(el => $"• {el,-27}"))))}\n```")
                 .ConfigureAwait(false);
     }
 
@@ -675,16 +675,12 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             await Task.CompletedTask;
             return new PageBuilder().WithOkColor()
-                                                    .WithTitle(Format.Bold(GetText("inrole_list",
-                                                                   Format.Bold(role.Name)))
-                                                               + $" - {roleUsers.Length}")
+                                                    .WithTitle(
+                                                        $"{Format.Bold(GetText("inrole_list", Format.Bold(role.Name)))} - {roleUsers.Length}")
                                                     .WithDescription(string.Join("\n",
                                                         roleUsers.Skip(page * 20).Take(20)
                                                                  .Select(x => $"{x} `{x.Id}`"))).AddField("User Stats",
-                                                        $"<:online:914548119730024448> {roleUsers.Count(x => x.Status == UserStatus.Online)}"
-                                                        + $"\n<:dnd:914548634178187294> {roleUsers.Count(x => x.Status == UserStatus.DoNotDisturb)}"
-                                                        + $"\n<:idle:914548262424412172> {roleUsers.Count(x => x.Status == UserStatus.Idle)}"
-                                                        + $"\n<:offline:914548368037003355> {roleUsers.Count(x => x.Status == UserStatus.Offline)}");
+                                                        $"<:online:914548119730024448> {roleUsers.Count(x => x.Status == UserStatus.Online)}\n<:dnd:914548634178187294> {roleUsers.Count(x => x.Status == UserStatus.DoNotDisturb)}\n<:idle:914548262424412172> {roleUsers.Count(x => x.Status == UserStatus.Idle)}\n<:offline:914548368037003355> {roleUsers.Count(x => x.Status == UserStatus.Offline)}");
         }
     }
 
@@ -763,7 +759,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
             else
                 await channel.SendConfirmAsync(GetText("roles_page", page, Format.Bold(target.ToString())),
-                    "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles)).ConfigureAwait(false);
+                    $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles)}").ConfigureAwait(false);
         }
         else
         {
@@ -773,7 +769,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
             else
                 await channel.SendConfirmAsync(GetText("roles_all_page", page),
-                        "\n• " + string.Join("\n• ", (IEnumerable<IRole>) roles).SanitizeMentions())
+                                 $"\n• {string.Join("\n• ", (IEnumerable<IRole>)roles).SanitizeMentions()}")
                     .ConfigureAwait(false);
         }
     }
