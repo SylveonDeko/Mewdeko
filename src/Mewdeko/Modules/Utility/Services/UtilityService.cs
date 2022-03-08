@@ -6,6 +6,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using System.Threading;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 
@@ -37,6 +38,7 @@ public class UtilityService : INService
                         .ToConcurrent();
         _snipes = new ConcurrentDictionary<ulong, IList<SnipeStore>>();
         _ = StoreSnipesOnStart();
+        _ = PruneTimer();
 
     }
 
@@ -54,6 +56,18 @@ public class UtilityService : INService
             }
         });
 
+    public async Task PruneTimer()
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+        while (await timer.WaitForNextTickAsync())
+        {
+            var channel = await _client.GetChannelAsync(946933865866493983);
+            var textChannel = channel as ITextChannel;
+            var messages = (await textChannel.GetMessagesAsync(1000).FlattenAsync()).Where(x =>
+                DateTimeOffset.Now.Subtract(x.Timestamp).TotalSeconds <= TimeSpan.FromMinutes(10).TotalSeconds);
+            await textChannel.DeleteMessagesAsync(messages);
+        }
+    }
     public Task<IList<SnipeStore>> GetSnipes(ulong guildId) 
         => Task.FromResult(_snipes.FirstOrDefault(x => x.Key == guildId).Value);
     public int GetPLinks(ulong? id)
