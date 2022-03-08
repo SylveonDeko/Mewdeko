@@ -71,10 +71,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         var sub = _redis.GetSubscriber();
         if (_client.ShardId == 0)
-            sub.Subscribe(_creds.RedisKey() + "_reload_images",
+            sub.Subscribe($"{_creds.RedisKey()}_reload_images",
                 delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
 
-        sub.Subscribe(_creds.RedisKey() + "_leave_guild", async (_, v) =>
+        sub.Subscribe($"{_creds.RedisKey()}_leave_guild", async (_, v) =>
         {
             try
             {
@@ -110,16 +110,15 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var bs = _bss.Data;
         if (msg.Channel is IDMChannel && _bss.Data.ForwardMessages && ownerChannels.Any())
         {
-            var title = _strings.GetText("dm_from") +
-                        $" [{msg.Author}]({msg.Author.Id})";
+            var title = $"{_strings.GetText("dm_from")} [{msg.Author}]({msg.Author.Id})";
 
             var attachamentsTxt = _strings.GetText("attachments");
 
             var toSend = msg.Content;
 
             if (msg.Attachments.Count > 0)
-                toSend += $"\n\n{Format.Code(attachamentsTxt)}:\n" +
-                          string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl));
+                toSend +=
+                    $"\n\n{Format.Code(attachamentsTxt)}:\n{string.Join("\n", msg.Attachments.Select(a => a.ProxyUrl))}";
 
             if (bs.ForwardToAllOwners)
             {
@@ -272,7 +271,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 return;
             var prefix = _cmdHandler.GetPrefix(cmd.GuildId);
             //if someone already has .die as their startup command, ignore it
-            if (cmd.CommandText.StartsWith(prefix + "die", StringComparison.InvariantCulture))
+            if (cmd.CommandText.StartsWith($"{prefix}die", StringComparison.InvariantCulture))
                 return;
             await _cmdHandler.ExecuteExternal(cmd.GuildId, cmd.ChannelId, cmd.CommandText).ConfigureAwait(false);
         }
@@ -349,7 +348,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public Task LeaveGuild(string guildStr)
     {
         var sub = _cache.Redis.GetSubscriber();
-        return sub.PublishAsync(_creds.RedisKey() + "_leave_guild", guildStr);
+        return sub.PublishAsync($"{_creds.RedisKey()}_leave_guild", guildStr);
     }
 
     public bool RestartBot()
@@ -437,20 +436,20 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     public void ReloadImages()
     {
         var sub = _cache.Redis.GetSubscriber();
-        sub.Publish(_creds.RedisKey() + "_reload_images", "");
+        sub.Publish($"{_creds.RedisKey()}_reload_images", "");
     }
 
     public void Die()
     {
         var sub = _cache.Redis.GetSubscriber();
-        sub.Publish(_creds.RedisKey() + "_die", "", CommandFlags.FireAndForget);
+        sub.Publish($"{_creds.RedisKey()}_die", "", CommandFlags.FireAndForget);
     }
 
     public void Restart()
     {
         Process.Start(_creds.RestartCommand.Cmd, _creds.RestartCommand.Args);
         var sub = _cache.Redis.GetSubscriber();
-        sub.Publish(_creds.RedisKey() + "_die", "", CommandFlags.FireAndForget);
+        sub.Publish($"{_creds.RedisKey()}_die", "", CommandFlags.FireAndForget);
     }
 
     public bool RestartShard(int shardId)
@@ -459,7 +458,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return false;
 
         var pub = _cache.Redis.GetSubscriber();
-        pub.Publish(_creds.RedisKey() + "_shardcoord_stop",
+        pub.Publish($"{_creds.RedisKey()}_shardcoord_stop",
             JsonConvert.SerializeObject(shardId),
             CommandFlags.FireAndForget);
 

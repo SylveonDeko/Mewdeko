@@ -96,8 +96,8 @@ public partial class Gambling
                         dealerIcon = "🏁 ";
                 }
 
-                var cStr = string.Concat(c.Select(x => x[..^1] + " "));
-                cStr += "\n" + string.Concat(c.Select(x => x.Last() + " "));
+                var cStr = string.Concat(c.Select(x => $"{x[..^1]} "));
+                cStr += $"\n{string.Concat(c.Select(x => $"{x.Last()} "))}";
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("BlackJack")
@@ -109,31 +109,31 @@ public partial class Gambling
                 foreach (var p in bj.Players)
                 {
                     c = p.Cards.Select(x => x.GetEmojiString());
-                    cStr = "-\t" + string.Concat(c.Select(x => x[..^1] + " "));
-                    cStr += "\n-\t" + string.Concat(c.Select(x => x.Last() + " "));
+                    cStr = $"-\t{string.Concat(c.Select(x => $"{x[..^1]} "))}";
+                    cStr += $"\n-\t{string.Concat(c.Select(x => $"{x.Last()} "))}";
                     var full = $"{p.DiscordUser.ToString().TrimTo(20)} | Bet: {p.Bet} | Value: {p.GetHandValue()}";
                     if (bj.State == Blackjack.GameState.Ended)
                     {
                         if (p.State == User.UserState.Lost)
-                            full = "❌ " + full;
+                            full = $"❌ {full}";
                         else
-                            full = "✅ " + full;
+                            full = $"✅ {full}";
                     }
                     else if (p == bj.CurrentUser)
                     {
-                        full = "▶ " + full;
+                        full = $"▶ {full}";
                     }
                     else if (p.State == User.UserState.Stand)
                     {
-                        full = "⏹ " + full;
+                        full = $"⏹ {full}";
                     }
                     else if (p.State == User.UserState.Bust)
                     {
-                        full = "💥 " + full;
+                        full = $"💥 {full}";
                     }
                     else if (p.State == User.UserState.Blackjack)
                     {
-                        full = "💰 " + full;
+                        full = $"💰 {full}";
                     }
 
                     embed.AddField(full, cStr);
@@ -152,7 +152,7 @@ public partial class Gambling
                 ? Format.Strikethrough(x.DiscordUser.ToString().TrimTo(30))
                 : x.DiscordUser.ToString();
 
-            _ = $"{string.Concat(x.Cards.Select(y => "〖" + y.GetEmojiString() + "〗"))}";
+            _ = $"{string.Concat(x.Cards.Select(y => $"〖{y.GetEmojiString()}〗"))}";
 
 
             return $"{playerName} | Bet: {x.Bet}\n";

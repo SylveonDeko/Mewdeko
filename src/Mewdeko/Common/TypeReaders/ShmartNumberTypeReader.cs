@@ -63,7 +63,7 @@ public class ShmartNumberTypeReader : MewdekoTypeReader<ShmartNumber>
     {
         var db = services.GetService<DbService>();
         long cur;
-        Debug.Assert(db != null, nameof(db) + " != null");
+        Debug.Assert(db != null, $"{nameof(db)} != null");
         using var uow = db.GetDbContext();
         cur = uow.DiscordUser.GetUserCurrency(ctx.User.Id);
         uow.SaveChanges();

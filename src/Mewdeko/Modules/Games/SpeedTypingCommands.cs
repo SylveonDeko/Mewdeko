@@ -35,9 +35,7 @@ public partial class Games
                 _ => new TypingGame(_games, _client, channel, Prefix, options));
 
             if (game.IsActive)
-                await channel.SendErrorAsync(
-                        "Contest already running in " +
-                        $"{game.Channel.Mention} channel.")
+                await channel.SendErrorAsync($"Contest already running in {game.Channel.Mention} channel.")
                     .ConfigureAwait(false);
             else
                 await game.Start().ConfigureAwait(false);

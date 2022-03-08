@@ -20,6 +20,6 @@ public static class Extensions
 
         if (hideDots)
             return string.Concat(str.Take(maxLength));
-        return string.Concat(str.Take(maxLength - 3)) + "...";
+        return $"{string.Concat(str.Take(maxLength - 3))}...";
     }
 }

@@ -24,7 +24,7 @@ public sealed class RatelimitAttribute : PreconditionAttribute
             return Task.FromResult(PreconditionResult.FromSuccess());
 
         var cache = services.GetService<IDataCache>();
-        Debug.Assert(cache != null, nameof(cache) + " != null");
+        Debug.Assert(cache != null, $"{nameof(cache)} != null");
         var rem = cache.TryAddRatelimit(context.User.Id, command.Name, Seconds);
 
         if (rem == null)

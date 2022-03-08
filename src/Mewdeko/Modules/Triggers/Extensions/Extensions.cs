@@ -39,7 +39,7 @@ public static class Extensions
                 if (img?.Source == null)
                     return "";
 
-                return " " + img.Source.Replace("b.", ".", StringComparison.InvariantCulture) + " ";
+                return $" {img.Source.Replace("b.", ".", StringComparison.InvariantCulture)} ";
             }
         }
     };

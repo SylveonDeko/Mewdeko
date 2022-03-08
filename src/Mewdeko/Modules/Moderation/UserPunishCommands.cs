@@ -75,15 +75,15 @@ public partial class Moderation : MewdekoModule
             {
                 await Service.SetWarnlogChannelId(ctx.Guild, channel);
                 var warnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
-                await ctx.Channel.SendConfirmAsync("Your warnlog channel has been set to " + warnChannel.Mention);
+                await ctx.Channel.SendConfirmAsync($"Your warnlog channel has been set to {warnChannel.Mention}");
                 return;
             }
 
             var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
             await Service.SetWarnlogChannelId(ctx.Guild, channel);
             var newWarnChannel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
-            await ctx.Channel.SendConfirmAsync("Your warnlog channel has been changed from " +
-                                               oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
+            await ctx.Channel.SendConfirmAsync(
+                $"Your warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -120,7 +120,7 @@ public partial class Moderation : MewdekoModule
                     .WithErrorColor()
                     .WithDescription(GetText("cant_apply_punishment"));
 
-                if (dmFailed) errorEmbed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+                if (dmFailed) errorEmbed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
                 await ctx.Channel.EmbedAsync(errorEmbed);
                 return;
@@ -135,7 +135,7 @@ public partial class Moderation : MewdekoModule
                 embed.WithDescription(GetText("user_warned_and_punished", Format.Bold(user.ToString()),
                     Format.Bold(punishment.Punishment.ToString())));
 
-            if (dmFailed) embed.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+            if (dmFailed) embed.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
             await ctx.Channel.EmbedAsync(embed);
             if (WarnlogChannel != 0)
@@ -150,14 +150,10 @@ public partial class Moderation : MewdekoModule
                 var channel = await ctx.Guild.GetTextChannelAsync(WarnlogChannel);
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                     .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                    .WithTitle("Warned by: " + ctx.User)
+                    .WithTitle($"Warned by: {ctx.User}")
                     .WithCurrentTimestamp()
-                    .WithDescription("Username: " + user.Username + "#" + user.Discriminator + "\n" +
-                                     "ID of Warned User: " + user.Id + "\n" + "Warn Number: " + warnings +
-                                     "\nPunishment: " + punishaction + " " + punishtime + "\n\n" + "Reason: " +
-                                     reason + "\n\n" + "[Click Here For Context]" +
-                                     "(https://discord.com/channels/" + ctx.Guild.Id + "/" + ctx.Channel.Id + "/" +
-                                     ctx.Message.Id + ")"));
+                    .WithDescription(
+                        $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})"));
             }
         }
 
@@ -240,10 +236,10 @@ public partial class Moderation : MewdekoModule
                         var name = GetText("warned_on_by", $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:D>",
                             $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:T>", w.Moderator);
                         if (w.Forgiven)
-                            name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
+                            name = $"{Format.Strikethrough(name)} {GetText("warn_cleared_by", w.ForgivenBy)}";
 
                         embed.AddField(x => x
-                            .WithName($"#`{i}` " + name)
+                            .WithName($"#`{i}` {name}")
                             .WithValue(w.Reason.TrimTo(1020)));
                     }
                 }
@@ -282,7 +278,7 @@ public partial class Moderation : MewdekoModule
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
                             var usr = await ctx.Guild.GetUserAsync(x.Key);
-                            return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
+                            return $"{(usr?.ToString() ?? x.Key.ToString())} | {total} ({all} - {forgiven})";
                         }).GetResults();
 
                     return new PageBuilder().WithOkColor()
@@ -386,7 +382,7 @@ public partial class Moderation : MewdekoModule
             if (ps.Any())
                 list = string.Join("\n",
                     ps.Select(x =>
-                        $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : x.Time + "m")} "));
+                        $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : $"{x.Time}m")} "));
             else
                 list = GetText("warnpl_none");
             await ctx.Channel.SendConfirmAsync(
@@ -427,7 +423,7 @@ public partial class Moderation : MewdekoModule
 
             await _mute.TimedBan(Context.Guild, user, time.Time, $"{ctx.User} | {msg}").ConfigureAwait(false);
             var toSend = new EmbedBuilder().WithOkColor()
-                .WithTitle("⛔️ " + GetText("banned_user"))
+                .WithTitle($"⛔️ {GetText("banned_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
                 .AddField(efb =>
@@ -435,7 +431,7 @@ public partial class Moderation : MewdekoModule
                         .WithValue($"{time.Time.Days}d {time.Time.Hours}h {time.Time.Minutes}m")
                         .WithIsInline(true));
 
-            if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
             await ctx.Channel.EmbedAsync(toSend)
                 .ConfigureAwait(false);
@@ -449,10 +445,10 @@ public partial class Moderation : MewdekoModule
                 userId);
             if (user is null)
             {
-                await ctx.Guild.AddBanAsync(userId, 7, ctx.User + " | " + msg);
+                await ctx.Guild.AddBanAsync(userId, 7, $"{ctx.User} | {msg}");
 
                 await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                        .WithTitle("⛔️ " + GetText("banned_user"))
+                        .WithTitle($"⛔️ {GetText("banned_user")}")
                         .AddField(efb => efb.WithName("ID").WithValue(userId.ToString()).WithIsInline(true)))
                     .ConfigureAwait(false);
             }
@@ -486,14 +482,14 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, 7, ctx.User + " | " + msg).ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, 7, $"{ctx.User} | {msg}").ConfigureAwait(false);
 
             var toSend = new EmbedBuilder().WithOkColor()
-                .WithTitle("⛔️ " + GetText("banned_user"))
+                .WithTitle($"⛔️ {GetText("banned_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
 
-            if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
             await ctx.Channel.EmbedAsync(toSend)
                 .ConfigureAwait(false);
@@ -639,7 +635,7 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, 7, "Softban | " + ctx.User + " | " + msg).ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, 7, $"Softban | {ctx.User} | {msg}").ConfigureAwait(false);
             try
             {
                 await ctx.Guild.RemoveBanAsync(user).ConfigureAwait(false);
@@ -650,11 +646,11 @@ public partial class Moderation : MewdekoModule
             }
 
             var toSend = new EmbedBuilder().WithOkColor()
-                .WithTitle("☣ " + GetText("sb_user"))
+                .WithTitle($"☣ {GetText("sb_user")}")
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
 
-            if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
             await ctx.Channel.EmbedAsync(toSend)
                 .ConfigureAwait(false);
@@ -693,14 +689,14 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await user.KickAsync(ctx.User + " | " + msg).ConfigureAwait(false);
+            await user.KickAsync($"{ctx.User} | {msg}").ConfigureAwait(false);
 
             var toSend = new EmbedBuilder().WithOkColor()
                 .WithTitle(GetText("kicked_user"))
                 .AddField(efb => efb.WithName(GetText("username")).WithValue(user.ToString()).WithIsInline(true))
                 .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
 
-            if (dmFailed) toSend.WithFooter("⚠️ " + GetText("unable_to_dm_user"));
+            if (dmFailed) toSend.WithFooter($"⚠️ {GetText("unable_to_dm_user")}");
 
             await ctx.Channel.EmbedAsync(toSend)
                 .ConfigureAwait(false);
