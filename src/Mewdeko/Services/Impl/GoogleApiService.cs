@@ -186,7 +186,7 @@ public class GoogleApiService : IGoogleApiService
         query.Type = "video";
         query.SafeSearch = SearchResource.ListRequest.SafeSearchEnum.Strict;
         return (await query.ExecuteAsync().ConfigureAwait(false)).Items.Select(i =>
-            "https://www.youtube.com/watch?v=" + i.Id.VideoId);
+            $"https://www.youtube.com/watch?v={i.Id.VideoId}");
     }
     
 
@@ -227,7 +227,7 @@ public class GoogleApiService : IGoogleApiService
 
         if (!_languageDictionary.ContainsKey(sourceLanguage) ||
             !_languageDictionary.ContainsKey(targetLanguage))
-            throw new ArgumentException(nameof(sourceLanguage) + "/" + nameof(targetLanguage));
+            throw new ArgumentException($"{nameof(sourceLanguage)}/{nameof(targetLanguage)}");
         var url = new Uri(
             $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={ConvertToLanguageCode(sourceLanguage)}&tl={ConvertToLanguageCode(targetLanguage)}&dt=t&q={WebUtility.UrlEncode(sourceText)}");
         using (var http = _httpFactory.CreateClient())

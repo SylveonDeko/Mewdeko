@@ -116,8 +116,7 @@ public partial class Utility
             {
                 var embed = new EmbedBuilder()
                     .WithTitle("info for fetched user")
-                    .WithDescription("User: " + usr.Username + "#" + usr.Discriminator + "\nUser Created At: " +
-                                     usr.CreatedAt)
+                    .WithDescription($"User: {usr.Username}#{usr.Discriminator}\nUser Created At: {usr.CreatedAt}")
                     .WithImageUrl(usr.RealAvatarUrl().ToString())
                     .WithOkColor();
                 await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -158,7 +157,7 @@ public partial class Utility
                 embed.WithThumbnailUrl(guild.IconUrl);
             if (guild.Emotes.Any())
                 embed.AddField(fb =>
-                    fb.WithName(GetText("custom_emojis") + $"({guild.Emotes.Count})")
+                    fb.WithName($"{GetText("custom_emojis")}({guild.Emotes.Count})")
                         .WithValue(string.Join(" ", guild.Emotes
                                 .Shuffle()
                                 .Take(30)

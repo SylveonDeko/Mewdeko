@@ -166,10 +166,7 @@ public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
             return new PageBuilder().WithOkColor().WithTitle($"{gways.Count()} Active Giveaways")
                                     .WithDescription(string.Join("\n\n",
                                         await gways.Skip(page * 5).Take(5).Select(async x =>
-                                            $"{x.MessageId}"
-                                            + $"\nPrize: {x.Item}"
-                                            + $"\nWinners: {x.Winners}"
-                                            + $"\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId)}").GetResults()));
+                                            $"{x.MessageId}\nPrize: {x.Item}\nWinners: {x.Winners}\nLink: {await GetJumpUrl(x.ChannelId, x.MessageId)}").GetResults()));
         }
     }
 

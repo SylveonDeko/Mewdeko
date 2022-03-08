@@ -147,7 +147,7 @@ public partial class Xp
                 var embed = new PageBuilder()
                     .WithOkColor()
                     .WithTitle($"{club}")
-                    .WithDescription(GetText("level_x", lvl.Level) + $" ({club.Xp} xp)")
+                    .WithDescription($"{GetText("level_x", lvl.Level)} ({club.Xp} xp)")
                     .AddField(GetText("desc"), string.IsNullOrWhiteSpace(club.Description) ? "-" : club.Description)
                     .AddField(GetText("owner"), club.Owner.ToString(), true)
                     .AddField(GetText("level_req"), club.MinimumLevelReq.ToString(), true)
@@ -159,9 +159,9 @@ public partial class Xp
                             var l = new LevelStats(x.TotalXp);
                             var lvlStr = Format.Bold($" ⟪{l.Level}⟫");
                             if (club.OwnerId == x.Id)
-                                return x + "🌟" + lvlStr;
+                                return $"{x}🌟{lvlStr}";
                             if (x.IsClubAdmin)
-                                return x + "⭐" + lvlStr;
+                                return $"{x}⭐{lvlStr}";
                             return x + lvlStr;
                         })));
 
@@ -374,7 +374,7 @@ public partial class Xp
                 .WithOkColor();
 
             var i = page * 9;
-            foreach (var club in clubs) embed.AddField($"#{++i} " + club, club.Xp + " xp");
+            foreach (var club in clubs) embed.AddField($"#{++i} {club}", $"{club.Xp} xp");
 
             return ctx.Channel.EmbedAsync(embed);
         }

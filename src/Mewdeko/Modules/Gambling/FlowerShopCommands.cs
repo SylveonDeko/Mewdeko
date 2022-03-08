@@ -457,7 +457,7 @@ public partial class Gambling
             if (entry.Type == ShopEntryType.Role)
                 return GetText("shop_role", Format.Bold(ctx.Guild.GetRole(entry.RoleId)?.Name ?? "MISSING_ROLE"));
             if (entry.Type == ShopEntryType.List)
-                return GetText("unique_items_left", entry.Items.Count) + "\n" + entry.Name;
+                return $"{GetText("unique_items_left", entry.Items.Count)}\n{entry.Name}";
             //else if (entry.Type == ShopEntryType.Infinite_List)
             //{
 
