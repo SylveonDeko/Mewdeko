@@ -263,6 +263,7 @@ public class MultiGreetService : INService
             ChannelId = greet.ChannelId,
             DeleteTime = greet.DeleteTime,
             Message = code,
+            GreetBots = greet.GreetBots,
             WebhookUrl = greet.WebhookUrl
         };
         uow.MultiGreets.Update(toadd);
@@ -278,12 +279,31 @@ public class MultiGreetService : INService
             GuildId = greet.GuildId,
             ChannelId = greet.ChannelId,
             DeleteTime = howlong,
+            GreetBots = greet.GreetBots,
             Message = greet.Message,
             WebhookUrl = greet.WebhookUrl
         };
         uow.MultiGreets.Update(toadd);
         await uow.SaveChangesAsync();
     }
+    
+    public async Task ChangeMgGb(MultiGreet greet, bool enabled)
+    {
+        var uow = _db.GetDbContext();
+        var toadd = new MultiGreet
+        {
+            Id = greet.Id,
+            GuildId = greet.GuildId,
+            ChannelId = greet.ChannelId,
+            DeleteTime = greet.DeleteTime,
+            GreetBots = enabled,
+            Message = greet.Message,
+            WebhookUrl = greet.WebhookUrl
+        };
+        uow.MultiGreets.Update(toadd);
+        await uow.SaveChangesAsync();
+    }
+    
     public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
     {
         var uow = _db.GetDbContext();
@@ -292,6 +312,7 @@ public class MultiGreetService : INService
             Id = greet.Id,
             GuildId = greet.GuildId,
             ChannelId = greet.ChannelId,
+            GreetBots = greet.GreetBots,
             DeleteTime = greet.DeleteTime,
             Message = greet.Message,
             WebhookUrl = webhookurl

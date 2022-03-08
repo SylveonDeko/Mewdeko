@@ -170,7 +170,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             await Task.CompletedTask;
             var enumerable = pages as string[] ?? pages.ToArray();
             return new PageBuilder()
-                .WithTitle(Format.Bold($"{title}") + $" - {enumerable.ToArray().Length} pages")
+                .WithTitle($"{Format.Bold($"{title}")} - {enumerable.ToArray().Length} pages")
                 .WithImageUrl(pages.Skip(page).FirstOrDefault())
                 .WithColor((Color) System.Drawing.Color.FromArgb(page * 1500));
         }
@@ -187,7 +187,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             _ => Sort.Date
         };
 
-        var result = await client.SearchQueryAsync(page, e, search, exclude + " -lolicon -loli");
+        var result = await client.SearchQueryAsync(page, e, search, $"{exclude} -lolicon -loli");
         if (!result.Books.Any())
         {
             await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!");

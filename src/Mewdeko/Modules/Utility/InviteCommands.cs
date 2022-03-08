@@ -58,12 +58,11 @@ public partial class Utility
             }
             
             var eb = new EmbedBuilder().WithOkColor().WithTitle(invinfo.GuildName).WithThumbnailUrl(guild?.IconUrl)
-                                       .WithDescription($"Online: {invinfo.PresenceCount}"
-                                                        + $"\nTotal Count: {invinfo.MemberCount}")
+                                       .WithDescription(
+                                           $"Online: {invinfo.PresenceCount}\nTotal Count: {invinfo.MemberCount}")
                                        .AddField("Full Link", invinfo.Url, true)
                                        .AddField("Channel",
-                                           $"[{invinfo.ChannelName}]"
-                                           + $"(https://discord.com/channels/{invinfo.GuildId}/{invinfo.ChannelId})",
+                                           $"[{invinfo.ChannelName}](https://discord.com/channels/{invinfo.GuildId}/{invinfo.ChannelId})",
                                            true).AddField("Inviter",
                                            $"{invinfo.Inviter.Mention} ({invinfo.Inviter.Id})", true);
             if (guild is not null)
@@ -109,8 +108,7 @@ public partial class Utility
                     return new PageBuilder().WithErrorColor().WithDescription(GetText("no_invites"));
                 return invs.Aggregate(new PageBuilder().WithOkColor(),
                     (acc, inv) => acc.AddField(
-                        $"#{i++} {inv.Inviter.ToString().TrimTo(15)} "
-                        + $"({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})", inv.Url));
+                        $"#{i++} {inv.Inviter.ToString().TrimTo(15)} ({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})", inv.Url));
             }
         }
 

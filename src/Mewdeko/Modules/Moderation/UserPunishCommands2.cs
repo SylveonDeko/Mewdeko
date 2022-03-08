@@ -54,16 +54,15 @@ public partial class Moderation
             {
                 await Service.SetMWarnlogChannelId(ctx.Guild, channel);
                 var warnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
-                await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been set to " +
-                                                   warnChannel.Mention);
+                await ctx.Channel.SendConfirmAsync($"Your mini warnlog channel has been set to {warnChannel.Mention}");
                 return;
             }
 
             var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
             await Service.SetMWarnlogChannelId(ctx.Guild, channel);
             var newWarnChannel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
-            await ctx.Channel.SendConfirmAsync("Your mini warnlog channel has been changed from " +
-                                               oldWarnChannel.Mention + " to " + newWarnChannel.Mention);
+            await ctx.Channel.SendConfirmAsync(
+                $"Your mini warnlog channel has been changed from {oldWarnChannel.Mention} to {newWarnChannel.Mention}");
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -82,7 +81,7 @@ public partial class Moderation
             {
                 await (await user.CreateDMChannelAsync().ConfigureAwait(false)).EmbedAsync(new EmbedBuilder()
                         .WithErrorColor()
-                        .WithDescription("Warned in " + ctx.Guild)
+                        .WithDescription($"Warned in {ctx.Guild}")
                         .AddField(efb => efb.WithName(GetText("moderator")).WithValue(ctx.User.ToString()))
                         .AddField(efb => efb.WithName(GetText("reason")).WithValue(reason ?? "-")))
                     .ConfigureAwait(false);
@@ -120,14 +119,10 @@ public partial class Moderation
                 var channel = await ctx.Guild.GetTextChannelAsync(MWarnlogChannel);
                 await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                     .WithThumbnailUrl(user.RealAvatarUrl().ToString())
-                    .WithTitle("Mini Warned by: " + ctx.User)
+                    .WithTitle($"Mini Warned by: {ctx.User}")
                     .WithCurrentTimestamp()
-                    .WithDescription("Username: " + user.Username + "#" + user.Discriminator + "\n" +
-                                     "ID of Warned User: " + user.Id + "\n" + "Warn Number: " + warnings + "\n" +
-                                     "Punishment: " + punishaction + " " + punishtime + "\n\n" + "Reason: " +
-                                     reason + "\n\n" + "[Click Here For Context]" +
-                                     "(https://discord.com/channels/" + ctx.Guild.Id + "/" + ctx.Channel.Id + "/" +
-                                     ctx.Message.Id + ")"));
+                    .WithDescription(
+                        $"Username: {user.Username}#{user.Discriminator}\nID of Warned User: {user.Id}\nWarn Number: {warnings}\nPunishment: {punishaction} {punishtime}\n\nReason: {reason}\n\n[Click Here For Context](https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}/{ctx.Message.Id})"));
             }
         }
 
@@ -207,10 +202,10 @@ public partial class Moderation
                     var name = GetText("warned_on_by", $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:D>",
                         $"<t:{w.DateAdded.Value.ToUnixEpochDate()}:T>", w.Moderator);
                     if (w.Forgiven)
-                        name = Format.Strikethrough(name) + " " + GetText("warn_cleared_by", w.ForgivenBy);
+                        name = $"{Format.Strikethrough(name)} {GetText("warn_cleared_by", w.ForgivenBy)}";
 
                     embed.AddField(x => x
-                        .WithName($"#`{i}` " + name)
+                        .WithName($"#`{i}` {name}")
                         .WithValue(w.Reason.TrimTo(1020)));
                 }
             }
@@ -238,6 +233,7 @@ public partial class Moderation
 
             async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 {
                     var ws = warnings.Skip(page * 15)
                         .Take(15)
@@ -248,7 +244,7 @@ public partial class Moderation
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
                             var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
-                            return (usr?.ToString() ?? x.Key.ToString()) + $" | {total} ({all} - {forgiven})";
+                            return $"{(usr?.ToString() ?? x.Key.ToString())} | {total} ({all} - {forgiven})";
                         });
 
                     return new PageBuilder().WithOkColor()
@@ -348,7 +344,7 @@ public partial class Moderation
             if (ps.Any())
                 list = string.Join("\n",
                     ps.Select(x =>
-                        $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : x.Time + "m")} "));
+                        $"{x.Count} -> {x.Punishment} {(x.Punishment == PunishmentAction.AddRole ? $"<@&{x.RoleId}>" : "")} {(x.Time <= 0 ? "" : $"{x.Time}m")} "));
             else
                 list = GetText("warnpl_none");
             await ctx.Channel.SendConfirmAsync(

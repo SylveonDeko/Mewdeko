@@ -60,7 +60,7 @@ public partial class Gambling
                 toSend += $" drew `{Deck.GetHandValue(cardObjects)}`";
 
             if (guildId != null)
-                toSend += "\n" + GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()));
+                toSend += $"\n{GetText("cards_left", Format.Bold(cards.CardPool.Count.ToString()))}";
 
             return (img.ToStream(), toSend);
         }
@@ -76,7 +76,7 @@ public partial class Gambling
             var (imageStream, toSend) = await InternalDraw(num, ctx.Guild.Id).ConfigureAwait(false);
             await using (imageStream)
             {
-                await ctx.Channel.SendFileAsync(imageStream, num + " cards.jpg", toSend).ConfigureAwait(false);
+                await ctx.Channel.SendFileAsync(imageStream, $"{num} cards.jpg", toSend).ConfigureAwait(false);
             }
         }
 
@@ -91,7 +91,7 @@ public partial class Gambling
             var (imageStream, toSend) = await InternalDraw(num).ConfigureAwait(false);
             await using (imageStream)
             {
-                await ctx.Channel.SendFileAsync(imageStream, num + " cards.jpg", toSend).ConfigureAwait(false);
+                await ctx.Channel.SendFileAsync(imageStream, $"{num} cards.jpg", toSend).ConfigureAwait(false);
             }
         }
 

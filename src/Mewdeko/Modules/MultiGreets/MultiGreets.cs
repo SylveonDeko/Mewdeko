@@ -133,6 +133,19 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         }
     }
 
+    [MewdekoCommand, Alias, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    public async Task MultiGreetGreetBots(int num, bool enabled)
+    {
+        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
+        if (greet is null)
+        {
+            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!");
+            return;
+        }
+
+        await Service.ChangeMgGb(greet, enabled);
+        await ctx.Channel.SendConfirmAsync($"MultiGreet {num} GreetBots set to {enabled}");
+    }
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageWebhooks)]
     public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
@@ -240,11 +253,8 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
         async Task<PageBuilder> PageFactory(int page)
         {
             var curgreet = greets.Skip(page).FirstOrDefault();
-            return new PageBuilder().WithDescription($"#{Array.IndexOf(greets, curgreet) + 1}"
-                                                            + $"\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}"
-                                                            + $"\n`Delete After:` {curgreet.DeleteTime}s"
-                                                            + $"\n`Webhook:` {curgreet.WebhookUrl != null}"
-                                                            + $"\n`Message:` {curgreet.Message.TrimTo(1000)}")
+            return new PageBuilder().WithDescription(
+                                        $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {(await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId)).Mention} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                                                     .WithOkColor();
         }
         

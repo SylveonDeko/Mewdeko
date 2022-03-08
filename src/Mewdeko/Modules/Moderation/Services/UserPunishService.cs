@@ -22,9 +22,11 @@ public class UserPunishService : INService
     private readonly BlacklistService _blacklistService;
     private readonly DbService _db;
     private readonly MuteService _mute;
+    private readonly DiscordSocketClient _client;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
-        Mewdeko bot, DiscordSocketClient client)
+        Mewdeko bot,
+        DiscordSocketClient client)
     {
         Warnlogchannelids = bot.AllGuildConfigs
                                 .Where(x => x.WarnlogChannelId != 0)
@@ -33,7 +35,7 @@ public class UserPunishService : INService
         _mute = mute;
         _db = db;
         _blacklistService = blacklistService;
-        //Client.MessageReceived += NsfwCheck;
+        _client = client;
         _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
@@ -177,7 +179,9 @@ public class UserPunishService : INService
                 {
                     Log.Warning($"Can't find role {roleId.Value} on server {guild.Id} to apply punishment.");
                 }
-
+                break;
+            case PunishmentAction.Warn:
+                await Warn(guild, user.Id, _client.CurrentUser, reason);
                 break;
         }
     }
@@ -365,6 +369,12 @@ WHERE GuildId={guildId}
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
         return template?.Text;
+    }
+
+    public string GetWarnMessageTemplate(ulong guildId)
+    {
+        using var uow = _db.GetDbContext();
+        return uow.GuildConfigs.AsQueryable().FirstOrDefault(x => x.GuildId == guildId).WarnMessage;
     }
 
     public void SetBanTemplate(ulong guildId, string? text)

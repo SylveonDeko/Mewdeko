@@ -19,9 +19,7 @@ public sealed class DanbooruImageDownloader : DapiImageDownloader
         if (_nonexistentTags.ContainsKey(tag))
             return false;
 
-        var tags = await _http.GetFromJsonAsync<DapiTag[]>(_baseUrl +
-                                                           "/tags.json" +
-                                                           $"?search[name_or_alias_matches]={tag}",
+        var tags = await _http.GetFromJsonAsync<DapiTag[]>($"{_baseUrl}/tags.json?search[name_or_alias_matches]={tag}",
             options: _serializerOptions,
             cancellationToken: cancel);
         if (tags is {Length: > 0})

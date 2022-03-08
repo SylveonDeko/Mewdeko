@@ -10,6 +10,7 @@ public class GuildConfig : DbEntity
     public ulong StaffRole { get; set; }
     public ulong GameMasterRole { get; set; }
     public bool DeleteMessageOnCommand { get; set; }
+    public string WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string AutoAssignRoleId { get; set; } = "0";
     public string AutoBotRoleIds { get; set; }

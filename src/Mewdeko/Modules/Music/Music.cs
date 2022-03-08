@@ -1119,8 +1119,7 @@ public class Music : MewdekoModuleBase<MusicService>
             var tracks = queue.OrderBy(x => queue.IndexOf(x)).Skip(page * 10).Take(10);
             return new PageBuilder()
                 .WithDescription(string.Join("\n", tracks.Select(x =>
-                    $"`{queue.IndexOf(x)+1}.` [{x.Title}]({x.Source})\n" +
-                    $"`{x.Duration:mm\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
+                    $"`{queue.IndexOf(x) + 1}.` [{x.Title}]({x.Source})\n`{x.Duration:mm\\\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
                 .WithOkColor();
         }
     }

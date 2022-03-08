@@ -322,8 +322,7 @@ public class FilterService : IEarlyBehavior, INService
                             await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser,
                                 "Warned for Filtered Word");
                             var user = await usrMsg.Author.CreateDMChannelAsync();
-                            await user.SendErrorAsync(
-                                "You have been warned for using the word " + Format.Code(word));
+                            await user.SendErrorAsync($"You have been warned for using the word {Format.Code(word)}");
                         }
                     }
                     catch (HttpException ex)
@@ -346,8 +345,7 @@ public class FilterService : IEarlyBehavior, INService
                         await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser,
                             "Warned for Filtered Word");
                         var user = await usrMsg.Author.CreateDMChannelAsync();
-                        await user.SendErrorAsync(
-                            "You have been warned for using the word " + Format.Code(word));
+                        await user.SendErrorAsync($"You have been warned for using the word {Format.Code(word)}");
                     }
                 }
                 catch (HttpException ex)
