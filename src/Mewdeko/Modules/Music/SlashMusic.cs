@@ -955,8 +955,13 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     }
 
     [SlashCommand("skip", "Skip to the next song, if there is one"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
-    public async Task Skip()
+    public async Task Skip(int num = 1)
     {
+        if (num < 1)
+        {
+            await ctx.Interaction.SendErrorAsync("You can only skip ahead.");
+            return;
+        }
         var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
@@ -964,7 +969,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             return;
         }
 
-        await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, ctx);
+        await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, ctx, num);
     }
 
     [SlashCommand("seek", "Seek to a certain time in the current song"), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
