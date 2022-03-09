@@ -16,7 +16,6 @@
   "afk_timeout_disabled": "",
   "afk_disable_added": "",
   "afk_disable_noneadded": "",
-  
   "stats_cleared": "Stats cleared for {0} custom reaction.",
   "stats_not_found": "No stats for that trigger found, no action taken.",
   "cleared": "All {0} custom reactions on this server have been removed.",
