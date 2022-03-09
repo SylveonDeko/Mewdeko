@@ -35,18 +35,16 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         _httpFactory = factory;
         _rng = new MewdekoRandom();
     }
+
     public record RedditCache
     {
         public IGuild Guild { get; set; }
         public string Url { get; set; }
     }
+
     public static bool CheckIfAlreadyPosted(IGuild guild, string url)
     {
-        var e = new RedditCache
-        {
-            Guild = guild,
-            Url = url
-        };
+        var e = new RedditCache { Guild = guild, Url = url };
         if (!Cache.Any())
         {
             Cache.Add(e);
@@ -62,6 +60,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         if (Cache.Contains(e)) return true;
         return true;
     }
+
     private async Task InternalBoobs()
     {
         try
@@ -70,7 +69,8 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             using (var http = _httpFactory.CreateClient())
             {
                 obj = JArray.Parse(await http
-                                         .GetStringAsync($"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 10330)}")
+                                         .GetStringAsync(
+                                             $"http://api.oboobs.ru/boobs/{new MewdekoRandom().Next(0, 10330)}")
                                          .ConfigureAwait(false))[0];
             }
 
@@ -90,7 +90,8 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             using (var http = _httpFactory.CreateClient())
             {
                 obj = JArray.Parse(await http
-                                         .GetStringAsync($"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 4335)}")
+                                         .GetStringAsync(
+                                             $"http://api.obutts.ru/butts/{new MewdekoRandom().Next(0, 4335)}")
                                          .ConfigureAwait(false))[0];
             }
 
@@ -101,6 +102,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             await ctx.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
         }
     }
+
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task RedditNsfw(string subreddit)
     {
@@ -125,22 +127,6 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     }
 
     [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task LewdNeko()
-    {
-        var request = await NekoClient.Nsfw_v3.Neko();
-        var eb = new EmbedBuilder().WithOkColor().WithImageUrl(request.ImageUrl).WithDescription("nya~");
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
-    }
-
-    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
-    public async Task LewdNekoGif()
-    {
-        var request = await NekoClient.Nsfw_v3.NekoGif();
-        var eb = new EmbedBuilder().WithOkColor().WithImageUrl(request.ImageUrl).WithDescription("nya~");
-        await ctx.Channel.SendMessageAsync(embed: eb.Build());
-    }
-
-    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), RequireNsfw]
     public async Task NHentai(int num)
     {
         var client = new HentaiClient();
@@ -149,9 +135,10 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         var pages = book.GetPages();
         var tags = new List<string>();
         foreach (var i in book.Tags) tags.Add(i.Name);
-        if (tags.Contains("lolicon") || tags.Contains("loli"))
+        if (tags.Contains("lolicon") || tags.Contains("loli") || tags.Contains("shotacon") || tags.Contains("shota"))
+
         {
-            await ctx.Channel.SendErrorAsync("This manga contains loli content and is not allowed by discord TOS!");
+            await ctx.Channel.SendErrorAsync("This manga contains loli/shota content and is not allowed by discord TOS!");
             return;
         }
 
