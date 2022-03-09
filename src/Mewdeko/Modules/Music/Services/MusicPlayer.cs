@@ -64,10 +64,8 @@ public class MusicPlayer : LavalinkPlayer
         var resultMusicChannelId = _musicService.GetSettingsInternalAsync(args.Player.GuildId).Result.MusicChannelId;
         if (resultMusicChannelId != null)
         {
-            
-            var channel = _client.GetChannel(
-                resultMusicChannelId.Value) as SocketTextChannel;
-            if (channel is not null)
+            if (_client.GetChannel(
+                    resultMusicChannelId.Value) is SocketTextChannel channel)
             {
                 if (track.Source != null)
                 {
