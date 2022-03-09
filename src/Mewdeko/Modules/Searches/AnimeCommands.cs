@@ -13,7 +13,6 @@ using MartineApiNet;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Extensions;
-using NekosSharp;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches;
@@ -23,14 +22,15 @@ public partial class Searches
     [Group]
     public class AnimeCommands : MewdekoSubmodule
     {
-        public static NekoClient NekoClient = new("Mewdeko");
+        public readonly NekosBestApi.NekosBestApi NekosBestApi;
         private readonly MartineApi _martineApi;
         private readonly InteractiveService _interactivity;
 
-        public AnimeCommands(InteractiveService service, MartineApi martineApi)
+        public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi.NekosBestApi nekosBestApi)
         {
             _interactivity = service;
             _martineApi = martineApi;
+            NekosBestApi = nekosBestApi;
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
@@ -110,11 +110,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description]
         public async Task Hug(IUser user)
         {
-            var req = await NekoClient.Action_v3.HugGif();
+            var req = await NekosBestApi.ActionsApi.Hug();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} hugged {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync(embed: em.Build());
@@ -124,11 +124,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Kiss(IUser user)
         {
-            var req = await NekoClient.Action_v3.KissGif();
+            var req = await NekosBestApi.ActionsApi.Kiss();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} kissed {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -137,11 +137,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Pat(IUser user)
         {
-            var req = await NekoClient.Action_v3.PatGif();
+            var req = await NekosBestApi.ActionsApi.Pat();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} gave pattus to {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -150,11 +150,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Tickle(IUser user)
         {
-            var req = await NekoClient.Action_v3.TickleGif();
+            var req = await NekosBestApi.ActionsApi.Tickle();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} tickled {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -163,11 +163,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Slap(IUser user)
         {
-            var req = await NekoClient.Action_v3.SlapGif();
+            var req = await NekosBestApi.ActionsApi.Slap();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} slapped {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -176,11 +176,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Cuddle(IUser user)
         {
-            var req = await NekoClient.Action_v3.CuddleGif();
+            var req = await NekosBestApi.ActionsApi.Cuddle();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} cuddled with {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -189,11 +189,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Poke(IUser user)
         {
-            var req = await NekoClient.Action_v3.PokeGif();
+            var req = await NekosBestApi.ActionsApi.Poke();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} poked {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -202,11 +202,11 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Feed(IUser user)
         {
-            var req = await NekoClient.Action_v3.FeedGif();
+            var req = await NekosBestApi.ActionsApi.Feed();
             var em = new EmbedBuilder
             {
                 Description = $"{ctx.User.Mention} fed {user.Mention}",
-                ImageUrl = req.ImageUrl,
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
@@ -215,11 +215,24 @@ public partial class Searches
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task RandomNeko()
         {
-            var req = await NekoClient.Image_v3.Neko();
+            var req = await NekosBestApi.CategoryApi.Neko();
             var em = new EmbedBuilder
             {
-                Description = "nya~",
-                ImageUrl = req.ImageUrl,
+                Description = $"nya~ [Source]({req.Results.FirstOrDefault().SourceUrl})",
+                ImageUrl = req.Results.FirstOrDefault().Url,
+                Color = Mewdeko.OkColor
+            };
+            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+        }
+        
+        [MewdekoCommand, Usage, Description, Aliases]
+        public async Task RandomKitsune()
+        {
+            var req = await NekosBestApi.CategoryApi.Kitsune();
+            var em = new EmbedBuilder
+            {
+                Description = $"What does the fox say? [Source]({req.Results.FirstOrDefault().SourceUrl})",
+                ImageUrl = req.Results.FirstOrDefault().Url,
                 Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());

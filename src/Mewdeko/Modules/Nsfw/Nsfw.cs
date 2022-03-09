@@ -11,7 +11,6 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
 using MartineApiNet.Enums;
-using NekosSharp;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Refit;
@@ -24,7 +23,6 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     private readonly IHttpClientFactory _httpFactory;
     private readonly MewdekoRandom _rng;
     private readonly InteractiveService _interactivity;
-    private static readonly NekoClient NekoClient = new("Mewdeko");
     private readonly MartineApi _martineApi;
     public static List<RedditCache> Cache { get; set; } = new();
 
