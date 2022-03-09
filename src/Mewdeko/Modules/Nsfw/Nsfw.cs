@@ -278,9 +278,10 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return t;
         });
 
-        await ReplyConfirmLocalizedAsync("autohentai_started",(
+        await ReplyConfirmLocalizedAsync("autohentai_started",
             interval,
-            string.Join(", ", tags)));
+            string.Join(", ", tags)).ConfigureAwait(false);
+
     }
 
     [MewdekoCommand, Aliases]
