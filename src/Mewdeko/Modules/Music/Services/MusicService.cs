@@ -7,6 +7,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using SpotifyAPI.Web;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -222,7 +223,7 @@ public class MusicService : INService
                             "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.");
                         return;
                     }
-
+                    
                     var result3 = await (await GetSpotifyClient()).Tracks.Get(spotifyUrl.Segments[2]);
                     if (result3.Name is null)
                     {
@@ -230,9 +231,9 @@ public class MusicService : INService
                             "Seems like i can't find or play this. Please try with a different link!");
                         return;
                     }
-
+                    
                     var lavaTrack3 = await _lavaNode.GetTrackAsync(
-                        $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}");
+                        $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}", SearchMode.YouTube);
                     if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                         return;
                     await Enqueue(guild.Id, user, lavaTrack3, Platform.Spotify);
@@ -250,7 +251,6 @@ public class MusicService : INService
                     break;
             }
         }
-
         public LavalinkTrack GetCurrentTrack(LavalinkPlayer player, IGuild guild)
         {
             var queue = GetQueue(guild.Id);
@@ -293,7 +293,7 @@ public class MusicService : INService
             return new SpotifyClient(config.WithToken(response.AccessToken));
         }
         
-        public async Task Skip(IGuild guild, ITextChannel? chan, LavalinkPlayer player, IInteractionContext? ctx = null)
+        public async Task Skip(IGuild guild, ITextChannel? chan, LavalinkPlayer player, IInteractionContext? ctx = null, int num = 1)
         {
             var queue = GetQueue(guild.Id);
             if (queue.Any())
@@ -302,7 +302,7 @@ public class MusicService : INService
                 var currentTrack = queue.FirstOrDefault(x => player.CurrentTrack.Identifier == x.Identifier);
                 try
                 {
-                    nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + 1);
+                    nextTrack = queue.ElementAt(queue.IndexOf(currentTrack) + num);
                 }
                 catch
                 {
