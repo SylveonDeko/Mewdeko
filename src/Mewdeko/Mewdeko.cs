@@ -119,6 +119,7 @@ public class Mewdeko
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
+                .AddSingleton(new NekosBestApi.NekosBestApi())
                 .AddSingleton<InteractionService>()
                 .AddSingleton<Localization>()
                 .AddSingleton<MusicService>()
