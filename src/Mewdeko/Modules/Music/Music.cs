@@ -964,8 +964,13 @@ public class Music : MewdekoModuleBase<MusicService>
     }
 
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Skip()
+    public async Task Skip(int num = 1)
     {
+        if (num < 1)
+        {
+            await ctx.Channel.SendErrorAsync("You can only skip ahead.");
+            return;
+        }
         var player = _lavaNode.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
@@ -973,7 +978,7 @@ public class Music : MewdekoModuleBase<MusicService>
             return;
         }
 
-        await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player);
+        await Service.Skip(ctx.Guild, ctx.Channel as ITextChannel, player, num: num);
     }
 
     [MewdekoCommand, Description, Aliases, RequireContext(ContextType.Guild)]

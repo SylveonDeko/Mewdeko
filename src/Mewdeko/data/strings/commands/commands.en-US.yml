@@ -2399,9 +2399,13 @@ place:
 poll:
   desc: >-
     Creates a public poll which requires users to type a number of the voting
-    option in the channel command is ran in.
+    option in the channel command is ran in. Can have multiple modes:
+    > `SingleAnswer` - Users can only pick a single answer and cant change it. Default when not used with a mode.
+    > `AllowChange` - Users can change their answers.
+    > `MultiAnswer` - Users can select more than one answer.
   args:
     - Question?;Answer1;Answ 2;A_3
+    - MultiAnswer Question;answer;answer;answer
 autotranslang:
   desc: >-
     Sets your source and target language to be used with `{0}at`. Specify no
