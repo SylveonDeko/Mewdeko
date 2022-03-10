@@ -62,6 +62,8 @@ public class MultiGreetService : INService
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         if (greet.WebhookUrl is not null)
         {
+            if (user.IsBot && !greet.GreetBots)
+                return;
             var webhook = new DiscordWebhookClient(greet.WebhookUrl);
             var content = replacer.Replace(greet.Message);
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
@@ -96,6 +98,8 @@ public class MultiGreetService : INService
         }
         else
         {
+            if (user.IsBot && !greet.GreetBots)
+                return;
             var channel = user.Guild.GetTextChannel(greet.ChannelId);
             var content = replacer.Replace(greet.Message);
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
@@ -144,9 +148,12 @@ public class MultiGreetService : INService
     }
     private async Task HandleChannelGreets(IEnumerable<MultiGreet> multiGreets, SocketGuildUser user)
     {
+        
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
         {
+            if (user.IsBot && !i.GreetBots)
+                continue;
             if (i.WebhookUrl is not null) continue;
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             var content = replacer.Replace(i.Message);
@@ -187,7 +194,8 @@ public class MultiGreetService : INService
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(client).WithServer(client, user.Guild).Build();
         foreach (var i in multiGreets)
         {
-            
+            if (user.IsBot && !i.GreetBots)
+                continue;
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
             var content = replacer.Replace(i.Message);
@@ -207,7 +215,7 @@ public class MultiGreetService : INService
                         user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
 
-                if (embedData is not null && plainText is "")
+                if (embedData is null || plainText is not "") continue;
                 {
                     var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)

@@ -73,6 +73,8 @@ public class RoleGreetService : INService
                 continue;
             if (!i.GreetBots && user.IsBot)
                 continue;
+            if (i.WebhookUrl != null)
+                continue;
             var channel = user.Guild.GetTextChannel(i.ChannelId);
             var content = replacer.Replace(i.Message);
             if (SmartEmbed.TryParse(content, out var embedData, out var plainText))
@@ -115,6 +117,8 @@ public class RoleGreetService : INService
         var replacer = new ReplacementBuilder().WithUser(user).WithClient(_client).WithServer(_client, user.Guild).Build();
         foreach (var i in checkGreets)
         {
+            if (i.WebhookUrl == null)
+                continue;
             if (i.Disabled)
                 continue;
             if (!i.GreetBots && user.IsBot)
