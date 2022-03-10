@@ -33,6 +33,7 @@ using System.Reflection;
 using Lavalink4NET;
 using Lavalink4NET.DiscordNet;
 using Mewdeko.Modules.Music.Services;
+using NekosBestApiNet;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Mewdeko;
@@ -119,7 +120,7 @@ public class Mewdeko
                 .AddSingleton<IPubSub, RedisPubSub>()
                 .AddSingleton<IConfigSeria, YamlSeria>()
                 .AddSingleton<InteractiveService>()
-                .AddSingleton(new NekosBestApi.NekosBestApi())
+                .AddSingleton(new NekosBestApi())
                 .AddSingleton<InteractionService>()
                 .AddSingleton<Localization>()
                 .AddSingleton<MusicService>()
