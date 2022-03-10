@@ -1,7 +1,6 @@
 ﻿using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
 using StackExchange.Redis;
-using static Mewdeko.Modules.Utility.Services.UtilityService;
 
 namespace Mewdeko.Services;
 

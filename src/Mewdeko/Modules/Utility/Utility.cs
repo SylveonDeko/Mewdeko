@@ -15,7 +15,6 @@ using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Serilog;
-using Swan;
 
 namespace Mewdeko.Modules.Utility;
 

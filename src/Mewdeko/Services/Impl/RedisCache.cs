@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
-using static Mewdeko.Modules.Utility.Services.UtilityService;
 
 namespace Mewdeko.Services.Impl;
 
