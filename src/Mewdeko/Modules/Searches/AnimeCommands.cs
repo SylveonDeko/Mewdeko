@@ -8,6 +8,7 @@ using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using JikanDotNet;
+using NekosBestApiNet;
 using Mewdeko._Extensions;
 using MartineApiNet;
 using Mewdeko.Common;
@@ -22,11 +23,11 @@ public partial class Searches
     [Group]
     public class AnimeCommands : MewdekoSubmodule
     {
-        public readonly NekosBestApi.NekosBestApi NekosBestApi;
+        public readonly NekosBestApi NekosBestApi;
         private readonly MartineApi _martineApi;
         private readonly InteractiveService _interactivity;
 
-        public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi.NekosBestApi nekosBestApi)
+        public AnimeCommands(InteractiveService service, MartineApi martineApi, NekosBestApi nekosBestApi)
         {
             _interactivity = service;
             _martineApi = martineApi;
