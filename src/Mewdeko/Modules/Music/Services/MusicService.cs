@@ -7,7 +7,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using SpotifyAPI.Web;
 using System.Collections.Concurrent;
 using System.Diagnostics;
