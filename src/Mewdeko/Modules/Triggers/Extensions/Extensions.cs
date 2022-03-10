@@ -53,12 +53,18 @@ public static class Extensions
         if (containsAnywhere)
         {
             var pos = ctx.Content.AsSpan().GetWordPosition(resolvedTrigger);
-            if (pos == WordPosition.Start)
-                substringIndex += 1;
-            else if (pos == WordPosition.End)
-                substringIndex = ctx.Content.Length;
-            else if (pos == WordPosition.Middle)
-                substringIndex += ctx.Content.IndexOf(resolvedTrigger, StringComparison.InvariantCulture);
+            switch (pos)
+            {
+                case WordPosition.Start:
+                    substringIndex += 1;
+                    break;
+                case WordPosition.End:
+                    substringIndex = ctx.Content.Length;
+                    break;
+                case WordPosition.Middle:
+                    substringIndex += ctx.Content.IndexOf(resolvedTrigger, StringComparison.InvariantCulture);
+                    break;
+            }
         }
 
         var canMentionEveryone = (ctx.Author as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
@@ -131,22 +137,30 @@ public static class Extensions
     public static WordPosition GetWordPosition(this ReadOnlySpan<char> str, in ReadOnlySpan<char> word)
     {
         var wordIndex = str.IndexOf(word, StringComparison.OrdinalIgnoreCase);
-        if (wordIndex == -1)
-            return WordPosition.None;
+        switch (wordIndex)
+        {
+            case -1:
+                return WordPosition.None;
+            case 0:
+                {
+                    if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
+                        return WordPosition.Start;
+                    break;
+                }
+            default:
+                {
+                    if (wordIndex + word.Length == str.Length)
+                    {
+                        if (str.IsValidWordDivider(wordIndex - 1))
+                            return WordPosition.End;
+                    }
+                    else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
+                    {
+                        return WordPosition.Middle;
+                    }
 
-        if (wordIndex == 0)
-        {
-            if (word.Length < str.Length && str.IsValidWordDivider(word.Length))
-                return WordPosition.Start;
-        }
-        else if (wordIndex + word.Length == str.Length)
-        {
-            if (str.IsValidWordDivider(wordIndex - 1))
-                return WordPosition.End;
-        }
-        else if (str.IsValidWordDivider(wordIndex - 1) && str.IsValidWordDivider(wordIndex + word.Length))
-        {
-            return WordPosition.Middle;
+                    break;
+                }
         }
 
         return WordPosition.None;
@@ -155,14 +169,15 @@ public static class Extensions
     private static bool IsValidWordDivider(this in ReadOnlySpan<char> str, int index)
     {
         var ch = str[index];
-        if (ch is >= 'a' and <= 'z')
-            return false;
-        if (ch is >= 'A' and <= 'Z')
-            return false;
-        if (ch is >= '1' and <= '9')
-            return false;
-
-        return true;
+        switch (ch)
+        {
+            case >= 'a' and <= 'z':
+            case >= 'A' and <= 'Z':
+            case >= '1' and <= '9':
+                return false;
+            default:
+                return true;
+        }
     }
 }
 
