@@ -8,7 +8,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
-using System.Linq;
 using PermValue = Discord.PermValue;
 
 namespace Mewdeko.Modules.Moderation;

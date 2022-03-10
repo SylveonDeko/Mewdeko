@@ -5,7 +5,6 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
 using VirusTotalNet;
 using VirusTotalNet.Results;
@@ -43,7 +42,7 @@ public class UtilityService : INService
     private ConcurrentDictionary<ulong, bool> Snipeset { get; }
     private ConcurrentDictionary<ulong, int> Plinks { get; }
     private ConcurrentDictionary<ulong, ulong> Reactchans { get; }
-
+    
     public async Task<List<SnipeStore>> GetSnipes(ulong guildId) 
         => await _cache.GetSnipesForGuild(guildId);
     public int GetPLinks(ulong? id)
@@ -153,6 +152,12 @@ public class UtilityService : INService
             DateAdded = DateTime.UtcNow
         });
         var snipes = await _cache.GetSnipesForGuild(chan.Guild.Id) ?? new List<SnipeStore>();
+        if (!snipes.Any())
+        {
+            var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
+            if (todelete.Any())
+                snipes.RemoveRange(todelete);
+        }
         snipes.AddRange(msgs);
         await _cache.AddSnipeToCache(chan.Guild.Id, snipes);
     }
@@ -178,6 +183,12 @@ public class UtilityService : INService
                     DateAdded = DateTime.UtcNow
                 };
                 var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel) ch.Value).Guild.Id) ?? new List<SnipeStore>();
+                if (!snipes.Any())
+                {
+                    var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
+                    if (todelete.Any())
+                        snipes.RemoveRange(todelete);
+                }
                 snipes.Add(snipemsg);
                 await _cache.AddSnipeToCache(((SocketTextChannel) ch.Value).Guild.Id, snipes);
             }
@@ -210,6 +221,12 @@ public class UtilityService : INService
                     DateAdded = DateTime.UtcNow
                 };
                 var snipes = await _cache.GetSnipesForGuild(((SocketTextChannel) ch).Guild.Id) ?? new List<SnipeStore>();
+                if (!snipes.Any())
+                {
+                    var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
+                    if (todelete.Any())
+                        snipes.RemoveRange(todelete);
+                }
                 snipes.Add(snipemsg);
                 await _cache.AddSnipeToCache(((SocketTextChannel) ch).Guild.Id, snipes);
             }

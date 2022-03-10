@@ -9,7 +9,6 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Common;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
-using Swan;
 
 namespace Mewdeko.Modules.Utility;
 
