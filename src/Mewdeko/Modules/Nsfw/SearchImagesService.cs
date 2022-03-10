@@ -73,8 +73,9 @@ public class SearchImagesService : ISearchImagesService, INService
                 Url = ""
             };
         }
-
-        Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);
+#if  DEBUG
+        Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);  
+#endif
         try
         {
             _blacklistedTags.TryGetValue(guildId, out var blTags);
