@@ -11,10 +11,11 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
+using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Serilog;
+using Swan;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -174,9 +175,8 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             return;
         }
 
-        
-        var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
-                                                         .LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
+        var sset = await Service.GetSnipes(ctx.Guild.Id);
+        var msg = (await Service.GetSnipes(ctx.Guild.Id)).LastOrDefault();
         if (msg is null)
         {
             await ctx.Channel.SendErrorAsync("There is nothing to snipe here!");
@@ -196,7 +196,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
                 Text =
-                    $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                    $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
             },
             Color = Mewdeko.OkColor
         };
@@ -247,7 +247,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} said:"))
                     .WithDescription($"{msg1.Message}")
-                    .WithFooter($"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
+                    .WithFooter($"\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
             }
         }
     }
@@ -296,7 +296,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                             .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                             .WithName($"{user} originally said:"))
                     .WithDescription($"{msg1.Message}")
-                    .WithFooter($"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
+                    .WithFooter($"\n\nMessage edited {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
             }
         }
     }
@@ -328,7 +328,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
                 Text =
-                    $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                    $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
             },
             Color = Mewdeko.OkColor
         };
@@ -382,7 +382,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
                 Text =
-                    $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                    $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
             },
             Color = Mewdeko.OkColor
         };
@@ -418,7 +418,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };
@@ -478,7 +478,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };
@@ -520,7 +520,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };
@@ -562,7 +562,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };
@@ -605,7 +605,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };

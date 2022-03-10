@@ -7,8 +7,9 @@ using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common;
-using Mewdeko.Database.Models;
+using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
+using Swan;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -62,7 +63,7 @@ public partial class Utility
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };
@@ -105,7 +106,7 @@ public partial class Utility
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded.Value).Humanize()} ago"
+                        $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
                 },
                 Color = Mewdeko.OkColor
             };
@@ -153,7 +154,7 @@ public partial class Utility
                                                                         .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                                                         .WithName($"{user} said:"))
                                                             .WithDescription(
-                                                                $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
+                                                                $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
                 }
             }
         }
@@ -199,7 +200,7 @@ public partial class Utility
                                                                         .WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
                                                                         .WithName($"{user} said:"))
                                                             .WithDescription(
-                                                                $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded.Value).Humanize()} ago");
+                                                                $"{msg1.Message}\n\nMessage deleted {(DateTime.UtcNow - msg1.DateAdded).Humanize()} ago");
                 }
             }
         }
