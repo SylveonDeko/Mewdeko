@@ -39,12 +39,12 @@ public partial class Utility
             }
 
 
-            var msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 0)
+            var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
                              .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
-                msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 0)
-                             .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
+                msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 0)
+                                                             .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
 
             if (msg is null)
             {
@@ -82,12 +82,12 @@ public partial class Utility
             }
 
 
-            var msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 1)
-                             .LastOrDefault(x => x.ChannelId == channel.Id);
+            var msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 1)
+                                                             .LastOrDefault(x => x.ChannelId == channel.Id);
 
             if (user is not null)
-                msg = Service.GetSnipes(ctx.Guild.Id).Result?.Where(x => x.Edited == 1)
-                             .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
+                msg = (await Service.GetSnipes(ctx.Guild.Id)).Where(x => x.Edited == 1)
+                                                             .LastOrDefault(x => x.ChannelId == channel.Id && x.UserId == user.Id);
 
             if (msg is null)
             {
@@ -123,7 +123,7 @@ public partial class Utility
                 return;
             }
 
-            var msgs = Service.GetSnipes(ctx.Guild.Id).Result
+            var msgs = (await Service.GetSnipes(ctx.Guild.Id))
                               .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 0);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
@@ -169,7 +169,7 @@ public partial class Utility
                 return;
             }
 
-            var msgs = Service.GetSnipes(ctx.Guild.Id).Result
+            var msgs = (await Service.GetSnipes(ctx.Guild.Id))
                               .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == 1);
             {
                 var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();

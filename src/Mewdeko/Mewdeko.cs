@@ -258,12 +258,12 @@ public class Mewdeko
         Log.Information("Shard {0} logged in.", Client.ShardId);
     }
 
-    private Task Client_LeftGuild(SocketGuild arg)
+    private async Task Client_LeftGuild(SocketGuild arg)
     {
         try
         {
-            var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
-            chan.SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
+            var chan = await Client.Rest.GetChannelAsync(892789588739891250);
+            await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
         }
         catch
         {
@@ -271,12 +271,11 @@ public class Mewdeko
         }
 
         Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
-        return Task.CompletedTask;
     }
 
-    private Task Client_JoinedGuild(SocketGuild arg)
+    private async Task Client_JoinedGuild(SocketGuild arg)
     {
-        arg.DownloadUsersAsync();
+        await arg.DownloadUsersAsync();
         Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
         var _ = Task.Run(async () =>
         {
@@ -289,7 +288,7 @@ public class Mewdeko
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
         });
 
-        var chan = Client.Rest.GetChannelAsync(892789588739891250).Result as RestTextChannel;
+        var chan = (await Client.Rest.GetChannelAsync(892789588739891250)) as RestTextChannel;
         var eb = new EmbedBuilder();
         eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
         eb.AddField("Server ID", arg.Id);
@@ -300,8 +299,7 @@ public class Mewdeko
         eb.AddField("Voice Channels", arg.VoiceChannels.Count);
         eb.WithThumbnailUrl(arg.IconUrl);
         eb.WithColor(OkColor);
-        chan.SendMessageAsync(embed: eb.Build());
-        return Task.CompletedTask;
+        await chan.SendMessageAsync(embed: eb.Build());
     }
 
     private async Task RunAsync()

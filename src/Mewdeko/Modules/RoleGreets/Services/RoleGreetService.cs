@@ -132,28 +132,28 @@ public class RoleGreetService : INService
                 {
                     var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)
-                        user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
 
                 if (embedData is null && plainText is not null)
                 {
                     var msg = await webhook.SendMessageAsync(plainText);
                     if (i.DeleteTime > 0)
-                        user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
 
                 if (embedData is not null && plainText is "")
                 {
                     var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)
-                        user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
                 }
             }
             else
             {
                 var msg = await webhook.SendMessageAsync(content);
                 if (i.DeleteTime > 0)
-                    user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg).Result.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
             }
         }
     }
