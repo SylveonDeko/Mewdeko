@@ -141,7 +141,7 @@ public class MusicService : INService
                             if (player.State != PlayerState.Playing && player.State != PlayerState.Destroyed)
                             {
                                 await player.PlayAsync(lavaTrack);
-                                await player.SetVolumeAsync(GetVolume(guild.Id) / 100.0F);
+                                await player.SetVolumeAsync((await GetVolume(guild.Id)) / 100.0F);
                                 await ModifySettingsInternalAsync(guild.Id,
                                     (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                             }
@@ -194,7 +194,7 @@ public class MusicService : INService
                             if (player.State != PlayerState.Playing)
                             {
                                 await player.PlayAsync(lavaTrack);
-                                await player.SetVolumeAsync(GetVolume(guild.Id) / 100.0F);
+                                await player.SetVolumeAsync((await GetVolume(guild.Id)) / 100.0F);
                                 await ModifySettingsInternalAsync(guild.Id,
                                     (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                             }
@@ -240,7 +240,7 @@ public class MusicService : INService
                     if (player.State != PlayerState.Playing )
                     {
                         await player.PlayAsync(lavaTrack3);
-                        await player.SetVolumeAsync(GetVolume(guild.Id) / 100.0F);
+                        await player.SetVolumeAsync(await GetVolume(guild.Id) / 100.0F);
                         await ModifySettingsInternalAsync(guild.Id, (settings, _) => settings.MusicChannelId = chan.Id,
                             chan.Id);
                     }
@@ -314,8 +314,7 @@ public class MusicService : INService
                     await chan.SendErrorAsync("This is the last/only track!");
                     return;
                 }
-
-                if (GetSettingsInternalAsync(guild.Id).Result.PlayerRepeat == PlayerRepeatType.Track)
+                if ((await GetSettingsInternalAsync(guild.Id)).PlayerRepeat == PlayerRepeatType.Track)
                 {
                     await player.PlayAsync(currentTrack);
                     if (ctx is not null)
@@ -335,7 +334,7 @@ public class MusicService : INService
             var player = _lavaNode.GetPlayer(before.VoiceChannel.Guild.Id);
             if (before.VoiceChannel is not null && player is not null)
                 if (before.VoiceChannel.Users.Count == 1 &&
-                    GetSettingsInternalAsync(before.VoiceChannel.Guild.Id).Result.AutoDisconnect is AutoDisconnect.Either
+                    (await GetSettingsInternalAsync(before.VoiceChannel.Guild.Id)).AutoDisconnect is AutoDisconnect.Either
                         or AutoDisconnect.Voice)
                     try
                     {
@@ -356,7 +355,7 @@ public class MusicService : INService
             Queues[guildid].Clear();
             return Task.CompletedTask;
         }
-        public int GetVolume(ulong guildid) => GetSettingsInternalAsync(guildid).Result.Volume;
+        public async Task<int> GetVolume(ulong guildid) => (await GetSettingsInternalAsync(guildid)).Volume;
         
         public MusicPlaylist GetDefaultPlaylist(IUser user)
         {

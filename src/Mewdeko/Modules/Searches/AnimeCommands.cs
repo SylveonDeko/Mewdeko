@@ -370,10 +370,11 @@ public partial class Searches
             };
             var list = new List<string?>();
             if (result != null && result.Recommendations.Nodes.Any())
-                result.Recommendations.Nodes.ForEach(x =>
+                // ReSharper disable once AsyncVoidLambda
+                result.Recommendations.Nodes.ForEach(async x =>
                 {
-                    if (c2.GetMediaById(x.Id).Result is not null)
-                        list.Add(c2.GetMediaById(x.Id).Result?.EnglishTitle);
+                    if ((await c2.GetMediaById(x.Id)) is not null)
+                        list.Add((await c2.GetMediaById(x.Id))?.EnglishTitle);
                 });
 
             var te = string.Empty;
