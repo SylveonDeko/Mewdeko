@@ -29,7 +29,7 @@ public abstract class MewdekoModule : ModuleBase
     public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
-
+    
     protected ICommandContext ctx => Context;
 
     protected override void BeforeExecute(CommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
