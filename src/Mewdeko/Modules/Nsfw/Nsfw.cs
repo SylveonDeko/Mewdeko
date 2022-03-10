@@ -226,17 +226,17 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         Timer t;
 
-        if (interval == 0)
+        switch (interval)
         {
-            if (!Service.AutoHentaiTimers.TryRemove(ctx.Channel.Id, out t)) return;
-
-            t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-            await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
-            return;
+            case 0 when !Service.AutoHentaiTimers.TryRemove(ctx.Channel.Id, out t):
+                return;
+            case 0:
+                t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
+                await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
+                return;
+            case < 20:
+                return;
         }
-
-        if (interval < 20)
-            return;
 
         t = new Timer(async (state) =>
         {
@@ -313,17 +313,17 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     {
         Timer t;
 
-        if (interval == 0)
+        switch (interval)
         {
-            if (!Service.AutoButtTimers.TryRemove(ctx.Channel.Id, out t)) return;
-
-            t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
-            await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
-            return;
+            case 0 when !Service.AutoButtTimers.TryRemove(ctx.Channel.Id, out t):
+                return;
+            case 0:
+                t.Change(Timeout.Infinite, Timeout.Infinite); //proper way to disable the timer
+                await ReplyConfirmLocalizedAsync("stopped").ConfigureAwait(false);
+                return;
+            case < 20:
+                return;
         }
-
-        if (interval < 20)
-            return;
 
         t = new Timer(async (state) =>
         {
