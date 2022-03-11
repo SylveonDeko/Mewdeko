@@ -5,14 +5,12 @@ namespace Mewdeko.Services.Impl;
 
 public class FontProvider : INService
 {
-    private readonly FontCollection _fonts;
-
     public FontProvider()
     {
-        _fonts = new FontCollection();
+        var fonts = new FontCollection();
 
-        NotoSans = _fonts.Install("data/fonts/NotoSans-Bold.ttf");
-        UniSans = _fonts.Install("data/fonts/Uni Sans.ttf");
+        NotoSans = fonts.Install("data/fonts/NotoSans-Bold.ttf");
+        UniSans = fonts.Install("data/fonts/Uni Sans.ttf");
 
         FallBackFonts = new List<FontFamily>();
 
@@ -23,8 +21,8 @@ public class FontProvider : INService
             try
             {
                 var fontsfolder = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
-                FallBackFonts.Add(_fonts.Install(Path.Combine(fontsfolder, "seguiemj.ttf")));
-                FallBackFonts.AddRange(_fonts.InstallCollection(Path.Combine(fontsfolder, "msgothic.ttc")));
+                FallBackFonts.Add(fonts.Install(Path.Combine(fontsfolder, "seguiemj.ttf")));
+                FallBackFonts.AddRange(fonts.InstallCollection(Path.Combine(fontsfolder, "msgothic.ttc")));
             }
             catch
             {
@@ -35,8 +33,8 @@ public class FontProvider : INService
         // this will allow support for special characters when drawing text
         foreach (var font in Directory.GetFiles(@"data/fonts"))
             if (font.EndsWith(".ttf"))
-                FallBackFonts.Add(_fonts.Install(font));
-            else if (font.EndsWith(".ttc")) FallBackFonts.AddRange(_fonts.InstallCollection(font));
+                FallBackFonts.Add(fonts.Install(font));
+            else if (font.EndsWith(".ttc")) FallBackFonts.AddRange(fonts.InstallCollection(font));
 
         RipFont = NotoSans.CreateFont(20, FontStyle.Bold);
     }

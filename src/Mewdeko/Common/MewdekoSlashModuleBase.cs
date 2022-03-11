@@ -47,7 +47,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendErrorAsync(Format.Bold(ctx.User.ToString()) + " " + text);
+        return ctx.Channel.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
     public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] args)
@@ -59,7 +59,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
+        return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
     public async Task<bool> PromptUserConfirmAsync(string text, ulong uid) =>

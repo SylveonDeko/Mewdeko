@@ -70,13 +70,13 @@ public partial class Utility
             if (SmartEmbed.TryParse(rep.Replace(quote.Text), out var embed, out var plainText))
             {
                 await ctx.Channel.SendMessageAsync(embed: embed?.Build(),
-                             text: $"`#{quote.Id}` 📣 " + plainText?.SanitizeAllMentions())
+                             text: $"`#{quote.Id}` 📣 {plainText?.SanitizeAllMentions()}")
                          .ConfigureAwait(false);
                 return;
             }
 
             await ctx.Channel
-                .SendMessageAsync($"`#{quote.Id}` 📣 " + rep.Replace(quote.Text)?.SanitizeAllMentions())
+                .SendMessageAsync($"`#{quote.Id}` 📣 {rep.Replace(quote.Text)?.SanitizeAllMentions()}")
                 .ConfigureAwait(false);
         }
 
@@ -128,8 +128,8 @@ public partial class Utility
             if (keywordquote == null)
                 return;
 
-            await ctx.Channel.SendMessageAsync($"`#{keywordquote.Id}` 💬 " + keyword.ToLowerInvariant() + ":  " +
-                                               keywordquote.Text.SanitizeAllMentions()).ConfigureAwait(false);
+            await ctx.Channel.SendMessageAsync(
+                $"`#{keywordquote.Id}` 💬 {keyword.ToLowerInvariant()}:  {keywordquote.Text.SanitizeAllMentions()}").ConfigureAwait(false);
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -155,8 +155,8 @@ public partial class Utility
                 return;
             }
 
-            var infoText = $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ " +
-                           quote.Keyword.ToLowerInvariant().SanitizeAllMentions() + ":\n";
+            var infoText =
+                $"`#{quote.Id} added by {quote.AuthorName.SanitizeAllMentions()}` 🗯️ {quote.Keyword.ToLowerInvariant().SanitizeAllMentions()}:\n";
 
             if (SmartEmbed.TryParse(rep.Replace(quote.Text), out var embed, out var plainText))
             {

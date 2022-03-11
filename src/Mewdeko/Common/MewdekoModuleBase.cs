@@ -29,7 +29,7 @@ public abstract class MewdekoModule : ModuleBase
     public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
-
+    
     protected ICommandContext ctx => Context;
 
     protected override void BeforeExecute(CommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild?.Id);
@@ -37,17 +37,16 @@ public abstract class MewdekoModule : ModuleBase
     protected string GetText(string key) => Strings.GetText(key, CultureInfo);
 
     protected string GetText(string key, params object[] args) => Strings.GetText(key, CultureInfo, args);
-
     public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Channel.SendErrorAsync(text);
     }
-
+    
     public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendErrorAsync(Format.Bold(ctx.User.ToString()) + " " + text);
+        return ctx.Channel.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
     public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] args)
@@ -59,7 +58,7 @@ public abstract class MewdekoModule : ModuleBase
     public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendConfirmAsync(Format.Bold(ctx.User.ToString()) + " " + text);
+        return ctx.Channel.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
     public async Task<bool> PromptUserConfirmAsync(string message, ulong userid) 

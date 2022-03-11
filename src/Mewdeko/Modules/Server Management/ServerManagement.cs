@@ -105,7 +105,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
     {
         var guild = ctx.Guild;
         await guild.ModifyAsync(x => x.Name = name);
-        await ctx.Channel.SendConfirmAsync("Succesfuly set server name to " + name);
+        await ctx.Channel.SendConfirmAsync($"Succesfuly set server name to {name}");
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -138,7 +138,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         try
         {
             var emote = await ctx.Guild.CreateEmoteAsync(name, new Discord.Image(imgStream));
-            await ctx.Channel.SendConfirmAsync(emote + " with the name " + Format.Code(name) + " created!");
+            await ctx.Channel.SendConfirmAsync($"{emote} with the name {Format.Code(name)} created!");
         }
         catch (Exception)
         {

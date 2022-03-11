@@ -87,34 +87,29 @@ public partial class Games
         private async Task Game_OnVotingStarted(AcrophobiaGame game,
             ImmutableArray<KeyValuePair<AcrophobiaUser, int>> submissions)
         {
-            if (submissions.Length == 0)
+            switch (submissions.Length)
             {
-                await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub"))
-                    .ConfigureAwait(false);
-                return;
-            }
-
-            if (submissions.Length == 1)
-            {
-                await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
-                        .WithDescription(
-                            GetText("acro_winner_only",
-                                Format.Bold(submissions.First().Key.UserName)))
-                        .WithFooter(efb => efb.WithText(submissions.First().Key.Input)))
-                    .ConfigureAwait(false);
-                return;
+                case 0:
+                    await ctx.Channel.SendErrorAsync(GetText("acrophobia"), GetText("acro_ended_no_sub"))
+                             .ConfigureAwait(false);
+                    return;
+                case 1:
+                    await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                                                                   .WithDescription(
+                                                                       GetText("acro_winner_only",
+                                                                           Format.Bold(submissions.First().Key.UserName)))
+                                                                   .WithFooter(efb => efb.WithText(submissions.First().Key.Input)))
+                             .ConfigureAwait(false);
+                    return;
             }
 
 
             var i = 0;
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(GetText("acrophobia") + " - " + GetText("submissions_closed"))
+                .WithTitle($"{GetText("acrophobia")} - {GetText("submissions_closed")}")
                 .WithDescription(GetText("acro_nym_was",
-                    Format.Bold(string.Join(".", game.StartingLetters)) + "\n" +
-                    $@"--
-{submissions.Aggregate("", (agg, cur) => agg + $"`{++i}.` **{cur.Key.Input}**\n")}
---"))
+                    $"{Format.Bold(string.Join(".", game.StartingLetters))}\n--\n{submissions.Aggregate("", (agg, cur) => $"{agg}`{++i}.` **{cur.Key.Input}**\n")}\n--"))
                 .WithFooter(efb => efb.WithText(GetText("acro_vote")));
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
