@@ -41,7 +41,7 @@ public partial class Games
             var config = _gamesConfig.Data;
             if (config.Trivia.MinimumWinReq > 0 && config.Trivia.MinimumWinReq > opts.WinRequirement) return;
             var trivia = new TriviaGame(Strings, _client, config, _cache, _cs, channel.Guild, channel, opts,
-                Prefix + "tq");
+                $"{Prefix}tq");
             if (Service.RunningTrivias.TryAdd(channel.Guild.Id, trivia))
             {
                 try
@@ -57,7 +57,7 @@ public partial class Games
                 return;
             }
 
-            await ctx.Channel.SendErrorAsync(GetText("trivia_already_running") + "\n" + trivia.CurrentQuestion)
+            await ctx.Channel.SendErrorAsync($"{GetText("trivia_already_running")}\n{trivia.CurrentQuestion}")
                 .ConfigureAwait(false);
         }
 

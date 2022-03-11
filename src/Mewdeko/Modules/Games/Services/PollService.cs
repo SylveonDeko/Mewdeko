@@ -1,74 +1,59 @@
 ﻿using System.Collections.Concurrent;
 using Discord;
-using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Games.Common;
-using Mewdeko.Services.strings;
 using Serilog;
 
 namespace Mewdeko.Modules.Games.Services;
 
-public class PollService : IEarlyBehavior, INService
+public class PollService : INService
 {
-    private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-    private readonly IBotStrings _strings;
-    private readonly IBotStrings _strs;
 
-    public PollService(DiscordSocketClient client, IBotStrings strings, DbService db,
-        IBotStrings strs)
+    public PollService(DbService db)
     {
-        _client = client;
-        _strings = strings;
         _db = db;
-        _strs = strs;
 
         using var uow = db.GetDbContext();
         ActivePolls = uow.Poll.GetAllPolls()
             .ToDictionary(x => x.GuildId, x =>
             {
                 var pr = new PollRunner(db, x);
-                pr.OnVoted += Pr_OnVoted;
                 return pr;
             })
             .ToConcurrent();
     }
 
-    public ConcurrentDictionary<ulong, PollRunner> ActivePolls { get; } = new();
-
-    public int Priority => -5;
-    public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
-    public async Task<bool> RunBehavior(DiscordSocketClient client, IGuild? guild, IUserMessage msg)
+    public ConcurrentDictionary<ulong, PollRunner> ActivePolls { get; }
+    
+    public async Task<(bool allowed, PollType type)> TryVote(IGuild guild, int num, IUser user)
     {
-        if (guild == null)
-            return false;
 
         if (!ActivePolls.TryGetValue(guild.Id, out var poll))
-            return false;
+            return (false, PollType.PollEnded);
 
         try
         {
-            return await poll.TryVote(msg).ConfigureAwait(false);
+            return await poll.TryVote(num, user).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             Log.Warning(ex, "Error voting");
         }
 
-        return false;
+        return (true, poll.Poll.PollType);
     }
 
-    public static Poll CreatePoll(ulong guildId, ulong channelId, string input)
+    public static Poll CreatePoll(ulong guildId, ulong channelId, string input, PollType type)
     {
         if (string.IsNullOrWhiteSpace(input) || !input.Contains(";"))
             return null;
         var data = input.Split(';');
-        if (data.Length < 3)
+        if (data.Length < 3 )
             return null;
 
         var col = new IndexedCollection<PollAnswer>(data.Skip(1)
@@ -80,33 +65,26 @@ public class PollService : IEarlyBehavior, INService
             Question = data[0],
             ChannelId = channelId,
             GuildId = guildId,
-            Votes = new HashSet<PollVote>()
+            Votes = new List<PollVote>(),
+            PollType = type
         };
     }
 
     public bool StartPoll(Poll p)
     {
         var pr = new PollRunner(_db, p);
-        if (ActivePolls.TryAdd(p.GuildId, pr))
-        {
-            using (var uow = _db.GetDbContext())
-            {
-                uow.Poll.Add(p);
-                uow.SaveChanges();
-            }
+        if (!ActivePolls.TryAdd(p.GuildId, pr)) return false;
+        using var uow = _db.GetDbContext();
+        uow.Poll.Add(p);
+        uow.SaveChanges();
+        return true;
 
-            pr.OnVoted += Pr_OnVoted;
-            return true;
-        }
-
-        return false;
     }
 
     public Poll StopPoll(ulong guildId)
     {
         if (ActivePolls.TryRemove(guildId, out var pr))
         {
-            pr.OnVoted -= Pr_OnVoted;
             using (var uow = _db.GetDbContext())
             {
                 uow.RemovePoll(pr.Poll.Id);
@@ -118,19 +96,5 @@ public class PollService : IEarlyBehavior, INService
 
         return null;
     }
-
-    private async Task Pr_OnVoted(IUserMessage msg, IGuildUser usr)
-    {
-        var toDelete = await msg.Channel.SendConfirmAsync(_strs.GetText("poll_voted",
-                usr.Guild.Id, Format.Bold(usr.ToString())))
-            .ConfigureAwait(false);
-        toDelete.DeleteAfter(5);
-        try
-        {
-            await msg.DeleteAsync().ConfigureAwait(false);
-        }
-        catch
-        {
-        }
-    }
+    
 }

@@ -11,6 +11,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
+using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.OwnerOnly.Services;
@@ -19,6 +20,7 @@ using Mewdeko.Services.strings;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -36,6 +38,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
     private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
+    private readonly DbService _db;
     private readonly ICoordinator _coord;
     private readonly IEnumerable<IConfigService> _settingServices;
     private readonly IBotStrings _strings;
@@ -43,7 +46,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
 
     public OwnerOnly(DiscordSocketClient client, Mewdeko bot, IBotStrings strings,
-        InteractiveService serv, ICoordinator coord, IEnumerable<IConfigService> settingServices)
+        InteractiveService serv, ICoordinator coord, IEnumerable<IConfigService> settingServices,
+        DbService db)
     {
         _interactivity = serv;
         _client = client;
@@ -51,8 +55,18 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _strings = strings;
         _coord = coord;
         _settingServices = settingServices;
+        _db = db;
     }
 
+    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+    public async Task SqlExec([Remainder] string sql)
+    {
+        if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id))
+            return;
+        await using var uow = _db.GetDbContext();
+        var affected = await uow.Database.ExecuteSqlRawAsync(sql);
+        await ctx.Channel.SendErrorAsync($"Affected {affected} rows.");
+    }
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task ListServers(int page = 1)
     {
@@ -96,10 +110,10 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                     if (string.IsNullOrWhiteSpace(s.ToString()))
                     {
                         if (s.Attachments.Any())
-                            msg += "FILES_UPLOADED: " + string.Join("\n", s.Attachments.Select(x => x.Url));
+                            msg += $"FILES_UPLOADED: {string.Join("\n", s.Attachments.Select(x => x.Url))}";
                         else if (s.Embeds.Any())
-                            msg += "EMBEDS: " + string.Join("\n--------\n",
-                                s.Embeds.Select(x => $"Description: {x.Description}"));
+                            msg +=
+                                $"EMBEDS: {string.Join("\n--------\n", s.Embeds.Select(x => $"Description: {x.Description}"))}";
                     }
                     else
                     {
@@ -325,7 +339,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
-        if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture))
             return;
 
         var guser = (IGuildUser) ctx.User;
@@ -356,7 +370,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
     {
-        if (cmdText.StartsWith(Prefix + "die", StringComparison.InvariantCulture))
+        if (cmdText.StartsWith($"{Prefix}die", StringComparison.InvariantCulture))
             return;
 
         if (interval < 5)
@@ -536,10 +550,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 var stateStr = ConnectionStateToEmoji(st);
                 var timeDiff = DateTime.UtcNow - st.LastUpdate;
                 var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
-                return $"`{stateStr} " +
-                       $"| #{st.ShardId.ToString().PadBoth(3)} " +
-                       $"| {timeDiff:mm\\:ss} " +
-                       $"| {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} `";
+                return
+                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} `";
             })
             .ToArray();
 
@@ -588,7 +600,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     {
         var success = _coord.RestartShard(shardId);
         if (success)
-            await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold("#" + shardId)).ConfigureAwait(false);
+            await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}")).ConfigureAwait(false);
         else
             await ReplyErrorLocalizedAsync("no_shard_id").ConfigureAwait(false);
     }
@@ -654,17 +666,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         await ReplyConfirmLocalizedAsync("bot_name", Format.Bold(newName)).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageNicknames),
-     BotPerm(GuildPermission.ChangeNickname), Priority(0)]
-    public async Task SetNick([Remainder] string? newNick = null)
-    {
-        if (string.IsNullOrWhiteSpace(newNick))
-            return;
-        var curUser = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
-        await curUser.ModifyAsync(u => u.Nickname = newNick).ConfigureAwait(false);
-
-        await ReplyConfirmLocalizedAsync("bot_nick", Format.Bold(newNick) ?? "-").ConfigureAwait(false);
-    }
+    
 
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
@@ -886,22 +888,18 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             embed = new EmbedBuilder
             {
                 Title = "Compilation failed",
-                Description = string.Concat("Compilation failed after ",
-                    sw1.ElapsedMilliseconds.ToString("#,##0"), "ms with ", csc.Length.ToString("#,##0"),
-                    " errors."),
+                Description =
+                    $"Compilation failed after {sw1.ElapsedMilliseconds:#,##0}ms with {csc.Length:#,##0} errors.",
                 Color = new Color(0xD091B2)
             };
             foreach (var xd in csc.Take(3))
             {
                 var ls = xd.Location.GetLineSpan();
-                embed.AddField(
-                    string.Concat("Error at ", ls.StartLinePosition.Line.ToString("#,##0"), ", ",
-                        ls.StartLinePosition.Character.ToString("#,##0")), Format.Code(xd.GetMessage()));
+                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}", Format.Code(xd.GetMessage()));
             }
 
             if (csc.Length > 3)
-                embed.AddField("Some errors omitted",
-                    string.Concat((csc.Length - 3).ToString("#,##0"), " more errors not displayed"));
+                embed.AddField("Some errors omitted", $"{(csc.Length - 3):#,##0} more errors not displayed");
             await msg.ModifyAsync(x => x.Embed = embed.Build());
             return;
         }
@@ -926,9 +924,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             embed = new EmbedBuilder
             {
                 Title = "Execution failed",
-                Description = string.Concat("Execution failed after ",
-                    sw2.ElapsedMilliseconds.ToString("#,##0"), "ms with `", rex.GetType(), ": ", rex.Message,
-                    "`."),
+                Description =
+                    $"Execution failed after {sw2.ElapsedMilliseconds:#,##0}ms with `{rex.GetType()}: {rex.Message}`.",
                 Color = new Color(0xD091B2)
             };
             await msg.ModifyAsync(x => x.Embed = embed.Build());
@@ -943,8 +940,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         };
 
         embed.AddField("Result", css.ReturnValue != null ? css.ReturnValue.ToString() : "No value returned")
-            .AddField("Compilation time", string.Concat(sw1.ElapsedMilliseconds.ToString("#,##0"), "ms"), true)
-            .AddField("Execution time", string.Concat(sw2.ElapsedMilliseconds.ToString("#,##0"), "ms"), true);
+            .AddField("Compilation time", $"{sw1.ElapsedMilliseconds:#,##0}ms", true)
+            .AddField("Execution time", $"{sw2.ElapsedMilliseconds:#,##0}ms", true);
 
         if (css.ReturnValue != null)
             embed.AddField("Return type", css.ReturnValue.GetType().ToString(), true);

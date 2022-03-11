@@ -178,13 +178,12 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
                                                                        .Take(20).Select(cr =>
                                                                        {
                                                                            var str = $"`#{cr.Id}` {cr.Trigger}";
-                                                                           if (cr.AutoDeleteTrigger) str = "🗑" + str;
-                                                                           if (cr.DmResponse) str = "📪" + str;
+                                                                           if (cr.AutoDeleteTrigger) str = $"🗑{str}";
+                                                                           if (cr.DmResponse) str = $"📪{str}";
                                                                            var reactions = cr.GetReactions();
                                                                            if (reactions.Any())
-                                                                               str = str
-                                                                                   + " // "
-                                                                                   + string.Join(" ", reactions);
+                                                                               str =
+                                                                                   $"{str} // {string.Join(" ", reactions)}";
 
                                                                            return str;
                                                                        })));
@@ -244,7 +243,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
                 .AddField(efb => efb.WithName(GetText("trigger")).WithValue(found.Trigger.TrimTo(1024)))
                 .AddField(efb =>
                     efb.WithName(GetText("response"))
-                        .WithValue((found.Response + "\n```css\n" + found.Response).TrimTo(1020) + "```"))
+                        .WithValue($"{(found.Response + "\n```css\n" + found.Response).TrimTo(1020)}```"))
             ).ConfigureAwait(false);
     }
 
@@ -262,7 +261,7 @@ public class CustomReactions : MewdekoModuleBase<CustomReactionsService>
         if (cr != null)
             await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                     .WithTitle(GetText("deleted"))
-                    .WithDescription("#" + cr.Id)
+                    .WithDescription($"#{cr.Id}")
                     .AddField(efb => efb.WithName(GetText("trigger")).WithValue(cr.Trigger.TrimTo(1024)))
                     .AddField(efb => efb.WithName(GetText("response")).WithValue(cr.Response.TrimTo(1024))))
                 .ConfigureAwait(false);

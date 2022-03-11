@@ -48,7 +48,7 @@ public class ReplacementBuilder
         /*OBSOLETE*/
         _reps.TryAdd("%shardid%", () => client.ShardId.ToString());
         _reps.TryAdd("%time%",
-            () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
+            () => DateTime.Now.ToString($"HH:mm {TimeZoneInfo.Local.StandardName.GetInitials()}"));
 
         /*NEW*/
         _reps.TryAdd("%bot.status%", () => client.Status.ToString());
@@ -56,7 +56,7 @@ public class ReplacementBuilder
         _reps.TryAdd("%bot.name%", () => client.CurrentUser.Username);
         _reps.TryAdd("%bot.fullname%", () => client.CurrentUser.ToString());
         _reps.TryAdd("%bot.time%",
-            () => DateTime.Now.ToString("HH:mm " + TimeZoneInfo.Local.StandardName.GetInitials()));
+            () => DateTime.Now.ToString($"HH:mm {TimeZoneInfo.Local.StandardName.GetInitials()}"));
         _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);
         _reps.TryAdd("%bot.id%", () => client.CurrentUser.Id.ToString());
         _reps.TryAdd("%bot.avatar%", () => client.CurrentUser.RealAvatarUrl()?.ToString());
@@ -118,11 +118,11 @@ public class ReplacementBuilder
     public ReplacementBuilder WithChannel(IMessageChannel? ch)
     {
         /*OBSOLETE*/
-        _reps.TryAdd("%channel%", () => (ch as ITextChannel)?.Mention ?? "#" + ch.Name);
+        _reps.TryAdd("%channel%", () => (ch as ITextChannel)?.Mention ?? $"#{ch.Name}");
         _reps.TryAdd("%chname%", () => ch.Name);
         _reps.TryAdd("%cid%", () => ch?.Id.ToString());
         /*NEW*/
-        _reps.TryAdd("%channel.mention%", () => (ch as ITextChannel)?.Mention ?? "#" + ch.Name);
+        _reps.TryAdd("%channel.mention%", () => (ch as ITextChannel)?.Mention ?? $"#{ch.Name}");
         _reps.TryAdd("%channel.name%", () => ch.Name);
         _reps.TryAdd("%channel.id%", () => ch.Id.ToString());
         _reps.TryAdd("%channel.created%", () => ch.CreatedAt.ToString("HH:mm dd.MM.yyyy"));
@@ -173,7 +173,7 @@ public class ReplacementBuilder
         _reps.TryAdd("%user.name%", () => string.Join(" ", users.Select(user => user.Username)));
         _reps.TryAdd("%user.banner%",
             () => string.Join(" ",
-                users.Select(user => _client.Rest.GetUserAsync(user.Id).Result.GetBannerUrl(size: 2048))));
+                users.Select(async user => (await _client.Rest.GetUserAsync(user.Id)).GetBannerUrl(size: 2048))));
         _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         _reps.TryAdd("%user.avatar%",
             () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));

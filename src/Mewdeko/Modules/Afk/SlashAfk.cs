@@ -127,7 +127,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             await ctx.Interaction.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
             return;
         }
-        var afks = Service.GetAfkUsers(ctx.Guild);
+        var afks = await Service.GetAfkUsers(ctx.Guild);
         if (!afks.Any())
         {
             await ctx.Interaction.SendErrorAsync("There are no currently AFK users!");
@@ -148,7 +148,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         {
             await Task.CompletedTask;
                 return new PageBuilder().WithOkColor()
-                    .WithTitle(Format.Bold("Active AFKs") + $" - {afks.ToArray().Length}")
+                    .WithTitle($"{Format.Bold("Active AFKs")} - {afks.ToArray().Length}")
                     .WithDescription(string.Join("\n", afks.ToArray().Skip(page * 20).Take(20)));
         }
     }
@@ -207,8 +207,9 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         
         async Task<PageBuilder> PageFactory(int page)
         {
+            await Task.CompletedTask;
             return new PageBuilder().WithOkColor()
-                                    .WithTitle(Format.Bold("Disabled Afk Channels") + $" - {mentions.ToArray().Length}")
+                                    .WithTitle($"{Format.Bold("Disabled Afk Channels")} - {mentions.ToArray().Length}")
                                     .WithDescription(string.Join("\n", mentions.ToArray().Skip(page * 20).Take(20)));
         }
     }

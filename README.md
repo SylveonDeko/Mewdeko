@@ -20,6 +20,7 @@
 
 ## Cute but *Powerful.* ( ◕‿◕✿)
 Mewdeko is a bot that combines customization, moderation and other community-enhancing features and tools to your Discord server.
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B03QN1K)
 
 ### Fun.
 Above all, this bot is made to make your server work for you and your community - including cute games, surprises, and more!

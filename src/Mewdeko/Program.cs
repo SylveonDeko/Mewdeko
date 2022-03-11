@@ -1,15 +1,13 @@
 global using System;
 global using System.Linq;
 global using Mewdeko.Services;
-global using Mewdeko;
 global using System.Threading.Tasks;
 global using System.Collections;
 global using System.Collections.Generic;
 using Serilog;
-using System.Threading;
+using System.IO;
+using System.Net.Http;
 
-ThreadPool.GetMinThreads(out _, out var completionPortThreads);
-ThreadPool.SetMinThreads( 200, completionPortThreads);
 var pid = Environment.ProcessId;
 
 var shardId = 0;
@@ -29,6 +27,16 @@ if (args.Length > 0)
             return;
         }
     }
+}
+if (!File.Exists(Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db")))
+{
+    var uri = new Uri("https://cdn.discordapp.com/attachments/915770282579484693/946967102680621087/Mewdeko.db");
+    var client = new HttpClient();
+    var response = client.GetAsync(uri).Result;
+    await using var fs = new FileStream(
+        Path.Combine(AppContext.BaseDirectory, "data/Mewdeko.db"), 
+        FileMode.CreateNew);
+    await response.Content.CopyToAsync(fs);
 }
 Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
 

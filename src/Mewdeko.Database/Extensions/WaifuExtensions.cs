@@ -72,7 +72,7 @@ public static class WaifuExtensions
             .AsQueryable()
             .AsNoTracking()
             .Where(x => x.Claimer.UserId == ownerId
-                        && x.Waifu.Username + "#" + x.Waifu.Discriminator == name)
+                        && $"{x.Waifu.Username}#{x.Waifu.Discriminator}" == name)
             .Select(x => x.Waifu.UserId)
             .FirstOrDefault();
 
@@ -92,7 +92,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
                 FullName = ctx.DiscordUser
                               .AsQueryable()
                               .Where(u => u.UserId == userId)
-                              .Select(u => u.Username + "#" + u.Discriminator)
+                              .Select(u => $"{u.Username}#{u.Discriminator}")
                               .FirstOrDefault(),
 
                 AffinityCount = ctx.WaifuUpdates
@@ -104,7 +104,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
                 AffinityName = ctx.DiscordUser
                                   .AsQueryable()
                                   .Where(u => u.Id == w.AffinityId)
-                                  .Select(u => u.Username + "#" + u.Discriminator)
+                                  .Select(u => $"{u.Username}#{u.Discriminator}")
                                   .FirstOrDefault(),
 
                 ClaimCount = ctx.WaifuInfo
@@ -114,7 +114,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
                 ClaimerName = ctx.DiscordUser
                                  .AsQueryable()
                                  .Where(u => u.Id == w.ClaimerId)
-                                 .Select(u => u.Username + "#" + u.Discriminator)
+                                 .Select(u => $"{u.Username}#{u.Discriminator}")
                                  .FirstOrDefault(),
 
                 DivorceCount = ctx.WaifuUpdates
@@ -129,7 +129,7 @@ VALUES ({null}, {null}, {1}, (SELECT Id FROM DiscordUser WHERE UserId={userId}))
                     .AsQueryable()
                     .Include(x => x.Waifu)
                     .Where(x => x.ClaimerId == w.WaifuId)
-                    .Select(x => x.Waifu.Username + "#" + x.Waifu.Discriminator)
+                    .Select(x => $"{x.Waifu.Username}#{x.Waifu.Discriminator}")
                     .ToList(),
 
                 Items = w.Items

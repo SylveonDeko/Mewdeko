@@ -60,7 +60,7 @@ public partial class Gambling
         private string GetReactionDescription(long amount, long potSize)
         {
             var potSizeStr = Format.Bold(potSize == 0
-                ? "∞" + CurrencySign
+                ? $"∞{CurrencySign}"
                 : potSize + CurrencySign);
             return GetText("new_reaction_event",
                 CurrencySign,
@@ -71,7 +71,7 @@ public partial class Gambling
         private string GetGameStatusDescription(long amount, long potSize)
         {
             var potSizeStr = Format.Bold(potSize == 0
-                ? "∞" + CurrencySign
+                ? $"∞{CurrencySign}"
                 : potSize + CurrencySign);
             return GetText("new_gamestatus_event",
                 CurrencySign,

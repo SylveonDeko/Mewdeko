@@ -123,9 +123,7 @@ public class GiveawayService : INService
             Color = Mewdeko.OkColor,
             Title = item,
             Description =
-                $"React with {emote} to enter!\n" +
-                $"Hosted by {hostuser.Mention}\n" +
-                $"End Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n",
+                $"React with {emote} to enter!\nHosted by {hostuser.Mention}\nEnd Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n",
             Footer = new EmbedFooterBuilder()
                 .WithText($"{winners} Winners | Mewdeko Giveaways")
         };
@@ -146,10 +144,8 @@ public class GiveawayService : INService
                 }
             }
             if (reqrolesparsed.Any())
-                eb.WithDescription($"React with {emote} to enter!\n"
-                               + $"Hosted by {hostuser.Mention}\n"
-                               + $"Required Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\n"
-                               + $"End Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n");
+                eb.WithDescription(
+                    $"React with {emote} to enter!\nHosted by {hostuser.Mention}\nRequired Roles: {string.Join("\n", reqrolesparsed.Select(x => x.Mention))}\nEnd Time: <t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}:R> (<t:{DateTime.UtcNow.Add(ts).ToUnixEpochDate()}>)\n");
         }
         var msg = await chan.SendMessageAsync(embed: eb.Build());
         await msg.AddReactionAsync(emote);

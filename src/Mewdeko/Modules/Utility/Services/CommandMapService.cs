@@ -51,7 +51,7 @@ public class CommandMapService : IInputTransformer, INService
                 foreach (var k in keys)
                 {
                     string newInput;
-                    if (input.StartsWith(k + " ", StringComparison.InvariantCultureIgnoreCase))
+                    if (input.StartsWith($"{k} ", StringComparison.InvariantCultureIgnoreCase))
                         newInput = maps[k] + input.Substring(k.Length, input.Length - k.Length);
                     else if (input.Equals(k, StringComparison.InvariantCultureIgnoreCase))
                         newInput = maps[k];
