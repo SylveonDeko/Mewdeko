@@ -185,6 +185,7 @@ public class Music : MewdekoModuleBase<MusicService>
                 if (playlistOrSongName is null)
                 {
                     await ctx.Channel.SendErrorAsync("You need to specify a playlist name!");
+                    return;
                 }
 
                 if (Service.GetPlaylists(ctx.User).Select(x => x.Name.ToLower()).Contains(playlistOrSongName?.ToLower()))

@@ -364,7 +364,8 @@ public class MusicService : INService
         public IEnumerable<MusicPlaylist> GetPlaylists(IUser user)
         {
             using var uow = _db.GetDbContext();
-            return uow.MusicPlaylists.GetPlaylistsByUser(user.Id);
+            var a = uow.MusicPlaylists.GetPlaylistsByUser(user.Id);
+            return a.ToList();
         }
         public async Task<MusicPlayerSettings> GetSettingsInternalAsync(ulong guildId)
         {
