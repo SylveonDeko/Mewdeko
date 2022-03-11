@@ -297,23 +297,24 @@ iam:
 iamnot:
   - iamnot
   - iamn
-addcustreact:
-  - addcustreact
+addchattrigger:
+  - addchattrigger
+  - act
   - acr
-listcustreact:
-  - listcustreact
-  - lcr
-listcustreactg:
-  - listcustreactg
-  - lcrg
-showcustreact:
-  - showcustreact
-  - scr
-delcustreact:
-  - delcustreact
-  - dcr
-crclear:
-  - crclear
+listchattriggers:
+  - listchattriggers
+  - lct
+listchattriggersgroup:
+  - listchattriggersgroup
+  - lctg
+showchattrigger:
+  - showchattrigger
+  - sct
+deletechattrigger:
+  - deletechattrigger
+  - dct
+ctsclear:
+  - ctsclear
 fwclear:
   - fwclear
 aliasesclear:
@@ -1063,19 +1064,19 @@ languageslist:
   - langli
 rategirl:
   - rategirl
-crreact:
-  - crreact
-  - crr
-crad:
-  - crad
-crat:
-  - crat
-crdm:
-  - crdm
-crca:
-  - crca
-crsreload:
-  - crsreload
+ctreact:
+  - ctreact
+  - ctr
+ctad:
+  - ctad
+ctat:
+  - ctat
+ctdm:
+  - ctdm
+ctca:
+  - ctca
+ctsreload:
+  - ctsreload
 aliaslist:
   - aliaslist
   - cmdmaplist
@@ -1301,9 +1302,9 @@ feedremove:
 feedlist:
   - feedlist
   - feeds
-editcustreact:
-  - editcustreact
-  - ecr
+editchattrigger:
+  - editchattrigger
+  - ect
 say:
   - say
 sqlexec:
