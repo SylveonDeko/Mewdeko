@@ -264,7 +264,7 @@ public class MusicService : INService
             var player = _lavaNode.GetPlayer(guild.Id);
             var toRemove = queue.ElementAt(trackNum - 1);
             var curTrack = GetCurrentTrack(player, guild);
-            if (toRemove.Source is null)
+            if (toRemove is null)
                 return false;
             var toReplace = queue.ElementAt(queue.IndexOf(curTrack) + 1);
             if (curTrack == toRemove && toReplace is not null)

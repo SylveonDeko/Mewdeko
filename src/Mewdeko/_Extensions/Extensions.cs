@@ -137,8 +137,8 @@ public static class Extensions
     // https://github.com/SixLabors/Samples/blob/master/ImageSharp/AvatarWithRoundedCorner/Program.cs
     public static void ApplyRoundedCorners(this IImageProcessingContext ctx, float cornerRadius)
     {
-        var size = ctx.GetCurrentSize();
-        var corners = BuildCorners(size.Width, size.Height, cornerRadius);
+        var (width, height) = ctx.GetCurrentSize();
+        var corners = BuildCorners(width, height, cornerRadius);
 
         ctx.SetGraphicsOptions(new GraphicsOptions
         {
