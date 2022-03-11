@@ -41,8 +41,8 @@ public class HelpService : ILateExecutor, INService
             {
                 new SelectMenuOptionBuilder().WithLabel("Administration").WithDescription("Shows administration commands.").WithValue("admin"),
                 new SelectMenuOptionBuilder().WithLabel("Afk").WithDescription("Shows AFK Commands").WithValue("afk"),
+                new SelectMenuOptionBuilder().WithLabel("ChatTriggers").WithDescription("Shows ChatTriggers commands").WithValue("custom"),
                 new SelectMenuOptionBuilder().WithLabel("Confessions").WithDescription("Shows Confessions Commands").WithValue("confessions"),
-                new SelectMenuOptionBuilder().WithLabel("Custom Reactions").WithDescription("Shows Custom Reaction commands").WithValue("custom"),
                 new SelectMenuOptionBuilder().WithLabel("Games").WithDescription("Shows Games Commands").WithValue("games"),
                 new SelectMenuOptionBuilder().WithLabel("Gambling").WithDescription("Shows Gambling Commands").WithValue("gambling"),
                 new SelectMenuOptionBuilder().WithLabel("Giveaways").WithDescription("Shows Giveaways Commands").WithValue("giveaways"),
