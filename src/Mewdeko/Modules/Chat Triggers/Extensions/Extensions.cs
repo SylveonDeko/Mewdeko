@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using AngleSharp;
+﻿using AngleSharp;
 using AngleSharp.Html.Dom;
 using Discord;
 using Discord.WebSocket;
@@ -8,8 +6,10 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Models;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
-namespace Mewdeko.Modules.CustomReactions.Extensions;
+namespace Mewdeko.Modules.Chat_Triggers.Extensions;
 
 public static class Extensions
 {
@@ -85,12 +85,12 @@ public static class Extensions
         return str;
     }
 
-    public static Task<string> ResponseWithContextAsync(this CustomReaction cr, IUserMessage ctx,
+    public static Task<string> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
         DiscordSocketClient client, bool containsAnywhere) =>
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere);
 
-    public static async Task<IUserMessage> Send(this CustomReaction cr, IUserMessage ctx,
+    public static async Task<IUserMessage> Send(this Database.Models.ChatTriggers cr, IUserMessage ctx,
         DiscordSocketClient client, bool sanitize)
     {
         var channel = cr.DmResponse

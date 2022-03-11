@@ -16,7 +16,6 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using Mewdeko.Modules.CustomReactions.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
 using Mewdeko.Modules.Nsfw;
@@ -32,6 +31,7 @@ using System.Net.Http;
 using System.Reflection;
 using Lavalink4NET;
 using Lavalink4NET.DiscordNet;
+using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Music.Services;
 using NekosBestApiNet;
 using RunMode = Discord.Commands.RunMode;
@@ -169,7 +169,7 @@ public class Mewdeko
         s.LoadFrom(Assembly.GetAssembly(typeof(CommandHandler))!);
 
         s.AddSingleton<IReadyExecutor>(x => x.GetService<OwnerOnlyService>());
-        s.AddSingleton<IReadyExecutor>(x => x.GetService<CustomReactionsService>());
+        s.AddSingleton<IReadyExecutor>(x => x.GetService<ChatTriggersService>());
         //initialize Services
         Services = s.BuildServiceProvider();
         var commandHandler = Services.GetService<CommandHandler>();

@@ -872,7 +872,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
                 "System.Threading.Tasks", "Discord.Net", "Discord", "Discord.WebSocket", "Mewdeko.Modules",
                 "Mewdeko.Services", "Mewdeko._Extensions", "Mewdeko.Modules.Administration",
-                "Mewdeko.Modules.CustomReactions", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
+                "Mewdeko.Modules.ChatTriggers", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
                 "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.Nsfw",
                 "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management")
             .WithReferences(AppDomain.CurrentDomain.GetAssemblies()
