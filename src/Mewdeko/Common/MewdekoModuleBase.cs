@@ -37,13 +37,12 @@ public abstract class MewdekoModule : ModuleBase
     protected string GetText(string key) => Strings.GetText(key, CultureInfo);
 
     protected string GetText(string key, params object[] args) => Strings.GetText(key, CultureInfo, args);
-
     public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
         return ctx.Channel.SendErrorAsync(text);
     }
-
+    
     public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
