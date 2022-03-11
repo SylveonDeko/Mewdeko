@@ -41,36 +41,13 @@ public class AdministrationService : INService
             .ToConcurrent());
         client.JoinedGuild += SendHelp;
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
-        client.MessageReceived += GrantKarutaRole;
     }
     
     private ConcurrentDictionary<ulong, ulong> StaffRole { get; }
-    private ConcurrentDictionary<ulong, int> MessagesSent = new();
     private ConcurrentDictionary<ulong, ulong> MemberRole { get; }
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
     public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
     
-    private async Task GrantKarutaRole(SocketMessage arg)
-    {
-        if (arg.Channel is not ITextChannel channel)
-            return;
-
-        if (channel.Id != 940654772070019132 && channel.Id != 809636962599829574)
-            return;
-
-        var gUser = arg.Author as SocketGuildUser;
-        if (gUser.Roles.Select(x => x.Id).Contains<ulong>(940669747282980954))
-            return;
-
-        if (!MessagesSent.TryGetValue(gUser.Id, out var amount) || amount < 2)
-            MessagesSent.AddOrUpdate(gUser.Id, amount++, (_, _) => amount++);
-
-        else
-        {
-            await gUser.AddRoleAsync(940669747282980954);
-            MessagesSent.TryRemove(gUser.Id, out _);
-        }
-    }
 
     public static async Task SendHelp(SocketGuild guild)
     {
