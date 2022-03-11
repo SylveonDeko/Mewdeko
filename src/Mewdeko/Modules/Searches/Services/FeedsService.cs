@@ -119,7 +119,8 @@ public class FeedsService : INService
                             })
                             .WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
                             .WithOverride("%timestamp%", () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
-                            .WithOverride("%url%", () => rssUrl)
+                            .WithOverride("%url%", () => feedItem.Link)
+                            .WithOverride("%feedurl%", () => rssUrl)
                             .Build();
 
                         if (itemUpdateDate <= lastFeedUpdate) continue;
