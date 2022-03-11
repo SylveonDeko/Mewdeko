@@ -41,7 +41,7 @@ public class MewdekoContext : DbContext
     public DbSet<Highlights> Highlights { get; set; }
     public DbSet<HighlightSettings> HighlightSettings { get; set; }
     public DbSet<MusicPlaylist> MusicPlaylists { get; set; }
-    public DbSet<CustomReaction> CustomReactions { get; set; }
+    public DbSet<ChatTriggers> ChatTriggers { get; set; }
     public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
     public DbSet<MusicPlayerSettings> MusicPlayerSettings { get; set; }
     public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
