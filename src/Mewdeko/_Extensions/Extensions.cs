@@ -26,6 +26,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using ModuleInfo = Discord.Commands.ModuleInfo;
+using TypeReader = Discord.Commands.TypeReader;
 
 #nullable enable
 namespace Mewdeko._Extensions;
