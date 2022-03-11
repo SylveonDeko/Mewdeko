@@ -224,7 +224,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoHentai(int interval = 0, [Remainder] string? tags = null)
     {
-        Timer t;
+        Timer t = default;
 
         switch (interval)
         {
@@ -311,7 +311,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
     [UserPerm(ChannelPermission.ManageMessages)]
     public async Task AutoButts(int interval = 0)
     {
-        Timer t;
+        Timer t = default;
 
         switch (interval)
         {
