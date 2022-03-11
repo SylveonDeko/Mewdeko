@@ -143,7 +143,18 @@ public class ReplacementBuilder
 
             return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
-                to), TimestampTagStyles.ShortDateTime).ToString();
+                to)).ToString();
+        });
+        _reps.TryAdd("%server.time%", () =>
+        {
+            var to = TimeZoneInfo.Local;
+            if (g != null)
+                if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
+                    to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+
+            return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+                TimeZoneInfo.Utc,
+                to).ToString("HH:mm ") + to.StandardName.GetInitials();
         });
         return this;
     }
