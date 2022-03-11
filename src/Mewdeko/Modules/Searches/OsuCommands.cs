@@ -77,7 +77,7 @@ public partial class Searches
                     .AddField("Official Rank", $"#{obj.PpRank}", true)
                     .AddField("Country Rank", $"#{obj.PpCountryRank} :flag_{obj.Country.ToLower()}:", true)
                     .AddField("Total PP", Math.Round(obj.PpRaw, 2), true)
-                    .AddField("Accuracy", Math.Round(obj.Accuracy, 2) + "%", true)
+                    .AddField("Accuracy", $"{Math.Round(obj.Accuracy, 2)}%", true)
                     .AddField("Playcount", obj.Playcount, true)
                     .AddField("Level", Math.Round(obj.Level), true)
                 );
@@ -154,21 +154,15 @@ public partial class Searches
             var m = 0;
             if (!string.IsNullOrWhiteSpace(mode)) m = ResolveGameMode(mode);
 
-            var reqString = "https://osu.ppy.sh/api/get_user_best" +
-                            $"?k={_creds.OsuApiKey}" +
-                            $"&u={Uri.EscapeDataString(user)}" +
-                            "&type=string" +
-                            "&limit=5" +
-                            $"&m={m}";
+            var reqString =
+                $"https://osu.ppy.sh/api/get_user_best?k={_creds.OsuApiKey}&u={Uri.EscapeDataString(user)}&type=string&limit=5&m={m}";
 
             var resString = await http.GetStringAsync(reqString).ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<List<OsuUserBests>>(resString);
 
             var mapTasks = obj.Select(async item =>
             {
-                var mapReqString = "https://osu.ppy.sh/api/get_beatmaps" +
-                                   $"?k={_creds.OsuApiKey}" +
-                                   $"&b={item.BeatmapId}";
+                var mapReqString = $"https://osu.ppy.sh/api/get_beatmaps?k={_creds.OsuApiKey}&b={item.BeatmapId}";
 
                 var mapResString = await http.GetStringAsync(mapReqString).ConfigureAwait(false);
                 var map = JsonConvert.DeserializeObject<List<OsuMapData>>(mapResString).FirstOrDefault();
@@ -180,7 +174,7 @@ public partial class Searches
 
                 var title = $"{map.Artist}-{map.Title} ({map.Version})";
                 var desc = $@"[/b/{item.BeatmapId}](https://osu.ppy.sh/b/{item.BeatmapId})
-{pp + "pp",-7} | {acc + "%",-7}
+{$"{pp}pp",-7} | {$"{acc}%",-7}
 ";
                 if (mods != "+") desc += Format.Bold(mods);
 
@@ -202,36 +196,35 @@ public partial class Searches
         {
             double hitPoints;
             double totalHits;
-            if (mode == 0)
+            switch (mode)
             {
-                hitPoints = (play.Count50 * 50) +
-                            (play.Count100 * 100) +
-                            (play.Count300 * 300);
-                totalHits = play.Count50 + play.Count100 +
-                            play.Count300 + play.Countmiss;
-                totalHits *= 300;
-            }
-            else if (mode == 1)
-            {
-                hitPoints = (play.Countmiss * 0) + (play.Count100 * 0.5) + play.Count300;
-                totalHits = (play.Countmiss + play.Count100 + play.Count300) * 300;
-                hitPoints *= 300;
-            }
-            else if (mode == 2)
-            {
-                hitPoints = play.Count50 + play.Count100 + play.Count300;
-                totalHits = play.Countmiss + play.Count50 + play.Count100 + play.Count300 +
-                            play.Countkatu;
-            }
-            else
-            {
-                hitPoints = (play.Count50 * 50) +
-                            (play.Count100 * 100) +
-                            (play.Countkatu * 200) +
-                            ((play.Count300 + play.Countgeki) * 300);
+                case 0:
+                    hitPoints = (play.Count50 * 50) +
+                                (play.Count100 * 100) +
+                                (play.Count300 * 300);
+                    totalHits = play.Count50 + play.Count100 +
+                                play.Count300 + play.Countmiss;
+                    totalHits *= 300;
+                    break;
+                case 1:
+                    hitPoints = (play.Countmiss * 0) + (play.Count100 * 0.5) + play.Count300;
+                    totalHits = (play.Countmiss + play.Count100 + play.Count300) * 300;
+                    hitPoints *= 300;
+                    break;
+                case 2:
+                    hitPoints = play.Count50 + play.Count100 + play.Count300;
+                    totalHits = play.Countmiss + play.Count50 + play.Count100 + play.Count300 +
+                                play.Countkatu;
+                    break;
+                default:
+                    hitPoints = (play.Count50 * 50) +
+                                (play.Count100 * 100) +
+                                (play.Countkatu * 200) +
+                                ((play.Count300 + play.Countgeki) * 300);
 
-                totalHits = (play.Countmiss + play.Count50 + play.Count100 +
-                             play.Countkatu + play.Count300 + play.Countgeki) * 300;
+                    totalHits = (play.Countmiss + play.Count50 + play.Count100 +
+                                 play.Countkatu + play.Count300 + play.Countgeki) * 300;
+                    break;
             }
 
 

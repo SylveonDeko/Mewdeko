@@ -276,9 +276,9 @@ public class FilterService : IEarlyBehavior, INService
                     var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
                         $"Banned for saying autoban word {i}");
                     var embed = await Upun.GetBanUserDmEmbed(_client, guild as SocketGuild,
-                        _client.CurrentUser as IGuildUser, msg.Author as IGuildUser, defaultMessage,
+                        await guild.GetUserAsync(_client.CurrentUser.Id), msg.Author as IGuildUser, defaultMessage,
                         $"Banned for saying autoban word {i}", null);
-                    await msg.Author.CreateDMChannelAsync().Result.SendMessageAsync(embed.Item2, embed: embed.Item1?.Build());
+                    await (await msg.Author.CreateDMChannelAsync()).SendMessageAsync(embed.Item2, embed: embed.Item1?.Build());
                     await guild.AddBanAsync(msg.Author, 0, "Auto Ban Word Detected");
                     return true;
                 }
@@ -322,8 +322,7 @@ public class FilterService : IEarlyBehavior, INService
                             await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser,
                                 "Warned for Filtered Word");
                             var user = await usrMsg.Author.CreateDMChannelAsync();
-                            await user.SendErrorAsync(
-                                "You have been warned for using the word " + Format.Code(word));
+                            await user.SendErrorAsync($"You have been warned for using the word {Format.Code(word)}");
                         }
                     }
                     catch (HttpException ex)
@@ -346,8 +345,7 @@ public class FilterService : IEarlyBehavior, INService
                         await Upun.Warn(guild, usrMsg.Author.Id, _client.CurrentUser,
                             "Warned for Filtered Word");
                         var user = await usrMsg.Author.CreateDMChannelAsync();
-                        await user.SendErrorAsync(
-                            "You have been warned for using the word " + Format.Code(word));
+                        await user.SendErrorAsync($"You have been warned for using the word {Format.Code(word)}");
                     }
                 }
                 catch (HttpException ex)

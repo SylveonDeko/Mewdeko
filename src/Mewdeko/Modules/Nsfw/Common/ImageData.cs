@@ -11,11 +11,11 @@ public class ImageData : IComparable<ImageData>
     {
         if (type == Booru.Danbooru && !Uri.IsWellFormedUriString(url, UriKind.Absolute))
         {
-            FileUrl = "https://danbooru.donmai.us" + url;
+            FileUrl = $"https://danbooru.donmai.us{url}";
         }
         else
         {
-            FileUrl = url.StartsWith("http", StringComparison.InvariantCulture) ? url : "https:" + url;
+            FileUrl = url.StartsWith("http", StringComparison.InvariantCulture) ? url : $"https:{url}";
         }
             
         SearchType = type;

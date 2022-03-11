@@ -27,7 +27,17 @@ public class AntiSpamSetting : DbEntity
     public ulong? RoleId { get; set; }
     public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
 }
+public class AntiMassMentionSetting : DbEntity
+{
+    public int GuildConfigId { get; set; }
+    public GuildConfig GuildConfig { get; set; }
 
+    public PunishmentAction Action { get; set; }
+    public int MentionThreshold { get; set; } = 3;
+    public int MuteTime { get; set; } = 0;
+    public ulong? RoleId { get; set; }
+    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
+}
 public class AntiAltSetting
 {
     public int Id { get; set; }
@@ -47,7 +57,9 @@ public enum PunishmentAction
     RemoveRoles,
     ChatMute,
     VoiceMute,
-    AddRole
+    AddRole,
+    Delete,
+    Warn
 }
 
 public class AntiSpamIgnore : DbEntity

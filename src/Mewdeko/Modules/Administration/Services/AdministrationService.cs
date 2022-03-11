@@ -112,14 +112,14 @@ public class AdministrationService : INService
 
     public ulong GetStaffRole(ulong? id)
     {
-        Debug.Assert(id != null, nameof(id) + " != null");
+        Debug.Assert(id != null, $"{nameof(id)} != null");
         StaffRole.TryGetValue(id.Value, out var snum);
         return snum;
     }
 
     public ulong GetMemberRole(ulong? id)
     {
-        Debug.Assert(id != null, nameof(id) + " != null");
+        Debug.Assert(id != null, $"{nameof(id)} != null");
         MemberRole.TryGetValue(id.Value, out var snum);
         return snum;
     }
@@ -218,16 +218,16 @@ public class AdministrationService : INService
             await uow.SaveChangesAsync();
         }
 
-        if (newState == Administration.State.Disable)
+        switch (newState)
         {
-        }
-        else if (newState == Administration.State.Enable)
-        {
-            DeleteMessagesOnCommandChannels[chId] = true;
-        }
-        else
-        {
-            DeleteMessagesOnCommandChannels.TryRemove(chId, out var _);
+            case Administration.State.Disable:
+                break;
+            case Administration.State.Enable:
+                DeleteMessagesOnCommandChannels[chId] = true;
+                break;
+            default:
+                DeleteMessagesOnCommandChannels.TryRemove(chId, out var _);
+                break;
         }
     }
 
@@ -262,7 +262,7 @@ public class AdministrationService : INService
             await umsg.ModifyAsync(x =>
             {
                 x.Embed = embed?.Build();
-                x.Content = plainText.SanitizeMentions() ?? "";
+                x.Content = plainText?.SanitizeMentions();
             }).ConfigureAwait(false);
         }
         else

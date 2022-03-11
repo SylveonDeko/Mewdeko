@@ -141,6 +141,7 @@ public partial class Utility
 
             async Task<PageBuilder> PageFactory(int page)
             {
+                await Task.CompletedTask;
                 return new PageBuilder().WithOkColor()
                                                         .WithTitle(GetText("alias_list"))
                                                         .WithDescription(string.Join("\n",

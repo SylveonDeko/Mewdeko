@@ -58,26 +58,24 @@ public partial class Gambling
 
             var (w, isAffinity, result) = await Service.ClaimWaifuAsync(ctx.User, target, amount);
 
-            if (result == WaifuClaimResult.InsufficientAmount)
+            switch (result)
             {
-                await ReplyErrorLocalizedAsync("waifu_not_enough",
-                    Math.Ceiling(w.Price * (isAffinity ? 0.88f : 1.1f)));
-                return;
-            }
-
-            if (result == WaifuClaimResult.NotEnoughFunds)
-            {
-                await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
-                return;
+                case WaifuClaimResult.InsufficientAmount:
+                    await ReplyErrorLocalizedAsync("waifu_not_enough",
+                        Math.Ceiling(w.Price * (isAffinity ? 0.88f : 1.1f)));
+                    return;
+                case WaifuClaimResult.NotEnoughFunds:
+                    await ReplyErrorLocalizedAsync("not_enough", CurrencySign);
+                    return;
             }
 
             var msg = GetText("waifu_claimed",
                 Format.Bold(target.ToString()),
                 amount + CurrencySign);
             if (w.Affinity?.UserId == ctx.User.Id)
-                msg += "\n" + GetText("waifu_fulfilled", target, w.Price + CurrencySign);
+                msg += $"\n{GetText("waifu_fulfilled", target, w.Price + CurrencySign)}";
             else
-                msg = " " + msg;
+                msg = $" {msg}";
             await ctx.Channel.SendConfirmAsync(ctx.User.Mention + msg);
         }
 
@@ -124,17 +122,24 @@ public partial class Gambling
 
             var (w, result, amount, remaining) = await Service.DivorceWaifuAsync(ctx.User, targetId);
 
-            if (result == DivorceResult.SucessWithPenalty)
-                await ReplyConfirmLocalizedAsync("waifu_divorced_like", Format.Bold(w.Waifu.ToString()),
-                    amount + CurrencySign);
-            else if (result == DivorceResult.Success)
-                await ReplyConfirmLocalizedAsync("waifu_divorced_notlike", amount + CurrencySign);
-            else if (result == DivorceResult.NotYourWife)
-                await ReplyErrorLocalizedAsync("waifu_not_yours");
-            else
-                await ReplyErrorLocalizedAsync("waifu_recent_divorce",
-                    Format.Bold(((int) remaining?.TotalHours).ToString()),
-                    Format.Bold(remaining?.Minutes.ToString()));
+            switch (result)
+            {
+                case DivorceResult.SucessWithPenalty:
+                    await ReplyConfirmLocalizedAsync("waifu_divorced_like", Format.Bold(w.Waifu.ToString()),
+                        amount + CurrencySign);
+                    break;
+                case DivorceResult.Success:
+                    await ReplyConfirmLocalizedAsync("waifu_divorced_notlike", amount + CurrencySign);
+                    break;
+                case DivorceResult.NotYourWife:
+                    await ReplyErrorLocalizedAsync("waifu_not_yours");
+                    break;
+                default:
+                    await ReplyErrorLocalizedAsync("waifu_recent_divorce",
+                        Format.Bold(((int) remaining?.TotalHours).ToString()),
+                        Format.Bold(remaining?.Minutes.ToString()));
+                    break;
+            }
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -172,11 +177,14 @@ public partial class Gambling
         {
             page--;
 
-            if (page < 0)
-                return;
-
-            if (page > 100)
-                page = 100;
+            switch (page)
+            {
+                case < 0:
+                    return;
+                case > 100:
+                    page = 100;
+                    break;
+            }
 
             var waifus = Service.GetTopWaifuInfoAtPage(page);
 
@@ -195,7 +203,7 @@ public partial class Gambling
             {
                 var j = i++;
                 embed.AddField(efb =>
-                    efb.WithName("#" + ((page * 9) + j + 1) + " - " + w.Price + CurrencySign).WithValue(w.ToString())
+                    efb.WithName($"#{((page * 9) + j + 1)} - {w.Price}{CurrencySign}").WithValue(w.ToString())
                         .WithIsInline(false));
             }
 
@@ -237,8 +245,8 @@ public partial class Gambling
 
             var embed = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle(GetText("waifu") + " " + (wi.FullName ?? name ?? targetId.ToString()) + " - \"the " +
-                           WaifuService.GetClaimTitle(wi.ClaimCount) + "\"")
+                .WithTitle(
+                    $"{GetText("waifu")} {(wi.FullName ?? name ?? targetId.ToString())} - \"the {WaifuService.GetClaimTitle(wi.ClaimCount)}\"")
                 .AddField(efb => efb.WithName(GetText("price")).WithValue(wi.Price.ToString()).WithIsInline(true))
                 .AddField(efb =>
                     efb.WithName(GetText("claimed_by")).WithValue(wi.ClaimerName ?? nobody).WithIsInline(true))
@@ -310,7 +318,7 @@ public partial class Gambling
 
             if (sucess)
                 await ReplyConfirmLocalizedAsync("waifu_gift",
-                    Format.Bold(item + " " + item.ItemEmoji),
+                    Format.Bold($"{item} {item.ItemEmoji}"),
                     Format.Bold(waifu.ToString()));
             else
                 await ReplyErrorLocalizedAsync("not_enough", CurrencySign);

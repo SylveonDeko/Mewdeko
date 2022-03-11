@@ -96,8 +96,8 @@ public partial class Gambling
                         dealerIcon = "🏁 ";
                 }
 
-                var cStr = string.Concat(c.Select(x => x[..^1] + " "));
-                cStr += "\n" + string.Concat(c.Select(x => x.Last() + " "));
+                var cStr = string.Concat(c.Select(x => $"{x[..^1]} "));
+                cStr += $"\n{string.Concat(c.Select(x => $"{x.Last()} "))}";
                 var embed = new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("BlackJack")
@@ -109,31 +109,31 @@ public partial class Gambling
                 foreach (var p in bj.Players)
                 {
                     c = p.Cards.Select(x => x.GetEmojiString());
-                    cStr = "-\t" + string.Concat(c.Select(x => x[..^1] + " "));
-                    cStr += "\n-\t" + string.Concat(c.Select(x => x.Last() + " "));
+                    cStr = $"-\t{string.Concat(c.Select(x => $"{x[..^1]} "))}";
+                    cStr += $"\n-\t{string.Concat(c.Select(x => $"{x.Last()} "))}";
                     var full = $"{p.DiscordUser.ToString().TrimTo(20)} | Bet: {p.Bet} | Value: {p.GetHandValue()}";
                     if (bj.State == Blackjack.GameState.Ended)
                     {
                         if (p.State == User.UserState.Lost)
-                            full = "❌ " + full;
+                            full = $"❌ {full}";
                         else
-                            full = "✅ " + full;
+                            full = $"✅ {full}";
                     }
                     else if (p == bj.CurrentUser)
                     {
-                        full = "▶ " + full;
+                        full = $"▶ {full}";
                     }
-                    else if (p.State == User.UserState.Stand)
+                    else switch (p.State)
                     {
-                        full = "⏹ " + full;
-                    }
-                    else if (p.State == User.UserState.Bust)
-                    {
-                        full = "💥 " + full;
-                    }
-                    else if (p.State == User.UserState.Blackjack)
-                    {
-                        full = "💰 " + full;
+                        case User.UserState.Stand:
+                            full = $"⏹ {full}";
+                            break;
+                        case User.UserState.Bust:
+                            full = $"💥 {full}";
+                            break;
+                        case User.UserState.Blackjack:
+                            full = $"💰 {full}";
+                            break;
                     }
 
                     embed.AddField(full, cStr);
@@ -152,7 +152,7 @@ public partial class Gambling
                 ? Format.Strikethrough(x.DiscordUser.ToString().TrimTo(30))
                 : x.DiscordUser.ToString();
 
-            _ = $"{string.Concat(x.Cards.Select(y => "〖" + y.GetEmojiString() + "〗"))}";
+            _ = $"{string.Concat(x.Cards.Select(y => $"〖{y.GetEmojiString()}〗"))}";
 
 
             return $"{playerName} | Bet: {x.Bet}\n";
@@ -172,13 +172,21 @@ public partial class Gambling
             if (!Service.Games.TryGetValue(ctx.Channel.Id, out var bj))
                 return;
 
-            if (a == BjAction.Hit)
-                await bj.Hit(ctx.User).ConfigureAwait(false);
-            else if (a == BjAction.Stand)
-                await bj.Stand(ctx.User).ConfigureAwait(false);
-            else if (a == BjAction.Double)
-                if (!await bj.Double(ctx.User).ConfigureAwait(false))
-                    await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+            switch (a)
+            {
+                case BjAction.Hit:
+                    await bj.Hit(ctx.User).ConfigureAwait(false);
+                    break;
+                case BjAction.Stand:
+                    await bj.Stand(ctx.User).ConfigureAwait(false);
+                    break;
+                case BjAction.Double:
+                    {
+                        if (!await bj.Double(ctx.User).ConfigureAwait(false))
+                            await ReplyErrorLocalizedAsync("not_enough", CurrencySign).ConfigureAwait(false);
+                        break;
+                    }
+            }
 
             await ctx.Message.DeleteAsync().ConfigureAwait(false);
         }

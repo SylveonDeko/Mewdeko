@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -15,19 +14,28 @@ public partial class Games
     [Group]
     public class PollCommands : MewdekoSubmodule<PollService>
     {
-        private readonly DiscordSocketClient _client;
-
-        public PollCommands(DiscordSocketClient client) => _client = client;
-
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
-        public async Task Poll([Remainder] string arg)
+        public async Task Poll([Remainder] string input) 
+            => await Poll(PollType.SingleAnswer, input);
+        
+        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+         RequireContext(ContextType.Guild)]
+        public async Task Poll(PollType type, [Remainder] string arg)
         {
+            if (type == PollType.PollEnded)
+                return;
+            
             if (string.IsNullOrWhiteSpace(arg))
                 return;
 
             var poll = PollService.CreatePoll(ctx.Guild.Id,
-                ctx.Channel.Id, arg);
+                ctx.Channel.Id, arg, type);
+            if (poll.Answers.Count > 25)
+            {
+                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!");
+                return;
+            }
             if (poll == null)
             {
                 await ReplyErrorLocalizedAsync("poll_invalid_input").ConfigureAwait(false);
@@ -35,15 +43,38 @@ public partial class Games
             }
 
             if (Service.StartPoll(poll))
-                await ctx.Channel
-                    .EmbedAsync(new EmbedBuilder()
-                        .WithOkColor()
-                        .WithTitle(GetText("poll_created", ctx.User.ToString()))
-                        .WithDescription(
-                            Format.Bold(poll.Question) + "\n\n" +
-                            string.Join("\n", poll.Answers
-                                .Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))))
-                    .ConfigureAwait(false);
+            {
+                var eb = new EmbedBuilder().WithOkColor().WithTitle(GetText("poll_created", ctx.User.ToString()))
+                                           .WithDescription(
+                                               $"{Format.Bold(poll.Question)}\n\n{string.Join("\n", poll.Answers.Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))}");
+                int count = 1;
+                var builder = new ComponentBuilder();
+                foreach (var i in poll.Answers)
+                {
+                    var component =
+                        new ButtonBuilder(customId: $"pollbutton:{count}", label: count.ToString());
+                    count++;
+                    try
+                    {
+                        builder.WithButton(component);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+
+                try
+                {
+                    await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: builder.Build());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
             else
                 await ReplyErrorLocalizedAsync("poll_already_running").ConfigureAwait(false);
         }

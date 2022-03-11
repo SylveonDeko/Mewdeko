@@ -204,8 +204,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny));
-                await ctx.Channel.SendMessageAsync(
-                    "<a:checkfragutil:854536148411744276> Locked down " + tch.Mention);
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Locked down {tch.Mention}");
             }
             else
             {
@@ -213,8 +212,8 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny));
-                await ctx.Channel.SendMessageAsync("<a:checkfragutil:854536148411744276> Locked down " +
-                                                   channel.Mention);
+                await ctx.Channel.SendMessageAsync(
+                    $"<a:checkfragutil:854536148411744276> Locked down {channel.Mention}");
             }
         }
 
@@ -297,7 +296,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendMessageAsync("<a:checkfragutil:854536148411744276> Unlocked " + tch.Mention);
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Unlocked {tch.Mention}");
             }
             else
             {
@@ -305,8 +304,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendMessageAsync("<a:checkfragutil:854536148411744276> Unlocked " +
-                                                   channel.Mention);
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Unlocked {channel.Mention}");
             }
         }
 

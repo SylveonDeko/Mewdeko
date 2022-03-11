@@ -17,10 +17,8 @@ public class OfficialCleverbotSession : IChatterBotSession
         _httpFactory = factory;
     }
 
-    private string QueryString => $"https://www.cleverbot.com/getreply?key={_apiKey}" +
-                                  "&wrapper=Mewdeko" +
-                                  "&input={0}" +
-                                  "&cs={1}";
+    private string QueryString =>
+        $"https://www.cleverbot.com/getreply?key={_apiKey}&wrapper=Mewdeko&input={{0}}&cs={{1}}";
 
     public async Task<string> Think(string input)
     {

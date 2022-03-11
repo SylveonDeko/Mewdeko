@@ -85,7 +85,7 @@ public class XpService : INService, IUnloadableService
         if (client.ShardId == 0)
         {
             var sub = _cache.Redis.GetSubscriber();
-            sub.Subscribe(_creds.RedisKey() + "_reload_xp_template", (_, _) => InternalReloadXpTemplate());
+            sub.Subscribe($"{_creds.RedisKey()}_reload_xp_template", (_, _) => InternalReloadXpTemplate());
         }
 
         //load settings
@@ -285,7 +285,7 @@ public class XpService : INService, IUnloadableService
     public void ReloadXpTemplate()
     {
         var sub = _cache.Redis.GetSubscriber();
-        sub.Publish(_creds.RedisKey() + "_reload_xp_template", "");
+        sub.Publish($"{_creds.RedisKey()}_reload_xp_template", "");
     }
 
     public void SetCurrencyReward(ulong guildId, int level, int amount)
@@ -889,33 +889,32 @@ private void DrawXpBar(float percent, XpBar info, Image<Rgba32> img)
 
         float x3 = 0, x4 = 0, y3 = 0, y4 = 0;
 
-        if (info.Direction == XpTemplateDirection.Down)
+        switch (info.Direction)
         {
-            x3 = x1;
-            x4 = x2;
-            y3 = y1 + length;
-            y4 = y2 + length;
-        }
-        else if (info.Direction == XpTemplateDirection.Up)
-        {
-            x3 = x1;
-            x4 = x2;
-            y3 = y1 - length;
-            y4 = y2 - length;
-        }
-        else if (info.Direction == XpTemplateDirection.Left)
-        {
-            x3 = x1 - length;
-            x4 = x2 - length;
-            y3 = y1;
-            y4 = y2;
-        }
-        else
-        {
-            x3 = x1 + length;
-            x4 = x2 + length;
-            y3 = y1;
-            y4 = y2;
+            case XpTemplateDirection.Down:
+                x3 = x1;
+                x4 = x2;
+                y3 = y1 + length;
+                y4 = y2 + length;
+                break;
+            case XpTemplateDirection.Up:
+                x3 = x1;
+                x4 = x2;
+                y3 = y1 - length;
+                y4 = y2 - length;
+                break;
+            case XpTemplateDirection.Left:
+                x3 = x1 - length;
+                x4 = x2 - length;
+                y3 = y1;
+                y4 = y2;
+                break;
+            default:
+                x3 = x1 + length;
+                x4 = x2 + length;
+                y3 = y1;
+                y4 = y2;
+                break;
         }
 
         img.Mutate(x => x.FillPolygon(info.Color, new PointF(x1, y1), new PointF(x3, y3), new PointF(x4, y4),

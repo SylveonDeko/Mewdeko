@@ -173,11 +173,7 @@ public partial class Utility
             try
             {
                 await ctx.Channel.SendConfirmAsync(
-                    "⏰ " + GetText("remind",
-                        Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username),
-                        Format.Bold(message),
-                        $"{ts.Days}d {ts.Hours}h {ts.Minutes}min",
-                        gTime, gTime)).ConfigureAwait(false);
+                    $"⏰ {GetText("remind", Format.Bold(!isPrivate ? $"<#{targetId}>" : ctx.User.Username), Format.Bold(message), $"{ts.Days}d {ts.Hours}h {ts.Minutes}min", gTime, gTime)}").ConfigureAwait(false);
             }
             catch
             {
