@@ -975,6 +975,7 @@
     "feed_not_valid": "Invalid link, or you're already following that feed on this server, or you've reached maximum number of feeds allowed.",
     "feed_out_of_range": "Index out of range.",
     "feed_removed": "Feed removed.",
+    "feed_msg_updated": "Feed message updated.",
     "feed_no_feed": "You haven't subscribed to any feeds on this server.",
     "restart_fail": "You must setup RestartCommand in your credentials.json",
     "restarting": "Restarting.",

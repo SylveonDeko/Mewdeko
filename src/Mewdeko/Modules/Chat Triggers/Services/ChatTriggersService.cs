@@ -130,12 +130,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         try
         {
-            if (_gperm.BlockedModules.Contains("ActualChatTriggerss")) return true;
+            if (_gperm.BlockedModules.Contains("ActualChatTriggers")) return true;
 
             if (guild is SocketGuild sg)
             {
                 var pc = _perms.GetCacheFor(guild.Id);
-                if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualChatTriggerss",
+                if (!pc.Permissions.CheckPermissions(msg, cr.Trigger, "ActualChatTriggers",
                         out var index))
                 {
                     if (pc.Verbose)

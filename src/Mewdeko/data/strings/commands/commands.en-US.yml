@@ -1007,7 +1007,7 @@ addchattrigger:
     Add a Chat Trigger with a trigger and a response. Running this command in
     server requires the Administration permission. Running this command in DM is
     Bot Owner only and adds a new global Chat Trigger. Guide here:
-    https://mewdeko.tech/customreactions
+    https://mewdeko.tech/chattriggers
   args:
     - '"hello" Hi there %user.mention%'
 listchattriggers:
@@ -3230,6 +3230,10 @@ feed:
   args:
     - 'https://www.rt.com/rss/'
     - 'https://www.rt.com/rss/ #updates'
+feedmessage:
+  desc: "Add a custom message to a certain feed. Find the number using {0)feeds. You can use https://eb.mewdeko.tech along with https://mewdeko.tech/placeholders to make cool embeds with this."
+  args:
+    - "1 embedcode"
 feedremove:
   desc: >-
     Stops tracking a feed on the given index. Use `{0}feeds` command to see a
