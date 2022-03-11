@@ -35,6 +35,7 @@ using Lavalink4NET.DiscordNet;
 using Mewdeko.Modules.Music.Services;
 using NekosBestApiNet;
 using RunMode = Discord.Commands.RunMode;
+using TypeReader = Discord.Commands.TypeReader;
 
 namespace Mewdeko;
 
