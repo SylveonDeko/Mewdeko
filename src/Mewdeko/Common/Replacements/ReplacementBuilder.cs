@@ -101,16 +101,49 @@ public class ReplacementBuilder
             () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.DoNotDisturb).ToString() : "?");
         _reps.TryAdd("%server.members.idle%",
             () => g is { } sg ? sg.Users.Count(x => x.Status == UserStatus.Idle).ToString() : "?");
-        _reps.TryAdd("%server.time%", () =>
+        _reps.TryAdd("%server.timestamp.longdatetime%", () =>
         {
             var to = TimeZoneInfo.Local;
             if (g != null)
                 if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
                     to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
 
-            return TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+            return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
                 TimeZoneInfo.Utc,
-                to).ToString("HH:mm ") + to.StandardName.GetInitials();
+                to), TimestampTagStyles.LongDateTime).ToString();
+        });
+        _reps.TryAdd("%server.timestamp.longtime%", () =>
+        {
+            var to = TimeZoneInfo.Local;
+            if (g != null)
+                if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
+                    to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+
+            return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+                TimeZoneInfo.Utc,
+                to), TimestampTagStyles.LongTime).ToString();
+        });
+        _reps.TryAdd("%server.timestamp.longdate%", () =>
+        {
+            var to = TimeZoneInfo.Local;
+            if (g != null)
+                if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
+                    to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+
+            return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+                TimeZoneInfo.Utc,
+                to), TimestampTagStyles.LongDate).ToString();
+        });
+        _reps.TryAdd("%server.timestamp.shortdatetime%", () =>
+        {
+            var to = TimeZoneInfo.Local;
+            if (g != null)
+                if (GuildTimezoneService.AllServices.TryGetValue(client.CurrentUser.Id, out var tz))
+                    to = tz.GetTimeZoneOrDefault(g.Id) ?? TimeZoneInfo.Local;
+
+            return TimestampTag.FromDateTime(TimeZoneInfo.ConvertTime(DateTime.UtcNow,
+                TimeZoneInfo.Utc,
+                to), TimestampTagStyles.ShortDateTime).ToString();
         });
         return this;
     }
@@ -133,25 +166,6 @@ public class ReplacementBuilder
 
     public ReplacementBuilder WithUser(IUser user)
     {
-        // /*OBSOLETE*/
-        // _reps.TryAdd("%user%", () => user.Mention);
-        // _reps.TryAdd("%userfull%", () => user.ToString());
-        // _reps.TryAdd("%username%", () => user.Username);
-        // _reps.TryAdd("%userdiscrim%", () => user.Discriminator);
-        // _reps.TryAdd("%useravatar%", () => user.RealAvatarUrl()?.ToString());
-        // _reps.TryAdd("%id%", () => user.Id.ToString());
-        // _reps.TryAdd("%uid%", () => user.Id.ToString());
-        // /*NEW*/
-        // _reps.TryAdd("%user.mention%", () => user.Mention);
-        // _reps.TryAdd("%user.fullname%", () => user.ToString());
-        // _reps.TryAdd("%user.name%", () => user.Username);
-        // _reps.TryAdd("%user.discrim%", () => user.Discriminator);
-        // _reps.TryAdd("%user.avatar%", () => user.RealAvatarUrl()?.ToString());
-        // _reps.TryAdd("%user.id%", () => user.Id.ToString());
-        // _reps.TryAdd("%user.created_time%", () => user.CreatedAt.ToString("HH:mm"));
-        // _reps.TryAdd("%user.created_date%", () => user.CreatedAt.ToString("dd.MM.yyyy"));
-        // _reps.TryAdd("%user.joined_time%", () => (user as IGuildUser)?.JoinedAt?.ToString("HH:mm") ?? "-");
-        // _reps.TryAdd("%user.joined_date%", () => (user as IGuildUser)?.JoinedAt?.ToString("dd.MM.yyyy") ?? "-");
         WithManyUsers(new[] {user});
         return this;
     }
