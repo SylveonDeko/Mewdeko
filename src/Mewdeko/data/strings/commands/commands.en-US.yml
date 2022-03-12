@@ -3231,9 +3231,9 @@ feed:
     - 'https://www.rt.com/rss/'
     - 'https://www.rt.com/rss/ #updates'
 feedmessage:
-  desc: "Add a custom message to a certain feed. Find the number using {0)feeds. You can use https://eb.mewdeko.tech along with https://mewdeko.tech/placeholders to make cool embeds with this."
+  desc: "Add a custom message to a certain feed. Find the number using {0}feeds. You can use https://eb.mewdeko.tech along with https://mewdeko.tech/placeholders to make cool embeds with this."
   args:
-    - "1 embedcode"
+    - '1 embedcode'
 feedremove:
   desc: >-
     Stops tracking a feed on the given index. Use `{0}feeds` command to see a
