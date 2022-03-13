@@ -899,7 +899,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             }
 
             if (csc.Length > 3)
-                embed.AddField("Some errors omitted", $"{(csc.Length - 3):#,##0} more errors not displayed");
+                embed.AddField("Some errors omitted", $"{csc.Length - 3:#,##0} more errors not displayed");
             await msg.ModifyAsync(x => x.Embed = embed.Build());
             return;
         }

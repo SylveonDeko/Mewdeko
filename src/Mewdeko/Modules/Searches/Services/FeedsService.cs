@@ -105,7 +105,7 @@ public class FeedsService : INService
                                     }
                                 }
                                 if (feedItem.SpecificItem is not MediaRssFeedItem mrfi
-                                    || (!(mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false)))
+                                    || !(mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
                                     return feed.ImageUrl;
                                 var imgUrl = mrfi.Enclosure.Url;
                                 if (!string.IsNullOrWhiteSpace(imgUrl) &&

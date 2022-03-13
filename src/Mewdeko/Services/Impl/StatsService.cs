@@ -79,7 +79,7 @@ public class StatsService : IStatsService
                                  content).ConfigureAwait(false))
                 {
                 }
-                var chan = (await Client.Rest.GetChannelAsync(934661783480832000)) as RestTextChannel;
+                var chan = await Client.Rest.GetChannelAsync(934661783480832000) as RestTextChannel;
                 await chan.SendMessageAsync("Sent count to top.gg!");
             }
             catch (Exception ex)

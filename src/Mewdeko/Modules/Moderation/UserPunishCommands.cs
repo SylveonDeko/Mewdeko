@@ -278,7 +278,7 @@ public partial class Moderation : MewdekoModule
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
                             var usr = await ctx.Guild.GetUserAsync(x.Key);
-                            return $"{(usr?.ToString() ?? x.Key.ToString())} | {total} ({all} - {forgiven})";
+                            return $"{usr?.ToString() ?? x.Key.ToString()} | {total} ({all} - {forgiven})";
                         }).GetResults();
 
                     return new PageBuilder().WithOkColor()

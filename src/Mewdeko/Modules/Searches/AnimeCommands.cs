@@ -373,7 +373,7 @@ public partial class Searches
                 // ReSharper disable once AsyncVoidLambda
                 result.Recommendations.Nodes.ForEach(async x =>
                 {
-                    if ((await c2.GetMediaById(x.Id)) is not null)
+                    if (await c2.GetMediaById(x.Id) is not null)
                         list.Add((await c2.GetMediaById(x.Id))?.EnglishTitle);
                 });
 
