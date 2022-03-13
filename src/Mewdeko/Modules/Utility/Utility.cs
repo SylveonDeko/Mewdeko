@@ -39,7 +39,15 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         _creds = creds;
         _tracker = tracker;
     }
-
+    [MewdekoCommand, Usage, Description, Alias, RequireContext(ContextType.Guild), OfficialServerMod]
+    public async Task Verify(IGuildUser user)
+    {
+        var logChannel = await ctx.Guild.GetTextChannelAsync(945253905485430794);
+        await user.AddRolesAsync(new List<ulong> { 788884380521070614, 837761148140388382 });
+        await user.RemoveRoleAsync(794777895188692992);
+        await logChannel.SendMessageAsync(
+            $"{user.Mention} {user.Id} has been verified by {ctx.User.Mention} {ctx.User.Id}");
+    }
     [MewdekoCommand, Usage, Description, Alias]
     public async Task EmoteList([Remainder] string? emotetype = null)
     {

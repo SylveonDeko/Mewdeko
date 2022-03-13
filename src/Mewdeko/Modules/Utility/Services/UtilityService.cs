@@ -6,6 +6,8 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Utility.Common;
+using Mewdeko.Database.Models;
+using System.Threading;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 
@@ -45,6 +47,7 @@ public class UtilityService : INService
     
     public async Task<List<SnipeStore>> GetSnipes(ulong guildId) 
         => await _cache.GetSnipesForGuild(guildId);
+        
     public int GetPLinks(ulong? id)
     {
         if (id == null || !Plinks.TryGetValue(id.Value, out var invw))
