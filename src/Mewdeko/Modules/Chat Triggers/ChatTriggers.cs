@@ -146,11 +146,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
-    public async Task ListChatTriggers(int page = 1)
+    public async Task ListChatTriggers()
     {
-        if (--page < 0 || page > 999)
-            return;
-
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         if (chatTriggers == null || !chatTriggers.Any())
@@ -192,10 +189,8 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task ListChatTriggersGroup(int page = 1)
+    public async Task ListChatTriggersGroup()
     {
-        if (--page < 0 || page > 9999)
-            return;
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         if (chatTriggers == null || !chatTriggers.Any())

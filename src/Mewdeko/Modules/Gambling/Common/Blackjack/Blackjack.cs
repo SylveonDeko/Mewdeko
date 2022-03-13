@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using Discord;
-using Mewdeko.Database;
 using Serilog;
 
 namespace Mewdeko.Modules.Gambling.Common.Blackjack;
@@ -15,16 +14,14 @@ public class Blackjack
     }
 
     private readonly ICurrencyService _cs;
-    private readonly DbService _db;
 
     private readonly SemaphoreSlim _locker = new(1, 1);
 
     private TaskCompletionSource<bool> currentUserMove;
 
-    public Blackjack(ICurrencyService cs, DbService db)
+    public Blackjack(ICurrencyService cs)
     {
         _cs = cs;
-        _db = db;
         Dealer = new Dealer();
     }
 

@@ -30,6 +30,7 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 
 
+    // ReSharper disable once InconsistentNaming
     protected IInteractionContext ctx => Context;
 
     public override void BeforeExecute(ICommandInfo cmd) => CultureInfo = Localization.GetCultureInfo(ctx.Guild);

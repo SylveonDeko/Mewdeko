@@ -58,6 +58,7 @@ public partial class Gambling
                     }
                     catch
                     {
+                        // ignored
                     }
                 });
                 return Task.CompletedTask;

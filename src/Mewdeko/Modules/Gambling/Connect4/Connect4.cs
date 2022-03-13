@@ -205,22 +205,20 @@ public sealed class Connect4Game : IDisposable
                         break;
 
                     var first = _gameState[i + (j * NUMBER_OF_ROWS)];
-                    if (first != Field.Empty)
-                        for (var k = 1; k < 4; k++)
+                    if (first == Field.Empty) continue;
+                    for (var k = 1; k < 4; k++)
+                    {
+                        var next = _gameState[i + k + (j * NUMBER_OF_ROWS)];
+                        if (next == first)
                         {
-                            var next = _gameState[i + k + (j * NUMBER_OF_ROWS)];
-                            if (next == first)
-                            {
-                                if (k == 3)
-                                    EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
-                                else
-                                    continue;
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            if (k == 3)
+                                EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                         }
+                        else
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -240,11 +238,9 @@ public sealed class Connect4Game : IDisposable
                         for (var k = 1; k < 4; k++)
                         {
                             var next = _gameState[j + ((i + k) * NUMBER_OF_ROWS)];
-                            if (next == first)
-                                if (k == 3)
-                                    EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
-                                else
-                                    continue;
+                            if (next != first) continue;
+                            if (k == 3)
+                                EndGame(Result.CurrentPlayerWon, CurrentPlayer.UserId);
                             else break;
                         }
                 }

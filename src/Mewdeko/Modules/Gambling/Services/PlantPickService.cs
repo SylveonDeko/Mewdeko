@@ -75,7 +75,7 @@ public class PlantPickService : INService
         using var uow = _db.GetDbContext();
         var guildConfig = uow.ForGuildId(gid, set => set.Include(gc => gc.GenerateCurrencyChannelIds));
 
-        var toAdd = new GCChannelId {ChannelId = cid};
+        var toAdd = new GcChannelId {ChannelId = cid};
         if (!guildConfig.GenerateCurrencyChannelIds.Contains(toAdd))
         {
             guildConfig.GenerateCurrencyChannelIds.Add(toAdd);

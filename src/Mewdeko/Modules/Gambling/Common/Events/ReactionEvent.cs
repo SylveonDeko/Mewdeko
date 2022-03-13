@@ -62,12 +62,12 @@ public class ReactionEvent : ICurrencyEvent
 
     public async Task StartEvent()
     {
-        if (Emote.TryParse(_config.Currency.Sign, out var emote))
-            this.emote = emote;
+        if (Emote.TryParse(_config.Currency.Sign, out var result))
+            emote = result;
         else
-            this.emote = new Emoji(_config.Currency.Sign);
+            emote = new Emoji(_config.Currency.Sign);
         msg = await _channel.EmbedAsync(GetEmbed(_opts.PotSize)).ConfigureAwait(false);
-        await msg.AddReactionAsync(this.emote).ConfigureAwait(false);
+        await msg.AddReactionAsync(emote).ConfigureAwait(false);
         _client.MessageDeleted += OnMessageDeleted;
         _client.ReactionAdded += HandleReaction;
         _t.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
@@ -89,11 +89,14 @@ public class ReactionEvent : ICurrencyEvent
             {
                 var _ = msg.DeleteAsync();
             }
-            catch
+            catch (Exception)
             {
+                // ignored
             }
 
+#pragma warning disable CS4014
             OnEnded(_guild.Id);
+#pragma warning restore CS4014
         }
     }
 
@@ -140,12 +143,12 @@ public class ReactionEvent : ICurrencyEvent
 
     private EmbedBuilder GetEmbed(long pot) => _embedFunc(CurrencyEvent.Type.Reaction, _opts, pot);
 
-    private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, Cacheable<IMessageChannel, ulong> _)
+    private async Task OnMessageDeleted(Cacheable<IMessage, ulong> message, Cacheable<IMessageChannel, ulong> _)
     {
-        if (msg.Id == this.msg.Id) await StopEvent().ConfigureAwait(false);
+        if (message.Id == this.msg.Id) await StopEvent().ConfigureAwait(false);
     }
 
-    private Task HandleReaction(Cacheable<IUserMessage, ulong> msg,
+    private Task HandleReaction(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> ch, SocketReaction r)
     {
         var _ = Task.Run(() =>
@@ -155,7 +158,7 @@ public class ReactionEvent : ICurrencyEvent
             if ((r.User.IsSpecified
                     ? r.User.Value
                     : null) is not IGuildUser gu // no unknown users, as they could be bots, or alts
-                || msg.Id != this.msg.Id // same message
+                || message.Id != this.msg.Id // same message
                 || gu.IsBot // no bots
                 || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5 // no recently created accounts
                 || (_noRecentlyJoinedServer && // if specified, no users who joined the server in the last 24h

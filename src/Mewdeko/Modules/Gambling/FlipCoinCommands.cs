@@ -3,7 +3,6 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Database;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using SixLabors.ImageSharp;
@@ -29,15 +28,13 @@ public partial class Gambling
 
         private static readonly MewdekoRandom _rng = new();
         private readonly ICurrencyService _cs;
-        private readonly DbService _db;
         private readonly IImageCache _images;
 
-        public FlipCoinCommands(IDataCache data, ICurrencyService cs, DbService db,
+        public FlipCoinCommands(IDataCache data, ICurrencyService cs,
             GamblingConfigService gss) : base(gss)
         {
             _images = data.LocalImages;
             _cs = cs;
-            _db = db;
         }
 
         [MewdekoCommand, Usage, Description, Aliases]

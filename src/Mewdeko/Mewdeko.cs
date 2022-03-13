@@ -402,6 +402,7 @@ public class Mewdeko
     private void HandleStatusChanges()
     {
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
+        // ReSharper disable once AsyncVoidLambda
         sub.Subscribe($"{Client.CurrentUser.Id}_status.game_set", async (_, game) =>
         {
             try
@@ -416,6 +417,7 @@ public class Mewdeko
             }
         }, CommandFlags.FireAndForget);
 
+        // ReSharper disable once AsyncVoidLambda
         sub.Subscribe($"{Client.CurrentUser.Id}_status.stream_set", async (_, streamData) =>
         {
             try

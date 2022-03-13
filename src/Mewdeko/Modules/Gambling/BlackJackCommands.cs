@@ -3,7 +3,6 @@ using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Blackjack;
@@ -24,14 +23,12 @@ public partial class Gambling
         }
 
         private readonly ICurrencyService _cs;
-        private readonly DbService _db;
         private IUserMessage msg;
 
-        public BlackJackCommands(ICurrencyService cs, DbService db,
+        public BlackJackCommands(ICurrencyService cs,
             GamblingConfigService gamblingConf) : base(gamblingConf)
         {
             _cs = cs;
-            _db = db;
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -40,7 +37,7 @@ public partial class Gambling
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
                 return;
 
-            var newBj = new Blackjack(_cs, _db);
+            var newBj = new Blackjack(_cs);
             Blackjack bj;
             if (newBj == (bj = Service.Games.GetOrAdd(ctx.Channel.Id, newBj)))
             {
@@ -143,19 +140,8 @@ public partial class Gambling
             }
             catch
             {
+                // ignored
             }
-        }
-
-        private static string UserToString(User x)
-        {
-            var playerName = x.State == User.UserState.Bust
-                ? Format.Strikethrough(x.DiscordUser.ToString().TrimTo(30))
-                : x.DiscordUser.ToString();
-
-            _ = $"{string.Concat(x.Cards.Select(y => $"〖{y.GetEmojiString()}〗"))}";
-
-
-            return $"{playerName} | Bet: {x.Bet}\n";
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]

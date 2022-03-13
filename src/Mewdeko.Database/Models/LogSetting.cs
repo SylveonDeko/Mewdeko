@@ -32,6 +32,7 @@ public class LogSetting : DbEntity
     //voicepresence
 
     public ulong? LogVoicePresenceId { get; set; } = null;
+    // ReSharper disable once InconsistentNaming
     public ulong? LogVoicePresenceTTSId { get; set; } = null;
 
 

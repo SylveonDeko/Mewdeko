@@ -11,7 +11,6 @@ namespace Mewdeko.Modules.Confessions.Services;
 public class ConfessionService : INService
 {
     private readonly DbService _db;
-    private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
     public readonly ConcurrentDictionary<ulong, ulong> ConfessionChannels;
     public readonly ConcurrentDictionary<ulong, ulong> ConfessionLogChannels;
@@ -20,7 +19,6 @@ public class ConfessionService : INService
     public ConfessionService(DbService db, Mewdeko bot, DiscordSocketClient client)
     {
         _db = db;
-        _bot = bot;
         _client = client;
         ConfessionChannels = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.ConfessionChannel).ToConcurrent();
 

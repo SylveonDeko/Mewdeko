@@ -4,7 +4,6 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using LinqToDB.Tools;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -26,7 +25,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         IServiceProvider serviceProvider,
         CommandService cmds)
     {
-        this._permissionService = permissionService;
+        _permissionService = permissionService;
         _interactivity = interactivity;
         _serviceProvider = serviceProvider;
         _cmds = cmds;

@@ -22,7 +22,6 @@ public class VcRoleService : INService
         _client.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
         VcRoles = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, IRole>>();
         ToAssign = new ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
-        new ConcurrentBag<VcRoleInfo>();
 
         using (var uow = db.GetDbContext())
         {

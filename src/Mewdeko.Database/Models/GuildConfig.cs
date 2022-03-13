@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Database.Common;
+// ReSharper disable InconsistentNaming
 
 namespace Mewdeko.Database.Models;
 
@@ -97,7 +98,7 @@ public class GuildConfig : DbEntity
     public HashSet<FollowedStream> FollowedStreams { get; set; } = new();
 
     //currencyGeneration
-    public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new();
+    public HashSet<GcChannelId> GenerateCurrencyChannelIds { get; set; } = new();
 
     //permissions
     public List<Permissionv2> Permissions { get; set; }

@@ -59,7 +59,7 @@ public class ReplacementBuilder
             () => DateTime.Now.ToString($"HH:mm {TimeZoneInfo.Local.StandardName.GetInitials()}"));
         _reps.TryAdd("%bot.discrim%", () => client.CurrentUser.Discriminator);
         _reps.TryAdd("%bot.id%", () => client.CurrentUser.Id.ToString());
-        _reps.TryAdd("%bot.avatar%", () => client.CurrentUser.RealAvatarUrl()?.ToString());
+        _reps.TryAdd("%bot.avatar%", () => client.CurrentUser.RealAvatarUrl().ToString());
 
         WithStats(client);
         return this;
@@ -189,7 +189,7 @@ public class ReplacementBuilder
         _reps.TryAdd("%username%", () => string.Join(" ", users.Select(user => user.Username)));
         _reps.TryAdd("%userdiscrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         _reps.TryAdd("%useravatar%",
-            () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));
+            () => string.Join(" ", users.Select(user => user.RealAvatarUrl().ToString())));
         _reps.TryAdd("%id%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         _reps.TryAdd("%uid%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         /*NEW*/
@@ -201,7 +201,7 @@ public class ReplacementBuilder
                 users.Select(async user => (await _client.Rest.GetUserAsync(user.Id)).GetBannerUrl(size: 2048))));
         _reps.TryAdd("%user.discrim%", () => string.Join(" ", users.Select(user => user.Discriminator)));
         _reps.TryAdd("%user.avatar%",
-            () => string.Join(" ", users.Select(user => user.RealAvatarUrl()?.ToString())));
+            () => string.Join(" ", users.Select(user => user.RealAvatarUrl().ToString())));
         _reps.TryAdd("%user.id%", () => string.Join(" ", users.Select(user => user.Id.ToString())));
         _reps.TryAdd("%user.created_time%",
             () => string.Join(" ", users.Select(user => user.CreatedAt.ToString("HH:mm"))));
@@ -215,7 +215,7 @@ public class ReplacementBuilder
         return this;
     }
 
-    private ReplacementBuilder WithStats(DiscordSocketClient c)
+    private void WithStats(DiscordSocketClient c)
     {
         /*OBSOLETE*/
         _reps.TryAdd("%servers%", () => c.Guilds.Count.ToString());
@@ -229,7 +229,6 @@ public class ReplacementBuilder
         _reps.TryAdd("%shard.usercount%", () => c.Guilds.Sum(s => s.Users.Count).ToString());
 #endif
         _reps.TryAdd("%shard.id%", () => c.ShardId.ToString());
-        return this;
     }
 
     public ReplacementBuilder WithRngRegex()

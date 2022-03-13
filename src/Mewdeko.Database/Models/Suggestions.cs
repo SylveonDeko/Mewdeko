@@ -1,4 +1,5 @@
-﻿namespace Mewdeko.Database.Models;
+﻿// ReSharper disable InconsistentNaming
+namespace Mewdeko.Database.Models;
 
 public class Suggestionse : DbEntity
 {
