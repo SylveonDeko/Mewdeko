@@ -1069,7 +1069,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
         var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = player.CurrentTrack;
-        var currentContext = track.Context as AdvancedTrackContext;
         var artService = new ArtworkService();
         Uri info = null;
         try
@@ -1086,7 +1085,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                  .WithDescription($"Now Playing {track.Title} by {track.Author}")
                  .WithThumbnailUrl(info?.AbsoluteUri)
                  .WithFooter(
-                     $"{track.Position:hh\\:mm\\:ss}/{track.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | {qcount.Count} Tracks in queue");
+                     await Service.GetPrettyInfo(player, ctx.Guild));
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
     
@@ -1118,7 +1117,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             var tracks = queue.OrderBy(x => queue.IndexOf(x)).Skip(page * 10).Take(10);
             return new PageBuilder()
                                    .WithDescription(string.Join("\n", tracks.Select(x =>
-                                       $"`{queue.IndexOf(x) + 1}.` [{x.Title}]({x.Source})\n`{x.Duration:mm\\\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
+                                       $"`{queue.IndexOf(x) + 1}.` [{x.Title}]({x.Source})\n`{x.Duration:mm\\:ss} {GetContext(x).QueueUser} {GetContext(x).QueuedPlatform}`")))
                                    .WithOkColor();
         }
     }
