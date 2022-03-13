@@ -29,19 +29,10 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         _clientFactory = clientFactory;
     }
 
-    private bool AdminInGuildOrOwnerInDm() =>
-        (ctx.Guild == null && _creds.IsOwner(ctx.User))
-        || (ctx.Guild != null && ((IGuildUser) ctx.User).GuildPermissions.Administrator);
-
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsExport()
     {
-        if (!AdminInGuildOrOwnerInDm())
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         _ = ctx.Channel.TriggerTypingAsync();
 
@@ -51,14 +42,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsImport([Remainder] string? input = null)
     {
-        if (!AdminInGuildOrOwnerInDm())
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         input = input?.Trim();
 
@@ -93,17 +79,11 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.OkAsync();
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task AddChatTrigger(string key, [Remainder] string message)
     {
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
             return;
-
-        if (!AdminInGuildOrOwnerInDm())
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         var cr = await Service.AddAsync(ctx.Guild?.Id, key, message);
 
@@ -117,19 +97,12 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         ).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task EditChatTrigger(int id, [Remainder] string message)
     {
         var channel = ctx.Channel as ITextChannel;
         if (string.IsNullOrWhiteSpace(message) || id < 0)
             return;
-
-        if ((channel == null && !_creds.IsOwner(ctx.User)) ||
-            (channel != null && !((IGuildUser) ctx.User).GuildPermissions.Administrator))
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         var cr = await Service.EditAsync(ctx.Guild?.Id, id, message).ConfigureAwait(false);
         if (cr != null)
@@ -145,24 +118,18 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
+    [MewdekoCommand, Usage, Description, Aliases, Priority(1), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task ListChatTriggers()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
 
-        if (chatTriggers == null || !chatTriggers.Any())
-        {
-            await ReplyErrorLocalizedAsync("no_found").ConfigureAwait(false);
-            return;
-        }
-
         var paginator = new LazyPaginatorBuilder()
-            .AddUser(ctx.User)
-            .WithPageFactory(PageFactory)
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(chatTriggers.Length / 20)
-            .WithDefaultEmotes()
-            .Build();
+                        .AddUser(ctx.User)
+                        .WithPageFactory(PageFactory)
+                        .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                        .WithMaxPageIndex(chatTriggers.Length / 20)
+                        .WithDefaultEmotes()
+                        .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
@@ -242,14 +209,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             ).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task DeleteChatTrigger(int id)
     {
-        if (!AdminInGuildOrOwnerInDm())
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id);
 
@@ -264,14 +226,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtReact(int id, params string[] emojiStrs)
     {
-        if (!AdminInGuildOrOwnerInDm())
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         var cr = Service.GetChatTriggers(Context.Guild?.Id, id);
         if (cr is null)
@@ -347,14 +304,9 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
 
         await ctx.OkAsync();
     }
-
+    [ChatTriggerPermCheck(GuildPermission.Administrator)]
     private async Task InternalCtEdit(int id, ChatTriggersService.CtField option)
     {
-        if (!AdminInGuildOrOwnerInDm())
-        {
-            await ReplyErrorLocalizedAsync("insuff_perms").ConfigureAwait(false);
-            return;
-        }
 
         var (success, newVal) = await Service.ToggleCrOptionAsync(id, option).ConfigureAwait(false);
         if (!success)
@@ -372,7 +324,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator)]
+     ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsClear()
     {
         if (await PromptUserConfirmAsync(new EmbedBuilder()
