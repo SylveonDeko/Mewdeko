@@ -84,7 +84,7 @@ public partial class Moderation
         public async Task UnmuteAll([Remainder] string? reason = null)
         {
             var users = (await ctx.Guild.GetUsersAsync())
-                           .Where(x => x.RoleIds.ToList().Contains((Service.GetMuteRole(ctx.Guild).Result.Id)));
+                           .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
             if (!users.Any())
             {
                 await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.");

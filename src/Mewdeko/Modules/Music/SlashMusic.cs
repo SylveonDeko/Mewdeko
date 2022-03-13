@@ -16,6 +16,7 @@ using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
 
 namespace Mewdeko.Modules.Music;
@@ -25,15 +26,12 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     private readonly InteractiveService _interactivity;
     private readonly LavalinkNode _lavaNode;
     private readonly DbService _db;
-    private readonly IBotCredentials _creds;
     private readonly DiscordSocketClient _client;
 
     public SlashMusic(LavalinkNode lava, InteractiveService interactive, DbService dbService,
-        IBotCredentials creds,
         DiscordSocketClient client)
     {
         _db = dbService;
-        _creds = creds;
         _client = client;
         _interactivity = interactive;
         _lavaNode = lava;
@@ -227,7 +225,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     {
                         try
                         {
-                            await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, vstate.VoiceChannel.Id);
+                            await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vstate.VoiceChannel.Id);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
                                 await chan.BecomeSpeakerAsync();
@@ -272,7 +270,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         var player = _lavaNode.GetPlayer(ctx.Guild);
                         if (player.State == PlayerState.Playing) continue;
                         await player.PlayAsync(search.Tracks.FirstOrDefault());
-                        await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/100.0F);
+                        await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
                     }
 
                     await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
@@ -306,7 +304,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     {
                         try
                         {
-                            await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, vstate.VoiceChannel.Id);
+                            await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vstate.VoiceChannel.Id);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
                                 await chan.BecomeSpeakerAsync();
@@ -329,7 +327,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                         var player = _lavaNode.GetPlayer(ctx.Guild);
                         if (player.State == PlayerState.Playing) continue;
                         await player.PlayAsync(search.Tracks.FirstOrDefault());
-                        await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/100.0F);
+                        await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
                     }
 
                     await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
@@ -369,7 +367,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                     if (plists6 is not null)
                     {
                         var currentContext =
-                            advancedLavaTracks.FirstOrDefault().Context as MusicPlayer.AdvancedTrackContext;
+                            advancedLavaTracks.FirstOrDefault().Context as AdvancedTrackContext;
                         var toadd = new PlaylistSong
                         {
                             Title = advancedLavaTracks.FirstOrDefault()?.Title,
@@ -420,8 +418,8 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                                 var toadd = advancedLavaTracks.Select(x => new PlaylistSong
                                 {
                                     Title = x.Title,
-                                    ProviderType = (x.Context as MusicPlayer.AdvancedTrackContext).QueuedPlatform,
-                                    Provider = (x.Context as MusicPlayer.AdvancedTrackContext).QueuedPlatform.ToString(),
+                                    ProviderType = (x.Context as AdvancedTrackContext).QueuedPlatform,
+                                    Provider = (x.Context as AdvancedTrackContext).QueuedPlatform.ToString(),
                                     Query = x.Source
                                 });
                                 var newsongs = plists7.Songs.ToList();
@@ -454,7 +452,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                             var components1 = new ComponentBuilder();
                             var count1 = 1;
                             var count = 1;
-                            foreach (var i in advancedLavaTracks)
+                            foreach (var _ in advancedLavaTracks)
                             {
                                 if (count1 >= 6)
                                     components1.WithButton(count1++.ToString(), count1.ToString(), ButtonStyle.Primary,
@@ -477,7 +475,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                             var plists6 = plists5.FirstOrDefault(x => x.Name.ToLower() == nmsg.ToLower());
                             if (plists6 is not null)
                             {
-                                var currentContext = track.Context as MusicPlayer.AdvancedTrackContext;
+                                var currentContext = track.Context as AdvancedTrackContext;
                                 var toadd = new PlaylistSong
                                 {
                                     Title = track.Title,
@@ -588,7 +586,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
 
 
-        await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, voiceState.VoiceChannel.Id);
+        await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, voiceState.VoiceChannel.Id);
         if (voiceState.VoiceChannel is IStageChannel chan)
         {
             try
@@ -654,7 +652,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
             var e = await artworkService.ResolveAsync(track);
             var eb = new EmbedBuilder()
                      .WithDescription($"Playing {track.Title}")
-                     .WithFooter($"Track {queue.IndexOf(track)+1} | {track.Duration:hh\\:mm\\:ss} | {((MusicPlayer.AdvancedTrackContext)track.Context).QueueUser}")
+                     .WithFooter($"Track {queue.IndexOf(track)+1} | {track.Duration:hh\\:mm\\:ss} | {((AdvancedTrackContext)track.Context).QueueUser}")
                      .WithThumbnailUrl(e.AbsoluteUri)
                      .WithOkColor();
             await ctx.Interaction.RespondAsync(embed: eb.Build());
@@ -670,7 +668,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
     public async Task Play(string? searchQuery)
     {
         await ctx.Interaction.DeferAsync();
-         var count = 0;
+        int count;
          if (!_lavaNode.HasPlayer(Context.Guild))
          {
              var vc = ctx.User as IVoiceState;
@@ -682,7 +680,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
              try
              {
-                 await _lavaNode.JoinAsync(() => new MusicPlayer(_lavaNode, _db, _client, _creds, Service), ctx.Guild.Id, vc.VoiceChannel.Id);
+                 await _lavaNode.JoinAsync(() => new MusicPlayer(_client, Service), ctx.Guild.Id, vc.VoiceChannel.Id);
                  if (vc.VoiceChannel is SocketStageChannel chan)
                      try
                      {
@@ -701,7 +699,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
              }
          }
          var player = _lavaNode.GetPlayer(ctx.Guild);
-         TrackLoadResponsePayload searchResponse = null;
          if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
              if (searchQuery.Contains("youtube.com") || searchQuery.Contains("youtu.be") ||
                  searchQuery.Contains("soundcloud.com") || searchQuery.Contains("twitch.tv") || searchQuery.CheckIfMusicUrl())
@@ -709,9 +706,9 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                  if (player is null)
                      await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
                          (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
-                 searchResponse = await _lavaNode.LoadTracksAsync(searchQuery);
+                 var searchResponse = await _lavaNode.LoadTracksAsync(searchQuery);
                  var platform = Platform.Youtube;
-                 if (searchQuery!.Contains("soundcloud.com"))
+                 if (searchQuery.Contains("soundcloud.com"))
                      platform = Platform.Soundcloud;
                  if (searchQuery.CheckIfMusicUrl())
                      platform = Platform.Url;
@@ -729,7 +726,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                      await ctx.Interaction.FollowupAsync(embed: eb.Build());
                      if (player.State != PlayerState.Playing)
                          await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                     await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/100.0F);
+                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
                      return;
                  }
                  else
@@ -752,7 +749,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                      await ctx.Interaction.FollowupAsync(embed: eb.Build());
                      if (player.State != PlayerState.Playing)
                          await player.PlayAsync(searchResponse.Tracks.FirstOrDefault());
-                     await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/100.0F);
+                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
                      return;
                  }
              }
@@ -796,7 +793,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                  if (player.State != PlayerState.Playing)
                  {
                      await player.PlayAsync(track);
-                     await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/100.0F);
+                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
                      await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
                          (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
                  }
@@ -816,7 +813,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                           .WithTitle("Pick which one!");
                  count1 = 0;
                  var components1 = new ComponentBuilder();
-                 foreach (var i in tracks)
+                 foreach (var _ in tracks)
                  {
                      var component =
                          new ButtonBuilder(customId: (count1 + 1).ToString(), label: (count1 + 1).ToString());
@@ -843,7 +840,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                  if (player.State != PlayerState.Playing)
                  {
                      await player.PlayAsync(chosen);
-                     await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/ 100.0F);
+                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/ 100.0F);
                      await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
                          (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
                  }
@@ -873,7 +870,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                  if (player.State != PlayerState.Playing)
                  {
                      await player.PlayAsync(track);
-                     await player.SetVolumeAsync((await Service.GetVolume(ctx.Guild.Id))/100.0F);
+                     await player.SetVolumeAsync(await Service.GetVolume(ctx.Guild.Id)/100.0F);
                      await Service.ModifySettingsInternalAsync(ctx.Guild.Id,
                          (settings, _) => settings.MusicChannelId = ctx.Interaction.Id, ctx.Interaction.Id);
                  }
@@ -1072,7 +1069,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
 
         var qcount = Service.GetQueue(ctx.Guild.Id);
         var track = player.CurrentTrack;
-        var currentContext = track.Context as MusicPlayer.AdvancedTrackContext;
+        var currentContext = track.Context as AdvancedTrackContext;
         var artService = new ArtworkService();
         Uri info = null;
         try
@@ -1126,6 +1123,6 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
     }
     
-    private MusicPlayer.AdvancedTrackContext GetContext (LavalinkTrack track) 
-        => track.Context as MusicPlayer.AdvancedTrackContext;
+    private AdvancedTrackContext GetContext (LavalinkTrack track) 
+        => track.Context as AdvancedTrackContext;
 }

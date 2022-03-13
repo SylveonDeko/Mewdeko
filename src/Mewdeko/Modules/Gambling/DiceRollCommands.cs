@@ -143,7 +143,7 @@ public partial class Gambling
                                 (ordered ? arr.OrderBy(x => x).AsEnumerable() : arr).Select(x =>
                                     Format.Code(x.ToString())))))
                         .AddField(efb => efb.WithName(Format.Bold("Sum"))
-                            .WithValue($"{sum} + {add} - {sub} = {(sum + add - sub)}"));
+                            .WithValue($"{sum} + {add} - {sub} = {sum + add - sub}"));
                     await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
                 }
             }
