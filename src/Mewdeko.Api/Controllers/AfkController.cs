@@ -16,7 +16,7 @@ public class AfkController : ControllerBase
 
     [HttpGet]
     [ActionName("GetAfkForUser")]
-    public IEnumerable<AFK> Get(ulong serverId, ulong userId) =>
+    public IEnumerable<Afk> Get(ulong serverId, ulong userId) =>
         _db.GetDbContext().Afk.ForGuild(serverId).Where(x => x.UserId == userId);
 
     [HttpGet]

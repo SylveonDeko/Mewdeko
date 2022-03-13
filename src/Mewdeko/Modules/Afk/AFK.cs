@@ -162,7 +162,7 @@ public class Afk : MewdekoModuleBase<AfkService>
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task CustomAfkMessage([Remainder] string embedCode)
     {
-        var toCheck = SmartEmbed.TryParse(embedCode, out var embed, out var plainText);
+        var toCheck = SmartEmbed.TryParse(embedCode, out _, out _);
         if (embedCode == "-")
         {
             await Service.SetCustomAfkMessage(ctx.Guild, "-");
@@ -427,6 +427,7 @@ public class Afk : MewdekoModuleBase<AfkService>
             return;
         }
         var list = new HashSet<string>();
+        // ReSharper disable once CollectionNeverQueried.Local
         var newchans = new HashSet<string>();
         var mentions = new HashSet<string>();
         if (Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0" ||
@@ -484,7 +485,6 @@ public class Afk : MewdekoModuleBase<AfkService>
         foreach (var i in user)
             try
             {
-                Service.GetAfkMessage(ctx.Guild.Id, i.Id).Select(x => x.Message).Last();
                 await Service.AfkSet(ctx.Guild, i, "", 0);
                 users++;
                 try

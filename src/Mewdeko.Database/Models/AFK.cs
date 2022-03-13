@@ -1,6 +1,6 @@
 ﻿namespace Mewdeko.Database.Models;
 
-public class AFK : DbEntity
+public class Afk : DbEntity
 {
     public ulong UserId { get; set; }
     public ulong GuildId { get; set; }

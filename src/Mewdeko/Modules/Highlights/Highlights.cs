@@ -31,7 +31,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
         Toggle
     }
 
-    [MewdekoCommand, Aliases, Description, Discord.Commands.RequireContext(ContextType.Guild)]
+    [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
         var highlights = Service.GetForGuild(ctx.Guild.Id);

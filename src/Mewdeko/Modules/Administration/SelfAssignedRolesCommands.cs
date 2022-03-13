@@ -83,11 +83,8 @@ public partial class Administration
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Lsar(int page = 1)
+        public async Task Lsar()
         {
-            if (--page < 0)
-                return;
-
             var (exclusive, roles, groups) = Service.GetRoles(ctx.Guild);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
@@ -112,7 +109,7 @@ public partial class Administration
 
                 foreach (var kvp in roleGroups)
                 {
-                    var groupNameText = "";
+                    string groupNameText;
                     if (!groups.TryGetValue(kvp.Key, out var name))
                         groupNameText = Format.Bold(GetText("self_assign_group", kvp.Key));
                     else

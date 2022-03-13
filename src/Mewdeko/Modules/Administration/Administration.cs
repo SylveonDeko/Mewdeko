@@ -79,7 +79,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     public async Task BanUnder(StoopidTime time, string? option = null, StoopidTime? time1 = null)
     {
         await ctx.Guild.DownloadUsersAsync();
-        IEnumerable<IUser> users = null;
+        IEnumerable<IUser> users;
         if (option is not null && option.ToLower() == "-accage" && time1 is not null)
             users = ((SocketGuild) ctx.Guild).Users.Where(c =>
                 c.JoinedAt != null && DateTimeOffset.Now.Subtract(c.JoinedAt.Value).TotalSeconds <=
@@ -242,7 +242,7 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
         }
         else
         {
-            var role = ctx.Guild.GetRole(Service.GetMemberRole(ctx.Guild.Id));
+            ctx.Guild.GetRole(Service.GetMemberRole(ctx.Guild.Id));
             var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
                 includeRoleIds: new[] {Service.GetMemberRole(ctx.Guild.Id)});
             if (toprune == 0)

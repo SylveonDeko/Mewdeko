@@ -7,7 +7,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
 using Serilog;
 
 namespace Mewdeko.Modules.Afk.Services;
@@ -353,20 +352,20 @@ public class AfkService : INService
         string message,
         int timed)
     {
-        var afk = new AFK {GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed};
+        var afk = new Database.Models.Afk {GuildId = guild.Id, UserId = user.Id, Message = message, WasTimed = timed};
         await using var uow = _db.GetDbContext();
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync();
-        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<AFK>(); 
+        var current = _cache.GetAfkForGuild(guild.Id) ?? new List<Database.Models.Afk>(); 
         current.Add(afk);
         await _cache.AddAfkToCache(guild.Id, current);
     }
 
-    public List<AFK> GetAfkMessage(ulong gid, ulong uid)
+    public List<Database.Models.Afk> GetAfkMessage(ulong gid, ulong uid)
     {
         var e = _cache.GetAfkForGuild(gid);
         if (e is null)
-            return new List<AFK>();
+            return new List<Database.Models.Afk>();
 
         return e.Where(x => x.UserId == uid).ToList();
     }

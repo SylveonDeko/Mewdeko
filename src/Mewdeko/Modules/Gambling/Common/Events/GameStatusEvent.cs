@@ -84,7 +84,9 @@ public class GameStatusEvent : ICurrencyEvent
             Stopped = true;
             _client.MessageDeleted -= OnMessageDeleted;
             _client.MessageReceived -= HandleMessage;
+#pragma warning disable CS4014
             _client.SetGameAsync(null);
+#pragma warning restore CS4014
             _t.Change(Timeout.Infinite, Timeout.Infinite);
             _timeout?.Change(Timeout.Infinite, Timeout.Infinite);
             try
@@ -93,9 +95,12 @@ public class GameStatusEvent : ICurrencyEvent
             }
             catch
             {
+                // ignored
             }
 
+#pragma warning disable CS4014
             OnEnded(_guild.Id);
+#pragma warning restore CS4014
         }
     }
 
@@ -142,38 +147,39 @@ public class GameStatusEvent : ICurrencyEvent
 
     private EmbedBuilder GetEmbed(long pot) => _embedFunc(CurrencyEvent.Type.GameStatus, _opts, pot);
 
-    private async Task OnMessageDeleted(Cacheable<IMessage, ulong> msg, Cacheable<IMessageChannel, ulong> _)
+    private async Task OnMessageDeleted(Cacheable<IMessage, ulong> message, Cacheable<IMessageChannel, ulong> _)
     {
-        if (msg.Id == this.msg.Id) await StopEvent().ConfigureAwait(false);
+        if (message.Id == msg.Id) await StopEvent().ConfigureAwait(false);
     }
 
-    private Task HandleMessage(SocketMessage msg)
+    private Task HandleMessage(SocketMessage message)
     {
         var _ = Task.Run(async () =>
         {
-            if (msg.Author is not IGuildUser gu // no unknown users, as they could be bots, or alts
+            if (message.Author is not IGuildUser gu // no unknown users, as they could be bots, or alts
                 || gu.IsBot // no bots
-                || msg.Content != _code // code has to be the same
+                || message.Content != _code // code has to be the same
                 || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5) // no recently created accounts
                 return;
             // there has to be money left in the pot
             // and the user wasn't rewarded
-            if (_awardedUsers.Add(msg.Author.Id) && TryTakeFromPot())
+            if (_awardedUsers.Add(message.Author.Id) && TryTakeFromPot())
             {
-                _toAward.Enqueue(msg.Author.Id);
+                _toAward.Enqueue(message.Author.Id);
                 if (_isPotLimited && PotSize < _amount)
                     PotEmptied = true;
             }
 
             try
             {
-                await msg.DeleteAsync(new RequestOptions
+                await message.DeleteAsync(new RequestOptions
                 {
                     RetryMode = RetryMode.AlwaysFail
                 });
             }
             catch
             {
+                // ignored
             }
         });
         return Task.CompletedTask;

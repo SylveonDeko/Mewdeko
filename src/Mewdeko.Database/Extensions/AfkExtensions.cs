@@ -5,12 +5,12 @@ namespace Mewdeko.Database.Extensions;
 
 public static class AfkExtensions
 {
-    public static AFK[] ForGuild(this DbSet<AFK> set, ulong guildId) =>
+    public static Afk[] ForGuild(this DbSet<Afk> set, ulong guildId) =>
         set
             .AsQueryable()
             .AsNoTracking().
             Where(x => x.GuildId == guildId).ToArray();
 
-    public static AFK[] GetAll(this DbSet<AFK> set) => 
+    public static Afk[] GetAll(this DbSet<Afk> set) => 
         set.AsQueryable().AsNoTracking().ToArray();
 }

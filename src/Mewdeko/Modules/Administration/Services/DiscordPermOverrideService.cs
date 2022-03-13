@@ -137,7 +137,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         if (over is null)
             return;
 
-       uow.DiscordPermOverrides .Remove(over);
+        uow.DiscordPermOverrides.Remove(over);
         await uow.SaveChangesAsync();
 
         _overrides.TryRemove((guildId, commandName), out _);

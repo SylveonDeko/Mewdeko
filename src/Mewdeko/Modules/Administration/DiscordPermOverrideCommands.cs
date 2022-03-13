@@ -57,10 +57,8 @@ public partial class Administration
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
-        public async Task DiscordPermOverrideList(int page = 1)
+        public async Task DiscordPermOverrideList()
         {
-            if (--page < 0)
-                return;
 
             var overrides = await Service.GetAllOverrides(Context.Guild.Id);
             var paginator = new LazyPaginatorBuilder()

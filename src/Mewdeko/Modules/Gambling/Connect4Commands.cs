@@ -105,6 +105,7 @@ public partial class Gambling
                         }
                         catch
                         {
+                            // ignored
                         }
                     }
                     else
@@ -120,6 +121,7 @@ public partial class Gambling
                             }
                             catch
                             {
+                                // ignored
                             }
                     }
                 });

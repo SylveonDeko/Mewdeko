@@ -47,6 +47,7 @@ public class RollDuelGame
             }
             catch
             {
+                // ignored
             }
             finally
             {
@@ -123,6 +124,7 @@ public class RollDuelGame
             }
             catch
             {
+                // ignored
             }
 
             await Task.Delay(2500).ConfigureAwait(false);

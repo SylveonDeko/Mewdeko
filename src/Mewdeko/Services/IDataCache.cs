@@ -10,11 +10,11 @@ public interface IDataCache
     IImageCache LocalImages { get; }
     ILocalDataCache LocalData { get; }
 
-    Task CacheAfk(ulong id, List<AFK> objectList);
-    List<AFK> GetAfkForGuild(ulong id);
+    Task CacheAfk(ulong id, List<Afk> objectList);
+    List<Afk> GetAfkForGuild(ulong id);
     Task<bool> TryAddHighlightStagger(ulong guildId, ulong userId);
     Task<bool> GetHighlightStagger(ulong guildId, ulong userId);
-    Task AddAfkToCache(ulong id, List<AFK> newAfk);
+    Task AddAfkToCache(ulong id, List<Afk> newAfk);
     Task CacheHighlights(ulong id, List<Highlights> highlights);
     Task CacheHighlightSettings(ulong id, List<HighlightSettings> highlightSettings);
     Task AddHighlightToCache(ulong id, List<Highlights> newHighlight);
