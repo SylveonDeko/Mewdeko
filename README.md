@@ -14,6 +14,7 @@
     <a href="https://top.gg/bot/752236274261426212">
         <img src="https://img.shields.io/badge/top.gg-mewdeko%20nya~-pink" alt="Invite Mewdeko to your server!">
     </a>
+<a href="https://deepsource.io/gh/Sylveon76/Mewdeko/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/Sylveon76/Mewdeko.svg/?label=active+issues&show_trend=true&token=VcLitooif2JEfTAH55aJS-5z"/></a>
 
 </p>
 
