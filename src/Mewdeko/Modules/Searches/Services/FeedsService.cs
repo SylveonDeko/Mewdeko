@@ -3,7 +3,6 @@ using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Discord;
 using Discord.WebSocket;
-using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;

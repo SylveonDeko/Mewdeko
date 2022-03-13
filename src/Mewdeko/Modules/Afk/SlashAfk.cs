@@ -345,6 +345,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         }
         var chan = new[] {channel};
         var list = new HashSet<string>();
+        // ReSharper disable once CollectionNeverQueried.Local
         var newchans = new HashSet<string>();
         var mentions = new HashSet<string>();
         if (Service.GetDisabledAfkChannels(ctx.Guild.Id) == "0" ||

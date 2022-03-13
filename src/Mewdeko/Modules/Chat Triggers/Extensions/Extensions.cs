@@ -5,7 +5,6 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
-using Mewdeko.Database.Models;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 

@@ -18,7 +18,6 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Newtonsoft.Json;
 using Swan;
-using System.Net.Http;
 using cinfo = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Mewdeko.Modules.Help;

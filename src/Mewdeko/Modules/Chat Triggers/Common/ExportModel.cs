@@ -1,5 +1,3 @@
-using Mewdeko.Database.Models;
-
 namespace Mewdeko.Modules.Chat_Triggers.Common;
 
 public class ExportedTriggers

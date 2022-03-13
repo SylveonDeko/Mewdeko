@@ -35,7 +35,7 @@ public partial class Administration
         public Task BoostMsg()
         {
             var boostMessage = Service.GetBoostMessage(ctx.Guild.Id);
-            return ReplyConfirmLocalizedAsync("boostmsg_cur", boostMessage?.SanitizeMentions());
+            return ReplyConfirmLocalizedAsync("boostmsg_cur", boostMessage.SanitizeMentions());
         }
 
         [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
@@ -108,7 +108,7 @@ public partial class Administration
             }
 
             if (chan is not null && name is not null && image is not null && text is not null &&
-                text?.ToLower() != "disable") return;
+                text.ToLower() != "disable") return;
             if (image is not null && text is null)
             {
                 using var http = _httpFactory.CreateClient();
@@ -175,7 +175,7 @@ public partial class Administration
             }
 
             if (chan is not null && name is not null && image is not null && text is not null &&
-                text?.ToLower() != "disable") return;
+                text.ToLower() != "disable") return;
             if (image is not null && text is null)
             {
                 using var http = _httpFactory.CreateClient();
@@ -242,7 +242,7 @@ public partial class Administration
         public Task GreetMsg()
         {
             var greetMsg = Service.GetGreetMsg(ctx.Guild.Id);
-            return ReplyConfirmLocalizedAsync("greetmsg_cur", greetMsg?.SanitizeMentions());
+            return ReplyConfirmLocalizedAsync("greetmsg_cur", greetMsg.SanitizeMentions());
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -279,7 +279,7 @@ public partial class Administration
         public Task GreetDmMsg()
         {
             var dmGreetMsg = Service.GetDmGreetMsg(ctx.Guild.Id);
-            return ReplyConfirmLocalizedAsync("greetdmmsg_cur", dmGreetMsg?.SanitizeMentions());
+            return ReplyConfirmLocalizedAsync("greetdmmsg_cur", dmGreetMsg.SanitizeMentions());
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -316,7 +316,7 @@ public partial class Administration
         public Task ByeMsg()
         {
             var byeMsg = Service.GetByeMessage(ctx.Guild.Id);
-            return ReplyConfirmLocalizedAsync("byemsg_cur", byeMsg?.SanitizeMentions());
+            return ReplyConfirmLocalizedAsync("byemsg_cur", byeMsg.SanitizeMentions());
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),

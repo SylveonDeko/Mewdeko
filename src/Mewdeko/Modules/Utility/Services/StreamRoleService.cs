@@ -206,7 +206,7 @@ public class StreamRoleService : INService, IUnloadableService
         UpdateCache(fromRole.Guild.Id, setting);
 
         foreach (var usr in await fromRole.GetMembersAsync().ConfigureAwait(false))
-            if (usr is IGuildUser x)
+            if (usr is { } x)
                 await RescanUser(x, setting, addRole).ConfigureAwait(false);
     }
 

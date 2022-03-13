@@ -53,6 +53,7 @@ public class Deck
     /// <summary>
     ///     Creates a new instance of the BlackJackGame, this allows you to create multiple games running at one time.
     /// </summary>
+    // ReSharper disable once VirtualMemberCallInConstructor
     public Deck() => RefillPool();
 
     public List<Card> CardPool { get; set; }

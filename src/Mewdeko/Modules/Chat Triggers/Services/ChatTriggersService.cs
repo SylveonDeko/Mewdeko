@@ -149,6 +149,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         }
                         catch
                         {
+                            // ignored
                         }
 
                         Log.Information(returnMsg);
@@ -389,7 +390,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private void UpdateInternal(ulong? maybeGuildId, Database.Models.ChatTriggers cr)
     {
-        if (maybeGuildId is ulong guildId)
+        if (maybeGuildId is { } guildId)
             newGuildReactions.AddOrUpdate(guildId, new[] {cr},
                 (_, old) =>
                 {
@@ -414,7 +415,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         // only do this for perf purposes
         cr.Trigger = cr.Trigger.Replace(MENTION_PH, _client.CurrentUser.Mention);
 
-        if (maybeGuildId is ulong guildId)
+        if (maybeGuildId is { } guildId)
             newGuildReactions.AddOrUpdate(guildId,
                 new[] {cr},
                 (_, old) => old.With(cr));
@@ -426,11 +427,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private Task DeleteInternalAsync(ulong? maybeGuildId, int id)
     {
-        if (maybeGuildId is ulong guildId)
+        if (maybeGuildId is { } guildId)
         {
             newGuildReactions.AddOrUpdate(guildId,
                 Array.Empty<Database.Models.ChatTriggers>(),
-                (key, old) => DeleteInternal(old, id, out _));
+                (_, old) => DeleteInternal(old, id));
 
             return Task.CompletedTask;
         }
@@ -444,9 +445,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return Task.CompletedTask;
     }
 
-    private static Database.Models.ChatTriggers[] DeleteInternal(IReadOnlyList<Database.Models.ChatTriggers>? crs, int id, out Database.Models.ChatTriggers deleted)
+    private static Database.Models.ChatTriggers[] DeleteInternal(IReadOnlyList<Database.Models.ChatTriggers>? crs, int id)
     {
-        deleted = null;
         if (crs is null || crs.Count == 0)
             return crs as Database.Models.ChatTriggers[] ?? crs?.ToArray();
 
@@ -455,7 +455,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             if (crs[i].Id == id)
             {
-                deleted = crs[i];
                 k--;
                 continue;
             }
@@ -579,7 +578,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         lock (_gcrWriteLock)
         {
-            var newGlobalReactions = DeleteInternal(globalReactions, id, out _);
+            var newGlobalReactions = DeleteInternal(globalReactions, id);
             globalReactions = newGlobalReactions;
         }
 
