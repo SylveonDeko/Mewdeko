@@ -170,7 +170,7 @@ public class Deck
         if (handValues == null)
             InitHandValues();
         foreach (var kvp in handValues.Where(x => x.Value(cards))) return kvp.Key;
-        return $"High card {(cards.FirstOrDefault(c => c.Number == 1)?.GetValueText() ?? cards.Max().GetValueText())}";
+        return $"High card {cards.FirstOrDefault(c => c.Number == 1)?.GetValueText() ?? cards.Max().GetValueText()}";
     }
 
     public class Card : IComparable

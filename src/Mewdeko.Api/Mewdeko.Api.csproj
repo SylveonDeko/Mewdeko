@@ -15,4 +15,12 @@
     <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="RedisCache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="RedisCache\RedisStart.cs" />
+  </ItemGroup>
+
 </Project>

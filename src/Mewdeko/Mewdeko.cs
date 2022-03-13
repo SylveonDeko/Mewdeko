@@ -293,7 +293,7 @@ public class Mewdeko
 
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
 
-            var chan = (await Client.Rest.GetChannelAsync(892789588739891250)) as RestTextChannel;
+            var chan = await Client.Rest.GetChannelAsync(892789588739891250) as RestTextChannel;
             var eb = new EmbedBuilder();
             eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
             eb.AddField("Server ID", arg.Id);

@@ -389,7 +389,7 @@ public class SuggestionsService : INService
             }
 
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var message = (await chan.GetMessageAsync(suggest.MessageID)) as IUserMessage;
+            var message = await chan.GetMessageAsync(suggest.MessageID) as IUserMessage;
             try
             {
                 await message.RemoveAllReactionsAsync();

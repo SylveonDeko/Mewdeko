@@ -244,7 +244,7 @@ public partial class Moderation
                             var forgiven = x.Count(y => y.Forgiven);
                             var total = all - forgiven;
                             var usr = ((SocketGuild) ctx.Guild).GetUser(x.Key);
-                            return $"{(usr?.ToString() ?? x.Key.ToString())} | {total} ({all} - {forgiven})";
+                            return $"{usr?.ToString() ?? x.Key.ToString()} | {total} ({all} - {forgiven})";
                         });
 
                     return new PageBuilder().WithOkColor()

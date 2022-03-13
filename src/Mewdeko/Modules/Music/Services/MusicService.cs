@@ -7,6 +7,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Modules.Music.Common;
 using SpotifyAPI.Web;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -34,7 +35,7 @@ public class MusicService : INService
         public async Task<string> GetPrettyInfo(LavalinkPlayer player, IGuild guild)
         {
             var currentTrack = player.CurrentTrack;
-            var currentContext = currentTrack.Context as MusicPlayer.AdvancedTrackContext;
+            var currentContext = currentTrack.Context as AdvancedTrackContext;
             var musicSettings = await GetSettingsInternalAsync(guild.Id);
             return
                 $"{player.Position.Position:hh\\:mm\\:ss}/{currentTrack.Duration:hh\\:mm\\:ss} | {currentContext.QueueUser} | {currentContext.QueuedPlatform} | Vol: {musicSettings.Volume} | Loop: {musicSettings.PlayerRepeat} | {GetQueue(guild.Id).Count} tracks in queue";
@@ -74,13 +75,13 @@ public class MusicService : INService
         public Task Enqueue(
             ulong guildId,
             IUser user,
-            LavalinkTrack[] lavaTracks,
+            IEnumerable<LavalinkTrack> lavaTracks,
             Platform queuedPlatform = Platform.Youtube)
         {
             var queue = Queues.GetOrAdd(guildId, new List<LavalinkTrack>());
             foreach (var i in lavaTracks)
             {
-                i.Context = new MusicPlayer.AdvancedTrackContext(user, queuedPlatform);
+                i.Context = new AdvancedTrackContext(user, queuedPlatform);
                 queue.Add(i);
             }
 
@@ -94,7 +95,7 @@ public class MusicService : INService
             Platform queuedPlatform = Platform.Youtube)
         {
             var queue = Queues.GetOrAdd(guildId, new List<LavalinkTrack>());
-            lavaTrack.Context = new MusicPlayer.AdvancedTrackContext(user, queuedPlatform);
+            lavaTrack.Context = new AdvancedTrackContext(user, queuedPlatform);
             queue.Add(lavaTrack);
             return Task.CompletedTask;
         }
@@ -140,7 +141,7 @@ public class MusicService : INService
                             if (player.State != PlayerState.Playing && player.State != PlayerState.Destroyed)
                             {
                                 await player.PlayAsync(lavaTrack);
-                                await player.SetVolumeAsync((await GetVolume(guild.Id)) / 100.0F);
+                                await player.SetVolumeAsync(await GetVolume(guild.Id) / 100.0F);
                                 await ModifySettingsInternalAsync(guild.Id,
                                     (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                             }
@@ -193,7 +194,7 @@ public class MusicService : INService
                             if (player.State != PlayerState.Playing)
                             {
                                 await player.PlayAsync(lavaTrack);
-                                await player.SetVolumeAsync((await GetVolume(guild.Id)) / 100.0F);
+                                await player.SetVolumeAsync(await GetVolume(guild.Id) / 100.0F);
                                 await ModifySettingsInternalAsync(guild.Id,
                                     (settings, _) => settings.MusicChannelId = chan.Id, chan.Id);
                             }
