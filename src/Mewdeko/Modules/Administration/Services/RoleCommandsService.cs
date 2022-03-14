@@ -37,6 +37,7 @@ public class RoleCommandsService : INService
         {
             try
             {
+                await msg.DownloadAsync();
                 if (!reaction.User.IsSpecified ||
                     reaction.User.Value.IsBot ||
                     reaction.User.Value is not SocketGuildUser gusr)
