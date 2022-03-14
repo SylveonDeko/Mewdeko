@@ -63,6 +63,7 @@ public class BotCredentials : IBotCredentials
             CoinmarketcapApiKey = data[nameof(CoinmarketcapApiKey)];
             SpotifyClientId = data[nameof(SpotifyClientId)];
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
+            StatcordKey = data[nameof(StatcordKey)];
             if (string.IsNullOrWhiteSpace(CoinmarketcapApiKey))
                 CoinmarketcapApiKey = "e79ec505-0913-439d-ae07-069e296a6079";
 
@@ -125,6 +126,7 @@ public class BotCredentials : IBotCredentials
     public string SpotifyClientId { get; }
     public string SpotifyClientSecret { get; }
     public string MashapeKey { get; }
+    public string StatcordKey { get; }
     public string Token { get; }
 
     public ImmutableArray<ulong> OwnerIds { get; }
@@ -176,6 +178,7 @@ public class BotCredentials : IBotCredentials
         public string SoundCloudClientId { get; set; } = "";
         public string SpotifyClientId { get; set; } = "";
         public string SpotifyClientSecret { get; set; } = "";
+        public string StatcordKey { get; set; } = "";
         public string RestartCommand { get; set; } = null;
         public int? ShardRunPort { get; set; } = null;
         public string Token { get; } = "";

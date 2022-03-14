@@ -207,7 +207,7 @@ public sealed class CoordinatorRunner : BackgroundService
             // UseShellExecute = false,
         });
 
-    public bool Heartbeat(int shardId, int guildCount, ConnState state)
+    public bool Heartbeat(int shardId, int guildCount, ConnState state, int userCount)
     {
         lock (_locker)
         {
@@ -222,7 +222,8 @@ public sealed class CoordinatorRunner : BackgroundService
                 LastUpdate = DateTime.UtcNow,
                 StateCounter = status.State == state
                     ? status.StateCounter + 1
-                    : 1
+                    : 1,
+                UserCount = userCount
             };
             if (status.StateCounter > 1 && status.State == ConnState.Disconnected)
             {
@@ -310,6 +311,7 @@ public sealed class CoordinatorRunner : BackgroundService
                                 Pid = x.Process?.Id,
                                 ConnectionState = x.State,
                                 GuildCount = x.GuildCount,
+                                UserCount = x.UserCount
                             })
                             .ToList()
         };
@@ -374,7 +376,8 @@ public sealed class CoordinatorRunner : BackgroundService
                     statusObj.GuildCount,
                     statusObj.ConnectionState,
                     p is null,
-                    p);
+                    p,
+                    UserCount: statusObj.UserCount);
             }
 
             File.Move(GRACEFUL_STATE_PATH, GRACEFUL_STATE_BACKUP_PATH, overwrite: true);

@@ -40,6 +40,7 @@ message HeartbeatRequest {
   int32 shardId = 1;
   int32 guildCount = 2;  
   ConnState state = 3;
+  int32 userCount = 4;
 }
 
 message HeartbeatReply {
@@ -83,6 +84,7 @@ message GetStatusReply {
   google.protobuf.Timestamp lastUpdate = 4;
   bool scheduledForRestart = 5;
   google.protobuf.Timestamp startedAt = 6;
+  int32 userCount = 7;
 }
 
 message GetAllStatusesRequest {

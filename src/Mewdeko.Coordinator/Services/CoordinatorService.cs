@@ -14,7 +14,7 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
 
     public override Task<HeartbeatReply> Heartbeat(HeartbeatRequest request, ServerCallContext context)
     {
-        var gracefulImminent = _runner.Heartbeat(request.ShardId, request.GuildCount, request.State);
+        var gracefulImminent = _runner.Heartbeat(request.ShardId, request.GuildCount, request.State, request.UserCount);
         return Task.FromResult(new HeartbeatReply
         {
             GracefulImminent = gracefulImminent
@@ -81,7 +81,8 @@ public sealed class CoordinatorService : Coordinator.CoordinatorBase
             ShardId = status.ShardId,
             LastUpdate = Timestamp.FromDateTime(status.LastUpdate),
             ScheduledForRestart = status.ShouldRestart,
-            StartedAt = Timestamp.FromDateTime(startTime)
+            StartedAt = Timestamp.FromDateTime(startTime),
+            UserCount = status.UserCount
         };
 
         return reply;
