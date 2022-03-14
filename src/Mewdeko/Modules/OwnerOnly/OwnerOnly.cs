@@ -551,7 +551,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
                 var timeDiff = DateTime.UtcNow - st.LastUpdate;
                 var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
                 return
-                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} `";
+                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} | {st.UserCount}`";
             })
             .ToArray();
 

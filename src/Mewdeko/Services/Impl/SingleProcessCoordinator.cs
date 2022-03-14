@@ -45,9 +45,11 @@ public class SingleProcessCoordinator : ICoordinator
                 ConnectionState = _client.ConnectionState,
                 GuildCount = _client.Guilds.Count,
                 LastUpdate = DateTime.UtcNow,
-                ShardId = _client.ShardId
+                ShardId = _client.ShardId,
+                UserCount = _client.Guilds.SelectMany(x => x.Users).Distinct().Count()
             }
         };
 
     public int GetGuildCount() => _client.Guilds.Count;
+    public int GetUserCount() => _client.Guilds.SelectMany(x => x.Users).Distinct().Count();
 }
