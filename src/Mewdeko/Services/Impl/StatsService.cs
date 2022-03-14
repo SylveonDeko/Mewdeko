@@ -1,4 +1,5 @@
-﻿using Discord.Rest;
+﻿using Discord.Commands;
+using Discord.Rest;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
@@ -22,7 +23,7 @@ public class StatsService : IStatsService
     private readonly DateTime _started;
 
     public StatsService(
-        DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord)
+        DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, ICoordinator coord, CommandService cmdServ)
     {
         Client = client;
         Factory = factory;
@@ -31,6 +32,7 @@ public class StatsService : IStatsService
         _ = new DllVersionChecker();
         _started = DateTime.UtcNow;
         _ = PostToTopGg();
+        _ = PostToStatcord(coord, client, cmdServ);
     }
     
     public string Library => $"Discord.Net {DllVersionChecker.GetDllVersion()} ";
@@ -48,6 +50,22 @@ public class StatsService : IStatsService
         return $"{time.Days} days{separator}{time.Hours} hours{separator}{time.Minutes} minutes";
     }
 
+    public async Task PostToStatcord(ICoordinator coord, DiscordSocketClient socketClient, CommandService cmdServ)
+    {
+       if(string.IsNullOrWhiteSpace(Creds.StatcordKey))
+        return;
+       var timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+       while (await timer.WaitForNextTickAsync())
+       {
+           using var content = new StringContent(
+               $"{{\n  \"id\": \"{socketClient.CurrentUser.Id}\",\n  \"key\": \"{Creds.StatcordKey}\",\n  \"servers\": \"{coord.GetGuildCount()}\",\n  \"users\": \"{coord.GetUserCount()}\",\n  \"active\":[],\n  \"commands\": \"0\",\n  \"popular\": \"[]\",\n  \"memactive\": \"{ByteSize.FromBytes(Process.GetCurrentProcess().PrivateMemorySize64).Bytes}\",\n  \"memload\": \"0\",\n  \"cpuload\": \"0\",\n  \"bandwidth\": \"0\", \n\"custom1\":  \"{cmdServ.Commands.Count()}\"}}");
+           using var client = new HttpClient();
+           content.Headers.Clear();
+           content.Headers.Add("Content-Type", "application/json");
+           var request = await client.PostAsync("https://api.statcord.com/beta/stats", content);
+           Log.Information(request.ReasonPhrase);
+       }
+    }
     public async Task PostToTopGg()
     {
         if (Client.ShardId != 0) 

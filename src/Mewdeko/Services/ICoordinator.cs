@@ -9,6 +9,7 @@ public interface ICoordinator
     bool RestartShard(int shardId);
     IList<ShardStatus> GetAllShardStatuses();
     int GetGuildCount();
+    int GetUserCount();
 }
 
 public class ShardStatus
@@ -17,4 +18,5 @@ public class ShardStatus
     public DateTime LastUpdate { get; set; }
     public int ShardId { get; set; }
     public int GuildCount { get; set; }
+    public int UserCount { get; set; }
 }

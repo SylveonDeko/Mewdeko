@@ -55,7 +55,8 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
                 ConnectionState = FromCoordConnState(s.State),
                 GuildCount = s.GuildCount,
                 ShardId = s.ShardId,
-                LastUpdate = s.LastUpdate.ToDateTime()
+                LastUpdate = s.LastUpdate.ToDateTime(),
+                UserCount = s.UserCount
             });
     }
     public int GetGuildCount()
@@ -63,6 +64,13 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
         var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
 
         return res.Statuses.Sum(x => x.GuildCount);
+    }
+    
+    public int GetUserCount()
+    {
+        var res = _coordClient.GetAllStatuses(new GetAllStatusesRequest());
+
+        return res.Statuses.Sum(x => x.UserCount);
     }
 
     public Task OnReadyAsync()
@@ -78,7 +86,8 @@ public class RemoteGrpcCoordinator : ICoordinator, IReadyExecutor
                     {
                         State = ToCoordConnState(_client.ConnectionState),
                         GuildCount = _client.ConnectionState == ConnectionState.Connected ? _client.Guilds.Count : 0,
-                        ShardId = _client.ShardId
+                        ShardId = _client.ShardId,
+                        UserCount = _client.Guilds.SelectMany(x => x.Users).Distinct().Count()
                     }, deadline: DateTime.UtcNow + TimeSpan.FromSeconds(10));
                     gracefulImminent = reply.GracefulImminent;
                 }

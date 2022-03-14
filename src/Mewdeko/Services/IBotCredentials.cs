@@ -8,6 +8,7 @@ public interface IBotCredentials
     string Token { get; }
     string GoogleApiKey { get; }
     ImmutableArray<ulong> OwnerIds { get; }
+    string StatcordKey { get; }
     ImmutableArray<ulong> OfficialMods { get; }
     string MashapeKey { get; }
     string PatreonAccessToken { get; }
