@@ -54,7 +54,7 @@ public class StatsService : IStatsService
     {
        if(string.IsNullOrWhiteSpace(Creds.StatcordKey))
         return;
-       var timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+       var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
        while (await timer.WaitForNextTickAsync())
        {
            using var content = new StringContent(
