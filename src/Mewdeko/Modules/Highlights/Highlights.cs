@@ -87,8 +87,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Task.CompletedTask;
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
-                                     .WithTitle($"{highlightsForUser.Count()} Highlights")
-                                     .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x)+1}. {x.Word}")));
+                        .WithTitle($"{highlightsForUser.Count()} Highlights")
+                        .WithDescription(string.Concat(highlightsEnumerable.Select(x => $"```\n{x}```\n")));
                 }
 
                 break;
@@ -105,7 +105,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
 
                 if (int.TryParse(words, out var number))
                 {
-                    var todelete = highlightsForUser.ElementAt(number-1);
+                    var todelete = highlightsForUser.ElementAt(number - 1);
                     if (todelete is null)
                     {
                         await ctx.Channel.SendErrorAsync("That Highlight does not exist!");
@@ -116,9 +116,9 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.");
                     return;
                 }
-                if (!highlightsForUser.Select(x => x.Word).Contains(words))
+                if (!highlightsForUser.Any(x => x.Word == words))
                 {
-                    await ctx.Channel.SendErrorAsync("This is not in your highlights!");
+                    await ctx.Channel.SendErrorAsync($"You don't have any highlights matching:\n>>> ```\n{words}\n```");
                     return;
                 }
                 await Service.RemoveHighlight(highlightsForUser.FirstOrDefault(x => x.Word == words));
@@ -150,18 +150,18 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60));
-                
+
                 async Task<PageBuilder> PageFactory1(int page)
                 {
                     await Task.CompletedTask;
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10).Select(x => x.Word);
                     return new PageBuilder().WithOkColor()
-                                            .WithTitle($"{matched.Count()} Highlights")
-                                            .WithDescription(string.Join("\n", highlightsEnumerable));
+                        .WithTitle($"{matched.Count()} Highlights")
+                        .WithDescription(string.Concat(highlightsEnumerable.Select(x => $"```\n{x}```\n")));
                 }
-                
+
                 break;
-            
+
             case HighlightActions.ToggleIgnore:
                 if (string.IsNullOrWhiteSpace(words))
                     return;
@@ -173,7 +173,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     var reader2 = new UserTypeReader<IUser>();
                     IUser host;
                     var result1 = await reader2.ReadAsync(ctx, words, null);
-                    host = (IUser) result1.BestMatch;
+                    host = (IUser)result1.BestMatch;
                     if (host.Username is null)
                     {
                         await ctx.Channel.SendErrorAsync("That user or channel wasnt found!");
@@ -189,7 +189,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
 
                     return;
                 }
-                channel = (ITextChannel) result.BestMatch;
+                channel = (ITextChannel)result.BestMatch;
 
                 if (await Service.ToggleIgnoredChannel(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()))
                 {
@@ -198,7 +198,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 else
                     await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
                 break;
-            
+
             case HighlightActions.Toggle:
                 if (string.IsNullOrWhiteSpace(words))
                     return;
@@ -218,8 +218,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
                 await ctx.Channel.SendConfirmAsync("Highlights disabled.");
                 break;
-            
+
         }
     }
-    
+
 }
