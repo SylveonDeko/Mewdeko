@@ -137,6 +137,7 @@ public class HighlightsService : INService, IReadyExecutor
         var toadd = new Database.Models.Highlights { UserId = userId, GuildId = guildId, Word = word };
         await using var uow = _db.GetDbContext();
         uow.Highlights.Add(toadd);
+        await uow.SaveChangesAsync();
         var current = _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights>();
         current.Add(toadd);
         await _cache.AddHighlightToCache(guildId, current);
@@ -254,15 +255,18 @@ public class HighlightsService : INService, IReadyExecutor
         return ignored;
     }
     
-    public async Task RemoveHighlight(ulong guildId, ulong userId, string word)
+    public async Task RemoveHighlight(Database.Models.Highlights toremove)
     {
-        var toremove = new Database.Models.Highlights { UserId = userId, GuildId = guildId, Word = word };
         await using var uow = _db.GetDbContext();
         uow.Highlights.Remove(toremove);
-        var current = _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights>();
+        await uow.SaveChangesAsync();
+        var current = _cache.GetHighlightsForGuild(toremove.GuildId) ?? new List<Database.Models.Highlights>();
         if (current.Any())
+        {
+            toremove.Id = 0;
             current.Remove(toremove);
-        await _cache.RemoveHighlightFromCache(guildId, current);
+        }
+        await _cache.RemoveHighlightFromCache(toremove.GuildId, current);
     }
 
     public List<Database.Models.Highlights> GetForGuild(ulong guildId) 

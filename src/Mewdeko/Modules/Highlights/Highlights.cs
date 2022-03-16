@@ -5,6 +5,8 @@ using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Highlights.Services;
 
 
@@ -14,11 +16,13 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
 {
     private readonly InteractiveService _interactivity;
     private readonly IServiceProvider _svcs;
+    private readonly DbService _db;
 
-    public Highlights(InteractiveService interactivity, IServiceProvider svcs)
+    public Highlights(InteractiveService interactivity, IServiceProvider svcs, DbService db)
     {
         _interactivity = interactivity;
         _svcs = svcs;
+        _db = db;
     }
 
     public enum HighlightActions
@@ -26,6 +30,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
         Add,
         List,
         Delete,
+        Remove,
         Match,
         ToggleIgnore,
         Toggle
@@ -34,7 +39,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
     [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
-        var highlights = Service.GetForGuild(ctx.Guild.Id);
+        await using var uow = _db.GetDbContext();
+        var highlights = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
         switch (action)
         {
             case HighlightActions.Add:
@@ -59,7 +65,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 }
                 break;
             case HighlightActions.List:
-                var highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id);
+                var highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (!highlightsForUser.Any())
                 {
                     await ctx.Channel.SendErrorAsync("You have no highlights set!");
@@ -79,36 +85,49 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     await Task.CompletedTask;
-                    var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10).Select(x => x.Word);
+                    var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
                                      .WithTitle($"{highlightsForUser.Count()} Highlights")
-                                     .WithDescription(String.Join("\n", highlightsEnumerable));
+                                     .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x)+1}. {x.Word}")));
                 }
 
                 break;
+            case HighlightActions.Remove:
             case HighlightActions.Delete:
                 if (string.IsNullOrWhiteSpace(words))
                     return;
-                highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id);
+                highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (!highlightsForUser.Any())
                 {
                     await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!");
                     return;
                 }
 
+                if (int.TryParse(words, out var number))
+                {
+                    var todelete = highlightsForUser.ElementAt(number-1);
+                    if (todelete is null)
+                    {
+                        await ctx.Channel.SendErrorAsync("That Highlight does not exist!");
+                        return;
+                    }
+
+                    await Service.RemoveHighlight(todelete);
+                    await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.");
+                    return;
+                }
                 if (!highlightsForUser.Select(x => x.Word).Contains(words))
                 {
                     await ctx.Channel.SendErrorAsync("This is not in your highlights!");
                     return;
                 }
-
-                await Service.RemoveHighlight(ctx.Guild.Id, ctx.User.Id, words);
+                await Service.RemoveHighlight(highlightsForUser.FirstOrDefault(x => x.Word == words));
                 await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
                 break;
             case HighlightActions.Match:
                 if (string.IsNullOrWhiteSpace(words))
                     return;
-                highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id);
+                highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (!highlightsForUser.Any())
                 {
                     await ctx.Channel.SendErrorAsync("There are no highlights to match to.");
@@ -131,14 +150,14 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
 
                 await _interactivity.SendPaginatorAsync(paginator, Context.Channel,
                     TimeSpan.FromMinutes(60));
-
+                
                 async Task<PageBuilder> PageFactory1(int page)
                 {
                     await Task.CompletedTask;
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10).Select(x => x.Word);
                     return new PageBuilder().WithOkColor()
                                             .WithTitle($"{matched.Count()} Highlights")
-                                            .WithDescription(String.Join("\n", highlightsEnumerable));
+                                            .WithDescription(string.Join("\n", highlightsEnumerable));
                 }
                 
                 break;
