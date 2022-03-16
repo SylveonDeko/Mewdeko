@@ -5,17 +5,16 @@ using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using SQLitePCL;
 
 namespace Mewdeko.Modules.Starboard.Services;
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class StarboardService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
-
-    // ReSharper disable once PublicConstructorInAbstractClass
-    public StarboardService(DiscordSocketClient client,  DbService db,
+    
+    public StarboardService(DiscordSocketClient client, DbService db,
         Mewdeko bot)
     {
         _client = client;
@@ -35,6 +34,12 @@ public class StarboardService : INService
         RepostThresholdDictionary = bot.AllGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.RepostThreshold)
             .ToConcurrent();
+        UseBlacklist =  bot.AllGuildConfigs
+                           .ToDictionary(x => x.GuildId, x => x.UseStarboardBlacklist)
+                           .ToConcurrent();
+        CheckChannels = bot.AllGuildConfigs
+                           .ToDictionary(x => x.GuildId, x => x.StarboardCheckChannels)
+                           .ToConcurrent();
         _ = CacheStarboardPosts();
 
 
@@ -45,6 +50,8 @@ public class StarboardService : INService
     private ConcurrentDictionary<ulong, int> RepostThresholdDictionary { get; }
     private ConcurrentDictionary<ulong, ulong> StarboardChannels { get; }
     private ConcurrentDictionary<ulong, string> StarboardStars { get; }
+    private ConcurrentDictionary<ulong, string> CheckChannels { get; set; }
+    private ConcurrentDictionary<ulong, bool> UseBlacklist { get; set; }
 
     private List<StarboardPosts> starboardPosts;
 
@@ -58,6 +65,7 @@ public class StarboardService : INService
 
     private async Task AddStarboardPost(ulong messageId, ulong postId)
     {
+        
         await using var uow = _db.GetDbContext();
         var post = starboardPosts.FirstOrDefault(x => x.MessageId == messageId);
         if (post is null)
@@ -99,6 +107,42 @@ public class StarboardService : INService
 
         StarboardChannels.AddOrUpdate(guild.Id, channel, (_, _) => channel);
     }
+    
+    public async Task SetCheckMode(IGuild guild, bool checkmode)
+    {
+        await using (var uow = _db.GetDbContext())
+        {
+            var gc = uow.ForGuildId(guild.Id, set => set);
+            gc.UseStarboardBlacklist = true;
+            await uow.SaveChangesAsync();
+        }
+
+        UseBlacklist.AddOrUpdate(guild.Id, checkmode, (_, _) => checkmode);
+    }
+    public async Task<bool> ToggleChannel(IGuild guild, string id)
+    {
+        var channels = GetCheckedChannels(guild.Id).Split(" ").ToList();
+        if (!channels.Contains(id))
+        {
+            channels.Add(id);
+            var joinedchannels = string.Join(" ", channels);
+            await using var uow = _db.GetDbContext();
+            var gc = uow.ForGuildId(guild.Id, set => set);
+            gc.StarboardCheckChannels = joinedchannels;
+            await uow.SaveChangesAsync();
+            CheckChannels.AddOrUpdate(guild.Id, joinedchannels, (_, _) => joinedchannels);
+            return false;
+        }
+
+        channels.Remove(id);
+        var joinedchannels1 = string.Join(" ", channels);
+        await using var uow1 = _db.GetDbContext();
+        var gc1 = uow1.ForGuildId(guild.Id, set => set);
+        gc1.StarboardCheckChannels = joinedchannels1;
+        await uow1.SaveChangesAsync();
+        CheckChannels.AddOrUpdate(guild.Id, joinedchannels1, (_, _) => joinedchannels1);
+        return true;
+    }
 
     public async Task SetStarCount(IGuild guild, int num)
     {
@@ -119,7 +163,21 @@ public class StarboardService : INService
 
         return starCount;
     }
+    public string GetCheckedChannels(ulong? id)
+    {
+        if (id == null || !CheckChannels.TryGetValue(id.Value, out var checkedChannels))
+            return "0";
 
+        return checkedChannels;
+    }
+
+    public bool GetCheckMode(ulong? id)
+    {
+        if (id == null || !UseBlacklist.TryGetValue(id.Value, out var useBlacklist))
+            return false;
+
+        return useBlacklist;
+    }
     private int GetThreshold(ulong? id)
     {
         if (id == null || !RepostThresholdDictionary.TryGetValue(id.Value, out var hold))
@@ -178,7 +236,7 @@ public class StarboardService : INService
             || channel.Value is not ITextChannel textChannel 
             || GetStarCount(textChannel.GuildId) == 0)
             return;
-
+        
         var star = GetStar(textChannel.GuildId).ToIEmote();
         
         if (star.Name == null)
@@ -193,12 +251,24 @@ public class StarboardService : INService
             return;
         
         var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
-
+        
         if (starboardChannel == null)
             return;
-        
         var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
         
+        var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
+        if (GetCheckMode(gUser.GuildId))
+        {
+            if (checkedChannels.Split(" ").Contains(message.Value.Channel.Id.ToString()))
+                return;
+        }
+        else
+        {
+            if (!checkedChannels.Split(" ").Contains(message.Value.Channel.ToString()))
+                return;
+        }
+
+
         var botPerms = gUser.GetPermissions(starboardChannel);
         
         if (!botPerms.Has(ChannelPermission.SendMessages))
