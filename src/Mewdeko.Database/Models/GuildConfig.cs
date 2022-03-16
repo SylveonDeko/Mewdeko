@@ -23,7 +23,9 @@ public class GuildConfig : DbEntity
     public int MultiGreetType { get; set; } = 0;
     public int MinSuggestLength { get; set; } = 0;
     public int MaxSuggestLength { get; set; } = 4098;
+    public string StarboardCheckChannels { get; set; } = "0";
     public ulong MemberRole { get; set; } = 0;
+    public bool UseStarboardBlacklist { get; set; } = true;
     public string TOpenMessage { get; set; } = "none";
     public string GStartMessage { get; set; } = "none";
     public string GEndMessage { get; set; } = "none";
