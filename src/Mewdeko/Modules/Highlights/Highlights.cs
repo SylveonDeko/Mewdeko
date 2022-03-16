@@ -87,8 +87,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Task.CompletedTask;
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
-                        .WithTitle($"{highlightsForUser.Count()} Highlights")
-                        .WithDescription(string.Concat(highlightsEnumerable.Select(x => $"```\n{x}```\n")));
+                                     .WithTitle($"{highlightsForUser.Count()} Highlights")
+                                     .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 
                 break;
@@ -116,9 +116,9 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await ctx.Channel.SendConfirmAsync($"Successfully removed {Format.Code(todelete.Word)} from your highlights.");
                     return;
                 }
-                if (!highlightsForUser.Any(x => x.Word == words))
+                if (!highlightsForUser.Select(x => x.Word).Contains(words))
                 {
-                    await ctx.Channel.SendErrorAsync($"You don't have any highlights matching:\n>>> ```\n{words}\n```");
+                    await ctx.Channel.SendErrorAsync("This is not in your highlights!");
                     return;
                 }
                 await Service.RemoveHighlight(highlightsForUser.FirstOrDefault(x => x.Word == words));
@@ -156,8 +156,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Task.CompletedTask;
                     var highlightsEnumerable = matched.Skip(page * 10).Take(10).Select(x => x.Word);
                     return new PageBuilder().WithOkColor()
-                        .WithTitle($"{matched.Count()} Highlights")
-                        .WithDescription(string.Concat(highlightsEnumerable.Select(x => $"```\n{x}```\n")));
+                                            .WithTitle($"{matched.Count()} Highlights")
+                                            .WithDescription(string.Join("\n", highlightsEnumerable));
                 }
 
                 break;
