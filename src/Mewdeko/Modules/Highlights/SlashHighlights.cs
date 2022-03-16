@@ -72,11 +72,10 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10).Select(x => x.Word);
+            var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
             return new PageBuilder().WithOkColor()
-                .WithTitle($"{highlightsForUser.Count()} Highlights")
-                .WithDescription(string.Concat(highlightsEnumerable.Select(x => $"```\n{x}```\n")));
-
+                             .WithTitle($"{highlightsForUser.Count()} Highlights")
+                             .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
         }
     }
 
@@ -138,7 +137,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
         if (!matched.Any())
         {
-            await ctx.Channel.SendErrorAsync("No matches found.");
+            await ctx.Interaction.SendErrorAsync("No matches found.");
             return;
         }
 
@@ -156,34 +155,48 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         async Task<PageBuilder> PageFactory1(int page)
         {
             await Task.CompletedTask;
-            var highlightsEnumerable = matched.Skip(page * 10).Take(10).Select(x => x.Word);
+            var highlightsEnumerable = matched.Skip(page * 10).Take(10);
             return new PageBuilder().WithOkColor()
-                .WithTitle($"{matched.Count()} Highlights")
-                .WithDescription(string.Concat(highlightsEnumerable.Select(x => $"```\n{x}```\n")));
+                            .WithTitle($"{highlightsForUser.Count()} Highlights")
+                            .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
         }
     }
 
-    [SlashCommand("ignore-user", "Ignore a specified user.")]
-    public async Task Ignore(IUser user, bool? ignore = null)
+    [SlashCommand("toggle-user", "Ignore a specified user."), RequireContext(ContextType.Guild)]
+    public async Task ToggleUser(IUser user)
     {
         if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, user.Id.ToString()))
         {
-            await ctx.Channel.SendConfirmAsync($"Added {user.Mention} to ignored users!");
+            await ctx.Interaction.SendConfirmAsync($"Added {user.Mention} to ignored users!");
             return;
         }
         else
-            await ctx.Channel.SendConfirmAsync($"Removed {user.Mention} from ignored users!");
+            await ctx.Interaction.SendConfirmAsync($"Removed {user.Mention} from ignored users!");
     }
 
-    [SlashCommand("ignore-channel", "Ignore a specified channel.")]
-    public async Task Ignore(ITextChannel channel, bool? ignore = null)
+    [SlashCommand("toggle-channel", "Ignore a specified channel."), RequireContext(ContextType.Guild)]
+    public async Task ToggleUser(ITextChannel channel, bool? ignore = null)
     {
         if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()))
         {
-            await ctx.Channel.SendConfirmAsync($"Added {channel.Mention} to ignored channels!");
+            await ctx.Interaction.SendConfirmAsync($"Added {channel.Mention} to ignored channels!");
             return;
         }
         else
-            await ctx.Channel.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
+            await ctx.Interaction.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
+    }
+
+    [SlashCommand("toggle-global", "Enable or dissable highlights globally."), RequireContext(ContextType.Guild)]
+    public async Task ToggleGlobal([Summary("enabled", "Are highlights enabled globally?")] bool enabled)
+    {
+        if (enabled)
+        {
+            await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
+            await ctx.Interaction.SendConfirmAsync("Highlights enabled!");
+            return;
+        }
+
+        await Service.ToggleHighlights(ctx.Guild.Id, ctx.User.Id, enabled);
+        await ctx.Interaction.SendConfirmAsync("Highlights disabled.");
     }
 }
