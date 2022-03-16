@@ -154,10 +154,10 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                 async Task<PageBuilder> PageFactory1(int page)
                 {
                     await Task.CompletedTask;
-                    var highlightsEnumerable = matched.Skip(page * 10).Take(10).Select(x => x.Word);
+                    var highlightsEnumerable = matched.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
-                                            .WithTitle($"{matched.Count()} Highlights")
-                                            .WithDescription(string.Join("\n", highlightsEnumerable));
+                                     .WithTitle($"{highlightsForUser.Count()} Highlights")
+                                     .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 
                 break;
