@@ -5,6 +5,7 @@ using Fergun.Interactive.Pagination;
 using Discord.Interactions;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
@@ -26,7 +27,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         _db = db;
     }
 
-    [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild)]
+    [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task AddHighlight([Summary("words", "Words to highlight.")] string words)
     {
         await using var uow = _db.GetDbContext();
@@ -46,7 +47,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
     }
 
-    [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild)]
+    [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ListHighlights()
     {
         await using var uow = _db.GetDbContext();
@@ -66,7 +67,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             .WithDefaultEmotes()
             .Build();
 
-        await _interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,
+        await _interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
             TimeSpan.FromMinutes(60));
 
         async Task<PageBuilder> PageFactory(int page)
@@ -79,7 +80,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
     }
 
-    [SlashCommand("delete", "Delete a highlight."), RequireContext(ContextType.Guild)]
+    [SlashCommand("delete", "Delete a highlight."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task DeleteHighlight(
         [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to delete.")] string words)
     {
@@ -121,7 +122,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         await ctx.Interaction.SendConfirmAsync($"Successfully removed {Format.Code(words)} from your highlights.");
     }
 
-    [SlashCommand("match", "Find a matching highlight."), RequireContext(ContextType.Guild)]
+    [SlashCommand("match", "Find a matching highlight."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task MatchHighlight(
         [Autocomplete(typeof(HighlightAutocompleter)), Summary("words", "The highlight to find.")] string words)
     {
@@ -162,7 +163,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
     }
 
-    [SlashCommand("toggle-user", "Ignore a specified user."), RequireContext(ContextType.Guild)]
+    [SlashCommand("toggle-user", "Ignore a specified user."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ToggleUser(IUser user)
     {
         if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, user.Id.ToString()))
@@ -170,23 +171,21 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             await ctx.Interaction.SendConfirmAsync($"Added {user.Mention} to ignored users!");
             return;
         }
-        else
-            await ctx.Interaction.SendConfirmAsync($"Removed {user.Mention} from ignored users!");
+        await ctx.Interaction.SendConfirmAsync($"Removed {user.Mention} from ignored users!");
     }
 
-    [SlashCommand("toggle-channel", "Ignore a specified channel."), RequireContext(ContextType.Guild)]
-    public async Task ToggleUser(ITextChannel channel, bool? ignore = null)
+    [SlashCommand("toggle-channel", "Ignore a specified channel."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
+    public async Task ToggleChannel(ITextChannel channel)
     {
         if (await Service.ToggleIgnoredUser(ctx.Guild.Id, ctx.User.Id, channel.Id.ToString()))
         {
             await ctx.Interaction.SendConfirmAsync($"Added {channel.Mention} to ignored channels!");
             return;
         }
-        else
-            await ctx.Interaction.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
+        await ctx.Interaction.SendConfirmAsync($"Removed {channel.Mention} from ignored channels!");
     }
 
-    [SlashCommand("toggle-global", "Enable or dissable highlights globally."), RequireContext(ContextType.Guild)]
+    [SlashCommand("toggle-global", "Enable or disable highlights globally."), RequireContext(ContextType.Guild), CheckPermissions, BlacklistCheck]
     public async Task ToggleGlobal([Summary("enabled", "Are highlights enabled globally?")] bool enabled)
     {
         if (enabled)
