@@ -14,7 +14,7 @@ public class HighlightsService : INService, IReadyExecutor
     private readonly DiscordSocketClient _client;
     private readonly IDataCache _cache;
     private readonly DbService _db;
-    
+
 
     public HighlightsService(DiscordSocketClient client, IDataCache cache, DbService db)
     {
@@ -24,7 +24,7 @@ public class HighlightsService : INService, IReadyExecutor
         _ = CacheToRedis();
         _client.MessageReceived += StaggerHighlights;
         _client.UserIsTyping += AddHighlightTimer;
-        
+
     }
 
     private async Task AddHighlightTimer(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> _)
@@ -69,7 +69,7 @@ public class HighlightsService : INService, IReadyExecutor
     {
         if (message.Channel is not ITextChannel channel)
             return true;
-        
+
         if (string.IsNullOrWhiteSpace(message.Content))
             return true;
         var usersDMd = new List<ulong>();
@@ -186,7 +186,7 @@ public class HighlightsService : INService, IReadyExecutor
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };
-            var toedit1 = toadd.IgnoredUsers.Split(" ").ToList(); 
+            var toedit1 = toadd.IgnoredUsers.Split(" ").ToList();
             toedit1.Add(channelId);
             toadd.IgnoredChannels = string.Join(" ", toedit1);
             uow.HighlightSettings.Add(toadd);
@@ -212,7 +212,7 @@ public class HighlightsService : INService, IReadyExecutor
         await _cache.AddHighlightSettingToCache(guildId, current);
         return ignored;
     }
-    
+
     public async Task<bool> ToggleIgnoredUser(ulong guildId, ulong userId, string userToIgnore)
     {
         bool ignored = true;
@@ -228,7 +228,7 @@ public class HighlightsService : INService, IReadyExecutor
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };
-            var toedit1 = toadd.IgnoredUsers.Split(" ").ToList(); 
+            var toedit1 = toadd.IgnoredUsers.Split(" ").ToList();
             toedit1.Add(userToIgnore);
             toadd.IgnoredUsers = string.Join(" ", toedit1);
             uow.HighlightSettings.Add(toadd);
@@ -254,7 +254,7 @@ public class HighlightsService : INService, IReadyExecutor
         await _cache.AddHighlightSettingToCache(guildId, current);
         return ignored;
     }
-    
+
     public async Task RemoveHighlight(Database.Models.Highlights toremove)
     {
         await using var uow = _db.GetDbContext();
@@ -269,10 +269,10 @@ public class HighlightsService : INService, IReadyExecutor
         await _cache.RemoveHighlightFromCache(toremove.GuildId, current);
     }
 
-    public List<Database.Models.Highlights> GetForGuild(ulong guildId) 
+    public List<Database.Models.Highlights> GetForGuild(ulong guildId)
         => _cache.GetHighlightsForGuild(guildId) ?? new List<Database.Models.Highlights>();
 
-    public List<HighlightSettings> GetSettingsForGuild(ulong guildId) 
+    public List<HighlightSettings> GetSettingsForGuild(ulong guildId)
         => _cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings>();
 
 
