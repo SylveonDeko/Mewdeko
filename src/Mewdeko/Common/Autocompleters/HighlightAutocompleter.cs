@@ -11,14 +11,14 @@ public class HighlightAutocompleter : AutocompleteHandler
 {
     public DiscordSocketClient Client { get; set; }
     public IDataCache Cache { get; set; }
-    public DbService DB { get; set; }
+    public DbService Db { get; set; }
 
     public override async Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction interaction, IParameterInfo parameter, IServiceProvider services)
     {
-        await using var uow = DB.GetDbContext();
+        await using var uow = Db.GetDbContext();
 
         var content = (string)interaction.Data.Current.Value;
-        var highlightsService = new HighlightsService(Client, Cache, DB);
+        var highlightsService = new HighlightsService(Client, Cache, Db);
 
         return AutocompletionResult.FromSuccess(uow.Highlights.ForUser(context.Guild.Id, context.User.Id)
             .Where(x => x.UserId == context.User.Id && x.GuildId == context.Guild.Id)
