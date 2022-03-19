@@ -23,7 +23,7 @@ public class GuildConfig : DbEntity
     public bool StarboardRemoveOnBelowThreshold { get; set; } = true;
     public bool UseStarboardBlacklist { get; set; } = true;
     public string StarboardCheckChannels { get; set; } = "0";
-    
+
     // Votes
     public string VotesPassword { get; set; }
     public ulong VotesChannel { get; set; }
