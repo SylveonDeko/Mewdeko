@@ -1,19 +1,19 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko.Common;
-using Mewdeko.Common.Attributes;
-using Mewdeko.Common.Collections;
-using Mewdeko._Extensions;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
-using System.Threading;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using MartineApiNet;
 using MartineApiNet.Enums;
+using Mewdeko._Extensions;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Collections;
+using Newtonsoft.Json.Linq;
 using NHentai.NET.Client;
 using NHentai.NET.Models.Searches;
 using Refit;
+using System.Net.Http;
+using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw;
 
@@ -238,7 +238,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 return;
         }
 
-        t = new Timer(async (state) =>
+        t = new Timer(async state =>
         {
             try
             {
@@ -285,7 +285,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return;
         }
 
-        t = new Timer(async (state) =>
+        t = new Timer(async state =>
         {
             try
             {
@@ -325,7 +325,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 return;
         }
 
-        t = new Timer(async (state) =>
+        t = new Timer(async state =>
         {
             try
             {

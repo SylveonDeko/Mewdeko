@@ -1,8 +1,8 @@
-﻿using System.Reflection;
-using Mewdeko.Services.Settings;
+﻿using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Mewdeko.Services.strings.impl;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Mewdeko.Common.Extensions;
 

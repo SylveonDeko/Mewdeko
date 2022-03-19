@@ -78,12 +78,12 @@ public class GiveawayService : INService
         GiveawayEmotes.TryGetValue(id.Value, out var emote);
         return emote;
     }
-    private async Task UpdateGiveaways(List<global::Mewdeko.Database.Models.Giveaways> g)
+    private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
         await using var uow = _db.GetDbContext();
         foreach (var i in g)
         {
-            var toupdate = new global::Mewdeko.Database.Models.Giveaways
+            var toupdate = new Database.Models.Giveaways
             {
                 When = i.When,
                 BlacklistRoles = i.BlacklistRoles,
@@ -103,7 +103,7 @@ public class GiveawayService : INService
         }
     }
 
-    private Task<List<global::Mewdeko.Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
+    private Task<List<Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
         using var uow = _db.GetDbContext();
         return uow.Giveaways
@@ -150,7 +150,7 @@ public class GiveawayService : INService
         var msg = await chan.SendMessageAsync(embed: eb.Build());
         await msg.AddReactionAsync(emote);
         var time = DateTime.UtcNow + ts;
-        var rem = new global::Mewdeko.Database.Models.Giveaways
+        var rem = new Database.Models.Giveaways
         {
             ChannelId = chan.Id,
             UserId = host,
@@ -177,7 +177,7 @@ public class GiveawayService : INService
             await currentChannel.SendConfirmAsync($"Giveaway started in {chan.Mention}");
     }
     
-    public async Task GiveawayTimerAction(global::Mewdeko.Database.Models.Giveaways r)
+    public async Task GiveawayTimerAction(Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
             return;
@@ -332,7 +332,7 @@ public class GiveawayService : INService
         }
     }
 
-    public async Task GiveawayReroll(global::Mewdeko.Database.Models.Giveaways r)
+    public async Task GiveawayReroll(Database.Models.Giveaways r)
     {
         if (_client.GetGuild(r.ServerId) is null)
             return;

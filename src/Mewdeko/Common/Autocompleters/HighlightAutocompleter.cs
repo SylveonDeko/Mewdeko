@@ -1,9 +1,9 @@
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using Mewdeko.Modules.Highlights.Services;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Modules.Highlights.Services;
 
 namespace Mewdeko.Common.Autocompleters;
 

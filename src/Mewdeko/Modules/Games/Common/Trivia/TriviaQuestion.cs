@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
+using System.Text.RegularExpressions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help
 namespace Mewdeko.Modules.Games.Common.Trivia;

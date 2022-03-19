@@ -1,12 +1,12 @@
-﻿using System.IO;
-using System.Net.Http;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using System.IO;
+using System.Net.Http;
 
 namespace Mewdeko.Services.Impl;
 
@@ -111,9 +111,9 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
 
                 if (oldData is not null)
                 {
-                    var newData = new ImageUrls()
+                    var newData = new ImageUrls
                     {
-                        Coins = new ImageUrls.CoinData()
+                        Coins = new ImageUrls.CoinData
                         {
                             Heads = oldData.Coins.Heads.Length == 1 && 
                                 oldData.Coins.Heads[0].ToString() == "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/heads.png"
@@ -126,17 +126,17 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
                         },
                         Dice = oldData.Dice.Map(x => x.ToNewCdn()),
                         Currency = oldData.Currency.Map(x => x.ToNewCdn()),
-                        Rategirl = new ImageUrls.RategirlData()
+                        Rategirl = new ImageUrls.RategirlData
                         {
                             Dot = oldData.Rategirl.Dot.ToNewCdn(),
                             Matrix = oldData.Rategirl.Matrix.ToNewCdn()
                         },
-                        Rip = new ImageUrls.RipData()
+                        Rip = new ImageUrls.RipData
                         {
                             Bg = oldData.Rip.Bg.ToNewCdn(),
                             Overlay = oldData.Rip.Overlay.ToNewCdn(),
                         },
-                        Slots = new ImageUrls.SlotData()
+                        Slots = new ImageUrls.SlotData
                         {
                             Bg = new Uri("https://cdn.nadeko.bot/slots/slots_bg.png"),
                             Emojis = new[]
@@ -149,7 +149,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
                                 "https://cdn.nadeko.bot/slots/5.png"
                             }.Map(x => new Uri(x))
                         },
-                        Xp = new ImageUrls.XpData()
+                        Xp = new ImageUrls.XpData
                         {
                             Bg = oldData.Xp.Bg.ToNewCdn(),
                         },

@@ -12,7 +12,7 @@ public static class MusicPlayerSettingsExtensions
                              .FirstOrDefaultAsync(x => x.GuildId == guildId);
 
         if (toReturn is not null) return toReturn;
-        var newSettings = new MusicPlayerSettings()
+        var newSettings = new MusicPlayerSettings
         {
             GuildId = guildId,
             PlayerRepeat = PlayerRepeatType.Queue

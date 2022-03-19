@@ -6,7 +6,6 @@ using Lavalink4NET.Player;
 using Mewdeko._Extensions;
 using Mewdeko.Database.Models;
 
-
 #nullable enable
 
 namespace Mewdeko.Modules.Music.Services;

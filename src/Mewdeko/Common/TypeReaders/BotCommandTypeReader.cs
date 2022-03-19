@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace Mewdeko.Common.TypeReaders;
 

@@ -1,7 +1,7 @@
-﻿using System.Text;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Text;
 
 namespace Mewdeko.Services;
 

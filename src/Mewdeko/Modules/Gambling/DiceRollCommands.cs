@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
@@ -6,6 +5,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Text.RegularExpressions;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling;

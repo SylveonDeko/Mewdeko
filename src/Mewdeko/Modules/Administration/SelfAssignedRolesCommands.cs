@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -8,6 +7,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Administration.Services;
+using System.Text;
 
 namespace Mewdeko.Modules.Administration;
 

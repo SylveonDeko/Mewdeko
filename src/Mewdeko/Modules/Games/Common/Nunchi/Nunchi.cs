@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using Mewdeko.Common;
+using System.Collections.Immutable;
 using System.Threading;
-using Mewdeko.Common;
 
 namespace Mewdeko.Modules.Games.Common.Nunchi;
 

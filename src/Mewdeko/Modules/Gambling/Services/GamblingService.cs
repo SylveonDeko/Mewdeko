@@ -1,8 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.IO;
-using System.Net;
-using System.Threading;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Gambling.Common;
@@ -11,6 +7,10 @@ using Mewdeko.Modules.Gambling.Connect4;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Net;
+using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

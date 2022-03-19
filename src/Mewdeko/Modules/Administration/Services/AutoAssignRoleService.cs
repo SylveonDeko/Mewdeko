@@ -1,8 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Net;
-using System.Threading.Channels;
-using Discord.Net;
+﻿using Discord.Net;
 using Discord.WebSocket;
 using LinqToDB;
 using Mewdeko._Extensions;
@@ -11,6 +7,10 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Net;
+using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Administration.Services;
 

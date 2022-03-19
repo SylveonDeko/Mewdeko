@@ -1,7 +1,7 @@
+using Mewdeko._Extensions;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
-using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 
@@ -19,7 +19,7 @@ public sealed class SankakuImageDownloader : ImageDownloader<SankakuImageObject>
     public override async Task<List<SankakuImageObject>> DownloadImagesAsync(string[] tags, int page, bool isExplicit = false, CancellationToken cancel = default)
     {
         // explicit probably not supported
-        var tagString = ImageDownloaderHelper.GetTagString(tags, false);
+        var tagString = ImageDownloaderHelper.GetTagString(tags);
 
         var uri = $"{_baseUrl}/posts?tags={tagString}&limit=50";
         var data = await _http.GetStringAsync(uri).ConfigureAwait(false);

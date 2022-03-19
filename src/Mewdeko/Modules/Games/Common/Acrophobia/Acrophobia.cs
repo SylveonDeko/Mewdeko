@@ -1,8 +1,8 @@
-﻿using System.Collections.Immutable;
-using System.Threading;
-using CommandLine;
+﻿using CommandLine;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using System.Collections.Immutable;
+using System.Threading;
 
 namespace Mewdeko.Modules.Games.Common.Acrophobia;
 

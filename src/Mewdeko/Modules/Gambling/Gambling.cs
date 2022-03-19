@@ -1,5 +1,3 @@
-using System.Globalization;
-using System.Numerics;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -13,6 +11,8 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
+using System.Globalization;
+using System.Numerics;
 
 namespace Mewdeko.Modules.Gambling;
 

@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-using System.Threading;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -14,6 +12,8 @@ using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Mewdeko.Modules.Moderation.Services;
 

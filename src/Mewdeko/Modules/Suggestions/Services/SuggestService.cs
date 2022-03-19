@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -10,6 +9,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 

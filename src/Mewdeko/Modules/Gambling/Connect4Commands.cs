@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -8,6 +7,8 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Connect4;
 using Mewdeko.Modules.Gambling.Services;
+using System.Text;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -116,7 +117,7 @@ public partial class Gambling
                         if (RepostCounter == 0)
                             try
                             {
-                                msg = await ctx.Channel.SendMessageAsync("", embed: (Discord.Embed) msg.Embeds.First())
+                                msg = await ctx.Channel.SendMessageAsync("", embed: (Embed) msg.Embeds.First())
                                     .ConfigureAwait(false);
                             }
                             catch

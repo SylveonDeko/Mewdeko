@@ -1,9 +1,9 @@
-﻿using System.Globalization;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using System.Globalization;
 
 namespace Mewdeko.Modules.Administration;
 

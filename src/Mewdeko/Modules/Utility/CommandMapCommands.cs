@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
@@ -12,6 +11,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Utility;
 

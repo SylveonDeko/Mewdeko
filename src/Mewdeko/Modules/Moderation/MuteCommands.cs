@@ -126,7 +126,7 @@ public partial class Moderation
                         {
                             try
                             {
-                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User, MuteType.All);
+                                await Service.UnmuteUser(i.GuildId, i.Id, ctx.User);
                             }
                             catch
                             {

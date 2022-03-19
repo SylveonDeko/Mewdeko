@@ -1,5 +1,5 @@
-﻿using System.Collections.Concurrent;
-using Mewdeko.Modules.Gambling.Common.AnimalRacing;
+﻿using Mewdeko.Modules.Gambling.Common.AnimalRacing;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

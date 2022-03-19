@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
-using Google;
+﻿using Google;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
@@ -8,6 +6,8 @@ using Google.Apis.Urlshortener.v1.Data;
 using Google.Apis.YouTube.v3;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using System.Net;
+using System.Net.Http;
 
 namespace Mewdeko.Services.Impl;
 

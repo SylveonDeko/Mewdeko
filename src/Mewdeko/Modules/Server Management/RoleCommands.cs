@@ -1,4 +1,3 @@
-using System.Net;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
@@ -9,6 +8,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
+using System.Net;
 
 namespace Mewdeko.Modules.Server_Management;
 

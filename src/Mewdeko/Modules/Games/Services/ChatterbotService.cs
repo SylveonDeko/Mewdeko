@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Net.Http;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
@@ -8,6 +6,8 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Games.Services;
 

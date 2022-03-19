@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko.Common;
@@ -8,6 +7,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
+using System.Threading;
 
 namespace Mewdeko.Modules.Utility.Common;
 

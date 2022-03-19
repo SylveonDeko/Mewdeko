@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Globalization;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.Rest;
@@ -23,6 +21,8 @@ using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace Mewdeko.Modules.OwnerOnly;
 
@@ -775,7 +775,6 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
         await channel.SendMessageAsync(rep.Replace(msg));
         await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}");
-        return;
     }
 
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]

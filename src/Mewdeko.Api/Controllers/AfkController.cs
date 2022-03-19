@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Mewdeko.Database;
+﻿using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.WebApp.Controllers;
 

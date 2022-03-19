@@ -303,10 +303,10 @@ public sealed class CoordinatorRunner : BackgroundService
 
     public void SaveState()
     {
-        var coordState = new CoordState()
+        var coordState = new CoordState
         {
             StatusObjects = shardStatuses
-                            .Select(x => new JsonStatusObject()
+                            .Select(x => new JsonStatusObject
                             {
                                 Pid = x.Process?.Id,
                                 ConnectionState = x.State,
