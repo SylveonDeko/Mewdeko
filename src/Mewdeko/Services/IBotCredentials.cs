@@ -1,5 +1,5 @@
-﻿using System.Collections.Immutable;
-using Discord;
+﻿using Discord;
+using System.Collections.Immutable;
 
 namespace Mewdeko.Services;
 

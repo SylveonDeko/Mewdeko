@@ -63,7 +63,7 @@ public static class GuildConfigExtensions
             .Include(x => x.GenerateCurrencyChannelIds)
             .Where(x => x.GenerateCurrencyChannelIds.Any())
             .SelectMany(x => x.GenerateCurrencyChannelIds)
-            .Select(x => new GeneratingChannel()
+            .Select(x => new GeneratingChannel
             {
                 ChannelId = x.ChannelId,
                 GuildId = x.GuildConfig.GuildId

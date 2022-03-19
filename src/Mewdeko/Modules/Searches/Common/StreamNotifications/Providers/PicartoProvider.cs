@@ -1,9 +1,9 @@
 ﻿using Mewdeko.Database.Models;
-using System.Net.Http;
-using System.Text.RegularExpressions;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Newtonsoft.Json;
 using Serilog;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 
 #nullable enable
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;

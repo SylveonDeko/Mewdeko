@@ -5,8 +5,10 @@ using Discord.Net;
 using Discord.Rest;
 using Discord.WebSocket;
 using Fergun.Interactive;
-using Mewdeko._Extensions;
+using Lavalink4NET;
+using Lavalink4NET.DiscordNet;
 using MartineApiNet;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.Extensions;
@@ -16,12 +18,15 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Gambling.Services;
 using Mewdeko.Modules.Gambling.Services.Impl;
+using Mewdeko.Modules.Music.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
+using NekosBestApiNet;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
@@ -29,11 +34,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
-using Lavalink4NET;
-using Lavalink4NET.DiscordNet;
-using Mewdeko.Modules.Chat_Triggers.Services;
-using Mewdeko.Modules.Music.Services;
-using NekosBestApiNet;
 using RunMode = Discord.Commands.RunMode;
 using TypeReader = Discord.Commands.TypeReader;
 
@@ -131,7 +131,7 @@ public class Mewdeko
                 .AddSingleton<IDiscordClientWrapper, DiscordClientWrapper>()
                 .AddSingleton<IAudioService, LavalinkNode>()
                 .AddSingleton<LavalinkNode>()
-                .AddSingleton(new LavalinkNodeOptions()
+                .AddSingleton(new LavalinkNodeOptions
                 {
                     AllowResuming = true,
                     Password = "Hope4a11",

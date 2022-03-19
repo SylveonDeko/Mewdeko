@@ -1,8 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.IO;
-using System.Net.Http;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Modules.Games.Common;
@@ -12,6 +8,10 @@ using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
 using Serilog;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Net.Http;
+using System.Threading;
 
 namespace Mewdeko.Modules.Games.Services;
 

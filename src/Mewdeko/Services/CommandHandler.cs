@@ -1,7 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Immutable;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
@@ -18,6 +15,9 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using System.Threading;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
 using PreconditionResult = Discord.Commands.PreconditionResult;
@@ -91,7 +91,7 @@ public class CommandHandler : INService
         {
             await ctx.Interaction.SendEphemeralErrorAsync(
                 $"Command failed for the following reason:\n{result.ErrorReason}");
-            Log.Warning($"Slash Command Errored\n\t" +
+            Log.Warning("Slash Command Errored\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +
@@ -123,7 +123,7 @@ public class CommandHandler : INService
         {
             await ctx.Interaction.SendEphemeralErrorAsync(
                 $"Command failed for the following reason:\n{result.ErrorReason}");
-            Log.Warning($"Slash Command Errored\n\t" +
+            Log.Warning("Slash Command Errored\n\t" +
                         "User: {0}\n\t" +
                         "Server: {1}\n\t" +
                         "Channel: {2}\n\t" +

@@ -1,7 +1,7 @@
-using System.Collections.Concurrent;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Games.Services;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -7,6 +6,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Services;
+using System.Collections.Immutable;
 
 namespace Mewdeko.Modules.Games;
 

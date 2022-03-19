@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using Discord;
+﻿using Discord;
 using Mewdeko.Database;
 using Mewdeko.Modules.Gambling.Common;
+using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

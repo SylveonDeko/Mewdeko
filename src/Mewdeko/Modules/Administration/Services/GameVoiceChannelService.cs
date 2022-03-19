@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.Collections;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Serilog;
+using System.Diagnostics;
 
 namespace Mewdeko.Modules.Administration.Services;
 

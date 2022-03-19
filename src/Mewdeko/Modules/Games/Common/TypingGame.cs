@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
-using CommandLine;
+﻿using CommandLine;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Modules.Games.Services;
 using Serilog;
+using System.Diagnostics;
 
 namespace Mewdeko.Modules.Games.Common;
 

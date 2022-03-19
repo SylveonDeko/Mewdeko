@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Threading.Channels;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
@@ -10,6 +8,8 @@ using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -384,7 +384,7 @@ public class ProtectionService : INService
 
     public async Task<bool?> AntiSpamIgnoreAsync(ulong guildId, ulong channelId)
     {
-        var obj = new AntiSpamIgnore()
+        var obj = new AntiSpamIgnore
         {
             ChannelId = channelId
         };

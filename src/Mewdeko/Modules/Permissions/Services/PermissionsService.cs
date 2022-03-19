@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -11,6 +10,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Permissions.Services;
 

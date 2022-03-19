@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Database.Common;
+
 // ReSharper disable InconsistentNaming
 
 namespace Mewdeko.Database.Models;

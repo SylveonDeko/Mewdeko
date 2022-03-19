@@ -5,8 +5,8 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko._Extensions;
-using Mewdeko.Common.Attributes;
 using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 
@@ -34,7 +34,7 @@ public partial class Utility
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Interaction.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
+                    "Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
                 return;
             }
 
@@ -77,7 +77,7 @@ public partial class Utility
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Interaction.SendErrorAsync(
-                    $"Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
+                    "Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
                 return;
             }
 

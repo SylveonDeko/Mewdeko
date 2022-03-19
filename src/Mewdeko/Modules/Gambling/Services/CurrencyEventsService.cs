@@ -1,10 +1,10 @@
-﻿using System.Collections.Concurrent;
-using System.Net.Http;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common.Events;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Gambling.Services;
 

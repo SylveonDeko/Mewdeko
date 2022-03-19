@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using Discord;
+﻿using Discord;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using System.Threading;
 
 namespace Mewdeko.Modules.Games.Common;
 

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
@@ -12,6 +11,7 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Net;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Mewdeko.Modules.Administration;

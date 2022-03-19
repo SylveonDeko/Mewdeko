@@ -1,9 +1,9 @@
-﻿using System.Net.Http;
-using System.Threading;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;
+using System.Net.Http;
+using System.Threading;
 
 namespace Mewdeko.Modules.Searches.Services;
 
@@ -37,7 +37,7 @@ public class CryptoService : INService
         if (crypto == null)
         {
             nearest = cryptos
-                      .Select(x => (x, Distance: StringExtensions.LevenshteinDistance(x.Name.ToUpperInvariant(), name)))
+                      .Select(x => (x, Distance: x.Name.ToUpperInvariant().LevenshteinDistance(name)))
                       .OrderBy(x => x.Distance)
                       .FirstOrDefault(x => x.Distance <= 2);
 

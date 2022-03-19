@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using MartineApiNet;
 using Mewdeko._Extensions;
@@ -8,6 +7,7 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Searches.Common;
 using Newtonsoft.Json;
 using Serilog;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Searches;
 

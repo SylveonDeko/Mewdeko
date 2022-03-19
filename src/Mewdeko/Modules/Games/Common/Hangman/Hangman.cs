@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using Mewdeko._Extensions;
+using System.Collections.Immutable;
 using System.Threading;
-using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Games.Common.Hangman;
 

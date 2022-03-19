@@ -1,11 +1,11 @@
 ﻿using Discord;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
-using Discord.Interactions;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database.Extensions;

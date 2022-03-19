@@ -1,11 +1,11 @@
-﻿using Mewdeko.Database.Models;
+﻿using Mewdeko._Extensions;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Serilog;
 using System.Net.Http;
-using Mewdeko._Extensions;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using TwitchLib.Api;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 

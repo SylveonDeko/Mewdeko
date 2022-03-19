@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-using System.Threading;
 using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -9,6 +7,8 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Mewdeko.Modules.Moderation.Services;
 

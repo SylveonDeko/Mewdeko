@@ -1,11 +1,11 @@
-﻿using System.Collections.Concurrent;
-using System.Text.RegularExpressions;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Utility.Common;
+using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 using VirusTotalNet;
 using VirusTotalNet.Results;
 
@@ -142,7 +142,7 @@ public class UtilityService : INService
         if (!messages.Select(x => x.HasValue).Any())
             return;
 
-        var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore()
+        var msgs = messages.Where(x => x.HasValue).Select(x => new SnipeStore
         {
             GuildId = chan.Guild.Id,
             ChannelId = chan.Id,

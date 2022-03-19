@@ -1,6 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿using Discord;
+using System.Collections.Concurrent;
 using System.Threading;
-using Discord;
 
 namespace Mewdeko.Modules.Administration.Common;
 

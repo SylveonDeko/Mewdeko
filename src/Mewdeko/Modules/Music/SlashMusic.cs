@@ -196,7 +196,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
                 }
                 else
                 {
-                    var toadd = new MusicPlaylist()
+                    var toadd = new MusicPlaylist
                     {
                         Author = ctx.User.ToString(),
                         AuthorId = ctx.User.Id,
@@ -618,7 +618,7 @@ public class SlashMusic : MewdekoSlashModuleBase<MusicService>
         }
 
         await player.StopAsync(true);
-        await ctx.Interaction.SendConfirmAsync($"I've left the channel and cleared the queue!");
+        await ctx.Interaction.SendConfirmAsync("I've left the channel and cleared the queue!");
         await Service.QueueClear(ctx.Guild.Id);
     }
 

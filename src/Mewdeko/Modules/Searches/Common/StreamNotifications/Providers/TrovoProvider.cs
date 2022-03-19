@@ -1,9 +1,9 @@
 ﻿﻿using Mewdeko.Database.Models;
  using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
  using Serilog;
- using System.Text.RegularExpressions;
  using System.Net.Http;
  using System.Net.Http.Json;
+ using System.Text.RegularExpressions;
 
  namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 
@@ -63,8 +63,8 @@ If you are experiencing ratelimits, you should create your own application at: h
         try
         {
             var res = await http.PostAsJsonAsync(
-                $"https://open-api.trovo.live/openplatform/channels/id",
-                new TrovoRequestData()
+                "https://open-api.trovo.live/openplatform/channels/id",
+                new TrovoRequestData
                 {
                     Username = login
                 });

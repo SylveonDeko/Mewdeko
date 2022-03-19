@@ -1,13 +1,13 @@
-﻿using System.Collections.Concurrent;
-using System.Net;
-using System.Text;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Services.strings;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Net;
+using System.Text;
+using System.Threading;
 
 namespace Mewdeko.Modules.Games.Common.Trivia;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -8,6 +7,9 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
+using PreconditionResult = Discord.Commands.PreconditionResult;
+using RequireUserPermissionAttribute = Discord.Commands.RequireUserPermissionAttribute;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -37,7 +39,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     {
         if (TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName(), out var perm) && perm is not null)
         {
-            var result = await new Discord.Commands.RequireUserPermissionAttribute((GuildPermission) perm)
+            var result = await new RequireUserPermissionAttribute((GuildPermission) perm)
                 .CheckPermissionsAsync(context, command, _services);
             return !result.IsSuccess;
         }
@@ -72,10 +74,10 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         return false;
     }
 
-    public static Task<Discord.Commands.PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
+    public static Task<PreconditionResult> ExecuteOverrides(ICommandContext ctx, CommandInfo command,
         GuildPermission perms, IServiceProvider services)
     {
-        var rupa = new Discord.Commands.RequireUserPermissionAttribute(perms);
+        var rupa = new RequireUserPermissionAttribute(perms);
         return rupa.CheckPermissionsAsync(ctx, command, services);
     }
     public static Task<Discord.Interactions.PreconditionResult> ExecuteOverrides(IInteractionContext ctx, ICommandInfo command,

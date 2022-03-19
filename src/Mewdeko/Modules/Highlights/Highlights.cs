@@ -9,7 +9,6 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Highlights.Services;
 
-
 namespace Mewdeko.Modules.Highlights;
 
 public class Highlights : MewdekoModuleBase<HighlightsService>
@@ -184,8 +183,8 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                         await ctx.Channel.SendConfirmAsync($"Added {host.Mention} to ignored users!");
                         return;
                     }
-                    else
-                        await ctx.Channel.SendConfirmAsync($"Removed {host.Mention} from ignored users!");
+
+                    await ctx.Channel.SendConfirmAsync($"Removed {host.Mention} from ignored users!");
 
                     return;
                 }
