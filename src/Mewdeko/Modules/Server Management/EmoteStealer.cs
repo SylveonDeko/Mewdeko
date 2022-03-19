@@ -4,7 +4,7 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using System.Net.Http;
-
+using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -23,7 +23,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
         await ctx.Interaction.DeferAsync(true);
         var eb = new EmbedBuilder
         {
-            Description = $"<a:loading:847706744741691402> Adding Emotes...",
+            Description = "<a:loading:847706744741691402> Adding Emotes...",
             Color = Mewdeko.OkColor
         };
         var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value);
@@ -45,7 +45,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Discord.Image(imgStream));
+                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream));
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
                 catch (Exception)

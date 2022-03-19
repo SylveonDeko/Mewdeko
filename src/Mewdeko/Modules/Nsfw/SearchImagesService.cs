@@ -1,15 +1,15 @@
+using Mewdeko._Extensions;
+using Mewdeko.Common;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
+using Mewdeko.Modules.Nsfw.Common;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading;
-using Mewdeko.Common;
-using Mewdeko._Extensions;
-using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
-using Microsoft.EntityFrameworkCore;
-using Booru = Mewdeko.Modules.Nsfw.Common.Booru;
 
 namespace Mewdeko.Modules.Nsfw;
 
@@ -195,7 +195,7 @@ public class SearchImagesService : ISearchImagesService, INService
         while (tasks.Count > 0); // keep looping as long as there is any task remaining to be attempted
 
         // if we ran out of tasks, that means all tasks failed - return an error
-        return new UrlReply()
+        return new UrlReply
         {
             Error = "No hentai image found."
         };

@@ -1,11 +1,11 @@
-﻿using System.Text.RegularExpressions;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Utility.Services;
 

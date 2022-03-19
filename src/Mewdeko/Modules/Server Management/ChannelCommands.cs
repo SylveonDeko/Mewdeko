@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Humanizer;
@@ -9,6 +8,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
+using System.Net.Http;
 using PermValue = Discord.PermValue;
 
 namespace Mewdeko.Modules.Server_Management;

@@ -1,11 +1,11 @@
-﻿using System.Collections.Concurrent;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Database.Models;
 using Serilog;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Common.Events;
 
@@ -145,7 +145,7 @@ public class ReactionEvent : ICurrencyEvent
 
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> message, Cacheable<IMessageChannel, ulong> _)
     {
-        if (message.Id == this.msg.Id) await StopEvent().ConfigureAwait(false);
+        if (message.Id == msg.Id) await StopEvent().ConfigureAwait(false);
     }
 
     private Task HandleReaction(Cacheable<IUserMessage, ulong> message,
@@ -158,7 +158,7 @@ public class ReactionEvent : ICurrencyEvent
             if ((r.User.IsSpecified
                     ? r.User.Value
                     : null) is not IGuildUser gu // no unknown users, as they could be bots, or alts
-                || message.Id != this.msg.Id // same message
+                || message.Id != msg.Id // same message
                 || gu.IsBot // no bots
                 || (DateTime.UtcNow - gu.CreatedAt).TotalDays <= 5 // no recently created accounts
                 || (_noRecentlyJoinedServer && // if specified, no users who joined the server in the last 24h

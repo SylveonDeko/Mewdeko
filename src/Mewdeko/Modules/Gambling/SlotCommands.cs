@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -9,6 +7,8 @@ using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using System.Text;
+using System.Threading;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Gambling;

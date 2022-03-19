@@ -1,9 +1,9 @@
-﻿using System.IO;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using System.IO;
 
 namespace Mewdeko.Services.Impl;
 

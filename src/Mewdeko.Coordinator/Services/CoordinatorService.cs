@@ -1,8 +1,8 @@
-using System;
-using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Mewdeko.Coordinator.Shared;
+using System;
+using System.Threading.Tasks;
 
 namespace Mewdeko.Coordinator.Services;
 

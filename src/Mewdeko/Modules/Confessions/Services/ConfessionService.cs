@@ -134,7 +134,7 @@ public class ConfessionService : INService
             }
 
             var eb = new EmbedBuilder().WithOkColor()
-                                       .WithAuthor($"Anonymous confession #1", guild.IconUrl)
+                                       .WithAuthor("Anonymous confession #1", guild.IconUrl)
                                        .WithDescription(confession)
                                        .WithFooter(
                                            $"Do /confess or dm me .confess {guild.Id} yourconfession to send a confession!")
@@ -183,7 +183,7 @@ public class ConfessionService : INService
                     return;
                 var eb2 = new EmbedBuilder().WithErrorColor()
                                             .AddField("User", $"{user} | {user.Id}")
-                                            .AddField($"Confession 1", confession)
+                                            .AddField("Confession 1", confession)
                                             .AddField("Message Link", msg.GetJumpUrl()).AddField("***WARNING***",
                                                 "***Misuse of this function will lead me to finding out, blacklisting this server, and tearing out your reproductive organs.***");
                 await logChannel.SendMessageAsync(embed: eb2.Build());

@@ -1,7 +1,7 @@
-﻿using System.Net;
-using System.Runtime.CompilerServices;
-using Discord.Net;
+﻿using Discord.Net;
 using Serilog;
+using System.Net;
+using System.Runtime.CompilerServices;
 
 namespace Mewdeko.Common;
 

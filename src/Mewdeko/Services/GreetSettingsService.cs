@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.Webhook;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -11,6 +10,8 @@ using Mewdeko.Database.Models;
 using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;
+using System.Collections.Concurrent;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Services;
 
@@ -285,7 +286,7 @@ public class GreetSettingsService : INService
                 else
                 {
                     var webhook = new DiscordWebhookClient(GetLeaveHook(channel.GuildId));
-                    var embeds = new List<Discord.Embed> {embed?.Build()};
+                    var embeds = new List<Embed> {embed?.Build()};
                     var toDelete = await webhook.SendMessageAsync(plainText, embeds: embeds)
                                                 .ConfigureAwait(false);
                     if (conf.AutoDeleteByeMessagesTimer > 0)
@@ -357,7 +358,7 @@ public class GreetSettingsService : INService
                 else
                 {
                     var webhook = new DiscordWebhookClient(GetGreetHook(channel.GuildId));
-                    var embeds = new List<Discord.Embed> {embed?.Build()};
+                    var embeds = new List<Embed> {embed?.Build()};
                     var toDelete = await webhook.SendMessageAsync(plainText, embeds: embeds)
                                                 .ConfigureAwait(false);
                     if (conf.AutoDeleteGreetMessagesTimer > 0)

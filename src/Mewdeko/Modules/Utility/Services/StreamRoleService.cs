@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Net;
-using Discord;
+﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
@@ -11,7 +9,8 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Serilog;
-using StreamRoleSettings = Mewdeko.Database.Models.StreamRoleSettings;
+using System.Collections.Concurrent;
+using System.Net;
 
 namespace Mewdeko.Modules.Utility.Services;
 

@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -15,6 +12,9 @@ using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Serilog;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading;
 
 namespace Mewdeko.Modules.Utility;
 

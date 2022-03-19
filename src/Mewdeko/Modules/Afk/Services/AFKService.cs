@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
@@ -8,6 +7,7 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Serilog;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Afk.Services;
 

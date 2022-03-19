@@ -1,7 +1,7 @@
-﻿using System.Net.Http;
+﻿using Mewdeko._Extensions;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
-using Mewdeko._Extensions;
 
 namespace Mewdeko.Modules.Nsfw.Common.Downloaders;
 

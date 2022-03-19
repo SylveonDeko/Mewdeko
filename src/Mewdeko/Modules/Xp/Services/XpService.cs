@@ -1,6 +1,3 @@
-using System.Collections.Concurrent;
-using System.IO;
-using System.Net.Http;
 using Discord;
 using Discord.WebSocket;
 using Humanizer;
@@ -22,6 +19,9 @@ using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using StackExchange.Redis;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Net.Http;
 using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 

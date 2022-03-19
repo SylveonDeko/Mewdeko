@@ -1,7 +1,7 @@
-﻿using System.Collections.Immutable;
-using System.Threading;
-using CommandLine;
+﻿using CommandLine;
 using Mewdeko.Common;
+using System.Collections.Immutable;
+using System.Threading;
 
 namespace Mewdeko.Modules.Gambling.Connect4;
 

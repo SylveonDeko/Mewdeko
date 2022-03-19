@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using Discord;
+﻿using Discord;
 using Discord.Interactions;
 using Mewdeko.Modules.Administration.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace Mewdeko.Common.Attributes;
 

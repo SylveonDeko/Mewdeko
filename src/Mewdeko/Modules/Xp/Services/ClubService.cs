@@ -1,10 +1,10 @@
-﻿using System.Net.Http;
-using Discord;
+﻿using Discord;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Xp.Common;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Xp.Services;
 

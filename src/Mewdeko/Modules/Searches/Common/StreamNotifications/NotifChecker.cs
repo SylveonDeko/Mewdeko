@@ -1,13 +1,13 @@
 ﻿#nullable enable
-using System.Net.Http;
+using Mewdeko._Extensions;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 using Newtonsoft.Json;
 using Serilog;
-using Mewdeko._Extensions;
 using StackExchange.Redis;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications;
 

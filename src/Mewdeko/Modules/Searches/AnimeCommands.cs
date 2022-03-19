@@ -1,6 +1,4 @@
 ﻿#nullable enable
-using System.IO;
-using System.Net.Http;
 using Anilist4Net;
 using Anilist4Net.Enums;
 using Discord;
@@ -8,13 +6,15 @@ using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using JikanDotNet;
-using NekosBestApiNet;
-using Mewdeko._Extensions;
 using MartineApiNet;
+using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Extensions;
+using NekosBestApiNet;
 using Newtonsoft.Json;
+using System.IO;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Searches;
 

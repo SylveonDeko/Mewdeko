@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using CodeHollow.FeedReader;
+﻿using CodeHollow.FeedReader;
 using CodeHollow.FeedReader.Feeds;
 using Discord;
 using Discord.WebSocket;
@@ -10,6 +9,7 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Searches.Services;
 

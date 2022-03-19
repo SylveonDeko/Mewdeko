@@ -106,7 +106,7 @@ public class MultiGreetService : INService
             {
                 if (embedData is not null && plainText is not "")
                 {
-                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), options: new RequestOptions()
+                    var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build(), options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     });
@@ -117,7 +117,7 @@ public class MultiGreetService : INService
 
                 if (embedData is null && plainText is not null)
                 {
-                    var msg = await channel.SendMessageAsync(plainText, options: new RequestOptions()
+                    var msg = await channel.SendMessageAsync(plainText, options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     });;
@@ -127,7 +127,7 @@ public class MultiGreetService : INService
 
                 if (embedData is not null && plainText is "")
                 {
-                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), options: new RequestOptions()
+                    var msg = await channel.SendMessageAsync(embed: embedData.Build(), options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
                     });;
@@ -137,7 +137,7 @@ public class MultiGreetService : INService
             }
             else
             {
-                var msg = await channel.SendMessageAsync(content, options: new RequestOptions()
+                var msg = await channel.SendMessageAsync(content, options: new RequestOptions
                 {
                     RetryMode = RetryMode.RetryRatelimit
                 });;

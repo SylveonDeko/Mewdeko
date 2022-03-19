@@ -1,4 +1,3 @@
-using System.Net.Http;
 using Discord;
 using Discord.Commands;
 using Discord.Net;
@@ -6,6 +5,8 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Server_Management.Services;
+using System.Net.Http;
+using Image = Discord.Image;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -67,7 +68,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         await using var imgStream = imgData.ToStream();
-        await guild.ModifyAsync(x => x.Splash = new Discord.Image(imgStream)).ConfigureAwait(false);
+        await guild.ModifyAsync(x => x.Splash = new Image(imgStream)).ConfigureAwait(false);
         await ctx.Channel.SendMessageAsync("New splash image has been set!");
     }
 
@@ -81,7 +82,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         await using var imgStream = imgData.ToStream();
-        await guild.ModifyAsync(x => x.Icon = new Discord.Image(imgStream)).ConfigureAwait(false);
+        await guild.ModifyAsync(x => x.Icon = new Image(imgStream)).ConfigureAwait(false);
         await ctx.Channel.SendMessageAsync("New server icon has been set!");
     }
 
@@ -95,7 +96,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         using var sr = await http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         await using var imgStream = imgData.ToStream();
-        await guild.ModifyAsync(x => x.Banner = new Discord.Image(imgStream)).ConfigureAwait(false);
+        await guild.ModifyAsync(x => x.Banner = new Image(imgStream)).ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync("New server banner has been set!");
     }
 
@@ -137,7 +138,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
         await using var imgStream = imgData.ToStream();
         try
         {
-            var emote = await ctx.Guild.CreateEmoteAsync(name, new Discord.Image(imgStream));
+            var emote = await ctx.Guild.CreateEmoteAsync(name, new Image(imgStream));
             await ctx.Channel.SendConfirmAsync($"{emote} with the name {Format.Code(name)} created!");
         }
         catch (Exception)
@@ -216,7 +217,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Discord.Image(imgStream));
+                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream));
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
                 catch (Exception)
@@ -261,7 +262,7 @@ public partial class ServerManagement : MewdekoModuleBase<ServerManagementServic
             {
                 try
                 {
-                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Discord.Image(imgStream), list);
+                    var emote = await ctx.Guild.CreateEmoteAsync(i.Name, new Image(imgStream), list);
                     emotes.Add($"{emote} {Format.Code(emote.Name)}");
                 }
                 catch (Exception)

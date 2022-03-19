@@ -37,7 +37,7 @@ public class HelpService : ILateExecutor, INService
         _bss = bss;
         _client.MessageReceived += HandlePing;
         Builder = new ComponentBuilder().WithSelectMenu("helpselect",
-            new List<SelectMenuOptionBuilder>()
+            new List<SelectMenuOptionBuilder>
             {
                 new SelectMenuOptionBuilder().WithLabel("Administration").WithDescription("Shows administration commands.").WithValue("admin"),
                 new SelectMenuOptionBuilder().WithLabel("Afk").WithDescription("Shows AFK Commands").WithValue("afk"),

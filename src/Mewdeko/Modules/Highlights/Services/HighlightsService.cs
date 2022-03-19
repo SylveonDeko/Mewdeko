@@ -149,7 +149,7 @@ public class HighlightsService : INService, IReadyExecutor
         var toupdate = uow.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)
         {
-            var toadd = new HighlightSettings()
+            var toadd = new HighlightSettings
             {
                 GuildId = guildId,
                 UserId = userId,
@@ -178,7 +178,7 @@ public class HighlightsService : INService, IReadyExecutor
         var toupdate = uow.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)
         {
-            var toadd = new HighlightSettings()
+            var toadd = new HighlightSettings
             {
                 GuildId = guildId,
                 UserId = userId,
@@ -220,7 +220,7 @@ public class HighlightsService : INService, IReadyExecutor
         var toupdate = uow.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)
         {
-            var toadd = new HighlightSettings()
+            var toadd = new HighlightSettings
             {
                 GuildId = guildId,
                 UserId = userId,

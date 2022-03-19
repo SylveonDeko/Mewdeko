@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using NCalc;
+using System.Reflection;
 
 namespace Mewdeko.Modules.Utility;
 

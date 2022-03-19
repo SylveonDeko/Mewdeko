@@ -1,8 +1,8 @@
 using Discord;
+using Discord.Interactions;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Discord.Interactions;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;

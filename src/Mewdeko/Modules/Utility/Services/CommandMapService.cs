@@ -1,11 +1,11 @@
-﻿using System.Collections.Concurrent;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Utility.Services;
 

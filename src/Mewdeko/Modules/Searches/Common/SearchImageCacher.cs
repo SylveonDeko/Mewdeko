@@ -1,9 +1,9 @@
-﻿using System.Net.Http;
-using System.Threading;
-using System.Xml;
-using Mewdeko._Extensions;
+﻿using Mewdeko._Extensions;
 using Newtonsoft.Json;
 using Serilog;
+using System.Net.Http;
+using System.Threading;
+using System.Xml;
 
 namespace Mewdeko.Modules.Searches.Common;
 

@@ -1,7 +1,7 @@
-﻿using System.Net.Http;
-using Mewdeko.Common;
+﻿using Mewdeko.Common;
 using Newtonsoft.Json;
 using Serilog;
+using System.Net.Http;
 
 namespace Mewdeko.Modules.Games.Common.ChatterBot;
 

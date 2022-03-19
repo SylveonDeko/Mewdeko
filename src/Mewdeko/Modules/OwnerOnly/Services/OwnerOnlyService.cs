@@ -1,9 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading;
-using Discord;
+﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
@@ -17,6 +12,12 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading;
+using Image = Discord.Image;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
 
@@ -416,7 +417,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         // i can't just do ReadAsStreamAsync because dicord.net's image poops itself
         var imgData = await sr.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         await using var imgStream = imgData.ToStream();
-        await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Discord.Image(imgStream)).ConfigureAwait(false);
+        await _client.CurrentUser.ModifyAsync(u => u.Avatar = new Image(imgStream)).ConfigureAwait(false);
 
         return true;
     }

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System;
+using System.Text;
 
 namespace Mewdeko.Coordinator;
 

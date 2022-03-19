@@ -1,10 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using AngleSharp.Html.Dom;
+﻿using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using Discord;
 using Discord.WebSocket;
@@ -25,6 +19,12 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 
@@ -754,7 +754,7 @@ public class SearchesService : INService, IUnloadableService
         {
             query = WebUtility.UrlEncode(query)?.Replace(' ', '+');
 
-            var fullQueryLink = $"https://html.duckduckgo.com/html";
+            var fullQueryLink = "https://html.duckduckgo.com/html";
 
             using var http = _httpFactory.CreateClient();
             http.DefaultRequestHeaders.Clear();
