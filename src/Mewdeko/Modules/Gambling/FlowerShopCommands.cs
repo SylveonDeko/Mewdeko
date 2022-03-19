@@ -1,15 +1,20 @@
-﻿using CommandLine.Text;
+﻿using Discord;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common;
+using Mewdeko.Common.Attributes;
+using Mewdeko.Database;
 using Mewdeko.Database.Common;
+using Mewdeko.Database.Extensions;
+using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.ComponentModel;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using UserExtensions = Discord.UserExtensions;
 
 namespace Mewdeko.Modules.Gambling;
 
@@ -36,9 +41,9 @@ public partial class Gambling
         {
 
             await using var uow = _db.GetDbContext();
-            var entries = (await uow.ForGuildId(ctx.Guild.Id,
+            var entries = uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
-                        .ThenInclude(x => x.Items))).ShopEntries
+                        .ThenInclude(x => x.Items)).ShopEntries
                 .ToIndexed();
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
@@ -74,11 +79,11 @@ public partial class Gambling
                 }
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public Task Shop()
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        public Task Shop() 
             => ShopInternalAsync();
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task Buy(int index)
         {
             index -= 1;
@@ -87,7 +92,7 @@ public partial class Gambling
             ShopEntry entry;
             await using (var uow = _db.GetDbContext())
             {
-                var config = await uow.ForGuildId(ctx.Guild.Id, set => set
+                var config = uow.ForGuildId(ctx.Guild.Id, set => set
                     .Include(x => x.ShopEntries)
                     .ThenInclude(x => x.Items));
                 var entries = new IndexedCollection<ShopEntry>(config.ShopEntries);
@@ -191,9 +196,9 @@ public partial class Gambling
                                     entry.Price).ConfigureAwait(false);
                                 await using (var uow = _db.GetDbContext())
                                 {
-                                    var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
+                                    var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                                             set => set.Include(x => x.ShopEntries)
-                                                      .ThenInclude(x => x.Items)))
+                                                      .ThenInclude(x => x.Items))
                                         .ShopEntries);
                                     entry = entries.ElementAtOrDefault(index);
                                     if (entry != null)
@@ -218,7 +223,7 @@ public partial class Gambling
                     await using (var uow = _db.GetDbContext())
                     {
                         var user = ctx.User as IGuildUser;
-                        var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.ShopEntries).ThenInclude(x => x.Items))).ShopEntries
+                        var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.ShopEntries).ThenInclude(x => x.Items)).ShopEntries
                                                                           .Where(x => x.Type == ShopEntryType.ExclRole));
                         var role = ctx.Guild.GetRole(entry.RoleId);
                         if (role == null)
@@ -268,11 +273,11 @@ public partial class Gambling
             }
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageRoles)]
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.ManageRoles)]
         public async Task ShopAdd(ShopEntryType type, int price, string toParse)
         {
             await using var uow1 = _db.GetDbContext();
-            var tocheck = new IndexedCollection<ShopEntry>((await uow1.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.ShopEntries).ThenInclude(x => x.Items))).ShopEntries
+            var tocheck = new IndexedCollection<ShopEntry>(uow1.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.ShopEntries).ThenInclude(x => x.Items)).ShopEntries
                                                                              .Where(x => x.Type is ShopEntryType.ExclRole or ShopEntryType.Role)).Select(x => x.RoleId);
             switch (type)
             {
@@ -287,20 +292,20 @@ public partial class Gambling
                     };
                     await using (var uow = _db.GetDbContext())
                     {
-                        var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
+                        var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                             set => set.Include(x => x.ShopEntries)
-                                      .ThenInclude(x => x.Items))).ShopEntries)
+                                      .ThenInclude(x => x.Items)).ShopEntries)
                         {
                             entry
                         };
-                        (await uow.ForGuildId(ctx.Guild.Id, set => set)).ShopEntries = entries;
+                        uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                         await uow.SaveChangesAsync();
                     }
 
                     await ctx.Channel.EmbedAsync(EntryToEmbed(entry)
                         .WithTitle(GetText("shop_item_add"))).ConfigureAwait(false);
                     break;
-
+                
                 case ShopEntryType.ExclRole:
                     var reader = new RoleTypeReader<IRole>();
                     var e = await reader.ReadAsync(ctx, toParse, null);
@@ -309,7 +314,7 @@ public partial class Gambling
                         await ctx.Channel.SendErrorAsync("That role wasn't found! Please try again.");
                         return;
                     }
-
+            
                     var role = e.BestMatch as IRole;
                     if (tocheck.Any() && tocheck.Contains(role.Id))
                     {
@@ -327,13 +332,13 @@ public partial class Gambling
                     };
                     await using (var uow = _db.GetDbContext())
                     {
-                        var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
+                        var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                             set => set.Include(x => x.ShopEntries)
-                                      .ThenInclude(x => x.Items))).ShopEntries)
+                                      .ThenInclude(x => x.Items)).ShopEntries)
                         {
                             entry1
                         };
-                        (await uow.ForGuildId(ctx.Guild.Id, set => set)).ShopEntries = entries;
+                        uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                         await uow.SaveChangesAsync();
                     }
 
@@ -366,13 +371,13 @@ public partial class Gambling
                     };
                     await using (var uow = _db.GetDbContext())
                     {
-                        var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
+                        var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                             set => set.Include(x => x.ShopEntries)
-                                      .ThenInclude(x => x.Items))).ShopEntries)
+                                      .ThenInclude(x => x.Items)).ShopEntries)
                         {
                             entry2
                         };
-                        (await uow.ForGuildId(ctx.Guild.Id, set => set)).ShopEntries = entries;
+                        uow.ForGuildId(ctx.Guild.Id, set => set).ShopEntries = entries;
                         await uow.SaveChangesAsync();
                     }
 
@@ -382,9 +387,9 @@ public partial class Gambling
             }
         }
         private static long GetProfitAmount(int price) => (int) Math.Ceiling(0.90 * price);
+        
 
-
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopListAdd(int index, [Remainder] string itemText)
         {
@@ -400,9 +405,9 @@ public partial class Gambling
             var added = false;
             await using (var uow = _db.GetDbContext())
             {
-                var entries = new IndexedCollection<ShopEntry>((await uow.ForGuildId(ctx.Guild.Id,
+                var entries = new IndexedCollection<ShopEntry>(uow.ForGuildId(ctx.Guild.Id,
                     set => set.Include(x => x.ShopEntries)
-                        .ThenInclude(x => x.Items))).ShopEntries);
+                        .ThenInclude(x => x.Items)).ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
                 if (entry != null && (rightType = entry.Type == ShopEntryType.List))
                     // ReSharper disable once AssignmentInConditionalExpression
@@ -420,7 +425,7 @@ public partial class Gambling
                 await ReplyConfirmLocalizedAsync("shop_list_item_added").ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopRemove(int index)
         {
@@ -430,7 +435,7 @@ public partial class Gambling
             ShopEntry removed;
             await using (var uow = _db.GetDbContext())
             {
-                var config = await uow.ForGuildId(ctx.Guild.Id, set => set
+                var config = uow.ForGuildId(ctx.Guild.Id, set => set
                     .Include(x => x.ShopEntries)
                     .ThenInclude(x => x.Items));
 
@@ -451,7 +456,7 @@ public partial class Gambling
                     .WithTitle(GetText("shop_item_rm"))).ConfigureAwait(false);
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopChangePrice(int index, int price)
         {
@@ -470,7 +475,7 @@ public partial class Gambling
             }
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopChangeName(int index, [Remainder] string newName)
         {
@@ -489,7 +494,7 @@ public partial class Gambling
             }
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopSwap(int index1, int index2)
         {
@@ -508,7 +513,7 @@ public partial class Gambling
             }
         }
 
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task ShopMove(int fromIndex, int toIndex)
         {
