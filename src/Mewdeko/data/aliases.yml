@@ -1,424 +1,6 @@
 h:
   - help
   - h
-snipeset:
-  - snipeset
-  - setsnipe
-invite:
-  - invite
-testsite:
-  - testsite
-movesong:
-  - movesong
-  - ms
-  - move
-reactchannel:
-  - reactchannel
-xpsetting:
-  - xpsetting
-  - xpsettings
-snipe:
-  - snipe
-editsnipe:
-  - editsnipe
-vcheck:
-  - vcheck
-  - viruscheck
-previewlinks:
-  - previewlinks
-  - plinks
-setsuggestchannel:
-  - setsuggestchannel
-  - suggestchannel
-  - suggestchan
-suggest:
-  - suggest
-  - suggestion
-deny:
-  - deny
-  - suggestdeny
-  - denysuggest
-implemented:
-  - implemented
-  - suggestimplement
-  - implementsuggest
-consider:
-  - consider
-  - suggestconsider
-  - considersuggest
-suggestmotes:
-  - suggestmotes
-  - smotes
-  - suggestemotes
-setstarboard:
-  - setstarboard
-  - starboardchannel
-setstars:
-  - setstars
-  - starcount
-setstar:
-  - setstar
-  - starboardstar
-
-permview:
-  - permview
-  - pview
-setsplash:
-  - setsplash
-  - setserversplash
-  - setsplashimage
-seticon:
-  - seticon
-  - setservericon
-  - seticonimage
-setservername:
-  - setservername
-addemote:
-  - addemote
-  - emoteadd
-  - ae
-  - ea
-removeemote:
-  - removeemote
-  - deleteemote
-  - emoteremove
-  - emotedelete
-renameemote:
-  - renameemote
-  - emoterename
-meme:
-  - meme
-  - randommeme
-randomreddit:
-  - randomreddit
-  - subreddit
-redisexec:
-  - redisexec
-  - rexec
-bash:
-  - bash
-  - zfs
-  - pacman
-  - shell
-redditnsfw:
-  - redditnsfw
-  - nsfwsubreddit
-sankaku:
-  - sankaku
-playlist:
-  - playlist
-  - playlistmanage
-searchcommand:
-  - searchcommand
-gbrep:
-  - gbrep
-gemote:
-  - gemote
-  - giveawayemote
-greroll:
-  - greroll
-  - giveawayreroll
-  - reroll
-gstats:
-  - gstats
-  - giveawaystats
-gstart:
-  - gstart
-  - giveawaystart
-vote:
-  - vote
-accept:
-  - accept
-  - suggestaccept
-  - acceptsuggest
-suggestmessage:
-  - suggestmessage
-  - suggestmsg
-denymessage:
-  - denymessage
-  - denymsg
-implementmessage:
-  - implementmessage
-  - implementmsg
-acceptmessage:
-  - acceptmessage
-  - acceptmsg
-considermessage:
-  - considermessage
-  - considermsg
-evaluate:
-  - evaluate
-  - eval
-glist:
-  - glist
-  - giveaways
-  - giveawaylist
-gend:
-  - gend
-  - giveawayend
-voteclaim:
-  - voteclaim
-  - vclaim
-confess:
-  - confess
-ctsexport:
-  - ctsexport
-ctsimport:
-  - ctsimport
-rtt:
-  - rtt
-  - reactottrigger
-ctnr:
-  - ctnr
-  - chattriggernoresponse
-timedafk:
-  - timedafk
-  - tafk
-getactiveafks:
-  - getactiveafks
-  - activeafks
-afkview:
-  - afkview
-  - viewafk
-afkdisabledlist:
-  - afkdisabledlist
-afklength:
-  - afklength
-  - maxafklength
-afktype:
-  - afktype
-afktimeout:
-  - afktimeout
-afkundisable:
-  - afkundisable
-  - afkdisable
-banunder:
-  - banunder
-kickunder:
-  - kickunder
-prunemembers:
-  - prunemembers
-  - memberprune
-memberrole:
-  - memberrole
-staffrole:
-  - staffrole
-staffroledisable:
-  - staffroledisable
-rinfo:
-  - rinfo
-  - roleinfo
-vinfo:
-  - vinfo
-  - voiceinfo
-fetch:
-  - fetch
-inviteinfo:
-  - inviteinfo
-  - invinfo
-permcontrol:
-  - permcontrol
-  - permc
-lockcheck:
-  - lockcheck
-nuke:
-  - nuke
-  - channelnuke
-  - nukechannel
-lock:
-  - lock
-  - channellock
-  - lockchannel
-unlock:
-  - unlock
-  - channelunlock
-  - unlockchannel
-setroles:
-  - setroles
-  - srs
-adduserstorole:
-  - adduserstorole
-  - autr
-removeusersfromrole:
-  - removeusersfromrole
-  - rufr
-removeroles:
-  - removeroles
-  - rrs
-addtoall:
-  - addtoall
-  - ata
-addtoallbots:
-  - addtoallbots
-  - atab
-addtoallusers:
-  - addtoallusers
-  - atau
-removefromallusers:
-  - removefromallusers
-  - rfau
-removefromallbots:
-  - removefromallbots
-  - rfab
-addroletorole:
-  - addroletorole
-  - artr
-addthenremove:
-  - addthenremove
-  - atr
-shoot:
-  - shoot
-hug:
-  - hug
-kiss:
-  - kiss
-pat:
-  - pat
-tickle:
-  - tickle
-slap:
-  - slap
-poke:
-  - poke
-feed:
-  - feed
-baka:
-  - baka
-bite:
-  - bite
-blush:
-  - blush
-bored:
-  - bored
-cry:
-  - cry
-dance:
-  - dance
-facepalm:
-  - facepalm
-happy:
-  - happy
-laugh:
-  - laugh
-pout:
-  - pout
-shrug:
-  - shrug
-sleep:
-  - sleep
-smile:
-  - smile
-smug:
-  - smug
-stare:
-  - stare
-think:
-  - think
-thumbsup:
-  - thumbsup
-wave:
-  - wave
-wink:
-  - wink
-ship:
-  - ship
-randomneko:
-  - randomneko
-  - neko
-randomkitsune:
-  - randomkitsune
-  - kitsune
-randomwaifu:
-  - randomwaifu
-  - waifu
-charinfo:
-  - charinfo
-  - characterinfo
-feedmessage:
-  - feedmessage
-  - rssmessage
-rsstest:
-  - rsstest
-fwarn:
-  - fwarn
-  - filteredwarn
-invwarn:
-  - invwarn
-  - invitewarn
-streamsclear:
-  - streamsclear
-  - stc
-  - stclear
-editsnipelist:
-  - editsnipelist
-  - esnipelist
-inroles:
-  - inroles
-setbanner:
-  - setbanner
-  - setserverbanner
-afkdisable:
-  - afkdisable
-removefromall:
-  - removefromall
-  - rfa
-removefromrole:
-  - removefromrole
-  - rfr
-cuddle:
-  - cuddle
-highfive:
-  - highfive
-stfu:
-  - stfu
-  - cmute
-  - channelmute
-removeonmute:
-  - removeonmute
-unstfu:
-  - unstfu
-  - unchannelmute
-setwarnchannel:
-  - setwarnchannel
-  - warnchannel
-setmwarnchannel:
-  - setmwarnchannel
-  - mwarnchannel
-mwarn:
-  - mwarn
-  - miniwarn
-mwarnexpire:
-  - mwarnexpire
-  - mwarne
-mwarnlog:
-  - mwarnlog
-mwarnlogall:
-  - mwarnlogall
-  - mwarnlogs
-mwarnpunish:
-  - mwarnpunish
-  - mwarnp
-mwarnclear:
-  - mwarnclear
-  - mwarnc
-mwarnpunishlist:
-  - mwarnpunishlist
-  - mwarnplist
-  - mwarnpl
-boostmsg:
-  - boostmsg
-  - boostmessage
-boost:
-  - boost
-boostdel:
-  - boostdel
-  - boostdelete
-boosttest:
-  - boosttest
-  - testboost
-findanime:
-  - findanime
-  - whatanime
 starboardallowbots:
   - starboardallowbots
   - starbab
@@ -552,10 +134,17 @@ seek:
 clearqueue:
   - clearqueue
   - cq
+loop:
+  - loop
+  - repeat
 setafk:
   - afk
 greetmsg:
   - greetmsg
+skip:
+  - skip
+  - n
+  - next
 leave:
   - leave
   - disconnect
@@ -603,6 +192,9 @@ syncroletoallchannels:
 deleteroles:
   - deleteroles
   - drs
+musicquality:
+  - musicquality
+  - mquality
 rolejobs:
   - rj
   - rolejobs
@@ -870,6 +462,8 @@ whosplaying:
   - whpl
 inrole:
   - inrole
+checkperms:
+  - checkperms
 stats:
   - stats
 userid:
@@ -918,9 +512,6 @@ permrole:
   - pr
 verbose:
   - verbose
-verify:
-  - verify
-  - v
 srvrmdl:
   - srvrmdl
   - sm
@@ -991,9 +582,9 @@ draw:
   - draw
 drawnew:
   - drawnew
-shuffle:
-  - shuffle
+playlistshuffle:
   - playlistshuffle
+  - shuffle
   - sh
   - plsh
 flip:
@@ -1067,8 +658,7 @@ rps:
   - rps
 linux:
   - linux
-skip:
-  - skip
+next:
   - next
   - n
 play:
@@ -1092,23 +682,36 @@ volume:
 join:
   - join
   - j
+  - move
   - mv
-songremove:
-  - songremove
+trackremove:
   - trackremove
   - srm
-loop:
-  - loop
-  - repeat
+movesong:
+  - movesong
+  - ms
+reptcursong:
+  - reptcursong
+  - rcs
+queuerepeat:
   - queuerepeat
   - qrp
   - rpl
+save:
+  - save
 streamrole:
   - streamrole
+load:
+  - load
 playlists:
   - playlists
+  - pls
+playlistshow:
   - playlistshow
   - plshow
+deleteplaylist:
+  - deleteplaylist
+  - delpls
 streamadd:
   - streamadd
   - sta
@@ -1148,6 +751,10 @@ osu5:
   - osu5
 pokemon:
   - pokemon
+  - poke
+pokemonability:
+  - pokemonability
+  - pokeab
 memelist:
   - memelist
 memegen:
@@ -1335,6 +942,10 @@ unmute:
   - unmute
 xkcd:
   - xkcd
+placelist:
+  - placelist
+place:
+  - place
 poll:
   - poll
   - ppoll
@@ -1381,9 +992,14 @@ logevents:
   - logevents
 log:
   - log
+songautodelete:
+  - songautodelete
+  - sad
 define:
   - define
   - def
+activity:
+  - activity
 autohentai:
   - autohentai
 setstatus:
@@ -1442,6 +1058,9 @@ mal:
 setmusicchannel:
   - setmusicchannel
   - smch
+unsetmusicchannel:
+  - unsetmusicchannel
+  - usmch
 imagesreload:
   - imagesreload
 stringsreload:
@@ -1542,6 +1161,9 @@ warnpunishlist:
 warnpunish:
   - warnpunish
   - warnp
+claimpatreonrewards:
+  - clparew
+  - claparew
 ping:
   - ping
 time:
@@ -1600,9 +1222,17 @@ streamroleblacklist:
 streamrolewhitelist:
   - streamrolewhitelist
   - srwl
+botconfigedit:
+  - botconfigedit
+  - bce
 config:
   - config
   - conf
+configreload:
+  - configreload
+  - creload
+  - confreload
+  - crel
 nsfwtagblacklist:
   - nsfwtagbl
   - nsfwtbl
@@ -1639,6 +1269,9 @@ xpcurrencyreward:
 xpleaderboard:
   - xpleaderboard
   - xplb
+xpgloballeaderboard:
+  - xpgleaderboard
+  - xpglb
 xpadd:
   - xpadd
 clubcreate:
@@ -1673,6 +1306,8 @@ clubbans:
   - clubbans
 clubleaderboard:
   - clublb
+nsfwclearcache:
+  - nsfwcc
 clubadmin:
   - clubadmin
 autoboobs:
@@ -1699,6 +1334,18 @@ say:
   - say
 sqlexec:
   - sqlexec
+sqlselect:
+  - sqlselect
+deletewaifus:
+  - deletewaifus
+deletewaifu:
+  - deletewaifu
+deletecurrency:
+  - deletecurrency
+deleteplaylists:
+  - deleteplaylists
+deletexp:
+  - deletexp
 discordpermoverride:
   - dpo
 discordpermoverridelist:
@@ -1716,6 +1363,8 @@ timely:
   - timely
 timelyreset:
   - timelyreset
+novel:
+  - novel
 crypto:
   - crypto
   - c
@@ -1724,6 +1373,15 @@ rolelevelreq:
   - rlr
 masskill:
   - masskill
+pathofexile:
+  - pathofexile
+  - poe
+pathofexileleagues:
+  - pathofexileleagues
+  - poel
+pathofexilecurrency:
+  - pathofexilecurrency
+  - poec
 rollduel:
   - rollduel
 reactionroles:
@@ -1762,6 +1420,6 @@ nsfwtoggle:
   - nsfwtgl
 economy:
   - economy
-owoify:
-  - owoify
-  - owo
+verify:
+  - verify
+  - v
