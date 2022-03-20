@@ -10,21 +10,27 @@ namespace Mewdeko.Modules.Confessions;
 
 public class Confessions : MewdekoModuleBase<ConfessionService>
 {
+    private readonly Mewdeko _bot;
+
+    public Confessions(Mewdeko bot) 
+        => _bot = bot;
+
     [MewdekoCommand, Aliases, RequireContext(ContextType.DM), BlacklistCheck]
     public async Task Confess(ulong serverId, string? confession = null)
     {
+        var gc = _bot.AllGuildConfigs[serverId];
         var attachment = ctx.Message.Attachments.FirstOrDefault().Url ?? null;
         var user = ctx.User as SocketUser;
         if (user!.MutualGuilds.Select(x => x.Id).Contains(serverId))
         {
-            if (!Service.ConfessionChannels.TryGetValue(serverId, out _))
+            if (gc.ConfessionChannel is 0)
             {
                 await ctx.Channel.SendErrorAsync("This server does not have confessions enabled!");
                 return;
             }
-            if (Service.ConfessionBlacklists.TryGetValue(serverId, out var blacklists))
+            if (gc.ConfessionBlacklist.Split(" ").Any())
             {
-                if (blacklists.Contains(ctx.User.Id))
+                if (gc.ConfessionBlacklist.Split(" ").Contains(ctx.User.Id.ToString()))
                 {
                     await ctx.Channel.SendErrorAsync("You are blacklisted from suggestions in that server!");
                     return;
@@ -87,9 +93,10 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionBlacklist(IUser user)
     {
-        if (Service.ConfessionBlacklists.TryGetValue(ctx.Guild.Id, out var blacklists))
+        var blacklists = _bot.AllGuildConfigs[ctx.Guild.Id].ConfessionBlacklist.Split(" ");
+        if (blacklists.Any())
         {
-            if (blacklists.Contains(user.Id))
+            if (blacklists.Contains(user.Id.ToString()))
             {
                 await ctx.Channel.SendErrorAsync("This user is already blacklisted!");
                 return;
@@ -103,9 +110,10 @@ public class Confessions : MewdekoModuleBase<ConfessionService>
     [MewdekoCommand, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
     public async Task ConfessionUnblacklist(IUser user)
     {
-        if (Service.ConfessionBlacklists.TryGetValue(ctx.Guild.Id, out var blacklists))
+        var blacklists = _bot.AllGuildConfigs[ctx.Guild.Id].ConfessionBlacklist.Split(" ");
+        if (blacklists.Any())
         {
-            if (!blacklists.Contains(user.Id))
+            if (!blacklists.Contains(user.Id.ToString()))
             {
                 await ctx.Channel.SendErrorAsync("This user is not blacklisted!");
                 return;

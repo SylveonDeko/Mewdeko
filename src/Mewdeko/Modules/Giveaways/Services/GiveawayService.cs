@@ -6,7 +6,6 @@ using Mewdeko.Database.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Swan;
-using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
@@ -15,17 +14,14 @@ public class GiveawayService : INService
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
-    public ConcurrentDictionary<ulong, string> GiveawayEmotes;
-
+    private readonly Mewdeko _bot;
     public GiveawayService(DiscordSocketClient client, DbService db, IBotCredentials creds, Mewdeko bot)
     {
         _client = client;
         _db = db;
         _creds = creds;
+        _bot = bot;
         _ = StartGiveawayLoop();
-        GiveawayEmotes = bot.AllGuildConfigs
-                            .ToDictionary(x => x.GuildId, x => x.GiveawayEmote)
-                            .ToConcurrent();
     }
 
     private async Task StartGiveawayLoop()
@@ -70,14 +66,11 @@ public class GiveawayService : INService
             await uow.SaveChangesAsync();
         }
 
-        GiveawayEmotes.AddOrUpdate(guild.Id, emote, (_, _) => emote);
+        _bot.AllGuildConfigs[guild.Id].GiveawayEmote = emote;
     }
 
-    public string GetGiveawayEmote(ulong? id)
-    {
-        GiveawayEmotes.TryGetValue(id.Value, out var emote);
-        return emote;
-    }
+    public string GetGiveawayEmote(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].GiveawayEmote;
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
         await using var uow = _db.GetDbContext();

@@ -22,20 +22,20 @@ public class AdministrationService : INService
     public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
         LogCommandService logService, DiscordSocketClient client)
     {
-        StaffRole = bot.AllGuildConfigs
+        StaffRole = db.GetDbContext().GuildConfigs.All()
             .ToDictionary(x => x.GuildId, x => x.StaffRole)
             .ToConcurrent();
-        MemberRole = bot.AllGuildConfigs
+        MemberRole = db.GetDbContext().GuildConfigs.All()
             .ToDictionary(x => x.GuildId, x => x.MemberRole)
             .ToConcurrent();
         _db = db;
         _logService = logService;
 
-        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs
+        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(db.GetDbContext().GuildConfigs.All()
             .Where(g => g.DeleteMessageOnCommand)
             .Select(g => g.GuildId));
 
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(bot.AllGuildConfigs
+        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(db.GetDbContext().GuildConfigs.All()
             .SelectMany(x => x.DelMsgOnCmdChannels)
             .ToDictionary(x => x.ChannelId, x => x.State)
             .ToConcurrent());

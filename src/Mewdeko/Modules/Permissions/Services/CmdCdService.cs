@@ -5,6 +5,8 @@ using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database;
+using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using System.Collections.Concurrent;
 
@@ -12,9 +14,9 @@ namespace Mewdeko.Modules.Permissions.Services;
 
 public class CmdCdService : ILateBlocker, INService
 {
-    public CmdCdService(Mewdeko bot) =>
+    public CmdCdService(Mewdeko bot, DbService db) =>
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-            bot.AllGuildConfigs.ToDictionary(k => k.GuildId,
+            db.GetDbContext().GuildConfigs.All().ToDictionary(k => k.GuildId,
                 v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
 
     public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }

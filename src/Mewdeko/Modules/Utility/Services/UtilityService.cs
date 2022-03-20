@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
@@ -16,6 +17,7 @@ public class UtilityService : INService
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
     private readonly IDataCache _cache;
+    private readonly Mewdeko _bot;
     public UtilityService(DiscordSocketClient client, DbService db, Mewdeko bot,
         IDataCache cache)
     {
@@ -26,40 +28,19 @@ public class UtilityService : INService
         client.MessageReceived += MsgReciev2;
         client.MessagesBulkDeleted += BulkMsgStore;
         _db = db;
+        _bot = bot;
         _cache = cache;
-        Snipeset = bot.AllGuildConfigs
-                      .ToDictionary(x => x.GuildId, x => x.snipeset)
-                      .ToConcurrent();
-        Plinks = bot.AllGuildConfigs
-                    .ToDictionary(x => x.GuildId, x => x.PreviewLinks)
-                    .ToConcurrent();
-        Reactchans = bot.AllGuildConfigs
-                        .ToDictionary(x => x.GuildId, x => x.ReactChannel)
-                        .ToConcurrent();
 
     }
 
-    private ConcurrentDictionary<ulong, bool> Snipeset { get; }
-    private ConcurrentDictionary<ulong, int> Plinks { get; }
-    private ConcurrentDictionary<ulong, ulong> Reactchans { get; }
-    
     public async Task<List<SnipeStore>> GetSnipes(ulong guildId) 
         => await _cache.GetSnipesForGuild(guildId);
-    public int GetPLinks(ulong? id)
-    {
-        if (id == null || !Plinks.TryGetValue(id.Value, out var invw))
-            return 0;
 
-        return invw;
-    }
+    public int GetPLinks(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].PreviewLinks;
 
     public ulong GetReactChans(ulong? id)
-    {
-        if (id == null || !Reactchans.TryGetValue(id.Value, out var invw))
-            return 0;
-
-        return invw;
-    }
+        => _bot.AllGuildConfigs[id.Value].ReactChannel;
 
     public async Task SetReactChan(IGuild guild, ulong yesnt)
     {
@@ -70,7 +51,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        Reactchans.AddOrUpdate(guild.Id, yesnt, (_, _) => yesnt);
+        _bot.AllGuildConfigs[guild.Id].ReactChannel = yesnt;
     }
 
     public async Task PreviewLinks(IGuild guild, string yesnt)
@@ -93,14 +74,11 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        Plinks.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        _bot.AllGuildConfigs[guild.Id].PreviewLinks = yesno;
     }
 
     public bool GetSnipeSet(ulong? id)
-    {
-        Snipeset.TryGetValue(id.Value, out var snipeset);
-        return snipeset;
-    }
+        => _bot.AllGuildConfigs[id.Value].snipeset;
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
@@ -112,7 +90,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        Snipeset.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        _bot.AllGuildConfigs[guild.Id].snipeset = yesno;
     }
     public async Task SnipeSetBool(IGuild guild, bool enabled)
     {
@@ -123,7 +101,7 @@ public class UtilityService : INService
             await uow.SaveChangesAsync();
         }
 
-        Snipeset.AddOrUpdate(guild.Id, enabled, (_, _) => enabled);
+        _bot.AllGuildConfigs[guild.Id].snipeset = enabled;
     }
 
     private async Task BulkMsgStore(

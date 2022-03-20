@@ -32,7 +32,7 @@ public class ChatterBotService : INService
         _client.MessageReceived += MessageRecieved;
 
         ChatterBotChannels = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
-            bot.AllGuildConfigs
+            db.GetDbContext().GuildConfigs.All()
                 .Where(gc => gc.CleverbotChannel != 0)
                 .ToDictionary(gc => gc.CleverbotChannel,
                     _ => new Lazy<IChatterBotSession>(() => CreateSession(), true)));

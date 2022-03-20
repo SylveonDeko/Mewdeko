@@ -11,6 +11,11 @@ public partial class Administration
     [Group]
     public class GameChannelCommands : MewdekoSubmodule<GameVoiceChannelService>
     {
+        private readonly Mewdeko _bot;
+
+        public GameChannelCommands(Mewdeko bot) 
+            => _bot = bot;
+
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.MoveMembers)]
         public async Task GameVoiceChannel()
@@ -31,7 +36,7 @@ public partial class Administration
             }
             else
             {
-                Service.GameVoiceChannels.Add(vch.Id);
+                _bot.AllGuildConfigs[ctx.Guild.Id].GameVoiceChannel = vch.Id;
                 await ReplyConfirmLocalizedAsync("gvc_enabled", Format.Bold(vch.Name)).ConfigureAwait(false);
             }
         }

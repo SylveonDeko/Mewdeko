@@ -25,7 +25,7 @@ public class StreamRoleService : INService, IUnloadableService
         _db = db;
         _client = client;
 
-        _guildSettings = bot.AllGuildConfigs
+        _guildSettings = db.GetDbContext().GuildConfigs.All()
             .ToDictionary(x => x.GuildId, x => x.StreamRole)
             .Where(x => x.Value != null && x.Value.Enabled)
             .ToConcurrent();

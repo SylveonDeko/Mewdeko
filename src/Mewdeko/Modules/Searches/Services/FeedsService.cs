@@ -29,7 +29,7 @@ public class FeedsService : INService
 
         using (var uow = db.GetDbContext())
         {
-            var guildConfigIds = bot.AllGuildConfigs.Select(x => x.Id).ToList();
+            var guildConfigIds = db.GetDbContext().GuildConfigs.All().Select(x => x.Id).ToList();
             _subs = uow.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))

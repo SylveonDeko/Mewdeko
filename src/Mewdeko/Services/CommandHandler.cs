@@ -32,16 +32,15 @@ public class CommandHandler : INService
     private readonly Mewdeko _bot;
     private readonly BotConfigService _bss;
     private readonly Timer _clearUsersOnShortCooldown;
-
     private readonly DiscordSocketClient _client;
     public readonly CommandService CommandService;
-    private readonly DiscordPermOverrideService dpo;
+    private readonly DiscordPermOverrideService _dpo;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
     private readonly IBotStrings _strings;
-    public IEnumerable<IEarlyBehavior> earlyBehaviors;
+    public IEnumerable<IEarlyBehavior> EarlyBehaviors;
     private IEnumerable<IInputTransformer> inputTransformers;
-    public IEnumerable<ILateBlocker> lateBlockers;
+    public IEnumerable<ILateBlocker> LateBlockers;
     private IEnumerable<ILateExecutor> lateExecutors;
     public InteractionService InteractionService;
 
@@ -49,7 +48,7 @@ public class CommandHandler : INService
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService, DiscordPermOverrideService dpos)
     {
-        dpo = dpos;
+        _dpo = dpos;
         InteractionService = interactionService;
         _strings = strngs;
         _client = client;
@@ -64,18 +63,13 @@ public class CommandHandler : INService
         InteractionService.ContextCommandExecuted += HandleContextCommands;
         _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
-        Prefixes = bot.AllGuildConfigs
-            .Where(x => x.Prefix != null)
-            .ToDictionary(x => x.GuildId, x => x.Prefix)
-            .ToConcurrent();
         _client.MessageReceived += msg =>
         {
             var _ = Task.Run(async () => await MessageReceivedHandler(msg));
             return Task.CompletedTask;
         };
     }
-
-    private ConcurrentDictionary<ulong, string> Prefixes { get; } = new();
+    
 
     public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
@@ -117,7 +111,7 @@ public class CommandHandler : INService
             chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
             info.Module.SlashGroupName, info.MethodName); // {3}
     }
-    private async Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
+    private static async Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
         if (!result.IsSuccess)
         {
@@ -159,10 +153,9 @@ public class CommandHandler : INService
 
     public string GetPrefix(ulong? id = null)
     {
-        if (id is null || !Prefixes.TryGetValue(id.Value, out var prefix))
-            return _bss.Data.Prefix;
-
-        return prefix;
+        if (id is null)
+            return ".";
+        return _bot.AllGuildConfigs[id.Value].Prefix ?? ".";
     }
 
     public string SetDefaultPrefix(string prefix)
@@ -201,7 +194,7 @@ public class CommandHandler : INService
             uow.SaveChanges();
         }
 
-        Prefixes.AddOrUpdate(guild.Id, prefix, (_, _) => prefix);
+        _bot.AllGuildConfigs[guild.Id].Prefix = prefix;
 
         return prefix;
     }
@@ -209,7 +202,7 @@ public class CommandHandler : INService
 
     public void AddServices(IServiceCollection services)
     {
-        lateBlockers = services
+        LateBlockers = services
             .Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
             .Select(x => _services.GetService(x.ImplementationType) as ILateBlocker)
             .OrderByDescending(x => x.Priority)
@@ -225,7 +218,7 @@ public class CommandHandler : INService
             .Select(x => _services.GetService(x.ImplementationType) as IInputTransformer)
             .ToArray();
 
-        earlyBehaviors = services.Where(x =>
+        EarlyBehaviors = services.Where(x =>
                 x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
             .Select(x => _services.GetService(x.ImplementationType) as IEarlyBehavior)
             .ToArray();
@@ -321,7 +314,7 @@ public class CommandHandler : INService
         //its nice to have early blockers and early blocking executors separate, but
         //i could also have one interface with priorities, and just put early blockers on
         //highest priority. :thinking:
-        foreach (var beh in earlyBehaviors)
+        foreach (var beh in EarlyBehaviors)
             if (await beh.RunBehavior(_client, guild, usrMsg).ConfigureAwait(false))
             {
                 switch (beh.BehaviorType)
@@ -506,7 +499,7 @@ public class CommandHandler : INService
         //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");
 
         var commandName = cmd.Aliases[0];
-        foreach (var exec in lateBlockers)
+        foreach (var exec in LateBlockers)
             if (await exec.TryBlockLate(_client, context, cmd.Module.GetTopLevelModule().Name, cmd)
                     .ConfigureAwait(false))
             {

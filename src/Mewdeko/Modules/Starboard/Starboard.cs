@@ -75,4 +75,15 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         await Service.SetStar(ctx.Guild, emote.ToString());
         await ctx.Channel.SendConfirmAsync($"Successfully set the star to {emote}");
     }
+
+    [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
+    public async Task StarboardChToggle([Remainder] ITextChannel channel)
+    {
+        if (await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()))
+        {
+            await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {Prefix}swm)");
+        }
+        else
+            await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {Prefix}swm)");
+    }
 }
