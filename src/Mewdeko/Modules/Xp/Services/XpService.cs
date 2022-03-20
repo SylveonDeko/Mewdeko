@@ -88,12 +88,13 @@ public class XpService : INService, IUnloadableService
             sub.Subscribe($"{_creds.RedisKey()}_reload_xp_template", (_, _) => InternalReloadXpTemplate());
         }
 
+        var context = db.GetDbContext();
         //load settings
-        var allGuildConfigs = bot.AllGuildConfigs.Where(x => x.XpSettings != null).ToList();
-        XpTxtRates = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
-        XpTxtTimeouts = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
-        XpVoiceRates = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
-        XpVoiceTimeouts = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
+        var allGuildConfigs = context.GuildConfigs.All().Where(x => x.XpSettings != null).ToList();
+        XpTxtRates = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
+        XpTxtTimeouts = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
+        XpVoiceRates = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
+        XpVoiceTimeouts = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
         _excludedChannels = allGuildConfigs.ToDictionary(x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
                                                .Where(ex => ex.ItemType == ExcludedItemType.Channel)

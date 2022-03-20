@@ -29,11 +29,13 @@ public class FilterService : IEarlyBehavior, INService
     public IReadOnlyList<AutoBanEntry> Blacklist;
     public AdministrationService Ass;
     public UserPunishService Upun;
+    private readonly Mewdeko _bot;
 
     public FilterService(DiscordSocketClient client, DbService db, Mewdeko bot, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass)
     {
         _db = db;
+        _bot = bot;
         _client = client;
         _pubSub = pubSub;
         Upun = upun2;
@@ -75,12 +77,6 @@ public class FilterService : IEarlyBehavior, INService
             WordFilteringChannels =
                 new ConcurrentHashSet<ulong>(configs.SelectMany(gc =>
                     gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
-            Fwarn = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.fwarn)
-                .ToConcurrent();
-            Invwarn = bot.AllGuildConfigs
-                .ToDictionary(x => x.GuildId, x => x.invwarn)
-                .ToConcurrent();
         }
 
         client.MessageUpdated += (oldData, newMsg, channel) =>
@@ -110,9 +106,6 @@ public class FilterService : IEarlyBehavior, INService
 
     public ConcurrentHashSet<ulong> LinkFilteringChannels { get; }
     public ConcurrentHashSet<ulong> LinkFilteringServers { get; }
-    private ConcurrentDictionary<ulong, int> Fwarn { get; } = new();
-
-    private ConcurrentDictionary<ulong, int> Invwarn { get; } = new();
 
     public int Priority => -50;
     public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
@@ -170,13 +163,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    public int GetInvWarn(ulong? id)
-    {
-        if (id == null || !Invwarn.TryGetValue(id.Value, out var invw))
-            return 0;
-
-        return invw;
-    }
+    public int GetInvWarn(ulong? id) => _bot.AllGuildConfigs[id.Value].invwarn;
 
     public async Task InvWarn(IGuild guild, string yesnt)
     {
@@ -198,16 +185,10 @@ public class FilterService : IEarlyBehavior, INService
             await uow.SaveChangesAsync();
         }
 
-        Invwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        _bot.AllGuildConfigs[guild.Id].invwarn = yesno;
     }
 
-    public int GetFw(ulong? id)
-    {
-        if (id == null || !Fwarn.TryGetValue(id.Value, out var fw))
-            return 0;
-
-        return fw;
-    }
+    public int GetFw(ulong? id) => _bot.AllGuildConfigs[id.Value].fwarn;
 
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
@@ -229,7 +210,7 @@ public class FilterService : IEarlyBehavior, INService
             await uow.SaveChangesAsync();
         }
 
-        Fwarn.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        _bot.AllGuildConfigs[guild.Id].fwarn = yesno;
     }
 
     public void ClearFilteredWords(ulong guildId)

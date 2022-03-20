@@ -16,18 +16,14 @@ public class RoleCommandsService : INService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
-    public RoleCommandsService(DiscordSocketClient client, DbService db,
-        Mewdeko bot)
+    public RoleCommandsService(DiscordSocketClient client, DbService db)
     {
         _db = db;
-#if !GLOBAL_Mewdeko
-        _models = bot.AllGuildConfigs.ToDictionary(x => x.GuildId,
+        _models = db.GetDbContext().GuildConfigs.All().ToDictionary(x => x.GuildId,
                 x => x.ReactionRoleMessages)
             .ToConcurrent();
-
         client.ReactionAdded += _client_ReactionAdded;
         client.ReactionRemoved += _client_ReactionRemoved;
-#endif
     }
 
     private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,

@@ -25,7 +25,6 @@ public abstract class MewdekoModule : ModuleBase
     public string Prefix => CmdHandler.GetPrefix(ctx.Guild);
     public IRole MuteRole => MServ.GetMuteRole(ctx.Guild).Result;
     public ulong WarnlogChannel => UPun.GetWarnlogChannel(ctx.Guild.Id);
-    public ulong TicketCategory => Sms.GetTicketCategory(ctx.Guild.Id);
     public ulong MWarnlogChannel => UPun2.GetMWarnlogChannel(ctx.Guild.Id);
     public ulong SuggestChannel => SugServ.GetSuggestionChannel(ctx.Guild.Id);
 

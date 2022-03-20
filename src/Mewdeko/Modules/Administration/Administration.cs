@@ -42,8 +42,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     }
 
     private readonly InteractiveService _interactivity;
-
-    public Administration(InteractiveService serv) => _interactivity = serv;
+    private readonly Mewdeko _bot;
+    public Administration(InteractiveService serv, Mewdeko bot)
+    {
+        _interactivity = serv;
+        _bot = bot;
+    }
 
     [MewdekoCommand, Usage, Description, Aliases, BotPerm(GuildPermission.ManageNicknames),
      UserPerm(GuildPermission.ManageNicknames), Priority(1)]
@@ -404,12 +408,12 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         if (Service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
         {
-            Service.DeleteMessagesOnCommand.Add(ctx.Guild.Id);
+            _bot.AllGuildConfigs[ctx.Guild.Id].DeleteMessageOnCommand = true;
             await ReplyConfirmLocalizedAsync("delmsg_on").ConfigureAwait(false);
         }
         else
         {
-            Service.DeleteMessagesOnCommand.TryRemove(ctx.Guild.Id);
+            _bot.AllGuildConfigs[ctx.Guild.Id].DeleteMessageOnCommand = false;
             await ReplyConfirmLocalizedAsync("delmsg_off").ConfigureAwait(false);
         }
     }

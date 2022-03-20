@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Amazon.Runtime.Internal.Transform;
+using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
@@ -30,7 +31,6 @@ using NekosBestApiNet;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -79,9 +79,9 @@ public class Mewdeko
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
-    public ImmutableArray<GuildConfig> AllGuildConfigs { get; private set; }
+    public Dictionary<ulong, GuildConfig> AllGuildConfigs { get; private set; } = new();
     
-
+    
     public static Color OkColor { get; set; }
     public static Color ErrorColor { get; set; }
 
@@ -104,8 +104,12 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
+            foreach (var i in startingGuildIdList)
+            {
+                var e = uow.ForGuildId(i);
+                AllGuildConfigs.Add(i, e);
+            }
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
-            AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(startingGuildIdList).ToImmutableArray();
         }
 
         var s = new ServiceCollection()
@@ -267,6 +271,10 @@ public class Mewdeko
             {
                 var chan = await Client.Rest.GetChannelAsync(892789588739891250);
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
+                if (arg.Name is not null)
+                {
+                    AllGuildConfigs.Remove(arg.Id);
+                }
             }
             catch
             {

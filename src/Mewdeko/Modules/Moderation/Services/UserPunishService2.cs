@@ -6,7 +6,6 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Threading;
 
 namespace Mewdeko.Modules.Moderation.Services;
@@ -15,31 +14,22 @@ public class UserPunishService2 : INService
 {
     private readonly DbService _db;
     private readonly MuteService _mute;
+    private readonly Mewdeko _bot;
 
 
     public UserPunishService2(MuteService mute, DbService db, Mewdeko bot)
     {
         _mute = mute;
         _db = db;
-        Miniwarnlogchannelids = bot.AllGuildConfigs
-                                   .Where(x => x.MiniWarnlogChannelId != 0)
-                                   .ToDictionary(x => x.GuildId, x => x.MiniWarnlogChannelId)
-                                   .ToConcurrent();
-
+        _bot = bot;
 
         new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    private ConcurrentDictionary<ulong, ulong> Miniwarnlogchannelids { get; } = new();
 
-    public ulong GetMWarnlogChannel(ulong? id)
-    {
-        if (id == null || !Miniwarnlogchannelids.TryGetValue(id.Value, out var mwarnlogchannel))
-            return 0;
-
-        return mwarnlogchannel;
-    }
+    public ulong GetMWarnlogChannel(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].MiniWarnlogChannelId;
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
@@ -50,7 +40,7 @@ public class UserPunishService2 : INService
             await uow.SaveChangesAsync();
         }
 
-        Miniwarnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
+        _bot.AllGuildConfigs[guild.Id].MiniWarnlogChannelId = channel.Id;
     }
 
     public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)

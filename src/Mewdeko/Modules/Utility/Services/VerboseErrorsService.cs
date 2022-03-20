@@ -16,6 +16,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly HelpService _hs;
     private readonly IBotStrings _strings;
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
+    
 
     public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch, HelpService hs,
         IBotStrings strings)
@@ -27,9 +28,8 @@ public class VerboseErrorsService : INService, IUnloadableService
 
         _ch.CommandErrored += LogVerboseError;
 
-        _guildsEnabled = new ConcurrentHashSet<ulong>(bot
-            .AllGuildConfigs
-            .Where(x => x.VerboseErrors)
+        _guildsEnabled = new ConcurrentHashSet<ulong>(db.GetDbContext().GuildConfigs.All()
+                                                        .Where(x => x.VerboseErrors)
             .Select(x => x.GuildId));
     }
 

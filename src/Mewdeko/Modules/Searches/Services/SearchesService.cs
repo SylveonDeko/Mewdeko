@@ -82,7 +82,7 @@ public class SearchesService : INService, IUnloadableService
         _rng = new MewdekoRandom();
 
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            bot.AllGuildConfigs.ToDictionary(
+            db.GetDbContext().GuildConfigs.All().ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
 
