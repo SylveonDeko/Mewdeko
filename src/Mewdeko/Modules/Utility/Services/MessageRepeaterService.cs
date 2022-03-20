@@ -39,18 +39,18 @@ public class MessageRepeaterService : INService
         Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in _bot.AllGuildConfigs.Where(gc => (gc.GuildId >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
+        foreach (var gc in _bot.AllGuildConfigs.Where(gc => (gc.Key >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
         {
             try
             {
-                var guild = _client.GetGuild(gc.GuildId);
+                var guild = _client.GetGuild(gc.Key);
                 if (guild is null)
                 {
-                    Log.Information("Unable to find guild {GuildId} for message repeaters.", gc.GuildId);
+                    Log.Information("Unable to find guild {GuildId} for message repeaters.", gc.Key);
                     continue;
                 }
 
-                var idToRepeater = gc.GuildRepeaters
+                var idToRepeater = gc.Value.GuildRepeaters
                                      .Where(gr => gr.DateAdded is not null)
                                      .Select(gr =>
                                          new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
@@ -58,11 +58,11 @@ public class MessageRepeaterService : INService
                                      .ToConcurrent();
 
 
-                repeaters.TryAdd(gc.GuildId, idToRepeater);
+                repeaters.TryAdd(gc.Key, idToRepeater);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to load repeaters on Guild {0}.", gc.GuildId);
+                Log.Error(ex, "Failed to load repeaters on Guild {0}.", gc.Key);
             }
         }
 

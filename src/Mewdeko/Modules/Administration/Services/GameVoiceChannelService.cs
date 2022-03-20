@@ -1,35 +1,25 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Mewdeko.Common.Collections;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Serilog;
-using System.Diagnostics;
 
 namespace Mewdeko.Modules.Administration.Services;
 
 public class GameVoiceChannelService : INService
 {
     private readonly DbService _db;
+    private readonly Mewdeko _bot;
 
     public GameVoiceChannelService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _db = db;
-        var client1 = client;
+        _bot = bot;
 
-        GameVoiceChannels = new ConcurrentHashSet<ulong>(
-            bot.AllGuildConfigs.Where(gc => gc.GameVoiceChannel != null)
-                .Select(gc =>
-                {
-                    Debug.Assert(gc.GameVoiceChannel != null, "gc.GameVoiceChannel != null");
-                    return gc.GameVoiceChannel.Value;
-                }));
-
-        client1.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
-        client1.GuildMemberUpdated += _client_GuildMemberUpdated;
+        client.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
+        client.GuildMemberUpdated += _client_GuildMemberUpdated;
     }
-
-    public ConcurrentHashSet<ulong> GameVoiceChannels { get; }
+    
 
     private Task _client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
@@ -37,13 +27,13 @@ public class GameVoiceChannelService : INService
         {
             try
             {
-                //if the user is in the voice channel and that voice channel is gvc
-                var vc = after.VoiceChannel;
-                if (vc == null || !GameVoiceChannels.Contains(vc.Id))
+                if (after is null)
                     return;
-
+                
+                if (_bot.AllGuildConfigs[after?.Guild?.Id ?? 0].GameVoiceChannel != after?.VoiceChannel?.Id)
+                    return;
+                //if the user is in the voice channel and that voice channel is gvc
                 //if the activity has changed, and is a playing activity
-                Debug.Assert(after.Activities != null, "after.Activities != null");
                 if (!Equals(cacheable.Value.Activities, after.Activities)
                     && after.Activities != null
                     && after.Activities.FirstOrDefault()?.Type == ActivityType.Playing)
@@ -66,14 +56,12 @@ public class GameVoiceChannelService : INService
 
         if (gc.GameVoiceChannel == vchId)
         {
-            GameVoiceChannels.TryRemove(vchId);
+            _bot.AllGuildConfigs[guildId] = null;
             id = gc.GameVoiceChannel = null;
         }
         else
         {
-            if (gc.GameVoiceChannel != null)
-                GameVoiceChannels.TryRemove(gc.GameVoiceChannel.Value);
-            GameVoiceChannels.Add(vchId);
+            _bot.AllGuildConfigs[guildId].GameVoiceChannel = vchId;
             id = gc.GameVoiceChannel = vchId;
         }
 
@@ -97,7 +85,7 @@ public class GameVoiceChannelService : INService
                     newState.VoiceChannel == null)
                     return;
 
-                if (!GameVoiceChannels.Contains(newState.VoiceChannel.Id) ||
+                if (_bot.AllGuildConfigs[gUser.Guild.Id].GameVoiceChannel != newState.VoiceChannel.Id ||
                     string.IsNullOrWhiteSpace(game))
                     return;
 

@@ -13,7 +13,7 @@ public class ActivitySlashCommand : MewdekoSlashSubmodule<ActivityService>
     public async Task Activity(IVoiceChannel chan, DefaultApplications app)
     {
         var eb = new EmbedBuilder().WithOkColor();
-        var gmrole = await Service.GetGameMasterRole(ctx.Guild.Id);
+        var gmrole = Service.GetGameMasterRole(ctx.Guild.Id);
         if (gmrole != 0 && !((IGuildUser)ctx.User).RoleIds.Contains(gmrole))
         {
             await ctx.Interaction.RespondAsync(embed: eb.WithDescription("You are not a Game Master!").WithErrorColor().Build(), ephemeral: true);

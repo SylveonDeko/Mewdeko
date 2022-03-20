@@ -34,15 +34,14 @@ public class MuteService : INService
 
     private readonly DiscordSocketClient _client;
     private readonly DbService _db;
+    private readonly Mewdeko _bot;
     public string[] Uroles;
 
     public MuteService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _client = client;
         _db = db;
-        Removerolesonmute = bot.AllGuildConfigs
-            .ToDictionary(x => x.GuildId, x => x.removeroles)
-            .ToConcurrent();
+        _bot = bot;
         using (var uow = db.GetDbContext())
         {
             var guildIds = client.Guilds.Select(x => x.Id).ToList();
@@ -130,8 +129,7 @@ public class MuteService : INService
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnTimers { get; }
         = new();
-
-    private ConcurrentDictionary<ulong, int> Removerolesonmute { get; }
+    
 
     public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
     public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
@@ -250,13 +248,8 @@ public class MuteService : INService
         }
     }
 
-    public int GetRemoveOnMute(ulong? id)
-    {
-        if (id == null || !Removerolesonmute.TryGetValue(id.Value, out var removeroles))
-            return 0;
-
-        return removeroles;
-    }
+    public int GetRemoveOnMute(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].removeroles;
 
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
@@ -275,7 +268,7 @@ public class MuteService : INService
             await uow.SaveChangesAsync();
         }
 
-        Removerolesonmute.AddOrUpdate(guild.Id, yesno, (_, _) => yesno);
+        _bot.AllGuildConfigs[guild.Id].removeroles = yesno;
     }
 
     public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,

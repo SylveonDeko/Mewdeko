@@ -12,7 +12,6 @@ using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Threading;
 
 namespace Mewdeko.Modules.Moderation.Services;
@@ -23,32 +22,24 @@ public class UserPunishService : INService
     private readonly DbService _db;
     private readonly MuteService _mute;
     private readonly DiscordSocketClient _client;
+    private readonly Mewdeko _bot;
 
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
         Mewdeko bot,
         DiscordSocketClient client)
     {
-        Warnlogchannelids = bot.AllGuildConfigs
-                                .Where(x => x.WarnlogChannelId != 0)
-                                .ToDictionary(x => x.GuildId, x => x.WarnlogChannelId)
-                                .ToConcurrent();
         _mute = mute;
         _db = db;
         _blacklistService = blacklistService;
+        _bot = bot;
         _client = client;
         _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
-    private ConcurrentDictionary<ulong, ulong> Warnlogchannelids { get; } = new();
 
-    public ulong GetWarnlogChannel(ulong? id)
-    {
-        if (id == null || !Warnlogchannelids.TryGetValue(id.Value, out var warnlogchannel))
-            return 0;
-
-        return warnlogchannel;
-    }
+    public ulong GetWarnlogChannel(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].WarnlogChannelId;
 
     public async Task SetWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
@@ -59,7 +50,7 @@ public class UserPunishService : INService
             await uow.SaveChangesAsync();
         }
 
-        Warnlogchannelids.AddOrUpdate(guild.Id, channel.Id, (_, _) => channel.Id);
+        _bot.AllGuildConfigs[guild.Id].WarnlogChannelId = channel.Id;
     }
 
     public async Task<WarningPunishment> Warn(IGuild guild, ulong userId, IUser mod, string reason)

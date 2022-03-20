@@ -7,7 +7,6 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Serilog;
-using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Afk.Services;
 
@@ -32,25 +31,12 @@ public class AfkService : INService
         _db = db;
         Client = client;
         _cmd = handle;
-        AfkType = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.AfkType).ToConcurrent();
-        AfkTimeout = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.AfkTimeout).ToConcurrent();
-        AfkDisabledChannels = bot.AllGuildConfigs
-                                 .ToDictionary(x => x.GuildId, x => x.AfkDisabledChannels).ToConcurrent();
-        AfkLengths = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.AfkLength).ToConcurrent();
-        AfkMessage = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.AfkMessage).ToConcurrent();
-        AfkDels = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.AfkDel).ToConcurrent();
         Client.MessageReceived += MessageReceived;
         Client.MessageUpdated += MessageUpdated;
         Client.UserIsTyping += UserTyping;
         _ = CacheAfk();
     }
-
-    private ConcurrentDictionary<ulong, int> AfkType { get; }
-    private ConcurrentDictionary<ulong, string> AfkMessage { get; }
-    private ConcurrentDictionary<ulong, int> AfkTimeout { get; }
-    private ConcurrentDictionary<ulong, int> AfkLengths { get; }
-    private ConcurrentDictionary<ulong, string> AfkDisabledChannels { get; }
-    private ConcurrentDictionary<ulong, int> AfkDels { get; }
+    
 
     public async Task CacheAfk()
     {
@@ -58,9 +44,9 @@ public class AfkService : INService
             await using var uow = _db.GetDbContext();
             var allafk = uow.Afk.GetAll();
             var gconfigs = _bot.AllGuildConfigs;
-            foreach (var i in gconfigs.Where(i => allafk.Any(x => x.GuildId == i.GuildId)))
+            foreach (var i in gconfigs.Where(i => allafk.Any(x => x.GuildId == i.Value.GuildId)))
             {
-                await _cache.CacheAfk(i.GuildId, allafk.Where(x => x.GuildId == i.GuildId).ToList());
+                await _cache.CacheAfk(i.Key, allafk.Where(x => x.GuildId == i.Value.GuildId).ToList());
             }
             Environment.SetEnvironmentVariable($"AFK_CACHED_{Client.ShardId}", "1");
             Log.Information("AFK Cached!");
@@ -222,7 +208,7 @@ public class AfkService : INService
             await uow.SaveChangesAsync();
         }
 
-        AfkMessage.AddOrUpdate(guild.Id, afkMessage, (_, _) => afkMessage);
+        _bot.AllGuildConfigs[guild.Id].AfkMessage = afkMessage;
     }
 
     public async Task TimedAfk(
@@ -258,7 +244,7 @@ public class AfkService : INService
             await uow.SaveChangesAsync();
         }
 
-        AfkType.AddOrUpdate(guild.Id, num, (_, _) => num);
+        _bot.AllGuildConfigs[guild.Id].AfkType = num;
     }
 
     public async Task AfkDelSet(IGuild guild, int num)
@@ -270,7 +256,7 @@ public class AfkService : INService
             await uow.SaveChangesAsync();
         }
 
-        AfkDels.AddOrUpdate(guild.Id, num, (_, _) => num);
+        _bot.AllGuildConfigs[guild.Id].AfkDel = num;
     }
 
     public async Task AfkLengthSet(IGuild guild, int num)
@@ -282,7 +268,7 @@ public class AfkService : INService
             await uow.SaveChangesAsync();
         }
 
-        AfkLengths.AddOrUpdate(guild.Id, num, (_, _) => num);
+        _bot.AllGuildConfigs[guild.Id].AfkLength = num;
     }
 
 
@@ -295,7 +281,7 @@ public class AfkService : INService
             await uow.SaveChangesAsync();
         }
 
-        AfkTimeout.AddOrUpdate(guild.Id, num, (_, _) => num);
+        _bot.AllGuildConfigs[guild.Id].AfkTimeout = num;
     }
 
     public async Task AfkDisabledSet(IGuild guild, string num)
@@ -307,44 +293,26 @@ public class AfkService : INService
             await uow.SaveChangesAsync();
         }
 
-        AfkDisabledChannels.AddOrUpdate(guild.Id, num, (_, _) => num);
+        _bot.AllGuildConfigs[guild.Id].AfkDisabledChannels = num;
     }
 
-    public string GetCustomAfkMessage(ulong? id)
-    {
-        AfkMessage.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    public string GetCustomAfkMessage(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].AfkMessage;
 
-    public int GetAfkDel(ulong? id)
-    {
-        AfkDels.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    public int GetAfkDel(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].AfkDel;
 
-    private int GetAfkType(ulong? id)
-    {
-        AfkType.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    private int GetAfkType(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].AfkType;
 
-    public int GetAfkLength(ulong? id)
-    {
-        AfkLengths.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    public int GetAfkLength(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].AfkLength;
 
-    public string GetDisabledAfkChannels(ulong? id)
-    {
-        AfkDisabledChannels.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    public string GetDisabledAfkChannels(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].AfkDisabledChannels;
 
-    private int GetAfkTimeout(ulong? id)
-    {
-        AfkTimeout.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    private int GetAfkTimeout(ulong? id) 
+        => _bot.AllGuildConfigs[id.Value].AfkTimeout;
 
     public async Task AfkSet(
         IGuild guild,
@@ -361,13 +329,10 @@ public class AfkService : INService
         await _cache.AddAfkToCache(guild.Id, current);
     }
 
-    public List<Database.Models.Afk> GetAfkMessage(ulong gid, ulong uid)
+    public IEnumerable<Database.Models.Afk> GetAfkMessage(ulong gid, ulong uid)
     {
         var e = _cache.GetAfkForGuild(gid);
-        if (e is null)
-            return new List<Database.Models.Afk>();
-
-        return e.Where(x => x.UserId == uid).ToList();
+        return e is null ? new List<Database.Models.Afk>() : e.Where(x => x.UserId == uid).ToList();
     }
     
 }

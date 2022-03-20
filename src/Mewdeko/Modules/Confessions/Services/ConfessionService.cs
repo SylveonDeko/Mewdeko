@@ -12,22 +12,12 @@ public class ConfessionService : INService
 {
     private readonly DbService _db;
     private readonly DiscordSocketClient _client;
-    public readonly ConcurrentDictionary<ulong, ulong> ConfessionChannels;
-    public readonly ConcurrentDictionary<ulong, ulong> ConfessionLogChannels;
-    public readonly ConcurrentDictionary<ulong,IReadOnlyList<ulong>> ConfessionBlacklists;
-
+    private readonly Mewdeko _bot;
     public ConfessionService(DbService db, Mewdeko bot, DiscordSocketClient client)
     {
         _db = db;
+        _bot = bot;
         _client = client;
-        ConfessionChannels = bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.ConfessionChannel).ToConcurrent();
-
-        ConfessionBlacklists = bot.AllGuildConfigs.Where(x => !string.IsNullOrWhiteSpace(x.ConfessionBlacklist))
-                                  .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId,
-                                      v => v.GetConfessionBlacklists()).ToConcurrent();
-
-        ConfessionLogChannels =
-            bot.AllGuildConfigs.ToDictionary(x => x.GuildId, x => x.ConfessionLogChannel).ToConcurrent();
     }
 
     public async Task SendConfession(
@@ -43,8 +33,7 @@ public class ConfessionService : INService
             var guild = _client.GetGuild(serverId);
             var current = confessions.LastOrDefault();
             var currentUser = guild.GetUser(_client.CurrentUser.Id);
-            ConfessionChannels.TryGetValue(serverId, out var confessionChannelId);
-            var confessionChannel = guild.GetTextChannel(confessionChannelId);
+            var confessionChannel = guild.GetTextChannel(_bot.AllGuildConfigs[serverId].ConfessionChannel);
             if (confessionChannel is null)
             {
                 if (ctx is not null)
@@ -200,14 +189,11 @@ public class ConfessionService : INService
             await uow.SaveChangesAsync();
         }
 
-        ConfessionChannels.AddOrUpdate(guild.Id, channelId, (_, _) => channelId);
+        _bot.AllGuildConfigs[guild.Id].ConfessionChannel = channelId;
     }
 
     public ulong GetConfessionChannel(ulong id)
-    {
-        ConfessionChannels.TryGetValue(id, out var confessChannel);
-        return confessChannel;
-    }
+        => _bot.AllGuildConfigs[id].ConfessionChannel;
 
     public async Task<IReadOnlyList<ulong>> ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
@@ -221,9 +207,9 @@ public class ConfessionService : INService
         await uow.SaveChangesAsync();
 
         if (blacklists.Count > 0)
-            ConfessionBlacklists[guildId] = blacklists;
+            _bot.AllGuildConfigs[guildId].ConfessionBlacklist = string.Join(" ", blacklists);
         else
-            ConfessionBlacklists.TryRemove(guildId, out _);
+            _bot.AllGuildConfigs[guildId].ConfessionBlacklist = null;
 
         return blacklists;
     }
@@ -237,14 +223,10 @@ public class ConfessionService : INService
             await uow.SaveChangesAsync();
         }
 
-        ConfessionLogChannels.AddOrUpdate(guild.Id, channelId, (_, _) => channelId);
+        _bot.AllGuildConfigs[guild.Id].ConfessionLogChannel = channelId;
     }
 
-    public ulong GetConfessionLogChannel(ulong id)
-    {
-        ConfessionLogChannels.TryGetValue(id, out var confessLogChannel);
-        return confessLogChannel;
-    }
+    public ulong GetConfessionLogChannel(ulong id) => _bot.AllGuildConfigs[id].ConfessionLogChannel;
 }
 
 public static class ConfessionExtensions

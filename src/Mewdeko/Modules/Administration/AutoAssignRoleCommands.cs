@@ -40,7 +40,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole()
         {
-            if (!Service.TryGetNormalRoles(ctx.Guild.Id, out var roles))
+            if (!Service.TryGetNormalRoles(ctx.Guild.Id, out var roles).Any())
             {
                 await ReplyConfirmLocalizedAsync("aar_none");
                 return;
@@ -84,7 +84,7 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole()
         {
-            if (!Service.TryGetBotRoles(ctx.Guild.Id, out var roles))
+            if (!Service.TryGetBotRoles(ctx.Guild.Id, out var roles).Any())
             {
                 await ReplyConfirmLocalizedAsync("aabr_none");
                 return;

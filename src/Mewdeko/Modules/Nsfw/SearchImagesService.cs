@@ -12,8 +12,6 @@ using System.Net.Http;
 using System.Threading;
 
 namespace Mewdeko.Modules.Nsfw;
-
-public record TagRequest(ulong GuildId, bool ForceExplicit, Booru SearchType, params string[] Tags);
 public record UrlReply
 {
     public string Error { get; init; }
@@ -28,7 +26,6 @@ public class SearchImagesService : ISearchImagesService, INService
     private readonly Random _rng;
     private readonly HttpClient _http;
     private readonly SearchImageCacher _cache;
-    private readonly IHttpClientFactory _httpFactory;
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new();
 
@@ -46,10 +43,9 @@ public class SearchImagesService : ISearchImagesService, INService
         _http = http.CreateClient();
         _http.AddFakeHeaders();
         _cache = cacher;
-        _httpFactory = httpFactory;
 
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            bot.AllGuildConfigs.ToDictionary(
+            db.GetDbContext().GuildConfigs.All().ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }

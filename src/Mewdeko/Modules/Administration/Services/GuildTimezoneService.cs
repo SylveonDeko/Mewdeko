@@ -14,7 +14,7 @@ public class GuildTimezoneService : INService
 
     public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
-        _timezones = bot.AllGuildConfigs
+        _timezones = db.GetDbContext().GuildConfigs.All()
             .Select(GetTimzezoneTuple)
             .Where(x => x.Timezone != null)
             .ToDictionary(x => x.GuildId, x => x.Timezone)

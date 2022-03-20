@@ -15,17 +15,15 @@ public class MultiGreetService : INService
 {
     private readonly DbService _db;
     private DiscordSocketClient client;
-    private ConcurrentDictionary<ulong, int> multiGreetTypes;
+    private readonly Mewdeko _bot;
 
 
     public MultiGreetService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         this.client = client;
+        _bot = bot;
         _db = db;
         this.client.UserJoined += DoMultiGreet;
-        multiGreetTypes = bot.AllGuildConfigs
-                   .ToDictionary(x => x.GuildId, x => x.MultiGreetType)
-                   .ToConcurrent();
     }
     
     public MultiGreet[] GetGreets(ulong guildId) => _db.GetDbContext().MultiGreets.GetAllGreets(guildId);
@@ -240,14 +238,10 @@ public class MultiGreetService : INService
             await uow.SaveChangesAsync();
         }
 
-        multiGreetTypes.AddOrUpdate(guild.Id, type, (_, _) => type);
+        _bot.AllGuildConfigs[guild.Id].MultiGreetType = type;
     }
 
-    public int GetMultiGreetType(ulong? id)
-    {
-        multiGreetTypes.TryGetValue(id.Value, out var mgType);
-        return mgType;
-    }
+    public int GetMultiGreetType(ulong? id) => _bot.AllGuildConfigs[id.Value].MultiGreetType;
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {
         if (GetForChannel(channelId).Length == 5)

@@ -7,8 +7,6 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Net;
 using System.Threading.Channels;
 
@@ -23,39 +21,27 @@ public sealed class AutoAssignRoleService : INService
             SingleReader = true,
             SingleWriter = false
         });
-
-    private readonly ConcurrentDictionary<ulong, IReadOnlyList<ulong>> _autoAssignableBotRoles;
+    private readonly Mewdeko _bot;
 
     //guildid/roleid
-    private readonly ConcurrentDictionary<ulong, IReadOnlyList<ulong>> _autoAssignableRoles;
-    private readonly ConcurrentDictionary<ulong, string> _brcheck;
     private readonly DbService _db;
 
     public AutoAssignRoleService(DiscordSocketClient client, Mewdeko bot, DbService db)
     {
-        var client1 = client;
+        _bot = bot;
         _db = db;
-
-        _autoAssignableRoles = bot.AllGuildConfigs
-            .Where(x => !string.IsNullOrWhiteSpace(x.AutoAssignRoleId))
-            .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId, v => v.GetAutoAssignableRoles())
-            .ToConcurrent();
-        _autoAssignableBotRoles = bot.AllGuildConfigs
-            .Where(x => !string.IsNullOrWhiteSpace(x.AutoBotRoleIds))
-            .ToDictionary<GuildConfig, ulong, IReadOnlyList<ulong>>(k => k.GuildId,
-                v => v.GetAutoAssignableBotRoles())
-            .ToConcurrent();
-        _brcheck = bot.AllGuildConfigs
-            .ToDictionary(x => x.GuildId, x => x.AutoBotRoleIds)
-            .ToConcurrent();
         _ = Task.Run(async () =>
         {
             while (true)
             {
+                
                 var user = await _assignQueue.Reader.ReadAsync();
-                if (user.IsBot && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out var savedRoleIds))
+                var autoroles = _bot.AllGuildConfigs[user.Guild.Id].AutoAssignRoleId;
+                var autobotroles = _bot.AllGuildConfigs[user.Guild.Id].AutoBotRoleIds;
+                if (user.IsBot && autoroles != "0")
                     try
                     {
+                        var savedRoleIds = _bot.AllGuildConfigs[user.Guild.Id].AutoBotRoleIds.Split(" ").Select(ulong.Parse);
                         var roleIds = savedRoleIds
                             .Select(roleId => user.Guild.GetRole(roleId))
                             .Where(x => x is not null)
@@ -99,10 +85,11 @@ public sealed class AutoAssignRoleService : INService
                         continue;
                     }
 
-                if (!_autoAssignableRoles.TryGetValue(user.Guild.Id, out var savedRoleIds1)) continue;
+                if (autobotroles != null) continue;
                 {
                     try
                     {
+                        var savedRoleIds1 = autobotroles.Split(" ").Select(ulong.Parse);
                         var roleIds = savedRoleIds1
                             .Select(roleId => user.Guild.GetRole(roleId))
                             .Where(x => x is not null)
@@ -139,32 +126,27 @@ public sealed class AutoAssignRoleService : INService
             }
         });
 
-        client1.UserJoined += OnClientOnUserJoined;
-        client1.RoleDeleted += OnClientRoleDeleted;
-    }
-
-    public string GetStaffRole(ulong? id)
-    {
-        Debug.Assert(id != null, $"{nameof(id)} != null");
-        _brcheck.TryGetValue(id.Value, out var snum);
-        return snum;
+        client.UserJoined += OnClientOnUserJoined;
+        client.RoleDeleted += OnClientRoleDeleted;
     }
 
     private async Task OnClientRoleDeleted(SocketRole role)
     {
-        if (_autoAssignableRoles.TryGetValue(role.Guild.Id, out var roles)
-            && roles.Contains(role.Id))
+        var broles = _bot.AllGuildConfigs[role.Guild.Id].AutoBotRoleIds;
+        var roles = _bot.AllGuildConfigs[role.Guild.Id].AutoAssignRoleId;
+        if (roles is not null
+            && roles.Split(" ").Select(ulong.Parse).Contains(role.Id))
             await ToggleAarAsync(role.Guild.Id, role.Id);
-        if (_autoAssignableBotRoles.TryGetValue(role.Guild.Id, out var broles)
-            && broles.Contains(role.Id))
+        if (broles is not null
+            && broles.Split(" ").Select(ulong.Parse).Contains(role.Id))
             await ToggleAabrAsync(role.Guild.Id, role.Id);
     }
 
     private async Task OnClientOnUserJoined(SocketGuildUser user)
     {
-        if (user.IsBot && _autoAssignableBotRoles.TryGetValue(user.Guild.Id, out _))
+        if (user.IsBot && _bot.AllGuildConfigs[user.Guild.Id].AutoBotRoleIds != null)
             await _assignQueue.Writer.WriteAsync(user);
-        if (_autoAssignableRoles.TryGetValue(user.Guild.Id, out _))
+        if (_bot.AllGuildConfigs[user.Guild.Id].AutoAssignRoleId != null)
             await _assignQueue.Writer.WriteAsync(user);
     }
 
@@ -179,10 +161,7 @@ public sealed class AutoAssignRoleService : INService
         gc.SetAutoAssignableRoles(roles);
         await uow.SaveChangesAsync();
 
-        if (roles.Count > 0)
-            _autoAssignableRoles[guildId] = roles;
-        else
-            _autoAssignableRoles.TryRemove(guildId, out _);
+        _bot.AllGuildConfigs[guildId].AutoAssignRoleId = roles.Count > 0 ? string.Join(" ", roles) : null;
 
         return roles;
     }
@@ -198,7 +177,7 @@ public sealed class AutoAssignRoleService : INService
             .Where(x => x.GuildId == guildId)
             .UpdateAsync(_ => new GuildConfig {AutoAssignRoleId = null});
 
-        _autoAssignableRoles.TryRemove(guildId, out _);
+        _bot.AllGuildConfigs[guildId].AutoAssignRoleId = null;
 
         await uow.SaveChangesAsync();
     }
@@ -225,9 +204,9 @@ public sealed class AutoAssignRoleService : INService
         await uow.SaveChangesAsync();
 
         if (roles.Count > 0)
-            _autoAssignableBotRoles[guildId] = roles;
+            _bot.AllGuildConfigs[guildId].AutoBotRoleIds = string.Join(" ", roles);
         else
-            _autoAssignableBotRoles.TryRemove(guildId, out _);
+            _bot.AllGuildConfigs[guildId].AutoBotRoleIds = null;
 
         return roles;
     }
@@ -243,7 +222,7 @@ public sealed class AutoAssignRoleService : INService
             .Where(x => x.GuildId == guildId)
             .UpdateAsync(_ => new GuildConfig {AutoBotRoleIds = null});
 
-        _autoAssignableBotRoles.TryRemove(guildId, out _);
+        _bot.AllGuildConfigs[guildId].AutoBotRoleIds = null;
 
         await uow.SaveChangesAsync();
     }
@@ -258,29 +237,25 @@ public sealed class AutoAssignRoleService : INService
         await uow.SaveChangesAsync();
     }
 
-    public bool TryGetNormalRoles(ulong guildId, out IReadOnlyList<ulong> roles) => _autoAssignableRoles.TryGetValue(guildId, out roles);
+    public IReadOnlyList<ulong>? TryGetNormalRoles(ulong guildId, out IReadOnlyList<ulong> roles) =>
+        roles = _bot.AllGuildConfigs[guildId].AutoAssignRoleId.Split("").Select(ulong.Parse) as IReadOnlyList<ulong>;
 
-    public bool TryGetBotRoles(ulong guildId, out IReadOnlyList<ulong> roles) => _autoAssignableBotRoles.TryGetValue(guildId, out roles);
+    public IReadOnlyList<ulong>? TryGetBotRoles(ulong guildId, out IReadOnlyList<ulong> roles) =>
+        roles = _bot.AllGuildConfigs[guildId].AutoBotRoleIds.Split("").Select(ulong.Parse) as IReadOnlyList<ulong>;
 }
 
 public static class GuildConfigExtensions
 {
     public static List<ulong> GetAutoAssignableRoles(this GuildConfig gc)
     {
-        if (string.IsNullOrWhiteSpace(gc.AutoAssignRoleId))
-            return new List<ulong>();
-
-        return gc.AutoAssignRoleId.Split(' ').Select(ulong.Parse).ToList();
+        return string.IsNullOrWhiteSpace(gc.AutoAssignRoleId) ? new List<ulong>() : gc.AutoAssignRoleId.Split(' ').Select(ulong.Parse).ToList();
     }
 
     public static void SetAutoAssignableRoles(this GuildConfig gc, IEnumerable<ulong> roles) => gc.AutoAssignRoleId = roles.JoinWith(' ');
 
     public static List<ulong> GetAutoAssignableBotRoles(this GuildConfig gc)
     {
-        if (string.IsNullOrWhiteSpace(gc.AutoBotRoleIds))
-            return new List<ulong>();
-
-        return gc.AutoBotRoleIds.Split(' ').Select(ulong.Parse).ToList();
+        return string.IsNullOrWhiteSpace(gc.AutoBotRoleIds) ? new List<ulong>() : gc.AutoBotRoleIds.Split(' ').Select(ulong.Parse).ToList();
     }
 
     public static void SetAutoAssignableBotRoles(this GuildConfig gc, IEnumerable<ulong> roles) => gc.AutoBotRoleIds = roles.JoinWith(' ');

@@ -15,6 +15,11 @@ public class GuildConfig : DbEntity
     public string WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string AutoAssignRoleId { get; set; } = "0";
+    public bool StarboardAllowBots = true;
+    public bool StarboardRemoveOnDelete = false;
+    public bool StarboardRemoveOnReactionsClear = false;
+    public bool StarboardRemoveOnBelowThreshold = true;
+    
     public string AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
     public int GBAction { get; set; } = 1;
