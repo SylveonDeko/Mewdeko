@@ -9,6 +9,16 @@ namespace Mewdeko.Modules.Starboard;
 
 public class Starboard : MewdekoSubmodule<StarboardService>
 {
+    public enum WhitelistMode
+    {
+        Whitelist = 0,
+        Wl = 0,
+        White = 0,
+        Blacklist = 1,
+        Bl = 1,
+        Black = 1
+
+    }
     [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStarboard(ITextChannel? chn = null)
     {
@@ -79,11 +89,26 @@ public class Starboard : MewdekoSubmodule<StarboardService>
     [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardChToggle([Remainder] ITextChannel channel)
     {
-        if (await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()))
+        if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()))
         {
             await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been added to the whitelist/blacklist (Depnding on what was set in {Prefix}swm)");
         }
         else
             await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {Prefix}swm)");
+    }
+
+    [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
+    public async Task StarboardWlMode(WhitelistMode mode)
+    {
+        if (mode > 0)
+        {
+            await Service.SetCheckMode(ctx.Guild, true);
+            await ctx.Channel.SendConfirmAsync("Starboard Blacklist has been enabled");
+        }
+        else
+        {
+            await Service.SetCheckMode(ctx.Guild, false);
+            await ctx.Channel.SendConfirmAsync("Starboard Whitelist mode has been enabled");
+        }
     }
 }

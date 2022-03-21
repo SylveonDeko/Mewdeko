@@ -67,7 +67,8 @@ public class MusicPlayer : LavalinkPlayer
         {
             var gid = args.Player.GuildId;
             var msettings = await musicService.GetSettingsInternalAsync(gid);
-            var channel = client.GetChannel(msettings.MusicChannelId!.Value) as ITextChannel;
+            if (client.GetChannel(msettings.MusicChannelId.Value) is not ITextChannel channel)
+                return;
             if (args.Reason is TrackEndReason.Stopped or TrackEndReason.CleanUp or TrackEndReason.Replaced) return;
             var currentTrack = queue.FirstOrDefault(x => args.Player.CurrentTrack.Identifier == x.Identifier);
             if (msettings.PlayerRepeat == PlayerRepeatType.Track)
