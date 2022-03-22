@@ -18,9 +18,10 @@ public class AdministrationService : INService
 {
     private readonly DbService _db;
     private readonly LogCommandService _logService;
+    private readonly Mewdeko _bot;
 
     public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
-        LogCommandService logService, DiscordSocketClient client)
+        LogCommandService logService)
     {
         StaffRole = db.GetDbContext().GuildConfigs.All()
             .ToDictionary(x => x.GuildId, x => x.StaffRole)
@@ -28,6 +29,7 @@ public class AdministrationService : INService
         MemberRole = db.GetDbContext().GuildConfigs.All()
             .ToDictionary(x => x.GuildId, x => x.MemberRole)
             .ToConcurrent();
+        _bot = bot;
         _db = db;
         _logService = logService;
 
@@ -140,7 +142,7 @@ public class AdministrationService : INService
         using var uow = _db.GetDbContext();
         var conf = uow.ForGuildId(guildId, set => set);
         enabled = conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
-
+        _bot.UpdateGuildConfig(guildId, conf);
         uow.SaveChanges();
 
         return enabled;

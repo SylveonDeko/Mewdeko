@@ -33,7 +33,7 @@ public class ConfessionService : INService
             var guild = _client.GetGuild(serverId);
             var current = confessions.LastOrDefault();
             var currentUser = guild.GetUser(_client.CurrentUser.Id);
-            var confessionChannel = guild.GetTextChannel(_bot.AllGuildConfigs[serverId].ConfessionChannel);
+            var confessionChannel = guild.GetTextChannel(_bot.GetGuildConfig(serverId).ConfessionChannel);
             if (confessionChannel is null)
             {
                 if (ctx is not null)
@@ -187,15 +187,14 @@ public class ConfessionService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ConfessionChannel = channelId;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].ConfessionChannel = channelId;
     }
 
     public ulong GetConfessionChannel(ulong id)
-        => _bot.AllGuildConfigs[id].ConfessionChannel;
+        => _bot.GetGuildConfig(id).ConfessionChannel;
 
-    public async Task<IReadOnlyList<ulong>> ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
+    public async Task ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);
@@ -205,13 +204,7 @@ public class ConfessionService : INService
 
         gc.SetConfessionBlacklists(blacklists);
         await uow.SaveChangesAsync();
-
-        if (blacklists.Count > 0)
-            _bot.AllGuildConfigs[guildId].ConfessionBlacklist = string.Join(" ", blacklists);
-        else
-            _bot.AllGuildConfigs[guildId].ConfessionBlacklist = null;
-
-        return blacklists;
+        _bot.UpdateGuildConfig(guildId, gc);
     }
 
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
@@ -221,12 +214,13 @@ public class ConfessionService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ConfessionLogChannel = channelId;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].ConfessionLogChannel = channelId;
+        
     }
 
-    public ulong GetConfessionLogChannel(ulong id) => _bot.AllGuildConfigs[id].ConfessionLogChannel;
+    public ulong GetConfessionLogChannel(ulong id) 
+        => _bot.GetGuildConfig(id).ConfessionLogChannel;
 }
 
 public static class ConfessionExtensions

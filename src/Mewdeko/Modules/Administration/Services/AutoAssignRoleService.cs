@@ -130,8 +130,8 @@ public sealed class AutoAssignRoleService : INService
 
     private async Task OnClientRoleDeleted(SocketRole role)
     {
-        var broles = _bot.AllGuildConfigs[role.Guild.Id].AutoBotRoleIds;
-        var roles = _bot.AllGuildConfigs[role.Guild.Id].AutoAssignRoleId;
+        var broles = _bot.GetGuildConfig(role.Guild.Id).AutoBotRoleIds;
+        var roles = _bot.GetGuildConfig(role.Guild.Id).AutoAssignRoleId;
         if (roles is not null
             && roles.Split(" ").Select(ulong.Parse).Contains(role.Id))
             await ToggleAarAsync(role.Guild.Id, role.Id);
@@ -160,8 +160,7 @@ public sealed class AutoAssignRoleService : INService
 
         gc.SetAutoAssignableRoles(roles);
         await uow.SaveChangesAsync();
-
-        _bot.AllGuildConfigs[guildId].AutoAssignRoleId = roles.Count > 0 ? string.Join(" ", roles) : null;
+        _bot.UpdateGuildConfig(guildId, gc);
 
         return roles;
     }
@@ -169,16 +168,9 @@ public sealed class AutoAssignRoleService : INService
     private async Task DisableAarAsync(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
-
-        await 
-            uow
-            .GuildConfigs
-            .AsNoTracking()
-            .Where(x => x.GuildId == guildId)
-            .UpdateAsync(_ => new GuildConfig {AutoAssignRoleId = null});
-
-        _bot.AllGuildConfigs[guildId].AutoAssignRoleId = null;
-
+        var gc = uow.ForGuildId(guildId, set => set);
+        gc.AutoAssignRoleId = null;
+        _bot.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync();
     }
 
@@ -202,11 +194,7 @@ public sealed class AutoAssignRoleService : INService
 
         gc.SetAutoAssignableBotRoles(roles);
         await uow.SaveChangesAsync();
-
-        if (roles.Count > 0)
-            _bot.AllGuildConfigs[guildId].AutoBotRoleIds = string.Join(" ", roles);
-        else
-            _bot.AllGuildConfigs[guildId].AutoBotRoleIds = null;
+        _bot.UpdateGuildConfig(guildId, gc);
 
         return roles;
     }
@@ -214,16 +202,9 @@ public sealed class AutoAssignRoleService : INService
     public async Task DisableAabrAsync(ulong guildId)
     {
         await using var uow = _db.GetDbContext();
-
-        await 
-                uow
-            .GuildConfigs
-            .AsNoTracking()
-            .Where(x => x.GuildId == guildId)
-            .UpdateAsync(_ => new GuildConfig {AutoBotRoleIds = null});
-
-        _bot.AllGuildConfigs[guildId].AutoBotRoleIds = null;
-
+        var gc = uow.ForGuildId(guildId, set => set);
+        gc.AutoBotRoleIds = null;
+        _bot.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync();
     }
 
@@ -239,7 +220,7 @@ public sealed class AutoAssignRoleService : INService
 
     public IEnumerable<ulong> TryGetNormalRoles(ulong guildId, out List<ulong> roles)
     {
-        var tocheck = _bot.AllGuildConfigs[guildId].AutoAssignRoleId;
+        var tocheck = _bot.GetGuildConfig(guildId).AutoAssignRoleId;
         if (string.IsNullOrWhiteSpace(tocheck) || tocheck == null)
             roles =  new List<ulong>();
         else
@@ -249,7 +230,7 @@ public sealed class AutoAssignRoleService : INService
 
     public IEnumerable<ulong> TryGetBotRoles(ulong guildId, out List<ulong> roles)
     { 
-        var tocheck = _bot.AllGuildConfigs[guildId].AutoBotRoleIds;
+        var tocheck = _bot.GetGuildConfig(guildId).AutoBotRoleIds;
         if (string.IsNullOrWhiteSpace(tocheck) || tocheck == null)
             roles =  new List<ulong>();
         else

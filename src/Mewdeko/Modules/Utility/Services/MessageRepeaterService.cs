@@ -39,7 +39,7 @@ public class MessageRepeaterService : INService
         Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in _bot.AllGuildConfigs.Where(gc => (gc.Key >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
+        foreach (var gc in _bot.CachedGuildConfigs.Where(gc => (gc.Key >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
         {
             try
             {

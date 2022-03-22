@@ -236,12 +236,11 @@ public class MultiGreetService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.MultiGreetType = type;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].MultiGreetType = type;
     }
 
-    public int GetMultiGreetType(ulong? id) => _bot.AllGuildConfigs[id.Value].MultiGreetType;
+    public int GetMultiGreetType(ulong? id) => _bot.GetGuildConfig(id.Value).MultiGreetType;
     public bool AddMultiGreet(ulong guildId, ulong channelId)
     {
         if (GetForChannel(channelId).Length == 5)

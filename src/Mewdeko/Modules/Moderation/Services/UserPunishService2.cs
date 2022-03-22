@@ -29,7 +29,7 @@ public class UserPunishService2 : INService
 
 
     public ulong GetMWarnlogChannel(ulong? id) 
-        => _bot.AllGuildConfigs[id.Value].MiniWarnlogChannelId;
+        => _bot.GetGuildConfig(id.Value).MiniWarnlogChannelId;
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
@@ -38,9 +38,8 @@ public class UserPunishService2 : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.MiniWarnlogChannelId = channel.Id;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].MiniWarnlogChannelId = channel.Id;
     }
 
     public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)
