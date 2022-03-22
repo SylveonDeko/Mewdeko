@@ -293,7 +293,9 @@ public class SearchImageCacher : INService
     {
         try
         {
+            #if DEBUG
             Log.Information("Downloading from {0} (page {1})...", type, page);
+            #endif
 
             using var http = _httpFactory.CreateClient();
             var downloader = GetImageDownloader(type, http);
