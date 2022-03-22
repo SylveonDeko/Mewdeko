@@ -1,4 +1,5 @@
 ﻿using Amazon.Runtime.Internal.Transform;
+using AngleSharp.Common;
 using Discord;
 using Discord.Commands;
 using Discord.Interactions;
@@ -104,12 +105,9 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
-            foreach (var i in startingGuildIdList)
-            {
-                var e = uow.ForGuildId(i);
-                AllGuildConfigs.Add(i, e);
-            }
+            AllGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToDictionary(x => x.GuildId, x => x);
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
+            Log.Information("Guild Configs cached.");
         }
 
         var s = new ServiceCollection()
@@ -142,6 +140,7 @@ public class Mewdeko
                     WebSocketUri = "ws://127.0.0.1:2333",
                     RestUri = "http://127.0.0.1:2333",
                     DisconnectOnStop = false,
+                    ResumeKey = "88383874973209rfjb="
                 })
                 .AddSingleton<IShopService, ShopService>()
                 .AddScoped<ISearchImagesService, SearchImagesService>();
