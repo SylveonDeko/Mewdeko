@@ -107,11 +107,16 @@ public class HighlightsService : INService, IReadyExecutor
                 continue;
             var messages = await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync();
             var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n",
-                                           messages.OrderBy(x => x.Timestamp).Select(x => $"**[{x.Timestamp:h:mm:ss}]**: {Format.Bold(x.Author.ToString())}: {x.Content?.TrimTo(100)}")))
-                                       .WithFooter("Yes this was shamelessly copied from carl-bot.");
+                                            messages.OrderBy(x => x.Timestamp).Select(x => $"[<t:{x.Timestamp.ToUnixTimeSeconds()}:T>]({x.GetJumpLink()}): " +
+                                                $"{Format.Bold(x.Author.ToString())}: {x.Content?.TrimTo(100)} {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? "[has embed]" : "")}")))
+                                        .WithFooter("Yes this was shamelessly copied from carl-bot.");
+
+            var cb = new ComponentBuilder()
+                .WithButton("Jump to message", style: ButtonStyle.Link, emote: Emote.Parse("<:MessageLink:778925231506587668>"), url: message.GetJumpLink());
+
             await user.SendMessageAsync(
                 $"In {Format.Bold(channel.Guild.Name)} {channel.Mention} you were mentioned with highlight word {i.Word}",
-                embed: eb.Build());
+                embed: eb.Build(), components: cb.Build());
             usersDMd.Add(user.Id);
 
         }
