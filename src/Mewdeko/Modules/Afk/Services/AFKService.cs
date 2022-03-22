@@ -166,7 +166,7 @@ public class AfkService : INService, IReadyExecutor
                         }
                         var replacer = new ReplacementBuilder()
                                        .WithOverride("%afk.message%",
-                                           () => afkmessage.Last().Message
+                                           () => afkmessage.Last().Message.SanitizeMentions(true)
                                                                                          .Truncate(GetAfkLength(user.GuildId)))
                                        .WithOverride("%afk.user%", () => mentuser.ToString())
                                        .WithOverride("%afk.user.mention%", () => mentuser.Mention)
