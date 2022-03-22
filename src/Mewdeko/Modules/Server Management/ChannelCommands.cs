@@ -32,7 +32,7 @@ public partial class ServerManagement
         public async Task LockCheck()
         {
             var msg = await ctx.Channel.SendMessageAsync(
-                "<a:loading:847706744741691402> Making sure role permissions don't get in the way of lockdown...");
+                "<a:loading:900381735244689469> Making sure role permissions don't get in the way of lockdown...");
             var roles = Context.Guild.Roles.ToList().FindAll(x =>
                 x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
                 ((SocketGuild) ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
@@ -46,12 +46,12 @@ public partial class ServerManagement
                 }
 
                 await msg.ModifyAsync(x => x.Content =
-                        "<a:checkfragutil:854536148411744276> Roles checked! You may now run the lockdown command.");
+                        "<a:checkfragutil:900381771881922602> Roles checked! You may now run the lockdown command.");
             }
             else
             {
                 await msg.ModifyAsync(x => x.Content =
-                        "<a:checkfragutil:854536148411744276> Roles checked! No roles are in the way of the lockdown command.");
+                        "<a:checkfragutil:900381771881922602> Roles checked! No roles are in the way of the lockdown command.");
             }
         }
 
@@ -90,7 +90,7 @@ public partial class ServerManagement
             if (use.VoiceChannel == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "<a:checkfragutil:854536148411744276> You need to be in a voice channel for this!");
+                    "<a:checkfragutil:900381771881922602> You need to be in a voice channel for this!");
                 return;
             }
 
@@ -204,7 +204,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny));
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Locked down {tch.Mention}");
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Locked down {tch.Mention}");
             }
             else
             {
@@ -213,7 +213,7 @@ public partial class ServerManagement
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Deny));
                 await ctx.Channel.SendMessageAsync(
-                    $"<a:checkfragutil:854536148411744276> Locked down {channel.Mention}");
+                    $"<a:checkfragutil:900381771881922602> Locked down {channel.Mention}");
             }
         }
 
@@ -223,7 +223,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Creating the Category {catName} with {channels.Length} Text Channels!");
+                $"<a:loading:900381735244689469> Creating the Category {catName} with {channels.Length} Text Channels!");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
             var cat = await ctx.Guild.CreateCategoryAsync(catName);
             foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = cat.Id);
@@ -241,7 +241,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Creating the Category {catName} with {channels.Length} Voice Channels");
+                $"<a:loading:900381735244689469> Creating the Category {catName} with {channels.Length} Voice Channels");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
             var cat = await ctx.Guild.CreateCategoryAsync(catName);
             foreach (var i in channels) await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = cat.Id);
@@ -258,7 +258,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Adding {channels.Length} Voice Channels to {chan.Name}");
+                $"<a:loading:900381735244689469> Adding {channels.Length} Voice Channels to {chan.Name}");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
             foreach (var i in channels)
                 await ctx.Guild.CreateVoiceChannelAsync(i, x => x.CategoryId = chan.Id);
@@ -275,7 +275,7 @@ public partial class ServerManagement
             var eb = new EmbedBuilder();
             eb.WithOkColor();
             eb.WithDescription(
-                $"<a:loading:847706744741691402> Adding {channels.Length} Text Channels to {chan.Name}");
+                $"<a:loading:900381735244689469> Adding {channels.Length} Text Channels to {chan.Name}");
             var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build());
             foreach (var i in channels) await ctx.Guild.CreateTextChannelAsync(i, x => x.CategoryId = chan.Id);
 
@@ -296,7 +296,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await tch.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Unlocked {tch.Mention}");
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {tch.Mention}");
             }
             else
             {
@@ -304,7 +304,7 @@ public partial class ServerManagement
                                    new OverwritePermissions();
                 await channel.AddPermissionOverwriteAsync(ctx.Guild.EveryoneRole,
                     currentPerms.Modify(sendMessages: PermValue.Inherit));
-                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:854536148411744276> Unlocked {channel.Mention}");
+                await ctx.Channel.SendMessageAsync($"<a:checkfragutil:900381771881922602> Unlocked {channel.Mention}");
             }
         }
 
