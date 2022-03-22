@@ -155,16 +155,7 @@ public class CommandHandler : INService
     {
         if (id is null)
             return ".";
-        try
-        {
-            return _bot.AllGuildConfigs[id.Value].Prefix ?? ".";
-        }
-        catch (KeyNotFoundException)
-        {
-            var gc = _db.GetDbContext().ForGuildId(id.Value);
-            _bot.AllGuildConfigs.Add(id.Value, gc);
-            return ".";
-        }
+        return _bot.GetGuildConfig(id.Value).Prefix ??= ".";
     }
 
     public string SetDefaultPrefix(string prefix)
@@ -196,15 +187,11 @@ public class CommandHandler : INService
         if (guild == null)
             throw new ArgumentNullException(nameof(guild));
 
-        using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.Prefix = prefix;
-            uow.SaveChanges();
-        }
-
-        _bot.AllGuildConfigs[guild.Id].Prefix = prefix;
-
+        using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.Prefix = prefix;
+        uow.SaveChanges();
+        _bot.UpdateGuildConfig(guild.Id, gc);
         return prefix;
     }
 

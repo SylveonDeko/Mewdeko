@@ -163,7 +163,7 @@ public class FilterService : IEarlyBehavior, INService
         return words;
     }
 
-    public int GetInvWarn(ulong? id) => _bot.AllGuildConfigs[id.Value].invwarn;
+    public int GetInvWarn(ulong? id) => _bot.GetGuildConfig(id.Value).invwarn;
 
     public async Task InvWarn(IGuild guild, string yesnt)
     {
@@ -183,12 +183,11 @@ public class FilterService : IEarlyBehavior, INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].invwarn = yesno;
     }
 
-    public int GetFw(ulong? id) => _bot.AllGuildConfigs[id.Value].fwarn;
+    public int GetFw(ulong? id) => _bot.GetGuildConfig(id.Value).fwarn;
 
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
@@ -208,9 +207,8 @@ public class FilterService : IEarlyBehavior, INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].fwarn = yesno;
     }
 
     public void ClearFilteredWords(ulong guildId)

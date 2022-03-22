@@ -36,7 +36,6 @@ public partial class Administration
             }
             else
             {
-                _bot.AllGuildConfigs[ctx.Guild.Id].GameVoiceChannel = vch.Id;
                 await ReplyConfirmLocalizedAsync("gvc_enabled", Format.Bold(vch.Name)).ConfigureAwait(false);
             }
         }

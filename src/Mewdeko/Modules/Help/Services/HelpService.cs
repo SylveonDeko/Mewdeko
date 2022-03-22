@@ -131,7 +131,7 @@ public class HelpService : ILateExecutor, INService
     
     public async Task HandleJoin(SocketGuild guild)
     {
-        if (_bot.AllGuildConfigs.TryGetValue(guild.Id, out _))
+        if (_bot.CachedGuildConfigs.TryGetValue(guild.Id, out _))
             return;
         
         var e = guild.DefaultChannel;

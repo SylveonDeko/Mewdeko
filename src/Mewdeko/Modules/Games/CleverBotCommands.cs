@@ -25,7 +25,6 @@ public partial class Games
             var cbid = Service.GetCleverbotChannel(ctx.Guild.Id);
             if (cbid != 0 && cbid == channel.Id)
             {
-                _bot.AllGuildConfigs[ctx.Guild.Id].CleverbotChannel = 0;
                 await Service.SetCleverbotChannel(ctx.Guild, 0);
                 await ctx.Channel.SendConfirmAsync("Cleverbot has been switched off!");
                 return;
@@ -33,7 +32,6 @@ public partial class Games
 
             if (cbid != 0 && cbid != channel.Id)
             {
-                _bot.AllGuildConfigs[ctx.Guild.Id].CleverbotChannel = channel.Id;
                 await Service.SetCleverbotChannel(ctx.Guild, channel.Id);
                 await ctx.Channel.SendConfirmAsync(
                     $"Cleverbot channel has been switched to {channel.Mention}! Just remember that commands do not work in there while its enabled.");
@@ -41,7 +39,6 @@ public partial class Games
 
             if (cbid == 0)
             {
-                _bot.AllGuildConfigs[ctx.Guild.Id].CleverbotChannel = 0;
                 await Service.SetCleverbotChannel(ctx.Guild, channel.Id);
                 await ctx.Channel.SendConfirmAsync(
                     $"Cleverbot has been enabled and the channel set to {channel.Mention}! Just remember that commmands dont work in that channel while its enabled.");
