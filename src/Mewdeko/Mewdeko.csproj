@@ -35,7 +35,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Lavalink4NET.Discord.NET" Version="2.1.1-preview.3" />
+        <PackageReference Include="Lavalink4NET.Discord.NET" Version="2.1.1-preview.6" />
         <PackageReference Include="linq2db.EntityFrameworkCore" Version="6.6.1" />
         <PackageReference Include="MartineApiNet" Version="1.0.6" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final" />
@@ -121,6 +121,7 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <Optimize>true</Optimize>
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="credentials_example.json" />
