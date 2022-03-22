@@ -182,13 +182,11 @@ public class ConfessionService : INService
 
     public async Task SetConfessionChannel(IGuild guild, ulong channelId)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.ConfessionChannel = channelId;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ConfessionChannel = channelId;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ulong GetConfessionChannel(ulong id)
@@ -209,14 +207,11 @@ public class ConfessionService : INService
 
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.ConfessionLogChannel = channelId;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ConfessionLogChannel = channelId;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ulong GetConfessionLogChannel(ulong id) 

@@ -60,13 +60,11 @@ public class GiveawayService : INService, IReadyExecutor
 
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.GiveawayEmote = emote;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.GiveawayEmote = emote;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public string GetGiveawayEmote(ulong? id) 

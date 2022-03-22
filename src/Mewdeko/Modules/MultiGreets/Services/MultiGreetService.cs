@@ -231,13 +231,11 @@ public class MultiGreetService : INService
 
     public async Task SetMultiGreetType(IGuild guild, int type)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.MultiGreetType = type;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.MultiGreetType = type;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public int GetMultiGreetType(ulong? id) => _bot.GetGuildConfig(id.Value).MultiGreetType;
