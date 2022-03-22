@@ -8,7 +8,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
-using System.Net;
 
 namespace Mewdeko.Modules.Server_Management;
 
@@ -129,8 +128,6 @@ public partial class ServerManagement
                 secondlist.Add(
                     $"{i.Mention} - {(await ctx.Guild.GetUsersAsync()).Count(x => x.RoleIds.Contains(i.Id))} Users");
             }
-
-            ;
             var embed = new EmbedBuilder
             {
                 Title = "Are you sure you want to delete these roles?",
@@ -139,7 +136,6 @@ public partial class ServerManagement
             if (await PromptUserConfirmAsync(embed, ctx.User.Id))
             {
                 var msg = await ctx.Channel.SendConfirmAsync($"Deleting {roles.Length} roles...");
-                var emb = msg.Embeds.First();
                 foreach (var i in roles) await i.DeleteAsync();
                 var newemb = new EmbedBuilder
                 {
@@ -184,15 +180,89 @@ public partial class ServerManagement
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task SetRoles(IGuildUser user, params IRole[] roles)
         {
+            foreach (var i in roles)
+            {
+                if (ctx.User.Id != ctx.Guild.OwnerId &&
+                    ((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) <= i.Position)
+                {
+                    await ctx.Channel.SendErrorAsync($"You cannot manage the role {i.Mention}");
+                    return;
+                }
+
+                if (((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) > i.Position) continue;
+                await ctx.Channel.SendErrorAsync($"I cannot manage the role {i.Mention}!");
+                return;
+            }
             await user.AddRolesAsync(roles);
             await ctx.Channel.SendConfirmAsync(
                 $"{user} has been given the roles:\n{string.Join<string>("|", roles.Select(x => x.Mention))}");
         }
 
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        public async Task AddUsersToRole(IRole role, params IUser[] users)
+        {
+            if (ctx.User.Id != ctx.Guild.OwnerId &&
+                ((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) <= role.Position)
+            {
+                await ctx.Channel.SendErrorAsync("You cannot manage this role!");
+                return;
+            }
+
+            if (((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) <= role.Position)
+            {
+                await ctx.Channel.SendErrorAsync("I cannot manage this role!");
+                return;
+            }
+
+            foreach (var i in users.Select(x => x as IGuildUser))
+            {
+                await i.AddRoleAsync(role);
+            }
+            await ctx.Channel.SendConfirmAsync(
+                $"{role.Mention} has had the following users added:\n{string.Join<string>("|", users.Select(x => x.Mention))}");
+        }
+        
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        public async Task RemoveUsersFromRole(IRole role, params IUser[] users)
+        {
+            if (ctx.User.Id != ctx.Guild.OwnerId &&
+                ((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) <= role.Position)
+            {
+                await ctx.Channel.SendErrorAsync("You cannot manage this role!");
+                return;
+            }
+
+            if (((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) <= role.Position)
+            {
+                await ctx.Channel.SendErrorAsync("I cannot manage this role!");
+                return;
+            }
+
+            foreach (var i in users.Select(x => x as IGuildUser))
+            {
+                await i.AddRoleAsync(role);
+            }
+            await ctx.Channel.SendConfirmAsync(
+                $"{role.Mention} has had the following users removed:\n{string.Join<string>("|", users.Select(x => x.Mention))}");
+        }
+        
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RemoveRoles(IGuildUser user, params IRole[] roles)
         {
+            foreach (var i in roles)
+            {
+                if (ctx.User.Id != ctx.Guild.OwnerId &&
+                    ((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) <= i.Position)
+                {
+                    await ctx.Channel.SendErrorAsync($"You cannot manage the role {i.Mention}");
+                    return;
+                }
+
+                if (((IGuildUser)ctx.User).GetRoles().Max(x => x.Position) > i.Position) continue;
+                await ctx.Channel.SendErrorAsync($"I cannot manage the role {i.Mention}!");
+                return;
+            }
             await user.RemoveRolesAsync(roles);
             await ctx.Channel.SendConfirmAsync(
                 $"{user} has had the following roles removed:\n{string.Join<string>("|", roles.Select(x => x.Mention))}");
@@ -295,9 +365,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -341,7 +411,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -369,9 +439,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode != HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -405,7 +475,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -442,9 +512,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode != HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -489,7 +559,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -518,9 +588,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -565,7 +635,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -594,9 +664,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -639,7 +709,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -668,9 +738,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -713,7 +783,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -742,9 +812,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -787,7 +857,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -816,9 +886,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -863,7 +933,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -892,9 +962,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -932,7 +1002,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -962,9 +1032,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 
@@ -1002,7 +1072,7 @@ public partial class ServerManagement
                 return;
             }
 
-            var jobId = 0;
+            int jobId;
             if (Service.Jobslist.FirstOrDefault() is null)
                 jobId = 1;
             else
@@ -1032,9 +1102,9 @@ public partial class ServerManagement
                         await Service.UpdateCount(ctx.Guild, jobId, count2);
                         count2++;
                     }
-                    catch (HttpException e)
+                    catch (HttpException)
                     {
-                        if (e.HttpCode == HttpStatusCode.NotFound) continue;
+                        //ignored
                     }
             }
 

@@ -74,6 +74,18 @@ public partial class Searches
         }
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages)]
+        public async Task RssTest(int index)
+        {
+            var feeds = Service.GetFeeds(ctx.Guild.Id);
+            if (feeds.ElementAt(index-1) is null)
+            {
+                await ReplyErrorLocalizedAsync("feed_out_of_range");
+                return;
+            }
+            await Service.TestRss(feeds.ElementAt(index-1), ctx.Channel as ITextChannel);
+        }
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+         UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedList()
         {
             var feeds = Service.GetFeeds(ctx.Guild.Id);

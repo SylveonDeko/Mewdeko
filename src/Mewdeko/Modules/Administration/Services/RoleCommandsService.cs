@@ -160,7 +160,20 @@ public class RoleCommandsService : INService
         return Task.CompletedTask;
     }
 
-    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);
+    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs)
+    {
+        try
+        {
+            _models.TryGetValue(id, out rrs);
+            return true;
+        }
+        catch (NullReferenceException)
+        {
+            rrs = new IndexedCollection<ReactionRoleMessage>();
+            return false;
+        }
+        
+    }
 
     public bool Add(ulong id, ReactionRoleMessage rrm)
     {

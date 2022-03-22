@@ -64,21 +64,22 @@ public class ChatterBotService : INService
 
     public ulong GetCleverbotChannel(ulong id) => _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
 
-    public Task MessageRecieved(SocketMessage usrMsg)
+    public Task MessageRecieved(SocketMessage msg)
     {
         _ = Task.Run(async () =>
         {
-            if (usrMsg.Author.IsBot)
+            if (msg.Author.IsBot)
                 return;
-            if (usrMsg.Channel is not ITextChannel chan)
+            if (msg.Channel is not ITextChannel chan)
                 return;
             try
             {
-                var message = PrepareMessage(usrMsg as IUserMessage, out var cbs);
+                if (msg is not IUserMessage usrMsg)
+                    return;
+                var message = PrepareMessage(usrMsg, out var cbs);
                 if (message == null || cbs == null)
                     return;
-                if (LimitUser.Contains(chan.Id)) return;
-                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message).ConfigureAwait(false);
+                var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message, usrMsg).ConfigureAwait(false);
                 if (cleverbotExecuted)
                 {
                     Log.Information(
@@ -87,9 +88,6 @@ public class ChatterBotService : INService
                     Channel: {usrMsg.Channel?.Name} [{usrMsg.Channel?.Id}]
                     UserId: {usrMsg.Author} [{usrMsg.Author.Id}]
                     Message: {usrMsg.Content}");
-                    LimitUser.Add(chan.Id);
-                    await Task.Delay(5000);
-                    LimitUser.Remove(chan.Id);
                 }
             }
             catch (Exception ex)
@@ -134,7 +132,7 @@ public class ChatterBotService : INService
         return message;
     }
 
-    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message)
+    private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message, IUserMessage msg)
     {
         await channel.TriggerTypingAsync().ConfigureAwait(false);
         string response = String.Empty;
@@ -148,14 +146,8 @@ public class ChatterBotService : INService
                 "Cleverbot is paid and I cannot pay for it right now! If you want to support Mewdeko and reenable this please donate so it'll be available!\nhttps://ko-fi.com/mewdeko\nThis is not a premium feature and never will be!");
             return false;
         }
-        try
-        {
-            await channel.SendConfirmAsync(response.SanitizeMentions(true)).ConfigureAwait(false);
-        }
-        catch
-        {
-            await channel.SendConfirmAsync(response.SanitizeMentions(true)).ConfigureAwait(false); // try twice :\
-        }
+
+        await msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(response.SanitizeMentions(true)).Build());
 
         return true;
     }

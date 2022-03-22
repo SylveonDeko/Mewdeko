@@ -92,30 +92,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             await ctx.Interaction.SendErrorAsync("Hold your horses I just started back up! Give me a few seconds then this command will be ready!\nIn the meantime check out https://mewdeko.tech/changelog for bot updates!");
             return;
         }
-        var toCheck = SmartEmbed.TryParse(embedCode, out _, out _) ;
         if (embedCode == "-")
         {
             await Service.SetCustomAfkMessage(ctx.Guild, "-");
             await ctx.Interaction.SendConfirmAsync("Afk messages will now have the default look.");
             return;
         }
-
-        if (!toCheck || !embedCode.Contains("%afk"))
-        {
-            await ctx.Interaction.SendErrorAsync("The embed code you provided cannot be used for afk messages!");
-            return;
-        }
-
         await Service.SetCustomAfkMessage(ctx.Guild, embedCode);
-        var ebe = SmartEmbed.TryParse(Service.GetCustomAfkMessage(ctx.Guild.Id), out _, out _);
-        if (ebe is false)
-        {
-            await Service.SetCustomAfkMessage(ctx.Guild, "-");
-            await ctx.Interaction.SendErrorAsync(
-                "There was an error checking the embed, it may be invalid, so I set the afk message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-            return;
-        }
-
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated afk message!");
     }
 
