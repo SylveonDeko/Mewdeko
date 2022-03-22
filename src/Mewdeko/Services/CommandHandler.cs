@@ -155,7 +155,16 @@ public class CommandHandler : INService
     {
         if (id is null)
             return ".";
-        return _bot.AllGuildConfigs[id.Value].Prefix ?? ".";
+        try
+        {
+            return _bot.AllGuildConfigs[id.Value].Prefix ?? ".";
+        }
+        catch (KeyNotFoundException)
+        {
+            var gc = _db.GetDbContext().ForGuildId(id.Value);
+            _bot.AllGuildConfigs.Add(id.Value, gc);
+            return ".";
+        }
     }
 
     public string SetDefaultPrefix(string prefix)
