@@ -1312,6 +1312,7 @@ eightball:
   - 8ball
 feedadd:
   - feedadd
+  - rss
 feedremove:
   - feedremove
   - feedrm
