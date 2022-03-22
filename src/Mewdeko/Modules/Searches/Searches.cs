@@ -88,28 +88,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         };
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
-
-    // [MewdekoCommand, Usage, Description, Aliases]
-    // public async Task RandomAww()
-    // {
-    //     var image = await _kSoftApi.ImagesApi.GetRandomAww();
-    //     var em = new EmbedBuilder
-    //     {
-    //         Author = new EmbedAuthorBuilder
-    //         {
-    //             Name = image.Author
-    //         },
-    //         Description = $"Title: {image.Title}\n[Source]({image.Source})",
-    //         Footer = new EmbedFooterBuilder
-    //         {
-    //             Text =
-    //                 $"{image.Upvotes} Upvotes {image.Downvotes} Downvotes | r/{image.Subreddit} | Powered by Ksoft.Si"
-    //         },
-    //         ImageUrl = image.ImageUrl,
-    //         Color = Mewdeko.OkColor
-    //     };
-    //     await ctx.Channel.SendMessageAsync("", embed: em.Build());
-    // }
+    
 
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task RandomReddit(string subreddit)
@@ -149,7 +128,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             Description = $"Title: {image.Data.Title}\n[Source]({image.Data.PostUrl})",
             Footer = new EmbedFooterBuilder
             {
-                Text = $"{image.Data.Upvotes} Upvotes! | r/{image.Data.Subreddit} Powered by martineAPI"
+                Text = $"{image.Data.Upvotes} Upvotes! | r/{image.Data.Subreddit.Name} Powered by martineAPI"
             },
             ImageUrl = image.Data.ImageUrl,
             Color = Mewdeko.OkColor
@@ -157,8 +136,6 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await msg.ModifyAsync(x => x.Embed = em.Build());
     }
     
-
-    //for anonymasen :^)
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Rip([Remainder] IGuildUser usr)
     {
