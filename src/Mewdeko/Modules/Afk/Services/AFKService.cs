@@ -164,19 +164,7 @@ public class AfkService : INService, IReadyExecutor
                         var ebe = SmartEmbed.TryParse(replacer.Replace(GetCustomAfkMessage(mentuser.GuildId)), out var embed, out var plainText);
                         if (!ebe)
                         {
-                            await SetCustomAfkMessage(user.Guild, "-");
-                            var a = await msg.Channel.EmbedAsync(new EmbedBuilder()
-                                                                 .WithAuthor(eab =>
-                                                                     eab.WithName($"{mentuser} is currently away")
-                                                                        .WithIconUrl(mentuser.GetAvatarUrl()))
-                                                                 .WithDescription(
-                                                                     GetAfkMessage(user.GuildId, mentuser.Id).Last()
-                                                                         .Message.Truncate(GetAfkLength(user.Guild.Id)))
-                                                                 .WithFooter(new EmbedFooterBuilder
-                                                                 {
-                                                                     Text =
-                                                                         $"AFK for {(DateTime.UtcNow - GetAfkMessage(user.GuildId, mentuser.Id).Last().DateAdded.Value).Humanize()}"
-                                                                 }).WithOkColor());
+                            var a = await msg.Channel.SendMessageAsync(replacer.Replace(GetCustomAfkMessage(mentuser.GuildId).SanitizeMentions(true)));
                             if (afkdel != 0)
                                 a.DeleteAfter(afkdel);
                             return;
@@ -201,14 +189,11 @@ public class AfkService : INService, IReadyExecutor
 
     public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AfkMessage = afkMessage;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AfkMessage = afkMessage;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task TimedAfk(
@@ -237,59 +222,48 @@ public class AfkService : INService, IReadyExecutor
 
     public async Task AfkTypeSet(IGuild guild, int num)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AfkType = num;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AfkType = num;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkDelSet(IGuild guild, int num)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AfkDel = num;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AfkDel = num;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkLengthSet(IGuild guild, int num)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AfkLength = num;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AfkLength = num;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
 
     public async Task AfkTimeoutSet(IGuild guild, int num)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AfkTimeout = num;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AfkTimeout = num;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task AfkDisabledSet(IGuild guild, string num)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AfkDisabledChannels = num;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AfkDisabledChannels = num;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public string GetCustomAfkMessage(ulong? id) 

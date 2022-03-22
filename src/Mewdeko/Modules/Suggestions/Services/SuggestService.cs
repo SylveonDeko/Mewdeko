@@ -137,120 +137,91 @@ public class SuggestionsService : INService
 
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.SuggestEmotes = parsedEmotes;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestEmotes = parsedEmotes;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.sugchan = channel;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.sugchan = channel;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetMinLength(IGuild guild, int minLength)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.MinSuggestLength = minLength;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.MinSuggestLength = minLength;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.MaxSuggestLength = maxLength;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.MaxSuggestLength = maxLength;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
 
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.SuggestMessage = message;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.SuggestMessage = message;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetAcceptMessage(IGuild guild, string message)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.AcceptMessage = message;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.AcceptMessage = message;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetDenyMessage(IGuild guild, string message)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.DenyMessage = message;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.DenyMessage = message;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetImplementMessage(IGuild guild, string message)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.ImplementMessage = message;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ImplementMessage = message;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.ConsiderMessage = message;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.ConsiderMessage = message;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task Sugnum(IGuild guild, ulong num)
     {
-        await using (var uow = Db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.sugnum = num;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-        
+        await using var uow = Db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.sugnum = num;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ulong GetSuggestionChannel(ulong? id) => _bot.GetGuildConfig(id.Value).sugchan;
@@ -366,7 +337,7 @@ public class SuggestionsService : INService
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug)
+                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
                 .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
@@ -378,32 +349,17 @@ public class SuggestionsService : INService
                 .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetDenyMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
-            {
-                if (interaction is null)
-                    await channel.SendErrorAsync(
-                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                if (interaction is not null)
-                    await interaction.SendErrorAsync(
-                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                await SetDenyMessage(guild, "-");
-                return;
-            }
-
-            await message.ModifyAsync(x =>
-            {
-                x.Content = plainText;
-                x.Embed = embed?.Build();
-            });
-            if (plainText is null && embed == null)
-            {
-                if (interaction is null)
-                    await channel.SendErrorAsync(
-                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                if (interaction is not null)
-                    await interaction.SendErrorAsync(
-                        "The deny message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                return;
-            }
+                await message.ModifyAsync(x =>
+                {
+                    x.Embed = null;
+                    x.Content = replacer.Replace(GetDenyMessage(guild));
+                });
+            else
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = plainText;
+                    x.Embed = embed?.Build();
+                });
 
             try
             {
@@ -530,7 +486,7 @@ public class SuggestionsService : INService
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug)
+                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
                 .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
@@ -542,23 +498,17 @@ public class SuggestionsService : INService
                 .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetConsiderMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
-            {
-                if (interaction is null)
-                    await channel.SendErrorAsync(
-                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                if (interaction is not null)
-                    await interaction.SendErrorAsync(
-                        "The consider message is invalid, Please try again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                await SetConsiderMessage(guild, "-");
-                return;
-            }
-
-            await message.ModifyAsync(x =>
-            {
-                x.Content = plainText;
-                x.Embed = embed?.Build();
-            });
-
+                await message.ModifyAsync(x =>
+                {
+                    x.Embed = null;
+                    x.Content = replacer.Replace(GetConsiderMessage(guild));
+                });
+            else
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = plainText;
+                    x.Embed = embed?.Build();
+                });
             try
             {
                 var emb = new EmbedBuilder();
@@ -687,7 +637,7 @@ public class SuggestionsService : INService
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug)
+                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
                 .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
@@ -699,18 +649,17 @@ public class SuggestionsService : INService
                 .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetImplementMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
-            {
-                await channel.SendErrorAsync(
-                    "The implement message set is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
-                await SetImplementMessage(guild, "-");
-                return;
-            }
-
-            await message.ModifyAsync(x =>
-            {
-                x.Content = plainText;
-                x.Embed = embed?.Build();
-            });
+                await message.ModifyAsync(x =>
+                {
+                    x.Embed = null;
+                    x.Content = replacer.Replace(GetImplementMessage(guild));
+                });
+            else
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = plainText;
+                    x.Embed = embed?.Build();
+                });
 
             try
             {
@@ -835,7 +784,7 @@ public class SuggestionsService : INService
                 .WithServer(client, guild as SocketGuild)
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
-                .WithOverride("%suggest.message%", () => sug)
+                .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
                 .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
@@ -847,18 +796,17 @@ public class SuggestionsService : INService
                 .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetAcceptMessage(guild)), out var embed, out var plainText);
             if (ebe is false)
-            {
-                await channel.SendErrorAsync(
-                    "The accept message set is invalid, I have set it back to default to avoid further issues.  Please try again and notify a server admin about this. If you are having an issue please visit the suport server shown when you mention Mewdeko.");
-                await SetAcceptMessage(guild, "-");
-                return;
-            }
-
-            await message.ModifyAsync(x =>
-            {
-                x.Content = plainText;
-                x.Embed = embed?.Build();
-            });
+                await message.ModifyAsync(x =>
+                {
+                    x.Embed = null;
+                    x.Content = replacer.Replace(GetAcceptMessage(guild));
+                });
+            else
+                await message.ModifyAsync(x =>
+                {
+                    x.Content = plainText;
+                    x.Embed = embed?.Build();
+                });
 
             try
             {
@@ -940,33 +888,20 @@ public class SuggestionsService : INService
             var sugnum1 = GetSNum(guild.Id);
             var replacer = new ReplacementBuilder()
                 .WithServer(client, guild as SocketGuild)
-                .WithOverride("%suggest.user%", () => user.ToString())
-                .WithOverride("%suggest.message%", () => suggestion)
+                .WithOverride("%suggest.user%", user.ToString)
+                .WithOverride("%suggest.message%", () => suggestion.SanitizeMentions(true))
                 .WithOverride("%suggest.number%", () => sugnum1.ToString())
                 .WithOverride("%suggest.user.name%", () => user.Username)
                 .WithOverride("%suggest.user.avatar%", () => user.RealAvatarUrl().ToString())
                 .Build();
             var ebe = SmartEmbed.TryParse(replacer.Replace(GetSuggestionMessage(guild)), out var embed, out var plainText);
-            if (ebe is false)
-            {
-                if (interaction is null)
-                {
-                    await channel.SendErrorAsync(
-                    "The custom suggest message set is invalid, I have set it back to default to avoid further issues. Please suggest again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                    await SetSuggestionMessage(guild, "-");
-                    return;
-                }
-
-                await interaction.SendEphemeralErrorAsync(
-                    "The custom suggest message set is invalid, I have set it back to default to avoid further issues. Please suggest again and notify a server admin about this. If you are having an issue please visit the support server shown when you mention Mewdeko.");
-                await SetSuggestionMessage(guild, "-");
-                return;
-            }
-
-            
             var chan = await guild.GetTextChannelAsync(GetSuggestionChannel(guild.Id));
-            var msg = await chan.SendMessageAsync(plainText,
-                embed: embed?.Build());
+            IUserMessage msg = null;
+            if (ebe is false)
+                await chan.SendMessageAsync(replacer.Replace(GetSuggestionMessage(guild)));
+            else
+                await chan.SendMessageAsync(plainText, embed: embed?.Build());
+            
             IEmote[] reacts = {tup, tdown};
             if (em is null or "disabled" or "-")
                 foreach (var i in reacts)
