@@ -143,11 +143,31 @@ public class AfkService : INService, IReadyExecutor
                         {
                             //ignored
                         }
+
+                        var afkmessage = GetAfkMessage(user.GuildId, user.Id);
+                        var customafkmessage = GetCustomAfkMessage(user.Guild.Id);
                         var afkdel = GetAfkDel(((ITextChannel)msg.Channel).GuildId);
+                        if (customafkmessage is null or "-")
+                        {
+                            var a = await msg.Channel.EmbedAsync(new EmbedBuilder()
+                                                                 .WithAuthor(eab => eab.WithName($"{mentuser} is currently away")
+                                                                                       .WithIconUrl(mentuser.GetAvatarUrl()))
+                                                                 .WithDescription(
+                                                                     GetAfkMessage(user.GuildId, mentuser.Id).Last()
+                                                                                                             .Message.Truncate(GetAfkLength(user.Guild.Id)))
+                                                                 .WithFooter(new EmbedFooterBuilder
+                                                                 {
+                                                                     Text =
+                                                                         $"AFK for {(DateTime.UtcNow - GetAfkMessage(user.GuildId, mentuser.Id).Last().DateAdded.Value).Humanize()}"
+                                                                 }).WithOkColor());
+                            if (afkdel > 0)
+                                a.DeleteAfter(afkdel);
+                            return;
+                        }
                         var replacer = new ReplacementBuilder()
                                        .WithOverride("%afk.message%",
-                                           () => GetAfkMessage(user.GuildId, mentuser.Id).Last().Message
-                                               .Truncate(GetAfkLength(user.GuildId)))
+                                           () => afkmessage.Last().Message
+                                                                                         .Truncate(GetAfkLength(user.GuildId)))
                                        .WithOverride("%afk.user%", () => mentuser.ToString())
                                        .WithOverride("%afk.user.mention%", () => mentuser.Mention)
                                        .WithOverride("%afk.user.avatar%", () => mentuser.GetAvatarUrl(size: 2048))
@@ -161,10 +181,10 @@ public class AfkService : INService, IReadyExecutor
                                            // ReSharper disable once PossibleInvalidOperationException
                                            $"{(DateTime.UtcNow - GetAfkMessage(user.GuildId, user.Id).Last().DateAdded.Value).Humanize()}")
                                        .Build();
-                        var ebe = SmartEmbed.TryParse(replacer.Replace(GetCustomAfkMessage(mentuser.GuildId)), out var embed, out var plainText);
+                        var ebe = SmartEmbed.TryParse(replacer.Replace(customafkmessage), out var embed, out var plainText);
                         if (!ebe)
                         {
-                            var a = await msg.Channel.SendMessageAsync(replacer.Replace(GetCustomAfkMessage(mentuser.GuildId).SanitizeMentions(true)));
+                            var a = await msg.Channel.SendMessageAsync(replacer.Replace(customafkmessage).SanitizeMentions(true));
                             if (afkdel != 0)
                                 a.DeleteAfter(afkdel);
                             return;
