@@ -111,4 +111,35 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync("Starboard Whitelist mode has been enabled");
         }
     }
+
+    [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
+    public async Task StarboardRemoveOnReactionClear(bool enabled)
+    {
+        await Service.SetRemoveOnClear(ctx.Guild, enabled);
+        if (enabled)
+            await ctx.Channel.SendConfirmAsync("Starboard posts will now be removed when the message's reactions are cleared.");
+        else
+            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon clearing reactions.");
+    }
+    
+    [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
+    public async Task StarboardRemoveOnDelete(bool enabled)
+    {
+        await Service.SetRemoveOnDelete(ctx.Guild, enabled);
+        if (enabled)
+            await ctx.Channel.SendConfirmAsync("Starboard posts will now be removed when the original message is deleted.");
+        else
+            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon original message deletion.");
+    }
+    
+    [MewdekoCommand, Usage, Description, Alias, UserPerm(GuildPermission.ManageChannels)]
+    public async Task StarboardRemoveOnBelowThreshold(bool enabled)
+    {
+        await Service.SetRemoveOnBelowThreshold(ctx.Guild, enabled);
+        if (enabled)
+            await ctx.Channel.SendConfirmAsync("Starboard posts will now be removed when the messages star count is below the current star count.");
+        else
+            await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed when the messages star count is below the current star count");
+    }
+    
 }
