@@ -33,7 +33,7 @@ public class SingleProcessCoordinator : ICoordinator
         return true;
     }
 
-    public void Die() => Environment.Exit(5);
+    public void Die() => Environment.Exit(0);
 
     public bool RestartShard(int shardId) => RestartBot();
 

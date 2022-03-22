@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using Swan;
 
 namespace Mewdeko.Modules.Giveaways.Services;
 
-public class GiveawayService : INService
+public class GiveawayService : INService, IReadyExecutor
 {
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
@@ -21,11 +22,11 @@ public class GiveawayService : INService
         _db = db;
         _creds = creds;
         _bot = bot;
-        _ = StartGiveawayLoop();
     }
 
-    private async Task StartGiveawayLoop()
+    public async Task OnReadyAsync()
     {
+        Log.Information("Giveaway Loop Started.");
         while (true)
         {
             await Task.Delay(2000);

@@ -3,6 +3,7 @@ using Discord.WebSocket;
 using Humanizer;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
@@ -10,7 +11,7 @@ using Serilog;
 
 namespace Mewdeko.Modules.Afk.Services;
 
-public class AfkService : INService
+public class AfkService : INService, IReadyExecutor
 {
     private readonly DbService _db;
     private readonly CommandHandler _cmd;
@@ -34,11 +35,10 @@ public class AfkService : INService
         Client.MessageReceived += MessageReceived;
         Client.MessageUpdated += MessageUpdated;
         Client.UserIsTyping += UserTyping;
-        _ = CacheAfk();
     }
     
 
-    public async Task CacheAfk()
+    public async Task OnReadyAsync()
     {
         {
             await using var uow = _db.GetDbContext();
@@ -49,7 +49,7 @@ public class AfkService : INService
                 await _cache.CacheAfk(i.Key, allafk.Where(x => x.GuildId == i.Value.GuildId).ToList());
             }
             Environment.SetEnvironmentVariable($"AFK_CACHED_{Client.ShardId}", "1");
-            Log.Information("AFK Cached!");
+            Log.Information("AFK Cached.");
         }
     }
     

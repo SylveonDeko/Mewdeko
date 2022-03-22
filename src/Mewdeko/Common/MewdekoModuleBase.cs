@@ -115,29 +115,28 @@ public abstract class MewdekoModule : ModuleBase
             dsc.InteractionCreated -= Interaction;
         }
 
-        Task Interaction(SocketInteraction arg)
+        async Task Interaction(SocketInteraction arg)
         {
             if (arg is SocketMessageComponent c)
-                Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     if (c.Channel.Id != channelId || c.Message.Id != msgId || c.User.Id != userId)
                     {
-                        c.DeferAsync();
+                        await c.DeferAsync();
                         return Task.CompletedTask;
                     }
 
                     if (c.Data.CustomId == "yes")
                     {
-                        c.DeferAsync();
+                        await c.DeferAsync();
                         userInputTask.TrySetResult("Yes");
                         return Task.CompletedTask;
                     }
 
-                    c.DeferAsync();
+                    await c.DeferAsync();
                     userInputTask.TrySetResult(c.Data.CustomId);
                     return Task.CompletedTask;
                 });
-            return Task.CompletedTask;
         }
     }
 
@@ -157,24 +156,21 @@ public abstract class MewdekoModule : ModuleBase
             dsc.MessageReceived -= Interaction;
         }
 
-        Task Interaction(SocketMessage arg)
+        async Task Interaction(SocketMessage arg)
         {
-            Task.Run(() =>
+            await Task.Run(async () =>
             {
-                if (arg.Author.Id != userId || arg.Channel.Id != channelId) return Task.CompletedTask;
+                if (arg.Author.Id != userId || arg.Channel.Id != channelId) return;
                 userInputTask.TrySetResult(arg.Content);
                 try
                 {
-                    arg.DeleteAsync();
+                    await arg.DeleteAsync();
                 }
                 catch
                 {
                     //Exclude
                 }
-
-                return Task.CompletedTask;
             });
-            return Task.CompletedTask;
         }
     }
     public async Task<string> NextMessageWithButtonAsync(string message, ulong userId, ITextChannel chan)

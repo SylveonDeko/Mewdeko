@@ -177,7 +177,28 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 // ignored
             }
 
-        if (_client.ShardId == 0) await LoadOwnerChannels().ConfigureAwait(false);
+        if (_client.ShardId == 0)
+        {
+            var channels = await Task.WhenAll(_creds.OwnerIds.Select(id =>
+            {
+                var user = _client.GetUser(id);
+                if (user == null)
+                    return Task.FromResult<IDMChannel>(null);
+
+                return user.CreateDMChannelAsync();
+            })).ConfigureAwait(false);
+
+            ownerChannels = channels.Where(x => x != null)
+                                    .ToDictionary(x => x.Recipient.Id, x => x)
+                                    .ToImmutableDictionary();
+
+            if (!ownerChannels.Any())
+                Log.Warning(
+                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
+            else
+                Log.Information(
+                    $"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
+        }
     }
 
     private async void RotatingStatuses(object objState)
@@ -322,29 +343,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             .OrderBy(x => x.Id)
             .ToList();
     }
-
-    private async Task LoadOwnerChannels()
-    {
-        var channels = await Task.WhenAll(_creds.OwnerIds.Select(id =>
-        {
-            var user = _client.GetUser(id);
-            if (user == null)
-                return Task.FromResult<IDMChannel>(null);
-
-            return user.CreateDMChannelAsync();
-        })).ConfigureAwait(false);
-
-        ownerChannels = channels.Where(x => x != null)
-            .ToDictionary(x => x.Recipient.Id, x => x)
-            .ToImmutableDictionary();
-
-        if (!ownerChannels.Any())
-            Log.Warning(
-                "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server.");
-        else
-            Log.Information(
-                $"Created {ownerChannels.Count} out of {_creds.OwnerIds.Length} owner message channels.");
-    }
+    
 
     public Task LeaveGuild(string guildStr)
     {
