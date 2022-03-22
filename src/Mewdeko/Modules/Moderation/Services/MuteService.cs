@@ -254,20 +254,18 @@ public class MuteService : INService
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using (var uow = _db.GetDbContext())
+        await using var uow = _db.GetDbContext();
+        yesno = yesnt switch
         {
-            yesno = yesnt switch
-            {
-                "y" => 1,
-                "n" => 0,
-                _ => yesno
-            };
+            "y" => 1,
+            "n" => 0,
+            _ => yesno
+        };
 
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.removeroles = yesno;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.removeroles = yesno;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,

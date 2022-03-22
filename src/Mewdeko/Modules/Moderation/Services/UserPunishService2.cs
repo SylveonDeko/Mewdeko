@@ -33,13 +33,11 @@ public class UserPunishService2 : INService
 
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.MiniWarnlogChannelId = channel.Id;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.MiniWarnlogChannelId = channel.Id;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task<WarningPunishment2> Warn(IGuild guild, ulong userId, IUser mod, string reason)

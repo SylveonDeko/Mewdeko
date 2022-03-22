@@ -105,12 +105,12 @@ public class ChatterBotService : INService
         return new CleverbotIoSession("GAh3wUfzDCpDpdpT", "RStKgqn7tcO9blbrv4KbXM8NDlb7H37C", _httpFactory);
     }
 
-    private string PrepareMessage(IUserMessage? msg, out IChatterBotSession cleverbot)
+    private string PrepareMessage(IMessage? msg, out IChatterBotSession cleverbot)
     {
         cleverbot = null;
         if (msg?.Channel is not ITextChannel channel)
             return null;
-
+        
         if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))
             return null;
 
@@ -135,7 +135,7 @@ public class ChatterBotService : INService
     private static async Task<bool> TryAsk(IChatterBotSession cleverbot, ITextChannel channel, string message, IUserMessage msg)
     {
         await channel.TriggerTypingAsync().ConfigureAwait(false);
-        string response = String.Empty;
+        string response;
         try
         {
             response = await cleverbot.Think(message).ConfigureAwait(false);
