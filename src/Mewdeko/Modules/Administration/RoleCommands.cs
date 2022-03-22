@@ -128,12 +128,10 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task ReactionRolesList()
         {
-            var embed = new EmbedBuilder()
-                .WithOkColor();
             if (!Service.Get(ctx.Guild.Id, out var rrs) ||
                 !rrs.Any())
             {
-                embed.WithDescription(GetText("no_reaction_roles"));
+                await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles"));
             }
             else
             {

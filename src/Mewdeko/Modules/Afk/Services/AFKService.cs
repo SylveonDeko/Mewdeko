@@ -193,7 +193,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     public async Task<IGuildUser[]> GetAfkUsers(IGuild guild) =>
-        _cache.GetAfkForGuild(guild.Id) != null
+        _cache.GetAfkForGuild(guild.Id) == null
             ? Array.Empty<IGuildUser>()
             : await _cache.GetAfkForGuild(guild.Id).GroupBy(m => m.UserId)
                    .Where(m => !string.IsNullOrEmpty(m.Last().Message))
