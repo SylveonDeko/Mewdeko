@@ -74,31 +74,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task SuggestMessage(string embed)
     {
-        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetSuggestionMessage(ctx.Guild, embed);
             await ctx.Interaction.SendConfirmAsync("Suggestions will now have the default look.");
             return;
         }
-
-        if (!e|| !embed.Contains("%suggest"))
-        {
-            await ctx.Interaction.SendErrorAsync(
-                "The embed code you provided cannot be used for suggestion messages!");
-            return;
-        }
-
         await Service.SetSuggestionMessage(ctx.Guild, embed);
-        var ebe = SmartEmbed.TryParse(Service.GetSuggestionMessage(ctx.Guild), out _, out _);
-        if (ebe is false)
-        {
-            await Service.SetSuggestionMessage(ctx.Guild, "-");
-            await ctx.Interaction.SendErrorAsync(
-                "There was an error checking the embed, it may be invalid, so I set the suggest message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-            return;
-        }
-        
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated suggestion message!");
     }
 
@@ -136,31 +118,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task AcceptMessage(string embed)
     {
-        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetAcceptMessage(ctx.Guild, embed);
             await ctx.Interaction.SendConfirmAsync("Accepted Suggestions will now have the default look.");
             return;
         }
-
-        if (!e || !embed.Contains("%suggest"))
-        {
-            await ctx.Interaction.SendErrorAsync(
-                "The embed code you provided cannot be used for accepted suggestion messages!");
-            return;
-        }
-
         await Service.SetAcceptMessage(ctx.Guild, embed);
-        var ebe = SmartEmbed.TryParse(Service.GetAcceptMessage(ctx.Guild), out _, out _);
-        if (ebe is false)
-        {
-            await Service.SetAcceptMessage(ctx.Guild, "-");
-            await ctx.Interaction.SendErrorAsync(
-                "There was an error checking the embed, it may be invalid, so I set the accept message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-            return;
-        }
-
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated accepted suggestion message!");
     }
 
@@ -168,31 +132,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task ImplementMessage(string embed)
     {
-        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetImplementMessage(ctx.Guild, embed);
             await ctx.Interaction.SendConfirmAsync("Implemented Suggestions will now have the default look.");
             return;
         }
-
-        if (!e || !embed.Contains("%suggest"))
-        {
-            await ctx.Interaction.SendErrorAsync(
-                "The embed code you provided cannot be used for implemented suggestion messages!");
-            return;
-        }
-
         await Service.SetImplementMessage(ctx.Guild, embed);
-        var ebe = SmartEmbed.TryParse(Service.GetImplementMessage(ctx.Guild), out _, out _);
-        if (ebe is false)
-        {
-            await Service.SetImplementMessage(ctx.Guild, "-");
-            await ctx.Interaction.SendErrorAsync(
-                "There was an error checking the embed, it may be invalid, so I set the implemented message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-            return;
-        }
-
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
     }
 
@@ -200,31 +146,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task DenyMessage(string embed)
     {
-        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetDenyMessage(ctx.Guild, embed);
             await ctx.Interaction.SendConfirmAsync("Denied Suggestions will now have the default look.");
             return;
         }
-
-        if (!e || !embed.Contains("%suggest"))
-        {
-            await ctx.Interaction.SendErrorAsync(
-                "The embed code you provided cannot be used for denied suggestion messages!");
-            return;
-        }
-
         await Service.SetDenyMessage(ctx.Guild, embed);
-        var ebe = SmartEmbed.TryParse(Service.GetDenyMessage(ctx.Guild), out _, out _);
-        if (ebe is false)
-        {
-            await Service.SetDenyMessage(ctx.Guild, "-");
-            await ctx.Interaction.SendErrorAsync(
-                "There was an error checking the embed, it may be invalid, so I set the deny message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-            return;
-        }
-
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated denied suggestion message!");
     }
 
@@ -232,31 +160,13 @@ public class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions, BlacklistCheck]
     public async Task ConsiderMessage(string embed)
     {
-        var e = SmartEmbed.TryParse(embed, out _, out _);
         if (embed == "-")
         {
             await Service.SetConsiderMessage(ctx.Guild, embed);
             await ctx.Interaction.SendConfirmAsync("Considered Suggestions will now have the default look.");
             return;
         }
-
-        if (!e || !embed.Contains("%suggest"))
-        {
-            await ctx.Interaction.SendErrorAsync(
-                "The embed code you provided cannot be used for considered suggestion messages!");
-            return;
-        }
-
         await Service.SetConsiderMessage(ctx.Guild, embed);
-        var ebe = SmartEmbed.TryParse(Service.GetConsiderMessage(ctx.Guild), out _, out _);
-        if (ebe is false)
-        {
-            await Service.SetConsiderMessage(ctx.Guild, "-");
-            await ctx.Interaction.SendErrorAsync(
-                "There was an error checking the embed, it may be invalid, so I set the Consider message back to default. Please dont hesitate to ask for embed help in the support server at https://discord.gg/6n3aa9Xapf.");
-            return;
-        }
-
         await ctx.Interaction.SendConfirmAsync("Sucessfully updated considered suggestion message!");
     }
 }
