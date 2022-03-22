@@ -300,7 +300,7 @@ public partial class Searches
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:847706744741691402> Getting results for {query}...");
+                $"<a:loading:900381735244689469> Getting results for {query}...");
             IJikan jikan = new Jikan();
             var result = await jikan.SearchMangaAsync(query);
             var paginator = new LazyPaginatorBuilder()

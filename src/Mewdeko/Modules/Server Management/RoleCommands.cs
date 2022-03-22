@@ -30,7 +30,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories.....");
+                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories.....");
             foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
@@ -59,7 +59,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels.....");
+                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels.....");
             foreach (var i in await ctx.Guild.GetTextChannelsAsync())
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
@@ -85,7 +85,7 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:847706744741691402> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count} Categories.....");
+                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetCategoriesAsync()).Count} Categories.....");
             foreach (var i in await ctx.Guild.GetCategoriesAsync())
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
