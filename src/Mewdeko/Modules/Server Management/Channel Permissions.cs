@@ -89,32 +89,10 @@ public partial class ServerManagement
 
             foreach (var e in perms) list.Add(e.ToString());
             await channel.AddPermissionOverwriteAsync(role, result);
-            await ctx.Channel.SendConfirmAsync(
-                $"I have allowed the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
+            if (perm == PermValue.Allow)
+                await ctx.Channel.SendConfirmAsync($"I have allowed the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
+            else
+                await ctx.Channel.SendConfirmAsync($"I have denied the following permissions for the user {role.Mention} in {channel}: \n**{string.Join("\n", list)}**");
         }
-        //[MewdekoCommand]
-        //[Usage]
-        //[Description]
-        //[Aliases]
-        //[RequireContext(ContextType.Guild)]
-        //[UserPerm(GuildPermission.ManageChannels)]
-        //[Priority(1)]
-        //public async Task PermControl(IRole channel, PermValue perm,  params GuildPermission[] perms)
-        //{
-        //    var list = new List<string>();
-        //    GuildPermissions result;
-        //    var newPermsRaw = GetRawPermissionValue(perms);
-        //    var currentPerms = channel.Permissions;
-        //    var perms2 = GetRawPermissionValue(currentPerms.ToList());
-        //    currentPerms |= newPermsRaw;
-        //    result = new GuildPermissions(perms2 |= newPermsRaw);
-        //    foreach (var e in perms)
-        //    {
-        //        list.Add(e.ToString());
-        //    }
-        //    await channel.ModifyAsync(x => x.Permissions = result);
-        //    await ctx.Channel.SendConfirmAsync(
-        //        $"I have allowed the following permissions for the user {channel.Mention}: \n**{string.Join("\n", list)}**");
-        //}
     }
 }

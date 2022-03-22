@@ -204,6 +204,77 @@ public class FeedsService : INService
         }
     }
 
+    public async Task TestRss(FeedSub sub, ITextChannel channel)
+    {
+        var feed = await FeedReader.ReadAsync(sub.Url);
+        var (feedItem, _) = feed.Items
+                                .Select(item => (Item: item,
+                                    LastUpdate: item.PublishingDate?.ToUniversalTime() ?? (item.SpecificItem as AtomFeedItem)?.UpdatedDate?.ToUniversalTime()))
+                                .Where(data => data.LastUpdate is not null).Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate)).LastOrDefault();
+        
+        var repbuilder = new ReplacementBuilder()
+                         .WithOverride("%title%", () => feedItem.Title ?? "Unkown")
+                         .WithOverride("%author%", () => feedItem.Author ?? "Unknown")
+                         .WithOverride("%content%", () => feedItem.Description?.StripHtml()).WithOverride("%image_url%", () => 
+                         {
+                             if (feedItem.SpecificItem is AtomFeedItem afi)
+                             {
+                                 var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
+                                 if (previewElement == null) previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+                                 var urlAttribute = previewElement?.Attribute("url");
+                                 if (urlAttribute != null
+                                     && !string.IsNullOrWhiteSpace(urlAttribute.Value)
+                                     && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
+                                     return urlAttribute.Value;
+                             }
+
+                             if (feedItem.SpecificItem is not MediaRssFeedItem mrfi || !(mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
+                                 return feed.ImageUrl;
+                             var imgUrl = mrfi.Enclosure.Url;
+                             if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute)) return imgUrl;
+
+                             return feed.ImageUrl;
+                                                 }).WithOverride("%categories%", () => string.Join(", ", feedItem.Categories))
+                                                 .WithOverride("%timestamp%",
+                                                     () => TimestampTag.FromDateTime(feedItem.PublishingDate.Value, TimestampTagStyles.LongDateTime).ToString())
+                                                 .WithOverride("%url%", () => feedItem.Link).WithOverride("%feedurl%", () => sub.Url).Build();
+        var embed = new EmbedBuilder().WithFooter(sub.Url);
+        var link = feedItem.SpecificItem.Link;
+        if (!string.IsNullOrWhiteSpace(link) && Uri.IsWellFormedUriString(link, UriKind.Absolute)) embed.WithUrl(link);
+        var title = string.IsNullOrWhiteSpace(feedItem.Title) ? "-" : feedItem.Title;
+        var gotImage = false;
+        if (feedItem.SpecificItem is MediaRssFeedItem mrfi && (mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
+        {
+            var imgUrl = mrfi.Enclosure.Url;
+            if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
+            {
+                embed.WithImageUrl(imgUrl);
+                gotImage = true;
+            }
+        }
+
+        if (!gotImage && feedItem.SpecificItem is AtomFeedItem afi)
+        {
+            var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
+            if (previewElement == null) previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+            if (previewElement != null)
+            {
+                var urlAttribute = previewElement.Attribute("url");
+                if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
+                {
+                    embed.WithImageUrl(urlAttribute.Value);
+                    gotImage = true;
+                }
+            }
+        }
+
+        embed.WithTitle(title.TrimTo(256));
+        var desc = feedItem.Description?.StripHtml();
+        if (!string.IsNullOrWhiteSpace(feedItem.Description)) embed.WithDescription(desc.TrimTo(2048));
+        var (builder, content) = await GetFeedEmbed(repbuilder.Replace(sub.Message));
+        if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
+        else await channel.SendMessageAsync(content ?? "", embed: builder?.Build());
+    }
     private Task<(EmbedBuilder builder, string content)> GetFeedEmbed(string message) 
         => SmartEmbed.TryParse(message, out var embed, out var content) ? Task.FromResult((embed, content)) : Task.FromResult<(EmbedBuilder, string)>((null, message));
 
