@@ -175,7 +175,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
 
         var sset = await Service.GetSnipes(ctx.Guild.Id);
-        var msg = (await Service.GetSnipes(ctx.Guild.Id)).LastOrDefault();
+        var msg = (await Service.GetSnipes(ctx.Guild.Id)).LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
         if (msg is null)
         {
             await ctx.Channel.SendErrorAsync("There is nothing to snipe here!");
