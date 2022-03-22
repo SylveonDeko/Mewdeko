@@ -575,6 +575,31 @@ repostthreshold:
   args:
     - 0
     - 5
+starboardallowbots:
+  desc: "Sets wether starboard ignores bots. Defaults to false."
+  args:
+    - true
+starboardremoveonreactionscleared:
+  desc: "Sets wether starboard removes a post when the origin message's reactions get cleared"
+  args:
+    - true
+starboardremoveondelete:
+  desc: "Sets wether starboard removes a post when the origin message is deleted."
+  args:
+    - true
+starboardremoveonbelowthreshold:
+  desc: "Sets wether a post is removed when its below the set star count."
+  args:
+    - true
+starboardwlmode:
+  desc: "Sets wether starboard is in blacklist/whitelist mode"
+  args:
+    - "whitelist"
+    - "blacklist"
+starboardchtoggle:
+  desc: "Adds or removes a channel from the black/whitelist depending on what's set in `{0}swm`"
+  args:
+    - "#channel"
 character:
   desc: 'Finds an anime character using the AniList Api'
   args:
@@ -3221,7 +3246,7 @@ eightball:
   desc: Ask the 8ball a yes/no question.
   args:
     - Is b1nzy a nice guy?
-feed:
+feedadd:
   desc: >-
     Subscribes to a feed. Bot will post an update up to once every 10 seconds.
     You can have up to 10 feeds on one server. All feeds must have unique URLs.

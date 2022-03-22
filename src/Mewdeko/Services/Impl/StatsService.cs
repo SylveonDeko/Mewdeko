@@ -17,7 +17,7 @@ public class StatsService : IStatsService
     public IHttpClientFactory Factory { get; }
     public IBotCredentials Creds { get; }
     public ICoordinator Coord { get; }
-    public const string BOT_VERSION = "5.01";
+    public const string BOT_VERSION = "5.02";
     
 
     private readonly DateTime _started;
@@ -62,8 +62,7 @@ public class StatsService : IStatsService
            using var client = new HttpClient();
            content.Headers.Clear();
            content.Headers.Add("Content-Type", "application/json");
-           var request = await client.PostAsync("https://api.statcord.com/beta/stats", content);
-           Log.Information(request.ReasonPhrase);
+           await client.PostAsync("https://api.statcord.com/beta/stats", content);
        }
     }
     public async Task PostToTopGg()
