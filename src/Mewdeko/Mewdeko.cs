@@ -240,6 +240,7 @@ public class Mewdeko
             new TryParseTypeReader<Emote>(Emote.TryParse),
             new TryParseTypeReader<Emoji>(Emoji.TryParse));
         
+        
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
 
         return toReturn;

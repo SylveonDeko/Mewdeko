@@ -31,6 +31,18 @@ gstart:
   args:
     - ""
     - "#channel 2d 1 nitro!"
+rsstest:
+  desc: "Tests an rss feed that you are subscribed to."
+  args:
+    - "1"
+adduserstorole:
+  desc: "Add users to a role"
+  args:
+    - "@role @user user userID"
+removeusersfromrole:
+  desc: "Remove users from a role"
+  args:
+    - "@role @user user userID"
 ship:
   desc: "Ship two users or ship yourself with another user!"
   args:
