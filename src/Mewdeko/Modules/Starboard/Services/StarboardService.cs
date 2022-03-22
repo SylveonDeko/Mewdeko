@@ -584,15 +584,13 @@ public class StarboardService : INService, IReadyExecutor
         
         var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == msg.Id);
         
-        if (maybePost is null || !arg2.HasValue || arg2.Value is not ITextChannel channel)
+        if (maybePost is null || !arg2.HasValue || arg2.Value is not ITextChannel channel || !GetRemoveOnReactionsClear(channel.GuildId))
             return;
         
         var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id)).GetPermissions(channel);
         if (!permissions.ManageMessages)
             return;
-        if (!GetRemoveOnReactionsClear(channel.GuildId))
-            return;
-        
+
         var starboardChannel = await channel.Guild.GetTextChannelAsync(GetStarboardChannel(channel.GuildId));
         if (starboardChannel is null)
             return;
