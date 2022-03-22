@@ -39,7 +39,6 @@ public class AdministrationService : INService
             .SelectMany(x => x.DelMsgOnCmdChannels)
             .ToDictionary(x => x.ChannelId, x => x.State)
             .ToConcurrent());
-        client.JoinedGuild += SendHelp;
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
     
@@ -48,24 +47,7 @@ public class AdministrationService : INService
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
     public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
     
-
-    public static async Task SendHelp(SocketGuild guild)
-    {
-        var e = guild.DefaultChannel;
-        var eb = new EmbedBuilder
-        {
-            Description =
-            "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command."
-        };
-        eb.AddField("How to look for commands",
-            "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
-        eb.AddField("Have any questions, or need my invite link?",
-            "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link:https://mewdeko.tech/invite");
-        eb.WithThumbnailUrl(
-            "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
-        eb.WithOkColor();
-        await e.SendMessageAsync(embed: eb.Build());
-    }
+    
 
     public async Task StaffRoleSet(IGuild guild, ulong role)
     {

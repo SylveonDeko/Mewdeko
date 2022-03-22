@@ -84,6 +84,18 @@ public class StarboardService : INService, IReadyExecutor
         _bot.AllGuildConfigs[guild.Id].StarboardChannel = channel;
     }
     
+    public async Task SetStarboardAllowBots(IGuild guild, bool enabled)
+    {
+        await using (var uow = _db.GetDbContext())
+        {
+            var gc = uow.ForGuildId(guild.Id, set => set);
+            gc.StarboardAllowBots = enabled;
+            await uow.SaveChangesAsync();
+        }
+
+        _bot.AllGuildConfigs[guild.Id].StarboardAllowBots = enabled;
+    }
+    
     public async Task SetRemoveOnDelete(IGuild guild, bool removeOnDelete)
     {
         await using (var uow = _db.GetDbContext())
@@ -171,6 +183,9 @@ public class StarboardService : INService, IReadyExecutor
     public int GetStarCount(ulong? id) => _bot.AllGuildConfigs[id.Value].Stars;
     public string GetCheckedChannels(ulong? id)
         => _bot.AllGuildConfigs[id.Value].StarboardCheckChannels;
+    
+    public bool GetAllowBots(ulong? id)
+        => _bot.AllGuildConfigs[id.Value].StarboardAllowBots;
 
     public bool GetCheckMode(ulong? id)
         => _bot.AllGuildConfigs[id.Value].UseStarboardBlacklist;
@@ -264,18 +279,27 @@ public class StarboardService : INService, IReadyExecutor
         if (!botPerms.Has(ChannelPermission.SendMessages))
             return;
         string content;
+        string imageurl;
         IUserMessage newMessage;
         if (!message.HasValue)
             newMessage = await message.GetOrDownloadAsync();
         else
             newMessage = message.Value;
-        
-        if (newMessage.Author.IsBot)
-            content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
-        else
-            content = newMessage.Content;
+        switch (newMessage.Author.IsBot)
+        {
+            case true when !GetAllowBots(textChannel.GuildId):
+                return;
+            case true:
+                content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
+                imageurl = newMessage.Attachments.Any() ? newMessage.Attachments.FirstOrDefault().ProxyUrl : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                break;
+            default:
+                content = newMessage.Content;
+                imageurl = newMessage.Attachments?.FirstOrDefault()?.ProxyUrl;
+                break;
+        }
 
-        if (content is null && !newMessage.Attachments.Any())
+        if (content is null && imageurl is null)
             return;
         
         var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
@@ -296,11 +320,11 @@ public class StarboardService : INService, IReadyExecutor
                     var post2 = post as IUserMessage;
                     var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                .WithDescription(content)
-                                               .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                .WithFooter(message.Id.ToString())
                                                .WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb1.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb1.WithImageUrl(imageurl);
 
                     await post2!.ModifyAsync(x =>
                     {
@@ -323,11 +347,11 @@ public class StarboardService : INService, IReadyExecutor
                         }
                     var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                .WithDescription(content)
-                                               .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                .WithFooter(message.Id.ToString())
                                                .WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb2.WithImageUrl(imageurl);
 
                     var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
                     await AddStarboardPost(message.Id, msg1.Id);
@@ -342,11 +366,11 @@ public class StarboardService : INService, IReadyExecutor
                     var toModify = tryGetOldPost as IUserMessage;
                     var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                 .WithDescription(content)
-                                                .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                                .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                 .WithFooter(message.Id.ToString())
                                                 .WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb1.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb1.WithImageUrl(imageurl);
 
                     await toModify!.ModifyAsync(x =>
                     {
@@ -358,7 +382,7 @@ public class StarboardService : INService, IReadyExecutor
                 {
                     var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                .WithDescription(content)
-                                               .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                .WithFooter(message.Id.ToString())
                                                .WithTimestamp(newMessage.Timestamp);
                     if (newMessage.Attachments.Any())
@@ -373,11 +397,11 @@ public class StarboardService : INService, IReadyExecutor
         {
             var eb = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                        .WithDescription(content)
-                                       .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                       .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                        .WithFooter(message.Id.ToString())
                                        .WithTimestamp(newMessage.Timestamp);
-            if (newMessage.Attachments.Any())
-                eb.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+            if (imageurl is not null)
+                eb.WithImageUrl(imageurl);
 
             var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build());
             await AddStarboardPost(message.Id, msg.Id);
@@ -422,18 +446,27 @@ public class StarboardService : INService, IReadyExecutor
             return;
         
         string content;
+        string imageurl;
         IUserMessage newMessage;
         if (!message.HasValue)
             newMessage = await message.GetOrDownloadAsync();
         else
             newMessage = message.Value;
-        
-        if (newMessage.Author.IsBot)
-            content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
-        else
-            content = newMessage.Content;
+        switch (newMessage.Author.IsBot)
+        {
+            case true when !GetAllowBots(textChannel.GuildId):
+                return;
+            case true:
+                content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
+                imageurl = newMessage.Attachments.Any() ? newMessage.Attachments.FirstOrDefault().ProxyUrl : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                break;
+            default:
+                content = newMessage.Content;
+                imageurl = newMessage.Attachments?.FirstOrDefault()?.ProxyUrl;
+                break;
+        }
 
-        if (content is null && !newMessage.Attachments.Any())
+        if (content is null && imageurl is null)
             return;
 
         var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
@@ -466,11 +499,11 @@ public class StarboardService : INService, IReadyExecutor
                     var post2 = post as IUserMessage;
                     var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                .WithDescription(content)
-                                               .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                .WithFooter(message.Id.ToString())
                                                .WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb1.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb1.WithImageUrl(imageurl);
 
                     await post2!.ModifyAsync(x =>
                     {
@@ -493,11 +526,11 @@ public class StarboardService : INService, IReadyExecutor
                         }
                     var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                .WithDescription(content)
-                                               .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                .WithFooter(message.Id.ToString())
                                                .WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb2.WithImageUrl(imageurl);
 
                     var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
                     await AddStarboardPost(newMessage.Id, msg1.Id);
@@ -512,10 +545,10 @@ public class StarboardService : INService, IReadyExecutor
                     var toModify = tryGetOldPost as IUserMessage;
                     var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                 .WithDescription(content)
-                                                .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                                .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                 .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb1.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb1.WithImageUrl(imageurl);
 
                     await toModify!.ModifyAsync(x =>
                     {
@@ -527,10 +560,10 @@ public class StarboardService : INService, IReadyExecutor
                 {
                     var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
                                                 .WithDescription(content)
-                                                .AddField("**Source**", $"[Jump!]({newMessage.GetJumpUrl()})")
+                                                .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
                                                 .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
+                    if (imageurl is not null)
+                        eb2.WithImageUrl(imageurl);
 
                     var msg1 = await starboardChannel.SendMessageAsync(
                         $"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
