@@ -101,13 +101,15 @@ public class Mewdeko
     {
         var startingGuildIdList = GetCurrentGuildIds();
         var sw = Stopwatch.StartNew();
+        var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
 
         using (var uow = _db.GetDbContext())
         {
             AllGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToDictionary(x => x.GuildId, x => x);
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
-            Log.Information("Guild Configs cached.");
+            gs2.Stop();
+            Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}.");
         }
 
         var s = new ServiceCollection()
