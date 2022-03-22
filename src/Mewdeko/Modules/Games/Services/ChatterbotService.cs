@@ -16,6 +16,7 @@ public class ChatterBotService : INService
     private readonly DiscordSocketClient _client;
     private readonly CommandHandler _cmd;
     private readonly IBotCredentials _creds;
+    private readonly Mewdeko _bot;
     private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
     public List<ulong> LimitUser = new();
@@ -26,6 +27,7 @@ public class ChatterBotService : INService
     {
         _db = db;
         _client = client;
+        _bot = bot;
         _cmd = cmd;
         _creds = creds;
         _httpFactory = factory;
@@ -50,6 +52,7 @@ public class ChatterBotService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.CleverbotChannel = id;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
 
         if (id == 0)

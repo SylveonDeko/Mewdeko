@@ -131,8 +131,8 @@ public class MuteService : INService
         = new();
     
 
-    public event Action<IGuildUser, IUser, MuteType, string> UserMuted = delegate { };
-    public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted = delegate { };
+    public event Action<IGuildUser, IUser, MuteType, string> UserMuted;
+    public event Action<IGuildUser, IUser, MuteType, string> UserUnmuted;
     
 
     private void OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
@@ -249,7 +249,7 @@ public class MuteService : INService
     }
 
     public int GetRemoveOnMute(ulong? id) 
-        => _bot.AllGuildConfigs[id.Value].removeroles;
+        => _bot.GetGuildConfig(id.Value).removeroles;
 
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
@@ -266,9 +266,8 @@ public class MuteService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.removeroles = yesno;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].removeroles = yesno;
     }
 
     public async Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All,

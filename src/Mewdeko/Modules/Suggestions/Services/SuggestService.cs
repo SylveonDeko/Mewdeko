@@ -125,14 +125,15 @@ public class SuggestionsService : INService
         }
     }
 
-    private ulong GetSNum(ulong? id) => _bot.AllGuildConfigs[id.Value].sugnum;
+    private ulong GetSNum(ulong? id) 
+        => _bot.GetGuildConfig(id.Value).sugnum;
     public int GetMaxLength(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].MaxSuggestLength;
+        => _bot.GetGuildConfig(id.Value).MaxSuggestLength;
     public int GetMinLength(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].MinSuggestLength;
+        => _bot.GetGuildConfig(id.Value).MinSuggestLength;
 
     private string GetEmotes(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].SuggestEmotes;
+        => _bot.GetGuildConfig(id.Value).SuggestEmotes;
 
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
@@ -141,9 +142,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.SuggestEmotes = parsedEmotes;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].SuggestEmotes = parsedEmotes;
+        
     }
 
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
@@ -153,9 +154,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.sugchan = channel;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
 
-        _bot.AllGuildConfigs[guild.Id].sugchan = channel;
     }
     public async Task SetMinLength(IGuild guild, int minLength)
     {
@@ -164,9 +165,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.MinSuggestLength = minLength;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
 
-        _bot.AllGuildConfigs[guild.Id].MinSuggestLength = minLength;
     }
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
@@ -175,9 +176,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.MaxSuggestLength = maxLength;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
 
-        _bot.AllGuildConfigs[guild.Id].MaxSuggestLength = maxLength;
     }
 
 
@@ -188,9 +189,8 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.SuggestMessage = message;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].SuggestMessage = message;
     }
 
     public async Task SetAcceptMessage(IGuild guild, string message)
@@ -200,9 +200,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.AcceptMessage = message;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].AcceptMessage = message;
+        
     }
 
     public async Task SetDenyMessage(IGuild guild, string message)
@@ -212,9 +212,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.DenyMessage = message;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].DenyMessage = message;
+        
     }
 
     public async Task SetImplementMessage(IGuild guild, string message)
@@ -224,9 +224,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ImplementMessage = message;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].ImplementMessage = message;
+        
     }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
@@ -236,9 +236,9 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ConsiderMessage = message;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].ConsiderMessage = message;
+        
     }
 
     public async Task Sugnum(IGuild guild, ulong num)
@@ -248,27 +248,27 @@ public class SuggestionsService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.sugnum = num;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].sugnum = num;
+        
     }
 
-    public ulong GetSuggestionChannel(ulong? id) => _bot.AllGuildConfigs[id.Value].sugchan;
+    public ulong GetSuggestionChannel(ulong? id) => _bot.GetGuildConfig(id.Value).sugchan;
 
     public string GetSuggestionMessage(IGuild guild)
-        => _bot.AllGuildConfigs[guild.Id].SuggestMessage;
+        => _bot.GetGuildConfig(guild.Id).SuggestMessage;
 
     public string GetAcceptMessage(IGuild guild)
-        => _bot.AllGuildConfigs[guild.Id].AcceptMessage;
+        => _bot.GetGuildConfig(guild.Id).AcceptMessage;
 
     public string GetDenyMessage(IGuild guild)
-        => _bot.AllGuildConfigs[guild.Id].DenyMessage;
+        => _bot.GetGuildConfig(guild.Id).DenyMessage;
 
     public string GetImplementMessage(IGuild guild)
-        => _bot.AllGuildConfigs[guild.Id].ImplementMessage;
+        => _bot.GetGuildConfig(guild.Id).ImplementMessage;
 
     public string GetConsiderMessage(IGuild guild)
-        => _bot.AllGuildConfigs[guild.Id].ConsiderMessage;
+        => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
     
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
         ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)

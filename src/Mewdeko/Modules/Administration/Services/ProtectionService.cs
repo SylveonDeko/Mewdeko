@@ -389,34 +389,32 @@ public class ProtectionService : INService
             ChannelId = channelId
         };
         bool added;
-        await using (var uow = _db.GetDbContext())
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
+        var spam = gc.AntiSpamSetting;
+        if (spam is null)
         {
-            var gc = uow.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting).ThenInclude(x => x.IgnoredChannels));
-            var spam = gc.AntiSpamSetting;
-            if (spam is null)
-            {
-                return null;
-            }
-
-            if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
-            {
-                if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                    temp.AntiSpamSettings.IgnoredChannels.Add(obj); // add to local cache
-                added = true;
-            }
-            else
-            {
-                var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
-                uow.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
-                if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
-                {
-                    temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
-                }
-                added = false;
-            }
-
-            await uow.SaveChangesAsync();
+            return null;
         }
+
+        if (spam.IgnoredChannels.Add(obj)) // if adding to db is successful
+        {
+            if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
+                temp.AntiSpamSettings.IgnoredChannels.Add(obj); // add to local cache
+            added = true;
+        }
+        else
+        {
+            var toRemove = spam.IgnoredChannels.First(x => x.ChannelId == channelId);
+            uow.Set<AntiSpamIgnore>().Remove(toRemove); // remove from db
+            if (_antiSpamGuilds.TryGetValue(guildId, out var temp))
+            {
+                temp.AntiSpamSettings.IgnoredChannels.Remove(toRemove); // remove from local cache
+            }
+            added = false;
+        }
+
+        await uow.SaveChangesAsync();
         return added;
     }
 

@@ -37,10 +37,10 @@ public class UtilityService : INService
         => await _cache.GetSnipesForGuild(guildId);
 
     public int GetPLinks(ulong? id) 
-        => _bot.AllGuildConfigs[id.Value].PreviewLinks;
+        => _bot.GetGuildConfig(id.Value).PreviewLinks;
 
     public ulong GetReactChans(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].ReactChannel;
+        => _bot.GetGuildConfig(id.Value).ReactChannel;
 
     public async Task SetReactChan(IGuild guild, ulong yesnt)
     {
@@ -49,9 +49,9 @@ public class UtilityService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.ReactChannel = yesnt;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
+            
         }
-
-        _bot.AllGuildConfigs[guild.Id].ReactChannel = yesnt;
     }
 
     public async Task PreviewLinks(IGuild guild, string yesnt)
@@ -72,13 +72,12 @@ public class UtilityService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].PreviewLinks = yesno;
     }
 
     public bool GetSnipeSet(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].snipeset;
+        => _bot.GetGuildConfig(id.Value).snipeset;
 
     public async Task SnipeSet(IGuild guild, string endis)
     {
@@ -88,9 +87,8 @@ public class UtilityService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.snipeset = yesno;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].snipeset = yesno;
     }
     public async Task SnipeSetBool(IGuild guild, bool enabled)
     {
@@ -99,9 +97,9 @@ public class UtilityService : INService
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.snipeset = enabled;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].snipeset = enabled;
+        
     }
 
     private async Task BulkMsgStore(

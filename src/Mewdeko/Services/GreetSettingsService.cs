@@ -207,26 +207,20 @@ public class GreetSettingsService : INService
 
     public async Task SetWebGreetUrl(IGuild guild, string url)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.GreetHook = url;
-            await uow.SaveChangesAsync();
-        }
-
-        _bot.AllGuildConfigs[guild.Id].GreetHook = url;
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.GreetHook = url;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task SetWebLeaveUrl(IGuild guild, string url)
     {
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            gc.LeaveHook = url;
-            await uow.SaveChangesAsync();
-        }
-
-        _bot.AllGuildConfigs[guild.Id].LeaveHook = url;
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.LeaveHook = url;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public string GetDmGreetMsg(ulong id)
@@ -242,10 +236,10 @@ public class GreetSettingsService : INService
     }
 
     public string GetGreetHook(ulong? gid) 
-        => _bot.AllGuildConfigs[gid.Value].GreetHook;
+        => _bot.GetGuildConfig(gid.Value).GreetHook;
 
     public string GetLeaveHook(ulong? gid) 
-        => _bot.AllGuildConfigs[gid.Value].LeaveHook;
+        => _bot.GetGuildConfig(gid.Value).LeaveHook;
 
     private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user) => ByeUsers(conf, channel, new[] {user});
 

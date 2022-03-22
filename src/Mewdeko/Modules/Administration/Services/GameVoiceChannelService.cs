@@ -29,8 +29,7 @@ public class GameVoiceChannelService : INService
             {
                 if (after is null)
                     return;
-                
-                if (_bot.AllGuildConfigs[after?.Guild?.Id ?? 0].GameVoiceChannel != after?.VoiceChannel?.Id)
+                if (_bot.GetGuildConfig(after.Guild.Id).GameVoiceChannel != after?.VoiceChannel?.Id)
                     return;
                 //if the user is in the voice channel and that voice channel is gvc
                 //if the activity has changed, and is a playing activity
@@ -56,13 +55,13 @@ public class GameVoiceChannelService : INService
 
         if (gc.GameVoiceChannel == vchId)
         {
-            _bot.AllGuildConfigs[guildId] = null;
             id = gc.GameVoiceChannel = null;
+            _bot.UpdateGuildConfig(guildId, gc);
         }
         else
         {
-            _bot.AllGuildConfigs[guildId].GameVoiceChannel = vchId;
             id = gc.GameVoiceChannel = vchId;
+            _bot.UpdateGuildConfig(guildId, gc);
         }
 
         uow.SaveChanges();
@@ -85,7 +84,7 @@ public class GameVoiceChannelService : INService
                     newState.VoiceChannel == null)
                     return;
 
-                if (_bot.AllGuildConfigs[gUser.Guild.Id].GameVoiceChannel != newState.VoiceChannel.Id ||
+                if (_bot.GetGuildConfig(gUser.Guild.Id).GameVoiceChannel != newState.VoiceChannel.Id ||
                     string.IsNullOrWhiteSpace(game))
                     return;
 

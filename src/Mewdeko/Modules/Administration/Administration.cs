@@ -408,12 +408,10 @@ public partial class Administration : MewdekoModuleBase<AdministrationService>
     {
         if (Service.ToggleDeleteMessageOnCommand(ctx.Guild.Id))
         {
-            _bot.AllGuildConfigs[ctx.Guild.Id].DeleteMessageOnCommand = true;
             await ReplyConfirmLocalizedAsync("delmsg_on").ConfigureAwait(false);
         }
         else
         {
-            _bot.AllGuildConfigs[ctx.Guild.Id].DeleteMessageOnCommand = false;
             await ReplyConfirmLocalizedAsync("delmsg_off").ConfigureAwait(false);
         }
     }

@@ -14,7 +14,7 @@ public class ActivityService : INService
         _bot = bot;
     }
 
-    public ulong GetGameMasterRole(ulong guildId) => _bot.AllGuildConfigs[guildId].GameMasterRole;
+    public ulong GetGameMasterRole(ulong guildId) => _bot.GetGuildConfig(guildId).GameMasterRole;
 
     public async Task GameMasterRoleSet(ulong guildid, ulong role)
     {
@@ -22,6 +22,6 @@ public class ActivityService : INService
         var gc = uow.ForGuildId(guildid, set => set);
         gc.GameMasterRole = role;
         await uow.SaveChangesAsync();
-        _bot.AllGuildConfigs[guildid].GameMasterRole = role;
+        _bot.UpdateGuildConfig(guildid, gc);
     }
 }

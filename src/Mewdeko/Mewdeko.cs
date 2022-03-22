@@ -80,7 +80,7 @@ public class Mewdeko
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
-    public Dictionary<ulong, GuildConfig> AllGuildConfigs { get; private set; } = new();
+    public Dictionary<ulong, GuildConfig> CachedGuildConfigs { get; private set; } = new();
     
     
     public static Color OkColor { get; set; }
@@ -97,6 +97,26 @@ public class Mewdeko
 
     public List<ulong> GetCurrentGuildIds() => Client.Guilds.Select(x => x.Id).ToList();
 
+    public GuildConfig GetGuildConfig(ulong guildId)
+    {
+        if (CachedGuildConfigs.TryGetValue(guildId, out var gc))
+            return gc;
+        gc = _db.GetDbContext().ForGuildId(guildId);
+        CachedGuildConfigs.Add(guildId, gc);
+        return gc;
+    }
+
+    public void UpdateGuildConfig(ulong guildId, GuildConfig config)
+    {
+        if (CachedGuildConfigs.TryGetValue(guildId, out _))
+        {
+            CachedGuildConfigs[guildId] = config;
+        }
+        else
+        {
+            CachedGuildConfigs.Add(guildId, config);
+        }
+    }
     private void AddServices()
     {
         var startingGuildIdList = GetCurrentGuildIds();
@@ -106,7 +126,7 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
-            AllGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToDictionary(x => x.GuildId, x => x);
+            CachedGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToDictionary(x => x.GuildId, x => x);
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             gs2.Stop();
             Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}.");
@@ -274,7 +294,7 @@ public class Mewdeko
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
                 if (arg.Name is not null)
                 {
-                    AllGuildConfigs.Remove(arg.Id);
+                    CachedGuildConfigs.Remove(arg.Id);
                 }
             }
             catch

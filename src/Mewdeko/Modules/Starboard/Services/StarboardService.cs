@@ -79,9 +79,8 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardChannel = channel;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].StarboardChannel = channel;
     }
     
     public async Task SetStarboardAllowBots(IGuild guild, bool enabled)
@@ -91,9 +90,8 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardAllowBots = enabled;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].StarboardAllowBots = enabled;
     }
     
     public async Task SetRemoveOnDelete(IGuild guild, bool removeOnDelete)
@@ -103,9 +101,8 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardRemoveOnDelete = removeOnDelete;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].StarboardRemoveOnDelete = removeOnDelete;
     }
     
     public async Task SetRemoveOnClear(IGuild guild, bool removeOnClear)
@@ -115,9 +112,9 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardRemoveOnReactionsClear = removeOnClear;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
 
-        _bot.AllGuildConfigs[guild.Id].StarboardRemoveOnReactionsClear = removeOnClear;
     }
     
     public async Task SetRemoveOnBelowThreshold(IGuild guild, bool removeOnBelowThreshold)
@@ -127,9 +124,9 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
+        
     }
     
     public async Task SetCheckMode(IGuild guild, bool checkmode)
@@ -139,9 +136,9 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.UseStarboardBlacklist = true;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].UseStarboardBlacklist = checkmode;
+        
     }
     public async Task<bool> ToggleChannel(IGuild guild, string id)
     {
@@ -154,7 +151,7 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.StarboardCheckChannels = joinedchannels;
             await uow.SaveChangesAsync();
-            _bot.AllGuildConfigs[guild.Id].StarboardCheckChannels = joinedchannels;
+            _bot.UpdateGuildConfig(guild.Id, gc);
             return false;
         }
 
@@ -164,7 +161,7 @@ public class StarboardService : INService, IReadyExecutor
         var gc1 = uow1.ForGuildId(guild.Id, set => set);
         gc1.StarboardCheckChannels = joinedchannels1;
         await uow1.SaveChangesAsync();
-        _bot.AllGuildConfigs[guild.Id].StarboardCheckChannels = joinedchannels1;
+        _bot.UpdateGuildConfig(guild.Id, gc1);
         return true;
     }
 
@@ -175,31 +172,31 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.Stars = num;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].Stars = num;
+        
     }
 
-    public int GetStarCount(ulong? id) => _bot.AllGuildConfigs[id.Value].Stars;
+    public int GetStarCount(ulong? id) => _bot.GetGuildConfig(id.Value).Stars;
     public string GetCheckedChannels(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].StarboardCheckChannels;
+        => _bot.GetGuildConfig(id.Value).StarboardCheckChannels;
     
     public bool GetAllowBots(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].StarboardAllowBots;
+        => _bot.GetGuildConfig(id.Value).StarboardAllowBots;
 
     public bool GetCheckMode(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].UseStarboardBlacklist;
+        => _bot.GetGuildConfig(id.Value).UseStarboardBlacklist;
     private int GetThreshold(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].RepostThreshold;
+        => _bot.GetGuildConfig(id.Value).RepostThreshold;
     
     private bool GetRemoveOnBelowThreshold(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].StarboardRemoveOnBelowThreshold;
+        => _bot.GetGuildConfig(id.Value).StarboardRemoveOnBelowThreshold;
     
     private bool GetRemoveOnDelete(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].StarboardRemoveOnDelete;
+        => _bot.GetGuildConfig(id.Value).StarboardRemoveOnDelete;
     
     private bool GetRemoveOnReactionsClear(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].StarboardRemoveOnReactionsClear;
+        => _bot.GetGuildConfig(id.Value).StarboardRemoveOnReactionsClear;
     public async Task SetStar(IGuild guild, string emote)
     {
         await using (var uow = _db.GetDbContext())
@@ -207,9 +204,8 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.Star2 = emote;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].Star2 = emote;
     }
     
     public async Task SetRepostThreshold(IGuild guild, int threshold)
@@ -219,16 +215,16 @@ public class StarboardService : INService, IReadyExecutor
             var gc = uow.ForGuildId(guild.Id, set => set);
             gc.RepostThreshold = threshold;
             await uow.SaveChangesAsync();
+            _bot.UpdateGuildConfig(guild.Id, gc);
         }
-
-        _bot.AllGuildConfigs[guild.Id].RepostThreshold = threshold;
+        
     }
 
     public string GetStar(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].Star2;
+        => _bot.GetGuildConfig(id.Value).Star2;
 
     private ulong GetStarboardChannel(ulong? id)
-        => _bot.AllGuildConfigs[id.Value].StarboardChannel;
+        => _bot.GetGuildConfig(id.Value).StarboardChannel;
 
     private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> channel,
