@@ -16,11 +16,11 @@ public class RoleCommandsService : INService
     private readonly DbService _db;
     private readonly ConcurrentDictionary<ulong, IndexedCollection<ReactionRoleMessage>> _models;
 
-    public RoleCommandsService(DiscordSocketClient client, DbService db)
+    public RoleCommandsService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _db = db;
-        _models = db.GetDbContext().GuildConfigs.All().ToDictionary(x => x.GuildId,
-                x => x.ReactionRoleMessages)
+        _models = bot.CachedGuildConfigs.ToDictionary(x => x.Key,
+                x => db.GetDbContext().GetReactionRoles(x.Key))
             .ToConcurrent();
         client.ReactionAdded += _client_ReactionAdded;
         client.ReactionRemoved += _client_ReactionRemoved;
@@ -69,13 +69,13 @@ public class RoleCommandsService : INService
                                 //if the role is exclusive,
                                 // remove all other reactions user added to the message
                                 var dl = await msg.GetOrDownloadAsync().ConfigureAwait(false);
-                                foreach (var r in dl.Reactions)
+                                foreach (var (key, _) in dl.Reactions)
                                 {
-                                    if (r.Key.Name == reaction.Emote.Name)
+                                    if (key.Name == reaction.Emote.Name)
                                         continue;
                                     try
                                     {
-                                        await dl.RemoveReactionAsync(r.Key, gusr).ConfigureAwait(false);
+                                        await dl.RemoveReactionAsync(key, gusr).ConfigureAwait(false);
                                     }
                                     catch
                                     {
@@ -160,20 +160,7 @@ public class RoleCommandsService : INService
         return Task.CompletedTask;
     }
 
-    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs)
-    {
-        try
-        {
-            _models.TryGetValue(id, out rrs);
-            return true;
-        }
-        catch (NullReferenceException)
-        {
-            rrs = new IndexedCollection<ReactionRoleMessage>();
-            return false;
-        }
-        
-    }
+    public bool Get(ulong id, out IndexedCollection<ReactionRoleMessage> rrs) => _models.TryGetValue(id, out rrs);
 
     public bool Add(ulong id, ReactionRoleMessage rrm)
     {
