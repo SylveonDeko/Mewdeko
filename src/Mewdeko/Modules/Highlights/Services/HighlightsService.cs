@@ -105,10 +105,11 @@ public class HighlightsService : INService, IReadyExecutor
             var permissions = user.GetPermissions(channel);
             if (!permissions.ViewChannel)
                 continue;
-            var messages = await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync();
-            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n",
-                                            messages.OrderBy(x => x.Timestamp).Select(x => $"[<t:{x.Timestamp.ToUnixTimeSeconds()}:T>]({x.GetJumpLink()}): " +
-                                                $"{Format.Bold(x.Author.ToString())}: {x.Content?.TrimTo(100)} {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? "[has embed]" : "")}")))
+            var messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync()).Append(message);
+            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n", messages.OrderBy(x => x.Timestamp)
+                                            .Select(x => $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
+                                                $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
+                                                $" {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? " [has embed]" : "")}")))
                                         .WithFooter("Yes this was shamelessly copied from carl-bot.");
 
             var cb = new ComponentBuilder()
