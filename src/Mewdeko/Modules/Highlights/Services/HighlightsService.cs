@@ -80,10 +80,10 @@ public class HighlightsService : INService, IReadyExecutor
         var toSend = (from i in splitwords from j in highlightWords where String.Equals(j.Word, i, StringComparison.CurrentCultureIgnoreCase) select j).ToList();
         foreach (var i in toSend)
         {
-            if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
-                continue;
-            if (usersDMd.Contains(i.UserId))
-                continue;
+            // if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
+            //     continue;
+            // if (usersDMd.Contains(i.UserId))
+            //     continue;
             if (GetSettingsForGuild(channel.GuildId).Any())
             {
                 var settings = GetSettingsForGuild(channel.GuildId)
@@ -99,16 +99,17 @@ public class HighlightsService : INService, IReadyExecutor
                 }
             }
 
-            if (!await _cache.TryAddHighlightStaggerUser(i.UserId))
-                continue;
+            // if (!await _cache.TryAddHighlightStaggerUser(i.UserId))
+            //     continue;
             var user = await channel.Guild.GetUserAsync(i.UserId);
             var permissions = user.GetPermissions(channel);
             if (!permissions.ViewChannel)
                 continue;
-            var messages = await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync();
-            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n",
-                                            messages.OrderBy(x => x.Timestamp).Select(x => $"[<t:{x.Timestamp.ToUnixTimeSeconds()}:T>]({x.GetJumpLink()}): " +
-                                                $"{Format.Bold(x.Author.ToString())}: {x.Content?.TrimTo(100)} {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? "[has embed]" : "")}")))
+            var messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync()).Append(message);
+            var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n", messages.OrderBy(x => x.Timestamp)
+                                            .Select(x => $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
+                                                $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
+                                                $" {(x.Embeds?.Count >= 1 || x.Attachments?.Count >= 1 ? " [has embed]" : "")}")))
                                         .WithFooter("Yes this was shamelessly copied from carl-bot.");
 
             var cb = new ComponentBuilder()
