@@ -1,4 +1,6 @@
-﻿using Mewdeko.Database.Models;
+﻿using LinqToDB;
+using Mewdeko.Database.Common;
+using Mewdeko.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
@@ -11,7 +13,14 @@ public static class GuildConfigExtensions
         public ulong ChannelId { get; set; } 
     }
 
-    public static GuildConfig[] All(this DbSet<GuildConfig> set) => set.AsQueryable().ToArray();
+    public static IEnumerable<GuildConfig> All(this DbSet<GuildConfig> set) => set.AsQueryable().ToArray();
+
+    public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId) 
+        => ctx.GuildConfigs
+              .Include(x => x.ReactionRoleMessages)
+              .ThenInclude(x => x.ReactionRoles)
+              .FirstOrDefault(x => x.GuildId == guildId)?.ReactionRoleMessages;
+
     public static GuildConfig ForGuildId(this MewdekoContext ctx, ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
     {
         GuildConfig config;
