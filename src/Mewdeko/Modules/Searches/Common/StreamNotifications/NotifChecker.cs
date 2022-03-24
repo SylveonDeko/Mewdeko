@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using Mewdeko._Extensions;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.Models;
@@ -191,8 +191,10 @@ public class NotifChecker
         if (!db.KeyExists(_key))
             return new();
 
-        return db.HashGetAll(_key).ToDictionary(entry => JsonConvert.DeserializeObject<StreamDataKey>(entry.Name),
-            entry => entry.Value.IsNullOrEmpty ? default : JsonConvert.DeserializeObject<StreamData?>(entry.Value));
+        return db.HashGetAll(_key)
+            .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name), Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
+            .Where(keyValuePair => keyValuePair.Key.Name is not null)
+            .ToDictionary(keyValuePair => keyValuePair.Key, entry => entry.Value);
     }
 
 
