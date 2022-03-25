@@ -955,6 +955,15 @@ repeatredun:
     someone.
   args:
     - '1'
+repeatchannel:
+  desc: "Sets the channel a repeater executes in."
+  args:
+    - "1 #channel"
+    - 
+repeatmessage:
+  desc: "Set's a repeaters message after it has been made. You can use this with [embeds](https://eb.mewdeko.tech) and [placeholders](https://mewdeko.tech/placeholders)"
+  args:
+    - "1 message/embedcode"
 rotateplaying:
   desc: >-
     Toggles rotation of playing status of the dynamic strings you previously
