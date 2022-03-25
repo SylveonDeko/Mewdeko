@@ -38,22 +38,22 @@ public abstract class MewdekoSlashCommandModule : InteractionModuleBase
 
     protected string GetText(string key, params object[] args) => Strings.GetText(key, CultureInfo, args);
 
-    public Task<IUserMessage> ErrorLocalizedAsync(string textKey, params object[] args)
+    public async Task ErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendErrorAsync(text);
+        await ctx.Interaction.SendErrorAsync(text);
     }
 
-    public Task<IUserMessage> ReplyErrorLocalizedAsync(string textKey, params object[] args)
+    public async Task ReplyErrorLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+        await ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
     }
 
-    public Task<IUserMessage> ConfirmLocalizedAsync(string textKey, params object[] args)
+    public async Task ConfirmLocalizedAsync(string textKey, params object[] args)
     {
         var text = GetText(textKey, args);
-        return ctx.Channel.SendConfirmAsync(text);
+        await ctx.Interaction.SendConfirmAsync(text);
     }
 
     public Task<IUserMessage> ReplyConfirmLocalizedAsync(string textKey, params object[] args)

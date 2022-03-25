@@ -33,8 +33,7 @@ public partial class Utility
             channel ??= ctx.Channel;
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
-                await ctx.Interaction.SendErrorAsync(
-                    "Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
+                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled");
                 return;
             }
 
@@ -48,7 +47,7 @@ public partial class Utility
 
             if (msg is null)
             {
-                await ctx.Interaction.SendErrorAsync("There is nothing to snipe here!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -76,8 +75,7 @@ public partial class Utility
             channel ??= ctx.Channel;
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
-                await ctx.Interaction.SendErrorAsync(
-                    "Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
+                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled");
                 return;
             }
 
@@ -91,7 +89,7 @@ public partial class Utility
 
             if (msg is null)
             {
-                await ctx.Interaction.SendErrorAsync("There is nothing to snipe here!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
