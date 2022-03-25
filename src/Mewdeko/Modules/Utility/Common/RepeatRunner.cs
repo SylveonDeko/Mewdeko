@@ -210,8 +210,6 @@ public class RepeatRunner
                 newMsg = await Channel.SendMessageAsync(rep.Replace(toSend));
             }
 
-            _ = newMsg.AddReactionAsync(new Emoji("🔄"));
-
             if (Repeater.NoRedundant)
             {
                 _mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
