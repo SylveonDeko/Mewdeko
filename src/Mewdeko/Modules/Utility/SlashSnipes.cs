@@ -33,8 +33,7 @@ public partial class Utility
             channel ??= ctx.Channel;
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
-                await ctx.Interaction.SendErrorAsync(
-                    "Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
+                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled");
                 return;
             }
 
@@ -48,7 +47,7 @@ public partial class Utility
 
             if (msg is null)
             {
-                await ctx.Interaction.SendErrorAsync("There is nothing to snipe here!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -62,7 +61,7 @@ public partial class Utility
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
@@ -76,8 +75,7 @@ public partial class Utility
             channel ??= ctx.Channel;
             if (!Service.GetSnipeSet(ctx.Guild.Id))
             {
-                await ctx.Interaction.SendErrorAsync(
-                    "Sniping is not enabled in this server! Use `/snipe set true` to enable it!");
+                await ReplyErrorLocalizedAsync("snipe_slash_not_enabled");
                 return;
             }
 
@@ -91,7 +89,7 @@ public partial class Utility
 
             if (msg is null)
             {
-                await ctx.Interaction.SendErrorAsync("There is nothing to snipe here!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -105,7 +103,7 @@ public partial class Utility
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
@@ -211,15 +209,7 @@ public partial class Utility
         {
             await Service.SnipeSetBool(ctx.Guild, enabled);
             var t = Service.GetSnipeSet(ctx.Guild.Id);
-            switch (t)
-            {
-                case true:
-                    await ctx.Interaction.SendConfirmAsync("Sniping Enabled!");
-                    break;
-                case false:
-                    await ctx.Interaction.SendConfirmAsync("Sniping Disabled!");
-                    break;
-            }
+            await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled");
         }
     }
 }

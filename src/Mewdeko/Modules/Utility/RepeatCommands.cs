@@ -141,7 +141,6 @@ public partial class Utility
 
                 var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
                 if (item != null) item.NoRedundant = newValue;
-
                 await uow.SaveChangesAsync();
             }
 
@@ -264,6 +263,69 @@ public partial class Utility
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+        public async Task RepeatMessage(int index, [Remainder]string text)
+        {
+            if (!Service.RepeaterReady)
+                return;
+
+            if (!Service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
+                return;
+
+            var repeaterList = guildRepeaters.ToList();
+
+            if (--index < 0 || index >= repeaterList.Count)
+            {
+                await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+            
+            var repeater = repeaterList[index].Value.Repeater;
+            repeater.Message = ((IGuildUser) ctx.User).GuildPermissions.MentionEveryone
+                ? text
+                : text.SanitizeMentions(true);
+            await using var uow = _db.GetDbContext();
+            var guildConfig = uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+            var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
+            if (item != null) item.Message = ((IGuildUser) ctx.User).GuildPermissions.MentionEveryone
+                ? text
+                : text.SanitizeMentions(true);
+            await uow.SaveChangesAsync();
+
+            await ReplyConfirmLocalizedAsync("repeater_msg_update", text);
+        }
+        
+        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+        public async Task RepeatChannel(int index, [Remainder]ITextChannel textChannel)
+        {
+            if (!Service.RepeaterReady)
+                return;
+
+            if (!Service.Repeaters.TryGetValue(ctx.Guild.Id, out var guildRepeaters))
+                return;
+            textChannel ??= ctx.Channel as ITextChannel;
+            var repeaterList = guildRepeaters.ToList();
+
+            if (--index < 0 || index >= repeaterList.Count)
+            {
+                await ReplyErrorLocalizedAsync("index_out_of_range").ConfigureAwait(false);
+                return;
+            }
+
+            var repeater = repeaterList[index].Value.Repeater;
+            repeater.ChannelId = textChannel.Id;
+            await using var uow = _db.GetDbContext();
+            var guildConfig = uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+            var item = guildConfig.GuildRepeaters.FirstOrDefault(r => r.Id == repeater.Id);
+            if (item != null) item.ChannelId = textChannel.Id;
+            await uow.SaveChangesAsync();
+
+            await ReplyConfirmLocalizedAsync("repeater_channel_update", textChannel.Mention);
+        }
+
         private string GetRepeaterInfoString(RepeatRunner runner)
         {
             var intervalString = Format.Bold(runner.Repeater.Interval.ToPrettyStringHm());
@@ -280,5 +342,7 @@ public partial class Utility
 
             return description;
         }
+        
+        
     }
 }
