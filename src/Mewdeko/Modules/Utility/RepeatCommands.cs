@@ -201,8 +201,15 @@ public partial class Utility
             {
                 var gc = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
                 gc.GuildRepeaters.Add(toAdd);
-
-                await uow.SaveChangesAsync();
+                try
+                {
+                    await uow.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             var runner = new RepeatRunner(_client, (SocketGuild) ctx.Guild, toAdd, Service);

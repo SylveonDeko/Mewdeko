@@ -1,68 +1,63 @@
-﻿using Discord.WebSocket;
+﻿using System.Collections.Concurrent;
+using Discord.WebSocket;
 using Mewdeko._Extensions;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Utility.Services;
 
-public class MessageRepeaterService : INService
+public class MessageRepeaterService : INService, IReadyExecutor
 {
-    private readonly Mewdeko _bot;
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
 
-    public MessageRepeaterService(Mewdeko bot, DiscordSocketClient client, DbService db,
+    public MessageRepeaterService(DiscordSocketClient client, DbService db,
         IBotCredentials creds)
     {
         _db = db;
         _creds = creds;
-        _bot = bot;
         _client = client;
-        var _ = LoadRepeaters();
     }
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
     public bool RepeaterReady { get; private set; }
 
-    private async Task LoadRepeaters()
+    public async Task OnReadyAsync()
     {
-        await _bot.Ready.Task.ConfigureAwait(false);
-#if GLOBAL_Mewdeko
-            await Task.Delay(30000);
-#endif
+        await Task.CompletedTask;
         Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in _bot.CachedGuildConfigs.Where(gc => (gc.Key >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
+        foreach (var gc in _db.GetDbContext().GuildConfigs.All().Where(gc => (gc.GuildId >> 22) % (ulong) _creds.TotalShards == (ulong) _client.ShardId))
         {
             try
             {
-                var guild = _client.GetGuild(gc.Key);
+                var guild = _client.GetGuild(gc.GuildId);
                 if (guild is null)
                 {
-                    Log.Information("Unable to find guild {GuildId} for message repeaters.", gc.Key);
+                    Log.Information("Unable to find guild {GuildId} for message repeaters.", gc.GuildId);
                     continue;
                 }
 
-                var idToRepeater = gc.Value.GuildRepeaters
-                                     .Where(gr => gr.DateAdded is not null)
-                                     .Select(gr =>
-                                         new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
-                                     .ToDictionary(x => x.Key, y => y.Value)
-                                     .ToConcurrent();
+                var idToRepeater = gc.GuildRepeaters
+                                                          .Where(gr => gr.DateAdded is not null)
+                                                          .Select(gr =>
+                                                              new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(_client, guild, gr, this)))
+                                                          .ToDictionary(x => x.Key, y => y.Value)
+                                                          .ToConcurrent();
 
 
-                repeaters.TryAdd(gc.Key, idToRepeater);
+                repeaters.TryAdd(gc.GuildId, idToRepeater);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to load repeaters on Guild {0}.", gc.Key);
+                Log.Error(ex, "Failed to load repeaters on Guild {0}.", gc.GuildId);
             }
         }
 

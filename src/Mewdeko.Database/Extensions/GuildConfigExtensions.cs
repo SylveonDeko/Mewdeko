@@ -13,7 +13,7 @@ public static class GuildConfigExtensions
         public ulong ChannelId { get; set; } 
     }
 
-    public static IEnumerable<GuildConfig> All(this DbSet<GuildConfig> set) => set.AsQueryable().ToArray();
+    public static IEnumerable<GuildConfig> All(this DbSet<GuildConfig> set) => set.IncludeEverything().AsQueryable().ToArray();
 
     public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId) 
         => ctx.GuildConfigs
