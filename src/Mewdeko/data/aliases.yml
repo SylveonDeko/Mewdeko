@@ -273,6 +273,12 @@ repeatlist:
 repeatremove:
   - repeatremove
   - reprm
+repeatmessage:
+  - repeatmessage
+  - repmsg
+repeatchannel:
+  - repeatchannel
+  - repchan
 repeatinvoke:
   - repeatinvoke
   - repinv
@@ -1234,6 +1240,8 @@ nsfwtagblacklist:
 experience:
   - experience
   - xp
+  - rank
+  - lvl
 xptemplatereload:
   - xptempreload
   - xptr
