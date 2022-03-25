@@ -11,26 +11,27 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 
-public class MessageRepeaterService : INService, IReadyExecutor
+public class MessageRepeaterService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
 
     public MessageRepeaterService(DiscordSocketClient client, DbService db,
-        IBotCredentials creds)
+        IBotCredentials creds, Mewdeko bot)
     {
         _db = db;
         _creds = creds;
         _client = client;
+        _ = OnReadyAsync(bot);
     }
 
     public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
     public bool RepeaterReady { get; private set; }
 
-    public async Task OnReadyAsync()
+    public async Task OnReadyAsync(Mewdeko bot)
     {
-        await Task.CompletedTask;
+        await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters on shard {ShardId}.", _client.ShardId);
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
