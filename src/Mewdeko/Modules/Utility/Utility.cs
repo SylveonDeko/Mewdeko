@@ -153,15 +153,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         await Service.SnipeSet(ctx.Guild, yesnt);
         var t = Service.GetSnipeSet(ctx.Guild.Id);
-        switch (t)
-        {
-            case true:
-                await ctx.Channel.SendConfirmAsync("Sniping Enabled!");
-                break;
-            case false:
-                await ctx.Channel.SendConfirmAsync("Sniping Disabled!");
-                break;
-        }
+        await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled");
     }
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
@@ -169,12 +161,11 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
-        var sset = await Service.GetSnipes(ctx.Guild.Id);
+        await Service.GetSnipes(ctx.Guild.Id);
         var msg = (await Service.GetSnipes(ctx.Guild.Id)).LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
         if (msg is null)
         {
@@ -195,7 +186,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
                 Text =
-                    $"Snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                    GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
             },
             Color = Mewdeko.OkColor
         };
@@ -207,8 +198,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -217,7 +207,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (!snipeStores.Any())
             {
-                await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -256,8 +246,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -266,7 +255,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (!snipeStores.Any())
             {
-                await ctx.Channel.SendErrorAsync("There's nothing to snipe!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -305,8 +294,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -327,7 +315,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
                 Text =
-                    $"User specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                    GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
             },
             Color = Mewdeko.OkColor
         };
@@ -358,8 +346,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -367,7 +354,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                                                          .LastOrDefault(x => x.ChannelId == chan.Id);
         if (msg == null)
         {
-            await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
+            await ReplyErrorLocalizedAsync("no_snipes");
             return;
         }
 
@@ -381,7 +368,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             {
                 IconUrl = ctx.User.GetAvatarUrl(),
                 Text =
-                    $"Channel specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                    GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
             },
             Color = Mewdeko.OkColor
         };
@@ -393,8 +380,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -417,7 +403,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Channel and user specific snipe requested by {ctx.User} || Message deleted {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
@@ -448,8 +434,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -477,7 +462,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
@@ -490,8 +475,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping is not enabled in this server! Tell an admin to use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -501,7 +485,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                       .LastOrDefault(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id);
             if (msg == null)
             {
-                await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -519,7 +503,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
@@ -532,8 +516,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -543,7 +526,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                       .LastOrDefault(x => x.ChannelId == chan.Id);
             if (msg == null)
             {
-                await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -561,7 +544,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
@@ -574,8 +557,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         if (!Service.GetSnipeSet(ctx.Guild.Id))
         {
-            await ctx.Channel.SendErrorAsync(
-                $"Sniping != enabled in this server! Use `{Prefix}snipeset enable` to enable it!");
+            await ReplyErrorLocalizedAsync("snipe_not_enabled", Prefix);
             return;
         }
 
@@ -585,7 +567,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                       .LastOrDefault(x => x.ChannelId == chan.Id && x.UserId == user1.Id);
             if (msg == null)
             {
-                await ctx.Channel.SendErrorAsync("There's nothing to snipe for that user or channel!");
+                await ReplyErrorLocalizedAsync("no_snipes");
                 return;
             }
 
@@ -604,7 +586,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 {
                     IconUrl = ctx.User.GetAvatarUrl(),
                     Text =
-                        $"Edit snipe requested by {ctx.User} || Message edited {(DateTime.UtcNow - msg.DateAdded).Humanize()} ago"
+                        GetText("snipe_request", ctx.User.ToString(), (DateTime.UtcNow - msg.DateAdded).Humanize())
                 },
                 Color = Mewdeko.OkColor
             };
