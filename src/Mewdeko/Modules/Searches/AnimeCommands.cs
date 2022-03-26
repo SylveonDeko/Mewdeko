@@ -1,4 +1,6 @@
 ﻿#nullable enable
+using AngleSharp;
+using AngleSharp.Html.Dom;
 using Anilist4Net;
 using Anilist4Net.Enums;
 using Discord;
@@ -134,36 +136,114 @@ public partial class Searches
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
-
+        
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Shoot(IUser user)
+        public async Task RandomWaifu()
         {
-            var shootarray = new List<string>
-            {
-                "https://media.tenor.com/images/05085e9bc817361e783ad92a248ef318/tenor.gif",
-                "https://media1.tenor.com/images/a0caaaec7f3f48fbcf037dd9e6a89c51/tenor.gif?itemid=12545029",
-                "https://i.gifer.com/nin.gif",
-                "https://i.imgflip.com/4fq6gm.gif",
-                "https://cdn.myanimelist.net/s/common/uploaded_files/1448410154-7ba874393492485cf61797451b67a3be.gif",
-                "https://thumbs.gfycat.com/DisguisedSimpleAmmonite-size_restricted.gif",
-                "https://media0.giphy.com/media/a5OCMAro7MGQg/giphy.gif",
-                "https://media1.tenor.com/images/e9f33b7ded139a73590878cf3f9d59a4/tenor.gif?itemid=16999058",
-                "http://i.imgur.com/ygeo65P.gif",
-                "https://gifimage.net/wp-content/uploads/2017/09/anime-shooting-gif-4.gif",
-                "https://media0.giphy.com/media/rq8vsqrQmB128/giphy.gif",
-                "https://pa1.narvii.com/6122/e688de863dc18f51f56cd5aabc677f7371a83701_hq.gif",
-                "https://i2.wp.com/i.pinimg.com/originals/22/bb/ad/22bbade48e2ffa2c50968c635445b6a1.gif"
-            };
-            var rand = new Random();
-            var index = rand.Next(shootarray.Count);
+            var req = await NekosBestApi.CategoryApi.Waifu();
             var em = new EmbedBuilder
             {
-                Description = $"{ctx.User.Mention} shot {user.Mention}",
-                ImageUrl = shootarray[index],
-                Color = Mewdeko.ErrorColor
+                Description = $"Ara Ara~ [Source]({req.Results.FirstOrDefault().SourceUrl})",
+                ImageUrl = req.Results.FirstOrDefault().Url,
+                Color = Mewdeko.OkColor
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
+        [MewdekoCommand, Aliases, Description]
+        [Priority(0)]
+        public async Task Mal([Remainder] string name)
+        {
+           if (string.IsNullOrWhiteSpace(name))
+                    return;
+
+                var fullQueryLink = "https://myanimelist.net/profile/" + name;
+
+                var config = Configuration.Default.WithDefaultLoader();
+                using (var document = await BrowsingContext.New(config).OpenAsync(fullQueryLink).ConfigureAwait(false))
+                {
+                    var imageElem = document.QuerySelector("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-left > div.user-profile > div.user-image > img");
+                    var imageUrl = ((IHtmlImageElement)imageElem)?.Source ?? "http://icecream.me/uploads/870b03f36b59cc16ebfe314ef2dde781.png";
+
+                    var stats = document.QuerySelectorAll("body > div#myanimelist > div.wrapper > div#contentWrapper > div#content > div.content-container > div.container-right > div#statistics > div.user-statistics-stats > div.stats > div.clearfix > ul.stats-status > li > span").Select(x => x.InnerHtml).ToList();
+
+                    var favorites = document.QuerySelectorAll("div.user-favorites > div.di-tc");
+
+                    var favAnime = GetText("anime_no_fav");
+                    if (favorites.Length > 0 && favorites[0].QuerySelector("p") == null)
+                        favAnime = string.Join("\n", favorites[0].QuerySelectorAll("ul > li > div.di-tc.va-t > a")
+                           .Shuffle()
+                           .Take(3)
+                           .Select(x =>
+                           {
+                               var elem = (IHtmlAnchorElement)x;
+                               return $"[{elem.InnerHtml}]({elem.Href})";
+                           }));
+
+                    var info = document.QuerySelectorAll("ul.user-status:nth-child(3) > li.clearfix")
+                        .Select(x => Tuple.Create(x.Children[0].InnerHtml, x.Children[1].InnerHtml))
+                        .ToList();
+
+                    var daysAndMean = document.QuerySelectorAll("div.anime:nth-child(1) > div:nth-child(2) > div")
+                        .Select(x => x.TextContent.Split(':').Select(y => y.Trim()).ToArray())
+                        .ToArray();
+
+                    var embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle(GetText("mal_profile", name))
+                        .AddField(efb => efb.WithName("💚 " + GetText("watching")).WithValue(stats[0]).WithIsInline(true))
+                        .AddField(efb => efb.WithName("💙 " + GetText("completed")).WithValue(stats[1]).WithIsInline(true));
+                    if (info.Count < 3)
+                        embed.AddField(efb => efb.WithName("💛 " + GetText("on_hold")).WithValue(stats[2]).WithIsInline(true));
+                    embed
+                        .AddField(efb => efb.WithName("💔 " + GetText("dropped")).WithValue(stats[3]).WithIsInline(true))
+                        .AddField(efb => efb.WithName("⚪ " + GetText("plan_to_watch")).WithValue(stats[4]).WithIsInline(true))
+                        .AddField(efb => efb.WithName("🕐 " + daysAndMean[0][0]).WithValue(daysAndMean[0][1]).WithIsInline(true))
+                        .AddField(efb => efb.WithName("📊 " + daysAndMean[1][0]).WithValue(daysAndMean[1][1]).WithIsInline(true))
+                        .AddField(efb => efb.WithName(MalInfoToEmoji(info[0].Item1) + " " + info[0].Item1).WithValue(info[0].Item2.TrimTo(20)).WithIsInline(true))
+                        .AddField(efb => efb.WithName(MalInfoToEmoji(info[1].Item1) + " " + info[1].Item1).WithValue(info[1].Item2.TrimTo(20)).WithIsInline(true));
+                    if (info.Count > 2)
+                        embed.AddField(efb => efb.WithName(MalInfoToEmoji(info[2].Item1) + " " + info[2].Item1).WithValue(info[2].Item2.TrimTo(20)).WithIsInline(true));
+
+                    embed
+                        .WithDescription($@"
+** https://myanimelist.net/animelist/{ name } **
+
+**{GetText("top_3_fav_anime")}**
+{favAnime}"
+
+    )
+                        .WithUrl(fullQueryLink)
+                        .WithImageUrl(imageUrl);
+
+                    await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
+                }
+            }
+
+            private static string MalInfoToEmoji(string info)
+            {
+                info = info.Trim().ToLowerInvariant();
+                switch (info)
+                {
+                    case "gender":
+                        return "🚁";
+                    case "location":
+                        return "🗺";
+                    case "last online":
+                        return "👥";
+                    case "birthday":
+                        return "📆";
+                    default:
+                        return "❔";
+                }
+
+        }
+
+        [MewdekoCommand, Aliases, Description]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
+        public Task Mal(IGuildUser usr)
+            => Mal(usr.Username);
+
 
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task FindAnime(string? e = null)

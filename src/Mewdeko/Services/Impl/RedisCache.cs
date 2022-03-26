@@ -101,6 +101,11 @@ public class RedisCache : IDataCache
         return Task.CompletedTask;
     }
 
+    public Task<RedisResult> ExecuteRedisCommand(string command)
+    {
+        var db = Redis.GetDatabase();
+        return db.ExecuteAsync(command);
+    }
     public string GetIgnoredChannels(ulong guildId, ulong userId)
     {
         var db = Redis.GetDatabase();

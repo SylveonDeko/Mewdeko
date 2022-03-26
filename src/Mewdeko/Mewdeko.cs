@@ -1,6 +1,4 @@
-﻿using Amazon.Runtime.Internal.Transform;
-using AngleSharp.Common;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;

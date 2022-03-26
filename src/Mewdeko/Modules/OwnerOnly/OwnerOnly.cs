@@ -43,11 +43,13 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     private readonly IEnumerable<IConfigService> _settingServices;
     private readonly IBotStrings _strings;
     private readonly InteractiveService _interactivity;
+    private readonly IDataCache _cache;
 
 
     public OwnerOnly(DiscordSocketClient client, Mewdeko bot, IBotStrings strings,
         InteractiveService serv, ICoordinator coord, IEnumerable<IConfigService> settingServices,
-        DbService db)
+        DbService db,
+        IDataCache cache)
     {
         _interactivity = serv;
         _client = client;
@@ -56,8 +58,16 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         _coord = coord;
         _settingServices = settingServices;
         _db = db;
+        _cache = cache;
     }
 
+    [MewdekoCommand, OwnerOnly]
+    public async Task RedisExec([Remainder] string command)
+    {
+        var result = await _cache.ExecuteRedisCommand(command);
+        var eb = new EmbedBuilder().WithOkColor().WithTitle(result.Type.ToString()).WithDescription(result.ToString());
+        await ctx.Channel.SendMessageAsync(embed: eb.Build());
+    }
     [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
     public async Task SqlExec([Remainder] string sql)
     {

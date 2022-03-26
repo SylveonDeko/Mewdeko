@@ -7,7 +7,6 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
-using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 
