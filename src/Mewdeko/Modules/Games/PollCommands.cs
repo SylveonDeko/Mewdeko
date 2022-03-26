@@ -47,7 +47,7 @@ public partial class Games
                 var eb = new EmbedBuilder().WithOkColor().WithTitle(GetText("poll_created", ctx.User.ToString()))
                                            .WithDescription(
                                                $"{Format.Bold(poll.Question)}\n\n{string.Join("\n", poll.Answers.Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))}");
-                int count = 1;
+                var count = 1;
                 var builder = new ComponentBuilder();
                 foreach (var i in poll.Answers)
                 {

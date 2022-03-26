@@ -108,7 +108,7 @@ public class PubSubTests
         var pubsub = new EventPubSub();
 
         var localData = new object();
-        int successCounter = 0;
+        var successCounter = 0;
             
         ValueTask Action1(object data)
         {
