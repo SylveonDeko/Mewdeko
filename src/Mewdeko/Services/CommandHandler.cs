@@ -15,7 +15,6 @@ using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Threading;
 using ExecuteResult = Discord.Commands.ExecuteResult;

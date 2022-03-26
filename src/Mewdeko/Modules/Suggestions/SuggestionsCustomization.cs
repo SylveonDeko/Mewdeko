@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -11,10 +10,6 @@ namespace Mewdeko.Modules.Suggestions;
 [Group]
 public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
 {
-    public DiscordSocketClient Client;
-
-    public SuggestionsCustomization(DiscordSocketClient client) => Client = client;
-
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.Administrator)]
     public async Task SuggestMessage([Remainder] string embed)
@@ -111,7 +106,7 @@ public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
             await ctx.Channel.SendConfirmAsync("Suggestions will now have the default look.");
             return;
         }
-        await Service.SetSuggestionMessage(ctx.Guild, embed);
+        await Service.SetConsiderMessage(ctx.Guild, embed);
         await ctx.Channel.SendConfirmAsync("Sucessfully updated suggestion message!");
     }
 

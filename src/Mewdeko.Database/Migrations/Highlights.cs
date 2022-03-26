@@ -9,7 +9,7 @@ public partial class Highlights : Migration
         migrationBuilder.CreateTable("Highlights",
             columns => new
             {
-                Id = columns.Column<int>().Annotation("Sqlite:Autoincrement", true),
+                Id = columns.Column<int>(nullable: false).Annotation("Sqlite:Autoincrement", true),
                 GuildId = columns.Column<ulong>(),
                 UserId = columns.Column<ulong>(),
                 Word = columns.Column<string>(),
@@ -19,7 +19,7 @@ public partial class Highlights : Migration
         migrationBuilder.CreateTable("HighlightSettings",
             columns => new
             {
-                Id = columns.Column<int>().Annotation("Sqlite:Autoincrement", true),
+                Id = columns.Column<int>(nullable: false).Annotation("Sqlite:Autoincrement", true),
                 GuildId = columns.Column<ulong>(),
                 UserId = columns.Column<ulong>(),
                 IgnoredUsers = columns.Column<string>(),
