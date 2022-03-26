@@ -1,11 +1,9 @@
 ﻿using Discord;
-using Discord.Rest;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.Utility.Common;
-using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 using VirusTotalNet;
 using VirusTotalNet.Results;

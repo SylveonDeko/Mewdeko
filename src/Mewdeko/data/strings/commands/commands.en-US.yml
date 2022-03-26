@@ -8,6 +8,7 @@ snipelist:
   args:
     - ""
     - "20"
+
 highlights:
   desc: |-
     - `add` Adds a word to your highlights
@@ -2506,6 +2507,18 @@ wikia:
   args:
     - mtg Vigilance
     - mlp Dashy
+randomneko:
+  desc: "Nya~ Returns a random neko!"
+  args:
+    - ""
+randomkitsune:
+  desc: "What does the fox say? Returns a random kitsune."
+  args:
+    - ""
+randomwaifu:
+  desc: "Ara Ara~ Returns a random waifu."
+  args:
+    - ""
 yandere:
   desc: >-
     Shows a random image from yandere with a given tag. Tag is optional but
@@ -2532,6 +2545,253 @@ hangmanstop:
   desc: Stops the active hangman game on this channel if it exists.
   args:
     - ''
+invite:
+  desc: "Pulls up the link to invite mewdeko."
+  args:
+    - ""
+testsite:
+  desc: "Tests whether a site is up. Very primitive."
+  args:
+    - ""
+previewlinks:
+  desc: "Sets whether automatically embeds message links."
+  args:
+    - "enable"
+meme:
+  desc: "Sends a random meme from reddit"
+  args:
+    - ""
+randomreddit:
+  desc: "Gets an image from a specified subreddit. Must not be NSFW."
+  args:
+    - "sylveon"
+redisexec:
+  desc: "Executes a redis command. There is no confirmation so be careful."
+  args:
+    - ""
+bash:
+  desc: "Executes a bash command."
+  args:
+    - "neofetch"
+redditnsfw:
+  desc: "Grabs a post from any subreddit. Regardless of NSFW Status"
+  args:
+    - "waifus34"
+sankaku:
+  desc: "Grabs a random image from Sankaku using the tags you provide."
+  args:
+    - "Vanilla"
+searchcommand:
+  desc: "Search for commands by name"
+  args:
+    - "emoteadd"
+gbrep:
+  desc: "Report someone to be added to the global blacklist."
+  args:
+    - ""
+vote:
+  desc: "Vote for Mewdeko!"
+  args:
+    - ""
+evaluate:
+  desc: "Evaluates a c# expression"
+  args:
+    - "no"
+voteclaim:
+  desc: "Claims the vote currency for voting for Mewdeko"
+  args:
+    - ""
+getactiveafks:
+  desc: "Get all currently AFK Users in a paginated list"
+  args:
+    - ""
+afkview:
+  desc: "View a user's afk"
+  args:
+    - "@user"
+prunemembers:
+  desc: "Prunes members from the server. ***DANGEROUS, THIS CANNOT BE UNDONE***"
+  args:
+    - "7d"
+inviteinfo:
+  desc: "Gets info from an invite. Does not work on vanity invites."
+  args:
+    - "spdvbdfih"
+removerolefromrole:
+  desc: "Remvoes a role from users in a role"
+  args:
+    - "inrole removerole"
+shoot:
+  desc: "Shoots a mentioned user"
+  args:
+    - "@user"
+hug:
+  desc: "Returns a hug gif."
+  args:
+    - "@user"
+kiss:
+  desc: "Returns a kiss gif."
+  args:
+    - "@user"
+pat:
+  desc: "Returns a pat gif."
+  args:
+    - "@user"
+tickle:
+  desc: "Returns a tickle gif."
+  args:
+    - "@user"
+slap:
+  desc: "Returns a slap gif."
+  args:
+    - "@user"
+poke:
+  desc: "Returns a poke gif."
+  args:
+    - "@user"
+feed:
+  desc: "Returns a feed gif."
+  args:
+    - "@user"
+baka:
+  desc: "Returns a baka gif."
+  args:
+    - "@user"
+bite:
+  desc: "Returns a bite gif."
+  args:
+    - "@user" 
+blush:
+  desc: "Returns a blush gif."
+  args:
+    - "@user"
+bored:
+  desc: "Returns a bored gif."
+  args:
+    - "@user"
+cry:
+  desc: "Returns a cry gif."
+  args:
+    - "@user"
+dance:
+  desc: "Returns a dance gif."
+  args:
+    - "@user"
+facepalm:
+  desc: "Returns a facepalm gif."
+  args:
+    - "@user"
+happy:
+  desc: "Returns a happy gif."
+  args:
+    - "@user"
+laugh:
+  desc: "Returns a laugh gif."
+  args:
+    - "@user"
+pout:
+  desc: "Returns a pout gif."
+  args:
+    - "@user"
+shrug:
+  desc: "Returns a shrug gif."
+  args:
+    - "@user"
+sleep:
+  desc: "Returns a sleep gif."
+  args:
+    - "@user"
+smile:
+  desc: "Returns a smile gif."
+  args:
+    - "@user"
+smug:
+  desc: "Returns a smug gif."
+  args:
+    - "@user"
+stare:
+  desc: "Returns a stare gif."
+  args:
+    - "@user"
+think:
+  desc: "Returns a think gif."
+  args:
+    - "@user"
+thumbsup:
+  desc: "Returns a thumbsup gif."
+  args:
+    - "@user"
+wave:
+  desc: "Returns a wave gif."
+  args:
+    - "@user"
+wink:
+  desc: "Returns a wink gif."
+  args:
+    - "@user"
+charinfo:
+  desc: "Gets info for a character."
+  args:
+    - "Sylveon"
+streamsclear:
+  desc: "Clears all followed streams."
+  args:
+    - ""
+inroles:
+  desc: "Gets members that are in two specified roles."
+  args:
+    - "@role @role2"
+cuddle:
+  desc: "Returns a cuddle gif."
+  args:
+    - "@user"
+highfive:
+  desc: "Returns a highfive gif."
+  args:
+    - "@user"
+removeonmute:
+  desc: "Sets whether muting removes a users role on mute and puts them back on unmute"
+  args:
+    - "yes"
+mwarnlogall:
+  desc: "Gets all mini warned users"
+  args:
+    - ""
+clearqueue:
+  desc: "Clears the queue."
+  args:
+    - ""
+syncroletoallchannels:
+  desc: "Syncs the selected roles permissions from this channel to all channels"
+  args:
+    - "@role"
+leaveserver:
+  desc: "Leaves a server using its ID"
+  args:
+    - "123123123123"
+shuffle:
+  desc: "Shuffles the queue"
+  args:
+    - ""
+skip:
+  desc: "Skips to the next track. Or skips ahead the mentioned number of tracks"
+  args:
+    - ""
+    - "9"
+permview:
+  desc: "Shows guild permissions for a role or user."
+  args:
+    - ""
+    - "@role"
+    - "@user"
+queue:
+  desc: "Shows the queue"
+  args:
+    - ""
+memberrole:
+  desc: "Sets the servers member role, will be used for other stuff later on"
+  args:
+    - '@role'
 acrophobia:
   desc: Starts an Acrophobia game.
   args:

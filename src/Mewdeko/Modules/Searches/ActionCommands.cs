@@ -13,7 +13,37 @@ public partial class Searches
         private readonly NekosBestApi _nekosBestApi;
 
         public ActionCommands(NekosBestApi nekosBestApi) => _nekosBestApi = nekosBestApi;
-
+        
+        [MewdekoCommand, Usage, Description, Aliases]
+        public async Task Shoot(string toShow)
+        {
+            var shootarray = new List<string>
+            {
+                "https://media.tenor.com/images/05085e9bc817361e783ad92a248ef318/tenor.gif",
+                "https://media1.tenor.com/images/a0caaaec7f3f48fbcf037dd9e6a89c51/tenor.gif?itemid=12545029",
+                "https://i.gifer.com/nin.gif",
+                "https://i.imgflip.com/4fq6gm.gif",
+                "https://cdn.myanimelist.net/s/common/uploaded_files/1448410154-7ba874393492485cf61797451b67a3be.gif",
+                "https://thumbs.gfycat.com/DisguisedSimpleAmmonite-size_restricted.gif",
+                "https://media0.giphy.com/media/a5OCMAro7MGQg/giphy.gif",
+                "https://media1.tenor.com/images/e9f33b7ded139a73590878cf3f9d59a4/tenor.gif?itemid=16999058",
+                "http://i.imgur.com/ygeo65P.gif",
+                "https://gifimage.net/wp-content/uploads/2017/09/anime-shooting-gif-4.gif",
+                "https://media0.giphy.com/media/rq8vsqrQmB128/giphy.gif",
+                "https://pa1.narvii.com/6122/e688de863dc18f51f56cd5aabc677f7371a83701_hq.gif",
+                "https://i2.wp.com/i.pinimg.com/originals/22/bb/ad/22bbade48e2ffa2c50968c635445b6a1.gif"
+            };
+            var rand = new Random();
+            var index = rand.Next(shootarray.Count);
+            var em = new EmbedBuilder
+            {
+                Description = $"{ctx.User.Mention} shot {toShow}",
+                ImageUrl = shootarray[index],
+                Color = Mewdeko.ErrorColor
+            };
+            await ctx.Channel.SendMessageAsync("", embed: em.Build());
+        }
+        
         [MewdekoCommand, Usage, Description]
         public async Task Hug([Remainder] string toShow)
         {

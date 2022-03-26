@@ -86,7 +86,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
                     await Task.CompletedTask;
                     var highlightsEnumerable = highlightsForUser.Skip(page * 10).Take(10);
                     return new PageBuilder().WithOkColor()
-                                     .WithTitle($"{highlightsForUser.Count()} Highlights")
+                                     .WithTitle($"{highlightsForUser.Count} Highlights")
                                      .WithDescription(string.Join("\n", highlightsEnumerable.Select(x => $"{highlightsForUser.IndexOf(x) + 1}. {x.Word}")));
                 }
 

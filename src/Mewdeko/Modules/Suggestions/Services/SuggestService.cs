@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using LinqToDB;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
@@ -10,8 +9,6 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
-using System.Collections.Concurrent;
-using System.Net.Sockets;
 
 namespace Mewdeko.Modules.Suggestions.Services;
 
@@ -23,7 +20,7 @@ public class SuggestionsService : INService
     public readonly AdministrationService Adminserv;
     private readonly Mewdeko _bot;
 
-    public CommandHandler CmdHandler;
+    public readonly CommandHandler CmdHandler;
 
     public SuggestionsService(
         DbService db,

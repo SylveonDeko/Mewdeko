@@ -29,8 +29,8 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories.....");
-            foreach (var i in await ctx.Guild.GetTextChannelsAsync())
+                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Categories.....");
+            foreach (var i in (await ctx.Guild.GetChannelsAsync()).Where(x => x is not SocketThreadChannel or SocketVoiceChannel))
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
             foreach (var i in await ctx.Guild.GetCategoriesAsync())
@@ -40,7 +40,7 @@ public partial class ServerManagement
             {
                 Color = Mewdeko.OkColor,
                 Description =
-                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} channels and {(await ctx.Guild.GetTextChannelsAsync()).Count} Categories!!"
+                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} channels and {(await ctx.Guild.GetCategoriesAsync())} Categories!!"
             };
             await msg.ModifyAsync(x => x.Embed = eb.Build());
         }
@@ -58,15 +58,15 @@ public partial class ServerManagement
             }
 
             var msg = await ctx.Channel.SendConfirmAsync(
-                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels.....");
-            foreach (var i in await ctx.Guild.GetTextChannelsAsync())
+                $"<a:loading:900381735244689469> Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Channels.....");
+            foreach (var i in (await ctx.Guild.GetTextChannelsAsync()).Where(x => x is not SocketThreadChannel))
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions) perms);
             var eb = new EmbedBuilder
             {
                 Color = Mewdeko.OkColor,
                 Description =
-                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count} Channels!"
+                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} Channels!"
             };
             await msg.ModifyAsync(x => x.Embed = eb.Build());
         }
