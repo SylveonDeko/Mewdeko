@@ -259,9 +259,6 @@ removefromallbots:
 addroletorole:
   - addroletorole
   - artr
-removerolefromrole:
-  - removerolefromrole
-  - rrfr
 addthenremove:
   - addthenremove
   - atr

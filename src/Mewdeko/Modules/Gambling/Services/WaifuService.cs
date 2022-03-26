@@ -401,7 +401,7 @@ public class WaifuService : INService
 
     public static string GetClaimTitle(int count)
     {
-        ClaimTitle title = count switch
+        var title = count switch
         {
             0 => ClaimTitle.Lonely,
             1 => ClaimTitle.Devoted,
@@ -422,7 +422,7 @@ public class WaifuService : INService
 
     public static string GetAffinityTitle(int count)
     {
-        AffinityTitle title = count switch
+        var title = count switch
         {
             < 1 => AffinityTitle.Pure,
             < 2 => AffinityTitle.Faithful,

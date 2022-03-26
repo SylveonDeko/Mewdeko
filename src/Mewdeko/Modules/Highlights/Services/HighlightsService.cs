@@ -224,7 +224,7 @@ public class HighlightsService : INService, IReadyExecutor
 
     public async Task<bool> ToggleIgnoredUser(ulong guildId, ulong userId, string userToIgnore)
     {
-        bool ignored = true;
+        var ignored = true;
         await using var uow = _db.GetDbContext();
         var toupdate = uow.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)

@@ -41,10 +41,10 @@ public class TimeSpanConverter : TypeConverter<TimeSpan>
         IServiceProvider services)
     {
         var @string = option.Value as string;
-        if (!TimeSpan.TryParse(@string, out TimeSpan span))
+        if (!TimeSpan.TryParse(@string, out var span))
         {
             @string = @string?.ToLower().Trim();
-            MatchCollection matches = _regex.Matches(@string ?? string.Empty);
+            var matches = _regex.Matches(@string ?? string.Empty);
             if (matches.Any())
                 foreach (Match match in matches)
                     if (_callback.TryGetValue(match.Groups[2].Value, out var result))
