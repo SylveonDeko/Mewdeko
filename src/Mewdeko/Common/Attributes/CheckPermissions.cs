@@ -13,7 +13,7 @@ public sealed class CheckPermissions : PreconditionAttribute
     public override Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context,
         ICommandInfo executingCommand, IServiceProvider services)
     {
-        string commandname = executingCommand.MethodName.ToLower() switch
+        var commandname = executingCommand.MethodName.ToLower() switch
         {
             "addhighlight" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
             "listhighlights" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
@@ -35,7 +35,7 @@ public sealed class CheckPermissions : PreconditionAttribute
         if (executingCommand.Module.SlashGroupName?.ToLower() == "snipe")
             groupname = "utility";
         var pc = perms!.GetCacheFor(context.Guild.Id);
-        int index = 0;
+        var index = 0;
         return Task.FromResult(
             pc.Permissions != null && pc.Permissions.CheckSlashPermissions(groupname, commandname, context.User, context.Channel, out index)
                 ? PreconditionResult.FromSuccess()
