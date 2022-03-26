@@ -90,8 +90,8 @@ public class HighlightsService : INService, IReadyExecutor
         var toSend = (from i in splitwords from j in highlightWords where j.Word.Contains(i) select j).ToList();
         foreach (var i in toSend)
         {
-            // if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
-            //     continue;
+            if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
+                continue;
             if (usersDMd.Contains(i.UserId))
                 continue;
             if (GetSettingsForGuild(channel.GuildId).Any())
@@ -109,8 +109,8 @@ public class HighlightsService : INService, IReadyExecutor
                 }
             }
 
-            // if (!await _cache.TryAddHighlightStaggerUser(i.UserId))
-            //     continue;
+            if (!await _cache.TryAddHighlightStaggerUser(i.UserId))
+                continue;
             var user = await channel.Guild.GetUserAsync(i.UserId);
             var permissions = user.GetPermissions(channel);
             if (!permissions.ViewChannel)
