@@ -6,11 +6,16 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.GlobalBan.Services;
+using Swan;
 
 namespace Mewdeko.Modules.GlobalBan;
 
 public class GlobalBans : MewdekoModuleBase<GlobalBanService>
 {
+    private readonly DiscordSocketClient _client;
+
+    public GlobalBans(DiscordSocketClient client) => _client = client;
+
     [MewdekoCommand, Alias, Description, RequireContext(ContextType.Guild)]
     public async Task GbRep()
     {
@@ -23,6 +28,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
             .WithButton("Raider", "raider")
             .WithButton("Perms Abuser", "abuser")
             .WithButton("Raid Bot", "raidbot")
+            .WithButton("Karuta Scammer", "kscammer")
             .WithButton("Cancel", "cancel", ButtonStyle.Danger);
         var eb = new EmbedBuilder()
             .WithDescription("What type of user are you reporting?")
@@ -135,7 +141,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     return;
                 }
 
-                if (!next1.Contains(","))
+                if (!next1.Contains(','))
                 {
                     var eb1 = new EmbedBuilder()
                         .WithErrorColor()
@@ -218,7 +224,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                     return;
                 }
 
-                if (!next2.Contains(","))
+                if (!next2.Contains(','))
                 {
                     var eb1 = new EmbedBuilder()
                         .WithErrorColor()
@@ -380,9 +386,25 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 }
 
                 break;
-            // case "raidbot":
-            //     ReportType = "Raid Bot";
-            //     break;
+            case "raidbot":
+                await ctx.Channel.SendConfirmAsync("Please provide the bot ID.");
+                var raidReport = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                if (!ulong.TryParse(raidReport, out var Id))
+                {
+                    await ctx.Channel.SendErrorAsync("That's not a correct ID, please start over.");
+                    return;
+                }
+
+                var reportedUser = await _client.GetUserAsync(Id);
+                if (reportedUser is null)
+                {
+                    await ctx.Channel.SendErrorAsync("That user is invalid, please make sure you didn't copy message ID.");
+                    return;
+                }
+
+                await ctx.Channel.SendConfirmAsync("Please provide image links to proof.");
+                var raidProof = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+                break;
         }
     }
 }
