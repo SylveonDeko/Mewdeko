@@ -44,9 +44,9 @@ public class AfkService : INService, IReadyExecutor
             await using var uow = _db.GetDbContext();
             var allafk = uow.Afk.GetAll();
             var gconfigs = _bot.CachedGuildConfigs;
-            foreach (var i in gconfigs.Where(i => allafk.Any(x => x.GuildId == i.Value.GuildId)))
+            foreach (var i in gconfigs.Where(i => allafk.Any(x => x.GuildId == i.GuildId)))
             {
-                await _cache.CacheAfk(i.Key, allafk.Where(x => x.GuildId == i.Value.GuildId).ToList());
+                await _cache.CacheAfk(i.GuildId, allafk.Where(x => x.GuildId == i.GuildId).ToList());
             }
             Environment.SetEnvironmentVariable($"AFK_CACHED_{Client.ShardId}", "1");
             Log.Information("AFK Cached.");

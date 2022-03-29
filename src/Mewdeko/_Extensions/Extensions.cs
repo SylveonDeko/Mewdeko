@@ -6,6 +6,7 @@ using Fergun.Interactive;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Database.Models;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
@@ -105,6 +106,18 @@ public static class Extensions
         return $"{(int) span.TotalHours:D2}h {span:mm}m";
     }
 
+    public static bool TryGetConfig(this List<GuildConfig> configList, ulong id, out GuildConfig config)
+    {
+        var tocheck = configList.FirstOrDefault(x => x.GuildId == id);
+        if (tocheck == null)
+        {
+            config = null;
+            return false;
+        }
+
+        config = tocheck;
+        return true;
+    }
     public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)
     {
         foreach (var i in items) list.Add(i);

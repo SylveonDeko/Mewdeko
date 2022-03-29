@@ -30,6 +30,7 @@ using NekosBestApiNet;
 using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -74,7 +75,7 @@ public class Mewdeko
     public BotCredentials Credentials { get; }
     public DiscordSocketClient Client { get; }
     private CommandService CommandService { get; }
-    public Dictionary<ulong, GuildConfig> CachedGuildConfigs { get; private set; } = new();
+    public List<GuildConfig> CachedGuildConfigs { get; private set; } = new();
     
     
     public static Color OkColor { get; set; }
@@ -93,22 +94,23 @@ public class Mewdeko
 
     public GuildConfig GetGuildConfig(ulong guildId)
     {
-        if (CachedGuildConfigs.TryGetValue(guildId, out var gc))
+        if (CachedGuildConfigs.TryGetConfig(guildId, out var gc))
             return gc;
         gc = _db.GetDbContext().ForGuildId(guildId);
-        CachedGuildConfigs.Add(guildId, gc);
+        CachedGuildConfigs.Add(gc);
         return gc;
     }
 
     public void UpdateGuildConfig(ulong guildId, GuildConfig config)
     {
-        if (CachedGuildConfigs.TryGetValue(guildId, out _))
+        if (CachedGuildConfigs.TryGetConfig(guildId, out var gc))
         {
-            CachedGuildConfigs[guildId] = config;
+            CachedGuildConfigs.Remove(gc);
+            CachedGuildConfigs.Add(config);
         }
         else
         {
-            CachedGuildConfigs.Add(guildId, config);
+            CachedGuildConfigs.Add(config);
         }
     }
     private void AddServices()
@@ -120,7 +122,7 @@ public class Mewdeko
 
         using (var uow = _db.GetDbContext())
         {
-            CachedGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToDictionary(x => x.GuildId, x => x);
+            CachedGuildConfigs = uow.GuildConfigs.All().Where(x => startingGuildIdList.Contains(x.GuildId)).ToList();
             uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
             gs2.Stop();
             Log.Information($"Guild Configs cached in {gs2.Elapsed.TotalSeconds:F2}.");
@@ -293,7 +295,8 @@ public class Mewdeko
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]");
                 if (arg.Name is not null)
                 {
-                    CachedGuildConfigs.Remove(arg.Id);
+                    if (CachedGuildConfigs.TryGetConfig(arg.Id, out var gc))
+                        CachedGuildConfigs.Remove(gc);
                 }
             }
             catch

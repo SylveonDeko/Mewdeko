@@ -19,8 +19,8 @@ public class RoleCommandsService : INService
     public RoleCommandsService(DiscordSocketClient client, DbService db, Mewdeko bot)
     {
         _db = db;
-        _models = bot.CachedGuildConfigs.ToDictionary(x => x.Key,
-                x => db.GetDbContext().GetReactionRoles(x.Key))
+        _models = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId,
+                x => x.ReactionRoleMessages)
             .ToConcurrent();
         client.ReactionAdded += _client_ReactionAdded;
         client.ReactionRemoved += _client_ReactionRemoved;
