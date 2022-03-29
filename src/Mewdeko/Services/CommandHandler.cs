@@ -33,6 +33,7 @@ public class CommandHandler : INService
     public readonly CommandService CommandService;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
+    // ReSharper disable once NotAccessedField.Local
     private readonly Timer _clearUsersOnShortCooldown;
     private readonly IBotStrings _strings;
     public IEnumerable<IEarlyBehavior> EarlyBehaviors;
@@ -48,7 +49,6 @@ public class CommandHandler : INService
         InteractionService = interactionService;
         _strings = strngs;
         _client = client;
-        _client.ThreadCreated += AttemptJoinThread;
         CommandService = commandService;
         _bss = bss;
         _bot = bot;
@@ -158,18 +158,6 @@ public class CommandHandler : INService
         _bss.ModifyConfig(bs => bs.Prefix = prefix);
 
         return prefix;
-    }
-
-    private static async Task AttemptJoinThread(SocketThreadChannel chan)
-    {
-        try
-        {
-            await chan.JoinAsync();
-        }
-        catch
-        {
-            //exclude
-        }
     }
 
     public string SetPrefix(IGuild guild, string prefix)
