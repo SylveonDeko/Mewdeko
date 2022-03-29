@@ -57,22 +57,18 @@ public class Mewdeko
         Client = new DiscordSocketClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
-            LogLevel = LogSeverity.Warning,
+            LogLevel = LogSeverity.Verbose,
             ConnectionTimeout = int.MaxValue,
             TotalShards = Credentials.TotalShards,
             ShardId = shardId,
             AlwaysDownloadUsers = true,
-            GatewayIntents = GatewayIntents.All,
-            LogGatewayIntentWarnings = false
+            GatewayIntents = GatewayIntents.All ^ GatewayIntents.GuildPresences ^ GatewayIntents.GuildInvites ^ GatewayIntents.GuildScheduledEvents
         });
         CommandService = new CommandService(new CommandServiceConfig
         {
             CaseSensitiveCommands = false,
             DefaultRunMode = RunMode.Async
         });
-        #if DEBUG
-            Client.Log += Client_Log;
-        #endif
     }
 
     public BotCredentials Credentials { get; }
@@ -246,6 +242,7 @@ public class Mewdeko
 
     private async Task LoginAsync(string token)
     {
+        Client.Log += Client_Log;
         var clientReady = new TaskCompletionSource<bool>();
 
         Task SetClientReady()
@@ -281,6 +278,9 @@ public class Mewdeko
         Client.JoinedGuild += Client_JoinedGuild;
         Client.LeftGuild += Client_LeftGuild;
         Log.Information("Shard {0} logged in.", Client.ShardId);
+        #if !DEBUG
+        Client.Log -= Client_Log;
+        #endif
     }
 
     private Task Client_LeftGuild(SocketGuild arg)
@@ -306,35 +306,31 @@ public class Mewdeko
         return Task.CompletedTask;
     }
 
-    private  Task Client_JoinedGuild(SocketGuild arg)
+    private async Task Client_JoinedGuild(SocketGuild arg)
     {
-        _ = Task.Run(async () =>
+        await arg.DownloadUsersAsync();
+        Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
+
+        GuildConfig gc;
+        await using (var uow = _db.GetDbContext())
         {
-            await arg.DownloadUsersAsync();
-            Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
+            gc = uow.ForGuildId(arg.Id);
+        }
 
-            GuildConfig gc;
-            await using (var uow = _db.GetDbContext())
-            {
-                gc = uow.ForGuildId(arg.Id);
-            }
+        await JoinedGuild.Invoke(gc).ConfigureAwait(false);
 
-            await JoinedGuild.Invoke(gc).ConfigureAwait(false);
-
-            var chan = await Client.Rest.GetChannelAsync(892789588739891250) as RestTextChannel;
-            var eb = new EmbedBuilder();
-            eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
-            eb.AddField("Server ID", arg.Id);
-            eb.AddField("Members", arg.MemberCount);
-            eb.AddField("Boosts", arg.PremiumSubscriptionCount);
-            eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
-            eb.AddField("Text Channels", arg.TextChannels.Count);
-            eb.AddField("Voice Channels", arg.VoiceChannels.Count);
-            eb.WithThumbnailUrl(arg.IconUrl);
-            eb.WithColor(OkColor);
-            await chan.SendMessageAsync(embed: eb.Build());
-        });
-        return Task.CompletedTask;
+        var chan = await Client.Rest.GetChannelAsync(892789588739891250) as RestTextChannel;
+        var eb = new EmbedBuilder();
+        eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
+        eb.AddField("Server ID", arg.Id);
+        eb.AddField("Members", arg.MemberCount);
+        eb.AddField("Boosts", arg.PremiumSubscriptionCount);
+        eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
+        eb.AddField("Text Channels", arg.TextChannels.Count);
+        eb.AddField("Voice Channels", arg.VoiceChannels.Count);
+        eb.WithThumbnailUrl(arg.IconUrl);
+        eb.WithColor(OkColor);
+        await chan.SendMessageAsync(embed: eb.Build());
     }
 
     private async Task RunAsync()
@@ -390,7 +386,7 @@ public class Mewdeko
 
     private Task ExecuteReadySubscriptions()
     {
-       var readyExecutors = Services.GetServices<IReadyExecutor>();
+        var readyExecutors = Services.GetServices<IReadyExecutor>();
         var tasks = readyExecutors.Select(async toExec =>
         {
             try
@@ -399,15 +395,11 @@ public class Mewdeko
             }
             catch (Exception ex)
             {
-                Log.Error(ex,
-                    "Failed running OnReadyAsync method on {Type} type: {Message}",
-                    toExec.GetType().Name,
-                    ex.Message);
+                Log.Error(ex, "Failed running OnReadyAsync method on {Type} type: {Message}", toExec.GetType().Name, ex.Message);
             }
         });
 
         return tasks.WhenAll();
-
     }
 
     private static Task Client_Log(LogMessage arg)
@@ -461,10 +453,10 @@ public class Mewdeko
         }, CommandFlags.FireAndForget);
     }
 
-    public Task SetGameAsync(string game, ActivityType type)
+    public async Task SetGameAsync(string game, ActivityType type)
     {
         var obj = new {Name = game, Activity = type};
         var sub = Services.GetService<IDataCache>()!.Redis.GetSubscriber();
-        return sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj));
+        await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj));
     }
 }

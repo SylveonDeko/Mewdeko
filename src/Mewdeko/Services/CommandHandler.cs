@@ -8,7 +8,6 @@ using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
-using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
@@ -30,10 +29,8 @@ public class CommandHandler : INService
     private const float ONE_THOUSANDTH = 1.0f / 1000;
     private readonly Mewdeko _bot;
     private readonly BotConfigService _bss;
-    private readonly Timer _clearUsersOnShortCooldown;
     private readonly DiscordSocketClient _client;
     public readonly CommandService CommandService;
-    private readonly DiscordPermOverrideService _dpo;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
     private readonly IBotStrings _strings;
@@ -41,13 +38,12 @@ public class CommandHandler : INService
     private IEnumerable<IInputTransformer> inputTransformers;
     public IEnumerable<ILateBlocker> LateBlockers;
     private IEnumerable<ILateExecutor> lateExecutors;
-    public InteractionService InteractionService;
+    public readonly InteractionService InteractionService;
 
     public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
-        InteractionService interactionService, DiscordPermOverrideService dpos)
+        InteractionService interactionService)
     {
-        _dpo = dpos;
         InteractionService = interactionService;
         _strings = strngs;
         _client = client;
@@ -60,13 +56,9 @@ public class CommandHandler : INService
         _client.InteractionCreated += TryRunInteraction;
         InteractionService.SlashCommandExecuted += HandleCommands;
         InteractionService.ContextCommandExecuted += HandleContextCommands;
-        _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
+        _ = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
-        _client.MessageReceived += msg =>
-        {
-            var _ = Task.Run(async () => await MessageReceivedHandler(msg));
-            return Task.CompletedTask;
-        };
+        _client.MessageReceived += MessageReceivedHandler;
     }
     
 
@@ -78,7 +70,7 @@ public class CommandHandler : INService
     
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
-    public async Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
+    public static async Task HandleContextCommands(ContextCommandInfo info, IInteractionContext ctx, IResult result )
     {
         if (!result.IsSuccess)
         {
@@ -302,7 +294,7 @@ public class CommandHandler : INService
         }
     }
 
-    private async Task TryRunCommand(SocketGuild guild, IChannel channel, IUserMessage usrMsg)
+    private async Task TryRunCommand(IGuild guild, IChannel channel, IUserMessage usrMsg)
     {
         var execTime = Environment.TickCount;
 
@@ -390,10 +382,10 @@ public class CommandHandler : INService
         foreach (var exec in lateExecutors) await exec.LateExecute(_client, guild, usrMsg).ConfigureAwait(false);
     }
 
-    private Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
+    private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos, IServiceProvider serviceProvider,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception) =>
-        ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
+        await ExecuteCommand(context, input[argPos..], serviceProvider, multiMatchHandling);
 
 
     private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommand(CommandContext context,
@@ -432,14 +424,13 @@ public class CommandHandler : INService
 
             if (parseResult.Error == CommandError.MultipleMatches)
             {
-                IReadOnlyList<TypeReaderValue> argList, paramList;
                 switch (multiMatchHandling)
                 {
                     case MultiMatchHandling.Best:
-                        argList = parseResult.ArgValues
-                            .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
-                        paramList = parseResult.ParamValues
-                            .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                        IReadOnlyList<TypeReaderValue> argList = parseResult.ArgValues
+                                                                            .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
+                        IReadOnlyList<TypeReaderValue> paramList = parseResult.ParamValues
+                                                                              .Select(x => x.Values.OrderByDescending(y => y.Score).First()).ToImmutableArray();
                         parseResult = ParseResult.FromSuccess(argList, paramList);
                         break;
                 }
@@ -488,7 +479,7 @@ public class CommandHandler : INService
         var cmd = successfulParses[0].Key.Command;
 
         // Bot will ignore commands which are ran more often than what specified by
-        // GlobalCommandsCooldown constant (miliseconds)
+        // GlobalCommandsCooldown constant (milliseconds)
         if (!UsersOnShortCooldown.Add(context.Message.Author.Id))
             return (false, null, cmd);
         //return SearchResult.FromError(CommandError.Exception, "You are on a global cooldown.");

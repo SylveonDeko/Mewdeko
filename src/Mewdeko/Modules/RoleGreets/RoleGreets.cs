@@ -11,6 +11,7 @@ using Mewdeko.Common.Replacements;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Modules.RoleGreets.Services;
+using System.Globalization;
 using System.Net.Http;
 
 namespace Mewdeko.Modules.RoleGreets;
@@ -80,7 +81,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
             return;
         }
 
-        await Service.ChangeRgDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
+        await Service.ChangeRgDelete(greet, int.Parse(time.Time.TotalSeconds.ToString(CultureInfo.InvariantCulture)));
         await ctx.Channel.SendConfirmAsync(
             $"Successfully updated RoleGreet #{id} to delete after {time.Time.Humanize()}.");
 
@@ -88,7 +89,7 @@ public class RoleGreets : MewdekoModuleBase<RoleGreetService>
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task RoleGreetDelete(int id, ulong howlong)
+    public async Task RoleGreetDelete(int id, int howlong)
     {
         var greet = Service.GetListGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)

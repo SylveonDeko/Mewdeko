@@ -81,7 +81,7 @@ public class RoleRoleGreets : MewdekoSlashModuleBase<RoleGreetService>
 
     [SlashCommand("delete","Set how long it takes for a greet to delete"),  RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]
-    public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] ulong howlong)
+    public async Task RoleGreetDelete(int id, [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)

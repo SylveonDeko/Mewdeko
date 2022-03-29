@@ -14,18 +14,17 @@ using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
+using MoreLinq;
 using Newtonsoft.Json;
 using Swan;
 using System.IO;
 using System.Text;
-using cinfo = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace Mewdeko.Modules.Help;
 
 public class Help : MewdekoModuleBase<HelpService>
 {
     private readonly BotConfigService _bss;
-    private readonly DiscordSocketClient _client;
     private readonly CommandService _cmds;
     private readonly InteractiveService _interactive;
     private readonly AsyncLazy<ulong> _lazyClientId;
@@ -42,9 +41,8 @@ public class Help : MewdekoModuleBase<HelpService>
         _bss = bss;
         _perms = perms;
         _services = services;
-        _client = client;
         _strings = strings;
-        _lazyClientId = new AsyncLazy<ulong>(async () => (await _client.GetApplicationInfoAsync()).Id);
+        _lazyClientId = new AsyncLazy<ulong>(async () => (await client.GetApplicationInfoAsync()).Id);
     }
 
     public async Task<(string plainText, EmbedBuilder embed)> GetHelpStringEmbed()
@@ -73,22 +71,26 @@ public class Help : MewdekoModuleBase<HelpService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task SearchCommand(string commandname)
     {
-        var list = new List<cinfo>();
-        var cmds = _cmds.Commands.Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
+        var cmds = _cmds.Commands.Distinct().Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
         if (!cmds.Any())
         {
             await ctx.Channel.SendErrorAsync(
                 "That command wasn't found! Please retry your search with a different term.");
         }
+
         else
         {
-            list.AddRange(cmds.Select(i =>
-                new cinfo($"{i.Name}", i.RealSummary(_strings, ctx.Guild.Id, Prefix).Truncate(50))));
-
+            string cmdnames = null;
+            string cmdremarks = null;
+            foreach (var i in cmds)
+            {
+                cmdnames += $"\n{i.Name}";
+                cmdremarks += $"\n{i.RealSummary(_strings, ctx.Guild.Id, Prefix).Truncate(50)}";
+            }
             var eb = new EmbedBuilder()
-                .WithOkColor()
-                .AddField("Command", string.Join("\n", list.Select(x => x.Key)), true)
-                .AddField("Description", string.Join("\n", list.Select(x => x.Value)), true);
+                     .WithOkColor()
+                     .AddField("Command", cmdnames, true)
+                     .AddField("Description", cmdremarks, true);
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
     }
@@ -96,18 +98,21 @@ public class Help : MewdekoModuleBase<HelpService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Modules()
     {
+        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var count = 0;
         var embed = new EmbedBuilder();
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
             .WithName("Mewdeko Help Menu"));
+        embed.AddField("Getting Started", "https://mewdeko.tech/getting-started");
         embed.WithColor(Mewdeko.OkColor);
         embed.WithDescription(
-            $"\nDo `{Prefix}help command` to see a description of a command you need more info on! For example {Prefix}h afk");
-        embed.AddField("**Categories**",
-            $">  `{Prefix}cmds Administration`\n>  `{Prefix}cmds Moderation`\n>  `{Prefix}cmds Utility`\n>  `{Prefix}cmds Suggestions`\n>  `{Prefix}cmds Server Management`\n>  `{Prefix}cmds Permissions`\n>  `{Prefix}cmds Xp`\n>  `{Prefix}cmds Afk`\n>  `{Prefix}cmds Confessions`\n>  `{Prefix}cmds Starboard`",
-            true);
-        embed.AddField("_ _",
-            $">  `{Prefix}cmds Nsfw`\n>  `{Prefix}cmds Music`\n>  `{Prefix}cmds Gambling`\n>  `{Prefix}cmds Searches`\n>  `{Prefix}cmds Games`\n>  `{Prefix}cmds Help`\n>  `{Prefix}cmds ChatTriggers`\n>  `{Prefix}cmds Giveaways`\n>  `{Prefix}cmds MultiGreet`\n> `{Prefix}cmds Highlights`",
-            true);
+            $"\nDo `{Prefix}help command` to see a description of a command you need more info on!" + 
+            $"\nDo `{Prefix}cmds category` to see the commands in that module.");
+        foreach (var i in modules.Batch(modules.Count()/2))
+        {
+            embed.AddField(count == 0 ? "Categories" : "_ _", string.Join("\n", i.Select(x => $"> {Format.Bold(x.Name)}")), true);
+            count++;
+        }
         embed.AddField(" Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
         
