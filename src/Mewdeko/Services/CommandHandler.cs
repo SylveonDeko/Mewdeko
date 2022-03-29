@@ -33,6 +33,7 @@ public class CommandHandler : INService
     public readonly CommandService CommandService;
     private readonly DbService _db;
     private readonly IServiceProvider _services;
+    private readonly Timer _clearUsersOnShortCooldown;
     private readonly IBotStrings _strings;
     public IEnumerable<IEarlyBehavior> EarlyBehaviors;
     private IEnumerable<IInputTransformer> inputTransformers;
@@ -56,12 +57,12 @@ public class CommandHandler : INService
         _client.InteractionCreated += TryRunInteraction;
         InteractionService.SlashCommandExecuted += HandleCommands;
         InteractionService.ContextCommandExecuted += HandleContextCommands;
-        _ = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
+        _clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GLOBAL_COMMANDS_COOLDOWN,
             GLOBAL_COMMANDS_COOLDOWN);
         _client.MessageReceived += MessageReceivedHandler;
     }
     
-
+    
     public ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
