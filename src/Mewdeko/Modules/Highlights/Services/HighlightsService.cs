@@ -7,6 +7,7 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Serilog;
 using System.Threading.Channels;
+using System.Text.RegularExpressions;
 
 namespace Mewdeko.Modules.Highlights.Services;
 
@@ -83,11 +84,11 @@ public class HighlightsService : INService, IReadyExecutor
         if (string.IsNullOrWhiteSpace(message.Content))
             return true;
         var usersDMd = new List<ulong>();
-        var splitwords = message.Content.Split(" ");
+        var content = message.Content;
         var highlightWords = GetForGuild(channel.Guild.Id);
         if (!highlightWords.Any())
             return true;
-        var toSend = (from i in splitwords from j in highlightWords where j.Word.Contains(i) select j).ToList();
+        var toSend = (from h in highlightWords where Regex.IsMatch(h.Word, @$"\b{Regex.Escape(content)}\b") select h).ToList();
         foreach (var i in toSend)
         {
             if (await _cache.GetHighlightStagger(channel.Guild.Id, i.UserId))
@@ -140,7 +141,7 @@ public class HighlightsService : INService, IReadyExecutor
 
         return true;
     }
-    
+
     public async Task AddHighlight(ulong guildId, ulong userId, string word)
     {
         var toadd = new Database.Models.Highlights { UserId = userId, GuildId = guildId, Word = word };
