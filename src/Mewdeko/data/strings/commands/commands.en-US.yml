@@ -3785,3 +3785,12 @@ economy:
     minutes.
   args:
     - ''
+roll:
+  desc: >-
+    Rolls a set of dice in DND notation, returns the total of all rolls and each individual die's value. 
+    Supported opererations are addition, subtraction, multiplication, and division. The operation effects all dice, 
+    for example `3d1, 2d1 * 2` would be **10** instead of **7**.
+  args:
+    - 4d10 2d5 * 2
+    - d8
+    - 7d5, 2d100 / 2
