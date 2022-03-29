@@ -83,7 +83,7 @@ public class RoleGreetService : INService
                 {
                     var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build());
                     if (i.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        msg.DeleteAfter(i.DeleteTime);
 
                 }
 
@@ -91,21 +91,21 @@ public class RoleGreetService : INService
                 {
                     var msg = await channel.SendMessageAsync(plainText);
                     if (i.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        msg.DeleteAfter(i.DeleteTime);
                 }
 
                 if (embedData is not null && plainText is "")
                 {
                     var msg = await channel.SendMessageAsync(embed: embedData.Build());
                     if (i.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        msg.DeleteAfter(i.DeleteTime);
                 }
             }
             else
             {
                 var msg = await channel.SendMessageAsync(content);
                 if (i.DeleteTime > 0)
-                    msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                    msg.DeleteAfter(i.DeleteTime);
             }
         }
     }
@@ -208,7 +208,7 @@ public class RoleGreetService : INService
         await uow.SaveChangesAsync();
     }
 
-    public async Task ChangeRgDelete(RoleGreet greet, ulong howlong)
+    public async Task ChangeRgDelete(RoleGreet greet, int howlong)
     {
         var uow = _db.GetDbContext();
         var toadd = new RoleGreet

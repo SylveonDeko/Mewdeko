@@ -273,10 +273,9 @@ public static class Extensions
         });
         return msg;
     }
-    public static IMessage? DeleteAfter(this IMessage? msg, int seconds, LogCommandService? logService = null)
+    public static void DeleteAfter(this IMessage? msg, int seconds, LogCommandService? logService = null)
     {
-        if (msg is null)
-            return null;
+        if (msg is null) return;
 
         Task.Run(async () =>
         {
@@ -291,7 +290,6 @@ public static class Extensions
                 // ignored
             }
         });
-        return msg;
     }
 
     public static ModuleInfo GetTopLevelModule(this ModuleInfo module)
