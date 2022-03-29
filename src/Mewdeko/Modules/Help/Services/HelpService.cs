@@ -7,6 +7,7 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using System.Threading;
@@ -21,6 +22,7 @@ public class HelpService : ILateExecutor, INService
     private readonly DiscordSocketClient _client;
     private readonly DiscordPermOverrideService _dpos;
     private readonly Mewdeko _bot;
+    private readonly BlacklistService _blacklistService;
     private readonly IBotStrings _strings;
     public readonly ComponentBuilder Builder;
     
@@ -30,10 +32,12 @@ public class HelpService : ILateExecutor, INService
         DiscordPermOverrideService dpos,
         BotConfigService bss,
         DiscordSocketClient client,
-        Mewdeko bot)
+        Mewdeko bot,
+        BlacklistService blacklistService)
     {
         _client = client;
         _bot = bot;
+        _blacklistService = blacklistService;
         _ch = ch;
         _strings = strings;
         _dpos = dpos;
@@ -132,6 +136,9 @@ public class HelpService : ILateExecutor, INService
     public async Task HandleJoin(SocketGuild guild)
     {
         if (_bot.CachedGuildConfigs.TryGetValue(guild.Id, out _))
+            return;
+
+        if (_blacklistService._blacklist.Select(x => x.ItemId).Contains(guild.Id))
             return;
         
         var e = guild.DefaultChannel;
