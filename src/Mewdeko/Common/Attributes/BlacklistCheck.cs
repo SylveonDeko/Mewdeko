@@ -14,7 +14,7 @@ public sealed class BlacklistCheck : PreconditionAttribute
     {
         var blacklistService = services.GetService<BlacklistService>();
 #pragma warning disable CS8602
-        foreach (var bl in blacklistService.blacklist)
+        foreach (var bl in blacklistService._blacklist)
 #pragma warning restore CS8602
         {
             if (context.Guild != null && bl.Type == BlacklistType.Server && bl.ItemId == context.Guild.Id)

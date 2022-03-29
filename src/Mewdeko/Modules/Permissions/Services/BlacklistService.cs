@@ -1,5 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using LinqToDB;
+using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Database;
@@ -15,15 +17,32 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly IPubSub _pubSub;
 
     private readonly TypedKey<BlacklistEntry[]> _blPubKey = new("blacklist.reload");
-    public IReadOnlyList<BlacklistEntry> blacklist;
+    public IReadOnlyList<BlacklistEntry> _blacklist;
 
-    public BlacklistService(DbService db, IPubSub pubSub)
+    public BlacklistService(DbService db, IPubSub pubSub, DiscordSocketClient client)
     {
         _db = db;
         _pubSub = pubSub;
 
         Reload(false);
         _pubSub.Sub(_blPubKey, OnReload);
+        client.JoinedGuild += CheckBlacklist;
+    }
+
+    private async Task CheckBlacklist(SocketGuild arg)
+    {
+        if (_blacklist.Select(x => x.ItemId).Contains(arg.Id))
+        {
+            var channel = arg.DefaultChannel;
+            if (channel is null)
+            {
+                await arg.LeaveAsync();
+                return;
+            }
+
+            await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.");
+            await arg.LeaveAsync();
+        }
     }
 
     public int Priority => -100;
@@ -32,7 +51,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     public Task<bool> RunBehavior(DiscordSocketClient _, IGuild guild, IUserMessage usrMsg)
     {
-        foreach (var bl in blacklist)
+        foreach (var bl in _blacklist)
         {
             if (guild != null && bl.Type == BlacklistType.Server && bl.ItemId == guild.Id)
                 return Task.FromResult(true);
@@ -51,7 +70,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 
     private ValueTask OnReload(BlacklistEntry[] blacklist)
     {
-        this.blacklist = blacklist;
+        this._blacklist = blacklist;
         return default;
     }
 
@@ -59,7 +78,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     {
         using var uow = _db.GetDbContext();
         var toPublish = uow.Blacklist.AsNoTracking().ToArray();
-        blacklist = toPublish;
+        _blacklist = toPublish;
         if (publish) _pubSub.Pub(_blPubKey, toPublish);
     }
 
@@ -69,7 +88,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         var item = new BlacklistEntry {ItemId = id, Type = type};
         uow.Blacklist.Add(item);
         uow.SaveChanges();
-
+            
         Reload();
     }
 
