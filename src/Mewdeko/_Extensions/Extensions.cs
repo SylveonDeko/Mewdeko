@@ -50,43 +50,43 @@ public static class Extensions
 
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
-    
+
     public static Uri ToNewCdn(this Uri uri)
         => new(uri.ToString().Replace(OldCdnUrl, NewCdnUrl));
 
 
     public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
-    
-    public static async Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message) 
+
+    public static async Task SendEphemeralConfirmAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
-    
-    public static async Task SendErrorAsync(this IDiscordInteraction interaction, string message) 
+
+    public static async Task SendErrorAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build());
-    
-    public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string message) 
+
+    public static async Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string message)
         => await interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build());
-    
-    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message) 
+
+    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build());
 
-    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message, ComponentBuilder builder) 
+    public static async Task<IUserMessage> SendConfirmFollowupAsync(this IDiscordInteraction interaction, string message, ComponentBuilder builder)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), components: builder.Build());
-    
+
     public static async Task<IUserMessage> SendEphemeralFollowupConfirmAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(message).Build(), ephemeral: true);
-    
-    public static async Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message) 
+
+    public static async Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build());
-    
-    public static async Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction, string message) 
+
+    public static async Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction, string message)
         => await interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(), ephemeral: true, components: new ComponentBuilder()
             .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/wB9FBMreRk").Build());
-    
-    
+
+
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
         var first = attachments.FirstOrDefault();
@@ -103,7 +103,7 @@ public static class Extensions
     {
         if (span < TimeSpan.FromMinutes(2))
             return $"{span:mm}m {span:ss}s";
-        return $"{(int) span.TotalHours:D2}h {span:mm}m";
+        return $"{(int)span.TotalHours:D2}h {span:mm}m";
     }
 
     public static bool TryGetConfig(this List<GuildConfig> configList, ulong id, out GuildConfig config)
@@ -129,7 +129,7 @@ public static class Extensions
 
     public static void AddTypeReaders<TResult>(this CommandService commands, params TypeReader[] readers)
         => commands.AddTypeReader<TResult>(new TypeReaderCollection(readers));
-    
+
     public static bool TryGetUrlPath(this string input, out string path)
     {
         var match = UrlRegex.Match(input);
@@ -226,10 +226,10 @@ public static class Extensions
     public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
-    
+
 
     public static string MethodName(this CommandInfo cmd) =>
-        ((MewdekoCommandAttribute) cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
+        ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
         ?.MethodName
         ?? cmd.Name;
     // public static string RealRemarks(this CommandInfo cmd, IBotStrings strings, string prefix)
