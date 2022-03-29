@@ -135,7 +135,7 @@ public class HelpService : ILateExecutor, INService
     
     public async Task HandleJoin(SocketGuild guild)
     {
-        if (_bot.CachedGuildConfigs.TryGetValue(guild.Id, out _))
+        if (_bot.CachedGuildConfigs.TryGetConfig(guild.Id, out _))
             return;
 
         if (_blacklistService._blacklist.Select(x => x.ItemId).Contains(guild.Id))
