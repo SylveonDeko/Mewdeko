@@ -1086,5 +1086,9 @@
     "repeater_initial": "I will repeat the initial messages in about {0}hours maybe and like {1}minute or smth. If i feel like it.",
     "blacklisted_tag": "One or more tags you used are blacklisted. Stop being stupid. Please. Oh, i forgot. You can't.",
     "crca_disabled": "Chat Trigger with the id {0} will no longer get triggerd unless it's triggerd word is at the beggining of the sentence. Don't trigger it.",
-    "crca_enabled": "Chat Triggers with the id {0} now get triggerd if it's said anywhere in the sentence. #mastertriggerd"
+    "crca_enabled": "Chat Triggers with the id {0} now get triggerd if it's said anywhere in the sentence. #mastertriggerd",
+    "roll_fail_new_dm": "Time to get a new DM\n{0}.",
+    "roll_fail_dice_sides": "Dice must have between 0 and {0} sides.",
+    "roll_fail_no_dice": "You must have at least 1 die",
+    "roll_fail_too_large": "I dropped a few dice... try rolling a smaller value."
 }
