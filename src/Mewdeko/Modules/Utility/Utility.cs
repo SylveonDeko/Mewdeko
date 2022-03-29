@@ -228,7 +228,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 var msg1 = msg.Skip(page).FirstOrDefault();
                 var user = await ctx.Channel.GetUserAsync(msg1.UserId) ??
                            await _client.Rest.GetUserAsync(msg1.UserId);
-                
+
                 return new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
@@ -240,7 +240,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             }
         }
     }
-    
+
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task EditSnipeList(int amount = 5)
     {
@@ -276,7 +276,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 var msg1 = msg.Skip(page).FirstOrDefault();
                 var user = await ctx.Channel.GetUserAsync(msg1.UserId) ??
                            await _client.Rest.GetUserAsync(msg1.UserId);
-                
+
                 return new PageBuilder()
                     .WithOkColor()
                     .WithAuthor(
@@ -308,7 +308,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
         var em = new EmbedBuilder
         {
-            Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
+            Author = new EmbedAuthorBuilder { IconUrl = user.GetAvatarUrl(), Name = $"{user} said:" },
 
             Description = msg.Message,
             Footer = new EmbedFooterBuilder
@@ -362,7 +362,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         var em = new EmbedBuilder
         {
-            Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
+            Author = new EmbedAuthorBuilder { IconUrl = user.GetAvatarUrl(), Name = $"{user} said:" },
             Description = msg.Message,
             Footer = new EmbedFooterBuilder
             {
@@ -397,7 +397,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
             var em = new EmbedBuilder
             {
-                Author = new EmbedAuthorBuilder {IconUrl = user.GetAvatarUrl(), Name = $"{user} said:"},
+                Author = new EmbedAuthorBuilder { IconUrl = user.GetAvatarUrl(), Name = $"{user} said:" },
                 Description = msg.Message,
                 Footer = new EmbedFooterBuilder
                 {
@@ -571,7 +571,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
                 return;
             }
 
-            
+
             var user = await ctx.Channel.GetUserAsync(msg.UserId) ?? await _client.Rest.GetUserAsync(msg.UserId);
 
             var em = new EmbedBuilder
@@ -724,7 +724,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
     public async Task Roles(IGuildUser? target, int page = 1)
     {
-        var channel = (ITextChannel) ctx.Channel;
+        var channel = (ITextChannel)ctx.Channel;
         var guild = channel.Guild;
 
         const int rolesPerPage = 20;
@@ -734,7 +734,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
         if (target != null)
         {
-            var roles = target.GetRoles().Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+            var roles = target.GetRoles().Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                 .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
             if (!roles.Any())
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
@@ -744,7 +744,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
         else
         {
-            var roles = guild.Roles.Except(new[] {guild.EveryoneRole}).OrderBy(r => -r.Position)
+            var roles = guild.Roles.Except(new[] { guild.EveryoneRole }).OrderBy(r => -r.Position)
                 .Skip((page - 1) * rolesPerPage).Take(rolesPerPage).ToArray();
             if (!roles.Any())
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
@@ -796,7 +796,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Showemojis([Remainder] string _)
     {
-        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote) t.Value);
+        var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(t => (Emote)t.Value);
 
         var result = string.Join("\n", tags.Select(m => GetText("showemojis", m, m.Url)));
 
@@ -820,12 +820,53 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
             await ctx.Channel
                 .SendConfirmAsync(
-                    $"Bot Ping {(int) sw.Elapsed.TotalMilliseconds}ms\nBot Latency {((DiscordSocketClient) ctx.Client).Latency}ms")
+                    $"Bot Ping {(int)sw.Elapsed.TotalMilliseconds}ms\nBot Latency {((DiscordSocketClient)ctx.Client).Latency}ms")
                 .ConfigureAwait(false);
         }
         finally
         {
             _sem.Release();
         }
+    }
+
+    [MewdekoCommand, Usage, Description, Aliases]
+    public async Task Roll([Remainder] string roll)
+    {
+        var result = new RollResult();
+        try
+        {
+            result = RollCommandService.ParseRoll(roll);
+        }
+        catch (Exception ex)
+        {
+            await ReplyErrorLocalizedAsync("roll_fail_new_dm", GetText(ex.Message));
+        }
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            return new PageBuilder()
+                    .WithOkColor()
+                    .WithFields(result.Results.Skip(page * 10)
+                                        .Take(10)
+                                        .Select(x => new EmbedFieldBuilder()
+                                            .WithName(x.Key.ToString())
+                                            .WithValue(string.Join(',', x.Value))).ToArray())
+                    .WithDescription(result.InacurateTotal
+                                        // hide possible int rollover errors
+                                        ? GetText("roll_fail_too_large")
+                                        : result.ToString());
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(result.Results.Count / 10)
+            .WithDefaultCanceledPage()
+            .WithDefaultEmotes()
+            .Build();
+
+        await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));
     }
 }
