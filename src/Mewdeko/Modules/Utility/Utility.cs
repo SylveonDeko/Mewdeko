@@ -837,7 +837,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         {
             result = RollCommandService.ParseRoll(roll);
         }
-        catch (Exception ex)
+        catch (ArgumentException ex)
         {
             await ReplyErrorLocalizedAsync("roll_fail_new_dm", GetText(ex.Message));
             return;
