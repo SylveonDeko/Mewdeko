@@ -34,10 +34,10 @@ public class ChatterBotService : INService
         _client.MessageReceived += MessageRecieved;
 
         ChatterBotChannels = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
-            db.GetDbContext().GuildConfigs.All()
+            bot.CachedGuildConfigs
                 .Where(gc => gc.CleverbotChannel != 0)
                 .ToDictionary(gc => gc.CleverbotChannel,
-                    _ => new Lazy<IChatterBotSession>(() => CreateSession(), true)));
+                    _ => new Lazy<IChatterBotSession>(CreateSession, true)));
     }
 
     public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotChannels { get; }
@@ -76,7 +76,17 @@ public class ChatterBotService : INService
             {
                 if (msg is not IUserMessage usrMsg)
                     return;
-                var message = PrepareMessage(usrMsg, out var cbs);
+                IChatterBotSession cbs;
+                string message;
+                try
+                {
+                    message = PrepareMessage(usrMsg, out cbs);
+                }
+                catch
+                {
+                    return;
+                }
+                
                 if (message == null || cbs == null)
                     return;
                 var cleverbotExecuted = await TryAsk(cbs, (ITextChannel) usrMsg.Channel, message, usrMsg).ConfigureAwait(false);
@@ -113,7 +123,7 @@ public class ChatterBotService : INService
         
         if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))
             return null;
-
+        
         cleverbot = lazyCleverbot.Value;
 
         var mewdekoId = _client.CurrentUser.Id;
