@@ -1092,5 +1092,10 @@
     "repeater_initial": "Repeater Created.",
     "blacklisted_tag": "blacklisted_tag",
     "crca_disabled": "crca_disabled",
-    "crca_enabled": "crca_enabled"
+    "crca_enabled": "crca_enabled",
+    "roll_fail_new_dm": "Time to get a new DM\n{0}.",
+    "roll_fail_dice_sides": "Dice must have between 0 and {0} sides.",
+    "roll_fail_no_dice": "You must have at least 1 die",
+    "roll_fail_too_large": "I dropped a few dice... try rolling a smaller value.",
+    "roll_fail_invalid_string": "Roll input must be a collection of dice in format `<count>D<sides>`, for example `1d10` would roll a ten sided die"
 }
