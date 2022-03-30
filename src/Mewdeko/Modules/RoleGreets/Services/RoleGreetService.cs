@@ -28,39 +28,35 @@ public class RoleGreetService : INService
     public RoleGreet[] GetListGreets(ulong guildId) =>
         _db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
 
-    private Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
+    private async Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
     {
-        _ = Task.Run(() =>
+        var user = await cacheable.GetOrDownloadAsync();
+        if (user.Roles.SequenceEqual(socketGuildUser.Roles))
+            if (user.Roles.Count > socketGuildUser.Roles.Count)
+                return;
+        var diffRoles = socketGuildUser.Roles.Where(r => !user.Roles.Contains(r)).ToArray();
+        foreach (var i in diffRoles)
         {
-            if (!cacheable.Value.Roles.SequenceEqual(socketGuildUser.Roles))
-                if (cacheable.Value.Roles.Count > socketGuildUser.Roles.Count)
-                    return;
-            var diffRoles = socketGuildUser.Roles.Where(r => !cacheable.Value.Roles.Contains(r)).ToArray();
-            foreach (var i in diffRoles)
+            var greets = GetGreets(i.Id);
+            if (!greets.Any()) return;
+            var webhooks = greets.Where(x => x.WebhookUrl is not null).Select(x => new DiscordWebhookClient(x.WebhookUrl));
+            if (greets.Any())
             {
-                var greets = GetGreets(i.Id);
-                if (!greets.Any()) return;
-                var webhooks = greets.Where(x => x.WebhookUrl is not null)
-                                     .Select(x => new DiscordWebhookClient(x.WebhookUrl));
-                if (greets.Any())
-                {
-                    async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, socketGuildUser);
+                async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, user);
 
-                    diffRoles.ForEach(Exec);
-                }
-
-                if (webhooks.Any())
-                {
-                    async void Exec(SocketRole x) => await HandleWebhookGreets(greets, x, socketGuildUser);
-
-                    diffRoles.ForEach(Exec);
-                }
+                diffRoles.ForEach(Exec);
             }
-        });
-        return Task.CompletedTask;
 
+            if (webhooks.Any())
+            {
+                async void Exec(SocketRole x) => await HandleWebhookGreets(greets, x, user);
+
+                diffRoles.ForEach(Exec);
+            }
+
+        }
     }
-    
+
     private async Task HandleChannelGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)
     {
         var checkGreets = multiGreets.Where(x => x.RoleId == role.Id);
@@ -132,28 +128,28 @@ public class RoleGreetService : INService
                 {
                     var msg = await webhook.SendMessageAsync(plainText, embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
                 }
 
                 if (embedData is null && plainText is not null)
                 {
                     var msg = await webhook.SendMessageAsync(plainText);
                     if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
                 }
 
                 if (embedData is not null && plainText is "")
                 {
                     var msg = await webhook.SendMessageAsync(embeds: new[] { embedData.Build() });
                     if (i.DeleteTime > 0)
-                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
                 }
             }
             else
             {
                 var msg = await webhook.SendMessageAsync(content);
                 if (i.DeleteTime > 0)
-                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                    (await user.Guild.GetTextChannel(i.ChannelId).GetMessageAsync(msg)).DeleteAfter(i.DeleteTime);
             }
         }
     }
@@ -173,94 +169,39 @@ public class RoleGreetService : INService
     public async Task ChangeMgMessage(RoleGreet greet, string code)
     {
         var uow = _db.GetDbContext();
-        var toadd = new RoleGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            RoleId = greet.RoleId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = greet.DeleteTime,
-            Message = code,
-            GreetBots = greet.GreetBots,
-            WebhookUrl = greet.WebhookUrl,
-            Disabled = greet.Disabled
-        };
-        uow.RoleGreets.Update(toadd);
+        greet.Message = code;
+        uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
     
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
         var uow = _db.GetDbContext();
-        var toadd = new RoleGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            RoleId = greet.RoleId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = greet.DeleteTime,
-            Message = greet.Message,
-            GreetBots = greet.GreetBots,
-            WebhookUrl = greet.WebhookUrl,
-            Disabled = disabled
-        };
-        uow.RoleGreets.Update(toadd);
+        greet.Disabled = disabled;
+        uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
 
     public async Task ChangeRgDelete(RoleGreet greet, int howlong)
     {
         var uow = _db.GetDbContext();
-        var toadd = new RoleGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            RoleId = greet.RoleId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = howlong,
-            Message = greet.Message,
-            WebhookUrl = greet.WebhookUrl,
-            Disabled = greet.Disabled,
-            GreetBots = greet.GreetBots
-        };
-        uow.RoleGreets.Update(toadd);
+        greet.DeleteTime = howlong;
+        uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
     public async Task ChangeMgWebhook(RoleGreet greet, string webhookurl)
     {
         var uow = _db.GetDbContext();
-        var toadd = new RoleGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            RoleId = greet.RoleId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = greet.DeleteTime,
-            Message = greet.Message,
-            WebhookUrl = webhookurl,
-            Disabled = greet.Disabled,
-            GreetBots = greet.GreetBots
-        };
-        uow.RoleGreets.Update(toadd);
+        greet.WebhookUrl = webhookurl;
+        uow.Update(greet);
         await uow.SaveChangesAsync();
     }
     
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
         var uow = _db.GetDbContext();
-        var toadd = new RoleGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            RoleId = greet.RoleId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = greet.DeleteTime,
-            Message = greet.Message,
-            WebhookUrl = greet.WebhookUrl,
-            Disabled = greet.Disabled,
-            GreetBots = greet.GreetBots
-        };
-        uow.RoleGreets.Update(toadd);
+        greet.GreetBots = enabled;
+        uow.Update(greet);
         await uow.SaveChangesAsync();
     }
 
