@@ -840,6 +840,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         catch (Exception ex)
         {
             await ReplyErrorLocalizedAsync("roll_fail_new_dm", GetText(ex.Message));
+            return;
         }
 
         async Task<PageBuilder> PageFactory(int page)
