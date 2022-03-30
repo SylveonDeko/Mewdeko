@@ -203,356 +203,355 @@ public class StarboardService : INService, IReadyExecutor
     private ulong GetStarboardChannel(ulong? id)
         => _bot.GetGuildConfig(id.Value).StarboardChannel;
 
-    private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
+    private Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> channel,
         SocketReaction reaction)
     {
-        
-        if (!reaction.User.IsSpecified
-            || reaction.User.Value.IsBot 
-            || !channel.HasValue 
-            || channel.Value is not ITextChannel textChannel 
-            || GetStarCount(textChannel.GuildId) == 0)
-            return;
-        IUserMessage newMessage;
-        if (!message.HasValue)
-            newMessage = await message.GetOrDownloadAsync();
-        else
-            newMessage = message.Value;
-        
-        var star = GetStar(textChannel.GuildId).ToIEmote();
-        
-        if (star.Name == null)
-            return;
-        
-        if (!Equals(reaction.Emote, star))
-            return;
-        
-        var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
-        
-        if (starboardChannelSetting == 0)
-            return;
-        
-        var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
-        
-        if (starboardChannel == null)
-            return;
-        var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
-        
-        var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
-        if (GetCheckMode(gUser.GuildId))
+        _ = Task.Run(async () =>
         {
-            if (checkedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
-                return;
-        }
-        else
-        {
-            if (!checkedChannels.Split(" ").Contains(newMessage.Channel.ToString()))
-                return;
-        }
 
-
-        var botPerms = gUser.GetPermissions(starboardChannel);
-        
-        if (!botPerms.Has(ChannelPermission.SendMessages))
-            return;
-        string content;
-        string imageurl;
-        switch (newMessage.Author.IsBot)
-        {
-            case true when !GetAllowBots(textChannel.GuildId):
+            if (!reaction.User.IsSpecified
+                || reaction.User.Value.IsBot
+                || !channel.HasValue
+                || channel.Value is not ITextChannel textChannel
+                || GetStarCount(textChannel.GuildId) == 0)
                 return;
-            case true:
-                content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
-                imageurl = newMessage.Attachments.Any() ? newMessage.Attachments.FirstOrDefault().ProxyUrl : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
-                break;
-            default:
-                content = newMessage.Content;
-                imageurl = newMessage.Attachments?.FirstOrDefault()?.ProxyUrl;
-                break;
-        }
+            IUserMessage newMessage;
+            if (!message.HasValue)
+                newMessage = await message.GetOrDownloadAsync();
+            else
+                newMessage = message.Value;
 
-        if (content is null && imageurl is null)
-            return;
-        
-        var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
-        var count = emoteCount.Where(x => !x.IsBot);
-        var enumerable = count as IUser[] ?? count.ToArray();
-        if (enumerable.Length < GetStarCount(textChannel.GuildId))
-            return;
-        
-        var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == newMessage.Id);
-        if (maybePost != null)
-        {
-            if (GetThreshold(textChannel.GuildId) > 0)
+            var star = GetStar(textChannel.GuildId).ToIEmote();
+
+            if (star.Name == null)
+                return;
+
+            if (!Equals(reaction.Emote, star))
+                return;
+
+            var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
+
+            if (starboardChannelSetting == 0)
+                return;
+
+            var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
+
+            if (starboardChannel == null)
+                return;
+            var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
+
+            var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
+            if (GetCheckMode(gUser.GuildId))
             {
-                var messages = await starboardChannel.GetMessagesAsync(GetThreshold(textChannel.GuildId)).FlattenAsync();
-                var post = messages.FirstOrDefault(x => x.Id == maybePost.PostId);
-                if (post is not null)
+                if (checkedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
+                    return;
+            }
+            else
+            {
+                if (!checkedChannels.Split(" ").Contains(newMessage.Channel.ToString()))
+                    return;
+            }
+
+
+            var botPerms = gUser.GetPermissions(starboardChannel);
+
+            if (!botPerms.Has(ChannelPermission.SendMessages))
+                return;
+            string content;
+            string imageurl;
+            switch (newMessage.Author.IsBot)
+            {
+                case true when !GetAllowBots(textChannel.GuildId):
+                    return;
+                case true:
+                    content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
+                    imageurl = newMessage.Attachments.Any()
+                        ? newMessage.Attachments.FirstOrDefault().ProxyUrl
+                        : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                    break;
+                default:
+                    content = newMessage.Content;
+                    imageurl = newMessage.Attachments?.FirstOrDefault()?.ProxyUrl;
+                    break;
+            }
+
+            if (content is null && imageurl is null)
+                return;
+
+            var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
+            var count = emoteCount.Where(x => !x.IsBot);
+            var enumerable = count as IUser[] ?? count.ToArray();
+            if (enumerable.Length < GetStarCount(textChannel.GuildId))
+                return;
+
+            var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == newMessage.Id);
+            if (maybePost != null)
+            {
+                if (GetThreshold(textChannel.GuildId) > 0)
                 {
-                    var post2 = post as IUserMessage;
-                    var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                               .WithDescription(content)
-                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                               .WithFooter(message.Id.ToString())
-                                               .WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb1.WithImageUrl(imageurl);
-
-                    await post2!.ModifyAsync(x =>
+                    var messages = await starboardChannel.GetMessagesAsync(GetThreshold(textChannel.GuildId)).FlattenAsync();
+                    var post = messages.FirstOrDefault(x => x.Id == maybePost.PostId);
+                    if (post is not null)
                     {
-                        x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
-                        x.Embed = eb1.Build();
-                    });
+                        var post2 = post as IUserMessage;
+                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb1.WithImageUrl(imageurl);
 
+                        await post2!.ModifyAsync(x =>
+                        {
+                            x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Embed = eb1.Build();
+                        });
+
+                    }
+                    else
+                    {
+                        var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                        if (tryGetOldPost is not null)
+                            try
+                            {
+                                await tryGetOldPost.DeleteAsync();
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+
+                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb2.WithImageUrl(imageurl);
+
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
+                        await AddStarboardPost(message.Id, msg1.Id);
+
+                    }
                 }
                 else
                 {
                     var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
                     if (tryGetOldPost is not null)
-                        try
-                        {
-                            await tryGetOldPost.DeleteAsync();
-                        }
-                        catch 
-                        {
-                            // ignored
-                        }
-                    var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                               .WithDescription(content)
-                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                               .WithFooter(message.Id.ToString())
-                                               .WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb2.WithImageUrl(imageurl);
+                    {
+                        var toModify = tryGetOldPost as IUserMessage;
+                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb1.WithImageUrl(imageurl);
 
-                    var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                    await AddStarboardPost(message.Id, msg1.Id);
+                        await toModify!.ModifyAsync(x =>
+                        {
+                            x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Embed = eb1.Build();
+                        });
+                    }
+                    else
+                    {
+                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})").WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
+                        if (newMessage.Attachments.Any())
+                            eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
 
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
+                        await AddStarboardPost(message.Id, msg1.Id);
+                    }
                 }
             }
             else
             {
-                var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
-                if (tryGetOldPost is not null)
-                {
-                    var toModify = tryGetOldPost as IUserMessage;
-                    var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                .WithDescription(content)
-                                                .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                .WithFooter(message.Id.ToString())
-                                                .WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb1.WithImageUrl(imageurl);
+                var eb = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author).WithDescription(content).AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
+                                           .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
+                if (imageurl is not null)
+                    eb.WithImageUrl(imageurl);
 
-                    await toModify!.ModifyAsync(x =>
-                    {
-                        x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
-                        x.Embed = eb1.Build();
-                    });
-                }
-                else
-                {
-                    var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                               .WithDescription(content)
-                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                               .WithFooter(message.Id.ToString())
-                                               .WithTimestamp(newMessage.Timestamp);
-                    if (newMessage.Attachments.Any())
-                        eb2.WithImageUrl(newMessage.Attachments.FirstOrDefault()!.Url);
-
-                    var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                    await AddStarboardPost(message.Id, msg1.Id);
-                }
+                var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build());
+                await AddStarboardPost(message.Id, msg.Id);
             }
-        }
-        else
-        {
-            var eb = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                       .WithDescription(content)
-                                       .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                       .WithFooter(message.Id.ToString())
-                                       .WithTimestamp(newMessage.Timestamp);
-            if (imageurl is not null)
-                eb.WithImageUrl(imageurl);
-
-            var msg = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb.Build());
-            await AddStarboardPost(message.Id, msg.Id);
-        }
+        });
+        
+        return Task.CompletedTask;
 
     }
 
-    private async Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message,
+    private Task OnReactionRemoveAsync(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> channel,
-        SocketReaction reaction)
-    {
-        if (!reaction.User.IsSpecified
-            || reaction.User.Value.IsBot 
-            || !channel.HasValue 
-            || channel.Value is not ITextChannel textChannel 
-            || GetStarCount(textChannel.GuildId) == 0)
-            return;
-        IUserMessage newMessage;
-        if (!message.HasValue)
-            newMessage = await message.GetOrDownloadAsync();
-        else
-            newMessage = message.Value;
-        var star = GetStar(textChannel.GuildId).ToIEmote();
-        if (star.Name == null)
-            return;
-        
-        if (!Equals(reaction.Emote, star))
-            return;
-        
-        var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
-        
-        if (starboardChannelSetting == 0)
-            return;
-        
-        var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
+        SocketReaction reaction) =>
+        _ = Task.Run(async () =>
+        {
 
-        if (starboardChannel == null)
-            return;
-        var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
-        var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
-        if (GetCheckMode(gUser.GuildId))
-        {
-            if (checkedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
+            if (!reaction.User.IsSpecified
+                || reaction.User.Value.IsBot 
+                || !channel.HasValue 
+                || channel.Value is not ITextChannel textChannel 
+                || GetStarCount(textChannel.GuildId) == 0)
                 return;
-        }
-        else
-        {
-            if (!checkedChannels.Split(" ").Contains(newMessage.Channel.ToString()))
+            IUserMessage newMessage;
+            if (!message.HasValue)
+                newMessage = await message.GetOrDownloadAsync();
+            else
+                newMessage = message.Value;
+            var star = GetStar(textChannel.GuildId).ToIEmote();
+            if (star.Name == null)
                 return;
-        }
-        var botPerms = gUser.GetPermissions(starboardChannel);
         
-        if (!botPerms.Has(ChannelPermission.SendMessages))
-            return;
-        
-        string content;
-        string imageurl;
-        switch (newMessage.Author.IsBot)
-        {
-            case true when !GetAllowBots(textChannel.GuildId):
+            if (!Equals(reaction.Emote, star))
                 return;
-            case true:
-                content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
-                imageurl = newMessage.Attachments.Any() ? newMessage.Attachments.FirstOrDefault().ProxyUrl : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
-                break;
-            default:
-                content = newMessage.Content;
-                imageurl = newMessage.Attachments?.FirstOrDefault()?.ProxyUrl;
-                break;
-        }
+        
+            var starboardChannelSetting = GetStarboardChannel(textChannel.GuildId);
+        
+            if (starboardChannelSetting == 0)
+                return;
+        
+            var starboardChannel = await textChannel.Guild.GetTextChannelAsync(starboardChannelSetting);
 
-        if (content is null && imageurl is null)
-            return;
-
-        var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
-        var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == newMessage.Id);
-        if (maybePost == null)
-            return;
-        var count = emoteCount.Where(x => !x.IsBot);
-        var enumerable = count as IUser[] ?? count.ToArray();
-        if (enumerable.Length < GetStarCount(textChannel.GuildId) && GetRemoveOnBelowThreshold(gUser.GuildId))
-        {
-            await RemoveStarboardPost(newMessage.Id);
-            try
+            if (starboardChannel == null)
+                return;
+            var checkedChannels = GetCheckedChannels(starboardChannel.GuildId);
+            var gUser = await textChannel.Guild.GetUserAsync(_client.CurrentUser.Id);
+            if (GetCheckMode(gUser.GuildId))
             {
-                var post = await starboardChannel.GetMessageAsync(maybePost.PostId);
-                await post.DeleteAsync();
+                if (checkedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
+                    return;
             }
-            catch
+            else
             {
-                // ignored
+                if (!checkedChannels.Split(" ").Contains(newMessage.Channel.ToString()))
+                    return;
             }
-        }
-        else
-        {
-            if (GetThreshold(textChannel.GuildId) > 0)
+            var botPerms = gUser.GetPermissions(starboardChannel);
+        
+            if (!botPerms.Has(ChannelPermission.SendMessages))
+                return;
+        
+            string content;
+            string imageurl;
+            switch (newMessage.Author.IsBot)
             {
-                var messages = await starboardChannel.GetMessagesAsync(GetThreshold(textChannel.GuildId)).FlattenAsync();
-                var post = messages.FirstOrDefault(x => x.Id == maybePost.PostId);
-                if (post is not null)
+                case true when !GetAllowBots(textChannel.GuildId):
+                    return;
+                case true:
+                    content = newMessage.Embeds.Any() ? newMessage.Embeds.Select(x => x.Description).FirstOrDefault() : newMessage.Content;
+                    imageurl = newMessage.Attachments.Any() ? newMessage.Attachments.FirstOrDefault().ProxyUrl : newMessage.Embeds?.Select(x => x.Image)?.FirstOrDefault()?.ProxyUrl;
+                    break;
+                default:
+                    content = newMessage.Content;
+                    imageurl = newMessage.Attachments?.FirstOrDefault()?.ProxyUrl;
+                    break;
+            }
+
+            if (content is null && imageurl is null)
+                return;
+
+            var emoteCount = await newMessage.GetReactionUsersAsync(star, int.MaxValue).FlattenAsync();
+            var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == newMessage.Id);
+            if (maybePost == null)
+                return;
+            var count = emoteCount.Where(x => !x.IsBot);
+            var enumerable = count as IUser[] ?? count.ToArray();
+            if (enumerable.Length < GetStarCount(textChannel.GuildId) && GetRemoveOnBelowThreshold(gUser.GuildId))
+            {
+                await RemoveStarboardPost(newMessage.Id);
+                try
                 {
-                    var post2 = post as IUserMessage;
-                    var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                               .WithDescription(content)
-                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                               .WithFooter(message.Id.ToString())
-                                               .WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb1.WithImageUrl(imageurl);
-
-                    await post2!.ModifyAsync(x =>
+                    var post = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                    await post.DeleteAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+            else
+            {
+                if (GetThreshold(textChannel.GuildId) > 0)
+                {
+                    var messages = await starboardChannel.GetMessagesAsync(GetThreshold(textChannel.GuildId)).FlattenAsync();
+                    var post = messages.FirstOrDefault(x => x.Id == maybePost.PostId);
+                    if (post is not null)
                     {
-                        x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
-                        x.Embed = eb1.Build();
-                    });
+                        var post2 = post as IUserMessage;
+                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
+                                                    .WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
+                                                    .WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb1.WithImageUrl(imageurl);
 
+                        await post2!.ModifyAsync(x =>
+                        {
+                            x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Embed = eb1.Build();
+                        });
+
+                    }
+                    else
+                    {
+                        var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
+                        if (tryGetOldPost is not null)
+                            try
+                            {
+                                await tryGetOldPost.DeleteAsync();
+                            }
+                            catch 
+                            {
+                                // ignored
+                            }
+                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
+                                                    .WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
+                                                    .WithFooter(message.Id.ToString())
+                                                    .WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb2.WithImageUrl(imageurl);
+
+                        var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
+                        await AddStarboardPost(newMessage.Id, msg1.Id);
+
+                    }
                 }
                 else
                 {
                     var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
                     if (tryGetOldPost is not null)
-                        try
-                        {
-                            await tryGetOldPost.DeleteAsync();
-                        }
-                        catch 
-                        {
-                            // ignored
-                        }
-                    var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                               .WithDescription(content)
-                                               .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                               .WithFooter(message.Id.ToString())
-                                               .WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb2.WithImageUrl(imageurl);
-
-                    var msg1 = await starboardChannel.SendMessageAsync($"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                    await AddStarboardPost(newMessage.Id, msg1.Id);
-
-                }
-            }
-            else
-            {
-                var tryGetOldPost = await starboardChannel.GetMessageAsync(maybePost.PostId);
-                if (tryGetOldPost is not null)
-                {
-                    var toModify = tryGetOldPost as IUserMessage;
-                    var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                .WithDescription(content)
-                                                .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb1.WithImageUrl(imageurl);
-
-                    await toModify!.ModifyAsync(x =>
                     {
-                        x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
-                        x.Embed = eb1.Build();
-                    });
-                }
-                else
-                {
-                    var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
-                                                .WithDescription(content)
-                                                .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
-                                                .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
-                    if (imageurl is not null)
-                        eb2.WithImageUrl(imageurl);
+                        var toModify = tryGetOldPost as IUserMessage;
+                        var eb1 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
+                                                    .WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
+                                                    .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb1.WithImageUrl(imageurl);
 
-                    var msg1 = await starboardChannel.SendMessageAsync(
-                        $"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
-                    await AddStarboardPost(message.Id, msg1.Id);
+                        await toModify!.ModifyAsync(x =>
+                        {
+                            x.Content = $"{star} **{enumerable.Length}** {textChannel.Mention}";
+                            x.Embed = eb1.Build();
+                        });
+                    }
+                    else
+                    {
+                        var eb2 = new EmbedBuilder().WithOkColor().WithAuthor(newMessage.Author)
+                                                    .WithDescription(content)
+                                                    .AddField("_ _", $"[Jump To Message]({newMessage.GetJumpUrl()})")
+                                                    .WithFooter(message.Id.ToString()).WithTimestamp(newMessage.Timestamp);
+                        if (imageurl is not null)
+                            eb2.WithImageUrl(imageurl);
+
+                        var msg1 = await starboardChannel.SendMessageAsync(
+                            $"{star} **{enumerable.Length}** {textChannel.Mention}", embed: eb2.Build());
+                        await AddStarboardPost(message.Id, msg1.Id);
+                    }
                 }
             }
-        }
-    }
-    
+        });
+
     private async Task OnMessageDeletedAsync(Cacheable<IMessage, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
         if (!arg1.HasValue || !arg2.HasValue)
@@ -565,7 +564,7 @@ public class StarboardService : INService, IReadyExecutor
         var permissions = (await channel.Guild.GetUserAsync(_client.CurrentUser.Id)).GetPermissions(channel);
         if (!permissions.ManageMessages)
             return;
-        var maybePost = starboardPosts.FirstOrDefault(x => x.MessageId == msg.Id);
+        var maybePost = starboardPosts?.FirstOrDefault(x => x.MessageId == msg.Id);
         if (maybePost is null)
             return;
 

@@ -29,7 +29,7 @@ public class RoleCommandsService : INService
     private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -120,7 +120,7 @@ public class RoleCommandsService : INService
     private Task _client_ReactionRemoved(Cacheable<IUserMessage, ulong> msg, Cacheable<IMessageChannel, ulong> chan,
         SocketReaction reaction)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
