@@ -25,7 +25,7 @@ public class HighlightsService : INService, IReadyExecutor
         _db = db;
         _client.MessageReceived += StaggerHighlights;
         _client.UserIsTyping += AddHighlightTimer;
-        _ = HighlightLoop;
+        _ = HighlightLoop();
     }
 
     public async Task HighlightLoop()
