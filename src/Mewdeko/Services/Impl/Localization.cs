@@ -41,7 +41,14 @@ public class Localization : ILocalization
                             cultureInfo = new CultureInfo("en-US");
                             break;
                         default:
-                            cultureInfo = new CultureInfo(x.Value);
+                            try
+                            {
+                                cultureInfo = new CultureInfo(x.Value);
+                            }
+                            catch
+                            {
+                                cultureInfo = new CultureInfo("en-US");
+                            }
                             break;
                     }
                 }
