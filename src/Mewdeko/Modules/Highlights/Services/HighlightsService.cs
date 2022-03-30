@@ -25,9 +25,27 @@ public class HighlightsService : INService, IReadyExecutor
         _db = db;
         _client.MessageReceived += StaggerHighlights;
         _client.UserIsTyping += AddHighlightTimer;
-
+        _ = HighlightLoop;
     }
 
+    public async Task HighlightLoop()
+    {
+        while (true)
+        {
+            bool res;
+            var (msg, compl) = await _highlightQueue.Reader.ReadAsync();
+            try
+            {
+                res = await ExecuteHighlights(msg);
+            }
+            catch
+            {
+                continue;
+            }
+            compl.TrySetResult(res);
+            await Task.Delay(2000);
+        }
+    }
     private async Task AddHighlightTimer(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> _)
     {
         if (arg1.Value is not IGuildUser user)
@@ -48,13 +66,6 @@ public class HighlightsService : INService, IReadyExecutor
             await _cache.CacheHighlightSettings(i.Id, allHighlightSettings.Where(x => x.GuildId == i.Id).ToList());
         }
         Log.Information("Highlights Cached.");
-        while (true)
-        {
-            var (msg, compl) = await _highlightQueue.Reader.ReadAsync();
-            var res = await ExecuteHighlights(msg);
-            compl.TrySetResult(res);
-            await Task.Delay(2000);
-        }
     }
 
     private Task StaggerHighlights(SocketMessage message)
@@ -114,9 +125,18 @@ public class HighlightsService : INService, IReadyExecutor
                 continue;
             var user = await channel.Guild.GetUserAsync(i.UserId);
             var permissions = user.GetPermissions(channel);
+            IEnumerable<IMessage> messages;
             if (!permissions.ViewChannel)
                 continue;
-            var messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync()).Append(message);
+            try
+            {
+                messages = (await channel.GetMessagesAsync(message.Id, Direction.Before, 5).FlattenAsync()).Append(message);
+            }
+            catch
+            {
+                // dont get messages if it doesnt have message history access
+                continue;
+            }
             var eb = new EmbedBuilder().WithOkColor().WithTitle(i.Word.TrimTo(100)).WithDescription(string.Join("\n", messages.OrderBy(x => x.Timestamp)
                                             .Select(x => $"<t:{x.Timestamp.ToUnixTimeSeconds()}:T>: {Format.Bold(x.Author.ToString())}: {(x == message ? "***" : "")}" +
                                                 $"[{x.Content?.TrimTo(100)}]({message.GetJumpLink()}){(x == message ? "***" : "")}" +
