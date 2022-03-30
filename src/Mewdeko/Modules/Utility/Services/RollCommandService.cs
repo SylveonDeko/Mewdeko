@@ -17,7 +17,7 @@ public class RollCommandService : INService
         long largestPossible = 0;
 
         var dies = DieFinder.Matches(parsed)
-                            .Select(x => new Die(int.Parse(x.Groups["count"].Value), int.Parse(x.Groups["value"].Value)))
+                            .Select(x => new Die(int.TryParse(x.Groups["count"].Value, out var c) ? c : 1, int.TryParse(x.Groups["value"].Value, out var s) ? s : throw new ArgumentException("roll_fail_invalid_string")))
                             .ToList();
         if (dies.Any(x => x.Sides is >= int.MaxValue or < 0))
             throw new ArgumentException("roll_fail_dice_sides");
