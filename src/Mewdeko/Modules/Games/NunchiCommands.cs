@@ -43,6 +43,7 @@ public partial class Games
             }
             catch
             {
+                // ignored
             }
 
             nunchi.OnGameEnded += NunchiOnGameEnded;
@@ -75,6 +76,7 @@ public partial class Games
                     }
                     catch
                     {
+                        // ignored
                     }
                 });
                 return Task.CompletedTask;
@@ -108,7 +110,5 @@ public partial class Games
             return ConfirmLocalizedAsync("nunchi_round_ended_boot",
                 Format.Bold($"\n{string.Join("\n, ", arg1.Participants.Select(x => x.Name))}")); // this won't work if there are too many users
         }
-
-        private Task Nunchi_OnGameStarted(NunchiGame arg) => ConfirmLocalizedAsync("nunchi_started", Format.Bold(arg.ParticipantCount.ToString()));
     }
 }

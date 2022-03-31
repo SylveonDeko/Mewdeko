@@ -116,8 +116,6 @@ public partial class Utility
             if (--index < 0)
                 return;
 
-            new EmbedBuilder();
-
             Reminder rem = null;
             await using (var uow = _db.GetDbContext())
             {

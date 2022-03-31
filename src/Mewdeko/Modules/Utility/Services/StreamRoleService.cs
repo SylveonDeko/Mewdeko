@@ -25,7 +25,7 @@ public class StreamRoleService : INService, IUnloadableService
         _db = db;
         _client = client;
 
-        _guildSettings = db.GetDbContext().GuildConfigs.All()
+        _guildSettings = bot.CachedGuildConfigs
             .ToDictionary(x => x.GuildId, x => x.StreamRole)
             .Where(x => x.Value != null && x.Value.Enabled)
             .ToConcurrent();
@@ -62,15 +62,7 @@ public class StreamRoleService : INService, IUnloadableService
 
         return Task.CompletedTask;
     }
-
-    /// <summary>
-    ///     Adds or removes a user from a blacklist or a whitelist in the specified guild.
-    /// </summary>
-    /// <param name="guild">Guild</param>
-    /// <param name="action">Add or rem action</param>
-    /// <param name="userId">User's Id</param>
-    /// <param name="userName">User's name#discrim</param>
-    /// <returns>Whether the operation was successful</returns>
+    
     public async Task<bool> ApplyListAction(StreamRoleListType listType, IGuild guild, AddRemove action,
         ulong userId, string userName)
     {
@@ -208,11 +200,6 @@ public class StreamRoleService : INService, IUnloadableService
             if (usr is { } x)
                 await RescanUser(x, setting, addRole).ConfigureAwait(false);
     }
-
-    /// <summary>
-    ///     Stops the stream role feature on the specified guild.
-    /// </summary>
-    /// <param name="guildId">Guild's Id</param>
     public async Task StopStreamRole(IGuild guild, bool cleanup = false)
     {
         await using (var uow = _db.GetDbContext())

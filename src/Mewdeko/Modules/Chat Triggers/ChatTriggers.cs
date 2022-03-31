@@ -19,13 +19,11 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
     private readonly IHttpClientFactory _clientFactory;
-    private readonly IBotCredentials _creds;
     private readonly InteractiveService _interactivity;
 
-    public ChatTriggers(IBotCredentials creds, IHttpClientFactory clientFactory, InteractiveService serv)
+    public ChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
     {
         _interactivity = serv;
-        _creds = creds;
         _clientFactory = clientFactory;
     }
 
@@ -100,7 +98,6 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task EditChatTrigger(int id, [Remainder] string message)
     {
-        var channel = ctx.Channel as ITextChannel;
         if (string.IsNullOrWhiteSpace(message) || id < 0)
             return;
 

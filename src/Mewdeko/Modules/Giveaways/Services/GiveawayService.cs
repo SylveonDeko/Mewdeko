@@ -230,7 +230,7 @@ public class GiveawayService : INService, IReadyExecutor
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
+                            users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
@@ -285,7 +285,7 @@ public class GiveawayService : INService, IReadyExecutor
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
+                            users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
@@ -392,7 +392,7 @@ public class GiveawayService : INService, IReadyExecutor
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
+                            users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch
@@ -446,7 +446,7 @@ public class GiveawayService : INService, IReadyExecutor
                     try
                     {
                         if (parsedreqs.Any())
-                            users = users.Where(x => x.Roles.Select(x => x.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
+                            users = users.Where(x => x.Roles.Select(i => i.Id).Intersect(parsedreqs).Count() == parsedreqs.Count)
                                          .ToList();
                     }
                     catch

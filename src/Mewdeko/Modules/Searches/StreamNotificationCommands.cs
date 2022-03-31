@@ -76,9 +76,8 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task StreamList(int page = 1)
+        public async Task StreamList()
         {
-            if (page-- < 1) return;
 
             var streams = new List<FollowedStream>();
             await using (var uow = _db.GetDbContext())

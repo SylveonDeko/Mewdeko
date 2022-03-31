@@ -255,7 +255,7 @@ public class PlantPickService : INService
         {
             long amount;
             ulong[] ids;
-            using (var uow = _db.GetDbContext())
+            await using (var uow = _db.GetDbContext())
             {
                 // this method will sum all plants with that password,
                 // remove them, and get messageids of the removed plants

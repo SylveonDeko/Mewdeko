@@ -19,7 +19,7 @@ public class PermissionService : ILateBlocker, INService
     private readonly CommandHandler _cmd;
 
     private readonly DbService _db;
-    public readonly IBotStrings _strings;
+    public readonly IBotStrings Strings;
 
     public PermissionService(
         DiscordSocketClient client,
@@ -29,7 +29,7 @@ public class PermissionService : ILateBlocker, INService
     {
         _db = db;
         _cmd = cmd;
-        _strings = strings;
+        Strings = strings;
 
         using var uow = _db.GetDbContext();
         foreach (var x in uow.GuildConfigs.Permissionsv2ForAll(client.Guilds.ToArray().Select(x => x.Id).ToList()))
@@ -70,13 +70,14 @@ public class PermissionService : ILateBlocker, INService
             if (pc.Verbose)
                 try
                 {
-                    await channel.SendErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
+                    await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
                                      Format.Bold(pc.Permissions[index]
                                                    .GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
                                  .ConfigureAwait(false);
                 }
                 catch
                 {
+                    // ignored
                 }
 
             return true;
@@ -106,6 +107,7 @@ public class PermissionService : ILateBlocker, INService
                     }
                     catch
                     {
+                        // ignored
                     }
 
                 return true;
@@ -121,6 +123,7 @@ public class PermissionService : ILateBlocker, INService
                     }
                     catch
                     {
+                        // ignored
                     }
 
                 return true;
@@ -135,7 +138,6 @@ public class PermissionService : ILateBlocker, INService
     public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx, ICommandInfo command)
     {
         var guild = ctx.Guild;
-        var user = ctx.User;
         var commandName = command.MethodName.ToLowerInvariant();
 
         await Task.Yield();
@@ -144,22 +146,20 @@ public class PermissionService : ILateBlocker, INService
         var resetCommand = commandName == "resetperms";
 
         var pc = GetCacheFor(guild.Id);
-        if (!resetCommand && !pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName ,commandName, ctx.User, ctx.Channel, out var index))
+        if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User, ctx.Channel, out var index)) return false;
+        try
         {
-            try
-            {
-                await ctx.Interaction.SendEphemeralErrorAsync(_strings.GetText("perm_prevent", guild.Id, index + 1,
-                             Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
-                         .ConfigureAwait(false);
-            }
-            catch
-            {
-            }
-
-            return true;
+            await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
+                         Format.Bold(pc.Permissions[index].GetCommand(_cmd.GetPrefix(guild), (SocketGuild)guild))))
+                     .ConfigureAwait(false);
+        }
+        catch
+        {
+            // ignored
         }
 
-        return false;
+        return true;
+
     }
 
     public PermissionCache GetCacheFor(ulong guildId)

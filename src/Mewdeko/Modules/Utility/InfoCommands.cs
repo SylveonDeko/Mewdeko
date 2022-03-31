@@ -16,13 +16,8 @@ public partial class Utility
     public class InfoCommands : MewdekoSubmodule<UtilityService>
     {
         private readonly DiscordSocketClient _client;
-        private readonly IStatsService _stats;
 
-        public InfoCommands(DiscordSocketClient client, IStatsService stats)
-        {
-            _client = client;
-            _stats = stats;
-        }
+        public InfoCommands(DiscordSocketClient client) => _client = client;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
         public async Task RInfo(IRole role)
@@ -142,7 +137,6 @@ public partial class Utility
             var voicechn = guild.VoiceChannels.Count;
 
             var createdAt = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(guild.Id >> 22);
-            var list = new List<string>();
 
             var component = new ComponentBuilder().WithButton("More Info", "moreinfo");
             var embed = new EmbedBuilder()

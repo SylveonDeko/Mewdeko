@@ -250,10 +250,8 @@ public partial class Moderation : MewdekoModule
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers)]
-        public async Task WarnlogAll(int page = 1)
+        public async Task WarnlogAll()
         {
-            if (--page < 0)
-                return;
             var warnings = Service.WarnlogAll(ctx.Guild.Id);
 
             var paginator = new LazyPaginatorBuilder()

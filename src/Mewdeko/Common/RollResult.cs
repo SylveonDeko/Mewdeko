@@ -7,5 +7,5 @@ public class RollResult
     public bool InacurateTotal { get; set; }
     public override string ToString() => $"Total: **{Total.ToString()}**";
 
-    public RollResult() => Results = new() { };
+    public RollResult() => Results = new Dictionary<Die, List<int>>();
 }

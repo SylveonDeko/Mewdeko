@@ -37,8 +37,6 @@ public static class Extensions
     public static Regex UrlRegex = new(@"^(https?|ftp)://(?<path>[^\s/$.?#].[^\s]*)$", RegexOptions.Compiled);
 
     public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
-    private const string OldCdnUrl = "nadeko-pictures.nyc3.digitaloceanspaces.com";
-    private const string NewCdnUrl = "cdn.nadeko.bot";
 
 
     public static Task<IUserMessage> EmbedAsync(this IMessageChannel channel, CrEmbed crEmbed,
@@ -50,9 +48,6 @@ public static class Extensions
 
         return channel.SendMessageAsync(plainText, embed: crEmbed.IsEmbedValid ? crEmbed.ToEmbed().Build() : null);
     }
-
-    public static Uri ToNewCdn(this Uri uri)
-        => new(uri.ToString().Replace(OldCdnUrl, NewCdnUrl));
 
 
     public static async Task SendConfirmAsync(this IDiscordInteraction interaction, string message)
@@ -90,7 +85,7 @@ public static class Extensions
     public static bool IsValidAttachment(this IReadOnlyCollection<IAttachment> attachments)
     {
         var first = attachments.FirstOrDefault();
-        return first != null && first!.Url.CheckIfMusicUrl();
+        return first != null && first.Url.CheckIfMusicUrl();
     }
     public static List<ulong> GetGuildIds(this DiscordSocketClient client) => client.Guilds.Select(x => x.Id).ToList();
 

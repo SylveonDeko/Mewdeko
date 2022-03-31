@@ -15,12 +15,10 @@ public partial class Xp
     [Group]
     public class Club : MewdekoSubmodule<ClubService>
     {
-        private readonly XpService _xps;
         private readonly InteractiveService _interactivity;
 
-        public Club(XpService xps, InteractiveService serv)
+        public Club(InteractiveService serv)
         {
-            _xps = xps;
             _interactivity = serv;
         }
 
@@ -212,10 +210,8 @@ public partial class Xp
 
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task ClubApps(int page = 1)
+        public async Task ClubApps()
         {
-            if (--page < 0)
-                return;
 
             var club = Service.GetClubWithBansAndApplications(ctx.User.Id);
             if (club == null)

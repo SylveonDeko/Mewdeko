@@ -482,6 +482,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
         }
         catch
         {
+            // ignored
         }
 
         await Task.Delay(miliseconds).ConfigureAwait(false);
@@ -541,10 +542,8 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
     }
 
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task ShardStats(int page = 1)
+    public async Task ShardStats()
     {
-        if (--page < 0)
-            return;
 
         var statuses = _coord.GetAllShardStatuses();
 

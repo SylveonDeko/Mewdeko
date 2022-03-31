@@ -35,7 +35,6 @@ public partial class Moderation
          UserPerm(GuildPermission.Administrator)]
         public async Task RemoveOnMute(string yesnt)
         {
-            var users = (await ctx.Guild.GetUsersAsync()).Where(x => x.RoleIds.ToList().Contains(824321516468043779));
             if (yesnt.StartsWith("n"))
             {
                 await Service.Removeonmute(ctx.Guild, "n");
@@ -75,6 +74,7 @@ public partial class Moderation
                 }
                 catch
                 {
+                    // ignored
                 }
             }
         }

@@ -32,8 +32,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
-    private readonly IImageCache _imgs;
-    private readonly ConnectionMultiplexer _redis;
     private readonly Replacer _rep;
     private readonly IBotStrings _strings;
 
@@ -49,7 +47,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
         BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot)
     {
-        _redis = cache.Redis;
+        var redis = cache.Redis;
         _cmdHandler = cmdHandler;
         _db = db;
         _strings = strings;
@@ -57,7 +55,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         _creds = creds;
         _cache = cache;
         _bot = bot;
-        _imgs = cache.LocalImages;
+        var imgs = cache.LocalImages;
         _httpFactory = factory;
         _bss = bss;
         if (client.ShardId == 0)
@@ -70,10 +68,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             _ = new Timer(RotatingStatuses, new TimerState(), TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
         }
 
-        var sub = _redis.GetSubscriber();
+        var sub = redis.GetSubscriber();
         if (_client.ShardId == 0)
             sub.Subscribe($"{_creds.RedisKey()}_reload_images",
-                delegate { _imgs.Reload(); }, CommandFlags.FireAndForget);
+                delegate { imgs.Reload(); }, CommandFlags.FireAndForget);
 
         sub.Subscribe($"{_creds.RedisKey()}_leave_guild", async (_, v) =>
         {
