@@ -1,7 +1,7 @@
 using Mewdeko.Services.Common;
+using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
-using NUnit.Framework;
 
 namespace Mewdeko.Tests;
 
