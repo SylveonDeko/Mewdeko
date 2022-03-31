@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services.strings.impl;
+using NUnit.Framework;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 
 namespace Mewdeko.Tests;
 

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text;
-using Mewdeko.Common.Yml;
+﻿using Mewdeko.Common.Yml;
 using NUnit.Framework;
+using System;
+using System.Text;
 
 namespace Mewdeko.Tests;
 

@@ -2,9 +2,9 @@
 using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using NekosBestApiNet;
 
 namespace Mewdeko.Modules.Searches;
-using NekosBestApiNet;
 
 public partial class Searches
 {
