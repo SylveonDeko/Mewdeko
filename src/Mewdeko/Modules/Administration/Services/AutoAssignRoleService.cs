@@ -167,7 +167,7 @@ public sealed class AutoAssignRoleService : INService
     {
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);
-        gc.AutoAssignRoleId = null;
+        gc.AutoAssignRoleId = "";
         _bot.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync();
     }
@@ -178,7 +178,7 @@ public sealed class AutoAssignRoleService : INService
 
         var gc = uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableBotRoles(newRoles);
-
+        _bot.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync();
     }
 
@@ -201,7 +201,7 @@ public sealed class AutoAssignRoleService : INService
     {
         await using var uow = _db.GetDbContext();
         var gc = uow.ForGuildId(guildId, set => set);
-        gc.AutoBotRoleIds = null;
+        gc.AutoBotRoleIds = " ";
         _bot.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync();
     }
@@ -209,10 +209,9 @@ public sealed class AutoAssignRoleService : INService
     public async Task SetAarRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
     {
         await using var uow = _db.GetDbContext();
-
         var gc = uow.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableRoles(newRoles);
-
+        _bot.UpdateGuildConfig(guildId, gc);
         await uow.SaveChangesAsync();
     }
 
