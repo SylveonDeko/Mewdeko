@@ -4,7 +4,7 @@ using Mewdeko.Services.strings.impl;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Mewdeko.Common.Extensions;
+namespace Mewdeko.Extensions;
 
 public static class ServiceCollectionExtensions
 {

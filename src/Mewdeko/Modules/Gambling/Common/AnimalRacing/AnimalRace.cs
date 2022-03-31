@@ -1,5 +1,5 @@
-﻿using Mewdeko._Extensions;
-using Mewdeko.Common;
+﻿using Mewdeko.Common;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common.AnimalRacing.Exceptions;
 using Mewdeko.Modules.Games.Common;
 using System.Threading;

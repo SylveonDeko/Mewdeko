@@ -1,9 +1,9 @@
 using Discord;
 using Discord.Commands;
 using Discord.Net;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Server_Management.Services;
 using System.Net.Http;
 using Image = Discord.Image;

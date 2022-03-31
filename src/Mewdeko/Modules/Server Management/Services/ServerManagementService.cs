@@ -1,6 +1,6 @@
 using Discord;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
+using Mewdeko.Extensions;
 using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Server_Management.Services;

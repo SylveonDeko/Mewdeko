@@ -3,7 +3,7 @@ using Mewdeko.Database.Models;
 using System.Collections.Concurrent;
 using System.Security.Cryptography;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public static class EnumerableExtensions
 {

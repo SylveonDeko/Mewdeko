@@ -1,4 +1,4 @@
-﻿using Mewdeko._Extensions;
+﻿using Mewdeko.Extensions;
 
 namespace Mewdeko.Common.PubSub;
 

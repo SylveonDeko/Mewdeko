@@ -1,4 +1,4 @@
-﻿using Mewdeko._Extensions;
+﻿using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common.Trivia;
 using Newtonsoft.Json;
 using Serilog;

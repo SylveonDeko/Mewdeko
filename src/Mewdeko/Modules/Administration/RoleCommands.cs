@@ -4,15 +4,16 @@ using Discord.Net;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Serilog;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Net;
 using Color = SixLabors.ImageSharp.Color;
+using Extensions = Mewdeko.Extensions.Extensions;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -61,10 +62,10 @@ public partial class Administration
                     }
 
                     var role = (IRole) roleResult.BestMatch;
-                    if (role.Position > ((IGuildUser) ctx.User).GetRoles().Select(r => r.Position).Max()
+                    if (role.Position > Extensions.Extensions.GetRoles(((IGuildUser) ctx.User)).Select(r => r.Position).Max()
                         && ctx.User.Id != ctx.Guild.OwnerId)
                         return null;
-                    var emote = x.Last().ToIEmote();
+                    var emote = Extensions.Extensions.ToIEmote(x.Last());
                     return new {role, emote};
                 })
                 .Where(x => x != null);

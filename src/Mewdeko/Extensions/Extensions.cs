@@ -30,7 +30,7 @@ using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;
 
 #nullable enable
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public static class Extensions
 {

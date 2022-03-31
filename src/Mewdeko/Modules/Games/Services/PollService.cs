@@ -1,9 +1,9 @@
 ﻿using Discord;
-using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Serilog;
 using System.Collections.Concurrent;

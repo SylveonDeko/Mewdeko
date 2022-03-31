@@ -1,4 +1,4 @@
-﻿using Mewdeko._Extensions;
+﻿using Mewdeko.Extensions;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;

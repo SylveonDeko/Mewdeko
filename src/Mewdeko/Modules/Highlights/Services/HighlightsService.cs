@@ -1,10 +1,10 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Serilog;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
