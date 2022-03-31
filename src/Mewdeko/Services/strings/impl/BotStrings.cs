@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System.Globalization;
 using YamlDotNet.Serialization;
+using Mewdeko.Modules.Utility.Services;
 
 namespace Mewdeko.Services.strings.impl;
 
@@ -52,7 +53,7 @@ public class BotStrings : IBotStrings
 
         return new CommandStrings
         {
-            Args = new[] {""},
+            Args = new[] { "" },
             Desc = "?"
         };
     }
@@ -67,6 +68,8 @@ public class BotStrings : IBotStrings
 
         if (string.IsNullOrWhiteSpace(text))
         {
+            if (cultureInfo.Name == "owo")
+                return OWOServices.OWOIfy(GetString(key, _usCultureInfo));
             Log.Warning(
                 "'{Key}' key is missing from '{LanguageName}' response strings. You may ignore this message", key,
                 cultureInfo.Name);
