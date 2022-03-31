@@ -30,7 +30,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _serviceProvider = serviceProvider;
         _cmds = cmds;
     }
-    
+
     [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
     public async Task Modules()
     {
@@ -50,7 +50,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             $">  `{Prefix}cmds Nsfw`\n>  `{Prefix}cmds Music`\n>  `{Prefix}cmds Gambling`\n>  `{Prefix}cmds Searches`\n>  `{Prefix}cmds Games`\n>  `{Prefix}cmds Help`\n>  `{Prefix}cmds ChatTriggers`\n>  `{Prefix}cmds Giveaways`\n>  `{Prefix}cmds MultiGreet`\n> `{Prefix}cmds Highlights`",
             true);
         embed.AddField(" Links",
-            "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
+            $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id={ctx.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
         await ctx.Interaction.RespondAsync(embed: embed.Build(), components: Service.Builder.Build());
     }
 
