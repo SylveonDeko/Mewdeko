@@ -879,7 +879,7 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
             .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
                 "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
                 "System.Threading.Tasks", "Discord.Net", "Discord", "Discord.WebSocket", "Mewdeko.Modules",
-                "Mewdeko.Services", "Mewdeko._Extensions", "Mewdeko.Modules.Administration",
+                "Mewdeko.Services", "Mewdeko.Extensions", "Mewdeko.Modules.Administration",
                 "Mewdeko.Modules.Chat_Triggers", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
                 "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.Nsfw",
                 "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management")
@@ -960,14 +960,14 @@ public class OwnerOnly : MewdekoModuleBase<OwnerOnlyService>
 
 public sealed class EvaluationEnvironment
 {
-    public EvaluationEnvironment(CommandContext ctx) => Ctx = ctx;
+    public EvaluationEnvironment(CommandContext ctx) => this.ctx = ctx;
 
-    public CommandContext Ctx { get; }
+    public CommandContext ctx { get; }
 
-    public IUserMessage Message => Ctx.Message;
-    public IMessageChannel Channel => Ctx.Channel;
-    public IGuild Guild => Ctx.Guild;
-    public IUser User => Ctx.User;
-    public IGuildUser Member => (IGuildUser) Ctx.User;
-    public DiscordSocketClient Client => Ctx.Client as DiscordSocketClient;
+    public IUserMessage Message => ctx.Message;
+    public IMessageChannel Channel => ctx.Channel;
+    public IGuild Guild => ctx.Guild;
+    public IUser User => ctx.User;
+    public IGuildUser Member => (IGuildUser) ctx.User;
+    public DiscordSocketClient Client => ctx.Client as DiscordSocketClient;
 }
