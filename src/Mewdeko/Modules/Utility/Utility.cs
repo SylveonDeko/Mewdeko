@@ -106,7 +106,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     //     await ctx.Channel.SendMessageAsync(a);
     //
     // }
-    
+
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Invite()
     {
@@ -889,5 +889,9 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
             .Build();
 
         await _interactivity.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60));
+
     }
+    [MewdekoCommand, Usage, Description, Aliases]
+    public async Task OWOIfy([Remainder] string input)
+        => await ctx.Channel.SendMessageAsync(OWOServices.OWOIfy(input));
 }
