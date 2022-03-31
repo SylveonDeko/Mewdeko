@@ -3794,3 +3794,10 @@ roll:
     - 4d10 2d5 * 2
     - d8
     - 7d5, 2d100 / 2
+owoify:
+  desc: >-
+    OwOifies a string, making it infinitly cuter. (for example "cats are super duper cute" becomes 
+    "kittehs awe supew dupew cute")
+  args:
+    - cats are super duper cute
+    - snuggles
