@@ -3,11 +3,11 @@ using AngleSharp.Html.Parser;
 using Discord;
 using Discord.WebSocket;
 using Html2Markdown;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Common;
 using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
@@ -481,7 +481,7 @@ public class SearchesService : INService, IUnloadableService
     public async Task<string> GetChuckNorrisJoke()
     {
         using var http = _httpFactory.CreateClient();
-        var response = await http.GetStringAsync(new Uri("http://api.icndb.com/jokes/random/"))
+        var response = await http.GetStringAsync(new Uri("https://api.icndb.com/jokes/random/"))
             .ConfigureAwait(false);
         return $"{JObject.Parse(response)["value"]["joke"]} 😆";
     }
@@ -608,9 +608,7 @@ public class SearchesService : INService, IUnloadableService
     private async Task<OmdbMovie> GetMovieDataFactory(string name)
     {
         using var http = _httpFactory.CreateClient();
-        var res = await http.GetStringAsync(string.Format(
-            "https://omdbapi.Mewdeko.bot/?t={0}&y=&plot=full&r=json",
-            name.Trim().Replace(' ', '+'))).ConfigureAwait(false);
+        var res = await http.GetStringAsync($"https://omdbapi.nadeko.bot/?t={name.Trim().Replace(' ', '+')}&y=&plot=full&r=json").ConfigureAwait(false);
         var movie = JsonConvert.DeserializeObject<OmdbMovie>(res);
         if (movie?.Title == null)
             return null;

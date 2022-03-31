@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public static class StringExtensions
 {

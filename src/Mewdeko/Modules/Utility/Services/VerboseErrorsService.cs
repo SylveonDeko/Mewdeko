@@ -1,9 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Extensions;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Utility.Services;

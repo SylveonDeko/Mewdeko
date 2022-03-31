@@ -141,7 +141,7 @@ public class IndexedCollectionTests
     public void EnumeratorTest()
     {
         var collection = GetCollectionSample<ShopEntry>();
-        var enumerator = collection.GetEnumerator();
+        using var enumerator = collection.GetEnumerator();
 
         foreach (var item in collection)
         {

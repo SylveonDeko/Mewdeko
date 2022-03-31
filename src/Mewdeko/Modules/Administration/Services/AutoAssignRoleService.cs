@@ -1,9 +1,9 @@
 ﻿using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Serilog;
 using System.Net;
 using System.Threading.Channels;

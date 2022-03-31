@@ -5,7 +5,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public static class Rgba32Extensions
 {

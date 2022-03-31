@@ -2,7 +2,7 @@
 using StackExchange.Redis;
 using System.Collections.ObjectModel;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {

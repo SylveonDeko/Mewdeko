@@ -1,5 +1,5 @@
-﻿using Mewdeko._Extensions;
-using Mewdeko.Database.Models;
+﻿using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using StackExchange.Redis;

@@ -1,6 +1,6 @@
 ﻿using Discord;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Common.Hangman;

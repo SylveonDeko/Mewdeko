@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
+using Mewdeko.Extensions;
 using Mewdeko.Services.strings;
 using Serilog;
 using System.Collections.Concurrent;

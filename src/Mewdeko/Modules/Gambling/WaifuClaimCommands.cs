@@ -2,8 +2,8 @@
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko._Extensions;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Common.Waifu;
 using Mewdeko.Modules.Gambling.Services;

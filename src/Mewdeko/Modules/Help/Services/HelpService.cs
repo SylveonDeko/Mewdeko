@@ -2,10 +2,10 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;

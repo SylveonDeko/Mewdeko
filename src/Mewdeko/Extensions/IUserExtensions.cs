@@ -2,7 +2,7 @@
 using Mewdeko.Database.Models;
 using System.IO;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public static class UserExtensions
 {

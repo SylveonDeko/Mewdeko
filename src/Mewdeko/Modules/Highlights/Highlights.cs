@@ -2,11 +2,11 @@
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Highlights.Services;
 
 namespace Mewdeko.Modules.Highlights;
