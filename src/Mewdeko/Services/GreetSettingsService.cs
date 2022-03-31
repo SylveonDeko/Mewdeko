@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Webhook;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Services.Common;
 using Mewdeko.Services.Settings;
 using Serilog;

@@ -3,12 +3,12 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Searches.Services;
 using Microsoft.EntityFrameworkCore;
 

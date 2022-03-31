@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public static class MessageChannelExtensions
 {

@@ -1,20 +1,23 @@
+using AngleSharp.Dom;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
+using System.Text.Json;
 using Serilog;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
+using Embed = Mewdeko.Common.Embed;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -87,6 +90,23 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
         }
     }
 
+    // [MewdekoCommand, Usage, Description, Alias, UserPerm(ChannelPermission.ManageMessages)]
+    // public async Task EmbedSource(ulong messageId) => await EmbedSource(ctx.Channel as ITextChannel, messageId);
+    // [MewdekoCommand, Usage, Description, Alias, UserPerm(ChannelPermission.ManageMessages)]
+    // public async Task EmbedSource(ITextChannel channel, ulong messageId)
+    // {
+    //     var message = await channel.GetMessageAsync(messageId);
+    //     if (message is null)
+    //     {
+    //         await ctx.Channel.SendErrorAsync("Message not found! Make sure the ID is correct.");
+    //         return;
+    //     }
+    //
+    //     var a = JsonSerializer.Serialize(message.GetJsonSource());
+    //     await ctx.Channel.SendMessageAsync(a);
+    //
+    // }
+    
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Invite()
     {

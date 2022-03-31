@@ -1,7 +1,7 @@
 ﻿using Discord.Interactions;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 
 namespace Mewdeko.Modules.Games.Services;
 

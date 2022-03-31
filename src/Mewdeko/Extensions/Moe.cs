@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Mewdeko._Extensions;
+namespace Mewdeko.Extensions;
 
 public class MoeResult
 {

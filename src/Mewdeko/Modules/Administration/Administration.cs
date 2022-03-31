@@ -5,10 +5,10 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Humanizer.Localisation;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Administration.Services;
 
 namespace Mewdeko.Modules.Administration;

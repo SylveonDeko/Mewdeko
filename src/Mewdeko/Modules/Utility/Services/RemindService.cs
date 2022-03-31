@@ -1,8 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Database;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.RegularExpressions;

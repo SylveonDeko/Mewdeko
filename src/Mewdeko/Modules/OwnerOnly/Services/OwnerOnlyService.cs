@@ -1,11 +1,11 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Replacements;
 using Mewdeko.Database;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;

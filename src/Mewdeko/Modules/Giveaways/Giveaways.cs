@@ -2,12 +2,12 @@
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Giveaways.Services;
 using System.Text.RegularExpressions;
 

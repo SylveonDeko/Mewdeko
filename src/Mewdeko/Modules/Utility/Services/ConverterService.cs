@@ -1,5 +1,5 @@
 ﻿using Discord.WebSocket;
-using Mewdeko._Extensions;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using System.IO;

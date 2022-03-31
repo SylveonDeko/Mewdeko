@@ -2,9 +2,9 @@
 using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.GlobalBan.Services;
 
 namespace Mewdeko.Modules.GlobalBan;

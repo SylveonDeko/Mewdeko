@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.Collections;
@@ -8,6 +7,7 @@ using Mewdeko.Common.TypeReaders;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;

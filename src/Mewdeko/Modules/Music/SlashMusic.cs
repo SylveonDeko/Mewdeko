@@ -9,13 +9,13 @@ using Lavalink4NET.Artwork;
 using Lavalink4NET.DiscordNet;
 using Lavalink4NET.Player;
 using Lavalink4NET.Rest;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
 

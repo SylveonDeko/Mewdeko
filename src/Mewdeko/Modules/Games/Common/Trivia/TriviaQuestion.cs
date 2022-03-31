@@ -1,4 +1,4 @@
-﻿using Mewdeko._Extensions;
+﻿using Mewdeko.Extensions;
 using System.Text.RegularExpressions;
 
 // THANKS @ShoMinamimoto for suggestions and coding help

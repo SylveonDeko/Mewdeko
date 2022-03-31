@@ -3,10 +3,10 @@ using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
 using Humanizer;
-using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Extensions;
 using Mewdeko.Modules.Server_Management.Services;
 
 namespace Mewdeko.Modules.Server_Management;

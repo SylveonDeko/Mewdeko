@@ -1,5 +1,5 @@
 ﻿using Discord.WebSocket;
-using Mewdeko._Extensions;
+using Mewdeko.Extensions;
 using StackExchange.Redis;
 using System.Web;
 
