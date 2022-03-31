@@ -112,7 +112,7 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
     {
         var eb = new EmbedBuilder()
             .AddField("Invite Link (IOS shows an error so use the browser)",
-                "[Click Here](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
+                $"[Click Here](https://discord.com/oauth2/authorize?client_id={ctx.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands)")
             .AddField("Website/Docs", "https://mewdeko.tech")
             .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
             .WithOkColor();
