@@ -11,10 +11,6 @@ public partial class Administration
     [Group]
     public class GameChannelCommands : MewdekoSubmodule<GameVoiceChannelService>
     {
-        private readonly Mewdeko _bot;
-
-        public GameChannelCommands(Mewdeko bot) 
-            => _bot = bot;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.MoveMembers)]

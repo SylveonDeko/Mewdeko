@@ -87,14 +87,13 @@ public class XpService : INService, IUnloadableService
             var sub = _cache.Redis.GetSubscriber();
             sub.Subscribe($"{_creds.RedisKey()}_reload_xp_template", (_, _) => InternalReloadXpTemplate());
         }
-
-        var context = db.GetDbContext();
+        
         //load settings
-        var allGuildConfigs = context.GuildConfigs.All().Where(x => x.XpSettings != null).ToList();
-        XpTxtRates = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
-        XpTxtTimeouts = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
-        XpVoiceRates = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
-        XpVoiceTimeouts = context.GuildConfigs.All().ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
+        var allGuildConfigs = bot.CachedGuildConfigs.Where(x => x.XpSettings != null).ToList();
+        XpTxtRates = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
+        XpTxtTimeouts = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
+        XpVoiceRates = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
+        XpVoiceTimeouts = bot.CachedGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
         _excludedChannels = allGuildConfigs.ToDictionary(x => x.GuildId,
             x => new ConcurrentHashSet<ulong>(x.XpSettings.ExclusionList
                                                .Where(ex => ex.ItemType == ExcludedItemType.Channel)
@@ -822,7 +821,7 @@ public class XpService : INService, IUnloadableService
 
         //time on this level
 
-        string GetTimeSpent(DateTime time, string format)
+        string GetTimeSpent(DateTime time)
         {
             var offset = DateTime.UtcNow - time;
             return $"{offset.Humanize()} ago";
@@ -830,7 +829,7 @@ public class XpService : INService, IUnloadableService
 
 
         if (template.User.TimeOnLevel.Guild.Show)
-            img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp, template.User.TimeOnLevel.Format),
+            img.Mutate(x => x.DrawText(GetTimeSpent(stats.FullGuildStats.LastLevelUp),
                 _fonts.UniSans.CreateFont(template.User.TimeOnLevel.Guild.FontSize),
                 template.User.TimeOnLevel.Guild.Color,
                 new PointF(template.User.TimeOnLevel.Guild.Pos.X, template.User.TimeOnLevel.Guild.Pos.Y)));

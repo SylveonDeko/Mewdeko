@@ -14,10 +14,6 @@ public partial class Moderation
     public class PurgeCommands : MewdekoSubmodule<PurgeService>
     {
         private static readonly TimeSpan _twoWeeks = TimeSpan.FromDays(14);
-        private readonly IServiceProvider _services;
-
-        public PurgeCommands(IServiceProvider servs) => _services = servs;
-
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]

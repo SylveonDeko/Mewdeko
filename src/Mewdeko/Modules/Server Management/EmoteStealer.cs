@@ -34,7 +34,7 @@ public class EmoteStealer : MewdekoSlashCommandModule
         }
         var errored = new List<string>();
         var emotes = new List<string>();
-        var msg = await ctx.Interaction.FollowupAsync(embed: eb.Build());
+        await ctx.Interaction.FollowupAsync(embed: eb.Build());
         foreach (var i in tags)
         {
             using var http = _httpFactory.CreateClient();

@@ -6,8 +6,8 @@ namespace Mewdeko._Extensions;
 
 public class RedisDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {
-    private static ConnectionMultiplexer _cnn;
-    private string _redisKey;
+    private readonly ConnectionMultiplexer _cnn;
+    private readonly string _redisKey;
     public RedisDictionary(string redisKey, ConnectionMultiplexer cnn)
     {
         _redisKey = redisKey;

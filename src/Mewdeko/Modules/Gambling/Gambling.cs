@@ -86,7 +86,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         if (ec.Cash > 0)
             onePercent =
                 ec.OnePercent / (ec.Cash - ec.Bot); // This stops the top 1% from owning more than 100% of the money
-        // [21:03] Bob Page: Kinda remids me of US economy
+        // [21:03] Bob Page: Kinda reminds me of US economy
         var embed = new EmbedBuilder()
             .WithTitle(GetText("economy_state"))
             .AddField(GetText("currency_owned"), (BigInteger) (ec.Cash - ec.Bot) + CurrencySign)
@@ -131,7 +131,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         var val = 25000;
         var period = 3;
         TimeSpan? rem;
-        if (!GamblingService.GetVoted(ctx.User.Id))
+        if (!Service.GetVoted(ctx.User.Id))
         {
             await ctx.Channel.SendErrorAsync(
                 "You haven't voted for the bot yet!\nVote for me at https://top.gg/bot/752236274261426212/vote");
@@ -226,7 +226,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         if (--page < 0)
             return;
 
-        var trs = new List<CurrencyTransaction>();
+        List<CurrencyTransaction> trs;
         await using (var uow = _db.GetDbContext())
         {
             trs = uow.CurrencyTransactions.GetPageFor(userId, page);
@@ -479,18 +479,14 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
     [MewdekoCommand, Usage, Description, Aliases]
     public Task BetRoll(ShmartNumber amount) => InternallBetroll(amount);
 
-    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(0)]
-    public Task Leaderboard(params string[] args) => Leaderboard(1, args);
-
     [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(1)]
-    public async Task Leaderboard(int page = 1, params string[] args)
+    public async Task Leaderboard(params string[] args)
     {
-        if (--page < 0)
-            return;
+       
 
         var (opts, _) = OptionsParser.ParseFrom(new LbOpts(), args);
 
-        var cleanRichest = new List<DiscordUser>();
+        List<DiscordUser> cleanRichest;
         // it's pointless to have clean on dm context
         if (Context.Guild is null) opts.Clean = false;
 
@@ -498,7 +494,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         {
             await using (var uow = _db.GetDbContext())
             {
-                cleanRichest = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id, 10_000);
+                cleanRichest = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id);
             }
 
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -511,7 +507,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
         else
         {
             await using var uow = _db.GetDbContext();
-            cleanRichest = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id, 9, page).ToList();
+            cleanRichest = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id).ToList();
         }
 
         var paginator = new LazyPaginatorBuilder()
@@ -534,8 +530,8 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
             List<DiscordUser> toSend;
             if (!opts.Clean)
             {
-                using var uow = _db.GetDbContext();
-                toSend = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id, 9, page);
+                await using var uow = _db.GetDbContext();
+                toSend = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id);
             }
             else
             {

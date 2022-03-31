@@ -16,27 +16,30 @@ namespace Mewdeko.Modules.Gambling.Services;
 
 public class GamblingService : INService
 {
-    private readonly Mewdeko _bot;
     private readonly IDataCache _cache;
     private readonly DiscordSocketClient _client;
     private readonly ICurrencyService _cs;
     private readonly DbService _db;
+    private readonly IBotCredentials _creds;
+    private readonly Mewdeko _bot;
 
     private readonly GamblingConfigService _gss;
 
     public GamblingService(DbService db, Mewdeko bot, ICurrencyService cs,
-        DiscordSocketClient client, IDataCache cache, GamblingConfigService gss)
+        DiscordSocketClient client, IDataCache cache, GamblingConfigService gss,
+        IBotCredentials creds)
     {
         _db = db;
-        _cs = cs;
         _bot = bot;
+        _cs = cs;
         _client = client;
         _cache = cache;
         _gss = gss;
+        _creds = creds;
 
-        if (_bot.Client.ShardId == 0)
+        if (bot.Client.ShardId == 0)
         {
-            new Timer(_ =>
+            _ = new Timer(_ =>
             {
                 var config = _gss.Data;
                 var maxDecay = config.Decay.MaxDecay;
@@ -77,23 +80,21 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
     public ConcurrentDictionary<(ulong, ulong), RollDuelGame> Duels { get; } = new();
     public ConcurrentDictionary<ulong, Connect4Game> Connect4Games { get; } = new();
 
-    public static bool GetVoted(ulong id)
+    public bool GetVoted(ulong id)
     {
-        var url = $"https://top.gg/api/bots/752236274261426212/check?userId={id}";
-#pragma warning disable SYSLIB0014 // Type or member is obsolete
+        var url = $"https://top.gg/api/bots/{_bot.Client.CurrentUser.Id}/check?userId={id}";
+#pragma warning disable CS0618
         var request = WebRequest.Create(url);
-#pragma warning restore SYSLIB0014 // Type or member is obsolete
+#pragma warning restore CS0618
         request.Method = "GET";
         request.Headers.Add("Authorization",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjIzNjI3NDI2MTQyNjIxMiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjA3Mzg3MDk4fQ.1VATJIr_WqRImXlx5hywaAV6BVk-V4NzybRo0e-E3T8");
+            _creds.VotesToken);
         using var webResponse = request.GetResponse();
         using var webStream = webResponse.GetResponseStream();
 
         using var reader = new StreamReader(webStream);
         var data = reader.ReadToEnd();
-        if (data.Contains("{\"voted\":1}"))
-            return true;
-        return false;
+        return data.Contains("{\"voted\":1}");
     }
 
     public EconomyResult GetEconomy()
@@ -105,6 +106,7 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
             }
             catch
             {
+                // ignored
             }
 
         decimal cash;
@@ -139,10 +141,10 @@ WHERE CurrencyAmount > {config.Decay.MinThreshold} AND UserId!={_client.CurrentU
 
     public struct EconomyResult
     {
-        public decimal Cash { get; set; }
-        public decimal Planted { get; set; }
-        public decimal Waifus { get; set; }
-        public decimal OnePercent { get; set; }
-        public long Bot { get; set; }
+        public decimal Cash { get; init; }
+        public decimal Planted { get; init; }
+        public decimal Waifus { get; init; }
+        public decimal OnePercent { get; init; }
+        public long Bot { get; init; }
     }
 }

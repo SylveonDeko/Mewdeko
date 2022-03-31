@@ -17,7 +17,7 @@ namespace Mewdeko.Services.Settings;
 public abstract class ConfigServiceBase<TSettings> : IConfigService
     where TSettings : new()
 {
-    private static readonly JsonSerializerOptions _serializerOptions = new()
+    private readonly JsonSerializerOptions _serializerOptions = new()
     {
         MaxDepth = 0,
         Converters = {new Rgba32Converter(), new CultureInfoConverter()}
@@ -203,7 +203,7 @@ public abstract class ConfigServiceBase<TSettings> : IConfigService
                 targetObject = localProp.GetValue(targetObject);
             }
 
-            prop!.SetValue(targetObject, value, null);
+            prop.SetValue(targetObject, value, null);
             return true;
         };
 

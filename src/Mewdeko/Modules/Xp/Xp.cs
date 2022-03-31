@@ -443,16 +443,10 @@ public partial class Xp : MewdekoModuleBase<XpService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(0),
-     RequireContext(ContextType.Guild)]
-    public Task XpLeaderboard(params string[] args) => XpLeaderboard(1, args);
-
     [MewdekoCommand, Usage, Description, Aliases, MewdekoOptions(typeof(LbOpts)), Priority(1),
      RequireContext(ContextType.Guild)]
-    public async Task XpLeaderboard(int page = 1, params string[] args)
+    public async Task XpLeaderboard(params string[] args)
     {
-        if (--page < 0 || page > 100)
-            return;
 
         var (opts, _) = OptionsParser.ParseFrom(new LbOpts(), args);
 

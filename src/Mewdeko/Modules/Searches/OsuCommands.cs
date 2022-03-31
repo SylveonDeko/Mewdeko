@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using MartineApiNet;
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
@@ -18,23 +17,14 @@ public partial class Searches
     {
         private readonly IBotCredentials _creds;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly MartineApi _martineApi;
 
-        public OsuCommands(IBotCredentials creds, IHttpClientFactory factory, MartineApi martineApi)
+        public OsuCommands(IBotCredentials creds, IHttpClientFactory factory)
         {
             _creds = creds;
             _httpFactory = factory;
-            _martineApi = martineApi;
         }
-
-        // [MewdekoCommand, Usage, Description, Aliases]
-        // public async Task OsuProfile(string username)
-        // {
-        //     var image = await _martineApi.ImageGenerationApi.GetOsuProfileCard(username);
-        //     var bytes = await image.ReadAsByteArrayAsync();
-        //     await using var ms = new MemoryStream(bytes);
-        //     await ctx.Channel.SendFileAsync(ms, "OsuProfile.png");
-        // }
+        
+        
         [MewdekoCommand, Usage, Description, Aliases]
         public async Task Osu(string user, [Remainder] string? mode = null)
         {

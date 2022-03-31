@@ -105,9 +105,6 @@ public class LogCommandService : INService
 
     public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
-    private ConcurrentDictionary<ITextChannel, List<string>> PresenceUpdates { get; } =
-        new();
-
     public void AddDeleteIgnore(ulong messageId) => _ignoreMessageIds.Add(messageId);
 
     public bool LogIgnore(ulong gid, ulong cid)
@@ -133,15 +130,6 @@ public class LogCommandService : INService
     }
 
     private string GetText(IGuild guild, string key, params object[] replacements) => _strings.GetText(key, guild.Id, replacements);
-
-
-    private string PrettyCurrentTime(IGuild? g)
-    {
-        var time = DateTime.UtcNow;
-        if (g != null)
-            time = TimeZoneInfo.ConvertTime(time, _tz.GetTimeZoneOrUtc(g.Id));
-        return $"【{time:HH:mm:ss}】";
-    }
 
     private string CurrentTime(IGuild? g)
     {
@@ -636,11 +624,7 @@ public class LogCommandService : INService
                 if ((logChannel = await TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelDestroyed)
                         .ConfigureAwait(false)) == null)
                     return;
-                string title;
-                if (ch is IVoiceChannel)
-                    title = GetText(logChannel.Guild, "voice_chan_destroyed");
-                else
-                    title = GetText(logChannel.Guild, "text_chan_destroyed");
+                var title = GetText(logChannel.Guild, ch is IVoiceChannel ? "voice_chan_destroyed" : "text_chan_destroyed");
 
                 var audits = await ch.Guild.GetAuditLogsAsync();
                 var e = audits.FirstOrDefault(x => x.Action == ActionType.ChannelDeleted);
@@ -676,17 +660,13 @@ public class LogCommandService : INService
                 if ((logChannel = await TryGetLogChannel(ch.Guild, logSetting, LogType.ChannelCreated)
                         .ConfigureAwait(false)) == null)
                     return;
-                string title;
-                if (ch is IVoiceChannel)
-                    title = GetText(logChannel.Guild, "voice_chan_created");
-                else
-                    title = GetText(logChannel.Guild, "text_chan_created");
+                var title = GetText(logChannel.Guild, ch is IVoiceChannel ? "voice_chan_created" : "text_chan_created");
 
                 await logChannel.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle($"🆕 {title}")
-                    .WithDescription($"{ch.Name} | {ch.Id}")
-                    .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
+                                            .WithOkColor()
+                                            .WithTitle($"🆕 {title}")
+                                            .WithDescription($"{ch.Name} | {ch.Id}")
+                                            .WithFooter(efb => efb.WithText(CurrentTime(ch.Guild)))).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -728,7 +708,7 @@ public class LogCommandService : INService
                 else if (afterVch == null)
                     str = GetText(logChannel.Guild, "log_vc_left", usr.Username, beforeVch.Name);
 
-                var toDelete = await logChannel.SendMessageAsync(str).ConfigureAwait(false);
+                await logChannel.SendMessageAsync(str).ConfigureAwait(false);
             }
             catch
             {

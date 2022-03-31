@@ -19,14 +19,6 @@ public partial class ServerManagement
             return result;
         }
 
-        private static ulong GetRawPermissionValue(IEnumerable<GuildPermission> permissions)
-        {
-            ulong result = 0;
-            foreach (var permission in permissions)
-                result |= (ulong) permission;
-            return result;
-        }
-
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels), Priority(0)]
         public async Task PermControl(SocketGuildChannel channel, PermValue perm, IRole role,

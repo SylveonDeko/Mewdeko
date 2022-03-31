@@ -90,6 +90,7 @@ public class TypingGame
                 }
                 catch
                 {
+                    // ignored
                 }
             } while (time > 2);
 
@@ -107,6 +108,7 @@ public class TypingGame
         }
         catch
         {
+            // ignored
         }
         finally
         {

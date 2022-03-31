@@ -13,15 +13,13 @@ namespace Mewdeko.Modules.Giveaways;
 [Group("giveaways", "Create or manage giveaways!")]
 public class SlashGiveaways : MewdekoSlashModuleBase<GiveawayService>
 {
-    private readonly IServiceProvider _servs;
     private readonly DbService _db;
     private readonly InteractiveService _interactivity;
 
-    public SlashGiveaways(DbService db, IServiceProvider servs, InteractiveService interactiveService)
+    public SlashGiveaways(DbService db, InteractiveService interactiveService)
     {
         _interactivity = interactiveService;
         _db = db;
-        _servs = servs;
     }
 
     [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions, BlacklistCheck]

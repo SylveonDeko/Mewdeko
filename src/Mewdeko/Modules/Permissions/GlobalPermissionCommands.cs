@@ -4,7 +4,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database;
 using Mewdeko.Modules.Permissions.Services;
 
 namespace Mewdeko.Modules.Permissions;
@@ -14,14 +13,9 @@ public partial class Permissions
     [Group]
     public class GlobalPermissionCommands : MewdekoSubmodule
     {
-        private readonly DbService _db;
         private readonly GlobalPermissionService _service;
 
-        public GlobalPermissionCommands(GlobalPermissionService service, DbService db)
-        {
-            _service = service;
-            _db = db;
-        }
+        public GlobalPermissionCommands(GlobalPermissionService service) => _service = service;
 
         [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public async Task GlobalPermList()

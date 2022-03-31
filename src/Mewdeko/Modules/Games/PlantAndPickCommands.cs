@@ -48,6 +48,7 @@ public partial class Games
                 }
                 catch
                 {
+                    // ignored
                 }
         }
 
@@ -90,10 +91,8 @@ public partial class Games
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), OwnerOnly]
-        public async Task GenCurList(int page = 1)
+        public async Task GenCurList()
         {
-            if (--page < 0)
-                return;
             var enabledIn = Service.GetAllGeneratingChannels();
 
             var paginator = new LazyPaginatorBuilder()

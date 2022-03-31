@@ -213,8 +213,7 @@ public partial class Gambling
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public Task WaifuInfo([Remainder] IUser? target = null)
         {
-            if (target == null)
-                target = ctx.User;
+            target ??= ctx.User;
 
             return InternalWaifuInfo(target.Id, target.ToString());
         }
@@ -267,10 +266,8 @@ public partial class Gambling
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
-        public async Task WaifuGift(int page = 1)
+        public async Task WaifuGift()
         {
-            if (--page < 0 || page > 3)
-                return;
 
             var waifuItems = Service.GetWaifuItems();
             var paginator = new LazyPaginatorBuilder()

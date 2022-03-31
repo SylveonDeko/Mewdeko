@@ -183,8 +183,8 @@ public class Help : MewdekoModuleBase<HelpService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var transformed = groups.Select(x => x.ElementAt(page).Select(x =>
-                    $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {$"[{x.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+            var transformed = groups.Select(x => x.ElementAt(page).Select(commandInfo =>
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases.First(),-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)
@@ -253,13 +253,13 @@ public class Help : MewdekoModuleBase<HelpService>
             .OrderBy(x => x.Key)
             .ToDictionary(
                 x => x.Key,
-                x => x.Distinct(x => x.Aliases.First())
+                x => x.Distinct(commandInfo => commandInfo.Aliases.First())
                     .Select(com =>
                     {
                         com.Module.GetTopLevelModule();
                         List<string> optHelpStr = null!;
-                        var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(x =>
-                            x is MewdekoOptionsAttribute))?.OptionType;
+                        var opt = ((MewdekoOptionsAttribute) com.Attributes.FirstOrDefault(attribute =>
+                            attribute is MewdekoOptionsAttribute))?.OptionType;
                         if (opt != null) optHelpStr = HelpService.GetCommandOptionHelpList(opt);
 
                         return new CommandJsonObject

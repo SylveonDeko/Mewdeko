@@ -6,25 +6,14 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Services;
 using System.IO;
-using System.Net.Http;
 
 namespace Mewdeko.Modules.Games;
-
-/* more games
-- Shiritori
-- Simple RPG adventure
-*/
 public partial class Games : MewdekoModuleBase<GamesService>
 {
-    private readonly IHttpClientFactory _httpFactory;
     private readonly IImageCache _images;
     private readonly Random _rng = new();
 
-    public Games(IDataCache data, IHttpClientFactory factory)
-    {
-        _images = data.LocalImages;
-        _httpFactory = factory;
-    }
+    public Games(IDataCache data) => _images = data.LocalImages;
 
     [MewdekoCommand, Usage, Description, Aliases]
     public async Task Choose([Remainder] string? list = null)
@@ -135,7 +124,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
                 break;
         }
 
-        return new GirlRating(_images, _httpFactory, crazy, hot, roll, advice);
+        return new GirlRating(_images, crazy, hot, advice);
     }
 
     [MewdekoCommand, Usage, Description, Aliases]

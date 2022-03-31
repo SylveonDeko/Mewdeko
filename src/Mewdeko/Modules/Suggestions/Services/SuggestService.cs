@@ -256,7 +256,7 @@ public class SuggestionsService : INService
             await interaction.SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.");
             return;
         }
-        var eb = new EmbedBuilder();
+        EmbedBuilder eb;
         if (GetDenyMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
@@ -288,6 +288,7 @@ public class SuggestionsService : INService
             }
             catch
             {
+                // ignored
             }
 
             await message.ModifyAsync(x =>
@@ -405,7 +406,7 @@ public class SuggestionsService : INService
             return;
         }
 
-        var eb = new EmbedBuilder();
+        EmbedBuilder eb;
         if (GetConsiderMessage(guild) is "-" or "" or
             null)
         {
@@ -438,6 +439,7 @@ public class SuggestionsService : INService
             }
             catch
             {
+                // ignored
             }
 
             await message.ModifyAsync(x =>
@@ -553,7 +555,7 @@ public class SuggestionsService : INService
             return;
         }
 
-        var eb = new EmbedBuilder();
+        EmbedBuilder eb;
         if (GetImplementMessage(guild) is "-" or "" or
             null)
         {
@@ -591,6 +593,7 @@ public class SuggestionsService : INService
             }
             catch
             {
+                // ignored
             }
 
             try
@@ -702,7 +705,7 @@ public class SuggestionsService : INService
             return;
         }
 
-        var eb = new EmbedBuilder();
+        EmbedBuilder eb;
         if (GetAcceptMessage(guild) is "-" or "" or null)
         {
             if (suggest.Suggestion != null)
@@ -739,6 +742,7 @@ public class SuggestionsService : INService
             }
             catch
             {
+                // ignored
             }
 
             try

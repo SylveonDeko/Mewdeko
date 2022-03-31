@@ -81,12 +81,9 @@ public partial class Utility
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         BotPerm(ChannelPermission.ManageChannels)]
-        public async Task InviteList(int page = 1)
+         BotPerm(GuildPermission.ManageGuild)]
+        public async Task InviteList()
         {
-            if (--page < 0)
-                return;
-
             var invites = await ctx.Guild.GetInvitesAsync().ConfigureAwait(false);
 
             var paginator = new LazyPaginatorBuilder()

@@ -2,7 +2,6 @@
 using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
-using Mewdeko.Database;
 using Mewdeko.Modules.Gambling.Common;
 using Mewdeko.Modules.Gambling.Services;
 using System.Collections.Immutable;
@@ -26,13 +25,11 @@ public partial class Gambling
         }.ToImmutableArray();
 
         private readonly ICurrencyService _cs;
-        private readonly DbService _db;
 
-        public WheelOfFortuneCommands(ICurrencyService cs, DbService db, GamblingConfigService gamblingConfService)
+        public WheelOfFortuneCommands(ICurrencyService cs, GamblingConfigService gamblingConfService)
             : base(gamblingConfService)
         {
             _cs = cs;
-            _db = db;
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
