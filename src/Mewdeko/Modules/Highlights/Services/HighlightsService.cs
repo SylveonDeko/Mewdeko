@@ -6,8 +6,8 @@ using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Serilog;
-using System.Threading.Channels;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 
 namespace Mewdeko.Modules.Highlights.Services;
 

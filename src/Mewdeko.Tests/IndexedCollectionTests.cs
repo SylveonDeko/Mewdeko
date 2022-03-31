@@ -52,7 +52,7 @@ public class IndexedCollectionTests
 
         // RemoveAt out of range
         Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(999), $"No exception thrown when removing from index 999 in a collection of size {collection.Count}.");
-        Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(-3), $"No exception thrown when removing from negative index -3.");
+        Assert.Throws<ArgumentOutOfRangeException>(() => collection.RemoveAt(-3), "No exception thrown when removing from negative index -3.");
     }
 
     [Test]
@@ -99,8 +99,8 @@ public class IndexedCollectionTests
         var collection = GetCollectionSample<ShopEntry>();
 
         // Insert items at indices 5 and 7
-        collection.Insert(5, new ShopEntry() { Id = 555 });
-        collection.Insert(7, new ShopEntry() { Id = 777 });
+        collection.Insert(5, new ShopEntry { Id = 555 });
+        collection.Insert(7, new ShopEntry { Id = 777 });
 
         Assert.AreEqual(12, collection.Count);
         Assert.AreEqual(555, collection[5].Id);
@@ -109,8 +109,8 @@ public class IndexedCollectionTests
         CheckIndices(collection);
 
         // Insert out of range
-        Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(999, new ShopEntry() { Id = 999 }), $"No exception thrown when inserting at index 999 in a collection of size {collection.Count}.");
-        Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(-3, new ShopEntry() { Id = -3 }), $"No exception thrown when inserting at negative index -3.");
+        Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(999, new ShopEntry { Id = 999 }), $"No exception thrown when inserting at index 999 in a collection of size {collection.Count}.");
+        Assert.Throws<ArgumentOutOfRangeException>(() => collection.Insert(-3, new ShopEntry { Id = -3 }), "No exception thrown when inserting at negative index -3.");
     }
 
     [Test]
@@ -118,14 +118,14 @@ public class IndexedCollectionTests
     {
         var subCol = new[]
         {
-            new ShopEntry() { Id = 111 },
-            new ShopEntry() { Id = 222 },
-            new ShopEntry() { Id = 333 }
+            new ShopEntry { Id = 111 },
+            new ShopEntry { Id = 222 },
+            new ShopEntry { Id = 333 }
         };
 
         var collection = GetCollectionSample(
             Enumerable.Range(0, 10)
-                      .Select(x => new ShopEntry() { Id = x })
+                      .Select(x => new ShopEntry { Id = x })
                       .Concat(subCol)
         );
 
@@ -155,8 +155,8 @@ public class IndexedCollectionTests
     {
         var collection = GetCollectionSample<ShopEntry>();
 
-        collection[4] = new ShopEntry() { Id = 444 };
-        collection[7] = new ShopEntry() { Id = 777 };
+        collection[4] = new ShopEntry { Id = 444 };
+        collection[7] = new ShopEntry { Id = 777 };
         CheckIndices(collection);
 
         Assert.AreEqual(444, collection[4].Id);
@@ -181,5 +181,5 @@ public class IndexedCollectionTests
     /// <param name="sample">A sample collection to be added as an indexed collection.</param>
     /// <returns>An indexed collection of <typeparamref name="T"/>.</returns>
     private IndexedCollection<T> GetCollectionSample<T>(IEnumerable<T> sample = default) where T : DbEntity, IIndexed, new()
-        => new IndexedCollection<T>(sample ?? Enumerable.Range(0, 10).Select(x => new T() { Id = x }));
+        => new IndexedCollection<T>(sample ?? Enumerable.Range(0, 10).Select(x => new T { Id = x }));
 }
