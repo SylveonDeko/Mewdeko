@@ -23,7 +23,7 @@ public class UserPunishService2 : INService
         _db = db;
         _bot = bot;
 
-        new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
+        _ = new Timer(async _ => await CheckAllWarnExpiresAsync(), null,
             TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 

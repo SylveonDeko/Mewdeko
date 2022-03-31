@@ -297,11 +297,10 @@ public class WaifuService : INService
         DivorceResult result;
         TimeSpan? remaining = null;
         long amount = 0;
-        WaifuInfo w = null;
+        WaifuInfo w;
         await using (var uow = _db.GetDbContext())
         {
             w = uow.WaifuInfo.ByWaifuUserId(targetId);
-            var now = DateTime.UtcNow;
             if (w?.Claimer == null || w.Claimer.UserId != user.Id)
             {
                 result = DivorceResult.NotYourWife;

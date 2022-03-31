@@ -81,7 +81,6 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             .Where(c => !_permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .OrderBy(c => c.Aliases[0])
             .Distinct(new CommandTextEqualityComparer());
-        var context = new CommandContext(ctx.Client, currentmsg);
         // check preconditions for all commands, but only if it's not 'all'
         // because all will show all commands anyway, no need to check
         var succ = new HashSet<CommandInfo>((await Task.WhenAll(cmds.Select(async x =>
@@ -118,8 +117,8 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var transformed = groups.Select(x => x.ElementAt(page).Select(x =>
-                    $"{(succ.Contains(x) ? "✅" : "❌")}{Prefix + x.Aliases.First(),-15} {$"[{x.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
+            var transformed = groups.Select(x => x.ElementAt(page).Select(commandInfo =>
+                    $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{Prefix + commandInfo.Aliases.First(),-15} {$"[{commandInfo.Aliases.Skip(1).FirstOrDefault()}]",-8}"))
                 .FirstOrDefault();
             var last = groups.Select(x => x.Count()).FirstOrDefault();
             for (i = 0; i < last; i++)

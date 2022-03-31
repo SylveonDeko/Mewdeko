@@ -4,7 +4,6 @@ using Mewdeko.Database.Models;
 using Mewdeko.Modules.Gambling.Common.Events;
 using Serilog;
 using System.Collections.Concurrent;
-using System.Net.Http;
 
 namespace Mewdeko.Modules.Gambling.Services;
 
@@ -12,22 +11,15 @@ public class CurrencyEventsService : INService
 {
     private readonly DiscordSocketClient _client;
     private readonly GamblingConfigService _configService;
-    private readonly IBotCredentials _creds;
     private readonly ICurrencyService _cs;
 
     private readonly ConcurrentDictionary<ulong, ICurrencyEvent> _events =
         new();
 
-    private readonly IHttpClientFactory _http;
-
-    public CurrencyEventsService(DiscordSocketClient client,
-        IBotCredentials creds, ICurrencyService cs,
-        IHttpClientFactory http, GamblingConfigService configService)
+    public CurrencyEventsService(DiscordSocketClient client, ICurrencyService cs,GamblingConfigService configService)
     {
         _client = client;
         _cs = cs;
-        _creds = creds;
-        _http = http;
         _configService = configService;
     }
 

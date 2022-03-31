@@ -87,7 +87,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
             return;
         }
 
-        await Service.ChangeMgDelete(greet, ulong.Parse(time.Time.TotalSeconds.ToString()));
+        await Service.ChangeMgDelete(greet, Convert.ToInt32(time.Time.TotalSeconds));
         await ctx.Channel.SendConfirmAsync(
             $"Successfully updated MultiGreet #{id} to delete after {time.Time.Humanize()}.");
 
@@ -95,7 +95,7 @@ public class MultiGreets : MewdekoModuleBase<MultiGreetService>
 
     [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages)]
-    public async Task MultiGreetDelete (int id, ulong howlong)
+    public async Task MultiGreetDelete (int id, int howlong)
     {
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id-1);
         if (greet is null)

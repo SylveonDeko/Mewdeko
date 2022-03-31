@@ -59,20 +59,12 @@ public static class DiscordUserExtensions
              .AsEnumerable()
              .ToArray();
 
-    public static List<DiscordUser> GetTopRichest(this DbSet<DiscordUser> users, ulong botId, int count, int page = 0) =>
+    public static List<DiscordUser> GetTopRichest(this DbSet<DiscordUser> users, ulong botId) =>
         users.AsQueryable()
              .Where(c => c.CurrencyAmount > 0 && botId != c.UserId)
              .OrderByDescending(c => c.CurrencyAmount)
-             .Skip(page * 9)
-             .Take(count)
              .ToList();
-
-    public static List<DiscordUser> GetTopRichest(this DbSet<DiscordUser> users, ulong botId, int count) =>
-        users.AsQueryable()
-             .Where(c => c.CurrencyAmount > 0 && botId != c.UserId)
-             .OrderByDescending(c => c.CurrencyAmount)
-             .Take(count)
-             .ToList();
+    
 
     public static long GetUserCurrency(this DbSet<DiscordUser> users, ulong userId) =>
         users.AsNoTracking()
