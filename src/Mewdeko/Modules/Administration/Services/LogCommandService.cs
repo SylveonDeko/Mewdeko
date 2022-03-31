@@ -239,7 +239,7 @@ public class LogCommandService : INService
 
     public async Task<bool> Log(ulong gid, ulong? cid, LogType type /*, string options*/)
     {
-        ulong? channelId = null;
+        ulong? channelId;
         await using (var uow = _db.GetDbContext())
         {
             var logSetting = uow.LogSettingsFor(gid).LogSetting;
@@ -702,7 +702,7 @@ public class LogCommandService : INService
         {
             try
             {
-                if (iusr is not IGuildUser usr || usr.IsBot)
+                if (iusr is not IGuildUser usr)
                     return;
 
                 var beforeVch = before.VoiceChannel;
@@ -712,31 +712,23 @@ public class LogCommandService : INService
                     return;
 
                 if (!GuildLogSettings.TryGetValue(usr.Guild.Id, out var logSetting)
-                    || logSetting.LogVoicePresenceId == null)
+                    || logSetting.LogVoicePresenceTTSId == null)
                     return;
 
                 ITextChannel logChannel;
-                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresence)
+                if ((logChannel = await TryGetLogChannel(usr.Guild, logSetting, LogType.VoicePresenceTts)
                         .ConfigureAwait(false)) == null)
                     return;
 
-                string str = null;
+                var str = "";
                 if (beforeVch?.Guild == afterVch?.Guild)
-                    str =
-                        $"🎙{Format.Code(PrettyCurrentTime(usr.Guild))}{GetText(logChannel.Guild, "user_vmoved", $"👤{Format.Bold($"{usr.Username}#{usr.Discriminator}")}", Format.Bold(beforeVch?.Name ?? ""), Format.Bold(afterVch?.Name ?? ""))}";
+                    str = GetText(logChannel.Guild, "log_vc_moved", usr.Username, beforeVch?.Name, afterVch?.Name);
                 else if (beforeVch == null)
-                    str =
-                        $"🎙{Format.Code(PrettyCurrentTime(usr.Guild))}{GetText(logChannel.Guild, "user_vjoined", $"👤{Format.Bold($"{usr.Username}#{usr.Discriminator}")}", Format.Bold(afterVch.Name ?? ""))}";
+                    str = GetText(logChannel.Guild, "log_vc_joined", usr.Username, afterVch.Name);
                 else if (afterVch == null)
-                    str =
-                        $"🎙{Format.Code(PrettyCurrentTime(usr.Guild))}{GetText(logChannel.Guild, "user_vleft", $"👤{Format.Bold($"{usr.Username}#{usr.Discriminator}")}", Format.Bold(beforeVch.Name ?? ""))}";
+                    str = GetText(logChannel.Guild, "log_vc_left", usr.Username, beforeVch.Name);
 
-                if (!string.IsNullOrWhiteSpace(str))
-                    PresenceUpdates.AddOrUpdate(logChannel, new List<string> {str}, (_, list) =>
-                    {
-                        list.Add(str);
-                        return list;
-                    });
+                var toDelete = await logChannel.SendMessageAsync(str).ConfigureAwait(false);
             }
             catch
             {
