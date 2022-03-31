@@ -892,6 +892,6 @@ public partial class Utility : MewdekoModuleBase<UtilityService>
 
     }
     [MewdekoCommand, Usage, Description, Aliases]
-    public async Task OWOIfy([Remainder] string input)
-        => await ctx.Channel.SendMessageAsync(OWOServices.OWOIfy(input));
+    public async Task OwoIfy([Remainder] string input)
+        => await ctx.Channel.SendMessageAsync(OWOServices.OWOIfy(input).SanitizeMentions(true));
 }
