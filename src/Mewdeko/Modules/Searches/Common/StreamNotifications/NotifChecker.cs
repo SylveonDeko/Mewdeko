@@ -234,15 +234,14 @@ public class NotifChecker
     /// </summary>
     /// <param name="data">Data to try to track if not already tracked</param>
     /// <returns>Whether it's newly added</returns>
-    private bool EnsureTracked(StreamData? data)
+    private void EnsureTracked(StreamData? data)
     {
         // something failed, don't add anything to cache
-        if (data is null)
-            return false;
+        if (data is null) return;
 
         // if stream is found, add it to the cache for tracking only if it doesn't already exist
         // because stream will be checked and events will fire in a loop. We don't want to override old state
-        return CacheAddData(data.CreateKey(), data, false);
+        CacheAddData(data.CreateKey(), data, false);
     }
 
 

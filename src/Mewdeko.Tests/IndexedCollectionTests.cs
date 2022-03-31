@@ -62,7 +62,8 @@ public class IndexedCollectionTests
         collection.Clear();
 
         Assert.IsTrue(collection.Count == 0, "Collection has not been cleared.");
-        Assert.Throws<ArgumentOutOfRangeException>(() => collection.Contains(collection[0]), "Collection has not been cleared.");
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => collection.Contains(collection[0]), "Collection has not been cleared.");
     }
 
     [Test]
@@ -115,7 +116,7 @@ public class IndexedCollectionTests
     [Test]
     public void ContainsTest()
     {
-        var subCol = new ShopEntry[]
+        var subCol = new[]
         {
             new ShopEntry() { Id = 111 },
             new ShopEntry() { Id = 222 },

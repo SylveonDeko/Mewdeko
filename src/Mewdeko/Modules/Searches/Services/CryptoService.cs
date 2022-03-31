@@ -10,16 +10,14 @@ namespace Mewdeko.Modules.Searches.Services;
 public class CryptoService : INService
 {
     private readonly IDataCache _cache;
-    private readonly IBotCredentials _creds;
     private readonly IHttpClientFactory _httpFactory;
 
     private readonly SemaphoreSlim _getCryptoLock = new(1, 1);
 
-    public CryptoService(IDataCache cache, IHttpClientFactory httpFactory, IBotCredentials creds)
+    public CryptoService(IDataCache cache, IHttpClientFactory httpFactory)
     {
         _cache = cache;
         _httpFactory = httpFactory;
-        _creds = creds;
     }
 
     public async Task<(CryptoResponseData Data, CryptoResponseData Nearest)> GetCryptoData(string name)

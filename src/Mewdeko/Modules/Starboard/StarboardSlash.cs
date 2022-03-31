@@ -6,7 +6,7 @@ using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Starboard.Services;
 
 namespace Mewdeko.Modules.Starboard;
-[Discord.Interactions.Group("starboard", "Manage the starboard!")]
+[Group("starboard", "Manage the starboard!")]
 public class StarboardSlash : MewdekoSlashSubmodule<StarboardService>
 {
     [SlashCommand("starboard", "Set the starboard channel. Put nothing to disable."), SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions, BlacklistCheck]

@@ -1,5 +1,4 @@
 ﻿using Google;
-using Google.Apis.Customsearch.v1;
 using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
@@ -149,8 +148,7 @@ public class GoogleApiService : IGoogleApiService
         {"cy", "cy"},
         {"yi", "yi"}
     };
-
-    private readonly CustomsearchService _cs;
+    
     private readonly UrlshortenerService _sh;
 
     private readonly YouTubeService _yt;
@@ -168,7 +166,6 @@ public class GoogleApiService : IGoogleApiService
 
         _yt = new YouTubeService(bcs);
         _sh = new UrlshortenerService(bcs);
-        _cs = new CustomsearchService(bcs);
     }
 
     public async Task<IEnumerable<string>> GetVideoLinksByKeywordAsync(string keywords, int count = 1)

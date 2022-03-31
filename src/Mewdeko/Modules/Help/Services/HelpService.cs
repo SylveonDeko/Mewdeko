@@ -138,7 +138,7 @@ public class HelpService : ILateExecutor, INService
         if (_bot.CachedGuildConfigs.TryGetConfig(guild.Id, out _))
             return;
 
-        if (_blacklistService._blacklist.Select(x => x.ItemId).Contains(guild.Id))
+        if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
             return;
         
         var e = guild.DefaultChannel;

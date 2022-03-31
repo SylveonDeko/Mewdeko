@@ -16,6 +16,7 @@ public class AnimalRaceService : INService, IUnloadableService
             }
             catch
             {
+                // ignored
             }
 
         return Task.CompletedTask;

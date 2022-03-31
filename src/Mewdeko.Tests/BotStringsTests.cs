@@ -6,8 +6,6 @@ using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Services.strings.impl;
-using System;
-using System.IO;
 
 namespace Mewdeko.Tests;
 

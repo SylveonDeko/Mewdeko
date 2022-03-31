@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Mewdeko.Database;
 using Mewdeko.Modules.Gambling.Common;
 using System.Threading;
 
@@ -16,7 +15,7 @@ public class CurrencyRaffleService : INService
     private readonly ICurrencyService _cs;
     private readonly SemaphoreSlim _locker = new(1, 1);
 
-    public CurrencyRaffleService(DbService db, ICurrencyService cs) => _cs = cs;
+    public CurrencyRaffleService(ICurrencyService cs) => _cs = cs;
 
     public Dictionary<ulong, CurrencyRaffleGame> Games { get; } = new();
 
@@ -69,6 +68,7 @@ public class CurrencyRaffleService : INService
                     }
                     catch
                     {
+                        // ignored
                     }
                     finally
                     {

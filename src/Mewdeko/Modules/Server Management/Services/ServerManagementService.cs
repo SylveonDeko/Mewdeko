@@ -1,8 +1,6 @@
 using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Database;
 using System.Collections.Concurrent;
 
 namespace Mewdeko.Modules.Server_Management.Services;
@@ -10,14 +8,10 @@ namespace Mewdeko.Modules.Server_Management.Services;
 public class ServerManagementService : INService
 {
 
-    public CommandContext Ctx;
-
-    public ServerManagementService(DiscordSocketClient client, DbService db, Mewdeko bot)
+    public ServerManagementService(DiscordSocketClient client, Mewdeko bot)
     {
-
-        using var uow = db.GetDbContext();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow.GuildConfigs.AsQueryable()
+        var configs = bot.CachedGuildConfigs
             .Where(x => guildIds.Contains(x.GuildId))
             .ToList();
 
@@ -28,8 +22,7 @@ public class ServerManagementService : INService
     }
 
     public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
-    private ConcurrentDictionary<ulong, ulong> Ticketchannelids { get; } = new();
-    
+
 
     public async Task<IRole> GetMuteRole(IGuild guild)
     {

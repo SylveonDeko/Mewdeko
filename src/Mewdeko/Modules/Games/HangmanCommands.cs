@@ -59,6 +59,7 @@ public partial class Games
             }
             catch
             {
+                // ignored
             }
 
             await hm.EndedTask.ConfigureAwait(false);

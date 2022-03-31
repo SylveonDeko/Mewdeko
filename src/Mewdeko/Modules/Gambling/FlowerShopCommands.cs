@@ -309,6 +309,7 @@ public partial class Gambling
                         .ThenInclude(x => x.Items)).ShopEntries);
                 entry = entries.ElementAtOrDefault(index);
                 if (entry != null && (rightType = entry.Type == ShopEntryType.List))
+                    // ReSharper disable once AssignmentInConditionalExpression
                     if (added = entry.Items.Add(item))
                         await uow.SaveChangesAsync();
             }

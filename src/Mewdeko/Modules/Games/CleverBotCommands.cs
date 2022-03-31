@@ -12,10 +12,6 @@ public partial class Games
     [Group]
     public class ChatterBotCommands : MewdekoSubmodule<ChatterBotService>
     {
-        private readonly Mewdeko _bot;
-
-        public ChatterBotCommands(Mewdeko bot) 
-            => _bot = bot;
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages)]
