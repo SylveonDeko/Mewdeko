@@ -420,7 +420,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             return;
 
         await ctx.Channel.SendConfirmAsync(
-                     $"<{await _google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs!)}").ConfigureAwait(false)}>")
+                     $"<{await _google.ShortenUrl($"https://lmgtfy.com/?q={Uri.EscapeDataString(ffs)}").ConfigureAwait(false)}>")
             .ConfigureAwait(false);
     }
 
@@ -577,7 +577,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
         using var http = _httpFactory.CreateClient();
         var res = await http
-            .GetStringAsync($"https://api.urbandictionary.com/v0/define?term={Uri.EscapeDataString(query!)}")
+            .GetStringAsync($"https://api.urbandictionary.com/v0/define?term={Uri.EscapeDataString(query)}")
             .ConfigureAwait(false);
         try
         {
@@ -642,15 +642,15 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             }
 
 
-            var col = datas.Select(data => (
-                Definition: data.Sense.Definition is string
-                    ? data.Sense.Definition.ToString()
-                    : ((JArray) JToken.Parse(data.Sense.Definition.ToString())).First.ToString(),
-                Example: data.Sense.Examples is null || data.Sense.Examples.Count == 0
+            var col = datas.Select(tuple => (
+                Definition: tuple.Sense.Definition is string
+                    ? tuple.Sense.Definition.ToString()
+                    : ((JArray) JToken.Parse(tuple.Sense.Definition.ToString())).First.ToString(),
+                Example: tuple.Sense.Examples is null || tuple.Sense.Examples.Count == 0
                     ? string.Empty
-                    : data.Sense.Examples[0].Text,
+                    : tuple.Sense.Examples[0].Text,
                 Word: word,
-                WordType: string.IsNullOrWhiteSpace(data.PartOfSpeech) ? "-" : data.PartOfSpeech
+                WordType: string.IsNullOrWhiteSpace(tuple.PartOfSpeech) ? "-" : tuple.PartOfSpeech
             )).ToList();
 
             Log.Information($"Sending {col.Count} definition for: {word}");
@@ -668,16 +668,16 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
-                var data = col.Skip(page).First();
+                var tuple = col.Skip(page).First();
                     var embed = new PageBuilder()
                         .WithDescription(ctx.User.Mention)
-                        .AddField(GetText("word"), data.Word, true)
-                        .AddField(GetText("class"), data.WordType, true)
-                        .AddField(GetText("definition"), data.Definition)
+                        .AddField(GetText("word"), tuple.Word, true)
+                        .AddField(GetText("class"), tuple.WordType, true)
+                        .AddField(GetText("definition"), tuple.Definition)
                         .WithOkColor();
 
-                    if (!string.IsNullOrWhiteSpace(data.Example))
-                        embed.AddField(efb => efb.WithName(GetText("example")).WithValue(data.Example));
+                    if (!string.IsNullOrWhiteSpace(tuple.Example))
+                        embed.AddField(efb => efb.WithName(GetText("example")).WithValue(tuple.Example));
 
                     return embed;
             }
@@ -846,6 +846,7 @@ public partial class Searches : MewdekoModuleBase<SearchesService>
         }
         catch
         {
+            // ignored
         }
 
         if (obj.Error != null || obj.Verses == null || obj.Verses.Length == 0)

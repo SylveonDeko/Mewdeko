@@ -46,7 +46,7 @@ public partial class Permissions
 
         [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
          RequireContext(ContextType.Guild)]
-        public async Task AutoBanWordList(int page = 0)
+        public async Task AutoBanWordList()
         {
             var words = Service.Blacklist.Where(x => x.GuildId == ctx.Guild.Id);
             if (!words.Any())
@@ -339,11 +339,8 @@ public partial class Permissions
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task LstFilterWords(int page = 1)
+        public async Task LstFilterWords()
         {
-            page--;
-            if (page < 0)
-                return;
 
             var channel = (ITextChannel) ctx.Channel;
 

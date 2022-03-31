@@ -6,7 +6,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.GlobalBan.Services;
-using Swan;
 
 namespace Mewdeko.Modules.GlobalBan;
 
@@ -75,7 +74,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 else
                 {
                     var split = next.Split(",");
-                    ulong uid = 0;
+                    ulong uid;
                     try
                     {
                         uid = ulong.Parse(split[0]);
@@ -151,7 +150,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
                 else
                 {
                     var split = next1.Split(",");
-                    ulong uid = 0;
+                    ulong uid;
                     try
                     {
                         uid = ulong.Parse(split[0]);
@@ -389,13 +388,13 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
             case "raidbot":
                 await ctx.Channel.SendConfirmAsync("Please provide the bot ID.");
                 var raidReport = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-                if (!ulong.TryParse(raidReport, out var Id))
+                if (!ulong.TryParse(raidReport, out var id))
                 {
                     await ctx.Channel.SendErrorAsync("That's not a correct ID, please start over.");
                     return;
                 }
 
-                var reportedUser = await _client.GetUserAsync(Id);
+                var reportedUser = await _client.GetUserAsync(id);
                 if (reportedUser is null)
                 {
                     await ctx.Channel.SendErrorAsync("That user is invalid, please make sure you didn't copy message ID.");

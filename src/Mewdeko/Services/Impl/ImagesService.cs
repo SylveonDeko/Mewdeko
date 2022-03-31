@@ -2,7 +2,6 @@
 using Mewdeko.Common;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
-using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 using System.IO;
@@ -93,82 +92,9 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
             _http = new HttpClient();
             _imagesPath = Path.Combine(BASE_PATH, "images.yml");
 
-            Migrate();
-
             ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(_imagesPath));
         }
         
-        private void Migrate()
-        {
-            // migrate to yml
-            if (File.Exists(Path.Combine(BASE_PATH, "images.json")))
-            {
-                var oldFilePath = Path.Combine(BASE_PATH, "images.json");
-                var backupFilePath = Path.Combine(BASE_PATH, "images.json.backup");
-                
-                var oldData = JsonConvert.DeserializeObject<OldImageUrls>(
-                    File.ReadAllText(oldFilePath));
-
-                if (oldData is not null)
-                {
-                    var newData = new ImageUrls
-                    {
-                        Coins = new ImageUrls.CoinData
-                        {
-                            Heads = oldData.Coins.Heads.Length == 1 && 
-                                oldData.Coins.Heads[0].ToString() == "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/heads.png"
-                            ? new[] { new Uri("https://cdn.nadeko.bot/coins/heads3.png") }
-                            : oldData.Coins.Heads,
-                            Tails = oldData.Coins.Tails.Length == 1 && 
-                                    oldData.Coins.Tails[0].ToString() == "https://nadeko-pictures.nyc3.digitaloceanspaces.com/other/coins/tails.png"
-                                ? new[] { new Uri("https://cdn.nadeko.bot/coins/tails3.png") }
-                                : oldData.Coins.Tails,
-                        },
-                        Dice = oldData.Dice.Map(x => x.ToNewCdn()),
-                        Currency = oldData.Currency.Map(x => x.ToNewCdn()),
-                        Rategirl = new ImageUrls.RategirlData
-                        {
-                            Dot = oldData.Rategirl.Dot.ToNewCdn(),
-                            Matrix = oldData.Rategirl.Matrix.ToNewCdn()
-                        },
-                        Rip = new ImageUrls.RipData
-                        {
-                            Bg = oldData.Rip.Bg.ToNewCdn(),
-                            Overlay = oldData.Rip.Overlay.ToNewCdn(),
-                        },
-                        Slots = new ImageUrls.SlotData
-                        {
-                            Bg = new Uri("https://cdn.nadeko.bot/slots/slots_bg.png"),
-                            Emojis = new[]
-                            {
-                                "https://cdn.nadeko.bot/slots/0.png",
-                                "https://cdn.nadeko.bot/slots/1.png",
-                                "https://cdn.nadeko.bot/slots/2.png",
-                                "https://cdn.nadeko.bot/slots/3.png",
-                                "https://cdn.nadeko.bot/slots/4.png",
-                                "https://cdn.nadeko.bot/slots/5.png"
-                            }.Map(x => new Uri(x))
-                        },
-                        Xp = new ImageUrls.XpData
-                        {
-                            Bg = oldData.Xp.Bg.ToNewCdn(),
-                        },
-                        Version = 2,
-                    };
-
-                    File.Move(oldFilePath, backupFilePath, true);
-                    File.WriteAllText(_imagesPath, Yaml.Serializer.Serialize(newData));
-                }
-            }
-
-            // removed numbers from slots
-            var localImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(_imagesPath));
-            if (localImageUrls.Version == 2)
-            {
-                localImageUrls.Version = 3;
-                File.WriteAllText(_imagesPath, Yaml.Serializer.Serialize(localImageUrls));
-            }
-        }
 
         public async Task Reload()
         {

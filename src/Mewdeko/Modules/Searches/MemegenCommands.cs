@@ -38,10 +38,8 @@ public partial class Searches
         }
 
         [MewdekoCommand, Usage, Description, Aliases]
-        public async Task Memelist(int page = 1)
+        public async Task Memelist()
         {
-            if (--page < 0)
-                return;
 
             using var http = _httpFactory.CreateClient("memelist");
             var res = await http.GetAsync("https://api.memegen.link/templates/")
@@ -64,12 +62,10 @@ public partial class Searches
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask;
-                var templates = "";
-                foreach (var template in data.Skip(page * 15).Take(15))
-                    templates += $"**{template.Name}:**\n key: `{template.Id}`\n";
+                var templates = data.Skip(page * 15).Take(15).Aggregate("", (current, template) => current + $"**{template.Name}:**\n key: `{template.Id}`\n");
                 var embed = new PageBuilder()
-                    .WithOkColor()
-                    .WithDescription(templates);
+                            .WithOkColor()
+                            .WithDescription(templates);
 
                 return embed;
             }
@@ -109,8 +105,14 @@ public partial class Searches
 
         private class MemegenTemplate
         {
-            public string Name { get; set; }
-            public string Id { get; set; }
+            public MemegenTemplate(string name, string id)
+            {
+                Name = name;
+                Id = id;
+            }
+
+            public string Name { get; }
+            public string Id { get; }
         }
     }
 }

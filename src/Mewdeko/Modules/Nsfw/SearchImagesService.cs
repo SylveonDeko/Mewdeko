@@ -18,7 +18,7 @@ public record UrlReply
     public string Url { get; init; }
     public string Rating { get; init; }
     public string Provider { get; init; }
-    public List<string> Tags { get; } = new List<string>();
+    public List<string> Tags { get; } = new();
 }
 
 public class SearchImagesService : ISearchImagesService, INService
@@ -27,25 +27,25 @@ public class SearchImagesService : ISearchImagesService, INService
     private readonly HttpClient _http;
     private readonly SearchImageCacher _cache;
     private readonly DbService _db;
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags = new();
+    private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags;
 
     public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
     public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
     public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new();
 
-    public SearchImagesService(DbService db,
+    public SearchImagesService(
         IHttpClientFactory http,
-        SearchImageCacher cacher,
-        IHttpClientFactory httpFactory, Mewdeko bot)
+        SearchImageCacher cacher, Mewdeko bot,
+        DbService db)
     {
-        _db = db;
         _rng = new MewdekoRandom();
         _http = http.CreateClient();
         _http.AddFakeHeaders();
         _cache = cacher;
+        _db = db;
 
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            db.GetDbContext().GuildConfigs.All().ToDictionary(
+            bot.CachedGuildConfigs.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
     }
@@ -220,7 +220,7 @@ public class SearchImagesService : ISearchImagesService, INService
         }
     }
 
-    private readonly object taglock = new();
+    private readonly object _taglock = new();
     public ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
     {
         var tagObj = new NsfwBlacklitedTag
@@ -254,7 +254,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
     public ValueTask<string[]> GetBlacklistedTags(ulong guildId)
     {
-        lock (taglock)
+        lock (_taglock)
         {
             return _blacklistedTags.TryGetValue(guildId, out var tags) ? new ValueTask<string[]>(tags.ToArray()) : new ValueTask<string[]>(Array.Empty<string>());
         }

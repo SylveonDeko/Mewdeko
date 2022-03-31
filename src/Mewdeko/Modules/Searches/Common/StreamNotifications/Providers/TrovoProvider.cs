@@ -118,7 +118,7 @@ If you are experiencing ratelimits, you should create your own application at: h
                                        .Select(x => x.Select(GetStreamDataAsync)))
         {
             var chunkResults = await Task.WhenAll(chunk);
-            results.AddRange(chunkResults.Where(x => x is not null)!);
+            results.AddRange(chunkResults.Where(x => x is not null));
             await Task.Delay(1000);
         }
 

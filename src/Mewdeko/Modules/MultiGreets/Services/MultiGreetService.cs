@@ -108,7 +108,7 @@ public class MultiGreetService : INService
                         RetryMode = RetryMode.RetryRatelimit
                     });
                     if (greet.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                        msg.DeleteAfter(greet.DeleteTime);
 
                 }
 
@@ -117,9 +117,9 @@ public class MultiGreetService : INService
                     var msg = await channel.SendMessageAsync(plainText, options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
-                    });;
+                    });
                     if (greet.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                        msg.DeleteAfter(greet.DeleteTime);
                 }
 
                 if (embedData is not null && plainText is "")
@@ -127,9 +127,9 @@ public class MultiGreetService : INService
                     var msg = await channel.SendMessageAsync(embed: embedData.Build(), options: new RequestOptions
                     {
                         RetryMode = RetryMode.RetryRatelimit
-                    });;
+                    });
                     if (greet.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                        msg.DeleteAfter(greet.DeleteTime);
                 }
             }
             else
@@ -137,9 +137,9 @@ public class MultiGreetService : INService
                 var msg = await channel.SendMessageAsync(content, options: new RequestOptions
                 {
                     RetryMode = RetryMode.RetryRatelimit
-                });;
+                });
                 if (greet.DeleteTime > 0)
-                    msg.DeleteAfter(int.Parse(greet.DeleteTime.ToString()));
+                    msg.DeleteAfter(greet.DeleteTime);
             }
         }
     }
@@ -160,7 +160,7 @@ public class MultiGreetService : INService
                 {
                     var msg = await channel.SendMessageAsync(plainText, embed: embedData.Build());
                     if (i.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        msg.DeleteAfter(i.DeleteTime);
 
                 }
 
@@ -168,21 +168,21 @@ public class MultiGreetService : INService
                 {
                     var msg = await channel.SendMessageAsync(plainText);
                     if (i.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        msg.DeleteAfter(i.DeleteTime);
                 }
 
                 if (embedData is not null && plainText is "")
                 {
                     var msg = await channel.SendMessageAsync(embed: embedData.Build());
                     if (i.DeleteTime > 0)
-                        msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                        msg.DeleteAfter(i.DeleteTime);
                 }
             }
             else
             {
                 var msg = await channel.SendMessageAsync(content);
                 if (i.DeleteTime > 0)
-                    msg.DeleteAfter(int.Parse(i.DeleteTime.ToString()));
+                    msg.DeleteAfter(i.DeleteTime);
             }
         }
     }
@@ -247,75 +247,39 @@ public class MultiGreetService : INService
         var toadd = new MultiGreet { ChannelId = channelId, GuildId = guildId };
         using var uow = _db.GetDbContext();
         uow.MultiGreets.Add(toadd);
-        _ = uow.SaveChangesAsync();
+        uow.SaveChangesAsync();
         return true;
     }
 
     public async Task ChangeMgMessage(MultiGreet greet, string code)
     {
         await using var uow = _db.GetDbContext();
-        var toadd = new MultiGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = greet.DeleteTime,
-            Message = code,
-            GreetBots = greet.GreetBots,
-            WebhookUrl = greet.WebhookUrl
-        };
-        uow.MultiGreets.Update(toadd);
+        greet.Message = code;
+        uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
 
-    public async Task ChangeMgDelete(MultiGreet greet, ulong howlong)
+    public async Task ChangeMgDelete(MultiGreet greet, int howlong)
     {
         await using var uow = _db.GetDbContext();
-        var toadd = new MultiGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = howlong,
-            GreetBots = greet.GreetBots,
-            Message = greet.Message,
-            WebhookUrl = greet.WebhookUrl
-        };
-        uow.MultiGreets.Update(toadd);
+        greet.DeleteTime = howlong;
+        uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
     
     public async Task ChangeMgGb(MultiGreet greet, bool enabled)
     {
         await using var uow = _db.GetDbContext();
-        var toadd = new MultiGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            ChannelId = greet.ChannelId,
-            DeleteTime = greet.DeleteTime,
-            GreetBots = enabled,
-            Message = greet.Message,
-            WebhookUrl = greet.WebhookUrl
-        };
-        uow.MultiGreets.Update(toadd);
+        greet.GreetBots = enabled;
+        uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
     
     public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
     {
         await using var uow = _db.GetDbContext();
-        var toadd = new MultiGreet
-        {
-            Id = greet.Id,
-            GuildId = greet.GuildId,
-            ChannelId = greet.ChannelId,
-            GreetBots = greet.GreetBots,
-            DeleteTime = greet.DeleteTime,
-            Message = greet.Message,
-            WebhookUrl = webhookurl
-        };
-        uow.MultiGreets.Update(toadd);
+        greet.WebhookUrl = webhookurl;
+        uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync();
     }
 

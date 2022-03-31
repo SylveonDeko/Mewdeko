@@ -29,7 +29,7 @@ public class FeedsService : INService
 
         using (var uow = db.GetDbContext())
         {
-            var guildConfigIds = db.GetDbContext().GuildConfigs.All().Select(x => x.Id).ToList();
+            var guildConfigIds = bot.CachedGuildConfigs.Select(x => x.Id).ToList();
             _subs = uow.GuildConfigs
                 .AsQueryable()
                 .Where(x => guildConfigIds.Contains(x.Id))
@@ -83,13 +83,13 @@ public class FeedsService : INService
                             .WithOverride("%content%", () => feedItem.Description?.StripHtml())
                             .WithOverride("%image_url%", () =>
                             {
-                                if (feedItem.SpecificItem is AtomFeedItem afi)
+                                if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                                 {
-                                    var previewElement = afi.Element.Elements()
+                                    var previewElement = atomFeedItem.Element.Elements()
                                                             .FirstOrDefault(x => x.Name.LocalName == "preview");
 
                                     if (previewElement == null)
-                                        previewElement = afi.Element.Elements()
+                                        previewElement = atomFeedItem.Element.Elements()
                                                             .FirstOrDefault(x => x.Name.LocalName == "thumbnail");
 
                                     if (previewElement != null)
@@ -103,10 +103,10 @@ public class FeedsService : INService
                                         }
                                     }
                                 }
-                                if (feedItem.SpecificItem is not MediaRssFeedItem mrfi
-                                    || !(mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
+                                if (feedItem.SpecificItem is not MediaRssFeedItem mediaRssFeedItem
+                                    || !(mediaRssFeedItem.Enclosure?.MediaType?.StartsWith("image/") ?? false))
                                     return feed.ImageUrl;
-                                var imgUrl = mrfi.Enclosure.Url;
+                                var imgUrl = mediaRssFeedItem.Enclosure.Url;
                                 if (!string.IsNullOrWhiteSpace(imgUrl) &&
                                     Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute))
                                 {
@@ -166,7 +166,6 @@ public class FeedsService : INService
                                                              UriKind.Absolute))
                                 {
                                     embed.WithImageUrl(urlAttribute.Value);
-                                    gotImage = true;
                                 }
                             }
                         }
@@ -217,10 +216,10 @@ public class FeedsService : INService
                          .WithOverride("%author%", () => feedItem.Author ?? "Unknown")
                          .WithOverride("%content%", () => feedItem.Description?.StripHtml()).WithOverride("%image_url%", () => 
                          {
-                             if (feedItem.SpecificItem is AtomFeedItem afi)
+                             if (feedItem.SpecificItem is AtomFeedItem atomFeedItem)
                              {
-                                 var previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
-                                 if (previewElement == null) previewElement = afi.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
+                                 var previewElement = atomFeedItem.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "preview");
+                                 if (previewElement == null) previewElement = atomFeedItem.Element.Elements().FirstOrDefault(x => x.Name.LocalName == "thumbnail");
                                  var urlAttribute = previewElement?.Attribute("url");
                                  if (urlAttribute != null
                                      && !string.IsNullOrWhiteSpace(urlAttribute.Value)
@@ -228,9 +227,9 @@ public class FeedsService : INService
                                      return urlAttribute.Value;
                              }
 
-                             if (feedItem.SpecificItem is not MediaRssFeedItem mrfi || !(mrfi.Enclosure?.MediaType?.StartsWith("image/") ?? false))
+                             if (feedItem.SpecificItem is not MediaRssFeedItem mediaRssFeedItem || !(mediaRssFeedItem.Enclosure?.MediaType?.StartsWith("image/") ?? false))
                                  return feed.ImageUrl;
-                             var imgUrl = mrfi.Enclosure.Url;
+                             var imgUrl = mediaRssFeedItem.Enclosure.Url;
                              if (!string.IsNullOrWhiteSpace(imgUrl) && Uri.IsWellFormedUriString(imgUrl, UriKind.Absolute)) return imgUrl;
 
                              return feed.ImageUrl;
@@ -263,7 +262,6 @@ public class FeedsService : INService
                 if (urlAttribute != null && !string.IsNullOrWhiteSpace(urlAttribute.Value) && Uri.IsWellFormedUriString(urlAttribute.Value, UriKind.Absolute))
                 {
                     embed.WithImageUrl(urlAttribute.Value);
-                    gotImage = true;
                 }
             }
         }
