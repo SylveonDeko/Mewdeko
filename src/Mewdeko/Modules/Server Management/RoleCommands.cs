@@ -40,7 +40,7 @@ public partial class ServerManagement
             {
                 Color = Mewdeko.OkColor,
                 Description =
-                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} channels and {(await ctx.Guild.GetCategoriesAsync())} Categories!!"
+                    $"Succesfully synced perms from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync()).Count(x => x is not SocketThreadChannel)} channels and {await ctx.Guild.GetCategoriesAsync()} Categories!!"
             };
             await msg.ModifyAsync(x => x.Embed = eb.Build());
         }

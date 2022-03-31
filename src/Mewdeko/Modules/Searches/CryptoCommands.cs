@@ -3,7 +3,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Modules.Searches.Services;
-using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Searches;
 
@@ -56,69 +55,5 @@ public partial class Searches
                     .WithImageUrl($"https://s3.coinmarketcap.com/generated/sparklines/web/7d/usd/{crypto.Id}.png"))
                 .ConfigureAwait(false);
         }
-    }
-
-    public class Slow
-    {
-        [JsonProperty("gwei")] public int Gwei { get; set; }
-
-        [JsonProperty("usd")] public double Usd { get; set; }
-    }
-
-    public class Normal
-    {
-        [JsonProperty("gwei")] public int Gwei { get; set; }
-
-        [JsonProperty("usd")] public double Usd { get; set; }
-    }
-
-    public class Fast
-    {
-        [JsonProperty("gwei")] public int Gwei { get; set; }
-
-        [JsonProperty("usd")] public double Usd { get; set; }
-    }
-
-    public class Instant
-    {
-        [JsonProperty("gwei")] public int Gwei { get; set; }
-
-        [JsonProperty("usd")] public double Usd { get; set; }
-    }
-
-    public class Source
-    {
-        [JsonProperty("name")] public string Name { get; set; }
-
-        [JsonProperty("source")] public string Source1 { get; set; }
-
-        [JsonProperty("fast")] public int Fast { get; set; }
-
-        [JsonProperty("standard")] public int? Standard { get; set; }
-
-        [JsonProperty("slow")] public int Slow { get; set; }
-
-        [JsonProperty("lastBlock")] public int? LastBlock { get; set; }
-
-        [JsonProperty("instant")] public int? Instant { get; set; }
-
-        [JsonProperty("lastUpdate")] public long? LastUpdate { get; set; }
-    }
-
-    public class GasAPiResult
-    {
-        [JsonProperty("slow")] public Slow Slow { get; set; }
-
-        [JsonProperty("normal")] public Normal Normal { get; set; }
-
-        [JsonProperty("fast")] public Fast Fast { get; set; }
-
-        [JsonProperty("instant")] public Instant Instant { get; set; }
-
-        [JsonProperty("ethPrice")] public double EthPrice { get; set; }
-
-        [JsonProperty("lastUpdated")] public long LastUpdated { get; set; }
-
-        [JsonProperty("sources")] public List<Source> Sources { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Discord.WebSocket;
 using Mewdeko._Extensions;
-using Mewdeko.Database;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using System.IO;
@@ -14,14 +13,12 @@ public class ConverterService : INService, IUnloadableService
     private readonly IDataCache _cache;
 
     private readonly Timer _currencyUpdater;
-    private readonly DbService _db;
     private readonly IHttpClientFactory _httpFactory;
     private readonly TimeSpan _updateInterval = new(12, 0, 0);
 
-    public ConverterService(DiscordSocketClient client, DbService db,
+    public ConverterService(DiscordSocketClient client,
         IDataCache cache, IHttpClientFactory factory)
     {
-        _db = db;
         _cache = cache;
         _httpFactory = factory;
 

@@ -80,7 +80,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
         }
     }
 
-    private async Task InternalButts(IMessageChannel Channel)
+    private async Task InternalButts(IMessageChannel channel)
     {
         try
         {
@@ -93,7 +93,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                                          .ConfigureAwait(false))[0];
             }
 
-            await Channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
+            await channel.SendMessageAsync($"http://media.obutts.ru/{obj["preview"]}").ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -189,18 +189,18 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
 
         await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
-        async Task<PageBuilder> PageFactory(int page)
+        async Task<PageBuilder> PageFactory(int page1)
         {
             await Task.CompletedTask;
-            var list = result.Books.Skip(page).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
+            var list = result.Books.Skip(page1).FirstOrDefault().Tags.Select(i => $"[{i.Name}](https://nhentai.net{i.Url})").ToList();
             return new PageBuilder().WithOkColor()
-                                    .WithTitle(result.Books.Skip(page).FirstOrDefault().Titles.English)
+                                    .WithTitle(result.Books.Skip(page1).FirstOrDefault().Titles.English)
                                     .WithDescription(string.Join("|", list.Take(20)))
-                                    .AddField("NHentai Magic Number", result.Books.Skip(page).FirstOrDefault().Id)
+                                    .AddField("NHentai Magic Number", result.Books.Skip(page1).FirstOrDefault().Id)
                                     .AddField("NHentai Magic URL",
-                                        $"https://nhentai.net/g/{result.Books.Skip(page).FirstOrDefault().Id}")
-                                    .AddField("Pages", result.Books.Skip(page).FirstOrDefault().PagesCount)
-                                    .WithImageUrl(result.Books.Skip(page).FirstOrDefault().GetCover());
+                                        $"https://nhentai.net/g/{result.Books.Skip(page1).FirstOrDefault().Id}")
+                                    .AddField("Pages", result.Books.Skip(page1).FirstOrDefault().PagesCount)
+                                    .WithImageUrl(result.Books.Skip(page1).FirstOrDefault().GetCover());
         }
     }
 
@@ -238,7 +238,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 return;
         }
 
-        t = new Timer(async state =>
+        t = new Timer(async _ =>
         {
             try
             {
@@ -257,7 +257,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+        Service.AutoHentaiTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
@@ -285,7 +285,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             return;
         }
 
-        t = new Timer(async state =>
+        t = new Timer(async _ =>
         {
             try
             {
@@ -297,7 +297,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+        Service.AutoBoobTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;
@@ -325,7 +325,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
                 return;
         }
 
-        t = new Timer(async state =>
+        t = new Timer(async _ =>
         {
             try
             {
@@ -337,7 +337,7 @@ public class Nsfw : MewdekoModuleBase<ISearchImagesService>
             }
         }, null, interval * 1000, interval * 1000);
 
-        Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (key, old) =>
+        Service.AutoButtTimers.AddOrUpdate(ctx.Channel.Id, t, (_, old) =>
         {
             old.Change(Timeout.Infinite, Timeout.Infinite);
             return t;

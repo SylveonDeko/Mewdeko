@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko._Extensions;
@@ -20,15 +19,13 @@ public partial class Utility
     [Group]
     public class CommandMapCommands : MewdekoSubmodule<CommandMapService>
     {
-        private readonly DiscordSocketClient _client;
         private readonly DbService _db;
         private readonly InteractiveService _interactivity;
 
-        public CommandMapCommands(DbService db, DiscordSocketClient client, InteractiveService serv)
+        public CommandMapCommands(DbService db, InteractiveService serv)
         {
             _interactivity = serv;
             _db = db;
-            _client = client;
         }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
@@ -114,12 +111,8 @@ public partial class Utility
 
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
-        public async Task AliasList(int page = 1)
+        public async Task AliasList()
         {
-            page -= 1;
-
-            if (page < 0)
-                return;
 
             if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || !maps.Any())
             {

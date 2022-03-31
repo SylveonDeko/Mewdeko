@@ -3,31 +3,25 @@ using Serilog;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
-using System.Net.Http;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Mewdeko.Modules.Games.Common;
 
 public class GirlRating
 {
-    private readonly IHttpClientFactory _httpFactory;
-    private readonly IImageCache _images;
-
-    public GirlRating(IImageCache images, IHttpClientFactory factory, double crazy, double hot, int roll,
+    public GirlRating(IImageCache images, double crazy, double hot,
         string advice)
     {
-        _images = images;
+        var images1 = images;
         Crazy = crazy;
         Hot = hot;
-        Roll = roll;
         Advice = advice; // convenient to have it here, even though atm there are only few different ones.
-        _httpFactory = factory;
 
         Stream = new AsyncLazy<Stream>(() =>
         {
             try
             {
-                using var img = Image.Load(_images.RategirlMatrix);
+                using var img = Image.Load(images1.RategirlMatrix);
                 const int minx = 35;
                 const int miny = 385;
                 const int length = 345;
@@ -35,7 +29,7 @@ public class GirlRating
                 var pointx = (int) (minx + (length * (Hot / 10)));
                 var pointy = (int) (miny - (length * ((Crazy - 4) / 6)));
 
-                using (var pointImg = Image.Load(_images.RategirlDot))
+                using (var pointImg = Image.Load(images1.RategirlDot))
                 {
                     img.Mutate(x =>
                         x.DrawImage(pointImg, new Point(pointx - 10, pointy - 10), new GraphicsOptions()));
@@ -64,7 +58,6 @@ public class GirlRating
 
     public double Crazy { get; }
     public double Hot { get; }
-    public int Roll { get; }
     public string Advice { get; }
 
     public AsyncLazy<Stream> Stream { get; }

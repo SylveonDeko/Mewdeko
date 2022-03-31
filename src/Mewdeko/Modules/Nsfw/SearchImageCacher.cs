@@ -13,10 +13,9 @@ namespace Mewdeko.Modules.Nsfw;
 public class SearchImageCacher : INService
 {
     private readonly IHttpClientFactory _httpFactory;
-    private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
     private readonly Random _rng;
 
-    private static readonly ISet<string> defaultTagBlacklist = new HashSet<string>
+    private static readonly ISet<string> _defaultTagBlacklist = new HashSet<string>
     {
         "loli",
         "lolicon",
@@ -83,7 +82,7 @@ public class SearchImageCacher : INService
             {
                 // if any of the tags is a tag banned by discord
                 // do not put that image in the cache
-                if (defaultTagBlacklist.Overlaps(img.Tags))
+                if (_defaultTagBlacklist.Overlaps(img.Tags))
                     continue;
                     
                 // if image doesn't have a proper absolute uri, skip it
@@ -114,7 +113,7 @@ public class SearchImageCacher : INService
         return true;
     }
 
-    private ImageData QueryLocal(string[] tags, bool forceExplicit, Booru type, HashSet<string> blacklistedTags)
+    private ImageData QueryLocal(string[] tags, Booru type, HashSet<string> blacklistedTags)
     {
         var setList = new List<HashSet<ImageData>>();
 
@@ -209,11 +208,11 @@ public class SearchImageCacher : INService
             tags = tags[..2];
 
         // use both tags banned by discord and tags banned on the server 
-        if (blacklistedTags.Overlaps(tags) || defaultTagBlacklist.Overlaps(tags))
+        if (blacklistedTags.Overlaps(tags) || _defaultTagBlacklist.Overlaps(tags))
             return default;
 
         // query for an image
-        var image = QueryLocal(tags, forceExplicit, type, blacklistedTags);
+        var image = QueryLocal(tags, type, blacklistedTags);
         if (image is not null)
             return image;
 
@@ -230,22 +229,22 @@ public class SearchImageCacher : INService
 
         if (!success)
             return default;
-        image = QueryLocal(tags, forceExplicit, type, blacklistedTags);
+        image = QueryLocal(tags, type, blacklistedTags);
 
         return image;
     }
 
-    private readonly ConcurrentDictionary<(Booru, string), int> maxPages = new();
+    private readonly ConcurrentDictionary<(Booru, string), int> _maxPages = new();
 
     public async Task<List<ImageData>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, CancellationToken cancel)
     {
         var tagStr = string.Join(' ', tags.OrderByDescending(x => x));
-        var page = 0;
 
         var attempt = 0;
         while (attempt++ <= 10)
         {
-            if (maxPages.TryGetValue((type, tagStr), out var maxPage))
+            var page = 0;
+            if (_maxPages.TryGetValue((type, tagStr), out var maxPage))
             {
                 if (maxPage == 0)
                 {
@@ -304,7 +303,7 @@ public class SearchImageCacher : INService
             if (images.Count == 0)
             {
                 var tagStr = string.Join(' ', tags.OrderByDescending(x => x));
-                maxPages[(type, tagStr)] = page;
+                _maxPages[(type, tagStr)] = page;
             }
 
             return images;

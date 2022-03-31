@@ -7,18 +7,16 @@ namespace Mewdeko.Tests;
 
 public class GroupGreetTests
 {
-    private GreetGrouper<int> _grouper;
+    private GreetGrouper<int> grouper;
 
     [SetUp]
-    public void Setup()
-    {
-        _grouper = new GreetGrouper<int>();
-    }
+    public void Setup() 
+        => grouper = new GreetGrouper<int>();
 
     [Test]
     public void CreateTest()
     {
-        var created = _grouper.CreateOrAdd(0, 5);
+        var created = grouper.CreateOrAdd(0, 5);
             
         Assert.True(created);
     }
@@ -26,8 +24,8 @@ public class GroupGreetTests
     [Test]
     public void CreateClearTest()
     {
-        _grouper.CreateOrAdd(0, 5);
-        _grouper.ClearGroup(0, 5, out var items);
+        grouper.CreateOrAdd(0, 5);
+        grouper.ClearGroup(0, 5, out var items);
 
         Assert.AreEqual(0, items.Count());
     }
@@ -35,8 +33,8 @@ public class GroupGreetTests
     [Test]
     public void NotCreatedTest()
     {
-        _grouper.CreateOrAdd(0, 5);
-        var created = _grouper.CreateOrAdd(0, 4);
+        grouper.CreateOrAdd(0, 5);
+        var created = grouper.CreateOrAdd(0, 4);
             
         Assert.False(created);
     }
@@ -44,9 +42,9 @@ public class GroupGreetTests
     [Test]
     public void ClearAddedTest()
     {
-        _grouper.CreateOrAdd(0, 5);
-        _grouper.CreateOrAdd(0, 4);
-        _grouper.ClearGroup(0, 5, out var items);
+        grouper.CreateOrAdd(0, 5);
+        grouper.CreateOrAdd(0, 4);
+        grouper.ClearGroup(0, 5, out var items);
 
         var list = items.ToList();
             
@@ -57,19 +55,19 @@ public class GroupGreetTests
     [Test]
     public async Task ClearManyTest()
     {
-        _grouper.CreateOrAdd(0, 5);
+        grouper.CreateOrAdd(0, 5);
             
         // add 15 items
         await Task.WhenAll(Enumerable.Range(10, 15)
-                                     .Select(x => Task.Run(() => _grouper.CreateOrAdd(0, x))));
+                                     .Select(x => Task.Run(() => grouper.CreateOrAdd(0, x))));
             
         // get 5 at most
-        _grouper.ClearGroup(0, 5, out var items);
+        grouper.ClearGroup(0, 5, out var items);
         var list = items.ToList();
         Assert.AreEqual(5, list.Count, $"Count was {list.Count}");
 
         // try to get 15, but there should be 10 left
-        _grouper.ClearGroup(0, 15, out items);
+        grouper.ClearGroup(0, 15, out items);
         list = items.ToList();
         Assert.AreEqual(10, list.Count, $"Count was {list.Count}");
     }

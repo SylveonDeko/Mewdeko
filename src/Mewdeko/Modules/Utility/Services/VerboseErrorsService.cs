@@ -4,7 +4,6 @@ using Mewdeko._Extensions;
 using Mewdeko.Common.Collections;
 using Mewdeko.Database;
 using Mewdeko.Database.Extensions;
-using Mewdeko.Modules.Help.Services;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Utility.Services;
@@ -13,24 +12,22 @@ public class VerboseErrorsService : INService, IUnloadableService
 {
     private readonly CommandHandler _ch;
     private readonly DbService _db;
-    private readonly HelpService _hs;
     private readonly IBotStrings _strings;
     private readonly ConcurrentHashSet<ulong> _guildsEnabled;
     
 
-    public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch, HelpService hs,
+    public VerboseErrorsService(Mewdeko bot, DbService db, CommandHandler ch,
         IBotStrings strings)
     {
         _strings = strings;
         _db = db;
         _ch = ch;
-        _hs = hs;
 
         _ch.CommandErrored += LogVerboseError;
 
-        _guildsEnabled = new ConcurrentHashSet<ulong>(db.GetDbContext().GuildConfigs.All()
+        _guildsEnabled = new ConcurrentHashSet<ulong>(bot.CachedGuildConfigs
                                                         .Where(x => x.VerboseErrors)
-            .Select(x => x.GuildId));
+                                                        .Select(x => x.GuildId));
     }
 
     public Task Unload()

@@ -8,7 +8,6 @@ using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Server_Management.Services;
-using System.Net.Http;
 using PermValue = Discord.PermValue;
 
 namespace Mewdeko.Modules.Server_Management;
@@ -18,14 +17,6 @@ public partial class ServerManagement
     [Group]
     public class ChannelCommands : MewdekoSubmodule<ServerManagementService>
     {
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly IServiceProvider _services;
-
-        public ChannelCommands(IHttpClientFactory httpfact, IServiceProvider services)
-        {
-            _services = services;
-            _httpFactory = httpfact;
-        }
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]

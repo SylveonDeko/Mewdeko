@@ -88,6 +88,7 @@ public partial class Moderation
             }
             catch
             {
+                // ignored
             }
 
             WarningPunishment2 punishment;
@@ -215,10 +216,8 @@ public partial class Moderation
 
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.MuteMembers)]
-        public async Task MWarnlogAll(int page = 1)
+        public async Task MWarnlogAll()
         {
-            if (--page < 0)
-                return;
             var warnings = Service.WarnlogAll(ctx.Guild.Id);
 
             var paginator = new LazyPaginatorBuilder()

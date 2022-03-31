@@ -18,8 +18,8 @@ public class TriviaQuestionPool
             return null;
 
         TriviaQuestion randomQuestion;
-        while (exclude.Contains(randomQuestion = Pool[_rng.Next(0, Pool.Length)])) ;
-
-        return randomQuestion;
+        while (exclude.Contains(randomQuestion = Pool[_rng.Next(0, Pool.Length)]))
+            return randomQuestion;
+        return null;
     }
 }

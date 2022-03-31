@@ -8,11 +8,9 @@ namespace Mewdeko.Tests;
 public class RandomTests
 {
     [SetUp]
-    public void Setup()
-    {
-        Console.OutputEncoding = Encoding.UTF8;
-    }
-        
+    public void Setup() 
+        => Console.OutputEncoding = Encoding.UTF8;
+
     [Test]
     public void Utf8CodepointsToEmoji()
     {

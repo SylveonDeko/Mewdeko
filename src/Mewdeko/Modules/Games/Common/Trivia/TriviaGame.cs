@@ -13,7 +13,6 @@ namespace Mewdeko.Modules.Games.Common.Trivia;
 
 public class TriviaGame
 {
-    private readonly IDataCache _cache;
     private readonly DiscordSocketClient _client;
     private readonly GamesConfig _config;
     private readonly ICurrencyService _cs;
@@ -31,8 +30,7 @@ public class TriviaGame
         IDataCache cache, ICurrencyService cs, IGuild guild, ITextChannel channel,
         TriviaOptions options, string quitCommand)
     {
-        _cache = cache;
-        _questionPool = new TriviaQuestionPool(_cache);
+        _questionPool = new TriviaQuestionPool(cache);
         _strings = strings;
         _client = client;
         _config = config;

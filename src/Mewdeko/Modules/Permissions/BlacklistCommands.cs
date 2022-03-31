@@ -3,7 +3,6 @@ using Discord.Commands;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
 using Mewdeko.Common.TypeReaders;
-using Mewdeko.Database;
 using Mewdeko.Database.Models;
 using Mewdeko.Modules.Permissions.Services;
 
@@ -15,13 +14,8 @@ public partial class Permissions
     public class BlacklistCommands : MewdekoSubmodule<BlacklistService>
     {
         private readonly IBotCredentials _creds;
-        private readonly DbService _db;
 
-        public BlacklistCommands(DbService db, IBotCredentials creds)
-        {
-            _db = db;
-            _creds = creds;
-        }
+        public BlacklistCommands(IBotCredentials creds) => _creds = creds;
 
         [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
         public Task UserBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.User);

@@ -51,7 +51,6 @@ public class SearchesService : INService, IUnloadableService
 
     private readonly ConcurrentDictionary<ulong, HashSet<string>> _blacklistedTags;
     private readonly IDataCache _cache;
-    private readonly DiscordSocketClient _client;
     private readonly IBotCredentials _creds;
     private readonly DbService _db;
     private readonly FontProvider _fonts;
@@ -72,7 +71,6 @@ public class SearchesService : INService, IUnloadableService
         FontProvider fonts, IBotCredentials creds)
     {
         _httpFactory = factory;
-        _client = client;
         _google = google;
         _db = db;
         _imgs = cache.LocalImages;
@@ -82,12 +80,12 @@ public class SearchesService : INService, IUnloadableService
         _rng = new MewdekoRandom();
 
         _blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            db.GetDbContext().GuildConfigs.All().ToDictionary(
+            bot.CachedGuildConfigs.ToDictionary(
                 x => x.GuildId,
                 x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
 
         //translate commands
-        _client.MessageReceived += msg =>
+        client.MessageReceived += msg =>
         {
             var _ = Task.Run(async () =>
             {
@@ -113,14 +111,16 @@ public class SearchesService : INService, IUnloadableService
                         }
                         catch
                         {
+                            // ignored
                         }
 
                     await umsg.Channel.SendConfirmAsync(
                                   $"{umsg.Author.Mention} `:` {text.Replace("<@ ", "<@", StringComparison.InvariantCulture).Replace("<@! ", "<@!", StringComparison.InvariantCulture)}")
-                        .ConfigureAwait(false);
+                              .ConfigureAwait(false);
                 }
                 catch
                 {
+                    // ignored
                 }
             });
             return Task.CompletedTask;

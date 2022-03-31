@@ -142,7 +142,7 @@ public partial class Gambling
                     var digit = (int) (printAmount % 10);
                     using (var img = Image.Load(_images.SlotEmojis[numbers[digit]]))
                     {
-                        bgImage.Mutate(x => x.DrawImage(img, new Point(148 + 105 * digit, 217), 1f));
+                        bgImage.Mutate(x => x.DrawImage(img, new Point(148 + (105 * digit), 217), 1f));
                     }
 
 

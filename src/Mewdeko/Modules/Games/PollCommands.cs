@@ -49,7 +49,7 @@ public partial class Games
                                                $"{Format.Bold(poll.Question)}\n\n{string.Join("\n", poll.Answers.Select(x => $"`{x.Index + 1}.` {Format.Bold(x.Text)}"))}");
                 var count = 1;
                 var builder = new ComponentBuilder();
-                foreach (var i in poll.Answers)
+                foreach (var _ in poll.Answers)
                 {
                     var component =
                         new ButtonBuilder(customId: $"pollbutton:{count}", label: count.ToString());

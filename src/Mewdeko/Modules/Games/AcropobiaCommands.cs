@@ -62,6 +62,7 @@ public partial class Games
                     }
                     catch
                     {
+                        // ignored
                     }
                 });
 

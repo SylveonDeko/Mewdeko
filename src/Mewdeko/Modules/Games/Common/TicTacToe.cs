@@ -147,6 +147,7 @@ public class TicTacToe
                     }
                     catch
                     {
+                        // ignored
                     }
                 }
 
@@ -154,6 +155,7 @@ public class TicTacToe
             }
             catch
             {
+                // ignored
             }
             finally
             {
@@ -259,6 +261,7 @@ public class TicTacToe
                         }
                         catch
                         {
+                            // ignored
                         }
 
                         try
@@ -267,6 +270,7 @@ public class TicTacToe
                         }
                         catch
                         {
+                            // ignored
                         }
 
                         try
@@ -275,6 +279,7 @@ public class TicTacToe
                         }
                         catch
                         {
+                            // ignored
                         }
                     });
                     curUserIndex ^= 1;
