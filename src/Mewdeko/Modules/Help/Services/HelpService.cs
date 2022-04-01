@@ -133,29 +133,32 @@ public class HelpService : ILateExecutor, INService
             }
     }
 
-    public Task HandleJoin(SocketGuild guild) 
-        => _ = Task.Run(async () =>
+    public Task HandleJoin(SocketGuild guild)
     {
-        if (_bot.CachedGuildConfigs.TryGetConfig(guild.Id, out _))
-            return;
-
-        if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
-            return;
-
-        var e = guild.DefaultChannel;
-        var eb = new EmbedBuilder
+        _ = Task.Run(async () =>
         {
-            Description =
-                "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command."
-        };
-        eb.AddField("How to look for commands",
-            "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
-        eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link: https://mewdeko.tech/invite");
-        eb.WithThumbnailUrl(
-            "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
-        eb.WithOkColor();
-        await e.SendMessageAsync(embed: eb.Build());
-    });
+            if (_bot.CachedGuildConfigs.TryGetConfig(guild.Id, out _))
+                return;
+
+            if (_blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
+                return;
+
+            var e = guild.DefaultChannel;
+            var eb = new EmbedBuilder
+            {
+                Description =
+                    "Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `.` This can be changed with the prefix command."
+            };
+            eb.AddField("How to look for commands",
+                "1) Use the .cmds command to see all the categories\n2) use .cmds with the category name to glance at what commands it has. ex: `.cmds mod`\n3) Use .h with a command name to view its help. ex: `.h purge`");
+            eb.AddField("Have any questions, or need my invite link?", "Support Server: https://discord.gg/6n3aa9Xapf \nInvite Link: https://mewdeko.tech/invite");
+            eb.WithThumbnailUrl(
+                "https://media.discordapp.net/attachments/866308739334406174/869220206101282896/nekoha_shizuku_original_drawn_by_amashiro_natsuki__df72ed2f8d84038f83c4d1128969d407.png");
+            eb.WithOkColor();
+            await e.SendMessageAsync(embed: eb.Build());
+        });
+        return Task.CompletedTask;
+    }
 
     public EmbedBuilder GetCommandHelp(CommandInfo com, IGuild guild)
     {
