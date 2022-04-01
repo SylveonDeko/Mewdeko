@@ -23,29 +23,21 @@ public class AdministrationService : INService
     public AdministrationService(Mewdeko bot, CommandHandler cmdHandler, DbService db,
         LogCommandService logService)
     {
-        StaffRole = db.GetDbContext().GuildConfigs.All()
-            .ToDictionary(x => x.GuildId, x => x.StaffRole)
-            .ToConcurrent();
-        MemberRole = db.GetDbContext().GuildConfigs.All()
-            .ToDictionary(x => x.GuildId, x => x.MemberRole)
-            .ToConcurrent();
         _bot = bot;
         _db = db;
         _logService = logService;
 
-        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(db.GetDbContext().GuildConfigs.All()
+        DeleteMessagesOnCommand = new ConcurrentHashSet<ulong>(bot.CachedGuildConfigs
             .Where(g => g.DeleteMessageOnCommand)
             .Select(g => g.GuildId));
 
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(db.GetDbContext().GuildConfigs.All()
+        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(bot.CachedGuildConfigs
             .SelectMany(x => x.DelMsgOnCmdChannels)
             .ToDictionary(x => x.ChannelId, x => x.State)
             .ToConcurrent());
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
     
-    private ConcurrentDictionary<ulong, ulong> StaffRole { get; }
-    private ConcurrentDictionary<ulong, ulong> MemberRole { get; }
     public ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
     public ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
     
@@ -57,8 +49,7 @@ public class AdministrationService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.StaffRole = role;
         await uow.SaveChangesAsync();
-
-        StaffRole.AddOrUpdate(guild.Id, role, (_, _) => role);
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public async Task MemberRoleSet(IGuild guild, ulong role)
@@ -67,23 +58,12 @@ public class AdministrationService : INService
         var gc = uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await uow.SaveChangesAsync();
-
-        MemberRole.AddOrUpdate(guild.Id, role, (_, _) => role);
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
-    public ulong GetStaffRole(ulong? id)
-    {
-        Debug.Assert(id != null, $"{nameof(id)} != null");
-        StaffRole.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    public ulong GetStaffRole(ulong id) => _bot.GetGuildConfig(id).StaffRole;
 
-    public ulong GetMemberRole(ulong? id)
-    {
-        Debug.Assert(id != null, $"{nameof(id)} != null");
-        MemberRole.TryGetValue(id.Value, out var snum);
-        return snum;
-    }
+    public ulong GetMemberRole(ulong id) => _bot.GetGuildConfig(id).MemberRole;
 
     public (bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels) GetDelMsgOnCmdData(ulong guildId)
     {

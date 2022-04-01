@@ -46,16 +46,10 @@ public class BotStrings : IBotStrings
     public CommandStrings GetCommandStrings(string commandName, CultureInfo cultureInfo)
     {
         var cmdStrings = _stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
-        if (cmdStrings is not null) return cmdStrings;
-        if (cultureInfo.Name != _usCultureInfo.Name) return GetCommandStrings(commandName, _usCultureInfo);
-        Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this",
-            commandName);
-
-        return new CommandStrings
-        {
-            Args = new[] { "" },
-            Desc = "?"
-        };
+        if (cmdStrings is not null || cultureInfo.Name == _usCultureInfo.Name) return _stringsProvider.GetCommandStrings(_usCultureInfo.Name, commandName);
+        if (_stringsProvider.GetCommandStrings(_usCultureInfo.Name, commandName) is not null) return _stringsProvider.GetCommandStrings(_usCultureInfo.Name, commandName);
+        Log.Warning("'{CommandName}' doesn't exist in 'en-US' command strings. Please report this", commandName);
+        return new CommandStrings { Args = new[] { "" }, Desc = "?" };
     }
 
     public void Reload() => _stringsProvider.Reload();
