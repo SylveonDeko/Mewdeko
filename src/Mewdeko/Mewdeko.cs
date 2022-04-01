@@ -61,7 +61,8 @@ public class Mewdeko
             TotalShards = Credentials.TotalShards,
             ShardId = shardId,
             AlwaysDownloadUsers = true,
-            GatewayIntents = GatewayIntents.All ^ GatewayIntents.GuildPresences ^ GatewayIntents.GuildInvites ^ GatewayIntents.GuildScheduledEvents
+            GatewayIntents = GatewayIntents.All,
+            LogGatewayIntentWarnings = false
         });
         CommandService = new CommandService(new CommandServiceConfig
         {
@@ -278,9 +279,6 @@ public class Mewdeko
         Client.JoinedGuild += Client_JoinedGuild;
         Client.LeftGuild += Client_LeftGuild;
         Log.Information("Shard {0} logged in.", Client.ShardId);
-        #if !DEBUG
-        Client.Log -= Client_Log;
-        #endif
     }
 
     private Task Client_LeftGuild(SocketGuild arg)
@@ -317,9 +315,8 @@ public class Mewdeko
         {
             gc = uow.ForGuildId(arg.Id);
         }
-
+        CachedGuildConfigs.Add(gc);
         await JoinedGuild.Invoke(gc).ConfigureAwait(false);
-
         var chan = await Client.Rest.GetChannelAsync(892789588739891250) as RestTextChannel;
         var eb = new EmbedBuilder();
         eb.WithTitle($"Joined {Format.Bold(arg.Name)}");
@@ -355,7 +352,7 @@ public class Mewdeko
         Log.Information("Shard {ShardId} connected in {Elapsed:F2}s", Client.ShardId, sw.Elapsed.TotalSeconds);
         var commandService = Services.GetService<CommandService>();
         var interactionService = Services.GetRequiredService<InteractionService>();
-        await commandService!.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
+        await commandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
                              .ConfigureAwait(false);
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
