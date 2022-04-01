@@ -282,7 +282,8 @@ public class Mewdeko
     }
 
     private Task Client_LeftGuild(SocketGuild arg)
-        => _ = Task.Run(async () =>
+    {
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -301,9 +302,12 @@ public class Mewdeko
 
             Log.Information("Left server: {0} [{1}]", arg.Name, arg.Id);
         });
+        return Task.CompletedTask;
+    }
 
     private Task Client_JoinedGuild(SocketGuild arg)
-        => _ = Task.Run(async () =>
+    {
+        _ = Task.Run(async () =>
         {
             await arg.DownloadUsersAsync();
             Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
@@ -329,8 +333,10 @@ public class Mewdeko
             eb.WithColor(OkColor);
             await chan.SendMessageAsync(embed: eb.Build());
         });
+        return Task.CompletedTask;
+    }
 
-        private async Task RunAsync()
+    private async Task RunAsync()
     {
         var sw = Stopwatch.StartNew();
 

@@ -28,22 +28,25 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         client.JoinedGuild += CheckBlacklist;
     }
 
-    private Task CheckBlacklist(SocketGuild arg) 
-        => _ = Task.Run(async () =>
+    private Task CheckBlacklist(SocketGuild arg)
     {
-        if (BlacklistEntries.Select(x => x.ItemId).Contains(arg.Id))
+        _ = Task.Run(async () =>
         {
-            var channel = arg.DefaultChannel;
-            if (channel is null)
+            if (BlacklistEntries.Select(x => x.ItemId).Contains(arg.Id))
             {
-                await arg.LeaveAsync();
-                return;
-            }
+                var channel = arg.DefaultChannel;
+                if (channel is null)
+                {
+                    await arg.LeaveAsync();
+                    return;
+                }
 
-            await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.");
-            await arg.LeaveAsync();
-        }
-    });
+                await channel.SendErrorAsync("This server has been blacklisted. Please click the button below to potentially appeal your server ban.");
+                await arg.LeaveAsync();
+            }
+        });
+        return Task.CompletedTask;
+    }
 
     public int Priority => -100;
 
