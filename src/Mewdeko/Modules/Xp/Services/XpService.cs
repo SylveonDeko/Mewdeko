@@ -360,10 +360,10 @@ public class XpService : INService, IUnloadableService
         return uow.UserXpStats.GetUsersFor(guildId, page);
     }
 
-    public List<UserXpStats> GetTopUserXps(ulong guildId, int count)
+    public List<UserXpStats> GetTopUserXps(ulong guildId)
     {
         using var uow = _db.GetDbContext();
-        return uow.UserXpStats.GetTopUserXps(guildId, count);
+        return uow.UserXpStats.GetTopUserXps(guildId);
     }
 
     public DiscordUser[] GetUserXps(int page)
