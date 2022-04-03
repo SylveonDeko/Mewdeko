@@ -7,7 +7,7 @@ using Mewdeko.Extensions;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
-public class Suggestions : MewdekoModuleBase<SuggestionsService>
+public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
 {
 
     [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
