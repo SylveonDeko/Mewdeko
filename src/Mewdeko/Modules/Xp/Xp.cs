@@ -453,7 +453,7 @@ public partial class Xp : MewdekoModuleBase<XpService>
         await Context.Channel.TriggerTypingAsync();
 
         var socketGuild = (SocketGuild) ctx.Guild;
-        var allUsers = new List<UserXpStats>();
+        List<UserXpStats> allUsers;
         if (opts.Clean)
         {
             await Context.Channel.TriggerTypingAsync().ConfigureAwait(false);
