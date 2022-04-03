@@ -32,38 +32,20 @@ public class ChatterBotService : INService
         _creds = creds;
         _httpFactory = factory;
         _client.MessageReceived += MessageRecieved;
-
-        ChatterBotChannels = new ConcurrentDictionary<ulong, Lazy<IChatterBotSession>>(
-            bot.CachedGuildConfigs
-                .Where(gc => gc.CleverbotChannel != 0)
-                .ToDictionary(gc => gc.CleverbotChannel,
-                    _ => new Lazy<IChatterBotSession>(CreateSession, true)));
     }
-
-    public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> ChatterBotChannels { get; }
 
     public static int Priority => -1;
     public static ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
+    public ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
+
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
-        ulong currentChannel;
-        await using (var uow = _db.GetDbContext())
-        {
-            var gc = uow.ForGuildId(guild.Id, set => set);
-            currentChannel = gc.CleverbotChannel;
-            gc.CleverbotChannel = id;
-            await uow.SaveChangesAsync();
-            _bot.UpdateGuildConfig(guild.Id, gc);
-        }
-
-        if (id == 0)
-            ChatterBotChannels.TryRemove(currentChannel, out _);
-        else
-        {
-            ChatterBotChannels.TryRemove(currentChannel, out _);
-            ChatterBotChannels.TryAdd(id,
-                new Lazy<IChatterBotSession>(CreateSession, true));}
+        await using var uow = _db.GetDbContext();
+        var gc = uow.ForGuildId(guild.Id, set => set);
+        gc.CleverbotChannel = id;
+        await uow.SaveChangesAsync();
+        _bot.UpdateGuildConfig(guild.Id, gc);
     }
 
     public ulong GetCleverbotChannel(ulong id) => _bot.GetGuildConfig(id).CleverbotChannel;
@@ -124,9 +106,15 @@ public class ChatterBotService : INService
         cleverbot = null;
         if (msg?.Channel is not ITextChannel channel)
             return null;
-        
-        if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))
+        if (GetCleverbotChannel(channel.Guild.Id) == 0)
             return null;
+
+        if (!CleverbotUsers.TryGetValue(msg.Author.Id, out var lazyCleverbot))
+        {
+            CleverbotUsers.TryAdd(msg.Author.Id, new Lazy<IChatterBotSession>(CreateSession, true));
+            CleverbotUsers.TryGetValue(msg.Author.Id, out lazyCleverbot);
+        }
+        
       
         cleverbot = lazyCleverbot.Value;
 
