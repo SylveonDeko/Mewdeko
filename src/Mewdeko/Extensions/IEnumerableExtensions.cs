@@ -27,7 +27,17 @@ public static class EnumerableExtensions
     public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey) =>
         data.GroupBy(getKey)
             .Select(x => x.First());
-    
+
+    public static void Move<T>(this List<T> list, T item, int newIndex)
+    {
+        if (item == null) return;
+        var oldIndex = list.IndexOf(item);
+        if (oldIndex <= -1) return;
+        list.RemoveAt(oldIndex);
+        if (newIndex > oldIndex) newIndex--;
+        list.Insert(newIndex, item);
+    }
+
     public static async Task<List<T>> GetResults<T>(this IEnumerable<Task<T>> tasks) {
         var res = new List<T>();
 

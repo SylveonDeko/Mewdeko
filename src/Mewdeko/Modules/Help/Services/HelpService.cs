@@ -64,7 +64,7 @@ public class HelpService : ILateExecutor, INService
         public DateTime Time { get; set; }
     }
 
-    public Task AddUser(IUserMessage msg, DateTime time)
+    public static Task AddUser(IUserMessage msg, DateTime time)
     {
         var tocheck = UsrMsg.FirstOrDefault(x => x.Msg == msg);
         if (tocheck is not null)

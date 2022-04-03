@@ -104,7 +104,7 @@ public class Help : MewdekoModuleBase<HelpService>
         embed.WithAuthor(new EmbedAuthorBuilder().WithIconUrl(ctx.Client.CurrentUser.RealAvatarUrl().ToString())
             .WithName("Mewdeko Help Menu"));
         embed.AddField("Getting Started", "https://mewdeko.tech/getting-started");
-        embed.WithColor(Mewdeko.OkColor);
+        embed.WithOkColor();
         embed.WithDescription(
             $"\nDo `{Prefix}help command` to see a description of a command you need more info on!" + 
             $"\nDo `{Prefix}cmds category` to see the commands in that module.");
@@ -125,7 +125,7 @@ public class Help : MewdekoModuleBase<HelpService>
             Console.WriteLine(e);
             throw;
         }
-        await Service.AddUser(ctx.Message, DateTime.UtcNow);
+        await HelpService.AddUser(ctx.Message, DateTime.UtcNow);
     }
     
     [MewdekoCommand, Usage, Description, Aliases]
