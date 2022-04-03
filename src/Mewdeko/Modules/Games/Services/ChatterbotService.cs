@@ -47,22 +47,26 @@ public class ChatterBotService : INService
 
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
+        ulong currentChannel;
         await using (var uow = _db.GetDbContext())
         {
             var gc = uow.ForGuildId(guild.Id, set => set);
+            currentChannel = gc.CleverbotChannel;
             gc.CleverbotChannel = id;
             await uow.SaveChangesAsync();
             _bot.UpdateGuildConfig(guild.Id, gc);
         }
 
         if (id == 0)
-            ChatterBotChannels.TryRemove(id, out _);
+            ChatterBotChannels.TryRemove(currentChannel, out _);
         else
+        {
+            ChatterBotChannels.TryRemove(currentChannel, out _);
             ChatterBotChannels.TryAdd(id,
-                new Lazy<IChatterBotSession>(() => CreateSession(), true));
+                new Lazy<IChatterBotSession>(CreateSession, true));}
     }
 
-    public ulong GetCleverbotChannel(ulong id) => _db.GetDbContext().GuildConfigs.GetCleverbotChannel(id);
+    public ulong GetCleverbotChannel(ulong id) => _bot.GetGuildConfig(id).CleverbotChannel;
 
     public Task MessageRecieved(SocketMessage msg)
     {
@@ -123,7 +127,7 @@ public class ChatterBotService : INService
         
         if (!ChatterBotChannels.TryGetValue(channel.Id, out var lazyCleverbot))
             return null;
-        
+      
         cleverbot = lazyCleverbot.Value;
 
         var mewdekoId = _client.CurrentUser.Id;
