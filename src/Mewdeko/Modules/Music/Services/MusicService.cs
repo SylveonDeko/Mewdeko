@@ -329,22 +329,29 @@ public class MusicService : INService
             }
         }
         
-        private async Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
+        private Task HandleDisconnect(SocketUser user, SocketVoiceState before, SocketVoiceState after)
         {
-            var player = _lavaNode.GetPlayer(before.VoiceChannel?.Guild.Id ?? after.VoiceChannel.Guild.Id);
-            if (before.VoiceChannel is not null && player is not null)
-                if (before.VoiceChannel.Users.Count == 1 &&
-                    (await GetSettingsInternalAsync(before.VoiceChannel.Guild.Id)).AutoDisconnect is AutoDisconnect.Either
-                        or AutoDisconnect.Voice)
-                    try
-                    {
-                        await player.StopAsync(true);
-                        await QueueClear(before.VoiceChannel.Guild.Id);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+            _ = Task.Run(async () =>
+            {
+                var player = _lavaNode.GetPlayer(before.VoiceChannel?.Guild.Id ?? after.VoiceChannel.Guild.Id);
+                if (before.VoiceChannel is not null && player is not null)
+                {
+                    if (player.VoiceChannelId != before.VoiceChannel.Id)
+                        return;
+                    if (before.VoiceChannel.Users.Count == 1
+                        && (await GetSettingsInternalAsync(before.VoiceChannel.Guild.Id)).AutoDisconnect is AutoDisconnect.Either or AutoDisconnect.Voice)
+                        try
+                        {
+                            await player.StopAsync(true);
+                            await QueueClear(before.VoiceChannel.Guild.Id);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                }
+            });
+            return Task.CompletedTask;
         }
         
         public void Shuffle(IGuild guild) => 
