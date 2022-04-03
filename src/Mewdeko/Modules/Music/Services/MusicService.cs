@@ -251,6 +251,23 @@ public class MusicService : INService
                     break;
             }
         }
+
+        public Task<bool> MoveSong(ulong guildId, int index, int newIndex)
+        {
+            var queue = Queues.GetOrAdd(guildId, new List<LavalinkTrack>());
+            try
+            {
+                _ = queue.ElementAt(--index);
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
+            if (queue[--index] == null)
+                return Task.FromResult(false);
+            queue.Move(queue[index], --newIndex);
+            return Task.FromResult(true);
+        }
         public LavalinkTrack GetCurrentTrack(LavalinkPlayer player, IGuild guild)
         {
             var queue = GetQueue(guild.Id);
