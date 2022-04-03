@@ -40,86 +40,83 @@ public class SuggestionsService : INService
     }
     
 
-    private async Task MessageRecieved(SocketMessage msg)
+    private Task MessageRecieved(SocketMessage msg)
     {
-        if (msg.Channel is not ITextChannel chan)
-            return;
-        var guild = (msg.Channel as IGuildChannel)?.Guild;
-        var prefix = CmdHandler.GetPrefix(guild);
-        if (guild != null
-            && msg.Channel.Id == GetSuggestionChannel(guild.Id)
-            && msg.Author.IsBot == false
-            && !msg.Content.StartsWith(prefix))
+        _ = Task.Run(async () =>
         {
-            if (msg.Channel.Id != GetSuggestionChannel(guild.Id))
+            if (msg.Channel is not ITextChannel chan)
                 return;
-            var guser = msg.Author as IGuildUser;
-            var pc = _perms.GetCacheFor(guild.Id);
-            var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(),
-                out _);
-            if (!test)
-                return;
-            if (guser.RoleIds.Contains(Adminserv.GetStaffRole(guser.Guild.Id)))
-                return;
-            if (msg.Content.Length > GetMaxLength(guild.Id))
+            var guild = chan?.Guild;
+            var prefix = CmdHandler.GetPrefix(guild);
+            if (guild != null && chan.Id == GetSuggestionChannel(guild.Id) && msg.Author.IsBot == false && !msg.Content.StartsWith(prefix))
             {
+                if (chan.Id != GetSuggestionChannel(guild.Id))
+                    return;
+                var guser = msg.Author as IGuildUser;
+                var pc = _perms.GetCacheFor(guild.Id);
+                var test = pc.Permissions.CheckPermissions(msg as IUserMessage, "suggest", "Suggestions".ToLowerInvariant(), out _);
+                if (!test)
+                    return;
+                if (guser.RoleIds.Contains(Adminserv.GetStaffRole(guser.Guild.Id)))
+                    return;
+                if (msg.Content.Length > GetMaxLength(guild.Id))
+                {
+                    try
+                    {
+                        await msg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    try
+                    {
+                        await guser.SendErrorAsync($"Cannot send this suggestion as its over the max length `({GetMaxLength(guild.Id)})` of this server!");
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    return;
+                }
+
+                if (msg.Content.Length < GetMinLength(guild.Id))
+                {
+                    try
+                    {
+                        await msg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    try
+                    {
+                        await guser.SendErrorAsync($"Cannot send this suggestion as its under the minimum length `({GetMaxLength(guild.Id)})` of this server!");
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+
+                    return;
+                }
+
+                await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content, msg.Channel as ITextChannel);
                 try
                 {
                     await msg.DeleteAsync();
                 }
                 catch
                 {
-                    // ignore
+                    //ignored
                 }
-
-                try
-                {
-                    await guser.SendErrorAsync(
-                        $"Cannot send this suggestion as its over the max length `({GetMaxLength(guild.Id)})` of this server!");
-                }
-                catch
-                {
-                    // ignore
-                }
-
-                return;
             }
-
-            if (msg.Content.Length < GetMinLength(guild.Id))
-            {
-                try
-                {
-                    await msg.DeleteAsync();
-                }
-                catch
-                {
-                    // ignore
-                }
-
-                try
-                {
-                    await guser.SendErrorAsync(
-                        $"Cannot send this suggestion as its under the minimum length `({GetMaxLength(guild.Id)})` of this server!");
-                }
-                catch
-                {
-                    // ignore
-                }
-
-                return;
-            }
-
-            await SendSuggestion(chan.Guild, msg.Author as IGuildUser, Client, msg.Content,
-                msg.Channel as ITextChannel);
-            try
-            {
-                await msg.DeleteAsync();
-            }
-            catch
-            {
-                //ignored
-            }
-        }
+        });
+        return Task.CompletedTask;
     }
 
     private ulong GetSNum(ulong? id) 
@@ -263,7 +260,7 @@ public class SuggestionsService : INService
             {
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied")
+                    .WithTitle($"Suggestion #{suggestion} Denied")
                     .WithDescription(suggest.Suggestion)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -274,7 +271,7 @@ public class SuggestionsService : INService
                     .GetMessageAsync(suggest.MessageID);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied")
+                    .WithTitle($"Suggestion #{suggestion} Denied")
                     .WithDescription(desc.Embeds.FirstOrDefault()?.Description)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -300,7 +297,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied");
+                emb.WithTitle($"Suggestion #{suggestion} Denied");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Denied By", user);
@@ -363,7 +360,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Denied");
+                emb.WithTitle($"Suggestion #{suggestion} Denied");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Denied By", user);
@@ -414,7 +411,7 @@ public class SuggestionsService : INService
             {
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering")
+                    .WithTitle($"Suggestion #{suggestion} Considering")
                     .WithDescription(suggest.Suggestion)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -425,7 +422,7 @@ public class SuggestionsService : INService
                     .GetMessageAsync(suggest.MessageID);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering")
+                    .WithTitle($"Suggestion #{suggestion} Considering")
                     .WithDescription(desc.Embeds.FirstOrDefault().Description)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -451,7 +448,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering");
+                emb.WithTitle($"Suggestion #{suggestion} Considering");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Denied By", user);
@@ -512,7 +509,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Considering");
+                emb.WithTitle($"Suggestion #{suggestion} Considering");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Considered by", user);
@@ -563,7 +560,7 @@ public class SuggestionsService : INService
             {
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented")
+                    .WithTitle($"Suggestion #{suggestion} Implemented")
                     .WithDescription(suggest.Suggestion)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -574,7 +571,7 @@ public class SuggestionsService : INService
                     .GetMessageAsync(suggest.MessageID);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented")
+                    .WithTitle($"Suggestion #{suggestion} Implemented")
                     .WithDescription(desc.Embeds.FirstOrDefault().Description)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -600,7 +597,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented");
+                emb.WithTitle($"Suggestion #{suggestion} Implemented");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Implemented By", user);
@@ -665,7 +662,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Implemented");
+                emb.WithTitle($"Suggestion #{suggestion} Implemented");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Implemented By", user);
@@ -712,7 +709,7 @@ public class SuggestionsService : INService
             {
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted")
+                    .WithTitle($"Suggestion #{suggestion} Accepted")
                     .WithDescription(suggest.Suggestion)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -723,7 +720,7 @@ public class SuggestionsService : INService
                     .GetMessageAsync(suggest.MessageID);
                 eb = new EmbedBuilder()
                     .WithAuthor(use)
-                    .WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted")
+                    .WithTitle($"Suggestion #{suggestion} Accepted")
                     .WithDescription(desc.Embeds.FirstOrDefault().Description)
                     .WithOkColor()
                     .AddField("Reason", rs);
@@ -749,7 +746,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted");
+                emb.WithTitle($"Suggestion #{suggestion} Accepted");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Accepted By", user);
@@ -786,7 +783,7 @@ public class SuggestionsService : INService
                 .WithOverride("%suggest.user%", () => suguse.ToString())
                 .WithOverride("%suggest.user.id%", () => suguse.Id.ToString())
                 .WithOverride("%suggest.message%", () => sug.SanitizeMentions(true))
-                .WithOverride("%suggest.number%", () => suggest.SuggestID.ToString())
+                .WithOverride("%suggest.number%", () => suggestion.ToString())
                 .WithOverride("%suggest.user.name%", () => suguse.Username)
                 .WithOverride("%suggest.user.avatar%", () => suguse.RealAvatarUrl().ToString())
                 .WithOverride("%suggest.mod.user%", () => user.ToString())
@@ -813,7 +810,7 @@ public class SuggestionsService : INService
             {
                 var emb = new EmbedBuilder();
                 emb.WithAuthor(use);
-                emb.WithTitle($"Suggestion #{GetSNum(guild.Id) - 1} Accepted");
+                emb.WithTitle($"Suggestion #{suggestion} Accepted");
                 emb.WithDescription(suggest.Suggestion);
                 emb.AddField("Reason", rs);
                 emb.AddField("Accepted By", user);
