@@ -24,7 +24,7 @@ public class HelpService : ILateExecutor, INService
     private readonly Mewdeko _bot;
     private readonly BlacklistService _blacklistService;
     private readonly IBotStrings _strings;
-    public readonly ComponentBuilder Builder;
+    private readonly CommandService _cmds;
     
     public HelpService(
         CommandHandler ch,
@@ -33,44 +33,31 @@ public class HelpService : ILateExecutor, INService
         BotConfigService bss,
         DiscordSocketClient client,
         Mewdeko bot,
-        BlacklistService blacklistService)
+        BlacklistService blacklistService, CommandService cmds)
     {
         _client = client;
         _bot = bot;
         _blacklistService = blacklistService;
+        _cmds = cmds;
         _ch = ch;
         _strings = strings;
         _dpos = dpos;
         _bss = bss;
         _client.MessageReceived += HandlePing;
         _client.JoinedGuild += HandleJoin;
-        Builder = new ComponentBuilder().WithSelectMenu("helpselect",
-            new List<SelectMenuOptionBuilder>
-            {
-                new SelectMenuOptionBuilder().WithLabel("Administration").WithDescription("Shows administration commands.").WithValue("admin"),
-                new SelectMenuOptionBuilder().WithLabel("Afk").WithDescription("Shows AFK Commands").WithValue("afk"),
-                new SelectMenuOptionBuilder().WithLabel("ChatTriggers").WithDescription("Shows ChatTriggers commands").WithValue("chattriggers"),
-                new SelectMenuOptionBuilder().WithLabel("Confessions").WithDescription("Shows Confessions Commands").WithValue("confessions"),
-                new SelectMenuOptionBuilder().WithLabel("Games").WithDescription("Shows Games Commands").WithValue("games"),
-                new SelectMenuOptionBuilder().WithLabel("Gambling").WithDescription("Shows Gambling Commands").WithValue("gambling"),
-                new SelectMenuOptionBuilder().WithLabel("Giveaways").WithDescription("Shows Giveaways Commands").WithValue("giveaways"),
-                new SelectMenuOptionBuilder().WithLabel("Help").WithDescription("Shows Help Commands").WithValue("help"),
-                new SelectMenuOptionBuilder().WithLabel("Highlights").WithDescription("Shows Highlights Commands").WithValue("highlights"),
-                new SelectMenuOptionBuilder().WithLabel("Moderation").WithDescription("Shows Moderation Commands").WithValue("mod"),
-                new SelectMenuOptionBuilder().WithLabel("MultiGreets").WithDescription("Shows MultiGreet Commands").WithValue("multigreets"),
-                new SelectMenuOptionBuilder().WithLabel("NSFW").WithDescription("Shows NSFW Commands").WithValue("nsfw"),
-                new SelectMenuOptionBuilder().WithLabel("Permissions").WithDescription("Shows Permissions Commands").WithValue("permissions"),
-                new SelectMenuOptionBuilder().WithLabel("RoleGreets").WithDescription("Shows RoleGreets commands").WithValue("rolegreets"),
-                new SelectMenuOptionBuilder().WithLabel("Searches").WithDescription("Shows Searches Commands").WithValue("searches"),
-                new SelectMenuOptionBuilder().WithLabel("Server Management").WithDescription("Shows Server Management Commands").WithValue("server"),
-                new SelectMenuOptionBuilder().WithLabel("Starboard").WithDescription("Shows Starboard Commands").WithValue("starboard"),
-                new SelectMenuOptionBuilder().WithLabel("Suggestions").WithDescription("Shows Suggestions Commands").WithValue("suggestions"),
-                new SelectMenuOptionBuilder().WithLabel("Utility").WithDescription("Shows Utility Commands").WithValue("utility"),
-                new SelectMenuOptionBuilder().WithLabel("Xp").WithDescription("Shows Xp Commands").WithValue("xp")
-            });
         _ = ClearHelp();
     }
-    
+
+    public ComponentBuilder GetHelpSelect(IGuild? guild)
+    {
+        var modules = _cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var selMenu = new SelectMenuBuilder().WithCustomId("helpselect");
+        foreach (var i in modules)
+        {
+            selMenu.Options.Add(new SelectMenuOptionBuilder().WithLabel(i.Name).WithDescription(GetText($"module_description_{i.Name.ToLower()}", guild)).WithValue(i.Name.ToLower()));
+        }
+        return new ComponentBuilder().WithSelectMenu(selMenu);
+    }
     public record UMsg
     {
         public IUserMessage Msg { get; set; }

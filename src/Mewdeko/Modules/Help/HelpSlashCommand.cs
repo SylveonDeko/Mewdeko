@@ -51,7 +51,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             true);
         embed.AddField(" Links",
             $"[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id={ctx.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
-        await ctx.Interaction.RespondAsync(embed: embed.Build(), components: Service.Builder.Build());
+        await ctx.Interaction.RespondAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
     }
 
     [ComponentInteraction("helpselect")]
