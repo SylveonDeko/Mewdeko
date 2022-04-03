@@ -25,6 +25,7 @@ public class BotStrings : IBotStrings
 
     public string GetText(string key, CultureInfo cultureInfo, params object[] data)
     {
+        if (cultureInfo.Name == "owo") data = data.Select(x => OWOServices.OWOIfy(x.ToString())).ToArray();
         try
         {
             return string.Format(GetText(key, cultureInfo), data);
