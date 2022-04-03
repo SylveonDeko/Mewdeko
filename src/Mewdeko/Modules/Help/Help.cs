@@ -115,8 +115,16 @@ public class Help : MewdekoModuleBase<HelpService>
         }
         embed.AddField(" Links",
             "[Documentation](https://mewdeko.tech) | [Support Server](https://discord.gg/wB9FBMreRk) | [Invite Me](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko) ");
-        
-        await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.Builder.Build());
+
+        try
+        {
+            await ctx.Channel.SendMessageAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         await Service.AddUser(ctx.Message, DateTime.UtcNow);
     }
     
