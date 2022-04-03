@@ -23,9 +23,9 @@ public static class XpExtensions
         set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
            .Skip(page * 9).Take(9).ToList();
 
-    public static List<UserXpStats> GetTopUserXps(this DbSet<UserXpStats> set,ulong guildId, int count) =>
+    public static List<UserXpStats> GetTopUserXps(this DbSet<UserXpStats> set,ulong guildId) =>
         set.AsQueryable().AsNoTracking().Where(x => x.GuildId == guildId).OrderByDescending(x => x.Xp + x.AwardedXp)
-           .Take(count).ToList();
+           .ToList();
 
     public static  int GetUserGuildRanking(this DbSet<UserXpStats> set,ulong userId, ulong guildId) =>
         set.AsQueryable().AsNoTracking().Count(x =>
