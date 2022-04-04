@@ -199,6 +199,24 @@ public class SuggestionsService : INService
         await uow.SaveChangesAsync();
         _bot.UpdateGuildConfig(guild.Id, gc);
     }
+    
+    // public async Task SetSuggestThreads(IGuild guild, bool enabled)
+    // {
+    //     await using var uow = Db.GetDbContext();
+    //     var gc = uow.ForGuildId(guild.Id, set => set);
+    //     gc.SuggestionThreads = enabled;
+    //     await uow.SaveChangesAsync();
+    //     _bot.UpdateGuildConfig(guild.Id, gc);
+    // }
+    //
+    // public async Task SetSuggestThreadsType(IGuild guild, int num)
+    // {
+    //     await using var uow = Db.GetDbContext();
+    //     var gc = uow.ForGuildId(guild.Id, set => set);
+    //     gc.SuggestionThreadType = num;
+    //     await uow.SaveChangesAsync();
+    //     _bot.UpdateGuildConfig(guild.Id, gc);
+    // }
 
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
@@ -234,6 +252,12 @@ public class SuggestionsService : INService
 
     public string GetConsiderMessage(IGuild guild)
         => _bot.GetGuildConfig(guild.Id).ConsiderMessage;
+
+    // public bool GetSuggestThreads(IGuild guild) 
+    //     => _bot.GetGuildConfig(guild.Id).SuggestionThreads;
+    //
+    // public int GetThreadType(IGuild guild)
+    //     => _bot.GetGuildConfig(guild.Id).SuggestionThreadType;
     
     public async Task SendDenyEmbed(IGuild guild, DiscordSocketClient client, IUser user, ulong suggestion,
         ITextChannel channel, string? reason = null, IDiscordInteraction? interaction = null)
@@ -856,7 +880,7 @@ public class SuggestionsService : INService
         if (em is not null and not "disable")
         {
             var te = em.Split(",");
-            foreach (var emote in te) emotes.Add(Emote.Parse(emote));
+            emotes.AddRange(te.Select(Emote.Parse));
         }
 
         if (GetSuggestionMessage(guild) is "-" or "")
@@ -876,6 +900,26 @@ public class SuggestionsService : INService
             else
                 foreach (var ei in emotes)
                     await t.AddReactionAsync(ei);
+
+            // if (GetSuggestThreads(guild))
+            // {
+            //     if (GetThreadType(guild) == 0)
+            //         await channel.CreateThreadAsync($"Suggestion {sugnum1}", message: t);
+            //     else
+            //     {
+            //         try
+            //         {
+            //             var thread = await channel.CreateThreadAsync($"Suggestion {sugnum1}", message: t, type: ThreadType.PrivateThread);
+            //             await thread.AddUserAsync(user);
+            //         }
+            //         catch (Exception e)
+            //         {
+            //             Console.WriteLine(e);
+            //             throw;
+            //         }
+            //     }
+            // }
+            
             await Sugnum(guild, sugnum1 + 1);
             await Suggest(guild, sugnum1, t.Id, user.Id, suggestion);
             if (interaction is not null)

@@ -9,8 +9,11 @@ namespace Mewdeko.Modules.Suggestions;
 
 public partial class Suggestions
 {
-
-
+    // public enum SuggestThreadType
+    // {
+    //     Public = 0,
+    //     Private = 1
+    // }
     [Group]
     public class SuggestionsCustomization : MewdekoModuleBase<SuggestionsService>
     {
@@ -82,6 +85,20 @@ public partial class Suggestions
             await ctx.Channel.SendConfirmAsync("Sucessfully updated implemented suggestion message!");
         }
 
+        // [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        // public async Task SuggestThreads(bool enabled)
+        // {
+        //     await Service.SetSuggestThreads(ctx.Guild, enabled);
+        //     await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads to `{enabled}`");
+        // }
+        //
+        // [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        // public async Task SuggestThreadsType(SuggestThreadType type)
+        // {
+        //     await Service.SetSuggestThreadsType(ctx.Guild, (int)type);
+        //     await ctx.Channel.SendConfirmAsync($"Succesfully set Suggestion Threads Type to `{type}`");
+        // }
+        
         [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DenyMessage([Remainder] string embed)
         {

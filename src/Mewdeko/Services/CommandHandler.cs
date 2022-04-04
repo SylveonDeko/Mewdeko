@@ -121,6 +121,7 @@ public class CommandHandler : INService
     }
     private Task TryRunInteraction(SocketInteraction interaction)
     {
+        
         _ = Task.Run(async () =>
         {
             var ctx = new SocketInteractionContext(_client, interaction);
