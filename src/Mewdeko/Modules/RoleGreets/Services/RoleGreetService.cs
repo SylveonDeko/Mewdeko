@@ -28,33 +28,37 @@ public class RoleGreetService : INService
     public RoleGreet[] GetListGreets(ulong guildId) =>
         _db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
 
-    private async Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
+    private Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
     {
-        var user = await cacheable.GetOrDownloadAsync();
-        if (user.Roles.SequenceEqual(socketGuildUser.Roles))
-            if (user.Roles.Count > socketGuildUser.Roles.Count)
-                return;
-        var diffRoles = socketGuildUser.Roles.Where(r => !user.Roles.Contains(r)).ToArray();
-        foreach (var i in diffRoles)
+        _ = Task.Run(async () =>
         {
-            var greets = GetGreets(i.Id);
-            if (!greets.Any()) return;
-            var webhooks = greets.Where(x => x.WebhookUrl is not null).Select(x => new DiscordWebhookClient(x.WebhookUrl));
-            if (greets.Any())
+            var user = await cacheable.GetOrDownloadAsync();
+            if (user.Roles.SequenceEqual(socketGuildUser.Roles))
+                if (user.Roles.Count > socketGuildUser.Roles.Count)
+                    return;
+            var diffRoles = socketGuildUser.Roles.Where(r => !user.Roles.Contains(r)).ToArray();
+            foreach (var i in diffRoles)
             {
-                async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, user);
+                var greets = GetGreets(i.Id);
+                if (!greets.Any()) return;
+                var webhooks = greets.Where(x => x.WebhookUrl is not null).Select(x => new DiscordWebhookClient(x.WebhookUrl));
+                if (greets.Any())
+                {
+                    async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, user);
 
-                diffRoles.ForEach(Exec);
+                    diffRoles.ForEach(Exec);
+                }
+
+                if (webhooks.Any())
+                {
+                    async void Exec(SocketRole x) => await HandleWebhookGreets(greets, x, user);
+
+                    diffRoles.ForEach(Exec);
+                }
+
             }
-
-            if (webhooks.Any())
-            {
-                async void Exec(SocketRole x) => await HandleWebhookGreets(greets, x, user);
-
-                diffRoles.ForEach(Exec);
-            }
-
-        }
+        });
+        return Task.CompletedTask;
     }
 
     private async Task HandleChannelGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)

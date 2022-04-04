@@ -32,7 +32,7 @@ public class StreamRoleService : INService, IUnloadableService
 
         _client.GuildMemberUpdated += Client_GuildMemberUpdated;
 
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -53,7 +53,7 @@ public class StreamRoleService : INService, IUnloadableService
 
     private Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
-        var _ = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             //if user wasn't streaming or didn't have a game status at all
             if (_guildSettings.TryGetValue(after.Guild.Id, out var setting))
