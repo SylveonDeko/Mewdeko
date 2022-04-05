@@ -527,16 +527,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 .WithOkColor()
                 .WithTitle($"{CurrencySign} {GetText("leaderboard")}");
 
-            List<DiscordUser> toSend;
-            if (!opts.Clean)
-            {
-                await using var uow = _db.GetDbContext();
-                toSend = uow.DiscordUser.GetTopRichest(_client.CurrentUser.Id);
-            }
-            else
-            {
-                toSend = cleanRichest.Skip(page * 9).Take(9).ToList();
-            }
+            var toSend = cleanRichest.Skip(page * 9).Take(9).ToList();
 
             if (!toSend.Any())
             {
@@ -544,7 +535,7 @@ public partial class Gambling : GamblingModuleBase<GamblingService>
                 return embed;
             }
 
-            for (var i = 0; i < toSend.Count; i++)
+            for (var i = 0; i < toSend.Count(); i++)
             {
                 var x = toSend[i];
                 var usrStr = x.ToString().TrimTo(20, true);
