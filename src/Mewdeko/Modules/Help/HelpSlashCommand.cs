@@ -6,12 +6,16 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common;
 using Mewdeko.Common.Attributes;
+using Mewdeko.Common.Autocompleters;
 using Mewdeko.Extensions;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
+using GroupAttribute = Discord.Interactions.GroupAttribute;
+using SummaryAttribute = Discord.Interactions.SummaryAttribute;
 
 namespace Mewdeko.Modules.Help;
 
+[Group("help", "gelp")]
 public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
 {
     private readonly InteractiveService _interactivity;
@@ -31,7 +35,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         _cmds = cmds;
     }
 
-    [SlashCommand("help", "Shows help on how to use the bot"), BlacklistCheck]
+    [SlashCommand("modules", "Shows help on how to use the bot"), BlacklistCheck]
     public async Task Modules()
     {
         var embed = new EmbedBuilder();
@@ -54,7 +58,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
         await ctx.Interaction.RespondAsync(embed: embed.Build(), components: Service.GetHelpSelect(ctx.Guild).Build());
     }
 
-    [ComponentInteraction("helpselect")]
+    [ComponentInteraction("helpselect", true), BlacklistCheck]
     public async Task HelpSlash(string[] selected)
     {
         var currentmsg = Service.GetUserMessage(ctx.User);
@@ -154,5 +158,33 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
             .AddField("Support Server", "https://discord.gg/wB9FBMreRk")
             .WithOkColor();
         await ctx.Interaction.RespondAsync(embed: eb.Build());
+    }
+
+    [SlashCommand("search", "get information on a specific command")]
+    public async Task Test
+    (
+        [Summary("command", "the command to get information about"), Autocomplete(typeof(GenericCommandAutocompleter))] string command
+    )
+    {
+        var com = _cmds.Commands.FirstOrDefault(x => x.Aliases.Contains(command));
+        if (com == null)
+        {
+            await Modules();
+            return;
+        }
+
+        var embed = Service.GetCommandHelp(com, ctx.Guild);
+        await RespondAsync(embed: embed.Build());
+    }
+
+    [ComponentInteraction("toggle-descriptions:*", true)]
+    public async Task ToggleHelpDescriptions(string sDesc)
+    {
+        await DeferAsync();
+        bool description = bool.TryParse(sDesc, out var desc) ? desc : false;
+        var message = (ctx.Interaction as SocketMessageComponent).Message;
+        var embed = Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
+
+        await message.ModifyAsync(x => { x.Embed = embed.Build(); x.Components = Service.GetHelpSelect(ctx.Guild, !description).Build(); });
     }
 }
