@@ -28,7 +28,7 @@ public partial class Utility
             _db = db;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task AliasesClear()
         {
@@ -36,8 +36,7 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("aliases_cleared", count).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.Administrator),
-         RequireContext(ContextType.Guild)]
+        [Cmd, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
         public async Task Alias(string trigger, [Remainder] string? mapping = null)
         {
             if (string.IsNullOrWhiteSpace(trigger))
@@ -110,7 +109,7 @@ public partial class Utility
         }
 
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AliasList()
         {
 

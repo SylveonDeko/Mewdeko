@@ -12,7 +12,7 @@ public partial class Administration
     [Group]
     public class AutoAssignRoleCommands : MewdekoSubmodule<AutoAssignRoleService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole([Remainder] IRole role)
         {
@@ -36,7 +36,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("aar_role_removed", Format.Bold(role.Mention));
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignRole()
         {
@@ -56,7 +56,7 @@ public partial class Administration
                 $"\n{existing.Select(x => Format.Bold(x.Mention)).JoinWith("\n")}");
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole([Remainder] IRole role)
         {
@@ -80,7 +80,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("aabr_role_removed", Format.Bold(role.Mention));
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task AutoAssignBotRole()
         {

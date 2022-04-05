@@ -370,6 +370,7 @@ public class CommandHandler : INService
         string input, IServiceProvider services,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
+        
         var searchResult = CommandService.Search(context, input);
         if (!searchResult.IsSuccess)
             return (false, null, null);

@@ -37,7 +37,7 @@ public partial class Searches
             _httpFactory = factory;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Memelist()
         {
 
@@ -71,7 +71,7 @@ public partial class Searches
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Memegen(string meme, [Remainder] string? memeText = null)
         {
             var memeUrl = $"http://api.memegen.link/{meme}";

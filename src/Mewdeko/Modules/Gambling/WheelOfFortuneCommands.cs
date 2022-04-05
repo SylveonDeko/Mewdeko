@@ -32,7 +32,7 @@ public partial class Gambling
             _cs = cs;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task WheelOfFortune(ShmartNumber amount)
         {
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))

@@ -36,7 +36,7 @@ public partial class Searches
             NekosBestApi = nekosBestApi;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Ship(IUser user, IUser user2)
         {
             var random = new Random().Next(0, 100);
@@ -73,7 +73,7 @@ public partial class Searches
             await ctx.Channel.SendFileAsync(ms, "ship.png", embed: new EmbedBuilder().WithColor(color).WithDescription($"You are {random}% compatible. {response}").WithImageUrl("attachment://ship.png").Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Ship(IUser user)
         {
             var random = new Random().Next(0, 100);
@@ -111,7 +111,7 @@ public partial class Searches
         }
         
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task RandomNeko()
         {
             var req = await NekosBestApi.CategoryApi.Neko();
@@ -124,7 +124,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task RandomKitsune()
         {
             var req = await NekosBestApi.CategoryApi.Kitsune();
@@ -137,7 +137,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task RandomWaifu()
         {
             var req = await NekosBestApi.CategoryApi.Waifu();
@@ -149,7 +149,7 @@ public partial class Searches
             };
             await ctx.Channel.SendMessageAsync("", embed: em.Build());
         }
-        [MewdekoCommand, Aliases, Description]
+        [Cmd, Aliases]
         [Priority(0)]
         public async Task Mal([Remainder] string name)
         {
@@ -217,35 +217,27 @@ public partial class Searches
 
                await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
            }
-            }
-
-            private static string MalInfoToEmoji(string info)
-            {
-                info = info.Trim().ToLowerInvariant();
-                switch (info)
-                {
-                    case "gender":
-                        return "🚁";
-                    case "location":
-                        return "🗺";
-                    case "last online":
-                        return "👥";
-                    case "birthday":
-                        return "📆";
-                    default:
-                        return "❔";
-                }
-
         }
 
-        [MewdekoCommand, Aliases, Description]
-        [RequireContext(ContextType.Guild)]
-        [Priority(1)]
+        private static string MalInfoToEmoji(string info)
+        {
+            info = info.Trim().ToLowerInvariant();
+            return info switch
+            {
+                "gender" => "🚁",
+                "location" => "🗺",
+                "last online" => "👥",
+                "birthday" => "📆",
+                _ => "❔"
+            };
+        }
+
+        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public Task Mal(IGuildUser usr)
             => Mal(usr.Username);
 
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task FindAnime(string? e = null)
         {
             var t = string.Empty;
@@ -297,7 +289,7 @@ public partial class Searches
             _ = await ctx.Channel.SendMessageAsync("", embed: eb.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task CharInfo([Remainder] string chara)
         {
             var anilist = new Client();
@@ -322,7 +314,7 @@ public partial class Searches
         }
 
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Anime([Remainder] string query)
         {
             var c2 = new Client();
@@ -374,7 +366,7 @@ public partial class Searches
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(
@@ -382,13 +374,13 @@ public partial class Searches
             IJikan jikan = new Jikan();
             var result = await jikan.SearchMangaAsync(query);
             var paginator = new LazyPaginatorBuilder()
-                .AddUser(ctx.User)
-                .WithPageFactory(PageFactory)
-                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(result.Data.Count - 1)
-                .WithDefaultCanceledPage()
-                .WithDefaultEmotes()
-                .Build();
+                            .AddUser(ctx.User)
+                            .WithPageFactory(PageFactory)
+                            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                            .WithMaxPageIndex(result.Data.Count - 1)
+                            .WithDefaultCanceledPage()
+                            .WithDefaultEmotes()
+                            .Build();
             await msg.DeleteAsync();
             await _interactivity.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60));
 
@@ -396,17 +388,17 @@ public partial class Searches
             {
                 await Task.CompletedTask;
                 return new PageBuilder()
-                                       .WithTitle(Format.Bold($"{result.Data.Skip(page).FirstOrDefault()?.Title}"))
-                                       .AddField("First Publish Date",
-                                           result.Data.Skip(page).FirstOrDefault()?.Published!)
-                                       .AddField("Volumes", result.Data.Skip(page).FirstOrDefault()?.Volumes!)
-                                       .AddField("Is Still Active",
-                                           result.Data.Skip(page).FirstOrDefault()?.Publishing!)
-                                       .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
-                                       .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
-                                       .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
-                                       .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP
-                                                           .MaximumImageUrl!).WithColor(Mewdeko.OkColor);
+                       .WithTitle(Format.Bold($"{result.Data.Skip(page).FirstOrDefault()?.Title}"))
+                       .AddField("First Publish Date",
+                           result.Data.Skip(page).FirstOrDefault()?.Published!)
+                       .AddField("Volumes", result.Data.Skip(page).FirstOrDefault()?.Volumes!)
+                       .AddField("Is Still Active",
+                           result.Data.Skip(page).FirstOrDefault()?.Publishing!)
+                       .AddField("Score", result.Data.Skip(page).FirstOrDefault()?.Score!)
+                       .AddField("Url", result.Data.Skip(page).FirstOrDefault()?.Url!)
+                       .WithDescription(result.Data.Skip(page).FirstOrDefault()?.Background!)
+                       .WithImageUrl(result.Data.Skip(page).FirstOrDefault()?.Images.WebP
+                                           .MaximumImageUrl!).WithColor(Mewdeko.OkColor);
             }
         }
     }

@@ -12,7 +12,7 @@ public partial class Utility
     [Group]
     public class CalcCommands : MewdekoSubmodule
     {
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Calculate([Remainder] string expression)
         {
             var expr = new Expression(expression, EvaluateOptions.IgnoreCase | EvaluateOptions.NoCache);
@@ -33,7 +33,7 @@ public partial class Utility
                 _ => args.Result
             };
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task CalcOps()
         {
             var selection = typeof(Math).GetTypeInfo()

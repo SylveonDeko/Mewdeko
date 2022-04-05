@@ -45,7 +45,7 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptionsAttribute(typeof(Connect4Game.Options))]
         public async Task Connect4(params string[] args)
         {

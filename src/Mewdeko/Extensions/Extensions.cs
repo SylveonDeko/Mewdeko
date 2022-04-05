@@ -224,7 +224,7 @@ public static class Extensions
 
 
     public static string MethodName(this CommandInfo cmd) =>
-        ((MewdekoCommandAttribute)cmd.Attributes.FirstOrDefault(x => x is MewdekoCommandAttribute)!)
+        ((Cmd)cmd.Attributes.FirstOrDefault(x => x is Cmd)!)
         ?.MethodName
         ?? cmd.Name;
     // public static string RealRemarks(this CommandInfo cmd, IBotStrings strings, string prefix)

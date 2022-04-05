@@ -17,7 +17,7 @@ public partial class Games
 
         public NunchiCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Nunchi()
         {
             var newNunchi = new NunchiGame(ctx.User.Id, ctx.User.ToString());

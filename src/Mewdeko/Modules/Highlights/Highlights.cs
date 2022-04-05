@@ -35,7 +35,7 @@ public class Highlights : MewdekoModuleBase<HighlightsService>
         Toggle
     }
 
-    [MewdekoCommand, Aliases, Description, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
         await using var uow = _db.GetDbContext();

@@ -48,7 +48,7 @@ public class CommandStringsTests
                                          || !(type.GetCustomAttribute<GroupAttribute>(true) is null)) // or a submodule
                           .SelectMany(x => x.GetMethods()
                                             .Where(mi => mi.CustomAttributes
-                                                           .Any(ca => ca.AttributeType == typeof(MewdekoCommandAttribute))))
+                                                           .Any(ca => ca.AttributeType == typeof(Cmd))))
                           .Select(x => x.Name.ToLowerInvariant())
                           .ToArray();
 

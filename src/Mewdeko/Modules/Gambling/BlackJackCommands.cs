@@ -31,7 +31,7 @@ public partial class Gambling
             _cs = cs;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task BlackJack(ShmartNumber amount)
         {
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))
@@ -144,13 +144,13 @@ public partial class Gambling
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public Task Hit() => InternalBlackJack(BjAction.Hit);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public Task Stand() => InternalBlackJack(BjAction.Stand);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public Task Double() => InternalBlackJack(BjAction.Double);
 
         public async Task InternalBlackJack(BjAction a)

@@ -21,10 +21,10 @@ public partial class Gambling
         {
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0)]
         public Task RaffleCur(Mixed _, ShmartNumber amount) => RaffleCur(amount, true);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public async Task RaffleCur(ShmartNumber amount, bool mixed = false)
         {
             if (!await CheckBetMandatory(amount).ConfigureAwait(false))

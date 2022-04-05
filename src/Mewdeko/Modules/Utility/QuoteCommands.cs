@@ -19,10 +19,10 @@ public partial class Utility
 
         public QuoteCommands(DbService db) => _db = db;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
         public Task ListQuotes(OrderType order = OrderType.Keyword) => ListQuotes(1, order);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), Priority(0)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0)]
         public async Task ListQuotes(int page = 1, OrderType order = OrderType.Keyword)
         {
             page -= 1;
@@ -46,7 +46,7 @@ public partial class Utility
                 await ReplyErrorLocalizedAsync("quotes_page_none").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuotePrint([Remainder] string keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword))
@@ -80,7 +80,7 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteShow(int id)
         {
             Quote quote;
@@ -111,7 +111,7 @@ public partial class Utility
                                          .WithFooter(GetText("created_by", $"{data.AuthorName} ({data.AuthorId})"))
             ).ConfigureAwait(false);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteSearch(string keyword, [Remainder] string text)
         {
             if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
@@ -132,7 +132,7 @@ public partial class Utility
                 $"`#{keywordquote.Id}` 💬 {keyword.ToLowerInvariant()}:  {keywordquote.Text.SanitizeAllMentions()}").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteId(int id)
         {
             if (id < 0)
@@ -171,7 +171,7 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteAdd(string keyword, [Remainder] string text)
         {
             if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(text))
@@ -196,7 +196,7 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("quote_added_new", Format.Code(q.Id.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteDelete(int id)
         {
             var isAdmin = ((IGuildUser) ctx.Message.Author).GuildPermissions.Administrator;
@@ -226,7 +226,7 @@ public partial class Utility
                 await ctx.Channel.SendErrorAsync(response).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task DelAllQuotes([Remainder] string keyword)
         {

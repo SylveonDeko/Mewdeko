@@ -25,7 +25,7 @@ public partial class Searches
         }
         
         
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Osu(string user, [Remainder] string? mode = null)
         {
             if (string.IsNullOrWhiteSpace(user))
@@ -83,7 +83,7 @@ public partial class Searches
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Gatari(string user, [Remainder] string? mode = null)
         {
             using var http = _httpFactory.CreateClient();
@@ -124,7 +124,7 @@ public partial class Searches
             await ctx.Channel.EmbedAsync(embed);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Osu5(string user, [Remainder] string? mode = null)
         {
             var channel = (ITextChannel) ctx.Channel;
