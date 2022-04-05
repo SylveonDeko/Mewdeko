@@ -10,11 +10,11 @@ public partial class Xp
 {
     public class ResetCommands : MewdekoSubmodule<XpService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public Task XpReset(IGuildUser user) => XpReset(user.Id);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task XpReset(ulong userId)
         {
@@ -30,7 +30,7 @@ public partial class Xp
             await ReplyConfirmLocalizedAsync("reset_user", userId).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator)]
         public async Task XpReset()
         {

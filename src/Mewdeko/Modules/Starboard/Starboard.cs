@@ -17,9 +17,8 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         Blacklist = 1,
         Bl = 1,
         Black = 1
-
     }
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStarboard(ITextChannel? chn = null)
     {
         if (chn is null)
@@ -33,7 +32,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         await ctx.Channel.SendConfirmAsync($"Channel set to {chn.Mention}");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetRepostThreshold(int num)
     {
         if (num == 0)
@@ -46,7 +45,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         await ctx.Channel.SendConfirmAsync($"Successfully set the Repost Threshold to {num}");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStars(int num)
     {
         var count = Service.GetStarCount(ctx.Guild.Id);
@@ -55,7 +54,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         await ctx.Channel.SendConfirmAsync($"Your star count was successfully changed from {count} to {count2}!");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task SetStar(IEmote? emote = null)
     {
         if (emote is null)
@@ -86,7 +85,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         await ctx.Channel.SendConfirmAsync($"Successfully set the star to {emote}");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardChToggle([Remainder] ITextChannel channel)
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()))
@@ -97,7 +96,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync($"{channel.Mention} has been removed from the whitelist/blacklist (Depending on what was set in {Prefix}swm)");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardWlMode(WhitelistMode mode)
     {
         if (mode > 0)
@@ -112,7 +111,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnReactionsCleared(bool enabled)
     {
         await Service.SetRemoveOnClear(ctx.Guild, enabled);
@@ -122,7 +121,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon clearing reactions.");
     }
     
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnDelete(bool enabled)
     {
         await Service.SetRemoveOnDelete(ctx.Guild, enabled);
@@ -132,7 +131,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed upon original message deletion.");
     }
     
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardRemoveOnBelowThreshold(bool enabled)
     {
         await Service.SetRemoveOnBelowThreshold(ctx.Guild, enabled);
@@ -142,7 +141,7 @@ public class Starboard : MewdekoSubmodule<StarboardService>
             await ctx.Channel.SendConfirmAsync("Starboard posts will no longer be removed when the messages star count is below the current star count");
     }
     
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd, UserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardAllowBots(bool enabled)
     {
         await Service.SetStarboardAllowBots(ctx.Guild, enabled);

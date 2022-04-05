@@ -30,8 +30,7 @@ public partial class Utility
             _db = db;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatInvoke(int index)
         {
             if (!Service.RepeaterReady)
@@ -65,8 +64,7 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatRemove(int index)
         {
             if (!Service.RepeaterReady)
@@ -115,8 +113,7 @@ public partial class Utility
                 .WithDescription(description));
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatRedundant(int index)
         {
             if (!Service.RepeaterReady)
@@ -150,19 +147,19 @@ public partial class Utility
                 await ReplyConfirmLocalizedAsync("repeater_redundant_yes", index + 1);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(-1)]
         public Task Repeat([Remainder] string message) => Repeat(null, null, message);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(0)]
         public Task Repeat(StoopidTime interval, [Remainder] string message) => Repeat(null, interval, message);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(1)]
         public Task Repeat(GuildDateTime dt, [Remainder] string message) => Repeat(dt, null, message);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(2)]
         public async Task Repeat(GuildDateTime? dt, StoopidTime? interval, [Remainder] string message)
         {
@@ -228,8 +225,7 @@ public partial class Utility
                 .WithDescription(description));
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatList()
         {
             if (!Service.RepeaterReady)
@@ -263,7 +259,7 @@ public partial class Utility
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatMessage(int index, [Remainder]string text)
         {
             if (!Service.RepeaterReady)
@@ -298,7 +294,7 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("repeater_msg_update", text);
         }
         
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatChannel(int index, [Remainder]ITextChannel textChannel)
         {
             if (!Service.RepeaterReady)

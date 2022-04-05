@@ -37,7 +37,7 @@ public partial class Gambling
             _cs = cs;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Flip(int count = 1)
         {
             if (count is > 10 or < 1)
@@ -75,7 +75,7 @@ public partial class Gambling
                 .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Betflip(ShmartNumber amount, BetFlipGuess guess)
         {
             if (!await CheckBetMandatory(amount).ConfigureAwait(false) || amount == 1)

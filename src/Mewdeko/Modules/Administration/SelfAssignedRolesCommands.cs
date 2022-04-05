@@ -20,7 +20,7 @@ public partial class Administration
 
         public SelfAssignedRolesCommands(InteractiveService serv) => _interactivity = serv;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
         public async Task AdSarm()
         {
@@ -32,11 +32,11 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("adsarm_disable", Prefix).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(1)]
         public Task Asar([Remainder] IRole role) => Asar(0, role);
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task Asar(int group, [Remainder] IRole role)
         {
@@ -53,7 +53,7 @@ public partial class Administration
                 await ReplyErrorLocalizedAsync("role_in_list", Format.Bold(role.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
         public async Task Sargn(int group, [Remainder] string? name = null)
         {
@@ -67,7 +67,7 @@ public partial class Administration
                     .ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles)]
         public async Task Rsar([Remainder] IRole role)
         {
@@ -82,7 +82,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("self_assign_rem", Format.Bold(role.Name)).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Lsar()
         {
             var (exclusive, roles, groups) = Service.GetRoles(ctx.Guild);
@@ -141,7 +141,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task Togglexclsar()
         {
@@ -152,7 +152,7 @@ public partial class Administration
                 await ReplyConfirmLocalizedAsync("self_assign_no_excl").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
         public async Task RoleLevelReq(int level, [Remainder] IRole role)
         {
@@ -172,7 +172,7 @@ public partial class Administration
                 Format.Bold(level.ToString())).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Iam([Remainder] IRole role)
         {
             var guildUser = (IGuildUser) ctx.User;
@@ -201,7 +201,7 @@ public partial class Administration
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Iamnot([Remainder] IRole role)
         {
             var guildUser = (IGuildUser) ctx.User;

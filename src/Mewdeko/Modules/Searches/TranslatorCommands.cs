@@ -27,7 +27,7 @@ public partial class Searches
             _google = google;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Translate(string langs, [Remainder] string? text = null)
         {
             try
@@ -43,8 +43,7 @@ public partial class Searches
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), OwnerOnly]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task AutoTranslate(AutoDeleteAutoTranslate autoDelete = AutoDeleteAutoTranslate.Nodel)
         {
             var channel = (ITextChannel) ctx.Channel;
@@ -66,7 +65,7 @@ public partial class Searches
                 await ReplyConfirmLocalizedAsync("atl_started").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AutoTransLang([Remainder] string? langs = null)
         {
             var ucp = (ctx.User.Id, ctx.Channel.Id);
@@ -95,7 +94,7 @@ public partial class Searches
             await ReplyConfirmLocalizedAsync("atl_set", from, to).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task Translangs() => await ctx.Channel.SendTableAsync(_google.Languages, str => $"{str,-15}").ConfigureAwait(false);
     }
 }

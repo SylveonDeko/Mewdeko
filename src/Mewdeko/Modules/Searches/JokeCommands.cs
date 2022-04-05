@@ -11,24 +11,24 @@ public partial class Searches
     [Group]
     public class JokeCommands : MewdekoSubmodule<SearchesService>
     {
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Yomama() =>
             await ctx.Channel.SendConfirmAsync(await Service.GetYomamaJoke().ConfigureAwait(false))
                      .ConfigureAwait(false);
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Randjoke()
         {
             var (setup, punchline) = await Service.GetRandomJoke().ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(setup, punchline).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task ChuckNorris() =>
             await ctx.Channel.SendConfirmAsync(await Service.GetChuckNorrisJoke().ConfigureAwait(false))
                      .ConfigureAwait(false);
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task WowJoke()
         {
             if (!Service.WowJokes.Any())
@@ -41,7 +41,7 @@ public partial class Searches
             await ctx.Channel.SendConfirmAsync(joke.Question, joke.Answer).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task MagicItem()
         {
             if (!Service.WowJokes.Any())

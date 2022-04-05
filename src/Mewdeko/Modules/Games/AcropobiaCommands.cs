@@ -19,7 +19,7 @@ public partial class Games
 
         public AcropobiaCommands(DiscordSocketClient client) => _client = client;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          MewdekoOptions(typeof(AcrophobiaGame.Options))]
         public async Task Acrophobia(params string[] args)
         {

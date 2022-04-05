@@ -12,7 +12,7 @@ public partial class Utility
     [Group]
     public class UnitConverterCommands : MewdekoSubmodule<ConverterService>
     {
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task ConvertList()
         {
             var units = Service.Units;
@@ -26,7 +26,7 @@ public partial class Utility
             await ctx.Channel.EmbedAsync(res).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
+        [Cmd, Aliases, Priority(0)]
         public async Task Convert(string origin, string target, decimal value)
         {
             var originUnit = Service.Units.FirstOrDefault(x =>

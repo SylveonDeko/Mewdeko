@@ -18,7 +18,7 @@ public partial class Searches
 
         public XkcdCommands(IHttpClientFactory factory) => _httpFactory = factory;
 
-        [MewdekoCommand, Usage, Description, Aliases, Priority(0)]
+        [Cmd, Aliases, Priority(0)]
         public async Task Xkcd(string? arg = null)
         {
             if (arg?.ToLowerInvariant().Trim() == "latest")
@@ -60,7 +60,7 @@ public partial class Searches
             await Xkcd(new MewdekoRandom().Next(1, 1750)).ConfigureAwait(false);
         }
     
-        [MewdekoCommand, Usage, Description, Aliases, Priority(1)]
+        [Cmd, Aliases, Priority(1)]
         public async Task Xkcd(int num)
         {
             if (num < 1)

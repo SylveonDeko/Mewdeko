@@ -14,12 +14,12 @@ public partial class Games
     [Group]
     public class PollCommands : MewdekoSubmodule<PollService>
     {
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Poll([Remainder] string input) 
             => await Poll(PollType.SingleAnswer, input);
         
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Poll(PollType type, [Remainder] string arg)
         {
@@ -79,7 +79,7 @@ public partial class Games
                 await ReplyErrorLocalizedAsync("poll_already_running").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task PollStats()
         {
@@ -89,7 +89,7 @@ public partial class Games
             await ctx.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results"))).ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages),
+        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
          RequireContext(ContextType.Guild)]
         public async Task Pollend()
         {

@@ -20,8 +20,7 @@ public partial class Searches
 
         public FeedCommands(InteractiveService serv) => _interactivity = serv;
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedAdd(string url, [Remainder] ITextChannel? channel = null)
         {
             var success = Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
@@ -53,8 +52,7 @@ public partial class Searches
             await ReplyErrorLocalizedAsync("feed_not_valid").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedRemove(int index)
         {
             if (Service.RemoveFeed(ctx.Guild.Id, --index))
@@ -63,8 +61,7 @@ public partial class Searches
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedMessage(int index, [Remainder]string message)
         {
             if (await Service.AddFeedMessage(ctx.Guild.Id, --index, message))
@@ -72,8 +69,7 @@ public partial class Searches
             else
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);
         }
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RssTest(int index)
         {
             var feeds = Service.GetFeeds(ctx.Guild.Id);
@@ -84,8 +80,7 @@ public partial class Searches
             }
             await Service.TestRss(feeds.ElementAt(index-1), ctx.Channel as ITextChannel);
         }
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedList()
         {
             var feeds = Service.GetFeeds(ctx.Guild.Id);

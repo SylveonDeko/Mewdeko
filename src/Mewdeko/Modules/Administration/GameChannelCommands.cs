@@ -12,7 +12,7 @@ public partial class Administration
     public class GameChannelCommands : MewdekoSubmodule<GameVoiceChannelService>
     {
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.MoveMembers)]
         public async Task GameVoiceChannel()
         {

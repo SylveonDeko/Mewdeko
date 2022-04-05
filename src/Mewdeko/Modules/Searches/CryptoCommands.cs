@@ -10,7 +10,7 @@ public partial class Searches
 {
     public class CryptoCommands : MewdekoSubmodule<CryptoService>
     {
-        [MewdekoCommand, Usage, Description, Aliases]
+        [Cmd, Aliases]
         public async Task Crypto(string? name)
         {
             name = name?.ToUpperInvariant();

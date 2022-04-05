@@ -26,7 +26,7 @@ public partial class Utility
             _interactivity = serv;
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.CreateInstantInvite), UserPerm(ChannelPermission.CreateInstantInvite),
          MewdekoOptions(typeof(InviteService.Options))]
         public async Task InviteCreate(params string[] args)
@@ -43,7 +43,7 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
     
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task InviteInfo(string text)
         {
             RestGuild guild = null;
@@ -80,7 +80,7 @@ public partial class Utility
                     : "Permanent", true);
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
         }
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(GuildPermission.ManageGuild)]
         public async Task InviteList()
         {
@@ -109,7 +109,7 @@ public partial class Utility
             }
         }
 
-        [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+        [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.ManageChannels), UserPerm(ChannelPermission.ManageChannels)]
         public async Task InviteDelete(int index)
         {

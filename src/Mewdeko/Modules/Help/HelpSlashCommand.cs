@@ -181,7 +181,7 @@ public class HelpSlashCommand : MewdekoSlashModuleBase<HelpService>
     public async Task ToggleHelpDescriptions(string sDesc)
     {
         await DeferAsync();
-        bool description = bool.TryParse(sDesc, out var desc) ? desc : false;
+        var description = bool.TryParse(sDesc, out var desc) && desc;
         var message = (ctx.Interaction as SocketMessageComponent).Message;
         var embed = Service.GetHelpEmbed(description, ctx.Guild, ctx.Channel, ctx.User);
 

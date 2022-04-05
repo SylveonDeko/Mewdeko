@@ -10,26 +10,26 @@ namespace Mewdeko.Modules.Permissions;
 
 public partial class Permissions
 {
-    [Group]
+    [Group, OwnerOnly]
     public class BlacklistCommands : MewdekoSubmodule<BlacklistService>
     {
         private readonly IBotCredentials _creds;
 
         public BlacklistCommands(IBotCredentials creds) => _creds = creds;
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public Task UserBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.User);
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public Task UserBlacklist(AddRemove action, IUser usr) => Blacklist(action, usr.Id, BlacklistType.User);
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public Task ChannelBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.Channel);
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public Task ServerBlacklist(AddRemove action, ulong id) => Blacklist(action, id, BlacklistType.Server);
 
-        [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+        [Cmd, Aliases]
         public Task ServerBlacklist(AddRemove action, IGuild guild) => Blacklist(action, guild.Id, BlacklistType.Server);
 
         private async Task Blacklist(AddRemove action, ulong id, BlacklistType type)

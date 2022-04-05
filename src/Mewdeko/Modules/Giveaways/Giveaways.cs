@@ -26,7 +26,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         _servs = servs;
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GEmote(IEmote emote)
     {
         try
@@ -44,7 +44,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         await ctx.Channel.SendConfirmAsync(
             $"Giveaway emote set to {emote}! Just keep in mind this doesn't update until the next giveaway.");
     }
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
         await using var uow = _db.GetDbContext();
@@ -66,7 +66,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         await ctx.Channel.SendConfirmAsync("Giveaway Rerolled!");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task GStats()
     {
         var eb = new EmbedBuilder().WithOkColor();
@@ -99,7 +99,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what)
     {
         var emote = Service.GetGiveawayEmote(ctx.Guild.Id).ToIEmote();
@@ -130,7 +130,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             ctx.Channel as ITextChannel, ctx.Guild);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
         var emote = Service.GetGiveawayEmote(ctx.Guild.Id).ToIEmote();
@@ -289,7 +289,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
             ctx.Guild, reqroles);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
         await using var uow = _db.GetDbContext();
@@ -324,7 +324,7 @@ public class Giveaways : MewdekoModuleBase<GiveawayService>
         var message = await channel.GetMessageAsync(messageId);
         return message.GetJumpUrl();
     }
-    [MewdekoCommand, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
         await using var uow = _db.GetDbContext();

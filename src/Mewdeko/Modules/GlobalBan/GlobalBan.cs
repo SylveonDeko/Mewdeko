@@ -15,7 +15,7 @@ public class GlobalBans : MewdekoModuleBase<GlobalBanService>
 
     public GlobalBans(DiscordSocketClient client) => _client = client;
 
-    [MewdekoCommand, Alias, Description, RequireContext(ContextType.Guild)]
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task GbRep()
     {
         var cancelled = new EmbedBuilder()

@@ -27,7 +27,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         _clientFactory = clientFactory;
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsExport()
     {
@@ -39,7 +39,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.Channel.SendFileAsync(stream, "crs-export.yml");
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsImport([Remainder] string? input = null)
     {
@@ -77,7 +77,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         await ctx.OkAsync();
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task AddChatTrigger(string key, [Remainder] string message)
     {
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -95,7 +95,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         ).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task EditChatTrigger(int id, [Remainder] string message)
     {
         if (string.IsNullOrWhiteSpace(message) || id < 0)
@@ -115,7 +115,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("edit_fail").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, Priority(1), ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, Priority(1), ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task ListChatTriggers()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -152,7 +152,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
     }
 
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -189,7 +189,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
         }
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public async Task ShowChatTrigger(int id)
     {
         var found = Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -206,7 +206,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             ).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task DeleteChatTrigger(int id)
     {
 
@@ -223,7 +223,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             await ReplyErrorLocalizedAsync("no_found_id").ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
+    [Cmd, Aliases, ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtReact(int id, params string[] emojiStrs)
     {
 
@@ -275,26 +275,26 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
             string.Join(", ", succ.Select(x => x.ToString()))).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public Task CtCa(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ContainsAnywhere);
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public Task Rtt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ReactToTrigger);
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public Task CtDm(int id) => InternalCtEdit(id, ChatTriggersService.CtField.DmResponse);
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public Task CtAd(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AutoDelete);
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public Task CtAt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AllowTarget);
 
-    [MewdekoCommand, Usage, Description, Aliases]
+    [Cmd, Aliases]
     public Task CtNr(int id) => InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
 
 
-    [MewdekoCommand, Usage, Description, Aliases, OwnerOnly]
+    [Cmd, Aliases, OwnerOnly]
     public async Task CtsReload()
     {
         await Service.TriggerReloadChatTriggers();
@@ -320,7 +320,7 @@ public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>
                 Format.Code(id.ToString())).ConfigureAwait(false);
     }
 
-    [MewdekoCommand, Usage, Description, Aliases, RequireContext(ContextType.Guild),
+    [Cmd, Aliases, RequireContext(ContextType.Guild),
      ChatTriggerPermCheck(GuildPermission.Administrator)]
     public async Task CtsClear()
     {
